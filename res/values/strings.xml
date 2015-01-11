@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AppSend</string>
+    <string name="bytes">%d B</string>
+    <string name="kibibytes">%.1f KB</string>
+    <string name="mibibytes">%.1f MB</string>
+    <string name="gigibytes">%.1f GB</string>
+    <string name="please_wait">Please, wait…</string>
+    <string name="app_extract_success">Successfully exported to \n&lt;b>%s&lt;/b>\nShare with it now?</string>
+    <string name="app_extract_failed">Exporting failed :(</string>
+    <string name="refresh">Refresh</string>
+    <string name="tomclaw_software">TomClaw Software</string>
+    <string name="app_version">Version %1$s (%2$s)</string>
+    <string name="info">Info</string>
+    <string name="rate_app">Rate app</string>
+    <string name="all_apps">All apps</string>
+    <string name="pref_base_title">Base settings</string>
+    <string name="pref_summary_show_system">Show system applications in list</string>
+    <string name="pref_title_show_system">System apps</string>
+    <string name="got_it">Got it!</string>
+    <string name="system_apps_warning_title">Warning!</string>
+    <string name="system_apps_warning_message">System apps are not usual apps and there is no warranty of its
+        successful export!
+    </string>
+    <string name="settings">Settings</string>
+    <string name="success">Success!</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="send_to">Share with</string>
+</resources>

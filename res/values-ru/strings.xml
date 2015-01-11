@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AppSend</string>
+    <string name="bytes">%d Б</string>
+    <string name="kibibytes">%.1f КБ</string>
+    <string name="mibibytes">%.1f МБ</string>
+    <string name="gigibytes">%.1f ГБ</string>
+    <string name="please_wait">Пожалуйста, подождите…</string>
+    <string name="app_extract_success">Приложение успешно экспортировано в \n&lt;b>%s&lt;/b>\nПоделиться им сейчас?</string>
+    <string name="app_extract_failed">Не удалось извлечь приложение :(</string>
+    <string name="refresh">Обновить</string>
+    <string name="tomclaw_software">TomClaw Software</string>
+    <string name="app_version">Версия %1$s (%2$s)</string>
+    <string name="info">Информация</string>
+    <string name="rate_app">Оценить приложение</string>
+    <string name="all_apps">Все приложения автора</string>
+    <string name="pref_base_title">Основные настройки</string>
+    <string name="pref_summary_show_system">Показывать системные приложения в общем списке</string>
+    <string name="pref_title_show_system">Системные приложения</string>
+    <string name="got_it">Понятно</string>
+    <string name="system_apps_warning_title">Внимание!</string>
+    <string name="system_apps_warning_message">Системные приложения хранятся в несколько ином виде и их экспорт и последующая работоспособность не гарантированы!</string>
+    <string name="settings">Настройки</string>
+    <string name="success">Успешно!</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    <string name="send_to">Поделиться через</string>
+</resources>
