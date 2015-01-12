@@ -2,7 +2,6 @@ package com.tomclaw.appsend;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import com.tomclaw.shareapp.R;
 
 /**
  * Created with IntelliJ IDEA.

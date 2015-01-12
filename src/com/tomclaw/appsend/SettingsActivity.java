@@ -10,7 +10,6 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.view.MenuItem;
-import com.tomclaw.shareapp.R;
 
 /**
  * Created with IntelliJ IDEA.

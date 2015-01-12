@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import com.tomclaw.shareapp.R;
 
 /**
  * Created by Solkin on 17.12.2014.

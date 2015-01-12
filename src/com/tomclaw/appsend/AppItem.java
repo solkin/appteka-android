@@ -5,7 +5,6 @@ import android.util.AttributeSet;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import com.tomclaw.shareapp.R;
 
 import java.text.SimpleDateFormat;
 

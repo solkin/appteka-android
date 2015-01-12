@@ -4,10 +4,10 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Environment;
 import android.text.Html;
 import android.widget.Toast;
-import com.tomclaw.shareapp.R;
 
 import java.io.*;
 
@@ -59,9 +59,11 @@ public class ExportApkTask extends PleaseWaitTask {
                     .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            Uri uri = Uri.fromFile(destination);
                             Intent sendIntent = new Intent();
                             sendIntent.setAction(Intent.ACTION_SEND);
                             sendIntent.putExtra(Intent.EXTRA_TEXT, destination.getName());
+                            sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
                             sendIntent.setType(FileHelper.getMimeType(destination.getPath()));
                             context.startActivity(Intent.createChooser(sendIntent, context.getResources().getText(R.string.send_to)));
                         }

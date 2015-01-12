@@ -3,7 +3,6 @@ package com.tomclaw.appsend;
 import android.content.res.Resources;
 import android.text.TextUtils;
 import android.webkit.MimeTypeMap;
-import com.tomclaw.shareapp.R;
 
 /**
  * Created by Solkin on 18.10.2014.
