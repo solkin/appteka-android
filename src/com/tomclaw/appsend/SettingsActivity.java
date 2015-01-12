@@ -1,13 +1,12 @@
 package com.tomclaw.appsend;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
 import android.view.MenuItem;
 
@@ -17,27 +16,33 @@ import android.view.MenuItem;
  * Date: 9/30/13
  * Time: 7:37 PM
  */
-public class SettingsActivity extends Activity {
+public class SettingsActivity extends ActionBarActivity {
 
     public static final int RESULT_UPDATE = 5;
     private SharedPreferences preferences;
     private OnSettingsChangedListener listener;
+    private SettingsFragment settingsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        setContentView(R.layout.settings_activity);
+
         listener = new OnSettingsChangedListener();
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         preferences.registerOnSharedPreferenceChangeListener(listener);
+        settingsFragment = new SettingsFragment();
 
-        ActionBar actionBar = getActionBar();
+        ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         // Display the fragment as the main content.
-        getFragmentManager().beginTransaction()
-                .replace(android.R.id.content, new SettingsFragment())
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.content, settingsFragment)
                 .commit();
+
+        Utils.setupTint(this);
     }
 
     @Override
@@ -56,15 +61,6 @@ public class SettingsActivity extends Activity {
         return true;
     }
 
-    public static class SettingsFragment extends PreferenceFragment {
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            // Load the preferences from an XML resource.
-            addPreferencesFromResource(R.xml.preferences);
-        }
-    }
-
     public class OnSettingsChangedListener implements SharedPreferences.OnSharedPreferenceChangeListener {
 
         @Override
@@ -80,6 +76,8 @@ public class SettingsActivity extends Activity {
                             .setNeutralButton(R.string.got_it, null).create();
                     alertDialog.show();
                 }
+                setResult(RESULT_UPDATE);
+            } else if (TextUtils.equals(key, getString(R.string.pref_sort_order))) {
                 setResult(RESULT_UPDATE);
             }
         }

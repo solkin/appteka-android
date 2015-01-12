@@ -27,4 +27,8 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="send_to">Share with</string>
+    <string name="pref_title_sort_order">Sort order</string>
+    <string name="sort_order_ascending">A - Z</string>
+    <string name="sort_order_descending">Z - A</string>
+    <string name="pref_summary_sort_order">Apps list sort order variants</string>
 </resources>

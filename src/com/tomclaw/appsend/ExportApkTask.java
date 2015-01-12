@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
 import android.text.Html;
 import android.widget.Toast;
@@ -29,7 +30,9 @@ public class ExportApkTask extends PleaseWaitTask {
     public void executeBackground() throws Throwable {
         Context context = getWeakObject();
         if(context != null) {
-            File directory = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "Apps");
+            File externalDirectory = Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO ?
+                    Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) : Environment.getExternalStorageDirectory();
+            File directory = new File(externalDirectory, "Apps");
             directory.mkdirs();
             File file = new File(appInfo.getPath());
             destination = new File(directory, FileHelper.escapeFileSymbols(appInfo.getLabel() + "-" + appInfo.getVersion()) + ".apk");

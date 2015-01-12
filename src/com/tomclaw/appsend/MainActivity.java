@@ -1,17 +1,18 @@
 package com.tomclaw.appsend;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.List;
 
-public class MainActivity extends Activity {
+public class MainActivity extends ActionBarActivity {
 
     private static final int REQUEST_UPDATE_SETTINGS = 6;
     private ListView listView;
@@ -25,6 +26,10 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
 
+        getSupportActionBar().setIcon(R.drawable.ic_logo_ab);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
+
         listView = (ListView) findViewById(R.id.apps_list_view);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -36,6 +41,8 @@ public class MainActivity extends Activity {
         });
 
         refreshAppList();
+
+        Utils.setupTint(this);
     }
 
     private void refreshAppList() {

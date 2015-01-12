@@ -38,7 +38,12 @@ public class AppItem extends LinearLayout {
         appIcon.setImageDrawable(info.getIcon());
         appName.setText(info.getLabel());
         appVersion.setText(info.getVersion());
-        appUpdateTime.setText(simpleDateFormat.format(info.getLastUpdateTime()));
+        if(info.getLastUpdateTime() > 0) {
+            appUpdateTime.setVisibility(VISIBLE);
+            appUpdateTime.setText(simpleDateFormat.format(info.getLastUpdateTime()));
+        } else {
+            appUpdateTime.setVisibility(GONE);
+        }
         appSize.setText(FileHelper.formatBytes(context.getResources(), info.getSize()));
     }
 }

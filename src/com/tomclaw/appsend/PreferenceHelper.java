@@ -15,6 +15,10 @@ public class PreferenceHelper {
         return getBooleanPreference(context, R.string.pref_show_system, R.bool.pref_show_system_default);
     }
 
+    public static String getSortOrder(Context context) {
+        return getStringPreference(context, R.string.pref_sort_order, R.string.pref_sort_order_default);
+    }
+
     private static boolean getBooleanPreference(Context context, int preferenceKey, int defaultValueKey) {
         return getSharedPreferences(context).getBoolean(context.getResources().getString(preferenceKey),
                 context.getResources().getBoolean(defaultValueKey));

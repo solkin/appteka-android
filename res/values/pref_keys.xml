@@ -2,4 +2,5 @@
 <resources>
     <string name="pref_base_settings">pref_base_settings</string>
     <string name="pref_show_system">pref_show_system</string>
+    <string name="pref_sort_order">pref_sort_order</string>
 </resources>

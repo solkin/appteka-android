@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <bool name="pref_show_system_default">false</bool>
+    <string name="pref_sort_order_default">@string/sort_order_ascending_value</string>
 </resources>

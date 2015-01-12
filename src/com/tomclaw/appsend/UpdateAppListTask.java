@@ -7,9 +7,13 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.text.TextUtils;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -42,8 +46,9 @@ public class UpdateAppListTask extends PleaseWaitTask {
                     if(file.exists()) {
                         String label = packageManager.getApplicationLabel(applicationInfo).toString();
                         String version = normalizeVersion(packageInfo.versionName);
+                        long time = Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD ? packageInfo.lastUpdateTime : 0;
                         AppInfo appInfo = new AppInfo(icon, label, applicationInfo.packageName, version,
-                                file.getPath(), file.length(), packageInfo.lastUpdateTime);
+                                file.getPath(), file.length(), time);
                         boolean isUserApp = ((applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != ApplicationInfo.FLAG_SYSTEM &&
                                 (applicationInfo.flags & ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) != ApplicationInfo.FLAG_UPDATED_SYSTEM_APP);
                         if (isUserApp || PreferenceHelper.isShowSystemApps(activity)) {
@@ -53,6 +58,22 @@ public class UpdateAppListTask extends PleaseWaitTask {
                 } catch (Throwable ignored) {
                     // Bad package.
                 }
+            }
+            String sortOrder = PreferenceHelper.getSortOrder(activity);
+            if(TextUtils.equals(sortOrder, activity.getString(R.string.sort_order_ascending_value))) {
+                Collections.sort(appInfoList, new Comparator<AppInfo>() {
+                    @Override
+                    public int compare(AppInfo lhs, AppInfo rhs) {
+                        return lhs.getLabel().toUpperCase().compareTo(rhs.getLabel().toUpperCase());
+                    }
+                });
+            } else if(TextUtils.equals(sortOrder, activity.getString(R.string.sort_order_descending_value))) {
+                Collections.sort(appInfoList, new Comparator<AppInfo>() {
+                    @Override
+                    public int compare(AppInfo lhs, AppInfo rhs) {
+                        return rhs.getLabel().toUpperCase().compareTo(lhs.getLabel().toUpperCase());
+                    }
+                });
             }
         }
     }

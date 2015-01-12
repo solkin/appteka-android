@@ -1,12 +1,12 @@
 package com.tomclaw.appsend;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -14,7 +14,7 @@ import android.widget.TextView;
 /**
  * Created by Solkin on 17.12.2014.
  */
-public class AboutActivity extends Activity {
+public class AboutActivity extends ActionBarActivity {
 
     private static final String MARKET_DETAILS_URI = "market://details?id=";
     private static final String MARKET_DEVELOPER_URI = "market://search?q=";
@@ -28,7 +28,7 @@ public class AboutActivity extends Activity {
 
         setContentView(R.layout.about_activity);
 
-        ActionBar actionBar = getActionBar();
+        ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(false);
 
@@ -53,6 +53,8 @@ public class AboutActivity extends Activity {
                 allProjects();
             }
         });
+
+        Utils.setupTint(this);
     }
 
     @Override
