@@ -28,5 +28,8 @@
     <string name="pref_title_sort_order">Тип сортировки</string>
     <string name="sort_order_ascending">А - Я</string>
     <string name="sort_order_descending">Я - А</string>
+    <string name="sort_order_app_size">По размеру</string>
+    <string name="sort_order_install_time">Времени установки</string>
+    <string name="sort_order_update_time">Времени обновления</string>
     <string name="pref_summary_sort_order">Варианты сортировки списка приложений</string>
 </resources>

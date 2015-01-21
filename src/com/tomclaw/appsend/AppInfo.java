@@ -13,15 +13,17 @@ public class AppInfo {
     private String version;
     private String path;
     private long size;
+    private long firstInstallTime;
     private long lastUpdateTime;
 
-    public AppInfo(Drawable icon, String label, String packageName, String version, String path, long size, long lastUpdateTime) {
+    public AppInfo(Drawable icon, String label, String packageName, String version, String path, long size, long firstInstallTime, long lastUpdateTime) {
         this.icon = icon;
         this.label = label;
         this.packageName = packageName;
         this.version = version;
         this.path = path;
         this.size = size;
+        this.firstInstallTime = firstInstallTime;
         this.lastUpdateTime = lastUpdateTime;
     }
 
@@ -47,6 +49,10 @@ public class AppInfo {
 
     public long getSize() {
         return size;
+    }
+
+    public long getFirstInstallTime() {
+        return firstInstallTime;
     }
 
     public long getLastUpdateTime() {

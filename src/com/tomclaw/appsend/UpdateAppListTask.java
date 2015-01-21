@@ -45,10 +45,11 @@ public class UpdateAppListTask extends PleaseWaitTask {
                     File file = new File(applicationInfo.publicSourceDir);
                     if(file.exists()) {
                         String label = packageManager.getApplicationLabel(applicationInfo).toString();
-                        String version = normalizeVersion(packageInfo.versionName);
-                        long time = Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD ? packageInfo.lastUpdateTime : 0;
+                        String version = packageInfo.versionName;
+                        long firstInstallTime = Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD ? packageInfo.firstInstallTime : 0;
+                        long lastUpdateTime = Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD ? packageInfo.lastUpdateTime : 0;
                         AppInfo appInfo = new AppInfo(icon, label, applicationInfo.packageName, version,
-                                file.getPath(), file.length(), time);
+                                file.getPath(), file.length(), firstInstallTime, lastUpdateTime);
                         boolean isUserApp = ((applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != ApplicationInfo.FLAG_SYSTEM &&
                                 (applicationInfo.flags & ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) != ApplicationInfo.FLAG_UPDATED_SYSTEM_APP);
                         if (isUserApp || PreferenceHelper.isShowSystemApps(activity)) {
@@ -74,8 +75,33 @@ public class UpdateAppListTask extends PleaseWaitTask {
                         return rhs.getLabel().toUpperCase().compareTo(lhs.getLabel().toUpperCase());
                     }
                 });
+            } else if(TextUtils.equals(sortOrder, activity.getString(R.string.sort_order_app_size_value))) {
+                Collections.sort(appInfoList, new Comparator<AppInfo>() {
+                    @Override
+                    public int compare(AppInfo lhs, AppInfo rhs) {
+                        return compareLong(rhs.getSize(), lhs.getSize());
+                    }
+                });
+            } else if(TextUtils.equals(sortOrder, activity.getString(R.string.sort_order_install_time_value))) {
+                Collections.sort(appInfoList, new Comparator<AppInfo>() {
+                    @Override
+                    public int compare(AppInfo lhs, AppInfo rhs) {
+                        return compareLong(rhs.getFirstInstallTime(), lhs.getFirstInstallTime());
+                    }
+                });
+            } else if(TextUtils.equals(sortOrder, activity.getString(R.string.sort_order_update_time_value))) {
+                Collections.sort(appInfoList, new Comparator<AppInfo>() {
+                    @Override
+                    public int compare(AppInfo lhs, AppInfo rhs) {
+                        return compareLong(rhs.getLastUpdateTime(), lhs.getLastUpdateTime());
+                    }
+                });
             }
         }
+    }
+
+    private int compareLong(long lhs, long rhs) {
+        return lhs < rhs ? -1 : (lhs == rhs ? 0 : 1);
     }
 
     @Override

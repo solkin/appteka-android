@@ -3,13 +3,34 @@
     <string-array name="pref_sort_order_strings">
         <item>@string/sort_order_ascending</item>
         <item>@string/sort_order_descending</item>
+        <item>@string/sort_order_app_size</item>
+        <item>@string/sort_order_install_time</item>
+        <item>@string/sort_order_update_time</item>
     </string-array>
 
     <string-array name="pref_sort_order_values">
         <item>@string/sort_order_ascending_value</item>
         <item>@string/sort_order_descending_value</item>
+        <item>@string/sort_order_app_size_value</item>
+        <item>@string/sort_order_install_time_value</item>
+        <item>@string/sort_order_update_time_value</item>
+    </string-array>
+
+    <string-array name="pref_sort_order_strings_legacy">
+        <item>@string/sort_order_ascending</item>
+        <item>@string/sort_order_descending</item>
+        <item>@string/sort_order_app_size</item>
+    </string-array>
+
+    <string-array name="pref_sort_order_values_legacy">
+        <item>@string/sort_order_ascending_value</item>
+        <item>@string/sort_order_descending_value</item>
+        <item>@string/sort_order_app_size_value</item>
     </string-array>
 
     <string name="sort_order_ascending_value">sort_order_ascending</string>
     <string name="sort_order_descending_value">sort_order_descending</string>
+    <string name="sort_order_app_size_value">sort_order_app_size</string>
+    <string name="sort_order_install_time_value">sort_order_install_time</string>
+    <string name="sort_order_update_time_value">sort_order_update_time</string>
 </resources>

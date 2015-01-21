@@ -30,5 +30,8 @@
     <string name="pref_title_sort_order">Sort order</string>
     <string name="sort_order_ascending">A - Z</string>
     <string name="sort_order_descending">Z - A</string>
+    <string name="sort_order_app_size">By app size</string>
+    <string name="sort_order_install_time">By install time</string>
+    <string name="sort_order_update_time">By update time</string>
     <string name="pref_summary_sort_order">Apps list sort order variants</string>
 </resources>
