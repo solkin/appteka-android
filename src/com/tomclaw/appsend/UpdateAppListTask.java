@@ -30,7 +30,7 @@ public class UpdateAppListTask extends PleaseWaitTask {
     @Override
     public void executeBackground() throws Throwable {
         Context activity = getWeakObject();
-        if(activity != null) {
+        if (activity != null) {
             PackageManager packageManager = activity.getPackageManager();
             Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
             mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
@@ -43,7 +43,7 @@ public class UpdateAppListTask extends PleaseWaitTask {
                     int flags = packageInfo.applicationInfo.flags;
                     Drawable icon = info.loadIcon(packageManager);
                     File file = new File(applicationInfo.publicSourceDir);
-                    if(file.exists()) {
+                    if (file.exists()) {
                         String label = packageManager.getApplicationLabel(applicationInfo).toString();
                         String version = packageInfo.versionName;
                         long firstInstallTime = Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD ? packageInfo.firstInstallTime : 0;
@@ -61,35 +61,35 @@ public class UpdateAppListTask extends PleaseWaitTask {
                 }
             }
             String sortOrder = PreferenceHelper.getSortOrder(activity);
-            if(TextUtils.equals(sortOrder, activity.getString(R.string.sort_order_ascending_value))) {
+            if (TextUtils.equals(sortOrder, activity.getString(R.string.sort_order_ascending_value))) {
                 Collections.sort(appInfoList, new Comparator<AppInfo>() {
                     @Override
                     public int compare(AppInfo lhs, AppInfo rhs) {
                         return lhs.getLabel().toUpperCase().compareTo(rhs.getLabel().toUpperCase());
                     }
                 });
-            } else if(TextUtils.equals(sortOrder, activity.getString(R.string.sort_order_descending_value))) {
+            } else if (TextUtils.equals(sortOrder, activity.getString(R.string.sort_order_descending_value))) {
                 Collections.sort(appInfoList, new Comparator<AppInfo>() {
                     @Override
                     public int compare(AppInfo lhs, AppInfo rhs) {
                         return rhs.getLabel().toUpperCase().compareTo(lhs.getLabel().toUpperCase());
                     }
                 });
-            } else if(TextUtils.equals(sortOrder, activity.getString(R.string.sort_order_app_size_value))) {
+            } else if (TextUtils.equals(sortOrder, activity.getString(R.string.sort_order_app_size_value))) {
                 Collections.sort(appInfoList, new Comparator<AppInfo>() {
                     @Override
                     public int compare(AppInfo lhs, AppInfo rhs) {
                         return compareLong(rhs.getSize(), lhs.getSize());
                     }
                 });
-            } else if(TextUtils.equals(sortOrder, activity.getString(R.string.sort_order_install_time_value))) {
+            } else if (TextUtils.equals(sortOrder, activity.getString(R.string.sort_order_install_time_value))) {
                 Collections.sort(appInfoList, new Comparator<AppInfo>() {
                     @Override
                     public int compare(AppInfo lhs, AppInfo rhs) {
                         return compareLong(rhs.getFirstInstallTime(), lhs.getFirstInstallTime());
                     }
                 });
-            } else if(TextUtils.equals(sortOrder, activity.getString(R.string.sort_order_update_time_value))) {
+            } else if (TextUtils.equals(sortOrder, activity.getString(R.string.sort_order_update_time_value))) {
                 Collections.sort(appInfoList, new Comparator<AppInfo>() {
                     @Override
                     public int compare(AppInfo lhs, AppInfo rhs) {
@@ -107,19 +107,19 @@ public class UpdateAppListTask extends PleaseWaitTask {
     @Override
     public void onSuccessMain() {
         MainActivity activity = (MainActivity) getWeakObject();
-        if(activity != null) {
+        if (activity != null) {
             activity.setAppInfoList(appInfoList);
         }
     }
 
     public static String normalizeVersion(String version) {
         int divider = version.indexOf(' ');
-        if(divider == -1) {
+        if (divider == -1) {
             divider = version.indexOf('-');
-        } else if(version.indexOf('-') != -1){
+        } else if (version.indexOf('-') != -1) {
             divider = Math.min(divider, version.indexOf('-'));
         }
-        if(divider > -1) {
+        if (divider > -1) {
             version = version.substring(0, divider);
         }
         return version;

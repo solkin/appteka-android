@@ -3,15 +3,11 @@ package com.tomclaw.appsend;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
-import android.preference.ListPreference;
-import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.MenuItem;
 
 /**
@@ -72,7 +68,7 @@ public class SettingsActivity extends ActionBarActivity {
             Context context = SettingsActivity.this;
             // Checking for preference changed.
             if (TextUtils.equals(key, getString(R.string.pref_show_system))) {
-                if(sharedPreferences.getBoolean(context.getString(R.string.pref_show_system),
+                if (sharedPreferences.getBoolean(context.getString(R.string.pref_show_system),
                         context.getResources().getBoolean(R.bool.pref_show_system_default))) {
                     final AlertDialog alertDialog = new AlertDialog.Builder(context)
                             .setTitle(R.string.system_apps_warning_title)

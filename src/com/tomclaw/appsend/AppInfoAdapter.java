@@ -1,21 +1,23 @@
 package com.tomclaw.appsend;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 
 import java.util.List;
 
 /**
  * Created by Solkin on 10.12.2014.
  */
-public class AppInfoAdapter extends BaseAdapter {
+public class AppInfoAdapter extends RecyclerView.Adapter<AppItem> {
 
     private List<AppInfo> appInfoList;
     private LayoutInflater inflater;
     private Context context;
+
+    private AppItemClickListener listener;
 
     public AppInfoAdapter(Context context, List<AppInfo> appInfoList) {
         this.context = context;
@@ -23,14 +25,24 @@ public class AppInfoAdapter extends BaseAdapter {
         this.appInfoList = appInfoList;
     }
 
-    @Override
-    public int getCount() {
-        return appInfoList.size();
+    public AppItemClickListener getListener() {
+        return listener;
+    }
+
+    public void setListener(AppItemClickListener listener) {
+        this.listener = listener;
     }
 
     @Override
-    public AppInfo getItem(int position) {
-        return appInfoList.get(position);
+    public AppItem onCreateViewHolder(ViewGroup viewGroup, int i) {
+        View view = inflater.inflate(R.layout.app_item, viewGroup, false);
+        return new AppItem(view);
+    }
+
+    @Override
+    public void onBindViewHolder(AppItem appItem, int i) {
+        AppInfo appInfo = appInfoList.get(i);
+        appItem.bind(context, appInfo, listener);
     }
 
     @Override
@@ -39,13 +51,11 @@ public class AppInfoAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        if(convertView == null) {
-            convertView = inflater.inflate(R.layout.app_item, parent, false);
-        }
-        AppInfo appInfo = getItem(position);
-        AppItem appItem = (AppItem) convertView;
-        appItem.bind(context, appInfo);
-        return appItem;
+    public int getItemCount() {
+        return appInfoList.size();
+    }
+
+    public static interface AppItemClickListener {
+        public void onItemClicked(AppInfo appInfo);
     }
 }

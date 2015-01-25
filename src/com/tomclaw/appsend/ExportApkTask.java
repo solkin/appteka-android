@@ -29,7 +29,7 @@ public class ExportApkTask extends PleaseWaitTask {
     @Override
     public void executeBackground() throws Throwable {
         Context context = getWeakObject();
-        if(context != null) {
+        if (context != null) {
             File externalDirectory = Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO ?
                     Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) : Environment.getExternalStorageDirectory();
             File directory = new File(externalDirectory, "Apps");
@@ -55,7 +55,7 @@ public class ExportApkTask extends PleaseWaitTask {
     @Override
     public void onSuccessMain() {
         final Context context = getWeakObject();
-        if(context != null) {
+        if (context != null) {
             AlertDialog alertDialog = new AlertDialog.Builder(context)
                     .setTitle(R.string.success)
                     .setMessage(Html.fromHtml(context.getString(R.string.app_extract_success, destination.getPath())))
@@ -79,7 +79,7 @@ public class ExportApkTask extends PleaseWaitTask {
     @Override
     public void onFailMain() {
         Context context = getWeakObject();
-        if(context != null) {
+        if (context != null) {
             Toast.makeText(context, R.string.app_extract_failed, Toast.LENGTH_SHORT).show();
         }
     }

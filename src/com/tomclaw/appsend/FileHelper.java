@@ -68,7 +68,7 @@ public class FileHelper {
     }
 
     public static String escapeFileSymbols(String name) {
-        for(String symbol : RESERVED_CHARS) {
+        for (String symbol : RESERVED_CHARS) {
             name = name.replace(symbol.charAt(0), '_');
         }
         return name;
