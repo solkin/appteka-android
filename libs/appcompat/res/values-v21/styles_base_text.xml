@@ -17,48 +17,48 @@
 
 <resources>
 
-    <style name="Base.TextAppearance.AppCompat" parent="android:TextAppearance.Material" />
+    <style name="Base.TextAppearance.AppCompat" parent="android:TextAppearance.Material"/>
 
-    <style name="Base.TextAppearance.AppCompat.Display4" parent="android:TextAppearance.Material.Display4" />
+    <style name="Base.TextAppearance.AppCompat.Display4" parent="android:TextAppearance.Material.Display4"/>
 
-    <style name="Base.TextAppearance.AppCompat.Display3" parent="android:TextAppearance.Material.Display3" />
+    <style name="Base.TextAppearance.AppCompat.Display3" parent="android:TextAppearance.Material.Display3"/>
 
-    <style name="Base.TextAppearance.AppCompat.Display2" parent="android:TextAppearance.Material.Display2" />
+    <style name="Base.TextAppearance.AppCompat.Display2" parent="android:TextAppearance.Material.Display2"/>
 
-    <style name="Base.TextAppearance.AppCompat.Display1" parent="android:TextAppearance.Material.Display1" />
+    <style name="Base.TextAppearance.AppCompat.Display1" parent="android:TextAppearance.Material.Display1"/>
 
-    <style name="Base.TextAppearance.AppCompat.Headline" parent="android:TextAppearance.Material.Headline" />
+    <style name="Base.TextAppearance.AppCompat.Headline" parent="android:TextAppearance.Material.Headline"/>
 
-    <style name="Base.TextAppearance.AppCompat.Title" parent="android:TextAppearance.Material.Title" />
+    <style name="Base.TextAppearance.AppCompat.Title" parent="android:TextAppearance.Material.Title"/>
 
-    <style name="Base.TextAppearance.AppCompat.Subhead" parent="android:TextAppearance.Material.Subhead" />
+    <style name="Base.TextAppearance.AppCompat.Subhead" parent="android:TextAppearance.Material.Subhead"/>
 
-    <style name="Base.TextAppearance.AppCompat.Body2" parent="android:TextAppearance.Material.Body2" />
+    <style name="Base.TextAppearance.AppCompat.Body2" parent="android:TextAppearance.Material.Body2"/>
 
-    <style name="Base.TextAppearance.AppCompat.Body1" parent="android:TextAppearance.Material.Body1" />
+    <style name="Base.TextAppearance.AppCompat.Body1" parent="android:TextAppearance.Material.Body1"/>
 
-    <style name="Base.TextAppearance.AppCompat.Caption" parent="android:TextAppearance.Material.Caption" />
+    <style name="Base.TextAppearance.AppCompat.Caption" parent="android:TextAppearance.Material.Caption"/>
 
-    <style name="Base.TextAppearance.AppCompat.Menu" parent="android:TextAppearance.Material.Menu" />
+    <style name="Base.TextAppearance.AppCompat.Menu" parent="android:TextAppearance.Material.Menu"/>
 
     <!-- Now deprecated styles -->
 
-    <style name="Base.TextAppearance.AppCompat.Inverse" parent="android:TextAppearance.Material.Inverse" />
+    <style name="Base.TextAppearance.AppCompat.Inverse" parent="android:TextAppearance.Material.Inverse"/>
 
-    <style name="Base.TextAppearance.AppCompat.Large" parent="android:TextAppearance.Material.Large" />
+    <style name="Base.TextAppearance.AppCompat.Large" parent="android:TextAppearance.Material.Large"/>
 
-    <style name="Base.TextAppearance.AppCompat.Large.Inverse" parent="android:TextAppearance.Material.Large.Inverse" />
+    <style name="Base.TextAppearance.AppCompat.Large.Inverse" parent="android:TextAppearance.Material.Large.Inverse"/>
 
-    <style name="Base.TextAppearance.AppCompat.Medium" parent="android:TextAppearance.Material.Medium" />
+    <style name="Base.TextAppearance.AppCompat.Medium" parent="android:TextAppearance.Material.Medium"/>
 
-    <style name="Base.TextAppearance.AppCompat.Medium.Inverse" parent="android:TextAppearance.Material.Medium.Inverse" />
+    <style name="Base.TextAppearance.AppCompat.Medium.Inverse" parent="android:TextAppearance.Material.Medium.Inverse"/>
 
-    <style name="Base.TextAppearance.AppCompat.Small" parent="android:TextAppearance.Material.Small" />
+    <style name="Base.TextAppearance.AppCompat.Small" parent="android:TextAppearance.Material.Small"/>
 
-    <style name="Base.TextAppearance.AppCompat.Small.Inverse" parent="android:TextAppearance.Material.Small.Inverse" />
+    <style name="Base.TextAppearance.AppCompat.Small.Inverse" parent="android:TextAppearance.Material.Small.Inverse"/>
 
-    <style name="Base.TextAppearance.AppCompat.Button" parent="android:TextAppearance.Material.Button" />
+    <style name="Base.TextAppearance.AppCompat.Button" parent="android:TextAppearance.Material.Button"/>
 
-    <style name="Base.TextAppearance.AppCompat.Widget.Switch" parent="android:TextAppearance.Material.Button" />
+    <style name="Base.TextAppearance.AppCompat.Widget.Switch" parent="android:TextAppearance.Material.Button"/>
 
 </resources>

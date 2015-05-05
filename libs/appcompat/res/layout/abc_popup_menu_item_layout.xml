@@ -42,7 +42,7 @@
                 android:duplicateParentState="true"
                 android:ellipsize="marquee"
                 android:fadingEdge="horizontal"
-                style="@style/RtlOverlay.Widget.AppCompat.PopupMenuItem.Text" />
+                style="@style/RtlOverlay.Widget.AppCompat.PopupMenuItem.Text"/>
 
         <TextView
                 android:id="@+id/shortcut"
@@ -52,7 +52,7 @@
                 android:textAppearance="?attr/textAppearanceSmallPopupMenu"
                 android:singleLine="true"
                 android:duplicateParentState="true"
-                style="@style/RtlOverlay.Widget.AppCompat.PopupMenuItem.Text" />
+                style="@style/RtlOverlay.Widget.AppCompat.PopupMenuItem.Text"/>
 
     </RelativeLayout>
 
