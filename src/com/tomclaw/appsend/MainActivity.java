@@ -23,6 +23,7 @@ public class MainActivity extends ActionBarActivity {
     private RecyclerView listView;
     private AppInfoAdapter adapter;
     private AppInfoAdapter.AppItemClickListener listener;
+    private boolean isRefreshOnResume = false;
 
     /**
      * Called when the activity is first created.
@@ -76,8 +77,9 @@ public class MainActivity extends ActionBarActivity {
                                         break;
                                     }
                                     case 5: {
+                                        isRefreshOnResume = true;
                                         Uri packageUri = Uri.parse("package:" + appInfo.getPackageName());
-                                        Intent uninstallIntent = new Intent(Intent.ACTION_UNINSTALL_PACKAGE, packageUri);
+                                        Intent uninstallIntent = new Intent(Intent.ACTION_DELETE, packageUri);
                                         startActivity(uninstallIntent);
                                         break;
                                     }
@@ -94,6 +96,15 @@ public class MainActivity extends ActionBarActivity {
 
     private void refreshAppList() {
         TaskExecutor.getInstance().execute(new UpdateAppListTask(this));
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(isRefreshOnResume) {
+            refreshAppList();
+            isRefreshOnResume = false;
+        }
     }
 
     @Override
