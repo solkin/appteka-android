@@ -130,7 +130,7 @@ public class ExportApkTask extends PleaseWaitTask {
     }
 
     @Override
-    public void onFailMain() {
+    public void onFailMain(Throwable ex) {
         Context context = getWeakObject();
         if (context != null) {
             Toast.makeText(context, R.string.app_extract_failed, Toast.LENGTH_SHORT).show();

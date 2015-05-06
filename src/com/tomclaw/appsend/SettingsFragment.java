@@ -52,7 +52,7 @@ public class SettingsFragment extends PreferenceFragment {
                     }
 
                     @Override
-                    public void onFailMain() {
+                    public void onFailMain(Throwable ex) {
                         Context context = getWeakObject();
                         if(context != null) {
                             Toast.makeText(context, R.string.cache_clearing_failed, Toast.LENGTH_SHORT).show();

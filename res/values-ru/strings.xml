@@ -49,4 +49,5 @@
     <string name="pref_summary_clear_cache">Удалить все ранее извлечённые в папку Downloads APK файлы</string>
     <string name="cache_cleared_successfully">Кеш успешно очищен</string>
     <string name="cache_clearing_failed">Ошибка очистки кеша</string>
+    <string name="size_limit_exceeded">Превышен лимит выгружаемого файла в %s</string>
 </resources>

@@ -20,13 +20,13 @@ public abstract class Task implements Runnable {
                     onSuccessMain();
                 }
             });
-        } catch (Throwable ex) {
+        } catch (final Throwable ex) {
             onFailBackground();
             MainExecutor.execute(new Runnable() {
                 @Override
                 public void run() {
                     onPostExecuteMain();
-                    onFailMain();
+                    onFailMain(ex);
                 }
             });
         }
@@ -53,6 +53,6 @@ public abstract class Task implements Runnable {
     public void onSuccessMain() {
     }
 
-    public void onFailMain() {
+    public void onFailMain(Throwable ex) {
     }
 }

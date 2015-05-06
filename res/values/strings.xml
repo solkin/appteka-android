@@ -51,4 +51,5 @@
     <string name="pref_summary_clear_cache">Remove all previously extracted APK files in Downloads directory</string>
     <string name="cache_cleared_successfully">Cache cleared successfully</string>
     <string name="cache_clearing_failed">Cache clearing failed</string>
+    <string name="size_limit_exceeded">Size limit of %s exceeded</string>
 </resources>

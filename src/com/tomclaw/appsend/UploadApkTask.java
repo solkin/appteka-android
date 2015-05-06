@@ -33,6 +33,8 @@ public class UploadApkTask extends WeakObjectTask<MainActivity> {
     private ProgressDialog dialog;
     private boolean isCancelled = false;
     private String text;
+    private long limit;
+    private boolean overflow;
 
     public UploadApkTask(MainActivity activity, AppInfo appInfo) {
         super(activity);
@@ -83,8 +85,13 @@ public class UploadApkTask extends WeakObjectTask<MainActivity> {
             JSONObject object = new JSONObject(stringEntity);
             String uploadHost = object.getString("upload_host");
             String token = object.getString("authenticity_token");
-            long limit = object.getLong("upload_limit");
+            limit = object.getLong("upload_limit") * 1024 * 1024;
             String boundary = "RGhostUploadBoundaryabcdef0123456789";
+
+            if(size > limit) {
+                overflow = true;
+                throw new SizeLimitExceededException();
+            }
 
             URL url = new URL("http://" + uploadHost + "/files");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -145,7 +152,7 @@ public class UploadApkTask extends WeakObjectTask<MainActivity> {
 
             int responseCode = connection.getResponseCode();
             if (responseCode == 302) {
-                String location = connection.getHeaderField("Location").replace("rghost.ru", "ad-file.com");
+                String location = connection.getHeaderField("Location");
                 String responseString = HttpUtil.readStringFromConnection(connection);
                 connection.disconnect();
 
@@ -181,10 +188,17 @@ public class UploadApkTask extends WeakObjectTask<MainActivity> {
     }
 
     @Override
-    public void onFailMain() {
+    public void onFailMain(Throwable ex) {
         MainActivity activity = getWeakObject();
         if(activity != null) {
-            Toast.makeText(activity, R.string.uploading_error, Toast.LENGTH_SHORT).show();
+            try {
+                throw ex;
+            } catch (SizeLimitExceededException e) {
+                Toast.makeText(activity, activity.getString(R.string.size_limit_exceeded,
+                        FileHelper.formatBytes(activity.getResources(), limit)), Toast.LENGTH_SHORT).show();
+            } catch (Throwable e) {
+                Toast.makeText(activity, R.string.uploading_error, Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -207,5 +221,8 @@ public class UploadApkTask extends WeakObjectTask<MainActivity> {
             android.content.ClipData clip = android.content.ClipData.newPlainText("", string);
             clipboard.setPrimaryClip(clip);
         }
+    }
+
+    private class SizeLimitExceededException extends Throwable {
     }
 }
