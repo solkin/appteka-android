@@ -35,7 +35,7 @@ public class ExportApkTask extends PleaseWaitTask {
             File directory = new File(externalDirectory, "Apps");
             directory.mkdirs();
             File file = new File(appInfo.getPath());
-            destination = new File(directory, FileHelper.escapeFileSymbols(appInfo.getLabel() + "-" + appInfo.getVersion()) + ".apk");
+            destination = new File(directory, getApkName(appInfo));
             if (destination.exists()) {
                 destination.delete();
             }
@@ -50,6 +50,10 @@ public class ExportApkTask extends PleaseWaitTask {
             outputStream.close();
             inputStream.close();
         }
+    }
+
+    public static String getApkName(AppInfo appInfo) {
+        return FileHelper.escapeFileSymbols(appInfo.getLabel() + "-" + appInfo.getVersion()) + ".apk";
     }
 
     @Override
@@ -67,7 +71,7 @@ public class ExportApkTask extends PleaseWaitTask {
                             sendIntent.setAction(Intent.ACTION_SEND);
                             sendIntent.putExtra(Intent.EXTRA_TEXT, destination.getName());
                             sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
-                            sendIntent.setType(FileHelper.getMimeType(destination.getPath()));
+                            sendIntent.setType("application/zip");
                             context.startActivity(Intent.createChooser(sendIntent, context.getResources().getText(R.string.send_to)));
                         }
                     }).setNegativeButton(R.string.no, null)

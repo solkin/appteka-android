@@ -1,14 +1,18 @@
 package com.tomclaw.appsend;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.io.File;
 import java.util.Collections;
 import java.util.List;
 
@@ -39,8 +43,59 @@ public class MainActivity extends ActionBarActivity {
 
         listener = new AppInfoAdapter.AppItemClickListener() {
             @Override
-            public void onItemClicked(AppInfo appInfo) {
-                TaskExecutor.getInstance().execute(new ExportApkTask(MainActivity.this, appInfo));
+            public void onItemClicked(final AppInfo appInfo) {
+                AlertDialog dialog = new AlertDialog.Builder(MainActivity.this)
+                        .setItems(R.array.app_actions, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                switch (which) {
+                                    case 0: {
+                                        Uri uri = Uri.fromFile(new File(appInfo.getPath()));
+                                        Intent sendIntent = new Intent();
+                                        sendIntent.setAction(Intent.ACTION_SEND);
+                                        sendIntent.putExtra(Intent.EXTRA_TEXT, appInfo.getLabel());
+                                        sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
+                                        sendIntent.setType("application/zip");
+                                        startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_to)));
+                                        break;
+                                    }
+                                    case 1: {
+                                        TaskExecutor.getInstance().execute(new ExportApkTask(MainActivity.this, appInfo));
+                                        break;
+                                    }
+                                    case 2: {
+                                        TaskExecutor.getInstance().execute(new UploadApkTask(MainActivity.this, appInfo));
+                                        break;
+                                    }
+                                    case 3: {
+                                        Uri uri = Uri.fromFile(new File(appInfo.getPath()));
+                                        Intent sendIntent = new Intent();
+                                        sendIntent.setAction(Intent.ACTION_SEND);
+                                        sendIntent.putExtra(Intent.EXTRA_TEXT, appInfo.getLabel());
+                                        sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
+                                        sendIntent.setType("application/zip");
+                                        sendIntent.setPackage("com.android.bluetooth");
+                                        startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_to)));
+                                        break;
+                                    }
+                                    case 4: {
+                                        final String appPackageName = appInfo.getPackageName();
+                                        try {
+                                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
+                                        } catch (android.content.ActivityNotFoundException anfe) {
+                                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
+                                        }
+                                        break;
+                                    }
+                                    case 5: {
+                                        Uri packageUri = Uri.parse("package:" + appInfo.getPackageName());
+                                        Intent uninstallIntent = new Intent(Intent.ACTION_UNINSTALL_PACKAGE, packageUri);
+                                        startActivity(uninstallIntent);
+                                        break;
+                                    }
+                                }
+                            }
+                        }).show();
             }
         };
 

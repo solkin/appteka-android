@@ -2,6 +2,7 @@ package com.tomclaw.appsend;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  * Created with IntelliJ IDEA.
@@ -12,6 +13,8 @@ import java.util.concurrent.Executors;
 public class TaskExecutor {
 
     private final ExecutorService threadExecutor = Executors.newSingleThreadExecutor();
+
+    private Future<?> future = null;
 
     private static class Holder {
 
@@ -28,11 +31,17 @@ public class TaskExecutor {
                 @Override
                 public void run() {
                     task.onPreExecuteMain();
-                    threadExecutor.submit(task);
+                    future = threadExecutor.submit(task);
                 }
             });
         } else {
-            threadExecutor.submit(task);
+            future = threadExecutor.submit(task);
+        }
+    }
+
+    public void cancelTask() {
+        if(future != null) {
+            future.cancel(true);
         }
     }
 }

@@ -34,4 +34,17 @@
     <string name="sort_order_install_time">By install time</string>
     <string name="sort_order_update_time">By update time</string>
     <string name="pref_summary_sort_order">Apps list sort order variants</string>
+    <string name="extract_apk">Extract APK into Downloads</string>
+    <string name="share_apk">Share APK via apps</string>
+    <string name="upload_apk">Upload APK and get link</string>
+    <string name="bluetooth_apk">Send via Bluetooth</string>
+    <string name="find_on_gp">Find in Google Play</string>
+    <string name="remove_app">Remove application</string>
+    <string name="send_url_to">Share URL with</string>
+    <string name="uploading_error">Error while uploading application file. Try again later, please.</string>
+    <string name="uploading_message">Uploading application file…</string>
+    <string name="obtaining_link_message">Obtaining file link…</string>
+    <string name="uploading_successful">Application file uploading successful! What would you like to do with URL link to this application?</string>
+    <string name="share_url">Share</string>
+    <string name="copy_url">Copy</string>
 </resources>
