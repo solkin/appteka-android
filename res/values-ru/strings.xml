@@ -45,4 +45,8 @@
     <string name="uploading_successful">Отправка приложения на обменник успешно завершена! Что будем делать со ссылкой на приложение?</string>
     <string name="share_url">Поделиться</string>
     <string name="copy_url">Скопировать</string>
+    <string name="pref_title_clear_cache">Очистить кеш</string>
+    <string name="pref_summary_clear_cache">Удалить все ранее извлечённые в папку Downloads APK файлы</string>
+    <string name="cache_cleared_successfully">Кеш успешно очищен</string>
+    <string name="cache_clearing_failed">Ошибка очистки кеша</string>
 </resources>

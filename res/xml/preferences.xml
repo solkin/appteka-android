@@ -16,5 +16,9 @@
                 android:defaultValue="@string/pref_sort_order_default"
                 android:entries="@array/pref_sort_order_strings"
                 android:entryValues="@array/pref_sort_order_values"/>
+        <Preference
+                android:key="@string/pref_clear_cache"
+                android:title="@string/pref_title_clear_cache"
+                android:summary="@string/pref_summary_clear_cache"/>
     </PreferenceCategory>
 </PreferenceScreen>

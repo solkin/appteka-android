@@ -23,6 +23,7 @@ import java.net.URL;
 public class UploadApkTask extends WeakObjectTask<MainActivity> {
 
     public static final String USER_AGENT = "RGHost/1";
+    private static final String API_KEY = "839d0e2975451be9f5a0f273713b5a42dc6b88e9";
     private final AppInfo appInfo;
 
     DefaultHttpClient client;
@@ -68,7 +69,7 @@ public class UploadApkTask extends WeakObjectTask<MainActivity> {
     public void executeBackground() throws Throwable {
         File file = new File(appInfo.getPath());
         Uri uri = Uri.fromFile(file);
-        String type = "application/zip";
+        String type = "application";
         String name = ExportApkTask.getApkName(appInfo);
         final long size = file.length();
         final MainActivity activity = getWeakObject();
@@ -88,11 +89,11 @@ public class UploadApkTask extends WeakObjectTask<MainActivity> {
             URL url = new URL("http://" + uploadHost + "/files");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestProperty("Host", uploadHost);
-            connection.setRequestProperty("Accept-Language", "en");
+            connection.setRequestProperty("Accept-Language", "ru");
             connection.setRequestProperty("User-Agent", USER_AGENT);
             connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
             connection.setRequestProperty("Cookie", cookie);
-            connection.setRequestProperty("Connection", "Keep-Alive");
+            connection.setRequestProperty("Connection", "keep-alive");
 
             connection.setReadTimeout(10000);
             connection.setConnectTimeout(15000);
@@ -101,13 +102,14 @@ public class UploadApkTask extends WeakObjectTask<MainActivity> {
             connection.setDoInput(true);
             connection.setDoOutput(true);
             connection.setInstanceFollowRedirects(false);
-            connection.setChunkedStreamingMode(1024);
+            connection.setChunkedStreamingMode(256);
 
             connection.connect();
 
             OutputStream outputStream = connection.getOutputStream();
             MultipartStream multipartStream = new MultipartStream(outputStream, boundary);
             multipartStream.writePart("authenticity_token", token);
+            multipartStream.writePart("api_key", API_KEY);
             multipartStream.writePart("file", name, inputStream, type, new MultipartStream.ProgressHandler() {
                 @Override
                 public void onProgress(long sent) {
@@ -143,7 +145,7 @@ public class UploadApkTask extends WeakObjectTask<MainActivity> {
 
             int responseCode = connection.getResponseCode();
             if (responseCode == 302) {
-                String location = connection.getHeaderField("Location");
+                String location = connection.getHeaderField("Location").replace("rghost.ru", "ad-file.com");
                 String responseString = HttpUtil.readStringFromConnection(connection);
                 connection.disconnect();
 

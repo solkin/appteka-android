@@ -47,4 +47,8 @@
     <string name="uploading_successful">Application file uploading successful! What would you like to do with URL link to this application?</string>
     <string name="share_url">Share</string>
     <string name="copy_url">Copy</string>
+    <string name="pref_title_clear_cache">Clear cache</string>
+    <string name="pref_summary_clear_cache">Remove all previously extracted APK files in Downloads directory</string>
+    <string name="cache_cleared_successfully">Cache cleared successfully</string>
+    <string name="cache_clearing_failed">Cache clearing failed</string>
 </resources>

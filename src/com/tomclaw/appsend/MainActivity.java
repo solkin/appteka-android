@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.util.Collections;
 import java.util.List;
 
@@ -50,17 +51,11 @@ public class MainActivity extends ActionBarActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 switch (which) {
                                     case 0: {
-                                        Uri uri = Uri.fromFile(new File(appInfo.getPath()));
-                                        Intent sendIntent = new Intent();
-                                        sendIntent.setAction(Intent.ACTION_SEND);
-                                        sendIntent.putExtra(Intent.EXTRA_TEXT, appInfo.getLabel());
-                                        sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
-                                        sendIntent.setType("application/zip");
-                                        startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_to)));
+                                        TaskExecutor.getInstance().execute(new ExportApkTask(MainActivity.this, appInfo, ExportApkTask.ACTION_SHARE));
                                         break;
                                     }
                                     case 1: {
-                                        TaskExecutor.getInstance().execute(new ExportApkTask(MainActivity.this, appInfo));
+                                        TaskExecutor.getInstance().execute(new ExportApkTask(MainActivity.this, appInfo, ExportApkTask.ACTION_EXTRACT));
                                         break;
                                     }
                                     case 2: {
@@ -68,14 +63,7 @@ public class MainActivity extends ActionBarActivity {
                                         break;
                                     }
                                     case 3: {
-                                        Uri uri = Uri.fromFile(new File(appInfo.getPath()));
-                                        Intent sendIntent = new Intent();
-                                        sendIntent.setAction(Intent.ACTION_SEND);
-                                        sendIntent.putExtra(Intent.EXTRA_TEXT, appInfo.getLabel());
-                                        sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
-                                        sendIntent.setType("application/zip");
-                                        sendIntent.setPackage("com.android.bluetooth");
-                                        startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_to)));
+                                        TaskExecutor.getInstance().execute(new ExportApkTask(MainActivity.this, appInfo, ExportApkTask.ACTION_BLUETOOTH));
                                         break;
                                     }
                                     case 4: {
