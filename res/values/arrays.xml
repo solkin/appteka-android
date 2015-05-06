@@ -34,7 +34,7 @@
     <string name="sort_order_install_time_value">sort_order_install_time</string>
     <string name="sort_order_update_time_value">sort_order_update_time</string>
 
-    <string-array name="app_actions">
+    <string-array name="app_actions_titles">
         <item>@string/share_apk</item>
         <item>@string/extract_apk</item>
         <item>@string/upload_apk</item>
@@ -42,4 +42,13 @@
         <item>@string/find_on_gp</item>
         <item>@string/remove_app</item>
     </string-array>
+
+    <array name="app_actions_icons">
+        <item>@drawable/ic_share_white_24dp</item>
+        <item>@drawable/ic_save_white_24dp</item>
+        <item>@drawable/ic_cloud_upload_white_24dp</item>
+        <item>@drawable/ic_bluetooth_white_24dp</item>
+        <item>@drawable/ic_shop_white_24dp</item>
+        <item>@drawable/ic_delete_white_24dp</item>
+    </array>
 </resources>

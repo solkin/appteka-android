@@ -14,8 +14,6 @@ public class TaskExecutor {
 
     private final ExecutorService threadExecutor = Executors.newSingleThreadExecutor();
 
-    private Future<?> future = null;
-
     private static class Holder {
 
         static TaskExecutor instance = new TaskExecutor();
@@ -31,17 +29,11 @@ public class TaskExecutor {
                 @Override
                 public void run() {
                     task.onPreExecuteMain();
-                    future = threadExecutor.submit(task);
+                    threadExecutor.submit(task);
                 }
             });
         } else {
-            future = threadExecutor.submit(task);
-        }
-    }
-
-    public void cancelTask() {
-        if(future != null) {
-            future.cancel(true);
+            threadExecutor.submit(task);
         }
     }
 }

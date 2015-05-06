@@ -31,7 +31,6 @@ public class UploadApkTask extends WeakObjectTask<MainActivity> {
     private transient long progressUpdateTime = 0;
 
     private ProgressDialog dialog;
-    private boolean isCancelled = false;
     private String text;
     private long limit;
     private boolean overflow;
@@ -53,14 +52,7 @@ public class UploadApkTask extends WeakObjectTask<MainActivity> {
             dialog = new ProgressDialog(activity);
             // dialog.setTitle();
             dialog.setMessage(activity.getString(R.string.uploading_message));
-            dialog.setCancelable(true);
-            dialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-                @Override
-                public void onCancel(DialogInterface dialog) {
-                    isCancelled = true;
-                    TaskExecutor.getInstance().cancelTask();
-                }
-            });
+            dialog.setCancelable(false);
             dialog.setMax(100);
             dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
             dialog.show();
@@ -136,10 +128,6 @@ public class UploadApkTask extends WeakObjectTask<MainActivity> {
             multipartStream.flush();
 
             outputStream.close();
-
-            if(isCancelled) {
-                return;
-            }
 
             MainExecutor.execute(new Runnable() {
                 @Override

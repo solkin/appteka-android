@@ -9,12 +9,9 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.*;
+import android.widget.ListAdapter;
 
-import java.io.File;
-import java.io.FileFilter;
-import java.util.Collections;
 import java.util.List;
 
 public class MainActivity extends ActionBarActivity {
@@ -46,8 +43,9 @@ public class MainActivity extends ActionBarActivity {
         listener = new AppInfoAdapter.AppItemClickListener() {
             @Override
             public void onItemClicked(final AppInfo appInfo) {
-                AlertDialog dialog = new AlertDialog.Builder(MainActivity.this)
-                        .setItems(R.array.app_actions, new DialogInterface.OnClickListener() {
+                ListAdapter menuAdapter = new MenuAdapter(MainActivity.this, R.array.app_actions_titles, R.array.app_actions_icons);
+                new AlertDialog.Builder(MainActivity.this)
+                        .setAdapter(menuAdapter, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 switch (which) {
