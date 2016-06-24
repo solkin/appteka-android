@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools"
+           xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <color name="accent_color">#455A64</color>
+    <color name="primary_color">#00838F</color>
+    <color name="primary_dark_color">#006064</color>
+
+    <color name="text_primary_color">#00000E</color>
+    <color name="text_secondary_color">#4e4e4e</color>
+
+    <color name="action_bar_color">@color/primary_color</color>
+
+    <style name="ActionBar.Dark" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="colorAccent">@color/accent_color</item>
+        <item name="colorPrimary">@color/primary_color</item>
+        <item name="colorPrimaryDark">@color/primary_dark_color</item>
+
+        <item name="android:background" tools:ignore="NewApi">@color/action_bar_color</item>
+        <item name="background">@color/action_bar_color</item>
+    </style>
+
+    <style name="Theme.Light" parent="@style/Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:actionBarStyle" tools:ignore="NewApi">@style/ActionBar.Dark</item>
+        <item name="actionBarStyle">@style/ActionBar.Dark</item>
+    </style>
+</resources>

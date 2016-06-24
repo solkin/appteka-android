@@ -8,7 +8,16 @@ gen/
 bin/
 out/
 local.properties
-.idea/
-.idea/workspace.xml
-.idea/dictionaries/
 proguard_logs/
+projectFilesBackup/
+.idea/*
+!.idea/codeStyleSettings.xml
+!.idea/encodings.xml
+!.idea/inspectionProfiles/
+
+# Gradle files
+.gradle/
+*build/
+
+# Local configuration file (sdk path, etc)
+local.properties
