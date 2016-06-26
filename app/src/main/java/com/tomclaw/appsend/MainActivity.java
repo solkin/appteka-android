@@ -99,8 +99,11 @@ public class MainActivity extends PermisoActivity {
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case 0: {
-                                Intent launchIntent = getPackageManager().getLaunchIntentForPackage(appInfo.getPackageName());
-                                startActivity(launchIntent);
+                                if (appInfo.getLaunchIntent() == null) {
+                                    Snackbar.make(listView, R.string.non_launchable_package, Snackbar.LENGTH_LONG).show();
+                                } else {
+                                    startActivity(appInfo.getLaunchIntent());
+                                }
                                 break;
                             }
                             case 1: {

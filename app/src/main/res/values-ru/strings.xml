@@ -59,4 +59,5 @@
     <string name="yes_rate">Оценить :)</string>
     <string name="no_thanks">Нет :(</string>
     <string name="rate_cancel">Позже :/</string>
+    <string name="non_launchable_package">Этот пакет нельзя запустить.</string>
 </resources>

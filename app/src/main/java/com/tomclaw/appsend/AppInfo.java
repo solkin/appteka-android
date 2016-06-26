@@ -1,5 +1,6 @@
 package com.tomclaw.appsend;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 
 /**
@@ -15,8 +16,9 @@ public class AppInfo {
     private long size;
     private long firstInstallTime;
     private long lastUpdateTime;
+    private Intent launchIntent;
 
-    public AppInfo(Drawable icon, String label, String packageName, String version, String path, long size, long firstInstallTime, long lastUpdateTime) {
+    public AppInfo(Drawable icon, String label, String packageName, String version, String path, long size, long firstInstallTime, long lastUpdateTime, Intent launchIntent) {
         this.icon = icon;
         this.label = label;
         this.packageName = packageName;
@@ -25,6 +27,7 @@ public class AppInfo {
         this.size = size;
         this.firstInstallTime = firstInstallTime;
         this.lastUpdateTime = lastUpdateTime;
+        this.launchIntent = launchIntent;
     }
 
     public Drawable getIcon() {
@@ -57,5 +60,9 @@ public class AppInfo {
 
     public long getLastUpdateTime() {
         return lastUpdateTime;
+    }
+
+    public Intent getLaunchIntent() {
+        return launchIntent;
     }
 }
