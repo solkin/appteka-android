@@ -32,26 +32,23 @@ public class UpdateAppListTask extends PleaseWaitTask {
         Context activity = getWeakObject();
         if (activity != null) {
             PackageManager packageManager = activity.getPackageManager();
-            Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
-            mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
-            List<ResolveInfo> infoList = packageManager.queryIntentActivities(mainIntent, 0);
-            appInfoList = new ArrayList<AppInfo>();
-            for (ResolveInfo info : infoList) {
-                ApplicationInfo applicationInfo = info.activityInfo.applicationInfo;
+            appInfoList = new ArrayList<>();
+            List<ApplicationInfo> packages = packageManager.getInstalledApplications(PackageManager.GET_META_DATA);
+            for (ApplicationInfo info : packages) {
                 try {
-                    PackageInfo packageInfo = packageManager.getPackageInfo(applicationInfo.packageName, 0);
+                    PackageInfo packageInfo = packageManager.getPackageInfo(info.packageName, 0);
                     int flags = packageInfo.applicationInfo.flags;
                     Drawable icon = info.loadIcon(packageManager);
-                    File file = new File(applicationInfo.publicSourceDir);
+                    File file = new File(info.publicSourceDir);
                     if (file.exists()) {
-                        String label = packageManager.getApplicationLabel(applicationInfo).toString();
+                        String label = packageManager.getApplicationLabel(info).toString();
                         String version = packageInfo.versionName;
                         long firstInstallTime = Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD ? packageInfo.firstInstallTime : 0;
                         long lastUpdateTime = Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD ? packageInfo.lastUpdateTime : 0;
-                        AppInfo appInfo = new AppInfo(icon, label, applicationInfo.packageName, version,
+                        AppInfo appInfo = new AppInfo(icon, label, info.packageName, version,
                                 file.getPath(), file.length(), firstInstallTime, lastUpdateTime);
-                        boolean isUserApp = ((applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != ApplicationInfo.FLAG_SYSTEM &&
-                                (applicationInfo.flags & ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) != ApplicationInfo.FLAG_UPDATED_SYSTEM_APP);
+                        boolean isUserApp = ((info.flags & ApplicationInfo.FLAG_SYSTEM) != ApplicationInfo.FLAG_SYSTEM &&
+                                (info.flags & ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) != ApplicationInfo.FLAG_UPDATED_SYSTEM_APP);
                         if (isUserApp || PreferenceHelper.isShowSystemApps(activity)) {
                             appInfoList.add(appInfo);
                         }
