@@ -16,7 +16,9 @@
     <string name="all_apps">All apps</string>
     <string name="pref_base_title">Base settings</string>
     <string name="pref_summary_show_system">Show system applications in list</string>
+    <string name="pref_summary_runnable">Show runnable packages only</string>
     <string name="pref_title_show_system">System apps</string>
+    <string name="pref_title_runnable">Runnable packages</string>
     <string name="got_it">Got it!</string>
     <string name="system_apps_warning_title">Warning!</string>
     <string name="system_apps_warning_message">System apps are not usual apps and there is no warranty of its

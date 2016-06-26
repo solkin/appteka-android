@@ -15,6 +15,10 @@ public class PreferenceHelper {
         return getBooleanPreference(context, R.string.pref_show_system, R.bool.pref_show_system_default);
     }
 
+    public static boolean isRunnableOnly(Context context) {
+        return getBooleanPreference(context, R.string.pref_runnable, R.bool.pref_runnable_default);
+    }
+
     public static String getSortOrder(Context context) {
         return getStringPreference(context, R.string.pref_sort_order, R.string.pref_sort_order_default);
     }

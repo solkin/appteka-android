@@ -9,6 +9,11 @@
                 android:summary="@string/pref_summary_show_system"
                 android:title="@string/pref_title_show_system"
                 android:defaultValue="@bool/pref_show_system_default"/>
+        <CheckBoxPreference
+                android:key="@string/pref_runnable"
+                android:summary="@string/pref_summary_runnable"
+                android:title="@string/pref_title_runnable"
+                android:defaultValue="@bool/pref_runnable_default"/>
         <ListPreference
                 android:key="@string/pref_sort_order"
                 android:summary="@string/pref_summary_sort_order"

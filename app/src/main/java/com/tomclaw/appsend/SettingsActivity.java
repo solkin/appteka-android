@@ -79,6 +79,8 @@ public class SettingsActivity extends ActionBarActivity {
                 setResult(RESULT_UPDATE);
             } else if (TextUtils.equals(key, getString(R.string.pref_sort_order))) {
                 setResult(RESULT_UPDATE);
+            } else if (TextUtils.equals(key, getString(R.string.pref_runnable))) {
+                setResult(RESULT_UPDATE);
             }
         }
     }

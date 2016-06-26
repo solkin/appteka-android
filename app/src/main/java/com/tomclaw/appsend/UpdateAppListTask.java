@@ -52,7 +52,9 @@ public class UpdateAppListTask extends PleaseWaitTask {
                         boolean isUserApp = ((info.flags & ApplicationInfo.FLAG_SYSTEM) != ApplicationInfo.FLAG_SYSTEM &&
                                 (info.flags & ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) != ApplicationInfo.FLAG_UPDATED_SYSTEM_APP);
                         if (isUserApp || PreferenceHelper.isShowSystemApps(activity)) {
-                            appInfoList.add(appInfo);
+                            if (launchIntent != null || !PreferenceHelper.isRunnableOnly(activity)) {
+                                appInfoList.add(appInfo);
+                            }
                         }
                     }
                 } catch (Throwable ignored) {

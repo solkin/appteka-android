@@ -16,7 +16,9 @@
     <string name="all_apps">Все приложения автора</string>
     <string name="pref_base_title">Основные настройки</string>
     <string name="pref_summary_show_system">Показывать системные приложения в общем списке</string>
+    <string name="pref_summary_runnable">Показывать только исполнимые приложения</string>
     <string name="pref_title_show_system">Системные приложения</string>
+    <string name="pref_title_runnable">Исполнимые пакеты</string>
     <string name="got_it">Понятно</string>
     <string name="system_apps_warning_title">Внимание!</string>
     <string name="system_apps_warning_message">Системные приложения хранятся в несколько ином виде и их экспорт и последующая работоспособность не гарантированы!</string>
