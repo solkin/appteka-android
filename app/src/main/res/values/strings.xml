@@ -56,4 +56,9 @@
     <string name="permission_denied_message">Can\'t continue without required permission</string>
     <string name="menu_search">Search</string>
     <string name="run_app">Run application</string>
+    <string name="rate_title">Rate this app</string>
+    <string name="rate_message">Please, help us to develop the best tool! Rate AppSend in Google Play, this will take less than a 15 seconds! And you make us happy :)</string>
+    <string name="yes_rate">Rate :)</string>
+    <string name="no_thanks">No :(</string>
+    <string name="rate_cancel">Later :/</string>
 </resources>

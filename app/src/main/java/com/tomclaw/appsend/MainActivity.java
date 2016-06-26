@@ -16,6 +16,7 @@ import android.widget.ListAdapter;
 
 import com.greysonparrelli.permiso.Permiso;
 import com.greysonparrelli.permiso.PermisoActivity;
+import com.kobakei.ratethisapp.RateThisApp;
 
 import java.util.List;
 
@@ -73,6 +74,21 @@ public class MainActivity extends PermisoActivity {
         refreshAppList();
 
         Utils.setupTint(this);
+
+        // Custom criteria: 7 days and 10 launches
+        RateThisApp.Config config = new RateThisApp.Config(7, 10);
+        // Custom title ,message and buttons names
+        config.setTitle(R.string.rate_title);
+        config.setMessage(R.string.rate_message);
+        config.setYesButtonText(R.string.yes_rate);
+        config.setNoButtonText(R.string.no_thanks);
+        config.setCancelButtonText(R.string.rate_cancel);
+        RateThisApp.init(config);
+
+        // Monitor launch times and interval from installation
+        RateThisApp.onStart(this);
+        // If the criteria is satisfied, "Rate this app" dialog will be shown
+        RateThisApp.showRateDialogIfNeeded(this);
     }
 
     private void showActionDialog(final AppInfo appInfo) {
