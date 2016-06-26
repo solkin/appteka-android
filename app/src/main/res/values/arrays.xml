@@ -28,11 +28,11 @@
         <item>@string/sort_order_app_size_value</item>
     </string-array>
 
-    <string name="sort_order_ascending_value">sort_order_ascending</string>
-    <string name="sort_order_descending_value">sort_order_descending</string>
-    <string name="sort_order_app_size_value">sort_order_app_size</string>
-    <string name="sort_order_install_time_value">sort_order_install_time</string>
-    <string name="sort_order_update_time_value">sort_order_update_time</string>
+    <string name="sort_order_ascending_value" translatable="false">sort_order_ascending</string>
+    <string name="sort_order_descending_value" translatable="false">sort_order_descending</string>
+    <string name="sort_order_app_size_value" translatable="false">sort_order_app_size</string>
+    <string name="sort_order_install_time_value" translatable="false">sort_order_install_time</string>
+    <string name="sort_order_update_time_value" translatable="false">sort_order_update_time</string>
 
     <string-array name="app_actions_titles">
         <item>@string/run_app</item>
