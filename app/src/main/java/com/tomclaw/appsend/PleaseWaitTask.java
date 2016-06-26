@@ -28,8 +28,11 @@ public abstract class PleaseWaitTask extends WeakObjectTask<Context> {
     public void onPreExecuteMain() {
         Context context = getWeakObject();
         if (context != null) {
-            ProgressDialog progressDialog = ProgressDialog.show(context, null, context.getString(getWaitStringId()));
-            weakProgressDialog = new WeakReference<ProgressDialog>(progressDialog);
+            try {
+                ProgressDialog progressDialog = ProgressDialog.show(context, null, context.getString(getWaitStringId()));
+                weakProgressDialog = new WeakReference<>(progressDialog);
+            } catch (Throwable ignored) {
+            }
         }
     }
 
@@ -37,7 +40,10 @@ public abstract class PleaseWaitTask extends WeakObjectTask<Context> {
     public void onPostExecuteMain() {
         ProgressDialog progressDialog = weakProgressDialog.get();
         if (progressDialog != null) {
-            progressDialog.dismiss();
+            try {
+                progressDialog.dismiss();
+            } catch (Throwable ignored) {
+            }
         }
     }
 
