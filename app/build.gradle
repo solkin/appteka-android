@@ -1,9 +1,10 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+    }
     compileSdkVersion 24
-    buildToolsVersion "24.0.0"
-
+    buildToolsVersion '24'
     defaultConfig {
         applicationId "com.tomclaw.appsend"
         minSdkVersion 14
