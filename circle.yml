@@ -1,3 +1,7 @@
+dependencies:
+  pre:
+    - echo y | android update sdk --no-ui --all
+
 test:
   override:
     - ./gradlew assembleDebug
