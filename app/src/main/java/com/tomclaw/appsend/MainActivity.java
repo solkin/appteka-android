@@ -18,6 +18,9 @@ import com.greysonparrelli.permiso.Permiso;
 import com.greysonparrelli.permiso.PermisoActivity;
 import com.kobakei.ratethisapp.RateThisApp;
 
+import net.hockeyapp.android.CrashManager;
+import net.hockeyapp.android.metrics.MetricsManager;
+
 import java.util.List;
 
 public class MainActivity extends PermisoActivity {
@@ -89,6 +92,9 @@ public class MainActivity extends PermisoActivity {
         RateThisApp.onStart(this);
         // If the criteria is satisfied, "Rate this app" dialog will be shown
         RateThisApp.showRateDialogIfNeeded(this);
+
+        checkForCrashes();
+        MetricsManager.register(this, getApplication());
     }
 
     private void showActionDialog(final AppInfo appInfo) {
@@ -210,6 +216,15 @@ public class MainActivity extends PermisoActivity {
         return true;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_UPDATE_SETTINGS) {
+            if (resultCode == SettingsActivity.RESULT_UPDATE) {
+                refreshAppList();
+            }
+        }
+    }
+
     private void showSettings() {
         Intent intent = new Intent(this, SettingsActivity.class);
         startActivityForResult(intent, REQUEST_UPDATE_SETTINGS);
@@ -225,12 +240,7 @@ public class MainActivity extends PermisoActivity {
         adapter.notifyDataSetChanged();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_UPDATE_SETTINGS) {
-            if (resultCode == SettingsActivity.RESULT_UPDATE) {
-                refreshAppList();
-            }
-        }
+    private void checkForCrashes() {
+        CrashManager.register(this);
     }
 }
