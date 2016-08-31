@@ -64,4 +64,5 @@
     <string name="no_thanks">No :(</string>
     <string name="rate_cancel">Later :/</string>
     <string name="non_launchable_package">This package is not runnable.</string>
+    <string name="app_details">Show details</string>
 </resources>

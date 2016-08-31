@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -138,6 +139,16 @@ public class MainActivity extends PermisoActivity {
                                 break;
                             }
                             case 6: {
+                                isRefreshOnResume = true;
+                                final Intent intent = new Intent()
+                                        .setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+                                        .addCategory(Intent.CATEGORY_DEFAULT)
+                                        .setData(Uri.parse("package:" + appInfo.getPackageName()))
+                                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                                break;
+                            }
+                            case 7: {
                                 isRefreshOnResume = true;
                                 Uri packageUri = Uri.parse("package:" + appInfo.getPackageName());
                                 Intent uninstallIntent = new Intent(Intent.ACTION_DELETE, packageUri);

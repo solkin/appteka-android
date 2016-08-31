@@ -62,4 +62,5 @@
     <string name="no_thanks">Нет :(</string>
     <string name="rate_cancel">Позже :/</string>
     <string name="non_launchable_package">Этот пакет нельзя запустить.</string>
+    <string name="app_details">Показать детали</string>
 </resources>

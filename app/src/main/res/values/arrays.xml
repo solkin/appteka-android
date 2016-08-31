@@ -41,6 +41,7 @@
         <item>@string/upload_apk</item>
         <item>@string/bluetooth_apk</item>
         <item>@string/find_on_gp</item>
+        <item>@string/app_details</item>
         <item>@string/remove_app</item>
     </string-array>
 
@@ -51,6 +52,7 @@
         <item>@drawable/ic_cloud_upload_white_24dp</item>
         <item>@drawable/ic_bluetooth_white_24dp</item>
         <item>@drawable/ic_shop_white_24dp</item>
+        <item>@drawable/ic_settings_applications_white_24dp</item>
         <item>@drawable/ic_delete_white_24dp</item>
     </array>
 </resources>

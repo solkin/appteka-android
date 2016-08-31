@@ -145,19 +145,19 @@ public class UploadApkTask extends WeakObjectTask<MainActivity> {
                 String responseString = HttpUtil.readStringFromConnection(connection);
                 connection.disconnect();
 
-                try {
-                    int hostStart = location.indexOf("://");
-                    if (hostStart > 0) {
-                        hostStart += 3;
-                        int hostEnd = location.indexOf('/', hostStart);
-                        if (hostEnd > hostStart) {
-                            String protocol = location.substring(0, hostStart);
-                            String address = location.substring(hostEnd);
-                            location = protocol + "ad-file.com" + address;
-                        }
-                    }
-                } catch (Throwable ignored) {
-                }
+//                try {
+//                    int hostStart = location.indexOf("://");
+//                    if (hostStart > 0) {
+//                        hostStart += 3;
+//                        int hostEnd = location.indexOf('/', hostStart);
+//                        if (hostEnd > hostStart) {
+//                            String protocol = location.substring(0, hostStart);
+//                            String address = location.substring(hostEnd);
+//                            location = protocol + "ad-file.com" + address;
+//                        }
+//                    }
+//                } catch (Throwable ignored) {
+//                }
 
                 text = appInfo.getLabel() + " (" + FileHelper.formatBytes(activity.getResources(), size) + ")\n" + location;
             }
