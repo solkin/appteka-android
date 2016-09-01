@@ -4,9 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -14,6 +12,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.widget.ListAdapter;
+import android.widget.TextView;
 
 import java.io.File;
 import java.util.List;
@@ -25,6 +24,7 @@ import java.util.List;
 public class InstallActivity extends AppCompatActivity {
 
     private RecyclerView listView;
+    private TextView installHelp;
     private AppInfoAdapter adapter;
     private AppInfoAdapter.AppItemClickListener listener;
 
@@ -37,6 +37,8 @@ public class InstallActivity extends AppCompatActivity {
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
+
+        installHelp = (TextView) findViewById(R.id.install_help);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         listView = (RecyclerView) findViewById(R.id.apps_list_view);
@@ -74,6 +76,7 @@ public class InstallActivity extends AppCompatActivity {
     public void setAppInfoList(List<AppInfo> appInfoList) {
         adapter.setAppInfoList(appInfoList);
         adapter.notifyDataSetChanged();
+        installHelp.setText(appInfoList.isEmpty() ? R.string.install_screen_no_apk_found: R.string.install_screen_apk_found);
     }
 
     private void showActionDialog(final AppInfo appInfo) {
