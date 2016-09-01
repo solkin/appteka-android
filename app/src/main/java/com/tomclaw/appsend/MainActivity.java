@@ -4,8 +4,10 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -13,6 +15,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.*;
+import android.widget.FrameLayout;
 import android.widget.ListAdapter;
 
 import com.greysonparrelli.permiso.Permiso;
@@ -54,7 +57,7 @@ public class MainActivity extends PermisoActivity {
         listener = new AppInfoAdapter.AppItemClickListener() {
             @Override
             public void onItemClicked(final AppInfo appInfo) {
-                checkPermissions(appInfo);
+                checkPermissionsForExtract(appInfo);
             }
         };
 
@@ -74,6 +77,20 @@ public class MainActivity extends PermisoActivity {
                 return false;
             }
         };
+
+        FloatingActionButton actionButton = (FloatingActionButton) findViewById(R.id.fab);
+        actionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                checkPermissionsForInstall();
+            }
+        });
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            FrameLayout.LayoutParams p = (FrameLayout.LayoutParams) actionButton.getLayoutParams();
+            p.setMargins(0, 0, 0, 0); // get rid of margins since shadow area is now the margin
+            actionButton.setLayoutParams(p);
+        }
 
         refreshAppList();
 
@@ -160,7 +177,7 @@ public class MainActivity extends PermisoActivity {
                 }).show();
     }
 
-    private void checkPermissions(final AppInfo appInfo) {
+    private void checkPermissionsForExtract(final AppInfo appInfo) {
         Permiso.getInstance().requestPermissions(new Permiso.IOnPermissionResult() {
             @Override
             public void onPermissionResult(Permiso.ResultSet resultSet) {
@@ -176,7 +193,30 @@ public class MainActivity extends PermisoActivity {
             @Override
             public void onRationaleRequested(Permiso.IOnRationaleProvided callback, String... permissions) {
                 String title = getString(R.string.app_name);
-                String message = getString(R.string.write_permission);
+                String message = getString(R.string.write_permission_extract);
+                Permiso.getInstance().showRationaleInDialog(title, message, null, callback);
+            }
+        }, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+    }
+
+    private void checkPermissionsForInstall() {
+        Permiso.getInstance().requestPermissions(new Permiso.IOnPermissionResult() {
+            @Override
+            public void onPermissionResult(Permiso.ResultSet resultSet) {
+                if (resultSet.areAllPermissionsGranted()) {
+                    // Permission granted!
+                    Intent intent = new Intent(MainActivity.this, InstallActivity.class);
+                    startActivity(intent);
+                } else {
+                    // Permission denied.
+                    Snackbar.make(listView, R.string.permission_denied_message, Snackbar.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onRationaleRequested(Permiso.IOnRationaleProvided callback, String... permissions) {
+                String title = getString(R.string.app_name);
+                String message = getString(R.string.write_permission_install);
                 Permiso.getInstance().showRationaleInDialog(title, message, null, callback);
             }
         }, Manifest.permission.WRITE_EXTERNAL_STORAGE);

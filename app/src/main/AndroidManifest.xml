@@ -17,5 +17,7 @@
                 android:label="@string/info"/>
         <activity android:name="com.tomclaw.appsend.SettingsActivity"
                 android:label="@string/settings"/>
+        <activity android:name="com.tomclaw.appsend.InstallActivity"
+            android:label="@string/install"/>
     </application>
 </manifest>

@@ -47,7 +47,7 @@ public class UpdateAppListTask extends PleaseWaitTask {
                         long lastUpdateTime = Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD ? packageInfo.lastUpdateTime : 0;
                         Intent launchIntent = packageManager.getLaunchIntentForPackage(info.packageName);
                         AppInfo appInfo = new AppInfo(icon, label, info.packageName,
-                                version, file.getPath(), file.length(), firstInstallTime,
+                                version, null, file.getPath(), file.length(), firstInstallTime,
                                 lastUpdateTime, launchIntent);
                         boolean isUserApp = ((info.flags & ApplicationInfo.FLAG_SYSTEM) != ApplicationInfo.FLAG_SYSTEM &&
                                 (info.flags & ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) != ApplicationInfo.FLAG_UPDATED_SYSTEM_APP);

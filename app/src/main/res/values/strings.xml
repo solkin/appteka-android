@@ -54,7 +54,7 @@
     <string name="cache_cleared_successfully">Cache cleared successfully</string>
     <string name="cache_clearing_failed">Cache clearing failed</string>
     <string name="size_limit_exceeded">Size limit of %s exceeded</string>
-    <string name="write_permission">In order to save application file you will need to grant storage permission</string>
+    <string name="write_permission_extract">In order to save application file you will need to grant storage permission</string>
     <string name="permission_denied_message">Can\'t continue without required permission</string>
     <string name="menu_search">Search</string>
     <string name="run_app">Run application</string>
@@ -65,4 +65,8 @@
     <string name="rate_cancel">Later :/</string>
     <string name="non_launchable_package">This package is not runnable.</string>
     <string name="app_details">Show details</string>
+    <string name="install">Install</string>
+    <string name="install_app">Install application</string>
+    <string name="write_permission_install">In order to install applications you need to grant storage permissions</string>
+    <string name="version_update">%1$s → %2$s</string>
 </resources>

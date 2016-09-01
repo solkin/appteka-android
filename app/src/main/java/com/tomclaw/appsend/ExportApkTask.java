@@ -89,7 +89,7 @@ public class ExportApkTask extends PleaseWaitTask {
                             .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    shareApk(context);
+                                    shareApk(context, destination);
                                 }
                             }).setNegativeButton(R.string.no, null)
                             .create();
@@ -97,18 +97,18 @@ public class ExportApkTask extends PleaseWaitTask {
                     break;
                 }
                 case ACTION_SHARE: {
-                    shareApk(context);
+                    shareApk(context, destination);
                     break;
                 }
                 case ACTION_BLUETOOTH: {
-                    bluetoothApk(context);
+                    bluetoothApk(context, appInfo);
                     break;
                 }
             }
         }
     }
 
-    private void shareApk(Context context) {
+    public static void shareApk(Context context, File destination) {
         Uri uri = Uri.fromFile(destination);
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
@@ -118,7 +118,7 @@ public class ExportApkTask extends PleaseWaitTask {
         context.startActivity(Intent.createChooser(sendIntent, context.getResources().getText(R.string.send_to)));
     }
 
-    private void bluetoothApk(Context context) {
+    public static void bluetoothApk(Context context, AppInfo appInfo) {
         Uri uri = Uri.fromFile(new File(appInfo.getPath()));
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);

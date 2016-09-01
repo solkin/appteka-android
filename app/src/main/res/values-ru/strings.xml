@@ -52,7 +52,7 @@
     <string name="cache_cleared_successfully">Кеш успешно очищен</string>
     <string name="cache_clearing_failed">Ошибка очистки кеша</string>
     <string name="size_limit_exceeded">Превышен лимит выгружаемого файла в %s</string>
-    <string name="write_permission">Чтобы сохранить извлечённый файл приложения, необходимо разрешить запись на диск</string>
+    <string name="write_permission_extract">Чтобы сохранить извлечённый файл приложения, необходимо разрешить запись на диск</string>
     <string name="permission_denied_message">Невозможно продолжить без требуемого разрешения</string>
     <string name="menu_search">Поиск</string>
     <string name="run_app">Запустить приложение</string>
@@ -63,4 +63,8 @@
     <string name="rate_cancel">Позже :/</string>
     <string name="non_launchable_package">Этот пакет нельзя запустить.</string>
     <string name="app_details">Показать детали</string>
+    <string name="install">Установить</string>
+    <string name="install_app">Установить приложение</string>
+    <string name="write_permission_install">Для установки новых приложений необходимо разрешить запись на диск</string>
+    <string name="version_update">%1$s (уст. %2$s)</string>
 </resources>

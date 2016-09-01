@@ -2,6 +2,7 @@ package com.tomclaw.appsend;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -43,7 +44,12 @@ public class AppItem extends RecyclerView.ViewHolder {
         }
         appIcon.setImageDrawable(info.getIcon());
         appName.setText(info.getLabel());
-        appVersion.setText(info.getVersion());
+        if (TextUtils.isEmpty(info.getInstalledVersion())) {
+            appVersion.setText(info.getVersion());
+        } else {
+            appVersion.setText(itemView.getResources().getString(
+                    R.string.version_update, info.getInstalledVersion(), info.getVersion()));
+        }
         if (info.getLastUpdateTime() > 0) {
             appUpdateTime.setVisibility(View.VISIBLE);
             appUpdateTime.setText(simpleDateFormat.format(info.getLastUpdateTime()));

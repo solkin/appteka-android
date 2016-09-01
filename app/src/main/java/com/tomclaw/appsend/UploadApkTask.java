@@ -1,10 +1,12 @@
 package com.tomclaw.appsend;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.*;
 import android.net.Uri;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 import org.json.JSONObject;
 
@@ -21,7 +23,7 @@ import cz.msebera.android.httpclient.util.EntityUtils;
 /**
  * Created by Igor on 06.05.2015.
  */
-public class UploadApkTask extends WeakObjectTask<MainActivity> {
+public class UploadApkTask extends WeakObjectTask<Activity> {
 
     public static final String USER_AGENT = "RGHost/1";
     private static final String API_KEY = "839d0e2975451be9f5a0f273713b5a42dc6b88e9";
@@ -36,7 +38,7 @@ public class UploadApkTask extends WeakObjectTask<MainActivity> {
     private long limit;
     private boolean overflow;
 
-    public UploadApkTask(MainActivity activity, AppInfo appInfo) {
+    public UploadApkTask(Activity activity, AppInfo appInfo) {
         super(activity);
         this.appInfo = appInfo;
         client = new DefaultHttpClient();
@@ -48,7 +50,7 @@ public class UploadApkTask extends WeakObjectTask<MainActivity> {
 
     @Override
     public void onPreExecuteMain() {
-        MainActivity activity = getWeakObject();
+        Activity activity = getWeakObject();
         if(activity != null) {
             dialog = new ProgressDialog(activity);
             // dialog.setTitle();
@@ -67,7 +69,7 @@ public class UploadApkTask extends WeakObjectTask<MainActivity> {
         String type = "application";
         String name = ExportApkTask.getApkName(appInfo);
         final long size = file.length();
-        final MainActivity activity = getWeakObject();
+        final Activity activity = getWeakObject();
         if(activity != null) {
             InputStream inputStream = activity.getContentResolver().openInputStream(uri);
             HttpGet get = new HttpGet();
@@ -166,7 +168,7 @@ public class UploadApkTask extends WeakObjectTask<MainActivity> {
 
     @Override
     public void onSuccessMain() {
-        final MainActivity activity = getWeakObject();
+        final Activity activity = getWeakObject();
         if(activity != null) {
             new AlertDialog.Builder(activity)
                     .setMessage(R.string.uploading_successful)
@@ -192,7 +194,7 @@ public class UploadApkTask extends WeakObjectTask<MainActivity> {
 
     @Override
     public void onFailMain(Throwable ex) {
-        MainActivity activity = getWeakObject();
+        Activity activity = getWeakObject();
         if(activity != null) {
             try {
                 throw ex;
@@ -207,7 +209,7 @@ public class UploadApkTask extends WeakObjectTask<MainActivity> {
 
     @Override
     public void onPostExecuteMain() {
-        MainActivity activity = getWeakObject();
+        Activity activity = getWeakObject();
         if(activity != null && dialog != null) {
             dialog.dismiss();
         }
