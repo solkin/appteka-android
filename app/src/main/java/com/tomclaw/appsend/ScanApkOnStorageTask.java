@@ -61,9 +61,13 @@ public class ScanApkOnStorageTask extends PleaseWaitTask {
                     String version = packageInfo.versionName;
 
                     String instVersion = null;
-                    PackageInfo instPackageInfo = packageManager.getPackageInfo(info.packageName, 0);
-                    if (instPackageInfo != null) {
-                        instVersion = instPackageInfo.versionName;
+                    try {
+                        PackageInfo instPackageInfo = packageManager.getPackageInfo(info.packageName, 0);
+                        if (instPackageInfo != null) {
+                            instVersion = instPackageInfo.versionName;
+                        }
+                    } catch (Throwable ignored) {
+                        // No package, maybe?
                     }
 
                     AppInfo appInfo = new AppInfo(icon, label, info.packageName,

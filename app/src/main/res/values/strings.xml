@@ -60,9 +60,9 @@
     <string name="run_app">Run application</string>
     <string name="rate_title">Rate this app</string>
     <string name="rate_message">Please, help us to develop the best tool! Rate AppSend in Google Play, this will take less than a 15 seconds! And you make us happy :)</string>
-    <string name="yes_rate">Rate :)</string>
-    <string name="no_thanks">No :(</string>
-    <string name="rate_cancel">Later :/</string>
+    <string name="yes_rate">Rate!</string>
+    <string name="no_thanks">No</string>
+    <string name="rate_cancel">Later</string>
     <string name="non_launchable_package">This package is not runnable.</string>
     <string name="app_details">Show details</string>
     <string name="install">Install</string>

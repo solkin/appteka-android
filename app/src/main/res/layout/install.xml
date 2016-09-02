@@ -14,17 +14,16 @@
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="6dp"
-            android:layout_marginRight="6dp"
-            android:layout_marginTop="6dp"
-            android:layout_marginBottom="6dp"
-            app:contentPadding="6dp"
+            android:layout_margin="6dp"
+            app:contentPadding="8dp"
             app:cardCornerRadius="2dp"
             app:cardElevation="@dimen/cardview_default_elevation">
             <TextView
                 android:id="@+id/install_help"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textColor="@color/text_secondary_color"
                 android:text="@string/install_screen_apk_found"/>
         </android.support.v7.widget.CardView>
         <android.support.v7.widget.RecyclerView

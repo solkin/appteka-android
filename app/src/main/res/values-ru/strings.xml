@@ -58,9 +58,9 @@
     <string name="run_app">Запустить приложение</string>
     <string name="rate_title">Вам нравится AppSend?</string>
     <string name="rate_message">Сделаем AppSend лучшим инструментом для работы с приложениями! Оцените, пожалуйста, AppSend в Google Play. Обещаем, это займёт не более 15 секунд. А нам будет очень приятно! :)</string>
-    <string name="yes_rate">Оценить :)</string>
-    <string name="no_thanks">Нет :(</string>
-    <string name="rate_cancel">Позже :/</string>
+    <string name="yes_rate">Оценить</string>
+    <string name="no_thanks">Нет</string>
+    <string name="rate_cancel">Позже</string>
     <string name="non_launchable_package">Этот пакет нельзя запустить.</string>
     <string name="app_details">Показать детали</string>
     <string name="install">Установить</string>

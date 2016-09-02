@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListAdapter;
 import android.widget.TextView;
@@ -60,6 +61,27 @@ public class InstallActivity extends AppCompatActivity {
         refreshAppList();
 
         Utils.setupTint(this);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.install_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home: {
+                finish();
+                break;
+            }
+            case R.id.refresh: {
+                refreshAppList();
+                break;
+            }
+        }
+        return true;
     }
 
     private void installApp(AppInfo appInfo) {
@@ -120,16 +142,5 @@ public class InstallActivity extends AppCompatActivity {
                         }
                     }
                 }).show();
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home: {
-                finish();
-                break;
-            }
-        }
-        return true;
     }
 }
