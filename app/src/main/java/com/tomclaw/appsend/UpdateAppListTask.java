@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by Solkin on 11.12.2014.
@@ -48,7 +49,7 @@ public class UpdateAppListTask extends PleaseWaitTask {
                         Intent launchIntent = packageManager.getLaunchIntentForPackage(info.packageName);
                         AppInfo appInfo = new AppInfo(icon, label, info.packageName,
                                 version, null, file.getPath(), file.length(), firstInstallTime,
-                                lastUpdateTime, launchIntent);
+                                lastUpdateTime, launchIntent, AppInfo.FLAG_INSTALLED_APP);
                         boolean isUserApp = ((info.flags & ApplicationInfo.FLAG_SYSTEM) != ApplicationInfo.FLAG_SYSTEM &&
                                 (info.flags & ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) != ApplicationInfo.FLAG_UPDATED_SYSTEM_APP);
                         if (isUserApp || PreferenceHelper.isShowSystemApps(activity)) {
@@ -98,6 +99,13 @@ public class UpdateAppListTask extends PleaseWaitTask {
                     }
                 });
             }
+            int count = Math.min(appInfoList.size(), 10);
+            Random random = new Random(System.currentTimeMillis());
+            int position = random.nextInt(count);
+            // Oh, this is ugly, very ugly decision... But I really want to sleep.
+            // TODO: Refactor me, please!
+            AppInfo donateItem = new AppInfo(null, null, null, null, null, null, -1, -1, -1, null, AppInfo.FLAG_DONATE_ITEM);
+            appInfoList.add(position, donateItem);
         }
     }
 

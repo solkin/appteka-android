@@ -71,7 +71,8 @@ public class ScanApkOnStorageTask extends PleaseWaitTask {
                     }
 
                     AppInfo appInfo = new AppInfo(icon, label, info.packageName,
-                            version, instVersion, file.getPath(), file.length(), 0, 0, null);
+                            version, instVersion, file.getPath(), file.length(), 0, 0, null,
+                            AppInfo.FLAG_APK_FILE);
                     appInfoList.add(appInfo);
                 }
             } catch (Throwable ignored) {

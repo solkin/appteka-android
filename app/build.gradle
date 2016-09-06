@@ -35,4 +35,5 @@ dependencies {
     compile 'com.greysonparrelli.permiso:permiso:0.2.0'
     compile 'io.github.kobakei:ratethisapp:1.0.5'
     compile 'net.hockeyapp.android:HockeySDK:4.0.0'
+    compile 'com.anjlab.android.iab.v3:library:1.0.32'
 }

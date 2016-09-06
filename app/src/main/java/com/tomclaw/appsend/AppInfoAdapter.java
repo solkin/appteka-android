@@ -9,13 +9,15 @@ import android.widget.Filter;
 import android.widget.Filterable;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
  * Created by Solkin on 10.12.2014.
  */
-public class AppInfoAdapter extends RecyclerView.Adapter<AppItem> implements Filterable {
+public class AppInfoAdapter extends RecyclerView.Adapter<AbstractAppItem> implements Filterable {
+
+    private static final int DONATE = 1;
+    private static final int APP = 2;
 
     private final List<AppInfo> appInfoList;
     private final List<AppInfo> originalInfoList;
@@ -40,20 +42,31 @@ public class AppInfoAdapter extends RecyclerView.Adapter<AppItem> implements Fil
     }
 
     @Override
-    public AppItem onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view = inflater.inflate(R.layout.app_item, viewGroup, false);
-        return new AppItem(view);
+    public AbstractAppItem onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+        if (viewType == APP) {
+            View view = inflater.inflate(R.layout.app_item, viewGroup, false);
+            return new AppItem(view);
+        } else {
+            View view = inflater.inflate(R.layout.donate_item, viewGroup, false);
+            return new DonateItem(view);
+        }
     }
 
     @Override
-    public void onBindViewHolder(AppItem appItem, int i) {
-        AppInfo appInfo = appInfoList.get(i);
+    public void onBindViewHolder(AbstractAppItem appItem, int position) {
+        AppInfo appInfo = appInfoList.get(position);
         appItem.bind(context, appInfo, listener);
     }
 
     @Override
     public long getItemId(int position) {
         return position;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        boolean donateItem = (appInfoList.get(position).getFlags() & AppInfo.FLAG_DONATE_ITEM) == AppInfo.FLAG_DONATE_ITEM;
+        return donateItem ? DONATE : APP;
     }
 
     @Override
@@ -81,10 +94,12 @@ public class AppInfoAdapter extends RecyclerView.Adapter<AppItem> implements Fil
             }
 
             @Override
-            @SuppressWarnings("uncheked")
+            @SuppressWarnings("unchecked")
             protected void publishResults(CharSequence constraint, FilterResults results) {
                 appInfoList.clear();
-                appInfoList.addAll((List<AppInfo>) results.values);
+                if (results.count > 0) {
+                    appInfoList.addAll((List<AppInfo>) results.values);
+                }
                 notifyDataSetChanged();
             }
         };
@@ -93,7 +108,9 @@ public class AppInfoAdapter extends RecyclerView.Adapter<AppItem> implements Fil
     private List<AppInfo> filterApps(String query) {
         List<AppInfo> filtered = new ArrayList<>();
         for (AppInfo appInfo : originalInfoList) {
-            if (appInfo.getLabel().toLowerCase().contains(query) ||
+            // TODO: This code needs rather more polymorphism... But I very need for sleep.
+            boolean donateItem = (appInfo.getFlags() & AppInfo.FLAG_DONATE_ITEM) == AppInfo.FLAG_DONATE_ITEM;
+            if (donateItem || appInfo.getLabel().toLowerCase().contains(query) ||
                     appInfo.getPackageName().toLowerCase().contains(query)) {
                 filtered.add(appInfo);
             }

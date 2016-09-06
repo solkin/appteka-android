@@ -3,6 +3,7 @@
           package="com.tomclaw.appsend">
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="com.android.vending.BILLING" />
     <application android:label="@string/app_name" android:icon="@drawable/ic_launcher"
                  android:theme="@style/Theme.Light">
         <meta-data android:name="net.hockeyapp.android.appIdentifier" android:value="${HOCKEYAPP_APP_ID}" />
@@ -19,5 +20,7 @@
                 android:label="@string/settings"/>
         <activity android:name="com.tomclaw.appsend.InstallActivity"
             android:label="@string/install"/>
+        <activity android:name="com.tomclaw.appsend.DonateActivity"
+            android:label="@string/donate"/>
     </application>
 </manifest>

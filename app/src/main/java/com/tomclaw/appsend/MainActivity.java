@@ -14,7 +14,9 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.view.*;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ListAdapter;
 
@@ -57,7 +59,12 @@ public class MainActivity extends PermisoActivity {
         listener = new AppInfoAdapter.AppItemClickListener() {
             @Override
             public void onItemClicked(final AppInfo appInfo) {
-                checkPermissionsForExtract(appInfo);
+                boolean donateItem = (appInfo.getFlags() & AppInfo.FLAG_DONATE_ITEM) == AppInfo.FLAG_DONATE_ITEM;
+                if (donateItem) {
+                    showDonateDialog();
+                } else {
+                    checkPermissionsForExtract(appInfo);
+                }
             }
         };
 
@@ -175,6 +182,10 @@ public class MainActivity extends PermisoActivity {
                         }
                     }
                 }).show();
+    }
+
+    private void showDonateDialog() {
+        startActivity(new Intent(this, DonateActivity.class));
     }
 
     private void checkPermissionsForExtract(final AppInfo appInfo) {

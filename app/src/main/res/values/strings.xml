@@ -71,4 +71,9 @@
     <string name="version_update">%1$s → %2$s</string>
     <string name="install_screen_apk_found">In the list bottom you can see list of found APK diles on your device. You can install, delete it or make some other useful actions.</string>
     <string name="install_screen_no_apk_found">On this screen shows found on your device APK files, that you may install. But for now you have no at least one APK file.</string>
+    <string name="donate">Donate</string>
+    <string name="donate_title">Treat developer!</string>
+    <string name="donate_description">And he continues to make cool updates :)</string>
+    <string name="donate_button">Chocolate</string>
+    <string name="purchase_error">Error while donating. Try again, please.</string>
 </resources>

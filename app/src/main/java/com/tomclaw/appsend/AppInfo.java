@@ -8,20 +8,26 @@ import android.graphics.drawable.Drawable;
  */
 public class AppInfo {
 
-    private Drawable icon;
-    private String label;
-    private String packageName;
-    private String version;
-    private String instVersion;
-    private String path;
-    private long size;
-    private long firstInstallTime;
-    private long lastUpdateTime;
-    private Intent launchIntent;
+    public static final int FLAG_INSTALLED_APP = 0x0001;
+    public static final int FLAG_APK_FILE = 0x0010;
+    public static final int FLAG_DONATE_ITEM = 0x0100;
+
+    private final Drawable icon;
+    private final String label;
+    private final String packageName;
+    private final String version;
+    private final String instVersion;
+    private final String path;
+    private final long size;
+    private final long firstInstallTime;
+    private final long lastUpdateTime;
+    private final Intent launchIntent;
+    private final int flags;
 
     public AppInfo(Drawable icon, String label, String packageName,
                    String version, String instVersion, String path, long size,
-                   long firstInstallTime, long lastUpdateTime, Intent launchIntent) {
+                   long firstInstallTime, long lastUpdateTime, Intent launchIntent,
+                   int flags) {
         this.icon = icon;
         this.label = label;
         this.packageName = packageName;
@@ -32,6 +38,7 @@ public class AppInfo {
         this.firstInstallTime = firstInstallTime;
         this.lastUpdateTime = lastUpdateTime;
         this.launchIntent = launchIntent;
+        this.flags = flags;
     }
 
     public Drawable getIcon() {
@@ -72,5 +79,9 @@ public class AppInfo {
 
     public Intent getLaunchIntent() {
         return launchIntent;
+    }
+
+    public int getFlags() {
+        return flags;
     }
 }

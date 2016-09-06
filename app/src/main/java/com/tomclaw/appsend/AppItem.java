@@ -12,7 +12,7 @@ import java.text.SimpleDateFormat;
 /**
  * Created by Solkin on 10.12.2014.
  */
-public class AppItem extends RecyclerView.ViewHolder {
+public class AppItem extends AbstractAppItem {
 
     private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yy");
 
