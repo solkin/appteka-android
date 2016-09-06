@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="license_key">MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhpimQChSzelRS9dWwrDEbTB8jVLMa9RzXoWAtav5TU0Q+VFM134TO0C0+OxsLMtkqled5r2w1jIuZutq6DVatoPAeSo+TlcSzThRbCYLz+FYdV8XHshAy3w1r8S6DK4vFaKzbYbYc3nXuQrZRExlLmduTJKXHta6nml0G5hwGYrBmS9o2/T/jMc3ZyJF+HbDbvOFcnxiDasC8R6EFL5tt6/SJa67bdCIHEYEeBkGRhDBiNtcQd/FoM3B3VQwFrSKDjsjGyA6+k/hNN5EIWC/dVoMPvsS0ZF4vP03zv32lMmrFFEgPZdtc+k1nBVu640Ph+686zHvu8dsd4JUr3PnjwIDAQAB</string>
-    <string name="chocolate_id">chocolate</string>
+    <string name="license_key" translatable="false">MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAhpimQChSzelRS9dWwrDEbTB8jVLMa9RzXoWAtav5TU0Q+VFM134TO0C0+OxsLMtkqled5r2w1jIuZutq6DVatoPAeSo+TlcSzThRbCYLz+FYdV8XHshAy3w1r8S6DK4vFaKzbYbYc3nXuQrZRExlLmduTJKXHta6nml0G5hwGYrBmS9o2/T/jMc3ZyJF+HbDbvOFcnxiDasC8R6EFL5tt6/SJa67bdCIHEYEeBkGRhDBiNtcQd/FoM3B3VQwFrSKDjsjGyA6+k/hNN5EIWC/dVoMPvsS0ZF4vP03zv32lMmrFFEgPZdtc+k1nBVu640Ph+686zHvu8dsd4JUr3PnjwIDAQAB</string>
+    <string name="chocolate_id" translatable="false">chocolate</string>
 </resources>
