@@ -76,4 +76,5 @@
     <string name="donate_description">And he continues to make cool updates :)</string>
     <string name="donate_button">Chocolate</string>
     <string name="purchase_error">Error while donating. Try again, please.</string>
+    <string name="chocolate">Chocolate</string>
 </resources>

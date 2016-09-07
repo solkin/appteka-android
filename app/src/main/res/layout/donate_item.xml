@@ -25,7 +25,7 @@
             android:layout_height="52dp"
             android:id="@+id/app_icon"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/hot_drink"/>
+            android:src="@drawable/chocolate"/>
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -34,22 +34,39 @@
             android:gravity="center_vertical"
             android:paddingLeft="10dp"
             android:paddingRight="0dp">
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/donate_title"
-                android:lines="1"
-                android:textStyle="bold"
-                android:textColor="@color/text_primary_color"
-                android:text="@string/donate_title"
-                android:textSize="17sp"/>
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/app_name"
+                    android:layout_gravity="left|center_vertical"
+                    android:lines="1"
+                    android:text="@string/chocolate"
+                    android:textStyle="bold"
+                    android:textColor="@color/text_primary_color"
+                    android:textSize="17sp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:id="@+id/app_version"
+                    android:layout_gravity="left|center_vertical"
+                    android:lines="1"
+                    android:text="1.0"
+                    android:textSize="17sp"
+                    android:textColor="@color/text_secondary_color"
+                    android:fontFamily="sans-serif-thin"/>
+            </LinearLayout>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/donate_description"
                 android:layout_gravity="left|center_vertical"
                 android:lines="1"
-                android:text="@string/donate_description"
+                android:text="@string/donate_title"
                 android:textSize="15sp"
                 android:textColor="@color/text_secondary_color"
                 android:scrollHorizontally="true"
