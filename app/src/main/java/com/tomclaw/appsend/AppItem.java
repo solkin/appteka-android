@@ -1,15 +1,15 @@
 package com.tomclaw.appsend;
 
 import android.content.Context;
-import android.os.Build;
-import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
+import java.util.concurrent.TimeUnit;
+
+import jp.shts.android.library.TriangleLabelView;
 
 /**
  * Created by Solkin on 10.12.2014.
@@ -24,6 +24,7 @@ public class AppItem extends AbstractAppItem {
     private TextView appVersion;
     private TextView appUpdateTime;
     private TextView appSize;
+    private TriangleLabelView badgeNew;
 
     public AppItem(View itemView) {
         super(itemView);
@@ -33,6 +34,7 @@ public class AppItem extends AbstractAppItem {
         appVersion = (TextView) itemView.findViewById(R.id.app_version);
         appUpdateTime = (TextView) itemView.findViewById(R.id.app_update_time);
         appSize = (TextView) itemView.findViewById(R.id.app_size);
+        badgeNew = (TriangleLabelView) itemView.findViewById(R.id.badge_new);
     }
 
     public void bind(Context context, final AppInfo info, final AppInfoAdapter.AppItemClickListener listener) {
@@ -59,5 +61,9 @@ public class AppItem extends AbstractAppItem {
             appUpdateTime.setVisibility(View.GONE);
         }
         appSize.setText(FileHelper.formatBytes(context.getResources(), info.getSize()));
+
+        long appInstallDelay = System.currentTimeMillis() - info.getFirstInstallTime();
+        boolean isNewApp = appInstallDelay > 0 && appInstallDelay < TimeUnit.DAYS.toMillis(1);
+        badgeNew.setVisibility(isNewApp ? View.VISIBLE : View.GONE);
     }
 }

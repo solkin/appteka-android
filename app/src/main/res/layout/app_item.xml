@@ -8,12 +8,32 @@
     android:layout_marginRight="6dp"
     android:layout_marginTop="6dp"
     android:layout_marginBottom="0dp"
-    app:contentPadding="6dp"
     app:cardCornerRadius="2dp"
     app:cardElevation="@dimen/cardview_default_elevation"
     android:background="?android:attr/selectableItemBackground"
     android:foreground="?android:attr/selectableItemBackground"
     android:clickable="true">
+
+    <jp.shts.android.library.TriangleLabelView
+        android:id="@+id/badge_new"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        app:backgroundColor="@color/badge_color"
+        app:corner="rightTop"
+        app:labelBottomPadding="5dp"
+        app:labelCenterPadding="0dp"
+        app:labelTopPadding="14dp"
+        app:primaryText="New"
+        app:primaryTextColor="@android:color/white"
+        app:primaryTextSize="12sp"
+        app:secondaryTextColor="@android:color/white"
+        app:secondaryTextSize="11sp" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="6dp">
 
     <LinearLayout
         android:id="@+id/buddy_container"
@@ -101,4 +121,5 @@
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
+    </FrameLayout>
 </android.support.v7.widget.CardView>

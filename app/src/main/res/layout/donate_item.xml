@@ -9,78 +9,98 @@
     android:layout_marginTop="6dp"
     android:layout_marginBottom="0dp"
     app:cardBackgroundColor="@color/donate_card_background"
-    app:contentPadding="6dp"
     app:cardCornerRadius="2dp"
     app:cardElevation="@dimen/cardview_default_elevation"
     android:background="?android:attr/selectableItemBackground"
     android:foreground="?android:attr/selectableItemBackground"
     android:clickable="true">
 
-    <LinearLayout
-        android:id="@+id/buddy_container"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
+    <jp.shts.android.library.TriangleLabelView
+        android:id="@+id/badge_new"
         android:layout_width="match_parent"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:layout_gravity="end"
+        app:backgroundColor="@color/badge_color"
+        app:corner="rightTop"
+        app:labelBottomPadding="5dp"
+        app:labelCenterPadding="0dp"
+        app:labelTopPadding="14dp"
+        app:primaryText="New"
+        app:primaryTextColor="@android:color/white"
+        app:primaryTextSize="12sp"
+        app:secondaryTextColor="@android:color/white"
+        app:secondaryTextSize="11sp" />
 
-        <ImageView
-            android:layout_width="52dp"
-            android:layout_height="52dp"
-            android:id="@+id/app_icon"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/chocolate" />
-
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="6dp">
         <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
+            android:id="@+id/buddy_container"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:gravity="center_vertical"
-            android:paddingLeft="10dp"
-            android:paddingRight="0dp">
+            android:layout_weight="1"
+            android:layout_width="match_parent"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="52dp"
+                android:layout_height="52dp"
+                android:id="@+id/app_icon"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/chocolate" />
 
             <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:paddingRight="0dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/app_name"
+                        android:layout_gravity="left|center_vertical"
+                        android:lines="1"
+                        android:text="@string/chocolate"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_primary_color"
+                        android:textSize="17sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="4dp"
+                        android:id="@+id/app_version"
+                        android:layout_gravity="left|center_vertical"
+                        android:lines="1"
+                        android:text="1.0"
+                        android:textSize="17sp"
+                        android:textColor="@color/text_secondary_color"
+                        android:fontFamily="sans-serif-thin" />
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/app_name"
+                    android:id="@+id/donate_description"
                     android:layout_gravity="left|center_vertical"
                     android:lines="1"
-                    android:text="@string/chocolate"
-                    android:textStyle="bold"
-                    android:textColor="@color/text_primary_color"
-                    android:textSize="17sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="4dp"
-                    android:id="@+id/app_version"
-                    android:layout_gravity="left|center_vertical"
-                    android:lines="1"
-                    android:text="1.0"
-                    android:textSize="17sp"
+                    android:text="@string/donate_title"
+                    android:textSize="15sp"
                     android:textColor="@color/text_secondary_color"
-                    android:fontFamily="sans-serif-thin" />
+                    android:scrollHorizontally="true"
+                    android:ellipsize="marquee"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:fontFamily="sans-serif" />
             </LinearLayout>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/donate_description"
-                android:layout_gravity="left|center_vertical"
-                android:lines="1"
-                android:text="@string/donate_title"
-                android:textSize="15sp"
-                android:textColor="@color/text_secondary_color"
-                android:scrollHorizontally="true"
-                android:ellipsize="marquee"
-                android:marqueeRepeatLimit="marquee_forever"
-                android:fontFamily="sans-serif" />
         </LinearLayout>
-    </LinearLayout>
+    </FrameLayout>
 </android.support.v7.widget.CardView>
