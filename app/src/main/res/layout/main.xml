@@ -1,32 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
+
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        android:clipToPadding="false">
+        android:layout_height="match_parent">
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/apps_list_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingBottom="92dp"
             android:clipToPadding="false"
-            android:scrollbars="vertical"
-            android:scrollbarStyle="outsideOverlay"/>
+            android:paddingBottom="92dp"
+            android:scrollbarStyle="outsideOverlay"
+            android:scrollbars="vertical" />
+
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_get_app_white_24dp"
             android:layout_gravity="bottom|end"
-            android:layout_marginRight="18dp"
             android:layout_marginBottom="22dp"
+            android:layout_marginRight="18dp"
+            android:src="@drawable/ic_get_app_white_24dp"
             app:elevation="4dp"
-            app:pressedTranslationZ="12dp"
-            app:fabSize="normal"/>
+            app:fabSize="normal"
+            app:pressedTranslationZ="12dp" />
     </FrameLayout>
-</FrameLayout>
+</LinearLayout>
 

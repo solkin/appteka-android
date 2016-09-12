@@ -14,6 +14,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +25,7 @@ import com.anjlab.android.iab.v3.BillingProcessor;
 import com.anjlab.android.iab.v3.TransactionDetails;
 import com.greysonparrelli.permiso.Permiso;
 import com.greysonparrelli.permiso.PermisoActivity;
+import com.jaeger.library.StatusBarUtil;
 import com.kobakei.ratethisapp.RateThisApp;
 
 import net.hockeyapp.android.CrashManager;
@@ -53,6 +55,8 @@ public class MainActivity extends PermisoActivity implements BillingProcessor.IB
 
         setContentView(R.layout.main);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         getSupportActionBar().setIcon(R.drawable.ic_logo_ab);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
@@ -108,7 +112,8 @@ public class MainActivity extends PermisoActivity implements BillingProcessor.IB
 
         refreshAppList();
 
-        Utils.setupTint(this);
+        int color = getResources().getColor(R.color.action_bar_color);
+        StatusBarUtil.setColor(this, color);
 
         // Custom criteria: 7 days and 10 launches
         RateThisApp.Config config = new RateThisApp.Config(7, 10);
@@ -242,6 +247,14 @@ public class MainActivity extends PermisoActivity implements BillingProcessor.IB
 
     private void refreshAppList() {
         TaskExecutor.getInstance().execute(new UpdateAppListTask(this));
+    }
+
+    @Override
+    public void onDestroy() {
+        if (bp != null) {
+            bp.release();
+        }
+        super.onDestroy();
     }
 
     @Override

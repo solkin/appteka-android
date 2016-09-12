@@ -5,12 +5,15 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import com.anjlab.android.iab.v3.BillingProcessor;
 import com.anjlab.android.iab.v3.Constants;
 import com.anjlab.android.iab.v3.TransactionDetails;
+import com.jaeger.library.StatusBarUtil;
 
 /**
  * Created by ivsolkin on 06.09.16.
@@ -32,6 +35,9 @@ public class DonateActivity extends AppCompatActivity implements BillingProcesso
 
         rootView = findViewById(R.id.root_view);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setBackgroundColor(getResources().getColor(R.color.chocolate_color));
+        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -44,7 +50,8 @@ public class DonateActivity extends AppCompatActivity implements BillingProcesso
             }
         });
 
-        Utils.setupTint(this);
+        int color = getResources().getColor(R.color.chocolate_color);
+        StatusBarUtil.setColor(this, color);
     }
 
     private void onChocolateClicked() {
@@ -80,6 +87,7 @@ public class DonateActivity extends AppCompatActivity implements BillingProcesso
 
     @Override
     public void onProductPurchased(String productId, TransactionDetails details) {
+        Toast.makeText(this, R.string.thank_you, Toast.LENGTH_LONG).show();
         finish();
     }
 

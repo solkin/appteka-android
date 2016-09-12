@@ -7,8 +7,11 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.MenuItem;
+
+import com.jaeger.library.StatusBarUtil;
 
 /**
  * Created with IntelliJ IDEA.
@@ -29,6 +32,9 @@ public class SettingsActivity extends ActionBarActivity {
 
         setContentView(R.layout.settings_activity);
 
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
         listener = new OnSettingsChangedListener();
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         preferences.registerOnSharedPreferenceChangeListener(listener);
@@ -42,7 +48,8 @@ public class SettingsActivity extends ActionBarActivity {
                 .replace(R.id.content, settingsFragment)
                 .commit();
 
-        Utils.setupTint(this);
+        int color = getResources().getColor(R.color.action_bar_color);
+        StatusBarUtil.setColor(this, color);
     }
 
     @Override

@@ -1,31 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<android.support.v7.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="6dp"
     android:layout_marginRight="6dp"
-    android:layout_marginTop="3dp"
-    android:layout_marginBottom="3dp"
+    android:layout_marginTop="6dp"
+    android:layout_marginBottom="0dp"
+    app:cardBackgroundColor="@color/donate_card_background"
     app:contentPadding="6dp"
     app:cardCornerRadius="2dp"
     app:cardElevation="@dimen/cardview_default_elevation"
     android:background="?android:attr/selectableItemBackground"
     android:foreground="?android:attr/selectableItemBackground"
     android:clickable="true">
-    <LinearLayout android:id="@+id/buddy_container"
+
+    <LinearLayout
+        android:id="@+id/buddy_container"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:layout_width="match_parent"
         android:orientation="horizontal">
+
         <ImageView
             android:layout_width="52dp"
             android:layout_height="52dp"
             android:id="@+id/app_icon"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/chocolate"/>
+            android:src="@drawable/chocolate" />
+
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
@@ -34,10 +38,12 @@
             android:gravity="center_vertical"
             android:paddingLeft="10dp"
             android:paddingRight="0dp">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -47,7 +53,8 @@
                     android:text="@string/chocolate"
                     android:textStyle="bold"
                     android:textColor="@color/text_primary_color"
-                    android:textSize="17sp"/>
+                    android:textSize="17sp" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -58,8 +65,9 @@
                     android:text="1.0"
                     android:textSize="17sp"
                     android:textColor="@color/text_secondary_color"
-                    android:fontFamily="sans-serif-thin"/>
+                    android:fontFamily="sans-serif-thin" />
             </LinearLayout>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -72,7 +80,7 @@
                 android:scrollHorizontally="true"
                 android:ellipsize="marquee"
                 android:marqueeRepeatLimit="marquee_forever"
-                android:fontFamily="sans-serif"/>
+                android:fontFamily="sans-serif" />
         </LinearLayout>
     </LinearLayout>
 </android.support.v7.widget.CardView>

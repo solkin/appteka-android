@@ -1,27 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:tools="http://schemas.android.com/tools"
-           xmlns:android="http://schemas.android.com/apk/res/android">
+<resources>
 
-    <color name="accent_color">#455A64</color>
-    <color name="primary_color">#00838F</color>
-    <color name="primary_dark_color">#006064</color>
+    <color name="accent_color">#005c4a</color>
+    <color name="primary_color">#00575c</color>
+    <color name="primary_dark_color">#002729</color>
 
     <color name="text_primary_color">#00000E</color>
     <color name="text_secondary_color">#4e4e4e</color>
 
     <color name="action_bar_color">@color/primary_color</color>
 
-    <style name="ActionBar.Dark" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+    <color name="chocolate_color">#d3691f</color>
+    <color name="chocolate_dark_color">#A03600</color>
+    <color name="donate_card_background">#f0f0f0</color>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="colorAccent">@color/accent_color</item>
         <item name="colorPrimary">@color/primary_color</item>
         <item name="colorPrimaryDark">@color/primary_dark_color</item>
-
-        <item name="android:background" tools:ignore="NewApi">@color/action_bar_color</item>
-        <item name="background">@color/action_bar_color</item>
     </style>
 
-    <style name="Theme.Light" parent="@style/Theme.AppCompat.Light.DarkActionBar">
-        <item name="android:actionBarStyle" tools:ignore="NewApi">@style/ActionBar.Dark</item>
-        <item name="actionBarStyle">@style/ActionBar.Dark</item>
+    <style name="AppTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

@@ -1,61 +1,86 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:fitsSystemWindows="true"
-              android:clipToPadding="false">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
     <LinearLayout
+        android:id="@+id/root_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/toolbar" />
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:orientation="vertical"
-            android:gravity="center">
-        <ImageView
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:src="@drawable/ic_launcher"/>
-        <TextView
+                android:src="@mipmap/ic_launcher" />
+
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/app_name"
-                android:textSize="20sp"
                 android:fontFamily="sans-serif-light"
-                android:gravity="center_horizontal"/>
-        <TextView
+                android:gravity="center_horizontal"
+                android:text="@string/app_name"
+                android:textSize="20sp" />
+
+            <TextView
                 android:id="@+id/app_version"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="12sp"
                 android:fontFamily="sans-serif-light"
-                android:gravity="center_horizontal"/>
-        <TextView
+                android:gravity="center_horizontal"
+                android:textSize="12sp" />
+
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center_horizontal"
                 android:paddingTop="6dp"
                 android:text="@string/tomclaw_software"
-                android:textSize="14sp"
-                android:fontFamily="sans-serif-light"
-                android:gravity="center_horizontal"/>
-    </LinearLayout>
-    <LinearLayout
+                android:textSize="14sp" />
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-        <Button android:id="@+id/rate_app"
+
+            <Button
+                android:id="@+id/present_chocolate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
-                android:text="@string/rate_app"/>
-        <Button android:id="@+id/all_apps"
+                android:text="@string/donate_button" />
+
+            <Button
+                android:id="@+id/rate_app"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
                 android:layout_marginBottom="2dp"
-                android:text="@string/all_apps"/>
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:text="@string/rate_app" />
+
+            <Button
+                android:id="@+id/all_apps"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:text="@string/all_apps" />
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</FrameLayout>

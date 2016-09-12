@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:clipToPadding="false">
+    android:orientation="vertical">
+
+    <include layout="@layout/toolbar" />
 
     <LinearLayout
         android:id="@+id/root_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:padding="12dp"
         android:orientation="vertical"
-        android:gravity="center_horizontal">
+        android:gravity="center">
 
         <ImageView
             android:layout_width="128dp"
             android:layout_height="128dp"
-            android:src="@drawable/chocolate"/>
+            android:src="@drawable/chocolate" />
 
         <TextView
             android:layout_width="match_parent"
@@ -28,7 +29,7 @@
             android:textColor="@color/text_primary_color"
             android:textStyle="bold"
             android:textSize="16sp"
-            android:text="@string/donate_title"/>
+            android:text="@string/donate_title" />
 
         <TextView
             android:layout_width="match_parent"
@@ -38,14 +39,14 @@
             android:gravity="center_horizontal"
             android:textColor="@color/text_secondary_color"
             android:textSize="14sp"
-            android:text="@string/donate_description"/>
+            android:text="@string/donate_description" />
 
         <Button
             android:id="@+id/donate_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/donate_button"/>
+            android:text="@string/donate_button" />
 
     </LinearLayout>
 
-</FrameLayout>
+</LinearLayout>
