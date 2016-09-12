@@ -20,6 +20,8 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ListAdapter;
 
+import com.anjlab.android.iab.v3.BillingProcessor;
+import com.anjlab.android.iab.v3.TransactionDetails;
 import com.greysonparrelli.permiso.Permiso;
 import com.greysonparrelli.permiso.PermisoActivity;
 import com.kobakei.ratethisapp.RateThisApp;
@@ -29,7 +31,7 @@ import net.hockeyapp.android.metrics.MetricsManager;
 
 import java.util.List;
 
-public class MainActivity extends PermisoActivity {
+public class MainActivity extends PermisoActivity implements BillingProcessor.IBillingHandler {
 
     private static final int REQUEST_UPDATE_SETTINGS = 6;
     private RecyclerView listView;
@@ -37,6 +39,7 @@ public class MainActivity extends PermisoActivity {
     private AppInfoAdapter.AppItemClickListener listener;
     private SearchView.OnQueryTextListener onQueryTextListener;
     private boolean isRefreshOnResume = false;
+    private BillingProcessor bp;
 
     /**
      * Called when the activity is first created.
@@ -44,6 +47,10 @@ public class MainActivity extends PermisoActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        String licenseKey = getString(R.string.license_key);
+        bp = new BillingProcessor(this, licenseKey, this);
+
         setContentView(R.layout.main);
 
         getSupportActionBar().setIcon(R.drawable.ic_logo_ab);
@@ -298,11 +305,37 @@ public class MainActivity extends PermisoActivity {
     }
 
     public void setAppInfoList(List<AppInfo> appInfoList) {
+        if (bp.loadOwnedPurchasesFromGoogle() &&
+                bp.isPurchased(getString(R.string.chocolate_id))) {
+            for (AppInfo appInfo : appInfoList) {
+                boolean donateItem = (appInfo.getFlags() & AppInfo.FLAG_DONATE_ITEM) == AppInfo.FLAG_DONATE_ITEM;
+                if (donateItem) {
+                    appInfoList.remove(appInfo);
+                    break;
+                }
+            }
+        }
         adapter.setAppInfoList(appInfoList);
         adapter.notifyDataSetChanged();
     }
 
     private void checkForCrashes() {
         CrashManager.register(this);
+    }
+
+    @Override
+    public void onProductPurchased(String productId, TransactionDetails details) {
+    }
+
+    @Override
+    public void onPurchaseHistoryRestored() {
+    }
+
+    @Override
+    public void onBillingError(int errorCode, Throwable error) {
+    }
+
+    @Override
+    public void onBillingInitialized() {
     }
 }

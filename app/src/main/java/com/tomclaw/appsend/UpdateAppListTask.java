@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.TextUtils;
@@ -99,7 +98,7 @@ public class UpdateAppListTask extends PleaseWaitTask {
                     }
                 });
             }
-            int count = Math.min(appInfoList.size(), 10);
+            int count = Math.min(appInfoList.size(), 8);
             Random random = new Random(System.currentTimeMillis());
             int position = random.nextInt(count);
             // Oh, this is ugly, very ugly decision... But I really want to sleep.

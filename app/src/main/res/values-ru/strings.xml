@@ -72,7 +72,7 @@
     <string name="donate">Помощь проекту</string>
     <string name="donate_title">Угостите разработчика!</string>
     <string name="donate_description">И он продолжит радовать обновлениями :)</string>
-    <string name="donate_button">Chocolate</string>
+    <string name="donate_button">Подарить шоколадку</string>
     <string name="purchase_error">Произошёл сбой. Попробуйте ещё раз, пожалуйста.</string>
     <string name="chocolate">Шоколадка</string>
 </resources>
