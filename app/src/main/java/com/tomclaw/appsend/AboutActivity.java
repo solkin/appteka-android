@@ -37,6 +37,7 @@ public class AboutActivity extends AppCompatActivity implements BillingProcessor
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ThemeHelper.updateTheme(this);
         super.onCreate(savedInstanceState);
 
         String licenseKey = getString(R.string.license_key);

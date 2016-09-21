@@ -12,12 +12,12 @@
         android:layout_height="wrap_content"
         android:paddingLeft="8dp"
         android:paddingRight="16dp"
-        android:tint="@color/text_secondary_color" />
+        android:tint="?text_secondary_color" />
 
     <TextView
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="16sp"
-        android:textColor="@color/text_primary_color" />
+        android:textColor="?text_primary_color" />
 </LinearLayout>

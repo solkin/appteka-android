@@ -26,6 +26,7 @@ public class DonateActivity extends AppCompatActivity implements BillingProcesso
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        ThemeHelper.updateTheme(this);
         super.onCreate(savedInstanceState);
 
         String licenseKey = getString(R.string.license_key);

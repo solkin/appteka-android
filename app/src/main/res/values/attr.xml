@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="text_primary_color" format="color|reference"/>
+    <attr name="text_secondary_color" format="color|reference"/>
+    <attr name="donate_card_background" format="color|reference"/>
+    <attr name="cardViewStyle" format="reference" />
+</resources>

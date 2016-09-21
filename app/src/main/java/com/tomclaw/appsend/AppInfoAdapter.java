@@ -18,6 +18,7 @@ public class AppInfoAdapter extends RecyclerView.Adapter<AbstractAppItem> implem
 
     private static final int DONATE = 1;
     private static final int APP = 2;
+    private static final int APK = 3;
 
     private final List<AppInfo> appInfoList;
     private final List<AppInfo> originalInfoList;
@@ -46,6 +47,9 @@ public class AppInfoAdapter extends RecyclerView.Adapter<AbstractAppItem> implem
         if (viewType == APP) {
             View view = inflater.inflate(R.layout.app_item, viewGroup, false);
             return new AppItem(view);
+        } else if (viewType == APK) {
+            View view = inflater.inflate(R.layout.apk_item, viewGroup, false);
+            return new ApkItem(view);
         } else {
             View view = inflater.inflate(R.layout.donate_item, viewGroup, false);
             return new DonateItem(view);
@@ -66,7 +70,11 @@ public class AppInfoAdapter extends RecyclerView.Adapter<AbstractAppItem> implem
     @Override
     public int getItemViewType(int position) {
         boolean donateItem = (appInfoList.get(position).getFlags() & AppInfo.FLAG_DONATE_ITEM) == AppInfo.FLAG_DONATE_ITEM;
-        return donateItem ? DONATE : APP;
+        if (donateItem) {
+            return DONATE;
+        }
+        boolean apkItem = (appInfoList.get(position).getFlags() & AppInfo.FLAG_APK_FILE) == AppInfo.FLAG_APK_FILE;
+        return apkItem ? APK : APP;
     }
 
     @Override
@@ -118,7 +126,7 @@ public class AppInfoAdapter extends RecyclerView.Adapter<AbstractAppItem> implem
         return filtered;
     }
 
-    public interface AppItemClickListener {
+    interface AppItemClickListener {
         void onItemClicked(AppInfo appInfo);
     }
 }

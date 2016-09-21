@@ -2,13 +2,14 @@
 
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="?cardViewStyle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="6dp"
     android:layout_marginRight="6dp"
     android:layout_marginTop="6dp"
     android:layout_marginBottom="0dp"
-    app:cardBackgroundColor="@color/donate_card_background"
+    app:cardBackgroundColor="?donate_card_background"
     app:cardCornerRadius="2dp"
     app:cardElevation="@dimen/cardview_default_elevation"
     android:background="?android:attr/selectableItemBackground"
@@ -71,7 +72,7 @@
                         android:lines="1"
                         android:text="@string/chocolate"
                         android:textStyle="bold"
-                        android:textColor="@color/text_primary_color"
+                        android:textColor="?text_primary_color"
                         android:textSize="17sp" />
 
                     <TextView
@@ -83,7 +84,7 @@
                         android:lines="1"
                         android:text="1.0"
                         android:textSize="17sp"
-                        android:textColor="@color/text_secondary_color"
+                        android:textColor="?text_secondary_color"
                         android:fontFamily="sans-serif-thin" />
                 </LinearLayout>
 
@@ -95,7 +96,7 @@
                     android:lines="1"
                     android:text="@string/donate_title"
                     android:textSize="15sp"
-                    android:textColor="@color/text_secondary_color"
+                    android:textColor="?text_secondary_color"
                     android:scrollHorizontally="true"
                     android:ellipsize="marquee"
                     android:marqueeRepeatLimit="marquee_forever"

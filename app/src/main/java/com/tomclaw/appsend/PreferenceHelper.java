@@ -11,6 +11,10 @@ import android.content.SharedPreferences;
  */
 public class PreferenceHelper {
 
+    public static boolean isDarkTheme(Context context) {
+        return getBooleanPreference(context, R.string.pref_dark_theme, R.bool.pref_dark_theme_default);
+    }
+
     public static boolean isShowSystemApps(Context context) {
         return getBooleanPreference(context, R.string.pref_show_system, R.bool.pref_show_system_default);
     }

@@ -1,5 +1,6 @@
 package com.tomclaw.appsend;
 
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -28,6 +29,7 @@ public class SettingsActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        ThemeHelper.updateTheme(this);
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.settings_activity);
@@ -84,6 +86,11 @@ public class SettingsActivity extends ActionBarActivity {
                     alertDialog.show();
                 }
                 setResult(RESULT_UPDATE);
+            } else if (TextUtils.equals(key, getString(R.string.pref_dark_theme))) {
+                Intent intent = getIntent().addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                finish();
+                overridePendingTransition(0, 0);
+                startActivity(intent);
             } else if (TextUtils.equals(key, getString(R.string.pref_sort_order))) {
                 setResult(RESULT_UPDATE);
             } else if (TextUtils.equals(key, getString(R.string.pref_runnable))) {

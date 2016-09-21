@@ -34,6 +34,7 @@ public class InstallActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        ThemeHelper.updateTheme(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.install);
 

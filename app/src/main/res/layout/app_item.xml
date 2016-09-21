@@ -2,6 +2,7 @@
 
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="?cardViewStyle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="6dp"
@@ -70,7 +71,7 @@
                     android:layout_gravity="left|center_vertical"
                     android:singleLine="true"
                     android:textStyle="bold"
-                    android:textColor="@color/text_primary_color"
+                    android:textColor="?text_primary_color"
                     android:textSize="17sp" />
 
                 <TextView
@@ -81,7 +82,7 @@
                     android:layout_gravity="left|center_vertical"
                     android:singleLine="true"
                     android:textSize="17sp"
-                    android:textColor="@color/text_secondary_color"
+                    android:textColor="?text_secondary_color"
                     android:fontFamily="sans-serif-thin" />
             </LinearLayout>
 
@@ -98,7 +99,7 @@
                     android:singleLine="true"
                     android:lines="1"
                     android:textSize="15sp"
-                    android:textColor="@color/text_secondary_color"
+                    android:textColor="?text_secondary_color"
                     android:scrollHorizontally="true"
                     android:ellipsize="marquee"
                     android:marqueeRepeatLimit="marquee_forever"
@@ -113,7 +114,7 @@
                     android:singleLine="true"
                     android:lines="1"
                     android:textSize="15sp"
-                    android:textColor="@color/text_secondary_color"
+                    android:textColor="?text_secondary_color"
                     android:scrollHorizontally="true"
                     android:ellipsize="marquee"
                     android:marqueeRepeatLimit="marquee_forever"

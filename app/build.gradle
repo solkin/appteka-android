@@ -8,7 +8,7 @@ android {
     defaultConfig {
         applicationId "com.tomclaw.appsend"
         minSdkVersion 14
-        targetSdkVersion 24
+        targetSdkVersion 23
         versionCode=1
         versionName="2.2"
         manifestPlaceholders = [HOCKEYAPP_APP_ID: "c8564e901f354fcc9858e6ad5b1594f9"]
@@ -24,12 +24,12 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:24.2.0'
-    compile 'com.android.support:appcompat-v7:24.2.0'
-    compile 'com.android.support:recyclerview-v7:24.2.0'
-    compile 'com.android.support:cardview-v7:24.2.0'
-    compile 'com.android.support:palette-v7:24.2.0'
-    compile 'com.android.support:design:24.2.0'
+    compile 'com.android.support:support-v4:24.2.1'
+    compile 'com.android.support:appcompat-v7:24.2.1'
+    compile 'com.android.support:recyclerview-v7:24.2.1'
+    compile 'com.android.support:cardview-v7:24.2.1'
+    compile 'com.android.support:palette-v7:24.2.1'
+    compile 'com.android.support:design:24.2.1'
     compile 'cz.msebera.android:httpclient:4.4.1.2'
     compile 'com.github.machinarius:preferencefragment:0.1.1'
     compile 'com.greysonparrelli.permiso:permiso:0.2.0'

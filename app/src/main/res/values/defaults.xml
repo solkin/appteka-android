@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <bool name="pref_dark_theme_default">false</bool>
     <bool name="pref_show_system_default">false</bool>
     <bool name="pref_runnable_default">false</bool>
     <string name="pref_sort_order_default" translatable="false">@string/sort_order_ascending_value</string>

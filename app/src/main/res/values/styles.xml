@@ -5,29 +5,59 @@
     <color name="primary_color">#00575c</color>
     <color name="primary_dark_color">#002729</color>
 
-    <color name="text_primary_color">#00000E</color>
-    <color name="text_secondary_color">#4e4e4e</color>
-
     <color name="action_bar_color">@color/primary_color</color>
 
     <color name="chocolate_color">#d3691f</color>
     <color name="chocolate_dark_color">#A03600</color>
-    <color name="donate_card_background">#f0f0f0</color>
 
     <color name="badge_color">#ff5a00</color>
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <color name="black">#000</color>
+    <color name="dark_back_color">#FF101010</color>
+    <color name="cardview_dark_background">#FF202020</color>
+    <color name="cardview_light_background">#FFFFFFFF</color>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorAccent">@color/accent_color</item>
         <item name="colorPrimary">@color/primary_color</item>
         <item name="colorPrimaryDark">@color/primary_dark_color</item>
-    </style>
 
-    <style name="AppTheme.NoActionBar">
+        <item name="text_primary_color">#00000E</item>
+        <item name="text_secondary_color">#4e4e4e</item>
+        <item name="donate_card_background">#f0f0f0</item>
+
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+
+        <item name="cardViewStyle">@style/CardViewStyle.Light</item>
+    </style>
+
+    <style name="AppThemeBlack" parent="Theme.AppCompat.NoActionBar">
+        <item name="colorAccent">@color/accent_color</item>
+        <item name="colorPrimary">@color/primary_color</item>
+        <item name="colorPrimaryDark">@color/primary_dark_color</item>
+
+        <item name="android:windowBackground">@color/dark_back_color</item>
+
+        <item name="text_primary_color">#FFFFF1</item>
+        <item name="text_secondary_color">#B1B1B1</item>
+        <item name="donate_card_background">#151515</item>
+
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+
+        <item name="cardViewStyle">@style/CardViewStyle.Dark</item>
+    </style>
+
+    <style name="CardViewStyle.Light" parent="CardView">
+        <item name="cardBackgroundColor">@color/cardview_light_background</item>
+    </style>
+
+    <style name="CardViewStyle.Dark" parent="CardView">
+        <item name="cardBackgroundColor">@color/cardview_dark_background</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Dark" />
 </resources>

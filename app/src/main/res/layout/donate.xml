@@ -26,7 +26,7 @@
             android:paddingTop="12dp"
             android:paddingBottom="0dp"
             android:gravity="center_horizontal"
-            android:textColor="@color/text_primary_color"
+            android:textColor="?text_primary_color"
             android:textStyle="bold"
             android:textSize="16sp"
             android:text="@string/donate_title" />
@@ -37,7 +37,7 @@
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
             android:gravity="center_horizontal"
-            android:textColor="@color/text_secondary_color"
+            android:textColor="?text_secondary_color"
             android:textSize="14sp"
             android:text="@string/donate_description" />
 

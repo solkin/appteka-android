@@ -42,12 +42,14 @@ public class MainActivity extends PermisoActivity implements BillingProcessor.IB
     private SearchView.OnQueryTextListener onQueryTextListener;
     private boolean isRefreshOnResume = false;
     private BillingProcessor bp;
+    private boolean isDarkTheme;
 
     /**
      * Called when the activity is first created.
      */
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        isDarkTheme = ThemeHelper.updateTheme(this);
         super.onCreate(savedInstanceState);
 
         String licenseKey = getString(R.string.license_key);
@@ -263,6 +265,11 @@ public class MainActivity extends PermisoActivity implements BillingProcessor.IB
         if(isRefreshOnResume) {
             refreshAppList();
             isRefreshOnResume = false;
+        }
+        if (isDarkTheme != PreferenceHelper.isDarkTheme(this)) {
+            Intent intent = getIntent().addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            finish();
+            startActivity(intent);
         }
     }
 
