@@ -137,7 +137,7 @@
                 android:layout_marginRight="3dp"
                 android:ellipsize="marquee"
                 android:fontFamily="sans-serif-condensed"
-                android:lines="1"
+                android:lines="3"
                 android:marqueeRepeatLimit="marquee_forever"
                 android:scrollHorizontally="true"
                 android:singleLine="true"
