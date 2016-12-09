@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="accent_color">#005c4a</color>
-    <color name="primary_color">#388e3c</color>
-    <color name="primary_dark_color">#1b5e20</color>
+    <color name="accent_color">#EF6C00</color>
+    <color name="primary_color">#1d9c5a</color>
+    <color name="primary_dark_color">#177d48</color>
 
     <color name="action_bar_color">@color/primary_color</color>
 
