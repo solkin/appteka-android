@@ -2,8 +2,8 @@
 <resources>
 
     <color name="accent_color">#005c4a</color>
-    <color name="primary_color">#00575c</color>
-    <color name="primary_dark_color">#002729</color>
+    <color name="primary_color">#388e3c</color>
+    <color name="primary_dark_color">#1b5e20</color>
 
     <color name="action_bar_color">@color/primary_color</color>
 
