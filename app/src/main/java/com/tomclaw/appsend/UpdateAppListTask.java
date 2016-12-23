@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.TextUtils;
 
@@ -38,7 +37,6 @@ public class UpdateAppListTask extends PleaseWaitTask {
                 try {
                     PackageInfo packageInfo = packageManager.getPackageInfo(info.packageName, 0);
                     int flags = packageInfo.applicationInfo.flags;
-                    Drawable icon = info.loadIcon(packageManager);
                     File file = new File(info.publicSourceDir);
                     if (file.exists()) {
                         String label = packageManager.getApplicationLabel(info).toString();
@@ -46,7 +44,7 @@ public class UpdateAppListTask extends PleaseWaitTask {
                         long firstInstallTime = Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD ? packageInfo.firstInstallTime : 0;
                         long lastUpdateTime = Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD ? packageInfo.lastUpdateTime : 0;
                         Intent launchIntent = packageManager.getLaunchIntentForPackage(info.packageName);
-                        AppInfo appInfo = new AppInfo(icon, label, info.packageName,
+                        AppInfo appInfo = new AppInfo(label, info.packageName,
                                 version, null, file.getPath(), file.length(), firstInstallTime,
                                 lastUpdateTime, launchIntent, AppInfo.FLAG_INSTALLED_APP);
                         boolean isUserApp = ((info.flags & ApplicationInfo.FLAG_SYSTEM) != ApplicationInfo.FLAG_SYSTEM &&
@@ -103,7 +101,7 @@ public class UpdateAppListTask extends PleaseWaitTask {
             int position = random.nextInt(count);
             // Oh, this is ugly, very ugly decision... But I really want to sleep.
             // TODO: Refactor me, please!
-            AppInfo donateItem = new AppInfo(null, null, null, null, null, null, -1, -1, -1, null, AppInfo.FLAG_DONATE_ITEM);
+            AppInfo donateItem = new AppInfo(null, null, null, null, null, -1, -1, -1, null, AppInfo.FLAG_DONATE_ITEM);
             appInfoList.add(position, donateItem);
         }
     }

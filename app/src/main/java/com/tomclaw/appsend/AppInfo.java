@@ -12,7 +12,6 @@ public class AppInfo {
     public static final int FLAG_APK_FILE = 0x0010;
     public static final int FLAG_DONATE_ITEM = 0x0100;
 
-    private final Drawable icon;
     private final String label;
     private final String packageName;
     private final String version;
@@ -24,11 +23,10 @@ public class AppInfo {
     private final Intent launchIntent;
     private final int flags;
 
-    public AppInfo(Drawable icon, String label, String packageName,
+    public AppInfo(String label, String packageName,
                    String version, String instVersion, String path, long size,
                    long firstInstallTime, long lastUpdateTime, Intent launchIntent,
                    int flags) {
-        this.icon = icon;
         this.label = label;
         this.packageName = packageName;
         this.version = version;
@@ -39,10 +37,6 @@ public class AppInfo {
         this.lastUpdateTime = lastUpdateTime;
         this.launchIntent = launchIntent;
         this.flags = flags;
-    }
-
-    public Drawable getIcon() {
-        return icon;
     }
 
     public String getLabel() {

@@ -56,7 +56,6 @@ public class ScanApkOnStorageTask extends PleaseWaitTask {
                     ApplicationInfo info = packageInfo.applicationInfo;
                     info.sourceDir = file.getAbsolutePath();
                     info.publicSourceDir = file.getAbsolutePath();
-                    Drawable icon = info.loadIcon(packageManager);
                     String label = packageManager.getApplicationLabel(info).toString();
                     String version = packageInfo.versionName;
 
@@ -70,7 +69,7 @@ public class ScanApkOnStorageTask extends PleaseWaitTask {
                         // No package, maybe?
                     }
 
-                    AppInfo appInfo = new AppInfo(icon, label, info.packageName,
+                    AppInfo appInfo = new AppInfo(label, info.packageName,
                             version, instVersion, file.getPath(), file.length(), 0, 0, null,
                             AppInfo.FLAG_APK_FILE);
                     appInfoList.add(appInfo);

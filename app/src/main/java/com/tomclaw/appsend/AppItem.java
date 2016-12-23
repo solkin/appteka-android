@@ -6,6 +6,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.text.SimpleDateFormat;
 import java.util.concurrent.TimeUnit;
 
@@ -26,6 +28,8 @@ public class AppItem extends AbstractAppItem {
     private TextView appSize;
     private TriangleLabelView badgeNew;
 
+    private static AppIconGlideLoader loader;
+
     public AppItem(View itemView) {
         super(itemView);
         this.itemView = itemView;
@@ -38,7 +42,7 @@ public class AppItem extends AbstractAppItem {
     }
 
     public void bind(Context context, final AppInfo info, final AppInfoAdapter.AppItemClickListener listener) {
-        if(listener != null) {
+        if (listener != null) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -46,7 +50,16 @@ public class AppItem extends AbstractAppItem {
                 }
             });
         }
-        appIcon.setImageDrawable(info.getIcon());
+
+        if (loader == null) {
+            loader = new AppIconGlideLoader(context.getPackageManager());
+        }
+
+        Glide.with(context)
+                .using(loader)
+                .load(info)
+                .into(appIcon);
+
         appName.setText(info.getLabel());
         if (TextUtils.isEmpty(info.getInstalledVersion())) {
             appVersion.setText(info.getVersion());
