@@ -1,4 +1,4 @@
-package com.tomclaw.appsend;
+package com.tomclaw.appsend.util;
 
 import android.util.Pair;
 
@@ -113,7 +113,7 @@ public class HttpUtil {
             connection.setReadTimeout(TIMEOUT_SOCKET);
 
             // Execute request.
-            responseStream = HttpUtil.executePost(connection, params.build());
+            responseStream = executePost(connection, params.build());
             return HttpUtil.streamToString(responseStream);
         } catch (IOException ex) {
             throw new IOException(ex);

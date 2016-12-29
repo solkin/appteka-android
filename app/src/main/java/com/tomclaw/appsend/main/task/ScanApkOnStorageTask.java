@@ -1,12 +1,16 @@
-package com.tomclaw.appsend;
+package com.tomclaw.appsend.main.task;
 
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.drawable.Drawable;
 import android.os.Environment;
 import android.text.TextUtils;
+
+import com.tomclaw.appsend.AppInfo;
+import com.tomclaw.appsend.InstallActivity;
+import com.tomclaw.appsend.core.PleaseWaitTask;
+import com.tomclaw.appsend.util.FileHelper;
 
 import java.io.File;
 import java.util.ArrayList;

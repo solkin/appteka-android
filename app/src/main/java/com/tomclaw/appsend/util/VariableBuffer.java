@@ -1,4 +1,4 @@
-package com.tomclaw.appsend;
+package com.tomclaw.appsend.util;
 
 /**
  * Created by Solkin on 08.11.2014.

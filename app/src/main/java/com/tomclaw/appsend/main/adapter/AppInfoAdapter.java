@@ -1,4 +1,4 @@
-package com.tomclaw.appsend;
+package com.tomclaw.appsend.main.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
@@ -7,6 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+
+import com.tomclaw.appsend.AppInfo;
+import com.tomclaw.appsend.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -126,7 +129,7 @@ public class AppInfoAdapter extends RecyclerView.Adapter<AbstractAppItem> implem
         return filtered;
     }
 
-    interface AppItemClickListener {
+    public interface AppItemClickListener {
         void onItemClicked(AppInfo appInfo);
     }
 }

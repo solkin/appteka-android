@@ -1,4 +1,4 @@
-package com.tomclaw.appsend;
+package com.tomclaw.appsend.util;
 
 import android.content.Context;
 import android.text.format.DateFormat;

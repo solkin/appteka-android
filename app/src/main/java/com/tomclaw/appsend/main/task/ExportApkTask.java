@@ -1,4 +1,4 @@
-package com.tomclaw.appsend;
+package com.tomclaw.appsend.main.task;
 
 import android.annotation.SuppressLint;
 import android.support.v7.app.AlertDialog;
@@ -10,6 +10,11 @@ import android.os.Build;
 import android.os.Environment;
 import android.text.Html;
 import android.widget.Toast;
+
+import com.tomclaw.appsend.AppInfo;
+import com.tomclaw.appsend.R;
+import com.tomclaw.appsend.core.PleaseWaitTask;
+import com.tomclaw.appsend.util.FileHelper;
 
 import java.io.*;
 

@@ -1,4 +1,4 @@
-package com.tomclaw.appsend;
+package com.tomclaw.appsend.main.task;
 
 import android.content.Context;
 import android.content.Intent;
@@ -7,6 +7,12 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.text.TextUtils;
+
+import com.tomclaw.appsend.AppInfo;
+import com.tomclaw.appsend.MainActivity;
+import com.tomclaw.appsend.R;
+import com.tomclaw.appsend.core.PleaseWaitTask;
+import com.tomclaw.appsend.util.PreferenceHelper;
 
 import java.io.File;
 import java.util.ArrayList;

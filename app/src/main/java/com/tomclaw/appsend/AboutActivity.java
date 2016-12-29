@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -19,6 +18,7 @@ import com.anjlab.android.iab.v3.BillingProcessor;
 import com.anjlab.android.iab.v3.Constants;
 import com.anjlab.android.iab.v3.TransactionDetails;
 import com.jaeger.library.StatusBarUtil;
+import com.tomclaw.appsend.util.ThemeHelper;
 
 /**
  * Created by Solkin on 17.12.2014.

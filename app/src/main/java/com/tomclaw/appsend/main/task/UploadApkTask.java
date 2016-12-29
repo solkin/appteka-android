@@ -1,4 +1,4 @@
-package com.tomclaw.appsend;
+package com.tomclaw.appsend.main.task;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -6,8 +6,16 @@ import android.app.ProgressDialog;
 import android.content.*;
 import android.net.Uri;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
+
+import com.tomclaw.appsend.AppInfo;
+import com.tomclaw.appsend.R;
+import com.tomclaw.appsend.core.MainExecutor;
+import com.tomclaw.appsend.core.WeakObjectTask;
+import com.tomclaw.appsend.util.FileHelper;
+import com.tomclaw.appsend.util.HttpUtil;
+import com.tomclaw.appsend.util.MultipartStream;
+
 import org.json.JSONObject;
 
 import java.io.*;

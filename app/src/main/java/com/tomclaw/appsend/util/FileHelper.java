@@ -1,8 +1,10 @@
-package com.tomclaw.appsend;
+package com.tomclaw.appsend.util;
 
 import android.content.res.Resources;
 import android.text.TextUtils;
 import android.webkit.MimeTypeMap;
+
+import com.tomclaw.appsend.R;
 
 /**
  * Created by Solkin on 18.10.2014.

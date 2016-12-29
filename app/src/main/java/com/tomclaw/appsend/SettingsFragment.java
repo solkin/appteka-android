@@ -8,6 +8,9 @@ import android.preference.Preference;
 import android.widget.Toast;
 
 import com.github.machinarius.preferencefragment.PreferenceFragment;
+import com.tomclaw.appsend.core.PleaseWaitTask;
+import com.tomclaw.appsend.core.TaskExecutor;
+import com.tomclaw.appsend.main.task.ExportApkTask;
 
 import java.io.File;
 import java.io.FileFilter;

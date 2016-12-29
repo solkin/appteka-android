@@ -13,6 +13,7 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 
 import com.jaeger.library.StatusBarUtil;
+import com.tomclaw.appsend.util.ThemeHelper;
 
 /**
  * Created with IntelliJ IDEA.

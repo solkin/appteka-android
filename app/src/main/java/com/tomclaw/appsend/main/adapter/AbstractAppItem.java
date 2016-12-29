@@ -1,9 +1,13 @@
-package com.tomclaw.appsend;
+package com.tomclaw.appsend.main.adapter;
 
 import android.content.Context;
 import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+
+import com.tomclaw.appsend.AppInfo;
+import com.tomclaw.appsend.R;
+import com.tomclaw.appsend.main.adapter.AppInfoAdapter;
 
 /**
  * Created by ivsolkin on 06.09.16.

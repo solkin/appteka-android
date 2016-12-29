@@ -1,4 +1,4 @@
-package com.tomclaw.appsend;
+package com.tomclaw.appsend.core;
 
 import android.os.Handler;
 import android.os.Looper;

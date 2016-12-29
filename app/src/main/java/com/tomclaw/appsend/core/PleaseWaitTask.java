@@ -1,7 +1,9 @@
-package com.tomclaw.appsend;
+package com.tomclaw.appsend.core;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+
+import com.tomclaw.appsend.R;
 
 import java.lang.ref.WeakReference;
 

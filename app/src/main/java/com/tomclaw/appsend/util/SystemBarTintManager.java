@@ -1,4 +1,4 @@
-package com.tomclaw.appsend;
+package com.tomclaw.appsend.util;
 
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;

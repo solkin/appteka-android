@@ -1,8 +1,11 @@
-package com.tomclaw.appsend;
+package com.tomclaw.appsend.main.adapter;
 
 import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
+
+import com.tomclaw.appsend.AppInfo;
+import com.tomclaw.appsend.R;
 
 /**
  * Created by Solkin on 10.12.2014.
