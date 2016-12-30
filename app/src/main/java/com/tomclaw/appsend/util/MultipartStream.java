@@ -2,7 +2,9 @@ package com.tomclaw.appsend.util;
 
 import android.util.Log;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
  * Created by solkin on 13.01.15.
@@ -23,7 +25,7 @@ public class MultipartStream extends OutputStream {
     }
 
     public void writeFirstBoundaryIfNeeds() {
-        if(!isSetFirst){
+        if (!isSetFirst) {
             try {
                 outputStream.write(("--" + boundary + "\r\n").getBytes());
             } catch (final IOException e) {
@@ -34,8 +36,8 @@ public class MultipartStream extends OutputStream {
     }
 
     public void writeLastBoundaryIfNeeds() {
-        if(isSetLast){
-            return ;
+        if (isSetLast) {
+            return;
         }
         try {
             outputStream.write(("\r\n--" + boundary + "--\r\n").getBytes());
@@ -59,10 +61,10 @@ public class MultipartStream extends OutputStream {
     }
 
     public void writePart(final String key, final String fileName, final InputStream inputStream,
-                          String type, ProgressHandler callback){
+                          String type, ProgressHandler callback) {
         writeFirstBoundaryIfNeeds();
         try {
-            type = "Content-Type: "+type+"\r\n";
+            type = "Content-Type: " + type + "\r\n";
             outputStream.write(("Content-Disposition: form-data; name=\"" + key + "\"; filename=\"" + fileName + "\"\r\n").getBytes());
             outputStream.write(type.getBytes());
             outputStream.write("Content-Transfer-Encoding: binary\r\n\r\n".getBytes());

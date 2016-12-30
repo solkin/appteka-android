@@ -1,13 +1,14 @@
 package com.tomclaw.appsend.main.task;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.*;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 import android.widget.Toast;
 
+import com.orhanobut.logger.Logger;
 import com.tomclaw.appsend.AppInfo;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.MainExecutor;
@@ -15,41 +16,37 @@ import com.tomclaw.appsend.core.WeakObjectTask;
 import com.tomclaw.appsend.util.FileHelper;
 import com.tomclaw.appsend.util.HttpUtil;
 import com.tomclaw.appsend.util.MultipartStream;
+import com.tomclaw.appsend.util.StringUtil;
 
 import org.json.JSONObject;
 
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
-import java.net.URI;
 import java.net.URL;
+import java.util.concurrent.TimeUnit;
 
-import cz.msebera.android.httpclient.HttpResponse;
-import cz.msebera.android.httpclient.client.methods.HttpGet;
-import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
-import cz.msebera.android.httpclient.util.EntityUtils;
+import cz.msebera.android.httpclient.HttpStatus;
 
 /**
  * Created by Igor on 06.05.2015.
  */
 public class UploadApkTask extends WeakObjectTask<Activity> {
 
-    public static final String USER_AGENT = "RGHost/1";
-    private static final String API_KEY = "839d0e2975451be9f5a0f273713b5a42dc6b88e9";
     private final AppInfo appInfo;
-
-    private DefaultHttpClient client;
 
     private transient long progressUpdateTime = 0;
 
+    private transient long DEBOUNCE_DELAY = 500;
+
     private ProgressDialog dialog;
     private String text;
-    private long limit;
-    private boolean overflow;
 
     public UploadApkTask(Activity activity, AppInfo appInfo) {
         super(activity);
         this.appInfo = appInfo;
-        client = new DefaultHttpClient();
     }
 
     public boolean isPreExecuteRequired() {
@@ -59,7 +56,7 @@ public class UploadApkTask extends WeakObjectTask<Activity> {
     @Override
     public void onPreExecuteMain() {
         Activity activity = getWeakObject();
-        if(activity != null) {
+        if (activity != null) {
             dialog = new ProgressDialog(activity);
             // dialog.setTitle();
             dialog.setMessage(activity.getString(R.string.uploading_message));
@@ -72,59 +69,18 @@ public class UploadApkTask extends WeakObjectTask<Activity> {
 
     @Override
     public void executeBackground() throws Throwable {
-        File file = new File(appInfo.getPath());
-        Uri uri = Uri.fromFile(file);
-        String type = "application";
-        String name = ExportApkTask.getApkName(appInfo);
-        final long size = file.length();
         final Activity activity = getWeakObject();
-        if(activity != null) {
-            InputStream inputStream = activity.getContentResolver().openInputStream(uri);
-            HttpGet get = new HttpGet();
-            get.setURI(new URI("http://rghost.net/multiple/upload_host"));
-            HttpResponse response = client.execute(get);
-            String cookie = response.getFirstHeader("Set-Cookie").getValue();
-            String stringEntity = EntityUtils.toString(response.getEntity());
-            JSONObject object = new JSONObject(stringEntity);
-            String uploadHost = object.getString("upload_host");
-            String token = object.getString("authenticity_token");
-            limit = object.getLong("upload_limit") * 1024 * 1024;
-            String boundary = "RGhostUploadBoundaryabcdef0123456789";
-
-            if(size > limit) {
-                overflow = true;
-                throw new SizeLimitExceededException();
-            }
-
-            URL url = new URL("http://" + uploadHost + "/files");
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestProperty("Host", uploadHost);
-            connection.setRequestProperty("Accept-Language", "ru");
-            connection.setRequestProperty("User-Agent", USER_AGENT);
-            connection.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
-            connection.setRequestProperty("Cookie", cookie);
-            connection.setRequestProperty("Connection", "keep-alive");
-
-            connection.setReadTimeout(10000);
-            connection.setConnectTimeout(15000);
-            connection.setRequestMethod("POST");
-            connection.setUseCaches(false);
-            connection.setDoInput(true);
-            connection.setDoOutput(true);
-            connection.setInstanceFollowRedirects(false);
-            connection.setChunkedStreamingMode(256);
-
-            connection.connect();
-
-            OutputStream outputStream = connection.getOutputStream();
-            MultipartStream multipartStream = new MultipartStream(outputStream, boundary);
-            multipartStream.writePart("authenticity_token", token);
-            multipartStream.writePart("api_key", API_KEY);
-            multipartStream.writePart("file", name, inputStream, type, new MultipartStream.ProgressHandler() {
+        if (activity != null) {
+            File file = new File(appInfo.getPath());
+            Uri uri = Uri.fromFile(file);
+            final long size = file.length();
+            String sizeString = FileHelper.formatBytes(activity.getResources(), size);
+            String name = ExportApkTask.getApkName(appInfo);
+            MultipartStream.ProgressHandler handler = new MultipartStream.ProgressHandler() {
                 @Override
                 public void onProgress(long sent) {
-                    final int progress = size > 0 ? (int) (100 * sent / size) : 0;
-                    if (System.currentTimeMillis() - progressUpdateTime >= 500) {
+                    final int progress = size > 0 ? (int) (70 * sent / size) : 0;
+                    if (System.currentTimeMillis() - progressUpdateTime >= DEBOUNCE_DELAY) {
                         progressUpdateTime = System.currentTimeMillis();
                         MainExecutor.execute(new Runnable() {
                             @Override
@@ -134,50 +90,83 @@ public class UploadApkTask extends WeakObjectTask<Activity> {
                         });
                     }
                 }
-            });
-            multipartStream.writeLastBoundaryIfNeeds();
-            multipartStream.flush();
-
-            outputStream.close();
-
-            MainExecutor.execute(new Runnable() {
-                @Override
-                public void run() {
-                    dialog.setMessage(activity.getString(R.string.obtaining_link_message));
-                    dialog.setProgress(100);
-                    dialog.setIndeterminate(true);
+            };
+            String boundary = StringUtil.generateBoundary();
+            String hostUrl = "http://appsend.store/api/upload.php";
+            HttpURLConnection connection = null;
+            InputStream in = null;
+            try {
+                InputStream inputStream = activity.getContentResolver().openInputStream(uri);
+                URL url = new URL(hostUrl);
+                connection = (HttpURLConnection) url.openConnection();
+                // Executing request.
+                connection.setRequestMethod(HttpUtil.POST);
+                connection.setDoOutput(true);
+                connection.setDoInput(true);
+                connection.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
+                // Connect.
+                connection.setReadTimeout((int) TimeUnit.MINUTES.toMillis(2));
+                connection.setConnectTimeout((int) TimeUnit.SECONDS.toMillis(30));
+                connection.setRequestMethod("POST");
+                connection.setUseCaches(false);
+                connection.setDoInput(true);
+                connection.setDoOutput(true);
+                connection.setInstanceFollowRedirects(false);
+                connection.setChunkedStreamingMode(256);
+                connection.connect();
+                // Write data into output stream.
+                OutputStream outputStream = connection.getOutputStream();
+                MultipartStream multipartStream = new MultipartStream(outputStream, boundary);
+                multipartStream.writePart("v", "1");
+                multipartStream.writePart("apk_file", name, inputStream, "application/vnd.android.package-archive", handler);
+                multipartStream.writeLastBoundaryIfNeeds();
+                multipartStream.flush();
+                MainExecutor.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        dialog.setProgress(100);
+                        dialog.setMessage(activity.getString(R.string.obtaining_link_message));
+                        dialog.setIndeterminate(true);
+                    }
+                });
+                // Open connection to response.
+                int responseCode = connection.getResponseCode();
+                // Checking for this is error stream.
+                if (responseCode >= HttpStatus.SC_BAD_REQUEST) {
+                    in = connection.getErrorStream();
+                } else {
+                    in = connection.getInputStream();
                 }
-            });
-
-            int responseCode = connection.getResponseCode();
-            if (responseCode == 302) {
-                String location = connection.getHeaderField("Location");
-                String responseString = HttpUtil.readStringFromConnection(connection);
-                connection.disconnect();
-
-//                try {
-//                    int hostStart = location.indexOf("://");
-//                    if (hostStart > 0) {
-//                        hostStart += 3;
-//                        int hostEnd = location.indexOf('/', hostStart);
-//                        if (hostEnd > hostStart) {
-//                            String protocol = location.substring(0, hostStart);
-//                            String address = location.substring(hostEnd);
-//                            location = protocol + "ad-file.com" + address;
-//                        }
-//                    }
-//                } catch (Throwable ignored) {
-//                }
-
-                text = appInfo.getLabel() + " (" + FileHelper.formatBytes(activity.getResources(), size) + ")\n" + location;
+                String result = HttpUtil.streamToString(in);
+                Logger.json(result);
+                JSONObject jsonObject = new JSONObject(result);
+                int status = jsonObject.getInt("status");
+                switch (status) {
+                    case 200: {
+                        String appId = jsonObject.getString("app_id");
+                        String location = jsonObject.getString("url");
+                        text = appInfo.getLabel() + " (" + sizeString + ")\n" + location;
+                        break;
+                    }
+                    default: {
+                        throw new IOException("File upload error");
+                    }
+                }
+            } finally {
+                // Trying to disconnect in any case.
+                if (connection != null) {
+                    connection.disconnect();
+                }
+                HttpUtil.closeSafely(in);
             }
+
         }
     }
 
     @Override
     public void onSuccessMain() {
         final Activity activity = getWeakObject();
-        if(activity != null) {
+        if (activity != null) {
             new AlertDialog.Builder(activity)
                     .setMessage(R.string.uploading_successful)
                     .setPositiveButton(R.string.share_url, new DialogInterface.OnClickListener() {
@@ -193,7 +182,7 @@ public class UploadApkTask extends WeakObjectTask<Activity> {
                     .setNeutralButton(R.string.copy_url, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            copyStringToClipboard(activity, text);
+                            StringUtil.copyStringToClipboard(activity, text);
                         }
                     })
                     .show();
@@ -203,12 +192,10 @@ public class UploadApkTask extends WeakObjectTask<Activity> {
     @Override
     public void onFailMain(Throwable ex) {
         Activity activity = getWeakObject();
-        if(activity != null) {
+        if (activity != null) {
             try {
+                Logger.e(ex, "Upload failed");
                 throw ex;
-            } catch (SizeLimitExceededException e) {
-                Toast.makeText(activity, activity.getString(R.string.size_limit_exceeded,
-                        FileHelper.formatBytes(activity.getResources(), limit)), Toast.LENGTH_SHORT).show();
             } catch (Throwable e) {
                 Toast.makeText(activity, R.string.uploading_error, Toast.LENGTH_SHORT).show();
             }
@@ -218,24 +205,8 @@ public class UploadApkTask extends WeakObjectTask<Activity> {
     @Override
     public void onPostExecuteMain() {
         Activity activity = getWeakObject();
-        if(activity != null && dialog != null) {
+        if (activity != null && dialog != null) {
             dialog.dismiss();
         }
-    }
-
-    @SuppressLint("NewApi")
-    public static void copyStringToClipboard(Context context, String string) {
-        int sdk = android.os.Build.VERSION.SDK_INT;
-        if(sdk < android.os.Build.VERSION_CODES.HONEYCOMB) {
-            android.text.ClipboardManager clipboard = (android.text.ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-            clipboard.setText(string);
-        } else {
-            android.content.ClipboardManager clipboard = (android.content.ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-            android.content.ClipData clip = android.content.ClipData.newPlainText("", string);
-            clipboard.setPrimaryClip(clip);
-        }
-    }
-
-    private class SizeLimitExceededException extends Throwable {
     }
 }

@@ -39,4 +39,5 @@ dependencies {
     compile 'com.jaeger.statusbaruitl:library:1.2.4'
     compile 'com.github.shts:TriangleLabelView:1.1.0'
     compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'com.orhanobut:logger:1.15'
 }

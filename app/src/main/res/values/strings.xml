@@ -53,7 +53,6 @@
     <string name="pref_summary_clear_cache">Remove all previously extracted APK files in Downloads directory</string>
     <string name="cache_cleared_successfully">Cache cleared successfully</string>
     <string name="cache_clearing_failed">Cache clearing failed</string>
-    <string name="size_limit_exceeded">Size limit of %s exceeded</string>
     <string name="write_permission_extract">In order to save application file you will need to grant storage permission</string>
     <string name="permission_denied_message">Can\'t continue without required permission</string>
     <string name="menu_search">Search</string>
