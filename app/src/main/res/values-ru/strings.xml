@@ -77,4 +77,10 @@
     <string name="thank_you">Спасибо за поддержку!</string>
     <string name="pref_title_dark_theme">Тёмная тема</string>
     <string name="pref_dark_theme_system">Тёмные цвета в оформлении приложения</string>
+    <string name="cancel">Отмена</string>
+    <string name="upload_size">Отправка %s</string>
+    <string name="upload">Загрузка</string>
+    <string name="cancel_upload_title">Отмена отправки</string>
+    <string name="cancel_upload_text">Вы уверены, что хотите отменить отправку файла?</string>
+    <string name="url_copied">Ссылка на приложение скопирована</string>
 </resources>

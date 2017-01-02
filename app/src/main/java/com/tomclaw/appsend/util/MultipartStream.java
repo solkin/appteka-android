@@ -80,8 +80,9 @@ public class MultipartStream extends OutputStream {
                 sent += cache;
                 callback.onProgress(sent);
             }
-        } catch (final IOException e) {
+        } catch (final Throwable e) {
             Log.e(TAG, e.getMessage(), e);
+            callback.onError();
         } finally {
             try {
                 inputStream.close();
@@ -103,5 +104,7 @@ public class MultipartStream extends OutputStream {
 
     public interface ProgressHandler {
         public void onProgress(long sent);
+
+        public void onError();
     }
 }

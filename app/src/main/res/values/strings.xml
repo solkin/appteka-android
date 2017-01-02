@@ -79,4 +79,12 @@
     <string name="thank_you">Thank you for support!</string>
     <string name="pref_title_dark_theme">Dark theme</string>
     <string name="pref_dark_theme_system">Dark colors in application appearance</string>
+    <string name="cancel">Cancel</string>
+    <string name="percent">%d %%</string>
+    <string name="upload_size">Uploading %s</string>
+    <string name="upload">Upload</string>
+    <string name="uploaded_url">%1$s (%2$s)\n%3$s</string>
+    <string name="cancel_upload_title">Cancel upload</string>
+    <string name="cancel_upload_text">Are you sure you want to cancel uploading the application?</string>
+    <string name="url_copied">Link to the application copied</string>
 </resources>

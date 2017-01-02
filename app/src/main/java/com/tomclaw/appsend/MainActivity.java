@@ -168,7 +168,9 @@ public class MainActivity extends PermisoActivity implements BillingProcessor.IB
                                 break;
                             }
                             case 3: {
-                                TaskExecutor.getInstance().execute(new UploadApkTask(MainActivity.this, appInfo));
+                                Intent intent = new Intent(MainActivity.this, UploadActivity.class);
+                                intent.putExtra(UploadActivity.APP_INFO, appInfo);
+                                startActivity(intent);
                                 break;
                             }
                             case 4: {

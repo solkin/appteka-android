@@ -12,6 +12,7 @@
 
     <color name="badge_color">#ff5a00</color>
 
+    <color name="grey">#dadada</color>
     <color name="black">#000</color>
     <color name="dark_back_color">#FF101010</color>
     <color name="cardview_dark_background">#FF202020</color>

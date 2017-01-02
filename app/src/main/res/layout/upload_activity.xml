@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <include layout="@layout/toolbar" />
+
+        <ImageView
+            android:id="@+id/app_icon"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="24dp"
+            tools:src="@mipmap/ic_launcher" />
+
+        <TextView
+            android:id="@+id/app_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            tools:text="AppSend" />
+
+        <TextView
+            android:id="@+id/app_package"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:textStyle="normal"
+            android:typeface="monospace"
+            tools:text="com.tomclaw.appsend" />
+
+        <TextView
+            android:id="@+id/app_version"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:fontFamily="sans-serif-light"
+            android:gravity="center"
+            android:textSize="12sp"
+            android:textStyle="normal"
+            tools:text="Версия 1.2 (41)" />
+
+        <ViewSwitcher
+            android:id="@+id/view_switcher"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/app_size"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:fontFamily="sans-serif-thin"
+                    android:gravity="center"
+                    android:textSize="14sp"
+                    android:textStyle="normal"
+                    tools:text="Отправка 1.2 Мб" />
+
+                <ProgressBar
+                    android:id="@+id/progress"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginTop="8dp"
+                    android:max="100"
+                    tools:progress="74" />
+
+                <TextView
+                    android:id="@+id/percent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    tools:text="74%" />
+
+                <Button
+                    android:id="@+id/button_cancel"
+                    style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_gravity="center"
+                    android:text="@string/cancel" />
+
+            </LinearLayout>
+
+            <FrameLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/button_share"
+                        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginRight="4dp"
+                        android:text="@string/share_url" />
+
+                    <Button
+                        android:id="@+id/button_copy"
+                        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="4dp"
+                        android:text="@string/copy_url" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginRight="12dp"
+                    android:background="@color/grey" />
+
+            </FrameLayout>
+
+        </ViewSwitcher>
+
+    </LinearLayout>
+
+</ScrollView>

@@ -22,5 +22,7 @@
             android:label="@string/install"/>
         <activity android:name="com.tomclaw.appsend.DonateActivity"
             android:label="@string/donate"/>
+        <activity android:name="com.tomclaw.appsend.UploadActivity"
+            android:label="@string/upload"/>
     </application>
 </manifest>

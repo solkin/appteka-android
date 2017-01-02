@@ -131,7 +131,9 @@ public class InstallActivity extends AppCompatActivity {
                                 break;
                             }
                             case 2: {
-                                TaskExecutor.getInstance().execute(new UploadApkTask(InstallActivity.this, appInfo));
+                                Intent intent = new Intent(InstallActivity.this, UploadActivity.class);
+                                intent.putExtra(UploadActivity.APP_INFO, appInfo);
+                                startActivity(intent);
                                 break;
                             }
                             case 3: {

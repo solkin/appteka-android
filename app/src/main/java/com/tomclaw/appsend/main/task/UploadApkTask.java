@@ -90,6 +90,10 @@ public class UploadApkTask extends WeakObjectTask<Activity> {
                         });
                     }
                 }
+
+                @Override
+                public void onError() {
+                }
             };
             String boundary = StringUtil.generateBoundary();
             String hostUrl = "http://appsend.store/api/upload.php";

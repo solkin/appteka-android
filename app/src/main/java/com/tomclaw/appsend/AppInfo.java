@@ -1,12 +1,13 @@
 package com.tomclaw.appsend;
 
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 /**
  * Created by Solkin on 11.12.2014.
  */
-public class AppInfo {
+public class AppInfo implements Parcelable {
 
     public static final int FLAG_INSTALLED_APP = 0x0001;
     public static final int FLAG_APK_FILE = 0x0010;
@@ -38,6 +39,31 @@ public class AppInfo {
         this.launchIntent = launchIntent;
         this.flags = flags;
     }
+
+    protected AppInfo(Parcel in) {
+        label = in.readString();
+        packageName = in.readString();
+        version = in.readString();
+        instVersion = in.readString();
+        path = in.readString();
+        size = in.readLong();
+        firstInstallTime = in.readLong();
+        lastUpdateTime = in.readLong();
+        launchIntent = in.readParcelable(Intent.class.getClassLoader());
+        flags = in.readInt();
+    }
+
+    public static final Creator<AppInfo> CREATOR = new Creator<AppInfo>() {
+        @Override
+        public AppInfo createFromParcel(Parcel in) {
+            return new AppInfo(in);
+        }
+
+        @Override
+        public AppInfo[] newArray(int size) {
+            return new AppInfo[size];
+        }
+    };
 
     public String getLabel() {
         return label;
@@ -77,5 +103,24 @@ public class AppInfo {
 
     public int getFlags() {
         return flags;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(label);
+        dest.writeString(packageName);
+        dest.writeString(version);
+        dest.writeString(instVersion);
+        dest.writeString(path);
+        dest.writeLong(size);
+        dest.writeLong(firstInstallTime);
+        dest.writeLong(lastUpdateTime);
+        dest.writeParcelable(launchIntent, flags);
+        dest.writeInt(flags);
     }
 }
