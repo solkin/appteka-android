@@ -32,7 +32,6 @@ import com.tomclaw.appsend.main.adapter.AppInfoAdapter;
 import com.tomclaw.appsend.main.adapter.MenuAdapter;
 import com.tomclaw.appsend.main.task.ExportApkTask;
 import com.tomclaw.appsend.main.task.UpdateAppListTask;
-import com.tomclaw.appsend.main.task.UploadApkTask;
 import com.tomclaw.appsend.util.PreferenceHelper;
 import com.tomclaw.appsend.util.ThemeHelper;
 
