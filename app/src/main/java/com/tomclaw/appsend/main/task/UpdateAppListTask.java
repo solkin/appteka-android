@@ -28,7 +28,7 @@ public class UpdateAppListTask extends PleaseWaitTask {
 
     private List<AppInfo> appInfoList;
 
-    public UpdateAppListTask(MainActivity activity) {
+    public UpdateAppListTask(Context activity) {
         super(activity);
     }
 
@@ -120,7 +120,7 @@ public class UpdateAppListTask extends PleaseWaitTask {
     public void onSuccessMain() {
         MainActivity activity = (MainActivity) getWeakObject();
         if (activity != null) {
-            activity.setAppInfoList(appInfoList);
+//            activity.setAppInfoList(appInfoList);
         }
     }
 

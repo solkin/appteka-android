@@ -21,6 +21,7 @@ import com.bumptech.glide.Glide;
 import com.tomclaw.appsend.main.controller.UploadController;
 import com.tomclaw.appsend.util.FileHelper;
 import com.tomclaw.appsend.util.StringUtil;
+import com.tomclaw.appsend.util.ThemeHelper;
 
 /**
  * Created by ivsolkin on 02.01.17.
@@ -49,6 +50,7 @@ public class UploadActivity extends AppCompatActivity implements UploadControlle
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        ThemeHelper.updateTheme(this);
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.upload_activity);

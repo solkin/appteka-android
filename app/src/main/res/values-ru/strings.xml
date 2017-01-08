@@ -36,7 +36,7 @@
     <string name="pref_summary_sort_order">Варианты сортировки списка приложений</string>
     <string name="extract_apk">Извлечь APK в Downloads</string>
     <string name="share_apk">Поделиться приложением</string>
-    <string name="upload_apk">Загрузить в файлообменник</string>
+    <string name="upload_apk">Загрузить в обменник</string>
     <string name="bluetooth_apk">Отправить по Bluetooth</string>
     <string name="find_on_gp">Найти в Google Play</string>
     <string name="remove_app">Удалить приложение</string>
@@ -83,4 +83,9 @@
     <string name="cancel_upload_title">Отмена отправки</string>
     <string name="cancel_upload_text">Вы уверены, что хотите отменить отправку файла?</string>
     <string name="url_copied">Ссылка на приложение скопирована</string>
+    <string name="tab_apps">Приложения</string>
+    <string name="tab_install">Установить</string>
+    <string name="tab_store">Обменник</string>
+    <string name="apps_loading_error">Не удалось получить список установленных приложений</string>
+    <string name="retry">Повторить</string>
 </resources>

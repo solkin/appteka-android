@@ -87,4 +87,9 @@
     <string name="cancel_upload_title">Cancel upload</string>
     <string name="cancel_upload_text">Are you sure you want to cancel uploading the application?</string>
     <string name="url_copied">Link to the application copied</string>
+    <string name="tab_apps">My apps</string>
+    <string name="tab_install">Install</string>
+    <string name="tab_store">Store</string>
+    <string name="apps_loading_error">Failed to get list of installed applications</string>
+    <string name="retry">Retry</string>
 </resources>

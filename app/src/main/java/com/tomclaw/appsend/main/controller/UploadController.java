@@ -10,7 +10,6 @@ import com.tomclaw.appsend.util.HttpUtil;
 import com.tomclaw.appsend.util.MultipartStream;
 import com.tomclaw.appsend.util.StringUtil;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -68,7 +67,7 @@ public class UploadController {
             } else if (isUploaded) {
                 callback.onUploaded();
             } else if (isError) {
-                callback.onUploaded();
+                callback.onError();
             } else {
                 callback.onProgress(lastPercent);
             }

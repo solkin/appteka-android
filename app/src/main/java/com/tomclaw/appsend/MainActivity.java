@@ -1,55 +1,43 @@
 package com.tomclaw.appsend;
 
-import android.Manifest;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.ListAdapter;
+import android.widget.ViewFlipper;
 
 import com.anjlab.android.iab.v3.BillingProcessor;
-import com.anjlab.android.iab.v3.TransactionDetails;
-import com.greysonparrelli.permiso.Permiso;
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.greysonparrelli.permiso.PermisoActivity;
 import com.jaeger.library.StatusBarUtil;
 import com.kobakei.ratethisapp.RateThisApp;
 import com.tomclaw.appsend.core.TaskExecutor;
-import com.tomclaw.appsend.main.adapter.AppInfoAdapter;
-import com.tomclaw.appsend.main.adapter.MenuAdapter;
-import com.tomclaw.appsend.main.task.ExportApkTask;
+import com.tomclaw.appsend.main.task.ScanApkOnStorageTask;
 import com.tomclaw.appsend.main.task.UpdateAppListTask;
+import com.tomclaw.appsend.main.view.AppsView;
+import com.tomclaw.appsend.main.view.InstallView;
+import com.tomclaw.appsend.main.view.MainView;
+import com.tomclaw.appsend.main.view.StoreView;
+import com.tomclaw.appsend.util.ColorHelper;
 import com.tomclaw.appsend.util.PreferenceHelper;
 import com.tomclaw.appsend.util.ThemeHelper;
 
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.metrics.MetricsManager;
 
-import java.util.List;
-
-public class MainActivity extends PermisoActivity implements BillingProcessor.IBillingHandler {
+public class MainActivity extends PermisoActivity implements MainView.ActivityCallback {
 
     private static final int REQUEST_UPDATE_SETTINGS = 6;
-    private RecyclerView listView;
-    private AppInfoAdapter adapter;
-    private AppInfoAdapter.AppItemClickListener listener;
+    private ViewFlipper mainViewsContainer;
+    private MainView mainView;
     private SearchView.OnQueryTextListener onQueryTextListener;
     private boolean isRefreshOnResume = false;
     private BillingProcessor bp;
     private boolean isDarkTheme;
+    private int selectedTab;
 
     /**
      * Called when the activity is first created.
@@ -59,8 +47,7 @@ public class MainActivity extends PermisoActivity implements BillingProcessor.IB
         isDarkTheme = ThemeHelper.updateTheme(this);
         super.onCreate(savedInstanceState);
 
-        String licenseKey = getString(R.string.license_key);
-        bp = new BillingProcessor(this, licenseKey, this);
+        boolean isCreateInstance = savedInstanceState == null;
 
         setContentView(R.layout.main);
 
@@ -70,27 +57,50 @@ public class MainActivity extends PermisoActivity implements BillingProcessor.IB
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
 
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        listView = (RecyclerView) findViewById(R.id.apps_list_view);
-        listView.setLayoutManager(layoutManager);
-        RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
-        listView.setItemAnimator(itemAnimator);
+        AHBottomNavigation bottomNavigation = (AHBottomNavigation) findViewById(R.id.bottom_navigation);
 
-        listener = new AppInfoAdapter.AppItemClickListener() {
+        AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.tab_apps, R.drawable.ic_apps, R.color.primary_color);
+        AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.tab_install, R.drawable.ic_install, R.color.primary_color);
+        AHBottomNavigationItem item3 = new AHBottomNavigationItem(R.string.tab_store, R.drawable.ic_store, R.color.primary_color);
+
+        bottomNavigation.addItem(item1);
+        bottomNavigation.addItem(item2);
+        bottomNavigation.addItem(item3);
+
+        bottomNavigation.setDefaultBackgroundColor(ColorHelper.getAttributedColor(this, R.attr.bottom_bar_background));
+        bottomNavigation.setAccentColor(getResources().getColor(R.color.accent_color));
+        bottomNavigation.setInactiveColor(getResources().getColor(R.color.grey_dark));
+        bottomNavigation.setForceTint(true);
+
+        bottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
             @Override
-            public void onItemClicked(final AppInfo appInfo) {
-                boolean donateItem = (appInfo.getFlags() & AppInfo.FLAG_DONATE_ITEM) == AppInfo.FLAG_DONATE_ITEM;
-                if (donateItem) {
-                    showDonateDialog();
-                } else {
-                    checkPermissionsForExtract(appInfo);
+            public boolean onTabSelected(int position, boolean wasSelected) {
+                selectedTab = position;
+                switch (position) {
+                    case 0:
+                        showApps();
+                        break;
+                    case 1:
+                        showInstall();
+                        break;
+                    case 2:
+                        showStore();
+                        break;
                 }
+                return true;
             }
-        };
+        });
 
-        adapter = new AppInfoAdapter(this);
-        adapter.setListener(listener);
-        listView.setAdapter(adapter);
+        mainViewsContainer = (ViewFlipper) findViewById(R.id.main_views);
+        AppsView appsView = new AppsView(this);
+        mainViewsContainer.addView(appsView);
+        InstallView installView = new InstallView(this);
+        mainViewsContainer.addView(installView);
+        StoreView storeView = new StoreView(this);
+        mainViewsContainer.addView(storeView);
+        mainViewsContainer.setDisplayedChild(0);
+
+        showApps();
 
         onQueryTextListener = new SearchView.OnQueryTextListener() {
             @Override
@@ -100,26 +110,24 @@ public class MainActivity extends PermisoActivity implements BillingProcessor.IB
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                adapter.getFilter().filter(newText);
+//                adapter.getFilter().filter(newText);
                 return false;
             }
         };
 
-        FloatingActionButton actionButton = (FloatingActionButton) findViewById(R.id.fab);
-        actionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                checkPermissionsForInstall();
-            }
-        });
-
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            FrameLayout.LayoutParams p = (FrameLayout.LayoutParams) actionButton.getLayoutParams();
-            p.setMargins(0, 0, 0, 0); // get rid of margins since shadow area is now the margin
-            actionButton.setLayoutParams(p);
-        }
-
-        refreshAppList();
+//        FloatingActionButton actionButton = (FloatingActionButton) findViewById(R.id.fab);
+//        actionButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                checkPermissionsForInstall();
+//            }
+//        });
+//
+//        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+//            FrameLayout.LayoutParams p = (FrameLayout.LayoutParams) actionButton.getLayoutParams();
+//            p.setMargins(0, 0, 0, 0); // get rid of margins since shadow area is now the margin
+//            actionButton.setLayoutParams(p);
+//        }
 
         int color = getResources().getColor(R.color.action_bar_color);
         StatusBarUtil.setColor(this, color);
@@ -143,121 +151,69 @@ public class MainActivity extends PermisoActivity implements BillingProcessor.IB
         MetricsManager.register(this, getApplication());
     }
 
-    private void showActionDialog(final AppInfo appInfo) {
-        ListAdapter menuAdapter = new MenuAdapter(MainActivity.this, R.array.app_actions_titles, R.array.app_actions_icons);
-        new AlertDialog.Builder(MainActivity.this)
-                .setAdapter(menuAdapter, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which) {
-                            case 0: {
-                                if (appInfo.getLaunchIntent() == null) {
-                                    Snackbar.make(listView, R.string.non_launchable_package, Snackbar.LENGTH_LONG).show();
-                                } else {
-                                    startActivity(appInfo.getLaunchIntent());
-                                }
-                                break;
-                            }
-                            case 1: {
-                                TaskExecutor.getInstance().execute(new ExportApkTask(MainActivity.this, appInfo, ExportApkTask.ACTION_SHARE));
-                                break;
-                            }
-                            case 2: {
-                                TaskExecutor.getInstance().execute(new ExportApkTask(MainActivity.this, appInfo, ExportApkTask.ACTION_EXTRACT));
-                                break;
-                            }
-                            case 3: {
-                                Intent intent = new Intent(MainActivity.this, UploadActivity.class);
-                                intent.putExtra(UploadActivity.APP_INFO, appInfo);
-                                startActivity(intent);
-                                break;
-                            }
-                            case 4: {
-                                TaskExecutor.getInstance().execute(new ExportApkTask(MainActivity.this, appInfo, ExportApkTask.ACTION_BLUETOOTH));
-                                break;
-                            }
-                            case 5: {
-                                final String appPackageName = appInfo.getPackageName();
-                                try {
-                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
-                                } catch (android.content.ActivityNotFoundException anfe) {
-                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
-                                }
-                                break;
-                            }
-                            case 6: {
-                                isRefreshOnResume = true;
-                                final Intent intent = new Intent()
-                                        .setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
-                                        .addCategory(Intent.CATEGORY_DEFAULT)
-                                        .setData(Uri.parse("package:" + appInfo.getPackageName()))
-                                        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                startActivity(intent);
-                                break;
-                            }
-                            case 7: {
-                                isRefreshOnResume = true;
-                                Uri packageUri = Uri.parse("package:" + appInfo.getPackageName());
-                                Intent uninstallIntent = new Intent(Intent.ACTION_DELETE, packageUri);
-                                startActivity(uninstallIntent);
-                                break;
-                            }
-                        }
-                    }
-                }).show();
+    private void showApps() {
+        switchMainView(0);
     }
 
-    private void showDonateDialog() {
-        startActivity(new Intent(this, DonateActivity.class));
+    private void showInstall() {
+        switchMainView(1);
     }
 
-    private void checkPermissionsForExtract(final AppInfo appInfo) {
-        Permiso.getInstance().requestPermissions(new Permiso.IOnPermissionResult() {
-            @Override
-            public void onPermissionResult(Permiso.ResultSet resultSet) {
-                if (resultSet.areAllPermissionsGranted()) {
-                    // Permission granted!
-                    showActionDialog(appInfo);
-                } else {
-                    // Permission denied.
-                    Snackbar.make(listView, R.string.permission_denied_message, Snackbar.LENGTH_LONG).show();
-                }
-            }
-
-            @Override
-            public void onRationaleRequested(Permiso.IOnRationaleProvided callback, String... permissions) {
-                String title = getString(R.string.app_name);
-                String message = getString(R.string.write_permission_extract);
-                Permiso.getInstance().showRationaleInDialog(title, message, null, callback);
-            }
-        }, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+    private void showStore() {
+        switchMainView(2);
     }
 
-    private void checkPermissionsForInstall() {
-        Permiso.getInstance().requestPermissions(new Permiso.IOnPermissionResult() {
-            @Override
-            public void onPermissionResult(Permiso.ResultSet resultSet) {
-                if (resultSet.areAllPermissionsGranted()) {
-                    // Permission granted!
-                    Intent intent = new Intent(MainActivity.this, InstallActivity.class);
-                    startActivity(intent);
-                } else {
-                    // Permission denied.
-                    Snackbar.make(listView, R.string.permission_denied_message, Snackbar.LENGTH_LONG).show();
-                }
-            }
-
-            @Override
-            public void onRationaleRequested(Permiso.IOnRationaleProvided callback, String... permissions) {
-                String title = getString(R.string.app_name);
-                String message = getString(R.string.write_permission_install);
-                Permiso.getInstance().showRationaleInDialog(title, message, null, callback);
-            }
-        }, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+    private void switchMainView(int index) {
+        mainViewsContainer.setDisplayedChild(index);
+        mainView = (MainView) mainViewsContainer.getChildAt(index);
+        mainView.activate(this);
     }
 
-    private void refreshAppList() {
-        TaskExecutor.getInstance().execute(new UpdateAppListTask(this));
+//    private void checkPermissionsForInstall() {
+//        Permiso.getInstance().requestPermissions(new Permiso.IOnPermissionResult() {
+//            @Override
+//            public void onPermissionResult(Permiso.ResultSet resultSet) {
+//                if (resultSet.areAllPermissionsGranted()) {
+//                    // Permission granted!
+//                    adapter = new AppInfoAdapter(MainActivity.this);
+//                    adapter.setListener(listener);
+//                    listView.setAdapter(adapter);
+//                } else {
+//                    // Permission denied.
+//                    Snackbar.make(listView, R.string.permission_denied_message, Snackbar.LENGTH_LONG).show();
+//                    showApps();
+//                }
+//            }
+//
+//            @Override
+//            public void onRationaleRequested(Permiso.IOnRationaleProvided callback, String... permissions) {
+//                String title = getString(R.string.app_name);
+//                String message = getString(R.string.write_permission_install);
+//                Permiso.getInstance().showRationaleInDialog(title, message, null, callback);
+//            }
+//        }, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+//    }
+
+    private void updateList() {
+        mainView.refresh();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        for (int c = 0; c < mainViewsContainer.getChildCount(); c++) {
+            MainView mainView = (MainView) mainViewsContainer.getChildAt(c);
+            mainView.start();
+        }
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        for (int c = 0; c < mainViewsContainer.getChildCount(); c++) {
+            MainView mainView = (MainView) mainViewsContainer.getChildAt(c);
+            mainView.stop();
+        }
     }
 
     @Override
@@ -272,7 +228,7 @@ public class MainActivity extends PermisoActivity implements BillingProcessor.IB
     protected void onResume() {
         super.onResume();
         if(isRefreshOnResume) {
-            refreshAppList();
+            updateList();
             isRefreshOnResume = false;
         }
         if (isDarkTheme != PreferenceHelper.isDarkTheme(this)) {
@@ -299,7 +255,7 @@ public class MainActivity extends PermisoActivity implements BillingProcessor.IB
                 break;
             }
             case R.id.refresh: {
-                refreshAppList();
+                updateList();
                 break;
             }
             case R.id.settings: {
@@ -318,7 +274,7 @@ public class MainActivity extends PermisoActivity implements BillingProcessor.IB
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_UPDATE_SETTINGS) {
             if (resultCode == SettingsActivity.RESULT_UPDATE) {
-                refreshAppList();
+                updateList();
             }
         }
     }
@@ -333,38 +289,12 @@ public class MainActivity extends PermisoActivity implements BillingProcessor.IB
         startActivity(intent);
     }
 
-    public void setAppInfoList(List<AppInfo> appInfoList) {
-        if (bp.loadOwnedPurchasesFromGoogle() &&
-                bp.isPurchased(getString(R.string.chocolate_id))) {
-            for (AppInfo appInfo : appInfoList) {
-                boolean donateItem = (appInfo.getFlags() & AppInfo.FLAG_DONATE_ITEM) == AppInfo.FLAG_DONATE_ITEM;
-                if (donateItem) {
-                    appInfoList.remove(appInfo);
-                    break;
-                }
-            }
-        }
-        adapter.setAppInfoList(appInfoList);
-        adapter.notifyDataSetChanged();
-    }
-
     private void checkForCrashes() {
         CrashManager.register(this);
     }
 
     @Override
-    public void onProductPurchased(String productId, TransactionDetails details) {
-    }
-
-    @Override
-    public void onPurchaseHistoryRestored() {
-    }
-
-    @Override
-    public void onBillingError(int errorCode, Throwable error) {
-    }
-
-    @Override
-    public void onBillingInitialized() {
+    public void setRefreshOnResume() {
+        isRefreshOnResume = true;
     }
 }

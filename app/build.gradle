@@ -40,4 +40,5 @@ dependencies {
     compile 'com.github.shts:TriangleLabelView:1.1.0'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.orhanobut:logger:1.15'
+    compile 'com.aurelhubert:ahbottomnavigation:2.0.3'
 }

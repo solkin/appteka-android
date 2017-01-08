@@ -13,6 +13,7 @@
     <color name="badge_color">#ff5a00</color>
 
     <color name="grey">#dadada</color>
+    <color name="grey_dark">#747474</color>
     <color name="black">#000</color>
     <color name="dark_back_color">#FF101010</color>
     <color name="cardview_dark_background">#FF202020</color>
@@ -31,6 +32,10 @@
         <item name="windowNoTitle">true</item>
 
         <item name="cardViewStyle">@style/CardViewStyle.Light</item>
+
+        <item name="bottom_bar_background">#ffffff</item>
+
+        <item name="toolbar_background">@color/primary_color</item>
     </style>
 
     <style name="AppThemeBlack" parent="Theme.AppCompat.NoActionBar">
@@ -48,6 +53,10 @@
         <item name="windowNoTitle">true</item>
 
         <item name="cardViewStyle">@style/CardViewStyle.Dark</item>
+
+        <item name="bottom_bar_background">#101010</item>
+
+        <item name="toolbar_background">#0a3820</item>
     </style>
 
     <style name="CardViewStyle.Light" parent="CardView">
