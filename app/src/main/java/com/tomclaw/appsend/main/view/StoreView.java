@@ -34,6 +34,11 @@ public class StoreView extends MainView {
     }
 
     @Override
+    public void destroy() {
+
+    }
+
+    @Override
     public void refresh() {
 
     }

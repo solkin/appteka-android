@@ -8,15 +8,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ViewFlipper;
 
-import com.anjlab.android.iab.v3.BillingProcessor;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.greysonparrelli.permiso.PermisoActivity;
-import com.jaeger.library.StatusBarUtil;
 import com.kobakei.ratethisapp.RateThisApp;
-import com.tomclaw.appsend.core.TaskExecutor;
-import com.tomclaw.appsend.main.task.ScanApkOnStorageTask;
-import com.tomclaw.appsend.main.task.UpdateAppListTask;
 import com.tomclaw.appsend.main.view.AppsView;
 import com.tomclaw.appsend.main.view.InstallView;
 import com.tomclaw.appsend.main.view.MainView;
@@ -35,9 +30,7 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
     private MainView mainView;
     private SearchView.OnQueryTextListener onQueryTextListener;
     private boolean isRefreshOnResume = false;
-    private BillingProcessor bp;
     private boolean isDarkTheme;
-    private int selectedTab;
 
     /**
      * Called when the activity is first created.
@@ -47,8 +40,6 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
         isDarkTheme = ThemeHelper.updateTheme(this);
         super.onCreate(savedInstanceState);
 
-        boolean isCreateInstance = savedInstanceState == null;
-
         setContentView(R.layout.main);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -57,7 +48,7 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
 
-        AHBottomNavigation bottomNavigation = (AHBottomNavigation) findViewById(R.id.bottom_navigation);
+        final AHBottomNavigation bottomNavigation = (AHBottomNavigation) findViewById(R.id.bottom_navigation);
 
         AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.tab_apps, R.drawable.ic_apps, R.color.primary_color);
         AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.tab_install, R.drawable.ic_install, R.color.primary_color);
@@ -75,18 +66,7 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
         bottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
             @Override
             public boolean onTabSelected(int position, boolean wasSelected) {
-                selectedTab = position;
-                switch (position) {
-                    case 0:
-                        showApps();
-                        break;
-                    case 1:
-                        showInstall();
-                        break;
-                    case 2:
-                        showStore();
-                        break;
-                }
+                selectTab(position);
                 return true;
             }
         });
@@ -99,8 +79,6 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
         StoreView storeView = new StoreView(this);
         mainViewsContainer.addView(storeView);
         mainViewsContainer.setDisplayedChild(0);
-
-        showApps();
 
         onQueryTextListener = new SearchView.OnQueryTextListener() {
             @Override
@@ -129,6 +107,13 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
 //            actionButton.setLayoutParams(p);
 //        }
 
+        bottomNavigation.post(new Runnable() {
+            @Override
+            public void run() {
+                selectTab(bottomNavigation.getCurrentItem());
+            }
+        });
+
         // Custom criteria: 7 days and 10 launches
         RateThisApp.Config config = new RateThisApp.Config(7, 10);
         // Custom title ,message and buttons names
@@ -146,6 +131,20 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
 
         checkForCrashes();
         MetricsManager.register(this, getApplication());
+    }
+
+    private void selectTab(int position) {
+        switch (position) {
+            case 0:
+                showApps();
+                break;
+            case 1:
+                showInstall();
+                break;
+            case 2:
+                showStore();
+                break;
+        }
     }
 
     private void showApps() {
@@ -173,27 +172,41 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
     @Override
     protected void onStart() {
         super.onStart();
-        for (int c = 0; c < mainViewsContainer.getChildCount(); c++) {
-            MainView mainView = (MainView) mainViewsContainer.getChildAt(c);
-            mainView.start();
-        }
+        operateMainViews(new MainViewOperation() {
+            @Override
+            public void invoke(MainView mainView) {
+                mainView.start();
+            }
+        });
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        for (int c = 0; c < mainViewsContainer.getChildCount(); c++) {
-            MainView mainView = (MainView) mainViewsContainer.getChildAt(c);
-            mainView.stop();
-        }
+        operateMainViews(new MainViewOperation() {
+            @Override
+            public void invoke(MainView mainView) {
+                mainView.stop();
+            }
+        });
     }
 
     @Override
     public void onDestroy() {
-        if (bp != null) {
-            bp.release();
-        }
         super.onDestroy();
+        operateMainViews(new MainViewOperation() {
+            @Override
+            public void invoke(MainView mainView) {
+                mainView.destroy();
+            }
+        });
+    }
+
+    private void operateMainViews(MainViewOperation operation) {
+        for (int c = 0; c < mainViewsContainer.getChildCount(); c++) {
+            MainView mainView = (MainView) mainViewsContainer.getChildAt(c);
+            operation.invoke(mainView);
+        }
     }
 
     @Override
@@ -268,5 +281,10 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
     @Override
     public void setRefreshOnResume() {
         isRefreshOnResume = true;
+    }
+
+    private interface MainViewOperation {
+
+        void invoke(MainView mainView);
     }
 }

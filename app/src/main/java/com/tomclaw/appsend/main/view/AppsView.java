@@ -102,6 +102,13 @@ public class AppsView extends MainView implements BillingProcessor.IBillingHandl
     }
 
     @Override
+    public void destroy() {
+        if (bp != null) {
+            bp.release();
+        }
+    }
+
+    @Override
     public void refresh() {
         AppsController.getInstance().reload(getContext());
     }

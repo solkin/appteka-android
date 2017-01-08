@@ -35,6 +35,8 @@ public abstract class MainView extends FrameLayout {
 
     public abstract void stop();
 
+    public abstract void destroy();
+
     public abstract void refresh();
 
     protected void startActivity(Intent intent) {

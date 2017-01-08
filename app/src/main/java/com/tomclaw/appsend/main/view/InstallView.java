@@ -96,6 +96,10 @@ public class InstallView extends MainView implements ApksController.ApksCallback
     }
 
     @Override
+    public void destroy() {
+    }
+
+    @Override
     public void refresh() {
         ApksController.getInstance().reload(getContext());
     }
