@@ -22,6 +22,7 @@ public class AppInfoAdapter extends RecyclerView.Adapter<AbstractAppItem> implem
     private static final int DONATE = 1;
     private static final int APP = 2;
     private static final int APK = 3;
+    private static final int COUCH = 4;
 
     private final List<AppInfo> appInfoList;
     private final List<AppInfo> originalInfoList;
@@ -53,9 +54,12 @@ public class AppInfoAdapter extends RecyclerView.Adapter<AbstractAppItem> implem
         } else if (viewType == APK) {
             View view = inflater.inflate(R.layout.apk_item, viewGroup, false);
             return new ApkItem(view);
-        } else {
+        } else if (viewType == DONATE) {
             View view = inflater.inflate(R.layout.donate_item, viewGroup, false);
             return new DonateItem(view);
+        } else {
+            View view = inflater.inflate(R.layout.couch_item, viewGroup, false);
+            return new CouchItem(view);
         }
     }
 
@@ -75,6 +79,10 @@ public class AppInfoAdapter extends RecyclerView.Adapter<AbstractAppItem> implem
         boolean donateItem = (appInfoList.get(position).getFlags() & AppInfo.FLAG_DONATE_ITEM) == AppInfo.FLAG_DONATE_ITEM;
         if (donateItem) {
             return DONATE;
+        }
+        boolean couchItem = (appInfoList.get(position).getFlags() & AppInfo.FLAG_COUCH_ITEM) == AppInfo.FLAG_COUCH_ITEM;
+        if (couchItem) {
+            return COUCH;
         }
         boolean apkItem = (appInfoList.get(position).getFlags() & AppInfo.FLAG_APK_FILE) == AppInfo.FLAG_APK_FILE;
         return apkItem ? APK : APP;

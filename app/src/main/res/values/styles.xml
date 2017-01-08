@@ -5,8 +5,6 @@
     <color name="primary_color">#1d9c5a</color>
     <color name="primary_dark_color">#177d48</color>
 
-    <color name="action_bar_color">@color/primary_color</color>
-
     <color name="chocolate_color">#d3691f</color>
     <color name="chocolate_dark_color">#A03600</color>
 
@@ -54,9 +52,9 @@
 
         <item name="cardViewStyle">@style/CardViewStyle.Dark</item>
 
-        <item name="bottom_bar_background">#101010</item>
+        <item name="bottom_bar_background">#181818</item>
 
-        <item name="toolbar_background">#0a3820</item>
+        <item name="toolbar_background">#263238</item>
     </style>
 
     <style name="CardViewStyle.Light" parent="CardView">

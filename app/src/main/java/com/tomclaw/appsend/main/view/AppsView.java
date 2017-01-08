@@ -35,7 +35,7 @@ import java.util.List;
  */
 public class AppsView extends MainView implements BillingProcessor.IBillingHandler, AppsController.AppsCallback {
 
-    private ViewFlipper switcherView;
+    private ViewFlipper viewFlipper;
     private RecyclerView listView;
     private AppInfoAdapter adapter;
     private AppInfoAdapter.AppItemClickListener listener;
@@ -47,7 +47,7 @@ public class AppsView extends MainView implements BillingProcessor.IBillingHandl
         String licenseKey = context.getString(R.string.license_key);
         bp = new BillingProcessor(context, licenseKey, this);
 
-        switcherView = (ViewFlipper) findViewById(R.id.apps_view_switcher);
+        viewFlipper = (ViewFlipper) findViewById(R.id.apps_view_switcher);
 
         findViewById(R.id.button_retry).setOnClickListener(new OnClickListener() {
             @Override
@@ -74,7 +74,7 @@ public class AppsView extends MainView implements BillingProcessor.IBillingHandl
             }
         };
 
-        adapter = new AppInfoAdapter(getContext());
+        adapter = new AppInfoAdapter(context);
         adapter.setListener(listener);
         listView.setAdapter(adapter);
     }
@@ -86,7 +86,6 @@ public class AppsView extends MainView implements BillingProcessor.IBillingHandl
 
     @Override
     public void activate() {
-        // TODO: Check here for fist activation and load apps list.
         if (!AppsController.getInstance().isStarted()) {
             refresh();
         }
@@ -230,17 +229,17 @@ public class AppsView extends MainView implements BillingProcessor.IBillingHandl
 
     @Override
     public void onProgress() {
-        switcherView.setDisplayedChild(0);
+        viewFlipper.setDisplayedChild(0);
     }
 
     @Override
     public void onLoaded(List<AppInfo> list) {
         setAppInfoList(list);
-        switcherView.setDisplayedChild(1);
+        viewFlipper.setDisplayedChild(1);
     }
 
     @Override
     public void onError() {
-        switcherView.setDisplayedChild(2);
+        viewFlipper.setDisplayedChild(2);
     }
 }

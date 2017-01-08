@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="?cardViewStyle"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="6dp"
+    android:layout_marginRight="6dp"
+    android:layout_marginTop="6dp"
+    android:layout_marginBottom="0dp"
+    app:cardCornerRadius="2dp"
+    app:cardElevation="@dimen/cardview_default_elevation"
+    android:background="?android:attr/selectableItemBackground"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:clickable="false">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/couch_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            tools:text="@string/install_screen_apk_found"
+            android:textColor="?text_secondary_color"
+            android:textSize="16sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginTop="4dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:background="@color/grey" />
+
+        <Button
+            android:id="@+id/couch_button"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="@string/got_it" />
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

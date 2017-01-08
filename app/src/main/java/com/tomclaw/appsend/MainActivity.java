@@ -129,9 +129,6 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
 //            actionButton.setLayoutParams(p);
 //        }
 
-        int color = getResources().getColor(R.color.action_bar_color);
-        StatusBarUtil.setColor(this, color);
-
         // Custom criteria: 7 days and 10 launches
         RateThisApp.Config config = new RateThisApp.Config(7, 10);
         // Custom title ,message and buttons names
@@ -168,31 +165,6 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
         mainView = (MainView) mainViewsContainer.getChildAt(index);
         mainView.activate(this);
     }
-
-//    private void checkPermissionsForInstall() {
-//        Permiso.getInstance().requestPermissions(new Permiso.IOnPermissionResult() {
-//            @Override
-//            public void onPermissionResult(Permiso.ResultSet resultSet) {
-//                if (resultSet.areAllPermissionsGranted()) {
-//                    // Permission granted!
-//                    adapter = new AppInfoAdapter(MainActivity.this);
-//                    adapter.setListener(listener);
-//                    listView.setAdapter(adapter);
-//                } else {
-//                    // Permission denied.
-//                    Snackbar.make(listView, R.string.permission_denied_message, Snackbar.LENGTH_LONG).show();
-//                    showApps();
-//                }
-//            }
-//
-//            @Override
-//            public void onRationaleRequested(Permiso.IOnRationaleProvided callback, String... permissions) {
-//                String title = getString(R.string.app_name);
-//                String message = getString(R.string.write_permission_install);
-//                Permiso.getInstance().showRationaleInDialog(title, message, null, callback);
-//            }
-//        }, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-//    }
 
     private void updateList() {
         mainView.refresh();

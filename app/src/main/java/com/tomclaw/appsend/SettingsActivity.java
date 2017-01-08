@@ -1,18 +1,17 @@
 package com.tomclaw.appsend;
 
-import android.content.Intent;
-import android.support.v7.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.MenuItem;
 
-import com.jaeger.library.StatusBarUtil;
 import com.tomclaw.appsend.util.ThemeHelper;
 
 /**
@@ -50,9 +49,6 @@ public class SettingsActivity extends ActionBarActivity {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.content, settingsFragment)
                 .commit();
-
-        int color = getResources().getColor(R.color.action_bar_color);
-        StatusBarUtil.setColor(this, color);
     }
 
     @Override

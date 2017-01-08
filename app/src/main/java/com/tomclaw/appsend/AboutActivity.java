@@ -87,9 +87,6 @@ public class AboutActivity extends AppCompatActivity implements BillingProcessor
                 bp.isPurchased(getString(R.string.chocolate_id))) {
             presentButton.setVisibility(View.GONE);
         }
-
-        int color = getResources().getColor(R.color.action_bar_color);
-        StatusBarUtil.setColor(this, color);
     }
 
     @Override

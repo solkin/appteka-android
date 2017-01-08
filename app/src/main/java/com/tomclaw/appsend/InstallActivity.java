@@ -71,9 +71,6 @@ public class InstallActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
 
         refreshAppList();
-
-        int color = getResources().getColor(R.color.action_bar_color);
-        StatusBarUtil.setColor(this, color);
     }
 
     @Override

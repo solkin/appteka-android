@@ -12,6 +12,7 @@ public class AppInfo implements Parcelable {
     public static final int FLAG_INSTALLED_APP = 0x0001;
     public static final int FLAG_APK_FILE = 0x0010;
     public static final int FLAG_DONATE_ITEM = 0x0100;
+    public static final int FLAG_COUCH_ITEM = 0x1000;
 
     private final String label;
     private final String packageName;
