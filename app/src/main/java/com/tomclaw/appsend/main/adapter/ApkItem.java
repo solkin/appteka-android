@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.tomclaw.appsend.AppInfo;
+import com.tomclaw.appsend.BaseItem;
 import com.tomclaw.appsend.R;
 
 /**
@@ -19,7 +20,8 @@ public class ApkItem extends AppItem {
         appLocation = (TextView) itemView.findViewById(R.id.apk_location);
     }
 
-    public void bind(Context context, final AppInfo info, final AppInfoAdapter.AppItemClickListener listener) {
+    public void bind(Context context, final BaseItem item, final BaseItemAdapter.BaseItemClickListener listener) {
+        final AppInfo info = (AppInfo) item;
         super.bind(context, info, listener);
         appLocation.setText(info.getPath());
     }

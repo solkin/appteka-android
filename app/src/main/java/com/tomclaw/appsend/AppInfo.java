@@ -7,7 +7,7 @@ import android.os.Parcelable;
 /**
  * Created by Solkin on 11.12.2014.
  */
-public class AppInfo implements Parcelable {
+public class AppInfo extends BaseItem implements Parcelable {
 
     public static final int FLAG_INSTALLED_APP = 0x0001;
     public static final int FLAG_APK_FILE = 0x0010;
@@ -123,5 +123,19 @@ public class AppInfo implements Parcelable {
         dest.writeLong(lastUpdateTime);
         dest.writeParcelable(launchIntent, flags);
         dest.writeInt(flags);
+    }
+
+    @Override
+    public int getType() {
+        boolean donateItem = (getFlags() & AppInfo.FLAG_DONATE_ITEM) == AppInfo.FLAG_DONATE_ITEM;
+        if (donateItem) {
+            return DONATE_ITEM;
+        }
+        boolean couchItem = (getFlags() & AppInfo.FLAG_COUCH_ITEM) == AppInfo.FLAG_COUCH_ITEM;
+        if (couchItem) {
+            return COUCH_ITEM;
+        }
+        boolean apkItem = (getFlags() & AppInfo.FLAG_APK_FILE) == AppInfo.FLAG_APK_FILE;
+        return apkItem ? APK_ITEM : APP_ITEM;
     }
 }

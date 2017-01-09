@@ -19,11 +19,12 @@ import com.anjlab.android.iab.v3.BillingProcessor;
 import com.anjlab.android.iab.v3.TransactionDetails;
 import com.greysonparrelli.permiso.Permiso;
 import com.tomclaw.appsend.AppInfo;
+import com.tomclaw.appsend.BaseItem;
 import com.tomclaw.appsend.DonateActivity;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.UploadActivity;
 import com.tomclaw.appsend.core.TaskExecutor;
-import com.tomclaw.appsend.main.adapter.AppInfoAdapter;
+import com.tomclaw.appsend.main.adapter.BaseItemAdapter;
 import com.tomclaw.appsend.main.adapter.MenuAdapter;
 import com.tomclaw.appsend.main.controller.AppsController;
 import com.tomclaw.appsend.main.task.ExportApkTask;
@@ -37,8 +38,8 @@ public class AppsView extends MainView implements BillingProcessor.IBillingHandl
 
     private ViewFlipper viewFlipper;
     private RecyclerView listView;
-    private AppInfoAdapter adapter;
-    private AppInfoAdapter.AppItemClickListener listener;
+    private BaseItemAdapter adapter;
+    private BaseItemAdapter.BaseItemClickListener listener;
     private BillingProcessor bp;
 
     public AppsView(Context context) {
@@ -62,19 +63,20 @@ public class AppsView extends MainView implements BillingProcessor.IBillingHandl
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
         listView.setItemAnimator(itemAnimator);
 
-        listener = new AppInfoAdapter.AppItemClickListener() {
+        listener = new BaseItemAdapter.BaseItemClickListener() {
             @Override
-            public void onItemClicked(final AppInfo appInfo) {
-                boolean donateItem = (appInfo.getFlags() & AppInfo.FLAG_DONATE_ITEM) == AppInfo.FLAG_DONATE_ITEM;
+            public void onItemClicked(final BaseItem item) {
+                boolean donateItem = item.getType() == BaseItem.DONATE_ITEM;
                 if (donateItem) {
                     showDonateDialog();
                 } else {
-                    checkPermissionsForExtract(appInfo);
+                    final AppInfo info = (AppInfo) item;
+                    checkPermissionsForExtract(info);
                 }
             }
         };
 
-        adapter = new AppInfoAdapter(context);
+        adapter = new BaseItemAdapter(context);
         adapter.setListener(listener);
         listView.setAdapter(adapter);
     }
@@ -214,7 +216,7 @@ public class AppsView extends MainView implements BillingProcessor.IBillingHandl
                 }
             }
         }
-        adapter.setAppInfoList(appInfoList);
+        adapter.setItemsList(appInfoList);
         adapter.notifyDataSetChanged();
     }
 

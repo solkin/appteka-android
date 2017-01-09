@@ -6,7 +6,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.tomclaw.appsend.AppInfo;
+import com.tomclaw.appsend.BaseItem;
 import com.tomclaw.appsend.R;
 
 import java.util.concurrent.TimeUnit;
@@ -16,7 +16,7 @@ import jp.shts.android.library.TriangleLabelView;
 /**
  * Created by ivsolkin on 06.09.16.
  */
-public class DonateItem extends AbstractAppItem {
+public class DonateItem extends AbstractItem {
 
     private View itemView;
     private TriangleLabelView badgeNew;
@@ -29,7 +29,7 @@ public class DonateItem extends AbstractAppItem {
         appIcon = (ImageView) itemView.findViewById(R.id.app_icon);
     }
 
-    public void bind(Context context, final AppInfo info, final AppInfoAdapter.AppItemClickListener listener) {
+    public void bind(Context context, final BaseItem item, final BaseItemAdapter.BaseItemClickListener listener) {
         Glide.with(context)
                 .load("")
                 .error(R.drawable.chocolate)
@@ -38,7 +38,7 @@ public class DonateItem extends AbstractAppItem {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.onItemClicked(info);
+                    listener.onItemClicked(item);
                 }
             });
         }

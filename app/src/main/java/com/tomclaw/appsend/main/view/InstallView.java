@@ -16,9 +16,10 @@ import android.widget.ViewFlipper;
 
 import com.greysonparrelli.permiso.Permiso;
 import com.tomclaw.appsend.AppInfo;
+import com.tomclaw.appsend.BaseItem;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.UploadActivity;
-import com.tomclaw.appsend.main.adapter.AppInfoAdapter;
+import com.tomclaw.appsend.main.adapter.BaseItemAdapter;
 import com.tomclaw.appsend.main.adapter.MenuAdapter;
 import com.tomclaw.appsend.main.controller.ApksController;
 import com.tomclaw.appsend.main.task.ExportApkTask;
@@ -36,8 +37,8 @@ public class InstallView extends MainView implements ApksController.ApksCallback
 
     private ViewFlipper viewFlipper;
     private RecyclerView listView;
-    private AppInfoAdapter adapter;
-    private AppInfoAdapter.AppItemClickListener listener;
+    private BaseItemAdapter adapter;
+    private BaseItemAdapter.BaseItemClickListener listener;
 
     public InstallView(final Context context) {
         super(context);
@@ -57,20 +58,21 @@ public class InstallView extends MainView implements ApksController.ApksCallback
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
         listView.setItemAnimator(itemAnimator);
 
-        listener = new AppInfoAdapter.AppItemClickListener() {
+        listener = new BaseItemAdapter.BaseItemClickListener() {
             @Override
-            public void onItemClicked(final AppInfo appInfo) {
-                boolean couchItem = (appInfo.getFlags() & AppInfo.FLAG_COUCH_ITEM) == AppInfo.FLAG_COUCH_ITEM;
+            public void onItemClicked(final BaseItem item) {
+                boolean couchItem = item.getType() == BaseItem.COUCH_ITEM;
                 if (couchItem) {
                     PreferenceHelper.setShowInstallCouch(context, false);
                     start();
                 } else {
-                    showActionDialog(appInfo);
+                    final AppInfo info = (AppInfo) item;
+                    showActionDialog(info);
                 }
             }
         };
 
-        adapter = new AppInfoAdapter(context);
+        adapter = new BaseItemAdapter(context);
         adapter.setListener(listener);
         listView.setAdapter(adapter);
     }
@@ -185,7 +187,7 @@ public class InstallView extends MainView implements ApksController.ApksCallback
     }
 
     private void setAppInfoList(List<AppInfo> appInfoList) {
-        adapter.setAppInfoList(appInfoList);
+        adapter.setItemsList(appInfoList);
         adapter.notifyDataSetChanged();
     }
 

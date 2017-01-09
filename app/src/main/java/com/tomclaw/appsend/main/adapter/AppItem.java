@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.tomclaw.appsend.AppIconGlideLoader;
 import com.tomclaw.appsend.AppInfo;
+import com.tomclaw.appsend.BaseItem;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.util.FileHelper;
 
@@ -20,7 +21,7 @@ import jp.shts.android.library.TriangleLabelView;
 /**
  * Created by Solkin on 10.12.2014.
  */
-public class AppItem extends AbstractAppItem {
+public class AppItem extends AbstractItem {
 
     private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yy");
 
@@ -45,7 +46,8 @@ public class AppItem extends AbstractAppItem {
         badgeNew = (TriangleLabelView) itemView.findViewById(R.id.badge_new);
     }
 
-    public void bind(Context context, final AppInfo info, final AppInfoAdapter.AppItemClickListener listener) {
+    public void bind(Context context, final BaseItem item, final BaseItemAdapter.BaseItemClickListener listener) {
+        final AppInfo info = (AppInfo) item;
         if (listener != null) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

@@ -5,16 +5,15 @@ import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.tomclaw.appsend.AppInfo;
+import com.tomclaw.appsend.BaseItem;
 import com.tomclaw.appsend.R;
-import com.tomclaw.appsend.main.adapter.AppInfoAdapter;
 
 /**
  * Created by ivsolkin on 06.09.16.
  */
 
-public abstract class AbstractAppItem extends RecyclerView.ViewHolder {
-    public AbstractAppItem(View itemView) {
+public abstract class AbstractItem extends RecyclerView.ViewHolder {
+    public AbstractItem(View itemView) {
         super(itemView);
 
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
@@ -25,5 +24,5 @@ public abstract class AbstractAppItem extends RecyclerView.ViewHolder {
         }
     }
 
-    public abstract void bind(Context context, final AppInfo info, final AppInfoAdapter.AppItemClickListener listener);
+    public abstract void bind(Context context, final BaseItem item, final BaseItemAdapter.BaseItemClickListener listener);
 }

@@ -6,12 +6,13 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.tomclaw.appsend.AppInfo;
+import com.tomclaw.appsend.BaseItem;
 import com.tomclaw.appsend.R;
 
 /**
  * Created by ivsolkin on 06.09.16.
  */
-public class CouchItem extends AbstractAppItem {
+public class CouchItem extends AbstractItem {
 
     private View itemView;
     private TextView couchText;
@@ -24,7 +25,8 @@ public class CouchItem extends AbstractAppItem {
         couchButton = (Button) itemView.findViewById(R.id.couch_button);
     }
 
-    public void bind(Context context, final AppInfo info, final AppInfoAdapter.AppItemClickListener listener) {
+    public void bind(Context context, final BaseItem item, final BaseItemAdapter.BaseItemClickListener listener) {
+        final AppInfo info = (AppInfo) item;
         if(listener != null) {
             couchButton.setOnClickListener(new View.OnClickListener() {
                 @Override
