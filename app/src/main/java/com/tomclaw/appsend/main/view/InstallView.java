@@ -10,6 +10,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ListAdapter;
 import android.widget.ViewFlipper;
@@ -35,6 +36,9 @@ import java.util.List;
  * Created by ivsolkin on 08.01.17.
  */
 public class InstallView extends MainView implements ApksController.ApksCallback {
+
+    private static final String RETRY_PERMISSION_ACTION = "retry_permission_action";
+    private static final String HIDE_COUCH_ACTION = "hide_couch_action";
 
     private ViewFlipper viewFlipper;
     private RecyclerView listView;
@@ -62,14 +66,20 @@ public class InstallView extends MainView implements ApksController.ApksCallback
         listener = new BaseItemAdapter.BaseItemClickListener() {
             @Override
             public void onItemClicked(final BaseItem item) {
-                boolean couchItem = item.getType() == BaseItem.COUCH_ITEM;
-                if (couchItem) {
-                    // TODO: check couch type.
-                    PreferenceHelper.setShowInstallCouch(context, false);
-                    start();
-                } else {
+                boolean apkItem = item.getType() == BaseItem.APK_ITEM;
+                if (apkItem) {
                     final ApkItem info = (ApkItem) item;
                     showActionDialog(info);
+                }
+            }
+
+            @Override
+            public void onActionClicked(BaseItem item, String action) {
+                if (TextUtils.equals(action, RETRY_PERMISSION_ACTION)) {
+                    checkPermissionsForInstall();
+                } else if (TextUtils.equals(action, HIDE_COUCH_ACTION)) {
+                    PreferenceHelper.setShowInstallCouch(context, false);
+                    start();
                 }
             }
         };
@@ -122,9 +132,10 @@ public class InstallView extends MainView implements ApksController.ApksCallback
                     Snackbar.make(listView, R.string.permission_denied_message, Snackbar.LENGTH_LONG).show();
                     String couchText = getContext().getString(R.string.write_permission_install);
                     String buttonText = getContext().getString(R.string.retry);
-                    BaseItem couchItem = new CouchItem(couchText, buttonText);
+                    BaseItem couchItem = new CouchItem(couchText, new CouchItem.CouchButton(RETRY_PERMISSION_ACTION, buttonText));
                     List<BaseItem> list = Collections.singletonList(couchItem);
                     setAppInfoList(list);
+                    viewFlipper.setDisplayedChild(1);
                 }
             }
 
@@ -212,7 +223,7 @@ public class InstallView extends MainView implements ApksController.ApksCallback
             }
             String couchText = getContext().getString(couchTextRes);
             String buttonText = getContext().getString(R.string.got_it);
-            BaseItem couchItem = new CouchItem(couchText, buttonText);
+            BaseItem couchItem = new CouchItem(couchText, new CouchItem.CouchButton(HIDE_COUCH_ACTION, buttonText));
             appItemList.add(couchItem);
         }
         appItemList.addAll(list);

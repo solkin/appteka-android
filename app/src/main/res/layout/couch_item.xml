@@ -31,6 +31,7 @@
             android:textSize="16sp" />
 
         <View
+            android:id="@+id/divider"
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:layout_marginTop="4dp"
@@ -38,12 +39,11 @@
             android:layout_marginRight="12dp"
             android:background="@color/grey" />
 
-        <Button
-            android:id="@+id/couch_button"
-            style="@style/Widget.AppCompat.Button.Borderless.Colored"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/couch_buttons"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:text="@string/got_it" />
+            android:orientation="horizontal" />
 
     </LinearLayout>
 

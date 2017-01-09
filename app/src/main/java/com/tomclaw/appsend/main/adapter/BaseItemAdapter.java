@@ -129,5 +129,6 @@ public class BaseItemAdapter extends RecyclerView.Adapter<AbstractItemHolder> {
 
     public interface BaseItemClickListener<I extends BaseItem> {
         void onItemClicked(I item);
+        void onActionClicked(I item, String action);
     }
 }

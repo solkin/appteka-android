@@ -75,6 +75,10 @@ public class AppsView extends MainView implements BillingProcessor.IBillingHandl
                     checkPermissionsForExtract(info);
                 }
             }
+
+            @Override
+            public void onActionClicked(BaseItem item, String action) {
+            }
         };
 
         adapter = new BaseItemAdapter(context);
