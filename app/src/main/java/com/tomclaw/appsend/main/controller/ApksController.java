@@ -165,18 +165,18 @@ public class ApksController {
                     String label = packageManager.getApplicationLabel(info).toString();
                     String version = packageInfo.versionName;
 
-                    String instVersion = null;
+                    String installedVersion = null;
                     try {
                         PackageInfo instPackageInfo = packageManager.getPackageInfo(info.packageName, 0);
                         if (instPackageInfo != null) {
-                            instVersion = instPackageInfo.versionName;
+                            installedVersion = instPackageInfo.versionName;
                         }
                     } catch (Throwable ignored) {
                         // No package, maybe?
                     }
 
                     ApkItem item = new ApkItem(label, info.packageName, version, file.getPath(),
-                            file.length(), instVersion, file.lastModified(), packageInfo);
+                            file.length(), installedVersion, file.lastModified(), packageInfo);
                     itemList.add(item);
                 }
             } catch (Throwable ignored) {
