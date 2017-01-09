@@ -2,15 +2,14 @@ package com.tomclaw.appsend;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -19,6 +18,7 @@ import android.widget.ViewSwitcher;
 
 import com.bumptech.glide.Glide;
 import com.tomclaw.appsend.main.controller.UploadController;
+import com.tomclaw.appsend.main.item.CommonItem;
 import com.tomclaw.appsend.util.FileHelper;
 import com.tomclaw.appsend.util.StringUtil;
 import com.tomclaw.appsend.util.ThemeHelper;
@@ -26,13 +26,12 @@ import com.tomclaw.appsend.util.ThemeHelper;
 /**
  * Created by ivsolkin on 02.01.17.
  */
-
 public class UploadActivity extends AppCompatActivity implements UploadController.UploadCallback {
 
     private static final long DEBOUNCE_DELAY = 300;
-    public static final String APP_INFO = "app_info";
+    public static final String UPLOAD_ITEM = "app_info";
 
-    private AppInfo appInfo;
+    private CommonItem item;
     private ImageView appIcon;
     private TextView appLabel;
     private TextView appPackage;
@@ -43,7 +42,7 @@ public class UploadActivity extends AppCompatActivity implements UploadControlle
 
     private ViewSwitcher viewSwitcher;
 
-    private static AppIconGlideLoader loader;
+    private static PackageIconGlideLoader loader;
     private String url;
 
     private transient long progressUpdateTime = 0;
@@ -64,9 +63,9 @@ public class UploadActivity extends AppCompatActivity implements UploadControlle
 
         boolean isCreateInstance = savedInstanceState == null;
         if (isCreateInstance) {
-            appInfo = getIntent().getParcelableExtra(APP_INFO);
+            item = getIntent().getParcelableExtra(UPLOAD_ITEM);
         } else {
-            appInfo = savedInstanceState.getParcelable(APP_INFO);
+            item = savedInstanceState.getParcelable(UPLOAD_ITEM);
         }
 
         appIcon = (ImageView) findViewById(R.id.app_icon);
@@ -102,27 +101,26 @@ public class UploadActivity extends AppCompatActivity implements UploadControlle
         });
 
         if (loader == null) {
-            loader = new AppIconGlideLoader(getPackageManager());
+            loader = new PackageIconGlideLoader(getPackageManager());
         }
 
-        Glide.with(this)
-                .using(loader)
-                .load(appInfo)
-                .into(appIcon);
+        PackageInfo packageInfo = item.getPackageInfo();
 
-        appLabel.setText(appInfo.getLabel());
-        appPackage.setText(appInfo.getPackageName());
-        String size = FileHelper.formatBytes(getResources(), appInfo.getSize());
+        if (packageInfo != null) {
+            Glide.with(this)
+                    .using(loader)
+                    .load(packageInfo)
+                    .into(appIcon);
+        }
+
+        appLabel.setText(item.getLabel());
+        appPackage.setText(item.getPackageName());
+        String size = FileHelper.formatBytes(getResources(), item.getSize());
         appSize.setText(getString(R.string.upload_size, size));
-        if (TextUtils.isEmpty(appInfo.getInstalledVersion())) {
-            appVersion.setText(appInfo.getVersion());
-        } else {
-            appVersion.setText(getResources().getString(
-                    R.string.version_update, appInfo.getInstalledVersion(), appInfo.getVersion()));
-        }
+        appVersion.setText(item.getVersion());
 
         if (isCreateInstance) {
-            UploadController.getInstance().upload(appInfo);
+            UploadController.getInstance().upload(item);
         }
     }
 
@@ -152,7 +150,7 @@ public class UploadActivity extends AppCompatActivity implements UploadControlle
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelable(APP_INFO, appInfo);
+        outState.putParcelable(UPLOAD_ITEM, item);
     }
 
     @Override
@@ -206,7 +204,7 @@ public class UploadActivity extends AppCompatActivity implements UploadControlle
     }
 
     private String getText() {
-        String sizeString = FileHelper.formatBytes(getResources(), appInfo.getSize());
-        return getString(R.string.uploaded_url, appInfo.getLabel(), sizeString, url);
+        String sizeString = FileHelper.formatBytes(getResources(), item.getSize());
+        return getString(R.string.uploaded_url, item.getLabel(), sizeString, url);
     }
 }

@@ -11,9 +11,10 @@ import android.os.Environment;
 import android.text.Html;
 import android.widget.Toast;
 
-import com.tomclaw.appsend.AppInfo;
+import com.tomclaw.appsend.main.item.AppItem;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.PleaseWaitTask;
+import com.tomclaw.appsend.main.item.CommonItem;
 import com.tomclaw.appsend.util.FileHelper;
 
 import java.io.*;
@@ -27,14 +28,14 @@ public class ExportApkTask extends PleaseWaitTask {
     public static final int ACTION_SHARE = 0x01;
     public static final int ACTION_BLUETOOTH = 0x02;
 
-    private final AppInfo appInfo;
+    private final AppItem appItem;
     private final int actionType;
 
     private File destination;
 
-    public ExportApkTask(Context context, AppInfo appInfo, int actionType) {
+    public ExportApkTask(Context context, AppItem appItem, int actionType) {
         super(context);
-        this.appInfo = appInfo;
+        this.appItem = appItem;
         this.actionType = actionType;
     }
 
@@ -42,9 +43,9 @@ public class ExportApkTask extends PleaseWaitTask {
     public void executeBackground() throws Throwable {
         Context context = getWeakObject();
         if (context != null) {
-            File file = new File(appInfo.getPath());
+            File file = new File(appItem.getPath());
             File directory = getExternalDirectory();
-            destination = new File(directory, getApkName(appInfo));
+            destination = new File(directory, getApkName(appItem));
             if (destination.exists()) {
                 destination.delete();
             }
@@ -70,16 +71,16 @@ public class ExportApkTask extends PleaseWaitTask {
         return directory;
     }
 
-    public static String getApkPrefix(AppInfo appInfo) {
-        return FileHelper.escapeFileSymbols(appInfo.getLabel() + "-" + appInfo.getVersion());
+    public static String getApkPrefix(CommonItem item) {
+        return FileHelper.escapeFileSymbols(item.getLabel() + "-" + item.getVersion());
     }
 
     public static String getApkSuffix() {
         return ".apk";
     }
 
-    public static String getApkName(AppInfo appInfo) {
-        return getApkPrefix(appInfo) + getApkSuffix();
+    public static String getApkName(CommonItem item) {
+        return getApkPrefix(item) + getApkSuffix();
     }
 
     @Override
@@ -106,7 +107,7 @@ public class ExportApkTask extends PleaseWaitTask {
                     break;
                 }
                 case ACTION_BLUETOOTH: {
-                    bluetoothApk(context, appInfo);
+                    bluetoothApk(context, appItem);
                     break;
                 }
             }
@@ -123,11 +124,11 @@ public class ExportApkTask extends PleaseWaitTask {
         context.startActivity(Intent.createChooser(sendIntent, context.getResources().getText(R.string.send_to)));
     }
 
-    public static void bluetoothApk(Context context, AppInfo appInfo) {
-        Uri uri = Uri.fromFile(new File(appInfo.getPath()));
+    public static void bluetoothApk(Context context, CommonItem item) {
+        Uri uri = Uri.fromFile(new File(item.getPath()));
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, appInfo.getLabel());
+        sendIntent.putExtra(Intent.EXTRA_TEXT, item.getLabel());
         sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
         sendIntent.setType("application/zip");
         sendIntent.setPackage("com.android.bluetooth");

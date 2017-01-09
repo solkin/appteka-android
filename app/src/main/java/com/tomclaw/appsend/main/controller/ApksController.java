@@ -7,8 +7,10 @@ import android.content.pm.PackageManager;
 import android.os.Environment;
 import android.text.TextUtils;
 
-import com.tomclaw.appsend.AppInfo;
+import com.tomclaw.appsend.main.item.ApkItem;
+import com.tomclaw.appsend.main.item.AppItem;
 import com.tomclaw.appsend.core.MainExecutor;
+import com.tomclaw.appsend.main.item.BaseItem;
 import com.tomclaw.appsend.util.FileHelper;
 
 import java.io.File;
@@ -38,7 +40,7 @@ public class ApksController {
     private WeakReference<ApksCallback> weakCallback;
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
-    private List<AppInfo> list;
+    private List<BaseItem> list;
     private boolean isError = false;
 
     private Future<?> future;
@@ -98,7 +100,7 @@ public class ApksController {
         });
     }
 
-    private void onLoaded(final List<AppInfo> list) {
+    private void onLoaded(final List<BaseItem> list) {
         this.list = list;
         MainExecutor.execute(new Runnable() {
             @Override
@@ -131,28 +133,28 @@ public class ApksController {
     private void loadInternal(Context context) {
         onProgress();
         PackageManager packageManager = context.getPackageManager();
-        ArrayList<AppInfo> appInfoList = new ArrayList<>();
-        walkDir(packageManager, appInfoList, Environment.getExternalStorageDirectory());
-        onLoaded(appInfoList);
+        ArrayList<BaseItem> itemList = new ArrayList<>();
+        walkDir(packageManager, itemList, Environment.getExternalStorageDirectory());
+        onLoaded(itemList);
     }
 
-    private void walkDir(PackageManager packageManager, List<AppInfo> appInfoList, File dir) {
+    private void walkDir(PackageManager packageManager, List<BaseItem> itemList, File dir) {
         File listFile[] = dir.listFiles();
         if (listFile != null) {
             for (File file : listFile) {
                 if (file.isDirectory()) {
-                    walkDir(packageManager, appInfoList, file);
+                    walkDir(packageManager, itemList, file);
                 } else {
                     String extension = FileHelper.getFileExtensionFromPath(file.getName());
                     if (TextUtils.equals(extension, APK_EXTENSION)) {
-                        processApk(packageManager, appInfoList, file);
+                        processApk(packageManager, itemList, file);
                     }
                 }
             }
         }
     }
 
-    private void processApk(PackageManager packageManager, List<AppInfo> appInfoList, File file) {
+    private void processApk(PackageManager packageManager, List<BaseItem> itemList, File file) {
         if (file.exists()) {
             try {
                 PackageInfo packageInfo = packageManager.getPackageArchiveInfo(file.getAbsolutePath(), 0);
@@ -173,10 +175,9 @@ public class ApksController {
                         // No package, maybe?
                     }
 
-                    AppInfo appInfo = new AppInfo(label, info.packageName,
-                            version, instVersion, file.getPath(), file.length(), 0, 0, null,
-                            AppInfo.FLAG_APK_FILE);
-                    appInfoList.add(appInfo);
+                    ApkItem item = new ApkItem(label, info.packageName, version, file.getPath(),
+                            file.length(), instVersion, file.lastModified(), packageInfo);
+                    itemList.add(item);
                 }
             } catch (Throwable ignored) {
                 // Bad package.
@@ -187,7 +188,7 @@ public class ApksController {
     public interface ApksCallback {
 
         void onProgress();
-        void onLoaded(List<AppInfo> list);
+        void onLoaded(List<BaseItem> list);
         void onError();
 
     }

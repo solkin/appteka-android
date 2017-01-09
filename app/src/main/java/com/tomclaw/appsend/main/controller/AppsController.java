@@ -8,9 +8,11 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.text.TextUtils;
 
-import com.tomclaw.appsend.AppInfo;
+import com.tomclaw.appsend.main.item.AppItem;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.MainExecutor;
+import com.tomclaw.appsend.main.item.BaseItem;
+import com.tomclaw.appsend.main.item.DonateItem;
 import com.tomclaw.appsend.util.PreferenceHelper;
 
 import java.io.File;
@@ -41,7 +43,7 @@ public class AppsController {
     private WeakReference<AppsCallback> weakCallback;
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
-    private List<AppInfo> list;
+    private List<BaseItem> list;
     private boolean isError = false;
 
     private Future<?> future;
@@ -101,7 +103,7 @@ public class AppsController {
         });
     }
 
-    private void onLoaded(final List<AppInfo> list) {
+    private void onLoaded(final List<BaseItem> list) {
         this.list = list;
         MainExecutor.execute(new Runnable() {
             @Override
@@ -134,12 +136,11 @@ public class AppsController {
     private void loadInternal(Context context) {
         onProgress();
         PackageManager packageManager = context.getPackageManager();
-        ArrayList<AppInfo> appInfoList = new ArrayList<>();
+        ArrayList<AppItem> appItemList = new ArrayList<>();
         List<ApplicationInfo> packages = packageManager.getInstalledApplications(PackageManager.GET_META_DATA);
         for (ApplicationInfo info : packages) {
             try {
                 PackageInfo packageInfo = packageManager.getPackageInfo(info.packageName, 0);
-                int flags = packageInfo.applicationInfo.flags;
                 File file = new File(info.publicSourceDir);
                 if (file.exists()) {
                     String label = packageManager.getApplicationLabel(info).toString();
@@ -147,14 +148,13 @@ public class AppsController {
                     long firstInstallTime = Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD ? packageInfo.firstInstallTime : 0;
                     long lastUpdateTime = Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD ? packageInfo.lastUpdateTime : 0;
                     Intent launchIntent = packageManager.getLaunchIntentForPackage(info.packageName);
-                    AppInfo appInfo = new AppInfo(label, info.packageName,
-                            version, null, file.getPath(), file.length(), firstInstallTime,
-                            lastUpdateTime, launchIntent, AppInfo.FLAG_INSTALLED_APP);
+                    AppItem appItem = new AppItem(label, info.packageName, version, file.getPath(),
+                            file.length(), firstInstallTime, lastUpdateTime, packageInfo);
                     boolean isUserApp = ((info.flags & ApplicationInfo.FLAG_SYSTEM) != ApplicationInfo.FLAG_SYSTEM &&
                             (info.flags & ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) != ApplicationInfo.FLAG_UPDATED_SYSTEM_APP);
                     if (isUserApp || PreferenceHelper.isShowSystemApps(context)) {
                         if (launchIntent != null || !PreferenceHelper.isRunnableOnly(context)) {
-                            appInfoList.add(appInfo);
+                            appItemList.add(appItem);
                         }
                     }
                 }
@@ -164,49 +164,49 @@ public class AppsController {
         }
         String sortOrder = PreferenceHelper.getSortOrder(context);
         if (TextUtils.equals(sortOrder, context.getString(R.string.sort_order_ascending_value))) {
-            Collections.sort(appInfoList, new Comparator<AppInfo>() {
+            Collections.sort(appItemList, new Comparator<AppItem>() {
                 @Override
-                public int compare(AppInfo lhs, AppInfo rhs) {
+                public int compare(AppItem lhs, AppItem rhs) {
                     return lhs.getLabel().toUpperCase().compareTo(rhs.getLabel().toUpperCase());
                 }
             });
         } else if (TextUtils.equals(sortOrder, context.getString(R.string.sort_order_descending_value))) {
-            Collections.sort(appInfoList, new Comparator<AppInfo>() {
+            Collections.sort(appItemList, new Comparator<AppItem>() {
                 @Override
-                public int compare(AppInfo lhs, AppInfo rhs) {
+                public int compare(AppItem lhs, AppItem rhs) {
                     return rhs.getLabel().toUpperCase().compareTo(lhs.getLabel().toUpperCase());
                 }
             });
         } else if (TextUtils.equals(sortOrder, context.getString(R.string.sort_order_app_size_value))) {
-            Collections.sort(appInfoList, new Comparator<AppInfo>() {
+            Collections.sort(appItemList, new Comparator<AppItem>() {
                 @Override
-                public int compare(AppInfo lhs, AppInfo rhs) {
+                public int compare(AppItem lhs, AppItem rhs) {
                     return compareLong(rhs.getSize(), lhs.getSize());
                 }
             });
         } else if (TextUtils.equals(sortOrder, context.getString(R.string.sort_order_install_time_value))) {
-            Collections.sort(appInfoList, new Comparator<AppInfo>() {
+            Collections.sort(appItemList, new Comparator<AppItem>() {
                 @Override
-                public int compare(AppInfo lhs, AppInfo rhs) {
+                public int compare(AppItem lhs, AppItem rhs) {
                     return compareLong(rhs.getFirstInstallTime(), lhs.getFirstInstallTime());
                 }
             });
         } else if (TextUtils.equals(sortOrder, context.getString(R.string.sort_order_update_time_value))) {
-            Collections.sort(appInfoList, new Comparator<AppInfo>() {
+            Collections.sort(appItemList, new Comparator<AppItem>() {
                 @Override
-                public int compare(AppInfo lhs, AppInfo rhs) {
+                public int compare(AppItem lhs, AppItem rhs) {
                     return compareLong(rhs.getLastUpdateTime(), lhs.getLastUpdateTime());
                 }
             });
         }
-        int count = Math.min(appInfoList.size(), 8);
+        List<BaseItem> baseItems = new ArrayList<>();
+        baseItems.addAll(appItemList);
+        int count = Math.min(baseItems.size(), 8);
         Random random = new Random(System.currentTimeMillis());
         int position = random.nextInt(count);
-        // Oh, this is ugly, very ugly decision... But I really want to sleep.
-        // TODO: Refactor me, please!
-        AppInfo donateItem = new AppInfo(null, null, null, null, null, -1, -1, -1, null, AppInfo.FLAG_DONATE_ITEM);
-        appInfoList.add(position, donateItem);
-        onLoaded(appInfoList);
+        DonateItem donateItem = new DonateItem();
+        baseItems.add(position, donateItem);
+        onLoaded(baseItems);
     }
 
     private int compareLong(long lhs, long rhs) {
@@ -216,7 +216,7 @@ public class AppsController {
     public interface AppsCallback {
 
         void onProgress();
-        void onLoaded(List<AppInfo> list);
+        void onLoaded(List<BaseItem> list);
         void onError();
 
     }

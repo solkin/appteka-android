@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.provider.Settings;
 import android.support.design.widget.Snackbar;
@@ -18,8 +19,8 @@ import android.widget.ViewFlipper;
 import com.anjlab.android.iab.v3.BillingProcessor;
 import com.anjlab.android.iab.v3.TransactionDetails;
 import com.greysonparrelli.permiso.Permiso;
-import com.tomclaw.appsend.AppInfo;
-import com.tomclaw.appsend.BaseItem;
+import com.tomclaw.appsend.main.item.AppItem;
+import com.tomclaw.appsend.main.item.BaseItem;
 import com.tomclaw.appsend.DonateActivity;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.UploadActivity;
@@ -70,7 +71,7 @@ public class AppsView extends MainView implements BillingProcessor.IBillingHandl
                 if (donateItem) {
                     showDonateDialog();
                 } else {
-                    final AppInfo info = (AppInfo) item;
+                    final AppItem info = (AppItem) item;
                     checkPermissionsForExtract(info);
                 }
             }
@@ -119,13 +120,13 @@ public class AppsView extends MainView implements BillingProcessor.IBillingHandl
         startActivity(new Intent(getContext(), DonateActivity.class));
     }
 
-    private void checkPermissionsForExtract(final AppInfo appInfo) {
+    private void checkPermissionsForExtract(final AppItem appItem) {
         Permiso.getInstance().requestPermissions(new Permiso.IOnPermissionResult() {
             @Override
             public void onPermissionResult(Permiso.ResultSet resultSet) {
                 if (resultSet.areAllPermissionsGranted()) {
                     // Permission granted!
-                    showActionDialog(appInfo);
+                    showActionDialog(appItem);
                 } else {
                     // Permission denied.
                     Snackbar.make(listView, R.string.permission_denied_message, Snackbar.LENGTH_LONG).show();
@@ -141,7 +142,7 @@ public class AppsView extends MainView implements BillingProcessor.IBillingHandl
         }, Manifest.permission.WRITE_EXTERNAL_STORAGE);
     }
 
-    private void showActionDialog(final AppInfo appInfo) {
+    private void showActionDialog(final AppItem appItem) {
         ListAdapter menuAdapter = new MenuAdapter(getContext(), R.array.app_actions_titles, R.array.app_actions_icons);
         new AlertDialog.Builder(getContext())
                 .setAdapter(menuAdapter, new DialogInterface.OnClickListener() {
@@ -149,33 +150,35 @@ public class AppsView extends MainView implements BillingProcessor.IBillingHandl
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case 0: {
-                                if (appInfo.getLaunchIntent() == null) {
+                                PackageManager packageManager = getContext().getPackageManager();
+                                Intent launchIntent = packageManager.getLaunchIntentForPackage(appItem.getPackageName());
+                                if (launchIntent == null) {
                                     Snackbar.make(listView, R.string.non_launchable_package, Snackbar.LENGTH_LONG).show();
                                 } else {
-                                    startActivity(appInfo.getLaunchIntent());
+                                    startActivity(launchIntent);
                                 }
                                 break;
                             }
                             case 1: {
-                                TaskExecutor.getInstance().execute(new ExportApkTask(getContext(), appInfo, ExportApkTask.ACTION_SHARE));
+                                TaskExecutor.getInstance().execute(new ExportApkTask(getContext(), appItem, ExportApkTask.ACTION_SHARE));
                                 break;
                             }
                             case 2: {
-                                TaskExecutor.getInstance().execute(new ExportApkTask(getContext(), appInfo, ExportApkTask.ACTION_EXTRACT));
+                                TaskExecutor.getInstance().execute(new ExportApkTask(getContext(), appItem, ExportApkTask.ACTION_EXTRACT));
                                 break;
                             }
                             case 3: {
                                 Intent intent = new Intent(getContext(), UploadActivity.class);
-                                intent.putExtra(UploadActivity.APP_INFO, appInfo);
+                                intent.putExtra(UploadActivity.UPLOAD_ITEM, appItem);
                                 startActivity(intent);
                                 break;
                             }
                             case 4: {
-                                TaskExecutor.getInstance().execute(new ExportApkTask(getContext(), appInfo, ExportApkTask.ACTION_BLUETOOTH));
+                                TaskExecutor.getInstance().execute(new ExportApkTask(getContext(), appItem, ExportApkTask.ACTION_BLUETOOTH));
                                 break;
                             }
                             case 5: {
-                                final String appPackageName = appInfo.getPackageName();
+                                final String appPackageName = appItem.getPackageName();
                                 try {
                                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
                                 } catch (android.content.ActivityNotFoundException anfe) {
@@ -188,14 +191,14 @@ public class AppsView extends MainView implements BillingProcessor.IBillingHandl
                                 final Intent intent = new Intent()
                                         .setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
                                         .addCategory(Intent.CATEGORY_DEFAULT)
-                                        .setData(Uri.parse("package:" + appInfo.getPackageName()))
+                                        .setData(Uri.parse("package:" + appItem.getPackageName()))
                                         .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                                 startActivity(intent);
                                 break;
                             }
                             case 7: {
                                 setRefreshOnResume();
-                                Uri packageUri = Uri.parse("package:" + appInfo.getPackageName());
+                                Uri packageUri = Uri.parse("package:" + appItem.getPackageName());
                                 Intent uninstallIntent = new Intent(Intent.ACTION_DELETE, packageUri);
                                 startActivity(uninstallIntent);
                                 break;
@@ -205,18 +208,18 @@ public class AppsView extends MainView implements BillingProcessor.IBillingHandl
                 }).show();
     }
 
-    private void setAppInfoList(List<AppInfo> appInfoList) {
+    private void setAppInfoList(List<BaseItem> appItemList) {
         if (bp.loadOwnedPurchasesFromGoogle() &&
                 bp.isPurchased(getContext().getString(R.string.chocolate_id))) {
-            for (AppInfo appInfo : appInfoList) {
-                boolean donateItem = (appInfo.getFlags() & AppInfo.FLAG_DONATE_ITEM) == AppInfo.FLAG_DONATE_ITEM;
+            for (BaseItem item : appItemList) {
+                boolean donateItem = (item.getType() == BaseItem.DONATE_ITEM);
                 if (donateItem) {
-                    appInfoList.remove(appInfo);
+                    appItemList.remove(item);
                     break;
                 }
             }
         }
-        adapter.setItemsList(appInfoList);
+        adapter.setItemsList(appItemList);
         adapter.notifyDataSetChanged();
     }
 
@@ -242,7 +245,7 @@ public class AppsView extends MainView implements BillingProcessor.IBillingHandl
     }
 
     @Override
-    public void onLoaded(List<AppInfo> list) {
+    public void onLoaded(List<BaseItem> list) {
         setAppInfoList(list);
         viewFlipper.setDisplayedChild(1);
     }

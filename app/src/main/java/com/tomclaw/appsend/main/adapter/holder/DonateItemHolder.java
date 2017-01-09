@@ -1,4 +1,4 @@
-package com.tomclaw.appsend.main.adapter;
+package com.tomclaw.appsend.main.adapter.holder;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;
@@ -6,7 +6,8 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
-import com.tomclaw.appsend.BaseItem;
+import com.tomclaw.appsend.main.adapter.BaseItemAdapter;
+import com.tomclaw.appsend.main.item.BaseItem;
 import com.tomclaw.appsend.R;
 
 import java.util.concurrent.TimeUnit;
@@ -16,13 +17,13 @@ import jp.shts.android.library.TriangleLabelView;
 /**
  * Created by ivsolkin on 06.09.16.
  */
-public class DonateItem extends AbstractItem {
+public class DonateItemHolder extends AbstractItemHolder {
 
     private View itemView;
     private TriangleLabelView badgeNew;
     private ImageView appIcon;
 
-    public DonateItem(View itemView) {
+    public DonateItemHolder(View itemView) {
         super(itemView);
         this.itemView = itemView;
         badgeNew = (TriangleLabelView) itemView.findViewById(R.id.badge_new);

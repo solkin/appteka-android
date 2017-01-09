@@ -18,22 +18,21 @@ import java.io.InputStream;
 /**
  * Created by ivsolkin on 23.12.16.
  */
-public class AppIconGlideLoader implements StreamModelLoader<AppInfo> {
+public class PackageIconGlideLoader implements StreamModelLoader<PackageInfo> {
 
     private PackageManager packageManager;
 
-    public AppIconGlideLoader(PackageManager packageManager) {
+    public PackageIconGlideLoader(PackageManager packageManager) {
         this.packageManager = packageManager;
     }
 
     @Override
-    public DataFetcher<InputStream> getResourceFetcher(final AppInfo model, int width, int height) {
+    public DataFetcher<InputStream> getResourceFetcher(final PackageInfo model, int width, int height) {
         try {
-            final PackageInfo packageInfo = packageManager.getPackageInfo(model.getPackageName(), 0);
             return new DataFetcher<InputStream>() {
                 @Override
                 public InputStream loadData(Priority priority) throws Exception {
-                    Drawable icon = packageInfo.applicationInfo.loadIcon(packageManager);
+                    Drawable icon = model.applicationInfo.loadIcon(packageManager);
                     final Bitmap bitmap = drawableToBitmap(icon);
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
                     bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
@@ -46,7 +45,7 @@ public class AppIconGlideLoader implements StreamModelLoader<AppInfo> {
 
                 @Override
                 public String getId() {
-                    return packageInfo.packageName + "-" + packageInfo.versionCode;
+                    return model.packageName + "-" + model.versionCode;
                 }
 
                 @Override

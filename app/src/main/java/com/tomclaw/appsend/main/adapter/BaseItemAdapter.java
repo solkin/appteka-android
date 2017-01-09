@@ -6,21 +6,26 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.tomclaw.appsend.BaseItem;
+import com.tomclaw.appsend.main.adapter.holder.AbstractItemHolder;
+import com.tomclaw.appsend.main.adapter.holder.ApkItemHolder;
+import com.tomclaw.appsend.main.adapter.holder.AppItemHolder;
+import com.tomclaw.appsend.main.adapter.holder.CouchItemHolder;
+import com.tomclaw.appsend.main.adapter.holder.DonateItemHolder;
+import com.tomclaw.appsend.main.item.BaseItem;
 import com.tomclaw.appsend.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.tomclaw.appsend.BaseItem.APK_ITEM;
-import static com.tomclaw.appsend.BaseItem.APP_ITEM;
-import static com.tomclaw.appsend.BaseItem.COUCH_ITEM;
-import static com.tomclaw.appsend.BaseItem.DONATE_ITEM;
+import static com.tomclaw.appsend.main.item.BaseItem.APK_ITEM;
+import static com.tomclaw.appsend.main.item.BaseItem.APP_ITEM;
+import static com.tomclaw.appsend.main.item.BaseItem.COUCH_ITEM;
+import static com.tomclaw.appsend.main.item.BaseItem.DONATE_ITEM;
 
 /**
  * Created by Solkin on 10.12.2014.
  */
-public class BaseItemAdapter extends RecyclerView.Adapter<AbstractItem> {
+public class BaseItemAdapter extends RecyclerView.Adapter<AbstractItemHolder> {
 
     private final List<BaseItem> itemsList;
     private LayoutInflater inflater;
@@ -39,30 +44,30 @@ public class BaseItemAdapter extends RecyclerView.Adapter<AbstractItem> {
     }
 
     @Override
-    public AbstractItem onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+    public AbstractItemHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View view;
         switch (viewType) {
             case APP_ITEM:
                 view = inflater.inflate(R.layout.app_item, viewGroup, false);
-                return new AppItem(view);
+                return new AppItemHolder(view);
             case APK_ITEM:
                 view = inflater.inflate(R.layout.apk_item, viewGroup, false);
-                return new ApkItem(view);
+                return new ApkItemHolder(view);
             case DONATE_ITEM:
                 view = inflater.inflate(R.layout.donate_item, viewGroup, false);
-                return new DonateItem(view);
+                return new DonateItemHolder(view);
             case COUCH_ITEM:
                 view = inflater.inflate(R.layout.couch_item, viewGroup, false);
-                return new CouchItem(view);
+                return new CouchItemHolder(view);
             default:
                 throw new IllegalStateException("Unsupported item type: " + viewType);
         }
     }
 
     @Override
-    public void onBindViewHolder(AbstractItem appItem, int position) {
+    public void onBindViewHolder(AbstractItemHolder holder, int position) {
         BaseItem appInfo = itemsList.get(position);
-        appItem.bind(context, appInfo, listener);
+        holder.bind(context, appInfo, listener);
     }
 
     @Override
@@ -122,7 +127,7 @@ public class BaseItemAdapter extends RecyclerView.Adapter<AbstractItem> {
 //        return filtered;
 //    }
 
-    public interface BaseItemClickListener {
-        void onItemClicked(BaseItem appInfo);
+    public interface BaseItemClickListener<I extends BaseItem> {
+        void onItemClicked(I item);
     }
 }

@@ -1,15 +1,17 @@
-package com.tomclaw.appsend.main.adapter;
+package com.tomclaw.appsend.main.adapter.holder;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.tomclaw.appsend.AppIconGlideLoader;
-import com.tomclaw.appsend.AppInfo;
-import com.tomclaw.appsend.BaseItem;
+import com.tomclaw.appsend.PackageIconGlideLoader;
+import com.tomclaw.appsend.main.adapter.BaseItemAdapter;
+import com.tomclaw.appsend.main.item.AppItem;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.util.FileHelper;
 
@@ -21,7 +23,7 @@ import jp.shts.android.library.TriangleLabelView;
 /**
  * Created by Solkin on 10.12.2014.
  */
-public class AppItem extends AbstractItem {
+public class AppItemHolder extends AbstractItemHolder<AppItem> {
 
     private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yy");
 
@@ -33,9 +35,9 @@ public class AppItem extends AbstractItem {
     private TextView appSize;
     private TriangleLabelView badgeNew;
 
-    private static AppIconGlideLoader loader;
+    private static PackageIconGlideLoader loader;
 
-    public AppItem(View itemView) {
+    public AppItemHolder(View itemView) {
         super(itemView);
         this.itemView = itemView;
         appIcon = (ImageView) itemView.findViewById(R.id.app_icon);
@@ -46,42 +48,39 @@ public class AppItem extends AbstractItem {
         badgeNew = (TriangleLabelView) itemView.findViewById(R.id.badge_new);
     }
 
-    public void bind(Context context, final BaseItem item, final BaseItemAdapter.BaseItemClickListener listener) {
-        final AppInfo info = (AppInfo) item;
+    public void bind(Context context, final AppItem item, final BaseItemAdapter.BaseItemClickListener<AppItem> listener) {
         if (listener != null) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    listener.onItemClicked(info);
+                    listener.onItemClicked(item);
                 }
             });
         }
 
         if (loader == null) {
-            loader = new AppIconGlideLoader(context.getPackageManager());
+            loader = new PackageIconGlideLoader(context.getPackageManager());
         }
 
-        Glide.with(context)
-                .using(loader)
-                .load(info)
-                .into(appIcon);
-
-        appName.setText(info.getLabel());
-        if (TextUtils.isEmpty(info.getInstalledVersion())) {
-            appVersion.setText(info.getVersion());
-        } else {
-            appVersion.setText(itemView.getResources().getString(
-                    R.string.version_update, info.getInstalledVersion(), info.getVersion()));
+        try {
+            Glide.with(context)
+                    .using(loader)
+                    .load(item.getPackageInfo())
+                    .into(appIcon);
+        } catch (Throwable ignored) {
         }
-        if (info.getLastUpdateTime() > 0) {
+
+        appName.setText(item.getLabel());
+        appVersion.setText(item.getVersion());
+        if (item.getLastUpdateTime() > 0) {
             appUpdateTime.setVisibility(View.VISIBLE);
-            appUpdateTime.setText(simpleDateFormat.format(info.getLastUpdateTime()));
+            appUpdateTime.setText(simpleDateFormat.format(item.getLastUpdateTime()));
         } else {
             appUpdateTime.setVisibility(View.GONE);
         }
-        appSize.setText(FileHelper.formatBytes(context.getResources(), info.getSize()));
+        appSize.setText(FileHelper.formatBytes(context.getResources(), item.getSize()));
 
-        long appInstallDelay = System.currentTimeMillis() - info.getFirstInstallTime();
+        long appInstallDelay = System.currentTimeMillis() - item.getFirstInstallTime();
         boolean isNewApp = appInstallDelay > 0 && appInstallDelay < TimeUnit.DAYS.toMillis(1);
         badgeNew.setVisibility(isNewApp ? View.VISIBLE : View.GONE);
     }

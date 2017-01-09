@@ -15,13 +15,14 @@ import android.widget.ListAdapter;
 import android.widget.ViewFlipper;
 
 import com.greysonparrelli.permiso.Permiso;
-import com.tomclaw.appsend.AppInfo;
-import com.tomclaw.appsend.BaseItem;
+import com.tomclaw.appsend.main.item.ApkItem;
+import com.tomclaw.appsend.main.item.BaseItem;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.UploadActivity;
 import com.tomclaw.appsend.main.adapter.BaseItemAdapter;
 import com.tomclaw.appsend.main.adapter.MenuAdapter;
 import com.tomclaw.appsend.main.controller.ApksController;
+import com.tomclaw.appsend.main.item.CouchItem;
 import com.tomclaw.appsend.main.task.ExportApkTask;
 import com.tomclaw.appsend.util.PreferenceHelper;
 
@@ -63,10 +64,11 @@ public class InstallView extends MainView implements ApksController.ApksCallback
             public void onItemClicked(final BaseItem item) {
                 boolean couchItem = item.getType() == BaseItem.COUCH_ITEM;
                 if (couchItem) {
+                    // TODO: check couch type.
                     PreferenceHelper.setShowInstallCouch(context, false);
                     start();
                 } else {
-                    final AppInfo info = (AppInfo) item;
+                    final ApkItem info = (ApkItem) item;
                     showActionDialog(info);
                 }
             }
@@ -118,9 +120,10 @@ public class InstallView extends MainView implements ApksController.ApksCallback
                 } else {
                     // Permission denied.
                     Snackbar.make(listView, R.string.permission_denied_message, Snackbar.LENGTH_LONG).show();
-                    // TODO: Show permission couch.
-                    AppInfo couchItem = new AppInfo(null, null, null, null, null, -1, -1, -1, null, AppInfo.FLAG_COUCH_ITEM);
-                    List<AppInfo> list = Collections.singletonList(couchItem);
+                    String couchText = getContext().getString(R.string.write_permission_install);
+                    String buttonText = getContext().getString(R.string.retry);
+                    BaseItem couchItem = new CouchItem(couchText, buttonText);
+                    List<BaseItem> list = Collections.singletonList(couchItem);
                     setAppInfoList(list);
                 }
             }
@@ -134,7 +137,7 @@ public class InstallView extends MainView implements ApksController.ApksCallback
         }, Manifest.permission.WRITE_EXTERNAL_STORAGE);
     }
 
-    private void showActionDialog(final AppInfo appInfo) {
+    private void showActionDialog(final ApkItem apkItem) {
         ListAdapter menuAdapter = new MenuAdapter(getContext(), R.array.apk_actions_titles, R.array.apk_actions_icons);
         new AlertDialog.Builder(getContext())
                 .setAdapter(menuAdapter, new DialogInterface.OnClickListener() {
@@ -142,25 +145,25 @@ public class InstallView extends MainView implements ApksController.ApksCallback
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case 0: {
-                                installApp(appInfo);
+                                installApp(apkItem);
                                 break;
                             }
                             case 1: {
-                                ExportApkTask.shareApk(getContext(), new File(appInfo.getPath()));
+                                ExportApkTask.shareApk(getContext(), new File(apkItem.getPath()));
                                 break;
                             }
                             case 2: {
                                 Intent intent = new Intent(getContext(), UploadActivity.class);
-                                intent.putExtra(UploadActivity.APP_INFO, appInfo);
+                                intent.putExtra(UploadActivity.UPLOAD_ITEM, apkItem);
                                 startActivity(intent);
                                 break;
                             }
                             case 3: {
-                                ExportApkTask.bluetoothApk(getContext(), appInfo);
+                                ExportApkTask.bluetoothApk(getContext(), apkItem);
                                 break;
                             }
                             case 4: {
-                                final String appPackageName = appInfo.getPackageName();
+                                final String appPackageName = apkItem.getPackageName();
                                 try {
                                     startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
                                 } catch (android.content.ActivityNotFoundException anfe) {
@@ -169,7 +172,7 @@ public class InstallView extends MainView implements ApksController.ApksCallback
                                 break;
                             }
                             case 5: {
-                                File file = new File(appInfo.getPath());
+                                File file = new File(apkItem.getPath());
                                 file.delete();
                                 refresh();
                                 break;
@@ -179,15 +182,15 @@ public class InstallView extends MainView implements ApksController.ApksCallback
                 }).show();
     }
 
-    private void installApp(AppInfo appInfo) {
+    private void installApp(ApkItem item) {
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setDataAndType(Uri.fromFile(new File(appInfo.getPath())), "application/vnd.android.package-archive");
+        intent.setDataAndType(Uri.fromFile(new File(item.getPath())), "application/vnd.android.package-archive");
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
 
-    private void setAppInfoList(List<AppInfo> appInfoList) {
-        adapter.setItemsList(appInfoList);
+    private void setAppInfoList(List<BaseItem> appItemList) {
+        adapter.setItemsList(appItemList);
         adapter.notifyDataSetChanged();
     }
 
@@ -197,15 +200,23 @@ public class InstallView extends MainView implements ApksController.ApksCallback
     }
 
     @Override
-    public void onLoaded(List<AppInfo> list) {
-        List<AppInfo> appInfoList = new ArrayList<>();
+    public void onLoaded(List<BaseItem> list) {
+        List<BaseItem> appItemList = new ArrayList<>();
         boolean isShowCouch = PreferenceHelper.isShowInstallCouch(getContext());
         if (isShowCouch) {
-            AppInfo couchItem = new AppInfo(null, null, null, null, null, -1, -1, -1, null, AppInfo.FLAG_COUCH_ITEM);
-            appInfoList.add(couchItem);
+            int couchTextRes;
+            if (list.isEmpty()) {
+                couchTextRes = R.string.install_screen_no_apk_found;
+            } else {
+                couchTextRes = R.string.install_screen_apk_found;
+            }
+            String couchText = getContext().getString(couchTextRes);
+            String buttonText = getContext().getString(R.string.got_it);
+            BaseItem couchItem = new CouchItem(couchText, buttonText);
+            appItemList.add(couchItem);
         }
-        appInfoList.addAll(list);
-        setAppInfoList(appInfoList);
+        appItemList.addAll(list);
+        setAppInfoList(appItemList);
         viewFlipper.setDisplayedChild(1);
     }
 

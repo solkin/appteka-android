@@ -3,8 +3,9 @@ package com.tomclaw.appsend.main.controller;
 import android.text.TextUtils;
 
 import com.orhanobut.logger.Logger;
-import com.tomclaw.appsend.AppInfo;
+import com.tomclaw.appsend.main.item.AppItem;
 import com.tomclaw.appsend.core.MainExecutor;
+import com.tomclaw.appsend.main.item.CommonItem;
 import com.tomclaw.appsend.main.task.ExportApkTask;
 import com.tomclaw.appsend.util.HttpUtil;
 import com.tomclaw.appsend.util.MultipartStream;
@@ -44,7 +45,7 @@ public class UploadController {
 
     private static final String HOST_URL = "http://appsend.store/api/upload.php";
 
-    private AppInfo appInfo;
+    private CommonItem item;
     private WeakReference<UploadCallback> weakCallback;
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
@@ -61,7 +62,7 @@ public class UploadController {
 
     public void onAttach(UploadCallback callback) {
         weakCallback = new WeakReference<>(callback);
-        if (appInfo != null) {
+        if (item != null) {
             if (isCompleted()) {
                 callback.onCompleted(url);
             } else if (isUploaded) {
@@ -81,8 +82,8 @@ public class UploadController {
         }
     }
 
-    public void upload(AppInfo appInfo) {
-        this.appInfo = appInfo;
+    public void upload(CommonItem item) {
+        this.item = item;
         this.lastPercent = 0;
         this.isUploaded = false;
         this.url = null;
@@ -98,7 +99,7 @@ public class UploadController {
     public void cancel() {
         onDetach();
         future.cancel(true);
-        this.appInfo = null;
+        this.item = null;
         this.lastPercent = 0;
         this.isUploaded = false;
         this.url = null;
@@ -166,9 +167,9 @@ public class UploadController {
     }
 
     private void uploadInternal() {
-        File file = new File(appInfo.getPath());
+        File file = new File(item.getPath());
         final long size = file.length();
-        String name = ExportApkTask.getApkName(appInfo);
+        String name = ExportApkTask.getApkName(item);
         MultipartStream.ProgressHandler handler = new MultipartStream.ProgressHandler() {
             @Override
             public void onProgress(long sent) {

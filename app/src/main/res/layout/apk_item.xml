@@ -111,7 +111,7 @@
                             android:textSize="15sp" />
 
                         <TextView
-                            android:id="@+id/app_update_time"
+                            android:id="@+id/apk_create_time"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="left|center_vertical"
