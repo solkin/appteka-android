@@ -17,7 +17,6 @@ import android.widget.Toast;
 import com.anjlab.android.iab.v3.BillingProcessor;
 import com.anjlab.android.iab.v3.Constants;
 import com.anjlab.android.iab.v3.TransactionDetails;
-import com.jaeger.library.StatusBarUtil;
 import com.tomclaw.appsend.util.ThemeHelper;
 
 /**

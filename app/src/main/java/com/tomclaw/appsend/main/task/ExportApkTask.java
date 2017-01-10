@@ -1,23 +1,27 @@
 package com.tomclaw.appsend.main.task;
 
 import android.annotation.SuppressLint;
-import android.support.v7.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
+import android.support.v7.app.AlertDialog;
 import android.text.Html;
 import android.widget.Toast;
 
-import com.tomclaw.appsend.main.item.AppItem;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.PleaseWaitTask;
+import com.tomclaw.appsend.main.item.AppItem;
 import com.tomclaw.appsend.main.item.CommonItem;
 import com.tomclaw.appsend.util.FileHelper;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 /**
  * Created by Solkin on 11.12.2014.

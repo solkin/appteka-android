@@ -1,8 +1,6 @@
 package com.tomclaw.appsend.main.adapter.holder;
 
 import android.content.Context;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -10,9 +8,9 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.tomclaw.appsend.PackageIconGlideLoader;
+import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.main.adapter.BaseItemAdapter;
 import com.tomclaw.appsend.main.item.ApkItem;
-import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.util.FileHelper;
 
 import java.text.SimpleDateFormat;

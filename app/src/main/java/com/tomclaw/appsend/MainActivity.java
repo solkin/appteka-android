@@ -200,7 +200,7 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
     @Override
     protected void onResume() {
         super.onResume();
-        if(isRefreshOnResume) {
+        if (isRefreshOnResume) {
             updateList();
             isRefreshOnResume = false;
         }

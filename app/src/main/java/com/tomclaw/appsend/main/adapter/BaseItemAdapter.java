@@ -6,13 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.main.adapter.holder.AbstractItemHolder;
 import com.tomclaw.appsend.main.adapter.holder.ApkItemHolder;
 import com.tomclaw.appsend.main.adapter.holder.AppItemHolder;
 import com.tomclaw.appsend.main.adapter.holder.CouchItemHolder;
 import com.tomclaw.appsend.main.adapter.holder.DonateItemHolder;
 import com.tomclaw.appsend.main.item.BaseItem;
-import com.tomclaw.appsend.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -129,6 +129,7 @@ public class BaseItemAdapter extends RecyclerView.Adapter<AbstractItemHolder> {
 
     public interface BaseItemClickListener<I extends BaseItem> {
         void onItemClicked(I item);
+
         void onActionClicked(I item, String action);
     }
 }

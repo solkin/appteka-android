@@ -5,9 +5,9 @@ import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.main.adapter.BaseItemAdapter;
 import com.tomclaw.appsend.main.item.BaseItem;
-import com.tomclaw.appsend.R;
 
 /**
  * Created by ivsolkin on 06.09.16.

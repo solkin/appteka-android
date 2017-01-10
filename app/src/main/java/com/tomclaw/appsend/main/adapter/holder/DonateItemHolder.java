@@ -6,9 +6,9 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.main.adapter.BaseItemAdapter;
 import com.tomclaw.appsend.main.item.BaseItem;
-import com.tomclaw.appsend.R;
 
 import java.util.concurrent.TimeUnit;
 
@@ -35,7 +35,7 @@ public class DonateItemHolder extends AbstractItemHolder {
                 .load("")
                 .error(R.drawable.chocolate)
                 .into(appIcon);
-        if(listener != null) {
+        if (listener != null) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

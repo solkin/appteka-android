@@ -3,7 +3,6 @@ package com.tomclaw.appsend.main.controller;
 import android.text.TextUtils;
 
 import com.orhanobut.logger.Logger;
-import com.tomclaw.appsend.main.item.AppItem;
 import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.main.item.CommonItem;
 import com.tomclaw.appsend.main.task.ExportApkTask;
@@ -256,8 +255,11 @@ public class UploadController {
     public interface UploadCallback {
 
         void onProgress(int percent);
+
         void onUploaded();
+
         void onCompleted(String url);
+
         void onError();
 
     }

@@ -42,7 +42,7 @@ public class SettingsFragment extends PreferenceFragment {
                                 return pathname.getName().endsWith(".apk");
                             }
                         });
-                        for(File file : files) {
+                        for (File file : files) {
                             file.delete();
                         }
                     }
@@ -50,7 +50,7 @@ public class SettingsFragment extends PreferenceFragment {
                     @Override
                     public void onSuccessMain() {
                         Context context = getWeakObject();
-                        if(context != null) {
+                        if (context != null) {
                             Toast.makeText(context, R.string.cache_cleared_successfully, Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -58,7 +58,7 @@ public class SettingsFragment extends PreferenceFragment {
                     @Override
                     public void onFailMain(Throwable ex) {
                         Context context = getWeakObject();
-                        if(context != null) {
+                        if (context != null) {
                             Toast.makeText(context, R.string.cache_clearing_failed, Toast.LENGTH_SHORT).show();
                         }
                     }

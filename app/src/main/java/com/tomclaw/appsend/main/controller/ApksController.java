@@ -7,9 +7,8 @@ import android.content.pm.PackageManager;
 import android.os.Environment;
 import android.text.TextUtils;
 
-import com.tomclaw.appsend.main.item.ApkItem;
-import com.tomclaw.appsend.main.item.AppItem;
 import com.tomclaw.appsend.core.MainExecutor;
+import com.tomclaw.appsend.main.item.ApkItem;
 import com.tomclaw.appsend.main.item.BaseItem;
 import com.tomclaw.appsend.util.FileHelper;
 
@@ -188,7 +187,9 @@ public class ApksController {
     public interface ApksCallback {
 
         void onProgress();
+
         void onLoaded(List<BaseItem> list);
+
         void onError();
 
     }

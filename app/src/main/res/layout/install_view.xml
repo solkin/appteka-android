@@ -16,7 +16,7 @@
             <ProgressBar
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:layout_gravity="center"/>
+                android:layout_gravity="center" />
 
         </FrameLayout>
 
@@ -40,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:gravity="center"
-                tools:text="@string/apps_loading_error"/>
+                tools:text="@string/apps_loading_error" />
 
             <Button
                 android:id="@+id/button_retry"

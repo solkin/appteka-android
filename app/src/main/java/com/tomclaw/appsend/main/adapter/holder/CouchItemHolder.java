@@ -30,7 +30,7 @@ public class CouchItemHolder extends AbstractItemHolder<CouchItem> {
     }
 
     public void bind(Context context, final CouchItem item, final BaseItemAdapter.BaseItemClickListener<CouchItem> listener) {
-        if(listener != null) {
+        if (listener != null) {
             divider.setVisibility(View.VISIBLE);
             couchButtons.setVisibility(View.VISIBLE);
             couchButtons.removeAllViews();

@@ -8,9 +8,9 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.text.TextUtils;
 
-import com.tomclaw.appsend.main.item.AppItem;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.MainExecutor;
+import com.tomclaw.appsend.main.item.AppItem;
 import com.tomclaw.appsend.main.item.BaseItem;
 import com.tomclaw.appsend.main.item.DonateItem;
 import com.tomclaw.appsend.util.PreferenceHelper;
@@ -216,7 +216,9 @@ public class AppsController {
     public interface AppsCallback {
 
         void onProgress();
+
         void onLoaded(List<BaseItem> list);
+
         void onError();
 
     }
