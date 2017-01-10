@@ -144,7 +144,7 @@ public class UploadActivity extends AppCompatActivity implements UploadControlle
     @Override
     protected void onStop() {
         super.onStop();
-        UploadController.getInstance().onDetach();
+        UploadController.getInstance().onDetach(this);
     }
 
     @Override

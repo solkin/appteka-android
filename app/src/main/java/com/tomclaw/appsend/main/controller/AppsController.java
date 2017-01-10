@@ -82,8 +82,8 @@ public class AppsController {
         });
     }
 
-    public void onDetach() {
-        if (weakCallback != null) {
+    public void onDetach(AppsCallback callback) {
+        if (weakCallback != null && weakCallback.get().equals(callback)) {
             weakCallback.clear();
             weakCallback = null;
         }

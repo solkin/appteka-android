@@ -29,6 +29,8 @@ import com.tomclaw.appsend.main.adapter.BaseItemAdapter;
 import com.tomclaw.appsend.main.adapter.MenuAdapter;
 import com.tomclaw.appsend.main.controller.AppsController;
 import com.tomclaw.appsend.main.task.ExportApkTask;
+import com.tomclaw.appsend.util.ColorHelper;
+import com.tomclaw.appsend.util.EdgeChanger;
 
 import java.util.List;
 
@@ -38,7 +40,7 @@ import java.util.List;
 public class AppsView extends MainView implements BillingProcessor.IBillingHandler, AppsController.AppsCallback {
 
     private ViewFlipper viewFlipper;
-    private RecyclerView listView;
+    private RecyclerView recyclerView;
     private BaseItemAdapter adapter;
     private BaseItemAdapter.BaseItemClickListener listener;
     private BillingProcessor bp;
@@ -59,10 +61,18 @@ public class AppsView extends MainView implements BillingProcessor.IBillingHandl
         });
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
-        listView = (RecyclerView) findViewById(R.id.apps_list_view);
-        listView.setLayoutManager(layoutManager);
+        recyclerView = (RecyclerView) findViewById(R.id.apps_list_view);
+        recyclerView.setLayoutManager(layoutManager);
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
-        listView.setItemAnimator(itemAnimator);
+        recyclerView.setItemAnimator(itemAnimator);
+        final int toolbarColor = ColorHelper.getAttributedColor(context, R.attr.toolbar_background);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                EdgeChanger.setEdgeGlowColor(recyclerView, toolbarColor);
+            }
+        });
 
         listener = new BaseItemAdapter.BaseItemClickListener() {
             @Override
@@ -83,7 +93,7 @@ public class AppsView extends MainView implements BillingProcessor.IBillingHandl
 
         adapter = new BaseItemAdapter(context);
         adapter.setListener(listener);
-        listView.setAdapter(adapter);
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -105,7 +115,7 @@ public class AppsView extends MainView implements BillingProcessor.IBillingHandl
 
     @Override
     public void stop() {
-        AppsController.getInstance().onDetach();
+        AppsController.getInstance().onDetach(this);
     }
 
     @Override
@@ -133,7 +143,7 @@ public class AppsView extends MainView implements BillingProcessor.IBillingHandl
                     showActionDialog(appItem);
                 } else {
                     // Permission denied.
-                    Snackbar.make(listView, R.string.permission_denied_message, Snackbar.LENGTH_LONG).show();
+                    Snackbar.make(recyclerView, R.string.permission_denied_message, Snackbar.LENGTH_LONG).show();
                 }
             }
 
@@ -157,7 +167,7 @@ public class AppsView extends MainView implements BillingProcessor.IBillingHandl
                                 PackageManager packageManager = getContext().getPackageManager();
                                 Intent launchIntent = packageManager.getLaunchIntentForPackage(appItem.getPackageName());
                                 if (launchIntent == null) {
-                                    Snackbar.make(listView, R.string.non_launchable_package, Snackbar.LENGTH_LONG).show();
+                                    Snackbar.make(recyclerView, R.string.non_launchable_package, Snackbar.LENGTH_LONG).show();
                                 } else {
                                     startActivity(launchIntent);
                                 }

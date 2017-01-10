@@ -79,8 +79,8 @@ public class ApksController {
         });
     }
 
-    public void onDetach() {
-        if (weakCallback != null) {
+    public void onDetach(ApksCallback callback) {
+        if (weakCallback != null && weakCallback.get().equals(callback)) {
             weakCallback.clear();
             weakCallback = null;
         }

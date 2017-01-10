@@ -33,7 +33,7 @@ dependencies {
     compile 'cz.msebera.android:httpclient:4.4.1.2'
     compile 'com.github.machinarius:preferencefragment:0.1.1'
     compile 'com.greysonparrelli.permiso:permiso:0.2.0'
-    compile 'io.github.kobakei:ratethisapp:1.0.5'
+    compile 'io.github.kobakei:ratethisapp:1.1.0'
     compile 'net.hockeyapp.android:HockeySDK:4.0.0'
     compile 'com.anjlab.android.iab.v3:library:1.0.32'
     compile 'com.jaeger.statusbaruitl:library:1.2.4'

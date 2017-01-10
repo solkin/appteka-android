@@ -75,7 +75,13 @@ public class UploadController {
         }
     }
 
-    public void onDetach() {
+    public void onDetach(UploadCallback callback) {
+        if (weakCallback != null && weakCallback.get().equals(callback)) {
+            detach();
+        }
+    }
+
+    private void detach() {
         if (weakCallback != null) {
             weakCallback.clear();
             weakCallback = null;
@@ -97,7 +103,7 @@ public class UploadController {
     }
 
     public void cancel() {
-        onDetach();
+        detach();
         future.cancel(true);
         this.item = null;
         this.lastPercent = 0;

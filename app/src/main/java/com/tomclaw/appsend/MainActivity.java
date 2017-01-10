@@ -93,20 +93,6 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
             }
         };
 
-//        FloatingActionButton actionButton = (FloatingActionButton) findViewById(R.id.fab);
-//        actionButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                checkPermissionsForInstall();
-//            }
-//        });
-//
-//        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-//            FrameLayout.LayoutParams p = (FrameLayout.LayoutParams) actionButton.getLayoutParams();
-//            p.setMargins(0, 0, 0, 0); // get rid of margins since shadow area is now the margin
-//            actionButton.setLayoutParams(p);
-//        }
-
         bottomNavigation.post(new Runnable() {
             @Override
             public void run() {
@@ -114,20 +100,22 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
             }
         });
 
-        // Custom criteria: 7 days and 10 launches
-        RateThisApp.Config config = new RateThisApp.Config(7, 10);
-        // Custom title ,message and buttons names
-        config.setTitle(R.string.rate_title);
-        config.setMessage(R.string.rate_message);
-        config.setYesButtonText(R.string.yes_rate);
-        config.setNoButtonText(R.string.no_thanks);
-        config.setCancelButtonText(R.string.rate_cancel);
-        RateThisApp.init(config);
+        if (savedInstanceState == null) {
+            // Custom criteria: 7 days and 10 launches
+            RateThisApp.Config config = new RateThisApp.Config(7, 10);
+            // Custom title ,message and buttons names
+            config.setTitle(R.string.rate_title);
+            config.setMessage(R.string.rate_message);
+            config.setYesButtonText(R.string.yes_rate);
+            config.setNoButtonText(R.string.no_thanks);
+            config.setCancelButtonText(R.string.rate_cancel);
+            RateThisApp.init(config);
 
-        // Monitor launch times and interval from installation
-        RateThisApp.onStart(this);
-        // If the criteria is satisfied, "Rate this app" dialog will be shown
-        RateThisApp.showRateDialogIfNeeded(this);
+            // Monitor launch times and interval from installation
+            RateThisApp.onStart(this);
+            // If the criteria is satisfied, "Rate this app" dialog will be shown
+            RateThisApp.showRateDialogIfNeeded(this);
+        }
 
         checkForCrashes();
         MetricsManager.register(this, getApplication());

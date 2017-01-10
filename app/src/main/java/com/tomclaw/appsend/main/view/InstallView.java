@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,23 +12,25 @@ import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ListAdapter;
+import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import com.greysonparrelli.permiso.Permiso;
-import com.tomclaw.appsend.main.item.ApkItem;
-import com.tomclaw.appsend.main.item.BaseItem;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.UploadActivity;
 import com.tomclaw.appsend.main.adapter.BaseItemAdapter;
 import com.tomclaw.appsend.main.adapter.MenuAdapter;
 import com.tomclaw.appsend.main.controller.ApksController;
+import com.tomclaw.appsend.main.item.ApkItem;
+import com.tomclaw.appsend.main.item.BaseItem;
 import com.tomclaw.appsend.main.item.CouchItem;
 import com.tomclaw.appsend.main.task.ExportApkTask;
+import com.tomclaw.appsend.util.ColorHelper;
+import com.tomclaw.appsend.util.EdgeChanger;
 import com.tomclaw.appsend.util.PreferenceHelper;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -37,11 +38,12 @@ import java.util.List;
  */
 public class InstallView extends MainView implements ApksController.ApksCallback {
 
-    private static final String RETRY_PERMISSION_ACTION = "retry_permission_action";
     private static final String HIDE_COUCH_ACTION = "hide_couch_action";
 
     private ViewFlipper viewFlipper;
-    private RecyclerView listView;
+    private TextView errorText;
+    private View retryButton;
+    private RecyclerView recyclerView;
     private BaseItemAdapter adapter;
     private BaseItemAdapter.BaseItemClickListener listener;
 
@@ -50,18 +52,29 @@ public class InstallView extends MainView implements ApksController.ApksCallback
 
         viewFlipper = (ViewFlipper) findViewById(R.id.apps_view_switcher);
 
-        findViewById(R.id.button_retry).setOnClickListener(new OnClickListener() {
+        errorText = (TextView) findViewById(R.id.error_text);
+
+        retryButton = findViewById(R.id.button_retry);
+        retryButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                refresh();
+                checkPermissionsForInstall();
             }
         });
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
-        listView = (RecyclerView) findViewById(R.id.apps_list_view);
-        listView.setLayoutManager(layoutManager);
+        recyclerView = (RecyclerView) findViewById(R.id.apps_list_view);
+        recyclerView.setLayoutManager(layoutManager);
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
-        listView.setItemAnimator(itemAnimator);
+        recyclerView.setItemAnimator(itemAnimator);
+        final int toolbarColor = ColorHelper.getAttributedColor(context, R.attr.toolbar_background);
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                EdgeChanger.setEdgeGlowColor(recyclerView, toolbarColor);
+            }
+        });
 
         listener = new BaseItemAdapter.BaseItemClickListener() {
             @Override
@@ -75,9 +88,7 @@ public class InstallView extends MainView implements ApksController.ApksCallback
 
             @Override
             public void onActionClicked(BaseItem item, String action) {
-                if (TextUtils.equals(action, RETRY_PERMISSION_ACTION)) {
-                    checkPermissionsForInstall();
-                } else if (TextUtils.equals(action, HIDE_COUCH_ACTION)) {
+                if (TextUtils.equals(action, HIDE_COUCH_ACTION)) {
                     PreferenceHelper.setShowInstallCouch(context, false);
                     start();
                 }
@@ -86,7 +97,7 @@ public class InstallView extends MainView implements ApksController.ApksCallback
 
         adapter = new BaseItemAdapter(context);
         adapter.setListener(listener);
-        listView.setAdapter(adapter);
+        recyclerView.setAdapter(adapter);
     }
 
     @Override
@@ -106,7 +117,7 @@ public class InstallView extends MainView implements ApksController.ApksCallback
 
     @Override
     public void stop() {
-        ApksController.getInstance().onDetach();
+        ApksController.getInstance().onDetach(this);
     }
 
     @Override
@@ -129,13 +140,8 @@ public class InstallView extends MainView implements ApksController.ApksCallback
                     }
                 } else {
                     // Permission denied.
-                    Snackbar.make(listView, R.string.permission_denied_message, Snackbar.LENGTH_LONG).show();
-                    String couchText = getContext().getString(R.string.write_permission_install);
-                    String buttonText = getContext().getString(R.string.retry);
-                    BaseItem couchItem = new CouchItem(couchText, new CouchItem.CouchButton(RETRY_PERMISSION_ACTION, buttonText));
-                    List<BaseItem> list = Collections.singletonList(couchItem);
-                    setAppInfoList(list);
-                    viewFlipper.setDisplayedChild(1);
+                    errorText.setText(R.string.write_permission_install);
+                    viewFlipper.setDisplayedChild(2);
                 }
             }
 
@@ -233,6 +239,7 @@ public class InstallView extends MainView implements ApksController.ApksCallback
 
     @Override
     public void onError() {
+        errorText.setText(R.string.apps_loading_error);
         viewFlipper.setDisplayedChild(2);
     }
 }
