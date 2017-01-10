@@ -16,7 +16,6 @@ import com.tomclaw.appsend.main.item.DonateItem;
 import com.tomclaw.appsend.util.PreferenceHelper;
 
 import java.io.File;
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -29,7 +28,7 @@ import java.util.concurrent.Future;
 /**
  * Created by ivsolkin on 08.01.17.
  */
-public class AppsController {
+public class AppsController extends AbstractController<AppsController.AppsCallback> {
 
     private static class Holder {
 
@@ -40,7 +39,6 @@ public class AppsController {
         return Holder.instance;
     }
 
-    private WeakReference<AppsCallback> weakCallback;
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
     private List<BaseItem> list;
@@ -48,8 +46,8 @@ public class AppsController {
 
     private Future<?> future;
 
-    public void onAttach(AppsCallback callback) {
-        weakCallback = new WeakReference<>(callback);
+    @Override
+    public void onAttached(AppsCallback callback) {
         if (isLoaded()) {
             callback.onLoaded(list);
         } else if (isError) {
@@ -82,23 +80,20 @@ public class AppsController {
         });
     }
 
-    public void onDetach(AppsCallback callback) {
-        if (weakCallback != null && weakCallback.get().equals(callback)) {
-            weakCallback.clear();
-            weakCallback = null;
-        }
+    @Override
+    public void onDetached(AppsCallback callback) {
     }
 
     private void onProgress() {
         MainExecutor.execute(new Runnable() {
             @Override
             public void run() {
-                if (weakCallback != null) {
-                    AppsCallback callback = weakCallback.get();
-                    if (callback != null) {
+                operateCallbacks(new CallbackOperation<AppsCallback>() {
+                    @Override
+                    public void invoke(AppsCallback callback) {
                         callback.onProgress();
                     }
-                }
+                });
             }
         });
     }
@@ -108,12 +103,12 @@ public class AppsController {
         MainExecutor.execute(new Runnable() {
             @Override
             public void run() {
-                if (weakCallback != null) {
-                    AppsCallback callback = weakCallback.get();
-                    if (callback != null) {
+                operateCallbacks(new CallbackOperation<AppsCallback>() {
+                    @Override
+                    public void invoke(AppsCallback callback) {
                         callback.onLoaded(list);
                     }
-                }
+                });
             }
         });
     }
@@ -123,12 +118,12 @@ public class AppsController {
         MainExecutor.execute(new Runnable() {
             @Override
             public void run() {
-                if (weakCallback != null) {
-                    AppsCallback callback = weakCallback.get();
-                    if (callback != null) {
+                operateCallbacks(new CallbackOperation<AppsCallback>() {
+                    @Override
+                    public void invoke(AppsCallback callback) {
                         callback.onError();
                     }
-                }
+                });
             }
         });
     }
@@ -213,7 +208,7 @@ public class AppsController {
         return lhs < rhs ? -1 : (lhs == rhs ? 0 : 1);
     }
 
-    public interface AppsCallback {
+    public interface AppsCallback extends AbstractController.ControllerCallback {
 
         void onProgress();
 

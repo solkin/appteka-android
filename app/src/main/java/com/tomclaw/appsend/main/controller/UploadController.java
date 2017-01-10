@@ -31,7 +31,7 @@ import cz.msebera.android.httpclient.HttpStatus;
  * Created by ivsolkin on 02.01.17.
  * Control application file uploading
  */
-public class UploadController {
+public class UploadController extends AbstractController<UploadController.UploadCallback> {
 
     private static class Holder {
 
@@ -45,7 +45,6 @@ public class UploadController {
     private static final String HOST_URL = "http://appsend.store/api/upload.php";
 
     private CommonItem item;
-    private WeakReference<UploadCallback> weakCallback;
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
     private Future<?> future;
@@ -59,8 +58,8 @@ public class UploadController {
         return !TextUtils.isEmpty(url);
     }
 
-    public void onAttach(UploadCallback callback) {
-        weakCallback = new WeakReference<>(callback);
+    @Override
+    public void onAttached(UploadCallback callback) {
         if (item != null) {
             if (isCompleted()) {
                 callback.onCompleted(url);
@@ -74,17 +73,8 @@ public class UploadController {
         }
     }
 
-    public void onDetach(UploadCallback callback) {
-        if (weakCallback != null && weakCallback.get().equals(callback)) {
-            detach();
-        }
-    }
-
-    private void detach() {
-        if (weakCallback != null) {
-            weakCallback.clear();
-            weakCallback = null;
-        }
+    @Override
+    public void onDetached(UploadCallback callback) {
     }
 
     public void upload(CommonItem item) {
@@ -102,7 +92,7 @@ public class UploadController {
     }
 
     public void cancel() {
-        detach();
+        detachAll();
         future.cancel(true);
         this.item = null;
         this.lastPercent = 0;
@@ -116,12 +106,12 @@ public class UploadController {
         MainExecutor.execute(new Runnable() {
             @Override
             public void run() {
-                if (weakCallback != null) {
-                    UploadCallback callback = weakCallback.get();
-                    if (callback != null) {
+                operateCallbacks(new CallbackOperation<UploadCallback>() {
+                    @Override
+                    public void invoke(UploadCallback callback) {
                         callback.onProgress(percent);
                     }
-                }
+                });
             }
         });
     }
@@ -131,12 +121,12 @@ public class UploadController {
         MainExecutor.execute(new Runnable() {
             @Override
             public void run() {
-                if (weakCallback != null) {
-                    UploadCallback callback = weakCallback.get();
-                    if (callback != null) {
+                operateCallbacks(new CallbackOperation<UploadCallback>() {
+                    @Override
+                    public void invoke(UploadCallback callback) {
                         callback.onUploaded();
                     }
-                }
+                });
             }
         });
     }
@@ -146,12 +136,12 @@ public class UploadController {
         MainExecutor.execute(new Runnable() {
             @Override
             public void run() {
-                if (weakCallback != null) {
-                    UploadCallback callback = weakCallback.get();
-                    if (callback != null) {
+                operateCallbacks(new CallbackOperation<UploadCallback>() {
+                    @Override
+                    public void invoke(UploadCallback callback) {
                         callback.onCompleted(url);
                     }
-                }
+                });
             }
         });
     }
@@ -161,12 +151,12 @@ public class UploadController {
         MainExecutor.execute(new Runnable() {
             @Override
             public void run() {
-                if (weakCallback != null) {
-                    UploadCallback callback = weakCallback.get();
-                    if (callback != null) {
+                operateCallbacks(new CallbackOperation<UploadCallback>() {
+                    @Override
+                    public void invoke(UploadCallback callback) {
                         callback.onError();
                     }
-                }
+                });
             }
         });
     }
@@ -252,7 +242,7 @@ public class UploadController {
         }
     }
 
-    public interface UploadCallback {
+    public interface UploadCallback extends AbstractController.ControllerCallback {
 
         void onProgress(int percent);
 

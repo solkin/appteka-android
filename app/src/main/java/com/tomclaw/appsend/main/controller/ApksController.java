@@ -13,7 +13,6 @@ import com.tomclaw.appsend.main.item.BaseItem;
 import com.tomclaw.appsend.util.FileHelper;
 
 import java.io.File;
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -23,7 +22,7 @@ import java.util.concurrent.Future;
 /**
  * Created by ivsolkin on 08.01.17.
  */
-public class ApksController {
+public class ApksController extends AbstractController<ApksController.ApksCallback> {
 
     private static class Holder {
 
@@ -36,7 +35,6 @@ public class ApksController {
 
     private static final CharSequence APK_EXTENSION = "apk";
 
-    private WeakReference<ApksCallback> weakCallback;
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
     private List<BaseItem> list;
@@ -44,8 +42,8 @@ public class ApksController {
 
     private Future<?> future;
 
-    public void onAttach(ApksCallback callback) {
-        weakCallback = new WeakReference<>(callback);
+    @Override
+    public void onAttached(ApksCallback callback) {
         if (isLoaded()) {
             callback.onLoaded(list);
         } else if (isError) {
@@ -78,23 +76,20 @@ public class ApksController {
         });
     }
 
-    public void onDetach(ApksCallback callback) {
-        if (weakCallback != null && weakCallback.get().equals(callback)) {
-            weakCallback.clear();
-            weakCallback = null;
-        }
+    @Override
+    public void onDetached(ApksCallback callback) {
     }
 
     private void onProgress() {
         MainExecutor.execute(new Runnable() {
             @Override
             public void run() {
-                if (weakCallback != null) {
-                    ApksCallback callback = weakCallback.get();
-                    if (callback != null) {
+                operateCallbacks(new CallbackOperation<ApksCallback>() {
+                    @Override
+                    public void invoke(ApksCallback callback) {
                         callback.onProgress();
                     }
-                }
+                });
             }
         });
     }
@@ -104,12 +99,12 @@ public class ApksController {
         MainExecutor.execute(new Runnable() {
             @Override
             public void run() {
-                if (weakCallback != null) {
-                    ApksCallback callback = weakCallback.get();
-                    if (callback != null) {
+                operateCallbacks(new CallbackOperation<ApksCallback>() {
+                    @Override
+                    public void invoke(ApksCallback callback) {
                         callback.onLoaded(list);
                     }
-                }
+                });
             }
         });
     }
@@ -119,12 +114,12 @@ public class ApksController {
         MainExecutor.execute(new Runnable() {
             @Override
             public void run() {
-                if (weakCallback != null) {
-                    ApksCallback callback = weakCallback.get();
-                    if (callback != null) {
+                operateCallbacks(new CallbackOperation<ApksCallback>() {
+                    @Override
+                    public void invoke(ApksCallback callback) {
                         callback.onError();
                     }
-                }
+                });
             }
         });
     }
@@ -184,7 +179,7 @@ public class ApksController {
         }
     }
 
-    public interface ApksCallback {
+    public interface ApksCallback extends AbstractController.ControllerCallback{
 
         void onProgress();
 
