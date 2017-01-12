@@ -12,6 +12,7 @@ import com.tomclaw.appsend.main.adapter.holder.ApkItemHolder;
 import com.tomclaw.appsend.main.adapter.holder.AppItemHolder;
 import com.tomclaw.appsend.main.adapter.holder.CouchItemHolder;
 import com.tomclaw.appsend.main.adapter.holder.DonateItemHolder;
+import com.tomclaw.appsend.main.adapter.holder.StoreItemHolder;
 import com.tomclaw.appsend.main.item.BaseItem;
 
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ import static com.tomclaw.appsend.main.item.BaseItem.APK_ITEM;
 import static com.tomclaw.appsend.main.item.BaseItem.APP_ITEM;
 import static com.tomclaw.appsend.main.item.BaseItem.COUCH_ITEM;
 import static com.tomclaw.appsend.main.item.BaseItem.DONATE_ITEM;
+import static com.tomclaw.appsend.main.item.BaseItem.STORE_ITEM;
 
 /**
  * Created by Solkin on 10.12.2014.
@@ -53,6 +55,9 @@ public class BaseItemAdapter extends RecyclerView.Adapter<AbstractItemHolder> {
             case APK_ITEM:
                 view = inflater.inflate(R.layout.apk_item, viewGroup, false);
                 return new ApkItemHolder(view);
+            case STORE_ITEM:
+                view = inflater.inflate(R.layout.store_item, viewGroup, false);
+                return new StoreItemHolder(view);
             case DONATE_ITEM:
                 view = inflater.inflate(R.layout.donate_item, viewGroup, false);
                 return new DonateItemHolder(view);
@@ -67,7 +72,8 @@ public class BaseItemAdapter extends RecyclerView.Adapter<AbstractItemHolder> {
     @Override
     public void onBindViewHolder(AbstractItemHolder holder, int position) {
         BaseItem appInfo = itemsList.get(position);
-        holder.bind(context, appInfo, listener);
+        boolean isLast = (itemsList.size() - 1 == position);
+        holder.bind(context, appInfo, isLast, listener);
     }
 
     @Override

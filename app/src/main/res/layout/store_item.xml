@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.CardView
+        style="?cardViewStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        android:layout_marginTop="2dp"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardCornerRadius="2dp"
+        app:cardElevation="@dimen/cardview_default_elevation">
+
+        <jp.shts.android.library.TriangleLabelView
+            android:id="@+id/badge_new"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            app:backgroundColor="@color/badge_color"
+            app:corner="rightTop"
+            app:labelBottomPadding="5dp"
+            app:labelCenterPadding="0dp"
+            app:labelTopPadding="14dp"
+            app:primaryText="New"
+            app:primaryTextColor="@android:color/white"
+            app:primaryTextSize="12sp"
+            app:secondaryTextColor="@android:color/white"
+            app:secondaryTextSize="11sp" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="6dp">
+
+            <LinearLayout
+                android:id="@+id/buddy_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/app_icon"
+                    android:layout_width="52dp"
+                    android:layout_height="52dp"
+                    android:layout_gravity="center_vertical"
+                    tools:src="@mipmap/ic_launcher" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:gravity="center_vertical"
+                    android:orientation="vertical"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="0dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/app_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left|center_vertical"
+                            android:singleLine="true"
+                            android:textColor="?text_primary_color"
+                            android:textSize="17sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/app_version"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left|center_vertical"
+                            android:layout_marginLeft="4dp"
+                            android:fontFamily="sans-serif-thin"
+                            android:singleLine="true"
+                            android:textColor="?text_secondary_color"
+                            android:textSize="17sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/app_size"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left|center_vertical"
+                            android:ellipsize="marquee"
+                            android:fontFamily="sans-serif"
+                            android:lines="1"
+                            android:marqueeRepeatLimit="marquee_forever"
+                            android:scrollHorizontally="true"
+                            android:singleLine="true"
+                            android:textColor="?text_secondary_color"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/app_update_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left|center_vertical"
+                            android:layout_marginLeft="4dp"
+                            android:ellipsize="marquee"
+                            android:fontFamily="sans-serif-light"
+                            android:lines="1"
+                            android:marqueeRepeatLimit="marquee_forever"
+                            android:scrollHorizontally="true"
+                            android:singleLine="true"
+                            android:textColor="?text_secondary_color"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+        </FrameLayout>
+    </android.support.v7.widget.CardView>
+
+    <ProgressBar
+        android:id="@+id/item_progress"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="12dp"
+        android:layout_gravity="center_horizontal"
+        android:visibility="gone"
+        tools:visibility="gone"/>
+
+    <LinearLayout
+        android:id="@+id/error_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="12dp"
+            android:text="@string/store_loading_error"
+            android:textSize="14sp"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/button_retry"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_gravity="center"
+            android:text="@string/retry"/>
+
+    </LinearLayout>
+
+</LinearLayout>

@@ -6,10 +6,11 @@ package com.tomclaw.appsend.main.item;
  */
 public abstract class BaseItem {
 
-    public static final int APP_ITEM = 0x0001;
-    public static final int APK_ITEM = 0x0010;
-    public static final int DONATE_ITEM = 0x0100;
-    public static final int COUCH_ITEM = 0x1000;
+    public static final int APP_ITEM = 0x00001;
+    public static final int APK_ITEM = 0x00010;
+    public static final int STORE_ITEM = 0x00100;
+    public static final int DONATE_ITEM = 0x01000;
+    public static final int COUCH_ITEM = 0x10000;
 
     public abstract int getType();
 }

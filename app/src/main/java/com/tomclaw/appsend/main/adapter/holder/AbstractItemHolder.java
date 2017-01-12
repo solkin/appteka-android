@@ -25,5 +25,5 @@ public abstract class AbstractItemHolder<I extends BaseItem> extends RecyclerVie
         }
     }
 
-    public abstract void bind(Context context, final I item, final BaseItemAdapter.BaseItemClickListener<I> listener);
+    public abstract void bind(Context context, final I item, final boolean isLast, final BaseItemAdapter.BaseItemClickListener<I> listener);
 }

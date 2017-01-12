@@ -19,12 +19,6 @@ public class AppItem extends CommonItem implements Parcelable {
         this.lastUpdateTime = lastUpdateTime;
     }
 
-    public AppItem(Parcel in, long firstInstallTime, long lastUpdateTime) {
-        super(in);
-        this.firstInstallTime = firstInstallTime;
-        this.lastUpdateTime = lastUpdateTime;
-    }
-
     private AppItem(Parcel in) {
         super(in);
         firstInstallTime = in.readLong();

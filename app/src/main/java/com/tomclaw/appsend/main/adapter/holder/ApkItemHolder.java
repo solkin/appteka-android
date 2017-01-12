@@ -48,7 +48,7 @@ public class ApkItemHolder extends AbstractItemHolder<ApkItem> {
         apkLocation = (TextView) itemView.findViewById(R.id.apk_location);
     }
 
-    public void bind(Context context, final ApkItem item, final BaseItemAdapter.BaseItemClickListener<ApkItem> listener) {
+    public void bind(Context context, final ApkItem item, final boolean isLast, final BaseItemAdapter.BaseItemClickListener<ApkItem> listener) {
         if (listener != null) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

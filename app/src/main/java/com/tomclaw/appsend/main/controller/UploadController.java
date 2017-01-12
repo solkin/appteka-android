@@ -184,15 +184,11 @@ public class UploadController extends AbstractController<UploadController.Upload
             InputStream inputStream = new FileInputStream(file);
             URL url = new URL(HOST_URL);
             connection = (HttpURLConnection) url.openConnection();
-            // Executing request.
-            connection.setRequestMethod(HttpUtil.POST);
-            connection.setDoOutput(true);
-            connection.setDoInput(true);
-            connection.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
             // Connect.
+            connection.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
             connection.setReadTimeout((int) TimeUnit.MINUTES.toMillis(2));
             connection.setConnectTimeout((int) TimeUnit.SECONDS.toMillis(30));
-            connection.setRequestMethod("POST");
+            connection.setRequestMethod(HttpUtil.POST);
             connection.setUseCaches(false);
             connection.setDoInput(true);
             connection.setDoOutput(true);

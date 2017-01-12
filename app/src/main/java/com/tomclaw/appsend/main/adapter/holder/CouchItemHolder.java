@@ -29,7 +29,7 @@ public class CouchItemHolder extends AbstractItemHolder<CouchItem> {
         couchButtons = (ViewGroup) itemView.findViewById(R.id.couch_buttons);
     }
 
-    public void bind(Context context, final CouchItem item, final BaseItemAdapter.BaseItemClickListener<CouchItem> listener) {
+    public void bind(Context context, final CouchItem item, final boolean isLast, final BaseItemAdapter.BaseItemClickListener<CouchItem> listener) {
         if (listener != null) {
             divider.setVisibility(View.VISIBLE);
             couchButtons.setVisibility(View.VISIBLE);

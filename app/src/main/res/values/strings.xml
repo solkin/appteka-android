@@ -92,4 +92,5 @@
     <string name="tab_store">Store</string>
     <string name="apps_loading_error">Failed to get list of installed applications</string>
     <string name="retry">Retry</string>
+    <string name="store_loading_error">Failed to retrieve applications list</string>
 </resources>

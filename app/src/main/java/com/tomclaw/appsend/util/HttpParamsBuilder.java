@@ -13,7 +13,7 @@ import java.util.Comparator;
 public class HttpParamsBuilder extends ArrayList<Pair<String, String>> {
 
     public HttpParamsBuilder appendParam(String key, String value) {
-        add(new Pair<String, String>(key, value));
+        add(new Pair<>(key, value));
         return this;
     }
 

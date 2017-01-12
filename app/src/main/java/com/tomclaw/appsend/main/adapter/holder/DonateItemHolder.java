@@ -30,7 +30,7 @@ public class DonateItemHolder extends AbstractItemHolder {
         appIcon = (ImageView) itemView.findViewById(R.id.app_icon);
     }
 
-    public void bind(Context context, final BaseItem item, final BaseItemAdapter.BaseItemClickListener listener) {
+    public void bind(Context context, final BaseItem item, final boolean isLast, final BaseItemAdapter.BaseItemClickListener listener) {
         Glide.with(context)
                 .load("")
                 .error(R.drawable.chocolate)

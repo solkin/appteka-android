@@ -6,10 +6,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.tomclaw.appsend.PackageIconGlideLoader;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.main.adapter.BaseItemAdapter;
-import com.tomclaw.appsend.main.item.AppItem;
+import com.tomclaw.appsend.main.controller.StoreController;
+import com.tomclaw.appsend.main.item.StoreItem;
 import com.tomclaw.appsend.util.FileHelper;
 
 import java.text.SimpleDateFormat;
@@ -20,7 +20,9 @@ import jp.shts.android.library.TriangleLabelView;
 /**
  * Created by Solkin on 10.12.2014.
  */
-public class AppItemHolder extends AbstractItemHolder<AppItem> {
+public class StoreItemHolder extends AbstractItemHolder<StoreItem> {
+
+    public static final String ACTION_RETRY = "action_retry";
 
     private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yy");
 
@@ -31,10 +33,11 @@ public class AppItemHolder extends AbstractItemHolder<AppItem> {
     private TextView appUpdateTime;
     private TextView appSize;
     private TriangleLabelView badgeNew;
+    private View viewProgress;
+    private View errorView;
+    private View buttonRetry;
 
-    private static PackageIconGlideLoader loader;
-
-    public AppItemHolder(View itemView) {
+    public StoreItemHolder(View itemView) {
         super(itemView);
         this.itemView = itemView;
         appIcon = (ImageView) itemView.findViewById(R.id.app_icon);
@@ -43,9 +46,12 @@ public class AppItemHolder extends AbstractItemHolder<AppItem> {
         appUpdateTime = (TextView) itemView.findViewById(R.id.app_update_time);
         appSize = (TextView) itemView.findViewById(R.id.app_size);
         badgeNew = (TriangleLabelView) itemView.findViewById(R.id.badge_new);
+        viewProgress = itemView.findViewById(R.id.item_progress);
+        errorView = itemView.findViewById(R.id.error_view);
+        buttonRetry = itemView.findViewById(R.id.button_retry);
     }
 
-    public void bind(Context context, final AppItem item, final boolean isLast, final BaseItemAdapter.BaseItemClickListener<AppItem> listener) {
+    public void bind(Context context, final StoreItem item, final boolean isLast, final BaseItemAdapter.BaseItemClickListener<StoreItem> listener) {
         if (listener != null) {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -53,32 +59,42 @@ public class AppItemHolder extends AbstractItemHolder<AppItem> {
                     listener.onItemClicked(item);
                 }
             });
-        }
-
-        if (loader == null) {
-            loader = new PackageIconGlideLoader(context.getPackageManager());
+            buttonRetry.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onActionClicked(item, ACTION_RETRY);
+                }
+            });
         }
 
         try {
             Glide.with(context)
-                    .using(loader)
-                    .load(item.getPackageInfo())
+                    .load(item.getIcon())
                     .into(appIcon);
         } catch (Throwable ignored) {
         }
 
         appName.setText(item.getLabel());
         appVersion.setText(item.getVersion());
-        if (item.getLastUpdateTime() > 0) {
+        if (item.getTime() > 0) {
             appUpdateTime.setVisibility(View.VISIBLE);
-            appUpdateTime.setText(simpleDateFormat.format(item.getLastUpdateTime()));
+            appUpdateTime.setText(simpleDateFormat.format(item.getTime()));
         } else {
             appUpdateTime.setVisibility(View.GONE);
         }
         appSize.setText(FileHelper.formatBytes(context.getResources(), item.getSize()));
 
-        long appInstallDelay = System.currentTimeMillis() - item.getFirstInstallTime();
+        long appInstallDelay = System.currentTimeMillis() - item.getTime();
         boolean isNewApp = appInstallDelay > 0 && appInstallDelay < TimeUnit.DAYS.toMillis(1);
         badgeNew.setVisibility(isNewApp ? View.VISIBLE : View.GONE);
+
+        boolean isAppendError = isLast && StoreController.getInstance().isError() && StoreController.getInstance().isAppend();
+        errorView.setVisibility(isAppendError ? View.VISIBLE : View.GONE);
+        if (isAppendError) {
+            viewProgress.setVisibility(View.GONE);
+        } else {
+            boolean isLoad = isLast && StoreController.getInstance().load(context, item.getAppId());
+            viewProgress.setVisibility(isLoad ? View.VISIBLE : View.GONE);
+        }
     }
 }

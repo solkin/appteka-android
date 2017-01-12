@@ -88,4 +88,5 @@
     <string name="tab_store">Обменник</string>
     <string name="apps_loading_error">Не удалось получить список установленных приложений</string>
     <string name="retry">Повторить</string>
+    <string name="store_loading_error">Не удалось получить список приложений</string>
 </resources>
