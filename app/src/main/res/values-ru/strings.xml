@@ -98,6 +98,8 @@
     <string name="android_comment">Версия ОС\nне ниже</string>
     <string name="permissions">Разрешений</string>
     <string name="size_comment">Размер\nприложения</string>
+    <string name="kilobytes">Килобайт</string>
+    <string name="megabytes">Мегабайт</string>
     <string name="open">Открыть</string>
     <string name="remove">Удалить</string>
 </resources>
