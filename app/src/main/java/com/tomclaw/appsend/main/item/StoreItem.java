@@ -3,6 +3,7 @@ package com.tomclaw.appsend.main.item;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,7 +51,8 @@ public class StoreItem extends BaseItem implements Parcelable {
     protected StoreItem(Parcel in) {
         label = in.readString();
         labels = new HashMap<>();
-        for (int i = 0; i < in.readInt(); i++) {
+        int labelsCount = in.readInt();
+        for (int i = 0; i < labelsCount; i++) {
             String key = in.readString();
             String value = in.readString();
             labels.put(key, value);
@@ -72,6 +74,7 @@ public class StoreItem extends BaseItem implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(label);
+        dest.writeInt(labels.size());
         for (Map.Entry<String, String> entry : labels.entrySet()) {
             dest.writeString(entry.getKey());
             dest.writeString(entry.getValue());

@@ -27,6 +27,7 @@ public class StoreItemHolder extends AbstractItemHolder<StoreItem> {
     private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yy");
 
     private View itemView;
+    private View appCard;
     private ImageView appIcon;
     private TextView appName;
     private TextView appVersion;
@@ -40,6 +41,7 @@ public class StoreItemHolder extends AbstractItemHolder<StoreItem> {
     public StoreItemHolder(View itemView) {
         super(itemView);
         this.itemView = itemView;
+        appCard = itemView.findViewById(R.id.app_card);
         appIcon = (ImageView) itemView.findViewById(R.id.app_icon);
         appName = (TextView) itemView.findViewById(R.id.app_name);
         appVersion = (TextView) itemView.findViewById(R.id.app_version);
@@ -53,7 +55,7 @@ public class StoreItemHolder extends AbstractItemHolder<StoreItem> {
 
     public void bind(Context context, final StoreItem item, final boolean isLast, final BaseItemAdapter.BaseItemClickListener<StoreItem> listener) {
         if (listener != null) {
-            itemView.setOnClickListener(new View.OnClickListener() {
+            appCard.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     listener.onItemClicked(item);
@@ -67,12 +69,9 @@ public class StoreItemHolder extends AbstractItemHolder<StoreItem> {
             });
         }
 
-        try {
-            Glide.with(context)
-                    .load(item.getIcon())
-                    .into(appIcon);
-        } catch (Throwable ignored) {
-        }
+        Glide.with(context)
+                .load(item.getIcon())
+                .into(appIcon);
 
         appName.setText(item.getLabel());
         appVersion.setText(item.getVersion());

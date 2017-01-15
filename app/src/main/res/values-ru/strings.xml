@@ -89,4 +89,15 @@
     <string name="apps_loading_error">Не удалось получить список установленных приложений</string>
     <string name="retry">Повторить</string>
     <string name="store_loading_error">Не удалось получить список приложений</string>
+    <string name="download">Скачать</string>
+    <string name="downloads">Скачиваний</string>
+    <string name="android">Android</string>
+    <string name="size">Размер</string>
+    <string name="permissions_comment">Требуемые\nразрешения</string>
+    <string name="downloads_comment">Скачиваний\nприложения</string>
+    <string name="android_comment">Версия ОС\nне ниже</string>
+    <string name="permissions">Разрешений</string>
+    <string name="size_comment">Размер\nприложения</string>
+    <string name="open">Открыть</string>
+    <string name="remove">Удалить</string>
 </resources>

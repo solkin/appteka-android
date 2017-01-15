@@ -1,6 +1,7 @@
 package com.tomclaw.appsend.main.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
+import com.tomclaw.appsend.DownloadActivity;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.main.adapter.BaseItemAdapter;
 import com.tomclaw.appsend.main.adapter.holder.StoreItemHolder;
@@ -31,7 +33,7 @@ public class StoreView extends MainView implements StoreController.StoreCallback
     private BaseItemAdapter adapter;
     private BaseItemAdapter.BaseItemClickListener listener;
 
-    public StoreView(Context context) {
+    public StoreView(final Context context) {
         super(context);
 
         viewFlipper = (ViewFlipper) findViewById(R.id.apps_view_switcher);
@@ -62,6 +64,10 @@ public class StoreView extends MainView implements StoreController.StoreCallback
         listener = new BaseItemAdapter.BaseItemClickListener() {
             @Override
             public void onItemClicked(final BaseItem item) {
+                StoreItem storeItem = (StoreItem) item;
+                Intent intent = new Intent(context, DownloadActivity.class);
+                intent.putExtra(DownloadActivity.STORE_ITEM, storeItem);
+                startActivity(intent);
             }
 
             @Override

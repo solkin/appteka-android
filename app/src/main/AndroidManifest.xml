@@ -29,13 +29,13 @@
             android:name="com.tomclaw.appsend.SettingsActivity"
             android:label="@string/settings" />
         <activity
-            android:name="com.tomclaw.appsend.InstallActivity"
-            android:label="@string/install" />
-        <activity
             android:name="com.tomclaw.appsend.DonateActivity"
             android:label="@string/donate" />
         <activity
             android:name="com.tomclaw.appsend.UploadActivity"
             android:label="@string/upload" />
+        <activity
+            android:name="com.tomclaw.appsend.DownloadActivity"
+            android:label="@string/download" />
     </application>
 </manifest>

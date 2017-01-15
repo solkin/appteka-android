@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <TextView
+        android:id="@+id/play_count"
+        android:layout_width="wrap_content"
+        android:layout_height="58sp"
+        android:minWidth="58dp"
+        android:layout_centerHorizontal="true"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:background="@drawable/circle_border"
+        android:fontFamily="sans-serif"
+        android:gravity="center"
+        android:textSize="22sp"
+        tools:text="157"/>
+
+    <TextView
+        android:id="@+id/play_description"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:background="@drawable/rounded_border"
+        android:textAllCaps="true"
+        android:textSize="9sp"
+        android:layout_alignBottom="@+id/play_count"
+        android:textColor="@android:color/white"
+        tools:text="@string/downloads"/>
+
+    <TextView
+        android:id="@+id/play_comment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="8dp"
+        android:textSize="12sp"
+        android:layout_below="@+id/play_count"
+        android:textColor="@color/grey_dark"
+        android:gravity="center"
+        tools:text="This is some long\ndescription"/>
+
+</RelativeLayout>

@@ -6,4 +6,9 @@
     <attr name="bottom_bar_background" format="color|reference" />
     <attr name="toolbar_background" format="color|reference" />
     <attr name="cardViewStyle" format="reference" />
+    <declare-styleable name="PlayView">
+        <attr name="play_count" format="string" />
+        <attr name="play_description" format="string" />
+        <attr name="play_comment" format="string" />
+    </declare-styleable>
 </resources>

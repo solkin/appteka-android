@@ -93,4 +93,17 @@
     <string name="apps_loading_error">Failed to get list of installed applications</string>
     <string name="retry">Retry</string>
     <string name="store_loading_error">Failed to retrieve applications list</string>
+    <string name="download">Download</string>
+    <string name="downloads">Downloads</string>
+    <string name="android">Android</string>
+    <string name="size">Size</string>
+    <string name="permissions_comment">Required\npermissions</string>
+    <string name="downloads_comment">Application\ndownloads</string>
+    <string name="android_comment">Minimal\nOS version</string>
+    <string name="permissions">Permissions</string>
+    <string name="size_comment">Application\nsize</string>
+    <string name="kilobytes">Kilobytes</string>
+    <string name="megabytes">Megabytes</string>
+    <string name="open">Open</string>
+    <string name="remove">Remove</string>
 </resources>
