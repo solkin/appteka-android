@@ -8,7 +8,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +19,12 @@ import com.bumptech.glide.Glide;
 import com.tomclaw.appsend.main.controller.DownloadController;
 import com.tomclaw.appsend.main.dto.StoreInfo;
 import com.tomclaw.appsend.main.item.StoreItem;
+import com.tomclaw.appsend.main.view.MaxHeightFrameLayout;
 import com.tomclaw.appsend.main.view.PlayView;
 import com.tomclaw.appsend.util.ThemeHelper;
+import com.tomclaw.appsend.util.TimeHelper;
+
+import java.util.List;
 
 /**
  * Created by ivsolkin on 14.01.17.
@@ -31,6 +34,8 @@ public class DownloadActivity extends AppCompatActivity implements DownloadContr
     public static final String STORE_APP_ID = "app_id";
     public static final String STORE_APP_LABEL = "app_label";
 
+    private TimeHelper timeHelper;
+
     private String appId;
     private String appLabel;
 
@@ -38,11 +43,16 @@ public class DownloadActivity extends AppCompatActivity implements DownloadContr
     private ImageView iconView;
     private TextView labelView;
     private TextView packageView;
-    private TextView versionView;
     private PlayView downloadsView;
     private PlayView sizeView;
     private PlayView minAndroidView;
+    private MaxHeightFrameLayout permissionsBlock;
     private ViewGroup permissionsContainer;
+    private TextView versionView;
+    private TextView uploadedTimeView;
+    private TextView checksumView;
+    private View shadowView;
+    private View readMoreButton;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -50,6 +60,8 @@ public class DownloadActivity extends AppCompatActivity implements DownloadContr
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.download_activity);
+
+        timeHelper = new TimeHelper(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -76,7 +88,13 @@ public class DownloadActivity extends AppCompatActivity implements DownloadContr
         downloadsView = (PlayView) findViewById(R.id.app_downloads);
         sizeView = (PlayView) findViewById(R.id.app_size);
         minAndroidView = (PlayView) findViewById(R.id.min_android);
+        permissionsBlock = (MaxHeightFrameLayout) findViewById(R.id.permissions_block);
         permissionsContainer = (ViewGroup) findViewById(R.id.permissions_container);
+        versionView = (TextView) findViewById(R.id.app_version);
+        uploadedTimeView = (TextView) findViewById(R.id.uploaded_time);
+        checksumView = (TextView) findViewById(R.id.app_checksum);
+        shadowView = findViewById(R.id.read_more_shadow);
+        readMoreButton = findViewById(R.id.read_more_button);
         findViewById(R.id.button_retry).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -152,7 +170,15 @@ public class DownloadActivity extends AppCompatActivity implements DownloadContr
         sizeView.setCount(sizeText);
         sizeView.setDescription(getString(sizeFactor));
         minAndroidView.setCount(item.getAndroidVersion());
-        for (String permission : item.getPermissions()) {
+        versionView.setText(getString(R.string.app_version_format, item.getVersion(), item.getVersionCode()));
+        uploadedTimeView.setText(timeHelper.getFormattedDate(item.getTime()));
+        checksumView.setText(item.getSha1());
+        bindPermissions(item.getPermissions());
+    }
+
+    private void bindPermissions(List<String> permissions) {
+        final boolean hasPermissions = !permissions.isEmpty();
+        for (String permission : permissions) {
             View permissionView = getLayoutInflater().inflate(R.layout.permission_view, permissionsContainer, false);
             TextView permissionDescription = (TextView) permissionView.findViewById(R.id.permission_description);
             TextView permissionName = (TextView) permissionView.findViewById(R.id.permission_name);
@@ -160,6 +186,18 @@ public class DownloadActivity extends AppCompatActivity implements DownloadContr
             permissionDescription.setText(description);
             permissionName.setText(permission);
             permissionsContainer.addView(permissionView);
+        }
+        permissionsBlock.setVisibility(hasPermissions ? View.VISIBLE : View.GONE);
+        readMoreButton.setVisibility(hasPermissions ? View.VISIBLE : View.GONE);
+        shadowView.setVisibility(readMoreButton.getVisibility());
+        if (hasPermissions) {
+            permissionsBlock.post(new Runnable() {
+                @Override
+                public void run() {
+                    readMoreButton.setVisibility(permissionsBlock.isOverflow() ? View.VISIBLE : View.GONE);
+                    shadowView.setVisibility(readMoreButton.getVisibility());
+                }
+            });
         }
     }
 

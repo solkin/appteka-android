@@ -48,15 +48,9 @@ public class MaxHeightFrameLayout extends RelativeLayout {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        if (maxHeight != INVALID_HEIGHT) {
-            isOverflow = heightMeasureSpec > maxHeight;
-            if (isOverflow) {
-                heightMeasureSpec = MeasureSpec.makeMeasureSpec(maxHeight, MeasureSpec.AT_MOST);
-            }
-        } else {
-            isOverflow = false;
-        }
+        heightMeasureSpec = MeasureSpec.makeMeasureSpec(maxHeight, MeasureSpec.AT_MOST);
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        isOverflow = maxHeight != INVALID_HEIGHT && getMeasuredHeight() >= maxHeight;
     }
 
     public boolean isOverflow() {

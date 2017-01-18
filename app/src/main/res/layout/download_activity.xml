@@ -173,9 +173,63 @@
 
                     <!-- Share, Open in browser, Abuse -->
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/app_version_title"
+                        android:textColor="?attr/text_primary_color"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/app_version"
+                        android:textColor="?attr/text_secondary_color"
+                        android:textSize="14sp"
+                        android:textStyle="normal"
+                        tools:text="1.7 (490)" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/uploaded_title"
+                        android:textColor="?attr/text_primary_color"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/uploaded_time"
+                        android:textColor="?attr/text_secondary_color"
+                        android:textSize="14sp"
+                        android:textStyle="normal"
+                        tools:text="18.01.2017" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/checksum_title"
+                        android:textColor="?attr/text_primary_color"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/app_checksum"
+                        android:textColor="?attr/text_secondary_color"
+                        android:textSize="12sp"
+                        android:textStyle="normal"
+                        android:typeface="monospace"
+                        android:fontFamily="monospace"
+                        tools:text="d3cdd8d14a376b8309ee1c06a78cb01142427e59" />
+
                 </LinearLayout>
 
                 <com.tomclaw.appsend.main.view.MaxHeightFrameLayout
+                    android:id="@+id/permissions_block"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -223,6 +277,7 @@
                         android:orientation="vertical" />
 
                     <View
+                        android:id="@+id/read_more_shadow"
                         android:layout_width="match_parent"
                         android:layout_height="32dp"
                         android:layout_alignBottom="@+id/permissions_container"
@@ -232,6 +287,7 @@
                 </com.tomclaw.appsend.main.view.MaxHeightFrameLayout>
 
                 <TextView
+                    android:id="@+id/read_more_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
@@ -240,7 +296,7 @@
                     android:gravity="center"
                     android:paddingBottom="12dp"
                     android:paddingTop="12dp"
-                    android:text="@string/read_all"
+                    android:text="@string/read_more"
                     android:textAllCaps="true"
                     android:textColor="@color/primary_color"
                     android:textSize="14sp" />
