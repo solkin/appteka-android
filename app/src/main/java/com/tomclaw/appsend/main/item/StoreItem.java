@@ -21,6 +21,7 @@ public class StoreItem extends BaseItem implements Parcelable {
     private final String version;
     private final int versionCode;
     private final int sdkVersion;
+    private final String androidVersion;
     private final List<String> permissions;
     private final long size;
     private final int downloads;
@@ -30,7 +31,7 @@ public class StoreItem extends BaseItem implements Parcelable {
 
     public StoreItem(String label, Map<String, String> labels, String icon,
                      String appId, String packageName, String version,
-                     int versionCode, int sdkVersion, List<String> permissions,
+                     int versionCode, int sdkVersion, String androidVersion, List<String> permissions,
                      long size, int downloads, long downloadTime, long time, String sha1) {
         this.label = label;
         this.labels = labels;
@@ -40,6 +41,7 @@ public class StoreItem extends BaseItem implements Parcelable {
         this.version = version;
         this.versionCode = versionCode;
         this.sdkVersion = sdkVersion;
+        this.androidVersion = androidVersion;
         this.permissions = permissions;
         this.size = size;
         this.downloads = downloads;
@@ -63,6 +65,7 @@ public class StoreItem extends BaseItem implements Parcelable {
         version = in.readString();
         versionCode = in.readInt();
         sdkVersion = in.readInt();
+        androidVersion = in.readString();
         permissions = in.createStringArrayList();
         size = in.readLong();
         downloads = in.readInt();
@@ -85,6 +88,7 @@ public class StoreItem extends BaseItem implements Parcelable {
         dest.writeString(version);
         dest.writeInt(versionCode);
         dest.writeInt(sdkVersion);
+        dest.writeString(androidVersion);
         dest.writeStringList(permissions);
         dest.writeLong(size);
         dest.writeInt(downloads);
@@ -145,6 +149,10 @@ public class StoreItem extends BaseItem implements Parcelable {
 
     public int getSdkVersion() {
         return sdkVersion;
+    }
+
+    public String getAndroidVersion() {
+        return androidVersion;
     }
 
     public List<String> getPermissions() {

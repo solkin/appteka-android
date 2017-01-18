@@ -11,4 +11,7 @@
         <attr name="play_description" format="string" />
         <attr name="play_comment" format="string" />
     </declare-styleable>
+    <declare-styleable name="MaxHeightFrameLayout">
+        <attr name="maxHeight" format="dimension" />
+    </declare-styleable>
 </resources>

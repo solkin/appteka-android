@@ -102,4 +102,8 @@
     <string name="megabytes">Мегабайт</string>
     <string name="open">Открыть</string>
     <string name="remove">Удалить</string>
+    <string name="store_info_error">Не удалось получить информацию о приложении</string>
+    <string name="unknown_permission_description">Неизвестное разрешение</string>
+    <string name="read_all">Читать дальше</string>
+    <string name="required_permissions">Требуемые разрешения</string>
 </resources>

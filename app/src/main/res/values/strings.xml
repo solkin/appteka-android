@@ -106,4 +106,8 @@
     <string name="megabytes">Megabytes</string>
     <string name="open">Open</string>
     <string name="remove">Remove</string>
+    <string name="store_info_error">Failed to retrieve application info</string>
+    <string name="unknown_permission_description">Unknown permission</string>
+    <string name="read_all">Read more</string>
+    <string name="required_permissions">Required permissions</string>
 </resources>

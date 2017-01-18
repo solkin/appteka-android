@@ -33,6 +33,8 @@ import java.util.concurrent.TimeUnit;
 
 import cz.msebera.android.httpclient.HttpStatus;
 
+import static com.tomclaw.appsend.util.StoreHelper.parseStoreItem;
+
 /**
  * Created by ivsolkin on 11.01.17.
  */
@@ -229,43 +231,6 @@ public class StoreController extends AbstractController<StoreController.StoreCal
             }
             HttpUtil.closeSafely(in);
         }
-    }
-
-    private StoreItem parseStoreItem(JSONObject file) throws JSONException {
-        String appId = file.getString("app_id");
-        String defLabel = file.getString("def_label");
-        int downloads = file.getInt("downloads");
-        String icon = file.getString("icon");
-        long downloadTime = file.getLong("download_time") * 1000;
-        Map<String, String> labels = parseStringMap(file.getJSONObject("labels"));
-        String packageName = file.getString("package");
-        List<String> permissions = parseStringList(file.getJSONArray("permissions"));
-        int sdkVersion = file.getInt("sdk_version");
-        String sha1 = file.getString("sha1");
-        long size = file.getLong("size");
-        long time = file.getLong("time") * 1000;
-        int verCode = file.getInt("ver_code");
-        String verName = file.getString("ver_name");
-        return new StoreItem(defLabel, labels, icon, appId, packageName, verName, verCode,
-                sdkVersion, permissions, size, downloads, downloadTime, time, sha1);
-    }
-
-    private Map<String, String> parseStringMap(JSONObject object) throws JSONException {
-        Map<String, String> map = new HashMap<>();
-        Iterator<String> keys = object.keys();
-        while (keys.hasNext()) {
-            String key = keys.next();
-            map.put(key, (String) object.get(key));
-        }
-        return map;
-    }
-
-    private List<String> parseStringList(JSONArray array) throws JSONException {
-        List<String> list = new ArrayList<>();
-        for (int c = 0; c < array.length(); c++) {
-            list.add(array.getString(c));
-        }
-        return list;
     }
 
     public interface StoreCallback extends AbstractController.ControllerCallback {

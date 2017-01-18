@@ -66,7 +66,8 @@ public class StoreView extends MainView implements StoreController.StoreCallback
             public void onItemClicked(final BaseItem item) {
                 StoreItem storeItem = (StoreItem) item;
                 Intent intent = new Intent(context, DownloadActivity.class);
-                intent.putExtra(DownloadActivity.STORE_ITEM, storeItem);
+                intent.putExtra(DownloadActivity.STORE_APP_ID, storeItem.getAppId());
+                intent.putExtra(DownloadActivity.STORE_APP_LABEL, storeItem.getLabel());
                 startActivity(intent);
             }
 

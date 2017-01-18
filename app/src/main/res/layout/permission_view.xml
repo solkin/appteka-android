@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/permission_description"
+        tools:text="Allows applications to open network sockets."
+        android:textColor="@color/primary_dark_color"
+        android:textSize="15sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/permission_name"
+        android:layout_below="@+id/permission_description"
+        android:textColor="?attr/text_secondary_color"
+        android:textSize="11sp"
+        android:textStyle="normal"
+        android:typeface="monospace"
+        android:fontFamily="monospace"
+        tools:text="android.permission.INTERNET" />
+
+</RelativeLayout>
