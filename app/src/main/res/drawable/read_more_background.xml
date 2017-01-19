@@ -3,6 +3,6 @@
     android:shape="rectangle">
     <gradient
         android:angle="270"
-        android:endColor="@color/permissions_container_background"
+        android:endColor="?attr/permissions_container_background"
         android:startColor="@android:color/transparent" />
 </shape>

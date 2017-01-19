@@ -12,14 +12,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import com.bumptech.glide.Glide;
 import com.tomclaw.appsend.main.controller.DownloadController;
 import com.tomclaw.appsend.main.dto.StoreInfo;
+import com.tomclaw.appsend.main.dto.StoreVersion;
 import com.tomclaw.appsend.main.item.StoreItem;
-import com.tomclaw.appsend.main.view.MaxHeightFrameLayout;
 import com.tomclaw.appsend.main.view.PlayView;
 import com.tomclaw.appsend.util.ThemeHelper;
 import com.tomclaw.appsend.util.TimeHelper;
@@ -34,6 +35,8 @@ public class DownloadActivity extends AppCompatActivity implements DownloadContr
     public static final String STORE_APP_ID = "app_id";
     public static final String STORE_APP_LABEL = "app_label";
 
+    private static final int MAX_PERMISSIONS_COUNT = 3;
+
     private TimeHelper timeHelper;
 
     private String appId;
@@ -46,13 +49,14 @@ public class DownloadActivity extends AppCompatActivity implements DownloadContr
     private PlayView downloadsView;
     private PlayView sizeView;
     private PlayView minAndroidView;
-    private MaxHeightFrameLayout permissionsBlock;
+    private RelativeLayout permissionsBlock;
     private ViewGroup permissionsContainer;
     private TextView versionView;
     private TextView uploadedTimeView;
     private TextView checksumView;
     private View shadowView;
     private View readMoreButton;
+    private ViewGroup versionsContainer;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -88,13 +92,14 @@ public class DownloadActivity extends AppCompatActivity implements DownloadContr
         downloadsView = (PlayView) findViewById(R.id.app_downloads);
         sizeView = (PlayView) findViewById(R.id.app_size);
         minAndroidView = (PlayView) findViewById(R.id.min_android);
-        permissionsBlock = (MaxHeightFrameLayout) findViewById(R.id.permissions_block);
+        permissionsBlock = (RelativeLayout) findViewById(R.id.permissions_block);
         permissionsContainer = (ViewGroup) findViewById(R.id.permissions_container);
         versionView = (TextView) findViewById(R.id.app_version);
         uploadedTimeView = (TextView) findViewById(R.id.uploaded_time);
         checksumView = (TextView) findViewById(R.id.app_checksum);
         shadowView = findViewById(R.id.read_more_shadow);
         readMoreButton = findViewById(R.id.read_more_button);
+        versionsContainer = (ViewGroup) findViewById(R.id.app_versions);
         findViewById(R.id.button_retry).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -147,7 +152,8 @@ public class DownloadActivity extends AppCompatActivity implements DownloadContr
         }
     }
 
-    private void bindStoreItem(StoreItem item) {
+    private void bindStoreItem(StoreInfo info) {
+        StoreItem item = info.getItem();
         Glide.with(this)
                 .load(item.getIcon())
                 .into(iconView);
@@ -174,11 +180,15 @@ public class DownloadActivity extends AppCompatActivity implements DownloadContr
         uploadedTimeView.setText(timeHelper.getFormattedDate(item.getTime()));
         checksumView.setText(item.getSha1());
         bindPermissions(item.getPermissions());
+        bindVersions(info.getVersions(), item.getVersionCode());
     }
 
     private void bindPermissions(List<String> permissions) {
         final boolean hasPermissions = !permissions.isEmpty();
-        for (String permission : permissions) {
+        int count = Math.min(MAX_PERMISSIONS_COUNT, permissions.size());
+        permissionsContainer.removeAllViews();
+        for (int c = 0; c < count; c++) {
+            String permission = permissions.get(c);
             View permissionView = getLayoutInflater().inflate(R.layout.permission_view, permissionsContainer, false);
             TextView permissionDescription = (TextView) permissionView.findViewById(R.id.permission_description);
             TextView permissionName = (TextView) permissionView.findViewById(R.id.permission_name);
@@ -188,22 +198,41 @@ public class DownloadActivity extends AppCompatActivity implements DownloadContr
             permissionsContainer.addView(permissionView);
         }
         permissionsBlock.setVisibility(hasPermissions ? View.VISIBLE : View.GONE);
-        readMoreButton.setVisibility(hasPermissions ? View.VISIBLE : View.GONE);
+        boolean isOverflow = permissions.size() > MAX_PERMISSIONS_COUNT;
+        readMoreButton.setVisibility(hasPermissions && isOverflow ? View.VISIBLE : View.GONE);
         shadowView.setVisibility(readMoreButton.getVisibility());
-        if (hasPermissions) {
-            permissionsBlock.post(new Runnable() {
-                @Override
-                public void run() {
-                    readMoreButton.setVisibility(permissionsBlock.isOverflow() ? View.VISIBLE : View.GONE);
-                    shadowView.setVisibility(readMoreButton.getVisibility());
-                }
-            });
+    }
+
+    private void bindVersions(List<StoreVersion> versions, int versionCode) {
+        versionsContainer.removeAllViews();
+        if (versions.size() == 1) {
+            versionsContainer.setVisibility(View.GONE);
+            return;
+        } else {
+            versionsContainer.setVisibility(View.VISIBLE);
+        }
+        for (int c = 0; c < versions.size(); c++) {
+            StoreVersion version = versions.get(c);
+            if (version.getVerCode() == versionCode) {
+                continue;
+            }
+            View versionView = getLayoutInflater().inflate(R.layout.version_view, versionsContainer, false);
+            TextView versionNameView = (TextView) versionView.findViewById(R.id.app_version_name);
+            TextView versionCodeView = (TextView) versionView.findViewById(R.id.app_version_code);
+            TextView versionDownloads = (TextView) versionView.findViewById(R.id.app_version_downloads);
+            View newerBadge = versionView.findViewById(R.id.app_newer_badge);
+            versionNameView.setText(version.getVerName());
+            versionCodeView.setText('(' + String.valueOf(version.getVerCode()) + ')');
+            versionDownloads.setText(String.valueOf(version.getDownloads()));
+            boolean isNewer = version.getVerCode() > versionCode;
+            newerBadge.setVisibility(isNewer ? View.VISIBLE : View.GONE);
+            versionsContainer.addView(versionView);
         }
     }
 
     @Override
     public void onInfoLoaded(StoreInfo storeInfo) {
-        bindStoreItem(storeInfo.getInfo());
+        bindStoreItem(storeInfo);
         viewFlipper.setDisplayedChild(1);
     }
 

@@ -109,4 +109,5 @@
     <string name="app_version_title">Версия</string>
     <string name="uploaded_title">Загружено</string>
     <string name="checksum_title">Контрольная сумма</string>
+    <string name="newer">новее</string>
 </resources>

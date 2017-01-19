@@ -5,6 +5,7 @@
     <attr name="donate_card_background" format="color|reference" />
     <attr name="bottom_bar_background" format="color|reference" />
     <attr name="toolbar_background" format="color|reference" />
+    <attr name="permissions_container_background" format="color|reference" />
     <attr name="cardViewStyle" format="reference" />
     <declare-styleable name="PlayView">
         <attr name="play_count" format="string" />

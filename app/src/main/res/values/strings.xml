@@ -114,4 +114,5 @@
     <string name="uploaded_title">Uploaded</string>
     <string name="checksum_title">Checksum</string>
     <string name="app_version_format" translatable="false">%1$s (%2$d)</string>
+    <string name="newer">newer</string>
 </resources>

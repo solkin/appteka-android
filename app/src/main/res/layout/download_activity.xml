@@ -228,16 +228,16 @@
 
                 </LinearLayout>
 
-                <com.tomclaw.appsend.main.view.MaxHeightFrameLayout
+                <RelativeLayout
                     android:id="@+id/permissions_block"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:background="@color/permissions_container_background"
+                    android:background="?attr/permissions_container_background"
                     android:paddingLeft="12dp"
                     android:paddingRight="12dp"
                     android:paddingTop="8dp"
-                    app:maxHeight="192dp">
+                    android:paddingBottom="8dp">
 
                     <RelativeLayout
                         android:id="@+id/block_title"
@@ -284,22 +284,29 @@
                         android:background="@drawable/read_more_background"
                         android:visibility="visible" />
 
-                </com.tomclaw.appsend.main.view.MaxHeightFrameLayout>
+                    <TextView
+                        android:id="@+id/read_more_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/permissions_container"
+                        android:layout_gravity="bottom"
+                        android:fontFamily="sans-serif-medium"
+                        android:gravity="center"
+                        android:paddingTop="12dp"
+                        android:paddingBottom="4dp"
+                        android:text="@string/read_more"
+                        android:textAllCaps="true"
+                        android:textColor="@color/primary_color"
+                        android:textSize="14sp" />
 
-                <TextView
-                    android:id="@+id/read_more_button"
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/app_versions"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:background="@color/permissions_container_background"
-                    android:fontFamily="sans-serif-medium"
-                    android:gravity="center"
-                    android:paddingBottom="12dp"
-                    android:paddingTop="12dp"
-                    android:text="@string/read_more"
-                    android:textAllCaps="true"
-                    android:textColor="@color/primary_color"
-                    android:textSize="14sp" />
+                    android:padding="6dp"
+                    android:orientation="vertical"/>
 
             </LinearLayout>
 

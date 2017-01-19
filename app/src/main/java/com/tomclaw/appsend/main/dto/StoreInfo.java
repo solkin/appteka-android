@@ -52,7 +52,7 @@ public class StoreInfo implements Parcelable {
         return expiresIn;
     }
 
-    public StoreItem getInfo() {
+    public StoreItem getItem() {
         return info;
     }
 
