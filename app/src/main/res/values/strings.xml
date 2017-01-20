@@ -112,7 +112,8 @@
     <string name="required_permissions">Required permissions</string>
     <string name="app_version_title">Version</string>
     <string name="uploaded_title">Uploaded</string>
-    <string name="checksum_title">Checksum</string>
+    <string name="checksum_title">Checksum (SHA1)</string>
     <string name="app_version_format" translatable="false">%1$s (%2$d)</string>
     <string name="newer">newer</string>
+    <string name="other_versions">Other version</string>
 </resources>

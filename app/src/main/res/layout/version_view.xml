@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:textSize="16sp"
         android:textColor="?attr/text_primary_color"
-        tools:text="1.7"/>
+        tools:text="1.7" />
 
     <TextView
         android:id="@+id/app_version_code"
@@ -23,7 +23,7 @@
         android:layout_marginStart="2dp"
         android:textSize="16sp"
         android:textColor="?attr/text_secondary_color"
-        tools:text="(49)"/>
+        tools:text="(49)" />
 
     <TextView
         android:id="@+id/app_newer_badge"
@@ -32,12 +32,12 @@
         android:layout_marginLeft="4dp"
         android:layout_marginStart="4dp"
         android:textColor="@color/accent_color"
-        android:text="@string/newer"/>
+        android:text="@string/newer" />
 
     <View
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1"/>
+        android:layout_weight="1" />
 
     <TextView
         android:id="@+id/app_version_downloads"
@@ -48,12 +48,12 @@
         android:textSize="16sp"
         android:textColor="@color/grey_dark"
         android:fontFamily="sans-serif-light"
-        tools:text="133"/>
+        tools:text="133" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/briefcase_download"
-        android:tint="@color/grey_dark"/>
+        android:tint="@color/grey_dark" />
 
 </LinearLayout>

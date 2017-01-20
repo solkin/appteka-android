@@ -56,6 +56,7 @@ public class DownloadActivity extends AppCompatActivity implements DownloadContr
     private TextView checksumView;
     private View shadowView;
     private View readMoreButton;
+    private View otherVersionsTitle;
     private ViewGroup versionsContainer;
 
     @Override
@@ -99,6 +100,7 @@ public class DownloadActivity extends AppCompatActivity implements DownloadContr
         checksumView = (TextView) findViewById(R.id.app_checksum);
         shadowView = findViewById(R.id.read_more_shadow);
         readMoreButton = findViewById(R.id.read_more_button);
+        otherVersionsTitle = findViewById(R.id.other_versions_title);
         versionsContainer = (ViewGroup) findViewById(R.id.app_versions);
         findViewById(R.id.button_retry).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -205,14 +207,8 @@ public class DownloadActivity extends AppCompatActivity implements DownloadContr
 
     private void bindVersions(List<StoreVersion> versions, int versionCode) {
         versionsContainer.removeAllViews();
-        if (versions.size() == 1) {
-            versionsContainer.setVisibility(View.GONE);
-            return;
-        } else {
-            versionsContainer.setVisibility(View.VISIBLE);
-        }
-        for (int c = 0; c < versions.size(); c++) {
-            StoreVersion version = versions.get(c);
+        boolean isVersionsAdded = false;
+        for (StoreVersion version : versions) {
             if (version.getVerCode() == versionCode) {
                 continue;
             }
@@ -227,7 +223,10 @@ public class DownloadActivity extends AppCompatActivity implements DownloadContr
             boolean isNewer = version.getVerCode() > versionCode;
             newerBadge.setVisibility(isNewer ? View.VISIBLE : View.GONE);
             versionsContainer.addView(versionView);
+            isVersionsAdded = true;
         }
+        versionsContainer.setVisibility(isVersionsAdded ? View.VISIBLE : View.GONE);
+        otherVersionsTitle.setVisibility(versionsContainer.getVisibility());
     }
 
     @Override

@@ -179,7 +179,7 @@ public class ApksController extends AbstractController<ApksController.ApksCallba
         }
     }
 
-    public interface ApksCallback extends AbstractController.ControllerCallback{
+    public interface ApksCallback extends AbstractController.ControllerCallback {
 
         void onProgress();
 

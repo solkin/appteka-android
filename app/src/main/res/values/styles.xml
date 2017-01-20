@@ -38,7 +38,9 @@
 
         <item name="toolbar_background">@color/primary_color</item>
 
-        <item name="permissions_container_background">@color/permissions_container_light_background</item>
+        <item name="permissions_container_background">
+            @color/permissions_container_light_background
+        </item>
     </style>
 
     <style name="AppThemeBlack" parent="Theme.AppCompat.NoActionBar">
@@ -61,7 +63,8 @@
 
         <item name="toolbar_background">#263238</item>
 
-        <item name="permissions_container_background">@color/permissions_container_dark_background</item>
+        <item name="permissions_container_background">@color/permissions_container_dark_background
+        </item>
     </style>
 
     <style name="CardViewStyle.Light" parent="CardView">

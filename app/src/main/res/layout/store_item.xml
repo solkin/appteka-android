@@ -139,7 +139,7 @@
         android:layout_marginBottom="12dp"
         android:layout_gravity="center_horizontal"
         android:visibility="gone"
-        tools:visibility="gone"/>
+        tools:visibility="gone" />
 
     <LinearLayout
         android:id="@+id/error_view"
@@ -159,7 +159,7 @@
             android:layout_marginLeft="4dp"
             android:layout_marginRight="12dp"
             android:text="@string/store_loading_error"
-            android:textSize="14sp"/>
+            android:textSize="14sp" />
 
         <Button
             android:layout_width="wrap_content"
@@ -167,7 +167,7 @@
             android:id="@+id/button_retry"
             style="@style/Widget.AppCompat.Button.Borderless.Colored"
             android:layout_gravity="center"
-            android:text="@string/retry"/>
+            android:text="@string/retry" />
 
     </LinearLayout>
 

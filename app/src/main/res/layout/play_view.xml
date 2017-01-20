@@ -16,7 +16,7 @@
         android:fontFamily="sans-serif"
         android:gravity="center"
         android:textSize="22sp"
-        tools:text="157"/>
+        tools:text="157" />
 
     <TextView
         android:id="@+id/play_description"
@@ -32,7 +32,7 @@
         android:textSize="9sp"
         android:layout_alignBottom="@+id/play_count"
         android:textColor="@android:color/white"
-        tools:text="@string/downloads"/>
+        tools:text="@string/downloads" />
 
     <TextView
         android:id="@+id/play_comment"
@@ -44,6 +44,6 @@
         android:layout_below="@+id/play_count"
         android:textColor="@color/grey_dark"
         android:gravity="center"
-        tools:text="This is some long\ndescription"/>
+        tools:text="This is some long\ndescription" />
 
 </RelativeLayout>
