@@ -108,6 +108,16 @@ public class DownloadActivity extends AppCompatActivity implements DownloadContr
                 reloadInfo();
             }
         });
+        findViewById(R.id.share_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            }
+        });
+        findViewById(R.id.browser_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            }
+        });
 
         if (isCreateInstance) {
             loadInfo();
