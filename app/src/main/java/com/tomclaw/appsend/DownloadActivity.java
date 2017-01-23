@@ -1,6 +1,7 @@
 package com.tomclaw.appsend;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PermissionInfo;
 import android.os.Bundle;
@@ -191,8 +192,19 @@ public class DownloadActivity extends AppCompatActivity implements DownloadContr
         versionView.setText(getString(R.string.app_version_format, item.getVersion(), item.getVersionCode()));
         uploadedTimeView.setText(timeHelper.getFormattedDate(item.getTime()));
         checksumView.setText(item.getSha1());
+        bindButtons(item.getPackageName());
         bindPermissions(item.getPermissions());
         bindVersions(info.getVersions(), item.getVersionCode());
+    }
+
+    private void bindButtons(String packageName) {
+        try {
+            PackageManager packageManager = getPackageManager();
+            PackageInfo packageInfo = packageManager.getPackageInfo(packageName, 0);
+            
+        } catch (PackageManager.NameNotFoundException ignored) {
+
+        }
     }
 
     private void bindPermissions(List<String> permissions) {

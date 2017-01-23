@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="8dp">
+    android:padding="12dp">
 
     <LinearLayout
         android:id="@+id/title_container"
@@ -34,7 +34,7 @@
                 android:id="@+id/app_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left|center_vertical"
+                android:layout_gravity="start|center_vertical"
                 android:singleLine="true"
                 android:textColor="?text_primary_color"
                 android:textSize="17sp"
@@ -45,7 +45,7 @@
                 android:id="@+id/app_package"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left|center_vertical"
+                android:layout_gravity="start|center_vertical"
                 android:ellipsize="marquee"
                 android:fontFamily="monospace"
                 android:lines="1"
@@ -60,30 +60,44 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <ViewSwitcher
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content">
 
         <Button
-            android:id="@+id/button_first"
-            style="@style/Widget.AppCompat.Button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:text="@string/remove" />
-
-        <Button
-            android:id="@+id/button_second"
+            android:id="@+id/button_one"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:text="@string/open" />
+            android:layout_gravity="end"
+            android:text="@string/install" />
 
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/button_first"
+                style="@style/Widget.AppCompat.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:text="@string/remove" />
+
+            <Button
+                android:id="@+id/button_second"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:text="@string/open" />
+
+        </LinearLayout>
+
+    </ViewSwitcher>
 
     <View
         android:layout_width="match_parent"
