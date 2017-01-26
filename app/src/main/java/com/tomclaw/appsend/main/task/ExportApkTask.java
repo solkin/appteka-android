@@ -23,6 +23,8 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import static com.tomclaw.appsend.util.FileHelper.getExternalDirectory;
+
 /**
  * Created by Solkin on 11.12.2014.
  */
@@ -64,15 +66,6 @@ public class ExportApkTask extends PleaseWaitTask {
             outputStream.close();
             inputStream.close();
         }
-    }
-
-    @SuppressLint("NewApi")
-    public static File getExternalDirectory() {
-        File externalDirectory = Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO ?
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) : Environment.getExternalStorageDirectory();
-        File directory = new File(externalDirectory, "Apps");
-        directory.mkdirs();
-        return directory;
     }
 
     public static String getApkPrefix(CommonItem item) {

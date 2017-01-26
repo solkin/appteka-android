@@ -113,4 +113,5 @@
     <string name="other_versions">Другие версии</string>
     <string name="open_in_browser">В браузере</string>
     <string name="update">Обновить</string>
+    <string name="downloading_error">Ошибка скачивания приложения. Проверьте наличие сети и попробуйте ущё раз.</string>
 </resources>

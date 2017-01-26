@@ -7,12 +7,16 @@ import com.tomclaw.appsend.main.dto.StoreVersion;
 import com.tomclaw.appsend.main.item.StoreItem;
 import com.tomclaw.appsend.util.HttpParamsBuilder;
 import com.tomclaw.appsend.util.HttpUtil;
+import com.tomclaw.appsend.util.VariableBuffer;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -47,6 +51,11 @@ public class DownloadController extends AbstractController<DownloadController.Do
 
     private StoreInfo storeInfo = null;
     private boolean isInfoError = false;
+    private long downloadedBytes;
+    private String downloadedPath;
+    private boolean isDownloaded;
+    private boolean isDownloading;
+    private boolean isDownloadError;
 
     private Future<?> future;
 
@@ -58,6 +67,14 @@ public class DownloadController extends AbstractController<DownloadController.Do
             callback.onInfoError();
         } else {
             callback.onInfoProgress();
+        }
+        if (isDownloaded) {
+            callback.onDownloaded(downloadedPath);
+        } else if (isDownloadError) {
+            callback.onDownloadError();
+        } else if (isDownloading) {
+            callback.onDownloadStarted();
+            callback.onDownloadProgress(downloadedBytes);
         }
     }
 
@@ -76,6 +93,10 @@ public class DownloadController extends AbstractController<DownloadController.Do
     public void loadInfo(final String appId) {
         storeInfo = null;
         isInfoError = false;
+        this.isDownloaded = false;
+        this.isDownloading = false;
+        this.downloadedBytes = 0;
+        this.downloadedPath = null;
         future = executor.submit(new Runnable() {
             @Override
             public void run() {
@@ -126,6 +147,86 @@ public class DownloadController extends AbstractController<DownloadController.Do
                     @Override
                     public void invoke(DownloadCallback callback) {
                         callback.onInfoError();
+                    }
+                });
+            }
+        });
+    }
+
+    public void download(final String link, final String filePath) {
+        this.isDownloaded = false;
+        this.isDownloading = false;
+        this.downloadedBytes = 0;
+        this.downloadedPath = null;
+        future = executor.submit(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    downloadInternal(link, filePath);
+                } catch (Throwable ignored) {
+                    onInfoError();
+                }
+            }
+        });
+    }
+
+    private void onDownloadStarted() {
+        this.isDownloaded = false;
+        this.isDownloading = true;
+        MainExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                operateCallbacks(new CallbackOperation<DownloadCallback>() {
+                    @Override
+                    public void invoke(DownloadCallback callback) {
+                        callback.onDownloadStarted();
+                    }
+                });
+            }
+        });
+    }
+
+    private void onDownloadProgress(final long downloadedBytes) {
+        this.downloadedBytes = downloadedBytes;
+        MainExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                operateCallbacks(new CallbackOperation<DownloadCallback>() {
+                    @Override
+                    public void invoke(DownloadCallback callback) {
+                        callback.onDownloadProgress(downloadedBytes);
+                    }
+                });
+            }
+        });
+    }
+
+    private void onDownloaded(final String filePath) {
+        this.isDownloaded = true;
+        this.isDownloading = false;
+        this.downloadedPath = filePath;
+        MainExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                operateCallbacks(new CallbackOperation<DownloadCallback>() {
+                    @Override
+                    public void invoke(DownloadCallback callback) {
+                        callback.onDownloaded(filePath);
+                    }
+                });
+            }
+        });
+    }
+
+    private void onDownloadError() {
+        this.isDownloadError = true;
+        MainExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                operateCallbacks(new CallbackOperation<DownloadCallback>() {
+                    @Override
+                    public void invoke(DownloadCallback callback) {
+                        callback.onDownloadError();
                     }
                 });
             }
@@ -198,6 +299,64 @@ public class DownloadController extends AbstractController<DownloadController.Do
         }
     }
 
+    private void downloadInternal(String link, String filePath) {
+        onDownloadStarted();
+        HttpURLConnection connection = null;
+        InputStream in = null;
+        OutputStream out = null;
+        try {
+            Logger.d("Download app url: %s", link);
+            URL url = new URL(link);
+            connection = (HttpURLConnection) url.openConnection();
+            // Executing request.
+            connection.setConnectTimeout((int) TimeUnit.SECONDS.toMillis(30));
+            connection.setRequestMethod(HttpUtil.GET);
+            connection.setUseCaches(false);
+            connection.setDoInput(true);
+            connection.setDoOutput(true);
+            connection.setInstanceFollowRedirects(false);
+            connection.connect();
+            // Open connection to response.
+            int responseCode = connection.getResponseCode();
+            // Checking for this is error stream.
+            if (responseCode >= HttpStatus.SC_BAD_REQUEST) {
+                in = connection.getErrorStream();
+            } else {
+                in = connection.getInputStream();
+            }
+            File file = new File(filePath);
+            if (file.exists()) {
+                file.delete();
+            }
+            out = new FileOutputStream(file);
+
+            VariableBuffer buffer = new VariableBuffer();
+            int cache;
+            long read = 0;
+            buffer.onExecuteStart();
+            while ((cache = in.read(buffer.calculateBuffer())) != -1) {
+                buffer.onExecuteCompleted(cache);
+                out.write(buffer.getBuffer(), 0, cache);
+                out.flush();
+                read += cache;
+                onDownloadProgress(read);
+                buffer.onExecuteStart();
+            }
+
+            onDownloaded(filePath);
+        } catch (Throwable ex) {
+            Logger.e(ex, "Exception while application uploading");
+            onDownloadError();
+        } finally {
+            // Trying to disconnect in any case.
+            if (connection != null) {
+                connection.disconnect();
+            }
+            HttpUtil.closeSafely(in);
+            HttpUtil.closeSafely(out);
+        }
+    }
+
     public interface DownloadCallback extends AbstractController.ControllerCallback {
 
         void onInfoLoaded(StoreInfo storeInfo);
@@ -206,5 +365,12 @@ public class DownloadController extends AbstractController<DownloadController.Do
 
         void onInfoProgress();
 
+        void onDownloadStarted();
+
+        void onDownloadProgress(long downloadedBytes);
+
+        void onDownloaded(String filePath);
+
+        void onDownloadError();
     }
 }

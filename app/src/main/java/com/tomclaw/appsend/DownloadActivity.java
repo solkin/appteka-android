@@ -1,5 +1,6 @@
 package com.tomclaw.appsend;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -9,33 +10,41 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import android.support.annotation.StringRes;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
-import android.widget.ViewSwitcher;
 
 import com.bumptech.glide.Glide;
+import com.greysonparrelli.permiso.Permiso;
+import com.greysonparrelli.permiso.PermisoActivity;
+import com.tomclaw.appsend.main.controller.ApksController;
 import com.tomclaw.appsend.main.controller.DownloadController;
 import com.tomclaw.appsend.main.dto.StoreInfo;
 import com.tomclaw.appsend.main.dto.StoreVersion;
 import com.tomclaw.appsend.main.item.StoreItem;
 import com.tomclaw.appsend.main.view.PlayView;
+import com.tomclaw.appsend.util.FileHelper;
 import com.tomclaw.appsend.util.ThemeHelper;
 import com.tomclaw.appsend.util.TimeHelper;
 
+import java.io.File;
 import java.util.List;
+
+import static com.tomclaw.appsend.util.FileHelper.getExternalDirectory;
 
 /**
  * Created by ivsolkin on 14.01.17.
  */
-public class DownloadActivity extends AppCompatActivity implements DownloadController.DownloadCallback {
+public class DownloadActivity extends PermisoActivity implements DownloadController.DownloadCallback {
 
     public static final String STORE_APP_ID = "app_id";
     public static final String STORE_APP_LABEL = "app_label";
@@ -63,10 +72,11 @@ public class DownloadActivity extends AppCompatActivity implements DownloadContr
     private View readMoreButton;
     private View otherVersionsTitle;
     private ViewGroup versionsContainer;
-    private ViewSwitcher buttonsSwitcher;
+    private ViewFlipper buttonsSwitcher;
     private Button buttonOne;
     private Button buttonFirst;
     private Button buttonSecond;
+    private ProgressBar progress;
 
     private StoreInfo info;
 
@@ -115,10 +125,17 @@ public class DownloadActivity extends AppCompatActivity implements DownloadContr
         readMoreButton = findViewById(R.id.read_more_button);
         otherVersionsTitle = findViewById(R.id.other_versions_title);
         versionsContainer = (ViewGroup) findViewById(R.id.app_versions);
-        buttonsSwitcher = (ViewSwitcher) findViewById(R.id.buttons_switcher);
+        buttonsSwitcher = (ViewFlipper) findViewById(R.id.buttons_switcher);
         buttonOne = (Button) findViewById(R.id.button_one);
         buttonFirst = (Button) findViewById(R.id.button_first);
         buttonSecond = (Button) findViewById(R.id.button_second);
+        progress = (ProgressBar) findViewById(R.id.progress);
+        findViewById(R.id.button_cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                cancelDownload();
+            }
+        });
         findViewById(R.id.button_retry).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -168,10 +185,7 @@ public class DownloadActivity extends AppCompatActivity implements DownloadContr
     protected void onResume() {
         super.onResume();
         if (isRefreshOnResume) {
-            if (info != null) {
-                StoreItem item = info.getItem();
-                bindButtons(item.getPackageName(), item.getVersionCode());
-            }
+            bindButtons();
             isRefreshOnResume = false;
         }
     }
@@ -224,6 +238,13 @@ public class DownloadActivity extends AppCompatActivity implements DownloadContr
         bindButtons(item.getPackageName(), item.getVersionCode());
         bindPermissions(item.getPermissions());
         bindVersions(info.getVersions(), item.getVersionCode());
+    }
+
+    private void bindButtons() {
+        if (info != null) {
+            StoreItem item = info.getItem();
+            bindButtons(item.getPackageName(), item.getVersionCode());
+        }
     }
 
     private void bindButtons(final String packageName, int versionCode) {
@@ -289,16 +310,50 @@ public class DownloadActivity extends AppCompatActivity implements DownloadContr
         buttonOne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                installApp();
+                checkPermissionsForInstall();
             }
         });
     }
 
-    private void installApp() {
+    private void checkPermissionsForInstall() {
+        Permiso.getInstance().requestPermissions(new Permiso.IOnPermissionResult() {
+            @Override
+            public void onPermissionResult(Permiso.ResultSet resultSet) {
+                if (resultSet.areAllPermissionsGranted()) {
+                    // Permission granted!
+                    if (!ApksController.getInstance().isStarted()) {
+                        installApp();
+                    }
+                } else {
+                    // Permission denied.
+                    showError(R.string.write_permission_install);
+                }
+            }
 
+            @Override
+            public void onRationaleRequested(Permiso.IOnRationaleProvided callback, String... permissions) {
+                String title = DownloadActivity.this.getString(R.string.app_name);
+                String message = DownloadActivity.this.getString(R.string.write_permission_install);
+                Permiso.getInstance().showRationaleInDialog(title, message, null, callback);
+            }
+        }, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+    }
+
+    private void installApp() {
+        File directory = getExternalDirectory();
+        File destination = new File(directory, getApkName(info.getItem()));
+        if (destination.exists()) {
+            destination.delete();
+        }
+        String filePath = destination.getAbsolutePath();
+        DownloadController.getInstance().download(info.getLink(), filePath);
     }
 
     private void updateApp() {
+        checkPermissionsForInstall();
+    }
+
+    private void cancelDownload() {
 
     }
 
@@ -377,6 +432,43 @@ public class DownloadActivity extends AppCompatActivity implements DownloadContr
         viewFlipper.setDisplayedChild(0);
     }
 
+    @Override
+    public void onDownloadStarted() {
+        buttonsSwitcher.setDisplayedChild(2);
+        progress.setIndeterminate(true);
+    }
+
+    @Override
+    public void onDownloadProgress(long downloadedBytes) {
+        progress.setIndeterminate(false);
+        StoreItem item = info.getItem();
+        if (item.getSize() > 0) {
+            progress.setProgress((int) (100 * downloadedBytes / item.getSize()));
+        }
+    }
+
+    @Override
+    public void onDownloaded(String filePath) {
+        viewFlipper.setDisplayedChild(0);
+        bindButtons();
+        // TODO: run this only once after download!
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setDataAndType(Uri.fromFile(new File(filePath)), "application/vnd.android.package-archive");
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onDownloadError() {
+        showError(R.string.downloading_error);
+        viewFlipper.setDisplayedChild(0);
+        bindButtons();
+    }
+
+    private void showError(@StringRes int message) {
+        Snackbar.make(viewFlipper, message, Snackbar.LENGTH_SHORT);
+    }
+
     @Nullable
     private static String getPermissionDescription(@NonNull Context context, @NonNull String permission) {
         String description;
@@ -389,5 +481,17 @@ public class DownloadActivity extends AppCompatActivity implements DownloadContr
             description = context.getString(R.string.unknown_permission_description);
         }
         return description;
+    }
+
+    private static String getApkPrefix(StoreItem item) {
+        return FileHelper.escapeFileSymbols(item.getLabel() + "-" + item.getVersion());
+    }
+
+    private static String getApkSuffix() {
+        return ".apk";
+    }
+
+    private static String getApkName(StoreItem item) {
+        return getApkPrefix(item) + getApkSuffix();
     }
 }

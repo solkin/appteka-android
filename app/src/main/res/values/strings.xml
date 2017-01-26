@@ -118,4 +118,5 @@
     <string name="other_versions">Other version</string>
     <string name="open_in_browser">In browser</string>
     <string name="update">Update</string>
+    <string name="downloading_error">App downloading failed. Check network and can try again.</string>
 </resources>

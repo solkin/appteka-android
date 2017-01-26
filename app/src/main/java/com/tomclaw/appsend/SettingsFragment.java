@@ -15,6 +15,8 @@ import com.tomclaw.appsend.main.task.ExportApkTask;
 import java.io.File;
 import java.io.FileFilter;
 
+import static com.tomclaw.appsend.util.FileHelper.getExternalDirectory;
+
 /**
  * Created by Solkin on 12.01.2015.
  */
@@ -35,7 +37,7 @@ public class SettingsFragment extends PreferenceFragment {
                 TaskExecutor.getInstance().execute(new PleaseWaitTask(getActivity()) {
                     @Override
                     public void executeBackground() throws Throwable {
-                        File directory = ExportApkTask.getExternalDirectory();
+                        File directory = getExternalDirectory();
                         File[] files = directory.listFiles(new FileFilter() {
                             @Override
                             public boolean accept(File pathname) {

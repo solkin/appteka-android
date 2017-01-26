@@ -1,10 +1,15 @@
 package com.tomclaw.appsend.util;
 
+import android.annotation.SuppressLint;
 import android.content.res.Resources;
+import android.os.Build;
+import android.os.Environment;
 import android.text.TextUtils;
 import android.webkit.MimeTypeMap;
 
 import com.tomclaw.appsend.R;
+
+import java.io.File;
 
 /**
  * Created by Solkin on 18.10.2014.
@@ -74,5 +79,14 @@ public class FileHelper {
             name = name.replace(symbol.charAt(0), '_');
         }
         return name;
+    }
+
+    @SuppressLint("NewApi")
+    public static File getExternalDirectory() {
+        File externalDirectory = Build.VERSION.SDK_INT >= Build.VERSION_CODES.FROYO ?
+                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) : Environment.getExternalStorageDirectory();
+        File directory = new File(externalDirectory, "Apps");
+        directory.mkdirs();
+        return directory;
     }
 }
