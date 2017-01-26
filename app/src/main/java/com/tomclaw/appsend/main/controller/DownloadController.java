@@ -68,9 +68,7 @@ public class DownloadController extends AbstractController<DownloadController.Do
         } else {
             callback.onInfoProgress();
         }
-        if (isDownloaded) {
-            callback.onDownloaded(downloadedPath);
-        } else if (isDownloadError) {
+        if (isDownloadError) {
             callback.onDownloadError();
         } else if (isDownloading) {
             callback.onDownloadStarted();
