@@ -1,9 +1,11 @@
 package com.tomclaw.appsend;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PermissionInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -12,10 +14,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
+import android.widget.ViewSwitcher;
 
 import com.bumptech.glide.Glide;
 import com.tomclaw.appsend.main.controller.DownloadController;
@@ -59,6 +63,14 @@ public class DownloadActivity extends AppCompatActivity implements DownloadContr
     private View readMoreButton;
     private View otherVersionsTitle;
     private ViewGroup versionsContainer;
+    private ViewSwitcher buttonsSwitcher;
+    private Button buttonOne;
+    private Button buttonFirst;
+    private Button buttonSecond;
+
+    private StoreInfo info;
+
+    private boolean isRefreshOnResume = false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -103,6 +115,10 @@ public class DownloadActivity extends AppCompatActivity implements DownloadContr
         readMoreButton = findViewById(R.id.read_more_button);
         otherVersionsTitle = findViewById(R.id.other_versions_title);
         versionsContainer = (ViewGroup) findViewById(R.id.app_versions);
+        buttonsSwitcher = (ViewSwitcher) findViewById(R.id.buttons_switcher);
+        buttonOne = (Button) findViewById(R.id.button_one);
+        buttonFirst = (Button) findViewById(R.id.button_first);
+        buttonSecond = (Button) findViewById(R.id.button_second);
         findViewById(R.id.button_retry).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -149,6 +165,18 @@ public class DownloadActivity extends AppCompatActivity implements DownloadContr
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        if (isRefreshOnResume) {
+            if (info != null) {
+                StoreItem item = info.getItem();
+                bindButtons(item.getPackageName(), item.getVersionCode());
+            }
+            isRefreshOnResume = false;
+        }
+    }
+
+    @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString(STORE_APP_ID, appId);
@@ -166,6 +194,7 @@ public class DownloadActivity extends AppCompatActivity implements DownloadContr
     }
 
     private void bindStoreItem(StoreInfo info) {
+        this.info = info;
         StoreItem item = info.getItem();
         Glide.with(this)
                 .load(item.getIcon())
@@ -192,19 +221,100 @@ public class DownloadActivity extends AppCompatActivity implements DownloadContr
         versionView.setText(getString(R.string.app_version_format, item.getVersion(), item.getVersionCode()));
         uploadedTimeView.setText(timeHelper.getFormattedDate(item.getTime()));
         checksumView.setText(item.getSha1());
-        bindButtons(item.getPackageName());
+        bindButtons(item.getPackageName(), item.getVersionCode());
         bindPermissions(item.getPermissions());
         bindVersions(info.getVersions(), item.getVersionCode());
     }
 
-    private void bindButtons(String packageName) {
+    private void bindButtons(final String packageName, int versionCode) {
         try {
             PackageManager packageManager = getPackageManager();
             PackageInfo packageInfo = packageManager.getPackageInfo(packageName, 0);
-            
+            if (packageInfo != null) {
+                final Intent launchIntent = packageManager.getLaunchIntentForPackage(packageName);
+                boolean isRunnable = launchIntent != null;
+                boolean isNewer = versionCode > packageInfo.versionCode;
+                if (isRunnable) {
+                    buttonsSwitcher.setDisplayedChild(1);
+                    buttonFirst.setText(R.string.remove);
+                    buttonFirst.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            removeApp(packageName);
+                        }
+                    });
+                    if (isNewer) {
+                        buttonSecond.setText(R.string.update);
+                        buttonSecond.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                updateApp();
+                            }
+                        });
+                    } else {
+                        buttonSecond.setText(R.string.open);
+                        buttonSecond.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                openApp(launchIntent);
+                            }
+                        });
+                    }
+                } else {
+                    buttonsSwitcher.setDisplayedChild(0);
+                    if (isNewer) {
+                        buttonOne.setText(R.string.update);
+                        buttonOne.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                updateApp();
+                            }
+                        });
+                    } else {
+                        buttonOne.setText(R.string.remove);
+                        buttonOne.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                removeApp(packageName);
+                            }
+                        });
+                    }
+                }
+            }
+            return;
         } catch (PackageManager.NameNotFoundException ignored) {
-
         }
+        buttonsSwitcher.setDisplayedChild(0);
+        buttonOne.setText(R.string.install);
+        buttonOne.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                installApp();
+            }
+        });
+    }
+
+    private void installApp() {
+
+    }
+
+    private void updateApp() {
+
+    }
+
+    private void removeApp(String packageName) {
+        setRefreshOnResume();
+        Uri packageUri = Uri.parse("package:" + packageName);
+        Intent uninstallIntent = new Intent(Intent.ACTION_DELETE, packageUri);
+        startActivity(uninstallIntent);
+    }
+
+    private void openApp(Intent launchIntent) {
+        startActivity(launchIntent);
+    }
+
+    public void setRefreshOnResume() {
+        isRefreshOnResume = true;
     }
 
     private void bindPermissions(List<String> permissions) {

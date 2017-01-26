@@ -117,4 +117,5 @@
     <string name="newer">newer</string>
     <string name="other_versions">Other version</string>
     <string name="open_in_browser">In browser</string>
+    <string name="update">Update</string>
 </resources>
