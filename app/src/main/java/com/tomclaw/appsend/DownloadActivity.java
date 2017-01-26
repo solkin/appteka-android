@@ -80,8 +80,6 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
 
     private StoreInfo info;
 
-    private boolean isRefreshOnResume = false;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         ThemeHelper.updateTheme(this);
@@ -184,10 +182,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     @Override
     protected void onResume() {
         super.onResume();
-        if (isRefreshOnResume) {
-            bindButtons();
-            isRefreshOnResume = false;
-        }
+        bindButtons();
     }
 
     @Override
@@ -248,6 +243,10 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     }
 
     private void bindButtons(final String packageName, int versionCode) {
+        if (DownloadController.getInstance().isDownloading()) {
+            buttonsSwitcher.setDisplayedChild(2);
+            return;
+        }
         try {
             PackageManager packageManager = getPackageManager();
             PackageInfo packageInfo = packageManager.getPackageInfo(packageName, 0);
@@ -354,11 +353,10 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     }
 
     private void cancelDownload() {
-
+        DownloadController.getInstance().cancelDownload();
     }
 
     private void removeApp(String packageName) {
-        setRefreshOnResume();
         Uri packageUri = Uri.parse("package:" + packageName);
         Intent uninstallIntent = new Intent(Intent.ACTION_DELETE, packageUri);
         startActivity(uninstallIntent);
@@ -366,10 +364,6 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
 
     private void openApp(Intent launchIntent) {
         startActivity(launchIntent);
-    }
-
-    public void setRefreshOnResume() {
-        isRefreshOnResume = true;
     }
 
     private void bindPermissions(List<String> permissions) {
@@ -451,7 +445,6 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     public void onDownloaded(String filePath) {
         viewFlipper.setDisplayedChild(0);
         bindButtons();
-        // TODO: run this only once after download!
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setDataAndType(Uri.fromFile(new File(filePath)), "application/vnd.android.package-archive");
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

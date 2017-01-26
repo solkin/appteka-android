@@ -52,15 +52,18 @@ public class DownloadController extends AbstractController<DownloadController.Do
     private StoreInfo storeInfo = null;
     private boolean isInfoError = false;
     private long downloadedBytes;
-    private String downloadedPath;
-    private boolean isDownloaded;
     private boolean isDownloading;
     private boolean isDownloadError;
+    private boolean isDownloadCancelled;
 
     private Future<?> future;
 
     @Override
     void onAttached(DownloadCallback callback) {
+        actuateCallback(callback);
+    }
+
+    private void actuateCallback(DownloadCallback callback) {
         if (isInfoLoaded()) {
             callback.onInfoLoaded(storeInfo);
         } else if (isInfoError) {
@@ -84,6 +87,10 @@ public class DownloadController extends AbstractController<DownloadController.Do
         return future != null;
     }
 
+    public boolean isDownloading() {
+        return isDownloading;
+    }
+
     @Override
     void onDetached(DownloadCallback callback) {
     }
@@ -91,10 +98,10 @@ public class DownloadController extends AbstractController<DownloadController.Do
     public void loadInfo(final String appId) {
         storeInfo = null;
         isInfoError = false;
-        this.isDownloaded = false;
-        this.isDownloading = false;
-        this.downloadedBytes = 0;
-        this.downloadedPath = null;
+        isDownloading = false;
+        isDownloadError = false;
+        downloadedBytes = 0;
+        isDownloadCancelled = false;
         future = executor.submit(new Runnable() {
             @Override
             public void run() {
@@ -152,10 +159,10 @@ public class DownloadController extends AbstractController<DownloadController.Do
     }
 
     public void download(final String link, final String filePath) {
-        this.isDownloaded = false;
-        this.isDownloading = false;
-        this.downloadedBytes = 0;
-        this.downloadedPath = null;
+        isDownloading = true;
+        isDownloadError = false;
+        isDownloadCancelled = false;
+        downloadedBytes = 0;
         future = executor.submit(new Runnable() {
             @Override
             public void run() {
@@ -168,9 +175,17 @@ public class DownloadController extends AbstractController<DownloadController.Do
         });
     }
 
+    public void cancelDownload() {
+        if (future != null & isDownloading) {
+            isDownloadCancelled = true;
+            future.cancel(true);
+        }
+    }
+
     private void onDownloadStarted() {
-        this.isDownloaded = false;
-        this.isDownloading = true;
+        isDownloading = true;
+        isDownloadError = false;
+        isDownloadCancelled = false;
         MainExecutor.execute(new Runnable() {
             @Override
             public void run() {
@@ -200,9 +215,9 @@ public class DownloadController extends AbstractController<DownloadController.Do
     }
 
     private void onDownloaded(final String filePath) {
-        this.isDownloaded = true;
-        this.isDownloading = false;
-        this.downloadedPath = filePath;
+        isDownloading = false;
+        isDownloadError = false;
+        isDownloadCancelled = false;
         MainExecutor.execute(new Runnable() {
             @Override
             public void run() {
@@ -217,14 +232,21 @@ public class DownloadController extends AbstractController<DownloadController.Do
     }
 
     private void onDownloadError() {
-        this.isDownloadError = true;
+        isDownloading = false;
+        if (!isDownloadCancelled) {
+            isDownloadError = true;
+        }
         MainExecutor.execute(new Runnable() {
             @Override
             public void run() {
                 operateCallbacks(new CallbackOperation<DownloadCallback>() {
                     @Override
                     public void invoke(DownloadCallback callback) {
-                        callback.onDownloadError();
+                        if (isDownloadCancelled) {
+                            actuateCallback(callback);
+                        } else {
+                            callback.onDownloadError();
+                        }
                     }
                 });
             }
