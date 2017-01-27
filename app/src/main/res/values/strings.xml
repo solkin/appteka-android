@@ -121,4 +121,7 @@
     <string name="downloading_error">App downloading failed. Check network and can try again.</string>
     <string name="cancel_download_title">Cancel installation</string>
     <string name="cancel_download_text">Are you sure want to cancel installation of this application?</string>
+    <string name="responsibility_denial_title">Denial of responsibility</string>
+    <string name="responsibility_denial_text">Submitted applications in this cloud are uploaded by AppSend users. The author is not responsible for the quality of the content provided. By clicking \"Yes\" you accept this condition.</string>
+    <string name="agree_with_responsibility_condition">To install applications from cloud you must agree with this condition</string>
 </resources>

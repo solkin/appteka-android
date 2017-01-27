@@ -25,13 +25,13 @@ import android.widget.ViewFlipper;
 import com.bumptech.glide.Glide;
 import com.greysonparrelli.permiso.Permiso;
 import com.greysonparrelli.permiso.PermisoActivity;
-import com.tomclaw.appsend.main.controller.ApksController;
 import com.tomclaw.appsend.main.controller.DownloadController;
 import com.tomclaw.appsend.main.dto.StoreInfo;
 import com.tomclaw.appsend.main.dto.StoreVersion;
 import com.tomclaw.appsend.main.item.StoreItem;
 import com.tomclaw.appsend.main.view.PlayView;
 import com.tomclaw.appsend.util.FileHelper;
+import com.tomclaw.appsend.util.PreferenceHelper;
 import com.tomclaw.appsend.util.ThemeHelper;
 import com.tomclaw.appsend.util.TimeHelper;
 
@@ -330,17 +330,37 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         });
     }
 
+    private void responsibilityDenial() {
+        if (PreferenceHelper.isShowResponsibilityDenial(this)) {
+            new AlertDialog.Builder(this)
+                    .setTitle(getString(R.string.responsibility_denial_title))
+                    .setMessage(getString(R.string.responsibility_denial_text))
+                    .setNegativeButton(R.string.yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            PreferenceHelper.setShowResponsibilityDenial(DownloadActivity.this, false);
+                            installApp();
+                        }
+                    })
+                    .setPositiveButton(R.string.no, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            showError(R.string.agree_with_responsibility_condition);
+                        }
+                    })
+                    .show();
+        } else {
+            installApp();
+        }
+    }
+
     private void checkPermissionsForInstall() {
         Permiso.getInstance().requestPermissions(new Permiso.IOnPermissionResult() {
             @Override
             public void onPermissionResult(Permiso.ResultSet resultSet) {
                 if (resultSet.areAllPermissionsGranted()) {
-                    // Permission granted!
-                    if (!ApksController.getInstance().isStarted()) {
-                        installApp();
-                    }
+                    responsibilityDenial();
                 } else {
-                    // Permission denied.
                     showError(R.string.write_permission_install);
                 }
             }

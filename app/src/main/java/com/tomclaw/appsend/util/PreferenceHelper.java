@@ -37,6 +37,14 @@ public class PreferenceHelper {
         setBooleanPreference(context, R.string.pref_install_couch, value);
     }
 
+    public static boolean isShowResponsibilityDenial(Context context) {
+        return getBooleanPreference(context, R.string.pref_responsibility_denial, R.bool.pref_responsibility_denial_default);
+    }
+
+    public static void setShowResponsibilityDenial(Context context, boolean value) {
+        setBooleanPreference(context, R.string.pref_responsibility_denial, value);
+    }
+
     private static boolean getBooleanPreference(Context context, int preferenceKey, int defaultValueKey) {
         return getSharedPreferences(context).getBoolean(context.getResources().getString(preferenceKey),
                 context.getResources().getBoolean(defaultValueKey));

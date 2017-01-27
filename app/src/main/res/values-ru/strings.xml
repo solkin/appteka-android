@@ -116,4 +116,7 @@
     <string name="downloading_error">Ошибка скачивания приложения. Проверьте наличие сети и попробуйте ущё раз.</string>
     <string name="cancel_download_title">Отмена установки</string>
     <string name="cancel_download_text">Вы уверены, что хотите отменить установку этого приложения?</string>
+    <string name="responsibility_denial_title">Отказ от ответственности</string>
+    <string name="responsibility_denial_text">В обменнике представлены приложения, загруженные пользователями AppSend. Автор не несёт ответственность за качество предоставленного контента. Нажимая \"Да\" Вы принимаете данное условие.</string>
+    <string name="agree_with_responsibility_condition">Для установки приложений из обменника необходимо согласиться в этим условием</string>
 </resources>
