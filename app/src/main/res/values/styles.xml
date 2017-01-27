@@ -20,6 +20,12 @@
     <color name="permissions_container_light_background">#def1e8</color>
     <color name="permissions_container_dark_background">#0C1D15</color>
 
+    <color name="play_view_light_color">#EF6C00</color>
+    <color name="play_view_dark_color">#a34900</color>
+
+    <color name="divider_light">#dadada</color>
+    <color name="divider_dark">#424242</color>
+
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorAccent">@color/accent_color</item>
         <item name="colorPrimary">@color/primary_color</item>
@@ -37,6 +43,10 @@
         <item name="bottom_bar_background">#ffffff</item>
 
         <item name="toolbar_background">@color/primary_color</item>
+
+        <item name="play_view_color">@color/play_view_light_color</item>
+
+        <item name="divider_color">@color/divider_light</item>
 
         <item name="permissions_container_background">
             @color/permissions_container_light_background
@@ -62,6 +72,10 @@
         <item name="bottom_bar_background">#181818</item>
 
         <item name="toolbar_background">#263238</item>
+
+        <item name="play_view_color">@color/play_view_dark_color</item>
+
+        <item name="divider_color">@color/divider_dark</item>
 
         <item name="permissions_container_background">@color/permissions_container_dark_background
         </item>

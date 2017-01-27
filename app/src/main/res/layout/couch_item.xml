@@ -37,7 +37,7 @@
             android:layout_marginTop="4dp"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="12dp"
-            android:background="@color/grey" />
+            android:background="?attr/divider_color" />
 
         <LinearLayout
             android:id="@+id/couch_buttons"

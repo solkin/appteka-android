@@ -132,7 +132,7 @@
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
         android:layout_marginTop="8dp"
-        android:background="@color/grey" />
+        android:background="?attr/divider_color" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -179,7 +179,7 @@
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
         android:layout_marginTop="12dp"
-        android:background="@color/grey" />
+        android:background="?attr/divider_color" />
 
     <TextView
         android:layout_width="match_parent"

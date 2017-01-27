@@ -1,7 +1,6 @@
 package com.tomclaw.appsend;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -31,7 +30,7 @@ import static com.tomclaw.appsend.util.IntentHelper.shareUrl;
  */
 public class UploadActivity extends AppCompatActivity implements UploadController.UploadCallback {
 
-    private static final long DEBOUNCE_DELAY = 300;
+    private static final long DEBOUNCE_DELAY = 100;
     public static final String UPLOAD_ITEM = "app_info";
 
     private CommonItem item;
