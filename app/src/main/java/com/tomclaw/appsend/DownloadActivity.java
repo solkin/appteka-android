@@ -1,15 +1,12 @@
 package com.tomclaw.appsend;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.pm.PermissionInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
@@ -57,6 +54,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     public static final String STORE_APP_LABEL = "app_label";
 
     private static final int MAX_PERMISSIONS_COUNT = 3;
+    private static final long DEBOUNCE_DELAY = 100;
 
     private TimeHelper timeHelper;
 
@@ -86,6 +84,8 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     private ProgressBar progress;
 
     private StoreInfo info;
+
+    private transient long progressUpdateTime = 0;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -477,7 +477,9 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     public void onDownloadProgress(long downloadedBytes) {
         progress.setIndeterminate(false);
         StoreItem item = info.getItem();
-        if (item.getSize() > 0) {
+        long time = System.currentTimeMillis();
+        if (item.getSize() > 0 && time - progressUpdateTime >= DEBOUNCE_DELAY) {
+            progressUpdateTime = time;
             progress.setProgress((int) (100 * downloadedBytes / item.getSize()));
         }
     }
