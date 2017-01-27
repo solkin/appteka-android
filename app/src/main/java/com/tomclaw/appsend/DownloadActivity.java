@@ -39,12 +39,14 @@ import com.tomclaw.appsend.util.ThemeHelper;
 import com.tomclaw.appsend.util.TimeHelper;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.tomclaw.appsend.util.FileHelper.getExternalDirectory;
 import static com.tomclaw.appsend.util.IntentHelper.formatText;
 import static com.tomclaw.appsend.util.IntentHelper.openGooglePlay;
 import static com.tomclaw.appsend.util.IntentHelper.shareUrl;
+import static com.tomclaw.appsend.util.PermissionHelper.getPermissionDescription;
 
 /**
  * Created by ivsolkin on 14.01.17.
@@ -380,7 +382,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         startActivity(launchIntent);
     }
 
-    private void bindPermissions(List<String> permissions) {
+    private void bindPermissions(final List<String> permissions) {
         final boolean hasPermissions = !permissions.isEmpty();
         int count = Math.min(MAX_PERMISSIONS_COUNT, permissions.size());
         permissionsContainer.removeAllViews();
@@ -398,6 +400,17 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         boolean isOverflow = permissions.size() > MAX_PERMISSIONS_COUNT;
         readMoreButton.setVisibility(hasPermissions && isOverflow ? View.VISIBLE : View.GONE);
         shadowView.setVisibility(readMoreButton.getVisibility());
+        if (isOverflow) {
+            permissionsBlock.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(DownloadActivity.this, PermissionsActivity.class)
+                            .putStringArrayListExtra(PermissionsActivity.EXTRA_PERMISSIONS,
+                                    new ArrayList<>(permissions));
+                    startActivity(intent);
+                }
+            });
+        }
     }
 
     private void bindVersions(List<StoreVersion> versions, int versionCode) {
@@ -487,21 +500,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     }
 
     private void showError(@StringRes int message) {
-        Snackbar.make(viewFlipper, message, Snackbar.LENGTH_SHORT);
-    }
-
-    @Nullable
-    private static String getPermissionDescription(@NonNull Context context, @NonNull String permission) {
-        String description;
-        try {
-            PackageManager packageManager = context.getPackageManager();
-            PermissionInfo permissionInfo = packageManager
-                    .getPermissionInfo(permission, PackageManager.GET_META_DATA);
-            description = permissionInfo.loadLabel(packageManager).toString();
-        } catch (Throwable ignored) {
-            description = context.getString(R.string.unknown_permission_description);
-        }
-        return description;
+        Snackbar.make(viewFlipper, message, Snackbar.LENGTH_LONG).show();
     }
 
     private static String getApkPrefix(StoreItem item) {

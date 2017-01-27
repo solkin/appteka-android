@@ -37,5 +37,8 @@
         <activity
             android:name="com.tomclaw.appsend.DownloadActivity"
             android:label="@string/download" />
+        <activity
+            android:name="com.tomclaw.appsend.PermissionsActivity"
+            android:label="@string/required_permissions" />
     </application>
 </manifest>
