@@ -116,6 +116,11 @@ public class StoreView extends MainView implements StoreController.StoreCallback
         StoreController.getInstance().reload(getContext());
     }
 
+    @Override
+    public boolean isFilterable() {
+        return false;
+    }
+
     public void load(StoreItem item) {
         StoreController.getInstance().load(getContext(), item.getAppId());
         adapter.notifyDataSetChanged();

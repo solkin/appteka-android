@@ -19,12 +19,12 @@ import com.greysonparrelli.permiso.Permiso;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.UploadActivity;
 import com.tomclaw.appsend.main.adapter.BaseItemAdapter;
+import com.tomclaw.appsend.main.adapter.FilterableItemAdapter;
 import com.tomclaw.appsend.main.adapter.MenuAdapter;
 import com.tomclaw.appsend.main.controller.ApksController;
 import com.tomclaw.appsend.main.item.ApkItem;
 import com.tomclaw.appsend.main.item.BaseItem;
 import com.tomclaw.appsend.main.item.CouchItem;
-import com.tomclaw.appsend.main.task.ExportApkTask;
 import com.tomclaw.appsend.util.ColorHelper;
 import com.tomclaw.appsend.util.EdgeChanger;
 import com.tomclaw.appsend.util.PreferenceHelper;
@@ -48,7 +48,7 @@ public class InstallView extends MainView implements ApksController.ApksCallback
     private TextView errorText;
     private View retryButton;
     private RecyclerView recyclerView;
-    private BaseItemAdapter adapter;
+    private FilterableItemAdapter adapter;
     private BaseItemAdapter.BaseItemClickListener listener;
 
     public InstallView(final Context context) {
@@ -99,7 +99,7 @@ public class InstallView extends MainView implements ApksController.ApksCallback
             }
         };
 
-        adapter = new BaseItemAdapter(context);
+        adapter = new FilterableItemAdapter(context);
         adapter.setListener(listener);
         recyclerView.setAdapter(adapter);
     }
@@ -131,6 +131,16 @@ public class InstallView extends MainView implements ApksController.ApksCallback
     @Override
     public void refresh() {
         ApksController.getInstance().reload(getContext());
+    }
+
+    @Override
+    public boolean isFilterable() {
+        return true;
+    }
+
+    @Override
+    public void filter(String query) {
+        adapter.getFilter().filter(query);
     }
 
     private void checkPermissionsForInstall() {

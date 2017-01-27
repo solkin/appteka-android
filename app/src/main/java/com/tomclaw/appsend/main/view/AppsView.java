@@ -24,6 +24,7 @@ import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.UploadActivity;
 import com.tomclaw.appsend.core.TaskExecutor;
 import com.tomclaw.appsend.main.adapter.BaseItemAdapter;
+import com.tomclaw.appsend.main.adapter.FilterableItemAdapter;
 import com.tomclaw.appsend.main.adapter.MenuAdapter;
 import com.tomclaw.appsend.main.controller.AppsController;
 import com.tomclaw.appsend.main.item.AppItem;
@@ -43,7 +44,7 @@ public class AppsView extends MainView implements BillingProcessor.IBillingHandl
 
     private ViewFlipper viewFlipper;
     private RecyclerView recyclerView;
-    private BaseItemAdapter adapter;
+    private FilterableItemAdapter adapter;
     private BaseItemAdapter.BaseItemClickListener listener;
     private BillingProcessor bp;
 
@@ -93,7 +94,7 @@ public class AppsView extends MainView implements BillingProcessor.IBillingHandl
             }
         };
 
-        adapter = new BaseItemAdapter(context);
+        adapter = new FilterableItemAdapter(context);
         adapter.setListener(listener);
         recyclerView.setAdapter(adapter);
     }
@@ -130,6 +131,16 @@ public class AppsView extends MainView implements BillingProcessor.IBillingHandl
     @Override
     public void refresh() {
         AppsController.getInstance().reload(getContext());
+    }
+
+    @Override
+    public boolean isFilterable() {
+        return true;
+    }
+
+    @Override
+    public void filter(String query) {
+        adapter.getFilter().filter(query);
     }
 
     private void showDonateDialog() {

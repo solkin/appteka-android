@@ -2,6 +2,7 @@ package com.tomclaw.appsend;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.MenuRes;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -88,7 +89,9 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
 
             @Override
             public boolean onQueryTextChange(String newText) {
-//                adapter.getFilter().filter(newText);
+                if (mainView.isFilterable()) {
+                    mainView.filter(newText);
+                }
                 return false;
             }
         };
@@ -151,6 +154,8 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
         mainViewsContainer.setDisplayedChild(index);
         mainView = (MainView) mainViewsContainer.getChildAt(index);
         mainView.activate(this);
+
+        invalidateOptionsMenu();
     }
 
     private void updateList() {
@@ -213,11 +218,20 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-        SearchView searchView = (SearchView) menu.findItem(R.id.menu_search).getActionView();
-        searchView.setQueryHint(menu.findItem(R.id.menu_search).getTitle());
-        // Configure the search info and add any event listeners
-        searchView.setOnQueryTextListener(onQueryTextListener);
+        @MenuRes int menuRes;
+        if (mainView == null || !mainView.isFilterable()) {
+            menuRes = R.menu.main_no_search_menu;
+        } else {
+            menuRes = R.menu.main_menu;
+        }
+        getMenuInflater().inflate(menuRes, menu);
+        MenuItem searchMenu = menu.findItem(R.id.menu_search);
+        if (searchMenu != null) {
+            SearchView searchView = (SearchView) searchMenu.getActionView();
+            searchView.setQueryHint(menu.findItem(R.id.menu_search).getTitle());
+            // Configure the search info and add any event listeners
+            searchView.setOnQueryTextListener(onQueryTextListener);
+        }
         return true;
     }
 

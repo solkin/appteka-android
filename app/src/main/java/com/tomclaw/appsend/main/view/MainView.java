@@ -39,6 +39,11 @@ public abstract class MainView extends FrameLayout {
 
     public abstract void refresh();
 
+    public abstract boolean isFilterable();
+
+    public void filter(String query) {
+    }
+
     protected void startActivity(Intent intent) {
         ActivityCallback callback = weakActivityCallback.get();
         if (callback != null) {

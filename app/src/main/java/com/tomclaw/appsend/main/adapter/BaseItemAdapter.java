@@ -96,42 +96,17 @@ public class BaseItemAdapter extends RecyclerView.Adapter<AbstractItemHolder> {
         itemsList.addAll(items);
     }
 
-//    @Override
-//    public Filter getFilter() {
-//        return new Filter() {
-//            @Override
-//            protected FilterResults performFiltering(CharSequence constraint) {
-//                FilterResults filterResults = new FilterResults();
-//                List<BaseItem> filtered = filterApps(constraint.toString());
-//                filterResults.values = filtered;
-//                filterResults.count = filtered.size();
-//                return filterResults;
-//            }
-//
-//            @Override
-//            @SuppressWarnings("unchecked")
-//            protected void publishResults(CharSequence constraint, FilterResults results) {
-//                itemsList.clear();
-//                if (results.count > 0) {
-//                    itemsList.addAll((List<BaseItem>) results.values);
-//                }
-//                notifyDataSetChanged();
-//            }
-//        };
-//    }
-//
-//    private List<BaseItem> filterApps(String query) {
-//        List<BaseItem> filtered = new ArrayList<>();
-//        for (BaseItem item : originalInfoList) {
-//            // TODO: This code needs rather more polymorphism... But I very need for sleep.
-//            boolean donateItem = (item.getType() == DONATE_ITEM);
-//            if (donateItem || item.getLabel().toLowerCase().contains(query) ||
-//                    item.getPackageName().toLowerCase().contains(query)) {
-//                filtered.add(item);
-//            }
-//        }
-//        return filtered;
-//    }
+    public List<? extends BaseItem> getItemsList() {
+        return itemsList;
+    }
+
+    public void clearItemsList() {
+        itemsList.clear();
+    }
+
+    public void addToItemsList(List<BaseItem> items) {
+        itemsList.addAll(items);
+    }
 
     public interface BaseItemClickListener<I extends BaseItem> {
         void onItemClicked(I item);
