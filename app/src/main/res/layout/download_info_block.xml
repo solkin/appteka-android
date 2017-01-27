@@ -120,7 +120,7 @@
                 android:padding="8dp"
                 android:layout_gravity="center_vertical"
                 android:src="@drawable/close"
-                android:tint="@color/accent_color"/>
+                android:tint="@color/accent_color" />
 
         </LinearLayout>
 
