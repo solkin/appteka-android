@@ -2,6 +2,7 @@ package com.tomclaw.appsend;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -12,6 +13,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -40,6 +42,9 @@ import java.io.File;
 import java.util.List;
 
 import static com.tomclaw.appsend.util.FileHelper.getExternalDirectory;
+import static com.tomclaw.appsend.util.IntentHelper.formatText;
+import static com.tomclaw.appsend.util.IntentHelper.openGooglePlay;
+import static com.tomclaw.appsend.util.IntentHelper.shareUrl;
 
 /**
  * Created by ivsolkin on 14.01.17.
@@ -143,11 +148,15 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         findViewById(R.id.share_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String text = formatText(getResources(), info.getUrl(),
+                        info.getItem().getLabel(), info.getItem().getSize());
+                shareUrl(DownloadActivity.this, text);
             }
         });
-        findViewById(R.id.browser_button).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.play_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                openGooglePlay(DownloadActivity.this, info.getItem().getPackageName());
             }
         });
 
@@ -165,6 +174,11 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
             }
         }
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        finishAttempt(null);
     }
 
     @Override
@@ -389,7 +403,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     private void bindVersions(List<StoreVersion> versions, int versionCode) {
         versionsContainer.removeAllViews();
         boolean isVersionsAdded = false;
-        for (StoreVersion version : versions) {
+        for (final StoreVersion version : versions) {
             if (version.getVerCode() == versionCode) {
                 continue;
             }
@@ -403,6 +417,20 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
             versionDownloads.setText(String.valueOf(version.getDownloads()));
             boolean isNewer = version.getVerCode() > versionCode;
             newerBadge.setVisibility(isNewer ? View.VISIBLE : View.GONE);
+            versionView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    finishAttempt(new Runnable() {
+                        @Override
+                        public void run() {
+                            Intent intent = new Intent(DownloadActivity.this, DownloadActivity.class);
+                            intent.putExtra(DownloadActivity.STORE_APP_ID, version.getAppId());
+                            intent.putExtra(DownloadActivity.STORE_APP_LABEL, info.getItem().getLabel());
+                            startActivity(intent);
+                        }
+                    });
+                }
+            });
             versionsContainer.addView(versionView);
             isVersionsAdded = true;
         }
@@ -486,5 +514,34 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
 
     private static String getApkName(StoreItem item) {
         return getApkPrefix(item) + getApkSuffix();
+    }
+
+    private void finishAttempt(final Runnable runnable) {
+        if (DownloadController.getInstance().isDownloading()) {
+            new AlertDialog.Builder(this)
+                    .setTitle(getString(R.string.cancel_download_title))
+                    .setMessage(getString(R.string.cancel_download_text))
+                    .setNegativeButton(R.string.yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            cancelDownload();
+                            finish();
+                            if (runnable != null) {
+                                runnable.run();
+                            }
+                        }
+                    })
+                    .setPositiveButton(R.string.no, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    })
+                    .show();
+        } else {
+            finish();
+            if (runnable != null) {
+                runnable.run();
+            }
+        }
     }
 }

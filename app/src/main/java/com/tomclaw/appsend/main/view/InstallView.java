@@ -33,6 +33,10 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.tomclaw.appsend.util.IntentHelper.bluetoothApk;
+import static com.tomclaw.appsend.util.IntentHelper.openGooglePlay;
+import static com.tomclaw.appsend.util.IntentHelper.shareApk;
+
 /**
  * Created by ivsolkin on 08.01.17.
  */
@@ -166,7 +170,7 @@ public class InstallView extends MainView implements ApksController.ApksCallback
                                 break;
                             }
                             case 1: {
-                                ExportApkTask.shareApk(getContext(), new File(apkItem.getPath()));
+                                shareApk(getContext(), new File(apkItem.getPath()));
                                 break;
                             }
                             case 2: {
@@ -176,16 +180,12 @@ public class InstallView extends MainView implements ApksController.ApksCallback
                                 break;
                             }
                             case 3: {
-                                ExportApkTask.bluetoothApk(getContext(), apkItem);
+                                bluetoothApk(getContext(), apkItem);
                                 break;
                             }
                             case 4: {
-                                final String appPackageName = apkItem.getPackageName();
-                                try {
-                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
-                                } catch (android.content.ActivityNotFoundException anfe) {
-                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
-                                }
+                                final String packageName = apkItem.getPackageName();
+                                openGooglePlay(getContext(), packageName);
                                 break;
                             }
                             case 5: {

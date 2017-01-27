@@ -20,8 +20,11 @@ import com.bumptech.glide.Glide;
 import com.tomclaw.appsend.main.controller.UploadController;
 import com.tomclaw.appsend.main.item.CommonItem;
 import com.tomclaw.appsend.util.FileHelper;
+import com.tomclaw.appsend.util.IntentHelper;
 import com.tomclaw.appsend.util.StringUtil;
 import com.tomclaw.appsend.util.ThemeHelper;
+
+import static com.tomclaw.appsend.util.IntentHelper.shareUrl;
 
 /**
  * Created by ivsolkin on 02.01.17.
@@ -79,23 +82,19 @@ public class UploadActivity extends AppCompatActivity implements UploadControlle
         findViewById(R.id.button_cancel).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cancel();
+                onBackPressed();
             }
         });
         findViewById(R.id.button_share).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent sendIntent = new Intent();
-                sendIntent.setAction(Intent.ACTION_SEND);
-                sendIntent.putExtra(Intent.EXTRA_TEXT, getText());
-                sendIntent.setType("text/plain");
-                startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_url_to)));
+                shareUrl(UploadActivity.this, formatText());
             }
         });
         findViewById(R.id.button_copy).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                StringUtil.copyStringToClipboard(UploadActivity.this, getText());
+                StringUtil.copyStringToClipboard(UploadActivity.this, formatText());
                 Toast.makeText(UploadActivity.this, R.string.url_copied, Toast.LENGTH_SHORT).show();
             }
         });
@@ -124,11 +123,15 @@ public class UploadActivity extends AppCompatActivity implements UploadControlle
         }
     }
 
+    private String formatText() {
+        return IntentHelper.formatText(getResources(), url, item.getLabel(), item.getSize());
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home: {
-                cancel();
+                onBackPressed();
                 break;
             }
         }
@@ -180,7 +183,8 @@ public class UploadActivity extends AppCompatActivity implements UploadControlle
         finish();
     }
 
-    private void cancel() {
+    @Override
+    public void onBackPressed() {
         if (UploadController.getInstance().isCompleted()) {
             finish();
         } else {
@@ -201,10 +205,5 @@ public class UploadActivity extends AppCompatActivity implements UploadControlle
                     })
                     .show();
         }
-    }
-
-    private String getText() {
-        String sizeString = FileHelper.formatBytes(getResources(), item.getSize());
-        return getString(R.string.uploaded_url, item.getLabel(), sizeString, url);
     }
 }

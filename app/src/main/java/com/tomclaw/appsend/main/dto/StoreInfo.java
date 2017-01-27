@@ -15,13 +15,15 @@ public class StoreInfo implements Parcelable {
     public long expiresIn;
     public StoreItem info;
     public String link;
+    public String url;
     public int status;
     public List<StoreVersion> versions;
 
-    public StoreInfo(long expiresIn, StoreItem info, String link, int status, List<StoreVersion> versions) {
+    public StoreInfo(long expiresIn, StoreItem info, String link, String url, int status, List<StoreVersion> versions) {
         this.expiresIn = expiresIn;
         this.info = info;
         this.link = link;
+        this.url = url;
         this.status = status;
         this.versions = versions;
     }
@@ -54,6 +56,10 @@ public class StoreInfo implements Parcelable {
 
     public StoreItem getItem() {
         return info;
+    }
+
+    public String getUrl() {
+        return url;
     }
 
     public String getLink() {

@@ -101,7 +101,6 @@ public class DownloadController extends AbstractController<DownloadController.Do
         isDownloading = false;
         isDownloadError = false;
         downloadedBytes = 0;
-        isDownloadCancelled = false;
         future = executor.submit(new Runnable() {
             @Override
             public void run() {
@@ -161,12 +160,12 @@ public class DownloadController extends AbstractController<DownloadController.Do
     public void download(final String link, final String filePath) {
         isDownloading = true;
         isDownloadError = false;
-        isDownloadCancelled = false;
         downloadedBytes = 0;
         future = executor.submit(new Runnable() {
             @Override
             public void run() {
                 try {
+                    isDownloadCancelled = false;
                     downloadInternal(link, filePath);
                 } catch (Throwable ignored) {
                     onInfoError();
@@ -183,9 +182,11 @@ public class DownloadController extends AbstractController<DownloadController.Do
     }
 
     private void onDownloadStarted() {
+        if (isDownloadCancelled) {
+            return;
+        }
         isDownloading = true;
         isDownloadError = false;
-        isDownloadCancelled = false;
         MainExecutor.execute(new Runnable() {
             @Override
             public void run() {
@@ -200,6 +201,9 @@ public class DownloadController extends AbstractController<DownloadController.Do
     }
 
     private void onDownloadProgress(final long downloadedBytes) {
+        if (isDownloadCancelled) {
+            return;
+        }
         this.downloadedBytes = downloadedBytes;
         MainExecutor.execute(new Runnable() {
             @Override
@@ -290,6 +294,7 @@ public class DownloadController extends AbstractController<DownloadController.Do
                 case 200: {
                     long expiresIn = jsonObject.getLong("expires_in");
                     String link = jsonObject.getString("link");
+                    String webUrl = jsonObject.getString("url");
                     List<StoreVersion> storeVersions = new ArrayList<>();
                     JSONArray versions = jsonObject.getJSONArray("versions");
                     for (int c = 0; c < versions.length(); c++) {
@@ -299,7 +304,7 @@ public class DownloadController extends AbstractController<DownloadController.Do
                     }
                     JSONObject info = jsonObject.getJSONObject("info");
                     StoreItem storeItem = parseStoreItem(info);
-                    StoreInfo storeInfo = new StoreInfo(expiresIn, storeItem, link, status, storeVersions);
+                    StoreInfo storeInfo = new StoreInfo(expiresIn, storeItem, link, webUrl, status, storeVersions);
                     onInfoLoaded(storeInfo);
                     break;
                 }

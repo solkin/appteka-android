@@ -111,7 +111,9 @@
     <string name="checksum_title">Контрольная сумма (SHA1)</string>
     <string name="newer">новее</string>
     <string name="other_versions">Другие версии</string>
-    <string name="open_in_browser">В браузере</string>
+    <string name="google_play">Google Play</string>
     <string name="update">Обновить</string>
     <string name="downloading_error">Ошибка скачивания приложения. Проверьте наличие сети и попробуйте ущё раз.</string>
+    <string name="cancel_download_title">Отмена установки</string>
+    <string name="cancel_download_text">Вы уверены, что хотите отменить установку этого приложения?</string>
 </resources>

@@ -116,7 +116,9 @@
     <string name="app_version_format" translatable="false">%1$s (%2$d)</string>
     <string name="newer">newer</string>
     <string name="other_versions">Other version</string>
-    <string name="open_in_browser">In browser</string>
+    <string name="google_play">Google Play</string>
     <string name="update">Update</string>
     <string name="downloading_error">App downloading failed. Check network and can try again.</string>
+    <string name="cancel_download_title">Cancel installation</string>
+    <string name="cancel_download_text">Are you sure want to cancel installation of this application?</string>
 </resources>

@@ -34,6 +34,8 @@ import com.tomclaw.appsend.util.EdgeChanger;
 
 import java.util.List;
 
+import static com.tomclaw.appsend.util.IntentHelper.openGooglePlay;
+
 /**
  * Created by ivsolkin on 08.01.17.
  */
@@ -192,12 +194,8 @@ public class AppsView extends MainView implements BillingProcessor.IBillingHandl
                                 break;
                             }
                             case 5: {
-                                final String appPackageName = appItem.getPackageName();
-                                try {
-                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + appPackageName)));
-                                } catch (android.content.ActivityNotFoundException anfe) {
-                                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=" + appPackageName)));
-                                }
+                                String packageName = appItem.getPackageName();
+                                openGooglePlay(getContext(), packageName);
                                 break;
                             }
                             case 6: {

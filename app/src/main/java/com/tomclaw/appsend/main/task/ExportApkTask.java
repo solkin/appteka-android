@@ -1,12 +1,7 @@
 package com.tomclaw.appsend.main.task;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Build;
-import android.os.Environment;
 import android.support.v7.app.AlertDialog;
 import android.text.Html;
 import android.widget.Toast;
@@ -24,6 +19,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import static com.tomclaw.appsend.util.FileHelper.getExternalDirectory;
+import static com.tomclaw.appsend.util.IntentHelper.bluetoothApk;
+import static com.tomclaw.appsend.util.IntentHelper.shareApk;
 
 /**
  * Created by Solkin on 11.12.2014.
@@ -109,27 +106,6 @@ public class ExportApkTask extends PleaseWaitTask {
                 }
             }
         }
-    }
-
-    public static void shareApk(Context context, File destination) {
-        Uri uri = Uri.fromFile(destination);
-        Intent sendIntent = new Intent();
-        sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, destination.getName());
-        sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
-        sendIntent.setType("application/zip");
-        context.startActivity(Intent.createChooser(sendIntent, context.getResources().getText(R.string.send_to)));
-    }
-
-    public static void bluetoothApk(Context context, CommonItem item) {
-        Uri uri = Uri.fromFile(new File(item.getPath()));
-        Intent sendIntent = new Intent();
-        sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, item.getLabel());
-        sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
-        sendIntent.setType("application/zip");
-        sendIntent.setPackage("com.android.bluetooth");
-        context.startActivity(Intent.createChooser(sendIntent, context.getResources().getText(R.string.send_to)));
     }
 
     @Override
