@@ -34,6 +34,7 @@ public class DonateActivity extends AppCompatActivity implements BillingProcesso
         bp = new BillingProcessor(this, licenseKey, this);
 
         setContentView(R.layout.donate);
+        ThemeHelper.updateStatusBar(this);
 
         rootView = findViewById(R.id.root_view);
 

@@ -42,6 +42,7 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.main);
+        ThemeHelper.updateStatusBar(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

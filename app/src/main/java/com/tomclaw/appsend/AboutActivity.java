@@ -43,6 +43,7 @@ public class AboutActivity extends AppCompatActivity implements BillingProcessor
         bp = new BillingProcessor(this, licenseKey, this);
 
         setContentView(R.layout.about_activity);
+        ThemeHelper.updateStatusBar(this);
 
         rootView = findViewById(R.id.root_view);
 

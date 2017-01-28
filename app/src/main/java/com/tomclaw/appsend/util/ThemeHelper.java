@@ -14,9 +14,11 @@ public class ThemeHelper {
     public static boolean updateTheme(Activity activity) {
         boolean isDarkTheme = PreferenceHelper.isDarkTheme(activity);
         activity.setTheme(isDarkTheme ? R.style.AppThemeBlack : R.style.AppTheme);
-        int color = ColorHelper.getAttributedColor(activity, R.attr.toolbar_background);
-//        color = ColorHelper.darker(color, 0.6f);
-        StatusBarUtil.setColor(activity, color);
         return isDarkTheme;
+    }
+
+    public static void updateStatusBar(Activity activity) {
+        int color = ColorHelper.getAttributedColor(activity, R.attr.toolbar_background);
+        StatusBarUtil.setColor(activity, color);
     }
 }

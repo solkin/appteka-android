@@ -93,6 +93,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.download_activity);
+        ThemeHelper.updateStatusBar(this);
 
         timeHelper = new TimeHelper(this);
 

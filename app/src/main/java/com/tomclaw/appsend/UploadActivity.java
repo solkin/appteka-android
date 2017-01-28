@@ -55,6 +55,7 @@ public class UploadActivity extends AppCompatActivity implements UploadControlle
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.upload_activity);
+        ThemeHelper.updateStatusBar(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

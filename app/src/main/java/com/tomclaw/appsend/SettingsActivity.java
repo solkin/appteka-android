@@ -33,6 +33,7 @@ public class SettingsActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.settings_activity);
+        ThemeHelper.updateStatusBar(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

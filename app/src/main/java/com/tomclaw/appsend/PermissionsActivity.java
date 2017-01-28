@@ -32,6 +32,7 @@ public class PermissionsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.permissions_activity);
+        ThemeHelper.updateStatusBar(this);
 
         List<String> permissions = getIntent().getStringArrayListExtra(EXTRA_PERMISSIONS);
         if (permissions == null || permissions.isEmpty()) {
