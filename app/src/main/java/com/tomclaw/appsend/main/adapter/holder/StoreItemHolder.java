@@ -53,6 +53,11 @@ public class StoreItemHolder extends AbstractItemHolder<StoreItem> {
         buttonRetry = itemView.findViewById(R.id.button_retry);
     }
 
+    @Override
+    View getCardView(View itemView) {
+        return itemView.findViewById(R.id.app_card);
+    }
+
     public void bind(Context context, final StoreItem item, final boolean isLast, final BaseItemAdapter.BaseItemClickListener<StoreItem> listener) {
         if (listener != null) {
             appCard.setOnClickListener(new View.OnClickListener() {
