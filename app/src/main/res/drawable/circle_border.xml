@@ -2,7 +2,7 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <stroke
         android:width="2dp"
-        android:color="?attr/play_view_color" />
+        android:color="@color/play_view_light_color" />
     <corners android:radius="999999dp" />
     <solid android:color="@android:color/transparent" />
 </shape>
