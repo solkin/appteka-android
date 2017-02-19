@@ -40,5 +40,8 @@
         <activity
             android:name="com.tomclaw.appsend.PermissionsActivity"
             android:label="@string/required_permissions" />
+        <activity
+            android:name="com.tomclaw.appsend.AbuseActivity"
+            android:label="@string/abuse" />
     </application>
 </manifest>

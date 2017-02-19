@@ -7,11 +7,13 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.MenuRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -169,10 +171,20 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.download_menu, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home: {
                 onBackPressed();
+                break;
+            }
+            case R.id.abuse: {
+                onAbusePressed();
                 break;
             }
         }
@@ -520,6 +532,13 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         showError(R.string.downloading_error);
         viewFlipper.setDisplayedChild(0);
         bindButtons();
+    }
+
+    private void onAbusePressed() {
+        Intent intent = new Intent(this, AbuseActivity.class)
+                .putExtra(AbuseActivity.APP_ID, appId)
+                .putExtra(AbuseActivity.APP_LABEL, appLabel);
+        startActivity(intent);
     }
 
     private void showError(@StringRes int message) {

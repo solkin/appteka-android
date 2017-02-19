@@ -124,4 +124,17 @@
     <string name="responsibility_denial_title">Denial of responsibility</string>
     <string name="responsibility_denial_text">Submitted applications in this cloud are uploaded by AppSend users. The author is not responsible for the quality of the content provided. By clicking \"Yes\" you accept this condition.</string>
     <string name="agree_with_responsibility_condition">To install applications from cloud you must agree with this condition</string>
+    <string name="abuse">Abuse</string>
+    <string name="abuse_on">Abuse on %s</string>
+    <string name="does_not_works">The app does not work</string>
+    <string name="malicious_app">Malicious app</string>
+    <string name="license_violation">License violation</string>
+    <string name="private_app">Restricting public access</string>
+    <string name="select_abuse_reason">Select reason for removing the application from store</string>
+    <string name="enter_your_email">To remove this application, we will need to contact you. Enter your e-mail:</string>
+    <string name="send_abuse">Send abuse</string>
+    <string name="your_email">Your e-mail</string>
+    <string name="unable_to_send_abuse">Unable to send abuse</string>
+    <string name="thanks_for_attention">Thank you for your assistance in store moderation!</string>
+    <string name="fill_all_fields">Fill in all the fields</string>
 </resources>
