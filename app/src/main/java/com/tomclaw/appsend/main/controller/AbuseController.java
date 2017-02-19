@@ -42,6 +42,7 @@ public class AbuseController extends AbstractController<AbuseController.AbuseCal
 
     private boolean isAbuseSend = false;
     private boolean isError = false;
+    private boolean isCancelled = false;
 
     private Future<?> future;
 
@@ -71,6 +72,9 @@ public class AbuseController extends AbstractController<AbuseController.AbuseCal
     }
 
     private void onProgress() {
+        if (isCancelled) {
+            return;
+        }
         MainExecutor.execute(new Runnable() {
             @Override
             public void run() {
@@ -87,6 +91,7 @@ public class AbuseController extends AbstractController<AbuseController.AbuseCal
     private void onAbuseSent() {
         isAbuseSend = true;
         future = null;
+        isCancelled = false;
         MainExecutor.execute(new Runnable() {
             @Override
             public void run() {
@@ -101,6 +106,9 @@ public class AbuseController extends AbstractController<AbuseController.AbuseCal
     }
 
     private void onError() {
+        if (isCancelled) {
+            return;
+        }
         isError = true;
         future = null;
         MainExecutor.execute(new Runnable() {
@@ -123,6 +131,7 @@ public class AbuseController extends AbstractController<AbuseController.AbuseCal
             @Override
             public void run() {
                 try {
+                    isCancelled = false;
                     abuseInternal(appId, reason, email);
                 } catch (Throwable ignored) {
                     onError();
@@ -134,7 +143,15 @@ public class AbuseController extends AbstractController<AbuseController.AbuseCal
     public void resetAbuse() {
         isAbuseSend = false;
         isError = false;
+        isCancelled = false;
         future = null;
+    }
+
+    public void cancelAbuse() {
+        if (future != null) {
+            isCancelled = true;
+            future.cancel(true);
+        }
     }
 
     private void abuseInternal(String appId, String reason, String email) {

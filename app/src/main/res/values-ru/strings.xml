@@ -132,4 +132,6 @@
     <string name="unable_to_send_abuse">Не удалось отправить жалобу</string>
     <string name="thanks_for_attention">Спасибо за помощь в модерации обменника!</string>
     <string name="fill_all_fields">Заполните все поля</string>
+    <string name="cancel_abuse_title">Отмена жалобы</string>
+    <string name="cancel_abuse_text">Вы хотите отменить отправку жалобы на приложение?</string>
 </resources>
