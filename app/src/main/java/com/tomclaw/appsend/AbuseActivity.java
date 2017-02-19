@@ -17,6 +17,7 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
+import com.jaeger.library.StatusBarUtil;
 import com.tomclaw.appsend.main.controller.AbuseController;
 import com.tomclaw.appsend.util.ThemeHelper;
 
@@ -49,6 +50,7 @@ public class AbuseActivity extends AppCompatActivity implements AbuseController.
         appId = getIntent().getStringExtra(APP_ID);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setBackgroundColor(getResources().getColor(R.color.abuse_color));
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(getString(R.string.abuse_on, label));
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -59,6 +61,9 @@ public class AbuseActivity extends AppCompatActivity implements AbuseController.
         viewFlipper = (ViewFlipper) findViewById(R.id.view_flipper);
         reasonGroup = (RadioGroup) findViewById(R.id.reason_group);
         emailInput = (EditText) findViewById(R.id.input_email);
+
+        int color = getResources().getColor(R.color.abuse_color);
+        StatusBarUtil.setColor(this, color);
     }
 
     @Override
