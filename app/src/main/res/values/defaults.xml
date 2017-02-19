@@ -6,4 +6,5 @@
     <string name="pref_sort_order_default" translatable="false">@string/sort_order_ascending_value</string>
     <bool name="pref_install_couch_default">true</bool>
     <bool name="pref_responsibility_denial_default">true</bool>
+    <string name="pref_count_time_default">0</string>
 </resources>

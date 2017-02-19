@@ -13,6 +13,7 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.greysonparrelli.permiso.PermisoActivity;
 import com.kobakei.ratethisapp.RateThisApp;
+import com.tomclaw.appsend.main.controller.CountController;
 import com.tomclaw.appsend.main.view.AppsView;
 import com.tomclaw.appsend.main.view.InstallView;
 import com.tomclaw.appsend.main.view.MainView;
@@ -24,7 +25,7 @@ import com.tomclaw.appsend.util.ThemeHelper;
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.metrics.MetricsManager;
 
-public class MainActivity extends PermisoActivity implements MainView.ActivityCallback {
+public class MainActivity extends PermisoActivity implements MainView.ActivityCallback, CountController.CountCallback {
 
     private static final int REQUEST_UPDATE_SETTINGS = 6;
     private ViewFlipper mainViewsContainer;
@@ -32,6 +33,8 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
     private SearchView.OnQueryTextListener onQueryTextListener;
     private boolean isRefreshOnResume = false;
     private boolean isDarkTheme;
+    private CountController countController = CountController.getInstance();
+    private AHBottomNavigation bottomNavigation;
 
     /**
      * Called when the activity is first created.
@@ -40,6 +43,8 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
     public void onCreate(Bundle savedInstanceState) {
         isDarkTheme = ThemeHelper.updateTheme(this);
         super.onCreate(savedInstanceState);
+
+        boolean isCreateInstance = savedInstanceState == null;
 
         setContentView(R.layout.main);
         ThemeHelper.updateStatusBar(this);
@@ -50,7 +55,7 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
 
-        final AHBottomNavigation bottomNavigation = (AHBottomNavigation) findViewById(R.id.bottom_navigation);
+        bottomNavigation = (AHBottomNavigation) findViewById(R.id.bottom_navigation);
 
         AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.tab_apps, R.drawable.ic_apps, R.color.primary_color);
         AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.tab_install, R.drawable.ic_install, R.color.primary_color);
@@ -123,6 +128,10 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
 
         checkForCrashes();
         MetricsManager.register(this, getApplication());
+
+        if (isCreateInstance) {
+            loadStoreCount();
+        }
     }
 
     private void selectTab(int position) {
@@ -148,6 +157,7 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
     }
 
     private void showStore() {
+        countController.resetCount();
         switchMainView(2);
     }
 
@@ -163,6 +173,10 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
         mainView.refresh();
     }
 
+    private void loadStoreCount() {
+        countController.load(this);
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -172,6 +186,7 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
                 mainView.start();
             }
         });
+        countController.onAttach(this);
     }
 
     @Override
@@ -183,6 +198,7 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
                 mainView.stop();
             }
         });
+        countController.onDetach(this);
     }
 
     @Override
@@ -244,6 +260,7 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
             }
             case R.id.refresh: {
                 updateList();
+                loadStoreCount();
                 break;
             }
             case R.id.settings: {
@@ -284,6 +301,23 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
     @Override
     public void setRefreshOnResume() {
         isRefreshOnResume = true;
+    }
+
+    @Override
+    public void onProgress() {
+    }
+
+    @Override
+    public void onLoaded(int count) {
+        String notification = "";
+        if (count > 0) {
+            notification = String.valueOf(count);
+        }
+        bottomNavigation.setNotification(notification, 2);
+    }
+
+    @Override
+    public void onError() {
     }
 
     private interface MainViewOperation {

@@ -11,6 +11,7 @@ import com.tomclaw.appsend.main.item.BaseItem;
 import com.tomclaw.appsend.main.item.StoreItem;
 import com.tomclaw.appsend.util.HttpParamsBuilder;
 import com.tomclaw.appsend.util.HttpUtil;
+import com.tomclaw.appsend.util.PreferenceHelper;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -204,12 +205,19 @@ public class StoreController extends AbstractController<StoreController.StoreCal
                 case 200: {
                     List<BaseItem> baseItems = new ArrayList<>();
                     JSONArray files = jsonObject.getJSONArray("files");
+                    Long time = null;
                     for (int c = 0; c < files.length(); c++) {
                         JSONObject file = files.getJSONObject(c);
                         StoreItem item = parseStoreItem(file);
+                        if (c == 0) {
+                            time = item.getTime() / 1000;
+                        }
                         baseItems.add(item);
                     }
                     onLoaded(baseItems, isAppend);
+                    if (!isAppend && time != null) {
+                        PreferenceHelper.setCountTime(context, time);
+                    }
                     break;
                 }
                 default: {

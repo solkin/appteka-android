@@ -16,6 +16,7 @@ import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import com.bumptech.glide.Glide;
+import com.tomclaw.appsend.main.controller.CountController;
 import com.tomclaw.appsend.main.controller.UploadController;
 import com.tomclaw.appsend.main.item.CommonItem;
 import com.tomclaw.appsend.util.FileHelper;
@@ -175,6 +176,7 @@ public class UploadActivity extends AppCompatActivity implements UploadControlle
     public void onCompleted(String url) {
         this.url = url;
         viewSwitcher.setDisplayedChild(1);
+        CountController.getInstance().load(this);
     }
 
     @Override

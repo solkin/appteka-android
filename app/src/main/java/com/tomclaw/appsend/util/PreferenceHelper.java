@@ -45,6 +45,14 @@ public class PreferenceHelper {
         setBooleanPreference(context, R.string.pref_responsibility_denial, value);
     }
 
+    public static long getCountTime(Context context) {
+        return Long.parseLong(getStringPreference(context, R.string.pref_count_time, R.string.pref_count_time_default));
+    }
+
+    public static void setCountTime(Context context, long value) {
+        setStringPreference(context, R.string.pref_count_time, String.valueOf(value));
+    }
+
     private static boolean getBooleanPreference(Context context, int preferenceKey, int defaultValueKey) {
         return getSharedPreferences(context).getBoolean(context.getResources().getString(preferenceKey),
                 context.getResources().getBoolean(defaultValueKey));
