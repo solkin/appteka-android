@@ -1,5 +1,6 @@
 package com.tomclaw.appsend;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -8,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -99,6 +101,9 @@ public class AbuseActivity extends AppCompatActivity implements AbuseController.
     }
 
     private void onSendPressed() {
+        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(emailInput.getWindowToken(), 0);
+
         int checked = reasonGroup.getCheckedRadioButtonId();
         String email = emailInput.getText().toString();
         if (checked >= 0 && !TextUtils.isEmpty(email)) {
