@@ -97,7 +97,8 @@ public class StoreItemHolder extends AbstractItemHolder<StoreItem> {
         if (isAppendError) {
             viewProgress.setVisibility(View.GONE);
         } else {
-            boolean isLoad = isLast && StoreController.getInstance().load(context, item.getAppId());
+            boolean isLoad = isLast && StoreController.getInstance().load(
+                    context, item.getAppId(), item.getFilter());
             viewProgress.setVisibility(isLoad ? View.VISIBLE : View.GONE);
         }
     }

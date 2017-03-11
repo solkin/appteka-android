@@ -27,11 +27,12 @@ public class StoreItem extends BaseItem implements Parcelable {
     private final long downloadTime;
     private final long time;
     private final String sha1;
+    private final String filter;
 
     public StoreItem(String label, Map<String, String> labels, String icon,
                      String appId, String packageName, String version,
                      int versionCode, int sdkVersion, String androidVersion, List<String> permissions,
-                     long size, int downloads, long downloadTime, long time, String sha1) {
+                     long size, int downloads, long downloadTime, long time, String sha1, String filter) {
         this.label = label;
         this.labels = labels;
         this.icon = icon;
@@ -47,6 +48,7 @@ public class StoreItem extends BaseItem implements Parcelable {
         this.downloadTime = downloadTime;
         this.time = time;
         this.sha1 = sha1;
+        this.filter = filter;
     }
 
     protected StoreItem(Parcel in) {
@@ -71,6 +73,7 @@ public class StoreItem extends BaseItem implements Parcelable {
         downloadTime = in.readLong();
         time = in.readLong();
         sha1 = in.readString();
+        filter = in.readString();
     }
 
     @Override
@@ -94,6 +97,7 @@ public class StoreItem extends BaseItem implements Parcelable {
         dest.writeLong(downloadTime);
         dest.writeLong(time);
         dest.writeString(sha1);
+        dest.writeString(filter);
     }
 
     @Override
@@ -176,5 +180,9 @@ public class StoreItem extends BaseItem implements Parcelable {
 
     public String getSha1() {
         return sha1;
+    }
+
+    public String getFilter() {
+        return filter;
     }
 }

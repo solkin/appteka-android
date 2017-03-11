@@ -7,6 +7,7 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ViewFlipper;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
@@ -32,6 +33,7 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
     private ViewFlipper mainViewsContainer;
     private MainView mainView;
     private SearchView.OnQueryTextListener onQueryTextListener;
+    private SearchView.OnCloseListener onCloseListener;
     private boolean isRefreshOnResume = false;
     private boolean isDarkTheme;
     private CountController countController = CountController.getInstance();
@@ -103,6 +105,15 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
                 return false;
             }
         };
+        onCloseListener = new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                if (mainView.isFilterable()) {
+                    mainView.filter("");
+                }
+                return false;
+            }
+        };
 
         bottomNavigation.post(new Runnable() {
             @Override
@@ -137,6 +148,9 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
     }
 
     private void selectTab(int position) {
+        if (mainView != null) {
+            mainView.filter("");
+        }
         switch (position) {
             case 0:
                 showApps();
@@ -252,6 +266,17 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
             searchView.setQueryHint(menu.findItem(R.id.menu_search).getTitle());
             // Configure the search info and add any event listeners
             searchView.setOnQueryTextListener(onQueryTextListener);
+            searchView.setOnCloseListener(onCloseListener);
+            searchView.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
+                @Override
+                public void onViewAttachedToWindow(View v) {
+                }
+
+                @Override
+                public void onViewDetachedFromWindow(View v) {
+                    onCloseListener.onClose();
+                }
+            });
         }
         return true;
     }

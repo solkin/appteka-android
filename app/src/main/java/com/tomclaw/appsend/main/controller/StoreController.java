@@ -84,10 +84,16 @@ public class StoreController extends AbstractController<StoreController.StoreCal
     }
 
     public void reload(@NonNull Context context) {
-        load(context, "");
+        reload(context, null);
     }
 
-    public boolean load(final @NonNull Context context, @Nullable final String appId) {
+    public void reload(@NonNull Context context, @Nullable String filter) {
+        load(context, "", filter);
+    }
+
+    public boolean load(final @NonNull Context context,
+                        final @Nullable String appId,
+                        final @Nullable String filter) {
         boolean isReload = TextUtils.equals(appId, "");
         if (endReached && !isReload) {
             // End is reached, but this request is not reload request.
@@ -103,7 +109,7 @@ public class StoreController extends AbstractController<StoreController.StoreCal
             @Override
             public void run() {
                 try {
-                    loadInternal(context, appId);
+                    loadInternal(context, appId, filter);
                 } catch (Throwable ignored) {
                     onError(isAppend());
                 }
@@ -165,16 +171,20 @@ public class StoreController extends AbstractController<StoreController.StoreCal
         });
     }
 
-    private void loadInternal(@NonNull Context context, @Nullable String appId) {
+    private void loadInternal(@NonNull Context context, @Nullable String appId, @Nullable String filter) {
         boolean isAppend = !TextUtils.isEmpty(appId);
+        boolean isFilter = !TextUtils.isEmpty(filter);
         onProgress(isAppend);
         HttpURLConnection connection = null;
         InputStream in = null;
         try {
-            HttpParamsBuilder builder = new HttpParamsBuilder();
-            builder.appendParam("v", "1");
+            HttpParamsBuilder builder = new HttpParamsBuilder()
+                    .appendParam("v", "1");
             if (isAppend) {
                 builder.appendParam("app_id", appId);
+            }
+            if (isFilter) {
+                builder.appendParam("filter", filter);
             }
             String storeUrl = HOST_LIST_URL + "?" + builder.build();
             Logger.d("Store url: %s", storeUrl);
@@ -215,7 +225,7 @@ public class StoreController extends AbstractController<StoreController.StoreCal
                         baseItems.add(item);
                     }
                     onLoaded(baseItems, isAppend);
-                    if (!isAppend && time != null) {
+                    if (!isAppend && !isFilter && time != null) {
                         PreferenceHelper.setCountTime(context, time);
                     }
                     break;

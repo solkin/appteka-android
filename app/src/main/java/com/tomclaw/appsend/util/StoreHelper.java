@@ -34,8 +34,10 @@ public class StoreHelper {
         long time = file.getLong("time") * 1000;
         int verCode = file.getInt("ver_code");
         String verName = file.getString("ver_name");
+        String filter = file.optString("filter");
         return new StoreItem(defLabel, labels, icon, appId, packageName, verName, verCode,
-                sdkVersion, androidVersion, permissions, size, downloads, downloadTime, time, sha1);
+                sdkVersion, androidVersion, permissions, size, downloads, downloadTime, time,
+                sha1, filter);
     }
 
     public static StoreVersion parseStoreVersion(JSONObject version) throws JSONException {

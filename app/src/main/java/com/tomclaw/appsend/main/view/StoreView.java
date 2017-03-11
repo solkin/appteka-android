@@ -32,6 +32,7 @@ public class StoreView extends MainView implements StoreController.StoreCallback
     private RecyclerView recyclerView;
     private BaseItemAdapter adapter;
     private BaseItemAdapter.BaseItemClickListener listener;
+    private String query;
 
     public StoreView(final Context context) {
         super(context);
@@ -113,16 +114,22 @@ public class StoreView extends MainView implements StoreController.StoreCallback
 
     @Override
     public void refresh() {
-        StoreController.getInstance().reload(getContext());
+        StoreController.getInstance().reload(getContext(), getFilter());
     }
 
     @Override
     public boolean isFilterable() {
-        return false;
+        return true;
+    }
+
+    @Override
+    public void filter(String query) {
+        this.query = query;
+        refresh();
     }
 
     public void load(StoreItem item) {
-        StoreController.getInstance().load(getContext(), item.getAppId());
+        StoreController.getInstance().load(getContext(), item.getAppId(), getFilter());
         adapter.notifyDataSetChanged();
     }
 
@@ -152,5 +159,12 @@ public class StoreView extends MainView implements StoreController.StoreCallback
             errorText.setText(R.string.store_loading_error);
             viewFlipper.setDisplayedChild(2);
         }
+    }
+
+    private String getFilter() {
+        if (TextUtils.isEmpty(query) || TextUtils.getTrimmedLength(query) == 0) {
+            return null;
+        }
+        return query.trim();
     }
 }
