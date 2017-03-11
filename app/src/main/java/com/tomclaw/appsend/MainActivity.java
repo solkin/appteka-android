@@ -14,6 +14,7 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.greysonparrelli.permiso.PermisoActivity;
 import com.kobakei.ratethisapp.RateThisApp;
 import com.tomclaw.appsend.main.controller.CountController;
+import com.tomclaw.appsend.main.controller.StoreController;
 import com.tomclaw.appsend.main.view.AppsView;
 import com.tomclaw.appsend.main.view.InstallView;
 import com.tomclaw.appsend.main.view.MainView;
@@ -34,6 +35,7 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
     private boolean isRefreshOnResume = false;
     private boolean isDarkTheme;
     private CountController countController = CountController.getInstance();
+    private StoreController storeController = StoreController.getInstance();
     private AHBottomNavigation bottomNavigation;
 
     /**
@@ -157,7 +159,9 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
     }
 
     private void showStore() {
-        countController.resetCount();
+        if (countController.resetCount()) {
+            storeController.reload(this);
+        }
         switchMainView(2);
     }
 

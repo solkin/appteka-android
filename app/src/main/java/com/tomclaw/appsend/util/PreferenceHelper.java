@@ -60,7 +60,7 @@ public class PreferenceHelper {
 
     private static void setBooleanPreference(Context context, int preferenceKey, boolean value) {
         getSharedPreferences(context).edit().putBoolean(context.getResources().getString(preferenceKey),
-                value).commit();
+                value).apply();
     }
 
     private static String getStringPreference(Context context, int preferenceKey, int defaultValueKey) {
@@ -70,10 +70,10 @@ public class PreferenceHelper {
 
     private static void setStringPreference(Context context, int preferenceKey, String value) {
         getSharedPreferences(context).edit().putString(context.getResources().getString(preferenceKey),
-                value).commit();
+                value).apply();
     }
 
-    public static SharedPreferences getSharedPreferences(Context context) {
+    private static SharedPreferences getSharedPreferences(Context context) {
         return context.getSharedPreferences(getDefaultSharedPreferencesName(context),
                 getSharedPreferencesMode());
     }
@@ -83,6 +83,6 @@ public class PreferenceHelper {
     }
 
     private static int getSharedPreferencesMode() {
-        return Context.MODE_MULTI_PROCESS;
+        return Context.MODE_PRIVATE;
     }
 }

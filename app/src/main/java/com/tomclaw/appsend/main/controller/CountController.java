@@ -24,7 +24,6 @@ import cz.msebera.android.httpclient.HttpStatus;
 /**
  * Created by solkin on 19.02.17.
  */
-
 public class CountController extends AbstractController<CountController.CountCallback> {
 
     private static class Holder {
@@ -56,7 +55,7 @@ public class CountController extends AbstractController<CountController.CountCal
         }
     }
 
-    public boolean isLoaded() {
+    private boolean isLoaded() {
         return count != null;
     }
 
@@ -128,9 +127,11 @@ public class CountController extends AbstractController<CountController.CountCal
         });
     }
 
-    public void resetCount() {
+    public boolean resetCount() {
+        boolean hasCount = count > 0;
         count = 0;
         onLoaded(count);
+        return hasCount;
     }
 
     private void loadInternal(long time) {
@@ -138,9 +139,9 @@ public class CountController extends AbstractController<CountController.CountCal
         HttpURLConnection connection = null;
         InputStream in = null;
         try {
-            HttpParamsBuilder builder = new HttpParamsBuilder();
-            builder.appendParam("v", "1");
-            builder.appendParam("time", String.valueOf(time));
+            HttpParamsBuilder builder = new HttpParamsBuilder()
+                    .appendParam("v", "1")
+                    .appendParam("time", String.valueOf(time));
             String storeUrl = HOST_COUNT_URL + "?" + builder.build();
             Logger.d("Store url: %s", storeUrl);
             URL url = new URL(storeUrl);
