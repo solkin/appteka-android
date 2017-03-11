@@ -54,7 +54,6 @@ public class AbuseActivity extends AppCompatActivity implements AbuseController.
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle(getString(R.string.abuse_on, label));
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
 

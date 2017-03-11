@@ -18,6 +18,7 @@ import com.tomclaw.appsend.main.controller.StoreController;
 import com.tomclaw.appsend.main.item.BaseItem;
 import com.tomclaw.appsend.main.item.StoreItem;
 import com.tomclaw.appsend.util.ColorHelper;
+import com.tomclaw.appsend.util.Debouncer;
 import com.tomclaw.appsend.util.EdgeChanger;
 
 import java.util.List;
@@ -25,14 +26,13 @@ import java.util.List;
 /**
  * Created by ivsolkin on 08.01.17.
  */
-public class StoreView extends MainView implements StoreController.StoreCallback {
+public class StoreView extends MainView implements StoreController.StoreCallback, Debouncer.Callback<String> {
 
     private ViewFlipper viewFlipper;
     private TextView errorText;
-    private RecyclerView recyclerView;
     private BaseItemAdapter adapter;
-    private BaseItemAdapter.BaseItemClickListener listener;
     private String query;
+    private Debouncer<String> filterDebouncer = new Debouncer<>(this, 500);
 
     public StoreView(final Context context) {
         super(context);
@@ -49,7 +49,7 @@ public class StoreView extends MainView implements StoreController.StoreCallback
         });
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
-        recyclerView = (RecyclerView) findViewById(R.id.apps_list_view);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.apps_list_view);
         recyclerView.setLayoutManager(layoutManager);
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
         recyclerView.setItemAnimator(itemAnimator);
@@ -62,7 +62,7 @@ public class StoreView extends MainView implements StoreController.StoreCallback
             }
         });
 
-        listener = new BaseItemAdapter.BaseItemClickListener() {
+        BaseItemAdapter.BaseItemClickListener listener = new BaseItemAdapter.BaseItemClickListener() {
             @Override
             public void onItemClicked(final BaseItem item) {
                 StoreItem storeItem = (StoreItem) item;
@@ -124,7 +124,14 @@ public class StoreView extends MainView implements StoreController.StoreCallback
 
     @Override
     public void filter(String query) {
-        this.query = query;
+        if (!TextUtils.equals(this.query, query)) {
+            this.query = query;
+            filterDebouncer.call("");
+        }
+    }
+
+    @Override
+    public void call(String key) {
         refresh();
     }
 
