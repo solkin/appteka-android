@@ -27,6 +27,7 @@ import com.tomclaw.appsend.main.item.BaseItem;
 import com.tomclaw.appsend.main.item.CouchItem;
 import com.tomclaw.appsend.util.ColorHelper;
 import com.tomclaw.appsend.util.EdgeChanger;
+import com.tomclaw.appsend.util.IntentHelper;
 import com.tomclaw.appsend.util.PreferenceHelper;
 
 import java.io.File;
@@ -210,10 +211,7 @@ public class InstallView extends MainView implements ApksController.ApksCallback
     }
 
     private void installApp(ApkItem item) {
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setDataAndType(Uri.fromFile(new File(item.getPath())), "application/vnd.android.package-archive");
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
+        IntentHelper.openFile(getContext(), item.getPath(), "application/vnd.android.package-archive");
     }
 
     private void setAppInfoList(List<BaseItem> appItemList) {

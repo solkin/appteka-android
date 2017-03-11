@@ -7,7 +7,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.MenuRes;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
@@ -33,6 +32,7 @@ import com.tomclaw.appsend.main.dto.StoreVersion;
 import com.tomclaw.appsend.main.item.StoreItem;
 import com.tomclaw.appsend.main.view.PlayView;
 import com.tomclaw.appsend.util.FileHelper;
+import com.tomclaw.appsend.util.IntentHelper;
 import com.tomclaw.appsend.util.PreferenceHelper;
 import com.tomclaw.appsend.util.ThemeHelper;
 import com.tomclaw.appsend.util.TimeHelper;
@@ -102,7 +102,6 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
 
@@ -521,10 +520,8 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     public void onDownloaded(String filePath) {
         viewFlipper.setDisplayedChild(0);
         bindButtons();
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setDataAndType(Uri.fromFile(new File(filePath)), "application/vnd.android.package-archive");
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
+
+        IntentHelper.openFile(this, filePath, "application/vnd.android.package-archive");
     }
 
     @Override

@@ -42,7 +42,6 @@ public class DonateActivity extends AppCompatActivity implements BillingProcesso
         toolbar.setBackgroundColor(getResources().getColor(R.color.chocolate_color));
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
 

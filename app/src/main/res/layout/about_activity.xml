@@ -54,14 +54,17 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:gravity="center_horizontal">
 
             <Button
                 android:id="@+id/present_chocolate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
+                style="@style/Widget.AppCompat.Button.Colored"
                 android:text="@string/donate_button" />
 
             <Button
