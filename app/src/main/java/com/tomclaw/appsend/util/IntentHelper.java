@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
 import android.net.Uri;
+import android.os.Build;
 import android.support.v4.content.FileProvider;
 
 import com.tomclaw.appsend.R;
@@ -37,15 +38,23 @@ public class IntentHelper {
     }
 
     private static void grantUriPermission(Context context, Uri uri, Intent intent) {
-        List<ResolveInfo> resInfoList = context.getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
-        for (ResolveInfo resolveInfo : resInfoList) {
-            String packageName = resolveInfo.activityInfo.packageName;
-            context.grantUriPermission(packageName, uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        if (isFileProviderUri()) {
+            List<ResolveInfo> resInfoList = context.getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
+            for (ResolveInfo resolveInfo : resInfoList) {
+                String packageName = resolveInfo.activityInfo.packageName;
+                context.grantUriPermission(packageName, uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            }
         }
     }
 
     public static void openFile(Context context, String filePath, String type) {
-        Uri uri = FileProvider.getUriForFile(context, context.getPackageName() + ".provider", new File(filePath));
+        File file = new File(filePath);
+        Uri uri;
+        if (isFileProviderUri()) {
+            uri = FileProvider.getUriForFile(context, context.getPackageName() + ".provider", file);
+        } else {
+            uri = Uri.fromFile(file);
+        }
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setDataAndType(uri, type);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -56,7 +65,12 @@ public class IntentHelper {
     }
 
     public static void shareApk(Context context, File file) {
-        Uri uri = FileProvider.getUriForFile(context, context.getPackageName() + ".provider", file);
+        Uri uri;
+        if (isFileProviderUri()) {
+            uri = FileProvider.getUriForFile(context, context.getPackageName() + ".provider", file);
+        } else {
+            uri = Uri.fromFile(file);
+        }
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_SEND);
         intent.putExtra(Intent.EXTRA_TEXT, file.getName());
@@ -82,5 +96,9 @@ public class IntentHelper {
     public static String formatText(Resources resources, String url, String label, long size) {
         String sizeString = FileHelper.formatBytes(resources, size);
         return resources.getString(R.string.uploaded_url, label, sizeString, url);
+    }
+
+    private static boolean isFileProviderUri() {
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.N;
     }
 }
