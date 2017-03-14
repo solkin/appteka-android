@@ -128,9 +128,12 @@ public class CountController extends AbstractController<CountController.CountCal
     }
 
     public boolean resetCount() {
-        boolean hasCount = count > 0;
-        count = 0;
-        onLoaded(count);
+        boolean hasCount = false;
+        if (isLoaded()) {
+            hasCount = count > 0;
+            count = 0;
+            onLoaded(count);
+        }
         return hasCount;
     }
 
@@ -178,7 +181,7 @@ public class CountController extends AbstractController<CountController.CountCal
                 }
             }
         } catch (Throwable ex) {
-            Logger.e(ex, "Exception while application uploading");
+            Logger.e(ex, "Exception while count loading");
             onError();
         } finally {
             // Trying to disconnect in any case.
