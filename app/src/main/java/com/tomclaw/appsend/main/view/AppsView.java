@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.provider.Settings;
@@ -20,6 +21,7 @@ import com.anjlab.android.iab.v3.BillingProcessor;
 import com.anjlab.android.iab.v3.TransactionDetails;
 import com.greysonparrelli.permiso.Permiso;
 import com.tomclaw.appsend.DonateActivity;
+import com.tomclaw.appsend.PermissionsActivity;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.UploadActivity;
 import com.tomclaw.appsend.core.TaskExecutor;
@@ -33,6 +35,8 @@ import com.tomclaw.appsend.main.task.ExportApkTask;
 import com.tomclaw.appsend.util.ColorHelper;
 import com.tomclaw.appsend.util.EdgeChanger;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.tomclaw.appsend.util.IntentHelper.openGooglePlay;
@@ -210,6 +214,19 @@ public class AppsView extends MainView implements BillingProcessor.IBillingHandl
                                 break;
                             }
                             case 6: {
+                                try {
+                                    PackageInfo packageInfo = appItem.getPackageInfo();
+                                    List<String> permissions = Arrays.asList(packageInfo.requestedPermissions);
+                                    Intent intent = new Intent(getContext(), PermissionsActivity.class)
+                                            .putStringArrayListExtra(PermissionsActivity.EXTRA_PERMISSIONS,
+                                                    new ArrayList<>(permissions));
+                                    startActivity(intent);
+                                } catch (Throwable ex) {
+                                    Snackbar.make(recyclerView, R.string.unable_to_get_permissions, Snackbar.LENGTH_LONG).show();
+                                }
+                                break;
+                            }
+                            case 7: {
                                 setRefreshOnResume();
                                 final Intent intent = new Intent()
                                         .setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
@@ -219,7 +236,7 @@ public class AppsView extends MainView implements BillingProcessor.IBillingHandl
                                 startActivity(intent);
                                 break;
                             }
-                            case 7: {
+                            case 8: {
                                 setRefreshOnResume();
                                 Uri packageUri = Uri.parse("package:" + appItem.getPackageName());
                                 Intent uninstallIntent = new Intent(Intent.ACTION_DELETE, packageUri);

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.text.TextUtils;
 
 import com.tomclaw.appsend.R;
@@ -24,6 +23,8 @@ import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+
+import static android.content.pm.PackageManager.GET_PERMISSIONS;
 
 /**
  * Created by ivsolkin on 08.01.17.
@@ -135,13 +136,14 @@ public class AppsController extends AbstractController<AppsController.AppsCallba
         List<ApplicationInfo> packages = packageManager.getInstalledApplications(PackageManager.GET_META_DATA);
         for (ApplicationInfo info : packages) {
             try {
-                PackageInfo packageInfo = packageManager.getPackageInfo(info.packageName, 0);
+                PackageInfo packageInfo = packageManager.getPackageInfo(
+                        info.packageName, GET_PERMISSIONS);
                 File file = new File(info.publicSourceDir);
                 if (file.exists()) {
                     String label = packageManager.getApplicationLabel(info).toString();
                     String version = packageInfo.versionName;
-                    long firstInstallTime = Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD ? packageInfo.firstInstallTime : 0;
-                    long lastUpdateTime = Build.VERSION.SDK_INT >= Build.VERSION_CODES.GINGERBREAD ? packageInfo.lastUpdateTime : 0;
+                    long firstInstallTime = packageInfo.firstInstallTime;
+                    long lastUpdateTime = packageInfo.lastUpdateTime;
                     Intent launchIntent = packageManager.getLaunchIntentForPackage(info.packageName);
                     AppItem appItem = new AppItem(label, info.packageName, version, file.getPath(),
                             file.length(), firstInstallTime, lastUpdateTime, packageInfo);

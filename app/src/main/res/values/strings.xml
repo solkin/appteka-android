@@ -140,4 +140,5 @@
     <string name="cancel_abuse_title">Cancel abuse</string>
     <string name="cancel_abuse_text">Do you really want to cancel sending abuse for selected app?</string>
     <string name="checksum_copied">Checksum copied to clipboard</string>
+    <string name="unable_to_get_permissions">Unable to get list or app\'s required permissions</string>
 </resources>

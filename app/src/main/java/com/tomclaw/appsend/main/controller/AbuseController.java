@@ -1,12 +1,9 @@
 package com.tomclaw.appsend.main.controller;
 
-import android.content.Context;
-
 import com.orhanobut.logger.Logger;
 import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.util.HttpParamsBuilder;
 import com.tomclaw.appsend.util.HttpUtil;
-import com.tomclaw.appsend.util.PreferenceHelper;
 
 import org.json.JSONObject;
 

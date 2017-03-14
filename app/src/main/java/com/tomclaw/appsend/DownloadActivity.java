@@ -48,7 +48,7 @@ import static com.tomclaw.appsend.util.FileHelper.getExternalDirectory;
 import static com.tomclaw.appsend.util.IntentHelper.formatText;
 import static com.tomclaw.appsend.util.IntentHelper.openGooglePlay;
 import static com.tomclaw.appsend.util.IntentHelper.shareUrl;
-import static com.tomclaw.appsend.util.PermissionHelper.getPermissionDescription;
+import static com.tomclaw.appsend.util.PermissionHelper.getPermissionSmallInfo;
 
 /**
  * Created by ivsolkin on 14.01.17.
@@ -438,7 +438,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
             View permissionView = getLayoutInflater().inflate(R.layout.permission_view, permissionsContainer, false);
             TextView permissionDescription = (TextView) permissionView.findViewById(R.id.permission_description);
             TextView permissionName = (TextView) permissionView.findViewById(R.id.permission_name);
-            String description = getPermissionDescription(this, permission);
+            String description = getPermissionSmallInfo(this, permission).getDescription();
             permissionDescription.setText(description);
             permissionName.setText(permission);
             permissionsContainer.addView(permissionView);

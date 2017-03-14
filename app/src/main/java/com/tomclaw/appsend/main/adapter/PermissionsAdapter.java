@@ -2,6 +2,7 @@ package com.tomclaw.appsend.main.adapter;
 
 import android.content.Context;
 import android.os.Build;
+import android.support.annotation.ColorInt;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,10 +10,12 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.tomclaw.appsend.R;
+import com.tomclaw.appsend.util.PermissionHelper;
 
 import java.util.List;
 
-import static com.tomclaw.appsend.util.PermissionHelper.getPermissionDescription;
+import static com.tomclaw.appsend.util.ColorHelper.getAttributedColor;
+import static com.tomclaw.appsend.util.PermissionHelper.getPermissionSmallInfo;
 
 /**
  * Created by ivsolkin on 27.01.17.
@@ -69,8 +72,12 @@ public class PermissionsAdapter extends RecyclerView.Adapter<PermissionsAdapter.
         }
 
         public void bind(Context context, final String permission) {
-            String description = getPermissionDescription(context, permission);
-            permissionDescription.setText(description);
+            PermissionHelper.PermissionSmallInfo info = getPermissionSmallInfo(context, permission);
+            permissionDescription.setText(info.getDescription());
+            @ColorInt int descriptionColor = info.isDangerous() ?
+                    context.getResources().getColor(R.color.dangerous_permission_color) :
+                    getAttributedColor(context, R.attr.text_primary_color);
+            permissionDescription.setTextColor(descriptionColor);
             permissionName.setText(permission);
         }
     }

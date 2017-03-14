@@ -19,6 +19,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
+import static android.content.pm.PackageManager.GET_PERMISSIONS;
+
 /**
  * Created by ivsolkin on 08.01.17.
  */
@@ -151,7 +153,8 @@ public class ApksController extends AbstractController<ApksController.ApksCallba
     private void processApk(PackageManager packageManager, List<BaseItem> itemList, File file) {
         if (file.exists()) {
             try {
-                PackageInfo packageInfo = packageManager.getPackageArchiveInfo(file.getAbsolutePath(), 0);
+                PackageInfo packageInfo = packageManager.getPackageArchiveInfo(
+                        file.getAbsolutePath(), GET_PERMISSIONS);
                 if (packageInfo != null) {
                     ApplicationInfo info = packageInfo.applicationInfo;
                     info.sourceDir = file.getAbsolutePath();

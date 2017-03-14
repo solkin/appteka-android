@@ -4,7 +4,8 @@ import android.Manifest;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
+import android.content.pm.PackageInfo;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import com.greysonparrelli.permiso.Permiso;
+import com.tomclaw.appsend.PermissionsActivity;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.UploadActivity;
 import com.tomclaw.appsend.main.adapter.BaseItemAdapter;
@@ -32,6 +34,7 @@ import com.tomclaw.appsend.util.PreferenceHelper;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.tomclaw.appsend.util.IntentHelper.bluetoothApk;
@@ -200,6 +203,19 @@ public class InstallView extends MainView implements ApksController.ApksCallback
                                 break;
                             }
                             case 5: {
+                                try {
+                                    PackageInfo packageInfo = apkItem.getPackageInfo();
+                                    List<String> permissions = Arrays.asList(packageInfo.requestedPermissions);
+                                    Intent intent = new Intent(getContext(), PermissionsActivity.class)
+                                            .putStringArrayListExtra(PermissionsActivity.EXTRA_PERMISSIONS,
+                                                    new ArrayList<>(permissions));
+                                    startActivity(intent);
+                                } catch (Throwable ex) {
+                                    Snackbar.make(recyclerView, R.string.unable_to_get_permissions, Snackbar.LENGTH_LONG).show();
+                                }
+                                break;
+                            }
+                            case 6: {
                                 File file = new File(apkItem.getPath());
                                 file.delete();
                                 refresh();
