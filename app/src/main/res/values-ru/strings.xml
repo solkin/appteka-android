@@ -134,4 +134,5 @@
     <string name="fill_all_fields">Заполните все поля</string>
     <string name="cancel_abuse_title">Отмена жалобы</string>
     <string name="cancel_abuse_text">Вы хотите отменить отправку жалобы на приложение?</string>
+    <string name="checksum_copied">Контрольная сумма скопирована</string>
 </resources>

@@ -36,6 +36,7 @@ import com.tomclaw.appsend.util.FileHelper;
 import com.tomclaw.appsend.util.IntentHelper;
 import com.tomclaw.appsend.util.LocaleHelper;
 import com.tomclaw.appsend.util.PreferenceHelper;
+import com.tomclaw.appsend.util.StringUtil;
 import com.tomclaw.appsend.util.ThemeHelper;
 import com.tomclaw.appsend.util.TimeHelper;
 
@@ -165,6 +166,17 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
                 openGooglePlay(DownloadActivity.this, info.getItem().getPackageName());
             }
         });
+        View.OnClickListener checksumClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                StringUtil.copyStringToClipboard(
+                        DownloadActivity.this,
+                        checksumView.getText().toString(),
+                        R.string.checksum_copied);
+            }
+        };
+        findViewById(R.id.app_checksum_title).setOnClickListener(checksumClickListener);
+        checksumView.setOnClickListener(checksumClickListener);
 
         if (isCreateInstance) {
             loadInfo();
