@@ -1,6 +1,7 @@
 package com.tomclaw.appsend;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -33,6 +34,7 @@ import com.tomclaw.appsend.main.item.StoreItem;
 import com.tomclaw.appsend.main.view.PlayView;
 import com.tomclaw.appsend.util.FileHelper;
 import com.tomclaw.appsend.util.IntentHelper;
+import com.tomclaw.appsend.util.LocaleHelper;
 import com.tomclaw.appsend.util.PreferenceHelper;
 import com.tomclaw.appsend.util.ThemeHelper;
 import com.tomclaw.appsend.util.TimeHelper;
@@ -153,7 +155,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
             @Override
             public void onClick(View v) {
                 String text = formatText(getResources(), info.getUrl(),
-                        info.getItem().getLabel(), info.getItem().getSize());
+                        LocaleHelper.getLocalizedLabel(info.getItem()), info.getItem().getSize());
                 shareUrl(DownloadActivity.this, text);
             }
         });
@@ -230,6 +232,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         }
     }
 
+    @SuppressLint("DefaultLocale")
     private void bindStoreItem(StoreInfo info) {
         this.info = info;
         StoreItem item = info.getItem();
@@ -249,7 +252,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
             sizeText = String.format("%d", bytes / 1024 / 1024);
             sizeFactor = R.string.megabytes;
         }
-        labelView.setText(item.getLabel());
+        labelView.setText(LocaleHelper.getLocalizedLabel(item));
         packageView.setText(item.getPackageName());
         downloadsView.setCount(String.valueOf(item.getDownloads()));
         sizeView.setCount(sizeText);
@@ -470,7 +473,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
                         public void run() {
                             Intent intent = new Intent(DownloadActivity.this, DownloadActivity.class);
                             intent.putExtra(DownloadActivity.STORE_APP_ID, version.getAppId());
-                            intent.putExtra(DownloadActivity.STORE_APP_LABEL, info.getItem().getLabel());
+                            intent.putExtra(DownloadActivity.STORE_APP_LABEL, LocaleHelper.getLocalizedLabel(info.getItem()));
                             startActivity(intent);
                         }
                     });

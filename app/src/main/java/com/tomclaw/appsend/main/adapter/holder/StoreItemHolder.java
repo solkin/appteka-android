@@ -11,6 +11,7 @@ import com.tomclaw.appsend.main.adapter.BaseItemAdapter;
 import com.tomclaw.appsend.main.controller.StoreController;
 import com.tomclaw.appsend.main.item.StoreItem;
 import com.tomclaw.appsend.util.FileHelper;
+import com.tomclaw.appsend.util.LocaleHelper;
 
 import java.text.SimpleDateFormat;
 import java.util.concurrent.TimeUnit;
@@ -78,7 +79,7 @@ public class StoreItemHolder extends AbstractItemHolder<StoreItem> {
                 .load(item.getIcon())
                 .into(appIcon);
 
-        appName.setText(item.getLabel());
+        appName.setText(LocaleHelper.getLocalizedLabel(item));
         appVersion.setText(item.getVersion());
         if (item.getTime() > 0) {
             appUpdateTime.setVisibility(View.VISIBLE);

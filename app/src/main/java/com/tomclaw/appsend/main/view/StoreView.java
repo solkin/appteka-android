@@ -20,6 +20,7 @@ import com.tomclaw.appsend.main.item.StoreItem;
 import com.tomclaw.appsend.util.ColorHelper;
 import com.tomclaw.appsend.util.Debouncer;
 import com.tomclaw.appsend.util.EdgeChanger;
+import com.tomclaw.appsend.util.LocaleHelper;
 
 import java.util.List;
 
@@ -68,7 +69,7 @@ public class StoreView extends MainView implements StoreController.StoreCallback
                 StoreItem storeItem = (StoreItem) item;
                 Intent intent = new Intent(context, DownloadActivity.class);
                 intent.putExtra(DownloadActivity.STORE_APP_ID, storeItem.getAppId());
-                intent.putExtra(DownloadActivity.STORE_APP_LABEL, storeItem.getLabel());
+                intent.putExtra(DownloadActivity.STORE_APP_LABEL, LocaleHelper.getLocalizedLabel(storeItem));
                 startActivity(intent);
             }
 
