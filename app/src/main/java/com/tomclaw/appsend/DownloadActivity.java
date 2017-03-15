@@ -13,6 +13,7 @@ import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -110,8 +111,15 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
 
         boolean isCreateInstance = savedInstanceState == null;
         if (isCreateInstance) {
-            appId = getIntent().getStringExtra(STORE_APP_ID);
-            appLabel = getIntent().getStringExtra(STORE_APP_LABEL);
+            Uri data = getIntent().getData();
+            if (data != null) {
+                appId = data.getQueryParameter("id");
+                appLabel = getString(R.string.download);
+            }
+            if (TextUtils.isEmpty(appId)) {
+                appId = getIntent().getStringExtra(STORE_APP_ID);
+                appLabel = getIntent().getStringExtra(STORE_APP_LABEL);
+            }
         } else {
             appId = savedInstanceState.getString(STORE_APP_ID);
             appLabel = savedInstanceState.getString(STORE_APP_LABEL);
@@ -193,7 +201,15 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home: {
-                onBackPressed();
+                finishAttempt(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent intent = new Intent(DownloadActivity.this, MainActivity.class)
+                                .setAction("com.tomclaw.appsend.cloud")
+                                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                    }
+                });
                 break;
             }
             case R.id.abuse: {
@@ -276,6 +292,8 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         bindButtons(item.getPackageName(), item.getVersionCode());
         bindPermissions(item.getPermissions());
         bindVersions(info.getVersions(), item.getVersionCode());
+        appLabel = labelView.getText().toString();
+        setTitle(appLabel);
     }
 
     private void bindButtons() {
