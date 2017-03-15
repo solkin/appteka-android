@@ -30,6 +30,10 @@ import net.hockeyapp.android.metrics.MetricsManager;
 
 public class MainActivity extends PermisoActivity implements MainView.ActivityCallback, CountController.CountCallback {
 
+    public static final String ACTION_APPS = "com.tomclaw.appsend.apps";
+    public static final String ACTION_INSTALL = "com.tomclaw.appsend.install";
+    public static final String ACTION_CLOUD = "com.tomclaw.appsend.cloud";
+
     private static final int REQUEST_UPDATE_SETTINGS = 6;
     private ViewFlipper mainViewsContainer;
     private MainView mainView;
@@ -158,13 +162,13 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
         int tab = -1;
         if (!TextUtils.isEmpty(action)) {
             switch (action) {
-                case "com.tomclaw.appsend.cloud":
+                case ACTION_CLOUD:
                     tab = 2;
                     break;
-                case "com.tomclaw.appsend.install":
+                case ACTION_INSTALL:
                     tab = 1;
                     break;
-                case "com.tomclaw.appsend.apps":
+                case ACTION_APPS:
                     tab = 0;
                     break;
             }

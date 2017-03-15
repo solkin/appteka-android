@@ -205,7 +205,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
                     @Override
                     public void run() {
                         Intent intent = new Intent(DownloadActivity.this, MainActivity.class)
-                                .setAction("com.tomclaw.appsend.cloud")
+                                .setAction(MainActivity.ACTION_CLOUD)
                                 .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
                     }
