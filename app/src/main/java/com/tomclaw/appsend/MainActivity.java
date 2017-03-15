@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.MenuRes;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -44,9 +45,12 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
      * Called when the activity is first created.
      */
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(final Bundle savedInstanceState) {
         isDarkTheme = ThemeHelper.updateTheme(this);
         super.onCreate(savedInstanceState);
+
+        String intentAction = getIntent().getAction();
+        final int selectedTab = getTabByAction(intentAction);
 
         boolean isCreateInstance = savedInstanceState == null;
 
@@ -118,7 +122,10 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
         bottomNavigation.post(new Runnable() {
             @Override
             public void run() {
-                selectTab(bottomNavigation.getCurrentItem());
+                int tab = (savedInstanceState == null && selectedTab != -1) ?
+                        selectedTab : bottomNavigation.getCurrentItem();
+                selectTab(tab);
+                bottomNavigation.setCurrentItem(tab);
             }
         });
 
@@ -145,6 +152,24 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
         if (isCreateInstance) {
             loadStoreCount();
         }
+    }
+
+    private int getTabByAction(String action) {
+        int tab = -1;
+        if (!TextUtils.isEmpty(action)) {
+            switch (action) {
+                case "com.tomclaw.appsend.cloud":
+                    tab = 2;
+                    break;
+                case "com.tomclaw.appsend.install":
+                    tab = 1;
+                    break;
+                case "com.tomclaw.appsend.apps":
+                    tab = 0;
+                    break;
+            }
+        }
+        return tab;
     }
 
     private void selectTab(int position) {
