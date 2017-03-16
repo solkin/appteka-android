@@ -129,6 +129,7 @@ public class DownloadController extends AbstractController<DownloadController.Do
 
     private void onInfoLoaded(final StoreInfo storeInfo) {
         this.storeInfo = storeInfo;
+        future = null;
         MainExecutor.execute(new Runnable() {
             @Override
             public void run() {
@@ -144,6 +145,7 @@ public class DownloadController extends AbstractController<DownloadController.Do
 
     private void onInfoError() {
         this.isInfoError = true;
+        future = null;
         MainExecutor.execute(new Runnable() {
             @Override
             public void run() {
@@ -178,6 +180,7 @@ public class DownloadController extends AbstractController<DownloadController.Do
         if (future != null & isDownloading) {
             isDownloadCancelled = true;
             future.cancel(true);
+            future = null;
         }
     }
 
@@ -222,6 +225,7 @@ public class DownloadController extends AbstractController<DownloadController.Do
         isDownloading = false;
         isDownloadError = false;
         isDownloadCancelled = false;
+        future = null;
         MainExecutor.execute(new Runnable() {
             @Override
             public void run() {
@@ -240,6 +244,7 @@ public class DownloadController extends AbstractController<DownloadController.Do
         if (!isDownloadCancelled) {
             isDownloadError = true;
         }
+        future = null;
         MainExecutor.execute(new Runnable() {
             @Override
             public void run() {
