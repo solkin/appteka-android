@@ -115,14 +115,17 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
             if (data != null) {
                 appId = data.getQueryParameter("id");
                 appLabel = getString(R.string.download);
-            }
-            if (TextUtils.isEmpty(appId)) {
+            } else if (TextUtils.isEmpty(appId)) {
                 appId = getIntent().getStringExtra(STORE_APP_ID);
                 appLabel = getIntent().getStringExtra(STORE_APP_LABEL);
             }
         } else {
             appId = savedInstanceState.getString(STORE_APP_ID);
             appLabel = savedInstanceState.getString(STORE_APP_LABEL);
+        }
+        if (TextUtils.isEmpty(appId)) {
+            openStore();
+            finish();
         }
 
         setTitle(appLabel);
@@ -204,10 +207,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
                 finishAttempt(new Runnable() {
                     @Override
                     public void run() {
-                        Intent intent = new Intent(DownloadActivity.this, MainActivity.class)
-                                .setAction(MainActivity.ACTION_CLOUD)
-                                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent);
+                        openStore();
                     }
                 });
                 break;
@@ -258,6 +258,13 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         if (!DownloadController.getInstance().isStarted()) {
             loadInfo();
         }
+    }
+
+    private void openStore() {
+        Intent intent = new Intent(DownloadActivity.this, MainActivity.class)
+                .setAction(MainActivity.ACTION_CLOUD)
+                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 
     @SuppressLint("DefaultLocale")
