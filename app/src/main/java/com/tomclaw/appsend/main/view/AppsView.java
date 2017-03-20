@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.provider.Settings;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -47,6 +48,7 @@ import static com.tomclaw.appsend.util.IntentHelper.openGooglePlay;
 public class AppsView extends MainView implements BillingProcessor.IBillingHandler, AppsController.AppsCallback {
 
     private ViewFlipper viewFlipper;
+    private SwipeRefreshLayout swipeRefresh;
     private RecyclerView recyclerView;
     private FilterableItemAdapter adapter;
     private BaseItemAdapter.BaseItemClickListener listener;
@@ -97,6 +99,14 @@ public class AppsView extends MainView implements BillingProcessor.IBillingHandl
             public void onActionClicked(BaseItem item, String action) {
             }
         };
+
+        swipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
+        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refresh();
+            }
+        });
 
         adapter = new FilterableItemAdapter(context);
         adapter.setListener(listener);
@@ -281,17 +291,21 @@ public class AppsView extends MainView implements BillingProcessor.IBillingHandl
 
     @Override
     public void onProgress() {
-        viewFlipper.setDisplayedChild(0);
+        if (!swipeRefresh.isRefreshing()) {
+            viewFlipper.setDisplayedChild(0);
+        }
     }
 
     @Override
     public void onLoaded(List<BaseItem> list) {
         setAppInfoList(list);
         viewFlipper.setDisplayedChild(1);
+        swipeRefresh.setRefreshing(false);
     }
 
     @Override
     public void onError() {
         viewFlipper.setDisplayedChild(2);
+        swipeRefresh.setRefreshing(false);
     }
 }
