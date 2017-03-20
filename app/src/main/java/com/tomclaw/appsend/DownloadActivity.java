@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -88,6 +89,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     private Button buttonFirst;
     private Button buttonSecond;
     private ProgressBar progress;
+    private SwipeRefreshLayout swipeRefresh;
 
     private StoreInfo info;
 
@@ -151,6 +153,13 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         buttonFirst = (Button) findViewById(R.id.button_first);
         buttonSecond = (Button) findViewById(R.id.button_second);
         progress = (ProgressBar) findViewById(R.id.progress);
+        swipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
+        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                reloadInfo();
+            }
+        });
         findViewById(R.id.button_cancel).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -527,21 +536,28 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     public void onInfoLoaded(StoreInfo storeInfo) {
         bindStoreItem(storeInfo);
         viewFlipper.setDisplayedChild(1);
+        swipeRefresh.setEnabled(true);
+        swipeRefresh.setRefreshing(false);
     }
 
     @Override
     public void onInfoError() {
         viewFlipper.setDisplayedChild(2);
+        swipeRefresh.setEnabled(true);
+        swipeRefresh.setRefreshing(false);
     }
 
     @Override
     public void onInfoProgress() {
-        viewFlipper.setDisplayedChild(0);
+        if (!swipeRefresh.isRefreshing()) {
+            viewFlipper.setDisplayedChild(0);
+        }
     }
 
     @Override
     public void onDownloadStarted() {
         buttonsSwitcher.setDisplayedChild(2);
+        swipeRefresh.setEnabled(false);
         progress.setIndeterminate(true);
     }
 
@@ -559,6 +575,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     @Override
     public void onDownloaded(String filePath) {
         viewFlipper.setDisplayedChild(0);
+        swipeRefresh.setEnabled(true);
         bindButtons();
 
         IntentHelper.openFile(this, filePath, "application/vnd.android.package-archive");
@@ -568,6 +585,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     public void onDownloadError() {
         showError(R.string.downloading_error);
         viewFlipper.setDisplayedChild(0);
+        swipeRefresh.setEnabled(true);
         bindButtons();
     }
 

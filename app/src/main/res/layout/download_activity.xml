@@ -22,110 +22,123 @@
 
         </FrameLayout>
 
-        <ScrollView
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <LinearLayout
+            <android.support.v4.widget.SwipeRefreshLayout
+                android:id="@+id/swipe_refresh"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="match_parent">
 
-                <include layout="@layout/download_info_block" />
-
-                <include layout="@layout/download_permissions_block" />
-
-                <LinearLayout
+                <ScrollView
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_height="match_parent">
 
                     <LinearLayout
-                        android:id="@+id/share_button"
-                        android:layout_width="0dp"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="?selectableItemBackground"
-                        android:gravity="center"
-                        android:orientation="horizontal"
-                        android:padding="12dp">
+                        android:orientation="vertical">
 
-                        <ImageView
-                            android:layout_width="wrap_content"
+                        <include layout="@layout/download_info_block" />
+
+                        <include layout="@layout/download_permissions_block" />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/share_variant"
-                            android:tint="?attr/text_secondary_color" />
+                            android:orientation="horizontal">
+
+                            <LinearLayout
+                                android:id="@+id/share_button"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="?selectableItemBackground"
+                                android:gravity="center"
+                                android:orientation="horizontal"
+                                android:padding="12dp">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/share_variant"
+                                    android:tint="?attr/text_secondary_color" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingLeft="8dp"
+                                    android:paddingStart="8dp"
+                                    android:text="@string/share_url"
+                                    android:textColor="?attr/text_secondary_color"
+                                    android:textSize="16sp" />
+
+                            </LinearLayout>
+
+                            <View
+                                android:layout_width="1dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginBottom="8dp"
+                                android:layout_marginTop="8dp"
+                                android:background="?attr/divider_color" />
+
+                            <LinearLayout
+                                android:id="@+id/play_button"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:background="?selectableItemBackground"
+                                android:gravity="center"
+                                android:orientation="horizontal"
+                                android:padding="12dp">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:src="@drawable/google_play"
+                                    android:tint="?attr/text_secondary_color" />
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingLeft="8dp"
+                                    android:paddingStart="8dp"
+                                    android:text="@string/google_play"
+                                    android:textColor="?attr/text_secondary_color"
+                                    android:textSize="16sp" />
+
+                            </LinearLayout>
+
+                        </LinearLayout>
 
                         <TextView
-                            android:layout_width="wrap_content"
+                            android:id="@+id/other_versions_title"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:paddingLeft="8dp"
-                            android:paddingStart="8dp"
-                            android:text="@string/share_url"
-                            android:textColor="?attr/text_secondary_color"
+                            android:layout_marginLeft="8dp"
+                            android:layout_marginRight="8dp"
+                            android:layout_marginTop="10dp"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="@string/other_versions"
+                            android:textColor="?attr/text_primary_color"
                             android:textSize="16sp" />
+
+                        <LinearLayout
+                            android:id="@+id/app_versions"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:paddingBottom="4dp"
+                            android:paddingTop="4dp" />
 
                     </LinearLayout>
 
-                    <View
-                        android:layout_width="1dp"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="8dp"
-                        android:layout_marginTop="8dp"
-                        android:background="?attr/divider_color" />
+                </ScrollView>
 
-                    <LinearLayout
-                        android:id="@+id/play_button"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="?selectableItemBackground"
-                        android:gravity="center"
-                        android:orientation="horizontal"
-                        android:padding="12dp">
+            </android.support.v4.widget.SwipeRefreshLayout>
 
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/google_play"
-                            android:tint="?attr/text_secondary_color" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingLeft="8dp"
-                            android:paddingStart="8dp"
-                            android:text="@string/google_play"
-                            android:textColor="?attr/text_secondary_color"
-                            android:textSize="16sp" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/other_versions_title"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:layout_marginRight="8dp"
-                    android:layout_marginTop="10dp"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="@string/other_versions"
-                    android:textColor="?attr/text_primary_color"
-                    android:textSize="16sp" />
-
-                <LinearLayout
-                    android:id="@+id/app_versions"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingTop="4dp"
-                    android:paddingBottom="4dp" />
-
-            </LinearLayout>
-
-        </ScrollView>
+        </FrameLayout>
 
         <RelativeLayout
             android:id="@+id/error_view"
