@@ -126,6 +126,21 @@
 
     </ViewFlipper>
 
+    <TextView
+        android:id="@+id/extra_access"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="4dp"
+        android:paddingStart="4dp"
+        android:paddingRight="4dp"
+        android:paddingEnd="4dp"
+        android:gravity="end"
+        android:textSize="12sp"
+        android:textColor="@color/accent_color"
+        android:visibility="gone"
+        tools:visibility="visible"
+        tools:text="Use SMS, calls access"/>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"

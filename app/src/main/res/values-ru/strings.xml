@@ -136,4 +136,8 @@
     <string name="cancel_abuse_text">Вы хотите отменить отправку жалобы на приложение?</string>
     <string name="checksum_copied">Контрольная сумма скопирована</string>
     <string name="unable_to_get_permissions">Не удалось получить список требуемых разрешений приложения</string>
+    <string name="has_access">Имеет доступ к %s</string>
+    <string name="access_sms">СМС</string>
+    <string name="access_geo">местоположению</string>
+    <string name="access_call">звонкам</string>
 </resources>

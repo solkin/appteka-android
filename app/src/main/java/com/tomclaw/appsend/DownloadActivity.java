@@ -37,6 +37,7 @@ import com.tomclaw.appsend.main.view.PlayView;
 import com.tomclaw.appsend.util.FileHelper;
 import com.tomclaw.appsend.util.IntentHelper;
 import com.tomclaw.appsend.util.LocaleHelper;
+import com.tomclaw.appsend.util.PermissionHelper;
 import com.tomclaw.appsend.util.PreferenceHelper;
 import com.tomclaw.appsend.util.StringUtil;
 import com.tomclaw.appsend.util.ThemeHelper;
@@ -89,6 +90,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     private Button buttonFirst;
     private Button buttonSecond;
     private ProgressBar progress;
+    private TextView extraAccess;
     private SwipeRefreshLayout swipeRefresh;
 
     private StoreInfo info;
@@ -153,6 +155,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         buttonFirst = (Button) findViewById(R.id.button_first);
         buttonSecond = (Button) findViewById(R.id.button_second);
         progress = (ProgressBar) findViewById(R.id.progress);
+        extraAccess = (TextView) findViewById(R.id.extra_access);
         swipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -492,6 +495,38 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
                 }
             });
         }
+
+        int stringRes;
+        String access = "";
+        boolean hasSmsAccess = false;
+        boolean hasGeoAccess = false;
+        boolean hasCallAccess = false;
+        for (String permission : permissions) {
+            String permissionUpper = permission.toUpperCase();
+            boolean isDangerous = PermissionHelper.getPermissionSmallInfo(this, permission).isDangerous();
+            if (isDangerous) {
+                if (!hasSmsAccess && permissionUpper.contains("SMS")) {
+                    stringRes = R.string.access_sms;
+                    hasSmsAccess = true;
+                } else if (!hasGeoAccess && permissionUpper.contains("LOCATION")) {
+                    stringRes = R.string.access_geo;
+                    hasGeoAccess = true;
+                } else if (!hasCallAccess && permissionUpper.contains("CALL")) {
+                    stringRes = R.string.access_call;
+                    hasCallAccess = true;
+                } else {
+                    stringRes = 0;
+                }
+                if (stringRes != 0) {
+                    if (!TextUtils.isEmpty(access)) {
+                        access += ", ";
+                    }
+                    access += getString(stringRes);
+                }
+            }
+        }
+        extraAccess.setVisibility(TextUtils.isEmpty(access) ? View.GONE : View.VISIBLE);
+        extraAccess.setText(getString(R.string.has_access, access));
     }
 
     private void bindVersions(List<StoreVersion> versions, int versionCode) {
