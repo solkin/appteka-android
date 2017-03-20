@@ -2,6 +2,7 @@ package com.tomclaw.appsend.main.view;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -30,6 +31,7 @@ import java.util.List;
 public class StoreView extends MainView implements StoreController.StoreCallback, Debouncer.Callback<String> {
 
     private ViewFlipper viewFlipper;
+    private SwipeRefreshLayout swipeRefresh;
     private TextView errorText;
     private BaseItemAdapter adapter;
     private String query;
@@ -81,6 +83,14 @@ public class StoreView extends MainView implements StoreController.StoreCallback
                 }
             }
         };
+
+        swipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
+        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                StoreController.getInstance().reload(getContext(), getFilter());
+            }
+        });
 
         adapter = new BaseItemAdapter(context);
         adapter.setListener(listener);
@@ -148,7 +158,7 @@ public class StoreView extends MainView implements StoreController.StoreCallback
 
     @Override
     public void onProgress(boolean isAppend) {
-        if (!isAppend) {
+        if (!isAppend && !swipeRefresh.isRefreshing()) {
             viewFlipper.setDisplayedChild(0);
         }
     }
@@ -157,6 +167,7 @@ public class StoreView extends MainView implements StoreController.StoreCallback
     public void onLoaded(List<BaseItem> list) {
         setItemList(list);
         viewFlipper.setDisplayedChild(1);
+        swipeRefresh.setRefreshing(false);
     }
 
     @Override
@@ -167,6 +178,7 @@ public class StoreView extends MainView implements StoreController.StoreCallback
             errorText.setText(R.string.store_loading_error);
             viewFlipper.setDisplayedChild(2);
         }
+        swipeRefresh.setRefreshing(false);
     }
 
     private String getFilter() {
