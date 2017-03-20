@@ -88,7 +88,7 @@ public class StoreView extends MainView implements StoreController.StoreCallback
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                StoreController.getInstance().reload(getContext(), getFilter());
+                refresh();
             }
         });
 

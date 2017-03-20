@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,6 +25,7 @@ import com.tomclaw.appsend.main.adapter.BaseItemAdapter;
 import com.tomclaw.appsend.main.adapter.FilterableItemAdapter;
 import com.tomclaw.appsend.main.adapter.MenuAdapter;
 import com.tomclaw.appsend.main.controller.ApksController;
+import com.tomclaw.appsend.main.controller.StoreController;
 import com.tomclaw.appsend.main.item.ApkItem;
 import com.tomclaw.appsend.main.item.BaseItem;
 import com.tomclaw.appsend.main.item.CouchItem;
@@ -49,11 +51,10 @@ public class InstallView extends MainView implements ApksController.ApksCallback
     private static final String HIDE_COUCH_ACTION = "hide_couch_action";
 
     private ViewFlipper viewFlipper;
+    private SwipeRefreshLayout swipeRefresh;
     private TextView errorText;
-    private View retryButton;
     private RecyclerView recyclerView;
     private FilterableItemAdapter adapter;
-    private BaseItemAdapter.BaseItemClickListener listener;
 
     public InstallView(final Context context) {
         super(context);
@@ -62,7 +63,7 @@ public class InstallView extends MainView implements ApksController.ApksCallback
 
         errorText = (TextView) findViewById(R.id.error_text);
 
-        retryButton = findViewById(R.id.button_retry);
+        View retryButton = findViewById(R.id.button_retry);
         retryButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,7 +85,7 @@ public class InstallView extends MainView implements ApksController.ApksCallback
             }
         });
 
-        listener = new BaseItemAdapter.BaseItemClickListener() {
+        BaseItemAdapter.BaseItemClickListener listener = new BaseItemAdapter.BaseItemClickListener() {
             @Override
             public void onItemClicked(final BaseItem item) {
                 boolean apkItem = item.getType() == BaseItem.APK_ITEM;
@@ -102,6 +103,14 @@ public class InstallView extends MainView implements ApksController.ApksCallback
                 }
             }
         };
+
+        swipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
+        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                refresh();
+            }
+        });
 
         adapter = new FilterableItemAdapter(context);
         adapter.setListener(listener);
@@ -237,7 +246,9 @@ public class InstallView extends MainView implements ApksController.ApksCallback
 
     @Override
     public void onProgress() {
-        viewFlipper.setDisplayedChild(0);
+        if (!swipeRefresh.isRefreshing()) {
+            viewFlipper.setDisplayedChild(0);
+        }
     }
 
     @Override
@@ -259,11 +270,13 @@ public class InstallView extends MainView implements ApksController.ApksCallback
         appItemList.addAll(list);
         setAppInfoList(appItemList);
         viewFlipper.setDisplayedChild(1);
+        swipeRefresh.setRefreshing(false);
     }
 
     @Override
     public void onError() {
         errorText.setText(R.string.apps_loading_error);
         viewFlipper.setDisplayedChild(2);
+        swipeRefresh.setRefreshing(false);
     }
 }
