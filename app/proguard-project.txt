@@ -35,3 +35,11 @@
   **[] $VALUES;
   public *;
 }
+
+# Flurry
+-keep class com.flurry.** { *; }
+-dontwarn com.flurry.**
+-keepattributes *Annotation*,EnclosingMethod
+-keepclasseswithmembers class * {
+	public <init>(android.content.Context, android.util.AttributeSet, int); 
+}
