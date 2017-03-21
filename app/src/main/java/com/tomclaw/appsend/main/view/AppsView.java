@@ -20,6 +20,7 @@ import android.widget.ViewFlipper;
 
 import com.anjlab.android.iab.v3.BillingProcessor;
 import com.anjlab.android.iab.v3.TransactionDetails;
+import com.flurry.android.FlurryAgent;
 import com.greysonparrelli.permiso.Permiso;
 import com.tomclaw.appsend.DonateActivity;
 import com.tomclaw.appsend.PermissionsActivity;
@@ -88,6 +89,7 @@ public class AppsView extends MainView implements BillingProcessor.IBillingHandl
             public void onItemClicked(final BaseItem item) {
                 boolean donateItem = item.getType() == BaseItem.DONATE_ITEM;
                 if (donateItem) {
+                    FlurryAgent.logEvent("Chocolate clicked");
                     showDonateDialog();
                 } else {
                     final AppItem info = (AppItem) item;
@@ -191,6 +193,7 @@ public class AppsView extends MainView implements BillingProcessor.IBillingHandl
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case 0: {
+                                FlurryAgent.logEvent("App menu: run");
                                 PackageManager packageManager = getContext().getPackageManager();
                                 Intent launchIntent = packageManager.getLaunchIntentForPackage(appItem.getPackageName());
                                 if (launchIntent == null) {
@@ -201,29 +204,35 @@ public class AppsView extends MainView implements BillingProcessor.IBillingHandl
                                 break;
                             }
                             case 1: {
+                                FlurryAgent.logEvent("App menu: share");
                                 TaskExecutor.getInstance().execute(new ExportApkTask(getContext(), appItem, ExportApkTask.ACTION_SHARE));
                                 break;
                             }
                             case 2: {
+                                FlurryAgent.logEvent("App menu: extract");
                                 TaskExecutor.getInstance().execute(new ExportApkTask(getContext(), appItem, ExportApkTask.ACTION_EXTRACT));
                                 break;
                             }
                             case 3: {
+                                FlurryAgent.logEvent("App menu: upload");
                                 Intent intent = new Intent(getContext(), UploadActivity.class);
                                 intent.putExtra(UploadActivity.UPLOAD_ITEM, appItem);
                                 startActivity(intent);
                                 break;
                             }
                             case 4: {
+                                FlurryAgent.logEvent("App menu: bluetooth");
                                 TaskExecutor.getInstance().execute(new ExportApkTask(getContext(), appItem, ExportApkTask.ACTION_BLUETOOTH));
                                 break;
                             }
                             case 5: {
+                                FlurryAgent.logEvent("App menu: Google Play");
                                 String packageName = appItem.getPackageName();
                                 openGooglePlay(getContext(), packageName);
                                 break;
                             }
                             case 6: {
+                                FlurryAgent.logEvent("App menu: permissions");
                                 try {
                                     PackageInfo packageInfo = appItem.getPackageInfo();
                                     List<String> permissions = Arrays.asList(packageInfo.requestedPermissions);
@@ -237,6 +246,7 @@ public class AppsView extends MainView implements BillingProcessor.IBillingHandl
                                 break;
                             }
                             case 7: {
+                                FlurryAgent.logEvent("App menu: details");
                                 setRefreshOnResume();
                                 final Intent intent = new Intent()
                                         .setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
@@ -247,6 +257,7 @@ public class AppsView extends MainView implements BillingProcessor.IBillingHandl
                                 break;
                             }
                             case 8: {
+                                FlurryAgent.logEvent("App menu: remove");
                                 setRefreshOnResume();
                                 Uri packageUri = Uri.parse("package:" + appItem.getPackageName());
                                 Intent uninstallIntent = new Intent(Intent.ACTION_DELETE, packageUri);

@@ -17,6 +17,7 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
+import com.flurry.android.FlurryAgent;
 import com.greysonparrelli.permiso.Permiso;
 import com.tomclaw.appsend.PermissionsActivity;
 import com.tomclaw.appsend.R;
@@ -98,6 +99,7 @@ public class InstallView extends MainView implements ApksController.ApksCallback
             @Override
             public void onActionClicked(BaseItem item, String action) {
                 if (TextUtils.equals(action, HIDE_COUCH_ACTION)) {
+                    FlurryAgent.logEvent("Hide install couch");
                     PreferenceHelper.setShowInstallCouch(context, false);
                     start();
                 }
@@ -189,29 +191,35 @@ public class InstallView extends MainView implements ApksController.ApksCallback
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case 0: {
+                                FlurryAgent.logEvent("Install menu: install");
                                 installApp(apkItem);
                                 break;
                             }
                             case 1: {
+                                FlurryAgent.logEvent("Install menu: share");
                                 shareApk(getContext(), new File(apkItem.getPath()));
                                 break;
                             }
                             case 2: {
+                                FlurryAgent.logEvent("Install menu: upload");
                                 Intent intent = new Intent(getContext(), UploadActivity.class);
                                 intent.putExtra(UploadActivity.UPLOAD_ITEM, apkItem);
                                 startActivity(intent);
                                 break;
                             }
                             case 3: {
+                                FlurryAgent.logEvent("Install menu: bluetooth");
                                 bluetoothApk(getContext(), apkItem);
                                 break;
                             }
                             case 4: {
+                                FlurryAgent.logEvent("Install menu: Google Play");
                                 final String packageName = apkItem.getPackageName();
                                 openGooglePlay(getContext(), packageName);
                                 break;
                             }
                             case 5: {
+                                FlurryAgent.logEvent("Install menu: permissions");
                                 try {
                                     PackageInfo packageInfo = apkItem.getPackageInfo();
                                     List<String> permissions = Arrays.asList(packageInfo.requestedPermissions);
@@ -225,6 +233,7 @@ public class InstallView extends MainView implements ApksController.ApksCallback
                                 break;
                             }
                             case 6: {
+                                FlurryAgent.logEvent("Install menu: remove");
                                 File file = new File(apkItem.getPath());
                                 file.delete();
                                 refresh();

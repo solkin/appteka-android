@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
+import com.flurry.android.FlurryAgent;
 import com.tomclaw.appsend.DownloadActivity;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.main.adapter.BaseItemAdapter;
@@ -68,6 +69,7 @@ public class StoreView extends MainView implements StoreController.StoreCallback
         BaseItemAdapter.BaseItemClickListener listener = new BaseItemAdapter.BaseItemClickListener() {
             @Override
             public void onItemClicked(final BaseItem item) {
+                FlurryAgent.logEvent("Open store app");
                 StoreItem storeItem = (StoreItem) item;
                 Intent intent = new Intent(context, DownloadActivity.class);
                 intent.putExtra(DownloadActivity.STORE_APP_ID, storeItem.getAppId());

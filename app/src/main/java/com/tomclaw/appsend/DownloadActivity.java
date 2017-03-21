@@ -27,6 +27,7 @@ import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import com.bumptech.glide.Glide;
+import com.flurry.android.FlurryAgent;
 import com.greysonparrelli.permiso.Permiso;
 import com.greysonparrelli.permiso.PermisoActivity;
 import com.tomclaw.appsend.main.controller.DownloadController;
@@ -178,6 +179,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         findViewById(R.id.share_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                FlurryAgent.logEvent("Store app: share");
                 String text = formatText(getResources(), info.getUrl(),
                         LocaleHelper.getLocalizedLabel(info.getItem()), info.getItem().getSize());
                 shareUrl(DownloadActivity.this, text);
@@ -186,12 +188,14 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         findViewById(R.id.play_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                FlurryAgent.logEvent("Store app: Google Play");
                 openGooglePlay(DownloadActivity.this, info.getItem().getPackageName());
             }
         });
         View.OnClickListener checksumClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                FlurryAgent.logEvent("Store app: copy SHA1");
                 StringUtil.copyStringToClipboard(
                         DownloadActivity.this,
                         checksumView.getText().toString(),
@@ -340,6 +344,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
                     buttonFirst.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                            FlurryAgent.logEvent("Store app: remove");
                             removeApp(packageName);
                         }
                     });
@@ -348,6 +353,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
                         buttonSecond.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                FlurryAgent.logEvent("Store app: update");
                                 updateApp();
                             }
                         });
@@ -356,6 +362,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
                         buttonSecond.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                FlurryAgent.logEvent("Store app: open");
                                 openApp(launchIntent);
                             }
                         });
@@ -367,6 +374,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
                         buttonOne.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                FlurryAgent.logEvent("Store app: update");
                                 updateApp();
                             }
                         });
@@ -375,6 +383,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
                         buttonOne.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                FlurryAgent.logEvent("Store app: remove");
                                 removeApp(packageName);
                             }
                         });
@@ -389,6 +398,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         buttonOne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                FlurryAgent.logEvent("Store app: install");
                 checkPermissionsForInstall();
             }
         });
@@ -488,6 +498,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
             permissionsBlock.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    FlurryAgent.logEvent("Store app: permissions");
                     Intent intent = new Intent(DownloadActivity.this, PermissionsActivity.class)
                             .putStringArrayListExtra(PermissionsActivity.EXTRA_PERMISSIONS,
                                     new ArrayList<>(permissions));

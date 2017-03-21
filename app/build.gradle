@@ -11,7 +11,10 @@ android {
         targetSdkVersion 25
         versionCode = 1
         versionName = "2.9"
-        manifestPlaceholders = [HOCKEYAPP_APP_ID: "c8564e901f354fcc9858e6ad5b1594f9"]
+        manifestPlaceholders = [
+                HOCKEYAPP_APP_ID: "c8564e901f354fcc9858e6ad5b1594f9",
+                FLURRY_APP_ID: "VDGFHF3THYWJ53SKX5VK"
+        ]
     }
 
     buildTypes {
@@ -41,4 +44,5 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.orhanobut:logger:1.15'
     compile 'com.aurelhubert:ahbottomnavigation:2.0.3'
+    compile 'com.flurry.android:analytics:6.2.0'
 }

@@ -13,6 +13,7 @@ import android.widget.ViewFlipper;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
+import com.flurry.android.FlurryAgent;
 import com.greysonparrelli.permiso.PermisoActivity;
 import com.kobakei.ratethisapp.RateThisApp;
 import com.tomclaw.appsend.main.controller.CountController;
@@ -195,10 +196,12 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
 
     private void showApps() {
         switchMainView(0);
+        FlurryAgent.logEvent("Show apps");
     }
 
     private void showInstall() {
         switchMainView(1);
+        FlurryAgent.logEvent("Show install");
     }
 
     private void showStore() {
@@ -206,6 +209,7 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
             storeController.reload(this);
         }
         switchMainView(2);
+        FlurryAgent.logEvent("Show store");
     }
 
     private void switchMainView(int index) {
