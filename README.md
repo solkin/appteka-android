@@ -10,7 +10,6 @@ AppSend will extracts APK that are installed on your Android device and copies t
 * Can backup and install Apk's from your SD Card.
 * Install free apps from AppSend.Store.
 
-
 ![Screenshot](art/main.png "Main screen")
 ![Screenshot](art/menu.png "Application menu")
 
