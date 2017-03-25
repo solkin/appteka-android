@@ -57,24 +57,24 @@
     </string-array>
 
     <array name="app_actions_icons">
-        <item>@drawable/ic_directions_run_white_24dp</item>
-        <item>@drawable/ic_share_white_24dp</item>
-        <item>@drawable/ic_save_white_24dp</item>
-        <item>@drawable/ic_cloud_upload_white_24dp</item>
-        <item>@drawable/ic_bluetooth_white_24dp</item>
-        <item>@drawable/ic_shop_white_24dp</item>
+        <item>@drawable/run</item>
+        <item>@drawable/share</item>
+        <item>@drawable/floppy</item>
+        <item>@drawable/cloud_upload</item>
+        <item>@drawable/bluetooth</item>
+        <item>@drawable/google_play</item>
         <item>@drawable/lock_open</item>
-        <item>@drawable/ic_settings_applications_white_24dp</item>
-        <item>@drawable/ic_delete_white_24dp</item>
+        <item>@drawable/settings_box</item>
+        <item>@drawable/delete</item>
     </array>
 
     <array name="apk_actions_icons">
-        <item>@drawable/ic_get_app_white_24dp</item>
-        <item>@drawable/ic_share_white_24dp</item>
-        <item>@drawable/ic_cloud_upload_white_24dp</item>
-        <item>@drawable/ic_bluetooth_white_24dp</item>
-        <item>@drawable/ic_shop_white_24dp</item>
+        <item>@drawable/download</item>
+        <item>@drawable/share</item>
+        <item>@drawable/cloud_upload</item>
+        <item>@drawable/bluetooth</item>
+        <item>@drawable/google_play</item>
         <item>@drawable/lock_open</item>
-        <item>@drawable/ic_delete_white_24dp</item>
+        <item>@drawable/delete</item>
     </array>
 </resources>
