@@ -314,7 +314,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         checksumView.setText(item.getSha1());
         bindButtons(item.getPackageName(), item.getVersionCode());
         bindPermissions(item.getPermissions());
-        bindVersions(info.getVersions(), item.getVersionCode());
+        bindVersions(info.getVersions(), item.getAppId(), item.getVersionCode());
         appLabel = labelView.getText().toString();
         setTitle(appLabel);
     }
@@ -540,23 +540,32 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         extraAccess.setText(getString(R.string.has_access, access));
     }
 
-    private void bindVersions(List<StoreVersion> versions, int versionCode) {
+    private void bindVersions(List<StoreVersion> versions, String appId, int versionCode) {
         versionsContainer.removeAllViews();
         boolean isVersionsAdded = false;
         for (final StoreVersion version : versions) {
-            if (version.getVerCode() == versionCode) {
+            if (TextUtils.equals(version.getAppId(), appId)) {
                 continue;
             }
             View versionView = getLayoutInflater().inflate(R.layout.version_view, versionsContainer, false);
             TextView versionNameView = (TextView) versionView.findViewById(R.id.app_version_name);
             TextView versionCodeView = (TextView) versionView.findViewById(R.id.app_version_code);
             TextView versionDownloads = (TextView) versionView.findViewById(R.id.app_version_downloads);
-            View newerBadge = versionView.findViewById(R.id.app_newer_badge);
+            TextView newerBadge = (TextView) versionView.findViewById(R.id.app_newer_badge);
             versionNameView.setText(version.getVerName());
             versionCodeView.setText('(' + String.valueOf(version.getVerCode()) + ')');
             versionDownloads.setText(String.valueOf(version.getDownloads()));
             boolean isNewer = version.getVerCode() > versionCode;
-            newerBadge.setVisibility(isNewer ? View.VISIBLE : View.GONE);
+            boolean isSame = version.getVerCode() == versionCode;
+            if (isNewer) {
+                newerBadge.setVisibility(View.VISIBLE);
+                newerBadge.setText(R.string.newer);
+            } else if (isSame) {
+                newerBadge.setVisibility(View.VISIBLE);
+                newerBadge.setText(R.string.same);
+            } else {
+                newerBadge.setVisibility(View.GONE);
+            }
             versionView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

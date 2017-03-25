@@ -115,6 +115,7 @@
     <string name="checksum_title">Checksum (SHA1)</string>
     <string name="app_version_format" translatable="false">%1$s (%2$d)</string>
     <string name="newer">newer</string>
+    <string name="same">same version</string>
     <string name="other_versions">Other version</string>
     <string name="google_play">Google Play</string>
     <string name="update">Update</string>
