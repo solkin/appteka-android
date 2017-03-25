@@ -24,9 +24,10 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="8dp"
+                    android:paddingBottom="12dp"
                     android:text="@string/select_abuse_reason"
-                    android:textColor="?attr/text_primary_color"
+                    android:textColor="?attr/text_secondary_color"
+                    android:textStyle="bold"
                     android:textSize="14sp" />
 
                 <RadioGroup
@@ -38,24 +39,28 @@
                         android:id="@+id/does_not_works"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:padding="12dp"
                         android:text="@string/does_not_works" />
 
                     <RadioButton
                         android:id="@+id/malicious_app"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:padding="12dp"
                         android:text="@string/malicious_app" />
 
                     <RadioButton
                         android:id="@+id/license_violation"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:padding="12dp"
                         android:text="@string/license_violation" />
 
                     <RadioButton
                         android:id="@+id/private_app"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:padding="12dp"
                         android:text="@string/private_app" />
 
                 </RadioGroup>
@@ -63,10 +68,11 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="8dp"
-                    android:paddingTop="8dp"
+                    android:paddingBottom="12dp"
+                    android:paddingTop="12dp"
                     android:text="@string/enter_your_email"
-                    android:textColor="?attr/text_primary_color"
+                    android:textColor="?attr/text_secondary_color"
+                    android:textStyle="bold"
                     android:textSize="14sp" />
 
                 <EditText

@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/abuse"
-        android:icon="@drawable/alert_octagram"
+        android:icon="@drawable/delete"
         app:showAsAction="ifRoom|withText"
         android:title="@string/abuse" />
 </menu>
