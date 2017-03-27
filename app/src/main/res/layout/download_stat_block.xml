@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="12dp"
+    android:paddingRight="12dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp">
+
+        <com.tomclaw.appsend.main.view.PlayView
+            android:id="@+id/app_downloads"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:play_comment="@string/downloads_comment"
+            app:play_count="157"
+            app:play_description="@string/downloads" />
+
+        <com.tomclaw.appsend.main.view.PlayView
+            android:id="@+id/app_size"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/play_item_margin"
+            android:layout_marginStart="@dimen/play_item_margin"
+            app:play_comment="@string/size_comment"
+            app:play_count="19.7"
+            app:play_description="@string/megabytes" />
+
+        <com.tomclaw.appsend.main.view.PlayView
+            android:id="@+id/min_android"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/play_item_margin"
+            android:layout_marginStart="@dimen/play_item_margin"
+            app:play_comment="@string/android_comment"
+            app:play_count="4.1"
+            app:play_description="@string/android" />
+
+    </LinearLayout>
+
+</LinearLayout>

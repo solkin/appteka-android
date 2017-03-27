@@ -294,7 +294,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         int sizeFactor;
         long bytes = item.getSize();
         if (bytes < 1024 * 1024) {
-            sizeText = String.format("%.1f", bytes / 1024.0f);
+            sizeText = String.format("%d", bytes / 1024);
             sizeFactor = R.string.kilobytes;
         } else if (bytes < 10 * 1024 * 1024) {
             sizeText = String.format("%.1f", bytes / 1024.0f / 1024.0f);
