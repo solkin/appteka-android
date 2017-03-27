@@ -373,7 +373,7 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
     public void onLoaded(int count) {
         String notification = "";
         if (count > 0) {
-            notification = String.valueOf(count);
+            notification = count > 99 ? "99+" : String.valueOf(count);
         }
         bottomNavigation.setNotification(notification, 2);
     }
