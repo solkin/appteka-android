@@ -488,6 +488,12 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
             String description = getPermissionSmallInfo(this, permission).getDescription();
             permissionDescription.setText(description);
             permissionName.setText(permission);
+            if (c < count - 1) {
+                ViewGroup.MarginLayoutParams layoutParams =
+                        (ViewGroup.MarginLayoutParams) permissionView.getLayoutParams();
+                layoutParams.bottomMargin = getResources().getDimensionPixelSize(R.dimen.permissions_margin);
+                permissionView.setLayoutParams(layoutParams);
+            }
             permissionsContainer.addView(permissionView);
         }
         permissionsBlock.setVisibility(hasPermissions ? View.VISIBLE : View.GONE);

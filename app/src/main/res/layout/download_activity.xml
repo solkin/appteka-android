@@ -42,6 +42,12 @@
 
                         <include layout="@layout/download_controls_block" />
 
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="0.5dp"
+                            android:layout_marginBottom="18dp"
+                            android:background="?attr/divider_color" />
+
                         <include layout="@layout/download_stat_block" />
 
                         <include layout="@layout/download_extra_block" />

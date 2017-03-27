@@ -69,6 +69,8 @@
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:paddingLeft="24dp"
+            android:paddingRight="24dp"
             android:layout_gravity="end"
             tools:text="@string/install" />
 
@@ -82,6 +84,8 @@
                 style="@style/Widget.AppCompat.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="6dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 tools:text="@string/remove" />
@@ -91,6 +95,8 @@
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="0dp"
                 android:layout_gravity="center"
                 android:layout_weight="1"
                 tools:text="@string/open" />
