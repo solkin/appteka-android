@@ -84,7 +84,7 @@
                         android:id="@+id/app_version"
                         android:layout_gravity="left|center_vertical"
                         android:lines="1"
-                        android:text="2.0"
+                        android:text="2.3"
                         android:textSize="17sp"
                         android:textColor="?text_secondary_color"
                         android:fontFamily="sans-serif-thin" />

@@ -198,7 +198,7 @@ public class AppsController extends AbstractController<AppsController.AppsCallba
         }
         List<BaseItem> baseItems = new ArrayList<>();
         baseItems.addAll(appItemList);
-        int count = Math.min(baseItems.size(), 8);
+        int count = Math.min(baseItems.size(), 7);
         Random random = new Random(System.currentTimeMillis());
         int position = random.nextInt(count);
         DonateItem donateItem = new DonateItem();
