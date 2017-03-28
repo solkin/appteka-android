@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="accent_color">#EF6C00</color>
-    <color name="primary_color">#1d9c5a</color>
-    <color name="primary_dark_color">#177d48</color>
+    <color name="accent_color">#4d9116</color>
+    <color name="primary_color">#32a304</color>
+    <color name="primary_dark_color">#2a8a03</color>
 
     <color name="chocolate_color">#894121</color>
     <color name="chocolate_dark_color">#632309</color>
 
-    <color name="badge_color">#ff5a00</color>
+    <color name="badge_color">#f79406</color>
 
     <color name="grey">#dadada</color>
     <color name="grey_dark">#747474</color>
@@ -26,9 +26,9 @@
     <color name="divider_light">#dadada</color>
     <color name="divider_dark">#424242</color>
 
-    <color name="abuse_color">#C62828</color>
+    <color name="abuse_color">#d63205</color>
 
-    <color name="dangerous_permission_color">#AD1457</color>
+    <color name="dangerous_permission_color">#c40e72</color>
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorAccent">@color/accent_color</item>
