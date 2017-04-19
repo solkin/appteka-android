@@ -97,7 +97,7 @@ public class StoreItemHolder extends AbstractItemHolder<StoreItem> {
         appSize.setText(FileHelper.formatBytes(context.getResources(), item.getSize()));
         boolean isShowDownloads = (item.getDownloads() > 0);
         if (isShowDownloads) {
-            appDownloads.setText(item.getDownloads());
+            appDownloads.setText(String.valueOf(item.getDownloads()));
         }
         appDownloads.setVisibility(isShowDownloads ? VISIBLE : GONE);
         downloadsIcon.setVisibility(isShowDownloads ? VISIBLE : GONE);
