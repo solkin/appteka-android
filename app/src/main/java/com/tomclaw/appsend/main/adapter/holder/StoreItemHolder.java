@@ -18,6 +18,9 @@ import java.util.concurrent.TimeUnit;
 
 import jp.shts.android.library.TriangleLabelView;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 /**
  * Created by Solkin on 10.12.2014.
  */
@@ -34,6 +37,8 @@ public class StoreItemHolder extends AbstractItemHolder<StoreItem> {
     private TextView appVersion;
     private TextView appUpdateTime;
     private TextView appSize;
+    private TextView appDownloads;
+    private View downloadsIcon;
     private TriangleLabelView badgeNew;
     private View viewProgress;
     private View errorView;
@@ -48,6 +53,8 @@ public class StoreItemHolder extends AbstractItemHolder<StoreItem> {
         appVersion = (TextView) itemView.findViewById(R.id.app_version);
         appUpdateTime = (TextView) itemView.findViewById(R.id.app_update_time);
         appSize = (TextView) itemView.findViewById(R.id.app_size);
+        appDownloads = (TextView) itemView.findViewById(R.id.app_downloads);
+        downloadsIcon = itemView.findViewById(R.id.downloads_icon);
         badgeNew = (TriangleLabelView) itemView.findViewById(R.id.badge_new);
         viewProgress = itemView.findViewById(R.id.item_progress);
         errorView = itemView.findViewById(R.id.error_view);
@@ -82,25 +89,31 @@ public class StoreItemHolder extends AbstractItemHolder<StoreItem> {
         appName.setText(LocaleHelper.getLocalizedLabel(item));
         appVersion.setText(item.getVersion());
         if (item.getTime() > 0) {
-            appUpdateTime.setVisibility(View.VISIBLE);
+            appUpdateTime.setVisibility(VISIBLE);
             appUpdateTime.setText(simpleDateFormat.format(item.getTime()));
         } else {
-            appUpdateTime.setVisibility(View.GONE);
+            appUpdateTime.setVisibility(GONE);
         }
         appSize.setText(FileHelper.formatBytes(context.getResources(), item.getSize()));
+        boolean isShowDownloads = (item.getDownloads() > 0);
+        if (isShowDownloads) {
+            appDownloads.setText(item.getDownloads());
+        }
+        appDownloads.setVisibility(isShowDownloads ? VISIBLE : GONE);
+        downloadsIcon.setVisibility(isShowDownloads ? VISIBLE : GONE);
 
         long appInstallDelay = System.currentTimeMillis() - item.getTime();
         boolean isNewApp = appInstallDelay > 0 && appInstallDelay < TimeUnit.DAYS.toMillis(1);
-        badgeNew.setVisibility(isNewApp ? View.VISIBLE : View.GONE);
+        badgeNew.setVisibility(isNewApp ? VISIBLE : GONE);
 
         boolean isAppendError = isLast && StoreController.getInstance().isError() && StoreController.getInstance().isAppend();
-        errorView.setVisibility(isAppendError ? View.VISIBLE : View.GONE);
+        errorView.setVisibility(isAppendError ? VISIBLE : GONE);
         if (isAppendError) {
-            viewProgress.setVisibility(View.GONE);
+            viewProgress.setVisibility(GONE);
         } else {
             boolean isLoad = isLast && StoreController.getInstance().load(
                     context, item.getAppId(), item.getFilter());
-            viewProgress.setVisibility(isLoad ? View.VISIBLE : View.GONE);
+            viewProgress.setVisibility(isLoad ? VISIBLE : GONE);
         }
     }
 }
