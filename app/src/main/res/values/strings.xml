@@ -146,4 +146,6 @@
     <string name="access_sms">SMS</string>
     <string name="access_geo">location</string>
     <string name="access_call">call</string>
+    <string name="store_app_update">Update</string>
+    <string name="store_app_installed">Installed</string>
 </resources>

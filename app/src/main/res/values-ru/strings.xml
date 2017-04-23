@@ -141,4 +141,6 @@
     <string name="access_sms">СМС</string>
     <string name="access_geo">местоположению</string>
     <string name="access_call">звонкам</string>
+    <string name="store_app_update">Обновить</string>
+    <string name="store_app_installed">Установлено</string>
 </resources>

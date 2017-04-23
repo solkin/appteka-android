@@ -20,6 +20,7 @@ import jp.shts.android.library.TriangleLabelView;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
+import static com.tomclaw.appsend.main.item.StoreItem.NOT_INSTALLED;
 
 /**
  * Created by Solkin on 10.12.2014.
@@ -39,6 +40,7 @@ public class StoreItemHolder extends AbstractItemHolder<StoreItem> {
     private TextView appSize;
     private TextView appDownloads;
     private View downloadsIcon;
+    private TextView appBadge;
     private TriangleLabelView badgeNew;
     private View viewProgress;
     private View errorView;
@@ -55,6 +57,7 @@ public class StoreItemHolder extends AbstractItemHolder<StoreItem> {
         appSize = (TextView) itemView.findViewById(R.id.app_size);
         appDownloads = (TextView) itemView.findViewById(R.id.app_downloads);
         downloadsIcon = itemView.findViewById(R.id.downloads_icon);
+        appBadge = (TextView) itemView.findViewById(R.id.app_badge);
         badgeNew = (TriangleLabelView) itemView.findViewById(R.id.badge_new);
         viewProgress = itemView.findViewById(R.id.item_progress);
         errorView = itemView.findViewById(R.id.error_view);
@@ -95,12 +98,19 @@ public class StoreItemHolder extends AbstractItemHolder<StoreItem> {
             appUpdateTime.setVisibility(GONE);
         }
         appSize.setText(FileHelper.formatBytes(context.getResources(), item.getSize()));
-        boolean isShowDownloads = (item.getDownloads() > 0);
+        boolean isInstalled = (item.getInstalledVersionCode() != NOT_INSTALLED);
+        boolean isMayBeUpdated = (item.getVersionCode() > item.getInstalledVersionCode());
+        boolean isShowDownloads = !isInstalled && (item.getDownloads() > 0);
         if (isShowDownloads) {
             appDownloads.setText(String.valueOf(item.getDownloads()));
+        } else if (isInstalled && isMayBeUpdated) {
+            appBadge.setText(R.string.store_app_update);
+        } else if (isInstalled) {
+            appBadge.setText(R.string.store_app_installed);
         }
         appDownloads.setVisibility(isShowDownloads ? VISIBLE : GONE);
         downloadsIcon.setVisibility(isShowDownloads ? VISIBLE : GONE);
+        appBadge.setVisibility(isInstalled ? VISIBLE : GONE);
 
         long appInstallDelay = System.currentTimeMillis() - item.getTime();
         boolean isNewApp = appInstallDelay > 0 && appInstallDelay < TimeUnit.DAYS.toMillis(1);

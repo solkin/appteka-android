@@ -1,6 +1,7 @@
 package com.tomclaw.appsend.main.controller;
 
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -29,6 +30,7 @@ import java.util.concurrent.TimeUnit;
 
 import cz.msebera.android.httpclient.HttpStatus;
 
+import static com.tomclaw.appsend.util.PackageHelper.getInstalledVersionCode;
 import static com.tomclaw.appsend.util.StoreHelper.parseStoreItem;
 
 /**
@@ -56,10 +58,28 @@ public class StoreController extends AbstractController<StoreController.StoreCal
 
     private Future<?> future;
 
+    private PackageManager packageManager;
+
     @Override
-    void onAttached(StoreCallback callback) {
+    void onAttached(final StoreCallback callback) {
         if (isLoaded()) {
-            callback.onLoaded(list);
+            if (packageManager != null) {
+                callback.onProgress(false);
+                executor.submit(new Runnable() {
+                    @Override
+                    public void run() {
+                        updateItemsInstalledVersions(packageManager, list);
+                        MainExecutor.execute(new Runnable() {
+                            @Override
+                            public void run() {
+                                callback.onLoaded(list);
+                            }
+                        });
+                    }
+                });
+            } else {
+                callback.onLoaded(list);
+            }
         } else if (isError) {
             callback.onError(isAppend());
         } else {
@@ -94,6 +114,7 @@ public class StoreController extends AbstractController<StoreController.StoreCal
     public boolean load(final @NonNull Context context,
                         final @Nullable String appId,
                         final @Nullable String filter) {
+        this.packageManager = context.getPackageManager();
         boolean isReload = TextUtils.equals(appId, "");
         if (endReached && !isReload) {
             // End is reached, but this request is not reload request.
@@ -222,6 +243,8 @@ public class StoreController extends AbstractController<StoreController.StoreCal
                         if (c == 0) {
                             time = item.getTime() / 1000;
                         }
+                        item.setInstalledVersionCode(getInstalledVersionCode(
+                                item.getPackageName(), packageManager));
                         baseItems.add(item);
                     }
                     onLoaded(baseItems, isAppend);
@@ -243,6 +266,17 @@ public class StoreController extends AbstractController<StoreController.StoreCal
                 connection.disconnect();
             }
             HttpUtil.closeSafely(in);
+        }
+    }
+
+    private static void updateItemsInstalledVersions(PackageManager packageManager,
+                                                     List<BaseItem> items) {
+        for (BaseItem item : items) {
+            if (item.getType() == BaseItem.STORE_ITEM) {
+                StoreItem storeItem = (StoreItem) item;
+                storeItem.setInstalledVersionCode(getInstalledVersionCode(
+                        storeItem.getPackageName(), packageManager));
+            }
         }
     }
 

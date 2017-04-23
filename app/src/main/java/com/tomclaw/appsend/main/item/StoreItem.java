@@ -12,6 +12,8 @@ import java.util.Map;
  */
 public class StoreItem extends BaseItem implements Parcelable {
 
+    public static final int NOT_INSTALLED = -1;
+
     private final String label;
     private final Map<String, String> labels;
     private final String icon;
@@ -28,11 +30,13 @@ public class StoreItem extends BaseItem implements Parcelable {
     private final long time;
     private final String sha1;
     private final String filter;
+    private int installedVersionCode;
 
     public StoreItem(String label, Map<String, String> labels, String icon,
                      String appId, String packageName, String version,
-                     int versionCode, int sdkVersion, String androidVersion, List<String> permissions,
-                     long size, int downloads, long downloadTime, long time, String sha1, String filter) {
+                     int versionCode, int sdkVersion, String androidVersion,
+                     List<String> permissions, long size, int downloads, long downloadTime,
+                     long time, String sha1, String filter) {
         this.label = label;
         this.labels = labels;
         this.icon = icon;
@@ -49,6 +53,7 @@ public class StoreItem extends BaseItem implements Parcelable {
         this.time = time;
         this.sha1 = sha1;
         this.filter = filter;
+        this.installedVersionCode = NOT_INSTALLED;
     }
 
     protected StoreItem(Parcel in) {
@@ -74,6 +79,7 @@ public class StoreItem extends BaseItem implements Parcelable {
         time = in.readLong();
         sha1 = in.readString();
         filter = in.readString();
+        installedVersionCode = in.readInt();
     }
 
     @Override
@@ -98,6 +104,7 @@ public class StoreItem extends BaseItem implements Parcelable {
         dest.writeLong(time);
         dest.writeString(sha1);
         dest.writeString(filter);
+        dest.writeInt(installedVersionCode);
     }
 
     @Override
@@ -184,5 +191,13 @@ public class StoreItem extends BaseItem implements Parcelable {
 
     public String getFilter() {
         return filter;
+    }
+
+    public int getInstalledVersionCode() {
+        return installedVersionCode;
+    }
+
+    public void setInstalledVersionCode(int installedVersionCode) {
+        this.installedVersionCode = installedVersionCode;
     }
 }

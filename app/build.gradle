@@ -10,7 +10,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 25
         versionCode = 1
-        versionName = "3.0"
+        versionName = "3.1"
         manifestPlaceholders = [
                 HOCKEYAPP_APP_ID: "c8564e901f354fcc9858e6ad5b1594f9",
                 FLURRY_APP_ID: "VDGFHF3THYWJ53SKX5VK"

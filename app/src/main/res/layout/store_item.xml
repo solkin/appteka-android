@@ -133,6 +133,21 @@
                             android:textSize="15sp" />
 
                         <TextView
+                            android:id="@+id/app_badge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="4dp"
+                            android:layout_marginStart="4dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginEnd="10dp"
+                            android:includeFontPadding="true"
+                            android:textColor="?text_secondary_color"
+                            android:textStyle="bold"
+                            android:textAllCaps="true"
+                            android:textSize="12sp"
+                            tools:text="@string/store_app_installed"/>
+
+                        <TextView
                             android:id="@+id/app_downloads"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -140,12 +155,12 @@
                             android:layout_marginStart="4dp"
                             android:layout_marginRight="4dp"
                             android:layout_marginEnd="4dp"
-                            android:marqueeRepeatLimit="marquee_forever"
-                            android:scrollHorizontally="true"
-                            android:singleLine="true"
+                            android:includeFontPadding="true"
                             android:textColor="?text_secondary_color"
+                            android:textAllCaps="true"
                             android:textSize="14sp"
-                            tools:text="15"/>
+                            tools:text="15"
+                            tools:visibility="gone"/>
 
                         <ImageView
                             android:id="@+id/downloads_icon"
@@ -153,10 +168,11 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="0dp"
                             android:layout_marginStart="0dp"
-                            android:layout_marginRight="8dp"
-                            android:layout_marginEnd="8dp"
-                            android:src="@drawable/briefcase_download"
-                            android:tint="@color/grey_dark" />
+                            android:layout_marginRight="4dp"
+                            android:layout_marginEnd="4dp"
+                            android:src="@drawable/download"
+                            android:tint="@color/grey_dark"
+                            tools:visibility="gone" />
 
                     </LinearLayout>
                 </LinearLayout>
