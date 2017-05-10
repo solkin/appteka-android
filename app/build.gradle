@@ -10,7 +10,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 25
         versionCode = 1
-        versionName = "3.1"
+        versionName = "3.2"
         manifestPlaceholders = [
                 HOCKEYAPP_APP_ID: "c8564e901f354fcc9858e6ad5b1594f9",
                 FLURRY_APP_ID: "VDGFHF3THYWJ53SKX5VK"
@@ -38,7 +38,6 @@ dependencies {
     compile 'com.greysonparrelli.permiso:permiso:0.2.0'
     compile 'io.github.kobakei:ratethisapp:1.1.0'
     compile 'net.hockeyapp.android:HockeySDK:4.0.0'
-    compile 'com.anjlab.android.iab.v3:library:1.0.32'
     compile 'com.jaeger.statusbaruitl:library:1.2.4'
     compile 'com.github.shts:TriangleLabelView:1.1.0'
     compile 'com.github.bumptech.glide:glide:3.7.0'

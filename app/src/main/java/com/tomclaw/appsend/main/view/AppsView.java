@@ -18,8 +18,6 @@ import android.view.View;
 import android.widget.ListAdapter;
 import android.widget.ViewFlipper;
 
-import com.anjlab.android.iab.v3.BillingProcessor;
-import com.anjlab.android.iab.v3.TransactionDetails;
 import com.flurry.android.FlurryAgent;
 import com.greysonparrelli.permiso.Permiso;
 import com.tomclaw.appsend.DonateActivity;
@@ -46,20 +44,16 @@ import static com.tomclaw.appsend.util.IntentHelper.openGooglePlay;
 /**
  * Created by ivsolkin on 08.01.17.
  */
-public class AppsView extends MainView implements BillingProcessor.IBillingHandler, AppsController.AppsCallback {
+public class AppsView extends MainView implements AppsController.AppsCallback {
 
     private ViewFlipper viewFlipper;
     private SwipeRefreshLayout swipeRefresh;
     private RecyclerView recyclerView;
     private FilterableItemAdapter adapter;
     private BaseItemAdapter.BaseItemClickListener listener;
-    private BillingProcessor bp;
 
     public AppsView(Context context) {
         super(context);
-
-        String licenseKey = context.getString(R.string.license_key);
-        bp = new BillingProcessor(context, licenseKey, this);
 
         viewFlipper = (ViewFlipper) findViewById(R.id.apps_view_switcher);
 
@@ -139,9 +133,6 @@ public class AppsView extends MainView implements BillingProcessor.IBillingHandl
 
     @Override
     public void destroy() {
-        if (bp != null) {
-            bp.release();
-        }
     }
 
     @Override
@@ -270,34 +261,16 @@ public class AppsView extends MainView implements BillingProcessor.IBillingHandl
     }
 
     private void setAppInfoList(List<BaseItem> appItemList) {
-        if (bp.loadOwnedPurchasesFromGoogle() &&
-                bp.isPurchased(getContext().getString(R.string.chocolate_id))) {
-            for (BaseItem item : appItemList) {
-                boolean donateItem = (item.getType() == BaseItem.DONATE_ITEM);
-                if (donateItem) {
-                    appItemList.remove(item);
-                    break;
-                }
-            }
-        }
+// TODO:  This is donate item removal. Make it work.
+//        for (BaseItem item : appItemList) {
+//            boolean donateItem = (item.getType() == BaseItem.DONATE_ITEM);
+//            if (donateItem) {
+//                appItemList.remove(item);
+//                break;
+//            }
+//        }
         adapter.setItemsList(appItemList);
         adapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public void onProductPurchased(String productId, TransactionDetails details) {
-    }
-
-    @Override
-    public void onPurchaseHistoryRestored() {
-    }
-
-    @Override
-    public void onBillingError(int errorCode, Throwable error) {
-    }
-
-    @Override
-    public void onBillingInitialized() {
     }
 
     @Override

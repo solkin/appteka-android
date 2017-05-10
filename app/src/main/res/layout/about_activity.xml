@@ -58,6 +58,16 @@
             android:gravity="center_horizontal">
 
             <Button
+                android:id="@+id/feedback_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:text="@string/feedback_email" />
+
+            <Button
                 android:id="@+id/present_chocolate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -67,23 +77,6 @@
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:text="@string/donate_button" />
 
-            <Button
-                android:id="@+id/rate_app"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="2dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:text="@string/rate_app" />
-
-            <Button
-                android:id="@+id/all_apps"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="2dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:text="@string/all_apps" />
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>

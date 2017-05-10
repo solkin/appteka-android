@@ -14,38 +14,23 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.anjlab.android.iab.v3.BillingProcessor;
-import com.anjlab.android.iab.v3.Constants;
-import com.anjlab.android.iab.v3.TransactionDetails;
 import com.tomclaw.appsend.util.ThemeHelper;
 
 /**
  * Created by Solkin on 17.12.2014.
  */
-public class AboutActivity extends AppCompatActivity implements BillingProcessor.IBillingHandler {
+public class AboutActivity extends AppCompatActivity {
 
-    private static final String MARKET_DETAILS_URI = "market://details?id=";
-    private static final String MARKET_DEVELOPER_URI = "market://search?q=";
-    private static final String GOOGLE_PLAY_DETAILS_URI = "http://play.google.com/store/apps/details?id=";
-    private static final String GOOGLE_PLAY_DEVELOPER_URI = "http://play.google.com/store/apps/search?q=";
-    public static String DEVELOPER_NAME = "TomClaw Software";
-
-    private BillingProcessor bp;
-    private View rootView;
     private View presentButton;
+    private View feedbackButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         ThemeHelper.updateTheme(this);
         super.onCreate(savedInstanceState);
 
-        String licenseKey = getString(R.string.license_key);
-        bp = new BillingProcessor(this, licenseKey, this);
-
         setContentView(R.layout.about_activity);
         ThemeHelper.updateStatusBar(this);
-
-        rootView = findViewById(R.id.root_view);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -61,20 +46,6 @@ public class AboutActivity extends AppCompatActivity implements BillingProcessor
         } catch (PackageManager.NameNotFoundException ignored) {
         }
 
-        findViewById(R.id.rate_app).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                rateApplication();
-            }
-        });
-
-        findViewById(R.id.all_apps).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                allProjects();
-            }
-        });
-
         presentButton = findViewById(R.id.present_chocolate);
         presentButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,18 +54,13 @@ public class AboutActivity extends AppCompatActivity implements BillingProcessor
             }
         });
 
-        if (bp.loadOwnedPurchasesFromGoogle() &&
-                bp.isPurchased(getString(R.string.chocolate_id))) {
-            presentButton.setVisibility(View.GONE);
-        }
-    }
-
-    @Override
-    public void onDestroy() {
-        if (bp != null) {
-            bp.release();
-        }
-        super.onDestroy();
+        feedbackButton = findViewById(R.id.feedback_email);
+        feedbackButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onFeedbackClicked();
+            }
+        });
     }
 
     @Override
@@ -108,56 +74,23 @@ public class AboutActivity extends AppCompatActivity implements BillingProcessor
     }
 
     private void onChocolateClicked() {
-        String chocolateId = getString(R.string.chocolate_id);
-        bp.purchase(this, chocolateId);
-    }
-
-    private void rateApplication() {
-        final String appPackageName = getPackageName();
+        String donateUrl = getString(R.string.donate_url);
         try {
             startActivity(new Intent(Intent.ACTION_VIEW,
-                    Uri.parse(MARKET_DETAILS_URI + appPackageName)));
-        } catch (android.content.ActivityNotFoundException ignored) {
-            startActivity(new Intent(Intent.ACTION_VIEW,
-                    Uri.parse(GOOGLE_PLAY_DETAILS_URI + appPackageName)));
+                    Uri.parse(donateUrl)));
+        } catch (Throwable ignored) {
         }
     }
 
-    private void allProjects() {
+    private void onFeedbackClicked() {
+        Uri uri = Uri.fromParts("mailto","inbox@tomclaw.com", null);
+        Intent intent = new Intent(Intent.ACTION_SENDTO, uri)
+                .putExtra(Intent.EXTRA_SUBJECT, "AppSend")
+                .putExtra(Intent.EXTRA_TEXT, "");
         try {
-            startActivity(new Intent(Intent.ACTION_VIEW,
-                    Uri.parse(MARKET_DEVELOPER_URI + DEVELOPER_NAME)));
-        } catch (android.content.ActivityNotFoundException ignored) {
-            startActivity(new Intent(Intent.ACTION_VIEW,
-                    Uri.parse(GOOGLE_PLAY_DEVELOPER_URI + DEVELOPER_NAME)));
+            startActivity(Intent.createChooser(intent, getString(R.string.send_email)));
+        } catch (Throwable ex) {
+            Toast.makeText(this, getString(R.string.no_email_clients), Toast.LENGTH_SHORT).show();
         }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (!bp.handleActivityResult(requestCode, resultCode, data)) {
-            super.onActivityResult(requestCode, resultCode, data);
-        }
-    }
-
-    @Override
-    public void onProductPurchased(String productId, TransactionDetails details) {
-        Toast.makeText(this, R.string.thank_you, Toast.LENGTH_LONG).show();
-        presentButton.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void onPurchaseHistoryRestored() {
-    }
-
-    @Override
-    public void onBillingError(int errorCode, Throwable error) {
-        if (errorCode != Constants.BILLING_RESPONSE_RESULT_USER_CANCELED) {
-            Snackbar.make(rootView, R.string.purchase_error, Snackbar.LENGTH_LONG).show();
-        }
-    }
-
-    @Override
-    public void onBillingInitialized() {
     }
 }

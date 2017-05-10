@@ -148,4 +148,7 @@
     <string name="access_call">call</string>
     <string name="store_app_update">Update</string>
     <string name="store_app_installed">Installed</string>
+    <string name="feedback_email">Feedback</string>
+    <string name="send_email">Send email</string>
+    <string name="no_email_clients">There are no email clients installed</string>
 </resources>
