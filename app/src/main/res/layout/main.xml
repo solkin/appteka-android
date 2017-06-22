@@ -6,6 +6,11 @@
 
     <include layout="@layout/toolbar" />
 
+    <include
+        android:id="@+id/update_block"
+        layout="@layout/update_block"
+        android:visibility="gone"/>
+
     <ViewFlipper
         android:id="@+id/main_views"
         android:layout_width="match_parent"

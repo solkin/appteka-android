@@ -146,4 +146,7 @@
     <string name="feedback_email">Написать автору</string>
     <string name="send_email">Отправить письмо…</string>
     <string name="no_email_clients">Не установлено ни одного почтового клиента</string>
+    <string name="update_available">Доступно обновление</string>
+    <string name="update_description">Обновитесь до самой свежей версии AppSend!</string>
+    <string name="later">Позже</string>
 </resources>

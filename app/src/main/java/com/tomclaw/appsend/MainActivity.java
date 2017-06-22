@@ -15,21 +15,23 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.flurry.android.FlurryAgent;
 import com.greysonparrelli.permiso.PermisoActivity;
-import com.kobakei.ratethisapp.RateThisApp;
 import com.tomclaw.appsend.main.controller.CountController;
 import com.tomclaw.appsend.main.controller.StoreController;
+import com.tomclaw.appsend.main.controller.UpdateController;
+import com.tomclaw.appsend.main.item.StoreItem;
 import com.tomclaw.appsend.main.view.AppsView;
 import com.tomclaw.appsend.main.view.InstallView;
 import com.tomclaw.appsend.main.view.MainView;
 import com.tomclaw.appsend.main.view.StoreView;
 import com.tomclaw.appsend.util.ColorHelper;
+import com.tomclaw.appsend.util.LocaleHelper;
 import com.tomclaw.appsend.util.PreferenceHelper;
 import com.tomclaw.appsend.util.ThemeHelper;
 
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.metrics.MetricsManager;
 
-public class MainActivity extends PermisoActivity implements MainView.ActivityCallback, CountController.CountCallback {
+public class MainActivity extends PermisoActivity implements MainView.ActivityCallback, CountController.CountCallback, UpdateController.UpdateCallback {
 
     public static final String ACTION_APPS = "com.tomclaw.appsend.apps";
     public static final String ACTION_INSTALL = "com.tomclaw.appsend.install";
@@ -42,8 +44,10 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
     private SearchView.OnCloseListener onCloseListener;
     private boolean isRefreshOnResume = false;
     private boolean isDarkTheme;
+    private UpdateController updateController = UpdateController.getInstance();
     private CountController countController = CountController.getInstance();
     private StoreController storeController = StoreController.getInstance();
+    private View updateBlock;
     private AHBottomNavigation bottomNavigation;
 
     /**
@@ -67,6 +71,20 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
         getSupportActionBar().setIcon(R.drawable.ic_logo_ab);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayShowTitleEnabled(true);
+
+        updateBlock = findViewById(R.id.update_block);
+        findViewById(R.id.update_later).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onUpdateLater();
+            }
+        });
+        findViewById(R.id.update).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onUpdate();
+            }
+        });
 
         bottomNavigation = (AHBottomNavigation) findViewById(R.id.bottom_navigation);
 
@@ -134,28 +152,12 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
             }
         });
 
-        if (savedInstanceState == null) {
-            // Custom criteria: 7 days and 10 launches
-            RateThisApp.Config config = new RateThisApp.Config(7, 10);
-            // Custom title ,message and buttons names
-            config.setTitle(R.string.rate_title);
-            config.setMessage(R.string.rate_message);
-            config.setYesButtonText(R.string.yes_rate);
-            config.setNoButtonText(R.string.no_thanks);
-            config.setCancelButtonText(R.string.rate_cancel);
-            RateThisApp.init(config);
-
-            // Monitor launch times and interval from installation
-            RateThisApp.onStart(this);
-            // If the criteria is satisfied, "Rate this app" dialog will be shown
-            RateThisApp.showRateDialogIfNeeded(this);
-        }
-
         checkForCrashes();
         MetricsManager.register(this, getApplication());
 
         if (isCreateInstance) {
             loadStoreCount();
+            checkForUpdates();
         }
     }
 
@@ -228,6 +230,10 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
         countController.load(this);
     }
 
+    private void checkForUpdates() {
+        updateController.load(this);
+    }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -238,6 +244,7 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
             }
         });
         countController.onAttach(this);
+        updateController.onAttach(this);
     }
 
     @Override
@@ -250,6 +257,7 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
             }
         });
         countController.onDetach(this);
+        updateController.onDetach(this);
     }
 
     @Override
@@ -380,6 +388,26 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
 
     @Override
     public void onError() {
+    }
+
+    @Override
+    public void onUpdateAvailable(StoreItem item) {
+        updateBlock.setVisibility(View.VISIBLE);
+    }
+
+    private void onUpdateLater() {
+        updateController.resetUpdateFlag();
+        updateBlock.setVisibility(View.GONE);
+    }
+
+    private void onUpdate() {
+        StoreItem item = updateController.getStoreItem();
+        if (item != null) {
+            Intent intent = new Intent(this, DownloadActivity.class);
+            intent.putExtra(DownloadActivity.STORE_APP_ID, item.getAppId());
+            intent.putExtra(DownloadActivity.STORE_APP_LABEL, LocaleHelper.getLocalizedLabel(item));
+            startActivity(intent);
+        }
     }
 
     private interface MainViewOperation {

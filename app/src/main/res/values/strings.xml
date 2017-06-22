@@ -151,4 +151,7 @@
     <string name="feedback_email">Feedback</string>
     <string name="send_email">Send email</string>
     <string name="no_email_clients">There are no email clients installed</string>
+    <string name="update_available">Update is available</string>
+    <string name="update_description">Download the latest version of AppSend for free!</string>
+    <string name="later">Later</string>
 </resources>

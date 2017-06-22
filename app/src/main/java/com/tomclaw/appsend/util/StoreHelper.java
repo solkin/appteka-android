@@ -22,7 +22,7 @@ public class StoreHelper {
         String appId = file.getString("app_id");
         String defLabel = file.getString("def_label");
         int downloads = file.getInt("downloads");
-        String icon = file.getString("icon");
+        String icon = file.optString("icon");
         long downloadTime = file.getLong("download_time") * 1000;
         Map<String, String> labels = parseStringMap(file.getJSONObject("labels"));
         String packageName = file.getString("package");
