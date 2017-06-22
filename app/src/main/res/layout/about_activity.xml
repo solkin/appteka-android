@@ -58,6 +58,16 @@
             android:gravity="center_horizontal">
 
             <Button
+                android:id="@+id/forum_discuss"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                style="@style/Widget.AppCompat.Button.Colored"
+                android:text="@string/forum_4pda" />
+
+            <Button
                 android:id="@+id/feedback_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

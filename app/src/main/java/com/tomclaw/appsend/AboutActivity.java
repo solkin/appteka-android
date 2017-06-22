@@ -23,6 +23,7 @@ public class AboutActivity extends AppCompatActivity {
 
     private View presentButton;
     private View feedbackButton;
+    private View forumDiscuss;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +62,14 @@ public class AboutActivity extends AppCompatActivity {
                 onFeedbackClicked();
             }
         });
+
+        forumDiscuss = findViewById(R.id.forum_discuss);
+        forumDiscuss.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onForumDiscussClicked();
+            }
+        });
     }
 
     @Override
@@ -91,6 +100,15 @@ public class AboutActivity extends AppCompatActivity {
             startActivity(Intent.createChooser(intent, getString(R.string.send_email)));
         } catch (Throwable ex) {
             Toast.makeText(this, getString(R.string.no_email_clients), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void onForumDiscussClicked() {
+        String forumUrl = getString(R.string.forum_url);
+        try {
+            startActivity(new Intent(Intent.ACTION_VIEW,
+                    Uri.parse(forumUrl)));
+        } catch (Throwable ignored) {
         }
     }
 }
