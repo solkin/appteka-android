@@ -13,7 +13,6 @@ import com.tomclaw.appsend.main.item.BaseItem;
 /**
  * Created by ivsolkin on 06.09.16.
  */
-
 public abstract class AbstractItemHolder<I extends BaseItem> extends RecyclerView.ViewHolder {
 
     public AbstractItemHolder(View itemView) {

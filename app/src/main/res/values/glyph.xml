@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <array name="glyph_icons">
+        <item>@drawable/airballoon</item>
+        <item>@drawable/airplane</item>
+        <item>@drawable/alarm</item>
+        <item>@drawable/all_inclusive</item>
+        <item>@drawable/amplifier</item>
+        <item>@drawable/anchor</item>
+        <item>@drawable/bike</item>
+        <item>@drawable/bomb</item>
+        <item>@drawable/bone</item>
+        <item>@drawable/cake_variant</item>
+        <item>@drawable/car</item>
+        <item>@drawable/cat</item>
+        <item>@drawable/clippy</item>
+        <item>@drawable/coffee</item>
+        <item>@drawable/cookie</item>
+        <item>@drawable/flower</item>
+        <item>@drawable/hexagon_multiple</item>
+        <item>@drawable/image_filter_drama</item>
+        <item>@drawable/owl</item>
+        <item>@drawable/pill</item>
+        <item>@drawable/pistol</item>
+        <item>@drawable/silverware_fork</item>
+        <item>@drawable/snowman</item>
+        <item>@drawable/tooth</item>
+        <item>@drawable/traffic_light</item>
+        <item>@drawable/umbrella</item>
+        <item>@drawable/weather_sunny</item>
+        <item>@drawable/gas_station</item>
+        <item>@drawable/yin_yang</item>
+        <item>@drawable/fish</item>
+        <item>@drawable/food_apple</item>
+        <item>@drawable/guitar_acoustic</item>
+    </array>
+    
+</resources>

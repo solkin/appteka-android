@@ -9,7 +9,7 @@ android {
         applicationId "com.tomclaw.appsend"
         minSdkVersion 14
         targetSdkVersion 25
-        versionCode = 1
+        versionCode = 1000
         versionName = "3.3"
         manifestPlaceholders = [
                 HOCKEYAPP_APP_ID: "c8564e901f354fcc9858e6ad5b1594f9",

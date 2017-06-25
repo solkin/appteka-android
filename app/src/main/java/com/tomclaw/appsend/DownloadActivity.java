@@ -54,6 +54,7 @@ import static com.tomclaw.appsend.util.IntentHelper.openGooglePlay;
 import static com.tomclaw.appsend.util.IntentHelper.shareUrl;
 import static com.tomclaw.appsend.util.PackageHelper.getInstalledVersionCode;
 import static com.tomclaw.appsend.util.PermissionHelper.getPermissionSmallInfo;
+import static com.tomclaw.appsend.util.TimeHelper.timeHelper;
 
 /**
  * Created by ivsolkin on 14.01.17.
@@ -65,8 +66,6 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
 
     private static final int MAX_PERMISSIONS_COUNT = 3;
     private static final long DEBOUNCE_DELAY = 100;
-
-    private TimeHelper timeHelper;
 
     private String appId;
     private String appLabel;
@@ -106,8 +105,6 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
 
         setContentView(R.layout.download_activity);
         ThemeHelper.updateStatusBar(this);
-
-        timeHelper = new TimeHelper(this);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -311,7 +308,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         sizeView.setDescription(getString(sizeFactor));
         minAndroidView.setCount(item.getAndroidVersion());
         versionView.setText(getString(R.string.app_version_format, item.getVersion(), item.getVersionCode()));
-        uploadedTimeView.setText(timeHelper.getFormattedDate(item.getTime()));
+        uploadedTimeView.setText(timeHelper().getFormattedDate(item.getTime()));
         checksumView.setText(item.getSha1());
         bindButtons(item.getPackageName(), item.getVersionCode());
         bindPermissions(item.getPermissions());

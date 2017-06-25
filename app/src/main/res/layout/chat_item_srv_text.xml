@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/service_background"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <com.tomclaw.appsend.main.view.MemberImageView
+                android:id="@+id/member_avatar"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:background="@drawable/avatar_background"
+                android:padding="5dp"
+                android:scaleType="fitCenter" />
+
+            <TextView
+                android:id="@+id/service_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="5dp"
+                android:paddingRight="8dp"
+                android:textColor="@color/chat_service_color"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                android:visibility="visible" />
+            
+        </LinearLayout>
+
+    </FrameLayout>
+
+</RelativeLayout>

@@ -11,8 +11,6 @@ import java.util.Calendar;
  */
 public class TimeHelper {
 
-    private Context context;
-
     /**
      * Date and time format helpers
      */
@@ -21,12 +19,25 @@ public class TimeHelper {
     private static final SimpleDateFormat simpleTimeFormat24 = new SimpleDateFormat("HH:mm");
     private static final SimpleDateFormat simpleTimeFormatSeconds = new SimpleDateFormat("mm:ss");
 
-    public TimeHelper(Context context) {
-        this.context = context;
+    private final SimpleDateFormat timeFormat;
+
+    private static TimeHelper instance;
+
+    public static TimeHelper timeHelper() {
+        if (instance == null) throw new IllegalStateException("TimeHelper must be initialized first");
+        return instance;
+    }
+
+    private TimeHelper(Context context) {
+        timeFormat = DateFormat.is24HourFormat(context) ? simpleTimeFormat24 : simpleTimeFormat12;
+    }
+
+    public static void init(Context context) {
+        instance = new TimeHelper(context);
     }
 
     private SimpleDateFormat getTimeFormat() {
-        return DateFormat.is24HourFormat(context) ? simpleTimeFormat24 : simpleTimeFormat12;
+        return timeFormat;
     }
 
     public String getFormattedDate(long timestamp) {

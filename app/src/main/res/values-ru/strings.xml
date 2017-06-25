@@ -150,4 +150,11 @@
     <string name="update_description">Обновитесь до самой свежей версии AppSend!</string>
     <string name="later">Позже</string>
     <string name="forum_4pda">Обсудить на 4pda</string>
+    <string name="get_started">Начать</string>
+    <string name="discuss_intro_text">Найти, обсудить программу?\nПоделиться впечатлениями от новой игры?\nОбсуждения созданы для этого!</string>
+    <string name="tab_discuss">Обсуждения</string>
+    <string name="discuss_intro_title">Добро пожаловать!</string>
+    <string name="discuss_loading_error">Не удалось открыть обсуждения</string>
+    <string name="member_joined">Вошёл</string>
+    <string name="enter_your_message">Ваше сообщение…</string>
 </resources>

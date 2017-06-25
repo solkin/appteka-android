@@ -3,6 +3,8 @@ package com.tomclaw.appsend;
 import android.app.Application;
 
 import com.flurry.android.FlurryAgent;
+import com.tomclaw.appsend.util.MemberImageHelper;
+import com.tomclaw.appsend.util.TimeHelper;
 
 import static com.tomclaw.appsend.util.ManifestHelper.getManifestString;
 
@@ -18,5 +20,7 @@ public class AppSend extends Application {
         super.onCreate();
         String flurryIdentifier = getManifestString(this, FLURRY_IDENTIFIER_KEY);
         FlurryAgent.init(this, flurryIdentifier);
+        TimeHelper.init(this);
+        MemberImageHelper.init(this);
     }
 }

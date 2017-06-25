@@ -30,6 +30,14 @@
 
     <color name="dangerous_permission_color">#c40e72</color>
 
+    <color name="color_chat_item_text">#000000</color>
+    <color name="chat_date_color">#454545</color>
+    <color name="chat_time_color">#666666</color>
+    <color name="inc_text_color">#FFFFFF</color>
+    <color name="out_text_color">#454545</color>
+    <color name="chat_service_color">#454545</color>
+    <color name="compose_background_color">#f4ffffff</color>
+
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorAccent">@color/accent_color</item>
         <item name="colorPrimary">@color/primary_color</item>
@@ -96,5 +104,15 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Dark" />
+
+    <style name="Chat.Message" parent="android:Widget.TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">2dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:autoLink">all</item>
+        <item name="android:layout_gravity">left|center_vertical</item>
+        <item name="android:singleLine">false</item>
+    </style>
 
 </resources>

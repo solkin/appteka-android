@@ -70,5 +70,11 @@
         <activity
             android:name="com.tomclaw.appsend.AbuseActivity"
             android:label="@string/abuse" />
+
+        <provider
+            android:name=".core.GlobalProvider"
+            android:authorities="com.tomclaw.appsend.core.GlobalProvider"
+            android:exported="false"
+            android:grantUriPermissions="true" />
     </application>
 </manifest>

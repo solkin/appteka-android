@@ -20,6 +20,7 @@ import com.tomclaw.appsend.main.controller.StoreController;
 import com.tomclaw.appsend.main.controller.UpdateController;
 import com.tomclaw.appsend.main.item.StoreItem;
 import com.tomclaw.appsend.main.view.AppsView;
+import com.tomclaw.appsend.main.view.DiscussView;
 import com.tomclaw.appsend.main.view.InstallView;
 import com.tomclaw.appsend.main.view.MainView;
 import com.tomclaw.appsend.main.view.StoreView;
@@ -36,6 +37,7 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
     public static final String ACTION_APPS = "com.tomclaw.appsend.apps";
     public static final String ACTION_INSTALL = "com.tomclaw.appsend.install";
     public static final String ACTION_CLOUD = "com.tomclaw.appsend.cloud";
+    public static final String ACTION_DISCUSS = "com.tomclaw.appsend.discuss";
 
     private static final int REQUEST_UPDATE_SETTINGS = 6;
     private ViewFlipper mainViewsContainer;
@@ -59,7 +61,7 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
         super.onCreate(savedInstanceState);
 
         String intentAction = getIntent().getAction();
-        final int selectedTab = getTabByAction(intentAction);
+        final int selectedTab = 3;//getTabByAction(intentAction);
 
         boolean isCreateInstance = savedInstanceState == null;
 
@@ -91,15 +93,18 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
         AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.tab_apps, R.drawable.ic_apps, R.color.primary_color);
         AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.tab_install, R.drawable.ic_install, R.color.primary_color);
         AHBottomNavigationItem item3 = new AHBottomNavigationItem(R.string.tab_store, R.drawable.ic_store, R.color.primary_color);
+        AHBottomNavigationItem item4 = new AHBottomNavigationItem(R.string.tab_discuss, R.drawable.ic_discuss, R.color.primary_color);
 
         bottomNavigation.addItem(item1);
         bottomNavigation.addItem(item2);
         bottomNavigation.addItem(item3);
+        bottomNavigation.addItem(item4);
 
         bottomNavigation.setDefaultBackgroundColor(ColorHelper.getAttributedColor(this, R.attr.bottom_bar_background));
         bottomNavigation.setAccentColor(getResources().getColor(R.color.accent_color));
         bottomNavigation.setInactiveColor(getResources().getColor(R.color.grey_dark));
         bottomNavigation.setForceTint(true);
+        bottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
 
         bottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
             @Override
@@ -116,6 +121,8 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
         mainViewsContainer.addView(installView);
         StoreView storeView = new StoreView(this);
         mainViewsContainer.addView(storeView);
+        DiscussView discussView = new DiscussView(this);
+        mainViewsContainer.addView(discussView);
         mainViewsContainer.setDisplayedChild(0);
 
         onQueryTextListener = new SearchView.OnQueryTextListener() {
@@ -165,6 +172,9 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
         int tab = -1;
         if (!TextUtils.isEmpty(action)) {
             switch (action) {
+                case ACTION_DISCUSS:
+                    tab = 3;
+                    break;
                 case ACTION_CLOUD:
                     tab = 2;
                     break;
@@ -193,6 +203,9 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
             case 2:
                 showStore();
                 break;
+            case 3:
+                showDiscuss();
+                break;
         }
     }
 
@@ -212,6 +225,11 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
         }
         switchMainView(2);
         FlurryAgent.logEvent("Show store");
+    }
+
+    private void showDiscuss() {
+        switchMainView(3);
+        FlurryAgent.logEvent("Show discuss");
     }
 
     private void switchMainView(int index) {
