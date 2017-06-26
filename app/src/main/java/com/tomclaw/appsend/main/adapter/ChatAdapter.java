@@ -50,12 +50,14 @@ public class ChatAdapter extends CursorRecyclerAdapter<AbstractMessageHolder>
             cursor.moveToPrevious();
         }
         holder.bind(message, prevMessage);
-        if (message.getMsgId() > 0 && message.getPrevMsgId() > 0) {
-            if (prevMessage == null && message.getPrevMsgId() > 0) {
-                adapterListener.onHistoryHole(0, message.getMsgId());
-            } else if (prevMessage != null && prevMessage.getMsgId() > 0
-                    && message.getPrevMsgId() != prevMessage.getMsgId()) {
-                adapterListener.onHistoryHole(prevMessage.getMsgId(), message.getMsgId());
+        if (adapterListener != null) {
+            if (message.getMsgId() > 0 && message.getPrevMsgId() > 0) {
+                if (prevMessage == null && message.getPrevMsgId() > 0) {
+                    adapterListener.onHistoryHole(0, message.getMsgId());
+                } else if (prevMessage != null && prevMessage.getMsgId() > 0
+                        && message.getPrevMsgId() != prevMessage.getMsgId()) {
+                    adapterListener.onHistoryHole(prevMessage.getMsgId(), message.getMsgId());
+                }
             }
         }
     }

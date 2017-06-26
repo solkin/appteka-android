@@ -14,6 +14,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  * Created by Igor on 07.07.2015.
@@ -62,41 +63,39 @@ public class FetchRequest extends BaseRequest {
                 getContentResolver().call(Config.MESSAGES_RESOLVER_URI,
                         GlobalProvider.METHOD_UPDATE_MESSAGES, null, messagesBundle);
             }
-            JSONArray threads = object.optJSONArray("last");
-            if (threads != null) {
-                ArrayList<Message> messages = new ArrayList<>();
-                for (int c = 0; c < threads.length(); c++) {
-                    JSONObject item = threads.getJSONObject(c);
-                    long userId = item.getLong("user_id");
-                    long msgCount = item.getLong("msg_count");
-                    long msgId = item.getLong("msg_id");
-                    long prevMsgId = item.getLong("prev_msg_id");
-                    long time = item.getLong("time") * 1000;
-                    int type = item.getInt("type");
-                    String text = item.getString("text");
-                    boolean incoming = item.getBoolean("incoming");
+            JSONObject last = object.optJSONObject("last");
+            if (last != null) {
+                long userId = last.getLong("user_id");
+                long msgCount = last.getLong("msg_count");
+                long msgId = last.getLong("msg_id");
+                long prevMsgId = last.getLong("prev_msg_id");
+                long time = last.getLong("time") * 1000;
+                int type = last.getInt("type");
+                String text = last.getString("text");
+                boolean incoming = last.getBoolean("incoming");
 
-                    int direction;
-                    if (type == GlobalProvider.MESSAGE_TYPE_PLAIN) {
-                        direction = incoming ?
-                                GlobalProvider.DIRECTION_INCOMING :
-                                GlobalProvider.DIRECTION_OUTGOING;
-                    } else {
-                        direction = GlobalProvider.DIRECTION_SERVICE;
-                    }
-
-                    Message message = new Message(
-                            userId,
-                            prevMsgId,
-                            msgId,
-                            text,
-                            time,
-                            "",
-                            type,
-                            direction);
-
-                    messages.add(message);
+                int direction;
+                if (type == GlobalProvider.MESSAGE_TYPE_PLAIN) {
+                    direction = incoming ?
+                            GlobalProvider.DIRECTION_INCOMING :
+                            GlobalProvider.DIRECTION_OUTGOING;
+                } else {
+                    direction = GlobalProvider.DIRECTION_SERVICE;
                 }
+
+                Message message = new Message(
+                        userId,
+                        prevMsgId,
+                        msgId,
+                        text,
+                        time,
+                        "",
+                        type,
+                        direction);
+
+                ArrayList<Message> messages = new ArrayList<>();
+                messages.add(message);
+
                 Bundle messagesBundle = new Bundle();
                 messagesBundle.putSerializable(GlobalProvider.KEY_MESSAGES, messages);
                 getContentResolver().call(Config.MESSAGES_RESOLVER_URI,

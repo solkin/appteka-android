@@ -126,10 +126,10 @@ public class Message implements Serializable {
     public ContentValues getContentValues() {
         ContentValues values = new ContentValues();
         values.put(GlobalProvider.MESSAGES_USER_ID, getUserId());
-        if (getMsgId() > 0) {
+        if (getMsgId() >= 0) {
             values.put(GlobalProvider.MESSAGES_MSG_ID, getMsgId());
         }
-        if (getPrevMsgId() > 0) {
+        if (getPrevMsgId() >= 0) {
             values.put(GlobalProvider.MESSAGES_PREV_MSG_ID, getPrevMsgId());
         }
         values.put(GlobalProvider.MESSAGES_TEXT, getText());

@@ -30,8 +30,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private int msgId;
     private long time;
     private SQLiteDatabase db;
-    private boolean isMock = true;
-    private boolean isDropTables = true;
+    private boolean isMock = false;
+    private boolean isDropTables = false;
     private boolean isExportDb = false;
 
     public DatabaseHelper(Context context) {
