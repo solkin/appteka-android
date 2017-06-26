@@ -10,28 +10,14 @@ import org.json.JSONObject;
  */
 public class PushRequest extends BaseRequest {
 
-    public static final long NO_THREAD_ID = 0;
-    public static final long NO_FILE_ID = 0;
-
     private String cookie;
-    private long threadId;
-    private long fileId;
     private String text;
 
     public PushRequest() {
     }
 
-    public PushRequest(String cookie, long fileId, String text) {
+    public PushRequest(String cookie, String text) {
         this.cookie = cookie;
-        this.threadId = 0;
-        this.fileId = fileId;
-        this.text = text;
-    }
-
-    public PushRequest(String cookie, long threadId, long fileId, String text) {
-        this.cookie = cookie;
-        this.threadId = threadId;
-        this.fileId = fileId;
         this.text = text;
     }
 
@@ -43,12 +29,6 @@ public class PushRequest extends BaseRequest {
     @Override
     protected void appendParams(HttpParamsBuilder builder) {
         builder.appendParam("cookie", cookie);
-        if (threadId != NO_THREAD_ID) {
-            builder.appendParam("thread_id", threadId);
-        }
-        if (fileId != NO_FILE_ID) {
-            builder.appendParam("file_id", fileId);
-        }
         builder.appendParam("text", text);
     }
 

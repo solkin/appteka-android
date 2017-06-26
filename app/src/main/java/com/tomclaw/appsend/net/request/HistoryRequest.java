@@ -20,15 +20,13 @@ import java.util.ArrayList;
  */
 public class HistoryRequest extends BaseRequest {
 
-    private long threadId;
     private long msgIdFrom;
     private long msgIdTill;
 
     public HistoryRequest() {
     }
 
-    public HistoryRequest(long threadId, long msgIdFrom, long msgIdTill) {
-        this.threadId = threadId;
+    public HistoryRequest(long msgIdFrom, long msgIdTill) {
         this.msgIdFrom = msgIdFrom;
         this.msgIdTill = msgIdTill;
     }
@@ -40,7 +38,6 @@ public class HistoryRequest extends BaseRequest {
 
     @Override
     protected void appendParams(HttpParamsBuilder builder) {
-        builder.appendParam("thread_id", threadId);
         builder.appendParam("from", msgIdFrom);
         builder.appendParam("till", msgIdTill);
     }
@@ -60,14 +57,12 @@ public class HistoryRequest extends BaseRequest {
                     long time = item.getLong("time") * 1000;
                     int type = item.getInt("type");
                     String text = item.getString("text");
-                    long fileId = item.getLong("file_id");
-                    long memberId = item.getLong("member_id");
                     boolean incoming = item.getBoolean("incoming");
 
                     int direction;
                     if (type == GlobalProvider.MESSAGE_TYPE_PLAIN) {
                         direction = incoming ?
-                                GlobalProvider.DIRECTION_INCOMING:
+                                GlobalProvider.DIRECTION_INCOMING :
                                 GlobalProvider.DIRECTION_OUTGOING;
                     } else {
                         direction = GlobalProvider.DIRECTION_SERVICE;

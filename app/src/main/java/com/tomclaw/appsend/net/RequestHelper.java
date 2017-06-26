@@ -7,6 +7,8 @@ import android.text.TextUtils;
 import com.tomclaw.appsend.core.Config;
 import com.tomclaw.appsend.core.DatabaseLayer;
 import com.tomclaw.appsend.core.GlobalProvider;
+import com.tomclaw.appsend.net.request.HistoryRequest;
+import com.tomclaw.appsend.net.request.PushRequest;
 import com.tomclaw.appsend.net.request.Request;
 import com.tomclaw.appsend.net.request.UserRequest;
 import com.tomclaw.appsend.util.GsonSingleton;
@@ -20,6 +22,16 @@ public class RequestHelper {
     public static void requestUserRegistration(DatabaseLayer databaseLayer) {
         UserRequest registerRequest = new UserRequest();
         insertRequest(databaseLayer, Request.REQUEST_TYPE_SHORT, registerRequest);
+    }
+
+    public static void requestHistory(DatabaseLayer databaseLayer, long msgIdFrom, long msgIdTill) {
+        HistoryRequest historyRequest = new HistoryRequest(msgIdFrom, msgIdTill);
+        insertRequest(databaseLayer, Request.REQUEST_TYPE_SHORT, historyRequest);
+    }
+
+    public static void requestPushMessage(DatabaseLayer databaseLayer, String cookie, String text) {
+        PushRequest pushRequest = new PushRequest(cookie, text);
+        insertRequest(databaseLayer, Request.REQUEST_TYPE_SHORT, pushRequest);
     }
 
     private static void insertRequest(DatabaseLayer databaseLayer, int type, boolean isPersistent,
