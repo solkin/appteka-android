@@ -12,6 +12,16 @@ import java.util.Comparator;
  */
 public class HttpParamsBuilder extends ArrayList<Pair<String, String>> {
 
+    public HttpParamsBuilder appendParam(String key, long value) {
+        add(new Pair<>(key, String.valueOf(value)));
+        return this;
+    }
+
+    public HttpParamsBuilder appendParam(String key, int value) {
+        add(new Pair<>(key, String.valueOf(value)));
+        return this;
+    }
+
     public HttpParamsBuilder appendParam(String key, String value) {
         add(new Pair<>(key, value));
         return this;

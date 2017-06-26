@@ -86,8 +86,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
         ContentValues messageValues = new ContentValues();
 
-        db.insert(GlobalProvider.MESSAGES_TABLE, null, messageValues);
-
         for (int c = 1; c < messagesCount; c++) {
             int msgUserId = random.nextInt(usersCount);
             boolean self = msgUserId == userId;

@@ -34,6 +34,8 @@
         <item>@drawable/fish</item>
         <item>@drawable/food_apple</item>
         <item>@drawable/guitar_acoustic</item>
+        <item>@drawable/baby_buggy</item>
+        <item>@drawable/battery_60</item>
     </array>
     
 </resources>

@@ -97,19 +97,11 @@ public class HttpUtil {
         return response;
     }
 
-    public static InputStream executePost(HttpURLConnection connection, String data) throws IOException {
-        connection.setRequestMethod(POST);
-        connection.setDoOutput(true);
-        connection.setDoInput(true);
-
-        HttpUtil.writeStringToConnection(connection, data);
-        // Open connection to response.
-        connection.connect();
-
-        return getResponse(connection);
+    public static String executePost(String urlString, HttpParamsBuilder params) throws IOException {
+        return executePost(urlString, stringToArray(params.build()));
     }
 
-    public static String executePost(String urlString, HttpParamsBuilder params) throws IOException {
+    public static String executePost(String urlString, byte[] data) throws IOException {
         InputStream responseStream = null;
         HttpURLConnection connection = null;
         try {
@@ -120,7 +112,7 @@ public class HttpUtil {
             connection.setReadTimeout(TIMEOUT_SOCKET);
 
             // Execute request.
-            responseStream = executePost(connection, params.build());
+            responseStream = HttpUtil.executePost(connection, data);
             return HttpUtil.streamToString(responseStream);
         } catch (IOException ex) {
             throw new IOException(ex);
@@ -135,6 +127,24 @@ public class HttpUtil {
             } catch (IOException ignored) {
             }
         }
+    }
+
+    public static InputStream executePost(HttpURLConnection connection, String data) throws IOException {
+        return executePost(connection, stringToArray(data));
+    }
+
+    public static InputStream executePost(HttpURLConnection connection, byte[] data) throws IOException {
+        connection.setRequestMethod(POST);
+        connection.setDoOutput(true);
+        connection.setDoInput(true);
+        // Write data into output stream.
+        OutputStream outputStream = connection.getOutputStream();
+        outputStream.write(data);
+        outputStream.flush();
+        // Open connection to response.
+        connection.connect();
+
+        return getResponse(connection);
     }
 
     public static InputStream executeGet(HttpURLConnection connection) throws IOException {
@@ -168,6 +178,10 @@ public class HttpUtil {
             byteArrayOutputStream.write(buffer, 0, read);
         }
         return byteArrayOutputStream.toByteArray();
+    }
+
+    public static byte[] stringToArray(String string) throws IOException {
+        return string.getBytes(HttpUtil.UTF8_ENCODING);
     }
 
     public static void closeSafely(Closeable closeable) {

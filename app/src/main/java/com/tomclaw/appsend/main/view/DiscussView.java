@@ -1,9 +1,5 @@
 package com.tomclaw.appsend.main.view;
 
-import android.app.Activity;
-import android.content.Context;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,8 +9,8 @@ import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import com.tomclaw.appsend.R;
-import com.tomclaw.appsend.main.adapter.BaseItemAdapter;
 import com.tomclaw.appsend.main.adapter.ChatAdapter;
+import com.tomclaw.appsend.util.ChatLayoutManager;
 import com.tomclaw.appsend.util.ColorHelper;
 import com.tomclaw.appsend.util.EdgeChanger;
 
@@ -26,6 +22,7 @@ public class DiscussView extends MainView {
     private ViewFlipper viewFlipper;
     private TextView errorText;
     private ChatAdapter adapter;
+    private ChatLayoutManager chatLayoutManager;
 
     public DiscussView(AppCompatActivity context) {
         super(context);
@@ -44,15 +41,24 @@ public class DiscussView extends MainView {
         findViewById(R.id.get_started_button).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                viewFlipper.setDisplayedChild(2);
             }
         });
 
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
+
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.discuss_view);
-        recyclerView.setLayoutManager(layoutManager);
-        RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
-        recyclerView.setItemAnimator(itemAnimator);
+
+        chatLayoutManager = new ChatLayoutManager(getContext());
+        recyclerView.setLayoutManager(chatLayoutManager);
+        recyclerView.setHasFixedSize(false);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setItemAnimator(null);
+        chatLayoutManager.setDataChangedListener(new ChatLayoutManager.DataChangedListener() {
+            @Override
+            public void onDataChanged() {
+//                resetUnreadMessages();
+            }
+        });
+
         final int toolbarColor = ColorHelper.getAttributedColor(context, R.attr.toolbar_background);
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -64,6 +70,8 @@ public class DiscussView extends MainView {
 
         adapter = new ChatAdapter(context, context.getSupportLoaderManager());
         recyclerView.setAdapter(adapter);
+
+        viewFlipper.setDisplayedChild(2);
     }
 
     @Override

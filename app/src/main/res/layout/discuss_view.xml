@@ -80,7 +80,7 @@
                 android:divider="@android:color/transparent"
                 android:dividerHeight="0dp"
                 android:fastScrollEnabled="false"
-                android:paddingBottom="10dp"
+                android:paddingBottom="64dp"
                 android:stackFromBottom="true"
                 android:transcriptMode="normal" />
 
