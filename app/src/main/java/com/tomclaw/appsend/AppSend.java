@@ -29,7 +29,11 @@ public class AppSend extends Application {
         TimeHelper.init(this);
         MemberImageHelper.init(this);
         UserHolder userHolder = UserHolder.create(this);
-        Session.init(getContentResolver(), userHolder);
-        RequestDispatcher.init(this, userHolder, APP_SESSION, Request.REQUEST_TYPE_SHORT);
+        RequestDispatcher
+                .init(this, userHolder, APP_SESSION, Request.REQUEST_TYPE_SHORT)
+                .startObservation();
+        Session
+                .init(getContentResolver(), userHolder)
+                .start();
     }
 }

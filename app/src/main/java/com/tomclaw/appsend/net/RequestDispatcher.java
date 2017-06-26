@@ -47,10 +47,11 @@ public class RequestDispatcher {
         return instance;
     }
 
-    public static void init(Context context, UserHolder userHolder, String appSession,
+    public static RequestDispatcher init(Context context, UserHolder userHolder, String appSession,
                             int requestType) {
         instance = new RequestDispatcher(context.getContentResolver(), userHolder,
                 appSession, requestType);
+        return instance;
     }
 
     private RequestDispatcher(ContentResolver contentResolver, UserHolder userHolder,

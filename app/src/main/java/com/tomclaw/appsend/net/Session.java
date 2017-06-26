@@ -17,8 +17,9 @@ public class Session {
 
     private static Session instance;
 
-    public static void init(ContentResolver contentResolver, UserHolder userHolder) {
+    public static Session init(ContentResolver contentResolver, UserHolder userHolder) {
         instance = new Session(contentResolver, userHolder);
+        return instance;
     }
 
     public static Session getInstance() {
