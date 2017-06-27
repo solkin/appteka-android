@@ -47,7 +47,7 @@ public class CountController extends AbstractController<CountController.CountCal
     @Override
     void onAttached(CountCallback callback) {
         if (isLoaded()) {
-            callback.onLoaded(count);
+            callback.onStoreCount(count);
         } else if (isError) {
             callback.onError();
         } else {
@@ -89,7 +89,7 @@ public class CountController extends AbstractController<CountController.CountCal
                 operateCallbacks(new CallbackOperation<CountCallback>() {
                     @Override
                     public void invoke(CountCallback callback) {
-                        callback.onLoaded(count);
+                        callback.onStoreCount(count);
                     }
                 });
             }
@@ -196,7 +196,7 @@ public class CountController extends AbstractController<CountController.CountCal
 
         void onProgress();
 
-        void onLoaded(int count);
+        void onStoreCount(int count);
 
         void onError();
 

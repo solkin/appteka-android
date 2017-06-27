@@ -53,6 +53,14 @@ public class PreferenceHelper {
         setStringPreference(context, R.string.pref_count_time, String.valueOf(value));
     }
 
+    public static int getUnreadCount(Context context) {
+        return Integer.parseInt(getStringPreference(context, R.string.pref_unread_count, R.string.pref_unread_count_default));
+    }
+
+    public static void setUnreadCount(Context context, int value) {
+        setStringPreference(context, R.string.pref_unread_count, String.valueOf(value));
+    }
+
     private static boolean getBooleanPreference(Context context, int preferenceKey, int defaultValueKey) {
         return getSharedPreferences(context).getBoolean(context.getResources().getString(preferenceKey),
                 context.getResources().getBoolean(defaultValueKey));
