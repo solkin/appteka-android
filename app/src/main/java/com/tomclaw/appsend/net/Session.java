@@ -55,7 +55,7 @@ public class Session {
         }
     }
 
-    private UserData getUserData() {
+    public UserData getUserData() {
         return userHolder.getUserData();
     }
 }

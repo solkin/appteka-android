@@ -111,7 +111,7 @@
                         android:hint="@string/enter_your_message"
                         android:imeOptions="flagNoExtractUi"
                         android:inputType="textCapSentences|textMultiLine"
-                        android:maxLines="4"
+                        android:maxLines="2"
                         android:minHeight="32dp"
                         android:paddingBottom="0dp"
                         android:paddingLeft="16dp"

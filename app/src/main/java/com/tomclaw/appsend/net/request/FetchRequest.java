@@ -3,8 +3,6 @@ package com.tomclaw.appsend.net.request;
 import android.os.Bundle;
 
 import com.tomclaw.appsend.core.Config;
-import com.tomclaw.appsend.core.ContentResolverLayer;
-import com.tomclaw.appsend.core.DatabaseLayer;
 import com.tomclaw.appsend.core.GlobalProvider;
 import com.tomclaw.appsend.main.dto.Message;
 import com.tomclaw.appsend.util.HttpParamsBuilder;
@@ -14,7 +12,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 /**
  * Created by Igor on 07.07.2015.
@@ -42,7 +39,6 @@ public class FetchRequest extends BaseRequest {
 
     @Override
     protected int parsePacket(int status, JSONObject object) throws JSONException {
-        DatabaseLayer databaseLayer = ContentResolverLayer.from(getContentResolver());
         if (status == STATUS_OK) {
             long fetchTime = object.getLong("time");
             JSONArray sent = object.optJSONArray("sent");

@@ -32,10 +32,10 @@ public class Message implements Serializable {
     private final int type;
     private final int direction;
 
-    public Message(String text, String cookie, int type, int direction) {
-        this.prevMsgId = 0;
-        this.msgId = 0;
-        this.userId = 0;
+    public Message(long userId, String text, String cookie, int type, int direction) {
+        this.prevMsgId = -1;
+        this.msgId = -1;
+        this.userId = userId;
         this.text = text;
         this.time = Long.MAX_VALUE;
         this.cookie = cookie;

@@ -21,6 +21,7 @@ import com.tomclaw.appsend.core.WeakObjectTask;
 import com.tomclaw.appsend.main.adapter.ChatAdapter;
 import com.tomclaw.appsend.main.dto.Message;
 import com.tomclaw.appsend.net.RequestHelper;
+import com.tomclaw.appsend.net.Session;
 import com.tomclaw.appsend.util.ChatLayoutManager;
 import com.tomclaw.appsend.util.ColorHelper;
 import com.tomclaw.appsend.util.EdgeChanger;
@@ -192,7 +193,8 @@ public class DiscussView extends MainView {
             if (context != null) {
                 DatabaseLayer databaseLayer = ContentResolverLayer.from(context.getContentResolver());
                 String cookie = StringUtil.generateCookie();
-                Message message = new Message(text, cookie, GlobalProvider.MESSAGE_TYPE_PLAIN,
+                long userId = Session.getInstance().getUserData().getUserId();
+                Message message = new Message(userId, text, cookie, GlobalProvider.MESSAGE_TYPE_PLAIN,
                         GlobalProvider.DIRECTION_OUTGOING);
 
                 ArrayList<Message> messages = new ArrayList<>();

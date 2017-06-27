@@ -29,8 +29,9 @@ public class UserRequest extends BaseRequest {
     protected int parsePacket(int status, JSONObject object) throws JSONException {
         if (status == STATUS_OK) {
             String guid = object.getString("guid");
+            long userId = object.getLong("user_id");
             if (!TextUtils.isEmpty(guid)) {
-                getUserHolder().getUserData().onUserRegistered(guid);
+                getUserHolder().getUserData().onUserRegistered(guid, userId);
                 getUserHolder().store();
                 Session.getInstance().start();
                 return REQUEST_DELETE;
