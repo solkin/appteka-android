@@ -24,8 +24,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
-import cz.msebera.android.httpclient.HttpStatus;
-
 /**
  * Created by ivsolkin on 02.01.17.
  * Control application file uploading
@@ -205,7 +203,7 @@ public class UploadController extends AbstractController<UploadController.Upload
             // Open connection to response.
             int responseCode = connection.getResponseCode();
             // Checking for this is error stream.
-            if (responseCode >= HttpStatus.SC_BAD_REQUEST) {
+            if (responseCode >= HttpUtil.SC_BAD_REQUEST) {
                 in = connection.getErrorStream();
             } else {
                 in = connection.getInputStream();

@@ -26,8 +26,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
-import cz.msebera.android.httpclient.HttpStatus;
-
 import static com.tomclaw.appsend.util.StoreHelper.parseStoreItem;
 import static com.tomclaw.appsend.util.StoreHelper.parseStoreVersion;
 
@@ -286,7 +284,7 @@ public class DownloadController extends AbstractController<DownloadController.Do
             // Open connection to response.
             int responseCode = connection.getResponseCode();
             // Checking for this is error stream.
-            if (responseCode >= HttpStatus.SC_BAD_REQUEST) {
+            if (responseCode >= HttpUtil.SC_BAD_REQUEST) {
                 in = connection.getErrorStream();
             } else {
                 in = connection.getInputStream();
@@ -349,7 +347,7 @@ public class DownloadController extends AbstractController<DownloadController.Do
             // Open connection to response.
             int responseCode = connection.getResponseCode();
             // Checking for this is error stream.
-            if (responseCode >= HttpStatus.SC_BAD_REQUEST) {
+            if (responseCode >= HttpUtil.SC_BAD_REQUEST) {
                 in = connection.getErrorStream();
             } else {
                 in = connection.getInputStream();
