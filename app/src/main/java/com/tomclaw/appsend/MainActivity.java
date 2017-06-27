@@ -67,7 +67,7 @@ public class MainActivity extends PermisoActivity implements
         super.onCreate(savedInstanceState);
 
         String intentAction = getIntent().getAction();
-        final int selectedTab = 3;//getTabByAction(intentAction);
+        final int selectedTab = getTabByAction(intentAction);
 
         boolean isCreateInstance = savedInstanceState == null;
 
@@ -460,6 +460,18 @@ public class MainActivity extends PermisoActivity implements
             notification = count > 99 ? "99+" : String.valueOf(count);
         }
         bottomNavigation.setNotification(notification, 3);
+    }
+
+    @Override
+    public void onShowIntro() {
+    }
+
+    @Override
+    public void onUserNotReady() {
+    }
+
+    @Override
+    public void onUserReady() {
     }
 
     private interface MainViewOperation {

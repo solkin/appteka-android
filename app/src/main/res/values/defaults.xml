@@ -8,4 +8,5 @@
     <bool name="pref_responsibility_denial_default">true</bool>
     <string name="pref_count_time_default" translatable="false">0</string>
     <string name="pref_unread_count_default" translatable="false">0</string>
+    <bool name="pref_discuss_intro_default">true</bool>
 </resources>

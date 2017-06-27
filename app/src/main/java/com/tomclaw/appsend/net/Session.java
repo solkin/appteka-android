@@ -3,6 +3,7 @@ package com.tomclaw.appsend.net;
 import android.content.ContentResolver;
 
 import com.tomclaw.appsend.core.ContentResolverLayer;
+import com.tomclaw.appsend.main.controller.DiscussController;
 import com.tomclaw.appsend.net.request.FetchRequest;
 import com.tomclaw.appsend.net.request.Request;
 import com.tomclaw.appsend.util.Logger;
@@ -33,6 +34,7 @@ public class Session {
 
     public void start() {
         if (getUserData().isRegistered()) {
+            DiscussController.getInstance().onUserReady();
             Logger.log("start events fetching with guid: " + getUserData().getGuid());
             new Thread() {
                 public void run() {

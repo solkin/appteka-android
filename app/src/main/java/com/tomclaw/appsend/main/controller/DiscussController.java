@@ -3,6 +3,8 @@ package com.tomclaw.appsend.main.controller;
 import android.content.Context;
 
 import com.tomclaw.appsend.core.MainExecutor;
+import com.tomclaw.appsend.net.Session;
+import com.tomclaw.appsend.net.UserHolder;
 import com.tomclaw.appsend.util.PreferenceHelper;
 
 /**
@@ -33,13 +35,13 @@ public class DiscussController extends AbstractController<DiscussController.Disc
         assertControllerInitialized();
         int count = PreferenceHelper.getUnreadCount(context);
         PreferenceHelper.setUnreadCount(context, count + value);
-        notifyListeners();
+        notifyCountListeners();
     }
 
     public void setUnreadCount(int count) {
         assertControllerInitialized();
         PreferenceHelper.setUnreadCount(context, count);
-        notifyListeners();
+        notifyCountListeners();
     }
 
     private void assertControllerInitialized() {
@@ -50,7 +52,8 @@ public class DiscussController extends AbstractController<DiscussController.Disc
 
     @Override
     void onAttached(DiscussCallback callback) {
-        notifyListeners();
+        notifyCountListeners();
+        notifyUserListeners();
     }
 
     @Override
@@ -58,13 +61,13 @@ public class DiscussController extends AbstractController<DiscussController.Disc
 
     }
 
-    private void notifyListeners() {
+    private void notifyCountListeners() {
         assertControllerInitialized();
         int count = PreferenceHelper.getUnreadCount(context);
-        notifyListeners(count);
+        notifyCountListeners(count);
     }
 
-    private void notifyListeners(final int count) {
+    private void notifyCountListeners(final int count) {
         MainExecutor.execute(new Runnable() {
             @Override
             public void run() {
@@ -78,9 +81,78 @@ public class DiscussController extends AbstractController<DiscussController.Disc
         });
     }
 
+    public void onUserReady() {
+        notifyUserListeners();
+    }
+
+    public void onIntroClosed() {
+        PreferenceHelper.setShowDiscussIntro(context, false);
+        notifyUserListeners();
+    }
+
+    private void notifyUserListeners() {
+        if (PreferenceHelper.isShowDiscussIntro(context)) {
+            notifyForIntroListeners();
+        } else {
+            if (Session.getInstance().getUserData().isRegistered()) {
+                notifyForUserReadyListeners();
+            } else {
+                notifyForUserNotReadyListeners();
+            }
+        }
+    }
+
+    private void notifyForIntroListeners() {
+        MainExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                operateCallbacks(new CallbackOperation<DiscussCallback>() {
+                    @Override
+                    public void invoke(DiscussCallback callback) {
+                        callback.onShowIntro();
+                    }
+                });
+            }
+        });
+    }
+
+    private void notifyForUserReadyListeners() {
+        MainExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                operateCallbacks(new CallbackOperation<DiscussCallback>() {
+                    @Override
+                    public void invoke(DiscussCallback callback) {
+                        callback.onUserReady();
+                    }
+                });
+            }
+        });
+    }
+
+    private void notifyForUserNotReadyListeners() {
+        MainExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                operateCallbacks(new CallbackOperation<DiscussCallback>() {
+                    @Override
+                    public void invoke(DiscussCallback callback) {
+                        callback.onUserNotReady();
+                    }
+                });
+            }
+        });
+    }
+
     public interface DiscussCallback extends AbstractController.ControllerCallback {
 
         void onUnreadCount(int count);
+
+        void onShowIntro();
+
+        void onUserNotReady();
+
+        void onUserReady();
 
     }
 }

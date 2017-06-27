@@ -61,6 +61,14 @@ public class PreferenceHelper {
         setStringPreference(context, R.string.pref_unread_count, String.valueOf(value));
     }
 
+    public static boolean isShowDiscussIntro(Context context) {
+        return getBooleanPreference(context, R.string.pref_discuss_intro, R.bool.pref_discuss_intro_default);
+    }
+
+    public static void setShowDiscussIntro(Context context, boolean value) {
+        setBooleanPreference(context, R.string.pref_discuss_intro, value);
+    }
+
     private static boolean getBooleanPreference(Context context, int preferenceKey, int defaultValueKey) {
         return getSharedPreferences(context).getBoolean(context.getResources().getString(preferenceKey),
                 context.getResources().getBoolean(defaultValueKey));
