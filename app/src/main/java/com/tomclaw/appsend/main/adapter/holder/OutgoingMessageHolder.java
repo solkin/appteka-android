@@ -71,10 +71,15 @@ public class OutgoingMessageHolder extends AbstractMessageHolder {
         Drawable drawable;
         Resources resources = context.getResources();
         if (message.getMsgId() == 0) {
-            drawable = resources.getDrawable(R.drawable.clock);
+            if (message.getPushTime() > 0) {
+                drawable = resources.getDrawable(R.drawable.check_circle);
+            } else {
+                drawable = resources.getDrawable(R.drawable.clock);
+            }
         } else {
-            drawable = resources.getDrawable(R.drawable.check_circle);
+            drawable = resources.getDrawable(R.drawable.check_all);
         }
+
         delivery.setImageDrawable(drawable);
         delivery.setColorFilter(memberColor, PorterDuff.Mode.SRC_ATOP);
     }

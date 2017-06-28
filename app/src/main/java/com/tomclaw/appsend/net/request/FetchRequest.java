@@ -88,7 +88,8 @@ public class FetchRequest extends BaseRequest {
                         time,
                         "",
                         type,
-                        direction);
+                        direction,
+                        0);
 
                 ArrayList<Message> messages = new ArrayList<>();
                 messages.add(message);

@@ -75,7 +75,8 @@ public class HistoryRequest extends BaseRequest {
                             time,
                             "",
                             type,
-                            direction);
+                            direction,
+                            0);
                     messages.add(message);
                 }
                 Bundle messagesBundle = new Bundle();

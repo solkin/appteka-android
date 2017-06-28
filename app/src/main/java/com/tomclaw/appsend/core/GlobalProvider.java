@@ -28,6 +28,7 @@ public class GlobalProvider extends ContentProvider {
     // Methods.
     public static final String METHOD_INSERT_MESSAGES = "insert_messages";
     public static final String METHOD_UPDATE_MESSAGES = "update_messages";
+    public static final String METHOD_UPDATE_PUSH_TIME = "update_push_time";
 
     // Table
     public static final String REQUEST_TABLE = "requests";
@@ -52,6 +53,7 @@ public class GlobalProvider extends ContentProvider {
     public static final String MESSAGES_COOKIE = "cookie";
     public static final String MESSAGES_TYPE = "type";
     public static final String MESSAGES_DIRECTION = "direction";
+    public static final String MESSAGES_PUSH_TIME = "push_time";
 
     public static final int DIRECTION_INCOMING = 0;
     public static final int DIRECTION_OUTGOING = 1;
@@ -76,11 +78,14 @@ public class GlobalProvider extends ContentProvider {
             + MESSAGES_TIME + " int, "
             + MESSAGES_COOKIE + " text, "
             + MESSAGES_TYPE + " int, "
-            + MESSAGES_DIRECTION + " int" + ");";
+            + MESSAGES_DIRECTION + " int, "
+            + MESSAGES_PUSH_TIME + " int default 0" + ");";
 
     public static final int ROW_INVALID = -1;
 
     public static final String KEY_MESSAGES = "messages";
+    public static final String KEY_COOKIE = "cookie";
+    public static final String KEY_PUSH_TIME = "push_time";
 
     // Database helper object.
     private DatabaseHelper databaseHelper;
@@ -199,6 +204,23 @@ public class GlobalProvider extends ContentProvider {
                         values.put(GlobalProvider.MESSAGES_PREV_MSG_ID, message.getPrevMsgId());
                         values.put(GlobalProvider.MESSAGES_TIME, message.getTime());
                         sqLiteDatabase.update(MESSAGES_TABLE, values, MESSAGES_COOKIE + "=\'" + message.getCookie() + "\'", null);
+                    }
+                    sqLiteDatabase.setTransactionSuccessful();
+                    getContentResolver().notifyChange(Config.MESSAGES_RESOLVER_URI, null);
+                } finally {
+                    sqLiteDatabase.endTransaction();
+                }
+            }
+        } else if (TextUtils.equals(method, METHOD_UPDATE_PUSH_TIME)) {
+            ArrayList<String> cookies = (ArrayList<String>) extras.getSerializable(KEY_COOKIE);
+            long pushTime = extras.getLong(KEY_PUSH_TIME);
+            if (cookies != null && !cookies.isEmpty()) {
+                try {
+                    sqLiteDatabase.beginTransaction();
+                    for (String cookie : cookies) {
+                        ContentValues values = new ContentValues();
+                        values.put(GlobalProvider.MESSAGES_PUSH_TIME, pushTime);
+                        sqLiteDatabase.update(MESSAGES_TABLE, values, MESSAGES_COOKIE + "=\'" + cookie + "\'", null);
                     }
                     sqLiteDatabase.setTransactionSuccessful();
                     getContentResolver().notifyChange(Config.MESSAGES_RESOLVER_URI, null);

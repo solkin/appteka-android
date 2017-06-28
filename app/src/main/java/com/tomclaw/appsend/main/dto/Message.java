@@ -22,6 +22,7 @@ public class Message implements Serializable {
     private static int COLUMN_COOKIE;
     private static int COLUMN_TYPE;
     private static int COLUMN_DIRECTION;
+    private static int COLUMN_PUSH_TIME;
 
     private final long prevMsgId;
     private final long msgId;
@@ -31,6 +32,7 @@ public class Message implements Serializable {
     private final String cookie;
     private final int type;
     private final int direction;
+    private final int pushTime;
 
     public Message(long userId, String text, String cookie, int type, int direction) {
         this.prevMsgId = -1;
@@ -41,10 +43,11 @@ public class Message implements Serializable {
         this.cookie = cookie;
         this.type = type;
         this.direction = direction;
+        this.pushTime = 0;
     }
 
     public Message(long userId, long prevMsgId, long msgId, String text, long time,
-                   String cookie, int type, int direction) {
+                   String cookie, int type, int direction, int pushTime) {
         this.prevMsgId = prevMsgId;
         this.userId = userId;
         this.msgId = msgId;
@@ -53,6 +56,7 @@ public class Message implements Serializable {
         this.cookie = cookie;
         this.type = type;
         this.direction = direction;
+        this.pushTime = pushTime;
     }
 
     public Message(long userId, long msgId, long prevMsgId, long time, String cookie) {
@@ -64,6 +68,7 @@ public class Message implements Serializable {
         this.cookie = cookie;
         this.type = -1;
         this.direction = -1;
+        this.pushTime = 0;
     }
 
     public static Message fromCursor(Cursor cursor) {
@@ -76,6 +81,7 @@ public class Message implements Serializable {
             COLUMN_COOKIE = cursor.getColumnIndex(GlobalProvider.MESSAGES_COOKIE);
             COLUMN_TYPE = cursor.getColumnIndex(GlobalProvider.MESSAGES_TYPE);
             COLUMN_DIRECTION = cursor.getColumnIndex(GlobalProvider.MESSAGES_DIRECTION);
+            COLUMN_PUSH_TIME = cursor.getColumnIndex(GlobalProvider.MESSAGES_PUSH_TIME);
             columnsInitialized = true;
         }
 
@@ -87,7 +93,8 @@ public class Message implements Serializable {
                 cursor.getLong(COLUMN_TIME),
                 cursor.getString(COLUMN_COOKIE),
                 cursor.getInt(COLUMN_TYPE),
-                cursor.getInt(COLUMN_DIRECTION)
+                cursor.getInt(COLUMN_DIRECTION),
+                cursor.getInt(COLUMN_PUSH_TIME)
         );
     }
 
@@ -123,6 +130,10 @@ public class Message implements Serializable {
         return direction;
     }
 
+    public int getPushTime() {
+        return pushTime;
+    }
+
     public ContentValues getContentValues() {
         ContentValues values = new ContentValues();
         values.put(GlobalProvider.MESSAGES_USER_ID, getUserId());
@@ -137,6 +148,7 @@ public class Message implements Serializable {
         values.put(GlobalProvider.MESSAGES_COOKIE, getCookie());
         values.put(GlobalProvider.MESSAGES_TYPE, getType());
         values.put(GlobalProvider.MESSAGES_DIRECTION, getDirection());
+        values.put(GlobalProvider.MESSAGES_PUSH_TIME, getPushTime());
         return values;
     }
 }
