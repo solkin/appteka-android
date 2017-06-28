@@ -9,6 +9,11 @@
     <attr name="cardViewStyle" format="reference" />
     <attr name="play_view_color" format="reference" />
     <attr name="divider_color" format="reference" />
+    <attr name="compose_background" format="reference" />
+    <attr name="discuss_back_repeat" format="reference" />
+    <attr name="compose_gradient" format="reference" />
+    <attr name="discuss_bubble_color" format="reference" />
+    <attr name="service_background" format="reference" />
     <declare-styleable name="PlayView">
         <attr name="play_count" format="string" />
         <attr name="play_description" format="string" />

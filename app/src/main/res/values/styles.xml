@@ -36,7 +36,10 @@
     <color name="inc_text_color">#FFFFFF</color>
     <color name="out_text_color">#454545</color>
     <color name="chat_service_color">#454545</color>
-    <color name="compose_background_color">#f4ffffff</color>
+    <color name="compose_background_color_light">#f4ffffff</color>
+    <color name="compose_background_color_dark">#f4000000</color>
+    <color name="discuss_bubble_color_light">@android:color/white</color>
+    <color name="discuss_bubble_color_dark">#222222</color>
 
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorAccent">@color/accent_color</item>
@@ -59,6 +62,12 @@
         <item name="play_view_color">@color/play_view_light_color</item>
 
         <item name="divider_color">@color/divider_light</item>
+
+        <item name="compose_background">@drawable/compose_background_light</item>
+        <item name="discuss_back_repeat">@drawable/discuss_back_light_repeat</item>
+        <item name="compose_gradient">@drawable/compose_gradient_light</item>
+        <item name="discuss_bubble_color">@color/discuss_bubble_color_light</item>
+        <item name="service_background">@drawable/service_background_light</item>
 
         <item name="permissions_container_background">
             @color/permissions_container_light_background
@@ -88,6 +97,12 @@
         <item name="play_view_color">@color/play_view_dark_color</item>
 
         <item name="divider_color">@color/divider_dark</item>
+
+        <item name="compose_background">@drawable/compose_background_dark</item>
+        <item name="discuss_back_repeat">@drawable/discuss_back_dark_repeat</item>
+        <item name="compose_gradient">@drawable/compose_gradient_dark</item>
+        <item name="discuss_bubble_color">@color/discuss_bubble_color_dark</item>
+        <item name="service_background">@drawable/service_background_dark</item>
 
         <item name="permissions_container_background">@color/permissions_container_dark_background
         </item>

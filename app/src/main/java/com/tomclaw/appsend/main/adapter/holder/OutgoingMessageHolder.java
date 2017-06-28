@@ -13,6 +13,7 @@ import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.main.dto.Message;
 import com.tomclaw.appsend.main.view.MemberImageView;
 import com.tomclaw.appsend.util.BubbleColorDrawable;
+import com.tomclaw.appsend.util.ColorHelper;
 import com.tomclaw.appsend.util.Corner;
 
 import static com.tomclaw.appsend.util.MemberImageHelper.memberImageHelper;
@@ -44,7 +45,7 @@ public class OutgoingMessageHolder extends AbstractMessageHolder {
         date = (TextView) itemView.findViewById(R.id.message_date);
         delivery = (ImageView) itemView.findViewById(R.id.message_delivery);
 
-        int bubbleColor = itemView.getResources().getColor(android.R.color.white);
+        int bubbleColor = ColorHelper.getAttributedColor(itemView.getContext(), R.attr.discuss_bubble_color);
         textBackground = new BubbleColorDrawable(itemView.getContext(), bubbleColor, Corner.RIGHT);
     }
 
