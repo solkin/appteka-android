@@ -135,7 +135,7 @@ public class Message implements Serializable {
         values.put(GlobalProvider.MESSAGES_TEXT, getText());
         values.put(GlobalProvider.MESSAGES_TIME, getTime());
         values.put(GlobalProvider.MESSAGES_COOKIE, getCookie());
-        values.put(GlobalProvider.MESSAGES_TYPE, getDirection());
+        values.put(GlobalProvider.MESSAGES_TYPE, getType());
         values.put(GlobalProvider.MESSAGES_DIRECTION, getDirection());
         return values;
     }
