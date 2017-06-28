@@ -4,6 +4,7 @@ import android.os.Bundle;
 
 import com.tomclaw.appsend.core.Config;
 import com.tomclaw.appsend.core.GlobalProvider;
+import com.tomclaw.appsend.main.controller.DiscussController;
 import com.tomclaw.appsend.main.dto.Message;
 import com.tomclaw.appsend.util.HttpParamsBuilder;
 
@@ -62,7 +63,7 @@ public class FetchRequest extends BaseRequest {
             JSONObject last = object.optJSONObject("last");
             if (last != null) {
                 long userId = last.getLong("user_id");
-                long msgCount = last.getLong("msg_count");
+                int msgCount = last.getInt("msg_count");
                 long msgId = last.getLong("msg_id");
                 long prevMsgId = last.getLong("prev_msg_id");
                 long time = last.getLong("time") * 1000;
@@ -96,6 +97,8 @@ public class FetchRequest extends BaseRequest {
                 messagesBundle.putSerializable(GlobalProvider.KEY_MESSAGES, messages);
                 getContentResolver().call(Config.MESSAGES_RESOLVER_URI,
                         GlobalProvider.METHOD_INSERT_MESSAGES, null, messagesBundle);
+
+                DiscussController.getInstance().incrementUnreadCount(msgCount);
             }
             getUserHolder().getUserData().onFetchSuccess(fetchTime);
             getUserHolder().store();

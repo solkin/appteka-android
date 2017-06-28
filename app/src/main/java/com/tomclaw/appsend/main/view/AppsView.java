@@ -146,6 +146,11 @@ public class AppsView extends MainView implements AppsController.AppsCallback {
     }
 
     @Override
+    public int getMenu() {
+        return R.menu.main_menu;
+    }
+
+    @Override
     public void filter(String query) {
         adapter.getFilter().filter(query);
     }

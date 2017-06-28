@@ -3,6 +3,7 @@ package com.tomclaw.appsend.net;
 import android.content.ContentResolver;
 
 import com.tomclaw.appsend.core.ContentResolverLayer;
+import com.tomclaw.appsend.main.controller.DiscussController;
 import com.tomclaw.appsend.net.request.FetchRequest;
 import com.tomclaw.appsend.net.request.Request;
 import com.tomclaw.appsend.util.Logger;
@@ -33,20 +34,25 @@ public class Session {
 
     public void start() {
         if (getUserData().isRegistered()) {
+            DiscussController.getInstance().onUserReady();
             Logger.log("start events fetching with guid: " + getUserData().getGuid());
             new Thread() {
                 public void run() {
+                    Logger.log("fetch started");
                     FetchRequest request = new FetchRequest(getUserData().getFetchTime());
                     do {
                         int requestResult = request.onRequest(contentResolver, userHolder);
+                        Logger.log("fetch result is " + requestResult);
                         if (requestResult != Request.REQUEST_DELETE) {
                             try {
-                                Thread.sleep(5000);
+                                Thread.sleep(3000);
                             } catch (InterruptedException ignored) {
                             }
                         }
                         request.setTime(getUserData().getFetchTime());
+                        Logger.log("fetch restart attempt");
                     } while (getUserData().isRegistered());
+                    Logger.log("quit fetch loop");
                 }
             }.start();
         } else {

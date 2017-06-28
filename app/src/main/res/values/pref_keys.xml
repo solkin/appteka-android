@@ -10,4 +10,6 @@
     <string name="pref_install_couch" translatable="false">pref_install_couch</string>
     <string name="pref_responsibility_denial" translatable="false">pref_responsibility_denial</string>
     <string name="pref_count_time" translatable="false">pref_count_time</string>
+    <string name="pref_unread_count" translatable="false">pref_unread_count</string>
+    <string name="pref_discuss_intro" translatable="false">pref_discuss_intro</string>
 </resources>

@@ -3,6 +3,7 @@ package com.tomclaw.appsend;
 import android.app.Application;
 
 import com.flurry.android.FlurryAgent;
+import com.tomclaw.appsend.main.controller.DiscussController;
 import com.tomclaw.appsend.net.RequestDispatcher;
 import com.tomclaw.appsend.net.Session;
 import com.tomclaw.appsend.net.UserHolder;
@@ -28,6 +29,7 @@ public class AppSend extends Application {
         FlurryAgent.init(this, flurryIdentifier);
         TimeHelper.init(this);
         MemberImageHelper.init(this);
+        DiscussController.getInstance().init(this);
         UserHolder userHolder = UserHolder.create(this);
         RequestDispatcher
                 .init(this, userHolder, APP_SESSION, Request.REQUEST_TYPE_SHORT)

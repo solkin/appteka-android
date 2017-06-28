@@ -16,6 +16,7 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.flurry.android.FlurryAgent;
 import com.greysonparrelli.permiso.PermisoActivity;
 import com.tomclaw.appsend.main.controller.CountController;
+import com.tomclaw.appsend.main.controller.DiscussController;
 import com.tomclaw.appsend.main.controller.StoreController;
 import com.tomclaw.appsend.main.controller.UpdateController;
 import com.tomclaw.appsend.main.item.StoreItem;
@@ -32,7 +33,11 @@ import com.tomclaw.appsend.util.ThemeHelper;
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.metrics.MetricsManager;
 
-public class MainActivity extends PermisoActivity implements MainView.ActivityCallback, CountController.CountCallback, UpdateController.UpdateCallback {
+public class MainActivity extends PermisoActivity implements
+        MainView.ActivityCallback,
+        CountController.CountCallback,
+        UpdateController.UpdateCallback,
+        DiscussController.DiscussCallback {
 
     public static final String ACTION_APPS = "com.tomclaw.appsend.apps";
     public static final String ACTION_INSTALL = "com.tomclaw.appsend.install";
@@ -49,6 +54,7 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
     private UpdateController updateController = UpdateController.getInstance();
     private CountController countController = CountController.getInstance();
     private StoreController storeController = StoreController.getInstance();
+    private DiscussController discussController = DiscussController.getInstance();
     private View updateBlock;
     private AHBottomNavigation bottomNavigation;
 
@@ -61,7 +67,7 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
         super.onCreate(savedInstanceState);
 
         String intentAction = getIntent().getAction();
-        final int selectedTab = 3;//getTabByAction(intentAction);
+        final int selectedTab = getTabByAction(intentAction);
 
         boolean isCreateInstance = savedInstanceState == null;
 
@@ -229,6 +235,7 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
 
     private void showDiscuss() {
         switchMainView(3);
+        discussController.resetUnreadCount();
         FlurryAgent.logEvent("Show discuss");
     }
 
@@ -238,6 +245,14 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
         mainView.activate(this);
 
         invalidateOptionsMenu();
+    }
+
+    private boolean isStoreShown() {
+        return mainViewsContainer.getDisplayedChild() == 2;
+    }
+
+    private boolean isDiscussShown() {
+        return mainViewsContainer.getDisplayedChild() == 3;
     }
 
     private void updateList() {
@@ -263,6 +278,7 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
         });
         countController.onAttach(this);
         updateController.onAttach(this);
+        discussController.onAttach(this);
     }
 
     @Override
@@ -276,6 +292,7 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
         });
         countController.onDetach(this);
         updateController.onDetach(this);
+        discussController.onDetach(this);
     }
 
     @Override
@@ -312,11 +329,9 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        @MenuRes int menuRes;
-        if (mainView == null || !mainView.isFilterable()) {
-            menuRes = R.menu.main_no_search_menu;
-        } else {
-            menuRes = R.menu.main_menu;
+        @MenuRes int menuRes = R.menu.main_no_search_menu;
+        if (mainView != null) {
+            menuRes = mainView.getMenu();
         }
         getMenuInflater().inflate(menuRes, menu);
         MenuItem searchMenu = menu.findItem(R.id.menu_search);
@@ -396,7 +411,11 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
     }
 
     @Override
-    public void onLoaded(int count) {
+    public void onStoreCount(int count) {
+        if (count > 0 && isStoreShown()) {
+            countController.resetCount();
+            count = 0;
+        }
         String notification = "";
         if (count > 0) {
             notification = count > 99 ? "99+" : String.valueOf(count);
@@ -426,6 +445,31 @@ public class MainActivity extends PermisoActivity implements MainView.ActivityCa
             intent.putExtra(DownloadActivity.STORE_APP_LABEL, LocaleHelper.getLocalizedLabel(item));
             startActivity(intent);
         }
+    }
+
+    @Override
+    public void onUnreadCount(int count) {
+        if (count > 0 && isDiscussShown()) {
+            discussController.resetUnreadCount();
+            count = 0;
+        }
+        String notification = "";
+        if (count > 0) {
+            notification = count > 99 ? "99+" : String.valueOf(count);
+        }
+        bottomNavigation.setNotification(notification, 3);
+    }
+
+    @Override
+    public void onShowIntro() {
+    }
+
+    @Override
+    public void onUserNotReady() {
+    }
+
+    @Override
+    public void onUserReady() {
     }
 
     private interface MainViewOperation {

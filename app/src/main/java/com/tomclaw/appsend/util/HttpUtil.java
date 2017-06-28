@@ -17,8 +17,7 @@ import java.net.URLEncoder;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
-
-import cz.msebera.android.httpclient.HttpStatus;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created with IntelliJ IDEA.
@@ -31,13 +30,15 @@ public class HttpUtil {
     public static final String GET = "GET";
     public static final String POST = "POST";
 
-    private static final int TIMEOUT_SOCKET = 70 * 1000;
-    private static final int TIMEOUT_CONNECTION = 60 * 1000;
+    private static final int TIMEOUT_SOCKET = (int) TimeUnit.SECONDS.toMillis(70);
+    private static final int TIMEOUT_CONNECTION = (int) TimeUnit.SECONDS.toMillis(60);
 
     public static final String UTF8_ENCODING = "UTF-8";
 
     private static final String HASH_ALGORITHM = "MD5";
     private static final int RADIX = 10 + 26; // 10 digits + 26 letters
+
+    public static final int SC_BAD_REQUEST = 400;
 
     /**
      * Builds Url request string from specified parameters.
@@ -151,15 +152,17 @@ public class HttpUtil {
         connection.setRequestMethod(GET);
         connection.setDoInput(true);
         connection.setDoOutput(false);
+        connection.setConnectTimeout(TIMEOUT_CONNECTION);
+        connection.setReadTimeout(TIMEOUT_SOCKET);
 
         return getResponse(connection);
     }
 
-    private static InputStream getResponse(HttpURLConnection connection) throws IOException {
+    public static InputStream getResponse(HttpURLConnection connection) throws IOException {
         int responseCode = connection.getResponseCode();
         InputStream in;
         // Checking for this is error stream.
-        if (responseCode >= HttpStatus.SC_BAD_REQUEST) {
+        if (responseCode >= SC_BAD_REQUEST) {
             return connection.getErrorStream();
         } else {
             return connection.getInputStream();

@@ -19,8 +19,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
-import cz.msebera.android.httpclient.HttpStatus;
-
 /**
  * Created by solkin on 19.02.17.
  */
@@ -47,7 +45,7 @@ public class CountController extends AbstractController<CountController.CountCal
     @Override
     void onAttached(CountCallback callback) {
         if (isLoaded()) {
-            callback.onLoaded(count);
+            callback.onStoreCount(count);
         } else if (isError) {
             callback.onError();
         } else {
@@ -89,7 +87,7 @@ public class CountController extends AbstractController<CountController.CountCal
                 operateCallbacks(new CallbackOperation<CountCallback>() {
                     @Override
                     public void invoke(CountCallback callback) {
-                        callback.onLoaded(count);
+                        callback.onStoreCount(count);
                     }
                 });
             }
@@ -161,7 +159,7 @@ public class CountController extends AbstractController<CountController.CountCal
             // Open connection to response.
             int responseCode = connection.getResponseCode();
             // Checking for this is error stream.
-            if (responseCode >= HttpStatus.SC_BAD_REQUEST) {
+            if (responseCode >= HttpUtil.SC_BAD_REQUEST) {
                 in = connection.getErrorStream();
             } else {
                 in = connection.getInputStream();
@@ -196,7 +194,7 @@ public class CountController extends AbstractController<CountController.CountCal
 
         void onProgress();
 
-        void onLoaded(int count);
+        void onStoreCount(int count);
 
         void onError();
 

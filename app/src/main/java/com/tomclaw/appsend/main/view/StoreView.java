@@ -136,6 +136,11 @@ public class StoreView extends MainView implements StoreController.StoreCallback
     }
 
     @Override
+    public int getMenu() {
+        return R.menu.main_menu;
+    }
+
+    @Override
     public void filter(String query) {
         if (!TextUtils.equals(this.query, query)) {
             this.query = query;

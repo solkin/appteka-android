@@ -2,6 +2,7 @@ package com.tomclaw.appsend.main.view;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.MenuRes;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -40,6 +41,8 @@ public abstract class MainView extends FrameLayout {
     public abstract void refresh();
 
     public abstract boolean isFilterable();
+
+    public abstract @MenuRes int getMenu();
 
     public void filter(String query) {
     }

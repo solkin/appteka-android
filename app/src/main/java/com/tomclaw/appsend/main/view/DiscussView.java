@@ -19,6 +19,7 @@ import com.tomclaw.appsend.core.GlobalProvider;
 import com.tomclaw.appsend.core.TaskExecutor;
 import com.tomclaw.appsend.core.WeakObjectTask;
 import com.tomclaw.appsend.main.adapter.ChatAdapter;
+import com.tomclaw.appsend.main.controller.DiscussController;
 import com.tomclaw.appsend.main.dto.Message;
 import com.tomclaw.appsend.net.RequestHelper;
 import com.tomclaw.appsend.net.Session;
@@ -26,6 +27,7 @@ import com.tomclaw.appsend.util.ChatLayoutManager;
 import com.tomclaw.appsend.util.ColorHelper;
 import com.tomclaw.appsend.util.EdgeChanger;
 import com.tomclaw.appsend.util.Logger;
+import com.tomclaw.appsend.util.PreferenceHelper;
 import com.tomclaw.appsend.util.StringUtil;
 
 import java.util.ArrayList;
@@ -33,7 +35,7 @@ import java.util.ArrayList;
 /**
  * Created by ivsolkin on 23.06.17.
  */
-public class DiscussView extends MainView {
+public class DiscussView extends MainView implements DiscussController.DiscussCallback {
 
     private ViewFlipper viewFlipper;
     private RecyclerView recyclerView;
@@ -43,6 +45,7 @@ public class DiscussView extends MainView {
     private ChatLayoutManager chatLayoutManager;
     private ChatAdapter.AdapterListener adapterListener;
     private TaskExecutor taskExecutor;
+    private DiscussController discussController = DiscussController.getInstance();
 
     public DiscussView(AppCompatActivity context) {
         super(context);
@@ -65,6 +68,7 @@ public class DiscussView extends MainView {
         findViewById(R.id.get_started_button).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                discussController.onIntroClosed();
             }
         });
 
@@ -85,7 +89,6 @@ public class DiscussView extends MainView {
         chatLayoutManager.setDataChangedListener(new ChatLayoutManager.DataChangedListener() {
             @Override
             public void onDataChanged() {
-//                resetUnreadMessages();
             }
         });
 
@@ -110,8 +113,6 @@ public class DiscussView extends MainView {
         adapter = new ChatAdapter(context, context.getSupportLoaderManager());
         adapter.setAdapterListener(adapterListener);
         recyclerView.setAdapter(adapter);
-
-        viewFlipper.setDisplayedChild(2);
     }
 
     @Override
@@ -126,12 +127,12 @@ public class DiscussView extends MainView {
 
     @Override
     public void start() {
-
+        discussController.onAttach(this);
     }
 
     @Override
     public void stop() {
-
+        discussController.onDetach(this);
     }
 
     @Override
@@ -147,6 +148,23 @@ public class DiscussView extends MainView {
     @Override
     public boolean isFilterable() {
         return false;
+    }
+
+    @Override
+    public int getMenu() {
+        return R.menu.main_discuss_menu;
+    }
+
+    private void showIntro() {
+        viewFlipper.setDisplayedChild(0);
+    }
+
+    private void showProgress() {
+        viewFlipper.setDisplayedChild(1);
+    }
+
+    private void showDiscuss() {
+        viewFlipper.setDisplayedChild(2);
     }
 
     public void scrollBottom() {
@@ -174,6 +192,25 @@ public class DiscussView extends MainView {
             };
             taskExecutor.execute(new SendMessageTask(getContext(), message, callback));
         }
+    }
+
+    @Override
+    public void onUnreadCount(int count) {
+    }
+
+    @Override
+    public void onShowIntro() {
+        showIntro();
+    }
+
+    @Override
+    public void onUserNotReady() {
+        showProgress();
+    }
+
+    @Override
+    public void onUserReady() {
+        showDiscuss();
     }
 
     private static class SendMessageTask extends WeakObjectTask<Context> {

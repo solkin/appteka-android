@@ -2,6 +2,7 @@ package com.tomclaw.appsend.net.request;
 
 import android.text.TextUtils;
 
+import com.tomclaw.appsend.main.controller.DiscussController;
 import com.tomclaw.appsend.net.Session;
 import com.tomclaw.appsend.util.HttpParamsBuilder;
 

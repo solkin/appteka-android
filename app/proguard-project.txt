@@ -43,3 +43,16 @@
 -keepclasseswithmembers class * {
 	public <init>(android.content.Context, android.util.AttributeSet, int); 
 }
+
+# Unobfuscatable
+-keep class com.tomclaw.appsend.util.Unobfuscatable
+-keep class * implements com.tomclaw.appsend.util.Unobfuscatable
+-keepclassmembernames class * implements com.tomclaw.appsend.util.Unobfuscatable {
+  !transient <fields>;
+}
+-keepnames class * implements com.tomclaw.appsend.util.Unobfuscatable {
+  !transient <fields>;
+}
+-keepclassmembers class * implements com.tomclaw.appsend.util.Unobfuscatable {
+  <init>(...);
+}
