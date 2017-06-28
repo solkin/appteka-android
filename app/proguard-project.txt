@@ -45,14 +45,14 @@
 }
 
 # Unobfuscatable
--keep class com.tomclaw.mandarin.util.Unobfuscatable
--keep class * implements com.tomclaw.mandarin.util.Unobfuscatable
--keepclassmembernames class * implements com.tomclaw.mandarin.util.Unobfuscatable {
+-keep class com.tomclaw.appsend.util.Unobfuscatable
+-keep class * implements com.tomclaw.appsend.util.Unobfuscatable
+-keepclassmembernames class * implements com.tomclaw.appsend.util.Unobfuscatable {
   !transient <fields>;
 }
--keepnames class * implements com.tomclaw.mandarin.util.Unobfuscatable {
+-keepnames class * implements com.tomclaw.appsend.util.Unobfuscatable {
   !transient <fields>;
 }
--keepclassmembers class * implements com.tomclaw.mandarin.util.Unobfuscatable {
+-keepclassmembers class * implements com.tomclaw.appsend.util.Unobfuscatable {
   <init>(...);
 }

@@ -153,6 +153,11 @@ public class InstallView extends MainView implements ApksController.ApksCallback
     }
 
     @Override
+    public int getMenu() {
+        return R.menu.main_menu;
+    }
+
+    @Override
     public void filter(String query) {
         adapter.getFilter().filter(query);
     }

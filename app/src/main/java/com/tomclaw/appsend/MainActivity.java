@@ -329,11 +329,9 @@ public class MainActivity extends PermisoActivity implements
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        @MenuRes int menuRes;
-        if (mainView == null || !mainView.isFilterable()) {
-            menuRes = R.menu.main_no_search_menu;
-        } else {
-            menuRes = R.menu.main_menu;
+        @MenuRes int menuRes = R.menu.main_no_search_menu;
+        if (mainView != null) {
+            menuRes = mainView.getMenu();
         }
         getMenuInflater().inflate(menuRes, menu);
         MenuItem searchMenu = menu.findItem(R.id.menu_search);

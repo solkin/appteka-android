@@ -150,6 +150,11 @@ public class DiscussView extends MainView implements DiscussController.DiscussCa
         return false;
     }
 
+    @Override
+    public int getMenu() {
+        return R.menu.main_discuss_menu;
+    }
+
     private void showIntro() {
         viewFlipper.setDisplayedChild(0);
     }
