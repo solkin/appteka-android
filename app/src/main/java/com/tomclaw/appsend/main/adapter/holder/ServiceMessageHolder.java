@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.GlobalProvider;
+import com.tomclaw.appsend.main.adapter.ChatAdapter;
 import com.tomclaw.appsend.main.dto.Message;
 import com.tomclaw.appsend.main.view.MemberImageView;
 
@@ -28,7 +29,8 @@ public class ServiceMessageHolder extends AbstractMessageHolder {
     }
 
     @Override
-    public void bind(Message message, Message prevMessage) {
+    public void bind(Message message, Message prevMessage,
+                     ChatAdapter.MessageClickListener clickListener) {
         int memberColor = memberImageHelper().getColor(message.getUserId());
         memberAvatar.setMemberId(message.getUserId());
         int messageResId;

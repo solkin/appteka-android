@@ -33,6 +33,8 @@ import com.tomclaw.appsend.util.ThemeHelper;
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.metrics.MetricsManager;
 
+import static com.tomclaw.appsend.util.KeyboardHelper.hideKeyboard;
+
 public class MainActivity extends PermisoActivity implements
         MainView.ActivityCallback,
         CountController.CountCallback,
@@ -245,6 +247,7 @@ public class MainActivity extends PermisoActivity implements
         mainView.activate(this);
 
         invalidateOptionsMenu();
+        hideKeyboard(this);
     }
 
     private boolean isStoreShown() {

@@ -3,7 +3,12 @@ package com.tomclaw.appsend.util;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.graphics.Typeface;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
+import android.text.style.StyleSpan;
 import android.widget.Toast;
 
 import java.io.UnsupportedEncodingException;
@@ -127,5 +132,15 @@ public class StringUtil {
             sb.append(tmp); // Add it to the String
         }
         return sb.toString();
+    }
+
+    public static SpannableStringBuilder formatQuote(String string) {
+        SpannableStringBuilder spannable = new SpannableStringBuilder(string);
+        int quoteStart = string.indexOf('>');
+        int quoteEnd = string.indexOf('\n', quoteStart);
+        if (quoteStart >= 0 && quoteEnd > 0) {
+            spannable.setSpan(new StyleSpan(Typeface.BOLD), quoteStart, quoteEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        return spannable;
     }
 }

@@ -158,4 +158,8 @@
     <string name="member_joined">Вошёл</string>
     <string name="enter_your_message">Ваше сообщение…</string>
     <string name="error_sending_message">Не удалось отправить сообщение</string>
+    <string name="reply">Ответить</string>
+    <string name="report">Пожаловаться</string>
+    <string name="error_message_report">Не удалось отправить жалобу</string>
+    <string name="message_report_sent">Спасибо за помощь в модерации обсуждений!</string>
 </resources>

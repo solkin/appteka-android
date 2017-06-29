@@ -32,6 +32,7 @@ public class ChatAdapter extends CursorRecyclerAdapter<AbstractMessageHolder>
     private Context context;
 
     private AdapterListener adapterListener = null;
+    private MessageClickListener messageClickListener = null;
 
     public ChatAdapter(Context context, LoaderManager loaderManager) {
         super(null);
@@ -49,7 +50,7 @@ public class ChatAdapter extends CursorRecyclerAdapter<AbstractMessageHolder>
             prevMessage = Message.fromCursor(cursor);
             cursor.moveToPrevious();
         }
-        holder.bind(message, prevMessage);
+        holder.bind(message, prevMessage, messageClickListener);
         if (adapterListener != null) {
             if (message.getMsgId() > 0 && message.getPrevMsgId() > 0) {
                 if (prevMessage == null && message.getPrevMsgId() > 0) {
@@ -124,11 +125,19 @@ public class ChatAdapter extends CursorRecyclerAdapter<AbstractMessageHolder>
         this.adapterListener = adapterListener;
     }
 
+    public void setMessageClickListener(MessageClickListener messageClickListener) {
+        this.messageClickListener = messageClickListener;
+    }
+
     public void close() {
         loaderManager.destroyLoader(ADAPTER_ID);
     }
 
     public interface AdapterListener {
         void onHistoryHole(long msgIdFrom, long msgIdTill);
+    }
+
+    public interface MessageClickListener {
+        void onMessageClicked(Message message);
     }
 }

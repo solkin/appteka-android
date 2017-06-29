@@ -1,10 +1,12 @@
 package com.tomclaw.appsend.main.adapter.holder;
 
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
 import com.tomclaw.appsend.R;
+import com.tomclaw.appsend.main.adapter.ChatAdapter;
 import com.tomclaw.appsend.main.dto.Message;
 import com.tomclaw.appsend.main.view.MemberImageView;
 import com.tomclaw.appsend.util.BubbleColorDrawable;
@@ -12,6 +14,7 @@ import com.tomclaw.appsend.util.ColorHelper;
 import com.tomclaw.appsend.util.Corner;
 
 import static com.tomclaw.appsend.util.MemberImageHelper.memberImageHelper;
+import static com.tomclaw.appsend.util.StringUtil.formatQuote;
 import static com.tomclaw.appsend.util.TimeHelper.timeHelper;
 
 /**
@@ -19,6 +22,7 @@ import static com.tomclaw.appsend.util.TimeHelper.timeHelper;
  */
 public class IncomingMessageHolder extends AbstractMessageHolder {
 
+    private View rootView;
     private MemberImageView memberAvatar;
     private TextView text;
     private View bubbleBack;
@@ -30,6 +34,7 @@ public class IncomingMessageHolder extends AbstractMessageHolder {
     public IncomingMessageHolder(View itemView) {
         super(itemView);
 
+        rootView = itemView;
         memberAvatar = (MemberImageView) itemView.findViewById(R.id.member_avatar);
         text = (TextView) itemView.findViewById(R.id.inc_text);
         bubbleBack = itemView.findViewById(R.id.inc_bubble_back);
@@ -44,11 +49,14 @@ public class IncomingMessageHolder extends AbstractMessageHolder {
     // nwhthy5 jmkoohre fgbyufgu jig
 
     @Override
-    public void bind(final Message message, Message prevMessage) {
+    public void bind(final Message message, Message prevMessage,
+                     final ChatAdapter.MessageClickListener clickListener) {
         int memberColor = memberImageHelper().getColor(message.getUserId());
         memberAvatar.setMemberId(message.getUserId());
         boolean hasMessage = !TextUtils.isEmpty(message.getText());
-        text.setText(message.getText());
+        String string = message.getText();
+        SpannableStringBuilder spannable = formatQuote(string);
+        text.setText(spannable);
         text.setTextColor(memberColor);
         bubbleBack.setVisibility(hasMessage ? View.VISIBLE : View.GONE);
         bubbleBack.setBackgroundDrawable(textBackground);
@@ -62,6 +70,13 @@ public class IncomingMessageHolder extends AbstractMessageHolder {
         }
         date.setText(timeHelper().getFormattedDate(message.getTime()));
         date.setVisibility(dateVisible ? View.VISIBLE : View.GONE);
+
+        rootView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickListener.onMessageClicked(message);
+            }
+        });
     }
 
 

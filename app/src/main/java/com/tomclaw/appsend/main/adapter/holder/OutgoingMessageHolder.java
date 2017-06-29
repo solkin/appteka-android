@@ -3,20 +3,27 @@ package com.tomclaw.appsend.main.adapter.holder;
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.PorterDuff;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
+import android.text.style.StyleSpan;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tomclaw.appsend.R;
+import com.tomclaw.appsend.main.adapter.ChatAdapter;
 import com.tomclaw.appsend.main.dto.Message;
 import com.tomclaw.appsend.main.view.MemberImageView;
 import com.tomclaw.appsend.util.BubbleColorDrawable;
 import com.tomclaw.appsend.util.ColorHelper;
 import com.tomclaw.appsend.util.Corner;
 
+import static android.icu.lang.UProperty.INT_START;
 import static com.tomclaw.appsend.util.MemberImageHelper.memberImageHelper;
+import static com.tomclaw.appsend.util.StringUtil.formatQuote;
 import static com.tomclaw.appsend.util.TimeHelper.timeHelper;
 
 /**
@@ -24,6 +31,7 @@ import static com.tomclaw.appsend.util.TimeHelper.timeHelper;
  */
 public class OutgoingMessageHolder extends AbstractMessageHolder {
 
+    private View rootView;
     private MemberImageView memberAvatar;
     private TextView text;
     private View bubbleBack;
@@ -38,6 +46,7 @@ public class OutgoingMessageHolder extends AbstractMessageHolder {
         super(itemView);
         this.context = itemView.getContext();
 
+        rootView = itemView;
         memberAvatar = (MemberImageView) itemView.findViewById(R.id.member_avatar);
         text = (TextView) itemView.findViewById(R.id.out_text);
         bubbleBack = itemView.findViewById(R.id.out_bubble_back);
@@ -50,11 +59,14 @@ public class OutgoingMessageHolder extends AbstractMessageHolder {
     }
 
     @Override
-    public void bind(final Message message, Message prevMessage) {
+    public void bind(final Message message, Message prevMessage,
+                     final ChatAdapter.MessageClickListener clickListener) {
         int memberColor = memberImageHelper().getColor(message.getUserId());
         memberAvatar.setMemberId(message.getUserId());
         boolean hasMessage = !TextUtils.isEmpty(message.getText());
-        text.setText(message.getText());
+        String string = message.getText();
+        SpannableStringBuilder spannable = formatQuote(string);
+        text.setText(spannable);
         text.setTextColor(memberColor);
         bubbleBack.setVisibility(hasMessage ? View.VISIBLE : View.GONE);
         bubbleBack.setBackgroundDrawable(textBackground);
@@ -83,5 +95,12 @@ public class OutgoingMessageHolder extends AbstractMessageHolder {
 
         delivery.setImageDrawable(drawable);
         delivery.setColorFilter(memberColor, PorterDuff.Mode.SRC_ATOP);
+
+        rootView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickListener.onMessageClicked(message);
+            }
+        });
     }
 }

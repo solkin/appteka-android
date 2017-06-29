@@ -9,6 +9,7 @@ import com.tomclaw.appsend.core.DatabaseLayer;
 import com.tomclaw.appsend.core.GlobalProvider;
 import com.tomclaw.appsend.net.request.HistoryRequest;
 import com.tomclaw.appsend.net.request.PushRequest;
+import com.tomclaw.appsend.net.request.ReportRequest;
 import com.tomclaw.appsend.net.request.Request;
 import com.tomclaw.appsend.net.request.UserRequest;
 import com.tomclaw.appsend.util.GsonSingleton;
@@ -32,6 +33,11 @@ public class RequestHelper {
     public static void requestPushMessage(DatabaseLayer databaseLayer, String cookie, String text) {
         PushRequest pushRequest = new PushRequest(cookie, text);
         insertRequest(databaseLayer, Request.REQUEST_TYPE_SHORT, pushRequest);
+    }
+
+    public static void requestReportMessage(DatabaseLayer databaseLayer, long msgId) {
+        ReportRequest reportRequest = new ReportRequest(msgId);
+        insertRequest(databaseLayer, Request.REQUEST_TYPE_SHORT, reportRequest);
     }
 
     private static void insertRequest(DatabaseLayer databaseLayer, int type, boolean isPersistent,

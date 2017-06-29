@@ -56,6 +56,11 @@
         <item>@string/remove_app</item>
     </string-array>
 
+    <string-array name="message_actions_titles">
+        <item>@string/reply</item>
+        <item>@string/report</item>
+    </string-array>
+
     <array name="app_actions_icons">
         <item>@drawable/run</item>
         <item>@drawable/share</item>
@@ -76,5 +81,10 @@
         <item>@drawable/google_play</item>
         <item>@drawable/lock_open</item>
         <item>@drawable/delete</item>
+    </array>
+
+    <array name="message_actions_icons">
+        <item>@drawable/reply</item>
+        <item>@drawable/delete_forever</item>
     </array>
 </resources>

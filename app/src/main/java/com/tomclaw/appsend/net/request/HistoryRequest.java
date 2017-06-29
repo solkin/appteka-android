@@ -45,7 +45,6 @@ public class HistoryRequest extends BaseRequest {
     @Override
     protected int parsePacket(int status, JSONObject object) throws JSONException {
         if (status == STATUS_OK) {
-            DatabaseLayer databaseLayer = ContentResolverLayer.from(getContentResolver());
             JSONArray history = object.optJSONArray("history");
             if (history != null) {
                 ArrayList<Message> messages = new ArrayList<>();
@@ -79,10 +78,18 @@ public class HistoryRequest extends BaseRequest {
                             0);
                     messages.add(message);
                 }
-                Bundle messagesBundle = new Bundle();
-                messagesBundle.putSerializable(GlobalProvider.KEY_MESSAGES, messages);
-                getContentResolver().call(Config.MESSAGES_RESOLVER_URI,
-                        GlobalProvider.METHOD_INSERT_MESSAGES, null, messagesBundle);
+                if (messages.isEmpty()) {
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(GlobalProvider.KEY_MSG_ID_FROM, msgIdFrom);
+                    bundle.putSerializable(GlobalProvider.KEY_MSG_ID_TILL, msgIdTill);
+                    getContentResolver().call(Config.MESSAGES_RESOLVER_URI,
+                            GlobalProvider.METHOD_PATCH_HOLE, null, bundle);
+                } else {
+                    Bundle messagesBundle = new Bundle();
+                    messagesBundle.putSerializable(GlobalProvider.KEY_MESSAGES, messages);
+                    getContentResolver().call(Config.MESSAGES_RESOLVER_URI,
+                            GlobalProvider.METHOD_INSERT_MESSAGES, null, messagesBundle);
+                }
             }
             return REQUEST_DELETE;
         } else if (status == STATUS_INVALID_DATA) {

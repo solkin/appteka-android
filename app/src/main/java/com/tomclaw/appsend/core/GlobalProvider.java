@@ -16,6 +16,8 @@ import com.tomclaw.appsend.main.dto.Message;
 import com.tomclaw.appsend.util.Logger;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Created with IntelliJ IDEA.
@@ -28,7 +30,9 @@ public class GlobalProvider extends ContentProvider {
     // Methods.
     public static final String METHOD_INSERT_MESSAGES = "insert_messages";
     public static final String METHOD_UPDATE_MESSAGES = "update_messages";
+    public static final String METHOD_DELETE_MESSAGES = "delete_messages";
     public static final String METHOD_UPDATE_PUSH_TIME = "update_push_time";
+    public static final String METHOD_PATCH_HOLE = "path_hole";
 
     // Table
     public static final String REQUEST_TABLE = "requests";
@@ -86,6 +90,8 @@ public class GlobalProvider extends ContentProvider {
     public static final String KEY_MESSAGES = "messages";
     public static final String KEY_COOKIE = "cookie";
     public static final String KEY_PUSH_TIME = "push_time";
+    public static final String KEY_MSG_ID_FROM = "msg_id_from";
+    public static final String KEY_MSG_ID_TILL = "msg_id_till";
 
     // Database helper object.
     private DatabaseHelper databaseHelper;
@@ -192,6 +198,33 @@ public class GlobalProvider extends ContentProvider {
                     sqLiteDatabase.endTransaction();
                 }
             }
+        } else if (TextUtils.equals(method, METHOD_DELETE_MESSAGES)) {
+            ArrayList<Message> messages = (ArrayList<Message>) extras.getSerializable(KEY_MESSAGES);
+            if (messages != null && !messages.isEmpty()) {
+                try {
+                    sqLiteDatabase.beginTransaction();
+                    Collections.sort(messages, new Comparator<Message>() {
+                        @Override
+                        public int compare(Message o1, Message o2) {
+                            return compareLong(o2.getMsgId(), o1.getMsgId());
+                        }
+
+                        private int compareLong(long x, long y) {
+                            return (x < y) ? -1 : ((x == y) ? 0 : 1);
+                        }
+                    });
+                    for (Message message : messages) {
+                        sqLiteDatabase.delete(MESSAGES_TABLE, MESSAGES_MSG_ID + "=\'" + message.getMsgId() + "\'", null);
+                        ContentValues values = new ContentValues();
+                        values.put(GlobalProvider.MESSAGES_PREV_MSG_ID, message.getPrevMsgId());
+                        sqLiteDatabase.update(MESSAGES_TABLE, values, MESSAGES_PREV_MSG_ID + "=\'" + message.getMsgId() + "\'", null);
+                    }
+                    sqLiteDatabase.setTransactionSuccessful();
+                    getContentResolver().notifyChange(Config.MESSAGES_RESOLVER_URI, null);
+                } finally {
+                    sqLiteDatabase.endTransaction();
+                }
+            }
         } else if (TextUtils.equals(method, METHOD_UPDATE_MESSAGES)) {
             ArrayList<Message> messages = (ArrayList<Message>) extras.getSerializable(KEY_MESSAGES);
             if (messages != null && !messages.isEmpty()) {
@@ -227,6 +260,19 @@ public class GlobalProvider extends ContentProvider {
                 } finally {
                     sqLiteDatabase.endTransaction();
                 }
+            }
+        } else if (TextUtils.equals(method, METHOD_PATCH_HOLE)) {
+            long msgIdFrom = extras.getLong(KEY_MSG_ID_FROM);
+            long msgIdTill = extras.getLong(KEY_MSG_ID_TILL);
+            try {
+                sqLiteDatabase.beginTransaction();
+                ContentValues values = new ContentValues();
+                values.put(GlobalProvider.MESSAGES_PREV_MSG_ID, msgIdFrom);
+                sqLiteDatabase.update(MESSAGES_TABLE, values, MESSAGES_MSG_ID + "=\'" + msgIdTill + "\'", null);
+                sqLiteDatabase.setTransactionSuccessful();
+                getContentResolver().notifyChange(Config.MESSAGES_RESOLVER_URI, null);
+            } finally {
+                sqLiteDatabase.endTransaction();
             }
         }
         return null;

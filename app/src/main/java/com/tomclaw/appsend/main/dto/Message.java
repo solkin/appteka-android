@@ -34,6 +34,18 @@ public class Message implements Serializable {
     private final int direction;
     private final int pushTime;
 
+    public Message(long msgId, long prevMsgId) {
+        this.msgId = msgId;
+        this.prevMsgId = prevMsgId;
+        this.userId = 0;
+        this.text = "";
+        this.time = 0;
+        this.cookie = "";
+        this.type = 0;
+        this.direction = 0;
+        this.pushTime = 0;
+    }
+
     public Message(long userId, String text, String cookie, int type, int direction) {
         this.prevMsgId = -1;
         this.msgId = -1;

@@ -101,6 +101,21 @@ public class FetchRequest extends BaseRequest {
 
                 DiscussController.getInstance().incrementUnreadCount(msgCount);
             }
+            JSONArray deleted = object.optJSONArray("deleted");
+            if (deleted != null) {
+                ArrayList<Message> messages = new ArrayList<>();
+                for (int c = 0; c < deleted.length(); c++) {
+                    JSONObject item = deleted.getJSONObject(c);
+                    long msgId = item.getLong("msg_id");
+                    long prevMsgId = item.getLong("prev_msg_id");
+                    Message message = new Message(msgId, prevMsgId);
+                    messages.add(message);
+                }
+                Bundle messagesBundle = new Bundle();
+                messagesBundle.putSerializable(GlobalProvider.KEY_MESSAGES, messages);
+                getContentResolver().call(Config.MESSAGES_RESOLVER_URI,
+                        GlobalProvider.METHOD_DELETE_MESSAGES, null, messagesBundle);
+            }
             getUserHolder().getUserData().onFetchSuccess(fetchTime);
             getUserHolder().store();
             return REQUEST_DELETE;

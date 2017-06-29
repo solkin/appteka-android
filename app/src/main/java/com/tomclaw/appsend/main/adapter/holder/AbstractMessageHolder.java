@@ -4,6 +4,7 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
+import com.tomclaw.appsend.main.adapter.ChatAdapter;
 import com.tomclaw.appsend.main.dto.Message;
 
 /**
@@ -15,5 +16,6 @@ public abstract class AbstractMessageHolder extends RecyclerView.ViewHolder {
         super(itemView);
     }
 
-    public abstract void bind(final Message message, final Message prevMessage);
+    public abstract void bind(final Message message, final Message prevMessage,
+                              ChatAdapter.MessageClickListener clickListener);
 }
