@@ -9,51 +9,59 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
-            android:id="@+id/intro_view"
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:gravity="center"
-            android:orientation="vertical"
-            android:paddingLeft="32dp"
-            android:paddingRight="32dp">
+            android:fillViewport="true">
 
-            <ImageView
-                android:layout_width="92dp"
-                android:layout_height="92dp"
-                android:layout_marginBottom="20dp"
-                android:src="@drawable/chat" />
-
-            <TextView
-                android:id="@+id/intro_title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:gravity="center"
-                android:text="@string/discuss_intro_title"
-                android:textColor="?attr/text_primary_color"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/intro_text"
+            <LinearLayout
+                android:id="@+id/intro_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:lineSpacingExtra="2dp"
-                android:text="@string/discuss_intro_text"
-                android:textColor="?attr/text_primary_color"
-                android:textSize="14sp" />
+                android:orientation="vertical"
+                android:paddingLeft="32dp"
+                android:paddingRight="32dp"
+                android:paddingBottom="8dp">
 
-            <Button
-                android:id="@+id/get_started_button"
-                style="@style/Widget.AppCompat.Button.Colored"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="@string/get_started" />
+                <ImageView
+                    android:layout_width="92dp"
+                    android:layout_height="92dp"
+                    android:layout_marginBottom="20dp"
+                    android:src="@drawable/chat" />
 
-        </LinearLayout>
+                <TextView
+                    android:id="@+id/intro_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:gravity="center"
+                    android:text="@string/discuss_intro_title"
+                    android:textColor="?attr/text_primary_color"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/intro_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:lineSpacingExtra="2dp"
+                    android:text="@string/discuss_intro_text"
+                    android:textColor="?attr/text_primary_color"
+                    android:textSize="14sp" />
+
+                <Button
+                    android:id="@+id/get_started_button"
+                    style="@style/Widget.AppCompat.Button.Colored"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/get_started" />
+
+            </LinearLayout>
+
+        </ScrollView>
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -88,8 +96,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:padding="8dp"
-                android:background="?attr/compose_gradient">
+                android:background="?attr/compose_gradient"
+                android:padding="8dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -109,7 +117,6 @@
                         android:background="@null"
                         android:ems="10"
                         android:hint="@string/enter_your_message"
-                        android:imeOptions="flagNoExtractUi"
                         android:inputType="textCapSentences|textMultiLine"
                         android:maxLines="2"
                         android:minHeight="32dp"
