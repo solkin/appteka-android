@@ -206,7 +206,7 @@ public class GlobalProvider extends ContentProvider {
                     Collections.sort(messages, new Comparator<Message>() {
                         @Override
                         public int compare(Message o1, Message o2) {
-                            return compareLong(o2.getMsgId(), o1.getMsgId());
+                            return compareLong(o1.getMsgId(), o2.getMsgId());
                         }
 
                         private int compareLong(long x, long y) {

@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.TextView;
@@ -148,19 +147,21 @@ public class DiscussView extends MainView implements DiscussController.DiscussCa
                             }
                             case 1: {
                                 FlurryAgent.logEvent("Message menu: report");
-                                TaskExecutor.getInstance().execute(new ReportMessageTask(getContext(), message.getMsgId(), new ReportCallback() {
-                                    @Override
-                                    public void onSuccess() {
-                                        hideKeyboard(messageEdit);
-                                        Snackbar.make(recyclerView, R.string.message_report_sent, Snackbar.LENGTH_LONG).show();
-                                    }
+                                if (message.getMsgId() > 0) {
+                                    TaskExecutor.getInstance().execute(new ReportMessageTask(getContext(), message.getMsgId(), new ReportCallback() {
+                                        @Override
+                                        public void onSuccess() {
+                                            hideKeyboard(messageEdit);
+                                            Snackbar.make(recyclerView, R.string.message_report_sent, Snackbar.LENGTH_LONG).show();
+                                        }
 
-                                    @Override
-                                    public void onFailed() {
-                                        hideKeyboard(messageEdit);
-                                        Snackbar.make(recyclerView, R.string.error_message_report, Snackbar.LENGTH_LONG).show();
-                                    }
-                                }));
+                                        @Override
+                                        public void onFailed() {
+                                            hideKeyboard(messageEdit);
+                                            Snackbar.make(recyclerView, R.string.error_message_report, Snackbar.LENGTH_LONG).show();
+                                        }
+                                    }));
+                                }
                                 break;
                             }
                         }
