@@ -38,5 +38,18 @@
             android:targetClass="com.tomclaw.appsend.MainActivity" />
         <categories android:name="android.shortcut.conversation" />
     </shortcut>
+    <shortcut
+        android:shortcutId="discuss"
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut_discuss"
+        android:shortcutShortLabel="@string/tab_discuss"
+        android:shortcutLongLabel="@string/tab_discuss"
+        android:shortcutDisabledMessage="@string/tab_discuss">
+        <intent
+            android:action="com.tomclaw.appsend.discuss"
+            android:targetPackage="com.tomclaw.appsend"
+            android:targetClass="com.tomclaw.appsend.MainActivity" />
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
 </shortcuts>
 
