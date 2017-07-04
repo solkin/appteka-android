@@ -7,11 +7,15 @@ android:
     - platform-tools
     - build-tools-23.0.0
     - android-23
+    - extra
     - extra-android-support
     - extra-android-m2repository
     - extra-google-m2repository
 
+script:
+        - ./gradlew build
 before_install:
- - chmod +x gradlew
-
-script: ./gradlew assembleRelease
+        - chmod +x gradlew
+branches:
+        only:
+                - master
