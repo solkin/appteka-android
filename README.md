@@ -9,6 +9,7 @@ AppSend will extracts APK that are installed on your Android device and copies t
 * Support features of Android 7.0
 * Can backup and install Apk's from your SD Card.
 * Install free apps from AppSend.Store.
+* Discuss apps and games with other AppSend users in realtime chat!
 
 ![Screenshot](art/main.png "Main screen")
 ![Screenshot](art/menu.png "Application menu")
