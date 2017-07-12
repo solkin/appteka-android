@@ -1,4 +1,4 @@
-# AppSend [![BuddyBuild](https://dashboard.buddybuild.com/api/statusImage?appID=57737c236a23440100ed17a7&branch=master&build=latest)](https://dashboard.buddybuild.com/apps/57737c236a23440100ed17a7/build/latest) [![CircleCI](https://circleci.com/gh/solkin/appsend.svg?style=svg)](https://circleci.com/gh/solkin/appsend) [![Build Status](https://travis-ci.org/solkin/appsend.svg?branch=master)](https://travis-ci.org/solkin/appsend)
+# AppSend [![BuddyBuild](https://dashboard.buddybuild.com/api/statusImage?appID=57737c236a23440100ed17a7&branch=master&build=latest)](https://dashboard.buddybuild.com/apps/57737c236a23440100ed17a7/build/latest) [![CircleCI](https://circleci.com/gh/solkin/appsend.svg?style=shield)](https://circleci.com/gh/solkin/appsend) [![Build Status](https://travis-ci.org/solkin/appsend.svg?branch=master)](https://travis-ci.org/solkin/appsend)
 AppSend will extracts APK that are installed on your Android device and copies them to your SD card.
 
 * Fast and easy to use.
