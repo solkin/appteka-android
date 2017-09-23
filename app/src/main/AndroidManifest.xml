@@ -6,10 +6,10 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
+        android:name=".AppSend"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme"
-        android:name=".AppSend">
+        android:theme="@style/AppTheme">
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.provider"
@@ -19,6 +19,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
+
         <meta-data
             android:name="net.hockeyapp.android.appIdentifier"
             android:value="${HOCKEYAPP_APP_ID}" />
@@ -70,6 +71,10 @@
         <activity
             android:name="com.tomclaw.appsend.AbuseActivity"
             android:label="@string/abuse" />
+        <activity
+            android:name=".main.meta.MetaActivity_"
+            android:label="@string/description"
+            android:windowSoftInputMode="stateHidden"/>
 
         <provider
             android:name=".core.GlobalProvider"

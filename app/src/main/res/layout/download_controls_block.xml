@@ -55,6 +55,7 @@
                 android:textSize="14sp"
                 android:typeface="monospace"
                 tools:text="com.example.android.app" />
+
         </LinearLayout>
 
     </LinearLayout>

@@ -7,7 +7,7 @@ android {
     buildToolsVersion '25.0.3'
     defaultConfig {
         applicationId "com.tomclaw.appsend"
-        minSdkVersion 14
+        minSdkVersion 15
         targetSdkVersion 25
         versionCode = 1000
         versionName = "3.4"
@@ -26,7 +26,11 @@ android {
     }
 }
 
+def AAVersion = '4.3.1'
+
 dependencies {
+    annotationProcessor "org.androidannotations:androidannotations:$AAVersion"
+    compile "org.androidannotations:androidannotations-api:$AAVersion"
     compile 'com.android.support:support-v4:25.3.1'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support:recyclerview-v7:25.3.1'
@@ -43,4 +47,6 @@ dependencies {
     compile 'com.aurelhubert:ahbottomnavigation:2.0.3'
     compile 'com.flurry.android:analytics:6.2.0'
     compile 'com.google.code.gson:gson:2.7'
+    compile 'com.squareup.retrofit2:retrofit:2.3.0'
+    compile 'com.tomclaw.minion:minion:1.0.1'
 }

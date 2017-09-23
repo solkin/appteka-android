@@ -168,4 +168,7 @@
     <string name="error_message_report">Unable to report abuse</string>
     <string name="message_report_sent">Thank you for helping in discussions moderation!</string>
     <string name="reply_form" translatable="false">&gt; %s\n</string>
+    <string name="app_description">App description</string>
+    <string name="exclusive">Exclusive app (do not present in Google Play)</string>
+    <string name="description">Description</string>
 </resources>

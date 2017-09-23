@@ -162,4 +162,7 @@
     <string name="report">Пожаловаться</string>
     <string name="error_message_report">Не удалось отправить жалобу</string>
     <string name="message_report_sent">Спасибо за помощь в модерации обсуждений!</string>
+    <string name="app_description">Описание приложения</string>
+    <string name="exclusive">Эксклюзивное приложение (не представлено в Google Play)</string>
+    <string name="description">Описание</string>
 </resources>
