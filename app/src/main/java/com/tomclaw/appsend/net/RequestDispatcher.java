@@ -48,14 +48,14 @@ public class RequestDispatcher {
     }
 
     public static RequestDispatcher init(Context context, UserHolder userHolder, String appSession,
-                            int requestType) {
+                                         int requestType) {
         instance = new RequestDispatcher(context.getContentResolver(), userHolder,
                 appSession, requestType);
         return instance;
     }
 
     private RequestDispatcher(ContentResolver contentResolver, UserHolder userHolder,
-                             String appSession, int requestType) {
+                              String appSession, int requestType) {
         this.contentResolver = contentResolver;
         this.userHolder = userHolder;
         this.appSession = appSession;

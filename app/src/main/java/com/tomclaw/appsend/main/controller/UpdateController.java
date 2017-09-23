@@ -8,7 +8,6 @@ import com.tomclaw.appsend.main.item.StoreItem;
 import com.tomclaw.appsend.util.HttpParamsBuilder;
 import com.tomclaw.appsend.util.HttpUtil;
 import com.tomclaw.appsend.util.PackageHelper;
-import com.tomclaw.appsend.util.PreferenceHelper;
 
 import org.json.JSONObject;
 

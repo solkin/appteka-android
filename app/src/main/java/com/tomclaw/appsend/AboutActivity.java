@@ -5,7 +5,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -92,7 +91,7 @@ public class AboutActivity extends AppCompatActivity {
     }
 
     private void onFeedbackClicked() {
-        Uri uri = Uri.fromParts("mailto","inbox@tomclaw.com", null);
+        Uri uri = Uri.fromParts("mailto", "inbox@tomclaw.com", null);
         Intent intent = new Intent(Intent.ACTION_SENDTO, uri)
                 .putExtra(Intent.EXTRA_SUBJECT, "AppSend")
                 .putExtra(Intent.EXTRA_TEXT, "");

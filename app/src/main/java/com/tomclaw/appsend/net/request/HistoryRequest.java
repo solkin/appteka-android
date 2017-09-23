@@ -3,8 +3,6 @@ package com.tomclaw.appsend.net.request;
 import android.os.Bundle;
 
 import com.tomclaw.appsend.core.Config;
-import com.tomclaw.appsend.core.ContentResolverLayer;
-import com.tomclaw.appsend.core.DatabaseLayer;
 import com.tomclaw.appsend.core.GlobalProvider;
 import com.tomclaw.appsend.main.dto.Message;
 import com.tomclaw.appsend.util.HttpParamsBuilder;

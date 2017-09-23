@@ -1,8 +1,6 @@
 package com.tomclaw.appsend.main.adapter.holder;
 
-import android.content.Context;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tomclaw.appsend.R;

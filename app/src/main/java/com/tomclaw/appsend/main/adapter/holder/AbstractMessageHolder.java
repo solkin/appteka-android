@@ -1,6 +1,5 @@
 package com.tomclaw.appsend.main.adapter.holder;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 

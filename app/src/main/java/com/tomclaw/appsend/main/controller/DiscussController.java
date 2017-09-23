@@ -4,7 +4,6 @@ import android.content.Context;
 
 import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.net.Session;
-import com.tomclaw.appsend.net.UserHolder;
 import com.tomclaw.appsend.util.PreferenceHelper;
 
 /**

@@ -24,7 +24,8 @@ public class TimeHelper {
     private static TimeHelper instance;
 
     public static TimeHelper timeHelper() {
-        if (instance == null) throw new IllegalStateException("TimeHelper must be initialized first");
+        if (instance == null)
+            throw new IllegalStateException("TimeHelper must be initialized first");
         return instance;
     }
 

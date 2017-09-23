@@ -11,7 +11,6 @@ import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.main.item.AppItem;
 import com.tomclaw.appsend.main.item.BaseItem;
-import com.tomclaw.appsend.main.item.DonateItem;
 import com.tomclaw.appsend.util.PreferenceHelper;
 
 import java.io.File;

@@ -42,7 +42,6 @@ import com.tomclaw.appsend.util.PermissionHelper;
 import com.tomclaw.appsend.util.PreferenceHelper;
 import com.tomclaw.appsend.util.StringUtil;
 import com.tomclaw.appsend.util.ThemeHelper;
-import com.tomclaw.appsend.util.TimeHelper;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -52,7 +51,6 @@ import static com.tomclaw.appsend.util.FileHelper.getExternalDirectory;
 import static com.tomclaw.appsend.util.IntentHelper.formatText;
 import static com.tomclaw.appsend.util.IntentHelper.openGooglePlay;
 import static com.tomclaw.appsend.util.IntentHelper.shareUrl;
-import static com.tomclaw.appsend.util.PackageHelper.getInstalledVersionCode;
 import static com.tomclaw.appsend.util.PermissionHelper.getPermissionSmallInfo;
 import static com.tomclaw.appsend.util.TimeHelper.timeHelper;
 

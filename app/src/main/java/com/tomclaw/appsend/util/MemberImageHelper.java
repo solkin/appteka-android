@@ -22,7 +22,8 @@ public class MemberImageHelper {
     private static MemberImageHelper instance;
 
     public static MemberImageHelper memberImageHelper() {
-        if (instance == null) throw new IllegalStateException("MemberImageHelper must be initialized first");
+        if (instance == null)
+            throw new IllegalStateException("MemberImageHelper must be initialized first");
         return instance;
     }
 
