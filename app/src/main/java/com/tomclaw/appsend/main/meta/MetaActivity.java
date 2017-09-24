@@ -98,6 +98,7 @@ public class MetaActivity extends AppCompatActivity {
             loadMeta();
         } else {
             updateCategories();
+            showContent();
         }
     }
 
@@ -175,12 +176,16 @@ public class MetaActivity extends AppCompatActivity {
             }
         }
 
-        viewSwitcher.setDisplayedChild(1);
+        showContent();
     }
 
     private void updateCategories() {
         CategoriesAdapter adapter = new CategoriesAdapter(this, meta.getCategories());
         categories.setAdapter(adapter);
+    }
+
+    private void showContent() {
+        viewSwitcher.setDisplayedChild(1);
     }
 
     private void onMetaLoadingError() {
