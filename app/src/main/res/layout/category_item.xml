@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingBottom="8dp"
+    android:paddingTop="8dp"
+    tools:ignore="UseCompoundDrawables">
+
+    <com.caverock.androidsvg.SVGImageView
+        android:id="@+id/icon"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:paddingEnd="0dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="0dp"
+        android:paddingStart="8dp"
+        tools:src="@drawable/battery_60" />
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:textColor="?attr/text_primary_color"
+        android:textSize="14sp"
+        tools:text="Battery" />
+
+</LinearLayout>

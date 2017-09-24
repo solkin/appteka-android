@@ -15,8 +15,8 @@ public interface StoreService {
     @GET("info.php")
     Call<StoreInfo> getInfo(@Query("v") String apiVer, @Query("app_id") String appId);
 
-    @GET("info.php")
-    Call<MetaResponse> getMeta(@Query("v") String apiVer,
+    @GET("meta.php")
+    Call<MetaResponse> getMeta(@Query("v") int apiVer,
                                @Query("app_id") String appId,
                                @Query("categories") boolean categories);
 

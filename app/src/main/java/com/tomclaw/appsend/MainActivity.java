@@ -20,6 +20,7 @@ import com.tomclaw.appsend.main.controller.DiscussController;
 import com.tomclaw.appsend.main.controller.StoreController;
 import com.tomclaw.appsend.main.controller.UpdateController;
 import com.tomclaw.appsend.main.item.StoreItem;
+import com.tomclaw.appsend.main.meta.MetaActivity_;
 import com.tomclaw.appsend.main.view.AppsView;
 import com.tomclaw.appsend.main.view.DiscussView;
 import com.tomclaw.appsend.main.view.InstallView;

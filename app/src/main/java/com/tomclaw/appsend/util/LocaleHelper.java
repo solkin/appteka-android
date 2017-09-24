@@ -3,6 +3,7 @@ package com.tomclaw.appsend.util;
 import android.text.TextUtils;
 
 import com.tomclaw.appsend.main.item.StoreItem;
+import com.tomclaw.appsend.main.meta.Category;
 
 import java.util.Locale;
 import java.util.Map;
@@ -24,5 +25,19 @@ public class LocaleHelper {
             }
         }
         return label;
+    }
+
+    public static String getLocalizedName(Category category) {
+        String name = category.getDefaultName();
+        Locale locale = Locale.getDefault();
+        String country = locale.getCountry();
+        Map<String, String> names = category.getNames();
+        if (names != null) {
+            String localizedName = names.get(country.toLowerCase());
+            if (!TextUtils.isEmpty(localizedName)) {
+                name = localizedName;
+            }
+        }
+        return name;
     }
 }

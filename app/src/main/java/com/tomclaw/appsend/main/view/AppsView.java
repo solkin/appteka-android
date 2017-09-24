@@ -31,6 +31,7 @@ import com.tomclaw.appsend.main.adapter.MenuAdapter;
 import com.tomclaw.appsend.main.controller.AppsController;
 import com.tomclaw.appsend.main.item.AppItem;
 import com.tomclaw.appsend.main.item.BaseItem;
+import com.tomclaw.appsend.main.meta.MetaActivity_;
 import com.tomclaw.appsend.main.task.ExportApkTask;
 import com.tomclaw.appsend.util.ColorHelper;
 import com.tomclaw.appsend.util.EdgeChanger;
@@ -210,10 +211,14 @@ public class AppsView extends MainView implements AppsController.AppsCallback {
                                 break;
                             }
                             case 3: {
-                                FlurryAgent.logEvent("App menu: upload");
-                                Intent intent = new Intent(getContext(), UploadActivity.class);
-                                intent.putExtra(UploadActivity.UPLOAD_ITEM, appItem);
-                                startActivity(intent);
+//                                FlurryAgent.logEvent("App menu: upload");
+//                                Intent intent = new Intent(getContext(), UploadActivity.class);
+//                                intent.putExtra(UploadActivity.UPLOAD_ITEM, appItem);
+//                                startActivity(intent);
+                                MetaActivity_.intent(getContext())
+                                        .appId("b0cr3851")
+                                        .commonItem(appItem)
+                                        .start();
                                 break;
                             }
                             case 4: {
