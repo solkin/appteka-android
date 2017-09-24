@@ -27,8 +27,6 @@ import org.androidannotations.annotations.InstanceState;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 
-import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -53,6 +51,9 @@ public class MetaActivity extends AppCompatActivity {
 
     @ViewById
     CheckBox exclusive;
+
+    @ViewById
+    TextView description;
 
     @ViewById
     ImageView appIcon;
@@ -160,6 +161,19 @@ public class MetaActivity extends AppCompatActivity {
         updateCategories();
 
         exclusive.setChecked(meta.getMeta().isExclusive());
+        description.setText(meta.getMeta().getDescription());
+        Category selectedCategory = meta.getMeta().getCategory();
+        if (selectedCategory != null) {
+            int selectedId = meta.getMeta().getCategory().getId();
+            int position = 0;
+            for (Category category : meta.getCategories()) {
+                if (category.getId() == selectedId) {
+                    categories.setSelection(position);
+                    break;
+                }
+                position++;
+            }
+        }
 
         viewSwitcher.setDisplayedChild(1);
     }

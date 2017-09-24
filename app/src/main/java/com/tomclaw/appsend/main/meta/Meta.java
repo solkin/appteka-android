@@ -76,7 +76,7 @@ public class Meta implements Parcelable, Unobfuscatable {
         return time;
     }
 
-    public long getUser_id() {
+    public long getUserId() {
         return user_id;
     }
 }
