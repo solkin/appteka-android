@@ -63,3 +63,8 @@
 -keepattributes Signature
 -keepattributes Exceptions
 -dontwarn javax.annotation.**
+-dontwarn org.xmlpull.v1.**
+-dontwarn okhttp3.**
+-dontwarn okio.**
+-dontwarn javax.annotation.Nullable
+-dontwarn javax.annotation.ParametersAreNonnullByDefault
