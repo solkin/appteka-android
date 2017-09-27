@@ -25,10 +25,10 @@ public class Category implements Parcelable, Unobfuscatable {
         id = in.readInt();
         name = new HashMap<>();
         int size = in.readInt();
-        for(int i = 0; i < size; i++){
+        for (int i = 0; i < size; i++) {
             String key = in.readString();
             String value = in.readString();
-            name.put(key,value);
+            name.put(key, value);
         }
     }
 
@@ -38,7 +38,7 @@ public class Category implements Parcelable, Unobfuscatable {
         dest.writeInt(id);
 
         dest.writeInt(name.size());
-        for(Map.Entry<String,String> entry : name.entrySet()){
+        for (Map.Entry<String, String> entry : name.entrySet()) {
             dest.writeString(entry.getKey());
             dest.writeString(entry.getValue());
         }
