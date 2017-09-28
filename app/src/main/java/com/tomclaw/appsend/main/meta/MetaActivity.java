@@ -3,10 +3,12 @@ package com.tomclaw.appsend.main.meta;
 import android.content.pm.PackageInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.ViewFlipper;
 import android.widget.ViewSwitcher;
 
 import com.bumptech.glide.Glide;
@@ -16,6 +18,7 @@ import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.core.StoreServiceHolder;
 import com.tomclaw.appsend.main.item.CommonItem;
 import com.tomclaw.appsend.main.item.StoreItem;
+import com.tomclaw.appsend.net.Session;
 import com.tomclaw.appsend.util.ThemeHelper;
 
 import org.androidannotations.annotations.AfterInject;
@@ -25,6 +28,7 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.InstanceState;
 import org.androidannotations.annotations.OptionsItem;
+import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 
 import retrofit2.Call;
@@ -35,6 +39,7 @@ import retrofit2.Response;
  * Created by solkin on 23.09.17.
  */
 @EActivity(R.layout.meta_activity)
+@OptionsMenu(R.menu.meta_menu)
 public class MetaActivity extends AppCompatActivity {
 
     @Bean
@@ -44,7 +49,7 @@ public class MetaActivity extends AppCompatActivity {
     Toolbar toolbar;
 
     @ViewById
-    ViewSwitcher viewSwitcher;
+    ViewFlipper viewFlipper;
 
     @ViewById
     Spinner categories;
@@ -108,6 +113,11 @@ public class MetaActivity extends AppCompatActivity {
         return true;
     }
 
+    @OptionsItem(R.id.menu_save)
+    void onSaveMeta() {
+        saveMeta();
+    }
+
     private void updateHeader() {
         if (commonItem != null) {
             PackageInfo packageInfo = commonItem.getPackageInfo();
@@ -156,6 +166,46 @@ public class MetaActivity extends AppCompatActivity {
         });
     }
 
+    private void saveMeta() {
+        showProgress();
+        try {
+            String guid = Session.getInstance().getUserData().getGuid();
+            int position = categories.getSelectedItemPosition();
+            Category category = meta.getCategories().get(position);
+            int categoryId = category.getId();
+            boolean isExclusive = exclusive.isChecked();
+            String descriptionText = description.getText().toString();
+            Call<MetaResponse> call = serviceHolder.getService().setMeta(1, appId, guid, categoryId, isExclusive, descriptionText);
+            call.enqueue(new Callback<MetaResponse>() {
+                @Override
+                public void onResponse(Call<MetaResponse> call, final Response<MetaResponse> response) {
+                    MainExecutor.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (response.isSuccessful()) {
+                                onMetaSaved();
+                            } else {
+                                onMetaSavingError();
+                            }
+                        }
+                    });
+                }
+
+                @Override
+                public void onFailure(Call<MetaResponse> call, Throwable t) {
+                    MainExecutor.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            onMetaSavingError();
+                        }
+                    });
+                }
+            });
+        } catch (Throwable ignored) {
+            onMetaSavingError();
+        }
+    }
+
     private void onMetaLoaded(MetaResponse meta) {
         this.meta = meta;
 
@@ -184,11 +234,24 @@ public class MetaActivity extends AppCompatActivity {
         categories.setAdapter(adapter);
     }
 
+    private void showProgress() {
+        viewFlipper.setDisplayedChild(0);
+    }
+
     private void showContent() {
-        viewSwitcher.setDisplayedChild(1);
+        viewFlipper.setDisplayedChild(1);
     }
 
     private void onMetaLoadingError() {
         // Show loading error with retry button.
+    }
+
+    private void onMetaSaved() {
+        setResult(RESULT_OK);
+        finish();
+    }
+
+    private void onMetaSavingError() {
+        viewFlipper.setDisplayedChild(2);
     }
 }

@@ -6,8 +6,8 @@
 
     <include layout="@layout/toolbar" />
 
-    <ViewSwitcher
-        android:id="@+id/view_switcher"
+    <ViewFlipper
+        android:id="@+id/view_flipper"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="?actionBarSize">
@@ -125,6 +125,31 @@
 
         </ScrollView>
 
-    </ViewSwitcher>
+        <RelativeLayout
+            android:id="@+id/error_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/error_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text="@string/save_meta_error" />
+
+            <Button
+                android:id="@+id/button_retry"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/error_text"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="8dp"
+                android:text="@string/retry" />
+
+        </RelativeLayout>
+
+    </ViewFlipper>
 
 </FrameLayout>

@@ -1,8 +1,10 @@
 package com.tomclaw.appsend;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +21,7 @@ import com.bumptech.glide.Glide;
 import com.tomclaw.appsend.main.controller.CountController;
 import com.tomclaw.appsend.main.controller.UploadController;
 import com.tomclaw.appsend.main.item.CommonItem;
+import com.tomclaw.appsend.main.meta.MetaActivity_;
 import com.tomclaw.appsend.util.FileHelper;
 import com.tomclaw.appsend.util.IntentHelper;
 import com.tomclaw.appsend.util.StringUtil;
@@ -33,6 +36,8 @@ public class UploadActivity extends AppCompatActivity implements UploadControlle
 
     private static final long DEBOUNCE_DELAY = 100;
     public static final String UPLOAD_ITEM = "app_info";
+    private static final int REQUEST_UPDATE_META = 4;
+    private static final String META_ACTIVITY_SHOWN = "meta_activity_shown";
 
     private CommonItem item;
     private ImageView appIcon;
@@ -50,10 +55,16 @@ public class UploadActivity extends AppCompatActivity implements UploadControlle
 
     private transient long progressUpdateTime = 0;
 
+    private boolean isMetaActivityShown = false;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         ThemeHelper.updateTheme(this);
         super.onCreate(savedInstanceState);
+
+        if (savedInstanceState != null) {
+            isMetaActivityShown = savedInstanceState.getBoolean(META_ACTIVITY_SHOWN);
+        }
 
         setContentView(R.layout.upload_activity);
         ThemeHelper.updateStatusBar(this);
@@ -139,6 +150,13 @@ public class UploadActivity extends AppCompatActivity implements UploadControlle
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_UPDATE_META) {
+            viewSwitcher.setDisplayedChild(1);
+        }
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
         UploadController.getInstance().onAttach(this);
@@ -154,6 +172,7 @@ public class UploadActivity extends AppCompatActivity implements UploadControlle
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable(UPLOAD_ITEM, item);
+        outState.putBoolean(META_ACTIVITY_SHOWN, isMetaActivityShown);
     }
 
     @Override
@@ -174,7 +193,14 @@ public class UploadActivity extends AppCompatActivity implements UploadControlle
     @Override
     public void onCompleted(String url) {
         this.url = url;
-        viewSwitcher.setDisplayedChild(1);
+        if (isMetaActivityShown) {
+            viewSwitcher.setDisplayedChild(1);
+        } else {
+            MetaActivity_.intent(this)
+                    .commonItem(item)
+                    .startForResult(REQUEST_UPDATE_META);
+            isMetaActivityShown = true;
+        }
         CountController.getInstance().load(this);
     }
 
