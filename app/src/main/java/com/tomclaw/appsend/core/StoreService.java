@@ -30,7 +30,7 @@ public interface StoreService {
                                @Field("app_id") String appId,
                                @Field("guid") String guid,
                                @Field("category") int category,
-                               @Field("exclusive") boolean exclusive,
+                               @Field("exclusive") int exclusive,
                                @Field("description") String description);
 
 }

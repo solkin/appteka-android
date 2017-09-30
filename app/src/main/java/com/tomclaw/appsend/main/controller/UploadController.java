@@ -49,17 +49,18 @@ public class UploadController extends AbstractController<UploadController.Upload
     private int lastPercent = 0;
     private boolean isUploaded = false;
     private String url = null;
+    private String appId = null;
     private boolean isError = false;
 
     public boolean isCompleted() {
-        return !TextUtils.isEmpty(url);
+        return !TextUtils.isEmpty(appId) && !TextUtils.isEmpty(url);
     }
 
     @Override
     public void onAttached(UploadCallback callback) {
         if (item != null) {
             if (isCompleted()) {
-                callback.onCompleted(url);
+                callback.onCompleted(appId, url);
             } else if (isUploaded) {
                 callback.onUploaded();
             } else if (isError) {
@@ -78,6 +79,7 @@ public class UploadController extends AbstractController<UploadController.Upload
         this.item = item;
         this.lastPercent = 0;
         this.isUploaded = false;
+        this.appId = null;
         this.url = null;
         this.isError = false;
         future = executor.submit(new Runnable() {
@@ -94,6 +96,7 @@ public class UploadController extends AbstractController<UploadController.Upload
         this.item = null;
         this.lastPercent = 0;
         this.isUploaded = false;
+        this.appId = null;
         this.url = null;
         this.isError = false;
     }
@@ -128,7 +131,8 @@ public class UploadController extends AbstractController<UploadController.Upload
         });
     }
 
-    private void onCompleted(final String url) {
+    private void onCompleted(final String appId, final String url) {
+        this.appId = appId;
         this.url = url;
         MainExecutor.execute(new Runnable() {
             @Override
@@ -136,7 +140,7 @@ public class UploadController extends AbstractController<UploadController.Upload
                 operateCallbacks(new CallbackOperation<UploadCallback>() {
                     @Override
                     public void invoke(UploadCallback callback) {
-                        callback.onCompleted(url);
+                        callback.onCompleted(appId, url);
                     }
                 });
             }
@@ -216,7 +220,7 @@ public class UploadController extends AbstractController<UploadController.Upload
                 case 200: {
                     String appId = jsonObject.getString("app_id");
                     String location = jsonObject.getString("url");
-                    onCompleted(location);
+                    onCompleted(appId, location);
                     break;
                 }
                 default: {
@@ -241,7 +245,7 @@ public class UploadController extends AbstractController<UploadController.Upload
 
         void onUploaded();
 
-        void onCompleted(String url);
+        void onCompleted(String appId, String url);
 
         void onError();
 

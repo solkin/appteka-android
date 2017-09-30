@@ -51,6 +51,7 @@ public class UploadActivity extends AppCompatActivity implements UploadControlle
     private ViewSwitcher viewSwitcher;
 
     private static PackageIconGlideLoader loader;
+    private String appId;
     private String url;
 
     private transient long progressUpdateTime = 0;
@@ -191,12 +192,14 @@ public class UploadActivity extends AppCompatActivity implements UploadControlle
     }
 
     @Override
-    public void onCompleted(String url) {
+    public void onCompleted(String appId, String url) {
+        this.appId = appId;
         this.url = url;
         if (isMetaActivityShown) {
             viewSwitcher.setDisplayedChild(1);
         } else {
             MetaActivity_.intent(this)
+                    .appId(appId)
                     .commonItem(item)
                     .startForResult(REQUEST_UPDATE_META);
             isMetaActivityShown = true;

@@ -173,9 +173,9 @@ public class MetaActivity extends AppCompatActivity {
             int position = categories.getSelectedItemPosition();
             Category category = meta.getCategories().get(position);
             int categoryId = category.getId();
-            boolean isExclusive = exclusive.isChecked();
+            int exclusiveValue = exclusive.isChecked() ? 1 : 0;
             String descriptionText = description.getText().toString();
-            Call<MetaResponse> call = serviceHolder.getService().setMeta(1, appId, guid, categoryId, isExclusive, descriptionText);
+            Call<MetaResponse> call = serviceHolder.getService().setMeta(1, appId, guid, categoryId, exclusiveValue, descriptionText);
             call.enqueue(new Callback<MetaResponse>() {
                 @Override
                 public void onResponse(Call<MetaResponse> call, final Response<MetaResponse> response) {
