@@ -1,15 +1,16 @@
 package com.tomclaw.appsend.main.meta;
 
 import android.content.pm.PackageInfo;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
-import android.widget.ViewSwitcher;
 
 import com.bumptech.glide.Glide;
 import com.tomclaw.appsend.PackageIconGlideLoader;
@@ -36,6 +37,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 /**
+ * Application meta editor screen
  * Created by solkin on 23.09.17.
  */
 @EActivity(R.layout.meta_activity)
@@ -69,6 +71,12 @@ public class MetaActivity extends AppCompatActivity {
     @ViewById
     TextView appPackage;
 
+    @ViewById
+    TextView errorView;
+
+    @ViewById
+    Button retryButton;
+
     @Extra
     String appId;
 
@@ -93,9 +101,12 @@ public class MetaActivity extends AppCompatActivity {
         ThemeHelper.updateStatusBar(this);
 
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(true);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayShowHomeEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowTitleEnabled(true);
+        }
 
         updateHeader();
 
@@ -243,7 +254,14 @@ public class MetaActivity extends AppCompatActivity {
     }
 
     private void onMetaLoadingError() {
-        // Show loading error with retry button.
+        errorView.setText(R.string.load_meta_error);
+        retryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loadMeta();
+            }
+        });
+        viewFlipper.setDisplayedChild(2);
     }
 
     private void onMetaSaved() {
@@ -252,6 +270,13 @@ public class MetaActivity extends AppCompatActivity {
     }
 
     private void onMetaSavingError() {
+        errorView.setText(R.string.save_meta_error);
+        retryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveMeta();
+            }
+        });
         viewFlipper.setDisplayedChild(2);
     }
 }

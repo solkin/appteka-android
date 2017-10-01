@@ -166,5 +166,6 @@
     <string name="exclusive">Эксклюзивное приложение (не представлено в Google Play)</string>
     <string name="description">Описание</string>
     <string name="save_meta">Сохранить</string>
+    <string name="load_meta_error">Не удалось загрузить описание приложения</string>
     <string name="save_meta_error">Не удалось сохранить описание приложения</string>
 </resources>

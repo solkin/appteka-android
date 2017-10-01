@@ -172,5 +172,6 @@
     <string name="exclusive">Exclusive app (do not present in Google Play)</string>
     <string name="description">Description</string>
     <string name="save_meta">Save</string>
+    <string name="load_meta_error">Unable to load app description</string>
     <string name="save_meta_error">Unable to save app description</string>
 </resources>

@@ -136,10 +136,10 @@
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
                 android:gravity="center"
-                android:text="@string/save_meta_error" />
+                tools:text="There was a error while processing operation" />
 
             <Button
-                android:id="@+id/button_retry"
+                android:id="@+id/retry_button"
                 style="@style/Widget.AppCompat.Button.Borderless.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
