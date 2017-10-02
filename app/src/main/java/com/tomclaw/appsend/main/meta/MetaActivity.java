@@ -72,7 +72,7 @@ public class MetaActivity extends AppCompatActivity {
     TextView appPackage;
 
     @ViewById
-    TextView errorView;
+    TextView errorText;
 
     @ViewById
     Button retryButton;
@@ -254,7 +254,7 @@ public class MetaActivity extends AppCompatActivity {
     }
 
     private void onMetaLoadingError() {
-        errorView.setText(R.string.load_meta_error);
+        errorText.setText(R.string.load_meta_error);
         retryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -270,7 +270,7 @@ public class MetaActivity extends AppCompatActivity {
     }
 
     private void onMetaSavingError() {
-        errorView.setText(R.string.save_meta_error);
+        errorText.setText(R.string.save_meta_error);
         retryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
