@@ -16,6 +16,8 @@ public class Meta implements Parcelable, Unobfuscatable {
     private boolean similar;
     private long time;
     private long user_id;
+    private int rate_count;
+    private float rating;
 
     public Meta() {
     }
@@ -27,6 +29,8 @@ public class Meta implements Parcelable, Unobfuscatable {
         similar = in.readByte() != 0;
         time = in.readLong();
         user_id = in.readLong();
+        rate_count = in.readInt();
+        rating = in.readFloat();
     }
 
     @Override
@@ -37,6 +41,8 @@ public class Meta implements Parcelable, Unobfuscatable {
         dest.writeByte((byte) (similar ? 1 : 0));
         dest.writeLong(time);
         dest.writeLong(user_id);
+        dest.writeInt(rate_count);
+        dest.writeFloat(rating);
     }
 
     @Override
@@ -78,5 +84,13 @@ public class Meta implements Parcelable, Unobfuscatable {
 
     public long getUserId() {
         return user_id;
+    }
+
+    public int getRateCount() {
+        return rate_count;
+    }
+
+    public float getRating() {
+        return rating;
     }
 }
