@@ -5,6 +5,8 @@ import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.main.dto.StoreInfo;
 import com.tomclaw.appsend.main.dto.StoreVersion;
 import com.tomclaw.appsend.main.item.StoreItem;
+import com.tomclaw.appsend.main.meta.Meta;
+import com.tomclaw.appsend.util.GsonSingleton;
 import com.tomclaw.appsend.util.HttpParamsBuilder;
 import com.tomclaw.appsend.util.HttpUtil;
 import com.tomclaw.appsend.util.VariableBuffer;
@@ -306,8 +308,10 @@ public class DownloadController extends AbstractController<DownloadController.Do
                         storeVersions.add(storeVersion);
                     }
                     JSONObject info = jsonObject.getJSONObject("info");
+                    JSONObject metaJson = jsonObject.getJSONObject("meta");
+                    Meta meta = GsonSingleton.getInstance().fromJson(metaJson.toString(), Meta.class);
                     StoreItem storeItem = parseStoreItem(info);
-                    StoreInfo storeInfo = new StoreInfo(expiresIn, storeItem, link, webUrl, status, storeVersions);
+                    StoreInfo storeInfo = new StoreInfo(expiresIn, storeItem, link, webUrl, status, storeVersions, meta);
                     onInfoLoaded(storeInfo);
                     break;
                 }
