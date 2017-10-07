@@ -57,6 +57,8 @@
                             android:layout_height="6dp"
                             android:background="@drawable/shadow" />
 
+                        <include layout="@layout/download_meta_block" />
+
                         <include layout="@layout/download_info_block" />
 
                         <include layout="@layout/download_permissions_block" />
