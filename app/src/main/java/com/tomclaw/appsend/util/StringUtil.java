@@ -11,6 +11,7 @@ import android.text.style.StyleSpan;
 import android.widget.Toast;
 
 import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.Random;
 
@@ -61,6 +62,14 @@ public class StringUtil {
 
     public static String urlEncode(String string) throws UnsupportedEncodingException {
         return URLEncoder.encode(string, UTF8_ENCODING).replace("+", "%20");
+    }
+
+    public static String urlDecode(String string) {
+        try {
+            return URLDecoder.decode(string, UTF8_ENCODING);
+        } catch (UnsupportedEncodingException ignored) {
+            return string;
+        }
     }
 
     public static String appendIfNotEmpty(String where, String what, String divider) {

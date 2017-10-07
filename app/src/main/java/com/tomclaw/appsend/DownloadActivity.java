@@ -35,6 +35,8 @@ import com.tomclaw.appsend.main.controller.DownloadController;
 import com.tomclaw.appsend.main.dto.StoreInfo;
 import com.tomclaw.appsend.main.dto.StoreVersion;
 import com.tomclaw.appsend.main.item.StoreItem;
+import com.tomclaw.appsend.main.meta.Meta;
+import com.tomclaw.appsend.main.view.MemberImageView;
 import com.tomclaw.appsend.main.view.PlayView;
 import com.tomclaw.appsend.util.FileHelper;
 import com.tomclaw.appsend.util.IntentHelper;
@@ -76,8 +78,13 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     private PlayView downloadsView;
     private PlayView sizeView;
     private PlayView minAndroidView;
+    private View metaBlockView;
+    private TextView descriptionView;
+    private MemberImageView descriptionAuthorAvatar;
     private RelativeLayout permissionsBlock;
     private ViewGroup permissionsContainer;
+    private View uploaderContainerView;
+    private MemberImageView uploaderAvatar;
     private TextView versionView;
     private TextView uploadedTimeView;
     private TextView checksumView;
@@ -142,8 +149,13 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         downloadsView = (PlayView) findViewById(R.id.app_downloads);
         sizeView = (PlayView) findViewById(R.id.app_size);
         minAndroidView = (PlayView) findViewById(R.id.min_android);
+        metaBlockView = findViewById(R.id.meta_block);
+        descriptionView = (TextView) findViewById(R.id.description);
+        descriptionAuthorAvatar = (MemberImageView) findViewById(R.id.description_author_avatar);
         permissionsBlock = (RelativeLayout) findViewById(R.id.permissions_block);
         permissionsContainer = (ViewGroup) findViewById(R.id.permissions_container);
+        uploaderContainerView = findViewById(R.id.uploader_container);
+        uploaderAvatar = (MemberImageView) findViewById(R.id.uploader_avatar);
         versionView = (TextView) findViewById(R.id.app_version);
         uploadedTimeView = (TextView) findViewById(R.id.uploaded_time);
         checksumView = (TextView) findViewById(R.id.app_checksum);
@@ -287,6 +299,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     private void bindStoreItem(StoreInfo info) {
         this.info = info;
         StoreItem item = info.getItem();
+        Meta meta = info.getMeta();
         Glide.with(this)
                 .load(item.getIcon())
                 .into(iconView);
@@ -309,6 +322,19 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         sizeView.setCount(sizeText);
         sizeView.setDescription(getString(sizeFactor));
         minAndroidView.setCount(item.getAndroidVersion());
+        if (TextUtils.isEmpty(meta.getDescription())) {
+            metaBlockView.setVisibility(View.GONE);
+        } else {
+            metaBlockView.setVisibility(View.VISIBLE);
+            descriptionView.setText(StringUtil.urlDecode(info.getMeta().getDescription()));
+            descriptionAuthorAvatar.setMemberId(info.getMeta().getUserId());
+        }
+        if (info.getUserId() > 0) {
+            uploaderContainerView.setVisibility(View.VISIBLE);
+            uploaderAvatar.setMemberId(info.getUserId());
+        } else {
+            uploaderContainerView.setVisibility(View.GONE);
+        }
         versionView.setText(getString(R.string.app_version_format, item.getVersion(), item.getVersionCode()));
         uploadedTimeView.setText(timeHelper().getFormattedDate(item.getTime()));
         checksumView.setText(item.getSha1());
