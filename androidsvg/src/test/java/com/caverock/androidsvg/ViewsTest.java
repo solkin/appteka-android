@@ -23,31 +23,28 @@ import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
 
-import java.lang.reflect.Field;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-@Config(manifest=Config.NONE, sdk = Build.VERSION_CODES.JELLY_BEAN)
+@Config(manifest = Config.NONE, sdk = Build.VERSION_CODES.JELLY_BEAN)
 @RunWith(RobolectricTestRunner.class)
-public class ViewsTest
-{
-   @Test
-   public void getViewList() throws SVGParseException
-   {
-      String  test = "<?xml version=\"1.0\" standalone=\"no\"?>\n" +
-                     "<svg xmlns=\"http://www.w3.org/2000/svg\">" +
-                     "  <view id=\"normalView\" viewBox=\"0 0 100 100\"/>" +
-                     "  <view id=\"halfView\"   viewBox=\"0 0 200 200\"/>" +
-                     "  <view id=\"doubleView\" viewBox=\"0 0  50  50\"/>" +
-                     "</svg>";
-      SVG  svg = SVG.getFromString(test);
+public class ViewsTest {
+    @Test
+    public void getViewList() throws SVGParseException {
+        String test = "<?xml version=\"1.0\" standalone=\"no\"?>\n" +
+                "<svg xmlns=\"http://www.w3.org/2000/svg\">" +
+                "  <view id=\"normalView\" viewBox=\"0 0 100 100\"/>" +
+                "  <view id=\"halfView\"   viewBox=\"0 0 200 200\"/>" +
+                "  <view id=\"doubleView\" viewBox=\"0 0  50  50\"/>" +
+                "</svg>";
+        SVG svg = SVG.getFromString(test);
 
-      Set<String>  views = svg.getViewList();
-      assertEquals(3, views.size());
-      assertTrue(views.contains("normalView"));
-      assertTrue(views.contains("halfView"));
-      assertTrue(views.contains("doubleView"));
-   }
+        Set<String> views = svg.getViewList();
+        assertEquals(3, views.size());
+        assertTrue(views.contains("normalView"));
+        assertTrue(views.contains("halfView"));
+        assertTrue(views.contains("doubleView"));
+    }
 }

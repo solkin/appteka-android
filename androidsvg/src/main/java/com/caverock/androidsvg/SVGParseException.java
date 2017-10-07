@@ -20,15 +20,12 @@ package com.caverock.androidsvg;
  * Thrown by the parser if a problem is found in the SVG file.
  */
 
-public class SVGParseException extends Exception
-{
-   SVGParseException(String msg)
-   {
-      super(msg);
-   }
+public class SVGParseException extends Exception {
+    SVGParseException(String msg) {
+        super(msg);
+    }
 
-   SVGParseException(String msg, Throwable cause)
-   {
-      super(msg, cause);
-   }
+    SVGParseException(String msg, Throwable cause) {
+        super(msg, cause);
+    }
 }

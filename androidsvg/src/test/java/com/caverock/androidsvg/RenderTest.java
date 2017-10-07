@@ -29,46 +29,44 @@ import org.robolectric.annotation.Config;
 
 import static org.junit.Assert.assertEquals;
 
-@Config(manifest=Config.NONE, sdk = Build.VERSION_CODES.JELLY_BEAN, shadows={MockCanvas.class, MockPath.class})
+@Config(manifest = Config.NONE, sdk = Build.VERSION_CODES.JELLY_BEAN, shadows = {MockCanvas.class, MockPath.class})
 @RunWith(RobolectricTestRunner.class)
-public class RenderTest
-{
+public class RenderTest {
 
-   /*
-    * Checks that calling renderToCanvas() does not have any side effects for the Canvas object.
-    * See Issue #50. https://github.com/BigBadaboom/androidsvg/issues/50
-    */
-   @Test
-   public void renderToCanvasPreservesState() throws SVGParseException
-   {
-      //disableLogging();
-      String  test = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"100\" viewBox=\"0 0 20 20\">" +
-                     "  <circle cx=\"10\" cy=\"10\" r=\"10\" transform=\"scale(2)\"/>" +
-                     "  <g transform=\"rotate(45)\"></g>" +
-                     "</svg>";
-      SVG  svg = SVG.getFromString(test);
+    /*
+     * Checks that calling renderToCanvas() does not have any side effects for the Canvas object.
+     * See Issue #50. https://github.com/BigBadaboom/androidsvg/issues/50
+     */
+    @Test
+    public void renderToCanvasPreservesState() throws SVGParseException {
+        //disableLogging();
+        String test = "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"100\" viewBox=\"0 0 20 20\">" +
+                "  <circle cx=\"10\" cy=\"10\" r=\"10\" transform=\"scale(2)\"/>" +
+                "  <g transform=\"rotate(45)\"></g>" +
+                "</svg>";
+        SVG svg = SVG.getFromString(test);
 
-      Bitmap newBM = Bitmap.createBitmap((int) Math.ceil(svg.getDocumentWidth()),
-                                         (int) Math.ceil(svg.getDocumentHeight()),
-                                         Bitmap.Config.ARGB_8888);
-      Canvas  canvas = new Canvas(newBM);
+        Bitmap newBM = Bitmap.createBitmap((int) Math.ceil(svg.getDocumentWidth()),
+                (int) Math.ceil(svg.getDocumentHeight()),
+                Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(newBM);
 
-      Matrix  beforeMatrix = canvas.getMatrix();
-      Rect    beforeClip = canvas.getClipBounds();
-      int     beforeSaves = canvas.getSaveCount();
+        Matrix beforeMatrix = canvas.getMatrix();
+        Rect beforeClip = canvas.getClipBounds();
+        int beforeSaves = canvas.getSaveCount();
 
-      //canvas.save(); canvas.scale(2f, 2f); canvas.restore();
-      svg.renderToCanvas(canvas);
+        //canvas.save(); canvas.scale(2f, 2f); canvas.restore();
+        svg.renderToCanvas(canvas);
 
-      Matrix  afterMatrix = canvas.getMatrix();
-      assertEquals(beforeMatrix, afterMatrix);
-      assertEquals(true, beforeMatrix.isIdentity());
-      assertEquals(true, afterMatrix.isIdentity());
+        Matrix afterMatrix = canvas.getMatrix();
+        assertEquals(beforeMatrix, afterMatrix);
+        assertEquals(true, beforeMatrix.isIdentity());
+        assertEquals(true, afterMatrix.isIdentity());
 
-      Rect    afterClip = canvas.getClipBounds();
-      assertEquals(beforeClip, afterClip);
+        Rect afterClip = canvas.getClipBounds();
+        assertEquals(beforeClip, afterClip);
 
-      int     afterSaves = canvas.getSaveCount();
-      assertEquals(beforeSaves, afterSaves);
-   }
+        int afterSaves = canvas.getSaveCount();
+        assertEquals(beforeSaves, afterSaves);
+    }
 }
