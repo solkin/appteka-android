@@ -309,10 +309,9 @@ public class DownloadController extends AbstractController<DownloadController.Do
                     }
                     JSONObject info = jsonObject.getJSONObject("info");
                     JSONObject metaJson = jsonObject.getJSONObject("meta");
-                    long userId = jsonObject.getLong("user_id");
                     Meta meta = GsonSingleton.getInstance().fromJson(metaJson.toString(), Meta.class);
                     StoreItem storeItem = parseStoreItem(info);
-                    StoreInfo storeInfo = new StoreInfo(expiresIn, storeItem, link, webUrl, status, storeVersions, meta, userId);
+                    StoreInfo storeInfo = new StoreInfo(expiresIn, storeItem, link, webUrl, status, storeVersions, meta);
                     onInfoLoaded(storeInfo);
                     break;
                 }

@@ -329,9 +329,9 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
             descriptionView.setText(StringUtil.urlDecode(info.getMeta().getDescription()));
             descriptionAuthorAvatar.setMemberId(info.getMeta().getUserId());
         }
-        if (info.getUserId() > 0) {
+        if (item.getUserId() > 0) {
             uploaderContainerView.setVisibility(View.VISIBLE);
-            uploaderAvatar.setMemberId(info.getUserId());
+            uploaderAvatar.setMemberId(item.getUserId());
         } else {
             uploaderContainerView.setVisibility(View.GONE);
         }

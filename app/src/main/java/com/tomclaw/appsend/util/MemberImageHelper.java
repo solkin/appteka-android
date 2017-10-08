@@ -46,12 +46,12 @@ public class MemberImageHelper {
         if (userId == 0) {
             return defaultColor;
         }
-        random.setSeed(hash(userId));
+        random.setSeed(hash(userId, 1000));
         return colors[random.nextInt(colors.length)];
     }
 
     public int getAvatar(long userId, boolean isThreadOwner) {
-        random.setSeed(hash(userId));
+        random.setSeed(hash(userId, 0));
         int avatar;
         if (isThreadOwner) {
             avatar = R.drawable.crown;
@@ -61,12 +61,12 @@ public class MemberImageHelper {
         return avatar;
     }
 
-    public long hash(long value) {
+    public long hash(long value, int seed) {
         String str = String.valueOf(value);
-        int hash = 0;
+        long hash = seed;
         for (int i = 0; i < str.length(); i++) {
             hash = str.charAt(i) + ((hash << 5) - hash);
         }
-        return value;
+        return hash;
     }
 }
