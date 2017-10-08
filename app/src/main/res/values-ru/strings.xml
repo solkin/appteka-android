@@ -168,6 +168,6 @@
     <string name="save_meta">Сохранить</string>
     <string name="load_meta_error">Не удалось загрузить описание приложения</string>
     <string name="save_meta_error">Не удалось сохранить описание приложения</string>
-    <string name="uploaded_by_user">загрузил это приложение в обменник</string>
+    <string name="uploaded_by_user">Загружено</string>
     <string name="description_author">автор описания</string>
 </resources>

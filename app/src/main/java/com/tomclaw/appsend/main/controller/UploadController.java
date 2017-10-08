@@ -6,6 +6,7 @@ import com.orhanobut.logger.Logger;
 import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.main.item.CommonItem;
 import com.tomclaw.appsend.main.task.ExportApkTask;
+import com.tomclaw.appsend.net.Session;
 import com.tomclaw.appsend.util.HttpUtil;
 import com.tomclaw.appsend.util.MultipartStream;
 import com.tomclaw.appsend.util.StringUtil;
@@ -166,6 +167,10 @@ public class UploadController extends AbstractController<UploadController.Upload
         File file = new File(item.getPath());
         final long size = file.length();
         String name = ExportApkTask.getApkName(item);
+        String guid = null;
+        if (Session.getInstance().getUserData().isRegistered()) {
+            guid = Session.getInstance().getUserData().getGuid();
+        }
         MultipartStream.ProgressHandler handler = new MultipartStream.ProgressHandler() {
             @Override
             public void onProgress(long sent) {
@@ -200,6 +205,9 @@ public class UploadController extends AbstractController<UploadController.Upload
             OutputStream outputStream = connection.getOutputStream();
             MultipartStream multipartStream = new MultipartStream(outputStream, boundary);
             multipartStream.writePart("v", "1");
+            if (!TextUtils.isEmpty(guid)) {
+                multipartStream.writePart("guid", guid);
+            }
             multipartStream.writePart("apk_file", name, inputStream, "application/vnd.android.package-archive", handler);
             multipartStream.writeLastBoundaryIfNeeds();
             multipartStream.flush();

@@ -147,4 +147,34 @@
         tools:visibility="visible"
         tools:text="Use SMS, calls access"/>
 
+    <LinearLayout
+        android:id="@+id/uploader_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="8dp"
+        android:gravity="right"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:paddingLeft="8dp"
+            android:paddingRight="5dp"
+            android:textColor="?text_primary_color"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            android:text="@string/uploaded_by_user" />
+
+        <com.tomclaw.appsend.main.view.MemberImageView
+            android:id="@+id/uploader_avatar"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:background="@drawable/avatar_background"
+            android:padding="5dp"
+            android:scaleType="fitCenter"
+            tools:src="@drawable/crown"/>
+
+    </LinearLayout>
+
 </LinearLayout>
