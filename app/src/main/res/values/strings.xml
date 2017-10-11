@@ -176,4 +176,5 @@
     <string name="save_meta_error">Unable to save app description</string>
     <string name="uploaded_by_user">Uploaded by</string>
     <string name="description_author">is description author</string>
+    <string name="edit_meta">Edit Description</string>
 </resources>

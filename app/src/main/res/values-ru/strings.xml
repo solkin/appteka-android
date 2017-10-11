@@ -170,4 +170,5 @@
     <string name="save_meta_error">Не удалось сохранить описание приложения</string>
     <string name="uploaded_by_user">Загружено</string>
     <string name="description_author">автор описания</string>
+    <string name="edit_meta">Изменить описание</string>
 </resources>

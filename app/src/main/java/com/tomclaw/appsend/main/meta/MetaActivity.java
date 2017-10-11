@@ -20,6 +20,7 @@ import com.tomclaw.appsend.core.StoreServiceHolder;
 import com.tomclaw.appsend.main.item.CommonItem;
 import com.tomclaw.appsend.main.item.StoreItem;
 import com.tomclaw.appsend.net.Session;
+import com.tomclaw.appsend.util.LocaleHelper;
 import com.tomclaw.appsend.util.ThemeHelper;
 
 import org.androidannotations.annotations.AfterInject;
@@ -145,6 +146,13 @@ public class MetaActivity extends AppCompatActivity {
 
             appLabel.setText(commonItem.getLabel());
             appPackage.setText(commonItem.getPackageName());
+        } else {
+            Glide.with(this)
+                    .load(storeItem.getIcon())
+                    .into(appIcon);
+
+            appLabel.setText(LocaleHelper.getLocalizedLabel(storeItem));
+            appPackage.setText(storeItem.getPackageName());
         }
     }
 

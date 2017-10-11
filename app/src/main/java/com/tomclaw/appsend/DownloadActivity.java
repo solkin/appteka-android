@@ -36,6 +36,7 @@ import com.tomclaw.appsend.main.dto.StoreInfo;
 import com.tomclaw.appsend.main.dto.StoreVersion;
 import com.tomclaw.appsend.main.item.StoreItem;
 import com.tomclaw.appsend.main.meta.Meta;
+import com.tomclaw.appsend.main.meta.MetaActivity_;
 import com.tomclaw.appsend.main.view.MemberImageView;
 import com.tomclaw.appsend.main.view.PlayView;
 import com.tomclaw.appsend.util.FileHelper;
@@ -64,6 +65,8 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
 
     public static final String STORE_APP_ID = "app_id";
     public static final String STORE_APP_LABEL = "app_label";
+
+    private static final int REQUEST_UPDATE_META = 4;
 
     private static final int MAX_PERMISSIONS_COUNT = 3;
     private static final long DEBOUNCE_DELAY = 100;
@@ -204,6 +207,12 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
                 openGooglePlay(DownloadActivity.this, info.getItem().getPackageName());
             }
         });
+        findViewById(R.id.meta_container).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editMeta();
+            }
+        });
         View.OnClickListener checksumClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -276,6 +285,13 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         super.onSaveInstanceState(outState);
         outState.putString(STORE_APP_ID, appId);
         outState.putString(STORE_APP_LABEL, appLabel);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_UPDATE_META) {
+            reloadInfo();
+        }
     }
 
     private void loadInfo() {
@@ -724,5 +740,13 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
                 runnable.run();
             }
         }
+    }
+
+    private void editMeta() {
+        StoreItem item = info.getItem();
+        MetaActivity_.intent(this)
+                .appId(appId)
+                .storeItem(item)
+                .startForResult(REQUEST_UPDATE_META);
     }
 }

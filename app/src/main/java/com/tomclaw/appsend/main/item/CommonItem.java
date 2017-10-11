@@ -7,7 +7,6 @@ import android.os.Parcelable;
 /**
  * Created by ivsolkin on 09.01.17.
  */
-
 public abstract class CommonItem extends BaseItem implements Parcelable {
 
     private final String label;
