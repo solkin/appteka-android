@@ -5,19 +5,22 @@
     android:layout_height="wrap_content"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    android:paddingBottom="8dp"
-    android:paddingTop="8dp"
+    android:padding="8dp"
     tools:ignore="UseCompoundDrawables">
 
-    <com.caverock.androidsvg.SVGImageView
-        android:id="@+id/icon"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:paddingEnd="0dp"
-        android:paddingLeft="8dp"
-        android:paddingRight="0dp"
-        android:paddingStart="8dp"
-        tools:src="@drawable/battery_60" />
+    <FrameLayout
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:background="@drawable/category_icon_back">
+
+        <com.caverock.androidsvg.SVGImageView
+            android:id="@+id/icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center"
+            tools:src="@drawable/battery_60" />
+
+    </FrameLayout>
 
     <TextView
         android:id="@+id/name"
