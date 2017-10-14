@@ -6,6 +6,13 @@
     <attr name="bottom_bar_background" format="color|reference" />
     <attr name="toolbar_background" format="color|reference" />
     <attr name="permissions_container_background" format="color|reference" />
+    <attr name="rating_empty" format="color|reference" />
+    <attr name="rating_fill" format="color|reference" />
+    <attr name="five_stars" format="color|reference" />
+    <attr name="four_stars" format="color|reference" />
+    <attr name="three_stars" format="color|reference" />
+    <attr name="two_stars" format="color|reference" />
+    <attr name="one_stars" format="color|reference" />
     <attr name="cardViewStyle" format="reference" />
     <attr name="play_view_color" format="reference" />
     <attr name="divider_color" format="reference" />

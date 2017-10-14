@@ -71,6 +71,15 @@
         <item name="discuss_bubble_color">@color/discuss_bubble_color_light</item>
         <item name="service_background">@drawable/service_background_light</item>
 
+        <item name="rating_empty">#ffcbcbcb</item>
+        <item name="rating_fill">#ff6b6b6b</item>
+
+        <item name="five_stars">#ff72b98c</item>
+        <item name="four_stars">#ffa1cd7c</item>
+        <item name="three_stars">#ffffea5f</item>
+        <item name="two_stars">#fff2bd69</item>
+        <item name="one_stars">#fff08f74</item>
+
         <item name="permissions_container_background">
             @color/permissions_container_light_background
         </item>
@@ -106,6 +115,15 @@
         <item name="discuss_bubble_color">@color/discuss_bubble_color_dark</item>
         <item name="service_background">@drawable/service_background_dark</item>
 
+        <item name="rating_empty">#ff343434</item>
+        <item name="rating_fill">#ffa1a1a1</item>
+
+        <item name="five_stars">#ff366c4a</item>
+        <item name="four_stars">#ff537d30</item>
+        <item name="three_stars">#ffad9700</item>
+        <item name="two_stars">#ff9d650e</item>
+        <item name="one_stars">#ff902c10</item>
+
         <item name="permissions_container_background">@color/permissions_container_dark_background
         </item>
     </style>
@@ -130,6 +148,13 @@
         <item name="android:autoLink">all</item>
         <item name="android:layout_gravity">left|center_vertical</item>
         <item name="android:singleLine">false</item>
+    </style>
+
+    <style name="RatingDetailElement" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">8dp</item>
+        <item name="android:max">100</item>
+        <item name="android:progressDrawable">@drawable/rating_detail_element</item>
     </style>
 
 </resources>

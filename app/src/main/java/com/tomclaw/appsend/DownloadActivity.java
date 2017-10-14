@@ -6,6 +6,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.LayerDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -23,6 +25,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
@@ -51,6 +54,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.tomclaw.appsend.util.ColorHelper.getAttributedColor;
 import static com.tomclaw.appsend.util.FileHelper.getExternalDirectory;
 import static com.tomclaw.appsend.util.IntentHelper.formatText;
 import static com.tomclaw.appsend.util.IntentHelper.openGooglePlay;
@@ -102,6 +106,15 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     private ProgressBar progress;
     private TextView extraAccess;
     private SwipeRefreshLayout swipeRefresh;
+    private View rateContainer;
+    private TextView ratingScore;
+    private TextView ratesCount;
+    private RatingBar smallRatingIndicator;
+    private ProgressBar rdeFive;
+    private ProgressBar rdeFour;
+    private ProgressBar rdeThree;
+    private ProgressBar rdeTwo;
+    private ProgressBar rdeOne;
 
     private StoreInfo info;
 
@@ -173,6 +186,30 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         progress = (ProgressBar) findViewById(R.id.progress);
         extraAccess = (TextView) findViewById(R.id.extra_access);
         swipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
+        rateContainer = findViewById(R.id.rate_container);
+        ratingScore = (TextView) findViewById(R.id.rating_score);
+        ratesCount = (TextView) findViewById(R.id.rates_count);
+
+        rdeFive = (ProgressBar) findViewById(R.id.rating_detail_element_five);
+        rdeFour = (ProgressBar) findViewById(R.id.rating_detail_element_four);
+        rdeThree = (ProgressBar) findViewById(R.id.rating_detail_element_three);
+        rdeTwo = (ProgressBar) findViewById(R.id.rating_detail_element_two);
+        rdeOne = (ProgressBar) findViewById(R.id.rating_detail_element_one);
+
+        smallRatingIndicator = (RatingBar) findViewById(R.id.small_rating_indicator);
+        int emptyColor = getAttributedColor(this, R.attr.rating_empty);
+        int fillColor = getAttributedColor(this, R.attr.rating_fill);
+        LayerDrawable stars = (LayerDrawable) smallRatingIndicator.getProgressDrawable();
+        stars.getDrawable(0).setColorFilter(emptyColor, PorterDuff.Mode.SRC_ATOP);
+        stars.getDrawable(1).setColorFilter(emptyColor, PorterDuff.Mode.SRC_ATOP);
+        stars.getDrawable(2).setColorFilter(fillColor, PorterDuff.Mode.SRC_ATOP);
+
+        tintProgress(rdeFive, getAttributedColor(this, R.attr.five_stars));
+        tintProgress(rdeFour, getAttributedColor(this, R.attr.four_stars));
+        tintProgress(rdeThree, getAttributedColor(this, R.attr.three_stars));
+        tintProgress(rdeTwo, getAttributedColor(this, R.attr.two_stars));
+        tintProgress(rdeOne, getAttributedColor(this, R.attr.one_stars));
+
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -351,6 +388,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         } else {
             uploaderContainerView.setVisibility(View.GONE);
         }
+        setRating(meta.getRating(), meta.getRateCount());
         versionView.setText(getString(R.string.app_version_format, item.getVersion(), item.getVersionCode()));
         uploadedTimeView.setText(timeHelper().getFormattedDate(item.getTime()));
         checksumView.setText(item.getSha1());
@@ -748,5 +786,26 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
                 .appId(appId)
                 .storeItem(item)
                 .startForResult(REQUEST_UPDATE_META);
+    }
+
+    private void tintProgress(ProgressBar progressBar, int color) {
+        LayerDrawable progress = (LayerDrawable) progressBar.getProgressDrawable();
+        progress.getDrawable(1).setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+    }
+
+    private void setRating(float rating, int count) {
+        boolean hasRating = (rating != 0);
+        rateContainer.setVisibility(hasRating ? View.VISIBLE : View.GONE);
+        if (hasRating) {
+            smallRatingIndicator.setRating(rating);
+            ratingScore.setText(Float.toString(rating));
+            ratesCount.setText(Integer.toString(count));
+
+            rdeFive.setProgress(80);
+            rdeFour.setProgress(15);
+            rdeThree.setProgress(7);
+            rdeTwo.setProgress(3);
+            rdeOne.setProgress(10);
+        }
     }
 }

@@ -1,6 +1,8 @@
 package com.tomclaw.appsend.main.meta;
 
 import android.content.pm.PackageInfo;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import com.bumptech.glide.Glide;
+import com.flurry.android.FlurryAgent;
 import com.tomclaw.appsend.PackageIconGlideLoader;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.MainExecutor;
@@ -92,9 +95,10 @@ public class MetaActivity extends AppCompatActivity {
 
     private static PackageIconGlideLoader loader;
 
-    @AfterInject
-    void updateTheme() {
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         ThemeHelper.updateTheme(this);
+        super.onCreate(savedInstanceState);
     }
 
     @AfterViews
@@ -246,6 +250,7 @@ public class MetaActivity extends AppCompatActivity {
         }
 
         showContent();
+        FlurryAgent.logEvent("Meta: loaded");
     }
 
     private void updateCategories() {
@@ -273,6 +278,7 @@ public class MetaActivity extends AppCompatActivity {
     }
 
     private void onMetaSaved() {
+        FlurryAgent.logEvent("Meta: saved");
         setResult(RESULT_OK);
         finish();
     }

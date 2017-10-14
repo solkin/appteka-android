@@ -59,6 +59,8 @@
 
                         <include layout="@layout/download_meta_block" />
 
+                        <include layout="@layout/download_rate_block" />
+
                         <include layout="@layout/download_info_block" />
 
                         <include layout="@layout/download_permissions_block" />
