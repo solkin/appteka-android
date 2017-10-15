@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 import com.tomclaw.appsend.main.item.StoreItem;
 import com.tomclaw.appsend.main.meta.Meta;
+import com.tomclaw.appsend.main.meta.RateItem;
 
 import java.util.List;
 
@@ -20,9 +21,10 @@ public class StoreInfo implements Parcelable {
     public int status;
     public List<StoreVersion> versions;
     public Meta meta;
+    public List<RateItem> rates;
 
     public StoreInfo(long expiresIn, StoreItem info, String link, String url, int status,
-                     List<StoreVersion> versions, Meta meta) {
+                     List<StoreVersion> versions, Meta meta, List<RateItem> rates) {
         this.expiresIn = expiresIn;
         this.info = info;
         this.link = link;
@@ -30,6 +32,7 @@ public class StoreInfo implements Parcelable {
         this.status = status;
         this.versions = versions;
         this.meta = meta;
+        this.rates = rates;
     }
 
     protected StoreInfo(Parcel in) {
@@ -39,6 +42,7 @@ public class StoreInfo implements Parcelable {
         status = in.readInt();
         versions = in.createTypedArrayList(StoreVersion.CREATOR);
         meta = in.readParcelable(Meta.class.getClassLoader());
+        rates = in.createTypedArrayList(RateItem.CREATOR);
     }
 
     @Override
@@ -49,6 +53,7 @@ public class StoreInfo implements Parcelable {
         dest.writeInt(status);
         dest.writeTypedList(versions);
         dest.writeParcelable(meta, flags);
+        dest.writeTypedList(rates);
     }
 
     @Override
@@ -82,6 +87,10 @@ public class StoreInfo implements Parcelable {
 
     public Meta getMeta() {
         return meta;
+    }
+
+    public List<RateItem> getRates() {
+        return rates;
     }
 
     public static final Creator<StoreInfo> CREATOR = new Creator<StoreInfo>() {

@@ -16,6 +16,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.AppCompatRatingBar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -40,6 +41,7 @@ import com.tomclaw.appsend.main.dto.StoreVersion;
 import com.tomclaw.appsend.main.item.StoreItem;
 import com.tomclaw.appsend.main.meta.Meta;
 import com.tomclaw.appsend.main.meta.MetaActivity_;
+import com.tomclaw.appsend.main.meta.RateItem;
 import com.tomclaw.appsend.main.meta.Scores;
 import com.tomclaw.appsend.main.view.MemberImageView;
 import com.tomclaw.appsend.main.view.PlayView;
@@ -108,6 +110,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     private TextView extraAccess;
     private SwipeRefreshLayout swipeRefresh;
     private View ratingContainer;
+    private ViewGroup ratingItemsContainer;
     private TextView ratingScore;
     private TextView ratesCount;
     private RatingBar smallRatingIndicator;
@@ -188,6 +191,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         extraAccess = (TextView) findViewById(R.id.extra_access);
         swipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
         ratingContainer = findViewById(R.id.rating_container);
+        ratingItemsContainer = (ViewGroup) findViewById(R.id.rating_items);
         ratingScore = (TextView) findViewById(R.id.rating_score);
         ratesCount = (TextView) findViewById(R.id.rates_count);
 
@@ -198,12 +202,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         rdeOne = (ProgressBar) findViewById(R.id.rating_detail_element_one);
 
         smallRatingIndicator = (RatingBar) findViewById(R.id.small_rating_indicator);
-        int emptyColor = getAttributedColor(this, R.attr.rating_empty);
-        int fillColor = getAttributedColor(this, R.attr.rating_fill);
-        LayerDrawable stars = (LayerDrawable) smallRatingIndicator.getProgressDrawable();
-        stars.getDrawable(0).setColorFilter(emptyColor, PorterDuff.Mode.SRC_ATOP);
-        stars.getDrawable(1).setColorFilter(emptyColor, PorterDuff.Mode.SRC_ATOP);
-        stars.getDrawable(2).setColorFilter(fillColor, PorterDuff.Mode.SRC_ATOP);
+        tintRatingIndicator(smallRatingIndicator);
 
         tintProgress(rdeFive, getAttributedColor(this, R.attr.five_stars));
         tintProgress(rdeFour, getAttributedColor(this, R.attr.four_stars));
@@ -396,6 +395,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         bindButtons(item.getPackageName(), item.getVersionCode());
         bindPermissions(item.getPermissions());
         bindVersions(info.getVersions(), item.getAppId(), item.getVersionCode());
+        bindRatingItems(info.getRates());
         appLabel = labelView.getText().toString();
         setTitle(appLabel);
     }
@@ -672,6 +672,28 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         otherVersionsTitle.setVisibility(versionsContainer.getVisibility());
     }
 
+    private void bindRatingItems(List<RateItem> rateItems) {
+        ratingItemsContainer.removeAllViews();
+        boolean isRatingsAdded = false;
+        for (final RateItem rateItem : rateItems) {
+            View ratingItemView = getLayoutInflater().inflate(R.layout.rating_item, ratingItemsContainer, false);
+            MemberImageView memberImageView = (MemberImageView) ratingItemView.findViewById(R.id.member_avatar);
+            AppCompatRatingBar ratingView = (AppCompatRatingBar) ratingItemView.findViewById(R.id.rating_view);
+            TextView dateView = (TextView) ratingItemView.findViewById(R.id.date_view);
+            TextView commentView = (TextView) ratingItemView.findViewById(R.id.comment_view);
+
+            tintRatingIndicator(ratingView);
+
+            memberImageView.setMemberId(rateItem.getUserId());
+            ratingView.setRating(rateItem.getScore());
+            dateView.setText(timeHelper().getFormattedDate(rateItem.getTime()));
+            commentView.setText(rateItem.getText());
+            ratingItemsContainer.addView(ratingItemView);
+            isRatingsAdded = true;
+        }
+        ratingItemsContainer.setVisibility(isRatingsAdded ? View.VISIBLE : View.GONE);
+    }
+
     @Override
     public void onInfoLoaded(StoreInfo storeInfo) {
         bindStoreItem(storeInfo);
@@ -787,6 +809,15 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
                 .appId(appId)
                 .storeItem(item)
                 .startForResult(REQUEST_UPDATE_META);
+    }
+
+    private void tintRatingIndicator(RatingBar ratingIndicator) {
+        int emptyColor = getAttributedColor(this, R.attr.rating_empty);
+        int fillColor = getAttributedColor(this, R.attr.rating_fill);
+        LayerDrawable stars = (LayerDrawable) ratingIndicator.getProgressDrawable();
+        stars.getDrawable(0).setColorFilter(emptyColor, PorterDuff.Mode.SRC_ATOP);
+        stars.getDrawable(1).setColorFilter(emptyColor, PorterDuff.Mode.SRC_ATOP);
+        stars.getDrawable(2).setColorFilter(fillColor, PorterDuff.Mode.SRC_ATOP);
     }
 
     private void tintProgress(ProgressBar progressBar, int color) {

@@ -1,11 +1,13 @@
 package com.tomclaw.appsend.main.controller;
 
+import com.google.gson.reflect.TypeToken;
 import com.orhanobut.logger.Logger;
 import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.main.dto.StoreInfo;
 import com.tomclaw.appsend.main.dto.StoreVersion;
 import com.tomclaw.appsend.main.item.StoreItem;
 import com.tomclaw.appsend.main.meta.Meta;
+import com.tomclaw.appsend.main.meta.RateItem;
 import com.tomclaw.appsend.util.GsonSingleton;
 import com.tomclaw.appsend.util.HttpParamsBuilder;
 import com.tomclaw.appsend.util.HttpUtil;
@@ -19,6 +21,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -309,9 +312,12 @@ public class DownloadController extends AbstractController<DownloadController.Do
                     }
                     JSONObject info = jsonObject.getJSONObject("info");
                     JSONObject metaJson = jsonObject.getJSONObject("meta");
+                    JSONArray ratesJson = jsonObject.getJSONArray("rates");
                     Meta meta = GsonSingleton.getInstance().fromJson(metaJson.toString(), Meta.class);
+                    Type ratesType = new TypeToken<ArrayList<RateItem>>(){}.getType();
+                    List<RateItem> rates = GsonSingleton.getInstance().fromJson(ratesJson.toString(), ratesType);
                     StoreItem storeItem = parseStoreItem(info);
-                    StoreInfo storeInfo = new StoreInfo(expiresIn, storeItem, link, webUrl, status, storeVersions, meta);
+                    StoreInfo storeInfo = new StoreInfo(expiresIn, storeItem, link, webUrl, status, storeVersions, meta, rates);
                     onInfoLoaded(storeInfo);
                     break;
                 }
