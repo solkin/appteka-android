@@ -18,6 +18,7 @@ public class Meta implements Parcelable, Unobfuscatable {
     private long user_id;
     private int rate_count;
     private float rating;
+    private Scores scores;
 
     public Meta() {
     }
@@ -31,6 +32,7 @@ public class Meta implements Parcelable, Unobfuscatable {
         user_id = in.readLong();
         rate_count = in.readInt();
         rating = in.readFloat();
+        scores = in.readParcelable(Scores.class.getClassLoader());
     }
 
     @Override
@@ -43,6 +45,7 @@ public class Meta implements Parcelable, Unobfuscatable {
         dest.writeLong(user_id);
         dest.writeInt(rate_count);
         dest.writeFloat(rating);
+        dest.writeParcelable(scores, flags);
     }
 
     @Override
@@ -92,5 +95,9 @@ public class Meta implements Parcelable, Unobfuscatable {
 
     public float getRating() {
         return rating;
+    }
+
+    public Scores getScores() {
+        return scores;
     }
 }

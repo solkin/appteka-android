@@ -40,6 +40,7 @@ import com.tomclaw.appsend.main.dto.StoreVersion;
 import com.tomclaw.appsend.main.item.StoreItem;
 import com.tomclaw.appsend.main.meta.Meta;
 import com.tomclaw.appsend.main.meta.MetaActivity_;
+import com.tomclaw.appsend.main.meta.Scores;
 import com.tomclaw.appsend.main.view.MemberImageView;
 import com.tomclaw.appsend.main.view.PlayView;
 import com.tomclaw.appsend.util.FileHelper;
@@ -106,7 +107,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     private ProgressBar progress;
     private TextView extraAccess;
     private SwipeRefreshLayout swipeRefresh;
-    private View rateContainer;
+    private View ratingContainer;
     private TextView ratingScore;
     private TextView ratesCount;
     private RatingBar smallRatingIndicator;
@@ -186,7 +187,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         progress = (ProgressBar) findViewById(R.id.progress);
         extraAccess = (TextView) findViewById(R.id.extra_access);
         swipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
-        rateContainer = findViewById(R.id.rate_container);
+        ratingContainer = findViewById(R.id.rating_container);
         ratingScore = (TextView) findViewById(R.id.rating_score);
         ratesCount = (TextView) findViewById(R.id.rates_count);
 
@@ -388,7 +389,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         } else {
             uploaderContainerView.setVisibility(View.GONE);
         }
-        setRating(meta.getRating(), meta.getRateCount());
+        setRating(meta.getRating(), meta.getRateCount(), meta.getScores());
         versionView.setText(getString(R.string.app_version_format, item.getVersion(), item.getVersionCode()));
         uploadedTimeView.setText(timeHelper().getFormattedDate(item.getTime()));
         checksumView.setText(item.getSha1());
@@ -793,19 +794,19 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         progress.getDrawable(1).setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
     }
 
-    private void setRating(float rating, int count) {
-        boolean hasRating = (rating != 0);
-        rateContainer.setVisibility(hasRating ? View.VISIBLE : View.GONE);
+    private void setRating(float rating, int count, Scores scores) {
+        boolean hasRating = (rating != 0 && count > 0);
+        ratingContainer.setVisibility(hasRating ? View.VISIBLE : View.GONE);
         if (hasRating) {
             smallRatingIndicator.setRating(rating);
             ratingScore.setText(Float.toString(rating));
             ratesCount.setText(Integer.toString(count));
 
-            rdeFive.setProgress(80);
-            rdeFour.setProgress(15);
-            rdeThree.setProgress(7);
-            rdeTwo.setProgress(3);
-            rdeOne.setProgress(10);
+            rdeFive.setProgress(100 * scores.getFive() / count);
+            rdeFour.setProgress(100 * scores.getFour() / count);
+            rdeThree.setProgress(100 * scores.getThree() / count);
+            rdeTwo.setProgress(100 * scores.getTwo() / count);
+            rdeOne.setProgress(100 * scores.getOne() / count);
         }
     }
 }
