@@ -4,7 +4,9 @@
     android:id="@+id/rating_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingLeft="8dp"
+    android:paddingRight="8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -104,8 +106,6 @@
         android:id="@+id/rating_items"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-    </LinearLayout>
+        android:orientation="vertical" />
 
 </LinearLayout>
