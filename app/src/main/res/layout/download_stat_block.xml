@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
@@ -41,6 +42,47 @@
             app:play_comment="@string/android_comment"
             app:play_count="4.1"
             app:play_description="@string/android" />
+
+        <RelativeLayout
+            android:id="@+id/category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/play_item_margin"
+            android:layout_marginStart="@dimen/play_item_margin">
+
+            <FrameLayout
+                android:id="@+id/category_icon_container"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/circle_filled"
+                android:minWidth="58dp"
+                android:minHeight="58dp"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp">
+
+                <com.caverock.androidsvg.SVGImageView
+                    android:id="@+id/category_icon"
+                    android:layout_width="32sp"
+                    android:layout_height="32sp"
+                    android:layout_gravity="center"
+                    tools:src="@drawable/weather_sunny"
+                    tools:tint="@android:color/white" />
+
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/category_icon_container"
+                android:layout_centerHorizontal="true"
+                android:gravity="center"
+                android:paddingTop="8dp"
+                android:text="@string/category"
+                android:textColor="@color/grey_dark"
+                android:textSize="12sp" />
+
+        </RelativeLayout>
 
     </LinearLayout>
 

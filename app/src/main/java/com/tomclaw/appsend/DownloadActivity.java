@@ -32,6 +32,9 @@ import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import com.bumptech.glide.Glide;
+import com.caverock.androidsvg.SVG;
+import com.caverock.androidsvg.SVGImageView;
+import com.caverock.androidsvg.SVGParseException;
 import com.flurry.android.FlurryAgent;
 import com.greysonparrelli.permiso.Permiso;
 import com.greysonparrelli.permiso.PermisoActivity;
@@ -39,6 +42,7 @@ import com.tomclaw.appsend.main.controller.DownloadController;
 import com.tomclaw.appsend.main.dto.StoreInfo;
 import com.tomclaw.appsend.main.dto.StoreVersion;
 import com.tomclaw.appsend.main.item.StoreItem;
+import com.tomclaw.appsend.main.meta.Category;
 import com.tomclaw.appsend.main.meta.Meta;
 import com.tomclaw.appsend.main.meta.MetaActivity_;
 import com.tomclaw.appsend.main.meta.RateItem;
@@ -119,6 +123,8 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     private ProgressBar rdeThree;
     private ProgressBar rdeTwo;
     private ProgressBar rdeOne;
+    private View categoryContainer;
+    private SVGImageView categoryIcon;
 
     private StoreInfo info;
 
@@ -209,6 +215,9 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         tintProgress(rdeThree, getAttributedColor(this, R.attr.three_stars));
         tintProgress(rdeTwo, getAttributedColor(this, R.attr.two_stars));
         tintProgress(rdeOne, getAttributedColor(this, R.attr.one_stars));
+
+        categoryContainer = findViewById(R.id.category);
+        categoryIcon = (SVGImageView) findViewById(R.id.category_icon);
 
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -381,6 +390,17 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
             metaBlockView.setVisibility(View.VISIBLE);
             descriptionView.setText(StringUtil.urlDecode(info.getMeta().getDescription()));
             descriptionAuthorAvatar.setMemberId(info.getMeta().getUserId());
+        }
+        Category category = meta.getCategory();
+        if (category != null) {
+            categoryContainer.setVisibility(View.VISIBLE);
+            try {
+                SVG svg = SVG.getFromString(category.getIcon());
+                categoryIcon.setSVG(svg);
+            } catch (SVGParseException ignored) {
+            }
+        } else {
+            categoryContainer.setVisibility(View.GONE);
         }
         if (item.getUserId() > 0) {
             uploaderContainerView.setVisibility(View.VISIBLE);
