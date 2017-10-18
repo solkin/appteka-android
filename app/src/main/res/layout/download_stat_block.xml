@@ -52,22 +52,33 @@
 
             <FrameLayout
                 android:id="@+id/category_icon_container"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:background="@drawable/circle_filled"
-                android:minWidth="58dp"
-                android:minHeight="58dp"
-                android:paddingLeft="4dp"
-                android:paddingRight="4dp">
+                android:layout_width="58dp"
+                android:layout_height="60dp">
 
-                <com.caverock.androidsvg.SVGImageView
-                    android:id="@+id/category_icon"
-                    android:layout_width="32sp"
-                    android:layout_height="32sp"
-                    android:layout_gravity="center"
-                    tools:src="@drawable/weather_sunny"
-                    tools:tint="@android:color/white" />
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="2dp"
+                    android:src="@drawable/grey_circle_filled" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="2dp"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/circle_filled"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="4dp">
+
+                    <com.caverock.androidsvg.SVGImageView
+                        android:id="@+id/category_icon"
+                        android:layout_width="32sp"
+                        android:layout_height="32sp"
+                        android:layout_gravity="center"
+                        tools:src="@drawable/weather_sunny"
+                        tools:tint="@android:color/white" />
+
+                </FrameLayout>
 
             </FrameLayout>
 
@@ -77,7 +88,7 @@
                 android:layout_below="@+id/category_icon_container"
                 android:layout_centerHorizontal="true"
                 android:gravity="center"
-                android:paddingTop="8dp"
+                android:paddingTop="6dp"
                 android:text="@string/category"
                 android:textColor="@color/grey_dark"
                 android:textSize="12sp" />
