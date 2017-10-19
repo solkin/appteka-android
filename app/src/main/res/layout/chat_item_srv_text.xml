@@ -40,7 +40,7 @@
                 android:textSize="12sp"
                 android:textStyle="bold"
                 android:visibility="visible" />
-            
+
         </LinearLayout>
 
     </FrameLayout>

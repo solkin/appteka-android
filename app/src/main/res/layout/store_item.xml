@@ -36,7 +36,7 @@
             app:primaryTextSize="12sp"
             app:secondaryTextColor="@android:color/white"
             app:secondaryTextSize="11sp"
-            tools:visibility="visible"/>
+            tools:visibility="visible" />
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -145,7 +145,7 @@
                             android:textStyle="bold"
                             android:textAllCaps="true"
                             android:textSize="12sp"
-                            tools:text="@string/store_app_installed"/>
+                            tools:text="@string/store_app_installed" />
 
                         <TextView
                             android:id="@+id/app_downloads"
@@ -160,7 +160,7 @@
                             android:textAllCaps="true"
                             android:textSize="14sp"
                             tools:text="15"
-                            tools:visibility="gone"/>
+                            tools:visibility="gone" />
 
                         <ImageView
                             android:id="@+id/downloads_icon"

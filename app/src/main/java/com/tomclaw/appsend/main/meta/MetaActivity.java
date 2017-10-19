@@ -26,7 +26,6 @@ import com.tomclaw.appsend.net.Session;
 import com.tomclaw.appsend.util.LocaleHelper;
 import com.tomclaw.appsend.util.ThemeHelper;
 
-import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;

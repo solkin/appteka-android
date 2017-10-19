@@ -145,7 +145,7 @@
         android:textColor="@color/accent_color"
         android:visibility="gone"
         tools:visibility="visible"
-        tools:text="Use SMS, calls access"/>
+        tools:text="Use SMS, calls access" />
 
     <LinearLayout
         android:id="@+id/uploader_container"
@@ -173,7 +173,7 @@
             android:background="@drawable/avatar_background"
             android:padding="5dp"
             android:scaleType="fitCenter"
-            tools:src="@drawable/crown"/>
+            tools:src="@drawable/crown" />
 
     </LinearLayout>
 

@@ -6,8 +6,8 @@
     android:viewportHeight="48">
 
     <group
-            android:translateX="2.000000"
-            android:translateY="2.000000">
+        android:translateX="2.000000"
+        android:translateY="2.000000">
         <path
             android:fillColor="#F5F5F5"
             android:fillType="evenOdd"
@@ -16,8 +16,8 @@
             android:strokeWidth="2"
             android:pathData="M 22 0 C 34.1502644963 0 44 9.84973550372 44 22 C 44 34.1502644963 34.1502644963 44 22 44 C 9.84973550372 44 0 34.1502644963 0 22 C 0 9.84973550372 9.84973550372 0 22 0 Z" />
         <group
-                android:translateX="12.000000"
-                android:translateY="12.000000">
+            android:translateX="12.000000"
+            android:translateY="12.000000">
             <path
                 android:fillColor="#1D9C5A"
                 android:strokeWidth="1"

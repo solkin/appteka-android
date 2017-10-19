@@ -33,8 +33,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Method;
 
-import static java.security.AccessController.getContext;
-
 /**
  * SVGImageView is a View widget that allows users to include SVG images in their layouts.
  * <p>
