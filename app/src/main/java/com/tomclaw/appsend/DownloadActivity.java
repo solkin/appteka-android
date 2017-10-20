@@ -66,6 +66,7 @@ import static com.tomclaw.appsend.util.FileHelper.getExternalDirectory;
 import static com.tomclaw.appsend.util.IntentHelper.formatText;
 import static com.tomclaw.appsend.util.IntentHelper.openGooglePlay;
 import static com.tomclaw.appsend.util.IntentHelper.shareUrl;
+import static com.tomclaw.appsend.util.LocaleHelper.getLocalizedName;
 import static com.tomclaw.appsend.util.PermissionHelper.getPermissionSmallInfo;
 import static com.tomclaw.appsend.util.TimeHelper.timeHelper;
 
@@ -125,6 +126,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     private ProgressBar rdeOne;
     private View categoryContainer;
     private SVGImageView categoryIcon;
+    private TextView categoryTitle;
 
     private StoreInfo info;
 
@@ -218,6 +220,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
 
         categoryContainer = findViewById(R.id.category);
         categoryIcon = (SVGImageView) findViewById(R.id.category_icon);
+        categoryTitle = (TextView) findViewById(R.id.category_title);
 
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -399,6 +402,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
                 categoryIcon.setSVG(svg);
             } catch (SVGParseException ignored) {
             }
+            categoryTitle.setText(getLocalizedName(meta.getCategory()));
         } else {
             categoryContainer.setVisibility(View.GONE);
         }

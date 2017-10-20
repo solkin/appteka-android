@@ -27,8 +27,6 @@
             android:id="@+id/app_size"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/play_item_margin"
-            android:layout_marginStart="@dimen/play_item_margin"
             app:play_comment="@string/size_comment"
             app:play_count="19.7"
             app:play_description="@string/megabytes" />
@@ -37,21 +35,18 @@
             android:id="@+id/min_android"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/play_item_margin"
-            android:layout_marginStart="@dimen/play_item_margin"
             app:play_comment="@string/android_comment"
             app:play_count="4.1"
             app:play_description="@string/android" />
 
         <RelativeLayout
             android:id="@+id/category"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/play_item_margin"
-            android:layout_marginStart="@dimen/play_item_margin">
+            android:layout_width="80dp"
+            android:layout_height="wrap_content">
 
             <FrameLayout
                 android:id="@+id/category_icon_container"
+                android:layout_centerHorizontal="true"
                 android:layout_width="58dp"
                 android:layout_height="60dp">
 
@@ -83,10 +78,13 @@
             </FrameLayout>
 
             <TextView
+                android:id="@+id/category_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/category_icon_container"
                 android:layout_centerHorizontal="true"
+                android:maxLines="2"
+                android:ellipsize="marquee"
                 android:gravity="center"
                 android:paddingTop="6dp"
                 android:text="@string/category"
