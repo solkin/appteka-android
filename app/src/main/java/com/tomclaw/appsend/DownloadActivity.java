@@ -69,6 +69,7 @@ import static com.tomclaw.appsend.util.IntentHelper.shareUrl;
 import static com.tomclaw.appsend.util.LocaleHelper.getLocalizedName;
 import static com.tomclaw.appsend.util.PermissionHelper.getPermissionSmallInfo;
 import static com.tomclaw.appsend.util.TimeHelper.timeHelper;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 /**
  * Created by ivsolkin on 14.01.17.
@@ -710,7 +711,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
 
             memberImageView.setMemberId(rateItem.getUserId());
             ratingView.setRating(rateItem.getScore());
-            dateView.setText(timeHelper().getFormattedDate(rateItem.getTime()));
+            dateView.setText(timeHelper().getFormattedDate(SECONDS.toMillis(rateItem.getTime())));
             commentView.setText(rateItem.getText());
             ratingItemsContainer.addView(ratingItemView);
             isRatingsAdded = true;

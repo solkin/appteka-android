@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by ivsolkin on 17.01.17.
@@ -23,7 +24,7 @@ public class StoreHelper {
         String defLabel = file.getString("def_label");
         int downloads = file.getInt("downloads");
         String icon = file.optString("icon");
-        long downloadTime = file.getLong("download_time") * 1000;
+        long downloadTime = TimeUnit.SECONDS.toMillis(file.getLong("download_time"));
         Map<String, String> labels = parseStringMap(file.getJSONObject("labels"));
         String packageName = file.getString("package");
         List<String> permissions = parseStringList(file.getJSONArray("permissions"));
@@ -31,7 +32,7 @@ public class StoreHelper {
         String androidVersion = file.getString("android");
         String sha1 = file.getString("sha1");
         long size = file.getLong("size");
-        long time = file.getLong("time") * 1000;
+        long time = TimeUnit.SECONDS.toMillis(file.getLong("time"));
         int verCode = file.getInt("ver_code");
         String verName = file.getString("ver_name");
         long userId = file.getLong("user_id");
