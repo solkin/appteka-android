@@ -4,6 +4,7 @@
     android:id="@+id/rating_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:foreground="?selectableItemBackground"
     android:orientation="vertical"
     android:paddingLeft="8dp"
     android:paddingRight="8dp">
@@ -11,7 +12,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:foreground="?selectableItemBackground"
         android:orientation="horizontal"
         android:paddingBottom="8dp"
         android:paddingLeft="12dp"

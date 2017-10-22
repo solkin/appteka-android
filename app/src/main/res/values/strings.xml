@@ -178,4 +178,6 @@
     <string name="description_author">is description author</string>
     <string name="edit_meta">Edit Description</string>
     <string name="category">Application\ncategory</string>
+    <string name="ratings">Ratings</string>
+    <string name="load_ratings_error">An error occurred while loading ratings</string>
 </resources>

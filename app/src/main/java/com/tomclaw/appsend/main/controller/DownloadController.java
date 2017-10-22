@@ -7,7 +7,7 @@ import com.tomclaw.appsend.main.dto.StoreInfo;
 import com.tomclaw.appsend.main.dto.StoreVersion;
 import com.tomclaw.appsend.main.item.StoreItem;
 import com.tomclaw.appsend.main.meta.Meta;
-import com.tomclaw.appsend.main.meta.RateItem;
+import com.tomclaw.appsend.main.dto.RateItem;
 import com.tomclaw.appsend.util.GsonSingleton;
 import com.tomclaw.appsend.util.HttpParamsBuilder;
 import com.tomclaw.appsend.util.HttpUtil;

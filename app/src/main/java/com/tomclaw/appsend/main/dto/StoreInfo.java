@@ -5,7 +5,6 @@ import android.os.Parcelable;
 
 import com.tomclaw.appsend.main.item.StoreItem;
 import com.tomclaw.appsend.main.meta.Meta;
-import com.tomclaw.appsend.main.meta.RateItem;
 
 import java.util.List;
 

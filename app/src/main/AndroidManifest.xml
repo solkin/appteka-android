@@ -75,6 +75,10 @@
             android:name=".main.meta.MetaActivity_"
             android:label="@string/description"
             android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".main.ratings.RatingsActivity_"
+            android:label="@string/ratings"
+            android:windowSoftInputMode="stateHidden" />
 
         <provider
             android:name=".core.GlobalProvider"

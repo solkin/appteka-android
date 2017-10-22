@@ -172,4 +172,6 @@
     <string name="description_author">автор описания</string>
     <string name="edit_meta">Изменить описание</string>
     <string name="category">Категория\nприложения</string>
+    <string name="ratings">Отзывы</string>
+    <string name="load_ratings_error">Произошла ошибка при загрузке отзывов</string>
 </resources>

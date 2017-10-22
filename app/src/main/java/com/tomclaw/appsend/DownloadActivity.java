@@ -39,14 +39,15 @@ import com.flurry.android.FlurryAgent;
 import com.greysonparrelli.permiso.Permiso;
 import com.greysonparrelli.permiso.PermisoActivity;
 import com.tomclaw.appsend.main.controller.DownloadController;
+import com.tomclaw.appsend.main.dto.RateItem;
 import com.tomclaw.appsend.main.dto.StoreInfo;
 import com.tomclaw.appsend.main.dto.StoreVersion;
 import com.tomclaw.appsend.main.item.StoreItem;
 import com.tomclaw.appsend.main.meta.Category;
 import com.tomclaw.appsend.main.meta.Meta;
 import com.tomclaw.appsend.main.meta.MetaActivity_;
-import com.tomclaw.appsend.main.meta.RateItem;
 import com.tomclaw.appsend.main.meta.Scores;
+import com.tomclaw.appsend.main.ratings.RatingsActivity_;
 import com.tomclaw.appsend.main.view.MemberImageView;
 import com.tomclaw.appsend.main.view.PlayView;
 import com.tomclaw.appsend.util.FileHelper;
@@ -275,6 +276,13 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         };
         findViewById(R.id.app_checksum_title).setOnClickListener(checksumClickListener);
         checksumView.setOnClickListener(checksumClickListener);
+        ratingContainer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FlurryAgent.logEvent("Store app: ratings");
+                RatingsActivity_.intent(DownloadActivity.this).appId(appId).start();
+            }
+        });
 
         if (isCreateInstance) {
             loadInfo();

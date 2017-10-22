@@ -1,4 +1,4 @@
-package com.tomclaw.appsend.main.meta;
+package com.tomclaw.appsend.main.dto;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -8,7 +8,6 @@ import com.tomclaw.appsend.util.Unobfuscatable;
 /**
  * Created by solkin on 15.10.17.
  */
-
 public class RateItem implements Parcelable, Unobfuscatable {
 
     private int rate_id;
