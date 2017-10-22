@@ -9,14 +9,14 @@
     tools:ignore="UseCompoundDrawables">
 
     <FrameLayout
-        android:layout_width="38dp"
-        android:layout_height="38dp"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:background="@drawable/category_icon_back">
 
         <com.caverock.androidsvg.SVGImageView
             android:id="@+id/icon"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
             android:layout_gravity="center"
             tools:src="@drawable/battery_60"
             tools:tint="@android:color/white" />
@@ -30,7 +30,7 @@
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
         android:textColor="?attr/text_primary_color"
-        android:textSize="14sp"
+        android:textSize="16sp"
         tools:text="Battery" />
 
 </LinearLayout>
