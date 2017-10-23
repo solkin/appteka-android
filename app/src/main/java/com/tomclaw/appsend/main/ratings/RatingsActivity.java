@@ -217,5 +217,6 @@ public class RatingsActivity extends AppCompatActivity implements RatingsListene
     @Override
     public void onRetry() {
         loadRatings();
+        adapter.notifyDataSetChanged();
     }
 }
