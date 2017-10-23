@@ -20,14 +20,14 @@ public class RatingsAdapter extends RecyclerView.Adapter<RatingViewHolder> {
     private final Context context;
     private final List<RatingItem> list;
 
-    private OnNextPageListener listener;
+    private RatingsListener listener;
 
     public RatingsAdapter(Context context) {
         this.context = context;
         this.list = new ArrayList<>();
     }
 
-    public void setListener(OnNextPageListener listener) {
+    public void setListener(RatingsListener listener) {
         this.listener = listener;
     }
 

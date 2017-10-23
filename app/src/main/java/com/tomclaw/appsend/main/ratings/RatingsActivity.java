@@ -36,7 +36,7 @@ import retrofit2.Response;
  * Created by Igor on 22.10.2017.
  */
 @EActivity(R.layout.ratings_activity)
-public class RatingsActivity extends AppCompatActivity implements OnNextPageListener {
+public class RatingsActivity extends AppCompatActivity implements RatingsListener {
 
     @Bean
     StoreServiceHolder serviceHolder;
@@ -58,6 +58,15 @@ public class RatingsActivity extends AppCompatActivity implements OnNextPageList
 
     @InstanceState
     ArrayList<RatingItem> ratingItems;
+
+    @InstanceState
+    boolean isError;
+
+    @InstanceState
+    boolean isLoading;
+
+    @InstanceState
+    boolean isLoadedAll;
 
     @Extra
     String appId;
@@ -106,6 +115,8 @@ public class RatingsActivity extends AppCompatActivity implements OnNextPageList
     }
 
     private void loadRatings() {
+        isLoading = true;
+        isError = false;
         int rateId = 0;
         if (ratingItems != null && ratingItems.size() > 0) {
             RatingItem lastRatingItem = ratingItems.get(ratingItems.size() - 1);
@@ -140,12 +151,27 @@ public class RatingsActivity extends AppCompatActivity implements OnNextPageList
     }
 
     private void onLoaded(RatingsResponse body) {
-        ratingItems = new ArrayList<>(body.getRatings());
+        isLoading = false;
+        isError = false;
+        if (body.getRatings().isEmpty()) {
+            isLoadedAll = true;
+        }
+        if (ratingItems == null) {
+            ratingItems = new ArrayList<>(body.getRatings());
+        } else {
+            ratingItems.addAll(body.getRatings());
+        }
         updateRatings();
     }
 
     private void onLoadingError() {
-        showError();
+        isLoading = false;
+        isError = true;
+        if (ratingItems == null) {
+            showError();
+        } else {
+            adapter.notifyDataSetChanged();
+        }
     }
 
     private void updateRatings() {
@@ -175,7 +201,21 @@ public class RatingsActivity extends AppCompatActivity implements OnNextPageList
     }
 
     @Override
-    public void onNextPage() {
+    public int onNextPage() {
+        if (isError) {
+            return RatingsListener.STATE_FAILED;
+        } else if (isLoading) {
+            return RatingsListener.STATE_LOADING;
+        } else if (isLoadedAll) {
+            return RatingsListener.STATE_LOADED;
+        } else {
+            loadRatings();
+            return RatingsListener.STATE_LOADING;
+        }
+    }
+
+    @Override
+    public void onRetry() {
         loadRatings();
     }
 }
