@@ -7,7 +7,7 @@ import com.tomclaw.appsend.main.dto.StoreInfo;
 import com.tomclaw.appsend.main.dto.StoreVersion;
 import com.tomclaw.appsend.main.item.StoreItem;
 import com.tomclaw.appsend.main.meta.Meta;
-import com.tomclaw.appsend.main.dto.RateItem;
+import com.tomclaw.appsend.main.dto.RatingItem;
 import com.tomclaw.appsend.util.GsonSingleton;
 import com.tomclaw.appsend.util.HttpParamsBuilder;
 import com.tomclaw.appsend.util.HttpUtil;
@@ -314,9 +314,9 @@ public class DownloadController extends AbstractController<DownloadController.Do
                     JSONObject metaJson = jsonObject.getJSONObject("meta");
                     JSONArray ratesJson = jsonObject.getJSONArray("rates");
                     Meta meta = GsonSingleton.getInstance().fromJson(metaJson.toString(), Meta.class);
-                    Type ratesType = new TypeToken<ArrayList<RateItem>>() {
+                    Type ratesType = new TypeToken<ArrayList<RatingItem>>() {
                     }.getType();
-                    List<RateItem> rates = GsonSingleton.getInstance().fromJson(ratesJson.toString(), ratesType);
+                    List<RatingItem> rates = GsonSingleton.getInstance().fromJson(ratesJson.toString(), ratesType);
                     StoreItem storeItem = parseStoreItem(info);
                     StoreInfo storeInfo = new StoreInfo(expiresIn, storeItem, link, webUrl, status, storeVersions, meta, rates);
                     onInfoLoaded(storeInfo);

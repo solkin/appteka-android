@@ -20,10 +20,10 @@ public class StoreInfo implements Parcelable {
     public int status;
     public List<StoreVersion> versions;
     public Meta meta;
-    public List<RateItem> rates;
+    public List<RatingItem> rates;
 
     public StoreInfo(long expiresIn, StoreItem info, String link, String url, int status,
-                     List<StoreVersion> versions, Meta meta, List<RateItem> rates) {
+                     List<StoreVersion> versions, Meta meta, List<RatingItem> rates) {
         this.expiresIn = expiresIn;
         this.info = info;
         this.link = link;
@@ -41,7 +41,7 @@ public class StoreInfo implements Parcelable {
         status = in.readInt();
         versions = in.createTypedArrayList(StoreVersion.CREATOR);
         meta = in.readParcelable(Meta.class.getClassLoader());
-        rates = in.createTypedArrayList(RateItem.CREATOR);
+        rates = in.createTypedArrayList(RatingItem.CREATOR);
     }
 
     @Override
@@ -88,7 +88,7 @@ public class StoreInfo implements Parcelable {
         return meta;
     }
 
-    public List<RateItem> getRates() {
+    public List<RatingItem> getRates() {
         return rates;
     }
 

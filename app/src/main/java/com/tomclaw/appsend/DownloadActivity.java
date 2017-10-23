@@ -39,7 +39,7 @@ import com.flurry.android.FlurryAgent;
 import com.greysonparrelli.permiso.Permiso;
 import com.greysonparrelli.permiso.PermisoActivity;
 import com.tomclaw.appsend.main.controller.DownloadController;
-import com.tomclaw.appsend.main.dto.RateItem;
+import com.tomclaw.appsend.main.dto.RatingItem;
 import com.tomclaw.appsend.main.dto.StoreInfo;
 import com.tomclaw.appsend.main.dto.StoreVersion;
 import com.tomclaw.appsend.main.item.StoreItem;
@@ -48,6 +48,7 @@ import com.tomclaw.appsend.main.meta.Meta;
 import com.tomclaw.appsend.main.meta.MetaActivity_;
 import com.tomclaw.appsend.main.meta.Scores;
 import com.tomclaw.appsend.main.ratings.RatingsActivity_;
+import com.tomclaw.appsend.main.ratings.RatingsHelper;
 import com.tomclaw.appsend.main.view.MemberImageView;
 import com.tomclaw.appsend.main.view.PlayView;
 import com.tomclaw.appsend.util.FileHelper;
@@ -62,6 +63,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.tomclaw.appsend.main.ratings.RatingsHelper.tintRatingIndicator;
 import static com.tomclaw.appsend.util.ColorHelper.getAttributedColor;
 import static com.tomclaw.appsend.util.FileHelper.getExternalDirectory;
 import static com.tomclaw.appsend.util.IntentHelper.formatText;
@@ -212,7 +214,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         rdeOne = (ProgressBar) findViewById(R.id.rating_detail_element_one);
 
         smallRatingIndicator = (RatingBar) findViewById(R.id.small_rating_indicator);
-        tintRatingIndicator(smallRatingIndicator);
+        tintRatingIndicator(this, smallRatingIndicator);
 
         tintProgress(rdeFive, getAttributedColor(this, R.attr.five_stars));
         tintProgress(rdeFour, getAttributedColor(this, R.attr.four_stars));
@@ -705,22 +707,22 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         otherVersionsTitle.setVisibility(versionsContainer.getVisibility());
     }
 
-    private void bindRatingItems(List<RateItem> rateItems) {
+    private void bindRatingItems(List<RatingItem> ratingItems) {
         ratingItemsContainer.removeAllViews();
         boolean isRatingsAdded = false;
-        for (final RateItem rateItem : rateItems) {
+        for (final RatingItem ratingItem : ratingItems) {
             View ratingItemView = getLayoutInflater().inflate(R.layout.rating_item, ratingItemsContainer, false);
             MemberImageView memberImageView = (MemberImageView) ratingItemView.findViewById(R.id.member_avatar);
             AppCompatRatingBar ratingView = (AppCompatRatingBar) ratingItemView.findViewById(R.id.rating_view);
             TextView dateView = (TextView) ratingItemView.findViewById(R.id.date_view);
             TextView commentView = (TextView) ratingItemView.findViewById(R.id.comment_view);
 
-            tintRatingIndicator(ratingView);
+            tintRatingIndicator(this, ratingView);
 
-            memberImageView.setMemberId(rateItem.getUserId());
-            ratingView.setRating(rateItem.getScore());
-            dateView.setText(timeHelper().getFormattedDate(SECONDS.toMillis(rateItem.getTime())));
-            commentView.setText(rateItem.getText());
+            memberImageView.setMemberId(ratingItem.getUserId());
+            ratingView.setRating(ratingItem.getScore());
+            dateView.setText(timeHelper().getFormattedDate(SECONDS.toMillis(ratingItem.getTime())));
+            commentView.setText(ratingItem.getText());
             ratingItemsContainer.addView(ratingItemView);
             isRatingsAdded = true;
         }
@@ -842,15 +844,6 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
                 .appId(appId)
                 .storeItem(item)
                 .startForResult(REQUEST_UPDATE_META);
-    }
-
-    private void tintRatingIndicator(RatingBar ratingIndicator) {
-        int emptyColor = getAttributedColor(this, R.attr.rating_empty);
-        int fillColor = getAttributedColor(this, R.attr.rating_fill);
-        LayerDrawable stars = (LayerDrawable) ratingIndicator.getProgressDrawable();
-        stars.getDrawable(0).setColorFilter(emptyColor, PorterDuff.Mode.SRC_ATOP);
-        stars.getDrawable(1).setColorFilter(emptyColor, PorterDuff.Mode.SRC_ATOP);
-        stars.getDrawable(2).setColorFilter(fillColor, PorterDuff.Mode.SRC_ATOP);
     }
 
     private void tintProgress(ProgressBar progressBar, int color) {

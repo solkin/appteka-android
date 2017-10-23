@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
@@ -11,10 +13,13 @@ import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import com.tomclaw.appsend.R;
-import com.tomclaw.appsend.main.dto.RateItem;
+import com.tomclaw.appsend.core.MainExecutor;
+import com.tomclaw.appsend.core.StoreServiceHolder;
+import com.tomclaw.appsend.main.dto.RatingItem;
 import com.tomclaw.appsend.util.ThemeHelper;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.InstanceState;
@@ -23,11 +28,18 @@ import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 /**
  * Created by Igor on 22.10.2017.
  */
 @EActivity(R.layout.ratings_activity)
-public class RatingsActivity extends AppCompatActivity {
+public class RatingsActivity extends AppCompatActivity implements OnNextPageListener {
+
+    @Bean
+    StoreServiceHolder serviceHolder;
 
     @ViewById
     Toolbar toolbar;
@@ -36,16 +48,21 @@ public class RatingsActivity extends AppCompatActivity {
     ViewFlipper viewFlipper;
 
     @ViewById
+    RecyclerView ratingsView;
+
+    @ViewById
     TextView errorText;
 
     @ViewById
     Button retryButton;
 
     @InstanceState
-    ArrayList<RateItem> rateItems;
+    ArrayList<RatingItem> ratingItems;
 
     @Extra
     String appId;
+
+    private RatingsAdapter adapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -65,7 +82,16 @@ public class RatingsActivity extends AppCompatActivity {
             actionBar.setDisplayShowTitleEnabled(true);
         }
 
-        if (rateItems == null) {
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this,
+                LinearLayoutManager.VERTICAL, false);
+        adapter = new RatingsAdapter(this);
+        adapter.setHasStableIds(true);
+        adapter.setListener(this);
+        ratingsView.setLayoutManager(layoutManager);
+        ratingsView.setAdapter(adapter);
+
+        if (ratingItems == null) {
+            showProgress();
             loadRatings();
         } else {
             updateRatings();
@@ -80,11 +106,52 @@ public class RatingsActivity extends AppCompatActivity {
     }
 
     private void loadRatings() {
+        int rateId = 0;
+        if (ratingItems != null && ratingItems.size() > 0) {
+            RatingItem lastRatingItem = ratingItems.get(ratingItems.size() - 1);
+            rateId = lastRatingItem.getRateId();
+        }
+        Call<RatingsResponse> call = serviceHolder.getService().getRatings(1, appId, rateId, 7);
+        call.enqueue(new Callback<RatingsResponse>() {
+            @Override
+            public void onResponse(Call<RatingsResponse> call, final Response<RatingsResponse> response) {
+                MainExecutor.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (response.isSuccessful()) {
+                            onLoaded(response.body());
+                        } else {
+                            onLoadingError();
+                        }
+                    }
+                });
+            }
 
+            @Override
+            public void onFailure(Call<RatingsResponse> call, Throwable t) {
+                MainExecutor.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        onLoadingError();
+                    }
+                });
+            }
+        });
+    }
+
+    private void onLoaded(RatingsResponse body) {
+        ratingItems = new ArrayList<>(body.getRatings());
+        updateRatings();
+    }
+
+    private void onLoadingError() {
+        showError();
     }
 
     private void updateRatings() {
-
+        adapter.setItems(ratingItems);
+        adapter.notifyDataSetChanged();
+        showContent();
     }
 
     private void showProgress() {
@@ -100,10 +167,15 @@ public class RatingsActivity extends AppCompatActivity {
         retryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                showProgress();
                 loadRatings();
             }
         });
         viewFlipper.setDisplayedChild(2);
     }
 
+    @Override
+    public void onNextPage() {
+        loadRatings();
+    }
 }

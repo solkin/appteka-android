@@ -8,7 +8,7 @@ import com.tomclaw.appsend.util.Unobfuscatable;
 /**
  * Created by solkin on 15.10.17.
  */
-public class RateItem implements Parcelable, Unobfuscatable {
+public class RatingItem implements Parcelable, Unobfuscatable {
 
     private int rate_id;
     private int score;
@@ -16,10 +16,10 @@ public class RateItem implements Parcelable, Unobfuscatable {
     private long time;
     private long user_id;
 
-    public RateItem() {
+    public RatingItem() {
     }
 
-    protected RateItem(Parcel in) {
+    protected RatingItem(Parcel in) {
         rate_id = in.readInt();
         score = in.readInt();
         text = in.readString();
@@ -41,15 +41,15 @@ public class RateItem implements Parcelable, Unobfuscatable {
         return 0;
     }
 
-    public static final Creator<RateItem> CREATOR = new Creator<RateItem>() {
+    public static final Creator<RatingItem> CREATOR = new Creator<RatingItem>() {
         @Override
-        public RateItem createFromParcel(Parcel in) {
-            return new RateItem(in);
+        public RatingItem createFromParcel(Parcel in) {
+            return new RatingItem(in);
         }
 
         @Override
-        public RateItem[] newArray(int size) {
-            return new RateItem[size];
+        public RatingItem[] newArray(int size) {
+            return new RatingItem[size];
         }
     };
 

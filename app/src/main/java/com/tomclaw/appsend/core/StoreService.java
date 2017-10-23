@@ -2,6 +2,7 @@ package com.tomclaw.appsend.core;
 
 import com.tomclaw.appsend.main.dto.StoreInfo;
 import com.tomclaw.appsend.main.meta.MetaResponse;
+import com.tomclaw.appsend.main.ratings.RatingsResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -31,5 +32,11 @@ public interface StoreService {
                                @Field("category") int category,
                                @Field("exclusive") int exclusive,
                                @Field("description") String description);
+
+    @GET("rating.php")
+    Call<RatingsResponse> getRatings(@Query("v") int apiVer,
+                                     @Query("app_id") String appId,
+                                     @Query("rate_id") int rateId,
+                                     @Query("count") int count);
 
 }
