@@ -10,7 +10,7 @@
 
     <color name="badge_color">#f79406</color>
 
-    <color name="grey">#dadada</color>
+    <color name="grey">#25000000</color>
     <color name="grey_dark">#747474</color>
     <color name="black">#000</color>
     <color name="dark_back_color">#FF101010</color>
