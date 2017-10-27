@@ -48,7 +48,6 @@ import com.tomclaw.appsend.main.meta.Meta;
 import com.tomclaw.appsend.main.meta.MetaActivity_;
 import com.tomclaw.appsend.main.meta.Scores;
 import com.tomclaw.appsend.main.ratings.RatingsActivity_;
-import com.tomclaw.appsend.main.ratings.RatingsHelper;
 import com.tomclaw.appsend.main.view.MemberImageView;
 import com.tomclaw.appsend.main.view.PlayView;
 import com.tomclaw.appsend.util.FileHelper;
@@ -859,11 +858,27 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
             ratingScore.setText(Float.toString(rating));
             ratesCount.setText(Integer.toString(count));
 
-            rdeFive.setProgress(100 * scores.getFive() / count);
-            rdeFour.setProgress(100 * scores.getFour() / count);
-            rdeThree.setProgress(100 * scores.getThree() / count);
-            rdeTwo.setProgress(100 * scores.getTwo() / count);
-            rdeOne.setProgress(100 * scores.getOne() / count);
+            int maxValue = getMaxValue(
+                    scores.getFive(),
+                    scores.getFour(),
+                    scores.getThree(),
+                    scores.getTwo(),
+                    scores.getOne()
+            );
+
+            rdeFive.setProgress(100 * scores.getFive() / maxValue);
+            rdeFour.setProgress(100 * scores.getFour() / maxValue);
+            rdeThree.setProgress(100 * scores.getThree() / maxValue);
+            rdeTwo.setProgress(100 * scores.getTwo() / maxValue);
+            rdeOne.setProgress(100 * scores.getOne() / maxValue);
         }
+    }
+
+    private int getMaxValue(int... values) {
+        int result = values[0];
+        for (int value : values) {
+            result = Math.max(result, value);
+        }
+        return result;
     }
 }
