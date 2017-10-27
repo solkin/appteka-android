@@ -16,7 +16,6 @@
             android:id="@+id/progress_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/progress_overlay"
             android:visibility="gone">
 
             <ProgressBar
