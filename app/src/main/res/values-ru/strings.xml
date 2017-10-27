@@ -174,4 +174,7 @@
     <string name="category">Категория\nприложения</string>
     <string name="ratings">Отзывы</string>
     <string name="load_ratings_error">Произошла ошибка при загрузке отзывов</string>
+    <string name="submit">Отправить</string>
+    <string name="rate_this_app">Оцените это приложение</string>
+    <string name="your_opinion">Скажите, что Вы думаете о приложении</string>
 </resources>

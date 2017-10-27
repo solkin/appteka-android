@@ -180,4 +180,7 @@
     <string name="category">Application\ncategory</string>
     <string name="ratings">Ratings</string>
     <string name="load_ratings_error">An error occurred while loading ratings</string>
+    <string name="submit">Submit</string>
+    <string name="rate_this_app">Rate this app</string>
+    <string name="your_opinion">Tell us what you think</string>
 </resources>

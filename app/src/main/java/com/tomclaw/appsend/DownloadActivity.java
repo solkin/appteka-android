@@ -50,6 +50,7 @@ import com.tomclaw.appsend.main.meta.Scores;
 import com.tomclaw.appsend.main.ratings.RatingsActivity_;
 import com.tomclaw.appsend.main.view.MemberImageView;
 import com.tomclaw.appsend.main.view.PlayView;
+import com.tomclaw.appsend.net.Session;
 import com.tomclaw.appsend.util.FileHelper;
 import com.tomclaw.appsend.util.IntentHelper;
 import com.tomclaw.appsend.util.LocaleHelper;
@@ -130,6 +131,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     private View categoryContainer;
     private SVGImageView categoryIcon;
     private TextView categoryTitle;
+    private MemberImageView ratingMemberAvatar;
 
     private StoreInfo info;
 
@@ -205,6 +207,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         ratingItemsContainer = (ViewGroup) findViewById(R.id.rating_items);
         ratingScore = (TextView) findViewById(R.id.rating_score);
         ratesCount = (TextView) findViewById(R.id.rates_count);
+        ratingMemberAvatar = (MemberImageView) findViewById(R.id.rating_member_avatar);
 
         rdeFive = (ProgressBar) findViewById(R.id.rating_detail_element_five);
         rdeFour = (ProgressBar) findViewById(R.id.rating_detail_element_four);
@@ -432,6 +435,9 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         bindRatingItems(info.getRates());
         appLabel = labelView.getText().toString();
         setTitle(appLabel);
+
+        long userId = Session.getInstance().getUserData().getUserId();
+        ratingMemberAvatar.setMemberId(userId);
     }
 
     private void bindButtons() {
