@@ -177,4 +177,6 @@
     <string name="submit">Отправить</string>
     <string name="rate_this_app">Оцените это приложение</string>
     <string name="your_opinion">Скажите, что Вы думаете о приложении</string>
+    <string name="error_rate_app">Не удалось отправить оценку. Пожалуйста, повторите запрос.</string>
+    <string name="please_set_rating">Пожалуйста, поставьте оценку</string>
 </resources>

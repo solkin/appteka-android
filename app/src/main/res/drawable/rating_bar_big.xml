@@ -2,11 +2,11 @@
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@android:id/background"
-        android:drawable="@drawable/ic_star_grey600_36dp" />
+        android:drawable="@drawable/ic_star_grey600_24dp" />
     <item
         android:id="@android:id/secondaryProgress"
-        android:drawable="@drawable/ic_star_grey600_36dp" />
+        android:drawable="@drawable/ic_star_grey600_24dp" />
     <item
         android:id="@android:id/progress"
-        android:drawable="@drawable/ic_star_black_36dp" />
+        android:drawable="@drawable/ic_star_black_24dp" />
 </layer-list>

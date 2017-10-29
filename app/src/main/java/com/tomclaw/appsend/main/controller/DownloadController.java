@@ -3,11 +3,13 @@ package com.tomclaw.appsend.main.controller;
 import com.google.gson.reflect.TypeToken;
 import com.orhanobut.logger.Logger;
 import com.tomclaw.appsend.core.MainExecutor;
+import com.tomclaw.appsend.main.dto.RatingItem;
 import com.tomclaw.appsend.main.dto.StoreInfo;
 import com.tomclaw.appsend.main.dto.StoreVersion;
 import com.tomclaw.appsend.main.item.StoreItem;
 import com.tomclaw.appsend.main.meta.Meta;
-import com.tomclaw.appsend.main.dto.RatingItem;
+import com.tomclaw.appsend.main.ratings.UserRating;
+import com.tomclaw.appsend.net.Session;
 import com.tomclaw.appsend.util.GsonSingleton;
 import com.tomclaw.appsend.util.HttpParamsBuilder;
 import com.tomclaw.appsend.util.HttpUtil;
@@ -108,7 +110,8 @@ public class DownloadController extends AbstractController<DownloadController.Do
             @Override
             public void run() {
                 try {
-                    loadInfoInternal(appId);
+                    String guid = Session.getInstance().getUserData().getGuid();
+                    loadInfoInternal(appId, guid);
                 } catch (Throwable ignored) {
                     onInfoError();
                 }
@@ -265,7 +268,7 @@ public class DownloadController extends AbstractController<DownloadController.Do
         });
     }
 
-    private void loadInfoInternal(String appId) {
+    private void loadInfoInternal(String appId, String guid) {
         onProgress();
         HttpURLConnection connection = null;
         InputStream in = null;
@@ -273,6 +276,7 @@ public class DownloadController extends AbstractController<DownloadController.Do
             HttpParamsBuilder builder = new HttpParamsBuilder();
             builder.appendParam("v", "1");
             builder.appendParam("app_id", appId);
+            builder.appendParam("guid", guid);
             String storeUrl = HOST_INFO_URL + "?" + builder.build();
             Logger.d("Store url: %s", storeUrl);
             URL url = new URL(storeUrl);
@@ -312,13 +316,16 @@ public class DownloadController extends AbstractController<DownloadController.Do
                     }
                     JSONObject info = jsonObject.getJSONObject("info");
                     JSONObject metaJson = jsonObject.getJSONObject("meta");
+                    JSONObject userRatingJson = jsonObject.getJSONObject("user_rating");
                     JSONArray ratesJson = jsonObject.getJSONArray("rates");
                     Meta meta = GsonSingleton.getInstance().fromJson(metaJson.toString(), Meta.class);
+                    UserRating userRating = GsonSingleton.getInstance().fromJson(userRatingJson.toString(), UserRating.class);
                     Type ratesType = new TypeToken<ArrayList<RatingItem>>() {
                     }.getType();
                     List<RatingItem> rates = GsonSingleton.getInstance().fromJson(ratesJson.toString(), ratesType);
                     StoreItem storeItem = parseStoreItem(info);
-                    StoreInfo storeInfo = new StoreInfo(expiresIn, storeItem, link, webUrl, status, storeVersions, meta, rates);
+                    StoreInfo storeInfo = new StoreInfo(expiresIn, storeItem, link, webUrl, status,
+                            storeVersions, meta, rates, userRating);
                     onInfoLoaded(storeInfo);
                     break;
                 }

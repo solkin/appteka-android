@@ -3,59 +3,108 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:foreground="?selectableItemBackground"
     android:orientation="vertical">
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:descendantFocusability="beforeDescendants"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:paddingTop="10dp">
 
-        <LinearLayout
+        <ViewFlipper
+            android:id="@+id/rating_flipper"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/rating_box_background"
-            android:orientation="vertical"
             android:layout_marginTop="24dp"
-            android:paddingBottom="8dp"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp"
-            android:paddingTop="24dp">
+            android:background="@color/rating_box_background">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
+                android:orientation="vertical"
                 android:paddingBottom="8dp"
-                android:paddingTop="8dp"
-                android:text="@string/rate_this_app" />
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:paddingTop="24dp">
 
-            <android.support.v7.widget.AppCompatRatingBar
-                android:id="@+id/user_rating_view"
-                android:layout_width="wrap_content"
-                android:layout_height="36dp"
-                android:layout_gravity="center_horizontal"
-                android:isIndicator="false"
-                android:numStars="5"
-                android:progressDrawable="@drawable/rating_bar_big"
-                android:rating="3"
-                android:stepSize="1" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp"
+                    android:text="@string/rate_this_app" />
 
-            <EditText
-                android:id="@+id/user_opinion"
+                <android.support.v7.widget.AppCompatRatingBar
+                    android:id="@+id/user_rating_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="36dp"
+                    android:layout_gravity="center_horizontal"
+                    android:isIndicator="false"
+                    android:numStars="5"
+                    android:progressDrawable="@drawable/rating_bar_big"
+                    android:rating="0"
+                    android:stepSize="1" />
+
+                <EditText
+                    android:id="@+id/user_opinion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/your_opinion"
+                    android:inputType="textCapSentences|textMultiLine"
+                    android:maxLines="6"
+                    android:paddingTop="4dp"
+                    android:textColor="?attr/text_primary_color"
+                    android:textSize="17sp" />
+
+                <Button
+                    android:id="@+id/submit_rating"
+                    style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:text="@string/submit" />
+
+            </LinearLayout>
+
+            <FrameLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/your_opinion"/>
+                android:layout_height="match_parent">
 
-            <Button
-                android:id="@+id/submit_rating"
-                style="@style/Widget.AppCompat.Button.Borderless.Colored"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="right"
-                android:text="@string/submit" />
+                <ProgressBar
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_gravity="center" />
 
-        </LinearLayout>
+            </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:paddingTop="24dp"
+                    android:text="@string/error_rate_app" />
+
+                <Button
+                    android:id="@+id/rating_retry_button"
+                    style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/retry" />
+
+            </LinearLayout>
+
+        </ViewFlipper>
 
         <com.tomclaw.appsend.main.view.MemberImageView
             android:id="@+id/rating_member_avatar"
@@ -74,6 +123,7 @@
         android:id="@+id/rating_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:foreground="?selectableItemBackground"
         android:orientation="vertical">
 
         <LinearLayout

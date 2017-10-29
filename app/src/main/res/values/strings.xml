@@ -183,4 +183,6 @@
     <string name="submit">Submit</string>
     <string name="rate_this_app">Rate this app</string>
     <string name="your_opinion">Tell us what you think</string>
+    <string name="error_rate_app">Failed to submit ratings, please try again</string>
+    <string name="please_set_rating">Please, set rating</string>
 </resources>

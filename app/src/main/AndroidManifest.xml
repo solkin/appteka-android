@@ -53,6 +53,7 @@
             android:label="@string/upload" />
         <activity
             android:name="com.tomclaw.appsend.DownloadActivity"
+            android:windowSoftInputMode="stateAlwaysHidden"
             android:label="@string/download">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

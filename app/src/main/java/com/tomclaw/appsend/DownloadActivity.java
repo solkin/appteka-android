@@ -24,11 +24,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.bumptech.glide.Glide;
@@ -38,6 +40,9 @@ import com.caverock.androidsvg.SVGParseException;
 import com.flurry.android.FlurryAgent;
 import com.greysonparrelli.permiso.Permiso;
 import com.greysonparrelli.permiso.PermisoActivity;
+import com.tomclaw.appsend.core.MainExecutor;
+import com.tomclaw.appsend.core.StoreServiceHolder;
+import com.tomclaw.appsend.core.StoreServiceHolder_;
 import com.tomclaw.appsend.main.controller.DownloadController;
 import com.tomclaw.appsend.main.dto.RatingItem;
 import com.tomclaw.appsend.main.dto.StoreInfo;
@@ -47,12 +52,15 @@ import com.tomclaw.appsend.main.meta.Category;
 import com.tomclaw.appsend.main.meta.Meta;
 import com.tomclaw.appsend.main.meta.MetaActivity_;
 import com.tomclaw.appsend.main.meta.Scores;
+import com.tomclaw.appsend.main.ratings.RateResponse;
 import com.tomclaw.appsend.main.ratings.RatingsActivity_;
+import com.tomclaw.appsend.main.ratings.UserRating;
 import com.tomclaw.appsend.main.view.MemberImageView;
 import com.tomclaw.appsend.main.view.PlayView;
 import com.tomclaw.appsend.net.Session;
 import com.tomclaw.appsend.util.FileHelper;
 import com.tomclaw.appsend.util.IntentHelper;
+import com.tomclaw.appsend.util.KeyboardHelper;
 import com.tomclaw.appsend.util.LocaleHelper;
 import com.tomclaw.appsend.util.PermissionHelper;
 import com.tomclaw.appsend.util.PreferenceHelper;
@@ -62,6 +70,10 @@ import com.tomclaw.appsend.util.ThemeHelper;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static com.tomclaw.appsend.main.ratings.RatingsHelper.tintRatingIndicator;
 import static com.tomclaw.appsend.util.ColorHelper.getAttributedColor;
@@ -132,15 +144,22 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     private SVGImageView categoryIcon;
     private TextView categoryTitle;
     private MemberImageView ratingMemberAvatar;
+    private ViewFlipper ratingFlipper;
+    private RatingBar userRating;
+    private EditText userOpinion;
 
     private StoreInfo info;
 
     private transient long progressUpdateTime = 0;
 
+    private StoreServiceHolder serviceHolder;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         ThemeHelper.updateTheme(this);
         super.onCreate(savedInstanceState);
+
+        serviceHolder = StoreServiceHolder_.getInstance_(this);
 
         setContentView(R.layout.download_activity);
         ThemeHelper.updateStatusBar(this);
@@ -208,6 +227,9 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         ratingScore = (TextView) findViewById(R.id.rating_score);
         ratesCount = (TextView) findViewById(R.id.rates_count);
         ratingMemberAvatar = (MemberImageView) findViewById(R.id.rating_member_avatar);
+        ratingFlipper = (ViewFlipper) findViewById(R.id.rating_flipper);
+        userRating = (RatingBar) findViewById(R.id.user_rating_view);
+        userOpinion = (EditText) findViewById(R.id.user_opinion);
 
         rdeFive = (ProgressBar) findViewById(R.id.rating_detail_element_five);
         rdeFour = (ProgressBar) findViewById(R.id.rating_detail_element_four);
@@ -266,6 +288,18 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
             @Override
             public void onClick(View v) {
                 editMeta();
+            }
+        });
+        findViewById(R.id.submit_rating).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                submitRating();
+            }
+        });
+        findViewById(R.id.rating_retry_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                submitRating();
             }
         });
         View.OnClickListener checksumClickListener = new View.OnClickListener() {
@@ -433,6 +467,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         bindPermissions(item.getPermissions());
         bindVersions(info.getVersions(), item.getAppId(), item.getVersionCode());
         bindRatingItems(info.getRates());
+        bindUserRating(info.getUserRating());
         appLabel = labelView.getText().toString();
         setTitle(appLabel);
 
@@ -734,6 +769,13 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         ratingItemsContainer.setVisibility(isRatingsAdded ? View.VISIBLE : View.GONE);
     }
 
+    private void bindUserRating(UserRating rating) {
+        if (rating.getUserId() != 0) {
+            userOpinion.setText(rating.getText());
+            userRating.setRating(rating.getScore());
+        }
+    }
+
     @Override
     public void onInfoLoaded(StoreInfo storeInfo) {
         bindStoreItem(storeInfo);
@@ -849,6 +891,63 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
                 .appId(appId)
                 .storeItem(item)
                 .startForResult(REQUEST_UPDATE_META);
+    }
+
+    private void submitRating() {
+        try {
+            showRatingProgress();
+            int score = (int) userRating.getRating();
+            if (score < 1) {
+                Toast.makeText(this, R.string.please_set_rating, Toast.LENGTH_LONG).show();
+                return;
+            }
+            String text = userOpinion.getText().toString();
+            String guid = Session.getInstance().getUserData().getGuid();
+            Call<RateResponse> call = serviceHolder.getService().setRating(1, appId, guid, score, text);
+            call.enqueue(new Callback<RateResponse>() {
+                @Override
+                public void onResponse(Call<RateResponse> call, final Response<RateResponse> response) {
+                    MainExecutor.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            RateResponse rateResponse = response.body();
+                            if (response.isSuccessful() && rateResponse != null
+                                    && rateResponse.getStatus() == 200) {
+                                onRatingPosted();
+                            } else {
+                                showRatingError();
+                            }
+                        }
+                    });
+                }
+
+                @Override
+                public void onFailure(Call<RateResponse> call, Throwable t) {
+                    MainExecutor.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            showRatingError();
+                        }
+                    });
+                }
+            });
+        } catch (Throwable ex) {
+            showRatingError();
+        }
+    }
+
+    private void onRatingPosted() {
+        reloadInfo();
+        ratingFlipper.setDisplayedChild(0);
+    }
+
+    private void showRatingProgress() {
+        KeyboardHelper.hideKeyboard(userOpinion);
+        ratingFlipper.setDisplayedChild(1);
+    }
+
+    private void showRatingError() {
+        ratingFlipper.setDisplayedChild(2);
     }
 
     private void tintProgress(ProgressBar progressBar, int color) {
