@@ -2,6 +2,7 @@ package com.tomclaw.appsend.main.ratings;
 
 import android.support.v7.widget.AppCompatRatingBar;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -47,7 +48,9 @@ class RatingViewHolder extends RecyclerView.ViewHolder {
         memberImageView.setMemberId(item.getUserId());
         ratingView.setRating(item.getScore());
         dateView.setText(timeHelper().getFormattedDate(SECONDS.toMillis(item.getTime())));
-        commentView.setText(item.getText());
+        String text = item.getText();
+        commentView.setVisibility(TextUtils.isEmpty(text) ? View.GONE : View.VISIBLE);
+        commentView.setText(text);
         boolean isProgress = false;
         boolean isError = false;
         if (isLast) {

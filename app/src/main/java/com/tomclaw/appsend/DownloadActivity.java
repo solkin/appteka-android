@@ -762,7 +762,9 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
             memberImageView.setMemberId(ratingItem.getUserId());
             ratingView.setRating(ratingItem.getScore());
             dateView.setText(timeHelper().getFormattedDate(SECONDS.toMillis(ratingItem.getTime())));
-            commentView.setText(ratingItem.getText());
+            String text = ratingItem.getText();
+            commentView.setVisibility(TextUtils.isEmpty(text) ? View.GONE : View.VISIBLE);
+            commentView.setText(text);
             ratingItemsContainer.addView(ratingItemView);
             isRatingsAdded = true;
         }
@@ -774,6 +776,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
             userOpinion.setText(rating.getText());
             userRating.setRating(rating.getScore());
         }
+        tintRatingIndicator(this, userRating);
     }
 
     @Override
@@ -895,14 +898,14 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
 
     private void submitRating() {
         try {
-            showRatingProgress();
             int score = (int) userRating.getRating();
+            String text = userOpinion.getText().toString();
+            String guid = Session.getInstance().getUserData().getGuid();
             if (score < 1) {
                 Toast.makeText(this, R.string.please_set_rating, Toast.LENGTH_LONG).show();
                 return;
             }
-            String text = userOpinion.getText().toString();
-            String guid = Session.getInstance().getUserData().getGuid();
+            showRatingProgress();
             Call<RateResponse> call = serviceHolder.getService().setRating(1, appId, guid, score, text);
             call.enqueue(new Callback<RateResponse>() {
                 @Override
