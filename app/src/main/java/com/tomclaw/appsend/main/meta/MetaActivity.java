@@ -195,8 +195,7 @@ public class MetaActivity extends AppCompatActivity {
         try {
             String guid = Session.getInstance().getUserData().getGuid();
             int position = categories.getSelectedItemPosition();
-            Category category = meta.getCategories().get(position);
-            int categoryId = category.getId();
+            int categoryId = (int) categories.getAdapter().getItemId(position);
             int exclusiveValue = exclusive.isChecked() ? 1 : 0;
             String descriptionText = description.getText().toString();
             Call<MetaResponse> call = serviceHolder.getService().setMeta(1, appId, guid, categoryId, exclusiveValue, descriptionText);

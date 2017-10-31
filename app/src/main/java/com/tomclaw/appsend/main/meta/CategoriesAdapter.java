@@ -2,6 +2,7 @@ package com.tomclaw.appsend.main.meta;
 
 import android.content.Context;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,8 +62,9 @@ public class CategoriesAdapter extends BaseAdapter {
         TextView names = (TextView) view.findViewById(R.id.name);
         Category category = getItem(position);
         if (category.getId() == 0) {
-            icon.setImageResource(R.drawable.close);
-            icon.setColorFilter(0xffffffff, PorterDuff.Mode.SRC_ATOP);
+            Drawable drawable = view.getResources().getDrawable(R.drawable.close);
+            drawable.setColorFilter(0xffffffff, PorterDuff.Mode.SRC_IN);
+            icon.setImageDrawable(drawable);
             names.setText(R.string.category_not_defined);
         } else {
             try {
