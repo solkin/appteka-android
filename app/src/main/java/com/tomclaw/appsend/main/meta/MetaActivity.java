@@ -35,6 +35,8 @@ import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 
+import java.util.ArrayList;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -253,7 +255,11 @@ public class MetaActivity extends AppCompatActivity {
     }
 
     private void updateCategories() {
-        CategoriesAdapter adapter = new CategoriesAdapter(this, meta.getCategories());
+        ArrayList<Category> categoriesList = new ArrayList<>();
+        categoriesList.add(new Category());
+        categoriesList.addAll(meta.getCategories());
+
+        CategoriesAdapter adapter = new CategoriesAdapter(this, categoriesList);
         categories.setAdapter(adapter);
     }
 

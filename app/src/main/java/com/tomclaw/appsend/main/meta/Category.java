@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 import com.tomclaw.appsend.util.Unobfuscatable;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,9 +14,9 @@ import java.util.Map;
  */
 public class Category implements Parcelable, Unobfuscatable {
 
-    private String icon;
-    private int id;
-    private Map<String, String> name;
+    private String icon = null;
+    private int id = 0;
+    private Map<String, String> name = Collections.emptyMap();
 
     public Category() {
     }

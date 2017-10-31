@@ -1,6 +1,7 @@
 package com.tomclaw.appsend.main.meta;
 
 import android.content.Context;
+import android.graphics.PorterDuff;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -56,15 +57,21 @@ public class CategoriesAdapter extends BaseAdapter {
         } else {
             view = inflater.inflate(R.layout.category_item, parent, false);
         }
-        Category category = getItem(position);
         SVGImageView icon = (SVGImageView) view.findViewById(R.id.icon);
         TextView names = (TextView) view.findViewById(R.id.name);
-        try {
-            SVG svg = SVG.getFromString(category.getIcon());
-            icon.setSVG(svg);
-        } catch (SVGParseException ignored) {
+        Category category = getItem(position);
+        if (category.getId() == 0) {
+            icon.setImageResource(R.drawable.close);
+            icon.setColorFilter(0xffffffff, PorterDuff.Mode.SRC_ATOP);
+            names.setText(R.string.category_not_defined);
+        } else {
+            try {
+                SVG svg = SVG.getFromString(category.getIcon());
+                icon.setSVG(svg);
+            } catch (SVGParseException ignored) {
+            }
+            names.setText(LocaleHelper.getLocalizedName(category));
         }
-        names.setText(LocaleHelper.getLocalizedName(category));
         return view;
     }
 }

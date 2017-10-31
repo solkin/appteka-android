@@ -444,7 +444,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
             descriptionAuthorAvatar.setMemberId(info.getMeta().getUserId());
         }
         Category category = meta.getCategory();
-        if (category != null) {
+        if (category != null && category.getId() != 0) {
             categoryContainer.setVisibility(View.VISIBLE);
             try {
                 SVG svg = SVG.getFromString(category.getIcon());
