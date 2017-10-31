@@ -1,6 +1,7 @@
 package com.tomclaw.appsend.main.meta;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
@@ -63,7 +64,7 @@ public class CategoriesAdapter extends BaseAdapter {
         Category category = getItem(position);
         if (category.getId() == 0) {
             Drawable drawable = view.getResources().getDrawable(R.drawable.close);
-            drawable.setColorFilter(0xffffffff, PorterDuff.Mode.SRC_IN);
+            drawable.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
             icon.setImageDrawable(drawable);
             names.setText(R.string.category_not_defined);
         } else {

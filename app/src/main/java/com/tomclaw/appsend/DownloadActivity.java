@@ -780,7 +780,9 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
             userOpinion.setText(rating.getText());
             userRating.setRating(rating.getScore());
         }
-        tintRatingIndicator(this, userRating);
+        int emptyColor = getAttributedColor(this, R.attr.rating_empty);
+        int fillColor = getResources().getColor(R.color.accent_color);
+        tintRatingIndicator(userRating, emptyColor, fillColor);
     }
 
     @Override
