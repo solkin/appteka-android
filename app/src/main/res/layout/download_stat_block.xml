@@ -40,6 +40,59 @@
             app:play_description="@string/android" />
 
         <RelativeLayout
+            android:id="@+id/exclusive_badge"
+            android:visibility="gone"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content">
+
+            <FrameLayout
+                android:id="@+id/exclusive_icon_container"
+                android:layout_centerHorizontal="true"
+                android:layout_width="58dp"
+                android:layout_height="60dp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="2dp"
+                    android:src="@drawable/grey_circle_filled" />
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="2dp"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/circle_filled"
+                    android:paddingLeft="4dp"
+                    android:paddingRight="4dp">
+
+                    <com.caverock.androidsvg.SVGImageView
+                        android:layout_width="32sp"
+                        android:layout_height="32sp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/creation"
+                        android:tint="@android:color/white" />
+
+                </FrameLayout>
+
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/exclusive_icon_container"
+                android:layout_centerHorizontal="true"
+                android:maxLines="2"
+                android:ellipsize="marquee"
+                android:gravity="center"
+                android:paddingTop="6dp"
+                android:text="@string/exclusive_app"
+                android:textColor="@color/grey_dark"
+                android:textSize="12sp" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
             android:id="@+id/category"
             android:layout_width="80dp"
             android:layout_height="wrap_content">

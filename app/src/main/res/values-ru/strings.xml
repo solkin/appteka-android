@@ -179,4 +179,5 @@
     <string name="your_opinion">Скажите, что Вы думаете о приложении</string>
     <string name="error_rate_app">Не удалось отправить оценку. Пожалуйста, повторите запрос.</string>
     <string name="please_set_rating">Пожалуйста, поставьте оценку</string>
+    <string name="exclusive_app">Эксклюзивное приложение</string>
 </resources>

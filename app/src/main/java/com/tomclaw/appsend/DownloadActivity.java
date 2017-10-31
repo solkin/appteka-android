@@ -147,6 +147,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     private ViewFlipper ratingFlipper;
     private RatingBar userRating;
     private EditText userOpinion;
+    private View exclusiveBadge;
 
     private StoreInfo info;
 
@@ -230,6 +231,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         ratingFlipper = (ViewFlipper) findViewById(R.id.rating_flipper);
         userRating = (RatingBar) findViewById(R.id.user_rating_view);
         userOpinion = (EditText) findViewById(R.id.user_opinion);
+        exclusiveBadge = findViewById(R.id.exclusive_badge);
 
         rdeFive = (ProgressBar) findViewById(R.id.rating_detail_element_five);
         rdeFour = (ProgressBar) findViewById(R.id.rating_detail_element_four);
@@ -473,6 +475,8 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
 
         long userId = Session.getInstance().getUserData().getUserId();
         ratingMemberAvatar.setMemberId(userId);
+
+        exclusiveBadge.setVisibility(info.getMeta().isExclusive() ? View.VISIBLE : View.GONE);
     }
 
     private void bindButtons() {
