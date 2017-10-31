@@ -33,8 +33,8 @@
     <color name="palette30">#a27c82</color>
     <color name="palette31">#c15f7e</color>
     <color name="palette32">#e32a66</color>
-    <color name="palette33">#424242</color>
-    <color name="palette34">#333333</color>
+    <color name="palette33">#00C853</color>
+    <color name="palette34">#2979FF</color>
 
     <array name="palette">
         <item>@color/palette1</item>
