@@ -9,8 +9,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
@@ -23,6 +25,7 @@ import com.tomclaw.appsend.core.StoreServiceHolder;
 import com.tomclaw.appsend.main.item.CommonItem;
 import com.tomclaw.appsend.main.item.StoreItem;
 import com.tomclaw.appsend.net.Session;
+import com.tomclaw.appsend.util.KeyboardHelper;
 import com.tomclaw.appsend.util.LocaleHelper;
 import com.tomclaw.appsend.util.ThemeHelper;
 
@@ -65,7 +68,7 @@ public class MetaActivity extends AppCompatActivity {
     CheckBox exclusive;
 
     @ViewById
-    TextView description;
+    EditText description;
 
     @ViewById
     ImageView appIcon;
@@ -192,6 +195,7 @@ public class MetaActivity extends AppCompatActivity {
 
     private void saveMeta() {
         showProgress();
+        KeyboardHelper.hideKeyboard(description);
         try {
             String guid = Session.getInstance().getUserData().getGuid();
             int position = categories.getSelectedItemPosition();
@@ -240,8 +244,9 @@ public class MetaActivity extends AppCompatActivity {
         if (selectedCategory != null) {
             int selectedId = meta.getMeta().getCategory().getId();
             int position = 0;
-            for (Category category : meta.getCategories()) {
-                if (category.getId() == selectedId) {
+            SpinnerAdapter adapter = categories.getAdapter();
+            for (int c = 0; c < adapter.getCount(); c++) {
+                if (adapter.getItemId(c) == selectedId) {
                     categories.setSelection(position);
                     break;
                 }

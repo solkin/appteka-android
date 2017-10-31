@@ -10,10 +10,10 @@ import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.main.dto.RatingItem;
 import com.tomclaw.appsend.main.view.MemberImageView;
 
+import static com.tomclaw.appsend.main.ratings.RatingsHelper.tintRatingIndicator;
 import static com.tomclaw.appsend.main.ratings.RatingsListener.STATE_FAILED;
 import static com.tomclaw.appsend.main.ratings.RatingsListener.STATE_LOADED;
 import static com.tomclaw.appsend.main.ratings.RatingsListener.STATE_LOADING;
-import static com.tomclaw.appsend.main.ratings.RatingsHelper.tintRatingIndicator;
 import static com.tomclaw.appsend.util.TimeHelper.timeHelper;
 import static java.util.concurrent.TimeUnit.SECONDS;
 

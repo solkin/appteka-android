@@ -4,8 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.tomclaw.appsend.main.dto.RatingItem;
-import com.tomclaw.appsend.main.meta.Category;
-import com.tomclaw.appsend.main.meta.Meta;
 import com.tomclaw.appsend.util.Unobfuscatable;
 
 import java.util.List;
