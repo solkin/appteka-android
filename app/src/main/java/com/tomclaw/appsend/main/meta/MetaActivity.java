@@ -243,14 +243,12 @@ public class MetaActivity extends AppCompatActivity {
         Category selectedCategory = meta.getMeta().getCategory();
         if (selectedCategory != null) {
             int selectedId = meta.getMeta().getCategory().getId();
-            int position = 0;
             SpinnerAdapter adapter = categories.getAdapter();
             for (int c = 0; c < adapter.getCount(); c++) {
                 if (adapter.getItemId(c) == selectedId) {
-                    categories.setSelection(position);
+                    categories.setSelection(c);
                     break;
                 }
-                position++;
             }
         }
 
