@@ -776,10 +776,14 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     }
 
     private void bindUserRating(UserRating rating) {
+        String text = "";
+        int score = 0;
         if (rating.getUserId() != 0) {
-            userOpinion.setText(rating.getText());
-            userRating.setRating(rating.getScore());
+            text = rating.getText();
+            score = rating.getScore();
         }
+        userOpinion.setText(text);
+        userRating.setRating(score);
         int emptyColor = getAttributedColor(this, R.attr.rating_empty);
         int fillColor = getResources().getColor(R.color.accent_color);
         tintRatingIndicator(userRating, emptyColor, fillColor);
