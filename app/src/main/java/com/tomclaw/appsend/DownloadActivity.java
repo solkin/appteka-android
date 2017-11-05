@@ -440,7 +440,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
             metaBlockView.setVisibility(View.GONE);
         } else {
             metaBlockView.setVisibility(View.VISIBLE);
-            descriptionView.setText(StringUtil.urlDecode(info.getMeta().getDescription()));
+            descriptionView.setText(info.getMeta().getDescription());
             descriptionAuthorAvatar.setMemberId(info.getMeta().getUserId());
         }
         Category category = meta.getCategory();
