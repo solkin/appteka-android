@@ -88,6 +88,7 @@ public class StoreItemHolder extends AbstractItemHolder<StoreItem> {
 
         Glide.with(context)
                 .load(item.getIcon())
+                .placeholder(R.drawable.app_placeholder)
                 .into(appIcon);
 
         appName.setText(LocaleHelper.getLocalizedLabel(item));

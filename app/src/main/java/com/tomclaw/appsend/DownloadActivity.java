@@ -416,6 +416,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         Meta meta = info.getMeta();
         Glide.with(this)
                 .load(item.getIcon())
+                .placeholder(R.drawable.app_placeholder)
                 .into(iconView);
         String sizeText;
         int sizeFactor;
