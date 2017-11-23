@@ -26,6 +26,7 @@ public class StoreItem extends BaseItem implements Parcelable {
     private final List<String> permissions;
     private final long size;
     private final int downloads;
+    private final float rating;
     private final long downloadTime;
     private final long time;
     private final String sha1;
@@ -37,7 +38,7 @@ public class StoreItem extends BaseItem implements Parcelable {
                      String appId, String packageName, String version,
                      int versionCode, int sdkVersion, String androidVersion,
                      List<String> permissions, long size, int downloads, long downloadTime,
-                     long time, String sha1, long userId, String filter) {
+                     long time, String sha1, long userId, float rating, String filter) {
         this.label = label;
         this.labels = labels;
         this.icon = icon;
@@ -54,6 +55,7 @@ public class StoreItem extends BaseItem implements Parcelable {
         this.time = time;
         this.sha1 = sha1;
         this.userId = userId;
+        this.rating = rating;
         this.filter = filter;
         this.installedVersionCode = NOT_INSTALLED;
     }
@@ -81,6 +83,7 @@ public class StoreItem extends BaseItem implements Parcelable {
         time = in.readLong();
         sha1 = in.readString();
         userId = in.readLong();
+        rating = in.readFloat();
         filter = in.readString();
         installedVersionCode = in.readInt();
     }
@@ -107,6 +110,7 @@ public class StoreItem extends BaseItem implements Parcelable {
         dest.writeLong(time);
         dest.writeString(sha1);
         dest.writeLong(userId);
+        dest.writeFloat(rating);
         dest.writeString(filter);
         dest.writeInt(installedVersionCode);
     }
@@ -179,6 +183,10 @@ public class StoreItem extends BaseItem implements Parcelable {
 
     public int getDownloads() {
         return downloads;
+    }
+
+    public float getRating() {
+        return rating;
     }
 
     public long getDownloadTime() {

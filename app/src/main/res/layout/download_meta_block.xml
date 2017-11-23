@@ -21,9 +21,10 @@
 
         <TextView
             android:id="@+id/description"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
+            android:layout_gravity="center_horizontal"
+            android:gravity="fill_horizontal"
             android:textColor="?text_primary_color"
             android:textSize="16sp"
             tools:text="App Description" />
@@ -49,8 +50,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
+                android:paddingEnd="8dp"
                 android:paddingLeft="5dp"
                 android:paddingRight="8dp"
+                android:paddingStart="5dp"
                 android:text="@string/description_author"
                 android:textColor="?text_primary_color"
                 android:textSize="12sp" />
@@ -70,6 +73,7 @@
         android:text="@string/edit_meta"
         android:textAllCaps="true"
         android:textColor="@color/primary_color"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        tools:targetApi="jelly_bean" />
 
 </LinearLayout>

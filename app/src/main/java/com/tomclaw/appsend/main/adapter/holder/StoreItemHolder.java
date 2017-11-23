@@ -1,5 +1,6 @@
 package com.tomclaw.appsend.main.adapter.holder;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
@@ -29,15 +30,15 @@ public class StoreItemHolder extends AbstractItemHolder<StoreItem> {
 
     public static final String ACTION_RETRY = "action_retry";
 
-    private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yy");
-
     private View itemView;
     private View appCard;
     private ImageView appIcon;
     private TextView appName;
     private TextView appVersion;
-    private TextView appUpdateTime;
     private TextView appSize;
+    private TextView appAndroid;
+    private TextView appRating;
+    private View ratingIcon;
     private TextView appDownloads;
     private View downloadsIcon;
     private TextView appBadge;
@@ -50,15 +51,17 @@ public class StoreItemHolder extends AbstractItemHolder<StoreItem> {
         super(itemView);
         this.itemView = itemView;
         appCard = itemView.findViewById(R.id.app_card);
-        appIcon = (ImageView) itemView.findViewById(R.id.app_icon);
-        appName = (TextView) itemView.findViewById(R.id.app_name);
-        appVersion = (TextView) itemView.findViewById(R.id.app_version);
-        appUpdateTime = (TextView) itemView.findViewById(R.id.app_update_time);
-        appSize = (TextView) itemView.findViewById(R.id.app_size);
-        appDownloads = (TextView) itemView.findViewById(R.id.app_downloads);
+        appIcon = itemView.findViewById(R.id.app_icon);
+        appName = itemView.findViewById(R.id.app_name);
+        appVersion = itemView.findViewById(R.id.app_version);
+        appSize = itemView.findViewById(R.id.app_size);
+        appAndroid = itemView.findViewById(R.id.app_android);
+        appRating = itemView.findViewById(R.id.app_rating);
+        ratingIcon = itemView.findViewById(R.id.rating_icon);
+        appDownloads = itemView.findViewById(R.id.app_downloads);
         downloadsIcon = itemView.findViewById(R.id.downloads_icon);
-        appBadge = (TextView) itemView.findViewById(R.id.app_badge);
-        badgeNew = (TriangleLabelView) itemView.findViewById(R.id.badge_new);
+        appBadge = itemView.findViewById(R.id.app_badge);
+        badgeNew = itemView.findViewById(R.id.badge_new);
         viewProgress = itemView.findViewById(R.id.item_progress);
         errorView = itemView.findViewById(R.id.error_view);
         buttonRetry = itemView.findViewById(R.id.button_retry);
@@ -91,23 +94,25 @@ public class StoreItemHolder extends AbstractItemHolder<StoreItem> {
 
         appName.setText(LocaleHelper.getLocalizedLabel(item));
         appVersion.setText(item.getVersion());
-        if (item.getTime() > 0) {
-            appUpdateTime.setVisibility(VISIBLE);
-            appUpdateTime.setText(simpleDateFormat.format(item.getTime()));
-        } else {
-            appUpdateTime.setVisibility(GONE);
-        }
         appSize.setText(FileHelper.formatBytes(context.getResources(), item.getSize()));
+        appAndroid.setText(item.getAndroidVersion());
         boolean isInstalled = (item.getInstalledVersionCode() != NOT_INSTALLED);
         boolean isMayBeUpdated = (item.getVersionCode() > item.getInstalledVersionCode());
-        boolean isShowDownloads = !isInstalled && (item.getDownloads() > 0);
+        boolean isShowDownloads = item.getDownloads() > 0;
+        boolean hasRating = item.getRating() > 0;
         if (isShowDownloads) {
             appDownloads.setText(String.valueOf(item.getDownloads()));
-        } else if (isInstalled && isMayBeUpdated) {
+        }
+        if (isInstalled && isMayBeUpdated) {
             appBadge.setText(R.string.store_app_update);
         } else if (isInstalled) {
             appBadge.setText(R.string.store_app_installed);
         }
+        if (hasRating) {
+            appRating.setText(String.valueOf(item.getRating()));
+        }
+        appRating.setVisibility(hasRating ? VISIBLE : GONE);
+        ratingIcon.setVisibility(hasRating ? VISIBLE : GONE);
         appDownloads.setVisibility(isShowDownloads ? VISIBLE : GONE);
         downloadsIcon.setVisibility(isShowDownloads ? VISIBLE : GONE);
         appBadge.setVisibility(isInstalled ? VISIBLE : GONE);
