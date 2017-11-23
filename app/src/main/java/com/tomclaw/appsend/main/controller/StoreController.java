@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.orhanobut.logger.Logger;
+import com.tomclaw.appsend.BuildConfig;
 import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.main.item.BaseItem;
 import com.tomclaw.appsend.main.item.StoreItem;
@@ -193,6 +194,7 @@ public class StoreController extends AbstractController<StoreController.StoreCal
     private void loadInternal(@NonNull Context context, @Nullable String appId, @Nullable String filter) {
         boolean isAppend = !TextUtils.isEmpty(appId);
         boolean isFilter = !TextUtils.isEmpty(filter);
+        int build = BuildConfig.VERSION_CODE;
         onProgress(isAppend);
         HttpURLConnection connection = null;
         InputStream in = null;
@@ -205,6 +207,7 @@ public class StoreController extends AbstractController<StoreController.StoreCal
             if (isFilter) {
                 builder.appendParam("filter", filter);
             }
+            builder.appendParam("ver_code", build);
             String storeUrl = HOST_LIST_URL + "?" + builder.build();
             Logger.d("Store url: %s", storeUrl);
             URL url = new URL(storeUrl);

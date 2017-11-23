@@ -2,6 +2,7 @@ package com.tomclaw.appsend.main.controller;
 
 import com.google.gson.reflect.TypeToken;
 import com.orhanobut.logger.Logger;
+import com.tomclaw.appsend.BuildConfig;
 import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.main.dto.RatingItem;
 import com.tomclaw.appsend.main.dto.StoreInfo;
@@ -273,10 +274,10 @@ public class DownloadController extends AbstractController<DownloadController.Do
         HttpURLConnection connection = null;
         InputStream in = null;
         try {
-            HttpParamsBuilder builder = new HttpParamsBuilder();
-            builder.appendParam("v", "1");
-            builder.appendParam("app_id", appId);
-            builder.appendParam("guid", guid);
+            HttpParamsBuilder builder = new HttpParamsBuilder()
+                    .appendParam("v", "1")
+                    .appendParam("app_id", appId)
+                    .appendParam("guid", guid);
             String storeUrl = HOST_INFO_URL + "?" + builder.build();
             Logger.d("Store url: %s", storeUrl);
             URL url = new URL(storeUrl);
