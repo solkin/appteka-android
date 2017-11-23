@@ -36,7 +36,6 @@ public class StoreItemHolder extends AbstractItemHolder<StoreItem> {
     private TextView appName;
     private TextView appVersion;
     private TextView appSize;
-    private TextView appAndroid;
     private TextView appRating;
     private View ratingIcon;
     private TextView appDownloads;
@@ -55,7 +54,6 @@ public class StoreItemHolder extends AbstractItemHolder<StoreItem> {
         appName = itemView.findViewById(R.id.app_name);
         appVersion = itemView.findViewById(R.id.app_version);
         appSize = itemView.findViewById(R.id.app_size);
-        appAndroid = itemView.findViewById(R.id.app_android);
         appRating = itemView.findViewById(R.id.app_rating);
         ratingIcon = itemView.findViewById(R.id.rating_icon);
         appDownloads = itemView.findViewById(R.id.app_downloads);
@@ -95,7 +93,6 @@ public class StoreItemHolder extends AbstractItemHolder<StoreItem> {
         appName.setText(LocaleHelper.getLocalizedLabel(item));
         appVersion.setText(item.getVersion());
         appSize.setText(FileHelper.formatBytes(context.getResources(), item.getSize()));
-        appAndroid.setText(item.getAndroidVersion());
         boolean isInstalled = (item.getInstalledVersionCode() != NOT_INSTALLED);
         boolean isMayBeUpdated = (item.getVersionCode() > item.getInstalledVersionCode());
         boolean isShowDownloads = item.getDownloads() > 0;
