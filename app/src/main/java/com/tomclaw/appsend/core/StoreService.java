@@ -1,5 +1,6 @@
 package com.tomclaw.appsend.core;
 
+import com.tomclaw.appsend.main.dto.AbuseResult;
 import com.tomclaw.appsend.main.dto.StoreInfo;
 import com.tomclaw.appsend.main.meta.MetaResponse;
 import com.tomclaw.appsend.main.ratings.RateResponse;
@@ -47,5 +48,11 @@ public interface StoreService {
                                  @Field("guid") String guid,
                                  @Field("score") int score,
                                  @Field("text") String text);
+
+    @GET("abuse.php")
+    Call<AbuseResult> reportAbuse(@Query("v") int apiVer,
+                                  @Query("app_id") String appId,
+                                  @Query("reason") String reason,
+                                  @Query("email") String email);
 
 }

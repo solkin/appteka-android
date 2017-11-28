@@ -43,6 +43,7 @@ import com.greysonparrelli.permiso.PermisoActivity;
 import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.core.StoreServiceHolder;
 import com.tomclaw.appsend.core.StoreServiceHolder_;
+import com.tomclaw.appsend.main.abuse.AbuseActivity_;
 import com.tomclaw.appsend.main.controller.DownloadController;
 import com.tomclaw.appsend.main.dto.RatingItem;
 import com.tomclaw.appsend.main.dto.StoreInfo;
@@ -848,10 +849,11 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     }
 
     private void onAbusePressed() {
-        Intent intent = new Intent(this, AbuseActivity.class)
-                .putExtra(AbuseActivity.APP_ID, appId)
-                .putExtra(AbuseActivity.APP_LABEL, appLabel);
-        startActivity(intent);
+        AbuseActivity_
+                .intent(this)
+                .appId(appId)
+                .label(appLabel)
+                .start();
     }
 
     private void showError(@StringRes int message) {

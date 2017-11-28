@@ -71,7 +71,7 @@
             android:name="com.tomclaw.appsend.PermissionsActivity"
             android:label="@string/required_permissions" />
         <activity
-            android:name="com.tomclaw.appsend.AbuseActivity"
+            android:name="com.tomclaw.appsend.main.abuse.AbuseActivity_"
             android:label="@string/abuse" />
         <activity
             android:name=".main.meta.MetaActivity_"
