@@ -20,7 +20,6 @@ import android.widget.ViewFlipper;
 
 import com.flurry.android.FlurryAgent;
 import com.greysonparrelli.permiso.Permiso;
-import com.tomclaw.appsend.DonateActivity;
 import com.tomclaw.appsend.PermissionsActivity;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.UploadActivity;
@@ -29,6 +28,7 @@ import com.tomclaw.appsend.main.adapter.BaseItemAdapter;
 import com.tomclaw.appsend.main.adapter.FilterableItemAdapter;
 import com.tomclaw.appsend.main.adapter.MenuAdapter;
 import com.tomclaw.appsend.main.controller.AppsController;
+import com.tomclaw.appsend.main.donate.DonateActivity_;
 import com.tomclaw.appsend.main.item.AppItem;
 import com.tomclaw.appsend.main.item.BaseItem;
 import com.tomclaw.appsend.main.task.ExportApkTask;
@@ -55,7 +55,7 @@ public class AppsView extends MainView implements AppsController.AppsCallback {
     public AppsView(Context context) {
         super(context);
 
-        viewFlipper = (ViewFlipper) findViewById(R.id.apps_view_switcher);
+        viewFlipper = findViewById(R.id.apps_view_switcher);
 
         findViewById(R.id.button_retry).setOnClickListener(new OnClickListener() {
             @Override
@@ -65,7 +65,7 @@ public class AppsView extends MainView implements AppsController.AppsCallback {
         });
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
-        recyclerView = (RecyclerView) findViewById(R.id.apps_list_view);
+        recyclerView = findViewById(R.id.apps_list_view);
         recyclerView.setLayoutManager(layoutManager);
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
         recyclerView.setItemAnimator(itemAnimator);
@@ -96,7 +96,7 @@ public class AppsView extends MainView implements AppsController.AppsCallback {
             }
         };
 
-        swipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
+        swipeRefresh = findViewById(R.id.swipe_refresh);
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -156,7 +156,7 @@ public class AppsView extends MainView implements AppsController.AppsCallback {
     }
 
     private void showDonateDialog() {
-        startActivity(new Intent(getContext(), DonateActivity.class));
+        DonateActivity_.intent(getContext()).start();
     }
 
     private void checkPermissionsForExtract(final AppItem appItem) {
