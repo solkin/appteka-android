@@ -2,7 +2,6 @@ package com.tomclaw.appsend.main.controller;
 
 import com.google.gson.reflect.TypeToken;
 import com.orhanobut.logger.Logger;
-import com.tomclaw.appsend.BuildConfig;
 import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.main.dto.RatingItem;
 import com.tomclaw.appsend.main.dto.StoreInfo;

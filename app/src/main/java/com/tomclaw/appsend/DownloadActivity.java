@@ -53,6 +53,8 @@ import com.tomclaw.appsend.main.meta.Category;
 import com.tomclaw.appsend.main.meta.Meta;
 import com.tomclaw.appsend.main.meta.MetaActivity_;
 import com.tomclaw.appsend.main.meta.Scores;
+import com.tomclaw.appsend.main.permissions.PermissionsActivity_;
+import com.tomclaw.appsend.main.permissions.PermissionsList;
 import com.tomclaw.appsend.main.ratings.RateResponse;
 import com.tomclaw.appsend.main.ratings.RatingsActivity_;
 import com.tomclaw.appsend.main.ratings.UserRating;
@@ -665,10 +667,9 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
                 @Override
                 public void onClick(View v) {
                     FlurryAgent.logEvent("Store app: permissions");
-                    Intent intent = new Intent(DownloadActivity.this, PermissionsActivity.class)
-                            .putStringArrayListExtra(PermissionsActivity.EXTRA_PERMISSIONS,
-                                    new ArrayList<>(permissions));
-                    startActivity(intent);
+                    PermissionsActivity_.intent(DownloadActivity.this)
+                            .permissions(new PermissionsList(new ArrayList<>(permissions)))
+                            .start();
                 }
             });
         }

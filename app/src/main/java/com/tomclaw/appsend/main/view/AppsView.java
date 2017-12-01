@@ -20,7 +20,6 @@ import android.widget.ViewFlipper;
 
 import com.flurry.android.FlurryAgent;
 import com.greysonparrelli.permiso.Permiso;
-import com.tomclaw.appsend.PermissionsActivity;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.UploadActivity;
 import com.tomclaw.appsend.core.TaskExecutor;
@@ -31,6 +30,8 @@ import com.tomclaw.appsend.main.controller.AppsController;
 import com.tomclaw.appsend.main.donate.DonateActivity_;
 import com.tomclaw.appsend.main.item.AppItem;
 import com.tomclaw.appsend.main.item.BaseItem;
+import com.tomclaw.appsend.main.permissions.PermissionsActivity_;
+import com.tomclaw.appsend.main.permissions.PermissionsList;
 import com.tomclaw.appsend.main.task.ExportApkTask;
 import com.tomclaw.appsend.util.ColorHelper;
 import com.tomclaw.appsend.util.EdgeChanger;
@@ -232,10 +233,9 @@ public class AppsView extends MainView implements AppsController.AppsCallback {
                                 try {
                                     PackageInfo packageInfo = appItem.getPackageInfo();
                                     List<String> permissions = Arrays.asList(packageInfo.requestedPermissions);
-                                    Intent intent = new Intent(getContext(), PermissionsActivity.class)
-                                            .putStringArrayListExtra(PermissionsActivity.EXTRA_PERMISSIONS,
-                                                    new ArrayList<>(permissions));
-                                    startActivity(intent);
+                                    PermissionsActivity_.intent(getContext())
+                                            .permissions(new PermissionsList(new ArrayList<>(permissions)))
+                                            .start();
                                 } catch (Throwable ex) {
                                     Snackbar.make(recyclerView, R.string.unable_to_get_permissions, Snackbar.LENGTH_LONG).show();
                                 }

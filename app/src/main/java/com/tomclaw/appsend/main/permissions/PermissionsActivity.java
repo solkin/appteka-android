@@ -1,4 +1,4 @@
-package com.tomclaw.appsend;
+package com.tomclaw.appsend.main.permissions;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,40 +7,54 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
 
+import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.main.adapter.PermissionsAdapter;
 import com.tomclaw.appsend.util.ColorHelper;
 import com.tomclaw.appsend.util.EdgeChanger;
 import com.tomclaw.appsend.util.ThemeHelper;
 
-import java.util.List;
+import org.androidannotations.annotations.AfterInject;
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.Extra;
+import org.androidannotations.annotations.OptionsItem;
+import org.androidannotations.annotations.ViewById;
 
 /**
  * Created by ivsolkin on 27.01.17.
  */
+@EActivity(R.layout.permissions_activity)
 public class PermissionsActivity extends AppCompatActivity {
 
-    public static String EXTRA_PERMISSIONS = "permissions";
+    @ViewById
+    Toolbar toolbar;
 
-    private RecyclerView recyclerView;
+    @ViewById
+    RecyclerView recyclerView;
+
+    @Extra
+    PermissionsList permissions;
+
     private PermissionsAdapter adapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         ThemeHelper.updateTheme(this);
         super.onCreate(savedInstanceState);
+    }
 
-        setContentView(R.layout.permissions_activity);
-        ThemeHelper.updateStatusBar(this);
-
-        List<String> permissions = getIntent().getStringArrayListExtra(EXTRA_PERMISSIONS);
+    @AfterInject
+    void checkExtra() {
         if (permissions == null || permissions.isEmpty()) {
             finish();
-            return;
         }
+    }
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+    @AfterViews
+    void init() {
+        ThemeHelper.updateStatusBar(this);
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -49,7 +63,7 @@ public class PermissionsActivity extends AppCompatActivity {
         setTitle(R.string.required_permissions);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+
         recyclerView.setLayoutManager(layoutManager);
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
         recyclerView.setItemAnimator(itemAnimator);
@@ -62,18 +76,14 @@ public class PermissionsActivity extends AppCompatActivity {
             }
         });
 
-        adapter = new PermissionsAdapter(this, permissions);
+        adapter = new PermissionsAdapter(this, permissions.getList());
         recyclerView.setAdapter(adapter);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home: {
-                onBackPressed();
-                break;
-            }
-        }
+    @OptionsItem(android.R.id.home)
+    boolean actionHome() {
+        finish();
         return true;
     }
+
 }

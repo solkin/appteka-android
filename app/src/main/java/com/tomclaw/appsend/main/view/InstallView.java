@@ -19,7 +19,6 @@ import android.widget.ViewFlipper;
 
 import com.flurry.android.FlurryAgent;
 import com.greysonparrelli.permiso.Permiso;
-import com.tomclaw.appsend.PermissionsActivity;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.UploadActivity;
 import com.tomclaw.appsend.main.adapter.BaseItemAdapter;
@@ -29,6 +28,8 @@ import com.tomclaw.appsend.main.controller.ApksController;
 import com.tomclaw.appsend.main.item.ApkItem;
 import com.tomclaw.appsend.main.item.BaseItem;
 import com.tomclaw.appsend.main.item.CouchItem;
+import com.tomclaw.appsend.main.permissions.PermissionsActivity_;
+import com.tomclaw.appsend.main.permissions.PermissionsList;
 import com.tomclaw.appsend.util.ColorHelper;
 import com.tomclaw.appsend.util.EdgeChanger;
 import com.tomclaw.appsend.util.IntentHelper;
@@ -227,10 +228,9 @@ public class InstallView extends MainView implements ApksController.ApksCallback
                                 try {
                                     PackageInfo packageInfo = apkItem.getPackageInfo();
                                     List<String> permissions = Arrays.asList(packageInfo.requestedPermissions);
-                                    Intent intent = new Intent(getContext(), PermissionsActivity.class)
-                                            .putStringArrayListExtra(PermissionsActivity.EXTRA_PERMISSIONS,
-                                                    new ArrayList<>(permissions));
-                                    startActivity(intent);
+                                    PermissionsActivity_.intent(getContext())
+                                            .permissions(new PermissionsList(new ArrayList<>(permissions)))
+                                            .start();
                                 } catch (Throwable ex) {
                                     Snackbar.make(recyclerView, R.string.unable_to_get_permissions, Snackbar.LENGTH_LONG).show();
                                 }

@@ -68,7 +68,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.tomclaw.appsend.PermissionsActivity"
+            android:name="com.tomclaw.appsend.main.permissions.PermissionsActivity_"
             android:label="@string/required_permissions" />
         <activity
             android:name="com.tomclaw.appsend.main.abuse.AbuseActivity_"

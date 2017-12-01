@@ -1,6 +1,5 @@
 package com.tomclaw.appsend.main.adapter.holder;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
@@ -14,7 +13,6 @@ import com.tomclaw.appsend.main.item.StoreItem;
 import com.tomclaw.appsend.util.FileHelper;
 import com.tomclaw.appsend.util.LocaleHelper;
 
-import java.text.SimpleDateFormat;
 import java.util.concurrent.TimeUnit;
 
 import jp.shts.android.library.TriangleLabelView;
