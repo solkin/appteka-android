@@ -15,6 +15,7 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.flurry.android.FlurryAgent;
 import com.greysonparrelli.permiso.PermisoActivity;
+import com.tomclaw.appsend.main.about.AboutActivity_;
 import com.tomclaw.appsend.main.controller.CountController;
 import com.tomclaw.appsend.main.controller.DiscussController;
 import com.tomclaw.appsend.main.controller.StoreController;
@@ -396,8 +397,7 @@ public class MainActivity extends PermisoActivity implements
     }
 
     private void showInfo() {
-        Intent intent = new Intent(this, AboutActivity.class);
-        startActivity(intent);
+        AboutActivity_.intent(this).start();
     }
 
     private void checkForCrashes() {

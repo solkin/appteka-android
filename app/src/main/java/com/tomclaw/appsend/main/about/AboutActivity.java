@@ -1,4 +1,4 @@
-package com.tomclaw.appsend;
+package com.tomclaw.appsend.main.about;
 
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -8,80 +8,61 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.util.ThemeHelper;
+
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.OptionsItem;
+import org.androidannotations.annotations.ViewById;
 
 /**
  * Created by Solkin on 17.12.2014.
  */
+@EActivity(R.layout.about_activity)
 public class AboutActivity extends AppCompatActivity {
 
-    private View presentButton;
-    private View feedbackButton;
-    private View forumDiscuss;
+    @ViewById
+    Toolbar toolbar;
+
+    @ViewById
+    TextView appVersion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         ThemeHelper.updateTheme(this);
         super.onCreate(savedInstanceState);
+    }
 
-        setContentView(R.layout.about_activity);
+    @AfterViews
+    void init() {
         ThemeHelper.updateStatusBar(this);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(false);
 
-        TextView appVersionView = findViewById(R.id.app_version);
         PackageManager manager = getPackageManager();
         try {
             PackageInfo info = manager.getPackageInfo(getPackageName(), 0);
-            appVersionView.setText(getString(R.string.app_version, info.versionName, info.versionCode));
+            appVersion.setText(getString(R.string.app_version, info.versionName, info.versionCode));
         } catch (PackageManager.NameNotFoundException ignored) {
         }
-
-        presentButton = findViewById(R.id.present_chocolate);
-        presentButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onChocolateClicked();
-            }
-        });
-
-        feedbackButton = findViewById(R.id.feedback_email);
-        feedbackButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onFeedbackClicked();
-            }
-        });
-
-        forumDiscuss = findViewById(R.id.forum_discuss);
-        forumDiscuss.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onForumDiscussClicked();
-            }
-        });
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home: {
-                finish();
-            }
-        }
+    @OptionsItem(android.R.id.home)
+    boolean actionHome() {
+        finish();
         return true;
     }
 
-    private void onChocolateClicked() {
+    @Click(R.id.present_chocolate)
+    void onChocolateClicked() {
         String donateUrl = getString(R.string.donate_url);
         try {
             startActivity(new Intent(Intent.ACTION_VIEW,
@@ -90,7 +71,8 @@ public class AboutActivity extends AppCompatActivity {
         }
     }
 
-    private void onFeedbackClicked() {
+    @Click(R.id.feedback_email)
+    void onFeedbackClicked() {
         Uri uri = Uri.fromParts("mailto", "inbox@tomclaw.com", null);
         Intent intent = new Intent(Intent.ACTION_SENDTO, uri)
                 .putExtra(Intent.EXTRA_SUBJECT, "AppSend")
@@ -102,7 +84,8 @@ public class AboutActivity extends AppCompatActivity {
         }
     }
 
-    private void onForumDiscussClicked() {
+    @Click(R.id.forum_discuss)
+    void onForumDiscussClicked() {
         String forumUrl = getString(R.string.forum_url);
         try {
             startActivity(new Intent(Intent.ACTION_VIEW,

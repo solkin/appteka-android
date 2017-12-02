@@ -41,7 +41,7 @@
                 android:resource="@xml/shortcuts" />
         </activity>
         <activity
-            android:name="com.tomclaw.appsend.AboutActivity"
+            android:name="com.tomclaw.appsend.main.about.AboutActivity_"
             android:label="@string/info" />
         <activity
             android:name="com.tomclaw.appsend.SettingsActivity"
