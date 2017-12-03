@@ -10,10 +10,14 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.view.MenuItem;
 
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.util.ThemeHelper;
+
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.OptionsItem;
+import org.androidannotations.annotations.ViewById;
 
 /**
  * Created with IntelliJ IDEA.
@@ -21,35 +25,37 @@ import com.tomclaw.appsend.util.ThemeHelper;
  * Date: 9/30/13
  * Time: 7:37 PM
  */
+@EActivity(R.layout.settings_activity)
 public class SettingsActivity extends AppCompatActivity {
 
-    public static final int RESULT_UPDATE = 5;
     private SharedPreferences preferences;
     private OnSettingsChangedListener listener;
-    private SettingsFragment settingsFragment;
+
+    @ViewById
+    Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         ThemeHelper.updateTheme(this);
         super.onCreate(savedInstanceState);
+    }
 
-        setContentView(R.layout.settings_activity);
+    @AfterViews
+    void init() {
         ThemeHelper.updateStatusBar(this);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
 
         listener = new OnSettingsChangedListener();
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
         preferences.registerOnSharedPreferenceChangeListener(listener);
-        settingsFragment = new SettingsFragment();
 
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-
-        // Display the fragment as the main content.
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.content, settingsFragment)
+                .replace(R.id.content, new SettingsFragment())
                 .commit();
     }
 
@@ -59,13 +65,9 @@ public class SettingsActivity extends AppCompatActivity {
         preferences.unregisterOnSharedPreferenceChangeListener(listener);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home: {
-                finish();
-            }
-        }
+    @OptionsItem(android.R.id.home)
+    boolean actionHome() {
+        finish();
         return true;
     }
 
@@ -74,7 +76,6 @@ public class SettingsActivity extends AppCompatActivity {
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
             Context context = SettingsActivity.this;
-            // Checking for preference changed.
             if (TextUtils.equals(key, getString(R.string.pref_show_system))) {
                 if (sharedPreferences.getBoolean(context.getString(R.string.pref_show_system),
                         context.getResources().getBoolean(R.bool.pref_show_system_default))) {
@@ -84,17 +85,19 @@ public class SettingsActivity extends AppCompatActivity {
                             .setNeutralButton(R.string.got_it, null).create();
                     alertDialog.show();
                 }
-                setResult(RESULT_UPDATE);
+                setResult(RESULT_OK);
             } else if (TextUtils.equals(key, getString(R.string.pref_dark_theme))) {
                 Intent intent = getIntent().addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                 finish();
                 overridePendingTransition(0, 0);
                 startActivity(intent);
             } else if (TextUtils.equals(key, getString(R.string.pref_sort_order))) {
-                setResult(RESULT_UPDATE);
+                setResult(RESULT_OK);
             } else if (TextUtils.equals(key, getString(R.string.pref_runnable))) {
-                setResult(RESULT_UPDATE);
+                setResult(RESULT_OK);
             }
         }
+
     }
+
 }

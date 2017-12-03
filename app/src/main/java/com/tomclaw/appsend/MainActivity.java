@@ -21,7 +21,7 @@ import com.tomclaw.appsend.main.controller.DiscussController;
 import com.tomclaw.appsend.main.controller.StoreController;
 import com.tomclaw.appsend.main.controller.UpdateController;
 import com.tomclaw.appsend.main.item.StoreItem;
-import com.tomclaw.appsend.main.settings.SettingsActivity;
+import com.tomclaw.appsend.main.settings.SettingsActivity_;
 import com.tomclaw.appsend.main.view.AppsView;
 import com.tomclaw.appsend.main.view.DiscussView;
 import com.tomclaw.appsend.main.view.InstallView;
@@ -386,15 +386,15 @@ public class MainActivity extends PermisoActivity implements
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_UPDATE_SETTINGS) {
-            if (resultCode == SettingsActivity.RESULT_UPDATE) {
+            if (resultCode == RESULT_OK) {
                 updateList();
             }
         }
     }
 
     private void showSettings() {
-        Intent intent = new Intent(this, SettingsActivity.class);
-        startActivityForResult(intent, REQUEST_UPDATE_SETTINGS);
+        SettingsActivity_.intent(this)
+                .startForResult(REQUEST_UPDATE_SETTINGS);
     }
 
     private void showInfo() {
