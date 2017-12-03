@@ -10,15 +10,15 @@ machine:
 
 dependencies:
     pre:
-        - if [ ! -d "/usr/local/android-sdk-linux/platforms/android-25" ]; then echo y | android update sdk --no-ui --all --filter "android-25"; fi
-        - if [ ! -d "/usr/local/android-sdk-linux/build-tools/25.0.3" ]; then echo y | android update sdk --no-ui --all --filter "build-tools-25.0.3"; fi
-        - if [ ! -d "/usr/local/android-sdk-linux/extras/android/m2repository/com/android/support/design/25.3.1" ]; then echo y | android update sdk --no-ui --all --filter "extra-android-m2repository"; fi
+        - if [ ! -d "/usr/local/android-sdk-linux/platforms/android-26" ]; then echo y | android update sdk --no-ui --all --filter "android-26"; fi
+        - if [ ! -d "/usr/local/android-sdk-linux/build-tools/26.0.2" ]; then echo y | android update sdk --no-ui --all --filter "build-tools-26.0.2"; fi
+        - if [ ! -d "/usr/local/android-sdk-linux/extras/android/m2repository/com/android/support/design/26.1.0" ]; then echo y | android update sdk --no-ui --all --filter "extra-android-m2repository"; fi
     cache_directories:
-        - /usr/local/android-sdk-linux/platforms/android-25
-        - /usr/local/android-sdk-linux/build-tools/25.0.3
+        - /usr/local/android-sdk-linux/platforms/android-26
+        - /usr/local/android-sdk-linux/build-tools/26.0.2
         - /usr/local/android-sdk-linux/extras/android/m2repository
     override:
-        - echo y | android update sdk --no-ui --all --filter tools,platform-tools,build-tools-25.0.3,android-25,extra-google-m2repository,extra-google-google_play_services,extra-android-support
+        - echo y | android update sdk --no-ui --all --filter tools,platform-tools,build-tools-26.0.2,android-26,extra-google-m2repository,extra-google-google_play_services,extra-android-support
         - ANDROID_HOME=/usr/local/android-sdk-linux ./gradlew dependencies
 
 test:
