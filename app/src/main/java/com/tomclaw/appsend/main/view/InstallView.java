@@ -19,6 +19,7 @@ import android.widget.ViewFlipper;
 
 import com.flurry.android.FlurryAgent;
 import com.greysonparrelli.permiso.Permiso;
+import com.tomclaw.appsend.DownloadActivity;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.UploadActivity;
 import com.tomclaw.appsend.main.adapter.BaseItemAdapter;
@@ -224,6 +225,14 @@ public class InstallView extends MainView implements ApksController.ApksCallback
                                 break;
                             }
                             case 5: {
+                                FlurryAgent.logEvent("Install menu: AppSend Store");
+                                Intent intent = new Intent(getContext(), DownloadActivity.class);
+                                intent.putExtra(DownloadActivity.STORE_APP_PACKAGE, apkItem.getPackageName());
+                                intent.putExtra(DownloadActivity.STORE_APP_LABEL, apkItem.getLabel());
+                                startActivity(intent);
+                                break;
+                            }
+                            case 6: {
                                 FlurryAgent.logEvent("Install menu: permissions");
                                 try {
                                     PackageInfo packageInfo = apkItem.getPackageInfo();
@@ -236,7 +245,7 @@ public class InstallView extends MainView implements ApksController.ApksCallback
                                 }
                                 break;
                             }
-                            case 6: {
+                            case 7: {
                                 FlurryAgent.logEvent("Install menu: remove");
                                 File file = new File(apkItem.getPath());
                                 file.delete();

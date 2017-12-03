@@ -95,6 +95,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 public class DownloadActivity extends PermisoActivity implements DownloadController.DownloadCallback {
 
     public static final String STORE_APP_ID = "app_id";
+    public static final String STORE_APP_PACKAGE = "app_package";
     public static final String STORE_APP_LABEL = "app_label";
 
     private static final int REQUEST_UPDATE_META = 4;
@@ -103,9 +104,11 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     private static final long DEBOUNCE_DELAY = 100;
 
     private String appId;
+    private String appPackage;
     private String appLabel;
 
     private ViewFlipper viewFlipper;
+    private TextView errorText;
     private ImageView iconView;
     private TextView labelView;
     private TextView packageView;
@@ -185,13 +188,15 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
                 appLabel = getString(R.string.download);
             } else if (TextUtils.isEmpty(appId)) {
                 appId = getIntent().getStringExtra(STORE_APP_ID);
+                appPackage = getIntent().getStringExtra(STORE_APP_PACKAGE);
                 appLabel = getIntent().getStringExtra(STORE_APP_LABEL);
             }
         } else {
             appId = savedInstanceState.getString(STORE_APP_ID);
+            appPackage = savedInstanceState.getString(STORE_APP_ID);
             appLabel = savedInstanceState.getString(STORE_APP_LABEL);
         }
-        if (TextUtils.isEmpty(appId)) {
+        if (TextUtils.isEmpty(appId) && TextUtils.isEmpty(appPackage)) {
             openStore();
             finish();
         }
@@ -199,6 +204,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         setTitle(appLabel);
 
         viewFlipper = findViewById(R.id.view_flipper);
+        errorText = findViewById(R.id.error_text);
         iconView = findViewById(R.id.app_icon);
         labelView = findViewById(R.id.app_label);
         packageView = findViewById(R.id.app_package);
@@ -385,6 +391,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString(STORE_APP_ID, appId);
+        outState.putString(STORE_APP_PACKAGE, appPackage);
         outState.putString(STORE_APP_LABEL, appLabel);
     }
 
@@ -396,7 +403,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     }
 
     private void loadInfo() {
-        DownloadController.getInstance().loadInfo(appId);
+        DownloadController.getInstance().loadInfo(appId, appPackage);
     }
 
     private void reloadInfo() {
@@ -802,6 +809,15 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
 
     @Override
     public void onInfoError() {
+        errorText.setText(R.string.store_info_error);
+        viewFlipper.setDisplayedChild(2);
+        swipeRefresh.setEnabled(true);
+        swipeRefresh.setRefreshing(false);
+    }
+
+    @Override
+    public void onFileNotFound() {
+        errorText.setText(R.string.store_not_found);
         viewFlipper.setDisplayedChild(2);
         swipeRefresh.setEnabled(true);
         swipeRefresh.setRefreshing(false);

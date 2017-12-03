@@ -93,16 +93,23 @@
 
         </FrameLayout>
 
-        <RelativeLayout
+        <LinearLayout
             android:id="@+id/error_view"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="128dp"
+                android:layout_height="128dp"
+                android:layout_marginBottom="12dp"
+                android:src="@drawable/thinking" />
 
             <TextView
                 android:id="@+id/error_text"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
                 android:gravity="center"
                 android:text="@string/store_info_error" />
 
@@ -111,12 +118,10 @@
                 style="@style/Widget.AppCompat.Button.Borderless.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/error_text"
-                android:layout_centerHorizontal="true"
                 android:layout_marginTop="8dp"
                 android:text="@string/retry" />
 
-        </RelativeLayout>
+        </LinearLayout>
 
     </ViewFlipper>
 

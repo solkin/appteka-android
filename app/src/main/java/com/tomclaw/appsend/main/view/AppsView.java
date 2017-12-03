@@ -20,6 +20,7 @@ import android.widget.ViewFlipper;
 
 import com.flurry.android.FlurryAgent;
 import com.greysonparrelli.permiso.Permiso;
+import com.tomclaw.appsend.DownloadActivity;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.UploadActivity;
 import com.tomclaw.appsend.core.TaskExecutor;
@@ -229,6 +230,14 @@ public class AppsView extends MainView implements AppsController.AppsCallback {
                                 break;
                             }
                             case 6: {
+                                FlurryAgent.logEvent("App menu: AppSend Store");
+                                Intent intent = new Intent(getContext(), DownloadActivity.class);
+                                intent.putExtra(DownloadActivity.STORE_APP_PACKAGE, appItem.getPackageName());
+                                intent.putExtra(DownloadActivity.STORE_APP_LABEL, appItem.getLabel());
+                                startActivity(intent);
+                                break;
+                            }
+                            case 7: {
                                 FlurryAgent.logEvent("App menu: permissions");
                                 try {
                                     PackageInfo packageInfo = appItem.getPackageInfo();
@@ -241,7 +250,7 @@ public class AppsView extends MainView implements AppsController.AppsCallback {
                                 }
                                 break;
                             }
-                            case 7: {
+                            case 8: {
                                 FlurryAgent.logEvent("App menu: details");
                                 setRefreshOnResume();
                                 final Intent intent = new Intent()
@@ -252,7 +261,7 @@ public class AppsView extends MainView implements AppsController.AppsCallback {
                                 startActivity(intent);
                                 break;
                             }
-                            case 8: {
+                            case 9: {
                                 FlurryAgent.logEvent("App menu: remove");
                                 setRefreshOnResume();
                                 Uri packageUri = Uri.parse("package:" + appItem.getPackageName());

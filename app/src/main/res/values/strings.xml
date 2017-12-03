@@ -41,6 +41,7 @@
     <string name="upload_apk">Upload APK and get link</string>
     <string name="bluetooth_apk">Send via Bluetooth</string>
     <string name="find_on_gp">Find in Google Play</string>
+    <string name="find_on_store">Find in AppSend Store</string>
     <string name="remove_app">Remove application</string>
     <string name="send_url_to">Share URL with</string>
     <string name="uploading_error">Error while uploading application file. Try again later, please.</string>
@@ -107,6 +108,7 @@
     <string name="open">Open</string>
     <string name="remove">Remove</string>
     <string name="store_info_error">Failed to retrieve application info</string>
+    <string name="store_not_found">Application not found</string>
     <string name="unknown_permission_description">Unknown permission</string>
     <string name="read_more">Read more</string>
     <string name="required_permissions">Required permissions</string>

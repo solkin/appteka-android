@@ -1,5 +1,7 @@
 package com.tomclaw.appsend.main.controller;
 
+import android.text.TextUtils;
+
 import com.google.gson.reflect.TypeToken;
 import com.orhanobut.logger.Logger;
 import com.tomclaw.appsend.core.MainExecutor;
@@ -56,6 +58,7 @@ public class DownloadController extends AbstractController<DownloadController.Do
 
     private StoreInfo storeInfo = null;
     private boolean isInfoError = false;
+    private boolean isFileNotFound = false;
     private long downloadedBytes;
     private boolean isDownloading;
     private boolean isDownloadError;
@@ -73,6 +76,8 @@ public class DownloadController extends AbstractController<DownloadController.Do
             callback.onInfoLoaded(storeInfo);
         } else if (isInfoError) {
             callback.onInfoError();
+        } else if (isFileNotFound) {
+            callback.onFileNotFound();
         } else {
             callback.onInfoProgress();
         }
@@ -100,9 +105,10 @@ public class DownloadController extends AbstractController<DownloadController.Do
     void onDetached(DownloadCallback callback) {
     }
 
-    public void loadInfo(final String appId) {
+    public void loadInfo(final String appId, final String appPackage) {
         storeInfo = null;
         isInfoError = false;
+        isFileNotFound = false;
         isDownloading = false;
         isDownloadError = false;
         downloadedBytes = 0;
@@ -111,7 +117,7 @@ public class DownloadController extends AbstractController<DownloadController.Do
             public void run() {
                 try {
                     String guid = Session.getInstance().getUserData().getGuid();
-                    loadInfoInternal(appId, guid);
+                    loadInfoInternal(appId, appPackage, guid);
                 } catch (Throwable ignored) {
                     onInfoError();
                 }
@@ -159,6 +165,22 @@ public class DownloadController extends AbstractController<DownloadController.Do
                     @Override
                     public void invoke(DownloadCallback callback) {
                         callback.onInfoError();
+                    }
+                });
+            }
+        });
+    }
+
+    private void onFileNotFound() {
+        this.isFileNotFound = true;
+        future = null;
+        MainExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                operateCallbacks(new CallbackOperation<DownloadCallback>() {
+                    @Override
+                    public void invoke(DownloadCallback callback) {
+                        callback.onFileNotFound();
                     }
                 });
             }
@@ -268,15 +290,19 @@ public class DownloadController extends AbstractController<DownloadController.Do
         });
     }
 
-    private void loadInfoInternal(String appId, String guid) {
+    private void loadInfoInternal(String appId, String appPackage, String guid) {
         onProgress();
         HttpURLConnection connection = null;
         InputStream in = null;
         try {
             HttpParamsBuilder builder = new HttpParamsBuilder()
                     .appendParam("v", "1")
-                    .appendParam("app_id", appId)
                     .appendParam("guid", guid);
+            if (!TextUtils.isEmpty(appId)) {
+                builder.appendParam("app_id", appId);
+            } else if (!TextUtils.isEmpty(appPackage)) {
+                builder.appendParam("package", appPackage);
+            }
             String storeUrl = HOST_INFO_URL + "?" + builder.build();
             Logger.d("Store url: %s", storeUrl);
             URL url = new URL(storeUrl);
@@ -327,6 +353,10 @@ public class DownloadController extends AbstractController<DownloadController.Do
                     StoreInfo storeInfo = new StoreInfo(expiresIn, storeItem, link, webUrl, status,
                             storeVersions, meta, rates, userRating);
                     onInfoLoaded(storeInfo);
+                    break;
+                }
+                case 404: {
+                    onFileNotFound();
                     break;
                 }
                 default: {
@@ -408,6 +438,8 @@ public class DownloadController extends AbstractController<DownloadController.Do
         void onInfoLoaded(StoreInfo storeInfo);
 
         void onInfoError();
+
+        void onFileNotFound();
 
         void onInfoProgress();
 

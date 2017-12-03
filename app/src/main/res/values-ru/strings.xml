@@ -39,6 +39,7 @@
     <string name="upload_apk">Загрузить в обменник</string>
     <string name="bluetooth_apk">Отправить по Bluetooth</string>
     <string name="find_on_gp">Найти в Google Play</string>
+    <string name="find_on_store">Найти в AppSend Store</string>
     <string name="remove_app">Удалить приложение</string>
     <string name="send_url_to">Поделиться ссылкой через</string>
     <string name="uploading_error">Ошибка загрузки приложения в файлообменник. Пожалуйста, попробуйте позднее.</string>
@@ -103,6 +104,7 @@
     <string name="open">Открыть</string>
     <string name="remove">Удалить</string>
     <string name="store_info_error">Не удалось получить информацию о приложении</string>
+    <string name="store_not_found">Приложение не найдено</string>
     <string name="unknown_permission_description">Неизвестное разрешение</string>
     <string name="read_more">Читать дальше</string>
     <string name="required_permissions">Требуемые разрешения</string>

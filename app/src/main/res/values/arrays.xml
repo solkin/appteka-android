@@ -41,6 +41,7 @@
         <item>@string/upload_apk</item>
         <item>@string/bluetooth_apk</item>
         <item>@string/find_on_gp</item>
+        <item>@string/find_on_store</item>
         <item>@string/required_permissions</item>
         <item>@string/app_details</item>
         <item>@string/remove_app</item>
@@ -52,6 +53,7 @@
         <item>@string/upload_apk</item>
         <item>@string/bluetooth_apk</item>
         <item>@string/find_on_gp</item>
+        <item>@string/find_on_store</item>
         <item>@string/required_permissions</item>
         <item>@string/remove_app</item>
     </string-array>
@@ -68,6 +70,7 @@
         <item>@drawable/cloud_upload</item>
         <item>@drawable/bluetooth</item>
         <item>@drawable/google_play</item>
+        <item>@drawable/ic_store</item>
         <item>@drawable/lock_open</item>
         <item>@drawable/settings_box</item>
         <item>@drawable/delete</item>
@@ -79,6 +82,7 @@
         <item>@drawable/cloud_upload</item>
         <item>@drawable/bluetooth</item>
         <item>@drawable/google_play</item>
+        <item>@drawable/ic_store</item>
         <item>@drawable/lock_open</item>
         <item>@drawable/delete</item>
     </array>
