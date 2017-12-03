@@ -17,6 +17,7 @@
             android:layout_width="52dp"
             android:layout_height="52dp"
             android:layout_gravity="top"
+            android:contentDescription="@string/app_icon"
             android:src="@drawable/rocket" />
 
         <LinearLayout
@@ -25,8 +26,10 @@
             android:layout_gravity="center_vertical"
             android:gravity="center_vertical"
             android:orientation="vertical"
+            android:paddingEnd="0dp"
             android:paddingLeft="20dp"
-            android:paddingRight="0dp">
+            android:paddingRight="0dp"
+            android:paddingStart="20dp">
 
             <TextView
                 android:id="@+id/app_name"
@@ -75,6 +78,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
                     android:layout_marginLeft="4dp"
+                    android:layout_marginStart="4dp"
                     android:paddingLeft="24dp"
                     android:paddingRight="24dp"
                     android:text="@string/update" />

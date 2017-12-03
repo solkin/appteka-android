@@ -10,7 +10,6 @@
         android:translateY="2.000000">
         <path
             android:fillColor="#F5F5F5"
-            android:fillType="evenOdd"
             android:strokeColor="#FFFFFF"
             android:strokeAlpha="0"
             android:strokeWidth="2"
@@ -22,7 +21,7 @@
                 android:fillColor="#1D9C5A"
                 android:strokeWidth="1"
                 android:pathData="M19.35,6.03 C18.67,2.59 15.64,0 12,0 C9.11,0 6.6,1.64 5.35,4.03 C2.34,4.36 0,6.9
-0,10 C4.05812251e-16,13.3137085 2.6862915,16 6,16 L19,16 C20.3260824,16
+0,10 C0.0,13.3137085 2.6862915,16 6,16 L19,16 C20.3260824,16
 21.597852,15.4732158 22.5355339,14.5355339 C23.4732158,13.597852 24,12.3260824
 24,11 C24,8.36 21.95,6.22 19.35,6.03 Z" />
         </group>

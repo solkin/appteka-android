@@ -43,12 +43,12 @@ public class OutgoingMessageHolder extends AbstractMessageHolder {
         this.context = itemView.getContext();
 
         rootView = itemView;
-        memberAvatar = (MemberImageView) itemView.findViewById(R.id.member_avatar);
-        text = (TextView) itemView.findViewById(R.id.out_text);
+        memberAvatar = itemView.findViewById(R.id.member_avatar);
+        text = itemView.findViewById(R.id.out_text);
         bubbleBack = itemView.findViewById(R.id.out_bubble_back);
-        time = (TextView) itemView.findViewById(R.id.out_time);
-        date = (TextView) itemView.findViewById(R.id.message_date);
-        delivery = (ImageView) itemView.findViewById(R.id.message_delivery);
+        time = itemView.findViewById(R.id.out_time);
+        date = itemView.findViewById(R.id.message_date);
+        delivery = itemView.findViewById(R.id.message_delivery);
 
         int bubbleColor = ColorHelper.getAttributedColor(itemView.getContext(), R.attr.discuss_bubble_color);
         textBackground = new BubbleColorDrawable(itemView.getContext(), bubbleColor, Corner.RIGHT);

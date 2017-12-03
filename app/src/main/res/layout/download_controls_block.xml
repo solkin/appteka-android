@@ -18,6 +18,7 @@
             android:layout_width="64dp"
             android:layout_height="64dp"
             android:layout_gravity="center_vertical"
+            android:contentDescription="@string/app_icon"
             tools:src="@mipmap/ic_launcher" />
 
         <LinearLayout
@@ -26,8 +27,10 @@
             android:layout_gravity="center_vertical"
             android:gravity="center_vertical"
             android:orientation="vertical"
+            android:paddingEnd="0dp"
             android:paddingLeft="10dp"
-            android:paddingRight="0dp">
+            android:paddingRight="0dp"
+            android:paddingStart="10dp">
 
             <TextView
                 android:id="@+id/app_label"
@@ -47,13 +50,13 @@
                 android:layout_gravity="start|center_vertical"
                 android:ellipsize="marquee"
                 android:fontFamily="monospace"
-                android:lines="1"
                 android:marqueeRepeatLimit="marquee_forever"
                 android:scrollHorizontally="true"
                 android:singleLine="true"
                 android:textColor="?text_secondary_color"
                 android:textSize="14sp"
                 android:typeface="monospace"
+                tools:targetApi="jelly_bean"
                 tools:text="com.example.android.app" />
 
         </LinearLayout>
@@ -70,9 +73,9 @@
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="end"
             android:paddingLeft="24dp"
             android:paddingRight="24dp"
-            android:layout_gravity="end"
             tools:text="@string/install" />
 
         <LinearLayout
@@ -85,9 +88,11 @@
                 style="@style/Widget.AppCompat.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="6dp"
                 android:layout_marginLeft="0dp"
                 android:layout_marginRight="6dp"
-                android:layout_gravity="center"
+                android:layout_marginStart="0dp"
                 android:layout_weight="1"
                 tools:text="@string/remove" />
 
@@ -96,9 +101,11 @@
                 style="@style/Widget.AppCompat.Button.Colored"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginEnd="0dp"
                 android:layout_marginLeft="6dp"
                 android:layout_marginRight="0dp"
-                android:layout_gravity="center"
+                android:layout_marginStart="6dp"
                 android:layout_weight="1"
                 tools:text="@string/open" />
 
@@ -122,9 +129,10 @@
                 android:id="@+id/button_cancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="?selectableItemBackgroundBorderless"
-                android:padding="8dp"
                 android:layout_gravity="center_vertical"
+                android:background="?selectableItemBackgroundBorderless"
+                android:contentDescription="@string/cancel"
+                android:padding="8dp"
                 android:src="@drawable/close"
                 android:tint="@color/accent_color" />
 
@@ -136,35 +144,37 @@
         android:id="@+id/extra_access"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingLeft="4dp"
-        android:paddingStart="4dp"
-        android:paddingRight="4dp"
-        android:paddingEnd="4dp"
         android:gravity="end"
-        android:textSize="12sp"
+        android:paddingEnd="4dp"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp"
+        android:paddingStart="4dp"
         android:textColor="@color/accent_color"
+        android:textSize="12sp"
         android:visibility="gone"
-        tools:visibility="visible"
-        tools:text="Use SMS, calls access" />
+        tools:text="Use SMS, calls access"
+        tools:visibility="visible" />
 
     <LinearLayout
         android:id="@+id/uploader_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="8dp"
-        android:gravity="right"
-        android:orientation="horizontal">
+        android:gravity="end"
+        android:orientation="horizontal"
+        android:paddingTop="8dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:paddingEnd="5dp"
             android:paddingLeft="8dp"
             android:paddingRight="5dp"
+            android:paddingStart="8dp"
+            android:text="@string/uploaded_by_user"
             android:textColor="?text_primary_color"
             android:textSize="12sp"
-            android:textStyle="bold"
-            android:text="@string/uploaded_by_user" />
+            android:textStyle="bold" />
 
         <com.tomclaw.appsend.main.view.MemberImageView
             android:id="@+id/uploader_avatar"

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?android:attr/activatedBackgroundIndicator"
@@ -13,57 +14,56 @@
 
     <include layout="@layout/chat_item_date" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:baselineAligned="false"
+        android:gravity="end"
+        android:orientation="horizontal">
+
+        <include layout="@layout/time_delivery_out_block" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:baselineAligned="false"
+            android:layout_weight="1"
             android:gravity="end"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            android:paddingEnd="0dp"
+            android:paddingLeft="5dp"
+            android:paddingRight="0dp"
+            android:paddingStart="5dp">
 
-            <include layout="@layout/time_delivery_out_block" />
-
-            <LinearLayout
+            <FrameLayout
+                android:id="@+id/out_bubble_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="end"
                 android:orientation="vertical"
-                android:paddingLeft="5dp"
-                android:paddingRight="0dp">
+                android:paddingBottom="4dp"
+                android:paddingEnd="14dp"
+                android:paddingLeft="6dp"
+                android:paddingRight="14dp"
+                android:paddingStart="6dp"
+                android:paddingTop="3dp"
+                tools:ignore="UselessParent">
 
-                <FrameLayout
-                    android:id="@+id/out_bubble_back"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingBottom="4dp"
-                    android:paddingLeft="6dp"
-                    android:paddingRight="14dp"
-                    android:paddingTop="3dp">
+                <TextView
+                    android:id="@+id/out_text"
+                    style="@style/Chat.Message"
+                    android:textColor="@color/out_text_color" />
 
-                    <TextView
-                        android:id="@+id/out_text"
-                        style="@style/Chat.Message"
-                        android:textColor="@color/out_text_color" />
-
-                </FrameLayout>
-
-            </LinearLayout>
-
-            <com.tomclaw.appsend.main.view.MemberImageView
-                android:id="@+id/member_avatar"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:background="@drawable/avatar_background"
-                android:scaleType="center" />
+            </FrameLayout>
 
         </LinearLayout>
 
-    </RelativeLayout>
+        <com.tomclaw.appsend.main.view.MemberImageView
+            android:id="@+id/member_avatar"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="@drawable/avatar_background"
+            android:scaleType="center" />
+
+    </LinearLayout>
 
 </LinearLayout>

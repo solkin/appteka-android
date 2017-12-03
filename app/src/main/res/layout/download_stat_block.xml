@@ -9,7 +9,7 @@
     android:scrollbars="none">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:orientation="horizontal"
@@ -42,27 +42,27 @@
 
         <RelativeLayout
             android:id="@+id/exclusive_badge"
-            android:visibility="gone"
             android:layout_width="80dp"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:visibility="gone">
 
             <FrameLayout
                 android:id="@+id/exclusive_icon_container"
-                android:layout_centerHorizontal="true"
                 android:layout_width="58dp"
-                android:layout_height="60dp">
+                android:layout_height="60dp"
+                android:layout_centerHorizontal="true">
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="2dp"
+                    android:contentDescription="@string/exclusive"
                     android:src="@drawable/grey_circle_filled" />
 
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginBottom="2dp"
-                    android:layout_centerHorizontal="true"
                     android:background="@drawable/circle_filled"
                     android:paddingLeft="4dp"
                     android:paddingRight="4dp">
@@ -83,9 +83,9 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/exclusive_icon_container"
                 android:layout_centerHorizontal="true"
-                android:maxLines="2"
                 android:ellipsize="marquee"
                 android:gravity="center"
+                android:maxLines="2"
                 android:paddingTop="6dp"
                 android:text="@string/exclusive_app"
                 android:textColor="@color/grey_dark"
@@ -100,21 +100,21 @@
 
             <FrameLayout
                 android:id="@+id/category_icon_container"
-                android:layout_centerHorizontal="true"
                 android:layout_width="58dp"
-                android:layout_height="60dp">
+                android:layout_height="60dp"
+                android:layout_centerHorizontal="true">
 
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="2dp"
+                    android:contentDescription="@string/category"
                     android:src="@drawable/grey_circle_filled" />
 
                 <FrameLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginBottom="2dp"
-                    android:layout_centerHorizontal="true"
                     android:background="@drawable/circle_filled"
                     android:paddingLeft="4dp"
                     android:paddingRight="4dp">
@@ -137,9 +137,9 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/category_icon_container"
                 android:layout_centerHorizontal="true"
-                android:maxLines="2"
                 android:ellipsize="marquee"
                 android:gravity="center"
+                android:maxLines="2"
                 android:paddingTop="6dp"
                 android:text="@string/category"
                 android:textColor="@color/grey_dark"

@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/permissions_block"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="8dp"
     android:background="?attr/permissions_container_background"
     android:foreground="?selectableItemBackground"
+    android:paddingBottom="8dp"
     android:paddingLeft="12dp"
     android:paddingRight="12dp"
-    android:paddingTop="8dp"
-    android:paddingBottom="8dp">
+    android:paddingTop="8dp">
 
     <RelativeLayout
         android:id="@+id/block_title"
@@ -23,6 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:contentDescription="@string/permissions"
             android:src="@drawable/lock_open"
             android:tint="@color/primary_color" />
 
@@ -31,13 +33,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/icon"
             android:layout_toRightOf="@+id/icon"
             android:fontFamily="sans-serif-medium"
+            android:paddingEnd="8dp"
             android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingStart="8dp"
             android:text="@string/required_permissions"
             android:textAllCaps="true"
             android:textColor="@color/primary_color"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            tools:targetApi="jelly_bean" />
 
     </RelativeLayout>
 
@@ -64,11 +71,12 @@
         android:layout_gravity="bottom"
         android:fontFamily="sans-serif-medium"
         android:gravity="center"
-        android:paddingTop="12dp"
         android:paddingBottom="4dp"
+        android:paddingTop="12dp"
         android:text="@string/read_more"
         android:textAllCaps="true"
         android:textColor="@color/primary_color"
-        android:textSize="14sp" />
+        android:textSize="14sp"
+        tools:targetApi="jelly_bean" />
 
 </RelativeLayout>

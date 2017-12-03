@@ -6,15 +6,16 @@
     style="?cardViewStyle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="0dp"
     android:layout_marginLeft="6dp"
     android:layout_marginRight="6dp"
     android:layout_marginTop="6dp"
-    android:layout_marginBottom="0dp"
-    app:cardCornerRadius="2dp"
-    app:cardElevation="@dimen/cardview_default_elevation"
     android:background="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
     android:foreground="?android:attr/selectableItemBackground"
-    android:clickable="true">
+    app:cardCornerRadius="2dp"
+    app:cardElevation="@dimen/cardview_default_elevation">
 
     <jp.shts.android.library.TriangleLabelView
         android:id="@+id/badge_new"
@@ -39,26 +40,29 @@
 
         <LinearLayout
             android:id="@+id/buddy_container"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_width="match_parent"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            tools:ignore="UselessParent">
 
             <ImageView
+                android:id="@+id/app_icon"
                 android:layout_width="52dp"
                 android:layout_height="52dp"
-                android:id="@+id/app_icon"
                 android:layout_gravity="center_vertical"
+                android:contentDescription="@string/app_icon"
                 tools:src="@mipmap/ic_launcher" />
 
             <LinearLayout
-                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
+                android:orientation="vertical"
+                android:paddingEnd="0dp"
                 android:paddingLeft="10dp"
-                android:paddingRight="0dp">
+                android:paddingRight="0dp"
+                android:paddingStart="10dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -66,25 +70,28 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
                         android:id="@+id/app_name"
-                        android:layout_gravity="left|center_vertical"
-                        android:singleLine="true"
-                        android:textStyle="bold"
-                        android:textColor="?text_primary_color"
-                        android:textSize="17sp" />
-
-                    <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="4dp"
-                        android:id="@+id/app_version"
-                        android:layout_gravity="left|center_vertical"
+                        android:layout_gravity="start|center_vertical"
                         android:singleLine="true"
+                        android:textColor="?text_primary_color"
                         android:textSize="17sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/app_version"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start|center_vertical"
+                        android:layout_marginLeft="4dp"
+                        android:layout_marginStart="4dp"
+                        android:fontFamily="sans-serif-thin"
+                        android:singleLine="true"
                         android:textColor="?text_secondary_color"
-                        android:fontFamily="sans-serif-thin" />
+                        android:textSize="17sp"
+                        tools:targetApi="jelly_bean" />
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -93,35 +100,39 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/app_size"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/app_size"
-                        android:layout_gravity="left|center_vertical"
-                        android:singleLine="true"
-                        android:lines="1"
-                        android:textSize="15sp"
-                        android:textColor="?text_secondary_color"
-                        android:scrollHorizontally="true"
+                        android:layout_gravity="start|center_vertical"
                         android:ellipsize="marquee"
                         android:marqueeRepeatLimit="marquee_forever"
-                        android:fontFamily="sans-serif" />
+                        android:scrollHorizontally="true"
+                        android:singleLine="true"
+                        android:textColor="?text_secondary_color"
+                        android:textSize="15sp" />
 
                     <TextView
+                        android:id="@+id/app_update_time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="start|center_vertical"
                         android:layout_marginLeft="4dp"
-                        android:id="@+id/app_update_time"
-                        android:layout_gravity="left|center_vertical"
-                        android:singleLine="true"
-                        android:lines="1"
-                        android:textSize="15sp"
-                        android:textColor="?text_secondary_color"
-                        android:scrollHorizontally="true"
+                        android:layout_marginStart="4dp"
                         android:ellipsize="marquee"
+                        android:fontFamily="sans-serif-light"
                         android:marqueeRepeatLimit="marquee_forever"
-                        android:fontFamily="sans-serif-light" />
+                        android:scrollHorizontally="true"
+                        android:singleLine="true"
+                        android:textColor="?text_secondary_color"
+                        android:textSize="15sp"
+                        tools:targetApi="jelly_bean" />
+
                 </LinearLayout>
+
             </LinearLayout>
+
         </LinearLayout>
+
     </FrameLayout>
+
 </android.support.v7.widget.CardView>

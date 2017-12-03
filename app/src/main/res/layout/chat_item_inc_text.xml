@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -31,8 +30,10 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical"
+            android:paddingEnd="5dp"
             android:paddingLeft="0dp"
-            android:paddingRight="5dp">
+            android:paddingRight="5dp"
+            android:paddingStart="0dp">
 
             <LinearLayout
                 android:id="@+id/inc_bubble_back"
@@ -40,8 +41,10 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:paddingBottom="4dp"
+                android:paddingEnd="6dp"
                 android:paddingLeft="14dp"
                 android:paddingRight="6dp"
+                android:paddingStart="14dp"
                 android:paddingTop="3dp">
 
                 <TextView

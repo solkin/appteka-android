@@ -10,7 +10,6 @@
         android:translateY="2.000000">
         <path
             android:fillColor="#F5F5F5"
-            android:fillType="evenOdd"
             android:strokeColor="#FFFFFF"
             android:strokeAlpha="0"
             android:strokeWidth="2"
@@ -21,7 +20,7 @@
             <path
                 android:fillColor="#1D9C5A"
                 android:strokeWidth="1"
-                android:pathData="M2.5,20 L0,17.5 L0,2 C-2.22044605e-16,0.8954305 0.8954305,0 2,0 L18,0
+                android:pathData="M2.5,20 L0,17.5 L0,2 C0.0,0.8954305 0.8954305,0 2,0 L18,0
 C19.1045695,0 20,0.8954305 20,2 L20,18 C20,19.1045695 19.1045695,20 18,20 L15,20
 L15,13 C15,12.4477153 14.5522847,12 14,12 L5,12 C4.44771525,12 4,12.4477153 4,13
 L4,20 L2.5,20 L2.5,20 Z M3,2 L3,8 C3,8.55228475 3.44771525,9 4,9 L16,9

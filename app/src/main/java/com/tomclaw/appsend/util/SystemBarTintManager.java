@@ -33,7 +33,7 @@ public class SystemBarTintManager {
         // See https://github.com/android/platform_frameworks_base/blob/master/policy/src/com/android/internal/policy/impl/PhoneWindowManager.java#L1076
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             try {
-                Class c = Class.forName("android.os.SystemProperties");
+                @SuppressLint("PrivateApi") Class c = Class.forName("android.os.SystemProperties");
                 Method m = c.getDeclaredMethod("get", String.class);
                 m.setAccessible(true);
                 sNavBarOverride = (String) m.invoke(null, "qemu.hw.mainkeys");
@@ -369,29 +369,23 @@ public class SystemBarTintManager {
 
         @TargetApi(14)
         private int getActionBarHeight(Context context) {
-            int result = 0;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-                TypedValue tv = new TypedValue();
-                context.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true);
-                result = TypedValue.complexToDimensionPixelSize(tv.data, context.getResources().getDisplayMetrics());
-            }
-            return result;
+            TypedValue tv = new TypedValue();
+            context.getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true);
+            return TypedValue.complexToDimensionPixelSize(tv.data, context.getResources().getDisplayMetrics());
         }
 
         @TargetApi(14)
         private int getNavigationBarHeight(Context context) {
             Resources res = context.getResources();
             int result = 0;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-                if (hasNavBar(context)) {
-                    String key;
-                    if (mInPortrait) {
-                        key = NAV_BAR_HEIGHT_RES_NAME;
-                    } else {
-                        key = NAV_BAR_HEIGHT_LANDSCAPE_RES_NAME;
-                    }
-                    return getInternalDimensionSize(res, key);
+            if (hasNavBar(context)) {
+                String key;
+                if (mInPortrait) {
+                    key = NAV_BAR_HEIGHT_RES_NAME;
+                } else {
+                    key = NAV_BAR_HEIGHT_LANDSCAPE_RES_NAME;
                 }
+                return getInternalDimensionSize(res, key);
             }
             return result;
         }
@@ -400,10 +394,8 @@ public class SystemBarTintManager {
         private int getNavigationBarWidth(Context context) {
             Resources res = context.getResources();
             int result = 0;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-                if (hasNavBar(context)) {
-                    return getInternalDimensionSize(res, NAV_BAR_WIDTH_RES_NAME);
-                }
+            if (hasNavBar(context)) {
+                return getInternalDimensionSize(res, NAV_BAR_WIDTH_RES_NAME);
             }
             return result;
         }
