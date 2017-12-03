@@ -1,9 +1,10 @@
-package com.tomclaw.appsend.main.controller;
+package com.tomclaw.appsend.main.upload;
 
 import android.text.TextUtils;
 
 import com.orhanobut.logger.Logger;
 import com.tomclaw.appsend.core.MainExecutor;
+import com.tomclaw.appsend.main.controller.AbstractController;
 import com.tomclaw.appsend.main.item.CommonItem;
 import com.tomclaw.appsend.main.task.ExportApkTask;
 import com.tomclaw.appsend.net.Session;

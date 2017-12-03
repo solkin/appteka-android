@@ -45,7 +45,7 @@ public class UpdateController extends AbstractController<UpdateController.Update
     private Future<?> future;
 
     @Override
-    void onAttached(UpdateCallback callback) {
+    protected void onAttached(UpdateCallback callback) {
         if (isUpdateAvailable()) {
             callback.onUpdateAvailable(item);
         }
@@ -64,7 +64,7 @@ public class UpdateController extends AbstractController<UpdateController.Update
     }
 
     @Override
-    void onDetached(UpdateCallback callback) {
+    protected void onDetached(UpdateCallback callback) {
     }
 
     private void onProgress() {

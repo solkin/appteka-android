@@ -1,4 +1,4 @@
-package com.tomclaw.appsend;
+package com.tomclaw.appsend.main.upload;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,8 +17,8 @@ import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import com.bumptech.glide.Glide;
+import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.main.controller.CountController;
-import com.tomclaw.appsend.main.controller.UploadController;
 import com.tomclaw.appsend.main.item.CommonItem;
 import com.tomclaw.appsend.main.meta.MetaActivity_;
 import com.tomclaw.appsend.util.FileHelper;

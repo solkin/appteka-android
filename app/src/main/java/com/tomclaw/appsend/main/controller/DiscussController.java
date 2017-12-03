@@ -50,14 +50,13 @@ public class DiscussController extends AbstractController<DiscussController.Disc
     }
 
     @Override
-    void onAttached(DiscussCallback callback) {
+    protected void onAttached(DiscussCallback callback) {
         notifyCountListeners();
         notifyUserListeners();
     }
 
     @Override
-    void onDetached(DiscussCallback callback) {
-
+    protected void onDetached(DiscussCallback callback) {
     }
 
     private void notifyCountListeners() {

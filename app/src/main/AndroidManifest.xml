@@ -65,7 +65,7 @@
             android:label="@string/donate" />
 
         <activity
-            android:name="com.tomclaw.appsend.UploadActivity"
+            android:name="com.tomclaw.appsend.main.upload.UploadActivity"
             android:label="@string/upload" />
 
         <activity

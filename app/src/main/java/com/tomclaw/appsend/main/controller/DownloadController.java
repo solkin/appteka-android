@@ -67,7 +67,7 @@ public class DownloadController extends AbstractController<DownloadController.Do
     private Future<?> future;
 
     @Override
-    void onAttached(DownloadCallback callback) {
+    protected void onAttached(DownloadCallback callback) {
         actuateCallback(callback);
     }
 
@@ -102,7 +102,7 @@ public class DownloadController extends AbstractController<DownloadController.Do
     }
 
     @Override
-    void onDetached(DownloadCallback callback) {
+    protected void onDetached(DownloadCallback callback) {
     }
 
     public void loadInfo(final String appId, final String appPackage) {

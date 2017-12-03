@@ -43,7 +43,7 @@ public class CountController extends AbstractController<CountController.CountCal
     private Future<?> future;
 
     @Override
-    void onAttached(CountCallback callback) {
+    protected void onAttached(CountCallback callback) {
         if (isLoaded()) {
             callback.onStoreCount(count);
         } else if (isError) {
@@ -62,7 +62,7 @@ public class CountController extends AbstractController<CountController.CountCal
     }
 
     @Override
-    void onDetached(CountCallback callback) {
+    protected void onDetached(CountCallback callback) {
     }
 
     private void onProgress() {

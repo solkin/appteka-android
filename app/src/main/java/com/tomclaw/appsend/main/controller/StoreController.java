@@ -60,7 +60,7 @@ public class StoreController extends AbstractController<StoreController.StoreCal
     private PackageManager packageManager;
 
     @Override
-    void onAttached(final StoreCallback callback) {
+    protected void onAttached(final StoreCallback callback) {
         if (isLoaded()) {
             if (packageManager != null) {
                 callback.onProgress(false);
@@ -139,7 +139,7 @@ public class StoreController extends AbstractController<StoreController.StoreCal
     }
 
     @Override
-    void onDetached(StoreCallback callback) {
+    protected void onDetached(StoreCallback callback) {
     }
 
     private void onProgress(final boolean isAppend) {

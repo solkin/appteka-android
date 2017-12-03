@@ -18,7 +18,6 @@ import android.widget.ViewFlipper;
 
 import com.bumptech.glide.Glide;
 import com.flurry.android.FlurryAgent;
-import com.tomclaw.appsend.util.PackageIconGlideLoader;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.core.StoreServiceHolder;
@@ -27,6 +26,7 @@ import com.tomclaw.appsend.main.item.StoreItem;
 import com.tomclaw.appsend.net.Session;
 import com.tomclaw.appsend.util.KeyboardHelper;
 import com.tomclaw.appsend.util.LocaleHelper;
+import com.tomclaw.appsend.util.PackageIconGlideLoader;
 import com.tomclaw.appsend.util.ThemeHelper;
 
 import org.androidannotations.annotations.AfterViews;

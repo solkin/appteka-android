@@ -6,11 +6,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.tomclaw.appsend.util.PackageIconGlideLoader;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.main.adapter.BaseItemAdapter;
 import com.tomclaw.appsend.main.item.AppItem;
 import com.tomclaw.appsend.util.FileHelper;
+import com.tomclaw.appsend.util.PackageIconGlideLoader;
 
 import java.text.SimpleDateFormat;
 import java.util.concurrent.TimeUnit;

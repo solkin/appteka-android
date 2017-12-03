@@ -17,7 +17,7 @@ public abstract class AbstractController<C extends AbstractController.Controller
         onAttached(callback);
     }
 
-    abstract void onAttached(C callback);
+    protected abstract void onAttached(C callback);
 
     public void detachAll() {
         for (C callback : weakCallbacks) {
@@ -31,9 +31,9 @@ public abstract class AbstractController<C extends AbstractController.Controller
         }
     }
 
-    abstract void onDetached(C callback);
+    protected abstract void onDetached(C callback);
 
-    void operateCallbacks(CallbackOperation<C> operation) {
+    protected void operateCallbacks(CallbackOperation<C> operation) {
         for (C callback : weakCallbacks) {
             operation.invoke(callback);
         }

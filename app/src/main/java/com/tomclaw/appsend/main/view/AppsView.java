@@ -22,7 +22,6 @@ import com.flurry.android.FlurryAgent;
 import com.greysonparrelli.permiso.Permiso;
 import com.tomclaw.appsend.DownloadActivity;
 import com.tomclaw.appsend.R;
-import com.tomclaw.appsend.UploadActivity;
 import com.tomclaw.appsend.core.TaskExecutor;
 import com.tomclaw.appsend.main.adapter.BaseItemAdapter;
 import com.tomclaw.appsend.main.adapter.FilterableItemAdapter;
@@ -34,6 +33,7 @@ import com.tomclaw.appsend.main.item.BaseItem;
 import com.tomclaw.appsend.main.permissions.PermissionsActivity_;
 import com.tomclaw.appsend.main.permissions.PermissionsList;
 import com.tomclaw.appsend.main.task.ExportApkTask;
+import com.tomclaw.appsend.main.upload.UploadActivity;
 import com.tomclaw.appsend.util.ColorHelper;
 import com.tomclaw.appsend.util.EdgeChanger;
 
