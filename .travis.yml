@@ -8,15 +8,18 @@ android:
     - build-tools-25.0.3
     - build-tools-26.0.2
     - android-25
+    - android-26
     - extra
     - extra-android-support
     - extra-android-m2repository
     - extra-google-m2repository
 
 script:
-        - ./gradlew build
+    - ./gradlew build
+
 before_install:
-        - chmod +x gradlew
+    - chmod +x gradlew
+
 branches:
-        only:
-                - master
+  only:
+    - master
