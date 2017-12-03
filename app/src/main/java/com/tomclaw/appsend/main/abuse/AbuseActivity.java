@@ -39,9 +39,6 @@ import retrofit2.Response;
 @OptionsMenu(R.menu.abuse_menu)
 public class AbuseActivity extends AppCompatActivity {
 
-    public static final String APP_ID = "extra_app_id";
-    public static final String APP_LABEL = "extra_app_label";
-
     @ViewById
     Toolbar toolbar;
 
@@ -83,8 +80,7 @@ public class AbuseActivity extends AppCompatActivity {
         int color = getResources().getColor(R.color.abuse_color);
         StatusBarUtil.setColor(this, color);
 
-        emailInput.setEnabled(true);
-        viewFlipper.setDisplayedChild(0);
+        onReady();
     }
 
     @OptionsItem(android.R.id.home)
@@ -160,7 +156,13 @@ public class AbuseActivity extends AppCompatActivity {
     }
 
     private void showError(String message) {
+        onReady();
         Snackbar.make(viewFlipper, message, Snackbar.LENGTH_LONG).show();
+    }
+
+    public void onReady() {
+        emailInput.setEnabled(true);
+        viewFlipper.setDisplayedChild(0);
     }
 
     public void onProgress() {

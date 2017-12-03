@@ -1,4 +1,4 @@
-package com.tomclaw.appsend;
+package com.tomclaw.appsend.util;
 
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;

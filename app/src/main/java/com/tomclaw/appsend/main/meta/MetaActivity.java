@@ -18,7 +18,7 @@ import android.widget.ViewFlipper;
 
 import com.bumptech.glide.Glide;
 import com.flurry.android.FlurryAgent;
-import com.tomclaw.appsend.PackageIconGlideLoader;
+import com.tomclaw.appsend.util.PackageIconGlideLoader;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.core.StoreServiceHolder;

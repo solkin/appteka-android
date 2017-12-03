@@ -1,4 +1,4 @@
-package com.tomclaw.appsend;
+package com.tomclaw.appsend.main.settings;
 
 import android.content.Context;
 import android.os.Build;
@@ -8,6 +8,7 @@ import android.preference.Preference;
 import android.widget.Toast;
 
 import com.github.machinarius.preferencefragment.PreferenceFragment;
+import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.PleaseWaitTask;
 import com.tomclaw.appsend.core.TaskExecutor;
 
@@ -20,6 +21,7 @@ import static com.tomclaw.appsend.util.FileHelper.getExternalDirectory;
  * Created by Solkin on 12.01.2015.
  */
 public class SettingsFragment extends PreferenceFragment {
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +32,7 @@ public class SettingsFragment extends PreferenceFragment {
             preference.setEntries(R.array.pref_sort_order_strings_legacy);
             preference.setEntryValues(R.array.pref_sort_order_values_legacy);
         }
-        Preference myPref = (Preference) findPreference(getString(R.string.pref_clear_cache));
+        Preference myPref = findPreference(getString(R.string.pref_clear_cache));
         myPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {
                 TaskExecutor.getInstance().execute(new PleaseWaitTask(getActivity()) {

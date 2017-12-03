@@ -44,7 +44,7 @@
             android:name="com.tomclaw.appsend.main.about.AboutActivity_"
             android:label="@string/info" />
         <activity
-            android:name="com.tomclaw.appsend.SettingsActivity"
+            android:name="com.tomclaw.appsend.main.settings.SettingsActivity"
             android:label="@string/settings" />
         <activity
             android:name="com.tomclaw.appsend.main.donate.DonateActivity_"
