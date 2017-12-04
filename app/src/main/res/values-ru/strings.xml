@@ -39,7 +39,7 @@
     <string name="upload_apk">Загрузить в обменник</string>
     <string name="bluetooth_apk">Отправить по Bluetooth</string>
     <string name="find_on_gp">Найти в Google Play</string>
-    <string name="find_on_store">Найти в AppSend Store</string>
+    <string name="find_on_store">Найти в обменнике</string>
     <string name="remove_app">Удалить приложение</string>
     <string name="send_url_to">Поделиться ссылкой через</string>
     <string name="uploading_error">Ошибка загрузки приложения в файлообменник. Пожалуйста, попробуйте позднее.</string>
