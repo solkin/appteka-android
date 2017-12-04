@@ -14,6 +14,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
+import java.util.Locale;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -170,7 +171,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static String generateRandomWord(Random r, boolean capitalize) {
         String word = StringUtil.generateRandomString(r, 4, 10);
         if (capitalize) {
-            return String.valueOf(word.charAt(0)).toUpperCase() + word.substring(1);
+            return String.valueOf(word.charAt(0)).toUpperCase(Locale.getDefault()) + word.substring(1);
         } else {
             return word;
         }

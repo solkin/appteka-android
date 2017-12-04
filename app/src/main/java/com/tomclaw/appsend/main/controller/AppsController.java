@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Random;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -130,6 +131,7 @@ public class AppsController extends AbstractController<AppsController.AppsCallba
 
     private void loadInternal(Context context) {
         onProgress();
+        final Locale locale = Locale.getDefault();
         PackageManager packageManager = context.getPackageManager();
         ArrayList<AppItem> appItemList = new ArrayList<>();
         List<ApplicationInfo> packages = packageManager.getInstalledApplications(PackageManager.GET_META_DATA);
@@ -163,14 +165,16 @@ public class AppsController extends AbstractController<AppsController.AppsCallba
             Collections.sort(appItemList, new Comparator<AppItem>() {
                 @Override
                 public int compare(AppItem lhs, AppItem rhs) {
-                    return lhs.getLabel().toUpperCase().compareTo(rhs.getLabel().toUpperCase());
+                    return lhs.getLabel().toUpperCase(locale)
+                            .compareTo(rhs.getLabel().toUpperCase(locale));
                 }
             });
         } else if (TextUtils.equals(sortOrder, context.getString(R.string.sort_order_descending_value))) {
             Collections.sort(appItemList, new Comparator<AppItem>() {
                 @Override
                 public int compare(AppItem lhs, AppItem rhs) {
-                    return rhs.getLabel().toUpperCase().compareTo(lhs.getLabel().toUpperCase());
+                    return rhs.getLabel().toUpperCase(locale)
+                            .compareTo(lhs.getLabel().toUpperCase(locale));
                 }
             });
         } else if (TextUtils.equals(sortOrder, context.getString(R.string.sort_order_app_size_value))) {

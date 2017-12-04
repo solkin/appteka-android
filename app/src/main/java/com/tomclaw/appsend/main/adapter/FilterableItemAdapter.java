@@ -9,6 +9,7 @@ import com.tomclaw.appsend.main.item.CommonItem;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by ivsolkin on 27.01.17.
@@ -55,12 +56,13 @@ public class FilterableItemAdapter extends BaseItemAdapter implements Filterable
 
     private List<BaseItem> filterApps(String query) {
         List<BaseItem> filtered = new ArrayList<>();
+        final Locale locale = Locale.getDefault();
         for (BaseItem item : originalInfoList) {
             boolean append = false;
             if (item instanceof CommonItem) {
                 CommonItem commonItem = (CommonItem) item;
-                if (commonItem.getLabel().toLowerCase().contains(query) ||
-                        commonItem.getPackageName().toLowerCase().contains(query)) {
+                if (commonItem.getLabel().toLowerCase(locale).contains(query) ||
+                        commonItem.getPackageName().toLowerCase(locale).contains(query)) {
                     append = true;
                 }
             } else {

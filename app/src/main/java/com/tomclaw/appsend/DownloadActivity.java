@@ -73,6 +73,7 @@ import com.tomclaw.appsend.util.ThemeHelper;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -687,7 +688,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         boolean hasGeoAccess = false;
         boolean hasCallAccess = false;
         for (String permission : permissions) {
-            String permissionUpper = permission.toUpperCase();
+            String permissionUpper = permission.toUpperCase(Locale.getDefault());
             boolean isDangerous = PermissionHelper.getPermissionSmallInfo(this, permission).isDangerous();
             if (isDangerous) {
                 if (!hasSmsAccess && permissionUpper.contains("SMS")) {

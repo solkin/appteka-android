@@ -9,6 +9,7 @@ import android.webkit.MimeTypeMap;
 import com.tomclaw.appsend.R;
 
 import java.io.File;
+import java.util.Locale;
 
 /**
  * Created by Solkin on 18.10.2014.
@@ -22,7 +23,7 @@ public class FileHelper {
         String extension = getFileExtensionFromPath(path);
         if (extension != null) {
             MimeTypeMap mime = MimeTypeMap.getSingleton();
-            type = mime.getMimeTypeFromExtension(extension.toLowerCase());
+            type = mime.getMimeTypeFromExtension(extension.toLowerCase(Locale.getDefault()));
         }
         if (TextUtils.isEmpty(type)) {
             type = "application/octet-stream";

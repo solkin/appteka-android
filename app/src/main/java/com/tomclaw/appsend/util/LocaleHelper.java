@@ -19,7 +19,7 @@ public class LocaleHelper {
         String country = locale.getCountry();
         Map<String, String> labels = item.getLabels();
         if (labels != null) {
-            String localizedLabel = labels.get(country.toLowerCase());
+            String localizedLabel = labels.get(country.toLowerCase(locale));
             if (!TextUtils.isEmpty(localizedLabel)) {
                 label = localizedLabel;
             }
@@ -33,7 +33,7 @@ public class LocaleHelper {
         String country = locale.getCountry();
         Map<String, String> names = category.getNames();
         if (names != null) {
-            String localizedName = names.get(country.toLowerCase());
+            String localizedName = names.get(country.toLowerCase(locale));
             if (!TextUtils.isEmpty(localizedName)) {
                 name = localizedName;
             }
