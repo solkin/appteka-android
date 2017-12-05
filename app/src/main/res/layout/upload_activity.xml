@@ -17,6 +17,7 @@
             android:layout_height="72dp"
             android:layout_gravity="center"
             android:layout_marginTop="24dp"
+            android:contentDescription="@string/app_icon"
             tools:src="@mipmap/ic_launcher" />
 
         <TextView
@@ -49,6 +50,7 @@
             android:gravity="center"
             android:textSize="12sp"
             android:textStyle="normal"
+            tools:targetApi="jelly_bean"
             tools:text="Версия 1.2 (41)" />
 
         <ViewSwitcher
@@ -71,6 +73,7 @@
                     android:gravity="center"
                     android:textSize="14sp"
                     android:textStyle="normal"
+                    tools:targetApi="jelly_bean"
                     tools:text="Отправка 1.2 Мб" />
 
                 <ProgressBar
@@ -99,8 +102,8 @@
                     style="@style/Widget.AppCompat.Button.Borderless.Colored"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
                     android:layout_gravity="center"
+                    android:layout_marginTop="8dp"
                     android:text="@string/cancel" />
 
             </LinearLayout>
@@ -123,6 +126,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
+                        android:layout_marginEnd="4dp"
                         android:layout_marginRight="4dp"
                         android:text="@string/share_url" />
 
@@ -133,6 +137,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginLeft="4dp"
+                        android:layout_marginStart="4dp"
                         android:text="@string/copy_url" />
 
                 </LinearLayout>

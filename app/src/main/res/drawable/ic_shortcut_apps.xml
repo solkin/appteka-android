@@ -2,25 +2,23 @@
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="48dp"
     android:height="48dp"
-    android:viewportWidth="48"
-    android:viewportHeight="48">
+    android:viewportHeight="48"
+    android:viewportWidth="48">
 
     <group
         android:translateX="2.000000"
         android:translateY="2.000000">
         <path
             android:fillColor="#F5F5F5"
-            android:fillType="evenOdd"
-            android:strokeColor="#FFFFFF"
+            android:pathData="M 22 0 C 34.1502644963 0 44 9.84973550372 44 22 C 44 34.1502644963 34.1502644963 44 22 44 C 9.84973550372 44 0 34.1502644963 0 22 C 0 9.84973550372 9.84973550372 0 22 0 Z"
             android:strokeAlpha="0"
-            android:strokeWidth="2"
-            android:pathData="M 22 0 C 34.1502644963 0 44 9.84973550372 44 22 C 44 34.1502644963 34.1502644963 44 22 44 C 9.84973550372 44 0 34.1502644963 0 22 C 0 9.84973550372 9.84973550372 0 22 0 Z" />
+            android:strokeColor="#FFFFFF"
+            android:strokeWidth="2" />
         <group
             android:translateX="15.000000"
             android:translateY="11.000000">
             <path
                 android:fillColor="#1D9C5A"
-                android:strokeWidth="1"
                 android:pathData="M10,8 C9.44771525,8 9,7.55228475 9,7 C9,6.44771525 9.44771525,6 10,6
 C10.5522847,6 11,6.44771525 11,7 C11,7.55228475 10.5522847,8 10,8 L10,8 Z M4,8
 C3.44771525,8 3,7.55228475 3,7 C3,6.44771525 3.44771525,6 4,6 C4.55228475,6
@@ -28,7 +26,8 @@ C3.44771525,8 3,7.55228475 3,7 C3,6.44771525 3.44771525,6 4,6 C4.55228475,6
 L12.4,0.44 L10.09,2.75 C9.16,2.28 8.11,2 7,2 C5.88,2 4.84,2.28 3.91,2.75
 L1.6,0.44 L0.78,1.27 L2.88,3.37 C1.14,4.64 0,6.68 0,9 L0,10 L14,10 L14,9
 C14,6.68 12.86,4.64 11.12,3.37 L11.12,3.37 Z M0,15 C0,18.86 3.13,22 7,22
-C10.8659932,22 14,18.8659932 14,15 L14,11 L0,11 L0,15 Z" />
+C10.8659932,22 14,18.8659932 14,15 L14,11 L0,11 L0,15 Z"
+                android:strokeWidth="1" />
         </group>
     </group>
 </vector>

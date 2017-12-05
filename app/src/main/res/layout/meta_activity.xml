@@ -47,6 +47,7 @@
                         android:layout_width="64dp"
                         android:layout_height="64dp"
                         android:layout_gravity="center_vertical"
+                        android:contentDescription="@string/app_icon"
                         tools:src="@mipmap/ic_launcher" />
 
                     <LinearLayout
@@ -55,8 +56,10 @@
                         android:layout_gravity="center_vertical"
                         android:gravity="center_vertical"
                         android:orientation="vertical"
+                        android:paddingEnd="0dp"
                         android:paddingLeft="10dp"
-                        android:paddingRight="0dp">
+                        android:paddingRight="0dp"
+                        android:paddingStart="10dp">
 
                         <TextView
                             android:id="@+id/app_label"
@@ -82,6 +85,7 @@
                             android:textColor="?text_secondary_color"
                             android:textSize="14sp"
                             android:typeface="monospace"
+                            tools:targetApi="jelly_bean"
                             tools:text="com.example.android.app" />
 
                     </LinearLayout>
@@ -115,8 +119,8 @@
                         android:id="@+id/description"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:inputType="textCapSentences|textMultiLine"
-                        android:hint="@string/app_description" />
+                        android:hint="@string/app_description"
+                        android:inputType="textCapSentences|textMultiLine" />
 
                 </android.support.design.widget.TextInputLayout>
 

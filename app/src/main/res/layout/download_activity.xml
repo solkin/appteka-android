@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -75,7 +76,8 @@
                             android:fontFamily="sans-serif-medium"
                             android:text="@string/other_versions"
                             android:textColor="?attr/text_primary_color"
-                            android:textSize="16sp" />
+                            android:textSize="16sp"
+                            tools:targetApi="jelly_bean" />
 
                         <LinearLayout
                             android:id="@+id/app_versions"
@@ -104,7 +106,8 @@
                 android:layout_width="128dp"
                 android:layout_height="128dp"
                 android:layout_marginBottom="12dp"
-                android:src="@drawable/thinking" />
+                android:src="@drawable/thinking"
+                android:contentDescription="@string/store_info_error" />
 
             <TextView
                 android:id="@+id/error_text"

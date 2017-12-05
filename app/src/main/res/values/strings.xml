@@ -189,4 +189,5 @@
     <string name="category_not_defined">Not defined</string>
     <string name="app_icon">App icon</string>
     <string name="delivery">Delivery</string>
+    <string name="rates_count">Rates count</string>
 </resources>

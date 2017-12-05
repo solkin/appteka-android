@@ -33,8 +33,9 @@ public class TimeHelper {
     }
 
     public static TimeHelper timeHelper() {
-        if (instance == null)
+        if (instance == null) {
             throw new IllegalStateException("TimeHelper must be initialized first");
+        }
         return instance;
     }
 
@@ -64,12 +65,12 @@ public class TimeHelper {
         return calendar.get(Calendar.YEAR) - 1970;
     }
 
-    public static Calendar clearTimes(Calendar c) {
-        c.set(Calendar.HOUR_OF_DAY, 0);
-        c.set(Calendar.MINUTE, 0);
-        c.set(Calendar.SECOND, 0);
-        c.set(Calendar.MILLISECOND, 0);
-        return c;
+    public static Calendar clearTimes(Calendar calendar) {
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar;
     }
 
     public String getTime(long timestamp) {

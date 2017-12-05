@@ -3,20 +3,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="?selectableItemBackground"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingBottom="4dp"
     android:paddingLeft="8dp"
     android:paddingRight="8dp"
-    android:paddingTop="4dp"
-    android:paddingBottom="4dp"
-    android:orientation="horizontal"
-    android:gravity="center_vertical"
-    android:background="?selectableItemBackground">
+    android:paddingTop="4dp">
 
     <TextView
         android:id="@+id/app_version_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
         android:textColor="?attr/text_primary_color"
+        android:textSize="16sp"
         tools:text="1.7" />
 
     <TextView
@@ -25,8 +25,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="2dp"
         android:layout_marginStart="2dp"
-        android:textSize="16sp"
         android:textColor="?attr/text_secondary_color"
+        android:textSize="16sp"
         tools:text="(49)" />
 
     <TextView
@@ -35,8 +35,8 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="4dp"
         android:layout_marginStart="4dp"
-        android:textColor="@color/accent_color"
-        android:text="@string/newer" />
+        android:text="@string/newer"
+        android:textColor="@color/accent_color" />
 
     <View
         android:layout_width="0dp"
@@ -47,16 +47,18 @@
         android:id="@+id/app_version_downloads"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="4dp"
         android:layout_marginEnd="4dp"
-        android:textSize="16sp"
-        android:textColor="@color/grey_dark"
+        android:layout_marginRight="4dp"
         android:fontFamily="sans-serif-light"
+        android:textColor="@color/grey_dark"
+        android:textSize="16sp"
+        tools:targetApi="jelly_bean"
         tools:text="133" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/app_version"
         android:src="@drawable/briefcase_download"
         android:tint="@color/grey_dark" />
 

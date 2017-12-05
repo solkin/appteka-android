@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingTop="4dp"
+    android:paddingBottom="12dp"
     android:paddingLeft="12dp"
     android:paddingRight="12dp"
-    android:paddingBottom="12dp">
+    android:paddingTop="4dp">
 
     <TextView
         android:layout_width="match_parent"
@@ -61,6 +61,7 @@
         android:textSize="12sp"
         android:textStyle="normal"
         android:typeface="monospace"
+        tools:targetApi="jelly_bean"
         tools:text="d3cdd8d14a376b8309ee1c06a78cb01142427e59" />
 
 </LinearLayout>

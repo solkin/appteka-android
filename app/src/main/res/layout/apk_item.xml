@@ -152,6 +152,7 @@
                 android:singleLine="true"
                 android:textColor="?text_secondary_color"
                 android:textSize="13sp"
+                tools:targetApi="jelly_bean"
                 tools:text="/path/to/this/apk/file/on_device/file.apk" />
         </LinearLayout>
 
