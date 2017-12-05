@@ -13,6 +13,7 @@ import com.tomclaw.appsend.util.FileHelper;
 import com.tomclaw.appsend.util.PackageIconGlideLoader;
 
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import jp.shts.android.library.TriangleLabelView;
@@ -22,7 +23,8 @@ import jp.shts.android.library.TriangleLabelView;
  */
 public class AppItemHolder extends AbstractItemHolder<AppItem> {
 
-    private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yy");
+    private static SimpleDateFormat simpleDateFormat =
+            new SimpleDateFormat("dd.MM.yy", Locale.getDefault());
 
     private View itemView;
     private ImageView appIcon;

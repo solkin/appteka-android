@@ -5,6 +5,7 @@ import android.text.format.DateFormat;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
 /**
  * Created by solkin on 05/05/14.
@@ -14,14 +15,22 @@ public class TimeHelper {
     /**
      * Date and time format helpers
      */
-    private static final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yy");
-    private static final SimpleDateFormat simpleTimeFormat12 = new SimpleDateFormat("h:mm a");
-    private static final SimpleDateFormat simpleTimeFormat24 = new SimpleDateFormat("HH:mm");
-    private static final SimpleDateFormat simpleTimeFormatSeconds = new SimpleDateFormat("mm:ss");
+    private static final SimpleDateFormat simpleDateFormat;
+    private static final SimpleDateFormat simpleTimeFormat12;
+    private static final SimpleDateFormat simpleTimeFormat24;
+    private static final SimpleDateFormat simpleTimeFormatSeconds;
 
     private final SimpleDateFormat timeFormat;
 
     private static TimeHelper instance;
+
+    static {
+        Locale locale = Locale.getDefault();
+        simpleDateFormat = new SimpleDateFormat("dd.MM.yy", locale);
+        simpleTimeFormat12 = new SimpleDateFormat("h:mm a", locale);
+        simpleTimeFormat24 = new SimpleDateFormat("HH:mm", locale);
+        simpleTimeFormatSeconds = new SimpleDateFormat("mm:ss", locale);
+    }
 
     public static TimeHelper timeHelper() {
         if (instance == null)

@@ -14,6 +14,7 @@ import com.tomclaw.appsend.util.FileHelper;
 import com.tomclaw.appsend.util.PackageIconGlideLoader;
 
 import java.text.SimpleDateFormat;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import jp.shts.android.library.TriangleLabelView;
@@ -23,7 +24,8 @@ import jp.shts.android.library.TriangleLabelView;
  */
 public class ApkItemHolder extends AbstractItemHolder<ApkItem> {
 
-    private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yy");
+    private static SimpleDateFormat simpleDateFormat =
+            new SimpleDateFormat("dd.MM.yy", Locale.getDefault());
 
     private View itemView;
     private ImageView appIcon;
@@ -39,13 +41,13 @@ public class ApkItemHolder extends AbstractItemHolder<ApkItem> {
     public ApkItemHolder(View itemView) {
         super(itemView);
         this.itemView = itemView;
-        appIcon = (ImageView) itemView.findViewById(R.id.app_icon);
-        appName = (TextView) itemView.findViewById(R.id.app_name);
-        appVersion = (TextView) itemView.findViewById(R.id.app_version);
-        apkCreateTime = (TextView) itemView.findViewById(R.id.apk_create_time);
-        appSize = (TextView) itemView.findViewById(R.id.app_size);
-        badgeNew = (TriangleLabelView) itemView.findViewById(R.id.badge_new);
-        apkLocation = (TextView) itemView.findViewById(R.id.apk_location);
+        appIcon = itemView.findViewById(R.id.app_icon);
+        appName = itemView.findViewById(R.id.app_name);
+        appVersion = itemView.findViewById(R.id.app_version);
+        apkCreateTime = itemView.findViewById(R.id.apk_create_time);
+        appSize = itemView.findViewById(R.id.app_size);
+        badgeNew = itemView.findViewById(R.id.badge_new);
+        apkLocation = itemView.findViewById(R.id.apk_location);
     }
 
     public void bind(Context context, final ApkItem item, final boolean isLast, final BaseItemAdapter.BaseItemClickListener<ApkItem> listener) {
