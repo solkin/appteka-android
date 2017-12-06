@@ -32,7 +32,7 @@ public class AppSend extends Application {
         FlurryAgent.init(this, flurryIdentifier);
         TimeHelper.init(this);
         MemberImageHelper.init(this);
-        DiscussController.getInstance().init(this);
+        DiscussController.getInstance();
         UserHolder userHolder = UserHolder.create(this);
         RequestDispatcher
                 .init(this, userHolder, APP_SESSION, Request.REQUEST_TYPE_SHORT)
