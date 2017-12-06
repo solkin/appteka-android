@@ -1,9 +1,7 @@
 package com.tomclaw.appsend.main.settings;
 
 import android.content.Context;
-import android.os.Build;
 import android.os.Bundle;
-import android.preference.ListPreference;
 import android.preference.Preference;
 import android.widget.Toast;
 
@@ -25,13 +23,7 @@ public class SettingsFragment extends PreferenceFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Load the preferences from an XML resource.
         addPreferencesFromResource(R.xml.preferences);
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
-            ListPreference preference = (ListPreference) findPreference(getString(R.string.pref_sort_order));
-            preference.setEntries(R.array.pref_sort_order_strings_legacy);
-            preference.setEntryValues(R.array.pref_sort_order_values_legacy);
-        }
         Preference myPref = findPreference(getString(R.string.pref_clear_cache));
         myPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             public boolean onPreferenceClick(Preference preference) {

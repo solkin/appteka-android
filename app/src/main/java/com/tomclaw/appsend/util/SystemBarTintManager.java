@@ -25,6 +25,7 @@ import java.lang.reflect.Method;
  * Class to manage status and navigation bar tint effects when using KitKat
  * translucent system UI modes.
  */
+@SuppressWarnings("WeakerAccess")
 public class SystemBarTintManager {
 
     static {
@@ -36,9 +37,9 @@ public class SystemBarTintManager {
                 @SuppressLint("PrivateApi") Class c = Class.forName("android.os.SystemProperties");
                 Method m = c.getDeclaredMethod("get", String.class);
                 m.setAccessible(true);
-                sNavBarOverride = (String) m.invoke(null, "qemu.hw.mainkeys");
+                navBarOverride = (String) m.invoke(null, "qemu.hw.mainkeys");
             } catch (Throwable e) {
-                sNavBarOverride = null;
+                navBarOverride = null;
             }
         }
     }
@@ -49,15 +50,15 @@ public class SystemBarTintManager {
      */
     public static final int DEFAULT_TINT_COLOR = 0x99000000;
 
-    private static String sNavBarOverride;
+    private static String navBarOverride;
 
-    private final SystemBarConfig mConfig;
-    private boolean mStatusBarAvailable;
-    private boolean mNavBarAvailable;
-    private boolean mStatusBarTintEnabled;
+    private final SystemBarConfig config;
+    private boolean isStatusBarAvailable;
+    private boolean isNavBarAvailable;
+    private boolean isStatusBarTintEnabled;
     private boolean mNavBarTintEnabled;
-    private View mStatusBarTintView;
-    private View mNavBarTintView;
+    private View statusBarTintView;
+    private View navBarTintView;
 
     /**
      * Constructor. Call this in the host activity onCreate method after its
@@ -66,7 +67,7 @@ public class SystemBarTintManager {
      *
      * @param activity The host activity.
      */
-    @TargetApi(19)
+    @TargetApi(24)
     @SuppressWarnings("ResourceType")
     public SystemBarTintManager(Activity activity) {
 
@@ -79,8 +80,8 @@ public class SystemBarTintManager {
                     android.R.attr.windowTranslucentNavigation};
             TypedArray a = activity.obtainStyledAttributes(attrs);
             try {
-                mStatusBarAvailable = a.getBoolean(0, false);
-                mNavBarAvailable = a.getBoolean(1, false);
+                isStatusBarAvailable = a.getBoolean(0, false);
+                isNavBarAvailable = a.getBoolean(1, false);
             } finally {
                 a.recycle();
             }
@@ -89,24 +90,24 @@ public class SystemBarTintManager {
             WindowManager.LayoutParams winParams = win.getAttributes();
             int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
             if ((winParams.flags & bits) != 0) {
-                mStatusBarAvailable = true;
+                isStatusBarAvailable = true;
             }
             bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION;
             if ((winParams.flags & bits) != 0) {
-                mNavBarAvailable = true;
+                isNavBarAvailable = true;
             }
         }
 
-        mConfig = new SystemBarConfig(activity, mStatusBarAvailable, mNavBarAvailable);
+        config = new SystemBarConfig(activity, isStatusBarAvailable, isNavBarAvailable);
         // device might not have virtual navigation keys
-        if (!mConfig.hasNavigtionBar()) {
-            mNavBarAvailable = false;
+        if (!config.hasNavigtionBar()) {
+            isNavBarAvailable = false;
         }
 
-        if (mStatusBarAvailable) {
+        if (isStatusBarAvailable) {
             setupStatusBarView(activity, decorViewGroup);
         }
-        if (mNavBarAvailable) {
+        if (isNavBarAvailable) {
             setupNavBarView(activity, decorViewGroup);
         }
 
@@ -122,9 +123,9 @@ public class SystemBarTintManager {
      * @param enabled True to enable tinting, false to disable it (default).
      */
     public void setStatusBarTintEnabled(boolean enabled) {
-        mStatusBarTintEnabled = enabled;
-        if (mStatusBarAvailable) {
-            mStatusBarTintView.setVisibility(enabled ? View.VISIBLE : View.GONE);
+        isStatusBarTintEnabled = enabled;
+        if (isStatusBarAvailable) {
+            statusBarTintView.setVisibility(enabled ? View.VISIBLE : View.GONE);
         }
     }
 
@@ -139,8 +140,8 @@ public class SystemBarTintManager {
      */
     public void setNavigationBarTintEnabled(boolean enabled) {
         mNavBarTintEnabled = enabled;
-        if (mNavBarAvailable) {
-            mNavBarTintView.setVisibility(enabled ? View.VISIBLE : View.GONE);
+        if (isNavBarAvailable) {
+            navBarTintView.setVisibility(enabled ? View.VISIBLE : View.GONE);
         }
     }
 
@@ -190,8 +191,8 @@ public class SystemBarTintManager {
      * @param color The color of the background tint.
      */
     public void setStatusBarTintColor(int color) {
-        if (mStatusBarAvailable) {
-            mStatusBarTintView.setBackgroundColor(color);
+        if (isStatusBarAvailable) {
+            statusBarTintView.setBackgroundColor(color);
         }
     }
 
@@ -201,8 +202,8 @@ public class SystemBarTintManager {
      * @param res The identifier of the resource.
      */
     public void setStatusBarTintResource(int res) {
-        if (mStatusBarAvailable) {
-            mStatusBarTintView.setBackgroundResource(res);
+        if (isStatusBarAvailable) {
+            statusBarTintView.setBackgroundResource(res);
         }
     }
 
@@ -213,8 +214,8 @@ public class SystemBarTintManager {
      */
     @SuppressWarnings("deprecation")
     public void setStatusBarTintDrawable(Drawable drawable) {
-        if (mStatusBarAvailable) {
-            mStatusBarTintView.setBackgroundDrawable(drawable);
+        if (isStatusBarAvailable) {
+            statusBarTintView.setBackgroundDrawable(drawable);
         }
     }
 
@@ -225,8 +226,8 @@ public class SystemBarTintManager {
      */
     @TargetApi(11)
     public void setStatusBarAlpha(float alpha) {
-        if (mStatusBarAvailable && Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            mStatusBarTintView.setAlpha(alpha);
+        if (isStatusBarAvailable) {
+            statusBarTintView.setAlpha(alpha);
         }
     }
 
@@ -236,8 +237,8 @@ public class SystemBarTintManager {
      * @param color The color of the background tint.
      */
     public void setNavigationBarTintColor(int color) {
-        if (mNavBarAvailable) {
-            mNavBarTintView.setBackgroundColor(color);
+        if (isNavBarAvailable) {
+            navBarTintView.setBackgroundColor(color);
         }
     }
 
@@ -247,8 +248,8 @@ public class SystemBarTintManager {
      * @param res The identifier of the resource.
      */
     public void setNavigationBarTintResource(int res) {
-        if (mNavBarAvailable) {
-            mNavBarTintView.setBackgroundResource(res);
+        if (isNavBarAvailable) {
+            navBarTintView.setBackgroundResource(res);
         }
     }
 
@@ -259,8 +260,8 @@ public class SystemBarTintManager {
      */
     @SuppressWarnings("deprecation")
     public void setNavigationBarTintDrawable(Drawable drawable) {
-        if (mNavBarAvailable) {
-            mNavBarTintView.setBackgroundDrawable(drawable);
+        if (isNavBarAvailable) {
+            navBarTintView.setBackgroundDrawable(drawable);
         }
     }
 
@@ -271,8 +272,8 @@ public class SystemBarTintManager {
      */
     @TargetApi(11)
     public void setNavigationBarAlpha(float alpha) {
-        if (mNavBarAvailable && Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            mNavBarTintView.setAlpha(alpha);
+        if (isNavBarAvailable) {
+            navBarTintView.setAlpha(alpha);
         }
     }
 
@@ -282,7 +283,7 @@ public class SystemBarTintManager {
      * @return The system bar configuration for the current device configuration.
      */
     public SystemBarConfig getConfig() {
-        return mConfig;
+        return config;
     }
 
     /**
@@ -291,7 +292,7 @@ public class SystemBarTintManager {
      * @return True if enabled, False otherwise.
      */
     public boolean isStatusBarTintEnabled() {
-        return mStatusBarTintEnabled;
+        return isStatusBarTintEnabled;
     }
 
     /**
@@ -304,32 +305,33 @@ public class SystemBarTintManager {
     }
 
     private void setupStatusBarView(Context context, ViewGroup decorViewGroup) {
-        mStatusBarTintView = new View(context);
-        LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, mConfig.getStatusBarHeight());
+        statusBarTintView = new View(context);
+        LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, config.getStatusBarHeight());
         params.gravity = Gravity.TOP;
-        if (mNavBarAvailable && !mConfig.isNavigationAtBottom()) {
-            params.rightMargin = mConfig.getNavigationBarWidth();
+        if (isNavBarAvailable && !config.isNavigationAtBottom()) {
+            params.rightMargin = config.getNavigationBarWidth();
         }
-        mStatusBarTintView.setLayoutParams(params);
-        mStatusBarTintView.setBackgroundColor(DEFAULT_TINT_COLOR);
-        mStatusBarTintView.setVisibility(View.GONE);
-        decorViewGroup.addView(mStatusBarTintView);
+        statusBarTintView.setLayoutParams(params);
+        statusBarTintView.setBackgroundColor(DEFAULT_TINT_COLOR);
+        statusBarTintView.setVisibility(View.GONE);
+        decorViewGroup.addView(statusBarTintView);
     }
 
+    @SuppressLint("RtlHardcoded")
     private void setupNavBarView(Context context, ViewGroup decorViewGroup) {
-        mNavBarTintView = new View(context);
+        navBarTintView = new View(context);
         LayoutParams params;
-        if (mConfig.isNavigationAtBottom()) {
-            params = new LayoutParams(LayoutParams.MATCH_PARENT, mConfig.getNavigationBarHeight());
+        if (config.isNavigationAtBottom()) {
+            params = new LayoutParams(LayoutParams.MATCH_PARENT, config.getNavigationBarHeight());
             params.gravity = Gravity.BOTTOM;
         } else {
-            params = new LayoutParams(mConfig.getNavigationBarWidth(), LayoutParams.MATCH_PARENT);
+            params = new LayoutParams(config.getNavigationBarWidth(), LayoutParams.MATCH_PARENT);
             params.gravity = Gravity.RIGHT;
         }
-        mNavBarTintView.setLayoutParams(params);
-        mNavBarTintView.setBackgroundColor(DEFAULT_TINT_COLOR);
-        mNavBarTintView.setVisibility(View.GONE);
-        decorViewGroup.addView(mNavBarTintView);
+        navBarTintView.setLayoutParams(params);
+        navBarTintView.setBackgroundColor(DEFAULT_TINT_COLOR);
+        navBarTintView.setVisibility(View.GONE);
+        decorViewGroup.addView(navBarTintView);
     }
 
     /**
@@ -407,9 +409,9 @@ public class SystemBarTintManager {
             if (resourceId != 0) {
                 boolean hasNav = res.getBoolean(resourceId);
                 // check override flag (see static block)
-                if ("1".equals(sNavBarOverride)) {
+                if ("1".equals(navBarOverride)) {
                     hasNav = false;
-                } else if ("0".equals(sNavBarOverride)) {
+                } else if ("0".equals(navBarOverride)) {
                     hasNav = true;
                 }
                 return hasNav;
