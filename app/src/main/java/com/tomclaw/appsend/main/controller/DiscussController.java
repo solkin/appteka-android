@@ -1,10 +1,10 @@
 package com.tomclaw.appsend.main.controller;
 
-import android.content.Context;
-
 import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.net.Session;
 import com.tomclaw.appsend.util.PreferenceHelper;
+
+import static com.tomclaw.appsend.AppSend.app;
 
 /**
  * Created by solkin on 27.06.2017.
@@ -20,33 +20,19 @@ public class DiscussController extends AbstractController<DiscussController.Disc
         return Holder.instance;
     }
 
-    private Context context;
-
-    public void init(Context context) {
-        this.context = context;
-    }
-
     public void resetUnreadCount() {
         setUnreadCount(0);
     }
 
     public synchronized void incrementUnreadCount(int value) {
-        assertControllerInitialized();
-        int count = PreferenceHelper.getUnreadCount(context);
-        PreferenceHelper.setUnreadCount(context, count + value);
+        int count = PreferenceHelper.getUnreadCount(app());
+        PreferenceHelper.setUnreadCount(app(), count + value);
         notifyCountListeners();
     }
 
     public void setUnreadCount(int count) {
-        assertControllerInitialized();
-        PreferenceHelper.setUnreadCount(context, count);
+        PreferenceHelper.setUnreadCount(app(), count);
         notifyCountListeners();
-    }
-
-    private void assertControllerInitialized() {
-        if (context == null) {
-            throw new IllegalStateException("DiscussController must be initialized first");
-        }
     }
 
     @Override
@@ -60,8 +46,7 @@ public class DiscussController extends AbstractController<DiscussController.Disc
     }
 
     private void notifyCountListeners() {
-        assertControllerInitialized();
-        int count = PreferenceHelper.getUnreadCount(context);
+        int count = PreferenceHelper.getUnreadCount(app());
         notifyCountListeners(count);
     }
 
@@ -84,12 +69,12 @@ public class DiscussController extends AbstractController<DiscussController.Disc
     }
 
     public void onIntroClosed() {
-        PreferenceHelper.setShowDiscussIntro(context, false);
+        PreferenceHelper.setShowDiscussIntro(app(), false);
         notifyUserListeners();
     }
 
     private void notifyUserListeners() {
-        if (PreferenceHelper.isShowDiscussIntro(context)) {
+        if (PreferenceHelper.isShowDiscussIntro(app())) {
             notifyForIntroListeners();
         } else {
             if (Session.getInstance().getUserData().isRegistered()) {

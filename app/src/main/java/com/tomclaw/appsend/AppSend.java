@@ -22,8 +22,11 @@ public class AppSend extends Application {
     private static final String FLURRY_IDENTIFIER_KEY = "com.yahoo.flurry.appIdentifier";
     private static final String APP_SESSION = StringUtil.generateRandomString(32);
 
+    private static AppSend app;
+
     @Override
     public void onCreate() {
+        app = this;
         super.onCreate();
         String flurryIdentifier = getManifestString(this, FLURRY_IDENTIFIER_KEY);
         FlurryAgent.init(this, flurryIdentifier);
@@ -38,4 +41,9 @@ public class AppSend extends Application {
                 .init(getContentResolver(), userHolder)
                 .start();
     }
+
+    public static AppSend app() {
+        return app;
+    }
+
 }
