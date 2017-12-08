@@ -155,6 +155,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     private RatingBar userRating;
     private EditText userOpinion;
     private View exclusiveBadge;
+    private MenuItem abuseItem;
 
     private StoreInfo info;
 
@@ -342,6 +343,8 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.download_menu, menu);
+        abuseItem = menu.findItem(R.id.abuse);
+        abuseItem.setVisible(false);
         return true;
     }
 
@@ -802,10 +805,14 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
 
     @Override
     public void onInfoLoaded(StoreInfo storeInfo) {
+        if (TextUtils.isEmpty(appId)) {
+            appId = storeInfo.getItem().getAppId();
+        }
         bindStoreItem(storeInfo);
         viewFlipper.setDisplayedChild(1);
         swipeRefresh.setEnabled(true);
         swipeRefresh.setRefreshing(false);
+        abuseItem.setVisible(true);
     }
 
     @Override
