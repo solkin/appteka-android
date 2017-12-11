@@ -12,8 +12,6 @@
     <string name="tomclaw_software">TomClaw Software</string>
     <string name="app_version">Версия %1$s (%2$d)</string>
     <string name="info">Информация</string>
-    <string name="rate_app">Оценить приложение</string>
-    <string name="all_apps">Все приложения автора</string>
     <string name="pref_base_title">Основные настройки</string>
     <string name="pref_summary_show_system">Показывать системные приложения в общем списке</string>
     <string name="pref_summary_runnable">Показывать только исполнимые приложения</string>
@@ -43,9 +41,7 @@
     <string name="remove_app">Удалить приложение</string>
     <string name="send_url_to">Поделиться ссылкой через</string>
     <string name="uploading_error">Ошибка загрузки приложения в файлообменник. Пожалуйста, попробуйте позднее.</string>
-    <string name="uploading_message">Загрузка файла в файлообменник…</string>
     <string name="obtaining_link_message">Получаем ссылку…</string>
-    <string name="uploading_successful">Загрузка приложения в файлообменник успешно завершена! Что будем делать со ссылкой на приложение?</string>
     <string name="share_url">Поделиться</string>
     <string name="copy_url">Скопировать</string>
     <string name="pref_title_clear_cache">Очистить кеш</string>
@@ -56,11 +52,6 @@
     <string name="permission_denied_message">Невозможно продолжить без требуемого разрешения</string>
     <string name="menu_search">Поиск</string>
     <string name="run_app">Запустить приложение</string>
-    <string name="rate_title">Вам нравится AppSend?</string>
-    <string name="rate_message">Сделаем AppSend лучшим инструментом для работы с приложениями! Оцените, пожалуйста, AppSend в Google Play. Обещаем, это займёт не более 15 секунд. А нам будет очень приятно! :)</string>
-    <string name="yes_rate">Оценить</string>
-    <string name="no_thanks">Нет</string>
-    <string name="rate_cancel">Позже</string>
     <string name="non_launchable_package">Этот пакет нельзя запустить.</string>
     <string name="app_details">Показать детали</string>
     <string name="install">Установить</string>
@@ -73,9 +64,7 @@
     <string name="donate_title">Угостите разработчика!</string>
     <string name="donate_description">И он продолжит радовать обновлениями :)</string>
     <string name="donate_button">Подарить шоколадку</string>
-    <string name="purchase_error">Произошёл сбой. Попробуйте ещё раз, пожалуйста.</string>
     <string name="chocolate">Шоколадка</string>
-    <string name="thank_you">Спасибо за поддержку!</string>
     <string name="pref_title_dark_theme">Тёмная тема</string>
     <string name="pref_dark_theme_system">Тёмные цвета в оформлении приложения</string>
     <string name="cancel">Отмена</string>
@@ -93,8 +82,6 @@
     <string name="download">Скачать</string>
     <string name="downloads">Скачиваний</string>
     <string name="android">Android</string>
-    <string name="size">Размер</string>
-    <string name="permissions_comment">Требуемые\nразрешения</string>
     <string name="downloads_comment">Скачиваний\nприложения</string>
     <string name="android_comment">Версия ОС\nне ниже</string>
     <string name="permissions">Разрешений</string>

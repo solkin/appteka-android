@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="app_item_margin">3dp</dimen>
-    <dimen name="play_item_margin">12dp</dimen>
     <dimen name="permissions_margin">8dp</dimen>
 </resources>

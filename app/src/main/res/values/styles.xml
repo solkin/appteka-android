@@ -6,13 +6,11 @@
     <color name="primary_dark_color">#2a8a03</color>
 
     <color name="chocolate_color">#894121</color>
-    <color name="chocolate_dark_color">#632309</color>
 
     <color name="badge_color">#f79406</color>
 
     <color name="grey">#25000000</color>
     <color name="grey_dark">#747474</color>
-    <color name="black">#000</color>
     <color name="dark_back_color">#FF101010</color>
     <color name="cardview_dark_background">#FF202020</color>
     <color name="cardview_light_background">#FFFFFFFF</color>
@@ -30,7 +28,6 @@
 
     <color name="dangerous_permission_color">#c40e72</color>
 
-    <color name="color_chat_item_text">#000000</color>
     <color name="chat_date_color">#454545</color>
     <color name="chat_time_color">#666666</color>
     <color name="inc_text_color">#FFFFFF</color>
@@ -153,13 +150,6 @@
     <style name="RatingDetailElementSmall" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">8dp</item>
-        <item name="android:max">100</item>
-        <item name="android:progressDrawable">@drawable/rating_detail_element</item>
-    </style>
-
-    <style name="RatingDetailElementBig" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
         <item name="android:max">100</item>
         <item name="android:progressDrawable">@drawable/rating_detail_element</item>
     </style>
