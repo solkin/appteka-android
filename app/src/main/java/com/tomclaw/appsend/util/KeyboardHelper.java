@@ -12,24 +12,33 @@ import android.widget.EditText;
 public class KeyboardHelper {
 
     public static void showKeyboard(Context context) {
-        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+        InputMethodManager imm = getInputMethodManager(context);
+        if (imm != null) {
+            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+        }
     }
 
     public static void hideKeyboard(EditText editText) {
-        InputMethodManager imm = (InputMethodManager) editText.getContext()
-                .getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+        InputMethodManager imm = getInputMethodManager(editText.getContext());
+        if (imm != null) {
+            imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+        }
     }
 
     public static void hideKeyboard(Activity activity) {
         try {
             View view = activity.getCurrentFocus();
             if (view != null) {
-                InputMethodManager imm = (InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                InputMethodManager imm = getInputMethodManager(activity);
+                if (imm != null) {
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
             }
         } catch (Throwable ignored) {
         }
+    }
+
+    private static InputMethodManager getInputMethodManager(Context context) {
+        return (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
     }
 }
