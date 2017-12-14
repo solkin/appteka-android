@@ -69,7 +69,7 @@
             android:label="@string/upload" />
 
         <activity
-            android:name="com.tomclaw.appsend.DownloadActivity"
+            android:name="com.tomclaw.appsend.main.download.DownloadActivity"
             android:label="@string/download"
             android:windowSoftInputMode="stateAlwaysHidden">
 

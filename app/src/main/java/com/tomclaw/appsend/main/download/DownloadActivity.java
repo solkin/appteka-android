@@ -1,4 +1,4 @@
-package com.tomclaw.appsend;
+package com.tomclaw.appsend.main.download;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
@@ -40,11 +40,12 @@ import com.caverock.androidsvg.SVGParseException;
 import com.flurry.android.FlurryAgent;
 import com.greysonparrelli.permiso.Permiso;
 import com.greysonparrelli.permiso.PermisoActivity;
+import com.tomclaw.appsend.MainActivity;
+import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.core.StoreServiceHolder;
 import com.tomclaw.appsend.core.StoreServiceHolder_;
 import com.tomclaw.appsend.main.abuse.AbuseActivity_;
-import com.tomclaw.appsend.main.controller.DownloadController;
 import com.tomclaw.appsend.main.dto.RatingItem;
 import com.tomclaw.appsend.main.dto.StoreInfo;
 import com.tomclaw.appsend.main.dto.StoreVersion;

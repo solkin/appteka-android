@@ -1,10 +1,11 @@
-package com.tomclaw.appsend.main.controller;
+package com.tomclaw.appsend.main.download;
 
 import android.text.TextUtils;
 
 import com.google.gson.reflect.TypeToken;
 import com.orhanobut.logger.Logger;
 import com.tomclaw.appsend.core.MainExecutor;
+import com.tomclaw.appsend.main.controller.AbstractController;
 import com.tomclaw.appsend.main.dto.RatingItem;
 import com.tomclaw.appsend.main.dto.StoreInfo;
 import com.tomclaw.appsend.main.dto.StoreVersion;

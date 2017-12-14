@@ -1,4 +1,4 @@
-package com.tomclaw.appsend.main.adapter;
+package com.tomclaw.appsend.main.permissions;
 
 import android.content.Context;
 import android.os.Build;
