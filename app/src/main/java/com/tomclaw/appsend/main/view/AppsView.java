@@ -20,7 +20,6 @@ import android.widget.ViewFlipper;
 
 import com.flurry.android.FlurryAgent;
 import com.greysonparrelli.permiso.Permiso;
-import com.tomclaw.appsend.main.download.DownloadActivity;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.TaskExecutor;
 import com.tomclaw.appsend.main.adapter.BaseItemAdapter;
@@ -28,6 +27,7 @@ import com.tomclaw.appsend.main.adapter.FilterableItemAdapter;
 import com.tomclaw.appsend.main.adapter.MenuAdapter;
 import com.tomclaw.appsend.main.controller.AppsController;
 import com.tomclaw.appsend.main.donate.DonateActivity_;
+import com.tomclaw.appsend.main.download.DownloadActivity;
 import com.tomclaw.appsend.main.item.AppItem;
 import com.tomclaw.appsend.main.item.BaseItem;
 import com.tomclaw.appsend.main.permissions.PermissionsActivity_;

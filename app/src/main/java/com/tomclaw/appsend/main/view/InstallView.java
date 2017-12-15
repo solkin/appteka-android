@@ -19,12 +19,12 @@ import android.widget.ViewFlipper;
 
 import com.flurry.android.FlurryAgent;
 import com.greysonparrelli.permiso.Permiso;
-import com.tomclaw.appsend.main.download.DownloadActivity;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.main.adapter.BaseItemAdapter;
 import com.tomclaw.appsend.main.adapter.FilterableItemAdapter;
 import com.tomclaw.appsend.main.adapter.MenuAdapter;
 import com.tomclaw.appsend.main.controller.ApksController;
+import com.tomclaw.appsend.main.download.DownloadActivity;
 import com.tomclaw.appsend.main.item.ApkItem;
 import com.tomclaw.appsend.main.item.BaseItem;
 import com.tomclaw.appsend.main.item.CouchItem;
