@@ -42,6 +42,7 @@ import com.greysonparrelli.permiso.Permiso;
 import com.greysonparrelli.permiso.PermisoActivity;
 import com.tomclaw.appsend.MainActivity;
 import com.tomclaw.appsend.R;
+import com.tomclaw.appsend.core.GlideApp;
 import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.core.StoreServiceHolder;
 import com.tomclaw.appsend.core.StoreServiceHolder_;
@@ -429,7 +430,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         this.info = info;
         StoreItem item = info.getItem();
         Meta meta = info.getMeta();
-        Glide.with(this)
+        GlideApp.with(this)
                 .load(item.getIcon())
                 .placeholder(R.drawable.app_placeholder)
                 .into(iconView);

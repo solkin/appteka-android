@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.tomclaw.appsend.R;
+import com.tomclaw.appsend.core.GlideApp;
 import com.tomclaw.appsend.main.adapter.BaseItemAdapter;
 import com.tomclaw.appsend.main.controller.StoreController;
 import com.tomclaw.appsend.main.item.StoreItem;
@@ -84,7 +85,7 @@ public class StoreItemHolder extends AbstractItemHolder<StoreItem> {
             });
         }
 
-        Glide.with(context)
+        GlideApp.with(context)
                 .load(item.getIcon())
                 .placeholder(R.drawable.app_placeholder)
                 .into(appIcon);

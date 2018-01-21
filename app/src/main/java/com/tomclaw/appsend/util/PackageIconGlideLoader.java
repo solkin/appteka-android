@@ -6,19 +6,25 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.Key;
+import com.bumptech.glide.load.Options;
 import com.bumptech.glide.load.data.DataFetcher;
-import com.bumptech.glide.load.model.stream.StreamModelLoader;
+import com.bumptech.glide.load.model.ModelLoader;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
+import java.security.MessageDigest;
 
 /**
  * Created by ivsolkin on 23.12.16.
  */
-public class PackageIconGlideLoader implements StreamModelLoader<PackageInfo> {
+public class PackageIconGlideLoader implements ModelLoader<PackageInfo, InputStream> {
 
     private PackageManager packageManager;
 
@@ -26,38 +32,50 @@ public class PackageIconGlideLoader implements StreamModelLoader<PackageInfo> {
         this.packageManager = packageManager;
     }
 
+    @Nullable
     @Override
-    public DataFetcher<InputStream> getResourceFetcher(final PackageInfo model, int width, int height) {
-        try {
-            return new DataFetcher<InputStream>() {
-                @Override
-                public InputStream loadData(Priority priority) throws Exception {
+    public LoadData<InputStream> buildLoadData(final PackageInfo model,
+                                               int width,
+                                               int height,
+                                               Options options) {
+        return new LoadData<>(new IconKey(model), new DataFetcher<InputStream>() {
+
+            @Override
+            public void loadData(Priority priority, DataCallback<? super InputStream> callback) {
+                try {
                     Drawable icon = model.applicationInfo.loadIcon(packageManager);
                     final Bitmap bitmap = drawableToBitmap(icon);
                     ByteArrayOutputStream baos = new ByteArrayOutputStream();
                     bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-                    return new ByteArrayInputStream(baos.toByteArray());
+                    callback.onDataReady(new ByteArrayInputStream(baos.toByteArray()));
+                } catch (Exception ex) {
+                    callback.onLoadFailed(ex);
                 }
+            }
 
-                @Override
-                public void cleanup() {
-                }
+            @Override
+            public void cleanup() {
+            }
 
-                @Override
-                public String getId() {
-                    return model.packageName + "-" + model.versionCode;
-                }
+            @Override
+            public void cancel() {
+            }
 
-                @Override
-                public void cancel() {
-                }
-            };
-        } catch (Throwable ignored) {
-        }
-        return null;
+            @NonNull
+            @Override
+            public Class<InputStream> getDataClass() {
+                return InputStream.class;
+            }
+
+            @NonNull
+            @Override
+            public DataSource getDataSource() {
+                return DataSource.LOCAL;
+            }
+        });
     }
 
-    public Bitmap drawableToBitmap(Drawable drawable) {
+    private Bitmap drawableToBitmap(Drawable drawable) {
         Bitmap bitmap;
 
         if (drawable instanceof BitmapDrawable) {
@@ -77,5 +95,28 @@ public class PackageIconGlideLoader implements StreamModelLoader<PackageInfo> {
         drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
         drawable.draw(canvas);
         return bitmap;
+    }
+
+    @Override
+    public boolean handles(PackageInfo packageInfo) {
+        return true;
+    }
+
+    private class IconKey implements Key {
+
+        private PackageInfo model;
+
+        IconKey(PackageInfo model) {
+            this.model = model;
+        }
+
+        @Override
+        public void updateDiskCacheKey(MessageDigest messageDigest) {
+            messageDigest.update(getId().getBytes());
+        }
+
+        public String getId() {
+            return model.packageName + "-" + model.versionCode;
+        }
     }
 }

@@ -5,8 +5,8 @@ import android.content.pm.PackageInfo;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.bumptech.glide.Glide;
 import com.tomclaw.appsend.R;
+import com.tomclaw.appsend.core.GlideApp;
 import com.tomclaw.appsend.main.adapter.BaseItemAdapter;
 import com.tomclaw.appsend.main.item.BaseItem;
 
@@ -26,12 +26,12 @@ public class DonateItemHolder extends AbstractItemHolder {
     public DonateItemHolder(View itemView) {
         super(itemView);
         this.itemView = itemView;
-        badgeNew = (TriangleLabelView) itemView.findViewById(R.id.badge_new);
-        appIcon = (ImageView) itemView.findViewById(R.id.app_icon);
+        badgeNew = itemView.findViewById(R.id.badge_new);
+        appIcon = itemView.findViewById(R.id.app_icon);
     }
 
     public void bind(Context context, final BaseItem item, final boolean isLast, final BaseItemAdapter.BaseItemClickListener listener) {
-        Glide.with(context)
+        GlideApp.with(context)
                 .load("")
                 .error(R.drawable.chocolate)
                 .into(appIcon);

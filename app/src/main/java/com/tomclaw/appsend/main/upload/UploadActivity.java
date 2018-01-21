@@ -16,14 +16,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
-import com.bumptech.glide.Glide;
 import com.tomclaw.appsend.R;
+import com.tomclaw.appsend.core.GlideApp;
 import com.tomclaw.appsend.main.controller.CountController;
 import com.tomclaw.appsend.main.item.CommonItem;
 import com.tomclaw.appsend.main.meta.MetaActivity_;
 import com.tomclaw.appsend.util.FileHelper;
 import com.tomclaw.appsend.util.IntentHelper;
-import com.tomclaw.appsend.util.PackageIconGlideLoader;
 import com.tomclaw.appsend.util.StringUtil;
 import com.tomclaw.appsend.util.ThemeHelper;
 
@@ -50,7 +49,6 @@ public class UploadActivity extends AppCompatActivity implements UploadControlle
 
     private ViewSwitcher viewSwitcher;
 
-    private static PackageIconGlideLoader loader;
     private String appId;
     private String url;
 
@@ -70,7 +68,7 @@ public class UploadActivity extends AppCompatActivity implements UploadControlle
         setContentView(R.layout.upload_activity);
         ThemeHelper.updateStatusBar(this);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -83,14 +81,14 @@ public class UploadActivity extends AppCompatActivity implements UploadControlle
             item = savedInstanceState.getParcelable(UPLOAD_ITEM);
         }
 
-        appIcon = (ImageView) findViewById(R.id.app_icon);
-        appLabel = (TextView) findViewById(R.id.app_label);
-        appPackage = (TextView) findViewById(R.id.app_package);
-        appVersion = (TextView) findViewById(R.id.app_version);
-        appSize = (TextView) findViewById(R.id.app_size);
-        progress = (ProgressBar) findViewById(R.id.progress);
-        percent = (TextView) findViewById(R.id.percent);
-        viewSwitcher = (ViewSwitcher) findViewById(R.id.view_switcher);
+        appIcon = findViewById(R.id.app_icon);
+        appLabel = findViewById(R.id.app_label);
+        appPackage = findViewById(R.id.app_package);
+        appVersion = findViewById(R.id.app_version);
+        appSize = findViewById(R.id.app_size);
+        progress = findViewById(R.id.progress);
+        percent = findViewById(R.id.percent);
+        viewSwitcher = findViewById(R.id.view_switcher);
         findViewById(R.id.button_cancel).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,15 +109,10 @@ public class UploadActivity extends AppCompatActivity implements UploadControlle
             }
         });
 
-        if (loader == null) {
-            loader = new PackageIconGlideLoader(getPackageManager());
-        }
-
         PackageInfo packageInfo = item.getPackageInfo();
 
         if (packageInfo != null) {
-            Glide.with(this)
-                    .using(loader)
+            GlideApp.with(this)
                     .load(packageInfo)
                     .into(appIcon);
         }

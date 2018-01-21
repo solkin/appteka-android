@@ -6,12 +6,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.tomclaw.appsend.R;
+import com.tomclaw.appsend.core.GlideApp;
 import com.tomclaw.appsend.main.adapter.BaseItemAdapter;
 import com.tomclaw.appsend.main.item.ApkItem;
 import com.tomclaw.appsend.util.FileHelper;
-import com.tomclaw.appsend.util.PackageIconGlideLoader;
 
 import java.text.SimpleDateFormat;
 import java.util.Locale;
@@ -36,8 +35,6 @@ public class ApkItemHolder extends AbstractItemHolder<ApkItem> {
     private TriangleLabelView badgeNew;
     private TextView apkLocation;
 
-    private static PackageIconGlideLoader loader;
-
     public ApkItemHolder(View itemView) {
         super(itemView);
         this.itemView = itemView;
@@ -60,11 +57,7 @@ public class ApkItemHolder extends AbstractItemHolder<ApkItem> {
             });
         }
 
-        if (loader == null) {
-            loader = new PackageIconGlideLoader(context.getPackageManager());
-        }
-        Glide.with(context)
-                .using(loader)
+        GlideApp.with(context)
                 .load(item.getPackageInfo())
                 .into(appIcon);
 

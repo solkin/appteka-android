@@ -34,10 +34,10 @@ class RatingViewHolder extends RecyclerView.ViewHolder {
     RatingViewHolder(View itemView) {
         super(itemView);
         this.itemView = itemView;
-        memberImageView = (MemberImageView) itemView.findViewById(R.id.member_avatar);
-        ratingView = (AppCompatRatingBar) itemView.findViewById(R.id.rating_view);
-        dateView = (TextView) itemView.findViewById(R.id.date_view);
-        commentView = (TextView) itemView.findViewById(R.id.comment_view);
+        memberImageView = itemView.findViewById(R.id.member_avatar);
+        ratingView = itemView.findViewById(R.id.rating_view);
+        dateView = itemView.findViewById(R.id.date_view);
+        commentView = itemView.findViewById(R.id.comment_view);
         progressView = itemView.findViewById(R.id.item_progress);
         errorView = itemView.findViewById(R.id.error_view);
         retryButtonView = itemView.findViewById(R.id.button_retry);
