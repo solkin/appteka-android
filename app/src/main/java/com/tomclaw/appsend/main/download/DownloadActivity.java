@@ -346,7 +346,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.download_menu, menu);
         abuseItem = menu.findItem(R.id.abuse);
-        abuseItem.setVisible(false);
+        abuseItem.setVisible(this.info != null);
         return true;
     }
 
@@ -814,7 +814,9 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         viewFlipper.setDisplayedChild(1);
         swipeRefresh.setEnabled(true);
         swipeRefresh.setRefreshing(false);
-        abuseItem.setVisible(true);
+        if (abuseItem != null) {
+            abuseItem.setVisible(true);
+        }
     }
 
     @Override
