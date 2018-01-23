@@ -93,4 +93,14 @@ public class AboutActivity extends AppCompatActivity {
         } catch (Throwable ignored) {
         }
     }
+
+    @Click(R.id.telegram_group)
+    void onTelegramGroupClicked() {
+        String forumUrl = getString(R.string.telegram_group_url);
+        try {
+            startActivity(new Intent(Intent.ACTION_VIEW,
+                    Uri.parse(forumUrl)));
+        } catch (Throwable ignored) {
+        }
+    }
 }

@@ -136,6 +136,7 @@
     <string name="update_available">Доступно обновление</string>
     <string name="update_description">Обновитесь до самой свежей версии AppSend!</string>
     <string name="later">Позже</string>
+    <string name="telegram_group">Группа в Telegram</string>
     <string name="forum_4pda">Обсудить на 4pda</string>
     <string name="get_started">Начать</string>
     <string name="discuss_intro_text">Найти, обсудить программу?\nПоделиться впечатлениями от новой игры?\nОбсуждения созданы для этого!</string>
