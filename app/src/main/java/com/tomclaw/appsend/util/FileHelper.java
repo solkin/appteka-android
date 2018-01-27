@@ -16,7 +16,7 @@ import java.util.Locale;
  */
 public class FileHelper {
 
-    private static final String[] RESERVED_CHARS = {"|", "\\", "?", "*", "<", "\"", ":", ">"};
+    private static final String[] RESERVED_CHARS = {"|", "\\", "/", "?", "*", "<", "\"", ":", ">"};
 
     public static String getMimeType(String path) {
         String type = null;
