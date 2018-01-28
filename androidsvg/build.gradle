@@ -1,6 +1,14 @@
 apply plugin: 'com.android.library'
 
 android {
+    signingConfigs {
+        release {
+            if (project.hasProperty("storeFile")) storeFile file("$rootDir/" + project.storeFile)
+            if (project.hasProperty("storePassword")) storePassword project.storePassword
+            if (project.hasProperty("keyAlias")) keyAlias project.keyAlias
+            if (project.hasProperty("keyPassword")) keyPassword project.keyPassword
+        }
+    }
     compileSdkVersion 27
     buildToolsVersion '27.0.2'
 
@@ -12,13 +20,14 @@ android {
     buildTypes {
         release {
             minifyEnabled false
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
 
     dependencies {
         testCompile 'junit:junit:4.12'
-        testCompile 'org.robolectric:robolectric:3.3.2'
+        testCompile 'org.robolectric:robolectric:3.4.2'
         implementation 'com.android.support:appcompat-v7:27.0.2'
     }
 }
