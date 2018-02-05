@@ -60,11 +60,11 @@ public class DiscussView extends MainView implements DiscussController.DiscussCa
 
         taskExecutor = TaskExecutor.getInstance();
 
-        viewFlipper = (ViewFlipper) findViewById(R.id.discuss_view_switcher);
+        viewFlipper = findViewById(R.id.discuss_view_switcher);
 
-        errorText = (TextView) findViewById(R.id.error_text);
+        errorText = findViewById(R.id.error_text);
 
-        messageEdit = (EditText) findViewById(R.id.message_edit);
+        messageEdit = findViewById(R.id.message_edit);
 
         findViewById(R.id.button_retry).setOnClickListener(new OnClickListener() {
             @Override
@@ -87,7 +87,7 @@ public class DiscussView extends MainView implements DiscussController.DiscussCa
             }
         });
 
-        recyclerView = (RecyclerView) findViewById(R.id.discuss_view);
+        recyclerView = findViewById(R.id.discuss_view);
 
         chatLayoutManager = new ChatLayoutManager(getContext());
         recyclerView.setLayoutManager(chatLayoutManager);
@@ -105,7 +105,7 @@ public class DiscussView extends MainView implements DiscussController.DiscussCa
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                EdgeChanger.setEdgeGlowColor(recyclerView, toolbarColor);
+                EdgeChanger.setEdgeGlowColor(recyclerView, toolbarColor, this);
             }
         });
 

@@ -41,9 +41,9 @@ public class StoreView extends MainView implements StoreController.StoreCallback
     public StoreView(final Context context) {
         super(context);
 
-        viewFlipper = (ViewFlipper) findViewById(R.id.apps_view_switcher);
+        viewFlipper = findViewById(R.id.apps_view_switcher);
 
-        errorText = (TextView) findViewById(R.id.error_text);
+        errorText = findViewById(R.id.error_text);
 
         findViewById(R.id.button_retry).setOnClickListener(new OnClickListener() {
             @Override
@@ -53,7 +53,7 @@ public class StoreView extends MainView implements StoreController.StoreCallback
         });
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.apps_list_view);
+        RecyclerView recyclerView = findViewById(R.id.apps_list_view);
         recyclerView.setLayoutManager(layoutManager);
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
         recyclerView.setItemAnimator(itemAnimator);
@@ -62,7 +62,7 @@ public class StoreView extends MainView implements StoreController.StoreCallback
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                EdgeChanger.setEdgeGlowColor(recyclerView, toolbarColor);
+                EdgeChanger.setEdgeGlowColor(recyclerView, toolbarColor, this);
             }
         });
 
@@ -86,7 +86,7 @@ public class StoreView extends MainView implements StoreController.StoreCallback
             }
         };
 
-        swipeRefresh = (SwipeRefreshLayout) findViewById(R.id.swipe_refresh);
+        swipeRefresh = findViewById(R.id.swipe_refresh);
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {

@@ -76,7 +76,7 @@ public class AppsView extends MainView implements AppsController.AppsCallback {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                EdgeChanger.setEdgeGlowColor(recyclerView, toolbarColor);
+                EdgeChanger.setEdgeGlowColor(recyclerView, toolbarColor, this);
             }
         });
 

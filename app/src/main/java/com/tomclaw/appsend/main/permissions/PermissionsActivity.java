@@ -71,7 +71,7 @@ public class PermissionsActivity extends AppCompatActivity {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-                EdgeChanger.setEdgeGlowColor(recyclerView, toolbarColor);
+                EdgeChanger.setEdgeGlowColor(recyclerView, toolbarColor, this);
             }
         });
 

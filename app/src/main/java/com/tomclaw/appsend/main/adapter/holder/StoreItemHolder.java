@@ -5,7 +5,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.GlideApp;
 import com.tomclaw.appsend.main.adapter.BaseItemAdapter;
