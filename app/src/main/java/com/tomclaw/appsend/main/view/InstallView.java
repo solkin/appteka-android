@@ -78,14 +78,9 @@ public class InstallView extends MainView implements ApksController.ApksCallback
         recyclerView.setLayoutManager(layoutManager);
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
         recyclerView.setItemAnimator(itemAnimator);
+
         final int toolbarColor = ColorHelper.getAttributedColor(context, R.attr.toolbar_background);
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                EdgeChanger.setEdgeGlowColor(recyclerView, toolbarColor, this);
-            }
-        });
+        EdgeChanger.setEdgeGlowColor(recyclerView, toolbarColor, null);
 
         BaseItemAdapter.BaseItemClickListener listener = new BaseItemAdapter.BaseItemClickListener() {
             @Override

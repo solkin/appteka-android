@@ -101,13 +101,7 @@ public class DiscussView extends MainView implements DiscussController.DiscussCa
         });
 
         final int toolbarColor = ColorHelper.getAttributedColor(context, R.attr.toolbar_background);
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-                EdgeChanger.setEdgeGlowColor(recyclerView, toolbarColor, this);
-            }
-        });
+        EdgeChanger.setEdgeGlowColor(recyclerView, toolbarColor, null);
 
         adapterListener = new ChatAdapter.AdapterListener() {
             @Override

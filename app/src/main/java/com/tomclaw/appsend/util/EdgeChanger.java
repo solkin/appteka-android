@@ -283,7 +283,6 @@ public class EdgeChanger {
 
     public static void setEdgeGlowColor(@NonNull RecyclerView scrollView, final @ColorInt int color, @Nullable RecyclerView.OnScrollListener scrollListener) {
         invalidateRecyclerViewFields();
-        invalidateRecyclerViewFields();
         if (scrollListener == null) {
             scrollListener = new RecyclerView.OnScrollListener() {
                 @Override
