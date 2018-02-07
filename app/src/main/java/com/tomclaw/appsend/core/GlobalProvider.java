@@ -190,7 +190,8 @@ public class GlobalProvider extends ContentProvider {
                     sqLiteDatabase.beginTransaction();
                     for (Message message : messages) {
                         ContentValues values = message.getContentValues();
-                        sqLiteDatabase.insertWithOnConflict(MESSAGES_TABLE, null, values, SQLiteDatabase.CONFLICT_IGNORE);
+                        sqLiteDatabase.insertWithOnConflict(MESSAGES_TABLE,
+                                null, values, SQLiteDatabase.CONFLICT_REPLACE);
                     }
                     sqLiteDatabase.setTransactionSuccessful();
                     getContentResolver().notifyChange(Config.MESSAGES_RESOLVER_URI, null);

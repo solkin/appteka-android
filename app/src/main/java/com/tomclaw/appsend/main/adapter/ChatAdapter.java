@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.support.v4.util.LongSparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import com.tomclaw.appsend.main.adapter.holder.IncomingMessageHolder;
 import com.tomclaw.appsend.main.adapter.holder.OutgoingMessageHolder;
 import com.tomclaw.appsend.main.adapter.holder.ServiceMessageHolder;
 import com.tomclaw.appsend.main.dto.Message;
+import com.tomclaw.appsend.util.Logger;
 import com.tomclaw.appsend.util.QueryBuilder;
 
 /**
@@ -33,6 +35,8 @@ public class ChatAdapter extends CursorRecyclerAdapter<AbstractMessageHolder>
 
     private AdapterListener adapterListener = null;
     private MessageClickListener messageClickListener = null;
+
+    private LongSparseArray<Long> requestedHoles = new LongSparseArray<>();
 
     public ChatAdapter(Context context, LoaderManager loaderManager) {
         super(null);
@@ -54,12 +58,21 @@ public class ChatAdapter extends CursorRecyclerAdapter<AbstractMessageHolder>
         if (adapterListener != null) {
             if (message.getMsgId() > 0 && message.getPrevMsgId() > 0) {
                 if (prevMessage == null && message.getPrevMsgId() > 0) {
-                    adapterListener.onHistoryHole(0, message.getMsgId());
+                    requestHole(0, message.getMsgId());
                 } else if (prevMessage != null && prevMessage.getMsgId() > 0
                         && message.getPrevMsgId() != prevMessage.getMsgId()) {
-                    adapterListener.onHistoryHole(prevMessage.getMsgId(), message.getMsgId());
+                    requestHole(prevMessage.getMsgId(), message.getMsgId());
                 }
             }
+        }
+    }
+
+    private void requestHole(long from, long till) {
+        Long value = requestedHoles.get(from);
+        if (value == null || value != till) {
+            Logger.log("request hole for " + from + "-" + till);
+            requestedHoles.put(from, till);
+            adapterListener.onHistoryHole(from, till);
         }
     }
 
