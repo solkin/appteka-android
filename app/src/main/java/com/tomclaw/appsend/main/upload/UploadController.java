@@ -26,6 +26,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
+import static com.tomclaw.appsend.core.Config.HOST_URL;
+
 /**
  * Created by ivsolkin on 02.01.17.
  * Control application file uploading
@@ -41,7 +43,7 @@ public class UploadController extends AbstractController<UploadController.Upload
         return Holder.instance;
     }
 
-    private static final String HOST_URL = "http://appsend.store/api/upload.php";
+    private static final String HOST_UPLOAD_URL = HOST_URL + "/api/upload.php";
 
     private CommonItem item;
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -189,7 +191,7 @@ public class UploadController extends AbstractController<UploadController.Upload
         InputStream in = null;
         try {
             InputStream inputStream = new FileInputStream(file);
-            URL url = new URL(HOST_URL);
+            URL url = new URL(HOST_UPLOAD_URL);
             connection = (HttpURLConnection) url.openConnection();
             // Connect.
             connection.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);

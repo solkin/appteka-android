@@ -6,13 +6,15 @@ import com.tomclaw.appsend.util.HttpUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import static com.tomclaw.appsend.core.Config.HOST_URL;
+
 /**
  * Created by Igor on 07.07.2015.
  */
 public abstract class BaseRequest extends JsonRequest {
 
     public static final int PROTOCOL_VERSION = 1;
-    public static final String BASE_URL = "http://appsend.store/api/";
+    public static final String BASE_URL = HOST_URL + "/api/";
 
     protected static final int STATUS_PROTOCOL_OUTDATED = 417;
     protected static final int STATUS_SERVER_INTERNAL_ERROR = 500;

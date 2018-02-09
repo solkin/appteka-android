@@ -19,6 +19,8 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
+import static com.tomclaw.appsend.core.Config.HOST_URL;
+
 /**
  * Created by solkin on 19.02.17.
  */
@@ -33,7 +35,7 @@ public class CountController extends AbstractController<CountController.CountCal
         return Holder.instance;
     }
 
-    private static final String HOST_COUNT_URL = "http://appsend.store/api/count.php";
+    private static final String HOST_COUNT_URL = HOST_URL + "/api/count.php";
 
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
 

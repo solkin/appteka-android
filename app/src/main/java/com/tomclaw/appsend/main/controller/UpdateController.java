@@ -20,6 +20,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
+import static com.tomclaw.appsend.core.Config.HOST_URL;
 import static com.tomclaw.appsend.util.StoreHelper.parseStoreItem;
 
 /**
@@ -36,7 +37,7 @@ public class UpdateController extends AbstractController<UpdateController.Update
         return Holder.instance;
     }
 
-    private static final String HOST_UPDATE_URL = "http://appsend.store/api/check_update.php";
+    private static final String HOST_UPDATE_URL = HOST_URL + "/api/check_update.php";
 
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
 

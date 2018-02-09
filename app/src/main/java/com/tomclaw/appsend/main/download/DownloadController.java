@@ -36,6 +36,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
+import static com.tomclaw.appsend.core.Config.HOST_URL;
 import static com.tomclaw.appsend.util.StoreHelper.parseStoreItem;
 import static com.tomclaw.appsend.util.StoreHelper.parseStoreVersion;
 
@@ -53,7 +54,7 @@ public class DownloadController extends AbstractController<DownloadController.Do
         return Holder.instance;
     }
 
-    private static final String HOST_INFO_URL = "http://appsend.store/api/info.php";
+    private static final String HOST_INFO_URL = HOST_URL + "/api/info.php";
 
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
