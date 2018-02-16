@@ -36,6 +36,7 @@ android {
 def AAVersion = '4.3.1'
 
 dependencies {
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     annotationProcessor "org.androidannotations:androidannotations:$AAVersion"
     implementation "org.androidannotations:androidannotations-api:$AAVersion"
     implementation 'com.android.support:support-v4:27.0.2'
@@ -58,5 +59,6 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.3.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
     implementation 'com.tomclaw.minion:minion:1.0.2'
+    implementation 'com.github.mancj:MaterialSearchBar:0.7.5'
     implementation project(path: ':androidsvg')
 }

@@ -12,98 +12,75 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
-
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.provider"
             android:exported="false"
             android:grantUriPermissions="true">
-
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
-
         </provider>
 
         <meta-data
             android:name="net.hockeyapp.android.appIdentifier"
             android:value="${HOCKEYAPP_APP_ID}" />
-
         <meta-data
             android:name="com.yahoo.flurry.appIdentifier"
             android:value="${FLURRY_APP_ID}" />
 
         <activity
-            android:name="com.tomclaw.appsend.MainActivity"
+            android:name=".MainActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop">
-
-            <intent-filter>
-
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-
-            </intent-filter>
-
             <meta-data
                 android:name="android.app.shortcuts"
                 android:resource="@xml/shortcuts" />
-
         </activity>
+        <activity android:name=".main.home.HomeActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
-            android:name="com.tomclaw.appsend.main.about.AboutActivity_"
+            android:name=".main.about.AboutActivity_"
             android:label="@string/info" />
-
         <activity
-            android:name="com.tomclaw.appsend.main.settings.SettingsActivity_"
+            android:name=".main.settings.SettingsActivity_"
             android:label="@string/settings" />
-
         <activity
-            android:name="com.tomclaw.appsend.main.donate.DonateActivity_"
+            android:name=".main.donate.DonateActivity_"
             android:label="@string/donate" />
-
         <activity
-            android:name="com.tomclaw.appsend.main.upload.UploadActivity"
+            android:name=".main.upload.UploadActivity"
             android:label="@string/upload" />
-
         <activity
-            android:name="com.tomclaw.appsend.main.download.DownloadActivity"
+            android:name=".main.download.DownloadActivity"
             android:label="@string/download"
             android:windowSoftInputMode="stateAlwaysHidden">
-
             <intent-filter>
-
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
-
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data android:scheme="http" />
-
                 <data android:scheme="https" />
-
                 <data android:host="appsend.store" />
-
             </intent-filter>
-
         </activity>
-
         <activity
-            android:name="com.tomclaw.appsend.main.permissions.PermissionsActivity_"
+            android:name=".main.permissions.PermissionsActivity_"
             android:label="@string/required_permissions" />
-
         <activity
-            android:name="com.tomclaw.appsend.main.abuse.AbuseActivity_"
+            android:name=".main.abuse.AbuseActivity_"
             android:label="@string/abuse" />
-
         <activity
             android:name=".main.meta.MetaActivity_"
             android:label="@string/description"
             android:windowSoftInputMode="stateHidden" />
-
         <activity
             android:name=".main.ratings.RatingsActivity_"
             android:label="@string/ratings"
@@ -114,7 +91,6 @@
             android:authorities="com.tomclaw.appsend.core.GlobalProvider"
             android:exported="false"
             android:grantUriPermissions="true" />
-
     </application>
 
 </manifest>
