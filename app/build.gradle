@@ -13,7 +13,7 @@ android {
     buildToolsVersion '27.0.2'
     defaultConfig {
         applicationId "com.tomclaw.appsend"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 27
         versionCode = project.hasProperty("versionCode") ? Integer.parseInt(project.versionCode) : 1000
         versionName = "3.7"
