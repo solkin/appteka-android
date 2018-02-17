@@ -6,13 +6,31 @@
     android:layout_height="match_parent"
     tools:context="com.tomclaw.appsend.main.home.HomeActivity">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/toolbar_background"
+        app:popupTheme="@style/AppTheme.PopupOverlay" />
+
     <com.mancj.materialsearchbar.MaterialSearchBar
+        android:id="@+id/searchBar"
         style="@style/MaterialSearchBarLight"
-        app:mt_speechMode="true"
-        app:mt_hint="Custom hint"
-        app:mt_maxSuggestionsCount="10"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/searchBar" />
+        android:layout_margin="4dp"
+        app:mt_hint="@string/menu_search"
+        app:mt_maxSuggestionsCount="10"
+        app:mt_placeholder="@string/app_name"
+        app:mt_speechMode="false" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?actionBarSize">
+
+
+
+    </FrameLayout>
 
 </FrameLayout>
