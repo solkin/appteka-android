@@ -22,6 +22,7 @@ import com.tomclaw.appsend.main.controller.StoreController;
 import com.tomclaw.appsend.main.controller.UpdateController;
 import com.tomclaw.appsend.main.download.DownloadActivity;
 import com.tomclaw.appsend.main.item.StoreItem;
+import com.tomclaw.appsend.main.profile.ProfileActivity_;
 import com.tomclaw.appsend.main.settings.SettingsActivity_;
 import com.tomclaw.appsend.main.view.AppsView;
 import com.tomclaw.appsend.main.view.DiscussView;
@@ -376,6 +377,10 @@ public class MainActivity extends PermisoActivity implements
                 showSettings();
                 break;
             }
+            case R.id.profile: {
+                showProfile();
+                break;
+            }
             case R.id.info: {
                 showInfo();
                 break;
@@ -396,6 +401,10 @@ public class MainActivity extends PermisoActivity implements
     private void showSettings() {
         SettingsActivity_.intent(this)
                 .startForResult(REQUEST_UPDATE_SETTINGS);
+    }
+
+    private void showProfile() {
+        ProfileActivity_.intent(this).start();
     }
 
     private void showInfo() {

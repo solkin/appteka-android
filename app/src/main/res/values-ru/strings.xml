@@ -172,4 +172,5 @@
     <string name="app_icon">Иконка приложения</string>
     <string name="delivery">Доставка</string>
     <string name="rates_count">Количество оценок</string>
+    <string name="profile">Профиль</string>
 </resources>

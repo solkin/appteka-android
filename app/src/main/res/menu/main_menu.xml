@@ -13,6 +13,10 @@
         app:showAsAction="ifRoom|withText"
         android:title="@string/refresh" />
     <item
+        android:id="@+id/profile"
+        app:showAsAction="never"
+        android:title="@string/profile" />
+    <item
         android:id="@+id/settings"
         app:showAsAction="never"
         android:title="@string/settings" />

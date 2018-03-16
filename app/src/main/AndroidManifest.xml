@@ -89,6 +89,10 @@
             android:name=".main.ratings.RatingsActivity_"
             android:label="@string/ratings"
             android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".main.profile.ProfileActivity_"
+            android:label="@string/profile"
+            android:windowSoftInputMode="stateHidden" />
 
         <provider
             android:name=".core.GlobalProvider"
