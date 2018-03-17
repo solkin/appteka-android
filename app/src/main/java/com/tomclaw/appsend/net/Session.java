@@ -1,38 +1,43 @@
 package com.tomclaw.appsend.net;
 
 import android.content.ContentResolver;
+import android.content.Context;
 
+import com.tomclaw.appsend.AppSend;
 import com.tomclaw.appsend.core.ContentResolverLayer;
 import com.tomclaw.appsend.main.controller.DiscussController;
 import com.tomclaw.appsend.net.request.FetchRequest;
 import com.tomclaw.appsend.net.request.Request;
 import com.tomclaw.appsend.util.Logger;
 
+import org.androidannotations.annotations.AfterInject;
+import org.androidannotations.annotations.EBean;
+import org.androidannotations.annotations.RootContext;
+
 /**
  * Created by solkin on 22/04/16.
  */
+@EBean(scope = EBean.Scope.Singleton)
 public class Session {
 
-    private ContentResolver contentResolver;
+    @RootContext
+    Context context;
+
     private UserHolder userHolder;
 
-    private static Session instance;
-
-    public static Session init(ContentResolver contentResolver, UserHolder userHolder) {
-        instance = new Session(contentResolver, userHolder);
-        return instance;
-    }
-
     public static Session getInstance() {
-        return instance;
+        return Session_.getInstance_(AppSend.app());
     }
 
-    public Session(ContentResolver contentResolver, UserHolder userHolder) {
-        this.contentResolver = contentResolver;
-        this.userHolder = userHolder;
+    @AfterInject
+    void init() {
+        if (userHolder == null) {
+            userHolder = UserHolder.create(context);
+        }
     }
 
     public void start() {
+        final ContentResolver contentResolver = context.getContentResolver();
         if (getUserData().isRegistered()) {
             DiscussController.getInstance().onUserReady();
             Logger.log("start events fetching with guid: " + getUserData().getGuid());

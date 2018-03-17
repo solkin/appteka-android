@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingTop="6dp">
+
+    <TextView
+        android:id="@+id/detail_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="2dp"
+        android:paddingEnd="4dp"
+        android:paddingLeft="0dp"
+        android:paddingRight="4dp"
+        android:paddingStart="0dp"
+        android:paddingTop="2dp"
+        android:singleLine="true"
+        android:textColor="?text_primary_color"
+        android:textSize="14sp"
+        tools:text="Uploads count" />
+
+    <ImageView
+        android:layout_width="0dp"
+        android:layout_height="4dp"
+        android:layout_alignBottom="@id/detail_text"
+        android:layout_toEndOf="@+id/detail_text"
+        android:layout_toLeftOf="@+id/money"
+        android:layout_toRightOf="@+id/detail_text"
+        android:layout_toStartOf="@+id/money"
+        android:layerType="software"
+        android:src="@drawable/dots" />
+
+    <TextView
+        android:id="@+id/money"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:fontFamily="sans-serif-light"
+        android:gravity="end"
+        android:paddingEnd="0dp"
+        android:paddingLeft="4dp"
+        android:paddingRight="0dp"
+        android:paddingStart="4dp"
+        android:singleLine="true"
+        android:textColor="?text_secondary_color"
+        android:textSize="17sp"
+        tools:text="10" />
+
+</RelativeLayout>
