@@ -2,6 +2,11 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/profile"
+        android:icon="@drawable/account"
+        app:showAsAction="ifRoom"
+        android:title="@string/profile" />
+    <item
         android:id="@+id/settings"
         app:showAsAction="never"
         android:title="@string/settings" />
