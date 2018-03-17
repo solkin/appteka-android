@@ -13,11 +13,13 @@ public class UserData implements Unobfuscatable {
     private String guid;
     private long userId;
     private long fetchTime;
+    private int role;
 
     public UserData() {
         guid = "";
         userId = 0;
         fetchTime = 0;
+        role = 0;
     }
 
     public boolean isRegistered() {
