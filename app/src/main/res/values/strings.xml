@@ -179,4 +179,5 @@
     <string name="delivery">Delivery</string>
     <string name="rates_count">Rates count</string>
     <string name="profile">Profile</string>
+    <string name="profile_error">Failed to retrieve profile. Please, retry request.</string>
 </resources>
