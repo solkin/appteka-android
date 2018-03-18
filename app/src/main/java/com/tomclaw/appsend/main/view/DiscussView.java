@@ -26,6 +26,7 @@ import com.tomclaw.appsend.main.adapter.ChatAdapter;
 import com.tomclaw.appsend.main.adapter.MenuAdapter;
 import com.tomclaw.appsend.main.controller.DiscussController;
 import com.tomclaw.appsend.main.dto.Message;
+import com.tomclaw.appsend.main.profile.ProfileActivity_;
 import com.tomclaw.appsend.net.RequestHelper;
 import com.tomclaw.appsend.net.Session;
 import com.tomclaw.appsend.util.ChatLayoutManager;
@@ -140,6 +141,12 @@ public class DiscussView extends MainView implements DiscussController.DiscussCa
                                 break;
                             }
                             case 1: {
+                                ProfileActivity_.intent(getContext())
+                                        .userId(message.getUserId())
+                                        .start();
+                                break;
+                            }
+                            case 2: {
                                 FlurryAgent.logEvent("Message menu: report");
                                 if (message.getMsgId() > 0) {
                                     TaskExecutor.getInstance().execute(new ReportMessageTask(getContext(), message.getMsgId(), new ReportCallback() {

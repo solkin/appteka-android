@@ -69,4 +69,8 @@ public class Session {
     public UserData getUserData() {
         return userHolder.getUserData();
     }
+
+    public UserHolder getUserHolder() {
+        return userHolder;
+    }
 }

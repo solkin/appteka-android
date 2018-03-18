@@ -52,6 +52,10 @@ public class UserData implements Unobfuscatable {
         return fetchTime;
     }
 
+    public int getRole() {
+        return role;
+    }
+
     public void onUserRegistered(String guid, long userId) {
         Logger.log("User successfully registered: " + guid + ", ID: " + userId);
         setGuid(guid);
@@ -60,5 +64,9 @@ public class UserData implements Unobfuscatable {
 
     public void onFetchSuccess(long fetchTime) {
         setFetchTime(fetchTime);
+    }
+
+    public void onRoleUpdated(int role) {
+        setFetchTime(role);
     }
 }

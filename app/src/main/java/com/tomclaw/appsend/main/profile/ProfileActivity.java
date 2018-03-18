@@ -23,6 +23,7 @@ import com.tomclaw.appsend.util.ThemeHelper;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.InstanceState;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
@@ -78,6 +79,9 @@ public class ProfileActivity extends AppCompatActivity {
     @ViewById
     LinearLayout detailsContainer;
 
+    @Extra
+    long userId;
+
     @InstanceState
     Profile profile;
 
@@ -127,20 +131,29 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void loadProfile() {
         String guid = session.getUserData().getGuid();
-        Call<ProfileResponse> call = serviceHolder.getService().getProfile(1, guid);
+        String stringUserId = userId == 0 ? null : String.valueOf(userId);
+        Call<ProfileResponse> call = serviceHolder.getService().getProfile(1, guid, stringUserId);
         call.enqueue(new Callback<ProfileResponse>() {
             @Override
             public void onResponse(Call<ProfileResponse> call, final Response<ProfileResponse> response) {
-                MainExecutor.execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (response.isSuccessful()) {
-                            onLoaded(response.body());
-                        } else {
+                final ProfileResponse profileResponse = response.body();
+                if (response.isSuccessful() && profileResponse != null) {
+                    session.getUserData().onRoleUpdated(profileResponse.getProfile().getRole());
+                    session.getUserHolder().store();
+                    MainExecutor.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            onLoaded(profileResponse);
+                        }
+                    });
+                } else {
+                    MainExecutor.execute(new Runnable() {
+                        @Override
+                        public void run() {
                             onLoadingError();
                         }
-                    }
-                });
+                    });
+                }
             }
 
             @Override

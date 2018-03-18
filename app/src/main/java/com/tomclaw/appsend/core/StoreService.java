@@ -58,6 +58,7 @@ public interface StoreService {
 
     @GET("profile.php")
     Call<ProfileResponse> getProfile(@Query("v") int apiVer,
-                                     @Query("guid") String guid);
+                                     @Query("guid") String guid,
+                                     @Query("user_id") String userId);
 
 }

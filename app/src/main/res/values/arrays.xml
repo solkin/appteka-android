@@ -48,6 +48,7 @@
 
     <string-array name="message_actions_titles">
         <item>@string/reply</item>
+        <item>@string/profile</item>
         <item>@string/report</item>
     </string-array>
 
@@ -77,6 +78,7 @@
 
     <array name="message_actions_icons">
         <item>@drawable/reply</item>
+        <item>@drawable/account</item>
         <item>@drawable/delete_forever</item>
     </array>
 </resources>
