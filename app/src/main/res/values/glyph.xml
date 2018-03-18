@@ -38,4 +38,41 @@
         <item>@drawable/battery_60</item>
     </array>
 
+    <array name="glyph_names">
+        <item>@string/air_balloon</item>
+        <item>@string/airplane</item>
+        <item>@string/alarm</item>
+        <item>@string/infinity</item>
+        <item>@string/washer</item>
+        <item>@string/anchor</item>
+        <item>@string/bike</item>
+        <item>@string/bomb</item>
+        <item>@string/bone</item>
+        <item>@string/cake</item>
+        <item>@string/car</item>
+        <item>@string/cat</item>
+        <item>@string/clippy</item>
+        <item>@string/coffee</item>
+        <item>@string/cookie</item>
+        <item>@string/flower</item>
+        <item>@string/hexagon</item>
+        <item>@string/cloud</item>
+        <item>@string/owl</item>
+        <item>@string/pill</item>
+        <item>@string/pistol</item>
+        <item>@string/fork</item>
+        <item>@string/snowman</item>
+        <item>@string/tooth</item>
+        <item>@string/traffic_light</item>
+        <item>@string/umbrella</item>
+        <item>@string/sun</item>
+        <item>@string/gas_station</item>
+        <item>@string/yin_yang</item>
+        <item>@string/fish</item>
+        <item>@string/apple</item>
+        <item>@string/guitar</item>
+        <item>@string/buggy</item>
+        <item>@string/battery</item>
+    </array>
+
 </resources>

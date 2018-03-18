@@ -28,6 +28,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.tomclaw.appsend.util.MemberImageHelper.memberImageHelper;
+
 /**
  * Created by solkin on 16/03/2018.
  */
@@ -147,11 +149,16 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void bindProfile() {
         memberAvatar.setMemberId(profile.getUserId());
+        memberName.setText(memberImageHelper().getName(profile.getUserId(), isThreadOwner()));
         showContent();
     }
 
+    public boolean isThreadOwner() {
+        return profile.getUserId() == 1;
+    }
+
     private void showError() {
-        errorText.setText(R.string.load_ratings_error);
+        errorText.setText(R.string.profile_error);
         retryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

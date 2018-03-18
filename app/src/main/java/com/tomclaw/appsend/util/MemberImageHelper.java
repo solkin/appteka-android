@@ -16,6 +16,7 @@ public class MemberImageHelper {
     private int defaultColor;
     private int[] colors;
     private TypedArray avatars;
+    private TypedArray names;
 
     private Random random = new Random();
 
@@ -27,10 +28,11 @@ public class MemberImageHelper {
         return instance;
     }
 
-    private MemberImageHelper(int defaultColor, int[] colors, TypedArray avatars) {
+    private MemberImageHelper(int defaultColor, int[] colors, TypedArray avatars, TypedArray names) {
         this.defaultColor = defaultColor;
         this.colors = colors;
         this.avatars = avatars;
+        this.names = names;
     }
 
     public static void init(Context context) {
@@ -38,7 +40,8 @@ public class MemberImageHelper {
         instance = new MemberImageHelper(
                 resources.getColor(R.color.primary_color),
                 resources.getIntArray(R.array.palette),
-                resources.obtainTypedArray(R.array.glyph_icons)
+                resources.obtainTypedArray(R.array.glyph_icons),
+                resources.obtainTypedArray(R.array.glyph_names)
         );
     }
 
@@ -56,9 +59,22 @@ public class MemberImageHelper {
         if (isThreadOwner) {
             avatar = R.drawable.crown;
         } else {
-            avatar = avatars.getResourceId(random.nextInt(avatars.length()), 0);
+            int avatarIndex = random.nextInt(avatars.length());
+            avatar = avatars.getResourceId(avatarIndex, 0);
         }
         return avatar;
+    }
+
+    public int getName(long userId, boolean isThreadOwner) {
+        random.setSeed(hash(userId, 0));
+        int name;
+        if (isThreadOwner) {
+            name = R.string.crown;
+        } else {
+            int nameIndex = random.nextInt(names.length());
+            name = names.getResourceId(nameIndex, 0);
+        }
+        return name;
     }
 
     public long hash(long value, int seed) {
