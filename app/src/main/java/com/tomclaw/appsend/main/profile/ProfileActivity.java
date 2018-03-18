@@ -6,6 +6,8 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.format.DateFormat;
+import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -28,6 +30,7 @@ import org.androidannotations.annotations.InstanceState;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 
+import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
 import retrofit2.Call;
@@ -36,6 +39,7 @@ import retrofit2.Response;
 
 import static com.tomclaw.appsend.util.MemberImageHelper.memberImageHelper;
 import static com.tomclaw.appsend.util.TimeHelper.timeHelper;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 /**
  * Created by solkin on 16/03/2018.
@@ -75,6 +79,12 @@ public class ProfileActivity extends AppCompatActivity {
 
     @ViewById
     TextView memberJoined;
+
+    @ViewById
+    TextView memberLastSeen;
+
+    @ViewById
+    Button changeRoleButton;
 
     @ViewById
     LinearLayout detailsContainer;
@@ -185,6 +195,14 @@ public class ProfileActivity extends AppCompatActivity {
         memberRole.setText(RoleHelper.getRoleName(profile.getRole()));
         memberJoined.setText(getString(R.string.joined_date,
                 timeHelper().getFormattedDate(TimeUnit.SECONDS.toMillis(profile.getJoinTime()))));
+        long lastSeen = TimeUnit.SECONDS.toMillis(profile.getLastSeen());
+        String lastSeenString = formatLastSeen(lastSeen);
+        if (lastSeenString != null) {
+            memberLastSeen.setText(lastSeenString);
+            memberLastSeen.setVisibility(View.VISIBLE);
+        } else {
+            memberLastSeen.setVisibility(View.GONE);
+        }
         detailsContainer.removeAllViews();
         detailsContainer.addView(DetailsItem_.build(this)
                 .setDetails(getString(R.string.apps_uploaded), String.valueOf(profile.getFilesCount())));
@@ -194,6 +212,9 @@ public class ProfileActivity extends AppCompatActivity {
                 .setDetails(getString(R.string.apps_rated), String.valueOf(profile.getRatingsCount())));
         detailsContainer.addView(DetailsItem_.build(this)
                 .setDetails(getString(R.string.moderators_assigned), String.valueOf(profile.getModeratorsCount())));
+        if (session.getUserData().getUserId() != profile.getUserId()) {
+            // TODO: check for grant roles
+        }
         showContent();
         swipeRefresh.setRefreshing(false);
     }
@@ -221,6 +242,26 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void showContent() {
         viewFlipper.setDisplayedChild(1);
+    }
+
+    private String formatLastSeen(long lastSeen) {
+        Calendar lastSeenTime = Calendar.getInstance();
+        lastSeenTime.setTimeInMillis(lastSeen);
+        Calendar now = Calendar.getInstance();
+        boolean isOnline = MILLISECONDS.toMinutes(System.currentTimeMillis() - lastSeen) < 15;
+        boolean isToday = DateUtils.isToday(lastSeen);
+        boolean isYesterday = now.get(Calendar.DATE) - lastSeenTime.get(Calendar.DATE) == 1;
+        String lastSeenString = null;
+        if (isOnline) {
+            lastSeenString = getString(R.string.online);
+        } else if (isToday) {
+            lastSeenString = getString(R.string.today, timeHelper().getFormattedTime(lastSeen));
+        } else if (isYesterday) {
+            lastSeenString = getString(R.string.yesterday);
+        } else if (lastSeen != 0) {
+            lastSeenString = getString(R.string.last_seen, timeHelper().getFormattedDate(lastSeen));
+        }
+        return lastSeenString;
     }
 
 }

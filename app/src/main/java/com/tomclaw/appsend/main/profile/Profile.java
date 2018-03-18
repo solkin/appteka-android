@@ -12,6 +12,7 @@ public class Profile implements Parcelable, Unobfuscatable {
 
     private int user_id;
     private long join_time;
+    private long last_seen;
     private int role;
     private int mentor_id;
     private int files_count;
@@ -22,6 +23,7 @@ public class Profile implements Parcelable, Unobfuscatable {
     protected Profile(Parcel in) {
         user_id = in.readInt();
         join_time = in.readLong();
+        last_seen = in.readLong();
         role = in.readInt();
         mentor_id = in.readInt();
         files_count = in.readInt();
@@ -36,6 +38,10 @@ public class Profile implements Parcelable, Unobfuscatable {
 
     public long getJoinTime() {
         return join_time;
+    }
+
+    public long getLastSeen() {
+        return last_seen;
     }
 
     public int getRole() {
@@ -66,6 +72,7 @@ public class Profile implements Parcelable, Unobfuscatable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(user_id);
         dest.writeLong(join_time);
+        dest.writeLong(last_seen);
         dest.writeInt(role);
         dest.writeInt(mentor_id);
         dest.writeInt(files_count);

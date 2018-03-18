@@ -224,4 +224,9 @@
     <string name="messages_wrote">Messages wrote</string>
     <string name="apps_rated">Apps rated</string>
     <string name="moderators_assigned">Moderators assigned</string>
+    <string name="change_role">Change role</string>
+    <string name="last_seen">Last seen %s</string>
+    <string name="online">Online</string>
+    <string name="today">Today %s</string>
+    <string name="yesterday">Yesterday</string>
 </resources>

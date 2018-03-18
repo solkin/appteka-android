@@ -53,6 +53,27 @@
             tools:targetApi="jelly_bean"
             tools:text="Joined 17.10.2017" />
 
+        <TextView
+            android:id="@+id/member_last_seen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:gravity="center_horizontal"
+            android:paddingTop="6dp"
+            android:textSize="12sp"
+            tools:targetApi="jelly_bean"
+            tools:text="Last seen yesterday" />
+
+        <Button
+            android:id="@+id/change_role_button"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp"
+            android:text="@string/change_role"
+            android:visibility="gone" />
+
         <LinearLayout
             android:id="@+id/details_container"
             android:layout_width="match_parent"

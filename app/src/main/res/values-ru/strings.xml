@@ -175,8 +175,8 @@
     <string name="profile">Профиль</string>
     <string name="profile_error">Не удалось загрузить профиль. Пожалуйста, попробуйте повторить запрос.</string>
     <string name="crown">Корона</string>
-    <string name="air_balloon">Air Balloon</string>
-    <string name="airplane">Воздушный шар</string>
+    <string name="air_balloon">Воздушный шар</string>
+    <string name="airplane">Самолёт</string>
     <string name="alarm">Будильник</string>
     <string name="infinity">Бесконечность</string>
     <string name="washer">Стиральная машина</string>
@@ -218,4 +218,9 @@
     <string name="messages_wrote">Написано сообщений</string>
     <string name="apps_rated">Приложений оценено</string>
     <string name="moderators_assigned">Модераторов назначено</string>
+    <string name="change_role">Назначить роль</string>
+    <string name="last_seen">Был %s</string>
+    <string name="online">Онлайн</string>
+    <string name="today">Сегодня в %s</string>
+    <string name="yesterday">Вчера</string>
 </resources>
