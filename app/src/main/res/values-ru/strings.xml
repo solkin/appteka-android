@@ -209,4 +209,13 @@
     <string name="guitar">Гитара</string>
     <string name="buggy">Коляска</string>
     <string name="battery">Батарейка</string>
+    <string name="role_owner">Супервизор</string>
+    <string name="role_admin">Администратор</string>
+    <string name="role_moderator">Модератор</string>
+    <string name="role_default">Пользователь</string>
+    <string name="joined_date">В AppSend с %s</string>
+    <string name="apps_uploaded">Загружено приложений</string>
+    <string name="messages_wrote">Написано сообщений</string>
+    <string name="apps_rated">Приложений оценено</string>
+    <string name="moderators_assigned">Модераторов назначено</string>
 </resources>

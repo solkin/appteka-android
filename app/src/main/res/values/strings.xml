@@ -215,4 +215,13 @@
     <string name="guitar">Guitar</string>
     <string name="buggy">Buggy</string>
     <string name="battery">Battery</string>
+    <string name="role_owner">Supervisor</string>
+    <string name="role_admin">Admin</string>
+    <string name="role_moderator">Moderator</string>
+    <string name="role_default">User</string>
+    <string name="joined_date">In AppSend since %s</string>
+    <string name="apps_uploaded">Apps uploaded</string>
+    <string name="messages_wrote">Messages wrote</string>
+    <string name="apps_rated">Apps rated</string>
+    <string name="moderators_assigned">Moderators assigned</string>
 </resources>

@@ -26,14 +26,14 @@
         android:layout_height="4dp"
         android:layout_alignBottom="@id/detail_text"
         android:layout_toEndOf="@+id/detail_text"
-        android:layout_toLeftOf="@+id/money"
+        android:layout_toLeftOf="@+id/detail_value"
         android:layout_toRightOf="@+id/detail_text"
-        android:layout_toStartOf="@+id/money"
+        android:layout_toStartOf="@+id/detail_value"
         android:layerType="software"
         android:src="@drawable/dots" />
 
     <TextView
-        android:id="@+id/money"
+        android:id="@+id/detail_value"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
