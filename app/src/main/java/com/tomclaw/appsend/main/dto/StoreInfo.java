@@ -23,10 +23,11 @@ public class StoreInfo implements Parcelable {
     public Meta meta;
     public List<RatingItem> rates;
     public UserRating userRating;
+    public String[] actions;
 
     public StoreInfo(long expiresIn, StoreItem info, String link, String url, int status,
                      List<StoreVersion> versions, Meta meta, List<RatingItem> rates,
-                     UserRating userRating) {
+                     UserRating userRating, String[] actions) {
         this.expiresIn = expiresIn;
         this.info = info;
         this.link = link;
@@ -36,6 +37,7 @@ public class StoreInfo implements Parcelable {
         this.meta = meta;
         this.rates = rates;
         this.userRating = userRating;
+        this.actions = actions;
     }
 
     protected StoreInfo(Parcel in) {
@@ -47,6 +49,7 @@ public class StoreInfo implements Parcelable {
         meta = in.readParcelable(Meta.class.getClassLoader());
         rates = in.createTypedArrayList(RatingItem.CREATOR);
         userRating = in.readParcelable(UserRating.class.getClassLoader());
+        actions = in.createStringArray();
     }
 
     @Override
@@ -59,6 +62,7 @@ public class StoreInfo implements Parcelable {
         dest.writeParcelable(meta, flags);
         dest.writeTypedList(rates);
         dest.writeParcelable(userRating, flags);
+        dest.writeStringArray(actions);
     }
 
     @Override
@@ -100,6 +104,10 @@ public class StoreInfo implements Parcelable {
 
     public UserRating getUserRating() {
         return userRating;
+    }
+
+    public String[] getActions() {
+        return actions;
     }
 
     public static final Creator<StoreInfo> CREATOR = new Creator<StoreInfo>() {

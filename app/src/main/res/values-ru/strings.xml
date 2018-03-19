@@ -224,4 +224,10 @@
     <string name="today">Сегодня в %s</string>
     <string name="yesterday">Вчера</string>
     <string name="unable_to_change_role">Не удалось сменить роль пользователя</string>
+    <string name="unlink_file">Удалить</string>
+    <string name="unlink_reason">Причина удаления файла</string>
+    <string name="enter_unlink_reason">Пожалуйста, опишите причину удаления файла:</string>
+    <string name="fill_reason_field">Поле причины удаления файла является обязательным</string>
+    <string name="unable_to_unlink_file">Не удалось удалить файл</string>
+    <string name="unlink_of">Удаление %s</string>
 </resources>

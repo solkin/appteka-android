@@ -25,6 +25,7 @@
     <color name="divider_dark">#424242</color>
 
     <color name="abuse_color">#d63205</color>
+    <color name="unlink_color">#d63205</color>
 
     <color name="dangerous_permission_color">#c40e72</color>
 

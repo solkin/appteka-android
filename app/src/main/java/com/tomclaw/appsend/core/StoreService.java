@@ -7,6 +7,7 @@ import com.tomclaw.appsend.main.profile.EmpowerResponse;
 import com.tomclaw.appsend.main.profile.ProfileResponse;
 import com.tomclaw.appsend.main.ratings.RateResponse;
 import com.tomclaw.appsend.main.ratings.RatingsResponse;
+import com.tomclaw.appsend.main.unlink.UnlinkResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -68,5 +69,12 @@ public interface StoreService {
                                   @Field("guid") String guid,
                                   @Field("role") int role,
                                   @Field("user_id") String userId);
+
+    @FormUrlEncoded
+    @POST("unlink.php")
+    Call<UnlinkResponse> unlink(@Field("v") int apiVer,
+                                @Field("guid") String guid,
+                                @Field("file_id") String fileId,
+                                @Field("reason") String reason);
 
 }

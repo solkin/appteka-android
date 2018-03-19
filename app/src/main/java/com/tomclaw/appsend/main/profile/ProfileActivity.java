@@ -51,11 +51,6 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 @EActivity(R.layout.profile_activity)
 public class ProfileActivity extends AppCompatActivity {
 
-    final int CONTEXT_MENU_ROLE_DEFAULT = 1;
-    final int CONTEXT_MENU_ROLE_MODERATOR = 2;
-    final int CONTEXT_MENU_ROLE_ADMIN = 3;
-    final int CONTEXT_MENU_ROLE_OWNER = 4;
-
     @Bean
     StoreServiceHolder serviceHolder;
 

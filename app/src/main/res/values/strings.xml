@@ -230,4 +230,10 @@
     <string name="today">Today %s</string>
     <string name="yesterday">Yesterday</string>
     <string name="unable_to_change_role">Failed to change user role</string>
+    <string name="unlink_file">Delete</string>
+    <string name="unlink_reason">App deletion reason</string>
+    <string name="enter_unlink_reason">Please, provide app deletion reason:</string>
+    <string name="fill_reason_field">Deletion reason field is mandatory</string>
+    <string name="unable_to_unlink_file">Failed to delete file</string>
+    <string name="unlink_of">Deletion of %s</string>
 </resources>

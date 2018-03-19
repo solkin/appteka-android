@@ -59,6 +59,7 @@ import com.tomclaw.appsend.main.permissions.PermissionsList;
 import com.tomclaw.appsend.main.ratings.RateResponse;
 import com.tomclaw.appsend.main.ratings.RatingsActivity_;
 import com.tomclaw.appsend.main.ratings.UserRating;
+import com.tomclaw.appsend.main.unlink.UnlinkActivity_;
 import com.tomclaw.appsend.main.view.MemberImageView;
 import com.tomclaw.appsend.main.view.PlayView;
 import com.tomclaw.appsend.net.Session;
@@ -73,6 +74,7 @@ import com.tomclaw.appsend.util.ThemeHelper;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -99,6 +101,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     public static final String STORE_APP_ID = "app_id";
     public static final String STORE_APP_PACKAGE = "app_package";
     public static final String STORE_APP_LABEL = "app_label";
+    private static final String UNLINK_ACTION = "unlink";
 
     private static final int REQUEST_UPDATE_META = 4;
 
@@ -346,6 +349,10 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         getMenuInflater().inflate(R.menu.download_menu, menu);
         abuseItem = menu.findItem(R.id.abuse);
         abuseItem.setVisible(this.info != null);
+        if (canUnlink()) {
+            abuseItem.setIcon(R.drawable.delete);
+            abuseItem.setTitle(R.string.unlink_file);
+        }
         return true;
     }
 
@@ -877,11 +884,19 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     }
 
     private void onAbusePressed() {
-        AbuseActivity_
-                .intent(this)
-                .appId(appId)
-                .label(appLabel)
-                .start();
+        if (canUnlink()) {
+            UnlinkActivity_
+                    .intent(this)
+                    .appId(appId)
+                    .label(appLabel)
+                    .start();
+        } else {
+            AbuseActivity_
+                    .intent(this)
+                    .appId(appId)
+                    .label(appLabel)
+                    .start();
+        }
     }
 
     private void showError(@StringRes int message) {
@@ -1030,4 +1045,11 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         }
         return result;
     }
+
+    private boolean canUnlink() {
+        return info != null
+                && info.actions != null
+                && Arrays.binarySearch(info.actions, UNLINK_ACTION) != -1;
+    }
+
 }

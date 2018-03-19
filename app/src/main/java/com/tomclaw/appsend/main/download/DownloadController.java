@@ -346,14 +346,19 @@ public class DownloadController extends AbstractController<DownloadController.Do
                     JSONObject metaJson = jsonObject.getJSONObject("meta");
                     JSONObject userRatingJson = jsonObject.getJSONObject("user_rating");
                     JSONArray ratesJson = jsonObject.getJSONArray("rates");
+                    JSONArray actionsJson = jsonObject.getJSONArray("actions");
                     Meta meta = GsonSingleton.getInstance().fromJson(metaJson.toString(), Meta.class);
                     UserRating userRating = GsonSingleton.getInstance().fromJson(userRatingJson.toString(), UserRating.class);
                     Type ratesType = new TypeToken<ArrayList<RatingItem>>() {
                     }.getType();
                     List<RatingItem> rates = GsonSingleton.getInstance().fromJson(ratesJson.toString(), ratesType);
+                    String[] actions = new String[actionsJson.length()];
+                    for (int c = 0; c < actionsJson.length(); c++) {
+                        actions[c] = actionsJson.getString(c);
+                    }
                     StoreItem storeItem = parseStoreItem(info);
                     StoreInfo storeInfo = new StoreInfo(expiresIn, storeItem, link, webUrl, status,
-                            storeVersions, meta, rates, userRating);
+                            storeVersions, meta, rates, userRating, actions);
                     onInfoLoaded(storeInfo);
                     break;
                 }
