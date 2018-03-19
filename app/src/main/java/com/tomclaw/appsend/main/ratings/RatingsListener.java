@@ -1,5 +1,7 @@
 package com.tomclaw.appsend.main.ratings;
 
+import com.tomclaw.appsend.main.dto.RatingItem;
+
 /**
  * Created by solkin on 03.08.17.
  */
@@ -12,5 +14,7 @@ public interface RatingsListener {
     int onNextPage();
 
     void onRetry();
+
+    void onClick(RatingItem item);
 
 }

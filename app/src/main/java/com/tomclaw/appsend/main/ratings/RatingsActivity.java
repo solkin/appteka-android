@@ -16,6 +16,7 @@ import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.core.StoreServiceHolder;
 import com.tomclaw.appsend.main.dto.RatingItem;
+import com.tomclaw.appsend.main.profile.ProfileActivity_;
 import com.tomclaw.appsend.util.ThemeHelper;
 
 import org.androidannotations.annotations.AfterViews;
@@ -218,5 +219,10 @@ public class RatingsActivity extends AppCompatActivity implements RatingsListene
     public void onRetry() {
         loadRatings();
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onClick(RatingItem item) {
+        ProfileActivity_.intent(this).userId(item.getUserId()).start();
     }
 }
