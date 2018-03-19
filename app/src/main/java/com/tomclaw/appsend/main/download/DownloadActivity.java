@@ -500,6 +500,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         ratingMemberAvatar.setMemberId(userId);
 
         exclusiveBadge.setVisibility(info.getMeta().isExclusive() ? View.VISIBLE : View.GONE);
+        invalidateOptionsMenu();
     }
 
     private void bindButtons() {
