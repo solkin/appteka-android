@@ -229,4 +229,5 @@
     <string name="online">Online</string>
     <string name="today">Today %s</string>
     <string name="yesterday">Yesterday</string>
+    <string name="unable_to_change_role">Failed to change user role</string>
 </resources>

@@ -223,4 +223,5 @@
     <string name="online">Онлайн</string>
     <string name="today">Сегодня в %s</string>
     <string name="yesterday">Вчера</string>
+    <string name="unable_to_change_role">Не удалось сменить роль пользователя</string>
 </resources>

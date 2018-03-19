@@ -3,6 +3,7 @@ package com.tomclaw.appsend.core;
 import com.tomclaw.appsend.main.dto.AbuseResult;
 import com.tomclaw.appsend.main.dto.StoreInfo;
 import com.tomclaw.appsend.main.meta.MetaResponse;
+import com.tomclaw.appsend.main.profile.EmpowerResponse;
 import com.tomclaw.appsend.main.profile.ProfileResponse;
 import com.tomclaw.appsend.main.ratings.RateResponse;
 import com.tomclaw.appsend.main.ratings.RatingsResponse;
@@ -60,5 +61,12 @@ public interface StoreService {
     Call<ProfileResponse> getProfile(@Query("v") int apiVer,
                                      @Query("guid") String guid,
                                      @Query("user_id") String userId);
+
+    @FormUrlEncoded
+    @POST("empower.php")
+    Call<EmpowerResponse> empower(@Field("v") int apiVer,
+                                  @Field("guid") String guid,
+                                  @Field("role") int role,
+                                  @Field("user_id") String userId);
 
 }

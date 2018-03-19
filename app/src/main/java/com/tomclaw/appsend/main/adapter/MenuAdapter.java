@@ -46,8 +46,8 @@ public class MenuAdapter extends BaseAdapter {
         if (convertView == null) {
             convertView = LayoutInflater.from(context).inflate(R.layout.menu_item, parent, false);
         }
-        ImageView icon = (ImageView) convertView.findViewById(R.id.icon);
-        TextView title = (TextView) convertView.findViewById(R.id.title);
+        ImageView icon = convertView.findViewById(R.id.icon);
+        TextView title = convertView.findViewById(R.id.title);
         title.setText(titles[position]);
         icon.setImageDrawable(icons.getDrawable(position));
         return convertView;
