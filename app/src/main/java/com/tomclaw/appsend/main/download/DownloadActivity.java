@@ -103,6 +103,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     public static final String STORE_APP_PACKAGE = "app_package";
     public static final String STORE_APP_LABEL = "app_label";
     private static final String UNLINK_ACTION = "unlink";
+    private static final int REQUEST_CODE_UNLINK = 42;
 
     private static final int REQUEST_UPDATE_META = 4;
 
@@ -421,6 +422,10 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_UPDATE_META) {
             reloadInfo();
+        } else if (requestCode == REQUEST_CODE_UNLINK) {
+            if (resultCode == RESULT_OK) {
+                finish();
+            }
         }
     }
 
@@ -900,7 +905,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
                     .intent(this)
                     .appId(appId)
                     .label(appLabel)
-                    .start();
+                    .startForResult(REQUEST_CODE_UNLINK);
         } else {
             AbuseActivity_
                     .intent(this)

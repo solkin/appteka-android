@@ -155,6 +155,7 @@ public class UnlinkActivity extends AppCompatActivity {
 
     public void onFileUnlinked() {
         Toast.makeText(this, R.string.thanks_for_attention, Toast.LENGTH_LONG).show();
+        setResult(RESULT_OK);
         finish();
     }
 

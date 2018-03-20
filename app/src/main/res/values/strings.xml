@@ -227,8 +227,8 @@
     <string name="change_role">Change role</string>
     <string name="last_seen">Last seen %s</string>
     <string name="online">Online</string>
-    <string name="today">Today %s</string>
-    <string name="yesterday">Yesterday</string>
+    <string name="today">Last seen today at %s</string>
+    <string name="yesterday">Last seen yesterday</string>
     <string name="unable_to_change_role">Failed to change user role</string>
     <string name="unlink_file">Delete</string>
     <string name="unlink_reason">App deletion reason</string>
