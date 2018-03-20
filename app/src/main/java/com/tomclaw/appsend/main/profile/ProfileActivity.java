@@ -1,20 +1,26 @@
 package com.tomclaw.appsend.main.profile;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.text.format.DateUtils;
+import android.util.Base64;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.tomclaw.appsend.R;
@@ -22,6 +28,7 @@ import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.core.StoreServiceHolder;
 import com.tomclaw.appsend.main.view.MemberImageView;
 import com.tomclaw.appsend.net.Session;
+import com.tomclaw.appsend.net.UserData;
 import com.tomclaw.appsend.util.RoleHelper;
 import com.tomclaw.appsend.util.ThemeHelper;
 
@@ -105,6 +112,8 @@ public class ProfileActivity extends AppCompatActivity {
     @InstanceState
     boolean isError;
 
+    int avatarClickCount = 0;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         ThemeHelper.updateTheme(this);
@@ -168,6 +177,54 @@ public class ProfileActivity extends AppCompatActivity {
     void onChangeRoleClicked() {
         registerForContextMenu(changeRoleButton);
         openContextMenu(changeRoleButton);
+    }
+
+    @Click(R.id.member_avatar)
+    void onMemberAvatarClicked() {
+        avatarClickCount++;
+        if (avatarClickCount >= 5) {
+            avatarClickCount = 0;
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle(R.string.auth_data_title);
+            final EditText input = new EditText(this);
+            input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+            builder.setView(input);
+            builder.setPositiveButton(R.string.login, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    String userData = input.getText().toString();
+                    try {
+                        userData = new String(Base64.decode(userData, 0));
+                        int userDataDivider = userData.indexOf(':');
+                        long userId = Long.parseLong(userData.substring(0, userDataDivider));
+                        String guid = userData.substring(userDataDivider + 1);
+                        session.getUserData().onUserRegistered(guid, userId);
+                        session.getUserHolder().store();
+                        Toast.makeText(
+                                ProfileActivity.this,
+                                R.string.relogin_ok,
+                                Toast.LENGTH_SHORT
+                        ).show();
+                    } catch (Throwable ex) {
+                        Toast.makeText(
+                                ProfileActivity.this,
+                                R.string.unable_to_relogin,
+                                Toast.LENGTH_SHORT
+                        ).show();
+                    }
+                }
+            });
+            builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+            UserData userData = session.getUserData();
+            String authData = userData.getUserId() + ":" + userData.getGuid();
+            input.setText(Base64.encodeToString(authData.getBytes(), 0));
+            builder.show();
+        }
     }
 
     private void loadProfile() {
