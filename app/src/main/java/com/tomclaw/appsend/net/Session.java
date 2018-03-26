@@ -29,8 +29,7 @@ public class Session {
         return Session_.getInstance_(AppSend.app());
     }
 
-    @AfterInject
-    void init() {
+    public void init() {
         if (userHolder == null) {
             userHolder = UserHolder.create(context);
         }

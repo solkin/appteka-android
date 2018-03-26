@@ -185,7 +185,7 @@ public class ProfileActivity extends AppCompatActivity {
     @Click(R.id.member_avatar)
     void onMemberAvatarClicked() {
         avatarClickCount++;
-        if (avatarClickCount >= 5) {
+        if (avatarClickCount >= 5 && isSelf()) {
             avatarClickCount = 0;
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(R.string.auth_data_title);
@@ -360,6 +360,10 @@ public class ProfileActivity extends AppCompatActivity {
         changeRoleButton.setVisibility(canChangeRole ? View.VISIBLE : View.GONE);
         showContent();
         swipeRefresh.setRefreshing(false);
+    }
+
+    public boolean isSelf() {
+        return session.getUserData().getUserId() == profile.getUserId();
     }
 
     public boolean isThreadOwner() {
