@@ -43,6 +43,19 @@
             tools:text="Moderator" />
 
         <TextView
+            android:id="@+id/member_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="monospace"
+            android:gravity="center_horizontal"
+            android:paddingTop="6dp"
+            android:textSize="12sp"
+            android:textStyle="normal"
+            android:typeface="monospace"
+            tools:targetApi="jelly_bean"
+            tools:text="User ID: 427" />
+
+        <TextView
             android:id="@+id/member_joined"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

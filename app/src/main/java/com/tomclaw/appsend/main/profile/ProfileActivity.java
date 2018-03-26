@@ -89,6 +89,9 @@ public class ProfileActivity extends AppCompatActivity {
     TextView memberRole;
 
     @ViewById
+    TextView memberId;
+
+    @ViewById
     TextView memberJoined;
 
     @ViewById
@@ -325,6 +328,7 @@ public class ProfileActivity extends AppCompatActivity {
         memberAvatar.setMemberId(profile.getUserId());
         memberName.setText(memberImageHelper().getName(profile.getUserId(), isThreadOwner()));
         memberRole.setText(RoleHelper.getRoleName(profile.getRole()));
+        memberId.setText(getString(R.string.member_id, profile.getUserId()));
         memberJoined.setText(getString(R.string.joined_date,
                 timeHelper().getFormattedDate(TimeUnit.SECONDS.toMillis(profile.getJoinTime()))));
         long lastSeen = TimeUnit.SECONDS.toMillis(profile.getLastSeen());

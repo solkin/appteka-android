@@ -234,4 +234,5 @@
     <string name="auth_data_title">Авторизационные данные</string>
     <string name="unable_to_relogin">Не удалось переавторизоваться</string>
     <string name="relogin_ok">Переавторизация успешна</string>
+    <string name="member_id">ID пользователя: %d</string>
 </resources>
