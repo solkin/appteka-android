@@ -1,4 +1,4 @@
-# AppSend [![Build status](https://build.appcenter.ms/v0.1/apps/0159d9ed-1d7d-496c-9fba-a8a4e84df853/branches/master/badge)](https://appcenter.ms) [![CircleCI](https://circleci.com/gh/solkin/appsend.svg?style=shield)](https://circleci.com/gh/solkin/appsend) [![Build Status](https://travis-ci.org/solkin/appsend.svg?branch=master)](https://travis-ci.org/solkin/appsend)
+# AppSend [![Build Status](https://travis-ci.org/solkin/appsend.svg?branch=master)](https://travis-ci.org/solkin/appsend)
 AppSend will extracts APK that are installed on your Android device and copies them to your SD card.
 
 * Fast and easy to use.
