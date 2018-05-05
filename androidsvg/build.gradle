@@ -25,8 +25,8 @@ android {
     }
 
     dependencies {
-        testCompile 'junit:junit:4.12'
-        testCompile 'org.robolectric:robolectric:3.4.2'
+        testImplementation 'junit:junit:4.12'
+        testImplementation 'org.robolectric:robolectric:3.4.2'
         implementation 'com.android.support:appcompat-v7:27.1.1'
     }
 }
