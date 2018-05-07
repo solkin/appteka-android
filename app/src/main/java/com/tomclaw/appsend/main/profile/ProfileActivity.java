@@ -370,7 +370,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void showUserFiles() {
-        FilesActivity_.intent(this).userId(userId).start();
+        FilesActivity_.intent(this).userId((long) profile.getUserId()).start();
     }
 
     public boolean isSelf() {
