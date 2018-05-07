@@ -3,6 +3,9 @@ package com.tomclaw.appsend.main.item;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
+import com.tomclaw.appsend.util.Unobfuscatable;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,26 +13,35 @@ import java.util.Map;
 /**
  * Created by ivsolkin on 11.01.17.
  */
-public class StoreItem extends BaseItem implements Parcelable {
+public class StoreItem extends BaseItem implements Parcelable, Unobfuscatable {
 
     public static final int NOT_INSTALLED = -1;
 
+    @SerializedName("def_label")
     private final String label;
     private final Map<String, String> labels;
     private final String icon;
+    @SerializedName("app_id")
     private final String appId;
+    @SerializedName("package")
     private final String packageName;
+    @SerializedName("ver_name")
     private final String version;
+    @SerializedName("ver_code")
     private final int versionCode;
+    @SerializedName("sdk_version")
     private final int sdkVersion;
+    @SerializedName("android")
     private final String androidVersion;
     private final List<String> permissions;
     private final long size;
     private final int downloads;
     private final float rating;
+    @SerializedName("download_time")
     private final long downloadTime;
     private final long time;
     private final String sha1;
+    @SerializedName("user_id")
     private final long userId;
     private final String filter;
     private int installedVersionCode;

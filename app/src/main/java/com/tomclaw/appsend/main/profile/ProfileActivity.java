@@ -26,6 +26,7 @@ import android.widget.ViewFlipper;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.core.StoreServiceHolder;
+import com.tomclaw.appsend.main.profile.list.FilesActivity_;
 import com.tomclaw.appsend.main.view.MemberImageView;
 import com.tomclaw.appsend.net.Session;
 import com.tomclaw.appsend.net.UserData;
@@ -341,7 +342,13 @@ public class ProfileActivity extends AppCompatActivity {
         }
         detailsContainer.removeAllViews();
         detailsContainer.addView(DetailsItem_.build(this)
-                .setDetails(getString(R.string.apps_uploaded), String.valueOf(profile.getFilesCount())));
+                .setDetails(getString(R.string.apps_uploaded), String.valueOf(profile.getFilesCount()))
+                .setClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showUserFiles();
+                    }
+                }));
         detailsContainer.addView(DetailsItem_.build(this)
                 .setDetails(getString(R.string.messages_wrote), String.valueOf(profile.getMsgCount())));
         detailsContainer.addView(DetailsItem_.build(this)
@@ -360,6 +367,10 @@ public class ProfileActivity extends AppCompatActivity {
         changeRoleButton.setVisibility(canChangeRole ? View.VISIBLE : View.GONE);
         showContent();
         swipeRefresh.setRefreshing(false);
+    }
+
+    private void showUserFiles() {
+        FilesActivity_.intent(this).userId(userId).start();
     }
 
     public boolean isSelf() {

@@ -168,6 +168,7 @@
     <string name="category">Application\ncategory</string>
     <string name="ratings">Ratings</string>
     <string name="load_ratings_error">An error occurred while loading ratings</string>
+    <string name="load_files_error">An error occurred while loading files</string>
     <string name="submit">Submit</string>
     <string name="rate_this_app">Rate this app</string>
     <string name="your_opinion">Tell us what you think</string>
@@ -241,4 +242,5 @@
     <string name="unable_to_relogin">Failed to relogin</string>
     <string name="relogin_ok">Relogin OK</string>
     <string name="member_id">User ID: %d</string>
+    <string name="profile_apps">User apps</string>
 </resources>

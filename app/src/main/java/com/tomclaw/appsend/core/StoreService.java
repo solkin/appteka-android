@@ -5,6 +5,7 @@ import com.tomclaw.appsend.main.dto.StoreInfo;
 import com.tomclaw.appsend.main.meta.MetaResponse;
 import com.tomclaw.appsend.main.profile.EmpowerResponse;
 import com.tomclaw.appsend.main.profile.ProfileResponse;
+import com.tomclaw.appsend.main.profile.list.ListResponse;
 import com.tomclaw.appsend.main.ratings.RateResponse;
 import com.tomclaw.appsend.main.ratings.RatingsResponse;
 import com.tomclaw.appsend.main.unlink.UnlinkResponse;
@@ -76,5 +77,10 @@ public interface StoreService {
                                 @Field("guid") String guid,
                                 @Field("file_id") String fileId,
                                 @Field("reason") String reason);
+
+    @GET("list.php")
+    Call<ListResponse> listFiles(@Query("v") int apiVer,
+                                 @Query("user_id") Long userId,
+                                 @Query("app_id") String appId);
 
 }

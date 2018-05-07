@@ -97,6 +97,10 @@
             android:name=".main.unlink.UnlinkActivity_"
             android:label="@string/profile"
             android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".main.profile.list.FilesActivity_"
+            android:label="@string/profile_apps"
+            android:windowSoftInputMode="stateHidden" />
 
         <provider
             android:name=".core.GlobalProvider"
