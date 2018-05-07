@@ -102,6 +102,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     public static final String STORE_APP_ID = "app_id";
     public static final String STORE_APP_PACKAGE = "app_package";
     public static final String STORE_APP_LABEL = "app_label";
+    public static final String STORE_FINISH_ONLY = "finish_only";
     private static final String UNLINK_ACTION = "unlink";
     private static final int REQUEST_CODE_UNLINK = 42;
 
@@ -113,6 +114,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     private String appId;
     private String appPackage;
     private String appLabel;
+    private boolean finishOnly;
 
     private ViewFlipper viewFlipper;
     private TextView errorText;
@@ -198,11 +200,13 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
                 appId = getIntent().getStringExtra(STORE_APP_ID);
                 appPackage = getIntent().getStringExtra(STORE_APP_PACKAGE);
                 appLabel = getIntent().getStringExtra(STORE_APP_LABEL);
+                finishOnly = getIntent().getBooleanExtra(STORE_FINISH_ONLY, false);
             }
         } else {
             appId = savedInstanceState.getString(STORE_APP_ID);
             appPackage = savedInstanceState.getString(STORE_APP_ID);
             appLabel = savedInstanceState.getString(STORE_APP_LABEL);
+            finishOnly = savedInstanceState.getBoolean(STORE_FINISH_ONLY, false);
         }
         if (TextUtils.isEmpty(appId) && TextUtils.isEmpty(appPackage)) {
             openStore();
@@ -371,12 +375,18 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home: {
-                finishAttempt(new Runnable() {
-                    @Override
-                    public void run() {
-                        openStore();
-                    }
-                });
+                Runnable runnable;
+                if (finishOnly) {
+                    runnable = null;
+                } else {
+                    runnable = new Runnable() {
+                        @Override
+                        public void run() {
+                            openStore();
+                        }
+                    };
+                }
+                finishAttempt(runnable);
                 break;
             }
             case R.id.abuse: {

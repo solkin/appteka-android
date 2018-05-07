@@ -233,7 +233,8 @@ public class FilesActivity extends AppCompatActivity implements FilesListener {
     public void onClick(StoreItem item) {
         Intent intent = new Intent(this, DownloadActivity.class)
                 .putExtra(DownloadActivity.STORE_APP_ID, item.getAppId())
-                .putExtra(DownloadActivity.STORE_APP_LABEL, LocaleHelper.getLocalizedLabel(item));
+                .putExtra(DownloadActivity.STORE_APP_LABEL, LocaleHelper.getLocalizedLabel(item))
+                .putExtra(DownloadActivity.STORE_FINISH_ONLY, true);
         startActivity(intent);
     }
 
