@@ -13,7 +13,6 @@ public class RoleHelper {
     public static final int ROLE_DEFAULT = 0;
 
     public static int getRoleName(int role) {
-        int roleString;
         switch (role) {
             case ROLE_OWNER:
                 return R.string.role_owner;

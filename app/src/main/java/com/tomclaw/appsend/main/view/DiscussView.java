@@ -283,7 +283,7 @@ public class DiscussView extends MainView implements DiscussController.DiscussCa
         }
 
         @Override
-        public void executeBackground() throws Throwable {
+        public void executeBackground() {
             Context context = getWeakObject();
             if (context != null) {
                 DatabaseLayer databaseLayer = ContentResolverLayer.from(context.getContentResolver());
@@ -326,7 +326,7 @@ public class DiscussView extends MainView implements DiscussController.DiscussCa
         }
 
         @Override
-        public void executeBackground() throws Throwable {
+        public void executeBackground() {
             Context context = getWeakObject();
             if (context != null) {
                 DatabaseLayer databaseLayer = ContentResolverLayer.from(context.getContentResolver());

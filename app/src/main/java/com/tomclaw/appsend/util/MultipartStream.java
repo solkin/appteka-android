@@ -103,8 +103,8 @@ public class MultipartStream extends OutputStream {
     }
 
     public interface ProgressHandler {
-        public void onProgress(long sent);
+        void onProgress(long sent);
 
-        public void onError();
+        void onError();
     }
 }

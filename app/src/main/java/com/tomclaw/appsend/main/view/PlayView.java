@@ -34,9 +34,9 @@ public class PlayView extends FrameLayout {
 
     private void init(Context context, AttributeSet attrs) {
         inflate(context, R.layout.play_view, this);
-        countView = (TextView) findViewById(R.id.play_count);
-        descriptionView = (TextView) findViewById(R.id.play_description);
-        commentView = (TextView) findViewById(R.id.play_comment);
+        countView = findViewById(R.id.play_count);
+        descriptionView = findViewById(R.id.play_description);
+        commentView = findViewById(R.id.play_comment);
         TypedArray array = context.obtainStyledAttributes(attrs, R.styleable.PlayView);
         String count = array.getString(R.styleable.PlayView_play_count);
         String description = array.getString(R.styleable.PlayView_play_description);

@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 public class Debouncer<T> {
 
     private final ScheduledExecutorService sched = Executors.newScheduledThreadPool(1);
-    private final ConcurrentHashMap<T, TimerTask> delayedMap = new ConcurrentHashMap<T, TimerTask>();
+    private final ConcurrentHashMap<T, TimerTask> delayedMap = new ConcurrentHashMap<>();
     private final Callback<T> callback;
     private final int interval;
 

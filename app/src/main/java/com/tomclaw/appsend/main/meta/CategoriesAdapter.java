@@ -59,8 +59,8 @@ public class CategoriesAdapter extends BaseAdapter {
         } else {
             view = inflater.inflate(R.layout.category_item, parent, false);
         }
-        SVGImageView icon = (SVGImageView) view.findViewById(R.id.icon);
-        TextView names = (TextView) view.findViewById(R.id.name);
+        SVGImageView icon = view.findViewById(R.id.icon);
+        TextView names = view.findViewById(R.id.name);
         Category category = getItem(position);
         if (category.getId() == 0) {
             Drawable drawable = view.getResources().getDrawable(R.drawable.close);

@@ -80,7 +80,7 @@ public class MainActivity extends PermisoActivity implements
         setContentView(R.layout.main);
         ThemeHelper.updateStatusBar(this);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setIcon(R.drawable.ic_logo_ab);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -100,7 +100,7 @@ public class MainActivity extends PermisoActivity implements
             }
         });
 
-        bottomNavigation = (AHBottomNavigation) findViewById(R.id.bottom_navigation);
+        bottomNavigation = findViewById(R.id.bottom_navigation);
 
         AHBottomNavigationItem item1 = new AHBottomNavigationItem(R.string.tab_apps, R.drawable.ic_apps, R.color.primary_color);
         AHBottomNavigationItem item2 = new AHBottomNavigationItem(R.string.tab_install, R.drawable.ic_install, R.color.primary_color);
@@ -126,7 +126,7 @@ public class MainActivity extends PermisoActivity implements
             }
         });
 
-        mainViewsContainer = (ViewFlipper) findViewById(R.id.main_views);
+        mainViewsContainer = findViewById(R.id.main_views);
         AppsView appsView = new AppsView(this);
         mainViewsContainer.addView(appsView);
         InstallView installView = new InstallView(this);

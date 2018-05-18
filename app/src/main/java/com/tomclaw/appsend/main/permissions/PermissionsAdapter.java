@@ -67,8 +67,8 @@ public class PermissionsAdapter extends RecyclerView.Adapter<PermissionsAdapter.
                 itemView.setLayoutParams(p);
             }
 
-            permissionDescription = (TextView) itemView.findViewById(R.id.permission_description);
-            permissionName = (TextView) itemView.findViewById(R.id.permission_name);
+            permissionDescription = itemView.findViewById(R.id.permission_description);
+            permissionName = itemView.findViewById(R.id.permission_name);
         }
 
         public void bind(Context context, final String permission) {
