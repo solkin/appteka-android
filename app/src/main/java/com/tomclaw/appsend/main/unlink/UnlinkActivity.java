@@ -1,9 +1,11 @@
 package com.tomclaw.appsend.main.unlink;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -34,6 +36,7 @@ import retrofit2.Response;
 /**
  * Created by solkin on 19/03/2018.
  */
+@SuppressLint("Registered")
 @EActivity(R.layout.unlink_activity)
 @OptionsMenu(R.menu.unlink_menu)
 public class UnlinkActivity extends AppCompatActivity {
@@ -71,10 +74,13 @@ public class UnlinkActivity extends AppCompatActivity {
 
         toolbar.setBackgroundColor(getResources().getColor(R.color.unlink_color));
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(getString(R.string.unlink_of, label));
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowTitleEnabled(true);
+        ActionBar actionBar;
+        if ((actionBar = getSupportActionBar()) != null) {
+            actionBar.setTitle(getString(R.string.unlink_of, label));
+            actionBar.setDisplayShowHomeEnabled(true);
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setDisplayShowTitleEnabled(true);
+        }
 
         int color = getResources().getColor(R.color.unlink_color);
         StatusBarUtil.setColor(this, color);
