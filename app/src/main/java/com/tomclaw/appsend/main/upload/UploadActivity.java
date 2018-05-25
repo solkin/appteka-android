@@ -19,6 +19,7 @@ import android.widget.ViewSwitcher;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.GlideApp;
 import com.tomclaw.appsend.main.controller.CountController;
+import com.tomclaw.appsend.main.download.DownloadActivity;
 import com.tomclaw.appsend.main.item.CommonItem;
 import com.tomclaw.appsend.main.meta.MetaActivity_;
 import com.tomclaw.appsend.util.FileHelper;
@@ -93,6 +94,15 @@ public class UploadActivity extends AppCompatActivity implements UploadControlle
             @Override
             public void onClick(View v) {
                 onBackPressed();
+            }
+        });
+        findViewById(R.id.button_open).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(UploadActivity.this, DownloadActivity.class);
+                intent.putExtra(DownloadActivity.STORE_APP_ID, appId);
+                intent.putExtra(DownloadActivity.STORE_APP_LABEL, item.getLabel());
+                startActivity(intent);
             }
         });
         findViewById(R.id.button_share).setOnClickListener(new View.OnClickListener() {
