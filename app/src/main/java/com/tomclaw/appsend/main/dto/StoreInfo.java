@@ -3,6 +3,7 @@ package com.tomclaw.appsend.main.dto;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
 import com.tomclaw.appsend.main.item.StoreItem;
 import com.tomclaw.appsend.main.meta.Meta;
 import com.tomclaw.appsend.main.ratings.UserRating;
@@ -14,7 +15,8 @@ import java.util.List;
  */
 public class StoreInfo implements Parcelable {
 
-    public long expiresIn;
+    @SerializedName("expires_in")
+    private long expiresIn;
     public StoreItem info;
     public String link;
     public String url;
@@ -22,22 +24,11 @@ public class StoreInfo implements Parcelable {
     public List<StoreVersion> versions;
     public Meta meta;
     public List<RatingItem> rates;
+    @SerializedName("user_rating")
     public UserRating userRating;
     public String[] actions;
 
-    public StoreInfo(long expiresIn, StoreItem info, String link, String url, int status,
-                     List<StoreVersion> versions, Meta meta, List<RatingItem> rates,
-                     UserRating userRating, String[] actions) {
-        this.expiresIn = expiresIn;
-        this.info = info;
-        this.link = link;
-        this.url = url;
-        this.status = status;
-        this.versions = versions;
-        this.meta = meta;
-        this.rates = rates;
-        this.userRating = userRating;
-        this.actions = actions;
+    public StoreInfo() {
     }
 
     protected StoreInfo(Parcel in) {

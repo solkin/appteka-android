@@ -3,15 +3,20 @@ package com.tomclaw.appsend.main.dto;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by ivsolkin on 17.01.17.
  */
 
 public class StoreVersion implements Parcelable {
 
+    @SerializedName("app_id")
     private String appId;
     private int downloads;
+    @SerializedName("ver_code")
     private int verCode;
+    @SerializedName("ver_name")
     private String verName;
 
     public StoreVersion(String appId, int downloads, int verCode, String verName) {

@@ -23,7 +23,10 @@ import retrofit2.http.Query;
 public interface StoreService {
 
     @GET("info.php")
-    Call<StoreInfo> getInfo(@Query("v") String apiVer, @Query("app_id") String appId);
+    Call<StoreInfo> getInfo(@Query("v") int apiVer,
+                            @Query("guid") String guid,
+                            @Query("app_id") String appId,
+                            @Query("package") String packageName);
 
     @GET("meta.php")
     Call<MetaResponse> getMeta(@Query("v") int apiVer,

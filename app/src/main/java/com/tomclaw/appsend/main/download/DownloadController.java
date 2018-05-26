@@ -1,44 +1,32 @@
 package com.tomclaw.appsend.main.download;
 
-import android.text.TextUtils;
-
-import com.google.gson.reflect.TypeToken;
 import com.orhanobut.logger.Logger;
 import com.tomclaw.appsend.core.MainExecutor;
+import com.tomclaw.appsend.core.StoreServiceHolder;
+import com.tomclaw.appsend.core.StoreServiceHolder_;
 import com.tomclaw.appsend.main.controller.AbstractController;
-import com.tomclaw.appsend.main.dto.RatingItem;
 import com.tomclaw.appsend.main.dto.StoreInfo;
-import com.tomclaw.appsend.main.dto.StoreVersion;
-import com.tomclaw.appsend.main.item.StoreItem;
-import com.tomclaw.appsend.main.meta.Meta;
-import com.tomclaw.appsend.main.ratings.UserRating;
 import com.tomclaw.appsend.net.Session;
-import com.tomclaw.appsend.util.GsonSingleton;
-import com.tomclaw.appsend.util.HttpParamsBuilder;
 import com.tomclaw.appsend.util.HttpUtil;
 import com.tomclaw.appsend.util.VariableBuffer;
-
-import org.json.JSONArray;
-import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
+import retrofit2.Call;
+import retrofit2.Response;
+
+import static com.tomclaw.appsend.AppSend.app;
 import static com.tomclaw.appsend.core.Config.HOST_URL;
-import static com.tomclaw.appsend.util.StoreHelper.parseStoreItem;
-import static com.tomclaw.appsend.util.StoreHelper.parseStoreVersion;
 
 /**
  * Created by ivsolkin on 17.01.17.
@@ -294,91 +282,21 @@ public class DownloadController extends AbstractController<DownloadController.Do
 
     private void loadInfoInternal(String appId, String appPackage, String guid) {
         onProgress();
-        HttpURLConnection connection = null;
-        InputStream in = null;
+
+        StoreServiceHolder serviceHolder = StoreServiceHolder_.getInstance_(app());
+        Call<StoreInfo> call = serviceHolder.getService().getInfo(1, guid, appId, appPackage);
         try {
-            HttpParamsBuilder builder = new HttpParamsBuilder()
-                    .appendParam("v", "1")
-                    .appendParam("guid", guid);
-            if (!TextUtils.isEmpty(appId)) {
-                builder.appendParam("app_id", appId);
-            } else if (!TextUtils.isEmpty(appPackage)) {
-                builder.appendParam("package", appPackage);
-            }
-            String storeUrl = HOST_INFO_URL + "?" + builder.build();
-            Logger.d("Store url: %s", storeUrl);
-            URL url = new URL(storeUrl);
-            connection = (HttpURLConnection) url.openConnection();
-            // Executing request.
-            connection.setReadTimeout((int) TimeUnit.MINUTES.toMillis(2));
-            connection.setConnectTimeout((int) TimeUnit.SECONDS.toMillis(30));
-            connection.setRequestMethod(HttpUtil.GET);
-            connection.setUseCaches(false);
-            connection.setDoInput(true);
-            connection.setDoOutput(true);
-            connection.setInstanceFollowRedirects(false);
-            connection.connect();
-            // Open connection to response.
-            int responseCode = connection.getResponseCode();
-            // Checking for this is error stream.
-            if (responseCode >= HttpUtil.SC_BAD_REQUEST) {
-                in = connection.getErrorStream();
+            Response<StoreInfo> response = call.execute();
+            if (response.isSuccessful()) {
+                onInfoLoaded(response.body());
+            } else if (response.code() == 404) {
+                onFileNotFound();
             } else {
-                in = connection.getInputStream();
-            }
-            String result = HttpUtil.streamToString(in);
-            Logger.json(result);
-            JSONObject jsonObject = new JSONObject(result);
-            int status = jsonObject.getInt("status");
-            switch (status) {
-                case 200: {
-                    long expiresIn = jsonObject.getLong("expires_in");
-                    String link = jsonObject.getString("link");
-                    String webUrl = jsonObject.getString("url");
-                    List<StoreVersion> storeVersions = new ArrayList<>();
-                    JSONArray versions = jsonObject.getJSONArray("versions");
-                    for (int c = 0; c < versions.length(); c++) {
-                        JSONObject version = versions.getJSONObject(c);
-                        StoreVersion storeVersion = parseStoreVersion(version);
-                        storeVersions.add(storeVersion);
-                    }
-                    JSONObject info = jsonObject.getJSONObject("info");
-                    JSONObject metaJson = jsonObject.getJSONObject("meta");
-                    JSONObject userRatingJson = jsonObject.getJSONObject("user_rating");
-                    JSONArray ratesJson = jsonObject.getJSONArray("rates");
-                    JSONArray actionsJson = jsonObject.getJSONArray("actions");
-                    Meta meta = GsonSingleton.getInstance().fromJson(metaJson.toString(), Meta.class);
-                    UserRating userRating = GsonSingleton.getInstance().fromJson(userRatingJson.toString(), UserRating.class);
-                    Type ratesType = new TypeToken<ArrayList<RatingItem>>() {
-                    }.getType();
-                    List<RatingItem> rates = GsonSingleton.getInstance().fromJson(ratesJson.toString(), ratesType);
-                    String[] actions = new String[actionsJson.length()];
-                    for (int c = 0; c < actionsJson.length(); c++) {
-                        actions[c] = actionsJson.getString(c);
-                    }
-                    StoreItem storeItem = parseStoreItem(info);
-                    StoreInfo storeInfo = new StoreInfo(expiresIn, storeItem, link, webUrl, status,
-                            storeVersions, meta, rates, userRating, actions);
-                    onInfoLoaded(storeInfo);
-                    break;
-                }
-                case 404: {
-                    onFileNotFound();
-                    break;
-                }
-                default: {
-                    throw new IOException("Store files loading error: " + status);
-                }
+                throw new IOException("Store files loading error: " + response.code());
             }
         } catch (Throwable ex) {
             Logger.e(ex, "Exception while application uploading");
             onInfoError();
-        } finally {
-            // Trying to disconnect in any case.
-            if (connection != null) {
-                connection.disconnect();
-            }
-            HttpUtil.closeSafely(in);
         }
     }
 
