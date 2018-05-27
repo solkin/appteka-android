@@ -4,12 +4,13 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
+import com.tomclaw.appsend.util.Unobfuscatable;
 
 /**
  * Created by ivsolkin on 17.01.17.
  */
 
-public class StoreVersion implements Parcelable {
+public class StoreVersion implements Parcelable, Unobfuscatable {
 
     @SerializedName("app_id")
     private String appId;

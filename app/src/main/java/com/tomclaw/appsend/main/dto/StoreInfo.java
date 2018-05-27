@@ -7,13 +7,14 @@ import com.google.gson.annotations.SerializedName;
 import com.tomclaw.appsend.main.item.StoreItem;
 import com.tomclaw.appsend.main.meta.Meta;
 import com.tomclaw.appsend.main.ratings.UserRating;
+import com.tomclaw.appsend.util.Unobfuscatable;
 
 import java.util.List;
 
 /**
  * Created by ivsolkin on 17.01.17.
  */
-public class StoreInfo implements Parcelable {
+public class StoreInfo implements Parcelable, Unobfuscatable {
 
     @SerializedName("expires_in")
     private long expiresIn;
