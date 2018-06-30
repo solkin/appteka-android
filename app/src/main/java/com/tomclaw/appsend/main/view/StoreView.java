@@ -2,12 +2,15 @@ package com.tomclaw.appsend.main.view;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
@@ -19,6 +22,8 @@ import com.tomclaw.appsend.main.controller.StoreController;
 import com.tomclaw.appsend.main.download.DownloadActivity;
 import com.tomclaw.appsend.main.item.BaseItem;
 import com.tomclaw.appsend.main.item.StoreItem;
+import com.tomclaw.appsend.main.local.LocalAppsActivity;
+import com.tomclaw.appsend.main.local.LocalAppsActivity_;
 import com.tomclaw.appsend.util.ColorHelper;
 import com.tomclaw.appsend.util.Debouncer;
 import com.tomclaw.appsend.util.EdgeChanger;
@@ -44,6 +49,20 @@ public class StoreView extends MainView implements StoreController.StoreCallback
         viewFlipper = findViewById(R.id.apps_view_switcher);
 
         errorText = findViewById(R.id.error_text);
+
+        FloatingActionButton actionButton = findViewById(R.id.fab);
+        actionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LocalAppsActivity_.intent(context).start();
+            }
+        });
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            FrameLayout.LayoutParams p = (FrameLayout.LayoutParams) actionButton.getLayoutParams();
+            p.setMargins(0, 0, 0, 0);
+            actionButton.setLayoutParams(p);
+        }
 
         findViewById(R.id.button_retry).setOnClickListener(new OnClickListener() {
             @Override
