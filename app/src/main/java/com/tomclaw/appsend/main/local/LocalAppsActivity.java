@@ -2,9 +2,11 @@ package com.tomclaw.appsend.main.local;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +19,8 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
+import static android.support.v7.app.ActionBar.NAVIGATION_MODE_TABS;
+
 @SuppressLint("Registered")
 @EActivity(R.layout.local_apps)
 public class LocalAppsActivity extends AppCompatActivity {
@@ -26,6 +30,9 @@ public class LocalAppsActivity extends AppCompatActivity {
 
     @ViewById
     ViewPager pager;
+
+    @ViewById
+    TabLayout tabs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,16 +45,19 @@ public class LocalAppsActivity extends AppCompatActivity {
         ThemeHelper.updateStatusBar(this);
 
         setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
+        final ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(false);
 
         LocalAppsPagerAdapter adapter = new LocalAppsPagerAdapter(getSupportFragmentManager());
+
         pager.setAdapter(adapter);
+        tabs.setupWithViewPager(pager);
     }
 
     public class LocalAppsPagerAdapter extends FragmentStatePagerAdapter {
-        public LocalAppsPagerAdapter(FragmentManager fm) {
+
+        LocalAppsPagerAdapter(FragmentManager fm) {
             super(fm);
         }
 
@@ -62,7 +72,7 @@ public class LocalAppsActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            return 100;
+            return 2;
         }
 
         @Override
