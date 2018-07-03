@@ -25,8 +25,8 @@
             android:background="?attr/colorPrimary"
             android:minHeight="?actionBarSize"
             app:tabGravity="fill"
-            app:tabMode="fixed"
             app:tabIndicatorColor="@color/active_tab_title_color"
+            app:tabMode="fixed"
             app:tabSelectedTextColor="@color/active_tab_title_color"
             app:tabTextColor="@color/inactive_tab_title_color" />
 
