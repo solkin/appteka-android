@@ -19,8 +19,6 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
-import static android.support.v7.app.ActionBar.NAVIGATION_MODE_TABS;
-
 @SuppressLint("Registered")
 @EActivity(R.layout.local_apps)
 public class LocalAppsActivity extends AppCompatActivity {
