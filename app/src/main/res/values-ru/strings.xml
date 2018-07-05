@@ -237,4 +237,12 @@
     <string name="relogin_ok">Переавторизация успешна</string>
     <string name="member_id">ID пользователя: %d</string>
     <string name="profile_apps">Приложения пользователя</string>
+    <string name="nav_store">Обменник</string>
+    <string name="nav_uploads">Мои загрузки</string>
+    <string name="nav_discuss">Обсуждения</string>
+    <string name="nav_installed">Установленные</string>
+    <string name="nav_distro">Дистрибутивы</string>
+    <string name="group_other">Прочее</string>
+    <string name="nav_settings">Настройки</string>
+    <string name="nav_info">Информация</string>
 </resources>
