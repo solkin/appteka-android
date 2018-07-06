@@ -251,4 +251,6 @@
     <string name="group_other">Other</string>
     <string name="nav_settings">Settings</string>
     <string name="nav_info">Information</string>
+    <string name="open_drawer">Open Drawer</string>
+    <string name="close_drawer">Close Drawer</string>
 </resources>
