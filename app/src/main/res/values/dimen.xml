@@ -3,12 +3,13 @@
     <dimen name="app_item_margin">3dp</dimen>
     <dimen name="permissions_margin">8dp</dimen>
 
+    <dimen name="nav_header_vertical_margin">10dp</dimen>
     <dimen name="nav_header_vertical_spacing">16dp</dimen>
     <dimen name="nav_header_height">160dp</dimen>
 
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
-    <dimen name="profile_width">75dp</dimen>
-    <dimen name="profile_height">75dp</dimen>
+    <dimen name="profile_width">59dp</dimen>
+    <dimen name="profile_height">59dp</dimen>
 </resources>

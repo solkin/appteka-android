@@ -106,7 +106,7 @@ public class HomeActivity extends AppCompatActivity {
      * name, website, notifications action view (dot)
      */
     private void loadNavHeader() {
-        long userId = new Random().nextInt();
+        long userId = Math.abs(new Random().nextInt());
         boolean isThreadOwner = userId == 1;
 
         txtName.setText(memberImageHelper().getName(userId, isThreadOwner));

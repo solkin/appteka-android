@@ -17,18 +17,21 @@
         android:src="@color/primary_color" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        android:layout_marginTop="@dimen/nav_header_vertical_margin"
         android:orientation="vertical"
-        android:padding="@dimen/activity_horizontal_margin">
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_horizontal_margin">
 
         <com.tomclaw.appsend.main.view.MemberImageView
             android:id="@+id/img_profile"
             android:layout_width="@dimen/profile_width"
             android:layout_height="@dimen/profile_height"
+            android:layout_marginTop="@dimen/nav_header_vertical_spacing"
             android:background="@drawable/avatar_background"
-            android:paddingTop="@dimen/nav_header_vertical_spacing"
             android:scaleType="center" />
 
         <TextView
