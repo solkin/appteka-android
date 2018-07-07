@@ -21,8 +21,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tomclaw.appsend.R;
+import com.tomclaw.appsend.main.about.AboutActivity_;
+import com.tomclaw.appsend.main.settings.SettingsActivity_;
 import com.tomclaw.appsend.main.view.MemberImageView;
-import com.tomclaw.appsend.util.MemberImageHelper;
 
 import java.util.Random;
 
@@ -212,9 +213,11 @@ public class HomeActivity extends AppCompatActivity {
                         CURRENT_TAG = TAG_DISTRO;
                         break;
                     case R.id.nav_settings:
+                        SettingsActivity_.intent(HomeActivity.this).start();
                         drawer.closeDrawers();
                         return true;
                     case R.id.nav_info:
+                        AboutActivity_.intent(HomeActivity.this).start();
                         drawer.closeDrawers();
                         return true;
                     default:
