@@ -23,6 +23,8 @@ import android.widget.Toast;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.main.about.AboutActivity_;
 import com.tomclaw.appsend.main.settings.SettingsActivity_;
+import com.tomclaw.appsend.main.store.StoreFragment;
+import com.tomclaw.appsend.main.store.StoreFragment_;
 import com.tomclaw.appsend.main.view.MemberImageView;
 
 import java.util.Random;
@@ -139,8 +141,10 @@ public class HomeActivity extends AppCompatActivity {
             public void run() {
                 Fragment fragment = getHomeFragment();
                 FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.setCustomAnimations(android.R.anim.fade_in,
-                        android.R.anim.fade_out);
+                fragmentTransaction.setCustomAnimations(
+                        android.R.anim.fade_in,
+                        android.R.anim.fade_out
+                );
                 fragmentTransaction.replace(R.id.frame, fragment, CURRENT_TAG);
                 fragmentTransaction.commitAllowingStateLoss();
             }
@@ -159,7 +163,7 @@ public class HomeActivity extends AppCompatActivity {
         switch (navItemIndex) {
             case 0:
                 // Home Fragment
-                return new Fragment();
+                return new StoreFragment_();
             case 1:
                 // Uploads Fragment
                 return new Fragment();

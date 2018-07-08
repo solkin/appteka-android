@@ -15,6 +15,7 @@ import com.tomclaw.appsend.util.HttpParamsBuilder;
 import com.tomclaw.appsend.util.HttpUtil;
 import com.tomclaw.appsend.util.PreferenceHelper;
 
+import org.androidannotations.annotations.EBean;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -36,6 +37,7 @@ import static com.tomclaw.appsend.util.StoreHelper.parseStoreItem;
 /**
  * Created by ivsolkin on 11.01.17.
  */
+@EBean
 public class StoreController extends AbstractController<StoreController.StoreCallback> {
 
     private static class Holder {

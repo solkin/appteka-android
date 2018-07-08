@@ -84,6 +84,8 @@ public interface StoreService {
     @GET("list.php")
     Call<ListResponse> listFiles(@Query("v") int apiVer,
                                  @Query("user_id") Long userId,
-                                 @Query("app_id") String appId);
+                                 @Query("app_id") String appId,
+                                 @Query("filter") String filter,
+                                 @Query("ver_code") Integer build);
 
 }
