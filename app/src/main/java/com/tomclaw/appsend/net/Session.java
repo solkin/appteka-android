@@ -10,7 +10,6 @@ import com.tomclaw.appsend.net.request.FetchRequest;
 import com.tomclaw.appsend.net.request.Request;
 import com.tomclaw.appsend.util.Logger;
 
-import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
 

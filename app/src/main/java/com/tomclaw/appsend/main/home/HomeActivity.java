@@ -1,5 +1,6 @@
 package com.tomclaw.appsend.main.home;
 
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -9,14 +10,13 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,7 +24,6 @@ import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.main.about.AboutActivity_;
 import com.tomclaw.appsend.main.profile.ProfileActivity_;
 import com.tomclaw.appsend.main.settings.SettingsActivity_;
-import com.tomclaw.appsend.main.store.StoreFragment;
 import com.tomclaw.appsend.main.store.StoreFragment_;
 import com.tomclaw.appsend.main.view.MemberImageView;
 
@@ -36,8 +35,6 @@ public class HomeActivity extends AppCompatActivity {
 
     private NavigationView navigationView;
     private DrawerLayout drawer;
-    private View navHeader;
-    private ImageView imgNavHeaderBg;
     private MemberImageView imgProfile;
     private TextView txtName, txtWebsite;
     private Toolbar toolbar;
@@ -54,8 +51,8 @@ public class HomeActivity extends AppCompatActivity {
 
     private String[] activityTitles;
 
-    private boolean shouldLoadHomeFragOnBackPress = true;
-    private Handler mHandler;
+    private final static boolean shouldLoadHomeFragOnBackPress = true;
+    private Handler handler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,16 +61,15 @@ public class HomeActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mHandler = new Handler();
+        handler = new Handler();
 
         drawer = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
         fab = findViewById(R.id.fab);
 
-        navHeader = navigationView.getHeaderView(0);
+        View navHeader = navigationView.getHeaderView(0);
         txtName = navHeader.findViewById(R.id.name);
         txtWebsite = navHeader.findViewById(R.id.website);
-        imgNavHeaderBg = navHeader.findViewById(R.id.img_header_bg);
         imgProfile = navHeader.findViewById(R.id.img_profile);
 
         activityTitles = new String[]{
@@ -125,7 +121,7 @@ public class HomeActivity extends AppCompatActivity {
         imgProfile.setMemberId(userId);
 
         // showing dot next to notifications label
-        navigationView.getMenu().getItem(3).setActionView(R.layout.menu_dot);
+        navigationView.getMenu().getItem(2).setActionView(R.layout.menu_dot);
     }
 
     /***
@@ -144,7 +140,7 @@ public class HomeActivity extends AppCompatActivity {
             return;
         }
 
-        Runnable mPendingRunnable = new Runnable() {
+        Runnable pendingRunnable = new Runnable() {
             @Override
             public void run() {
                 Fragment fragment = getHomeFragment();
@@ -158,7 +154,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         };
 
-        mHandler.post(mPendingRunnable);
+        handler.post(pendingRunnable);
 
         toggleFab();
 
@@ -191,7 +187,10 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void setToolbarTitle() {
-        getSupportActionBar().setTitle(activityTitles[navItemIndex]);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle(activityTitles[navItemIndex]);
+        }
     }
 
     private void selectNavMenu() {
@@ -265,8 +264,8 @@ public class HomeActivity extends AppCompatActivity {
             }
         };
 
-        //Setting the actionbarToggle to drawer layout
-        drawer.setDrawerListener(actionBarDrawerToggle);
+        drawer.removeDrawerListener(actionBarDrawerToggle);
+        drawer.addDrawerListener(actionBarDrawerToggle);
 
         //calling sync state is necessary or else your hamburger icon wont show up
         actionBarDrawerToggle.syncState();
