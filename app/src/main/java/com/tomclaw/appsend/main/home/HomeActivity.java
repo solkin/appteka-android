@@ -86,6 +86,7 @@ public class HomeActivity extends AppCompatActivity implements UserDataListener 
             @Override
             public void onClick(View v) {
                 ProfileActivity_.intent(HomeActivity.this).start();
+                drawer.closeDrawers();
             }
         });
 
