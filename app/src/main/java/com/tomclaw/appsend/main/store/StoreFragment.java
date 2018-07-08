@@ -83,6 +83,15 @@ public class StoreFragment extends Fragment implements FilesListener {
         recycler.setLayoutManager(layoutManager);
         recycler.setAdapter(adapter);
 
+        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                showProgress();
+                invalidate();
+                loadFiles();
+            }
+        });
+
         if (files == null) {
             showProgress();
             loadFiles();
@@ -146,6 +155,7 @@ public class StoreFragment extends Fragment implements FilesListener {
             files.addAll(body.getFiles());
         }
         updateFiles();
+        swipeRefresh.setRefreshing(false);
     }
 
     private void onLoadingError() {
@@ -156,6 +166,11 @@ public class StoreFragment extends Fragment implements FilesListener {
         } else {
             adapter.notifyDataSetChanged();
         }
+        swipeRefresh.setRefreshing(false);
+    }
+
+    private void invalidate() {
+        files = null;
     }
 
     private void updateFiles() {
