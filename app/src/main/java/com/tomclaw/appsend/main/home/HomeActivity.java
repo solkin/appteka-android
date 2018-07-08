@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.main.about.AboutActivity_;
+import com.tomclaw.appsend.main.discuss.DiscussFragment_;
 import com.tomclaw.appsend.main.profile.ProfileActivity_;
 import com.tomclaw.appsend.main.settings.SettingsActivity_;
 import com.tomclaw.appsend.main.store.StoreFragment_;
@@ -190,7 +191,7 @@ public class HomeActivity extends AppCompatActivity implements UserDataListener 
                 return new Fragment();
             case 2:
                 // Discuss Fragment
-                return new Fragment();
+                return new DiscussFragment_();
             case 3:
                 // Installed Fragment
                 return new Fragment();
