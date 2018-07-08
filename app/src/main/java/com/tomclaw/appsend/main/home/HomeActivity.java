@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.main.about.AboutActivity_;
+import com.tomclaw.appsend.main.profile.ProfileActivity_;
 import com.tomclaw.appsend.main.settings.SettingsActivity_;
 import com.tomclaw.appsend.main.store.StoreFragment;
 import com.tomclaw.appsend.main.store.StoreFragment_;
@@ -82,6 +83,13 @@ public class HomeActivity extends AppCompatActivity {
                 getString(R.string.nav_installed),
                 getString(R.string.nav_distro)
         };
+
+        navHeader.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ProfileActivity_.intent(HomeActivity.this).start();
+            }
+        });
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -286,11 +294,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         if (navItemIndex == 0) {
-            getMenuInflater().inflate(R.menu.main_menu, menu);
-        }
-
-        if (navItemIndex == 2) {
-            getMenuInflater().inflate(R.menu.main_discuss_menu, menu);
+            getMenuInflater().inflate(R.menu.store_menu, menu);
         }
         return true;
     }
