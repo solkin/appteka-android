@@ -26,12 +26,14 @@ import com.tomclaw.appsend.main.profile.ProfileActivity_;
 import com.tomclaw.appsend.main.settings.SettingsActivity_;
 import com.tomclaw.appsend.main.store.StoreFragment_;
 import com.tomclaw.appsend.main.view.MemberImageView;
-
-import java.util.Random;
+import com.tomclaw.appsend.net.Session;
+import com.tomclaw.appsend.net.Session_;
+import com.tomclaw.appsend.net.UserData;
+import com.tomclaw.appsend.net.UserDataListener;
 
 import static com.tomclaw.appsend.util.MemberImageHelper.memberImageHelper;
 
-public class HomeActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity implements UserDataListener {
 
     private NavigationView navigationView;
     private DrawerLayout drawer;
@@ -95,8 +97,6 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        loadNavHeader();
-
         setUpNavigationView();
 
         if (savedInstanceState == null) {
@@ -106,13 +106,30 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Session.getInstance().getUserHolder().attachListener(this);
+    }
+
+    @Override
+    protected void onStop() {
+        Session.getInstance().getUserHolder().removeListener(this);
+        super.onStop();
+    }
+
+    @Override
+    public void onUserDataChanged(@NonNull UserData userData) {
+        showNavHeader(userData);
+    }
+
     /***
      * Load navigation menu header information
      * like background image, profile image
      * name, website, notifications action view (dot)
      */
-    private void loadNavHeader() {
-        long userId = Math.abs(new Random().nextInt());
+    private void showNavHeader(UserData userData) {
+        long userId = userData.getUserId();
         boolean isThreadOwner = userId == 1;
 
         txtName.setText(memberImageHelper().getName(userId, isThreadOwner));
@@ -317,4 +334,5 @@ public class HomeActivity extends AppCompatActivity {
             fab.hide();
         }
     }
+
 }

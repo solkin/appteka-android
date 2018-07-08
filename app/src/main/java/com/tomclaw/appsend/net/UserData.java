@@ -26,12 +26,12 @@ public class UserData implements Unobfuscatable {
         return !TextUtils.isEmpty(guid);
     }
 
-    private void setGuid(String guid) {
+    void setGuid(String guid) {
         Logger.log("obtained guid: " + guid);
         this.guid = guid;
     }
 
-    public void setUserId(long userId) {
+    void setUserId(long userId) {
         Logger.log("obtained user id: " + guid);
         this.userId = userId;
     }
@@ -54,12 +54,6 @@ public class UserData implements Unobfuscatable {
 
     public int getRole() {
         return role;
-    }
-
-    public void onUserRegistered(String guid, long userId) {
-        Logger.log("User successfully registered: " + guid + ", ID: " + userId);
-        setGuid(guid);
-        setUserId(userId);
     }
 
     public void onFetchSuccess(long fetchTime) {

@@ -202,8 +202,7 @@ public class ProfileActivity extends AppCompatActivity {
                         int userDataDivider = userData.indexOf(':');
                         long userId = Long.parseLong(userData.substring(0, userDataDivider));
                         String guid = userData.substring(userDataDivider + 1);
-                        session.getUserData().onUserRegistered(guid, userId);
-                        session.getUserHolder().store();
+                        session.getUserHolder().onUserRegistered(guid, userId);
                         Toast.makeText(
                                 ProfileActivity.this,
                                 R.string.relogin_ok,
