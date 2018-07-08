@@ -1,4 +1,4 @@
-package com.tomclaw.appsend.main.profile.list;
+package com.tomclaw.appsend.main.adapter.files;
 
 import com.tomclaw.appsend.main.item.StoreItem;
 

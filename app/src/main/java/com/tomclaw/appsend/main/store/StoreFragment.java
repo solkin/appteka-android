@@ -17,8 +17,8 @@ import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.core.StoreServiceHolder;
 import com.tomclaw.appsend.main.download.DownloadActivity;
 import com.tomclaw.appsend.main.item.StoreItem;
-import com.tomclaw.appsend.main.profile.list.FilesAdapter;
-import com.tomclaw.appsend.main.profile.list.FilesListener;
+import com.tomclaw.appsend.main.adapter.files.FilesAdapter;
+import com.tomclaw.appsend.main.adapter.files.FilesListener;
 import com.tomclaw.appsend.main.profile.list.ListResponse;
 import com.tomclaw.appsend.util.LocaleHelper;
 

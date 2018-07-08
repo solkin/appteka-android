@@ -1,4 +1,4 @@
-package com.tomclaw.appsend.main.profile.list;
+package com.tomclaw.appsend.main.adapter.files;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

@@ -27,7 +27,6 @@ import com.tomclaw.appsend.main.settings.SettingsActivity_;
 import com.tomclaw.appsend.main.store.StoreFragment_;
 import com.tomclaw.appsend.main.view.MemberImageView;
 import com.tomclaw.appsend.net.Session;
-import com.tomclaw.appsend.net.Session_;
 import com.tomclaw.appsend.net.UserData;
 import com.tomclaw.appsend.net.UserDataListener;
 
@@ -98,6 +97,8 @@ public class HomeActivity extends AppCompatActivity implements UserDataListener 
         });
 
         setUpNavigationView();
+
+        setToolbarTitle();
 
         if (savedInstanceState == null) {
             navItemIndex = 0;
@@ -183,7 +184,6 @@ public class HomeActivity extends AppCompatActivity implements UserDataListener 
     private Fragment getHomeFragment() {
         switch (navItemIndex) {
             case 0:
-                // Home Fragment
                 return new StoreFragment_();
             case 1:
                 // Uploads Fragment
