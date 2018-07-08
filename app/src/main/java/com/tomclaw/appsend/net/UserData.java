@@ -32,7 +32,7 @@ public class UserData implements Unobfuscatable {
     }
 
     void setUserId(long userId) {
-        Logger.log("obtained user id: " + guid);
+        Logger.log("obtained user id: " + userId);
         this.userId = userId;
     }
 

@@ -117,8 +117,12 @@ public class UserHolder {
     }
 
     private void notifyListeners() {
-        for (UserDataListener listener : listeners) {
-            notifyListener(listener);
+        try {
+            for (UserDataListener listener : listeners) {
+                notifyListener(listener);
+            }
+        } catch (Throwable ex) {
+            Logger.log("Error while notifying listeners", ex);
         }
     }
 

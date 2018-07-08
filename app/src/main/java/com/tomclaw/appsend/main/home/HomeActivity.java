@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.tomclaw.appsend.R;
+import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.main.about.AboutActivity_;
 import com.tomclaw.appsend.main.discuss.DiscussFragment_;
 import com.tomclaw.appsend.main.profile.ProfileActivity_;
@@ -122,8 +123,13 @@ public class HomeActivity extends AppCompatActivity implements UserDataListener 
     }
 
     @Override
-    public void onUserDataChanged(@NonNull UserData userData) {
-        showNavHeader(userData);
+    public void onUserDataChanged(@NonNull final UserData userData) {
+        MainExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                showNavHeader(userData);
+            }
+        });
     }
 
     /***
@@ -131,7 +137,7 @@ public class HomeActivity extends AppCompatActivity implements UserDataListener 
      * like background image, profile image
      * name, website, notifications action view (dot)
      */
-    private void showNavHeader(UserData userData) {
+    void showNavHeader(UserData userData) {
         long userId = userData.getUserId();
         boolean isThreadOwner = userId == 1;
 
