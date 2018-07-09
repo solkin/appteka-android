@@ -86,22 +86,21 @@ public class StoreFragment extends Fragment implements FilesListener {
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                showProgress();
                 invalidate();
-                loadFiles();
+                loadFiles(true);
             }
         });
 
         if (files == null) {
             showProgress();
-            loadFiles();
+            loadFiles(false);
         } else {
             updateFiles();
             showContent();
         }
     }
 
-    private void loadFiles() {
+    private void loadFiles(final boolean isInvalidate) {
         isLoading = true;
         isError = false;
         String appId = null;
@@ -120,7 +119,7 @@ public class StoreFragment extends Fragment implements FilesListener {
                         if (response.isSuccessful()) {
                             ListResponse body = response.body();
                             if (body != null) {
-                                onLoaded(body);
+                                onLoaded(body, isInvalidate);
                             }
                             return;
                         }
@@ -141,7 +140,7 @@ public class StoreFragment extends Fragment implements FilesListener {
         });
     }
 
-    private void onLoaded(ListResponse body) {
+    private void onLoaded(ListResponse body, boolean isInvalidate) {
         isLoading = false;
         isError = false;
         if (body.getFiles().isEmpty()) {
@@ -149,7 +148,7 @@ public class StoreFragment extends Fragment implements FilesListener {
         } else {
             updateItemsInstalledVersions(getContext().getPackageManager(), body.getFiles());
         }
-        if (files == null) {
+        if (files == null || isInvalidate) {
             files = new ArrayList<>(body.getFiles());
         } else {
             files.addAll(body.getFiles());
@@ -193,7 +192,7 @@ public class StoreFragment extends Fragment implements FilesListener {
             @Override
             public void onClick(View v) {
                 showProgress();
-                loadFiles();
+                loadFiles(false);
             }
         });
         viewFlipper.setDisplayedChild(2);
@@ -208,14 +207,14 @@ public class StoreFragment extends Fragment implements FilesListener {
         } else if (isLoadedAll) {
             return FilesListener.STATE_LOADED;
         } else {
-            loadFiles();
+            loadFiles(false);
             return FilesListener.STATE_LOADING;
         }
     }
 
     @Override
     public void onRetry() {
-        loadFiles();
+        loadFiles(false);
         adapter.notifyDataSetChanged();
     }
 
