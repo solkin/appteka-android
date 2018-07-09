@@ -8,7 +8,6 @@ import com.tomclaw.appsend.R;
 /**
  * Created by ivsolkin on 21.09.16.
  */
-
 public class ThemeHelper {
 
     public static boolean updateTheme(Activity activity) {
@@ -18,7 +17,9 @@ public class ThemeHelper {
     }
 
     public static void updateStatusBar(Activity activity) {
-        int color = ColorHelper.getAttributedColor(activity, R.attr.toolbar_background);
+        int toolbarColor = ColorHelper.getAttributedColor(activity, R.attr.toolbar_background);
+        int color = ColorHelper.darker(toolbarColor, 1.4f);
         StatusBarUtil.setColor(activity, color);
     }
+
 }
