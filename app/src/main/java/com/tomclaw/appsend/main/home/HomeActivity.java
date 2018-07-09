@@ -1,5 +1,6 @@
 package com.tomclaw.appsend.main.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -31,6 +32,8 @@ import com.tomclaw.appsend.main.view.MemberImageView;
 import com.tomclaw.appsend.net.Session;
 import com.tomclaw.appsend.net.UserData;
 import com.tomclaw.appsend.net.UserDataListener;
+import com.tomclaw.appsend.util.PreferenceHelper;
+import com.tomclaw.appsend.util.ThemeHelper;
 
 import static com.tomclaw.appsend.util.MemberImageHelper.memberImageHelper;
 
@@ -42,6 +45,7 @@ public class HomeActivity extends AppCompatActivity implements UserDataListener 
     private TextView txtName, txtWebsite;
     private Toolbar toolbar;
     private FloatingActionButton fab;
+    private boolean isDarkTheme;
 
     public static int navItemIndex = 0;
 
@@ -59,7 +63,9 @@ public class HomeActivity extends AppCompatActivity implements UserDataListener 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        isDarkTheme = ThemeHelper.updateTheme(this);
         super.onCreate(savedInstanceState);
+        ThemeHelper.updateStatusBar(this);
         setContentView(R.layout.activity_home);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -120,6 +126,16 @@ public class HomeActivity extends AppCompatActivity implements UserDataListener 
     protected void onStop() {
         Session.getInstance().getUserHolder().removeListener(this);
         super.onStop();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (isDarkTheme != PreferenceHelper.isDarkTheme(this)) {
+            Intent intent = getIntent().addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            finish();
+            startActivity(intent);
+        }
     }
 
     @Override

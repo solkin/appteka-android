@@ -21,4 +21,5 @@ public class StoreFragment extends BaseStoreFragment {
         int build = BuildConfig.VERSION_CODE;
         return serviceHolder.getService().listFiles(1, null, appId, null, build);
     }
+
 }
