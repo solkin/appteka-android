@@ -44,6 +44,9 @@
     <color name="inactive_tab_title_color">#ccffffff</color>
     <color name="active_tab_title_color">#fff</color>
 
+    <color name="toolbar_text_primary_color">#FFFFEF</color>
+    <color name="toolbar_text_secondary_color">#E1E1D1</color>
+
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorAccent">@color/accent_color</item>
         <item name="colorPrimary">@color/primary_color</item>

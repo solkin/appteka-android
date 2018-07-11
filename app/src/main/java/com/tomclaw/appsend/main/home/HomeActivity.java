@@ -24,7 +24,10 @@ import android.widget.Toast;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.main.about.AboutActivity_;
+import com.tomclaw.appsend.main.controller.UpdateController;
 import com.tomclaw.appsend.main.discuss.DiscussFragment_;
+import com.tomclaw.appsend.main.download.DownloadActivity;
+import com.tomclaw.appsend.main.item.StoreItem;
 import com.tomclaw.appsend.main.profile.ProfileActivity_;
 import com.tomclaw.appsend.main.settings.SettingsActivity_;
 import com.tomclaw.appsend.main.store.StoreFragment_;
@@ -32,6 +35,7 @@ import com.tomclaw.appsend.main.view.MemberImageView;
 import com.tomclaw.appsend.net.Session;
 import com.tomclaw.appsend.net.UserData;
 import com.tomclaw.appsend.net.UserDataListener;
+import com.tomclaw.appsend.util.LocaleHelper;
 import com.tomclaw.appsend.util.PreferenceHelper;
 import com.tomclaw.appsend.util.ThemeHelper;
 
@@ -40,8 +44,9 @@ import net.hockeyapp.android.metrics.MetricsManager;
 
 import static com.tomclaw.appsend.util.MemberImageHelper.memberImageHelper;
 
-public class HomeActivity extends AppCompatActivity implements UserDataListener {
+public class HomeActivity extends AppCompatActivity implements UserDataListener, UpdateController.UpdateCallback {
 
+    private View updateBlock;
     private NavigationView navigationView;
     private DrawerLayout drawer;
     private MemberImageView imgProfile;
@@ -85,6 +90,20 @@ public class HomeActivity extends AppCompatActivity implements UserDataListener 
         txtName = navHeader.findViewById(R.id.name);
         txtWebsite = navHeader.findViewById(R.id.website);
         imgProfile = navHeader.findViewById(R.id.img_profile);
+
+        updateBlock = findViewById(R.id.update_block);
+        findViewById(R.id.update_later).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onUpdateLater();
+            }
+        });
+        findViewById(R.id.update).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onUpdate();
+            }
+        });
 
         activityTitles = new String[]{
                 getString(R.string.nav_store),
@@ -132,11 +151,13 @@ public class HomeActivity extends AppCompatActivity implements UserDataListener 
     protected void onStart() {
         super.onStart();
         Session.getInstance().getUserHolder().attachListener(this);
+        UpdateController.getInstance().onAttach(this);
     }
 
     @Override
     protected void onStop() {
         Session.getInstance().getUserHolder().removeListener(this);
+        UpdateController.getInstance().onDetach(this);
         super.onStop();
     }
 
@@ -376,7 +397,27 @@ public class HomeActivity extends AppCompatActivity implements UserDataListener 
     }
 
     private void checkForUpdates() {
-        // updateController.load(this);
+        UpdateController.getInstance().load(this);
+    }
+
+    @Override
+    public void onUpdateAvailable(StoreItem item) {
+        updateBlock.setVisibility(View.VISIBLE);
+    }
+
+    private void onUpdateLater() {
+        UpdateController.getInstance().resetUpdateFlag();
+        updateBlock.setVisibility(View.GONE);
+    }
+
+    private void onUpdate() {
+        StoreItem item = UpdateController.getInstance().getStoreItem();
+        if (item != null) {
+            Intent intent = new Intent(this, DownloadActivity.class);
+            intent.putExtra(DownloadActivity.STORE_APP_ID, item.getAppId());
+            intent.putExtra(DownloadActivity.STORE_APP_LABEL, LocaleHelper.getLocalizedLabel(item));
+            startActivity(intent);
+        }
     }
 
 }

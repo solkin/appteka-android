@@ -19,6 +19,12 @@
             android:background="?attr/toolbar_background"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
+        <include
+            android:id="@+id/update_block"
+            layout="@layout/update_block"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
     </android.support.design.widget.AppBarLayout>
 
     <FrameLayout
