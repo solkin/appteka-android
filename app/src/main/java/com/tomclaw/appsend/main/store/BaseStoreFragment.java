@@ -94,17 +94,18 @@ public abstract class BaseStoreFragment extends Fragment implements FilesListene
         }
     }
 
-    abstract Call<ListResponse> createCall(String appId);
+    public abstract Call<ListResponse> createCall(String appId);
 
-    private void loadFiles(final boolean isInvalidate) {
+    public void loadFiles(final boolean isInvalidate) {
         isLoading = true;
         isError = false;
         String appId = null;
-        if (files != null && files.size() > 0) {
+        if (files != null && files.size() > 0 && !isInvalidate) {
             StoreItem lastItem = files.get(files.size() - 1);
             appId = lastItem.getAppId();
         }
         Call<ListResponse> call = createCall(appId);
+        if (call == null) return;
         call.enqueue(new Callback<ListResponse>() {
             @Override
             public void onResponse(Call<ListResponse> call, final Response<ListResponse> response) {

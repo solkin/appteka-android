@@ -17,7 +17,7 @@ public class StoreFragment extends BaseStoreFragment {
     StoreServiceHolder serviceHolder;
 
     @Override
-    Call<ListResponse> createCall(String appId) {
+    public Call<ListResponse> createCall(String appId) {
         int build = BuildConfig.VERSION_CODE;
         return serviceHolder.getService().listFiles(1, null, appId, null, build);
     }

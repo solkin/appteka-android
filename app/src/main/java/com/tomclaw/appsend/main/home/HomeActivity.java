@@ -31,6 +31,7 @@ import com.tomclaw.appsend.main.item.StoreItem;
 import com.tomclaw.appsend.main.profile.ProfileActivity_;
 import com.tomclaw.appsend.main.settings.SettingsActivity_;
 import com.tomclaw.appsend.main.store.StoreFragment_;
+import com.tomclaw.appsend.main.store.UserUploadsFragment_;
 import com.tomclaw.appsend.main.view.MemberImageView;
 import com.tomclaw.appsend.net.Session;
 import com.tomclaw.appsend.net.UserData;
@@ -244,7 +245,7 @@ public class HomeActivity extends AppCompatActivity implements UserDataListener,
                 return new StoreFragment_();
             case 1:
                 // Uploads Fragment
-                return new Fragment();
+                return new UserUploadsFragment_();
             case 2:
                 // Discuss Fragment
                 return new DiscussFragment_();
