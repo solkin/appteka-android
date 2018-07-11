@@ -35,6 +35,9 @@ import com.tomclaw.appsend.net.UserDataListener;
 import com.tomclaw.appsend.util.PreferenceHelper;
 import com.tomclaw.appsend.util.ThemeHelper;
 
+import net.hockeyapp.android.CrashManager;
+import net.hockeyapp.android.metrics.MetricsManager;
+
 import static com.tomclaw.appsend.util.MemberImageHelper.memberImageHelper;
 
 public class HomeActivity extends AppCompatActivity implements UserDataListener {
@@ -63,6 +66,8 @@ public class HomeActivity extends AppCompatActivity implements UserDataListener 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        boolean isCreateInstance = savedInstanceState == null;
+
         isDarkTheme = ThemeHelper.updateTheme(this);
         super.onCreate(savedInstanceState);
         ThemeHelper.updateStatusBar(this);
@@ -114,6 +119,13 @@ public class HomeActivity extends AppCompatActivity implements UserDataListener 
             CURRENT_TAG = TAG_STORE;
             loadHomeFragment();
         }
+
+        if (isCreateInstance) {
+            checkForUpdates();
+        }
+
+        checkForCrashes();
+        MetricsManager.register(getApplication());
     }
 
     @Override
@@ -357,6 +369,14 @@ public class HomeActivity extends AppCompatActivity implements UserDataListener 
         } else {
             fab.hide();
         }
+    }
+
+    private void checkForCrashes() {
+        CrashManager.register(this);
+    }
+
+    private void checkForUpdates() {
+        // updateController.load(this);
     }
 
 }

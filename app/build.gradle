@@ -47,7 +47,7 @@ dependencies {
     implementation 'com.android.support:design:27.1.1'
     implementation 'com.github.machinarius:preferencefragment:0.1.1'
     implementation 'com.greysonparrelli.permiso:permiso:0.3.0'
-    implementation 'net.hockeyapp.android:HockeySDK:4.0.2'
+    implementation 'net.hockeyapp.android:HockeySDK:5.1.0'
     implementation 'com.jaeger.statusbaruitl:library:1.2.4'
     implementation 'com.github.shts:TriangleLabelView:1.1.2'
     implementation 'com.github.bumptech.glide:glide:4.6.1'

@@ -172,7 +172,7 @@ public class MainActivity extends PermisoActivity implements
         });
 
         checkForCrashes();
-        MetricsManager.register(this, getApplication());
+        MetricsManager.register(getApplication());
 
         if (isCreateInstance) {
             loadStoreCount();
