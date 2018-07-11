@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -32,6 +33,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.support.v7.widget.DividerItemDecoration.HORIZONTAL;
 import static com.tomclaw.appsend.util.PackageHelper.getInstalledVersionCode;
 
 @EFragment
@@ -71,11 +73,14 @@ public abstract class BaseStoreFragment extends Fragment implements FilesListene
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),
                 LinearLayoutManager.VERTICAL,
                 false);
+//        DividerItemDecoration itemDecor = new DividerItemDecoration(getContext(),
+//                layoutManager.getOrientation());
         adapter = new FilesAdapter(getContext());
         adapter.setHasStableIds(true);
         adapter.setListener(this);
         recycler.setLayoutManager(layoutManager);
         recycler.setAdapter(adapter);
+//        recycler.addItemDecoration(itemDecor);
 
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override

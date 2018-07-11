@@ -13,8 +13,6 @@ import com.tomclaw.appsend.util.LocaleHelper;
 
 import java.util.concurrent.TimeUnit;
 
-import jp.shts.android.library.TriangleLabelView;
-
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static com.tomclaw.appsend.main.item.StoreItem.NOT_INSTALLED;
@@ -38,7 +36,7 @@ class FileViewHolder extends RecyclerView.ViewHolder {
     private TextView appDownloads;
     private View downloadsIcon;
     private TextView appBadge;
-    private TriangleLabelView badgeNew;
+    private View badgeNew;
     private View viewProgress;
     private View errorView;
     private View buttonRetry;
@@ -98,7 +96,7 @@ class FileViewHolder extends RecyclerView.ViewHolder {
         downloadsIcon.setVisibility(isShowDownloads ? VISIBLE : GONE);
         appBadge.setVisibility(isInstalled ? VISIBLE : GONE);
 
-        long appInstallDelay = System.currentTimeMillis() - item.getTime();
+        long appInstallDelay = System.currentTimeMillis() - item.getTime() * 1000;
         boolean isNewApp = appInstallDelay > 0 && appInstallDelay < TimeUnit.DAYS.toMillis(1);
         badgeNew.setVisibility(isNewApp ? VISIBLE : GONE);
         boolean isProgress = false;
