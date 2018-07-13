@@ -33,7 +33,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static android.support.v7.widget.DividerItemDecoration.HORIZONTAL;
+import static android.support.v7.widget.LinearLayoutManager.VERTICAL;
 import static com.tomclaw.appsend.util.PackageHelper.getInstalledVersionCode;
 
 @EFragment
@@ -70,17 +70,17 @@ public abstract class BaseStoreFragment extends Fragment implements FilesListene
 
     @AfterViews
     void init() {
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(),
-                LinearLayoutManager.VERTICAL,
-                false);
-//        DividerItemDecoration itemDecor = new DividerItemDecoration(getContext(),
-//                layoutManager.getOrientation());
+        int orientation = VERTICAL;
+        LinearLayoutManager layoutManager =
+                new LinearLayoutManager(getContext(), orientation, false);
+        DividerItemDecoration itemDecor =
+                new DividerItemDecoration(getContext(), orientation);
         adapter = new FilesAdapter(getContext());
         adapter.setHasStableIds(true);
         adapter.setListener(this);
         recycler.setLayoutManager(layoutManager);
         recycler.setAdapter(adapter);
-//        recycler.addItemDecoration(itemDecor);
+        recycler.addItemDecoration(itemDecor);
 
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
