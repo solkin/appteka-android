@@ -386,7 +386,7 @@ public class HomeActivity extends AppCompatActivity implements UserDataListener,
     }
 
     private void toggleFab() {
-        if (navItemIndex == 0) {
+        if (navItemIndex == 0 || navItemIndex == 1) {
             fab.show();
         } else {
             fab.hide();
