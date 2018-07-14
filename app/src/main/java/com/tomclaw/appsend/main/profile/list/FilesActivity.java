@@ -22,6 +22,7 @@ import com.tomclaw.appsend.main.adapter.files.FilesAdapter;
 import com.tomclaw.appsend.main.adapter.files.FilesListener;
 import com.tomclaw.appsend.main.download.DownloadActivity;
 import com.tomclaw.appsend.main.item.StoreItem;
+import com.tomclaw.appsend.main.store.StoreFileViewHolderCreator;
 import com.tomclaw.appsend.util.LocaleHelper;
 import com.tomclaw.appsend.util.ThemeHelper;
 
@@ -46,7 +47,7 @@ import static com.tomclaw.appsend.util.PackageHelper.getInstalledVersionCode;
  * Created by Igor on 22.10.2017.
  */
 @EActivity(R.layout.user_files_activity)
-public class FilesActivity extends AppCompatActivity implements FilesListener {
+public class FilesActivity extends AppCompatActivity implements FilesListener<StoreItem> {
 
     @Bean
     StoreServiceHolder serviceHolder;
@@ -81,7 +82,7 @@ public class FilesActivity extends AppCompatActivity implements FilesListener {
     @Extra
     Long userId;
 
-    private FilesAdapter adapter;
+    private FilesAdapter<StoreItem> adapter;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -103,7 +104,7 @@ public class FilesActivity extends AppCompatActivity implements FilesListener {
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this,
                 LinearLayoutManager.VERTICAL, false);
-        adapter = new FilesAdapter(this);
+        adapter = new FilesAdapter<>(this, new StoreFileViewHolderCreator());
         adapter.setHasStableIds(true);
         adapter.setListener(this);
         filesView.setLayoutManager(layoutManager);

@@ -37,7 +37,7 @@ import static android.support.v7.widget.LinearLayoutManager.VERTICAL;
 import static com.tomclaw.appsend.util.PackageHelper.getInstalledVersionCode;
 
 @EFragment
-public abstract class BaseStoreFragment extends Fragment implements FilesListener {
+public abstract class BaseStoreFragment extends Fragment implements FilesListener<StoreItem> {
 
     @ViewById
     ViewFlipper viewFlipper;
@@ -66,7 +66,7 @@ public abstract class BaseStoreFragment extends Fragment implements FilesListene
     @InstanceState
     boolean isLoadedAll;
 
-    private FilesAdapter adapter;
+    private FilesAdapter<StoreItem> adapter;
 
     @AfterViews
     void init() {
@@ -75,7 +75,7 @@ public abstract class BaseStoreFragment extends Fragment implements FilesListene
                 new LinearLayoutManager(getContext(), orientation, false);
         DividerItemDecoration itemDecor =
                 new DividerItemDecoration(getContext(), orientation);
-        adapter = new FilesAdapter(getContext());
+        adapter = new FilesAdapter<>(getContext(), new StoreFileViewHolderCreator());
         adapter.setHasStableIds(true);
         adapter.setListener(this);
         recycler.setLayoutManager(layoutManager);

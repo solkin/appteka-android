@@ -1,11 +1,9 @@
 package com.tomclaw.appsend.main.adapter.files;
 
-import com.tomclaw.appsend.main.item.StoreItem;
-
 /**
  * Created by solkin on 03.08.17.
  */
-public interface FilesListener {
+public interface FilesListener<T> {
 
     int STATE_LOADED = 0x01;
     int STATE_LOADING = 0x02;
@@ -15,6 +13,6 @@ public interface FilesListener {
 
     void onRetry();
 
-    void onClick(StoreItem item);
+    void onClick(T item);
 
 }
