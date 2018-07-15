@@ -63,7 +63,6 @@ public class LocalAppsActivity extends AppCompatActivity {
         public Fragment getItem(int i) {
             Fragment fragment = new LocalAppsFragment();
             Bundle args = new Bundle();
-            args.putInt(LocalAppsFragment.ARG_OBJECT, i + 1);
             fragment.setArguments(args);
             return fragment;
         }
