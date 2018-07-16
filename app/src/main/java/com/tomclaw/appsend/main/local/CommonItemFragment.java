@@ -25,14 +25,13 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.InstanceState;
 import org.androidannotations.annotations.ViewById;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static android.support.v7.widget.LinearLayoutManager.VERTICAL;
 import static com.tomclaw.appsend.util.PackageHelper.getInstalledVersionCode;
 
 @EFragment
-public abstract class LocalFragment<T extends CommonItem> extends Fragment implements FilesListener<T> {
+public abstract class CommonItemFragment<T extends CommonItem> extends Fragment implements FilesListener<T> {
 
     @ViewById
     ViewFlipper viewFlipper;
@@ -181,17 +180,17 @@ public abstract class LocalFragment<T extends CommonItem> extends Fragment imple
         }
     }
 
-    private static class ItemsLoadTask<A extends CommonItem> extends WeakObjectTask<LocalFragment<A>> {
+    private static class ItemsLoadTask<A extends CommonItem> extends WeakObjectTask<CommonItemFragment<A>> {
 
         private List<A> items;
 
-        ItemsLoadTask(LocalFragment<A> object) {
+        ItemsLoadTask(CommonItemFragment<A> object) {
             super(object);
         }
 
         @Override
         public void executeBackground() throws Throwable {
-            LocalFragment<A> fragment = getWeakObject();
+            CommonItemFragment<A> fragment = getWeakObject();
             if (fragment != null) {
                 items = fragment.loadItemsSync();
             }
@@ -199,7 +198,7 @@ public abstract class LocalFragment<T extends CommonItem> extends Fragment imple
 
         @Override
         public void onSuccessMain() {
-            LocalFragment<A> fragment = getWeakObject();
+            CommonItemFragment<A> fragment = getWeakObject();
             if (fragment != null) {
                 fragment.onLoaded(items);
             }
@@ -207,7 +206,7 @@ public abstract class LocalFragment<T extends CommonItem> extends Fragment imple
 
         @Override
         public void onFailMain(Throwable ex) {
-            LocalFragment<A> fragment = getWeakObject();
+            CommonItemFragment<A> fragment = getWeakObject();
             if (fragment != null) {
                 fragment.onLoadingError();
             }

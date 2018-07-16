@@ -28,7 +28,7 @@ import com.tomclaw.appsend.main.controller.UpdateController;
 import com.tomclaw.appsend.main.discuss.DiscussFragment_;
 import com.tomclaw.appsend.main.download.DownloadActivity;
 import com.tomclaw.appsend.main.item.StoreItem;
-import com.tomclaw.appsend.main.local.LocalAppsFragment_;
+import com.tomclaw.appsend.main.local.AppItemFragment_;
 import com.tomclaw.appsend.main.profile.ProfileActivity_;
 import com.tomclaw.appsend.main.settings.SettingsActivity_;
 import com.tomclaw.appsend.main.store.StoreFragment_;
@@ -252,7 +252,7 @@ public class HomeActivity extends AppCompatActivity implements UserDataListener,
                 return new DiscussFragment_();
             case 3:
                 // Installed Fragment
-                return new LocalAppsFragment_();
+                return new AppItemFragment_();
             case 4:
                 // Distro Fragment
                 return new Fragment();

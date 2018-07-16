@@ -25,7 +25,7 @@ import java.util.Locale;
 import static android.content.pm.PackageManager.GET_PERMISSIONS;
 
 @EFragment(R.layout.local_apps_fragment)
-public class LocalAppsFragment extends LocalFragment<AppItem> {
+public class AppItemFragment extends CommonItemFragment<AppItem> {
 
     @InstanceState
     ArrayList<AppItem> files;
