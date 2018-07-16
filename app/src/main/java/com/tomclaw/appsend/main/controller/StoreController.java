@@ -245,7 +245,7 @@ public class StoreController extends AbstractController<StoreController.StoreCal
                         JSONObject file = files.getJSONObject(c);
                         StoreItem item = parseStoreItem(file);
                         if (c == 0) {
-                            time = item.getTime() / 1000;
+                            time = item.getTime();
                         }
                         item.setInstalledVersionCode(getInstalledVersionCode(
                                 item.getPackageName(), packageManager));

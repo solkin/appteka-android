@@ -20,6 +20,7 @@ import static com.tomclaw.appsend.main.item.StoreItem.NOT_INSTALLED;
 import static com.tomclaw.appsend.main.ratings.RatingsListener.STATE_FAILED;
 import static com.tomclaw.appsend.main.ratings.RatingsListener.STATE_LOADED;
 import static com.tomclaw.appsend.main.ratings.RatingsListener.STATE_LOADING;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class StoreFileViewHolder extends FileViewHolder<StoreItem> {
 
@@ -95,7 +96,7 @@ public class StoreFileViewHolder extends FileViewHolder<StoreItem> {
         downloadsIcon.setVisibility(isShowDownloads ? VISIBLE : GONE);
         appBadge.setVisibility(isInstalled ? VISIBLE : GONE);
 
-        long appInstallDelay = System.currentTimeMillis() - item.getTime() * 1000;
+        long appInstallDelay = System.currentTimeMillis() - SECONDS.toMillis(item.getTime());
         boolean isNewApp = appInstallDelay > 0 && appInstallDelay < TimeUnit.DAYS.toMillis(1);
         badgeNew.setVisibility(isNewApp ? VISIBLE : GONE);
         boolean isProgress = false;

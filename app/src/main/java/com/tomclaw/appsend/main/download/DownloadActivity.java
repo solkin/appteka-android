@@ -78,6 +78,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -511,7 +512,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         }
         setRating(meta.getRating(), meta.getRateCount(), meta.getScores());
         versionView.setText(getString(R.string.app_version_format, item.getVersion(), item.getVersionCode()));
-        uploadedTimeView.setText(timeHelper().getFormattedDate(item.getTime()));
+        uploadedTimeView.setText(timeHelper().getFormattedDate(SECONDS.toMillis(item.getTime())));
         checksumView.setText(item.getSha1());
         bindButtons(item.getPackageName(), item.getVersionCode());
         bindPermissions(item.getPermissions());

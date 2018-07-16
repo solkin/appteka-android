@@ -20,6 +20,7 @@ import jp.shts.android.library.TriangleLabelView;
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 import static com.tomclaw.appsend.main.item.StoreItem.NOT_INSTALLED;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 /**
  * Created by Solkin on 10.12.2014.
@@ -113,7 +114,7 @@ public class StoreItemHolder extends AbstractItemHolder<StoreItem> {
         downloadsIcon.setVisibility(isShowDownloads ? VISIBLE : GONE);
         appBadge.setVisibility(isInstalled ? VISIBLE : GONE);
 
-        long appInstallDelay = System.currentTimeMillis() - item.getTime();
+        long appInstallDelay = System.currentTimeMillis() - SECONDS.toMillis(item.getTime());
         boolean isNewApp = appInstallDelay > 0 && appInstallDelay < TimeUnit.DAYS.toMillis(1);
         badgeNew.setVisibility(isNewApp ? VISIBLE : GONE);
 
