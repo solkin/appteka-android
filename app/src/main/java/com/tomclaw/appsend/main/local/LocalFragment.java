@@ -14,6 +14,7 @@ import android.widget.ViewFlipper;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.TaskExecutor;
 import com.tomclaw.appsend.core.WeakObjectTask;
+import com.tomclaw.appsend.main.adapter.files.FileViewHolderCreator;
 import com.tomclaw.appsend.main.adapter.files.FilesAdapter;
 import com.tomclaw.appsend.main.adapter.files.FilesListener;
 import com.tomclaw.appsend.main.item.CommonItem;
@@ -31,7 +32,7 @@ import static android.support.v7.widget.LinearLayoutManager.VERTICAL;
 import static com.tomclaw.appsend.util.PackageHelper.getInstalledVersionCode;
 
 @EFragment
-public abstract class LocalFragment extends Fragment implements FilesListener<CommonItem> {
+public abstract class LocalFragment<T extends CommonItem> extends Fragment implements FilesListener<T> {
 
     @ViewById
     ViewFlipper viewFlipper;
@@ -49,15 +50,12 @@ public abstract class LocalFragment extends Fragment implements FilesListener<Co
     Button buttonRetry;
 
     @InstanceState
-    ArrayList<CommonItem> files;
-
-    @InstanceState
     boolean isError;
 
     @InstanceState
     boolean isLoading;
 
-    private FilesAdapter<CommonItem> adapter;
+    private FilesAdapter<T> adapter;
 
     @AfterViews
     void init() {
@@ -66,7 +64,7 @@ public abstract class LocalFragment extends Fragment implements FilesListener<Co
                 new LinearLayoutManager(getContext(), orientation, false);
         DividerItemDecoration itemDecor =
                 new DividerItemDecoration(getContext(), orientation);
-        adapter = new FilesAdapter<>(getContext(), new CommonItemViewHolderCreator());
+        adapter = new FilesAdapter<>(getViewHolderCreator());
         adapter.setHasStableIds(true);
         adapter.setListener(this);
         recycler.setLayoutManager(layoutManager);
@@ -81,7 +79,7 @@ public abstract class LocalFragment extends Fragment implements FilesListener<Co
             }
         });
 
-        if (files == null) {
+        if (getFiles() == null) {
             showProgress();
             loadFiles();
         } else {
@@ -90,21 +88,27 @@ public abstract class LocalFragment extends Fragment implements FilesListener<Co
         }
     }
 
+    protected abstract List<T> getFiles();
+
+    protected abstract void setFiles(List<T> files);
+
+    protected abstract FileViewHolderCreator<T> getViewHolderCreator();
+
     public void loadFiles() {
         isLoading = true;
         isError = false;
-        TaskExecutor.getInstance().execute(new ItemsLoadTask(this));
+        TaskExecutor.getInstance().execute(new ItemsLoadTask<T>(this));
     }
 
-    abstract List<CommonItem> loadItemsSync();
+    abstract List<T> loadItemsSync();
 
-    private void onLoaded(List<CommonItem> items) {
+    private void onLoaded(List<T> items) {
         isLoading = false;
         isError = false;
-        if (files == null) {
-            files = new ArrayList<>(items);
+        if (getFiles() == null) {
+            setFiles(items);
         } else {
-            files.addAll(items);
+            getFiles().addAll(items);
         }
         updateFiles();
         swipeRefresh.setRefreshing(false);
@@ -113,7 +117,7 @@ public abstract class LocalFragment extends Fragment implements FilesListener<Co
     private void onLoadingError() {
         isLoading = false;
         isError = true;
-        if (files == null) {
+        if (getFiles() == null) {
             showError();
         } else {
             adapter.notifyDataSetChanged();
@@ -122,11 +126,11 @@ public abstract class LocalFragment extends Fragment implements FilesListener<Co
     }
 
     private void invalidate() {
-        files = null;
+        setFiles(null);
     }
 
     private void updateFiles() {
-        adapter.setItems(files);
+        adapter.setItems(getFiles());
         adapter.notifyDataSetChanged();
         showContent();
     }
@@ -169,10 +173,6 @@ public abstract class LocalFragment extends Fragment implements FilesListener<Co
         adapter.notifyDataSetChanged();
     }
 
-    @Override
-    public void onClick(CommonItem item) {
-    }
-
     public static void updateItemsInstalledVersions(PackageManager packageManager,
                                                     List<StoreItem> items) {
         for (StoreItem item : items) {
@@ -181,17 +181,17 @@ public abstract class LocalFragment extends Fragment implements FilesListener<Co
         }
     }
 
-    private static class ItemsLoadTask extends WeakObjectTask<LocalFragment> {
+    private static class ItemsLoadTask<A extends CommonItem> extends WeakObjectTask<LocalFragment<A>> {
 
-        private List<CommonItem> items;
+        private List<A> items;
 
-        public ItemsLoadTask(LocalFragment object) {
+        ItemsLoadTask(LocalFragment<A> object) {
             super(object);
         }
 
         @Override
         public void executeBackground() throws Throwable {
-            LocalFragment fragment = getWeakObject();
+            LocalFragment<A> fragment = getWeakObject();
             if (fragment != null) {
                 items = fragment.loadItemsSync();
             }
@@ -199,7 +199,7 @@ public abstract class LocalFragment extends Fragment implements FilesListener<Co
 
         @Override
         public void onSuccessMain() {
-            LocalFragment fragment = getWeakObject();
+            LocalFragment<A> fragment = getWeakObject();
             if (fragment != null) {
                 fragment.onLoaded(items);
             }
@@ -207,7 +207,7 @@ public abstract class LocalFragment extends Fragment implements FilesListener<Co
 
         @Override
         public void onFailMain(Throwable ex) {
-            LocalFragment fragment = getWeakObject();
+            LocalFragment<A> fragment = getWeakObject();
             if (fragment != null) {
                 fragment.onLoadingError();
             }

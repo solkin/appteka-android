@@ -8,11 +8,12 @@ import android.content.pm.PackageManager;
 import android.text.TextUtils;
 
 import com.tomclaw.appsend.R;
+import com.tomclaw.appsend.main.adapter.files.FileViewHolderCreator;
 import com.tomclaw.appsend.main.item.AppItem;
-import com.tomclaw.appsend.main.item.CommonItem;
 import com.tomclaw.appsend.util.PreferenceHelper;
 
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.InstanceState;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -24,10 +25,32 @@ import java.util.Locale;
 import static android.content.pm.PackageManager.GET_PERMISSIONS;
 
 @EFragment(R.layout.local_apps_fragment)
-public class LocalAppsFragment extends LocalFragment {
+public class LocalAppsFragment extends LocalFragment<AppItem> {
+
+    @InstanceState
+    ArrayList<AppItem> files;
 
     @Override
-    List<CommonItem> loadItemsSync() {
+    protected List<AppItem> getFiles() {
+        return files;
+    }
+
+    @Override
+    protected void setFiles(List<AppItem> files) {
+        if (files != null) {
+            this.files = new ArrayList<>(files);
+        } else {
+            this.files = null;
+        }
+    }
+
+    @Override
+    protected FileViewHolderCreator<AppItem> getViewHolderCreator() {
+        return new AppItemViewHolderCreator(getContext());
+    }
+
+    @Override
+    List<AppItem> loadItemsSync() {
         final Locale locale = Locale.getDefault();
         final Context context = getContext();
         PackageManager packageManager = context.getPackageManager();
@@ -97,11 +120,15 @@ public class LocalAppsFragment extends LocalFragment {
                 }
             });
         }
-        return new ArrayList<CommonItem>(appItemList);
+        return appItemList;
     }
 
     private int compareLong(long lhs, long rhs) {
         return lhs < rhs ? -1 : (lhs == rhs ? 0 : 1);
     }
 
+    @Override
+    public void onClick(AppItem item) {
+
+    }
 }

@@ -75,7 +75,7 @@ public abstract class BaseStoreFragment extends Fragment implements FilesListene
                 new LinearLayoutManager(getContext(), orientation, false);
         DividerItemDecoration itemDecor =
                 new DividerItemDecoration(getContext(), orientation);
-        adapter = new FilesAdapter<>(getContext(), new StoreFileViewHolderCreator());
+        adapter = new FilesAdapter<>(new StoreFileViewHolderCreator(getContext()));
         adapter.setHasStableIds(true);
         adapter.setListener(this);
         recycler.setLayoutManager(layoutManager);

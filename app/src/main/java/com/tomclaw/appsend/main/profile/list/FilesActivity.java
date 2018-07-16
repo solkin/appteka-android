@@ -104,7 +104,7 @@ public class FilesActivity extends AppCompatActivity implements FilesListener<St
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this,
                 LinearLayoutManager.VERTICAL, false);
-        adapter = new FilesAdapter<>(this, new StoreFileViewHolderCreator());
+        adapter = new FilesAdapter<>(new StoreFileViewHolderCreator(this));
         adapter.setHasStableIds(true);
         adapter.setListener(this);
         filesView.setLayoutManager(layoutManager);
