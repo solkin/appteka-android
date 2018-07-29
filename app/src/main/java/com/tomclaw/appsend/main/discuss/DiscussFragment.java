@@ -209,6 +209,7 @@ public class DiscussFragment extends Fragment implements DiscussController.Discu
 
     @Override
     public void onUnreadCount(int count) {
+        Logger.log("unread messages: " + count);
     }
 
     @Override

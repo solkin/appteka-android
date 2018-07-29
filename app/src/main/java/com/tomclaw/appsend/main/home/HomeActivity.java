@@ -15,6 +15,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,6 +25,7 @@ import android.widget.Toast;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.main.about.AboutActivity_;
+import com.tomclaw.appsend.main.controller.DiscussController;
 import com.tomclaw.appsend.main.controller.UpdateController;
 import com.tomclaw.appsend.main.discuss.DiscussFragment_;
 import com.tomclaw.appsend.main.download.DownloadActivity;
@@ -47,7 +49,9 @@ import net.hockeyapp.android.metrics.MetricsManager;
 
 import static com.tomclaw.appsend.util.MemberImageHelper.memberImageHelper;
 
-public class HomeActivity extends AppCompatActivity implements UserDataListener, UpdateController.UpdateCallback {
+public class HomeActivity extends AppCompatActivity implements UserDataListener,
+        UpdateController.UpdateCallback,
+        DiscussController.DiscussCallback {
 
     private View updateBlock;
     private NavigationView navigationView;
@@ -57,6 +61,8 @@ public class HomeActivity extends AppCompatActivity implements UserDataListener,
     private Toolbar toolbar;
     private FloatingActionButton fab;
     private boolean isDarkTheme;
+    private View actionView;
+    private TextView unreadIndicator;
 
     public static int navItemIndex = 0;
 
@@ -88,6 +94,9 @@ public class HomeActivity extends AppCompatActivity implements UserDataListener,
         drawer = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
         fab = findViewById(R.id.fab);
+
+        actionView = getLayoutInflater().inflate(R.layout.menu_indicator, navigationView, false);
+        unreadIndicator = actionView.findViewById(R.id.indicator);
 
         View navHeader = navigationView.getHeaderView(0);
         txtName = navHeader.findViewById(R.id.name);
@@ -155,12 +164,14 @@ public class HomeActivity extends AppCompatActivity implements UserDataListener,
         super.onStart();
         Session.getInstance().getUserHolder().attachListener(this);
         UpdateController.getInstance().onAttach(this);
+        DiscussController.getInstance().onAttach(this);
     }
 
     @Override
     protected void onStop() {
         Session.getInstance().getUserHolder().removeListener(this);
         UpdateController.getInstance().onDetach(this);
+        DiscussController.getInstance().onDetach(this);
         super.onStop();
     }
 
@@ -197,9 +208,24 @@ public class HomeActivity extends AppCompatActivity implements UserDataListener,
         txtWebsite.setText(String.valueOf(userId));
 
         imgProfile.setMemberId(userId);
+    }
 
-        // showing dot next to notifications label
-        navigationView.getMenu().getItem(2).setActionView(R.layout.menu_dot);
+    private void updateUnreadIndicator(int count) {
+        if (count > 0 && navItemIndex == 2) {
+            DiscussController.getInstance().resetUnreadCount();
+            count = 0;
+        }
+        String indicatorText = "";
+        if (count > 0) {
+            indicatorText = count > 99 ? "99+" : String.valueOf(count);
+        }
+        unreadIndicator.setText(indicatorText);
+        MenuItem menuItem = navigationView.getMenu().getItem(2);
+        if (TextUtils.isEmpty(indicatorText)) {
+            menuItem.setActionView(null);
+        } else {
+            menuItem.setActionView(actionView);
+        }
     }
 
     /***
@@ -418,4 +444,20 @@ public class HomeActivity extends AppCompatActivity implements UserDataListener,
         }
     }
 
+    @Override
+    public void onUnreadCount(int count) {
+        updateUnreadIndicator(count);
+    }
+
+    @Override
+    public void onShowIntro() {
+    }
+
+    @Override
+    public void onUserNotReady() {
+    }
+
+    @Override
+    public void onUserReady() {
+    }
 }
