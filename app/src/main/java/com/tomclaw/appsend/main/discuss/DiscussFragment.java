@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -24,6 +23,7 @@ import com.tomclaw.appsend.main.adapter.ChatAdapter;
 import com.tomclaw.appsend.main.adapter.MenuAdapter;
 import com.tomclaw.appsend.main.controller.DiscussController;
 import com.tomclaw.appsend.main.dto.Message;
+import com.tomclaw.appsend.main.home.HomeFragment;
 import com.tomclaw.appsend.main.profile.ProfileActivity_;
 import com.tomclaw.appsend.net.RequestHelper;
 import com.tomclaw.appsend.net.Session;
@@ -44,7 +44,7 @@ import static com.tomclaw.appsend.util.KeyboardHelper.hideKeyboard;
 import static com.tomclaw.appsend.util.KeyboardHelper.showKeyboard;
 
 @EFragment(R.layout.discuss_fragment)
-public class DiscussFragment extends Fragment implements DiscussController.DiscussCallback {
+public class DiscussFragment extends HomeFragment implements DiscussController.DiscussCallback {
 
     @ViewById
     ViewFlipper viewFlipper;

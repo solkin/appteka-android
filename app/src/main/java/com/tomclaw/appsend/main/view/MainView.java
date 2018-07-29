@@ -40,11 +40,11 @@ public abstract class MainView extends FrameLayout {
 
     public abstract void refresh();
 
-    public abstract boolean isFilterable();
-
     public abstract
     @MenuRes
     int getMenu();
+
+    public abstract boolean isFilterable();
 
     public void filter(String query) {
     }

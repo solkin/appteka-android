@@ -1,7 +1,6 @@
 package com.tomclaw.appsend.main.local;
 
 import android.content.pm.PackageManager;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,6 +16,7 @@ import com.tomclaw.appsend.core.WeakObjectTask;
 import com.tomclaw.appsend.main.adapter.files.FileViewHolderCreator;
 import com.tomclaw.appsend.main.adapter.files.FilesAdapter;
 import com.tomclaw.appsend.main.adapter.files.FilesListener;
+import com.tomclaw.appsend.main.home.HomeFragment;
 import com.tomclaw.appsend.main.item.CommonItem;
 import com.tomclaw.appsend.main.item.StoreItem;
 
@@ -31,7 +31,9 @@ import static android.support.v7.widget.LinearLayoutManager.VERTICAL;
 import static com.tomclaw.appsend.util.PackageHelper.getInstalledVersionCode;
 
 @EFragment
-abstract class CommonItemFragment<T extends CommonItem> extends Fragment implements FilesListener<T> {
+abstract class CommonItemFragment<T extends CommonItem>
+        extends HomeFragment
+        implements FilesListener<T> {
 
     @ViewById
     ViewFlipper viewFlipper;

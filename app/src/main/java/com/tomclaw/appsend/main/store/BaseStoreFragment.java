@@ -2,7 +2,6 @@ package com.tomclaw.appsend.main.store;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,6 +16,7 @@ import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.main.adapter.files.FilesAdapter;
 import com.tomclaw.appsend.main.adapter.files.FilesListener;
 import com.tomclaw.appsend.main.download.DownloadActivity;
+import com.tomclaw.appsend.main.home.HomeFragment;
 import com.tomclaw.appsend.main.item.StoreItem;
 import com.tomclaw.appsend.main.profile.list.ListResponse;
 import com.tomclaw.appsend.util.LocaleHelper;
@@ -37,7 +37,7 @@ import static android.support.v7.widget.LinearLayoutManager.VERTICAL;
 import static com.tomclaw.appsend.util.PackageHelper.getInstalledVersionCode;
 
 @EFragment
-public abstract class BaseStoreFragment extends Fragment implements FilesListener<StoreItem> {
+public abstract class BaseStoreFragment extends HomeFragment implements FilesListener<StoreItem> {
 
     @ViewById
     ViewFlipper viewFlipper;
