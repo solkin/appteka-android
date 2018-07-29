@@ -26,7 +26,7 @@ public class AppItemViewHolder extends FileViewHolder<AppItem> {
     private TextView appVersion;
     private TextView appUpdateTime;
     private TextView appSize;
-    private TriangleLabelView badgeNew;
+    private View badgeNew;
 
     public AppItemViewHolder(View itemView) {
         super(itemView);

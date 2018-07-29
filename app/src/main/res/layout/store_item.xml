@@ -5,197 +5,163 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <FrameLayout
+    <LinearLayout
         android:id="@+id/app_card"
-        style="?cardViewStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?android:attr/selectableItemBackground"
-        android:clickable="true"
-        android:focusable="true"
-        android:foreground="?android:attr/selectableItemBackground">
+        android:foreground="?android:attr/selectableItemBackground"
+        android:orientation="horizontal"
+        android:padding="6dp">
 
-        <FrameLayout
+        <ImageView
+            android:id="@+id/app_icon"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_gravity="center_vertical"
+            android:contentDescription="@string/app_icon"
+            tools:src="@mipmap/ic_launcher" />
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="6dp">
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:paddingEnd="0dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="0dp"
+            android:paddingStart="10dp">
 
             <LinearLayout
-                android:id="@+id/buddy_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                tools:ignore="UselessParent">
+                android:orientation="horizontal">
 
-                <ImageView
-                    android:id="@+id/app_icon"
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:layout_gravity="center_vertical"
-                    android:contentDescription="@string/app_icon"
-                    tools:src="@mipmap/ic_launcher" />
+                <include layout="@layout/badge_view" />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
+                <TextView
+                    android:id="@+id/app_name"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:gravity="center_vertical"
-                    android:orientation="vertical"
-                    android:paddingEnd="0dp"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="0dp"
-                    android:paddingStart="10dp">
+                    android:layout_gravity="start|center_vertical"
+                    android:singleLine="true"
+                    android:textColor="?text_primary_color"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    tools:text="AppSend" />
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/app_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="start|center_vertical"
-                            android:singleLine="true"
-                            android:textColor="?text_primary_color"
-                            android:textSize="17sp"
-                            android:textStyle="bold"
-                            tools:text="AppSend" />
-
-                        <TextView
-                            android:id="@+id/app_version"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:maxWidth="60dp"
-                            android:layout_gravity="start|center_vertical"
-                            android:layout_marginLeft="4dp"
-                            android:layout_marginStart="4dp"
-                            android:fontFamily="sans-serif-light"
-                            android:singleLine="true"
-                            android:textColor="?text_secondary_color"
-                            android:textSize="16sp"
-                            tools:targetApi="jelly_bean"
-                            tools:text="3.4" />
-
-                        <TextView
-                            android:id="@+id/badge_new"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="4dp"
-                            android:layout_marginStart="4dp"
-                            android:background="@drawable/badge_back"
-                            android:includeFontPadding="true"
-                            android:paddingBottom="4dp"
-                            android:paddingLeft="7dp"
-                            android:paddingRight="7dp"
-                            android:paddingTop="4dp"
-                            android:text="@string/new_app"
-                            android:textAllCaps="true"
-                            android:textColor="@android:color/white"
-                            android:textSize="10sp"
-                            android:textStyle="bold" />
-
-                    </LinearLayout>
-
-                    <TextView
-                        android:id="@+id/app_size"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start|center_vertical"
-                        android:ellipsize="marquee"
-                        android:gravity="center_vertical"
-                        android:marqueeRepeatLimit="marquee_forever"
-                        android:scrollHorizontally="true"
-                        android:singleLine="true"
-                        android:textColor="?text_secondary_color"
-                        android:textSize="15sp"
-                        tools:text="3.1 MB" />
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/app_rating"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="2dp"
-                            android:layout_marginLeft="0dp"
-                            android:layout_marginRight="2dp"
-                            android:layout_marginStart="0dp"
-                            android:includeFontPadding="true"
-                            android:textColor="?text_secondary_color"
-                            android:textSize="14sp"
-                            android:visibility="visible"
-                            tools:text="4.8" />
-
-                        <ImageView
-                            android:id="@+id/rating_icon"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="12dp"
-                            android:layout_marginLeft="0dp"
-                            android:layout_marginRight="12dp"
-                            android:layout_marginStart="0dp"
-                            android:contentDescription="@string/ratings"
-                            android:src="@drawable/rating_bar_small"
-                            android:tint="@color/grey_dark"
-                            android:visibility="visible" />
-
-                        <TextView
-                            android:id="@+id/app_downloads"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="2dp"
-                            android:layout_marginLeft="0dp"
-                            android:layout_marginRight="2dp"
-                            android:layout_marginStart="0dp"
-                            android:includeFontPadding="true"
-                            android:textAllCaps="true"
-                            android:textColor="?text_secondary_color"
-                            android:textSize="14sp"
-                            tools:text="15" />
-
-                        <ImageView
-                            android:id="@+id/downloads_icon"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="0dp"
-                            android:layout_marginLeft="0dp"
-                            android:layout_marginRight="0dp"
-                            android:layout_marginStart="0dp"
-                            android:contentDescription="@string/downloads"
-                            android:src="@drawable/download"
-                            android:tint="@color/grey_dark" />
-
-                        <TextView
-                            android:id="@+id/app_badge"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="6dp"
-                            android:layout_marginLeft="4dp"
-                            android:layout_marginRight="6dp"
-                            android:layout_marginStart="4dp"
-                            android:layout_weight="1"
-                            android:gravity="end"
-                            android:includeFontPadding="true"
-                            android:textAllCaps="true"
-                            android:textColor="?text_secondary_color"
-                            android:textSize="12sp"
-                            android:textStyle="bold"
-                            tools:text="@string/store_app_installed" />
-
-                    </LinearLayout>
-
-                </LinearLayout>
+                <TextView
+                    android:id="@+id/app_version"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start|center_vertical"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginStart="4dp"
+                    android:fontFamily="sans-serif-light"
+                    android:singleLine="true"
+                    android:textColor="?text_secondary_color"
+                    android:textSize="16sp"
+                    tools:targetApi="jelly_bean"
+                    tools:text="3.4" />
 
             </LinearLayout>
 
-        </FrameLayout>
+            <TextView
+                android:id="@+id/app_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start|center_vertical"
+                android:ellipsize="marquee"
+                android:gravity="center_vertical"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:scrollHorizontally="true"
+                android:singleLine="true"
+                android:textColor="?text_secondary_color"
+                android:textSize="15sp"
+                tools:text="3.1 MB" />
 
-    </FrameLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/app_rating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="2dp"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_marginStart="0dp"
+                    android:includeFontPadding="true"
+                    android:textColor="?text_secondary_color"
+                    android:textSize="14sp"
+                    android:visibility="visible"
+                    tools:text="4.8" />
+
+                <ImageView
+                    android:id="@+id/rating_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="12dp"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="12dp"
+                    android:layout_marginStart="0dp"
+                    android:contentDescription="@string/ratings"
+                    android:src="@drawable/rating_bar_small"
+                    android:tint="@color/grey_dark"
+                    android:visibility="visible" />
+
+                <TextView
+                    android:id="@+id/app_downloads"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="2dp"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="2dp"
+                    android:layout_marginStart="0dp"
+                    android:includeFontPadding="true"
+                    android:textAllCaps="true"
+                    android:textColor="?text_secondary_color"
+                    android:textSize="14sp"
+                    tools:text="15" />
+
+                <ImageView
+                    android:id="@+id/downloads_icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="0dp"
+                    android:layout_marginLeft="0dp"
+                    android:layout_marginRight="0dp"
+                    android:layout_marginStart="0dp"
+                    android:contentDescription="@string/downloads"
+                    android:src="@drawable/download"
+                    android:tint="@color/grey_dark" />
+
+                <TextView
+                    android:id="@+id/app_badge"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="6dp"
+                    android:layout_marginLeft="4dp"
+                    android:layout_marginRight="6dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_weight="1"
+                    android:gravity="end"
+                    android:includeFontPadding="true"
+                    android:textAllCaps="true"
+                    android:textColor="?text_secondary_color"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    tools:text="@string/store_app_installed" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
 
     <ProgressBar
         android:id="@+id/item_progress"

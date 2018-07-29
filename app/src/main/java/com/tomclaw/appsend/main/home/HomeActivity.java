@@ -245,20 +245,16 @@ public class HomeActivity extends AppCompatActivity implements UserDataListener,
             case 0:
                 return new StoreFragment_();
             case 1:
-                // Uploads Fragment
                 return new UserUploadsFragment_();
             case 2:
-                // Discuss Fragment
                 return new DiscussFragment_();
             case 3:
-                // Installed Fragment
                 return new AppItemFragment_();
             case 4:
                 // Distro Fragment
                 return new Fragment();
             default:
-                // Home Fragment
-                return new Fragment();
+                throw new IllegalStateException();
         }
     }
 

@@ -8,6 +8,7 @@
     <color name="chocolate_color">#894121</color>
 
     <color name="badge_color">#f79406</color>
+    <color name="badge_corner_color">#f78006</color>
 
     <color name="grey">#25000000</color>
     <color name="grey_dark">#747474</color>

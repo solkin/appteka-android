@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/badge_new"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginRight="4dp"
+    android:layout_marginEnd="4dp"
+    android:background="@drawable/badge_back"
+    android:includeFontPadding="true"
+    android:paddingBottom="4dp"
+    android:paddingLeft="7dp"
+    android:paddingRight="7dp"
+    android:paddingTop="4dp"
+    android:text="@string/new_app"
+    android:textAllCaps="true"
+    android:textColor="@android:color/white"
+    android:textSize="10sp"
+    android:textStyle="bold" />
