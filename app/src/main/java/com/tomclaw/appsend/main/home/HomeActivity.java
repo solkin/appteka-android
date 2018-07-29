@@ -53,6 +53,12 @@ public class HomeActivity extends AppCompatActivity implements UserDataListener,
         UpdateController.UpdateCallback,
         DiscussController.DiscussCallback {
 
+    private static final int NAV_STORE = 0;
+    private static final int NAV_UPLOADS = 1;
+    private static final int NAV_DISCUSS = 2;
+    private static final int NAV_INSTALLED = 3;
+    private static final int NAV_DISTRO = 4;
+
     private View updateBlock;
     private NavigationView navigationView;
     private DrawerLayout drawer;
@@ -146,7 +152,7 @@ public class HomeActivity extends AppCompatActivity implements UserDataListener,
         setToolbarTitle();
 
         if (savedInstanceState == null) {
-            navItemIndex = 0;
+            navItemIndex = NAV_STORE;
             CURRENT_TAG = TAG_STORE;
             loadHomeFragment();
         }
@@ -211,7 +217,7 @@ public class HomeActivity extends AppCompatActivity implements UserDataListener,
     }
 
     private void updateUnreadIndicator(int count) {
-        if (count > 0 && navItemIndex == 2) {
+        if (count > 0 && navItemIndex == NAV_DISCUSS) {
             DiscussController.getInstance().resetUnreadCount();
             count = 0;
         }
@@ -220,7 +226,7 @@ public class HomeActivity extends AppCompatActivity implements UserDataListener,
             indicatorText = count > 99 ? "99+" : String.valueOf(count);
         }
         unreadIndicator.setText(indicatorText);
-        MenuItem menuItem = navigationView.getMenu().getItem(2);
+        MenuItem menuItem = navigationView.getMenu().getItem(NAV_DISCUSS);
         if (TextUtils.isEmpty(indicatorText)) {
             menuItem.setActionView(null);
         } else {
@@ -269,18 +275,18 @@ public class HomeActivity extends AppCompatActivity implements UserDataListener,
 
     private Fragment getHomeFragment() {
         switch (navItemIndex) {
-            case 0:
+            case NAV_STORE:
                 return new StoreFragment_();
-            case 1:
+            case NAV_UPLOADS:
                 return new UserUploadsFragment_();
-            case 2:
+            case NAV_DISCUSS:
                 return new DiscussFragment_();
-            case 3:
+            case NAV_INSTALLED:
                 return new InstalledFragment_();
-            case 4:
+            case NAV_DISTRO:
                 return new DistroFragment_();
             default:
-                throw new IllegalStateException();
+                throw new IllegalStateException("Invalid navigation item index");
         }
     }
 
@@ -302,23 +308,23 @@ public class HomeActivity extends AppCompatActivity implements UserDataListener,
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 switch (menuItem.getItemId()) {
                     case R.id.nav_store:
-                        navItemIndex = 0;
+                        navItemIndex = NAV_STORE;
                         CURRENT_TAG = TAG_STORE;
                         break;
                     case R.id.nav_uploads:
-                        navItemIndex = 1;
+                        navItemIndex = NAV_UPLOADS;
                         CURRENT_TAG = TAG_UPLOADS;
                         break;
                     case R.id.nav_discuss:
-                        navItemIndex = 2;
+                        navItemIndex = NAV_DISCUSS;
                         CURRENT_TAG = TAG_DISCUSS;
                         break;
                     case R.id.nav_installed:
-                        navItemIndex = 3;
+                        navItemIndex = NAV_INSTALLED;
                         CURRENT_TAG = TAG_INSTALLED;
                         break;
                     case R.id.nav_distro:
-                        navItemIndex = 4;
+                        navItemIndex = NAV_DISTRO;
                         CURRENT_TAG = TAG_DISTRO;
                         break;
                     case R.id.nav_settings:
@@ -330,7 +336,7 @@ public class HomeActivity extends AppCompatActivity implements UserDataListener,
                         drawer.closeDrawers();
                         return true;
                     default:
-                        navItemIndex = 0;
+                        throw new IllegalStateException("Invalid menu id");
                 }
 
                 if (menuItem.isChecked()) {
@@ -351,13 +357,15 @@ public class HomeActivity extends AppCompatActivity implements UserDataListener,
 
             @Override
             public void onDrawerClosed(View drawerView) {
-                // Code here will be triggered once the drawer closes as we dont want anything to happen so we leave this blank
+                // Code here will be triggered once the drawer closes as we don't want anything
+                // to happen so we leave this blank
                 super.onDrawerClosed(drawerView);
             }
 
             @Override
             public void onDrawerOpened(View drawerView) {
-                // Code here will be triggered once the drawer open as we dont want anything to happen so we leave this blank
+                // Code here will be triggered once the drawer open as we don't want anything
+                // to happen so we leave this blank
                 super.onDrawerOpened(drawerView);
             }
         };
@@ -377,8 +385,8 @@ public class HomeActivity extends AppCompatActivity implements UserDataListener,
         }
 
         if (shouldLoadHomeFragOnBackPress) {
-            if (navItemIndex != 0) {
-                navItemIndex = 0;
+            if (navItemIndex != NAV_STORE) {
+                navItemIndex = NAV_STORE;
                 CURRENT_TAG = TAG_STORE;
                 loadHomeFragment();
                 return;
@@ -390,7 +398,7 @@ public class HomeActivity extends AppCompatActivity implements UserDataListener,
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (navItemIndex == 0) {
+        if (navItemIndex == NAV_STORE) {
             getMenuInflater().inflate(R.menu.store_menu, menu);
         }
         return true;
@@ -409,7 +417,7 @@ public class HomeActivity extends AppCompatActivity implements UserDataListener,
     }
 
     private void toggleFab() {
-        if (navItemIndex == 0 || navItemIndex == 1) {
+        if (navItemIndex == NAV_STORE || navItemIndex == NAV_UPLOADS) {
             fab.show();
         } else {
             fab.hide();
