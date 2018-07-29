@@ -53,7 +53,6 @@
                 android:layout_marginLeft="4dp"
                 android:layout_marginStart="4dp"
                 android:fontFamily="sans-serif-light"
-                android:maxWidth="60dp"
                 android:singleLine="true"
                 android:textColor="?text_secondary_color"
                 android:textSize="16sp"
