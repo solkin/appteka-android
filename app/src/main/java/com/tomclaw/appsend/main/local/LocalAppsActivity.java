@@ -60,7 +60,7 @@ public class LocalAppsActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int i) {
-            Fragment fragment = new AppItemFragment();
+            Fragment fragment = new InstalledFragment();
             Bundle args = new Bundle();
             fragment.setArguments(args);
             return fragment;

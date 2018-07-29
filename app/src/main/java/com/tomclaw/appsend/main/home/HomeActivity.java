@@ -28,7 +28,8 @@ import com.tomclaw.appsend.main.controller.UpdateController;
 import com.tomclaw.appsend.main.discuss.DiscussFragment_;
 import com.tomclaw.appsend.main.download.DownloadActivity;
 import com.tomclaw.appsend.main.item.StoreItem;
-import com.tomclaw.appsend.main.local.AppItemFragment_;
+import com.tomclaw.appsend.main.local.DistroFragment_;
+import com.tomclaw.appsend.main.local.InstalledFragment_;
 import com.tomclaw.appsend.main.profile.ProfileActivity_;
 import com.tomclaw.appsend.main.settings.SettingsActivity_;
 import com.tomclaw.appsend.main.store.StoreFragment_;
@@ -249,10 +250,9 @@ public class HomeActivity extends AppCompatActivity implements UserDataListener,
             case 2:
                 return new DiscussFragment_();
             case 3:
-                return new AppItemFragment_();
+                return new InstalledFragment_();
             case 4:
-                // Distro Fragment
-                return new Fragment();
+                return new DistroFragment_();
             default:
                 throw new IllegalStateException();
         }
