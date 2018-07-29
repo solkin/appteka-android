@@ -93,10 +93,16 @@ public abstract class CommonItemFragment<T extends CommonItem> extends Fragment 
 
     protected abstract FileViewHolderCreator<T> getViewHolderCreator();
 
+    public void reloadFiles() {
+        showProgress();
+        invalidate();
+        loadFiles();
+    }
+
     public void loadFiles() {
         isLoading = true;
         isError = false;
-        TaskExecutor.getInstance().execute(new ItemsLoadTask<T>(this));
+        TaskExecutor.getInstance().execute(new ItemsLoadTask<>(this));
     }
 
     abstract List<T> loadItemsSync();
