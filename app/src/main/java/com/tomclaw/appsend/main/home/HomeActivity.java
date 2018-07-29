@@ -199,10 +199,12 @@ public class HomeActivity extends AppCompatActivity implements UserDataListener,
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         switch (requestCode) {
             case REQUEST_UPLOAD: {
-                CommonItem item = data.getParcelableExtra(SelectLocalAppActivity.SELECTED_ITEM);
-                Intent intent = new Intent(this, UploadActivity.class);
-                intent.putExtra(UploadActivity.UPLOAD_ITEM, item);
-                startActivity(intent);
+                if (resultCode == RESULT_OK) {
+                    CommonItem item = data.getParcelableExtra(SelectLocalAppActivity.SELECTED_ITEM);
+                    Intent intent = new Intent(this, UploadActivity.class);
+                    intent.putExtra(UploadActivity.UPLOAD_ITEM, item);
+                    startActivity(intent);
+                }
                 break;
             }
             default: {
