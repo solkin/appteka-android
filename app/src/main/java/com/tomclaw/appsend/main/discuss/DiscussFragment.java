@@ -89,6 +89,7 @@ public class DiscussFragment extends Fragment implements DiscussController.Discu
             @Override
             public void onMessageClicked(Message message) {
                 if (message.getDirection() == GlobalProvider.DIRECTION_SERVICE) {
+                    FlurryAgent.logEvent("Service message: profile");
                     showUserProfile(message);
                 } else {
                     showMessageContextMenu(message);
@@ -146,6 +147,7 @@ public class DiscussFragment extends Fragment implements DiscussController.Discu
                                 break;
                             }
                             case 1: {
+                                FlurryAgent.logEvent("Message menu: profile");
                                 showUserProfile(message);
                                 break;
                             }
