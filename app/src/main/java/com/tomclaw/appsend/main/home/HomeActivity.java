@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -32,6 +31,7 @@ import com.tomclaw.appsend.main.download.DownloadActivity;
 import com.tomclaw.appsend.main.item.StoreItem;
 import com.tomclaw.appsend.main.local.DistroFragment_;
 import com.tomclaw.appsend.main.local.InstalledFragment_;
+import com.tomclaw.appsend.main.local.LocalAppsActivity_;
 import com.tomclaw.appsend.main.profile.ProfileActivity_;
 import com.tomclaw.appsend.main.settings.SettingsActivity_;
 import com.tomclaw.appsend.main.store.StoreFragment_;
@@ -142,8 +142,7 @@ public class HomeActivity extends AppCompatActivity implements UserDataListener,
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                LocalAppsActivity_.intent(HomeActivity.this).start();
             }
         });
 
