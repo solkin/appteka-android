@@ -91,7 +91,7 @@ public class ChatAdapter extends CursorRecyclerAdapter<AbstractMessageHolder>
                 view = inflater.inflate(R.layout.chat_item_srv_text, viewGroup, false);
                 return new ServiceMessageHolder(view);
             default:
-                return null;
+                throw new IllegalStateException("Invalid view type: " + viewType);
         }
     }
 

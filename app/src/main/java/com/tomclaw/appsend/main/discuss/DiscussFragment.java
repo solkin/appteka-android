@@ -88,7 +88,11 @@ public class DiscussFragment extends Fragment implements DiscussController.Discu
         ChatAdapter.MessageClickListener messageClickListener = new ChatAdapter.MessageClickListener() {
             @Override
             public void onMessageClicked(Message message) {
-                showMessageContextMenu(message);
+                if (message.getDirection() == GlobalProvider.DIRECTION_SERVICE) {
+                    showUserProfile(message);
+                } else {
+                    showMessageContextMenu(message);
+                }
             }
         };
 
@@ -120,6 +124,12 @@ public class DiscussFragment extends Fragment implements DiscussController.Discu
         onSendMessage();
     }
 
+    private void showUserProfile(Message message) {
+        ProfileActivity_.intent(getContext())
+                .userId(message.getUserId())
+                .start();
+    }
+
     private void showMessageContextMenu(final Message message) {
         ListAdapter menuAdapter = new MenuAdapter(getContext(), R.array.message_actions_titles, R.array.message_actions_icons);
         new AlertDialog.Builder(getContext())
@@ -136,9 +146,7 @@ public class DiscussFragment extends Fragment implements DiscussController.Discu
                                 break;
                             }
                             case 1: {
-                                ProfileActivity_.intent(getContext())
-                                        .userId(message.getUserId())
-                                        .start();
+                                showUserProfile(message);
                                 break;
                             }
                             case 2: {

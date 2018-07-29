@@ -17,6 +17,7 @@ import static com.tomclaw.appsend.util.TimeHelper.timeHelper;
  */
 public class ServiceMessageHolder extends AbstractMessageHolder {
 
+    private View rootView;
     private View dateContainer;
     private TextView date;
     private MemberImageView memberAvatar;
@@ -25,6 +26,7 @@ public class ServiceMessageHolder extends AbstractMessageHolder {
     public ServiceMessageHolder(View itemView) {
         super(itemView);
 
+        rootView = itemView;
         dateContainer = itemView.findViewById(R.id.date_container);
         date = itemView.findViewById(R.id.message_date);
         memberAvatar = itemView.findViewById(R.id.member_avatar);
@@ -32,8 +34,8 @@ public class ServiceMessageHolder extends AbstractMessageHolder {
     }
 
     @Override
-    public void bind(Message message, Message prevMessage,
-                     ChatAdapter.MessageClickListener clickListener) {
+    public void bind(final Message message, Message prevMessage,
+                     final ChatAdapter.MessageClickListener clickListener) {
         String messageDateText = timeHelper().getFormattedDate(message.getTime());
         boolean dateVisible = true;
         if (prevMessage != null) {
@@ -63,5 +65,12 @@ public class ServiceMessageHolder extends AbstractMessageHolder {
         } else {
             serviceText.setVisibility(View.GONE);
         }
+
+        rootView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clickListener.onMessageClicked(message);
+            }
+        });
     }
 }
