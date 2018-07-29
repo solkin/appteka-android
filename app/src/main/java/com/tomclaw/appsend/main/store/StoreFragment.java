@@ -36,4 +36,9 @@ public class StoreFragment extends BaseStoreFragment {
         this.query = query;
         loadFiles(true);
     }
+
+    @Override
+    public String getFilter() {
+        return query;
+    }
 }

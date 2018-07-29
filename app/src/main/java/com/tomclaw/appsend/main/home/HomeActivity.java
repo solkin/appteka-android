@@ -300,12 +300,7 @@ public class HomeActivity extends AppCompatActivity implements UserDataListener,
         HomeFragment currentFragment = getHomeFragment();
         if (currentFragment != null) {
             drawer.closeDrawers();
-
             toggleFab();
-
-            if (currentFragment.isFilterable()) {
-                currentFragment.filter("");
-            }
             return;
         }
 
@@ -468,11 +463,20 @@ public class HomeActivity extends AppCompatActivity implements UserDataListener,
         }
         MenuItem searchMenu = menu.findItem(R.id.menu_search);
         if (searchMenu != null) {
-            SearchView searchView = (SearchView) searchMenu.getActionView();
+            final SearchView searchView = (SearchView) searchMenu.getActionView();
             searchView.setQueryHint(menu.findItem(R.id.menu_search).getTitle());
             // Configure the search info and add any event listeners
             searchView.setOnQueryTextListener(onQueryTextListener);
             searchView.setOnCloseListener(onCloseListener);
+            searchView.setOnSearchClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    HomeFragment fragment = getHomeFragment();
+                    if (fragment != null) {
+                        searchView.setQuery(fragment.getFilter(), false);
+                    }
+                }
+            });
             searchView.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
                 @Override
                 public void onViewAttachedToWindow(View v) {

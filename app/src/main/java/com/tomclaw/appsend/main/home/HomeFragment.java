@@ -29,4 +29,8 @@ public abstract class HomeFragment extends Fragment implements Debouncer.Callbac
 
     public void runFilter(String query) {
     }
+
+    public String getFilter() {
+        return "";
+    }
 }
