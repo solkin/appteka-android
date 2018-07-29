@@ -1,6 +1,7 @@
 package com.tomclaw.appsend.main.local;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
 import com.tomclaw.appsend.R;
+import com.tomclaw.appsend.main.item.CommonItem;
 import com.tomclaw.appsend.util.ThemeHelper;
 
 import org.androidannotations.annotations.AfterViews;
@@ -25,7 +27,11 @@ import java.util.List;
 
 @SuppressLint("Registered")
 @EActivity(R.layout.local_apps)
-public class LocalAppsActivity extends AppCompatActivity {
+public class SelectLocalAppActivity
+        extends AppCompatActivity
+        implements CommonItemClickListener {
+
+    public static final String SELECTED_ITEM = "selected_item";
 
     @ViewById
     Toolbar toolbar;
@@ -52,8 +58,14 @@ public class LocalAppsActivity extends AppCompatActivity {
         actionBar.setDisplayShowHomeEnabled(false);
 
         List<Pair<String, Fragment>> fragments = Arrays.asList(
-                new Pair<String, Fragment>(getString(R.string.nav_installed), new InstalledFragment_()),
-                new Pair<String, Fragment>(getString(R.string.nav_distro), new DistroFragment_())
+                new Pair<String, Fragment>(
+                        getString(R.string.nav_installed),
+                        new SelectInstalledFragment_().withListener(this)
+                ),
+                new Pair<String, Fragment>(
+                        getString(R.string.nav_distro),
+                        new SelectDistroFragment_().withListener(this)
+                )
         );
 
         LocalAppsPagerAdapter adapter = new LocalAppsPagerAdapter(getSupportFragmentManager(), fragments);
@@ -64,8 +76,30 @@ public class LocalAppsActivity extends AppCompatActivity {
 
     @OptionsItem(android.R.id.home)
     boolean actionHome() {
-        finish();
+        leaveScreen();
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+        leaveScreen();
+    }
+
+    @Override
+    public void onClick(CommonItem item) {
+        leaveScreen(item);
+    }
+
+    private void leaveScreen() {
+        setResult(RESULT_CANCELED);
+        finish();
+    }
+
+    public void leaveScreen(CommonItem item) {
+        Intent data = new Intent();
+        data.putExtra(SELECTED_ITEM, item);
+        setResult(RESULT_OK, data);
+        finish();
     }
 
     public class LocalAppsPagerAdapter extends FragmentStatePagerAdapter {

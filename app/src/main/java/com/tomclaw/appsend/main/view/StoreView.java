@@ -22,8 +22,7 @@ import com.tomclaw.appsend.main.controller.StoreController;
 import com.tomclaw.appsend.main.download.DownloadActivity;
 import com.tomclaw.appsend.main.item.BaseItem;
 import com.tomclaw.appsend.main.item.StoreItem;
-import com.tomclaw.appsend.main.local.LocalAppsActivity;
-import com.tomclaw.appsend.main.local.LocalAppsActivity_;
+import com.tomclaw.appsend.main.local.SelectLocalAppActivity_;
 import com.tomclaw.appsend.util.ColorHelper;
 import com.tomclaw.appsend.util.Debouncer;
 import com.tomclaw.appsend.util.EdgeChanger;
@@ -54,7 +53,7 @@ public class StoreView extends MainView implements StoreController.StoreCallback
         actionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LocalAppsActivity_.intent(context).start();
+                SelectLocalAppActivity_.intent(context).start();
             }
         });
 

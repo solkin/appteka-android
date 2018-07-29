@@ -28,14 +28,17 @@ import com.tomclaw.appsend.main.controller.DiscussController;
 import com.tomclaw.appsend.main.controller.UpdateController;
 import com.tomclaw.appsend.main.discuss.DiscussFragment_;
 import com.tomclaw.appsend.main.download.DownloadActivity;
+import com.tomclaw.appsend.main.item.CommonItem;
 import com.tomclaw.appsend.main.item.StoreItem;
-import com.tomclaw.appsend.main.local.DistroFragment_;
-import com.tomclaw.appsend.main.local.InstalledFragment_;
-import com.tomclaw.appsend.main.local.LocalAppsActivity_;
+import com.tomclaw.appsend.main.local.HomeDistroFragment_;
+import com.tomclaw.appsend.main.local.HomeInstalledFragment_;
+import com.tomclaw.appsend.main.local.SelectLocalAppActivity;
+import com.tomclaw.appsend.main.local.SelectLocalAppActivity_;
 import com.tomclaw.appsend.main.profile.ProfileActivity_;
 import com.tomclaw.appsend.main.settings.SettingsActivity_;
 import com.tomclaw.appsend.main.store.StoreFragment_;
 import com.tomclaw.appsend.main.store.UserUploadsFragment_;
+import com.tomclaw.appsend.main.upload.UploadActivity;
 import com.tomclaw.appsend.main.view.MemberImageView;
 import com.tomclaw.appsend.net.Session;
 import com.tomclaw.appsend.net.UserData;
@@ -58,6 +61,8 @@ public class HomeActivity extends AppCompatActivity implements UserDataListener,
     private static final int NAV_DISCUSS = 2;
     private static final int NAV_INSTALLED = 3;
     private static final int NAV_DISTRO = 4;
+
+    private static final int REQUEST_UPLOAD = 4;
 
     private View updateBlock;
     private NavigationView navigationView;
@@ -142,7 +147,7 @@ public class HomeActivity extends AppCompatActivity implements UserDataListener,
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LocalAppsActivity_.intent(HomeActivity.this).start();
+                SelectLocalAppActivity_.intent(HomeActivity.this).startForResult(REQUEST_UPLOAD);
             }
         });
 
@@ -187,6 +192,22 @@ public class HomeActivity extends AppCompatActivity implements UserDataListener,
             Intent intent = getIntent().addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             finish();
             startActivity(intent);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case REQUEST_UPLOAD: {
+                CommonItem item = data.getParcelableExtra(SelectLocalAppActivity.SELECTED_ITEM);
+                Intent intent = new Intent(this, UploadActivity.class);
+                intent.putExtra(UploadActivity.UPLOAD_ITEM, item);
+                startActivity(intent);
+                break;
+            }
+            default: {
+                super.onActivityResult(requestCode, resultCode, data);
+            }
         }
     }
 
@@ -281,9 +302,9 @@ public class HomeActivity extends AppCompatActivity implements UserDataListener,
             case NAV_DISCUSS:
                 return new DiscussFragment_();
             case NAV_INSTALLED:
-                return new InstalledFragment_();
+                return new HomeInstalledFragment_();
             case NAV_DISTRO:
-                return new DistroFragment_();
+                return new HomeDistroFragment_();
             default:
                 throw new IllegalStateException("Invalid navigation item index");
         }

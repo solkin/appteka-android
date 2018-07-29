@@ -248,4 +248,5 @@
     <string name="open_drawer">Open Drawer</string>
     <string name="close_drawer">Close Drawer</string>
     <string name="new_app">New</string>
+    <string name="select_app">Выберите приложение</string>
 </resources>

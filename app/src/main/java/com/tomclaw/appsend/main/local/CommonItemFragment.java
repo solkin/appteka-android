@@ -31,7 +31,7 @@ import static android.support.v7.widget.LinearLayoutManager.VERTICAL;
 import static com.tomclaw.appsend.util.PackageHelper.getInstalledVersionCode;
 
 @EFragment
-public abstract class CommonItemFragment<T extends CommonItem> extends Fragment implements FilesListener<T> {
+abstract class CommonItemFragment<T extends CommonItem> extends Fragment implements FilesListener<T> {
 
     @ViewById
     ViewFlipper viewFlipper;
@@ -53,6 +53,9 @@ public abstract class CommonItemFragment<T extends CommonItem> extends Fragment 
 
     @InstanceState
     boolean isLoading;
+
+    @InstanceState
+    boolean isRefreshOnResume = false;
 
     private FilesAdapter<T> adapter;
 
@@ -84,6 +87,15 @@ public abstract class CommonItemFragment<T extends CommonItem> extends Fragment 
         } else {
             updateFiles();
             showContent();
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (isRefreshOnResume) {
+            isRefreshOnResume = false;
+            reloadFiles();
         }
     }
 
@@ -176,6 +188,10 @@ public abstract class CommonItemFragment<T extends CommonItem> extends Fragment 
     public void onRetry() {
         loadFiles();
         adapter.notifyDataSetChanged();
+    }
+
+    public void setRefreshOnResume() {
+        isRefreshOnResume = true;
     }
 
     public static void updateItemsInstalledVersions(PackageManager packageManager,
