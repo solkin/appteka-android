@@ -7,7 +7,6 @@ import com.tomclaw.appsend.main.profile.list.ListResponse;
 
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.InstanceState;
 
 import retrofit2.Call;
 
@@ -17,28 +16,10 @@ public class StoreFragment extends BaseStoreFragment {
     @Bean
     StoreServiceHolder serviceHolder;
 
-    @InstanceState
-    String query;
-
     @Override
     public Call<ListResponse> createCall(String appId) {
         int build = BuildConfig.VERSION_CODE;
-        return serviceHolder.getService().listFiles(1, null, appId, query, build);
+        return serviceHolder.getService().listFiles(1, null, appId, null, build);
     }
 
-    @Override
-    public boolean isFilterable() {
-        return true;
-    }
-
-    @Override
-    public void runFilter(String query) {
-        this.query = query;
-        loadFiles(true);
-    }
-
-    @Override
-    public String getFilter() {
-        return query;
-    }
 }

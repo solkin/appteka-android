@@ -26,6 +26,7 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.InstanceState;
 import org.androidannotations.annotations.ViewById;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,36 +41,36 @@ import static com.tomclaw.appsend.util.PackageHelper.getInstalledVersionCode;
 public abstract class BaseStoreFragment extends HomeFragment implements FilesListener<StoreItem> {
 
     @ViewById
-    ViewFlipper viewFlipper;
+    protected ViewFlipper viewFlipper;
 
     @ViewById
-    SwipeRefreshLayout swipeRefresh;
+    protected SwipeRefreshLayout swipeRefresh;
 
     @ViewById
-    RecyclerView recycler;
+    protected RecyclerView recycler;
 
     @ViewById
-    TextView errorText;
+    protected TextView errorText;
 
     @ViewById
-    Button buttonRetry;
+    protected Button buttonRetry;
 
     @InstanceState
-    ArrayList<StoreItem> files;
+    protected ArrayList<StoreItem> files;
 
     @InstanceState
-    boolean isError;
+    protected boolean isError;
 
     @InstanceState
-    boolean isLoading;
+    protected boolean isLoading;
 
     @InstanceState
-    boolean isLoadedAll;
+    protected boolean isLoadedAll;
 
     private FilesAdapter<StoreItem> adapter;
 
     @AfterViews
-    void init() {
+    protected void init() {
         int orientation = VERTICAL;
         LinearLayoutManager layoutManager =
                 new LinearLayoutManager(getContext(), orientation, false);
@@ -101,6 +102,11 @@ public abstract class BaseStoreFragment extends HomeFragment implements FilesLis
 
     public abstract Call<ListResponse> createCall(String appId);
 
+    public void clearFiles() {
+        invalidate();
+        updateFiles();
+    }
+
     public void loadFiles(final boolean isInvalidate) {
         isLoading = true;
         isError = false;
@@ -110,35 +116,11 @@ public abstract class BaseStoreFragment extends HomeFragment implements FilesLis
             appId = lastItem.getAppId();
         }
         Call<ListResponse> call = createCall(appId);
-        if (call == null) return;
-        call.enqueue(new Callback<ListResponse>() {
-            @Override
-            public void onResponse(Call<ListResponse> call, final Response<ListResponse> response) {
-                MainExecutor.execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (response.isSuccessful()) {
-                            ListResponse body = response.body();
-                            if (body != null) {
-                                onLoaded(body, isInvalidate);
-                            }
-                            return;
-                        }
-                        onLoadingError();
-                    }
-                });
-            }
-
-            @Override
-            public void onFailure(Call<ListResponse> call, Throwable t) {
-                MainExecutor.execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        onLoadingError();
-                    }
-                });
-            }
-        });
+        if (call == null) {
+            onLoadingCancelled();
+            return;
+        }
+        call.enqueue(new LoadCallback(this, isInvalidate));
     }
 
     private void onLoaded(ListResponse body, boolean isInvalidate) {
@@ -158,6 +140,13 @@ public abstract class BaseStoreFragment extends HomeFragment implements FilesLis
         swipeRefresh.setRefreshing(false);
     }
 
+    private void onLoadingCancelled() {
+        isLoading = false;
+        isError = false;
+        swipeRefresh.setRefreshing(false);
+        showContent();
+    }
+
     private void onLoadingError() {
         isLoading = false;
         isError = true;
@@ -170,7 +159,7 @@ public abstract class BaseStoreFragment extends HomeFragment implements FilesLis
     }
 
     private void invalidate() {
-        files = null;
+        files = new ArrayList<>();
     }
 
     private void updateFiles() {
@@ -236,4 +225,47 @@ public abstract class BaseStoreFragment extends HomeFragment implements FilesLis
         }
     }
 
+    private static class LoadCallback implements Callback<ListResponse> {
+
+        private WeakReference<BaseStoreFragment> weakFragment;
+        private boolean isInvalidate;
+
+        private LoadCallback(BaseStoreFragment fragment, boolean isInvalidate) {
+            this.weakFragment = new WeakReference<>(fragment);
+            this.isInvalidate = isInvalidate;
+        }
+
+        @Override
+        public void onResponse(Call<ListResponse> call, final Response<ListResponse> response) {
+            MainExecutor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    BaseStoreFragment fragment = weakFragment.get();
+                    if (fragment != null) {
+                        if (response.isSuccessful()) {
+                            ListResponse body = response.body();
+                            if (body != null) {
+                                fragment.onLoaded(body, isInvalidate);
+                            }
+                            return;
+                        }
+                        fragment.onLoadingError();
+                    }
+                }
+            });
+        }
+
+        @Override
+        public void onFailure(Call<ListResponse> call, Throwable t) {
+            MainExecutor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    BaseStoreFragment fragment = weakFragment.get();
+                    if (fragment != null) {
+                        fragment.onLoadingError();
+                    }
+                }
+            });
+        }
+    }
 }

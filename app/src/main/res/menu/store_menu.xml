@@ -5,6 +5,5 @@
         android:id="@+id/menu_search"
         android:icon="@drawable/magnify"
         android:title="@string/menu_search"
-        app:actionViewClass="android.support.v7.widget.SearchView"
         app:showAsAction="ifRoom|collapseActionView" />
 </menu>

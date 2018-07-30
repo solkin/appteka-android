@@ -14,14 +14,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.MainExecutor;
@@ -37,6 +35,7 @@ import com.tomclaw.appsend.main.local.HomeInstalledFragment_;
 import com.tomclaw.appsend.main.local.SelectLocalAppActivity;
 import com.tomclaw.appsend.main.local.SelectLocalAppActivity_;
 import com.tomclaw.appsend.main.profile.ProfileActivity_;
+import com.tomclaw.appsend.main.store.search.SearchActivity_;
 import com.tomclaw.appsend.main.settings.SettingsActivity_;
 import com.tomclaw.appsend.main.store.StoreFragment_;
 import com.tomclaw.appsend.main.store.UserUploadsFragment_;
@@ -88,9 +87,6 @@ public class HomeActivity extends AppCompatActivity implements UserDataListener,
     public static String CURRENT_TAG = TAG_STORE;
 
     private String[] activityTitles;
-
-    private SearchView.OnQueryTextListener onQueryTextListener;
-    private SearchView.OnCloseListener onCloseListener;
 
     private final static boolean shouldLoadHomeFragOnBackPress = true;
     private Handler handler;
@@ -158,32 +154,6 @@ public class HomeActivity extends AppCompatActivity implements UserDataListener,
         });
 
         setUpNavigationView();
-
-        onQueryTextListener = new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                HomeFragment fragment = getHomeFragment();
-                if (fragment != null && fragment.isFilterable()) {
-                    fragment.filter(newText);
-                }
-                return false;
-            }
-        };
-        onCloseListener = new SearchView.OnCloseListener() {
-            @Override
-            public boolean onClose() {
-                HomeFragment fragment = getHomeFragment();
-                if (fragment != null && fragment.isFilterable()) {
-                    fragment.filter("");
-                }
-                return false;
-            }
-        };
 
         setToolbarTitle();
 
@@ -461,33 +431,6 @@ public class HomeActivity extends AppCompatActivity implements UserDataListener,
         if (navItemIndex == NAV_STORE) {
             getMenuInflater().inflate(R.menu.store_menu, menu);
         }
-        MenuItem searchMenu = menu.findItem(R.id.menu_search);
-        if (searchMenu != null) {
-            final SearchView searchView = (SearchView) searchMenu.getActionView();
-            searchView.setQueryHint(menu.findItem(R.id.menu_search).getTitle());
-            // Configure the search info and add any event listeners
-            searchView.setOnQueryTextListener(onQueryTextListener);
-            searchView.setOnCloseListener(onCloseListener);
-            searchView.setOnSearchClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    HomeFragment fragment = getHomeFragment();
-                    if (fragment != null) {
-                        searchView.setQuery(fragment.getFilter(), false);
-                    }
-                }
-            });
-            searchView.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
-                @Override
-                public void onViewAttachedToWindow(View v) {
-                }
-
-                @Override
-                public void onViewDetachedFromWindow(View v) {
-                    onCloseListener.onClose();
-                }
-            });
-        }
         return true;
     }
 
@@ -495,8 +438,8 @@ public class HomeActivity extends AppCompatActivity implements UserDataListener,
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.profile) {
-            Toast.makeText(getApplicationContext(), "User Profile", Toast.LENGTH_LONG).show();
+        if (id == R.id.menu_search) {
+            SearchActivity_.intent(this).start();
             return true;
         }
 

@@ -65,6 +65,7 @@
         <item name="bottom_bar_background">#ffffff</item>
 
         <item name="toolbar_background">@color/primary_color</item>
+        <item name="search_toolbar_background">#636e72</item>
 
         <item name="play_view_color">@color/play_view_light_color</item>
 
@@ -109,6 +110,7 @@
         <item name="bottom_bar_background">#181818</item>
 
         <item name="toolbar_background">#263238</item>
+        <item name="search_toolbar_background">#263238</item>
 
         <item name="play_view_color">@color/play_view_dark_color</item>
 
