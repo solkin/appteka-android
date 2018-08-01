@@ -1,5 +1,6 @@
 package com.tomclaw.appsend.main.store.search;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
@@ -11,7 +12,6 @@ import android.widget.EditText;
 
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.util.ColorHelper;
-import com.tomclaw.appsend.util.KeyboardHelper;
 import com.tomclaw.appsend.util.ThemeHelper;
 
 import org.androidannotations.annotations.AfterViews;
@@ -20,6 +20,7 @@ import org.androidannotations.annotations.FragmentById;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 
+@SuppressLint("Registered")
 @EActivity(R.layout.activity_search)
 public class SearchActivity extends AppCompatActivity {
 
@@ -56,7 +57,6 @@ public class SearchActivity extends AppCompatActivity {
         queryEdit.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
 
             @Override
@@ -68,7 +68,6 @@ public class SearchActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-
             }
         });
     }
