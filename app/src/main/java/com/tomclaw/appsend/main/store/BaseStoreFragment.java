@@ -1,5 +1,6 @@
 package com.tomclaw.appsend.main.store;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -123,13 +124,13 @@ public abstract class BaseStoreFragment extends HomeFragment implements FilesLis
         call.enqueue(new LoadCallback(this, isInvalidate));
     }
 
-    private void onLoaded(ListResponse body, boolean isInvalidate) {
+    private void onLoaded(ListResponse body, boolean isInvalidate, PackageManager packageManager) {
         isLoading = false;
         isError = false;
         if (body.getFiles().isEmpty()) {
             isLoadedAll = true;
         } else {
-            updateItemsInstalledVersions(getContext().getPackageManager(), body.getFiles());
+            updateItemsInstalledVersions(packageManager, body.getFiles());
         }
         if (files == null || isInvalidate) {
             files = new ArrayList<>(body.getFiles());
@@ -242,14 +243,17 @@ public abstract class BaseStoreFragment extends HomeFragment implements FilesLis
                 public void run() {
                     BaseStoreFragment fragment = weakFragment.get();
                     if (fragment != null) {
-                        if (response.isSuccessful()) {
-                            ListResponse body = response.body();
-                            if (body != null) {
-                                fragment.onLoaded(body, isInvalidate);
+                        Context context = fragment.getContext();
+                        if (context != null) {
+                            if (response.isSuccessful()) {
+                                ListResponse body = response.body();
+                                if (body != null) {
+                                    fragment.onLoaded(body, isInvalidate, context.getPackageManager());
+                                }
+                                return;
                             }
-                            return;
+                            fragment.onLoadingError();
                         }
-                        fragment.onLoadingError();
                     }
                 }
             });
