@@ -28,7 +28,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@null"
-            android:imeOptions="flagNoFullscreen" />
+            android:imeOptions="flagNoFullscreen"
+            android:hint="@string/search_app"
+            android:lines="1"
+            android:singleLine="true" />
 
     </android.support.v7.widget.Toolbar>
 

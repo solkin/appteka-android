@@ -249,5 +249,5 @@
     <string name="close_drawer">Close Drawer</string>
     <string name="new_app">New</string>
     <string name="select_app">Выберите приложение</string>
-    <string name="search_app">Поиск по обменнику</string>
+    <string name="search_app">Поиск в обменнике</string>
 </resources>
