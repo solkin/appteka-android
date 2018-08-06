@@ -111,6 +111,9 @@ public abstract class BaseStoreFragment extends HomeFragment implements FilesLis
     public void loadFiles(final boolean isInvalidate) {
         isLoading = true;
         isError = false;
+        if (isInvalidate) {
+            isLoadedAll = false;
+        }
         String appId = null;
         if (files != null && files.size() > 0 && !isInvalidate) {
             StoreItem lastItem = files.get(files.size() - 1);
