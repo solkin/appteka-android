@@ -13,7 +13,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -21,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.greysonparrelli.permiso.PermisoActivity;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.main.about.AboutActivity_;
@@ -35,10 +35,10 @@ import com.tomclaw.appsend.main.local.HomeInstalledFragment_;
 import com.tomclaw.appsend.main.local.SelectLocalAppActivity;
 import com.tomclaw.appsend.main.local.SelectLocalAppActivity_;
 import com.tomclaw.appsend.main.profile.ProfileActivity_;
-import com.tomclaw.appsend.main.store.search.SearchActivity_;
 import com.tomclaw.appsend.main.settings.SettingsActivity_;
 import com.tomclaw.appsend.main.store.StoreFragment_;
 import com.tomclaw.appsend.main.store.UserUploadsFragment_;
+import com.tomclaw.appsend.main.store.search.SearchActivity_;
 import com.tomclaw.appsend.main.upload.UploadActivity;
 import com.tomclaw.appsend.main.view.MemberImageView;
 import com.tomclaw.appsend.net.Session;
@@ -54,7 +54,7 @@ import net.hockeyapp.android.metrics.MetricsManager;
 
 import static com.tomclaw.appsend.util.MemberImageHelper.memberImageHelper;
 
-public class HomeActivity extends AppCompatActivity implements UserDataListener,
+public class HomeActivity extends PermisoActivity implements UserDataListener,
         UpdateController.UpdateCallback,
         DiscussController.DiscussCallback {
 

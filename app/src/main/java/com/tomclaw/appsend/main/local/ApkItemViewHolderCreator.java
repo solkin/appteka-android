@@ -10,7 +10,6 @@ import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.main.adapter.files.FileViewHolder;
 import com.tomclaw.appsend.main.adapter.files.FileViewHolderCreator;
 import com.tomclaw.appsend.main.item.ApkItem;
-import com.tomclaw.appsend.main.item.AppItem;
 
 public class ApkItemViewHolderCreator implements FileViewHolderCreator<ApkItem> {
 

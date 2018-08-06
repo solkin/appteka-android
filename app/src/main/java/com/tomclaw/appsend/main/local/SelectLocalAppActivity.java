@@ -10,9 +10,9 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.util.Pair;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
+import com.greysonparrelli.permiso.PermisoActivity;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.main.item.CommonItem;
 import com.tomclaw.appsend.util.ThemeHelper;
@@ -27,9 +27,7 @@ import java.util.List;
 
 @SuppressLint("Registered")
 @EActivity(R.layout.local_apps)
-public class SelectLocalAppActivity
-        extends AppCompatActivity
-        implements CommonItemClickListener {
+public class SelectLocalAppActivity extends PermisoActivity implements CommonItemClickListener {
 
     public static final String SELECTED_ITEM = "selected_item";
 

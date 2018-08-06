@@ -1,5 +1,6 @@
 package com.tomclaw.appsend.main.local;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -11,6 +12,7 @@ import android.support.v7.app.AlertDialog;
 import android.widget.ListAdapter;
 
 import com.flurry.android.FlurryAgent;
+import com.greysonparrelli.permiso.Permiso;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.TaskExecutor;
 import com.tomclaw.appsend.main.adapter.MenuAdapter;
@@ -32,8 +34,32 @@ import static com.tomclaw.appsend.util.IntentHelper.openGooglePlay;
 @EFragment(R.layout.local_apps_fragment)
 public class HomeInstalledFragment extends InstalledFragment {
 
+    private void checkExtractPermissions(final AppItem item) {
+        Permiso.getInstance().requestPermissions(new Permiso.IOnPermissionResult() {
+            @Override
+            public void onPermissionResult(Permiso.ResultSet resultSet) {
+                if (resultSet.areAllPermissionsGranted()) {
+                    showActionDialog(item);
+                } else {
+                    Snackbar.make(recycler, R.string.permission_denied_message, Snackbar.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onRationaleRequested(Permiso.IOnRationaleProvided callback, String... permissions) {
+                String title = getResources().getString(R.string.app_name);
+                String message = getResources().getString(R.string.write_permission_extract);
+                Permiso.getInstance().showRationaleInDialog(title, message, null, callback);
+            }
+        }, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+    }
+
     @Override
     public void onClick(final AppItem item) {
+        checkExtractPermissions(item);
+    }
+
+    private void showActionDialog(final AppItem item) {
         ListAdapter menuAdapter = new MenuAdapter(getContext(), R.array.app_actions_titles, R.array.app_actions_icons);
         new AlertDialog.Builder(getContext())
                 .setAdapter(menuAdapter, new DialogInterface.OnClickListener() {
@@ -123,5 +149,4 @@ public class HomeInstalledFragment extends InstalledFragment {
                     }
                 }).show();
     }
-
 }

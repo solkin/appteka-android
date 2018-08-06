@@ -1,5 +1,6 @@
 package com.tomclaw.appsend.main.local;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -8,6 +9,7 @@ import android.support.v7.app.AlertDialog;
 import android.widget.ListAdapter;
 
 import com.flurry.android.FlurryAgent;
+import com.greysonparrelli.permiso.Permiso;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.main.adapter.MenuAdapter;
 import com.tomclaw.appsend.main.download.DownloadActivity;
@@ -30,6 +32,29 @@ import static com.tomclaw.appsend.util.IntentHelper.shareApk;
 
 @EFragment(R.layout.local_apps_fragment)
 public class HomeDistroFragment extends DistroFragment {
+
+    @Override
+    public void loadAttempt() {
+        Permiso.getInstance().requestPermissions(new Permiso.IOnPermissionResult() {
+            @Override
+            public void onPermissionResult(Permiso.ResultSet resultSet) {
+                if (resultSet.areAllPermissionsGranted()) {
+                    invalidate();
+                    loadFiles();
+                } else {
+                    errorText.setText(R.string.write_permission_install);
+                    showError();
+                }
+            }
+
+            @Override
+            public void onRationaleRequested(Permiso.IOnRationaleProvided callback, String... permissions) {
+                String title = getContext().getString(R.string.app_name);
+                String message = getContext().getString(R.string.write_permission_install);
+                Permiso.getInstance().showRationaleInDialog(title, message, null, callback);
+            }
+        }, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+    }
 
     @Override
     public void onClick(final ApkItem item) {

@@ -85,7 +85,7 @@ abstract class CommonItemFragment<T extends CommonItem>
 
         if (getFiles() == null) {
             showProgress();
-            loadFiles();
+            loadAttempt();
         } else {
             updateFiles();
             showContent();
@@ -97,7 +97,8 @@ abstract class CommonItemFragment<T extends CommonItem>
         super.onResume();
         if (isRefreshOnResume) {
             isRefreshOnResume = false;
-            reloadFiles();
+            showProgress();
+            loadAttempt();
         }
     }
 
@@ -106,6 +107,11 @@ abstract class CommonItemFragment<T extends CommonItem>
     protected abstract void setFiles(List<T> files);
 
     protected abstract FileViewHolderCreator<T> getViewHolderCreator();
+
+    public void loadAttempt() {
+        invalidate();
+        loadFiles();
+    }
 
     public void reloadFiles() {
         showProgress();
@@ -144,7 +150,7 @@ abstract class CommonItemFragment<T extends CommonItem>
         swipeRefresh.setRefreshing(false);
     }
 
-    private void invalidate() {
+    public void invalidate() {
         setFiles(null);
     }
 
@@ -154,21 +160,21 @@ abstract class CommonItemFragment<T extends CommonItem>
         showContent();
     }
 
-    private void showProgress() {
+    public void showProgress() {
         viewFlipper.setDisplayedChild(0);
     }
 
-    private void showContent() {
+    public void showContent() {
         viewFlipper.setDisplayedChild(1);
     }
 
-    private void showError() {
+    public void showError() {
         errorText.setText(R.string.load_files_error);
         buttonRetry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showProgress();
-                loadFiles();
+                loadAttempt();
             }
         });
         viewFlipper.setDisplayedChild(2);
