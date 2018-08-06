@@ -97,7 +97,7 @@ public abstract class BaseStoreFragment extends HomeFragment implements FilesLis
             loadFiles(false);
         } else {
             updateFiles();
-            showContent();
+            onContentReady();
         }
     }
 
@@ -148,7 +148,7 @@ public abstract class BaseStoreFragment extends HomeFragment implements FilesLis
         isLoading = false;
         isError = false;
         swipeRefresh.setRefreshing(false);
-        showContent();
+        onContentReady();
     }
 
     private void onLoadingError() {
@@ -169,7 +169,15 @@ public abstract class BaseStoreFragment extends HomeFragment implements FilesLis
     private void updateFiles() {
         adapter.setItems(files);
         adapter.notifyDataSetChanged();
-        showContent();
+        onContentReady();
+    }
+
+    private void onContentReady() {
+        if (files == null || files.isEmpty()) {
+            showEmptyView();
+        } else {
+            showContent();
+        }
     }
 
     public void showProgress() {
@@ -178,6 +186,10 @@ public abstract class BaseStoreFragment extends HomeFragment implements FilesLis
 
     public void showContent() {
         viewFlipper.setDisplayedChild(1);
+    }
+
+    public void showEmptyView() {
+        viewFlipper.setDisplayedChild(2);
     }
 
     private void showError() {
@@ -189,7 +201,7 @@ public abstract class BaseStoreFragment extends HomeFragment implements FilesLis
                 loadFiles(false);
             }
         });
-        viewFlipper.setDisplayedChild(2);
+        viewFlipper.setDisplayedChild(3);
     }
 
     @Override

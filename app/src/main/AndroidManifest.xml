@@ -115,7 +115,7 @@
         <activity
             android:name=".main.store.search.SearchActivity_"
             android:label="@string/search_app"
-            android:windowSoftInputMode="stateVisible" />
+            android:windowSoftInputMode="stateVisible|adjustResize" />
 
         <provider
             android:name=".core.GlobalProvider"

@@ -256,4 +256,5 @@
     <string name="new_app">New</string>
     <string name="select_app">Select application</string>
     <string name="search_app">Search in store</string>
+    <string name="empty_list">There is no apps here…</string>
 </resources>
