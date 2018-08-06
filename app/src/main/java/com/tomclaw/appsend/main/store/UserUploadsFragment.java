@@ -61,6 +61,7 @@ public class UserUploadsFragment extends BaseStoreFragment implements UserDataLi
     public void setUserId(long userId) {
         if (this.userId == null || this.userId != userId) {
             this.userId = userId;
+            showProgress();
             loadFiles(true);
         }
     }

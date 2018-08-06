@@ -30,6 +30,7 @@ public class UploadsFragment extends BaseStoreFragment {
     public void setUserId(long userId) {
         if (this.userId == null || this.userId != userId) {
             this.userId = userId;
+            showProgress();
             loadFiles(true);
         }
     }
