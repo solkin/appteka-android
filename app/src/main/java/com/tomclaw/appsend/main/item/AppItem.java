@@ -49,11 +49,6 @@ public class AppItem extends CommonItem implements Parcelable {
         }
     };
 
-    @Override
-    public int getType() {
-        return APP_ITEM;
-    }
-
     public long getFirstInstallTime() {
         return firstInstallTime;
     }

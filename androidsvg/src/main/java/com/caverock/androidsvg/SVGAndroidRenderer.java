@@ -3401,7 +3401,7 @@ class SVGAndroidRenderer {
     // destroy the clip region we are trying to build.
     private void clipStatePush() {
         // Save matrix and clip
-        canvas.save(Canvas.ALL_SAVE_FLAG);
+        canvas.save();
         // Save style state
         stateStack.push(state);
         state = new RendererState(state);

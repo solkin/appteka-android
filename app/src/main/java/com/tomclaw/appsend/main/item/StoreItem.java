@@ -144,11 +144,6 @@ public class StoreItem extends BaseItem implements Parcelable, Unobfuscatable {
         }
     };
 
-    @Override
-    public int getType() {
-        return STORE_ITEM;
-    }
-
     public String getLabel() {
         return label;
     }

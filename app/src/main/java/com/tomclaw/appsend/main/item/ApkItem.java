@@ -55,11 +55,6 @@ public class ApkItem extends CommonItem implements Parcelable {
         }
     };
 
-    @Override
-    public int getType() {
-        return APK_ITEM;
-    }
-
     public String getInstalledVersion() {
         return installedVersion;
     }
