@@ -53,6 +53,9 @@ abstract class InstalledFragment extends CommonItemFragment<AppItem> {
     List<AppItem> loadItemsSync() {
         final Locale locale = Locale.getDefault();
         final Context context = getContext();
+        if (context == null) {
+            return null;
+        }
         PackageManager packageManager = context.getPackageManager();
         ArrayList<AppItem> appItemList = new ArrayList<>();
         List<ApplicationInfo> packages = packageManager.getInstalledApplications(PackageManager.GET_META_DATA);

@@ -257,7 +257,7 @@ public abstract class BaseStoreFragment extends HomeFragment implements FilesLis
                 @Override
                 public void run() {
                     BaseStoreFragment fragment = weakFragment.get();
-                    if (fragment != null) {
+                    if (fragment != null && fragment.isAdded()) {
                         Context context = fragment.getContext();
                         if (context != null) {
                             if (response.isSuccessful()) {
@@ -280,7 +280,7 @@ public abstract class BaseStoreFragment extends HomeFragment implements FilesLis
                 @Override
                 public void run() {
                     BaseStoreFragment fragment = weakFragment.get();
-                    if (fragment != null) {
+                    if (fragment != null && fragment.isAdded()) {
                         fragment.onLoadingError();
                     }
                 }

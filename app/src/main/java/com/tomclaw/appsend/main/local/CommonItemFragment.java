@@ -221,7 +221,7 @@ abstract class CommonItemFragment<T extends CommonItem>
         @Override
         public void executeBackground() throws Throwable {
             CommonItemFragment<A> fragment = getWeakObject();
-            if (fragment != null) {
+            if (fragment != null && fragment.isAdded()) {
                 items = fragment.loadItemsSync();
             }
         }
@@ -229,7 +229,7 @@ abstract class CommonItemFragment<T extends CommonItem>
         @Override
         public void onSuccessMain() {
             CommonItemFragment<A> fragment = getWeakObject();
-            if (fragment != null) {
+            if (fragment != null && fragment.isAdded()) {
                 fragment.onLoaded(items);
             }
         }
@@ -237,7 +237,7 @@ abstract class CommonItemFragment<T extends CommonItem>
         @Override
         public void onFailMain(Throwable ex) {
             CommonItemFragment<A> fragment = getWeakObject();
-            if (fragment != null) {
+            if (fragment != null && fragment.isAdded()) {
                 fragment.onLoadingError();
             }
         }
