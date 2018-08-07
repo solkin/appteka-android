@@ -58,6 +58,11 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
         UpdateController.UpdateCallback,
         DiscussController.DiscussCallback {
 
+    public static final String ACTION_INSTALLED = "com.tomclaw.appsend.apps";
+    public static final String ACTION_DISTRO = "com.tomclaw.appsend.install";
+    public static final String ACTION_STORE = "com.tomclaw.appsend.cloud";
+    public static final String ACTION_DISCUSS = "com.tomclaw.appsend.discuss";
+
     private static final int NAV_STORE = 0;
     private static final int NAV_UPLOADS = 1;
     private static final int NAV_DISCUSS = 2;
@@ -101,6 +106,8 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
         setContentView(R.layout.activity_home);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        String intentAction = getIntent().getAction();
 
         handler = new Handler();
 
@@ -157,9 +164,11 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
 
         setToolbarTitle();
 
-        if (savedInstanceState == null) {
-            navItemIndex = NAV_STORE;
-            CURRENT_TAG = TAG_STORE;
+        if (isCreateInstance) {
+            if (!setNavByAction(intentAction)) {
+                navItemIndex = NAV_STORE;
+                CURRENT_TAG = TAG_STORE;
+            }
             loadHomeFragment();
         }
 
@@ -317,6 +326,30 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
             default:
                 throw new IllegalStateException("Invalid navigation item index");
         }
+    }
+
+    private boolean setNavByAction(String action) {
+        if (!TextUtils.isEmpty(action)) {
+            switch (action) {
+                case ACTION_STORE:
+                    navItemIndex = NAV_STORE;
+                    CURRENT_TAG = TAG_STORE;
+                    return true;
+                case ACTION_DISCUSS:
+                    navItemIndex = NAV_DISCUSS;
+                    CURRENT_TAG = TAG_DISCUSS;
+                    return true;
+                case ACTION_INSTALLED:
+                    navItemIndex = NAV_INSTALLED;
+                    CURRENT_TAG = TAG_INSTALLED;
+                    return true;
+                case ACTION_DISTRO:
+                    navItemIndex = NAV_DISTRO;
+                    CURRENT_TAG = TAG_DISTRO;
+                    return true;
+            }
+        }
+        return false;
     }
 
     private void setToolbarTitle() {

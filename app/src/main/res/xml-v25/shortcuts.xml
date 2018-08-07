@@ -1,54 +1,54 @@
 <shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
     <shortcut
-        android:shortcutId="apps"
-        android:enabled="true"
-        android:icon="@drawable/ic_shortcut_apps"
-        android:shortcutShortLabel="@string/tab_apps"
-        android:shortcutLongLabel="@string/tab_apps"
-        android:shortcutDisabledMessage="@string/tab_apps">
-        <intent
-            android:action="com.tomclaw.appsend.apps"
-            android:targetPackage="com.tomclaw.appsend"
-            android:targetClass="com.tomclaw.appsend.MainActivity" />
-        <categories android:name="android.shortcut.conversation" />
-    </shortcut>
-    <shortcut
-        android:shortcutId="install"
-        android:enabled="true"
-        android:icon="@drawable/ic_shortcut_install"
-        android:shortcutShortLabel="@string/tab_install"
-        android:shortcutLongLabel="@string/tab_install"
-        android:shortcutDisabledMessage="@string/tab_install">
-        <intent
-            android:action="com.tomclaw.appsend.install"
-            android:targetPackage="com.tomclaw.appsend"
-            android:targetClass="com.tomclaw.appsend.MainActivity" />
-        <categories android:name="android.shortcut.conversation" />
-    </shortcut>
-    <shortcut
         android:shortcutId="store"
         android:enabled="true"
         android:icon="@drawable/ic_shortcut_store"
-        android:shortcutShortLabel="@string/tab_store"
-        android:shortcutLongLabel="@string/tab_store"
-        android:shortcutDisabledMessage="@string/tab_store">
+        android:shortcutShortLabel="@string/nav_store"
+        android:shortcutLongLabel="@string/nav_store"
+        android:shortcutDisabledMessage="@string/nav_store">
         <intent
             android:action="com.tomclaw.appsend.cloud"
             android:targetPackage="com.tomclaw.appsend"
-            android:targetClass="com.tomclaw.appsend.MainActivity" />
+            android:targetClass="com.tomclaw.appsend.main.home.HomeActivity" />
         <categories android:name="android.shortcut.conversation" />
     </shortcut>
     <shortcut
         android:shortcutId="discuss"
         android:enabled="true"
         android:icon="@drawable/ic_shortcut_discuss"
-        android:shortcutShortLabel="@string/tab_discuss"
-        android:shortcutLongLabel="@string/tab_discuss"
-        android:shortcutDisabledMessage="@string/tab_discuss">
+        android:shortcutShortLabel="@string/nav_discuss"
+        android:shortcutLongLabel="@string/nav_discuss"
+        android:shortcutDisabledMessage="@string/nav_discuss">
         <intent
             android:action="com.tomclaw.appsend.discuss"
             android:targetPackage="com.tomclaw.appsend"
-            android:targetClass="com.tomclaw.appsend.MainActivity" />
+            android:targetClass="com.tomclaw.appsend.main.home.HomeActivity" />
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+    <shortcut
+        android:shortcutId="apps"
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut_apps"
+        android:shortcutShortLabel="@string/nav_installed"
+        android:shortcutLongLabel="@string/nav_installed"
+        android:shortcutDisabledMessage="@string/nav_installed">
+        <intent
+            android:action="com.tomclaw.appsend.apps"
+            android:targetPackage="com.tomclaw.appsend"
+            android:targetClass="com.tomclaw.appsend.main.home.HomeActivity" />
+        <categories android:name="android.shortcut.conversation" />
+    </shortcut>
+    <shortcut
+        android:shortcutId="install"
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut_install"
+        android:shortcutShortLabel="@string/nav_distro"
+        android:shortcutLongLabel="@string/nav_distro"
+        android:shortcutDisabledMessage="@string/nav_distro">
+        <intent
+            android:action="com.tomclaw.appsend.install"
+            android:targetPackage="com.tomclaw.appsend"
+            android:targetClass="com.tomclaw.appsend.main.home.HomeActivity" />
         <categories android:name="android.shortcut.conversation" />
     </shortcut>
 </shortcuts>

@@ -39,7 +39,6 @@ import com.caverock.androidsvg.SVGParseException;
 import com.flurry.android.FlurryAgent;
 import com.greysonparrelli.permiso.Permiso;
 import com.greysonparrelli.permiso.PermisoActivity;
-import com.tomclaw.appsend.MainActivity;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.GlideApp;
 import com.tomclaw.appsend.core.MainExecutor;
@@ -49,6 +48,7 @@ import com.tomclaw.appsend.main.abuse.AbuseActivity_;
 import com.tomclaw.appsend.main.dto.RatingItem;
 import com.tomclaw.appsend.main.dto.StoreInfo;
 import com.tomclaw.appsend.main.dto.StoreVersion;
+import com.tomclaw.appsend.main.home.HomeActivity;
 import com.tomclaw.appsend.main.item.StoreItem;
 import com.tomclaw.appsend.main.meta.Category;
 import com.tomclaw.appsend.main.meta.Meta;
@@ -450,8 +450,8 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     }
 
     private void openStore() {
-        Intent intent = new Intent(DownloadActivity.this, MainActivity.class)
-                .setAction(MainActivity.ACTION_CLOUD)
+        Intent intent = new Intent(DownloadActivity.this, HomeActivity.class)
+                .setAction(HomeActivity.ACTION_STORE)
                 .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
