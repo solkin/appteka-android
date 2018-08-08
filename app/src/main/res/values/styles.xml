@@ -60,8 +60,6 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
 
-        <item name="cardViewStyle">@style/CardViewStyle.Light</item>
-
         <item name="bottom_bar_background">#ffffff</item>
 
         <item name="toolbar_background">@color/primary_color</item>
@@ -107,8 +105,6 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
 
-        <item name="cardViewStyle">@style/CardViewStyle.Dark</item>
-
         <item name="bottom_bar_background">#181818</item>
 
         <item name="toolbar_background">#263238</item>
@@ -137,14 +133,6 @@
 
         <item name="permissions_container_background">@color/permissions_container_dark_background
         </item>
-    </style>
-
-    <style name="CardViewStyle.Light" parent="CardView">
-        <item name="cardBackgroundColor">@color/cardview_light_background</item>
-    </style>
-
-    <style name="CardViewStyle.Dark" parent="CardView">
-        <item name="cardBackgroundColor">@color/cardview_dark_background</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
