@@ -1,7 +1,6 @@
 package com.tomclaw.appsend.main.local;
 
 import android.content.Context;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -60,12 +59,7 @@ public class ApkItemViewHolder extends FileViewHolder<ApkItem> {
         }
 
         appName.setText(item.getLabel());
-        if (TextUtils.isEmpty(item.getInstalledVersion())) {
-            appVersion.setText(item.getVersion());
-        } else {
-            appVersion.setText(itemView.getResources().getString(
-                    R.string.version_update, item.getInstalledVersion(), item.getVersion()));
-        }
+        appVersion.setText(item.getVersion());
         if (item.getCreateTime() > 0) {
             apkCreateTime.setVisibility(View.VISIBLE);
             apkCreateTime.setText(timeHelper().getFormattedDate(item.getCreateTime()));

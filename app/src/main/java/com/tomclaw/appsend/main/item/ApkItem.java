@@ -9,32 +9,22 @@ import android.os.Parcelable;
  */
 public class ApkItem extends CommonItem implements Parcelable {
 
-    private final String installedVersion;
     private final long createTime;
 
     public ApkItem(String label, String packageName, String version, String path, long size,
-                   String installedVersion, long createTime, PackageInfo packageInfo) {
+                   long createTime, PackageInfo packageInfo) {
         super(label, packageName, version, path, size, packageInfo);
-        this.installedVersion = installedVersion;
-        this.createTime = createTime;
-    }
-
-    public ApkItem(Parcel in, String installedVersion, long createTime) {
-        super(in);
-        this.installedVersion = installedVersion;
         this.createTime = createTime;
     }
 
     private ApkItem(Parcel in) {
         super(in);
-        installedVersion = in.readString();
         createTime = in.readLong();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         super.writeToParcel(dest, flags);
-        dest.writeString(installedVersion);
         dest.writeLong(createTime);
     }
 
@@ -54,10 +44,6 @@ public class ApkItem extends CommonItem implements Parcelable {
             return new ApkItem[size];
         }
     };
-
-    public String getInstalledVersion() {
-        return installedVersion;
-    }
 
     public long getCreateTime() {
         return createTime;

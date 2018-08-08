@@ -82,18 +82,8 @@ abstract class DistroFragment extends CommonItemFragment<ApkItem> {
                     String label = packageManager.getApplicationLabel(info).toString();
                     String version = packageInfo.versionName;
 
-                    String installedVersion = null;
-                    try {
-                        PackageInfo instPackageInfo = packageManager.getPackageInfo(info.packageName, 0);
-                        if (instPackageInfo != null) {
-                            installedVersion = instPackageInfo.versionName;
-                        }
-                    } catch (Throwable ignored) {
-                        // No package, maybe?
-                    }
-
                     ApkItem item = new ApkItem(label, info.packageName, version, file.getPath(),
-                            file.length(), installedVersion, file.lastModified(), packageInfo);
+                            file.length(), file.lastModified(), packageInfo);
                     itemList.add(item);
                 }
             } catch (Throwable ignored) {
