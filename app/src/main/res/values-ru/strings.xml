@@ -251,4 +251,6 @@
     <string name="select_app">Выберите приложение</string>
     <string name="search_app">Поиск в обменнике</string>
     <string name="empty_list">Нет приложений…</string>
+    <string name="upload_app_title">Загрузка приложения</string>
+    <string name="upload_app_message">Загрузить приложение в обменник для общего доступа?</string>
 </resources>

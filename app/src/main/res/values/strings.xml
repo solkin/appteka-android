@@ -257,4 +257,6 @@
     <string name="select_app">Select application</string>
     <string name="search_app">Search in store</string>
     <string name="empty_list">There is no apps here…</string>
+    <string name="upload_app_title">Upload app</string>
+    <string name="upload_app_message">Upload this application to the Store for public access?</string>
 </resources>

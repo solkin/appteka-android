@@ -1,6 +1,7 @@
 package com.tomclaw.appsend.main.local;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -10,6 +11,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.util.Pair;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 
 import com.greysonparrelli.permiso.PermisoActivity;
@@ -19,6 +21,7 @@ import com.tomclaw.appsend.util.ThemeHelper;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 
@@ -39,6 +42,9 @@ public class SelectLocalAppActivity extends PermisoActivity implements CommonIte
 
     @ViewById
     TabLayout tabs;
+
+    @Extra
+    DialogData dialogData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,8 +90,23 @@ public class SelectLocalAppActivity extends PermisoActivity implements CommonIte
     }
 
     @Override
-    public void onClick(CommonItem item) {
-        leaveScreen(item);
+    public void onClick(final CommonItem item) {
+        if (dialogData != null) {
+            new AlertDialog.Builder(this)
+                    .setTitle(dialogData.getTitle())
+                    .setMessage(dialogData.getMessage())
+                    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            leaveScreen(item);
+                        }
+                    })
+                    .setNegativeButton(R.string.no, null)
+                    .create()
+                    .show();
+        } else {
+            leaveScreen(item);
+        }
     }
 
     private void leaveScreen() {
