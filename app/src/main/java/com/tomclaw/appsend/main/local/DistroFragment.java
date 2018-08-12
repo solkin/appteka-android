@@ -3,15 +3,17 @@ package com.tomclaw.appsend.main.local;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.os.Bundle;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.tomclaw.appsend.main.adapter.files.FileViewHolderCreator;
 import com.tomclaw.appsend.main.item.ApkItem;
 import com.tomclaw.appsend.util.FileHelper;
+import com.tomclaw.appsend.util.StateHolder;
 
 import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.InstanceState;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -23,9 +25,32 @@ import static android.content.pm.PackageManager.GET_PERMISSIONS;
 abstract class DistroFragment extends CommonItemFragment<ApkItem> {
 
     private static final CharSequence APK_EXTENSION = "apk";
+    private static final String KEY_FILES = "files";
 
-    @InstanceState
-    ArrayList<ApkItem> files;
+    private ArrayList<ApkItem> files;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            String stateKey = savedInstanceState.getString(KEY_FILES);
+            if (stateKey != null) {
+                ApkItemsState itemsState = StateHolder.getInstance().removeState(stateKey);
+                if (itemsState != null) {
+                    files = itemsState.getItems();
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (files != null) {
+            String stateKey = StateHolder.getInstance().putState(new ApkItemsState(files));
+            outState.putString(KEY_FILES, stateKey);
+        }
+    }
 
     @Override
     protected List<ApkItem> getFiles() {

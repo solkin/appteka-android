@@ -5,15 +5,17 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.main.adapter.files.FileViewHolderCreator;
 import com.tomclaw.appsend.main.item.AppItem;
 import com.tomclaw.appsend.util.PreferenceHelper;
+import com.tomclaw.appsend.util.StateHolder;
 
 import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.InstanceState;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -27,8 +29,32 @@ import static android.content.pm.PackageManager.GET_PERMISSIONS;
 @EFragment
 abstract class InstalledFragment extends CommonItemFragment<AppItem> {
 
-    @InstanceState
-    ArrayList<AppItem> files;
+    private static final String KEY_FILES = "files";
+
+    private ArrayList<AppItem> files;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            String stateKey = savedInstanceState.getString(KEY_FILES);
+            if (stateKey != null) {
+                AppItemsState itemsState = StateHolder.getInstance().removeState(stateKey);
+                if (itemsState != null) {
+                    files = itemsState.getItems();
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (files != null) {
+            String stateKey = StateHolder.getInstance().putState(new AppItemsState(files));
+            outState.putString(KEY_FILES, stateKey);
+        }
+    }
 
     @Override
     protected List<AppItem> getFiles() {

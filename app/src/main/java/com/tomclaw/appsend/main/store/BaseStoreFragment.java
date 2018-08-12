@@ -3,6 +3,8 @@ package com.tomclaw.appsend.main.store;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,6 +23,7 @@ import com.tomclaw.appsend.main.home.HomeFragment;
 import com.tomclaw.appsend.main.item.StoreItem;
 import com.tomclaw.appsend.main.profile.list.ListResponse;
 import com.tomclaw.appsend.util.LocaleHelper;
+import com.tomclaw.appsend.util.StateHolder;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -41,6 +44,8 @@ import static com.tomclaw.appsend.util.PackageHelper.getInstalledVersionCode;
 @EFragment
 public abstract class BaseStoreFragment extends HomeFragment implements FilesListener<StoreItem> {
 
+    private static final String KEY_FILES = "files";
+
     @ViewById
     protected ViewFlipper viewFlipper;
 
@@ -56,16 +61,9 @@ public abstract class BaseStoreFragment extends HomeFragment implements FilesLis
     @ViewById
     protected Button buttonRetry;
 
-    @InstanceState
     protected ArrayList<StoreItem> files;
-
-    @InstanceState
     protected boolean isError;
-
-    @InstanceState
     protected boolean isLoading;
-
-    @InstanceState
     protected boolean isLoadedAll;
 
     private FilesAdapter<StoreItem> adapter;
@@ -98,6 +96,33 @@ public abstract class BaseStoreFragment extends HomeFragment implements FilesLis
         } else {
             updateFiles();
             onContentReady();
+        }
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (savedInstanceState != null) {
+            String stateKey = savedInstanceState.getString(KEY_FILES);
+            if (stateKey != null) {
+                StoreItemsState itemsState = StateHolder.getInstance().removeState(stateKey);
+                if (itemsState != null) {
+                    files = itemsState.getItems();
+                    isError = itemsState.isError();
+                    isLoading = itemsState.isLoading();
+                    isLoadedAll = itemsState.isLoadedAll();
+                }
+            }
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (files != null) {
+            StoreItemsState state = new StoreItemsState(files, isError, isLoading, isLoadedAll);
+            String stateKey = StateHolder.getInstance().putState(state);
+            outState.putString(KEY_FILES, stateKey);
         }
     }
 
@@ -287,4 +312,5 @@ public abstract class BaseStoreFragment extends HomeFragment implements FilesLis
             });
         }
     }
+
 }
