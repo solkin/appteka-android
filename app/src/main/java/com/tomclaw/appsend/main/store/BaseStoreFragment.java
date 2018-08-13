@@ -27,7 +27,6 @@ import com.tomclaw.appsend.util.StateHolder;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.InstanceState;
 import org.androidannotations.annotations.ViewById;
 
 import java.lang.ref.WeakReference;

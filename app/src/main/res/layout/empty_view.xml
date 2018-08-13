@@ -15,7 +15,7 @@
         android:src="@drawable/desert" />
 
     <TextView
-        android:id="@+id/error_text"
+        android:id="@+id/empty_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/empty_image"
