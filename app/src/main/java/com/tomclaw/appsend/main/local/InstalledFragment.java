@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Locale;
 
 import static android.content.pm.PackageManager.GET_PERMISSIONS;
+import static com.tomclaw.appsend.util.StateHolder.stateHolder;
 
 @EFragment
 abstract class InstalledFragment extends CommonItemFragment<AppItem> {
@@ -39,7 +40,7 @@ abstract class InstalledFragment extends CommonItemFragment<AppItem> {
         if (savedInstanceState != null) {
             String stateKey = savedInstanceState.getString(KEY_FILES);
             if (stateKey != null) {
-                AppItemsState itemsState = StateHolder.getInstance().removeState(stateKey);
+                AppItemsState itemsState = stateHolder().removeState(stateKey);
                 if (itemsState != null) {
                     files = itemsState.getItems();
                 }
@@ -51,7 +52,7 @@ abstract class InstalledFragment extends CommonItemFragment<AppItem> {
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         if (files != null) {
-            String stateKey = StateHolder.getInstance().putState(new AppItemsState(files));
+            String stateKey = stateHolder().putState(new AppItemsState(files));
             outState.putString(KEY_FILES, stateKey);
         }
     }

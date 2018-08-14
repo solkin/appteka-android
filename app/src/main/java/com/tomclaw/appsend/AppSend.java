@@ -8,6 +8,7 @@ import com.tomclaw.appsend.net.RequestDispatcher;
 import com.tomclaw.appsend.net.Session;
 import com.tomclaw.appsend.net.request.Request;
 import com.tomclaw.appsend.util.MemberImageHelper;
+import com.tomclaw.appsend.util.StateHolder;
 import com.tomclaw.appsend.util.StringUtil;
 import com.tomclaw.appsend.util.TimeHelper;
 
@@ -38,6 +39,7 @@ public class AppSend extends Application {
         String flurryIdentifier = getManifestString(this, FLURRY_IDENTIFIER_KEY);
         FlurryAgent.init(this, flurryIdentifier);
         TimeHelper.init(this);
+        StateHolder.init(this);
         MemberImageHelper.init(this);
         DiscussController.getInstance();
         RequestDispatcher

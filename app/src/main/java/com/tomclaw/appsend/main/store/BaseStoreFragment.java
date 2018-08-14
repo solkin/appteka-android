@@ -23,7 +23,6 @@ import com.tomclaw.appsend.main.home.HomeFragment;
 import com.tomclaw.appsend.main.item.StoreItem;
 import com.tomclaw.appsend.main.profile.list.ListResponse;
 import com.tomclaw.appsend.util.LocaleHelper;
-import com.tomclaw.appsend.util.StateHolder;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EFragment;
@@ -39,6 +38,7 @@ import retrofit2.Response;
 
 import static android.support.v7.widget.LinearLayoutManager.VERTICAL;
 import static com.tomclaw.appsend.util.PackageHelper.getInstalledVersionCode;
+import static com.tomclaw.appsend.util.StateHolder.stateHolder;
 
 @EFragment
 public abstract class BaseStoreFragment extends HomeFragment implements FilesListener<StoreItem> {
@@ -104,7 +104,7 @@ public abstract class BaseStoreFragment extends HomeFragment implements FilesLis
         if (savedInstanceState != null) {
             String stateKey = savedInstanceState.getString(KEY_FILES);
             if (stateKey != null) {
-                StoreItemsState itemsState = StateHolder.getInstance().removeState(stateKey);
+                StoreItemsState itemsState = stateHolder().removeState(stateKey);
                 if (itemsState != null) {
                     files = itemsState.getItems();
                     isError = itemsState.isError();
@@ -120,7 +120,7 @@ public abstract class BaseStoreFragment extends HomeFragment implements FilesLis
         super.onSaveInstanceState(outState);
         if (files != null) {
             StoreItemsState state = new StoreItemsState(files, isError, isLoading, isLoadedAll);
-            String stateKey = StateHolder.getInstance().putState(state);
+            String stateKey = stateHolder().putState(state);
             outState.putString(KEY_FILES, stateKey);
         }
     }

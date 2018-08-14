@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.content.pm.PackageManager.GET_PERMISSIONS;
+import static com.tomclaw.appsend.util.StateHolder.stateHolder;
 
 @EFragment
 abstract class DistroFragment extends CommonItemFragment<ApkItem> {
@@ -35,7 +36,7 @@ abstract class DistroFragment extends CommonItemFragment<ApkItem> {
         if (savedInstanceState != null) {
             String stateKey = savedInstanceState.getString(KEY_FILES);
             if (stateKey != null) {
-                ApkItemsState itemsState = StateHolder.getInstance().removeState(stateKey);
+                ApkItemsState itemsState = stateHolder().removeState(stateKey);
                 if (itemsState != null) {
                     files = itemsState.getItems();
                 }
@@ -47,7 +48,7 @@ abstract class DistroFragment extends CommonItemFragment<ApkItem> {
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         if (files != null) {
-            String stateKey = StateHolder.getInstance().putState(new ApkItemsState(files));
+            String stateKey = stateHolder().putState(new ApkItemsState(files));
             outState.putString(KEY_FILES, stateKey);
         }
     }
