@@ -36,7 +36,7 @@ abstract class DistroFragment extends CommonItemFragment<ApkItem> {
         if (savedInstanceState != null) {
             String stateKey = savedInstanceState.getString(KEY_FILES);
             if (stateKey != null) {
-                ApkItemsState itemsState = stateHolder().removeState(stateKey);
+                ApkItemsState itemsState = stateHolder().removeState(stateKey, ApkItemsState.class);
                 if (itemsState != null) {
                     files = itemsState.getItems();
                 }

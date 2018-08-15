@@ -104,7 +104,7 @@ public abstract class BaseStoreFragment extends HomeFragment implements FilesLis
         if (savedInstanceState != null) {
             String stateKey = savedInstanceState.getString(KEY_FILES);
             if (stateKey != null) {
-                StoreItemsState itemsState = stateHolder().removeState(stateKey);
+                StoreItemsState itemsState = stateHolder().removeState(stateKey, StoreItemsState.class);
                 if (itemsState != null) {
                     files = itemsState.getItems();
                     isError = itemsState.isError();

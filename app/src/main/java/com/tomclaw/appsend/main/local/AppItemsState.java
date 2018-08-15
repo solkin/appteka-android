@@ -44,4 +44,5 @@ public class AppItemsState extends StateHolder.State {
             return new AppItemsState[size];
         }
     };
+
 }

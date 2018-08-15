@@ -1,7 +1,6 @@
 package com.tomclaw.appsend.main.store;
 
 import android.os.Parcel;
-import android.os.Parcelable;
 
 import com.tomclaw.appsend.main.item.StoreItem;
 import com.tomclaw.appsend.util.StateHolder;
@@ -72,4 +71,5 @@ public class StoreItemsState extends StateHolder.State {
             return new StoreItemsState[size];
         }
     };
+
 }

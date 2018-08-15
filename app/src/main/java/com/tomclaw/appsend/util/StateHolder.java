@@ -4,10 +4,13 @@ import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,12 +21,22 @@ import java.util.concurrent.Future;
 
 public class StateHolder {
 
+    private static final String STATES_DIR = "states";
     private static StateHolder instance;
 
     private final File cache;
 
     private StateHolder(Context context) {
-        cache = context.getCacheDir();
+        cache = new File(context.getCacheDir(), STATES_DIR);
+        if (!cache.mkdirs()) {
+            clearCache();
+        }
+    }
+
+    private void clearCache() {
+        for (File file : cache.listFiles()) {
+            file.delete();
+        }
     }
 
     public static void init(Context context) {
@@ -50,7 +63,7 @@ public class StateHolder {
     }
 
     @SuppressWarnings("unchecked")
-    public <A extends State> A removeState(String key) {
+    public <A extends State> A removeState(String key, Class clazz) {
         A state = (A) states.get(key);
         if (state != null) {
             Future<?> future = state.getFuture();
@@ -58,12 +71,45 @@ public class StateHolder {
                 future.cancel(true);
             }
         } else {
-            state = readState(key);
+            state = readState(cache, key, clazz);
         }
         return state;
     }
 
-    private <A extends State> A readState(String key) {
+    private <A extends State> A readState(File dir, String key, Class clazz) {
+        File file = new File(dir, key);
+        Parcel parcel = null;
+        InputStream stream = null;
+        ByteArrayOutputStream byteArrayOutputStream = null;
+        try {
+            stream = new FileInputStream(file);
+            byteArrayOutputStream = new ByteArrayOutputStream();
+            byte[] buffer = new byte[1024];
+            int read;
+            while ((read = stream.read(buffer)) != -1) {
+                byteArrayOutputStream.write(buffer, 0, read);
+            }
+            byte[] data = byteArrayOutputStream.toByteArray();
+            parcel = Parcel.obtain();
+            parcel.unmarshall(data, 0, data.length);
+            parcel.setDataPosition(0);
+            return parcel.readParcelable(clazz.getClassLoader());
+        } catch (IOException e) {
+            Logger.log("unable to read state " + key);
+        } finally {
+            if (parcel != null) {
+                parcel.recycle();
+            }
+            if (byteArrayOutputStream != null) {
+                byteArrayOutputStream.reset();
+            }
+            if (stream != null) {
+                try {
+                    stream.close();
+                } catch (IOException ignored) {
+                }
+            }
+        }
         return null;
     }
 
@@ -88,8 +134,8 @@ public class StateHolder {
                 if (file.createNewFile()) {
                     stream = new FileOutputStream(file);
                     parcel = Parcel.obtain();
-                    state.writeToParcel(parcel, 0);
-                    byte[] data = parcel.createByteArray();
+                    parcel.writeParcelable(state, 0);
+                    byte[] data = parcel.marshall();
                     stream.write(data);
                     stream.flush();
                 } else {
@@ -123,6 +169,7 @@ public class StateHolder {
         void setFuture(Future<?> future) {
             this.future = future;
         }
+
     }
 
 }

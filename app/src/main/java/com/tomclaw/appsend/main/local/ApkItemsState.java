@@ -44,4 +44,5 @@ public class ApkItemsState extends StateHolder.State {
             return new ApkItemsState[size];
         }
     };
+
 }
