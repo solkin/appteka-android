@@ -9,12 +9,15 @@ import android.os.Parcelable;
  */
 public abstract class CommonItem extends BaseItem implements Parcelable {
 
-    private final String label;
-    private final String packageName;
-    private final String version;
-    private final String path;
-    private final long size;
-    private final PackageInfo packageInfo;
+    private String label;
+    private String packageName;
+    private String version;
+    private String path;
+    private long size;
+    private PackageInfo packageInfo;
+
+    public CommonItem() {
+    }
 
     public CommonItem(String label, String packageName, String version, String path, long size,
                       PackageInfo packageInfo) {

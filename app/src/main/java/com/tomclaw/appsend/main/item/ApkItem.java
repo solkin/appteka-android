@@ -9,7 +9,11 @@ import android.os.Parcelable;
  */
 public class ApkItem extends CommonItem implements Parcelable {
 
-    private final long createTime;
+    private long createTime;
+
+    public ApkItem() {
+        super();
+    }
 
     public ApkItem(String label, String packageName, String version, String path, long size,
                    long createTime, PackageInfo packageInfo) {

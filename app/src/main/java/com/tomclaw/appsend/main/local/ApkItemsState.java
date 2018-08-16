@@ -11,6 +11,9 @@ public class ApkItemsState extends StateHolder.State {
 
     private ArrayList<ApkItem> items;
 
+    public ApkItemsState() {
+    }
+
     public ApkItemsState(ArrayList<ApkItem> items) {
         this.items = items;
     }

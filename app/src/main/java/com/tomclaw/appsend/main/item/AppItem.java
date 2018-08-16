@@ -9,8 +9,11 @@ import android.os.Parcelable;
  */
 public class AppItem extends CommonItem implements Parcelable {
 
-    private final long firstInstallTime;
-    private final long lastUpdateTime;
+    private long firstInstallTime;
+    private long lastUpdateTime;
+
+    public AppItem() {
+    }
 
     public AppItem(String label, String packageName, String version, String path, long size,
                    long firstInstallTime, long lastUpdateTime, PackageInfo packageInfo) {

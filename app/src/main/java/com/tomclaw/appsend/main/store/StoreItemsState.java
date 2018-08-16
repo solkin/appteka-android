@@ -9,10 +9,13 @@ import java.util.ArrayList;
 
 public class StoreItemsState extends StateHolder.State {
 
-    private final ArrayList<StoreItem> items;
-    private final boolean isError;
-    private final boolean isLoading;
-    private final boolean isLoadedAll;
+    private ArrayList<StoreItem> items;
+    private boolean isError;
+    private boolean isLoading;
+    private boolean isLoadedAll;
+
+    public StoreItemsState() {
+    }
 
     public StoreItemsState(ArrayList<StoreItem> items,
                            boolean isError,

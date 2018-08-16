@@ -11,6 +11,9 @@ public class AppItemsState extends StateHolder.State {
 
     private ArrayList<AppItem> items;
 
+    public AppItemsState() {
+    }
+
     public AppItemsState(ArrayList<AppItem> items) {
         this.items = items;
     }

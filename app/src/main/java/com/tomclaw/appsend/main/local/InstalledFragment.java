@@ -40,7 +40,7 @@ abstract class InstalledFragment extends CommonItemFragment<AppItem> {
         if (savedInstanceState != null) {
             String stateKey = savedInstanceState.getString(KEY_FILES);
             if (stateKey != null) {
-                AppItemsState itemsState = stateHolder().removeState(stateKey, AppItemsState.class);
+                AppItemsState itemsState = stateHolder().removeState(stateKey);
                 if (itemsState != null) {
                     files = itemsState.getItems();
                 }

@@ -1,10 +1,11 @@
 package com.tomclaw.appsend.util;
 
 import android.content.Context;
-import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.io.ByteArrayOutputStream;
+import com.esotericsoftware.kryo.io.Input;
+import com.esotericsoftware.kryo.io.Output;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -18,6 +19,8 @@ import java.util.UUID;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+
+import static com.tomclaw.appsend.AppSend.kryo;
 
 public class StateHolder {
 
@@ -56,14 +59,14 @@ public class StateHolder {
 
     public String putState(State state) {
         String key = UUID.randomUUID().toString();
-        states.put(key, state);
+//        states.put(key, state);
         StateWriter stateWriter = new StateWriter(cache, key, state);
         state.setFuture(executor.submit(stateWriter));
         return key;
     }
 
     @SuppressWarnings("unchecked")
-    public <A extends State> A removeState(String key, Class clazz) {
+    public <A extends State> A removeState(String key) {
         A state = (A) states.get(key);
         if (state != null) {
             Future<?> future = state.getFuture();
@@ -71,37 +74,25 @@ public class StateHolder {
                 future.cancel(true);
             }
         } else {
-            state = readState(cache, key, clazz);
+            state = readState(cache, key);
         }
         return state;
     }
 
-    private <A extends State> A readState(File dir, String key, Class clazz) {
+    @SuppressWarnings("unchecked")
+    private <A extends State> A readState(File dir, String key) {
         File file = new File(dir, key);
-        Parcel parcel = null;
         InputStream stream = null;
-        ByteArrayOutputStream byteArrayOutputStream = null;
+        Input input = null;
         try {
             stream = new FileInputStream(file);
-            byteArrayOutputStream = new ByteArrayOutputStream();
-            byte[] buffer = new byte[1024];
-            int read;
-            while ((read = stream.read(buffer)) != -1) {
-                byteArrayOutputStream.write(buffer, 0, read);
-            }
-            byte[] data = byteArrayOutputStream.toByteArray();
-            parcel = Parcel.obtain();
-            parcel.unmarshall(data, 0, data.length);
-            parcel.setDataPosition(0);
-            return parcel.readParcelable(clazz.getClassLoader());
+            input = new Input(stream);
+            return (A) kryo().readClassAndObject(input);
         } catch (IOException e) {
             Logger.log("unable to read state " + key);
         } finally {
-            if (parcel != null) {
-                parcel.recycle();
-            }
-            if (byteArrayOutputStream != null) {
-                byteArrayOutputStream.reset();
+            if (input != null) {
+                input.close();
             }
             if (stream != null) {
                 try {
@@ -128,15 +119,14 @@ public class StateHolder {
         @Override
         public void run() {
             File file = new File(dir, key);
-            Parcel parcel = null;
             OutputStream stream = null;
+            Output output = null;
             try {
                 if (file.createNewFile()) {
                     stream = new FileOutputStream(file);
-                    parcel = Parcel.obtain();
-                    parcel.writeParcelable(state, 0);
-                    byte[] data = parcel.marshall();
-                    stream.write(data);
+                    output = new Output(stream);
+                    kryo().writeClassAndObject(output, state);
+                    output.flush();
                     stream.flush();
                 } else {
                     throw new IOException();
@@ -145,8 +135,8 @@ public class StateHolder {
             } catch (IOException ignored) {
                 Logger.log("unable to write state " + key);
             } finally {
-                if (parcel != null) {
-                    parcel.recycle();
+                if (output != null) {
+                    output.close();
                 }
                 if (stream != null) {
                     try {
@@ -160,7 +150,10 @@ public class StateHolder {
 
     public static abstract class State implements Parcelable {
 
-        private Future<?> future;
+        private transient Future<?> future;
+
+        public State() {
+        }
 
         Future<?> getFuture() {
             return future;

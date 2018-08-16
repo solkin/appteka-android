@@ -18,33 +18,36 @@ public class StoreItem extends BaseItem implements Parcelable, Unobfuscatable {
     public static final int NOT_INSTALLED = -1;
 
     @SerializedName("def_label")
-    private final String label;
-    private final Map<String, String> labels;
-    private final String icon;
+    private String label;
+    private Map<String, String> labels;
+    private String icon;
     @SerializedName("app_id")
-    private final String appId;
+    private String appId;
     @SerializedName("package")
-    private final String packageName;
+    private String packageName;
     @SerializedName("ver_name")
-    private final String version;
+    private String version;
     @SerializedName("ver_code")
-    private final int versionCode;
+    private int versionCode;
     @SerializedName("sdk_version")
-    private final int sdkVersion;
+    private int sdkVersion;
     @SerializedName("android")
-    private final String androidVersion;
-    private final List<String> permissions;
-    private final long size;
-    private final int downloads;
-    private final float rating;
+    private String androidVersion;
+    private List<String> permissions;
+    private long size;
+    private int downloads;
+    private float rating;
     @SerializedName("download_time")
-    private final long downloadTime;
-    private final long time;
-    private final String sha1;
+    private long downloadTime;
+    private long time;
+    private String sha1;
     @SerializedName("user_id")
-    private final long userId;
-    private final String filter;
+    private long userId;
+    private String filter;
     private int installedVersionCode;
+
+    public StoreItem() {
+    }
 
     public StoreItem(String label, Map<String, String> labels, String icon,
                      String appId, String packageName, String version,
