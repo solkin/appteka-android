@@ -68,3 +68,18 @@
 -dontwarn okio.**
 -dontwarn javax.annotation.Nullable
 -dontwarn javax.annotation.ParametersAreNonnullByDefault
+
+# Kryo
+-dontwarn sun.reflect.**
+-dontwarn java.beans.**
+-dontwarn sun.nio.ch.**
+-dontwarn sun.misc.**
+-keep,allowshrinking class com.esotericsoftware.** {
+   <fields>;
+   <methods>;
+}
+-keep,allowshrinking class java.beans.** { *; }
+-keep,allowshrinking class sun.reflect.** { *; }
+-keep,allowshrinking class com.esotericsoftware.kryo.** { *; }
+-keep,allowshrinking class com.esotericsoftware.kryo.io.** { *; }
+-keep,allowshrinking class sun.nio.ch.** { *; }
