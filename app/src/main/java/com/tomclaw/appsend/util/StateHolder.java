@@ -38,7 +38,9 @@ public class StateHolder {
 
     private void clearCache() {
         for (File file : cache.listFiles()) {
-            file.delete();
+            if (!file.delete()) {
+                Logger.log("unable to delete state " + file.getName());
+            }
         }
     }
 
@@ -88,8 +90,8 @@ public class StateHolder {
             stream = new FileInputStream(file);
             input = new Input(stream);
             return (A) kryo().readClassAndObject(input);
-        } catch (IOException e) {
-            Logger.log("unable to read state " + key);
+        } catch (IOException ex) {
+            Logger.log("unable to read state " + key, ex);
         } finally {
             if (input != null) {
                 input.close();
@@ -110,7 +112,7 @@ public class StateHolder {
         private String key;
         private State state;
 
-        public StateWriter(File dir, String key, State state) {
+        StateWriter(File dir, String key, State state) {
             this.dir = dir;
             this.key = key;
             this.state = state;
@@ -118,7 +120,8 @@ public class StateHolder {
 
         @Override
         public void run() {
-            File file = new File(dir, key);
+            String tempKey = "_" + key;
+            File file = new File(dir, tempKey);
             OutputStream stream = null;
             Output output = null;
             try {
@@ -132,8 +135,8 @@ public class StateHolder {
                     throw new IOException();
                 }
             } catch (FileNotFoundException ignored) {
-            } catch (IOException ignored) {
-                Logger.log("unable to write state " + key);
+            } catch (IOException ex) {
+                Logger.log("unable to write state " + key, ex);
             } finally {
                 if (output != null) {
                     output.close();
@@ -144,6 +147,9 @@ public class StateHolder {
                     } catch (IOException ignored) {
                     }
                 }
+                if (!file.renameTo(new File(dir, key))) {
+                    Logger.log("unable to finalize state " + key);
+                }
             }
         }
     }
@@ -152,7 +158,7 @@ public class StateHolder {
 
         private transient Future<?> future;
 
-        public State() {
+        protected State() {
         }
 
         Future<?> getFuture() {
