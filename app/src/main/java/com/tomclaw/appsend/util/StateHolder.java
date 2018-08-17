@@ -61,7 +61,7 @@ public class StateHolder {
 
     public String putState(State state) {
         String key = UUID.randomUUID().toString();
-//        states.put(key, state);
+        states.put(key, state);
         StateWriter stateWriter = new StateWriter(cache, key, state);
         state.setFuture(executor.submit(stateWriter));
         return key;
