@@ -167,13 +167,13 @@
 
     <ProgressBar
         android:id="@+id/item_progress"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
         android:layout_gravity="center_horizontal"
         android:paddingBottom="12dp"
         android:paddingTop="8dp"
         android:visibility="gone"
-        tools:visibility="gone" />
+        tools:visibility="visible" />
 
     <LinearLayout
         android:id="@+id/error_view"
