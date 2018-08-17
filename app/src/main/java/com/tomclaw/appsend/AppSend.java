@@ -2,19 +2,15 @@ package com.tomclaw.appsend;
 
 import android.app.Application;
 
-import com.esotericsoftware.kryo.Kryo;
 import com.flurry.android.FlurryAgent;
 import com.tomclaw.appsend.main.controller.DiscussController;
-import com.tomclaw.appsend.main.local.ApkItemsState;
-import com.tomclaw.appsend.main.local.AppItemsState;
-import com.tomclaw.appsend.main.store.StoreItemsState;
 import com.tomclaw.appsend.net.RequestDispatcher;
 import com.tomclaw.appsend.net.Session;
 import com.tomclaw.appsend.net.request.Request;
 import com.tomclaw.appsend.util.MemberImageHelper;
-import com.tomclaw.appsend.util.states.StateHolder;
 import com.tomclaw.appsend.util.StringUtil;
 import com.tomclaw.appsend.util.TimeHelper;
+import com.tomclaw.appsend.util.states.StateHolder;
 
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.Bean;
@@ -33,20 +29,17 @@ public class AppSend extends Application {
 
     private static AppSend app;
 
-    private static Kryo kryo;
-
     @Bean
     Session session;
 
     @AfterInject
     void init() {
         app = this;
-        initKryo();
         session.init();
         String flurryIdentifier = getManifestString(this, FLURRY_IDENTIFIER_KEY);
         FlurryAgent.init(this, flurryIdentifier);
         TimeHelper.init(this);
-        StateHolder.init(this);
+        StateHolder.init();
         MemberImageHelper.init(this);
         DiscussController.getInstance();
         RequestDispatcher
@@ -57,17 +50,6 @@ public class AppSend extends Application {
 
     public static AppSend app() {
         return app;
-    }
-
-    public static Kryo kryo() {
-        return kryo;
-    }
-
-    private void initKryo() {
-        kryo = new Kryo();
-        kryo.register(StoreItemsState.class);
-        kryo.register(AppItemsState.class);
-        kryo.register(ApkItemsState.class);
     }
 
 }
