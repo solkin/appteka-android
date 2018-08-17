@@ -3,13 +3,15 @@ package com.tomclaw.appsend.main.permissions;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.tomclaw.appsend.util.Unobfuscatable;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by solkin on 01/12/2017.
  */
-public class PermissionsList implements Parcelable {
+public class PermissionsList implements Parcelable, Unobfuscatable {
 
     private ArrayList<String> permissons;
 

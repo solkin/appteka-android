@@ -4,7 +4,6 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
-import com.tomclaw.appsend.util.Unobfuscatable;
 
 import java.util.HashMap;
 import java.util.List;
@@ -13,7 +12,7 @@ import java.util.Map;
 /**
  * Created by ivsolkin on 11.01.17.
  */
-public class StoreItem extends BaseItem implements Parcelable, Unobfuscatable {
+public class StoreItem extends BaseItem implements Parcelable {
 
     public static final int NOT_INSTALLED = -1;
 

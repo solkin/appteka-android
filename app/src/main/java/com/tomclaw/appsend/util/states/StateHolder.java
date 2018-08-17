@@ -1,10 +1,10 @@
-package com.tomclaw.appsend.util;
+package com.tomclaw.appsend.util.states;
 
 import android.content.Context;
-import android.os.Parcelable;
 
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
+import com.tomclaw.appsend.util.Logger;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -152,23 +152,6 @@ public class StateHolder {
                 }
             }
         }
-    }
-
-    public static abstract class State implements Parcelable {
-
-        private transient Future<?> future;
-
-        protected State() {
-        }
-
-        Future<?> getFuture() {
-            return future;
-        }
-
-        void setFuture(Future<?> future) {
-            this.future = future;
-        }
-
     }
 
 }

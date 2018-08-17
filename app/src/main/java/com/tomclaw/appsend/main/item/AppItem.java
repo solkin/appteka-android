@@ -2,12 +2,11 @@ package com.tomclaw.appsend.main.item;
 
 import android.content.pm.PackageInfo;
 import android.os.Parcel;
-import android.os.Parcelable;
 
 /**
  * Created by Solkin on 11.12.2014.
  */
-public class AppItem extends CommonItem implements Parcelable {
+public class AppItem extends CommonItem {
 
     private long firstInstallTime;
     private long lastUpdateTime;

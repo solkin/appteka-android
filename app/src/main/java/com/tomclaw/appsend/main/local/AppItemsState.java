@@ -3,11 +3,11 @@ package com.tomclaw.appsend.main.local;
 import android.os.Parcel;
 
 import com.tomclaw.appsend.main.item.AppItem;
-import com.tomclaw.appsend.util.StateHolder;
+import com.tomclaw.appsend.util.states.State;
 
 import java.util.ArrayList;
 
-public class AppItemsState extends StateHolder.State {
+public class AppItemsState extends State {
 
     private ArrayList<AppItem> items;
 

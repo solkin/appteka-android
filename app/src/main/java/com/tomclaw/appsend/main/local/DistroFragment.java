@@ -11,7 +11,6 @@ import android.text.TextUtils;
 import com.tomclaw.appsend.main.adapter.files.FileViewHolderCreator;
 import com.tomclaw.appsend.main.item.ApkItem;
 import com.tomclaw.appsend.util.FileHelper;
-import com.tomclaw.appsend.util.StateHolder;
 
 import org.androidannotations.annotations.EFragment;
 
@@ -20,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.content.pm.PackageManager.GET_PERMISSIONS;
-import static com.tomclaw.appsend.util.StateHolder.stateHolder;
+import static com.tomclaw.appsend.util.states.StateHolder.stateHolder;
 
 @EFragment
 abstract class DistroFragment extends CommonItemFragment<ApkItem> {

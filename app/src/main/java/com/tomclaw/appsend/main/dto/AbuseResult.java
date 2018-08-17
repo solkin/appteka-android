@@ -3,10 +3,12 @@ package com.tomclaw.appsend.main.dto;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.tomclaw.appsend.util.Unobfuscatable;
+
 /**
  * Created by solkin on 28/11/2017.
  */
-public class AbuseResult implements Parcelable {
+public class AbuseResult implements Parcelable, Unobfuscatable {
 
     private int status;
 

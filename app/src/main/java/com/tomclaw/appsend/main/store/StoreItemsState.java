@@ -3,11 +3,11 @@ package com.tomclaw.appsend.main.store;
 import android.os.Parcel;
 
 import com.tomclaw.appsend.main.item.StoreItem;
-import com.tomclaw.appsend.util.StateHolder;
+import com.tomclaw.appsend.util.states.State;
 
 import java.util.ArrayList;
 
-public class StoreItemsState extends StateHolder.State {
+public class StoreItemsState extends State {
 
     private ArrayList<StoreItem> items;
     private boolean isError;

@@ -13,7 +13,6 @@ import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.main.adapter.files.FileViewHolderCreator;
 import com.tomclaw.appsend.main.item.AppItem;
 import com.tomclaw.appsend.util.PreferenceHelper;
-import com.tomclaw.appsend.util.StateHolder;
 
 import org.androidannotations.annotations.EFragment;
 
@@ -25,7 +24,7 @@ import java.util.List;
 import java.util.Locale;
 
 import static android.content.pm.PackageManager.GET_PERMISSIONS;
-import static com.tomclaw.appsend.util.StateHolder.stateHolder;
+import static com.tomclaw.appsend.util.states.StateHolder.stateHolder;
 
 @EFragment
 abstract class InstalledFragment extends CommonItemFragment<AppItem> {

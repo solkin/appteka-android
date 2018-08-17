@@ -38,7 +38,7 @@ import retrofit2.Response;
 
 import static android.support.v7.widget.LinearLayoutManager.VERTICAL;
 import static com.tomclaw.appsend.util.PackageHelper.getInstalledVersionCode;
-import static com.tomclaw.appsend.util.StateHolder.stateHolder;
+import static com.tomclaw.appsend.util.states.StateHolder.stateHolder;
 
 @EFragment
 public abstract class BaseStoreFragment extends HomeFragment implements FilesListener<StoreItem> {

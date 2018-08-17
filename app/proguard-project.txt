@@ -85,3 +85,5 @@
 -keep,allowshrinking class com.esotericsoftware.kryo.** { *; }
 -keep,allowshrinking class com.esotericsoftware.kryo.io.** { *; }
 -keep,allowshrinking class sun.nio.ch.** { *; }
+-keep class net.rehacktive.waspdb.** { *; }
+-keep class com.esotericsoftware.kryo.** { *; }
