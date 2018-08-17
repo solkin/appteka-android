@@ -74,6 +74,8 @@
 -dontwarn java.beans.**
 -dontwarn sun.nio.ch.**
 -dontwarn sun.misc.**
+-dontwarn com.sun.misc.**
+-dontwarn java.lang.invoke.SerializedLambda
 -keep,allowshrinking class com.esotericsoftware.** {
    <fields>;
    <methods>;
