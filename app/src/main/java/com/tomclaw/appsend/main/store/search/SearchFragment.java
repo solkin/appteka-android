@@ -16,6 +16,8 @@ import org.androidannotations.annotations.InstanceState;
 
 import retrofit2.Call;
 
+import static com.tomclaw.appsend.util.LocaleHelper.getLocaleLanguage;
+
 @EFragment(R.layout.store_fragment)
 public class SearchFragment extends BaseStoreFragment implements Debouncer.Callback<String> {
 
@@ -33,7 +35,8 @@ public class SearchFragment extends BaseStoreFragment implements Debouncer.Callb
             return null;
         }
         int build = BuildConfig.VERSION_CODE;
-        return serviceHolder.getService().listFiles(1, null, appId, query, build);
+        String locale = getLocaleLanguage();
+        return serviceHolder.getService().listFiles(1, null, appId, query, build, locale);
     }
 
     public final void filter(String query) {

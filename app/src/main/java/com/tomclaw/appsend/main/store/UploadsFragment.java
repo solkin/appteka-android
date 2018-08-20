@@ -11,6 +11,8 @@ import org.androidannotations.annotations.InstanceState;
 
 import retrofit2.Call;
 
+import static com.tomclaw.appsend.util.LocaleHelper.getLocaleLanguage;
+
 @EFragment(R.layout.store_fragment)
 public class UploadsFragment extends BaseStoreFragment {
 
@@ -24,7 +26,8 @@ public class UploadsFragment extends BaseStoreFragment {
     public Call<ListResponse> createCall(String appId) {
         if (userId == null) return null;
         int build = BuildConfig.VERSION_CODE;
-        return serviceHolder.getService().listFiles(1, userId, appId, null, build);
+        String locale = getLocaleLanguage();
+        return serviceHolder.getService().listFiles(1, userId, appId, null, build, locale);
     }
 
     public void setUserId(long userId) {

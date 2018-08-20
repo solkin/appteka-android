@@ -40,4 +40,9 @@ public class LocaleHelper {
         }
         return name;
     }
+
+    public static String getLocaleLanguage() {
+        Locale locale = Locale.getDefault();
+        return locale.getLanguage();
+    }
 }

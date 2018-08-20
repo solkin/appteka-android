@@ -86,6 +86,7 @@ public interface StoreService {
                                  @Query("user_id") Long userId,
                                  @Query("app_id") String appId,
                                  @Query("filter") String filter,
-                                 @Query("ver_code") Integer build);
+                                 @Query("ver_code") Integer build,
+                                 @Query("locale") String locale);
 
 }

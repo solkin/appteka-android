@@ -10,6 +10,8 @@ import org.androidannotations.annotations.EFragment;
 
 import retrofit2.Call;
 
+import static com.tomclaw.appsend.util.LocaleHelper.getLocaleLanguage;
+
 @EFragment(R.layout.store_fragment)
 public class StoreFragment extends BaseStoreFragment {
 
@@ -19,7 +21,8 @@ public class StoreFragment extends BaseStoreFragment {
     @Override
     public Call<ListResponse> createCall(String appId) {
         int build = BuildConfig.VERSION_CODE;
-        return serviceHolder.getService().listFiles(1, null, appId, null, build);
+        String locale = getLocaleLanguage();
+        return serviceHolder.getService().listFiles(1, null, appId, null, build, locale);
     }
 
 }
