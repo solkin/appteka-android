@@ -76,6 +76,7 @@ public class SelectLocalAppActivity extends PermisoActivity implements CommonIte
 
         pager.setAdapter(adapter);
         tabs.setupWithViewPager(pager);
+        pager.setSaveEnabled(false);
     }
 
     @OptionsItem(android.R.id.home)
@@ -121,7 +122,7 @@ public class SelectLocalAppActivity extends PermisoActivity implements CommonIte
         finish();
     }
 
-    public class LocalAppsPagerAdapter extends FragmentStatePagerAdapter {
+    public static class LocalAppsPagerAdapter extends FragmentStatePagerAdapter {
 
         private List<Pair<String, Fragment>> fragments;
 
