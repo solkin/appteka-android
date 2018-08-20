@@ -175,10 +175,10 @@ public abstract class BaseStoreFragment extends HomeFragment implements FilesLis
         onContentReady();
     }
 
-    private void onLoadingError() {
+    private void onLoadingError(boolean isInvalidate) {
         isLoading = false;
         isError = true;
-        if (files == null) {
+        if (files == null || isInvalidate) {
             showError();
         } else {
             adapter.notifyDataSetChanged();
@@ -205,14 +205,17 @@ public abstract class BaseStoreFragment extends HomeFragment implements FilesLis
     }
 
     public void showProgress() {
+        swipeRefresh.setEnabled(false);
         viewFlipper.setDisplayedChild(0);
     }
 
     public void showContent() {
+        swipeRefresh.setEnabled(true);
         viewFlipper.setDisplayedChild(1);
     }
 
     public void showEmptyView() {
+        swipeRefresh.setEnabled(true);
         viewFlipper.setDisplayedChild(2);
     }
 
@@ -225,6 +228,7 @@ public abstract class BaseStoreFragment extends HomeFragment implements FilesLis
                 loadFiles(false);
             }
         });
+        swipeRefresh.setEnabled(true);
         viewFlipper.setDisplayedChild(3);
     }
 
@@ -291,7 +295,7 @@ public abstract class BaseStoreFragment extends HomeFragment implements FilesLis
                                 }
                                 return;
                             }
-                            fragment.onLoadingError();
+                            fragment.onLoadingError(isInvalidate);
                         }
                     }
                 }
@@ -305,7 +309,7 @@ public abstract class BaseStoreFragment extends HomeFragment implements FilesLis
                 public void run() {
                     BaseStoreFragment fragment = weakFragment.get();
                     if (fragment != null && fragment.isAdded()) {
-                        fragment.onLoadingError();
+                        fragment.onLoadingError(isInvalidate);
                     }
                 }
             });

@@ -4,18 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ViewFlipper
-        android:id="@+id/view_flipper"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:ignore="UselessParent">
+        android:layout_height="match_parent">
 
-        <include layout="@layout/progress_view" />
-
-        <android.support.v4.widget.SwipeRefreshLayout
-            android:id="@+id/swipe_refresh"
+        <ViewFlipper
+            android:id="@+id/view_flipper"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            tools:ignore="UselessParent">
+
+            <include layout="@layout/progress_view" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recycler"
@@ -27,12 +27,12 @@
                 android:scrollbarStyle="outsideOverlay"
                 android:scrollbars="vertical" />
 
-        </android.support.v4.widget.SwipeRefreshLayout>
+            <include layout="@layout/empty_view" />
 
-        <include layout="@layout/empty_view" />
+            <include layout="@layout/error_view" />
 
-        <include layout="@layout/error_view" />
+        </ViewFlipper>
 
-    </ViewFlipper>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </FrameLayout>
