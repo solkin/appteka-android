@@ -12,8 +12,6 @@ import org.androidannotations.annotations.EFragment;
 @EFragment(R.layout.local_apps_fragment)
 public class SelectDistroFragment extends DistroFragment {
 
-    private CommonItemClickListener listener;
-
     @Override
     public void loadAttempt() {
         Permiso.getInstance().requestPermissions(new Permiso.IOnPermissionResult() {
@@ -37,14 +35,13 @@ public class SelectDistroFragment extends DistroFragment {
         }, Manifest.permission.WRITE_EXTERNAL_STORAGE);
     }
 
-    public SelectDistroFragment withListener(CommonItemClickListener listener) {
-        this.listener = listener;
-        return this;
-    }
-
     @Override
     public void onClick(final ApkItem item) {
         FlurryAgent.logEvent("Select screen: distro");
+        CommonItemClickListener listener = null;
+        if (getActivity() instanceof CommonItemClickListener) {
+            listener = (CommonItemClickListener) getActivity();
+        }
         if (listener != null) {
             listener.onClick(item);
         }

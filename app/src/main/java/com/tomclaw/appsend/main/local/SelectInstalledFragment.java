@@ -9,16 +9,13 @@ import org.androidannotations.annotations.EFragment;
 @EFragment(R.layout.local_apps_fragment)
 public class SelectInstalledFragment extends InstalledFragment {
 
-    private CommonItemClickListener listener;
-
-    public SelectInstalledFragment withListener(CommonItemClickListener listener) {
-        this.listener = listener;
-        return this;
-    }
-
     @Override
     public void onClick(final AppItem item) {
         FlurryAgent.logEvent("Select screen: installed");
+        CommonItemClickListener listener = null;
+        if (getActivity() instanceof CommonItemClickListener) {
+            listener = (CommonItemClickListener) getActivity();
+        }
         if (listener != null) {
             listener.onClick(item);
         }

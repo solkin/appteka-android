@@ -64,11 +64,11 @@ public class SelectLocalAppActivity extends PermisoActivity implements CommonIte
         List<Pair<String, Fragment>> fragments = Arrays.asList(
                 new Pair<String, Fragment>(
                         getString(R.string.nav_installed),
-                        new SelectInstalledFragment_().withListener(this)
+                        new SelectInstalledFragment_()
                 ),
                 new Pair<String, Fragment>(
                         getString(R.string.nav_distro),
-                        new SelectDistroFragment_().withListener(this)
+                        new SelectDistroFragment_()
                 )
         );
 
@@ -76,7 +76,6 @@ public class SelectLocalAppActivity extends PermisoActivity implements CommonIte
 
         pager.setAdapter(adapter);
         tabs.setupWithViewPager(pager);
-        pager.setSaveEnabled(false);
     }
 
     @OptionsItem(android.R.id.home)
