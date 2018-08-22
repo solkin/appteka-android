@@ -145,6 +145,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     private ProgressBar progress;
     private TextView extraAccess;
     private SwipeRefreshLayout swipeRefresh;
+    private View rateContainer;
     private View ratingContainer;
     private ViewGroup ratingItemsContainer;
     private TextView ratingScore;
@@ -244,6 +245,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         progress = findViewById(R.id.progress);
         extraAccess = findViewById(R.id.extra_access);
         swipeRefresh = findViewById(R.id.swipe_refresh);
+        rateContainer = findViewById(R.id.rate_container);
         ratingContainer = findViewById(R.id.rating_container);
         ratingItemsContainer = findViewById(R.id.rating_items);
         ratingScore = findViewById(R.id.rating_score);
@@ -523,6 +525,18 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
 
         long userId = Session.getInstance().getUserData().getUserId();
         ratingMemberAvatar.setMemberId(userId);
+
+        boolean isInstalled = false;
+        PackageManager packageManager = getPackageManager();
+        try {
+            PackageInfo packageInfo = packageManager.getPackageInfo(item.getPackageName(), 0);
+            if (packageInfo != null) {
+                isInstalled = true;
+            }
+        } catch (PackageManager.NameNotFoundException ignored) {
+        }
+        boolean canRate = item.getUserId() != userId && isInstalled;
+        rateContainer.setVisibility(canRate ? View.VISIBLE : View.GONE);
 
         exclusiveBadge.setVisibility(info.getMeta().isExclusive() ? View.VISIBLE : View.GONE);
         invalidateOptionsMenu();
