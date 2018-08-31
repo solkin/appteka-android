@@ -103,10 +103,12 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
 
         isDarkTheme = ThemeHelper.updateTheme(this);
         super.onCreate(savedInstanceState);
-        ThemeHelper.updateStatusBar(this);
+
         setContentView(R.layout.activity_home);
+
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        ThemeHelper.updateStatusBar(this);
 
         String intentAction = getIntent().getAction();
 
