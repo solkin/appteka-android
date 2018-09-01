@@ -80,6 +80,7 @@ public class MultipartStream extends OutputStream {
                 sent += cache;
                 callback.onProgress(sent);
             }
+            outputStream.write(("\r\n--" + boundary + "\r\n").getBytes());
         } catch (final Throwable e) {
             Log.e(TAG, e.getMessage(), e);
             callback.onError();

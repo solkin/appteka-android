@@ -20,11 +20,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginTop="@dimen/nav_header_vertical_margin"
         android:orientation="vertical"
         android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_horizontal_margin">
+        android:paddingRight="@dimen/activity_horizontal_margin">
 
         <com.tomclaw.appsend.main.view.MemberImageView
             android:id="@+id/img_profile"

@@ -73,8 +73,16 @@ public class ExportApkTask extends PleaseWaitTask {
         return ".apk";
     }
 
+    public static String getIconSuffix() {
+        return ".png";
+    }
+
     public static String getApkName(CommonItem item) {
         return getApkPrefix(item) + getApkSuffix();
+    }
+
+    public static String getIconName(CommonItem item) {
+        return getApkPrefix(item) + getIconSuffix();
     }
 
     @Override

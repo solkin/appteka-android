@@ -10,10 +10,12 @@ import com.tomclaw.appsend.main.task.ExportApkTask;
 import com.tomclaw.appsend.net.Session;
 import com.tomclaw.appsend.util.HttpUtil;
 import com.tomclaw.appsend.util.MultipartStream;
+import com.tomclaw.appsend.util.PackageHelper;
 import com.tomclaw.appsend.util.StringUtil;
 
 import org.json.JSONObject;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -26,6 +28,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
+import static com.tomclaw.appsend.AppSend.app;
 import static com.tomclaw.appsend.core.Config.HOST_URL;
 
 /**
@@ -167,13 +170,27 @@ public class UploadController extends AbstractController<UploadController.Upload
     }
 
     private void uploadInternal() {
-        File file = new File(item.getPath());
-        final long size = file.length();
-        String name = ExportApkTask.getApkName(item);
+        File apk = new File(item.getPath());
+        byte[] icon = PackageHelper.getPackageIconPng(
+                item.getPackageInfo().applicationInfo,
+                app().getPackageManager()
+        );
+        final long size = apk.length() + icon.length;
+        String apkName = ExportApkTask.getApkName(item);
+        String iconName = ExportApkTask.getIconName(item);
         String guid = null;
         if (Session.getInstance().getUserData().isRegistered()) {
             guid = Session.getInstance().getUserData().getGuid();
         }
+        MultipartStream.ProgressHandler emptyHandler = new MultipartStream.ProgressHandler() {
+            @Override
+            public void onProgress(long sent) {
+            }
+
+            @Override
+            public void onError() {
+            }
+        };
         MultipartStream.ProgressHandler handler = new MultipartStream.ProgressHandler() {
             @Override
             public void onProgress(long sent) {
@@ -189,8 +206,11 @@ public class UploadController extends AbstractController<UploadController.Upload
         String boundary = StringUtil.generateBoundary();
         HttpURLConnection connection = null;
         InputStream in = null;
+        InputStream apkStream = null;
+        InputStream iconStream = null;
         try {
-            InputStream inputStream = new FileInputStream(file);
+            apkStream = new FileInputStream(apk);
+            iconStream = new ByteArrayInputStream(icon);
             URL url = new URL(HOST_UPLOAD_URL);
             connection = (HttpURLConnection) url.openConnection();
             // Connect.
@@ -211,7 +231,8 @@ public class UploadController extends AbstractController<UploadController.Upload
             if (!TextUtils.isEmpty(guid)) {
                 multipartStream.writePart("guid", guid);
             }
-            multipartStream.writePart("apk_file", name, inputStream, "application/vnd.android.package-archive", handler);
+            multipartStream.writePart("icon_file", iconName, iconStream, "image/png", emptyHandler);
+            multipartStream.writePart("apk_file", apkName, apkStream, "application/vnd.android.package-archive", handler);
             multipartStream.writeLastBoundaryIfNeeds();
             multipartStream.flush();
             onUploaded();
@@ -246,6 +267,8 @@ public class UploadController extends AbstractController<UploadController.Upload
             if (connection != null) {
                 connection.disconnect();
             }
+            HttpUtil.closeSafely(apkStream);
+            HttpUtil.closeSafely(iconStream);
             HttpUtil.closeSafely(in);
         }
     }

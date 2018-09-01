@@ -2,10 +2,6 @@ package com.tomclaw.appsend.util;
 
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.Canvas;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
@@ -17,7 +13,6 @@ import com.bumptech.glide.load.data.DataFetcher;
 import com.bumptech.glide.load.model.ModelLoader;
 
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.security.MessageDigest;
 
@@ -34,20 +29,20 @@ public class PackageIconGlideLoader implements ModelLoader<PackageInfo, InputStr
 
     @Nullable
     @Override
-    public LoadData<InputStream> buildLoadData(final PackageInfo model,
+    public LoadData<InputStream> buildLoadData(@NonNull final PackageInfo model,
                                                int width,
                                                int height,
-                                               Options options) {
+                                               @NonNull Options options) {
         return new LoadData<>(new IconKey(model), new DataFetcher<InputStream>() {
 
             @Override
-            public void loadData(Priority priority, DataCallback<? super InputStream> callback) {
+            public void loadData(@NonNull Priority priority,
+                                 @NonNull DataCallback<? super InputStream> callback) {
                 try {
-                    Drawable icon = model.applicationInfo.loadIcon(packageManager);
-                    final Bitmap bitmap = drawableToBitmap(icon);
-                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-                    callback.onDataReady(new ByteArrayInputStream(baos.toByteArray()));
+                    byte[] data = PackageHelper.getPackageIconPng(
+                            model.applicationInfo, packageManager
+                    );
+                    callback.onDataReady(new ByteArrayInputStream(data));
                 } catch (Exception ex) {
                     callback.onLoadFailed(ex);
                 }
@@ -75,30 +70,8 @@ public class PackageIconGlideLoader implements ModelLoader<PackageInfo, InputStr
         });
     }
 
-    private Bitmap drawableToBitmap(Drawable drawable) {
-        Bitmap bitmap;
-
-        if (drawable instanceof BitmapDrawable) {
-            BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
-            if (bitmapDrawable.getBitmap() != null) {
-                return bitmapDrawable.getBitmap();
-            }
-        }
-
-        if (drawable.getIntrinsicWidth() <= 0 || drawable.getIntrinsicHeight() <= 0) {
-            bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
-        } else {
-            bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
-        }
-
-        Canvas canvas = new Canvas(bitmap);
-        drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
-        drawable.draw(canvas);
-        return bitmap;
-    }
-
     @Override
-    public boolean handles(PackageInfo packageInfo) {
+    public boolean handles(@NonNull PackageInfo packageInfo) {
         return true;
     }
 
@@ -111,7 +84,7 @@ public class PackageIconGlideLoader implements ModelLoader<PackageInfo, InputStr
         }
 
         @Override
-        public void updateDiskCacheKey(MessageDigest messageDigest) {
+        public void updateDiskCacheKey(@NonNull MessageDigest messageDigest) {
             messageDigest.update(getId().getBytes());
         }
 
