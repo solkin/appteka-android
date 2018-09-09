@@ -26,6 +26,7 @@
             android:layout_gravity="center_horizontal"
             android:gravity="fill_horizontal"
             android:textColor="?text_primary_color"
+            android:autoLink="web|email"
             android:textSize="16sp"
             tools:text="App Description" />
 

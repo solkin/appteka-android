@@ -64,6 +64,7 @@
         android:paddingTop="12dp"
         android:textColor="?text_primary_color"
         android:textSize="16sp"
+        android:autoLink="web|email"
         tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam lobortis accumsan molestie. Maecenas purus sapien, aliquet sed vehicula quis, egestas id lectus. Fusce commodo neque augue, sit amet vehicula odio maximus eu. Cras tristique semper vulputate. Etiam vehicula diam non justo sodales vestibulum. Nam sagittis elit sit amet arcu cursus, at dapibus lacus venenatis." />
 
     <ProgressBar
