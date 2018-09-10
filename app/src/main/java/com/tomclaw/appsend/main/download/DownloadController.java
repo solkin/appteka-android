@@ -295,7 +295,7 @@ public class DownloadController extends AbstractController<DownloadController.Do
                 throw new IOException("Store files loading error: " + response.code());
             }
         } catch (Throwable ex) {
-            Logger.e(ex, "Exception while application uploading");
+            Logger.e(ex, "Exception while loading application info");
             onInfoError();
         }
     }
@@ -346,7 +346,7 @@ public class DownloadController extends AbstractController<DownloadController.Do
 
             onDownloaded(filePath);
         } catch (Throwable ex) {
-            Logger.e(ex, "Exception while application uploading");
+            Logger.e(ex, "Exception while application downloading");
             onDownloadError();
         } finally {
             // Trying to disconnect in any case.
