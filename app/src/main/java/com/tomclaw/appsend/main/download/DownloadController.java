@@ -42,8 +42,6 @@ public class DownloadController extends AbstractController<DownloadController.Do
         return Holder.instance;
     }
 
-    private static final String HOST_INFO_URL = HOST_URL + "/api/info.php";
-
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
     private StoreInfo storeInfo = null;
