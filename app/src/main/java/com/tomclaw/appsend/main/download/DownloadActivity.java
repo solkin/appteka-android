@@ -196,6 +196,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
             Uri data = getIntent().getData();
             if (data != null) {
                 appId = data.getQueryParameter("id");
+                appPackage = data.getQueryParameter("package");
                 appLabel = getString(R.string.download);
             } else if (TextUtils.isEmpty(appId)) {
                 appId = getIntent().getStringExtra(STORE_APP_ID);
