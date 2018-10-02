@@ -34,8 +34,8 @@ android {
 }
 
 dependencies {
-    annotationProcessor 'org.androidannotations:androidannotations:4.3.1'
-    implementation 'org.androidannotations:androidannotations-api:4.3.1'
+    annotationProcessor 'org.androidannotations:androidannotations:4.4.0'
+    implementation 'org.androidannotations:androidannotations-api:4.4.0'
     implementation 'com.android.support:support-v4:28.0.0'
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support:recyclerview-v7:28.0.0'
