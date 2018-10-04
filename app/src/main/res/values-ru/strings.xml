@@ -57,6 +57,7 @@
     <string name="install">Установить</string>
     <string name="install_app">Установить приложение</string>
     <string name="write_permission_install">Для установки новых приложений необходимо разрешить запись на диск</string>
+    <string name="request_delete_packages">Для удаления приложений необходимо предоставить разрешение</string>
     <string name="write_permission_select">Для поиска и выбора дистрибутивов приложений необходимо разрешить доступ к диску</string>
     <string name="install_screen_apk_found">Ниже приведён список найденных APK файлов приложений на Вашем устройстве. Вы можете установить их, удалить, а также выполнить другие полезные действия.</string>
     <string name="install_screen_no_apk_found">На этом экране отображается список найденных APK файлов для установки. Но у Вас на устройстве APK файлы не найдены.</string>

@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.annotation.StringRes;
@@ -569,7 +570,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
                         @Override
                         public void onClick(View v) {
                             FlurryAgent.logEvent("Store app: remove");
-                            removeApp(packageName);
+                            requestAppRemoval(packageName);
                         }
                     });
                     if (isNewer) {
@@ -608,7 +609,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
                             @Override
                             public void onClick(View v) {
                                 FlurryAgent.logEvent("Store app: remove");
-                                removeApp(packageName);
+                                requestAppRemoval(packageName);
                             }
                         });
                     }
@@ -694,6 +695,30 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         Uri packageUri = Uri.parse("package:" + packageName);
         Intent uninstallIntent = new Intent(Intent.ACTION_DELETE, packageUri);
         startActivity(uninstallIntent);
+    }
+
+    private void requestAppRemoval(final String packageName) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            Permiso.getInstance().requestPermissions(new Permiso.IOnPermissionResult() {
+                @Override
+                public void onPermissionResult(Permiso.ResultSet resultSet) {
+                    if (resultSet.areAllPermissionsGranted()) {
+                        removeApp(packageName);
+                    } else {
+                        showError(R.string.request_delete_packages);
+                    }
+                }
+
+                @Override
+                public void onRationaleRequested(Permiso.IOnRationaleProvided callback, String... permissions) {
+                    String title = DownloadActivity.this.getString(R.string.app_name);
+                    String message = DownloadActivity.this.getString(R.string.request_delete_packages);
+                    Permiso.getInstance().showRationaleInDialog(title, message, null, callback);
+                }
+            }, Manifest.permission.REQUEST_DELETE_PACKAGES);
+        } else {
+            removeApp(packageName);
+        }
     }
 
     private void openApp(Intent launchIntent) {
