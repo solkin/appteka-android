@@ -1,6 +1,6 @@
 package com.tomclaw.appsend.net;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 public interface UserDataListener {
 

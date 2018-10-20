@@ -26,7 +26,7 @@ package com.tomclaw.appsend.main.adapter;
 
 import android.database.ContentObserver;
 import android.database.Cursor;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.widget.Filter;
 import android.widget.FilterQueryProvider;
 import android.widget.Filterable;

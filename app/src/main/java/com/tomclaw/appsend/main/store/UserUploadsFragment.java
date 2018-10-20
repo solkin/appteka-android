@@ -1,6 +1,6 @@
 package com.tomclaw.appsend.main.store;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.tomclaw.appsend.BuildConfig;
 import com.tomclaw.appsend.R;

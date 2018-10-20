@@ -1,6 +1,6 @@
 package com.tomclaw.appsend.main.adapter.holder;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 
 import com.tomclaw.appsend.main.adapter.ChatAdapter;

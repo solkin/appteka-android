@@ -38,7 +38,7 @@
                     android:paddingTop="8dp"
                     android:text="@string/rate_this_app" />
 
-                <android.support.v7.widget.AppCompatRatingBar
+                <androidx.appcompat.widget.AppCompatRatingBar
                     android:id="@+id/user_rating_view"
                     android:layout_width="wrap_content"
                     android:layout_height="36dp"
@@ -159,7 +159,7 @@
                 android:paddingRight="0dp"
                 android:paddingStart="12dp">
 
-                <android.support.v7.widget.AppCompatRatingBar
+                <androidx.appcompat.widget.AppCompatRatingBar
                     android:id="@+id/small_rating_indicator"
                     android:layout_width="wrap_content"
                     android:layout_height="20dp"

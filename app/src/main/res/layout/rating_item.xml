@@ -34,7 +34,7 @@
             android:paddingRight="8dp"
             android:paddingStart="8dp">
 
-            <android.support.v7.widget.AppCompatRatingBar
+            <androidx.appcompat.widget.AppCompatRatingBar
                 android:id="@+id/rating_view"
                 style="@style/RatingDetailElementSmall"
                 android:layout_width="wrap_content"

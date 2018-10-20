@@ -4,13 +4,13 @@ import android.annotation.TargetApi;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
-import android.support.annotation.ColorInt;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.view.ViewPager;
-import android.support.v4.widget.EdgeEffectCompat;
-import android.support.v4.widget.NestedScrollView;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.ColorInt;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.viewpager.widget.ViewPager;
+import androidx.core.widget.EdgeEffectCompat;
+import androidx.core.widget.NestedScrollView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.EdgeEffect;
@@ -26,7 +26,7 @@ import java.lang.reflect.Field;
 public class EdgeChanger {
 
     public static final String NESTEDSCROLLVIEW_CLASS = "android.support.v4.widget.NestedScrollView";
-    public static final String RECYCLERVIEW_CLASS = "android.support.v7.widget.RecyclerView";
+    public static final String RECYCLERVIEW_CLASS = "androidx.recyclerview.widget.RecyclerView";
     public static final String VIEWPAGER_CLASS = "android.support.v4.view.ViewPager";
 
     private static Field EDGE_GLOW_FIELD_EDGE;

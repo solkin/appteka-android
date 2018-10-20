@@ -1,7 +1,7 @@
 package com.tomclaw.appsend.main.ratings;
 
-import android.support.v7.widget.AppCompatRatingBar;
-import android.support.v7.widget.RecyclerView;
+import androidx.appcompat.widget.AppCompatRatingBar;
+import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
