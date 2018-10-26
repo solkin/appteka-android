@@ -53,7 +53,6 @@ public abstract class PreferenceFragment extends Fragment implements
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
-
                 case MSG_BIND_PREFERENCES:
                     bindPreferences();
                     break;
