@@ -99,7 +99,7 @@
 
                 <Button
                     android:id="@+id/button_cancel"
-                    style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -122,7 +122,7 @@
 
                     <Button
                         android:id="@+id/button_open"
-                        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -132,7 +132,7 @@
 
                     <Button
                         android:id="@+id/button_share"
-                        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -142,7 +142,7 @@
 
                     <Button
                         android:id="@+id/button_copy"
-                        style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"

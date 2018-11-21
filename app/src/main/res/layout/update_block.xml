@@ -64,7 +64,7 @@
 
                 <Button
                     android:id="@+id/update_later"
-                    style="@style/Widget.AppCompat.Button"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
@@ -74,7 +74,7 @@
 
                 <Button
                     android:id="@+id/update"
-                    style="@style/Widget.AppCompat.Button.Colored"
+                    style="@style/Widget.MaterialComponents.Button"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"

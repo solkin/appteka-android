@@ -70,7 +70,7 @@
 
         <Button
             android:id="@+id/button_one"
-            style="@style/Widget.AppCompat.Button.Colored"
+            style="@style/Widget.MaterialComponents.Button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
@@ -85,7 +85,7 @@
 
             <Button
                 android:id="@+id/button_first"
-                style="@style/Widget.AppCompat.Button"
+                style="@style/Widget.MaterialComponents.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -98,7 +98,7 @@
 
             <Button
                 android:id="@+id/button_second"
-                style="@style/Widget.AppCompat.Button.Colored"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

@@ -38,7 +38,7 @@ dependencies {
     implementation project(path: ':preference-fragment')
     annotationProcessor 'org.androidannotations:androidannotations:4.5.2'
     implementation 'org.androidannotations:androidannotations-api:4.5.2'
-    implementation 'androidx.appcompat:appcompat:1.0.0'
+    implementation 'androidx.appcompat:appcompat:1.0.2'
     annotationProcessor 'androidx.annotation:annotation:1.0.0'
     implementation 'androidx.annotation:annotation:1.0.0'
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
