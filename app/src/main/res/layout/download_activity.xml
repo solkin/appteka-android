@@ -71,8 +71,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="8dp"
-                            android:layout_marginRight="8dp"
                             android:layout_marginTop="10dp"
+                            android:layout_marginRight="8dp"
                             android:fontFamily="sans-serif-medium"
                             android:text="@string/other_versions"
                             android:textColor="?attr/text_primary_color"
@@ -84,8 +84,8 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="vertical"
-                            android:paddingBottom="4dp"
-                            android:paddingTop="4dp" />
+                            android:paddingTop="4dp"
+                            android:paddingBottom="4dp" />
 
                     </LinearLayout>
 
@@ -106,8 +106,8 @@
                 android:layout_width="128dp"
                 android:layout_height="128dp"
                 android:layout_marginBottom="12dp"
-                android:src="@drawable/thinking"
-                android:contentDescription="@string/store_info_error" />
+                android:contentDescription="@string/store_info_error"
+                android:src="@drawable/thinking" />
 
             <TextView
                 android:id="@+id/error_text"

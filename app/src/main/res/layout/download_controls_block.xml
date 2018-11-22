@@ -27,10 +27,10 @@
             android:layout_gravity="center_vertical"
             android:gravity="center_vertical"
             android:orientation="vertical"
-            android:paddingEnd="0dp"
+            android:paddingStart="10dp"
             android:paddingLeft="10dp"
-            android:paddingRight="0dp"
-            android:paddingStart="10dp">
+            android:paddingEnd="0dp"
+            android:paddingRight="0dp">
 
             <TextView
                 android:id="@+id/app_label"
@@ -85,27 +85,27 @@
 
             <Button
                 android:id="@+id/button_first"
-                style="@style/Widget.MaterialComponents.Button"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginEnd="6dp"
-                android:layout_marginLeft="0dp"
-                android:layout_marginRight="6dp"
                 android:layout_marginStart="0dp"
+                android:layout_marginLeft="0dp"
+                android:layout_marginEnd="6dp"
+                android:layout_marginRight="6dp"
                 android:layout_weight="1"
                 tools:text="@string/remove" />
 
             <Button
                 android:id="@+id/button_second"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                style="@style/Widget.MaterialComponents.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginEnd="0dp"
-                android:layout_marginLeft="6dp"
-                android:layout_marginRight="0dp"
                 android:layout_marginStart="6dp"
+                android:layout_marginLeft="6dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginRight="0dp"
                 android:layout_weight="1"
                 tools:text="@string/open" />
 
@@ -145,10 +145,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="end"
-        android:paddingEnd="4dp"
-        android:paddingLeft="4dp"
-        android:paddingRight="4dp"
         android:paddingStart="4dp"
+        android:paddingLeft="4dp"
+        android:paddingEnd="4dp"
+        android:paddingRight="4dp"
         android:textColor="@color/accent_color"
         android:textSize="12sp"
         android:visibility="gone"
@@ -167,10 +167,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:paddingEnd="5dp"
-            android:paddingLeft="8dp"
-            android:paddingRight="5dp"
             android:paddingStart="8dp"
+            android:paddingLeft="8dp"
+            android:paddingEnd="5dp"
+            android:paddingRight="5dp"
             android:text="@string/uploaded_by_user"
             android:textColor="?text_primary_color"
             android:textSize="12sp"
