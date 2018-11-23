@@ -254,4 +254,8 @@
     <string name="empty_list">Нет приложений…</string>
     <string name="upload_app_title">Загрузка приложения</string>
     <string name="upload_app_message">Загрузить приложение в обменник для общего доступа?</string>
+    <string name="enter_email">Электронная почта:</string>
+    <string name="email">Email</string>
+    <string name="login_button">Войти</string>
+    <string name="register_button">Зарегистрироваться</string>
 </resources>

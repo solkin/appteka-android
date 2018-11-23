@@ -260,4 +260,8 @@
     <string name="empty_list">There is no apps here…</string>
     <string name="upload_app_title">Upload app</string>
     <string name="upload_app_message">Upload this application to the Store for public access?</string>
+    <string name="enter_email">Email:</string>
+    <string name="email">Email</string>
+    <string name="login_button">Login</string>
+    <string name="register_button">Register</string>
 </resources>
