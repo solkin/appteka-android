@@ -1,18 +1,31 @@
 package com.tomclaw.appsend.main.auth;
 
-import android.os.Bundle;
+import android.annotation.SuppressLint;
 
 import com.tomclaw.appsend.R;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+import org.androidannotations.annotations.Click;
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.ViewById;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
+@SuppressLint("Registered")
+@EActivity(R.layout.auth_activity)
 public class AuthActivity extends AppCompatActivity {
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.auth_activity);
+    @ViewById
+    Toolbar toolbar;
+
+    @Click(R.id.login)
+    void onLoginClicked() {
+
+    }
+
+    @Click(R.id.register)
+    void onRegisterClicked() {
+
     }
 
 }

@@ -111,6 +111,10 @@
             android:name=".main.store.search.SearchActivity_"
             android:label="@string/search_app"
             android:windowSoftInputMode="stateVisible|adjustResize" />
+        <activity
+            android:name=".main.auth.AuthActivity_"
+            android:label="@string/auth"
+            android:windowSoftInputMode="stateVisible|adjustResize" />
 
         <provider
             android:name=".core.GlobalProvider"
