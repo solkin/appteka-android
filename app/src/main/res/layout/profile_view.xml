@@ -87,6 +87,16 @@
             android:text="@string/change_role"
             android:visibility="gone" />
 
+        <Button
+            android:id="@+id/auth_button"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp"
+            android:text="@string/auth_button"
+            android:visibility="gone" />
+
         <LinearLayout
             android:id="@+id/details_container"
             android:layout_width="match_parent"

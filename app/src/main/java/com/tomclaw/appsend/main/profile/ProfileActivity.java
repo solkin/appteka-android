@@ -1,14 +1,8 @@
 package com.tomclaw.appsend.main.profile;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import android.text.InputType;
 import android.text.format.DateUtils;
 import android.util.Base64;
@@ -23,9 +17,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.core.StoreServiceHolder;
+import com.tomclaw.appsend.main.auth.AuthActivity_;
 import com.tomclaw.appsend.main.profile.list.FilesActivity_;
 import com.tomclaw.appsend.main.view.MemberImageView;
 import com.tomclaw.appsend.net.Session;
@@ -45,6 +41,12 @@ import org.androidannotations.annotations.ViewById;
 import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -56,6 +58,7 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 /**
  * Created by solkin on 16/03/2018.
  */
+@SuppressLint("Registered")
 @EActivity(R.layout.profile_activity)
 public class ProfileActivity extends AppCompatActivity {
 
@@ -100,6 +103,9 @@ public class ProfileActivity extends AppCompatActivity {
 
     @ViewById
     Button changeRoleButton;
+
+    @ViewById
+    Button authButton;
 
     @ViewById
     LinearLayout detailsContainer;
@@ -181,6 +187,11 @@ public class ProfileActivity extends AppCompatActivity {
     void onChangeRoleClicked() {
         registerForContextMenu(changeRoleButton);
         openContextMenu(changeRoleButton);
+    }
+
+    @Click(R.id.auth_button)
+    void onAuthenticateClicked() {
+        AuthActivity_.intent(this).start();
     }
 
     @Click(R.id.member_avatar)
@@ -355,7 +366,8 @@ public class ProfileActivity extends AppCompatActivity {
         detailsContainer.addView(DetailsItem_.build(this)
                 .setDetails(getString(R.string.moderators_assigned), String.valueOf(profile.getModeratorsCount())));
         boolean canChangeRole = false;
-        if (session.getUserData().getUserId() != profile.getUserId() && grantRoles.length > 0) {
+        boolean isPublicProfile = session.getUserData().getUserId() != profile.getUserId();
+        if (isPublicProfile && grantRoles.length > 0) {
             for (int role : grantRoles) {
                 if (role != profile.getRole()) {
                     canChangeRole = true;
@@ -364,6 +376,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
         }
         changeRoleButton.setVisibility(canChangeRole ? View.VISIBLE : View.GONE);
+        authButton.setVisibility(isPublicProfile ? View.GONE : View.VISIBLE);
         showContent();
         swipeRefresh.setRefreshing(false);
     }
