@@ -112,8 +112,8 @@
             android:label="@string/search_app"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
-            android:name=".main.auth.AuthActivity_"
-            android:label="@string/auth"
+            android:name=".main.auth.LoginActivity_"
+            android:label="@string/login"
             android:windowSoftInputMode="stateVisible|adjustResize" />
 
         <provider

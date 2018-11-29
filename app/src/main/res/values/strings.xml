@@ -264,6 +264,6 @@
     <string name="email">Email</string>
     <string name="login_button">Login</string>
     <string name="register_button">Register</string>
-    <string name="auth">Authorization</string>
-    <string name="auth_button">Login</string>
+    <string name="login_input">Login</string>
+    <string name="password_input">Password</string>
 </resources>

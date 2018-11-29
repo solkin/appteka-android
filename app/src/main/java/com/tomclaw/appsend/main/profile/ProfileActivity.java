@@ -21,7 +21,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.core.StoreServiceHolder;
-import com.tomclaw.appsend.main.auth.AuthActivity_;
+import com.tomclaw.appsend.main.auth.LoginActivity_;
 import com.tomclaw.appsend.main.profile.list.FilesActivity_;
 import com.tomclaw.appsend.main.view.MemberImageView;
 import com.tomclaw.appsend.net.Session;
@@ -191,7 +191,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     @Click(R.id.auth_button)
     void onAuthenticateClicked() {
-        AuthActivity_.intent(this).start();
+        LoginActivity_.intent(this).start();
     }
 
     @Click(R.id.member_avatar)

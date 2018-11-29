@@ -258,6 +258,6 @@
     <string name="email">Email</string>
     <string name="login_button">Войти</string>
     <string name="register_button">Зарегистрироваться</string>
-    <string name="auth">Авторизация</string>
-    <string name="auth_button">Войти</string>
+    <string name="login_input">Логин</string>
+    <string name="password_input">Пароль</string>
 </resources>
