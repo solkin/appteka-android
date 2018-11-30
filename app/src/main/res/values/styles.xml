@@ -48,6 +48,9 @@
     <color name="toolbar_text_primary_color">#FFFFEF</color>
     <color name="toolbar_text_secondary_color">#E1E1D1</color>
 
+    <color name="notice_back_color">#4b6584</color>
+    <color name="notice_text_color">#d1d8e0</color>
+
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorAccent">@color/accent_color</item>
         <item name="colorPrimary">@color/primary_color</item>

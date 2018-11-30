@@ -18,8 +18,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 @SuppressLint("Registered")
-@EActivity(R.layout.login_activity)
-public class LoginActivity extends AppCompatActivity {
+@EActivity(R.layout.register_activity)
+public class RegisterActivity extends AppCompatActivity {
 
     @ViewById
     Toolbar toolbar;
@@ -49,14 +49,8 @@ public class LoginActivity extends AppCompatActivity {
         return true;
     }
 
-    @Click(R.id.login_button)
-    void onLoginClicked() {
-
-    }
-
     @Click(R.id.register_button)
     void onRegisterClicked() {
-        RegisterActivity_.intent(this).start();
     }
 
 }

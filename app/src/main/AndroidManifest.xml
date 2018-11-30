@@ -115,6 +115,10 @@
             android:name=".main.auth.LoginActivity_"
             android:label="@string/login"
             android:windowSoftInputMode="stateVisible|adjustResize" />
+        <activity
+            android:name=".main.auth.RegisterActivity_"
+            android:label="@string/register"
+            android:windowSoftInputMode="stateVisible|adjustResize" />
 
         <provider
             android:name=".core.GlobalProvider"

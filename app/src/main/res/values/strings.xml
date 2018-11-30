@@ -266,4 +266,7 @@
     <string name="register_button">Register</string>
     <string name="login_input">Login</string>
     <string name="password_input">Password</string>
+    <string name="registration_notice_title">Good news!</string>
+    <string name="registration_notice_message">Current profile will be attached to your account.</string>
+    <string name="register">Register</string>
 </resources>

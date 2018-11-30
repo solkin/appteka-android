@@ -260,4 +260,7 @@
     <string name="register_button">Зарегистрироваться</string>
     <string name="login_input">Логин</string>
     <string name="password_input">Пароль</string>
+    <string name="registration_notice_title">Хорошие новости!</string>
+    <string name="registration_notice_message">Текущий профиль будет привязан к вашей учётной записи.</string>
+    <string name="register">Регистрация</string>
 </resources>
