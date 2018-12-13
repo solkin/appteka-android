@@ -51,29 +51,14 @@
 
     </LinearLayout>
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <FrameLayout
         android:id="@+id/buttons_group"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:gravity="center"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:paddingLeft="8dp"
         android:paddingRight="8dp">
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/register_button"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginBottom="2dp"
-            android:text="@string/register_button" />
-
-        <View
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/login_button"
@@ -83,8 +68,21 @@
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
             android:layout_marginBottom="2dp"
-            android:text="@string/login_button" />
+            android:layout_gravity="top|right"
+            android:text="@string/login_button"
+            tools:ignore="RtlHardcoded" />
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/register_button"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_gravity="bottom"
+            android:text="@string/register_button" />
+
+    </FrameLayout>
 
 </LinearLayout>
