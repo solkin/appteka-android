@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.EditText;
 
 import com.tomclaw.appsend.R;
+import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.core.StoreServiceHolder;
 import com.tomclaw.appsend.net.Session;
 import com.tomclaw.appsend.util.ThemeHelper;
@@ -18,8 +19,12 @@ import org.androidannotations.annotations.ViewById;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 @SuppressLint("Registered")
 @EActivity(R.layout.register_activity)
@@ -32,10 +37,13 @@ public class RegisterActivity extends AppCompatActivity {
     Session session;
 
     @ViewById
-    EditText loginInput;
+    EditText emailInput;
 
     @ViewById
     EditText passwordInput;
+
+    @ViewById
+    EditText nameInput;
 
     @ViewById
     Toolbar toolbar;
@@ -67,6 +75,56 @@ public class RegisterActivity extends AppCompatActivity {
 
     @Click(R.id.register_button)
     void onRegisterClicked() {
+        String guid = session.getUserData().getGuid();
+        String email = emailInput.getText().toString();
+        String password = passwordInput.getText().toString();
+        String name = nameInput.getText().toString();
+        register(guid, email, password, name);
+    }
+
+    private void register(String guid, String email, String password, String name) {
+        Call<RegisterResponse> call = serviceHolder.getService().register(1, guid, email, password, name);
+        call.enqueue(new Callback<RegisterResponse>() {
+            @Override
+            public void onResponse(Call<RegisterResponse> call, final Response<RegisterResponse> response) {
+                MainExecutor.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        RegisterResponse result = response.body();
+                        if (response.isSuccessful()) {
+                            onRegistered(result);
+                        } else {
+                            String description = result != null ?
+                                    result.getDescription() : getString(R.string.register_error);
+                            onError(description);
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void onFailure(Call<RegisterResponse> call, Throwable t) {
+                MainExecutor.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        onError(getString(R.string.register_error));
+                    }
+                });
+            }
+        });
+    }
+
+    private void onRegistered(RegisterResponse response) {
+        setResult(RESULT_OK);
+        finish();
+    }
+
+    private void onError(String description) {
+        new AlertDialog.Builder(this)
+                .setTitle(getString(R.string.error))
+                .setMessage(description)
+                .create()
+                .show();
     }
 
 }

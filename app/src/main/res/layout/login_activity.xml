@@ -24,7 +24,7 @@
                 android:id="@+id/login_input"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/login_input"
+                android:hint="@string/email_input"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
                 android:nextFocusLeft="@+id/password_input"

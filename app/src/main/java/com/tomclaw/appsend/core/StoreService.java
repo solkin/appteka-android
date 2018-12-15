@@ -1,5 +1,6 @@
 package com.tomclaw.appsend.core;
 
+import com.tomclaw.appsend.main.auth.RegisterResponse;
 import com.tomclaw.appsend.main.dto.AbuseResult;
 import com.tomclaw.appsend.main.dto.StoreInfo;
 import com.tomclaw.appsend.main.meta.MetaResponse;
@@ -88,5 +89,13 @@ public interface StoreService {
                                  @Query("filter") String filter,
                                  @Query("ver_code") Integer build,
                                  @Query("locale") String locale);
+
+    @FormUrlEncoded
+    @POST("register.php")
+    Call<RegisterResponse> register(@Field("v") int apiVer,
+                                    @Field("guid") String guid,
+                                    @Field("email") String email,
+                                    @Field("password") String password,
+                                    @Field("name") String name);
 
 }
