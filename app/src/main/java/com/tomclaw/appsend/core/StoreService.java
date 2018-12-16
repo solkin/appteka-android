@@ -94,6 +94,7 @@ public interface StoreService {
     @POST("register.php")
     Call<RegisterResponse> register(@Field("v") int apiVer,
                                     @Field("guid") String guid,
+                                    @Query("locale") String locale,
                                     @Field("email") String email,
                                     @Field("password") String password,
                                     @Field("name") String name);

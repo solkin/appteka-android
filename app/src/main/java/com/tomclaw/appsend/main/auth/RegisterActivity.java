@@ -8,6 +8,7 @@ import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.core.StoreServiceHolder;
 import com.tomclaw.appsend.net.Session;
+import com.tomclaw.appsend.util.GsonSingleton;
 import com.tomclaw.appsend.util.ThemeHelper;
 
 import org.androidannotations.annotations.AfterViews;
@@ -17,14 +18,19 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 
+import java.io.IOException;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.tomclaw.appsend.util.LocaleHelper.getLocaleLanguage;
 
 @SuppressLint("Registered")
 @EActivity(R.layout.register_activity)
@@ -76,26 +82,35 @@ public class RegisterActivity extends AppCompatActivity {
     @Click(R.id.register_button)
     void onRegisterClicked() {
         String guid = session.getUserData().getGuid();
+        String locale = getLocaleLanguage();
         String email = emailInput.getText().toString();
         String password = passwordInput.getText().toString();
         String name = nameInput.getText().toString();
-        register(guid, email, password, name);
+        register(guid, locale, email, password, name);
     }
 
-    private void register(String guid, String email, String password, String name) {
-        Call<RegisterResponse> call = serviceHolder.getService().register(1, guid, email, password, name);
+    private void register(String guid, String locale, String email, String password, String name) {
+        Call<RegisterResponse> call = serviceHolder.getService()
+                .register(1, guid, locale, email, password, name);
         call.enqueue(new Callback<RegisterResponse>() {
             @Override
             public void onResponse(Call<RegisterResponse> call, final Response<RegisterResponse> response) {
                 MainExecutor.execute(new Runnable() {
                     @Override
                     public void run() {
-                        RegisterResponse result = response.body();
                         if (response.isSuccessful()) {
-                            onRegistered(result);
+                            onRegistered(response.body());
                         } else {
-                            String description = result != null ?
-                                    result.getDescription() : getString(R.string.register_error);
+                            ResponseBody body = response.errorBody();
+                            String description = getString(R.string.register_error);
+                            if (body != null) {
+                                try {
+                                    description = GsonSingleton.getInstance()
+                                            .fromJson(body.string(), RegisterResponse.class)
+                                            .getDescription();
+                                } catch (IOException ignored) {
+                                }
+                            }
                             onError(description);
                         }
                     }
@@ -123,6 +138,7 @@ public class RegisterActivity extends AppCompatActivity {
         new AlertDialog.Builder(this)
                 .setTitle(getString(R.string.error))
                 .setMessage(description)
+                .setPositiveButton(R.string.ok, null)
                 .create()
                 .show();
     }
