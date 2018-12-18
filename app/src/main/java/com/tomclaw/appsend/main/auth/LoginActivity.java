@@ -130,6 +130,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void onLoginSuccessful(LoginResponse response) {
+        session.getUserHolder().onUserRegistered(response.getGuid(), response.getUserId());
         setResult(RESULT_OK);
         finish();
     }

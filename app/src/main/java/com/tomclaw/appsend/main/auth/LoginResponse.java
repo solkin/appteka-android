@@ -34,6 +34,18 @@ public class LoginResponse implements Parcelable, Unobfuscatable {
         return guid;
     }
 
+    public long getUserId() {
+        return user_id;
+    }
+
+    public int getRole() {
+        return role;
+    }
+
+    public String getName() {
+        return name;
+    }
+
     public String getDescription() {
         return description;
     }
