@@ -43,6 +43,9 @@ public class RegisterActivity extends AppCompatActivity {
     Session session;
 
     @ViewById
+    Toolbar toolbar;
+
+    @ViewById
     EditText emailInput;
 
     @ViewById
@@ -50,9 +53,6 @@ public class RegisterActivity extends AppCompatActivity {
 
     @ViewById
     EditText nameInput;
-
-    @ViewById
-    Toolbar toolbar;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

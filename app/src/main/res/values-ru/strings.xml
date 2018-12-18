@@ -267,4 +267,5 @@
     <string name="error">Ошибка</string>
     <string name="name_input">Имя (никнейм)</string>
     <string name="ok">OK</string>
+    <string name="login_error">Ошибка сети. Проверьте интернет соединение и повторите попытку.</string>
 </resources>
