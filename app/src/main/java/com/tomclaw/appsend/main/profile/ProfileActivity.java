@@ -392,7 +392,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
         }
         changeRoleButton.setVisibility(canChangeRole ? View.VISIBLE : View.GONE);
-        authButton.setVisibility(isPublicProfile ? View.GONE : View.VISIBLE);
+        authButton.setVisibility(isPublicProfile || profile.isRegistered() ? View.GONE : View.VISIBLE);
         showContent();
         swipeRefresh.setRefreshing(false);
     }
