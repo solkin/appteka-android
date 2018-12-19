@@ -99,7 +99,12 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         if (response.isSuccessful()) {
-                            onLoginSuccessful(response.body());
+                            LoginResponse body = response.body();
+                            if (body != null) {
+                                onLoginSuccessful(body);
+                            } else {
+                                onError();
+                            }
                         } else {
                             ResponseBody body = response.errorBody();
                             String description = getString(R.string.login_error);
@@ -122,7 +127,7 @@ public class LoginActivity extends AppCompatActivity {
                 MainExecutor.execute(new Runnable() {
                     @Override
                     public void run() {
-                        onError(getString(R.string.login_error));
+                        onError();
                     }
                 });
             }
@@ -133,6 +138,10 @@ public class LoginActivity extends AppCompatActivity {
         session.getUserHolder().onUserRegistered(response.getGuid(), response.getUserId());
         setResult(RESULT_OK);
         finish();
+    }
+
+    private void onError() {
+        onError(getString(R.string.login_error));
     }
 
     private void onError(String description) {

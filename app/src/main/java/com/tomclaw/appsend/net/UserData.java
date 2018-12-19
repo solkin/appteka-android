@@ -14,12 +14,16 @@ public class UserData implements Unobfuscatable {
     private long userId;
     private long fetchTime;
     private int role;
+    private String email;
+    private String name;
 
     public UserData() {
         guid = "";
         userId = 0;
         fetchTime = 0;
         role = 0;
+        email = null;
+        name = null;
     }
 
     public boolean isRegistered() {
@@ -40,6 +44,14 @@ public class UserData implements Unobfuscatable {
         this.fetchTime = fetchTime;
     }
 
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getGuid() {
         return guid;
     }
@@ -54,6 +66,14 @@ public class UserData implements Unobfuscatable {
 
     public int getRole() {
         return role;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public void onFetchSuccess(long fetchTime) {

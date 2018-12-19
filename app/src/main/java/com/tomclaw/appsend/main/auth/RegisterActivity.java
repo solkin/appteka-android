@@ -99,7 +99,12 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         if (response.isSuccessful()) {
-                            onRegistered(response.body());
+                            RegisterResponse body = response.body();
+                            if (body != null) {
+                                onRegistered(body);
+                            } else {
+                                onError();
+                            }
                         } else {
                             ResponseBody body = response.errorBody();
                             String description = getString(R.string.register_error);
@@ -122,7 +127,7 @@ public class RegisterActivity extends AppCompatActivity {
                 MainExecutor.execute(new Runnable() {
                     @Override
                     public void run() {
-                        onError(getString(R.string.register_error));
+                        onError();
                     }
                 });
             }
@@ -130,8 +135,15 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void onRegistered(RegisterResponse response) {
+        String guid = response.getGuid();
+        long userId = session.getUserData().getUserId();
+        session.getUserHolder().onUserRegistered(guid, userId);
         setResult(RESULT_OK);
         finish();
+    }
+
+    private void onError() {
+        onError(getString(R.string.register_error));
     }
 
     private void onError(String description) {
