@@ -239,9 +239,6 @@
     <string name="unable_to_unlink_file">Failed to delete file</string>
     <string name="unlink_of">Deletion of %s</string>
     <string name="login">Login</string>
-    <string name="auth_data_title">Authorization data</string>
-    <string name="unable_to_relogin">Failed to relogin</string>
-    <string name="relogin_ok">Relogin OK</string>
     <string name="member_id">User ID: %d</string>
     <string name="profile_apps">User apps</string>
     <string name="nav_store">Store</string>

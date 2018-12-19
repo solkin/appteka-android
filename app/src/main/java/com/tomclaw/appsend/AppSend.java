@@ -45,7 +45,6 @@ public class AppSend extends Application {
         RequestDispatcher
                 .init(this, session.getUserHolder(), APP_SESSION, Request.REQUEST_TYPE_SHORT)
                 .startObservation();
-        session.start();
     }
 
     public static AppSend app() {

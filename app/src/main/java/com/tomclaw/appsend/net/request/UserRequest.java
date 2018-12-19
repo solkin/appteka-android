@@ -32,7 +32,6 @@ public class UserRequest extends BaseRequest {
             long userId = object.getLong("user_id");
             if (!TextUtils.isEmpty(guid)) {
                 getUserHolder().onUserRegistered(guid, userId);
-                Session.getInstance().start();
                 return REQUEST_DELETE;
             }
         }

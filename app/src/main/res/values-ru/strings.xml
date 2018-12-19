@@ -232,10 +232,7 @@
     <string name="fill_reason_field">Поле причины удаления файла является обязательным</string>
     <string name="unable_to_unlink_file">Не удалось удалить файл</string>
     <string name="unlink_of">Удаление %s</string>
-    <string name="login">Login</string>
-    <string name="auth_data_title">Авторизационные данные</string>
-    <string name="unable_to_relogin">Не удалось переавторизоваться</string>
-    <string name="relogin_ok">Переавторизация успешна</string>
+    <string name="login">Вход</string>
     <string name="member_id">ID пользователя: %d</string>
     <string name="profile_apps">Приложения пользователя</string>
     <string name="nav_store">Обменник</string>

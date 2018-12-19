@@ -1,21 +1,16 @@
 package com.tomclaw.appsend.main.profile;
 
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.text.InputType;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
-import android.util.Base64;
 import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -26,7 +21,6 @@ import com.tomclaw.appsend.main.auth.LoginActivity_;
 import com.tomclaw.appsend.main.profile.list.FilesActivity_;
 import com.tomclaw.appsend.main.view.MemberImageView;
 import com.tomclaw.appsend.net.Session;
-import com.tomclaw.appsend.net.UserData;
 import com.tomclaw.appsend.util.RoleHelper;
 import com.tomclaw.appsend.util.ThemeHelper;
 
@@ -45,7 +39,6 @@ import java.util.concurrent.TimeUnit;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -125,8 +118,6 @@ public class ProfileActivity extends AppCompatActivity {
     @InstanceState
     boolean isError;
 
-    int avatarClickCount = 0;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         ThemeHelper.updateTheme(this);
@@ -194,53 +185,6 @@ public class ProfileActivity extends AppCompatActivity {
     @Click(R.id.auth_button)
     void onAuthenticateClicked() {
         LoginActivity_.intent(this).startForResult(REQUEST_LOGIN);
-    }
-
-    @Click(R.id.member_avatar)
-    void onMemberAvatarClicked() {
-        avatarClickCount++;
-        if (avatarClickCount >= 5 && isSelf()) {
-            avatarClickCount = 0;
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle(R.string.auth_data_title);
-            final EditText input = new EditText(this);
-            input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
-            builder.setView(input);
-            builder.setPositiveButton(R.string.login, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    String userData = input.getText().toString();
-                    try {
-                        userData = new String(Base64.decode(userData, 0));
-                        int userDataDivider = userData.indexOf(':');
-                        long userId = Long.parseLong(userData.substring(0, userDataDivider));
-                        String guid = userData.substring(userDataDivider + 1);
-                        session.getUserHolder().onUserRegistered(guid, userId);
-                        Toast.makeText(
-                                ProfileActivity.this,
-                                R.string.relogin_ok,
-                                Toast.LENGTH_SHORT
-                        ).show();
-                    } catch (Throwable ex) {
-                        Toast.makeText(
-                                ProfileActivity.this,
-                                R.string.unable_to_relogin,
-                                Toast.LENGTH_SHORT
-                        ).show();
-                    }
-                }
-            });
-            builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
-                }
-            });
-            UserData userData = session.getUserData();
-            String authData = userData.getUserId() + ":" + userData.getGuid();
-            input.setText(Base64.encodeToString(authData.getBytes(), 0));
-            builder.show();
-        }
     }
 
     @OnActivityResult(REQUEST_LOGIN)

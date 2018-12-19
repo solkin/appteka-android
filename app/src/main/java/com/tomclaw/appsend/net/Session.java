@@ -13,6 +13,12 @@ import com.tomclaw.appsend.util.Logger;
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
+import androidx.annotation.NonNull;
+
 /**
  * Created by solkin on 22/04/16.
  */
@@ -24,6 +30,9 @@ public class Session {
 
     private UserHolder userHolder;
 
+    private ExecutorService executor = Executors.newSingleThreadExecutor();
+    private Future<?> loopFuture = null;
+
     public static Session getInstance() {
         return Session_.getInstance_(AppSend.app());
     }
@@ -32,14 +41,22 @@ public class Session {
         if (userHolder == null) {
             userHolder = UserHolder.create(context);
         }
+        userHolder.attachListener(new UserDataListener() {
+            @Override
+            public void onUserDataChanged(@NonNull UserData userData) {
+                stop();
+                start();
+            }
+        });
     }
 
     public void start() {
+        stop();
         final ContentResolver contentResolver = context.getContentResolver();
         if (getUserData().isRegistered()) {
             DiscussController.getInstance().onUserReady();
             Logger.log("start events fetching with guid: " + getUserData().getGuid());
-            new Thread() {
+            Runnable runnable = new Runnable() {
                 public void run() {
                     Logger.log("fetch started");
                     FetchRequest request = new FetchRequest(getUserData().getFetchTime());
@@ -57,10 +74,22 @@ public class Session {
                     } while (getUserData().isRegistered());
                     Logger.log("quit fetch loop");
                 }
-            }.start();
+            };
+            loopFuture = executor.submit(runnable);
         } else {
             Logger.log("user needs to be registered");
             RequestHelper.requestUserRegistration(ContentResolverLayer.from(contentResolver));
+        }
+    }
+
+    public void stop() {
+        if (loopFuture != null) {
+            Logger.log("stop events fetching...");
+            boolean result = loopFuture.cancel(true);
+            Logger.log("events fetching " + (result ? "stopped" : "not stopped"));
+            if (result) {
+                loopFuture = null;
+            }
         }
     }
 
