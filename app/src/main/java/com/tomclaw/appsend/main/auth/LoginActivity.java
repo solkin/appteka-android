@@ -3,6 +3,7 @@ package com.tomclaw.appsend.main.auth;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.widget.EditText;
+import android.widget.ViewFlipper;
 
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.MainExecutor;
@@ -31,6 +32,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.tomclaw.appsend.util.KeyboardHelper.hideKeyboard;
 import static com.tomclaw.appsend.util.LocaleHelper.getLocaleLanguage;
 
 @SuppressLint("Registered")
@@ -46,6 +48,9 @@ public class LoginActivity extends AppCompatActivity {
 
     @ViewById
     Toolbar toolbar;
+
+    @ViewById
+    ViewFlipper viewFlipper;
 
     @ViewById
     EditText emailInput;
@@ -70,6 +75,8 @@ public class LoginActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowTitleEnabled(true);
         }
+
+        showContent();
     }
 
     @OptionsItem(android.R.id.home)
@@ -92,12 +99,15 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @OnActivityResult(REQUEST_REGISTER)
-    void onRegisterResult() {
-        setResult(RESULT_OK);
-        finish();
+    void onRegisterResult(int resultCode) {
+        if (resultCode == RESULT_OK) {
+            setResult(RESULT_OK);
+            finish();
+        }
     }
 
     private void login(String locale, String email, String password) {
+        showProgress();
         Call<AuthResponse> call = serviceHolder.getService()
                 .login(1, locale, email, password);
         call.enqueue(new Callback<AuthResponse>() {
@@ -143,6 +153,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void onLoginSuccessful(AuthResponse response) {
+        showContent();
         String guid = response.getGuid();
         long userId = response.getUserId();
         String email = response.getEmail();
@@ -157,12 +168,23 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void onError(String description) {
+        showContent();
         new AlertDialog.Builder(this)
                 .setTitle(getString(R.string.error))
                 .setMessage(description)
                 .setPositiveButton(R.string.ok, null)
                 .create()
                 .show();
+    }
+
+    private void showProgress() {
+        viewFlipper.setDisplayedChild(0);
+        hideKeyboard(emailInput);
+        hideKeyboard(passwordInput);
+    }
+
+    private void showContent() {
+        viewFlipper.setDisplayedChild(1);
     }
 
 }

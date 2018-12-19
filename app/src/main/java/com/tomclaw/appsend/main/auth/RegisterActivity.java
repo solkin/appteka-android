@@ -75,6 +75,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     @OptionsItem(android.R.id.home)
     boolean actionHome() {
+        setResult(RESULT_CANCELED);
         onBackPressed();
         return true;
     }
