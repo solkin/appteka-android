@@ -100,7 +100,8 @@ public class UserHolder {
     }
 
     public void onUserRegistered(String guid, long userId, String email, String name) {
-        Logger.log("User successfully registered: " + guid + ", ID: " + userId);
+        Logger.log("User successfully registered: " + guid + ", ID: " + userId +
+                ", email: " + email + ", name: " + name);
         userData.setGuid(guid);
         userData.setUserId(userId);
         userData.setEmail(email);

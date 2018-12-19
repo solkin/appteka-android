@@ -15,6 +15,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 
@@ -36,6 +37,7 @@ import static com.tomclaw.appsend.util.LocaleHelper.getLocaleLanguage;
 @EActivity(R.layout.login_activity)
 public class LoginActivity extends AppCompatActivity {
 
+    private static final int REQUEST_REGISTER = 2;
     @Bean
     StoreServiceHolder serviceHolder;
 
@@ -86,20 +88,26 @@ public class LoginActivity extends AppCompatActivity {
 
     @Click(R.id.register_button)
     void onRegisterClicked() {
-        RegisterActivity_.intent(this).start();
+        RegisterActivity_.intent(this).startForResult(REQUEST_REGISTER);
+    }
+
+    @OnActivityResult(REQUEST_REGISTER)
+    void onRegisterResult() {
+        setResult(RESULT_OK);
+        finish();
     }
 
     private void login(String locale, String email, String password) {
-        Call<LoginResponse> call = serviceHolder.getService()
+        Call<AuthResponse> call = serviceHolder.getService()
                 .login(1, locale, email, password);
-        call.enqueue(new Callback<LoginResponse>() {
+        call.enqueue(new Callback<AuthResponse>() {
             @Override
-            public void onResponse(Call<LoginResponse> call, final Response<LoginResponse> response) {
+            public void onResponse(Call<AuthResponse> call, final Response<AuthResponse> response) {
                 MainExecutor.execute(new Runnable() {
                     @Override
                     public void run() {
                         if (response.isSuccessful()) {
-                            LoginResponse body = response.body();
+                            AuthResponse body = response.body();
                             if (body != null) {
                                 onLoginSuccessful(body);
                             } else {
@@ -111,7 +119,7 @@ public class LoginActivity extends AppCompatActivity {
                             if (body != null) {
                                 try {
                                     description = GsonSingleton.getInstance()
-                                            .fromJson(body.string(), LoginResponse.class)
+                                            .fromJson(body.string(), AuthResponse.class)
                                             .getDescription();
                                 } catch (IOException ignored) {
                                 }
@@ -123,7 +131,7 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<LoginResponse> call, Throwable t) {
+            public void onFailure(Call<AuthResponse> call, Throwable t) {
                 MainExecutor.execute(new Runnable() {
                     @Override
                     public void run() {
@@ -134,7 +142,7 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    private void onLoginSuccessful(LoginResponse response) {
+    private void onLoginSuccessful(AuthResponse response) {
         session.getUserHolder().onUserRegistered(response.getGuid(), response.getUserId());
         setResult(RESULT_OK);
         finish();

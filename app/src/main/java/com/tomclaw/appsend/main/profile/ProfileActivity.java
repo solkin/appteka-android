@@ -35,6 +35,7 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.InstanceState;
+import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 
@@ -62,6 +63,7 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 @EActivity(R.layout.profile_activity)
 public class ProfileActivity extends AppCompatActivity {
 
+    private static final int REQUEST_LOGIN = 1;
     @Bean
     StoreServiceHolder serviceHolder;
 
@@ -154,8 +156,7 @@ public class ProfileActivity extends AppCompatActivity {
         } else if (isError) {
             showError();
         } else {
-            showProgress();
-            loadProfile();
+            reloadProfile();
         }
     }
 
@@ -191,7 +192,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     @Click(R.id.auth_button)
     void onAuthenticateClicked() {
-        LoginActivity_.intent(this).start();
+        LoginActivity_.intent(this).startForResult(REQUEST_LOGIN);
     }
 
     @Click(R.id.member_avatar)
@@ -239,6 +240,17 @@ public class ProfileActivity extends AppCompatActivity {
             input.setText(Base64.encodeToString(authData.getBytes(), 0));
             builder.show();
         }
+    }
+
+    @OnActivityResult(REQUEST_LOGIN)
+    void onLoginResult() {
+        showProgress();
+        loadProfile();
+    }
+
+    private void reloadProfile() {
+        showProgress();
+        loadProfile();
     }
 
     private void loadProfile() {
@@ -292,8 +304,7 @@ public class ProfileActivity extends AppCompatActivity {
                     MainExecutor.execute(new Runnable() {
                         @Override
                         public void run() {
-                            showProgress();
-                            loadProfile();
+                            reloadProfile();
                         }
                     });
                 } else {
@@ -398,8 +409,7 @@ public class ProfileActivity extends AppCompatActivity {
         retryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showProgress();
-                loadProfile();
+                reloadProfile();
             }
         });
         viewFlipper.setDisplayedChild(2);

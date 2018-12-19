@@ -8,20 +8,22 @@ import com.tomclaw.appsend.util.Unobfuscatable;
 /**
  * Created by solkin on 18/12/2018.
  */
-public class LoginResponse implements Parcelable, Unobfuscatable {
+public class AuthResponse implements Parcelable, Unobfuscatable {
 
     private int status;
     private String guid;
     private long user_id;
     private int role;
+    private String email;
     private String name;
     private String description;
 
-    protected LoginResponse(Parcel in) {
+    protected AuthResponse(Parcel in) {
         status = in.readInt();
         guid = in.readString();
         user_id = in.readLong();
         role = in.readInt();
+        email = in.readString();
         name = in.readString();
         description = in.readString();
     }
@@ -42,6 +44,10 @@ public class LoginResponse implements Parcelable, Unobfuscatable {
         return role;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
     public String getName() {
         return name;
     }
@@ -56,6 +62,7 @@ public class LoginResponse implements Parcelable, Unobfuscatable {
         dest.writeString(guid);
         dest.writeLong(user_id);
         dest.writeInt(role);
+        dest.writeString(email);
         dest.writeString(name);
         dest.writeString(description);
     }
@@ -65,15 +72,15 @@ public class LoginResponse implements Parcelable, Unobfuscatable {
         return 0;
     }
 
-    public static final Creator<LoginResponse> CREATOR = new Creator<LoginResponse>() {
+    public static final Creator<AuthResponse> CREATOR = new Creator<AuthResponse>() {
         @Override
-        public LoginResponse createFromParcel(Parcel in) {
-            return new LoginResponse(in);
+        public AuthResponse createFromParcel(Parcel in) {
+            return new AuthResponse(in);
         }
 
         @Override
-        public LoginResponse[] newArray(int size) {
-            return new LoginResponse[size];
+        public AuthResponse[] newArray(int size) {
+            return new AuthResponse[size];
         }
     };
 }

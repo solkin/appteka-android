@@ -90,16 +90,16 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void register(String guid, String locale, String email, String password, String name) {
-        Call<RegisterResponse> call = serviceHolder.getService()
+        Call<AuthResponse> call = serviceHolder.getService()
                 .register(1, guid, locale, email, password, name);
-        call.enqueue(new Callback<RegisterResponse>() {
+        call.enqueue(new Callback<AuthResponse>() {
             @Override
-            public void onResponse(Call<RegisterResponse> call, final Response<RegisterResponse> response) {
+            public void onResponse(Call<AuthResponse> call, final Response<AuthResponse> response) {
                 MainExecutor.execute(new Runnable() {
                     @Override
                     public void run() {
                         if (response.isSuccessful()) {
-                            RegisterResponse body = response.body();
+                            AuthResponse body = response.body();
                             if (body != null) {
                                 onRegistered(body);
                             } else {
@@ -111,7 +111,7 @@ public class RegisterActivity extends AppCompatActivity {
                             if (body != null) {
                                 try {
                                     description = GsonSingleton.getInstance()
-                                            .fromJson(body.string(), RegisterResponse.class)
+                                            .fromJson(body.string(), AuthResponse.class)
                                             .getDescription();
                                 } catch (IOException ignored) {
                                 }
@@ -123,7 +123,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<RegisterResponse> call, Throwable t) {
+            public void onFailure(Call<AuthResponse> call, Throwable t) {
                 MainExecutor.execute(new Runnable() {
                     @Override
                     public void run() {
@@ -134,10 +134,12 @@ public class RegisterActivity extends AppCompatActivity {
         });
     }
 
-    private void onRegistered(RegisterResponse response) {
+    private void onRegistered(AuthResponse response) {
         String guid = response.getGuid();
-        long userId = session.getUserData().getUserId();
-        session.getUserHolder().onUserRegistered(guid, userId);
+        long userId = response.getUserId();
+        String email = response.getEmail();
+        String name = response.getName();
+        session.getUserHolder().onUserRegistered(guid, userId, email, name);
         setResult(RESULT_OK);
         finish();
     }
