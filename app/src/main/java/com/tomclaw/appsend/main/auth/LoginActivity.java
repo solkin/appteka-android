@@ -143,7 +143,11 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void onLoginSuccessful(AuthResponse response) {
-        session.getUserHolder().onUserRegistered(response.getGuid(), response.getUserId());
+        String guid = response.getGuid();
+        long userId = response.getUserId();
+        String email = response.getEmail();
+        String name = response.getName();
+        session.getUserHolder().onUserRegistered(guid, userId, email, name);
         setResult(RESULT_OK);
         finish();
     }

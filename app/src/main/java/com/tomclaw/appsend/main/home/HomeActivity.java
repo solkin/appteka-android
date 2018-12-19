@@ -3,23 +3,14 @@ package com.tomclaw.appsend.main.home;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.navigation.NavigationView;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
 import com.greysonparrelli.permiso.PermisoActivity;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.MainExecutor;
@@ -52,6 +43,16 @@ import com.tomclaw.appsend.util.ThemeHelper;
 
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.metrics.MetricsManager;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import static com.tomclaw.appsend.util.MemberImageHelper.memberImageHelper;
 
@@ -245,10 +246,18 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
      */
     void showNavHeader(UserData userData) {
         long userId = userData.getUserId();
-        boolean isThreadOwner = userId == 1;
 
-        txtName.setText(memberImageHelper().getName(userId, isThreadOwner));
-        txtWebsite.setText(String.valueOf(userId));
+        String name = userData.getName();
+        if (TextUtils.isEmpty(name)) {
+            boolean isThreadOwner = userId == 1;
+            name = getString(memberImageHelper().getName(userId, isThreadOwner));
+        }
+        String description = userData.getEmail();
+        if (TextUtils.isEmpty(description)) {
+            description = String.valueOf(userId);
+        }
+        txtName.setText(name);
+        txtWebsite.setText(description);
 
         imgProfile.setMemberId(userId);
     }
