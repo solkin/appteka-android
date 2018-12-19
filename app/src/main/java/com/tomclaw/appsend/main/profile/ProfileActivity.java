@@ -244,9 +244,11 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     @OnActivityResult(REQUEST_LOGIN)
-    void onLoginResult() {
-        showProgress();
-        loadProfile();
+    void onLoginResult(int resultCode) {
+        if (resultCode == RESULT_OK) {
+            showProgress();
+            loadProfile();
+        }
     }
 
     private void reloadProfile() {

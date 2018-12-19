@@ -3,6 +3,7 @@ package com.tomclaw.appsend.main.auth;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.widget.EditText;
+import android.widget.ViewFlipper;
 
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.MainExecutor;
@@ -30,6 +31,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.tomclaw.appsend.util.KeyboardHelper.hideKeyboard;
 import static com.tomclaw.appsend.util.LocaleHelper.getLocaleLanguage;
 
 @SuppressLint("Registered")
@@ -44,6 +46,9 @@ public class RegisterActivity extends AppCompatActivity {
 
     @ViewById
     Toolbar toolbar;
+
+    @ViewById
+    ViewFlipper viewFlipper;
 
     @ViewById
     EditText emailInput;
@@ -71,6 +76,8 @@ public class RegisterActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowTitleEnabled(true);
         }
+
+        showContent();
     }
 
     @OptionsItem(android.R.id.home)
@@ -91,6 +98,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void register(String guid, String locale, String email, String password, String name) {
+        showProgress();
         Call<AuthResponse> call = serviceHolder.getService()
                 .register(1, guid, locale, email, password, name);
         call.enqueue(new Callback<AuthResponse>() {
@@ -136,6 +144,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void onRegistered(AuthResponse response) {
+        showContent();
         String guid = response.getGuid();
         long userId = response.getUserId();
         String email = response.getEmail();
@@ -150,12 +159,24 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void onError(String description) {
+        showContent();
         new AlertDialog.Builder(this)
                 .setTitle(getString(R.string.error))
                 .setMessage(description)
                 .setPositiveButton(R.string.ok, null)
                 .create()
                 .show();
+    }
+
+    private void showProgress() {
+        viewFlipper.setDisplayedChild(0);
+        hideKeyboard(emailInput);
+        hideKeyboard(passwordInput);
+        hideKeyboard(nameInput);
+    }
+
+    private void showContent() {
+        viewFlipper.setDisplayedChild(1);
     }
 
 }
