@@ -19,6 +19,8 @@ public class Profile implements Parcelable, Unobfuscatable {
     private int msg_count;
     private int ratings_count;
     private int moderators_count;
+    private String name;
+    private boolean is_registered;
 
     protected Profile(Parcel in) {
         user_id = in.readInt();
@@ -30,6 +32,8 @@ public class Profile implements Parcelable, Unobfuscatable {
         msg_count = in.readInt();
         ratings_count = in.readInt();
         moderators_count = in.readInt();
+        name = in.readString();
+        is_registered = in.readInt() == 1;
     }
 
     public int getUserId() {
@@ -68,6 +72,14 @@ public class Profile implements Parcelable, Unobfuscatable {
         return moderators_count;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public boolean isRegistered() {
+        return is_registered;
+    }
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(user_id);
@@ -79,6 +91,8 @@ public class Profile implements Parcelable, Unobfuscatable {
         dest.writeInt(msg_count);
         dest.writeInt(ratings_count);
         dest.writeInt(moderators_count);
+        dest.writeString(name);
+        dest.writeInt(is_registered ? 1 : 0);
     }
 
     @Override

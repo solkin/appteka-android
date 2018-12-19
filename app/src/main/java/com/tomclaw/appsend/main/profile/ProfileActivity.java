@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.Base64;
 import android.view.ContextMenu;
@@ -348,7 +349,11 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void bindProfile() {
         memberAvatar.setMemberId(profile.getUserId());
-        memberName.setText(memberImageHelper().getName(profile.getUserId(), isThreadOwner()));
+        if (TextUtils.isEmpty(profile.getName())) {
+            memberName.setText(memberImageHelper().getName(profile.getUserId(), isThreadOwner()));
+        } else {
+            memberName.setText(profile.getName());
+        }
         memberRole.setText(RoleHelper.getRoleName(profile.getRole()));
         memberId.setText(getString(R.string.member_id, profile.getUserId()));
         memberJoined.setText(getString(R.string.joined_date,
