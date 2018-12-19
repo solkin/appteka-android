@@ -3,15 +3,13 @@ package com.tomclaw.appsend.main.discuss;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.appcompat.app.AlertDialog;
-import androidx.recyclerview.widget.RecyclerView;
 import android.text.TextUtils;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ViewFlipper;
 
 import com.flurry.android.FlurryAgent;
+import com.google.android.material.snackbar.Snackbar;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.Config;
 import com.tomclaw.appsend.core.ContentResolverLayer;
@@ -39,6 +37,9 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.RecyclerView;
 
 import static com.tomclaw.appsend.util.KeyboardHelper.hideKeyboard;
 import static com.tomclaw.appsend.util.KeyboardHelper.showKeyboard;
@@ -147,11 +148,16 @@ public class DiscussFragment extends HomeFragment implements DiscussController.D
                                 break;
                             }
                             case 1: {
+                                FlurryAgent.logEvent("Message menu: copy");
+                                StringUtil.copyStringToClipboard(getContext(), message.getText());
+                                break;
+                            }
+                            case 2: {
                                 FlurryAgent.logEvent("Message menu: profile");
                                 showUserProfile(message);
                                 break;
                             }
-                            case 2: {
+                            case 3: {
                                 FlurryAgent.logEvent("Message menu: report");
                                 if (message.getMsgId() > 0) {
                                     TaskExecutor.getInstance().execute(new DiscussFragment.ReportMessageTask(getContext(), message.getMsgId(), new DiscussFragment.ReportCallback() {

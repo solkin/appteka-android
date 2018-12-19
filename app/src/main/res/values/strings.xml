@@ -153,6 +153,7 @@
     <string name="enter_your_message">Your message…</string>
     <string name="error_sending_message">Unable to send message</string>
     <string name="reply">Reply</string>
+    <string name="copy">Copy</string>
     <string name="report">Report abuse</string>
     <string name="error_message_report">Unable to report abuse</string>
     <string name="message_report_sent">Thank you for helping in discussions moderation!</string>

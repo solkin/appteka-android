@@ -2,10 +2,6 @@ package com.tomclaw.appsend.main.abuse;
 
 import android.content.Context;
 import android.os.Bundle;
-import androidx.annotation.Nullable;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -13,6 +9,8 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
+import com.flurry.android.FlurryAgent;
+import com.google.android.material.snackbar.Snackbar;
 import com.jaeger.library.StatusBarUtil;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.MainExecutor;
@@ -28,6 +26,9 @@ import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -81,6 +82,8 @@ public class AbuseActivity extends AppCompatActivity {
         StatusBarUtil.setColor(this, color);
 
         onReady();
+
+        FlurryAgent.logEvent("Abuse screen: open");
     }
 
     @OptionsItem(android.R.id.home)
@@ -171,6 +174,7 @@ public class AbuseActivity extends AppCompatActivity {
     }
 
     public void onAbuseSent() {
+        FlurryAgent.logEvent("Abuse screen: abuse sent");
         Toast.makeText(this, R.string.thanks_for_attention, Toast.LENGTH_LONG).show();
         finish();
     }

@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
+
+import com.flurry.android.FlurryAgent;
 import com.google.android.material.snackbar.Snackbar;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -86,6 +88,8 @@ public class UnlinkActivity extends AppCompatActivity {
         StatusBarUtil.setColor(this, color);
 
         onReady();
+
+        FlurryAgent.logEvent("Unlink screen: open");
     }
 
     @OptionsItem(android.R.id.home)
@@ -160,6 +164,7 @@ public class UnlinkActivity extends AppCompatActivity {
     }
 
     public void onFileUnlinked() {
+        FlurryAgent.logEvent("Unlink screen: file unlinked");
         Toast.makeText(this, R.string.thanks_for_attention, Toast.LENGTH_LONG).show();
         setResult(RESULT_OK);
         finish();

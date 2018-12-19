@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.ViewFlipper;
 
+import com.flurry.android.FlurryAgent;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.core.StoreServiceHolder;
@@ -78,6 +79,8 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         showContent();
+
+        FlurryAgent.logEvent("Register screen: open");
     }
 
     @OptionsItem(android.R.id.home)
@@ -98,6 +101,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void register(String guid, String locale, String email, String password, String name) {
+        FlurryAgent.logEvent("Register screen: registration start");
         showProgress();
         Call<AuthResponse> call = serviceHolder.getService()
                 .register(1, guid, locale, email, password, name);
@@ -144,6 +148,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void onRegistered(AuthResponse response) {
+        FlurryAgent.logEvent("Register screen: registration successful");
         showContent();
         String guid = response.getGuid();
         long userId = response.getUserId();
@@ -159,6 +164,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void onError(String description) {
+        FlurryAgent.logEvent("Register screen: registration error");
         showContent();
         new AlertDialog.Builder(this)
                 .setTitle(getString(R.string.error))
