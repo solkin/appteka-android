@@ -98,7 +98,12 @@ public class LoginActivity extends AppCompatActivity {
 
     @Click(R.id.register_button)
     void onRegisterClicked() {
-        RegisterActivity_.intent(this).startForResult(REQUEST_REGISTER);
+        String email = emailInput.getText().toString();
+        String password = passwordInput.getText().toString();
+        RegisterActivity_.intent(this)
+                .startEmail(email)
+                .startPassword(password)
+                .startForResult(REQUEST_REGISTER);
     }
 
     @OnActivityResult(REQUEST_REGISTER)

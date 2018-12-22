@@ -2,6 +2,7 @@ package com.tomclaw.appsend.main.auth;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.widget.EditText;
 import android.widget.ViewFlipper;
 
@@ -17,6 +18,7 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 
@@ -60,6 +62,12 @@ public class RegisterActivity extends AppCompatActivity {
     @ViewById
     EditText nameInput;
 
+    @Extra
+    String startEmail;
+
+    @Extra
+    String startPassword;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         ThemeHelper.updateTheme(this);
@@ -76,6 +84,14 @@ public class RegisterActivity extends AppCompatActivity {
             actionBar.setDisplayShowHomeEnabled(true);
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setDisplayShowTitleEnabled(true);
+        }
+
+        if (!TextUtils.isEmpty(startEmail)) {
+            emailInput.setText(startEmail);
+        }
+
+        if (!TextUtils.isEmpty(startPassword)) {
+            passwordInput.setText(startPassword);
         }
 
         showContent();
