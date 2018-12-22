@@ -273,6 +273,6 @@
     <string name="ok">OK</string>
     <string name="login_error">Network error. Check your internet connection and try again.</string>
     <string name="upload_notice_title">Distribution rights agreement</string>
-    <string name="upload_notice_text">Important! By clicking \"Yes\" you confirm that:\n1. You have the rights, received directly from the author or affiliated persons to distribute applications you upload to the AppSend store.\n2. This software does not violate copyright and applicable laws.\n3. The owner of the appsend.store is not responsible for the uploaded software.</string>
+    <string name="upload_notice_text">Important! By clicking \"Yes\" you confirm that:\n1. You do not violate the licenses of applications uploaded to the AppSend store.\n2. This software does not violate copyright and applicable laws.\n3. The owner of the appsend.store is not responsible for the uploaded software.</string>
     <string name="agree_with_upload_notice">To upload applications to AppSend store you must agree with this condition</string>
 </resources>
