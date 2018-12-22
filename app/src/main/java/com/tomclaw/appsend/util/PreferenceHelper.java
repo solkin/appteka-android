@@ -41,8 +41,16 @@ public class PreferenceHelper {
         return getBooleanPreference(context, R.string.pref_responsibility_denial, R.bool.pref_responsibility_denial_default);
     }
 
+    public static boolean isShowUploadNotice(Context context) {
+        return getBooleanPreference(context, R.string.pref_upload_notice, R.bool.pref_upload_notice_default);
+    }
+
     public static void setShowResponsibilityDenial(Context context, boolean value) {
         setBooleanPreference(context, R.string.pref_responsibility_denial, value);
+    }
+
+    public static void setShowUploadNotice(Context context, boolean value) {
+        setBooleanPreference(context, R.string.pref_upload_notice, value);
     }
 
     public static long getCountTime(Context context) {

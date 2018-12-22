@@ -4,7 +4,12 @@ import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
+
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
+
+import androidx.annotation.StringRes;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
@@ -17,6 +22,8 @@ import androidx.appcompat.widget.Toolbar;
 import com.greysonparrelli.permiso.PermisoActivity;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.main.item.CommonItem;
+import com.tomclaw.appsend.main.upload.UploadActivity;
+import com.tomclaw.appsend.util.PreferenceHelper;
 import com.tomclaw.appsend.util.ThemeHelper;
 
 import org.androidannotations.annotations.AfterViews;
@@ -76,6 +83,8 @@ public class SelectLocalAppActivity extends PermisoActivity implements CommonIte
 
         pager.setAdapter(adapter);
         tabs.setupWithViewPager(pager);
+
+        uploadNotice();
     }
 
     @OptionsItem(android.R.id.home)
@@ -107,6 +116,32 @@ public class SelectLocalAppActivity extends PermisoActivity implements CommonIte
         } else {
             leaveScreen(item);
         }
+    }
+
+    private void uploadNotice() {
+        if (PreferenceHelper.isShowUploadNotice(this)) {
+            new AlertDialog.Builder(this)
+                    .setTitle(getString(R.string.upload_notice_title))
+                    .setMessage(getString(R.string.upload_notice_text))
+                    .setNegativeButton(R.string.yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            PreferenceHelper.setShowUploadNotice(SelectLocalAppActivity.this, false);
+                        }
+                    })
+                    .setPositiveButton(R.string.no, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            showError(R.string.agree_with_upload_notice);
+                            leaveScreen();
+                        }
+                    })
+                    .show();
+        }
+    }
+
+    private void showError(@StringRes int message) {
+        Toast.makeText(this, message, Snackbar.LENGTH_LONG).show();
     }
 
     private void leaveScreen() {
