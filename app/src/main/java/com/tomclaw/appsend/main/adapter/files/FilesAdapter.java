@@ -1,13 +1,14 @@
 package com.tomclaw.appsend.main.adapter.files;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.ViewGroup;
 
 import com.tomclaw.appsend.main.item.BaseItem;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Created by Igor on 23.10.2017.

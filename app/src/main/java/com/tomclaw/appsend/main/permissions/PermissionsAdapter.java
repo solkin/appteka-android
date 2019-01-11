@@ -2,8 +2,6 @@ package com.tomclaw.appsend.main.permissions;
 
 import android.content.Context;
 import android.os.Build;
-import androidx.annotation.ColorInt;
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +11,9 @@ import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.util.PermissionHelper;
 
 import java.util.List;
+
+import androidx.annotation.ColorInt;
+import androidx.recyclerview.widget.RecyclerView;
 
 import static com.tomclaw.appsend.util.ColorHelper.getAttributedColor;
 import static com.tomclaw.appsend.util.PermissionHelper.getPermissionSmallInfo;

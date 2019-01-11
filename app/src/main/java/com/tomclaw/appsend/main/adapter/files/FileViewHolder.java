@@ -1,7 +1,8 @@
 package com.tomclaw.appsend.main.adapter.files;
 
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Created by solkin on 03.08.17.

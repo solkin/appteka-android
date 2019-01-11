@@ -3,11 +3,12 @@ package com.tomclaw.appsend.main.view;
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import androidx.appcompat.content.res.AppCompatResources;
-import androidx.appcompat.widget.AppCompatImageView;
 import android.util.AttributeSet;
 
 import com.tomclaw.appsend.R;
+
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.appcompat.widget.AppCompatImageView;
 
 import static com.tomclaw.appsend.util.MemberImageHelper.memberImageHelper;
 

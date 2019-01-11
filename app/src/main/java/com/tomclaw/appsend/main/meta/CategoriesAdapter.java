@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
-import androidx.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +17,8 @@ import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.util.LocaleHelper;
 
 import java.util.List;
+
+import androidx.annotation.NonNull;
 
 /**
  * Created by solkin on 23.09.17.

@@ -5,7 +5,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Environment;
-import androidx.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.tomclaw.appsend.main.adapter.files.FileViewHolderCreator;
@@ -17,6 +16,8 @@ import org.androidannotations.annotations.EFragment;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+
+import androidx.annotation.NonNull;
 
 import static android.content.pm.PackageManager.GET_PERMISSIONS;
 import static com.tomclaw.appsend.util.states.StateHolder.stateHolder;

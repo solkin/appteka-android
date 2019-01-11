@@ -26,7 +26,6 @@ import retrofit2.Call;
 import retrofit2.Response;
 
 import static com.tomclaw.appsend.AppSend.app;
-import static com.tomclaw.appsend.core.Config.HOST_URL;
 
 /**
  * Created by ivsolkin on 17.01.17.

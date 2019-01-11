@@ -1,10 +1,11 @@
 package com.tomclaw.appsend.main.adapter.holder;
 
-import androidx.recyclerview.widget.RecyclerView;
 import android.view.View;
 
 import com.tomclaw.appsend.main.adapter.ChatAdapter;
 import com.tomclaw.appsend.main.dto.Message;
+
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Created by ivsolkin on 23.06.17.

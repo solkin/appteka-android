@@ -6,7 +6,6 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import androidx.annotation.NonNull;
 import android.text.TextUtils;
 
 import com.tomclaw.appsend.R;
@@ -22,6 +21,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
+
+import androidx.annotation.NonNull;
 
 import static android.content.pm.PackageManager.GET_PERMISSIONS;
 import static com.tomclaw.appsend.util.states.StateHolder.stateHolder;

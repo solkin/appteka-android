@@ -3,9 +3,6 @@ package com.tomclaw.appsend.main.adapter;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
-import androidx.loader.app.LoaderManager;
-import androidx.loader.content.Loader;
-import androidx.collection.LongSparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +17,10 @@ import com.tomclaw.appsend.main.adapter.holder.ServiceMessageHolder;
 import com.tomclaw.appsend.main.dto.Message;
 import com.tomclaw.appsend.util.Logger;
 import com.tomclaw.appsend.util.QueryBuilder;
+
+import androidx.collection.LongSparseArray;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.Loader;
 
 /**
  * Created by solkin on 01.07.15.

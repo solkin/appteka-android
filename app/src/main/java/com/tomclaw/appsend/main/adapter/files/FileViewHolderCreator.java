@@ -1,7 +1,8 @@
 package com.tomclaw.appsend.main.adapter.files;
 
-import androidx.annotation.NonNull;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
 
 public interface FileViewHolderCreator<T> {
 

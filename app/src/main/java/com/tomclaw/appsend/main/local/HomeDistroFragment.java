@@ -4,11 +4,10 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
-import com.google.android.material.snackbar.Snackbar;
-import androidx.appcompat.app.AlertDialog;
 import android.widget.ListAdapter;
 
 import com.flurry.android.FlurryAgent;
+import com.google.android.material.snackbar.Snackbar;
 import com.greysonparrelli.permiso.Permiso;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.main.adapter.MenuAdapter;
@@ -25,6 +24,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import androidx.appcompat.app.AlertDialog;
 
 import static com.tomclaw.appsend.util.IntentHelper.bluetoothApk;
 import static com.tomclaw.appsend.util.IntentHelper.openGooglePlay;

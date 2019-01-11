@@ -1,7 +1,5 @@
 package com.tomclaw.appsend.main.store;
 
-import androidx.annotation.NonNull;
-
 import com.tomclaw.appsend.BuildConfig;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.MainExecutor;
@@ -15,6 +13,7 @@ import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.InstanceState;
 
+import androidx.annotation.NonNull;
 import retrofit2.Call;
 
 import static com.tomclaw.appsend.util.LocaleHelper.getLocaleLanguage;

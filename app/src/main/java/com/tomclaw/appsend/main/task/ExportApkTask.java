@@ -2,7 +2,6 @@ package com.tomclaw.appsend.main.task;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import androidx.appcompat.app.AlertDialog;
 import android.text.Html;
 import android.widget.Toast;
 
@@ -17,6 +16,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+
+import androidx.appcompat.app.AlertDialog;
 
 import static com.tomclaw.appsend.util.FileHelper.getExternalDirectory;
 import static com.tomclaw.appsend.util.IntentHelper.bluetoothApk;
