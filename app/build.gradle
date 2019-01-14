@@ -36,8 +36,8 @@ android {
 dependencies {
     implementation project(path: ':androidsvg')
     implementation project(path: ':preference-fragment')
-    annotationProcessor 'org.androidannotations:androidannotations:4.5.2'
-    implementation 'org.androidannotations:androidannotations-api:4.5.2'
+    annotationProcessor 'org.androidannotations:androidannotations:4.6.0-SNAPSHOT'
+    implementation 'org.androidannotations:androidannotations-api:4.6.0-SNAPSHOT'
     implementation 'androidx.appcompat:appcompat:1.0.2'
     annotationProcessor 'androidx.annotation:annotation:1.0.1'
     implementation 'androidx.annotation:annotation:1.0.1'
