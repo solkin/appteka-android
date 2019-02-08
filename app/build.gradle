@@ -16,7 +16,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 28
         versionCode = project.hasProperty("versionCode") ? Integer.parseInt(project.versionCode) : 1000
-        versionName = "4.3"
+        versionName = "4.4"
         manifestPlaceholders = [
                 HOCKEYAPP_APP_ID: "c8564e901f354fcc9858e6ad5b1594f9",
                 FLURRY_APP_ID   : "VDGFHF3THYWJ53SKX5VK"
@@ -36,8 +36,8 @@ android {
 dependencies {
     implementation project(path: ':androidsvg')
     implementation project(path: ':preference-fragment')
-    annotationProcessor 'org.androidannotations:androidannotations:4.6.0-SNAPSHOT'
-    implementation 'org.androidannotations:androidannotations-api:4.6.0-SNAPSHOT'
+    annotationProcessor 'org.androidannotations:androidannotations:4.6.0'
+    implementation 'org.androidannotations:androidannotations-api:4.6.0'
     implementation 'androidx.appcompat:appcompat:1.0.2'
     annotationProcessor 'androidx.annotation:annotation:1.0.1'
     implementation 'androidx.annotation:annotation:1.0.1'
