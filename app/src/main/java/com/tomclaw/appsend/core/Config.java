@@ -7,8 +7,8 @@ import android.net.Uri;
  */
 public class Config {
 
-    public static String LOG_TAG = "AppSend";
-    public static String HOST_URL = "https://appsend.store";
+    public static String LOG_TAG = "Appteka";
+    public static String HOST_URL = "https://appteka.store";
     public static String DB_NAME = "appsend_db";
     public static int DB_VERSION = 1;
     public static String GLOBAL_AUTHORITY = "com.tomclaw.appsend.core.GlobalProvider";

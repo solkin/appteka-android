@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">AppSend</string>
+    <string name="app_name">Appteka</string>
     <string name="bytes">%d Б</string>
     <string name="kibibytes">%.1f КБ</string>
     <string name="mibibytes">%.1f МБ</string>
@@ -108,7 +108,7 @@
     <string name="cancel_download_title">Отмена установки</string>
     <string name="cancel_download_text">Вы уверены, что хотите отменить установку этого приложения?</string>
     <string name="responsibility_denial_title">Отказ от ответственности</string>
-    <string name="responsibility_denial_text">В обменнике представлены приложения, загруженные пользователями AppSend. Автор не несёт ответственность за качество предоставленного контента. Нажимая \"Да\" Вы принимаете данное условие.</string>
+    <string name="responsibility_denial_text">В обменнике представлены приложения, загруженные пользователями Appteka. Автор не несёт ответственность за качество предоставленного контента. Нажимая \"Да\" Вы принимаете данное условие.</string>
     <string name="agree_with_responsibility_condition">Для установки приложений из обменника необходимо согласиться в этим условием</string>
     <string name="abuse">Жалоба</string>
     <string name="abuse_on">Жалоба на %s</string>
@@ -135,7 +135,7 @@
     <string name="send_email">Отправить письмо…</string>
     <string name="no_email_clients">Не установлено ни одного почтового клиента</string>
     <string name="update_available">Доступно обновление</string>
-    <string name="update_description">Обновитесь до самой свежей версии AppSend!</string>
+    <string name="update_description">Обновитесь до самой свежей версии Appteka!</string>
     <string name="later">Позже</string>
     <string name="telegram_group">Группа в Telegram</string>
     <string name="forum_4pda">Обсудить на 4pda</string>
@@ -216,7 +216,7 @@
     <string name="role_admin">Администратор</string>
     <string name="role_moderator">Модератор</string>
     <string name="role_default">Пользователь</string>
-    <string name="joined_date">В AppSend с %s</string>
+    <string name="joined_date">В Appteka с %s</string>
     <string name="apps_uploaded">Загружено приложений</string>
     <string name="messages_wrote">Написано сообщений</string>
     <string name="apps_rated">Приложений оценено</string>
@@ -267,6 +267,6 @@
     <string name="ok">OK</string>
     <string name="login_error">Ошибка сети. Проверьте интернет соединение и повторите попытку.</string>
     <string name="upload_notice_title">Соглашение о распространении</string>
-    <string name="upload_notice_text">Важно! Нажимая «Да», вы подтверждаете, что:\n1. Не нарушаете лицензии загружаемых в обменник приложений.\n2. Загружаемое программное обеспечение не нарушает авторские права и действующие законы.\n3. Владелец appsend.store не несёт ответственность за загружаемое в обменник программное обеспечение.</string>
-    <string name="agree_with_upload_notice">Для загрузки приложений в обменник AppSend вам необходимо принять соглашение</string>
+    <string name="upload_notice_text">Важно! Нажимая «Да», вы подтверждаете, что:\n1. Не нарушаете лицензии загружаемых в обменник приложений.\n2. Загружаемое программное обеспечение не нарушает авторские права и действующие законы.\n3. Владелец appteka.store не несёт ответственность за загружаемое в обменник программное обеспечение.</string>
+    <string name="agree_with_upload_notice">Для загрузки приложений в обменник Appteka вам необходимо принять соглашение</string>
 </resources>

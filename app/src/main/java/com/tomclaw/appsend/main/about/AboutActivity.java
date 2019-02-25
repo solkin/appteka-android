@@ -76,7 +76,7 @@ public class AboutActivity extends AppCompatActivity {
     void onFeedbackClicked() {
         Uri uri = Uri.fromParts("mailto", "inbox@tomclaw.com", null);
         Intent intent = new Intent(Intent.ACTION_SENDTO, uri)
-                .putExtra(Intent.EXTRA_SUBJECT, "AppSend")
+                .putExtra(Intent.EXTRA_SUBJECT, "Appteka")
                 .putExtra(Intent.EXTRA_TEXT, "");
         try {
             startActivity(Intent.createChooser(intent, getString(R.string.send_email)));

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">AppSend</string>
+    <string name="app_name">Appteka</string>
     <string name="bytes">%d B</string>
     <string name="kibibytes">%.1f KB</string>
     <string name="mibibytes">%.1f MB</string>
@@ -39,7 +39,7 @@
     <string name="upload_apk">Upload APK and get link</string>
     <string name="bluetooth_apk">Send via Bluetooth</string>
     <string name="find_on_gp">Find in Google Play</string>
-    <string name="find_on_store">Find in AppSend Store</string>
+    <string name="find_on_store">Find in Appteka Store</string>
     <string name="remove_app">Remove application</string>
     <string name="send_url_to">Share URL with</string>
     <string name="uploading_error">Error while uploading application file. Try again later, please.</string>
@@ -113,7 +113,7 @@
     <string name="cancel_download_title">Cancel installation</string>
     <string name="cancel_download_text">Are you sure want to cancel installation of this application?</string>
     <string name="responsibility_denial_title">Denial of responsibility</string>
-    <string name="responsibility_denial_text">Submitted applications in this cloud are uploaded by AppSend users. The author is not responsible for the quality of the content provided. By clicking \"Yes\" you accept this condition.</string>
+    <string name="responsibility_denial_text">Submitted applications in this cloud are uploaded by Appteka users. The author is not responsible for the quality of the content provided. By clicking \"Yes\" you accept this condition.</string>
     <string name="agree_with_responsibility_condition">To install applications from cloud you must agree with this condition</string>
     <string name="abuse">Abuse</string>
     <string name="abuse_on">Abuse on %s</string>
@@ -140,7 +140,7 @@
     <string name="send_email">Send email</string>
     <string name="no_email_clients">There are no email clients installed</string>
     <string name="update_available">Update is available</string>
-    <string name="update_description">Download the latest version of AppSend for free!</string>
+    <string name="update_description">Download the latest version of Appteka for free!</string>
     <string name="later">Later</string>
     <string name="telegram_group">Telegram group</string>
     <string name="forum_4pda">Discuss on 4pda</string>
@@ -222,7 +222,7 @@
     <string name="role_admin">Admin</string>
     <string name="role_moderator">Moderator</string>
     <string name="role_default">User</string>
-    <string name="joined_date">In AppSend since %s</string>
+    <string name="joined_date">In Appteka since %s</string>
     <string name="apps_uploaded">Apps uploaded</string>
     <string name="messages_wrote">Messages wrote</string>
     <string name="apps_rated">Apps rated</string>
@@ -273,6 +273,6 @@
     <string name="ok">OK</string>
     <string name="login_error">Network error. Check your internet connection and try again.</string>
     <string name="upload_notice_title">Distribution rights agreement</string>
-    <string name="upload_notice_text">Important! By clicking \"Yes\" you confirm that:\n1. You do not violate the licenses of applications uploaded to the AppSend store.\n2. This software does not violate copyright and applicable laws.\n3. The owner of the appsend.store is not responsible for the uploaded software.</string>
-    <string name="agree_with_upload_notice">To upload applications to AppSend store you must agree with this condition</string>
+    <string name="upload_notice_text">Important! By clicking \"Yes\" you confirm that:\n1. You do not violate the licenses of applications uploaded to the Appteka store.\n2. This software does not violate copyright and applicable laws.\n3. The owner of the appsend.store is not responsible for the uploaded software.</string>
+    <string name="agree_with_upload_notice">To upload applications to Appteka store you must agree with this condition</string>
 </resources>
