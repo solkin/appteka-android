@@ -14,7 +14,7 @@ import static com.tomclaw.appsend.core.Config.HOST_URL;
 public abstract class BaseRequest extends JsonRequest {
 
     public static final int PROTOCOL_VERSION = 1;
-    public static final String BASE_URL = HOST_URL + "/api/";
+    public static final String BASE_URL = HOST_URL + "/";
 
     protected static final int STATUS_PROTOCOL_OUTDATED = 417;
     protected static final int STATUS_SERVER_INTERNAL_ERROR = 500;
@@ -28,7 +28,7 @@ public abstract class BaseRequest extends JsonRequest {
 
     @Override
     protected String getUrl() {
-        return BASE_URL + getApiName() + ".php";
+        return BASE_URL + getApiName();
     }
 
     protected abstract String getApiName();

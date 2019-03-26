@@ -21,7 +21,7 @@ public class ReportRequest extends BaseRequest {
 
     @Override
     protected String getApiName() {
-        return "report";
+        return "chat/report";
     }
 
     @Override

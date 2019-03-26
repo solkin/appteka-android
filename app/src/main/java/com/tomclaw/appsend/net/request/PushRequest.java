@@ -29,7 +29,7 @@ public class PushRequest extends BaseRequest {
 
     @Override
     protected String getApiName() {
-        return "push";
+        return "chat/push";
     }
 
     @Override

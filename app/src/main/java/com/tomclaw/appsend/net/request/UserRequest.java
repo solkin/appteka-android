@@ -17,7 +17,7 @@ public class UserRequest extends BaseRequest {
 
     @Override
     protected String getApiName() {
-        return "user";
+        return "api/user.php";
     }
 
     @Override
