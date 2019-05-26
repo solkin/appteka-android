@@ -1,6 +1,8 @@
 package com.tomclaw.appsend.main.dto;
 
-public class ApiResponse<A> {
+import com.tomclaw.appsend.util.Unobfuscatable;
+
+public class ApiResponse<A> implements Unobfuscatable {
 
     private final int status;
     private final A result;
@@ -17,4 +19,5 @@ public class ApiResponse<A> {
     public A getResult() {
         return result;
     }
+
 }
