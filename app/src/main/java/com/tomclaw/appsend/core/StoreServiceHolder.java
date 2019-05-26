@@ -19,7 +19,7 @@ public class StoreServiceHolder {
     @AfterInject
     void init() {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(HOST_URL + "/api/")
+                .baseUrl(HOST_URL + "/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 

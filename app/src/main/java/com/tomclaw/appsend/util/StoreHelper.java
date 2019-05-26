@@ -21,7 +21,7 @@ public class StoreHelper {
 
     public static StoreItem parseStoreItem(JSONObject file) throws JSONException {
         String appId = file.getString("app_id");
-        String defLabel = file.getString("def_label");
+        String defLabel = file.getString("label");
         int downloads = file.getInt("downloads");
         String icon = file.optString("icon");
         long downloadTime = TimeUnit.SECONDS.toMillis(file.getLong("download_time"));

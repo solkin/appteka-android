@@ -10,22 +10,14 @@ import com.tomclaw.appsend.util.Unobfuscatable;
  */
 public class AbuseResult implements Parcelable, Unobfuscatable {
 
-    private int status;
-
     public AbuseResult() {
     }
 
-    public AbuseResult(int status) {
-        this.status = status;
-    }
-
     protected AbuseResult(Parcel in) {
-        status = in.readInt();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(status);
     }
 
     @Override

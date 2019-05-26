@@ -39,6 +39,7 @@ import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.core.StoreServiceHolder;
 import com.tomclaw.appsend.core.StoreServiceHolder_;
 import com.tomclaw.appsend.main.abuse.AbuseActivity_;
+import com.tomclaw.appsend.main.dto.ApiResponse;
 import com.tomclaw.appsend.main.dto.RatingItem;
 import com.tomclaw.appsend.main.dto.StoreInfo;
 import com.tomclaw.appsend.main.dto.StoreVersion;
@@ -866,7 +867,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     private void bindUserRating(UserRating rating) {
         String text = "";
         int score = 0;
-        if (rating.getUserId() != 0) {
+        if (rating != null) {
             text = rating.getText();
             score = rating.getScore();
         }
@@ -1028,16 +1029,14 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
                 return;
             }
             showRatingProgress();
-            Call<RateResponse> call = serviceHolder.getService().setRating(1, appId, guid, score, text);
-            call.enqueue(new Callback<RateResponse>() {
+            Call<ApiResponse<RateResponse>> call = serviceHolder.getService().setRating(1, appId, guid, score, text);
+            call.enqueue(new Callback<ApiResponse<RateResponse>>() {
                 @Override
-                public void onResponse(Call<RateResponse> call, final Response<RateResponse> response) {
+                public void onResponse(Call<ApiResponse<RateResponse>> call, final Response<ApiResponse<RateResponse>> response) {
                     MainExecutor.execute(new Runnable() {
                         @Override
                         public void run() {
-                            RateResponse rateResponse = response.body();
-                            if (response.isSuccessful() && rateResponse != null
-                                    && rateResponse.getStatus() == 200) {
+                            if (response.isSuccessful() && response.body().getStatus() == 200) {
                                 onRatingPosted();
                             } else {
                                 showRatingError();
@@ -1047,7 +1046,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
                 }
 
                 @Override
-                public void onFailure(Call<RateResponse> call, Throwable t) {
+                public void onFailure(Call<ApiResponse<RateResponse>> call, Throwable t) {
                     MainExecutor.execute(new Runnable() {
                         @Override
                         public void run() {

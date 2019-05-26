@@ -4,6 +4,7 @@ import com.tomclaw.appsend.BuildConfig;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.core.StoreServiceHolder;
+import com.tomclaw.appsend.main.dto.ApiResponse;
 import com.tomclaw.appsend.main.profile.list.ListResponse;
 import com.tomclaw.appsend.net.Session;
 import com.tomclaw.appsend.net.UserData;
@@ -31,7 +32,7 @@ public class UserUploadsFragment extends BaseStoreFragment implements UserDataLi
     Long userId;
 
     @Override
-    public Call<ListResponse> createCall(String appId) {
+    public Call<ApiResponse<ListResponse>> createCall(String appId) {
         if (userId == null) return null;
         int build = BuildConfig.VERSION_CODE;
         String locale = getLocaleLanguage();

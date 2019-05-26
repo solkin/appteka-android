@@ -13,11 +13,18 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.google.android.material.snackbar.Snackbar;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.core.StoreServiceHolder;
 import com.tomclaw.appsend.main.auth.LoginActivity_;
+import com.tomclaw.appsend.main.dto.ApiResponse;
 import com.tomclaw.appsend.main.profile.list.FilesActivity_;
 import com.tomclaw.appsend.main.view.MemberImageView;
 import com.tomclaw.appsend.net.Session;
@@ -37,11 +44,6 @@ import org.androidannotations.annotations.ViewById;
 import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -203,11 +205,11 @@ public class ProfileActivity extends AppCompatActivity {
     private void loadProfile() {
         String guid = session.getUserData().getGuid();
         String stringUserId = userId == 0 ? null : String.valueOf(userId);
-        Call<ProfileResponse> call = serviceHolder.getService().getProfile(1, guid, stringUserId);
-        call.enqueue(new Callback<ProfileResponse>() {
+        Call<ApiResponse<ProfileResponse>> call = serviceHolder.getService().getProfile(1, guid, stringUserId);
+        call.enqueue(new Callback<ApiResponse<ProfileResponse>>() {
             @Override
-            public void onResponse(Call<ProfileResponse> call, final Response<ProfileResponse> response) {
-                final ProfileResponse profileResponse = response.body();
+            public void onResponse(Call<ApiResponse<ProfileResponse>> call, final Response<ApiResponse<ProfileResponse>> response) {
+                final ProfileResponse profileResponse = response.body().getResult();
                 if (response.isSuccessful() && profileResponse != null) {
                     session.getUserData().onRoleUpdated(profileResponse.getProfile().getRole());
                     session.getUserHolder().store();
@@ -228,7 +230,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<ProfileResponse> call, Throwable t) {
+            public void onFailure(Call<ApiResponse<ProfileResponse>> call, Throwable t) {
                 MainExecutor.execute(new Runnable() {
                     @Override
                     public void run() {
@@ -242,11 +244,11 @@ public class ProfileActivity extends AppCompatActivity {
     private void changeRole(int role) {
         String guid = session.getUserData().getGuid();
         String stringUserId = userId == 0 ? null : String.valueOf(userId);
-        Call<EmpowerResponse> call = serviceHolder.getService().empower(1, guid, role, stringUserId);
-        call.enqueue(new Callback<EmpowerResponse>() {
+        Call<ApiResponse<EmpowerResponse>> call = serviceHolder.getService().empower(1, guid, role, stringUserId);
+        call.enqueue(new Callback<ApiResponse<EmpowerResponse>>() {
             @Override
-            public void onResponse(Call<EmpowerResponse> call, final Response<EmpowerResponse> response) {
-                final EmpowerResponse empowerResponse = response.body();
+            public void onResponse(Call<ApiResponse<EmpowerResponse>> call, final Response<ApiResponse<EmpowerResponse>> response) {
+                final EmpowerResponse empowerResponse = response.body().getResult();
                 if (response.isSuccessful() && empowerResponse != null) {
                     MainExecutor.execute(new Runnable() {
                         @Override
@@ -265,7 +267,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<EmpowerResponse> call, Throwable t) {
+            public void onFailure(Call<ApiResponse<EmpowerResponse>> call, Throwable t) {
                 MainExecutor.execute(new Runnable() {
                     @Override
                     public void run() {

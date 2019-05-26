@@ -6,9 +6,17 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.core.StoreServiceHolder;
+import com.tomclaw.appsend.main.dto.ApiResponse;
 import com.tomclaw.appsend.main.dto.RatingItem;
 import com.tomclaw.appsend.main.profile.ProfileActivity_;
 import com.tomclaw.appsend.util.ThemeHelper;
@@ -23,12 +31,6 @@ import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -123,15 +125,15 @@ public class RatingsActivity extends AppCompatActivity implements RatingsListene
             RatingItem lastRatingItem = ratingItems.get(ratingItems.size() - 1);
             rateId = lastRatingItem.getRateId();
         }
-        Call<RatingsResponse> call = serviceHolder.getService().getRatings(1, appId, rateId, 7);
-        call.enqueue(new Callback<RatingsResponse>() {
+        Call<ApiResponse<RatingsResponse>> call = serviceHolder.getService().getRatings(1, appId, rateId, 7);
+        call.enqueue(new Callback<ApiResponse<RatingsResponse>>() {
             @Override
-            public void onResponse(Call<RatingsResponse> call, final Response<RatingsResponse> response) {
+            public void onResponse(Call<ApiResponse<RatingsResponse>> call, final Response<ApiResponse<RatingsResponse>> response) {
                 MainExecutor.execute(new Runnable() {
                     @Override
                     public void run() {
                         if (response.isSuccessful()) {
-                            onLoaded(response.body());
+                            onLoaded(response.body().getResult());
                         } else {
                             onLoadingError();
                         }
@@ -140,7 +142,7 @@ public class RatingsActivity extends AppCompatActivity implements RatingsListene
             }
 
             @Override
-            public void onFailure(Call<RatingsResponse> call, Throwable t) {
+            public void onFailure(Call<ApiResponse<RatingsResponse>> call, Throwable t) {
                 MainExecutor.execute(new Runnable() {
                     @Override
                     public void run() {

@@ -16,6 +16,7 @@ import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.core.StoreServiceHolder;
 import com.tomclaw.appsend.main.dto.AbuseResult;
+import com.tomclaw.appsend.main.dto.ApiResponse;
 import com.tomclaw.appsend.util.ThemeHelper;
 
 import org.androidannotations.annotations.AfterViews;
@@ -124,10 +125,10 @@ public class AbuseActivity extends AppCompatActivity {
                         showError(getString(R.string.unable_to_send_abuse));
                         return;
                 }
-                Call<AbuseResult> call = serviceHolder.getService().reportAbuse(1, appId, reason, email);
-                call.enqueue(new Callback<AbuseResult>() {
+                Call<ApiResponse<AbuseResult>> call = serviceHolder.getService().reportAbuse(1, appId, reason, email);
+                call.enqueue(new Callback<ApiResponse<AbuseResult>>() {
                     @Override
-                    public void onResponse(Call<AbuseResult> call, final Response<AbuseResult> response) {
+                    public void onResponse(Call<ApiResponse<AbuseResult>> call, final Response<ApiResponse<AbuseResult>> response) {
                         MainExecutor.execute(new Runnable() {
                             @Override
                             public void run() {
@@ -141,7 +142,7 @@ public class AbuseActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onFailure(Call<AbuseResult> call, Throwable t) {
+                    public void onFailure(Call<ApiResponse<AbuseResult>> call, Throwable t) {
                         MainExecutor.execute(new Runnable() {
                             @Override
                             public void run() {

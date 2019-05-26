@@ -14,6 +14,7 @@ import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.main.adapter.files.FilesAdapter;
 import com.tomclaw.appsend.main.adapter.files.FilesListener;
 import com.tomclaw.appsend.main.download.DownloadActivity;
+import com.tomclaw.appsend.main.dto.ApiResponse;
 import com.tomclaw.appsend.main.home.HomeFragment;
 import com.tomclaw.appsend.main.item.StoreItem;
 import com.tomclaw.appsend.main.profile.list.ListResponse;
@@ -36,7 +37,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static androidx.recyclerview.widget.LinearLayoutManager.VERTICAL;
+import static androidx.recyclerview.widget.RecyclerView.VERTICAL;
 import static com.tomclaw.appsend.util.PackageHelper.getInstalledVersionCode;
 import static com.tomclaw.appsend.util.states.StateHolder.stateHolder;
 
@@ -125,7 +126,7 @@ public abstract class BaseStoreFragment extends HomeFragment implements FilesLis
         }
     }
 
-    public abstract Call<ListResponse> createCall(String appId);
+    public abstract Call<ApiResponse<ListResponse>> createCall(String appId);
 
     public void clearFiles() {
         invalidate();
@@ -143,7 +144,7 @@ public abstract class BaseStoreFragment extends HomeFragment implements FilesLis
             StoreItem lastItem = files.get(files.size() - 1);
             appId = lastItem.getAppId();
         }
-        Call<ListResponse> call = createCall(appId);
+        Call<ApiResponse<ListResponse>> call = createCall(appId);
         if (call == null) {
             onLoadingCancelled();
             return;
@@ -269,7 +270,7 @@ public abstract class BaseStoreFragment extends HomeFragment implements FilesLis
         }
     }
 
-    private static class LoadCallback implements Callback<ListResponse> {
+    private static class LoadCallback implements Callback<ApiResponse<ListResponse>> {
 
         private WeakReference<BaseStoreFragment> weakFragment;
         private boolean isInvalidate;
@@ -280,7 +281,7 @@ public abstract class BaseStoreFragment extends HomeFragment implements FilesLis
         }
 
         @Override
-        public void onResponse(Call<ListResponse> call, final Response<ListResponse> response) {
+        public void onResponse(Call<ApiResponse<ListResponse>> call, final Response<ApiResponse<ListResponse>> response) {
             MainExecutor.execute(new Runnable() {
                 @Override
                 public void run() {
@@ -289,7 +290,7 @@ public abstract class BaseStoreFragment extends HomeFragment implements FilesLis
                         Context context = fragment.getContext();
                         if (context != null) {
                             if (response.isSuccessful()) {
-                                ListResponse body = response.body();
+                                ListResponse body = response.body().getResult();
                                 if (body != null) {
                                     fragment.onLoaded(body, isInvalidate, context.getPackageManager());
                                 }
@@ -303,7 +304,7 @@ public abstract class BaseStoreFragment extends HomeFragment implements FilesLis
         }
 
         @Override
-        public void onFailure(Call<ListResponse> call, Throwable t) {
+        public void onFailure(Call<ApiResponse<ListResponse>> call, Throwable t) {
             MainExecutor.execute(new Runnable() {
                 @Override
                 public void run() {
