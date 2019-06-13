@@ -97,7 +97,7 @@ public interface StoreService {
     Call<ApiResponse<UnlinkResponse>> unlink(
             @Field("v") int apiVer,
             @Field("guid") String guid,
-            @Field("file_id") String fileId,
+            @Field("app_id") String fileId,
             @Field("reason") String reason
     );
 
