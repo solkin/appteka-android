@@ -14,7 +14,6 @@ import android.widget.ViewSwitcher;
 
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.GlideApp;
-import com.tomclaw.appsend.main.controller.CountController;
 import com.tomclaw.appsend.main.download.DownloadActivity;
 import com.tomclaw.appsend.main.item.CommonItem;
 import com.tomclaw.appsend.main.meta.MetaActivity_;
@@ -208,7 +207,6 @@ public class UploadActivity extends AppCompatActivity implements UploadControlle
                     .startForResult(REQUEST_UPDATE_META);
             isMetaActivityShown = true;
         }
-        CountController.getInstance().load(this);
     }
 
     @Override

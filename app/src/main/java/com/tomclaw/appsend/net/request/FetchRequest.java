@@ -30,7 +30,7 @@ public class FetchRequest extends BaseRequest {
 
     @Override
     protected String getApiName() {
-        return "chat/fetch";
+        return "api/chat/fetch";
     }
 
     @Override

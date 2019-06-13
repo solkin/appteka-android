@@ -46,7 +46,7 @@ public class UploadController extends AbstractController<UploadController.Upload
         return Holder.instance;
     }
 
-    private static final String HOST_UPLOAD_URL = HOST_URL + "/api/upload.php";
+    private static final String HOST_UPLOAD_URL = HOST_URL + "/api/app/upload";
 
     private CommonItem item;
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
@@ -250,8 +250,9 @@ public class UploadController extends AbstractController<UploadController.Upload
             int status = jsonObject.getInt("status");
             switch (status) {
                 case 200: {
-                    String appId = jsonObject.getString("app_id");
-                    String location = jsonObject.getString("url");
+                    JSONObject resultObject = jsonObject.getJSONObject("result");
+                    String appId = resultObject.getString("app_id");
+                    String location = resultObject.getString("url");
                     onCompleted(appId, location);
                     break;
                 }

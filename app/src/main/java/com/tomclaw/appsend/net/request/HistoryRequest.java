@@ -31,7 +31,7 @@ public class HistoryRequest extends BaseRequest {
 
     @Override
     protected String getApiName() {
-        return "chat/history";
+        return "api/chat/history";
     }
 
     @Override
