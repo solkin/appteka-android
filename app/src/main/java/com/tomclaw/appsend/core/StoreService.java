@@ -106,7 +106,7 @@ public interface StoreService {
             @Query("v") int apiVer,
             @Query("user_id") Long userId,
             @Query("app_id") String appId,
-            @Query("filter") String filter,
+            @Query("query") String filter,
             @Query("ver_code") Integer build,
             @Query("locale") String locale
     );
