@@ -3,6 +3,7 @@ package com.tomclaw.appsend.main.ratings;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
 import com.tomclaw.appsend.main.dto.RatingItem;
 import com.tomclaw.appsend.util.Unobfuscatable;
 
@@ -13,16 +14,17 @@ import java.util.List;
  */
 public class RatingsResponse implements Parcelable, Unobfuscatable {
 
-    private int status;
+    @SerializedName("rating")
     private float rating;
+    @SerializedName("count")
     private int rate_count;
+    @SerializedName("entries")
     private List<RatingItem> rates;
 
     public RatingsResponse() {
     }
 
     protected RatingsResponse(Parcel in) {
-        status = in.readInt();
         rating = in.readFloat();
         rate_count = in.readInt();
         rates = in.createTypedArrayList(RatingItem.CREATOR);
@@ -30,7 +32,6 @@ public class RatingsResponse implements Parcelable, Unobfuscatable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(status);
         dest.writeFloat(rating);
         dest.writeInt(rate_count);
         dest.writeTypedList(rates);
@@ -52,10 +53,6 @@ public class RatingsResponse implements Parcelable, Unobfuscatable {
             return new RatingsResponse[size];
         }
     };
-
-    public int getStatus() {
-        return status;
-    }
 
     public float getRating() {
         return rating;

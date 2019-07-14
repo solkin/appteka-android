@@ -10,19 +10,11 @@ import com.tomclaw.appsend.util.Unobfuscatable;
  */
 public class EmpowerResponse implements Parcelable, Unobfuscatable {
 
-    private int status;
-
     protected EmpowerResponse(Parcel in) {
-        status = in.readInt();
-    }
-
-    public int getStatus() {
-        return status;
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(status);
     }
 
     @Override

@@ -31,7 +31,7 @@ public class HistoryRequest extends BaseRequest {
 
     @Override
     protected String getApiName() {
-        return "history";
+        return "api/chat/history";
     }
 
     @Override
@@ -43,7 +43,8 @@ public class HistoryRequest extends BaseRequest {
     @Override
     protected int parsePacket(int status, JSONObject object) throws JSONException {
         if (status == STATUS_OK) {
-            JSONArray history = object.optJSONArray("history");
+            JSONObject result = object.getJSONObject("result");
+            JSONArray history = result.optJSONArray("messages");
             if (history != null) {
                 ArrayList<Message> messages = new ArrayList<>();
                 for (int c = 0; c < history.length(); c++) {

@@ -30,7 +30,7 @@ public class FetchRequest extends BaseRequest {
 
     @Override
     protected String getApiName() {
-        return "fetch";
+        return "api/chat/fetch";
     }
 
     @Override
@@ -41,8 +41,9 @@ public class FetchRequest extends BaseRequest {
     @Override
     protected int parsePacket(int status, JSONObject object) throws JSONException {
         if (status == STATUS_OK) {
-            long fetchTime = object.getLong("time");
-            JSONArray sent = object.optJSONArray("sent");
+            JSONObject result = object.getJSONObject("result");
+            long fetchTime = result.getLong("time");
+            JSONArray sent = result.optJSONArray("sent");
             if (sent != null) {
                 ArrayList<Message> messages = new ArrayList<>();
                 for (int c = 0; c < sent.length(); c++) {
@@ -60,7 +61,7 @@ public class FetchRequest extends BaseRequest {
                 getContentResolver().call(Config.MESSAGES_RESOLVER_URI,
                         GlobalProvider.METHOD_UPDATE_MESSAGES, null, messagesBundle);
             }
-            JSONObject last = object.optJSONObject("last");
+            JSONObject last = result.optJSONObject("last");
             if (last != null) {
                 long userId = last.getLong("user_id");
                 int msgCount = last.getInt("msg_count");
@@ -101,7 +102,7 @@ public class FetchRequest extends BaseRequest {
 
                 DiscussController.getInstance().incrementUnreadCount(msgCount);
             }
-            JSONArray deleted = object.optJSONArray("deleted");
+            JSONArray deleted = result.optJSONArray("deleted");
             if (deleted != null) {
                 ArrayList<Message> messages = new ArrayList<>();
                 for (int c = 0; c < deleted.length(); c++) {

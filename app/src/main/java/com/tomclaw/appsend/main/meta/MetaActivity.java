@@ -17,6 +17,7 @@ import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.GlideApp;
 import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.core.StoreServiceHolder;
+import com.tomclaw.appsend.main.dto.ApiResponse;
 import com.tomclaw.appsend.main.item.CommonItem;
 import com.tomclaw.appsend.main.item.StoreItem;
 import com.tomclaw.appsend.net.Session;
@@ -158,15 +159,15 @@ public class MetaActivity extends AppCompatActivity {
     }
 
     private void loadMeta() {
-        Call<MetaResponse> call = serviceHolder.getService().getMeta(1, appId, true);
-        call.enqueue(new Callback<MetaResponse>() {
+        Call<ApiResponse<MetaResponse>> call = serviceHolder.getService().getMeta(1, appId, true);
+        call.enqueue(new Callback<ApiResponse<MetaResponse>>() {
             @Override
-            public void onResponse(Call<MetaResponse> call, final Response<MetaResponse> response) {
+            public void onResponse(Call<ApiResponse<MetaResponse>> call, final Response<ApiResponse<MetaResponse>> response) {
                 MainExecutor.execute(new Runnable() {
                     @Override
                     public void run() {
                         if (response.isSuccessful()) {
-                            onMetaLoaded(response.body());
+                            onMetaLoaded(response.body().getResult());
                         } else {
                             onMetaLoadingError();
                         }
@@ -175,7 +176,7 @@ public class MetaActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<MetaResponse> call, Throwable t) {
+            public void onFailure(Call<ApiResponse<MetaResponse>> call, Throwable t) {
                 MainExecutor.execute(new Runnable() {
                     @Override
                     public void run() {
@@ -195,10 +196,10 @@ public class MetaActivity extends AppCompatActivity {
             int categoryId = (int) categories.getAdapter().getItemId(position);
             int exclusiveValue = exclusive.isChecked() ? 1 : 0;
             String descriptionText = description.getText().toString();
-            Call<MetaResponse> call = serviceHolder.getService().setMeta(1, appId, guid, categoryId, exclusiveValue, descriptionText);
-            call.enqueue(new Callback<MetaResponse>() {
+            Call<ApiResponse<MetaResponse>> call = serviceHolder.getService().setMeta(1, appId, guid, categoryId, exclusiveValue, descriptionText);
+            call.enqueue(new Callback<ApiResponse<MetaResponse>>() {
                 @Override
-                public void onResponse(Call<MetaResponse> call, final Response<MetaResponse> response) {
+                public void onResponse(Call<ApiResponse<MetaResponse>> call, final Response<ApiResponse<MetaResponse>> response) {
                     MainExecutor.execute(new Runnable() {
                         @Override
                         public void run() {
@@ -212,7 +213,7 @@ public class MetaActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(Call<MetaResponse> call, Throwable t) {
+                public void onFailure(Call<ApiResponse<MetaResponse>> call, Throwable t) {
                     MainExecutor.execute(new Runnable() {
                         @Override
                         public void run() {

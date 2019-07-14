@@ -2,6 +2,7 @@ package com.tomclaw.appsend.core;
 
 import com.tomclaw.appsend.main.auth.AuthResponse;
 import com.tomclaw.appsend.main.dto.AbuseResult;
+import com.tomclaw.appsend.main.dto.ApiResponse;
 import com.tomclaw.appsend.main.dto.StoreInfo;
 import com.tomclaw.appsend.main.meta.MetaResponse;
 import com.tomclaw.appsend.main.profile.EmpowerResponse;
@@ -23,87 +24,111 @@ import retrofit2.http.Query;
  */
 public interface StoreService {
 
-    @GET("info.php")
-    Call<StoreInfo> getInfo(@Query("v") int apiVer,
-                            @Query("guid") String guid,
-                            @Query("app_id") String appId,
-                            @Query("package") String packageName);
+    @GET("api/app/info")
+    Call<ApiResponse<StoreInfo>> getInfo(
+            @Query("v") int apiVer,
+            @Query("guid") String guid,
+            @Query("app_id") String appId,
+            @Query("package") String packageName
+    );
 
-    @GET("meta.php")
-    Call<MetaResponse> getMeta(@Query("v") int apiVer,
-                               @Query("app_id") String appId,
-                               @Query("categories") boolean categories);
-
-    @FormUrlEncoded
-    @POST("meta.php")
-    Call<MetaResponse> setMeta(@Field("v") int apiVer,
-                               @Field("app_id") String appId,
-                               @Field("guid") String guid,
-                               @Field("category") int category,
-                               @Field("exclusive") int exclusive,
-                               @Field("description") String description);
-
-    @GET("rating.php")
-    Call<RatingsResponse> getRatings(@Query("v") int apiVer,
-                                     @Query("app_id") String appId,
-                                     @Query("rate_id") int rateId,
-                                     @Query("count") int count);
+    @GET("api/app/meta")
+    Call<ApiResponse<MetaResponse>> getMeta(
+            @Query("v") int apiVer,
+            @Query("app_id") String appId,
+            @Query("categories") boolean categories
+    );
 
     @FormUrlEncoded
-    @POST("rate.php")
-    Call<RateResponse> setRating(@Field("v") int apiVer,
-                                 @Field("app_id") String appId,
-                                 @Field("guid") String guid,
-                                 @Field("score") int score,
-                                 @Field("text") String text);
+    @POST("api/app/meta")
+    Call<ApiResponse<MetaResponse>> setMeta(
+            @Field("v") int apiVer,
+            @Field("app_id") String appId,
+            @Field("guid") String guid,
+            @Field("category") int category,
+            @Field("exclusive") int exclusive,
+            @Field("description") String description
+    );
 
-    @GET("abuse.php")
-    Call<AbuseResult> reportAbuse(@Query("v") int apiVer,
-                                  @Query("app_id") String appId,
-                                  @Query("reason") String reason,
-                                  @Query("email") String email);
-
-    @GET("profile.php")
-    Call<ProfileResponse> getProfile(@Query("v") int apiVer,
-                                     @Query("guid") String guid,
-                                     @Query("user_id") String userId);
-
-    @FormUrlEncoded
-    @POST("empower.php")
-    Call<EmpowerResponse> empower(@Field("v") int apiVer,
-                                  @Field("guid") String guid,
-                                  @Field("role") int role,
-                                  @Field("user_id") String userId);
+    @GET("api/app/rating")
+    Call<ApiResponse<RatingsResponse>> getRatings(
+            @Query("v") int apiVer,
+            @Query("app_id") String appId,
+            @Query("rate_id") int rateId,
+            @Query("count") int count
+    );
 
     @FormUrlEncoded
-    @POST("unlink.php")
-    Call<UnlinkResponse> unlink(@Field("v") int apiVer,
-                                @Field("guid") String guid,
-                                @Field("file_id") String fileId,
-                                @Field("reason") String reason);
+    @POST("api/app/rate")
+    Call<ApiResponse<RateResponse>> setRating(
+            @Field("v") int apiVer,
+            @Field("app_id") String appId,
+            @Field("guid") String guid,
+            @Field("score") int score,
+            @Field("text") String text
+    );
 
-    @GET("list.php")
-    Call<ListResponse> listFiles(@Query("v") int apiVer,
-                                 @Query("user_id") Long userId,
-                                 @Query("app_id") String appId,
-                                 @Query("filter") String filter,
-                                 @Query("ver_code") Integer build,
-                                 @Query("locale") String locale);
+    @GET("api/app/abuse")
+    Call<ApiResponse<AbuseResult>> reportAbuse(
+            @Query("v") int apiVer,
+            @Query("app_id") String appId,
+            @Query("reason") String reason,
+            @Query("email") String email
+    );
+
+    @GET("api/user/profile")
+    Call<ApiResponse<ProfileResponse>> getProfile(
+            @Query("v") int apiVer,
+            @Query("guid") String guid,
+            @Query("user_id") String userId
+    );
 
     @FormUrlEncoded
-    @POST("register.php")
-    Call<AuthResponse> register(@Field("v") int apiVer,
-                                @Field("guid") String guid,
-                                @Field("locale") String locale,
-                                @Field("email") String email,
-                                @Field("password") String password,
-                                @Field("name") String name);
+    @POST("api/user/empower")
+    Call<ApiResponse<EmpowerResponse>> empower(
+            @Field("v") int apiVer,
+            @Field("guid") String guid,
+            @Field("role") int role,
+            @Field("user_id") String userId
+    );
 
     @FormUrlEncoded
-    @POST("login.php")
-    Call<AuthResponse> login(@Field("v") int apiVer,
-                             @Field("locale") String locale,
-                             @Field("email") String email,
-                             @Field("password") String password);
+    @POST("api/app/unlink")
+    Call<ApiResponse<UnlinkResponse>> unlink(
+            @Field("v") int apiVer,
+            @Field("guid") String guid,
+            @Field("app_id") String fileId,
+            @Field("reason") String reason
+    );
+
+    @GET("api/app/list")
+    Call<ApiResponse<ListResponse>> listFiles(
+            @Query("v") int apiVer,
+            @Query("user_id") Long userId,
+            @Query("app_id") String appId,
+            @Query("query") String filter,
+            @Query("ver_code") Integer build,
+            @Query("locale") String locale
+    );
+
+    @FormUrlEncoded
+    @POST("api/user/register")
+    Call<ApiResponse<AuthResponse>> register(
+            @Field("v") int apiVer,
+            @Field("guid") String guid,
+            @Field("locale") String locale,
+            @Field("email") String email,
+            @Field("password") String password,
+            @Field("name") String name
+    );
+
+    @FormUrlEncoded
+    @POST("api/user/login")
+    Call<ApiResponse<AuthResponse>> login(
+            @Field("v") int apiVer,
+            @Field("locale") String locale,
+            @Field("email") String email,
+            @Field("password") String password
+    );
 
 }

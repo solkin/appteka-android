@@ -9,12 +9,18 @@ import android.widget.EditText;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import com.flurry.android.FlurryAgent;
 import com.google.android.material.snackbar.Snackbar;
 import com.jaeger.library.StatusBarUtil;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.core.StoreServiceHolder;
+import com.tomclaw.appsend.main.dto.ApiResponse;
 import com.tomclaw.appsend.net.Session;
 import com.tomclaw.appsend.util.ThemeHelper;
 
@@ -26,10 +32,6 @@ import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -113,10 +115,10 @@ public class UnlinkActivity extends AppCompatActivity {
             String reason = reasonInput.getText().toString();
             if (!TextUtils.isEmpty(reason)) {
                 String guid = session.getUserData().getGuid();
-                Call<UnlinkResponse> call = serviceHolder.getService().unlink(1, guid, appId, reason);
-                call.enqueue(new Callback<UnlinkResponse>() {
+                Call<ApiResponse<UnlinkResponse>> call = serviceHolder.getService().unlink(1, guid, appId, reason);
+                call.enqueue(new Callback<ApiResponse<UnlinkResponse>>() {
                     @Override
-                    public void onResponse(Call<UnlinkResponse> call, final Response<UnlinkResponse> response) {
+                    public void onResponse(Call<ApiResponse<UnlinkResponse>> call, final Response<ApiResponse<UnlinkResponse>> response) {
                         MainExecutor.execute(new Runnable() {
                             @Override
                             public void run() {
@@ -130,7 +132,7 @@ public class UnlinkActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onFailure(Call<UnlinkResponse> call, Throwable t) {
+                    public void onFailure(Call<ApiResponse<UnlinkResponse>> call, Throwable t) {
                         MainExecutor.execute(new Runnable() {
                             @Override
                             public void run() {

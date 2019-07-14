@@ -17,7 +17,7 @@ public class UserRequest extends BaseRequest {
 
     @Override
     protected String getApiName() {
-        return "user";
+        return "api/user/create";
     }
 
     @Override
@@ -27,8 +27,9 @@ public class UserRequest extends BaseRequest {
     @Override
     protected int parsePacket(int status, JSONObject object) throws JSONException {
         if (status == STATUS_OK) {
-            String guid = object.getString("guid");
-            long userId = object.getLong("user_id");
+            JSONObject result = object.getJSONObject("result");
+            String guid = result.getString("guid");
+            long userId = result.getLong("user_id");
             if (!TextUtils.isEmpty(guid)) {
                 getUserHolder().onUserRegistered(guid, userId);
                 return REQUEST_DELETE;

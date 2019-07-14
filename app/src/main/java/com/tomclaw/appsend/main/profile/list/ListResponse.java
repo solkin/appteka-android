@@ -3,6 +3,7 @@ package com.tomclaw.appsend.main.profile.list;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
 import com.tomclaw.appsend.main.item.StoreItem;
 import com.tomclaw.appsend.util.Unobfuscatable;
 
@@ -13,16 +14,11 @@ import java.util.List;
  */
 public class ListResponse implements Parcelable, Unobfuscatable {
 
-    private int status;
+    @SerializedName("entries")
     private List<StoreItem> files;
 
     protected ListResponse(Parcel in) {
-        status = in.readInt();
         files = in.createTypedArrayList(StoreItem.CREATOR);
-    }
-
-    public int getStatus() {
-        return status;
     }
 
     public List<StoreItem> getFiles() {
@@ -31,7 +27,6 @@ public class ListResponse implements Parcelable, Unobfuscatable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(status);
         dest.writeList(files);
     }
 

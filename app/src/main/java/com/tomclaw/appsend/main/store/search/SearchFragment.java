@@ -6,6 +6,7 @@ import com.tomclaw.appsend.BuildConfig;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.core.StoreServiceHolder;
+import com.tomclaw.appsend.main.dto.ApiResponse;
 import com.tomclaw.appsend.main.profile.list.ListResponse;
 import com.tomclaw.appsend.main.store.BaseStoreFragment;
 import com.tomclaw.appsend.util.Debouncer;
@@ -30,7 +31,7 @@ public class SearchFragment extends BaseStoreFragment implements Debouncer.Callb
     String query;
 
     @Override
-    public Call<ListResponse> createCall(String appId) {
+    public Call<ApiResponse<ListResponse>> createCall(String appId) {
         if (isEmptyQuery()) {
             return null;
         }

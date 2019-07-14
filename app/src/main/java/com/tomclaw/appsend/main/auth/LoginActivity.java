@@ -5,10 +5,17 @@ import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.ViewFlipper;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import com.flurry.android.FlurryAgent;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.core.StoreServiceHolder;
+import com.tomclaw.appsend.main.dto.ApiResponse;
 import com.tomclaw.appsend.net.Session;
 import com.tomclaw.appsend.util.GsonSingleton;
 import com.tomclaw.appsend.util.ThemeHelper;
@@ -23,11 +30,6 @@ import org.androidannotations.annotations.ViewById;
 
 import java.io.IOException;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -117,16 +119,16 @@ public class LoginActivity extends AppCompatActivity {
     private void login(String locale, String email, String password) {
         FlurryAgent.logEvent("Login screen: login start");
         showProgress();
-        Call<AuthResponse> call = serviceHolder.getService()
+        Call<ApiResponse<AuthResponse>> call = serviceHolder.getService()
                 .login(1, locale, email, password);
-        call.enqueue(new Callback<AuthResponse>() {
+        call.enqueue(new Callback<ApiResponse<AuthResponse>>() {
             @Override
-            public void onResponse(Call<AuthResponse> call, final Response<AuthResponse> response) {
+            public void onResponse(Call<ApiResponse<AuthResponse>> call, final Response<ApiResponse<AuthResponse>> response) {
                 MainExecutor.execute(new Runnable() {
                     @Override
                     public void run() {
                         if (response.isSuccessful()) {
-                            AuthResponse body = response.body();
+                            AuthResponse body = response.body().getResult();
                             if (body != null) {
                                 onLoginSuccessful(body);
                             } else {
@@ -150,7 +152,7 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<AuthResponse> call, Throwable t) {
+            public void onFailure(Call<ApiResponse<AuthResponse>> call, Throwable t) {
                 MainExecutor.execute(new Runnable() {
                     @Override
                     public void run() {

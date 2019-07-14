@@ -10,19 +10,11 @@ import com.tomclaw.appsend.util.Unobfuscatable;
  */
 public class UnlinkResponse implements Parcelable, Unobfuscatable {
 
-    private int status;
-
     protected UnlinkResponse(Parcel in) {
-        status = in.readInt();
-    }
-
-    public int getStatus() {
-        return status;
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(status);
     }
 
     @Override

@@ -10,7 +10,6 @@ import com.tomclaw.appsend.util.Unobfuscatable;
  */
 public class AuthResponse implements Parcelable, Unobfuscatable {
 
-    private int status;
     private String guid;
     private long user_id;
     private int role;
@@ -19,17 +18,12 @@ public class AuthResponse implements Parcelable, Unobfuscatable {
     private String description;
 
     protected AuthResponse(Parcel in) {
-        status = in.readInt();
         guid = in.readString();
         user_id = in.readLong();
         role = in.readInt();
         email = in.readString();
         name = in.readString();
         description = in.readString();
-    }
-
-    public int getStatus() {
-        return status;
     }
 
     public String getGuid() {
@@ -58,7 +52,6 @@ public class AuthResponse implements Parcelable, Unobfuscatable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(status);
         dest.writeString(guid);
         dest.writeLong(user_id);
         dest.writeInt(role);

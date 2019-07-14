@@ -26,6 +26,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
+import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.AppCompatRatingBar;
+import androidx.appcompat.widget.Toolbar;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import com.caverock.androidsvg.SVG;
 import com.caverock.androidsvg.SVGImageView;
 import com.caverock.androidsvg.SVGParseException;
@@ -39,6 +47,7 @@ import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.core.StoreServiceHolder;
 import com.tomclaw.appsend.core.StoreServiceHolder_;
 import com.tomclaw.appsend.main.abuse.AbuseActivity_;
+import com.tomclaw.appsend.main.dto.ApiResponse;
 import com.tomclaw.appsend.main.dto.RatingItem;
 import com.tomclaw.appsend.main.dto.StoreInfo;
 import com.tomclaw.appsend.main.dto.StoreVersion;
@@ -73,13 +82,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.widget.AppCompatRatingBar;
-import androidx.appcompat.widget.Toolbar;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -105,6 +107,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     public static final String STORE_APP_LABEL = "app_label";
     public static final String STORE_FINISH_ONLY = "finish_only";
     private static final String UNLINK_ACTION = "unlink";
+    private static final String EDIT_META_ACTION = "edit_meta";
     private static final int REQUEST_CODE_UNLINK = 42;
 
     private static final int REQUEST_UPDATE_META = 4;
@@ -166,6 +169,8 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     private EditText userOpinion;
     private View exclusiveBadge;
     private MenuItem abuseItem;
+    private View metaContainer;
+    private View editMeta;
 
     private StoreInfo info;
 
@@ -277,6 +282,9 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         categoryIcon = findViewById(R.id.category_icon);
         categoryTitle = findViewById(R.id.category_title);
 
+        metaContainer = findViewById(R.id.meta_container);
+        editMeta = findViewById(R.id.edit_meta);
+
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -311,7 +319,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
                 openGooglePlay(DownloadActivity.this, info.getItem().getPackageName());
             }
         });
-        findViewById(R.id.meta_container).setOnClickListener(new View.OnClickListener() {
+        metaContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 editMeta();
@@ -542,6 +550,10 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
 
         exclusiveBadge.setVisibility(info.getMeta().isExclusive() ? View.VISIBLE : View.GONE);
         invalidateOptionsMenu();
+
+        boolean isCanEditMeta = canEditMeta();
+        metaContainer.setClickable(isCanEditMeta);
+        editMeta.setVisibility(isCanEditMeta ? View.VISIBLE : View.GONE);
     }
 
     private void bindButtons() {
@@ -866,7 +878,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     private void bindUserRating(UserRating rating) {
         String text = "";
         int score = 0;
-        if (rating.getUserId() != 0) {
+        if (rating != null) {
             text = rating.getText();
             score = rating.getScore();
         }
@@ -1028,16 +1040,14 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
                 return;
             }
             showRatingProgress();
-            Call<RateResponse> call = serviceHolder.getService().setRating(1, appId, guid, score, text);
-            call.enqueue(new Callback<RateResponse>() {
+            Call<ApiResponse<RateResponse>> call = serviceHolder.getService().setRating(1, appId, guid, score, text);
+            call.enqueue(new Callback<ApiResponse<RateResponse>>() {
                 @Override
-                public void onResponse(Call<RateResponse> call, final Response<RateResponse> response) {
+                public void onResponse(Call<ApiResponse<RateResponse>> call, final Response<ApiResponse<RateResponse>> response) {
                     MainExecutor.execute(new Runnable() {
                         @Override
                         public void run() {
-                            RateResponse rateResponse = response.body();
-                            if (response.isSuccessful() && rateResponse != null
-                                    && rateResponse.getStatus() == 200) {
+                            if (response.isSuccessful() && response.body().getStatus() == 200) {
                                 onRatingPosted();
                             } else {
                                 showRatingError();
@@ -1047,7 +1057,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
                 }
 
                 @Override
-                public void onFailure(Call<RateResponse> call, Throwable t) {
+                public void onFailure(Call<ApiResponse<RateResponse>> call, Throwable t) {
                     MainExecutor.execute(new Runnable() {
                         @Override
                         public void run() {
@@ -1115,7 +1125,13 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     private boolean canUnlink() {
         return info != null
                 && info.actions != null
-                && Arrays.binarySearch(info.actions, UNLINK_ACTION) != -1;
+                && Arrays.asList(info.actions).contains(UNLINK_ACTION);
+    }
+
+    private boolean canEditMeta() {
+        return info != null
+                && info.actions != null
+                && Arrays.asList(info.actions).contains(EDIT_META_ACTION);
     }
 
 }

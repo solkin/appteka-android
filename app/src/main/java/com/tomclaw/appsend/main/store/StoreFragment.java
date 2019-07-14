@@ -3,6 +3,7 @@ package com.tomclaw.appsend.main.store;
 import com.tomclaw.appsend.BuildConfig;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.StoreServiceHolder;
+import com.tomclaw.appsend.main.dto.ApiResponse;
 import com.tomclaw.appsend.main.profile.list.ListResponse;
 
 import org.androidannotations.annotations.Bean;
@@ -19,7 +20,7 @@ public class StoreFragment extends BaseStoreFragment {
     StoreServiceHolder serviceHolder;
 
     @Override
-    public Call<ListResponse> createCall(String appId) {
+    public Call<ApiResponse<ListResponse>> createCall(String appId) {
         int build = BuildConfig.VERSION_CODE;
         String locale = getLocaleLanguage();
         return serviceHolder.getService().listFiles(1, null, appId, null, build, locale);

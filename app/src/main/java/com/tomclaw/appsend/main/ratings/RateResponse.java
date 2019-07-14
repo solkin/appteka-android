@@ -10,18 +10,14 @@ import com.tomclaw.appsend.util.Unobfuscatable;
  */
 public class RateResponse implements Parcelable, Unobfuscatable {
 
-    private int status;
-
     public RateResponse() {
     }
 
     protected RateResponse(Parcel in) {
-        status = in.readInt();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(status);
     }
 
     @Override
@@ -40,8 +36,4 @@ public class RateResponse implements Parcelable, Unobfuscatable {
             return new RateResponse[size];
         }
     };
-
-    public int getStatus() {
-        return status;
-    }
 }

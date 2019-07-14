@@ -10,6 +10,7 @@ import com.flurry.android.FlurryAgent;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.core.StoreServiceHolder;
+import com.tomclaw.appsend.main.dto.ApiResponse;
 import com.tomclaw.appsend.net.Session;
 import com.tomclaw.appsend.util.GsonSingleton;
 import com.tomclaw.appsend.util.ThemeHelper;
@@ -119,16 +120,16 @@ public class RegisterActivity extends AppCompatActivity {
     private void register(String guid, String locale, String email, String password, String name) {
         FlurryAgent.logEvent("Register screen: registration start");
         showProgress();
-        Call<AuthResponse> call = serviceHolder.getService()
+        Call<ApiResponse<AuthResponse>> call = serviceHolder.getService()
                 .register(1, guid, locale, email, password, name);
-        call.enqueue(new Callback<AuthResponse>() {
+        call.enqueue(new Callback<ApiResponse<AuthResponse>>() {
             @Override
-            public void onResponse(Call<AuthResponse> call, final Response<AuthResponse> response) {
+            public void onResponse(Call<ApiResponse<AuthResponse>> call, final Response<ApiResponse<AuthResponse>> response) {
                 MainExecutor.execute(new Runnable() {
                     @Override
                     public void run() {
                         if (response.isSuccessful()) {
-                            AuthResponse body = response.body();
+                            AuthResponse body = response.body().getResult();
                             if (body != null) {
                                 onRegistered(body);
                             } else {
@@ -152,7 +153,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<AuthResponse> call, Throwable t) {
+            public void onFailure(Call<ApiResponse<AuthResponse>> call, Throwable t) {
                 MainExecutor.execute(new Runnable() {
                     @Override
                     public void run() {

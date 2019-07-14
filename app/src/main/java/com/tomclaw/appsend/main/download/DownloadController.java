@@ -5,6 +5,7 @@ import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.core.StoreServiceHolder;
 import com.tomclaw.appsend.core.StoreServiceHolder_;
 import com.tomclaw.appsend.main.controller.AbstractController;
+import com.tomclaw.appsend.main.dto.ApiResponse;
 import com.tomclaw.appsend.main.dto.StoreInfo;
 import com.tomclaw.appsend.net.Session;
 import com.tomclaw.appsend.util.HttpUtil;
@@ -281,11 +282,11 @@ public class DownloadController extends AbstractController<DownloadController.Do
         onProgress();
 
         StoreServiceHolder serviceHolder = StoreServiceHolder_.getInstance_(app());
-        Call<StoreInfo> call = serviceHolder.getService().getInfo(1, guid, appId, appPackage);
+        Call<ApiResponse<StoreInfo>> call = serviceHolder.getService().getInfo(1, guid, appId, appPackage);
         try {
-            Response<StoreInfo> response = call.execute();
+            Response<ApiResponse<StoreInfo>> response = call.execute();
             if (response.isSuccessful()) {
-                onInfoLoaded(response.body());
+                onInfoLoaded(response.body().getResult());
             } else if (response.code() == 404) {
                 onFileNotFound();
             } else {

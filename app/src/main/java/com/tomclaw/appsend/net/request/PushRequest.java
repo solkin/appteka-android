@@ -29,7 +29,7 @@ public class PushRequest extends BaseRequest {
 
     @Override
     protected String getApiName() {
-        return "push";
+        return "api/chat/push";
     }
 
     @Override
@@ -41,7 +41,8 @@ public class PushRequest extends BaseRequest {
     @Override
     protected int parsePacket(int status, JSONObject object) throws JSONException {
         if (status == STATUS_OK) {
-            long pushTime = object.getLong("time");
+            JSONObject result = object.getJSONObject("result");
+            long pushTime = result.getLong("time");
             ArrayList<String> cookies = new ArrayList<>();
             cookies.add(cookie);
             Bundle bundle = new Bundle();

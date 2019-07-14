@@ -1,15 +1,15 @@
-# AppSend [![Build Status](https://travis-ci.org/solkin/appsend-android.svg?branch=master)](https://travis-ci.org/solkin/appsend-android)
-AppSend will extracts APK that are installed on your Android device and copies them to your SD card.
+# Appteka [![Build Status](https://travis-ci.org/solkin/appsend.svg?branch=master)](https://travis-ci.org/solkin/appsend)
+Appteka will extracts APK that are installed on your Android device and copies them to your SD card.
 
 * Fast and easy to use.
 * Extracts almost all application, including system applications.
 * No ROOT access required. 
-* Upload Apk's to special AppSend.Store.
+* Upload Apk's to special Appteka.Store.
 * Provided Search option to search applications.
 * Support features of Android 7.0
 * Can backup and install Apk's from your SD Card.
-* Install free apps from AppSend.Store.
-* Discuss apps and games with other AppSend users in realtime chat!
+* Install free apps from Appteka.Store.
+* Discuss apps and games with other Appteka users in realtime chat!
 
 ![Screenshot](art/main.png "Main screen")
 ![Screenshot](art/menu.png "Application menu")

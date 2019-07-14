@@ -16,7 +16,7 @@ public class StoreItem extends BaseItem implements Parcelable {
 
     public static final int NOT_INSTALLED = -1;
 
-    @SerializedName("def_label")
+    @SerializedName("label")
     private String label;
     private Map<String, String> labels;
     private String icon;

@@ -12,7 +12,6 @@ import java.util.List;
  */
 public class MetaResponse implements Parcelable, Unobfuscatable {
 
-    private int status;
     private Meta meta;
     private List<Category> categories;
 
@@ -20,14 +19,12 @@ public class MetaResponse implements Parcelable, Unobfuscatable {
     }
 
     protected MetaResponse(Parcel in) {
-        status = in.readInt();
         meta = in.readParcelable(Meta.class.getClassLoader());
         categories = in.createTypedArrayList(Category.CREATOR);
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(status);
         dest.writeParcelable(meta, flags);
         dest.writeTypedList(categories);
     }
@@ -48,10 +45,6 @@ public class MetaResponse implements Parcelable, Unobfuscatable {
             return new MetaResponse[size];
         }
     };
-
-    public int getStatus() {
-        return status;
-    }
 
     public Meta getMeta() {
         return meta;
