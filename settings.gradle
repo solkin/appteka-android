@@ -1,1 +1,1 @@
-include ':app', ":androidsvg", ":preference-fragment"
+include ':app', ":preference-fragment"
