@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.widget.ListAdapter;
 
-import com.flurry.android.FlurryAgent;
 import com.google.android.material.snackbar.Snackbar;
 import com.greysonparrelli.permiso.Permiso;
 import com.tomclaw.appsend.R;
@@ -66,36 +65,30 @@ public class HomeDistroFragment extends DistroFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case 0: {
-                                FlurryAgent.logEvent("Install menu: install");
                                 setRefreshOnResume();
                                 installApp(item);
                                 break;
                             }
                             case 1: {
-                                FlurryAgent.logEvent("Install menu: share");
                                 shareApk(getContext(), new File(item.getPath()));
                                 break;
                             }
                             case 2: {
-                                FlurryAgent.logEvent("Install menu: upload");
                                 Intent intent = new Intent(getContext(), UploadActivity.class);
                                 intent.putExtra(UploadActivity.UPLOAD_ITEM, item);
                                 startActivity(intent);
                                 break;
                             }
                             case 3: {
-                                FlurryAgent.logEvent("Install menu: bluetooth");
                                 bluetoothApk(getContext(), item);
                                 break;
                             }
                             case 4: {
-                                FlurryAgent.logEvent("Install menu: Google Play");
                                 final String packageName = item.getPackageName();
                                 openGooglePlay(getContext(), packageName);
                                 break;
                             }
                             case 5: {
-                                FlurryAgent.logEvent("Install menu: AppSend Store");
                                 Intent intent = new Intent(getContext(), DownloadActivity.class);
                                 intent.putExtra(DownloadActivity.STORE_APP_PACKAGE, item.getPackageName());
                                 intent.putExtra(DownloadActivity.STORE_APP_LABEL, item.getLabel());
@@ -103,7 +96,6 @@ public class HomeDistroFragment extends DistroFragment {
                                 break;
                             }
                             case 6: {
-                                FlurryAgent.logEvent("Install menu: permissions");
                                 try {
                                     PackageInfo packageInfo = item.getPackageInfo();
                                     List<String> permissions = Arrays.asList(packageInfo.requestedPermissions);
@@ -116,7 +108,6 @@ public class HomeDistroFragment extends DistroFragment {
                                 break;
                             }
                             case 7: {
-                                FlurryAgent.logEvent("Install menu: remove");
                                 File file = new File(item.getPath());
                                 if (file.delete()) {
                                     reloadFiles();

@@ -2,7 +2,6 @@ package com.tomclaw.appsend;
 
 import android.app.Application;
 
-import com.flurry.android.FlurryAgent;
 import com.tomclaw.appsend.main.controller.DiscussController;
 import com.tomclaw.appsend.net.RequestDispatcher;
 import com.tomclaw.appsend.net.Session;
@@ -16,15 +15,12 @@ import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EApplication;
 
-import static com.tomclaw.appsend.util.ManifestHelper.getManifestString;
-
 /**
  * Created by ivsolkin on 21.03.17.
  */
 @EApplication
 public class AppSend extends Application {
 
-    private static final String FLURRY_IDENTIFIER_KEY = "com.yahoo.flurry.appIdentifier";
     private static final String APP_SESSION = StringUtil.generateRandomString(32);
 
     private static AppSend app;
@@ -36,8 +32,6 @@ public class AppSend extends Application {
     void init() {
         app = this;
         session.init();
-        String flurryIdentifier = getManifestString(this, FLURRY_IDENTIFIER_KEY);
-        FlurryAgent.init(this, flurryIdentifier);
         TimeHelper.init(this);
         StateHolder.init();
         MemberImageHelper.init(this);

@@ -2,7 +2,6 @@ package com.tomclaw.appsend.main.local;
 
 import android.Manifest;
 
-import com.flurry.android.FlurryAgent;
 import com.greysonparrelli.permiso.Permiso;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.main.item.ApkItem;
@@ -37,7 +36,6 @@ public class SelectDistroFragment extends DistroFragment {
 
     @Override
     public void onClick(final ApkItem item) {
-        FlurryAgent.logEvent("Select screen: distro");
         CommonItemClickListener listener = null;
         if (getActivity() instanceof CommonItemClickListener) {
             listener = (CommonItemClickListener) getActivity();

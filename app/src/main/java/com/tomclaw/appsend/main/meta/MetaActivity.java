@@ -12,7 +12,6 @@ import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
-import com.flurry.android.FlurryAgent;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.GlideApp;
 import com.tomclaw.appsend.core.MainExecutor;
@@ -247,7 +246,6 @@ public class MetaActivity extends AppCompatActivity {
         }
 
         showContent();
-        FlurryAgent.logEvent("Meta: loaded");
     }
 
     private void updateCategories() {
@@ -279,7 +277,6 @@ public class MetaActivity extends AppCompatActivity {
     }
 
     private void onMetaSaved() {
-        FlurryAgent.logEvent("Meta: saved");
         setResult(RESULT_OK);
         finish();
     }

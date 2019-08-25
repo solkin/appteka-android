@@ -8,7 +8,6 @@ import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ViewFlipper;
 
-import com.flurry.android.FlurryAgent;
 import com.google.android.material.snackbar.Snackbar;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.Config;
@@ -90,7 +89,6 @@ public class DiscussFragment extends HomeFragment implements DiscussController.D
             @Override
             public void onMessageClicked(Message message) {
                 if (message.getDirection() == GlobalProvider.DIRECTION_SERVICE) {
-                    FlurryAgent.logEvent("Service message: profile");
                     showUserProfile(message);
                 } else {
                     showMessageContextMenu(message);
@@ -140,7 +138,6 @@ public class DiscussFragment extends HomeFragment implements DiscussController.D
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case 0: {
-                                FlurryAgent.logEvent("Message menu: reply");
                                 messageEdit.setText(getResources().getString(R.string.reply_form, message.getText()));
                                 messageEdit.setSelection(messageEdit.length());
                                 messageEdit.requestFocus();
@@ -148,17 +145,14 @@ public class DiscussFragment extends HomeFragment implements DiscussController.D
                                 break;
                             }
                             case 1: {
-                                FlurryAgent.logEvent("Message menu: copy");
                                 StringUtil.copyStringToClipboard(getContext(), message.getText());
                                 break;
                             }
                             case 2: {
-                                FlurryAgent.logEvent("Message menu: profile");
                                 showUserProfile(message);
                                 break;
                             }
                             case 3: {
-                                FlurryAgent.logEvent("Message menu: report");
                                 if (message.getMsgId() > 0) {
                                     TaskExecutor.getInstance().execute(new DiscussFragment.ReportMessageTask(getContext(), message.getMsgId(), new DiscussFragment.ReportCallback() {
                                         @Override

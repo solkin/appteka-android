@@ -11,7 +11,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.flurry.android.FlurryAgent;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.core.StoreServiceHolder;
@@ -80,8 +79,6 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         showContent();
-
-        FlurryAgent.logEvent("Login screen: open");
     }
 
     @OptionsItem(android.R.id.home)
@@ -117,7 +114,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void login(String locale, String email, String password) {
-        FlurryAgent.logEvent("Login screen: login start");
         showProgress();
         Call<ApiResponse<AuthResponse>> call = serviceHolder.getService()
                 .login(1, locale, email, password);
@@ -164,7 +160,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void onLoginSuccessful(AuthResponse response) {
-        FlurryAgent.logEvent("Login screen: login successful");
         showContent();
         String guid = response.getGuid();
         long userId = response.getUserId();
@@ -180,7 +175,6 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void onError(String description) {
-        FlurryAgent.logEvent("Login screen: login error");
         showContent();
         new AlertDialog.Builder(this)
                 .setTitle(getString(R.string.error))

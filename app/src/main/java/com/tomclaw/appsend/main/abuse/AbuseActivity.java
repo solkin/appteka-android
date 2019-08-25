@@ -9,7 +9,6 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
-import com.flurry.android.FlurryAgent;
 import com.google.android.material.snackbar.Snackbar;
 import com.jaeger.library.StatusBarUtil;
 import com.tomclaw.appsend.R;
@@ -83,8 +82,6 @@ public class AbuseActivity extends AppCompatActivity {
         StatusBarUtil.setColor(this, color);
 
         onReady();
-
-        FlurryAgent.logEvent("Abuse screen: open");
     }
 
     @OptionsItem(android.R.id.home)
@@ -175,7 +172,6 @@ public class AbuseActivity extends AppCompatActivity {
     }
 
     public void onAbuseSent() {
-        FlurryAgent.logEvent("Abuse screen: abuse sent");
         Toast.makeText(this, R.string.thanks_for_attention, Toast.LENGTH_LONG).show();
         finish();
     }

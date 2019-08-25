@@ -18,8 +18,7 @@ android {
         versionCode = project.hasProperty("versionCode") ? Integer.parseInt(project.versionCode) : 1000
         versionName = "5.0"
         manifestPlaceholders = [
-                HOCKEYAPP_APP_ID: "c8564e901f354fcc9858e6ad5b1594f9",
-                FLURRY_APP_ID   : "VDGFHF3THYWJ53SKX5VK"
+                HOCKEYAPP_APP_ID: "c8564e901f354fcc9858e6ad5b1594f9"
         ]
     }
 
@@ -48,7 +47,6 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.9.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
     implementation 'com.orhanobut:logger:1.15'
-    implementation 'com.flurry.android:analytics:7.2.3'
     implementation 'com.google.code.gson:gson:2.8.5'
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.4.0'

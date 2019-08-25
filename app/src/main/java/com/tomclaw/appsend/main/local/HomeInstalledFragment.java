@@ -9,7 +9,6 @@ import android.net.Uri;
 import android.provider.Settings;
 import android.widget.ListAdapter;
 
-import com.flurry.android.FlurryAgent;
 import com.google.android.material.snackbar.Snackbar;
 import com.greysonparrelli.permiso.Permiso;
 import com.tomclaw.appsend.R;
@@ -68,7 +67,6 @@ public class HomeInstalledFragment extends InstalledFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which) {
                             case 0: {
-                                FlurryAgent.logEvent("App menu: run");
                                 PackageManager packageManager = getContext().getPackageManager();
                                 Intent launchIntent = packageManager.getLaunchIntentForPackage(item.getPackageName());
                                 if (launchIntent == null) {
@@ -79,35 +77,29 @@ public class HomeInstalledFragment extends InstalledFragment {
                                 break;
                             }
                             case 1: {
-                                FlurryAgent.logEvent("App menu: share");
                                 TaskExecutor.getInstance().execute(new ExportApkTask(getContext(), item, ExportApkTask.ACTION_SHARE));
                                 break;
                             }
                             case 2: {
-                                FlurryAgent.logEvent("App menu: extract");
                                 TaskExecutor.getInstance().execute(new ExportApkTask(getContext(), item, ExportApkTask.ACTION_EXTRACT));
                                 break;
                             }
                             case 3: {
-                                FlurryAgent.logEvent("App menu: upload");
                                 Intent intent = new Intent(getContext(), UploadActivity.class);
                                 intent.putExtra(UploadActivity.UPLOAD_ITEM, item);
                                 startActivity(intent);
                                 break;
                             }
                             case 4: {
-                                FlurryAgent.logEvent("App menu: bluetooth");
                                 TaskExecutor.getInstance().execute(new ExportApkTask(getContext(), item, ExportApkTask.ACTION_BLUETOOTH));
                                 break;
                             }
                             case 5: {
-                                FlurryAgent.logEvent("App menu: Google Play");
                                 String packageName = item.getPackageName();
                                 openGooglePlay(getContext(), packageName);
                                 break;
                             }
                             case 6: {
-                                FlurryAgent.logEvent("App menu: AppSend Store");
                                 Intent intent = new Intent(getContext(), DownloadActivity.class);
                                 intent.putExtra(DownloadActivity.STORE_APP_PACKAGE, item.getPackageName());
                                 intent.putExtra(DownloadActivity.STORE_APP_LABEL, item.getLabel());
@@ -115,7 +107,6 @@ public class HomeInstalledFragment extends InstalledFragment {
                                 break;
                             }
                             case 7: {
-                                FlurryAgent.logEvent("App menu: permissions");
                                 try {
                                     PackageInfo packageInfo = item.getPackageInfo();
                                     List<String> permissions = Arrays.asList(packageInfo.requestedPermissions);
@@ -128,7 +119,6 @@ public class HomeInstalledFragment extends InstalledFragment {
                                 break;
                             }
                             case 8: {
-                                FlurryAgent.logEvent("App menu: details");
                                 setRefreshOnResume();
                                 final Intent intent = new Intent()
                                         .setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
@@ -139,7 +129,6 @@ public class HomeInstalledFragment extends InstalledFragment {
                                 break;
                             }
                             case 9: {
-                                FlurryAgent.logEvent("App menu: remove");
                                 setRefreshOnResume();
                                 Uri packageUri = Uri.parse("package:" + item.getPackageName());
                                 Intent uninstallIntent = new Intent(Intent.ACTION_DELETE, packageUri);

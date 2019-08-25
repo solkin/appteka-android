@@ -34,9 +34,6 @@
         <meta-data
             android:name="net.hockeyapp.android.appIdentifier"
             android:value="${HOCKEYAPP_APP_ID}" />
-        <meta-data
-            android:name="com.yahoo.flurry.appIdentifier"
-            android:value="${FLURRY_APP_ID}" />
 
         <activity
             android:name=".main.home.HomeActivity"
