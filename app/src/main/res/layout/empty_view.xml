@@ -12,7 +12,7 @@
         android:layout_height="96dp"
         android:layout_centerInParent="true"
         android:gravity="center"
-        android:src="@drawable/desert" />
+        android:src="@drawable/ic_posion" />
 
     <TextView
         android:id="@+id/empty_text"
@@ -22,6 +22,7 @@
         android:layout_centerHorizontal="true"
         android:gravity="center"
         android:paddingTop="24dp"
+        android:textSize="18sp"
         android:text="@string/empty_list" />
 
 </RelativeLayout>
