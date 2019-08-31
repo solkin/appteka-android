@@ -269,4 +269,7 @@
     <string name="upload_notice_title">Соглашение о распространении</string>
     <string name="upload_notice_text">Важно! Нажимая «Да», вы подтверждаете, что:\n1. Не нарушаете лицензии загружаемых в обменник приложений.\n2. Загружаемое программное обеспечение не нарушает авторские права и действующие законы.\n3. Владелец appteka.store не несёт ответственность за загружаемое в обменник программное обеспечение.</string>
     <string name="agree_with_upload_notice">Для загрузки приложений в обменник Appteka вам необходимо принять соглашение</string>
+    <string name="migrate_title">AppSend теперь Appteka!</string>
+    <string name="migrate_description">Всё на прежних местах. Только намного быстрее и стабильнее.</string>
+    <string name="yeah">Отлично!</string>
 </resources>
