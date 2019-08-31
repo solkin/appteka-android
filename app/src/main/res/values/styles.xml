@@ -2,8 +2,8 @@
 <resources>
 
     <color name="accent_color">#E29F33</color>
-    <color name="primary_color">#55B5E0</color>
-    <color name="primary_dark_color">#188EB7</color>
+    <color name="primary_color">#3FC698</color>
+    <color name="primary_dark_color">#30a27b</color>
 
     <color name="chocolate_color">#894121</color>
 
