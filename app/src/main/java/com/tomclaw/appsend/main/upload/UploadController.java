@@ -46,7 +46,7 @@ public class UploadController extends AbstractController<UploadController.Upload
         return Holder.instance;
     }
 
-    private static final String HOST_UPLOAD_URL = HOST_URL + "/api/app/upload";
+    private static final String HOST_UPLOAD_URL = HOST_URL + "/api/1/app/upload";
 
     private CommonItem item;
     private final ExecutorService executor = Executors.newSingleThreadExecutor();

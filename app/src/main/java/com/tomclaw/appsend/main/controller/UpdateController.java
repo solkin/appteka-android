@@ -37,7 +37,7 @@ public class UpdateController extends AbstractController<UpdateController.Update
         return Holder.instance;
     }
 
-    private static final String HOST_UPDATE_URL = HOST_URL + "/api/update";
+    private static final String HOST_UPDATE_URL = HOST_URL + "/api/1/update";
 
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
 

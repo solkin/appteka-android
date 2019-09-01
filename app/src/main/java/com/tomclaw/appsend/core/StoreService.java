@@ -24,7 +24,7 @@ import retrofit2.http.Query;
  */
 public interface StoreService {
 
-    @GET("api/app/info")
+    @GET("api/1/app/info")
     Call<ApiResponse<StoreInfo>> getInfo(
             @Query("v") int apiVer,
             @Query("guid") String guid,
@@ -32,7 +32,7 @@ public interface StoreService {
             @Query("package") String packageName
     );
 
-    @GET("api/app/meta")
+    @GET("api/1/app/meta")
     Call<ApiResponse<MetaResponse>> getMeta(
             @Query("v") int apiVer,
             @Query("app_id") String appId,
@@ -40,7 +40,7 @@ public interface StoreService {
     );
 
     @FormUrlEncoded
-    @POST("api/app/meta")
+    @POST("api/1/app/meta")
     Call<ApiResponse<MetaResponse>> setMeta(
             @Field("v") int apiVer,
             @Field("app_id") String appId,
@@ -50,7 +50,7 @@ public interface StoreService {
             @Field("description") String description
     );
 
-    @GET("api/app/rating")
+    @GET("api/1/app/rating")
     Call<ApiResponse<RatingsResponse>> getRatings(
             @Query("v") int apiVer,
             @Query("app_id") String appId,
@@ -59,7 +59,7 @@ public interface StoreService {
     );
 
     @FormUrlEncoded
-    @POST("api/app/rate")
+    @POST("api/1/app/rate")
     Call<ApiResponse<RateResponse>> setRating(
             @Field("v") int apiVer,
             @Field("app_id") String appId,
@@ -68,7 +68,7 @@ public interface StoreService {
             @Field("text") String text
     );
 
-    @GET("api/app/abuse")
+    @GET("api/1/app/abuse")
     Call<ApiResponse<AbuseResult>> reportAbuse(
             @Query("v") int apiVer,
             @Query("app_id") String appId,
@@ -76,7 +76,7 @@ public interface StoreService {
             @Query("email") String email
     );
 
-    @GET("api/user/profile")
+    @GET("api/1/user/profile")
     Call<ApiResponse<ProfileResponse>> getProfile(
             @Query("v") int apiVer,
             @Query("guid") String guid,
@@ -84,7 +84,7 @@ public interface StoreService {
     );
 
     @FormUrlEncoded
-    @POST("api/user/empower")
+    @POST("api/1/user/empower")
     Call<ApiResponse<EmpowerResponse>> empower(
             @Field("v") int apiVer,
             @Field("guid") String guid,
@@ -93,7 +93,7 @@ public interface StoreService {
     );
 
     @FormUrlEncoded
-    @POST("api/app/unlink")
+    @POST("api/1/app/unlink")
     Call<ApiResponse<UnlinkResponse>> unlink(
             @Field("v") int apiVer,
             @Field("guid") String guid,
@@ -101,7 +101,7 @@ public interface StoreService {
             @Field("reason") String reason
     );
 
-    @GET("api/app/list")
+    @GET("api/1/app/list")
     Call<ApiResponse<ListResponse>> listFiles(
             @Query("v") int apiVer,
             @Query("user_id") Long userId,
@@ -112,7 +112,7 @@ public interface StoreService {
     );
 
     @FormUrlEncoded
-    @POST("api/user/register")
+    @POST("api/1/user/register")
     Call<ApiResponse<AuthResponse>> register(
             @Field("v") int apiVer,
             @Field("guid") String guid,
@@ -123,7 +123,7 @@ public interface StoreService {
     );
 
     @FormUrlEncoded
-    @POST("api/user/login")
+    @POST("api/1/user/login")
     Call<ApiResponse<AuthResponse>> login(
             @Field("v") int apiVer,
             @Field("locale") String locale,

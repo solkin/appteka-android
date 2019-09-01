@@ -17,7 +17,7 @@ public class UserRequest extends BaseRequest {
 
     @Override
     protected String getApiName() {
-        return "api/user/create";
+        return "api/1/user/create";
     }
 
     @Override
