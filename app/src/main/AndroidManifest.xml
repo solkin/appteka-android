@@ -54,9 +54,6 @@
             android:name=".main.settings.SettingsActivity_"
             android:label="@string/settings" />
         <activity
-            android:name=".main.donate.DonateActivity_"
-            android:label="@string/donate" />
-        <activity
             android:name=".main.upload.UploadActivity"
             android:label="@string/upload" />
         <activity

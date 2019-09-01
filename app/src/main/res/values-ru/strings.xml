@@ -61,11 +61,7 @@
     <string name="write_permission_select">Для поиска и выбора дистрибутивов приложений необходимо разрешить доступ к диску</string>
     <string name="install_screen_apk_found">Ниже приведён список найденных APK файлов приложений на Вашем устройстве. Вы можете установить их, удалить, а также выполнить другие полезные действия.</string>
     <string name="install_screen_no_apk_found">На этом экране отображается список найденных APK файлов для установки. Но у Вас на устройстве APK файлы не найдены.</string>
-    <string name="donate">Помощь проекту</string>
-    <string name="donate_title">Угостите разработчика!</string>
-    <string name="donate_description">И он продолжит радовать обновлениями :)</string>
     <string name="donate_button">Подарить шоколадку</string>
-    <string name="chocolate">Шоколадка</string>
     <string name="pref_title_dark_theme">Тёмная тема</string>
     <string name="pref_dark_theme_system">Тёмные цвета в оформлении приложения</string>
     <string name="cancel">Отмена</string>

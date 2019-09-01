@@ -63,11 +63,7 @@
     <string name="write_permission_select">In order to scan and select applications distro you need to grant storage permissions</string>
     <string name="install_screen_apk_found">In the list bottom you can see list of found APK diles on your device. You can install, delete it or make some other useful actions.</string>
     <string name="install_screen_no_apk_found">On this screen shows found on your device APK files, that you may install. But for now you have no at least one APK file.</string>
-    <string name="donate">Donate</string>
-    <string name="donate_title">Treat developer!</string>
-    <string name="donate_description">And he continues to make cool updates :)</string>
     <string name="donate_button">Present chocolate</string>
-    <string name="chocolate">Chocolate</string>
     <string name="pref_title_dark_theme">Dark theme</string>
     <string name="pref_dark_theme_system">Dark colors in application appearance</string>
     <string name="cancel">Cancel</string>
