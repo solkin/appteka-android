@@ -2,6 +2,8 @@ package com.tomclaw.appsend.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 
 import com.tomclaw.appsend.R;
 
@@ -29,12 +31,17 @@ public class PreferenceHelper {
         return getStringPreference(context, R.string.pref_sort_order, R.string.pref_sort_order_default);
     }
 
-    public static boolean isShowInstallCouch(Context context) {
-        return getBooleanPreference(context, R.string.pref_install_couch, R.bool.pref_install_couch_default);
+    public static int getLastRunBuildNumber(Context context) {
+        return getIntegerPreference(context, R.string.pref_last_run_build_number, R.integer.pref_last_run_build_number_default);
     }
 
-    public static void setShowInstallCouch(Context context, boolean value) {
-        setBooleanPreference(context, R.string.pref_install_couch, value);
+    public static void updateLastRunBuildNumber(Context context) {
+        PackageManager manager = context.getPackageManager();
+        try {
+            PackageInfo info = manager.getPackageInfo(context.getPackageName(), 0);
+            setIntegerPreference(context, R.string.pref_last_run_build_number, info.versionCode);
+        } catch (PackageManager.NameNotFoundException ignored) {
+        }
     }
 
     public static boolean isShowResponsibilityDenial(Context context) {
@@ -84,6 +91,16 @@ public class PreferenceHelper {
 
     private static void setBooleanPreference(Context context, int preferenceKey, boolean value) {
         getSharedPreferences(context).edit().putBoolean(context.getResources().getString(preferenceKey),
+                value).apply();
+    }
+
+    private static int getIntegerPreference(Context context, int preferenceKey, int defaultValueKey) {
+        return getSharedPreferences(context).getInt(context.getResources().getString(preferenceKey),
+                context.getResources().getInteger(defaultValueKey));
+    }
+
+    private static void setIntegerPreference(Context context, int preferenceKey, int value) {
+        getSharedPreferences(context).edit().putInt(context.getResources().getString(preferenceKey),
                 value).apply();
     }
 

@@ -65,7 +65,7 @@ public class Session {
                         Logger.log("fetch result is " + requestResult);
                         if (requestResult != Request.REQUEST_DELETE) {
                             try {
-                                Thread.sleep(3000);
+                                Thread.sleep(5000);
                             } catch (InterruptedException ignored) {
                             }
                         }

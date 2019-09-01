@@ -12,6 +12,7 @@ import android.widget.TextView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.greysonparrelli.permiso.PermisoActivity;
+import com.tomclaw.appsend.AppSend;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.main.about.AboutActivity_;
@@ -26,6 +27,8 @@ import com.tomclaw.appsend.main.local.HomeDistroFragment_;
 import com.tomclaw.appsend.main.local.HomeInstalledFragment_;
 import com.tomclaw.appsend.main.local.SelectLocalAppActivity;
 import com.tomclaw.appsend.main.local.SelectLocalAppActivity_;
+import com.tomclaw.appsend.main.migrate.MigrateActivity;
+import com.tomclaw.appsend.main.migrate.MigrateActivity_;
 import com.tomclaw.appsend.main.profile.ProfileActivity_;
 import com.tomclaw.appsend.main.settings.SettingsActivity_;
 import com.tomclaw.appsend.main.store.StoreFragment_;
@@ -54,6 +57,9 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import static com.tomclaw.appsend.AppSend.app;
+import static com.tomclaw.appsend.AppSend.getLastRunBuildNumber;
+import static com.tomclaw.appsend.AppSend.wasRegistered;
 import static com.tomclaw.appsend.util.MemberImageHelper.memberImageHelper;
 
 public class HomeActivity extends PermisoActivity implements UserDataListener,
@@ -183,6 +189,8 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
 
         checkForCrashes();
         MetricsManager.register(getApplication());
+
+        checkMigration();
     }
 
     @Override
@@ -544,4 +552,11 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
     @Override
     public void onUserReady() {
     }
+
+    private void checkMigration() {
+        if (wasRegistered() && getLastRunBuildNumber() == 0) {
+            MigrateActivity_.intent(this).start();
+        }
+    }
+
 }

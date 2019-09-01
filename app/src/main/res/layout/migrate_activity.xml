@@ -1,46 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical">
+    android:fillViewport="true">
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="82dp"
-        android:layout_gravity="center_horizontal"
-        android:src="@drawable/ic_confetti" />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:paddingTop="28dp"
-        android:src="@drawable/migrate" />
-
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:paddingTop="24dp"
-        android:text="@string/migrate_title"
-        android:textSize="18sp"
-        android:textStyle="bold" />
+        android:gravity="center"
+        android:orientation="vertical">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:paddingTop="12dp"
-        android:text="@string/migrate_description"
-        android:textSize="14sp" />
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="82dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/ic_confetti" />
 
-    <Button
-        android:id="@+id/close_button"
-        style="@style/Widget.MaterialComponents.Button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="@string/yeah" />
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:paddingTop="28dp"
+            android:src="@drawable/migrate" />
 
-</LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:paddingTop="24dp"
+            android:text="@string/migrate_title"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:paddingTop="12dp"
+            android:text="@string/migrate_description"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/close_button"
+            style="@style/Widget.MaterialComponents.Button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/yeah" />
+
+    </LinearLayout>
+
+</ScrollView>

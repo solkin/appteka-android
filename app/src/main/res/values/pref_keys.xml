@@ -7,7 +7,7 @@
     <string name="pref_sort_order" translatable="false">pref_sort_order</string>
     <string name="pref_clear_cache" translatable="false">pref_clear_cache</string>
 
-    <string name="pref_install_couch" translatable="false">pref_install_couch</string>
+    <string name="pref_last_run_build_number" translatable="false">pref_last_run_build_number</string>
     <string name="pref_responsibility_denial" translatable="false">pref_responsibility_denial</string>
     <string name="pref_upload_notice" translatable="false">pref_upload_notice</string>
     <string name="pref_count_time" translatable="false">pref_count_time</string>
