@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:gravity="center"
+        android:textSize="14sp"
         tools:text="Failed to load something" />
 
     <Button
