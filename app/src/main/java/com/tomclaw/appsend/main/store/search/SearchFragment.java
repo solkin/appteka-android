@@ -2,7 +2,6 @@ package com.tomclaw.appsend.main.store.search;
 
 import android.text.TextUtils;
 
-import com.tomclaw.appsend.BuildConfig;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.core.StoreServiceHolder;
@@ -31,13 +30,12 @@ public class SearchFragment extends BaseStoreFragment implements Debouncer.Callb
     String query;
 
     @Override
-    public Call<ApiResponse<ListResponse>> createCall(String appId) {
+    public Call<ApiResponse<ListResponse>> createCall(String appId, int offset) {
         if (isEmptyQuery()) {
             return null;
         }
-        int build = BuildConfig.VERSION_CODE;
         String locale = getLocaleLanguage();
-        return serviceHolder.getService().listFiles(1, null, appId, query, build, locale);
+        return serviceHolder.getService().searchFiles(query, offset, locale);
     }
 
     public final void filter(String query) {

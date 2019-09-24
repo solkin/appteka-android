@@ -103,11 +103,15 @@ public interface StoreService {
 
     @GET("api/1/app/list")
     Call<ApiResponse<ListResponse>> listFiles(
-            @Query("v") int apiVer,
             @Query("user_id") Long userId,
             @Query("app_id") String appId,
-            @Query("query") String filter,
-            @Query("ver_code") Integer build,
+            @Query("locale") String locale
+    );
+
+    @GET("api/1/app/search")
+    Call<ApiResponse<ListResponse>> searchFiles(
+            @Query("query") String query,
+            @Query("offset") Integer offset,
             @Query("locale") String locale
     );
 

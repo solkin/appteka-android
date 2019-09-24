@@ -126,7 +126,7 @@ public abstract class BaseStoreFragment extends HomeFragment implements FilesLis
         }
     }
 
-    public abstract Call<ApiResponse<ListResponse>> createCall(String appId);
+    public abstract Call<ApiResponse<ListResponse>> createCall(String appId, int offset);
 
     public void clearFiles() {
         invalidate();
@@ -140,11 +140,13 @@ public abstract class BaseStoreFragment extends HomeFragment implements FilesLis
             isLoadedAll = false;
         }
         String appId = null;
+        int offset = 0;
         if (files != null && files.size() > 0 && !isInvalidate) {
             StoreItem lastItem = files.get(files.size() - 1);
             appId = lastItem.getAppId();
+            offset = files.size();
         }
-        Call<ApiResponse<ListResponse>> call = createCall(appId);
+        Call<ApiResponse<ListResponse>> call = createCall(appId, offset);
         if (call == null) {
             onLoadingCancelled();
             return;

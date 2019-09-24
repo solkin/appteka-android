@@ -1,6 +1,5 @@
 package com.tomclaw.appsend.main.store;
 
-import com.tomclaw.appsend.BuildConfig;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.StoreServiceHolder;
 import com.tomclaw.appsend.main.dto.ApiResponse;
@@ -24,11 +23,10 @@ public class UploadsFragment extends BaseStoreFragment {
     Long userId;
 
     @Override
-    public Call<ApiResponse<ListResponse>> createCall(String appId) {
+    public Call<ApiResponse<ListResponse>> createCall(String appId, int offset) {
         if (userId == null) return null;
-        int build = BuildConfig.VERSION_CODE;
         String locale = getLocaleLanguage();
-        return serviceHolder.getService().listFiles(1, userId, appId, null, build, locale);
+        return serviceHolder.getService().listFiles(userId, appId, locale);
     }
 
     public void setUserId(long userId) {
