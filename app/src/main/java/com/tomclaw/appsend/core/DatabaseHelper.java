@@ -18,6 +18,8 @@ import java.util.Locale;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
+import static com.tomclaw.appsend.util.StringUtil.generateRandomText;
+
 /**
  * Created with IntelliJ IDEA.
  * User: solkin
@@ -26,7 +28,6 @@ import java.util.concurrent.TimeUnit;
  */
 public class DatabaseHelper extends SQLiteOpenHelper {
 
-    private final Context context;
     private Random random;
     private int msgId;
     private long time;
@@ -37,7 +38,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public DatabaseHelper(Context context) {
         super(context, Config.DB_NAME, null, Config.DB_VERSION);
-        this.context = context;
         if (isMock && isDropTables) {
             onCreate(getWritableDatabase());
         }
@@ -147,33 +147,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             destination.close();
         } catch (IOException e) {
             e.printStackTrace();
-        }
-    }
-
-    public static String generateRandomText(Random r) {
-        int wordCount = 10 + r.nextInt(13);
-        return generateRandomText(r, wordCount);
-    }
-
-    public static String generateRandomText(Random r, int wordCount) {
-
-        StringBuilder sb = new StringBuilder(wordCount);
-        for (int i = 0; i < wordCount; i++) { // For each letter in the word
-            sb.append(generateRandomWord(r, i == 0)).append((i < (wordCount - 1)) ? " " : "."); // Add it to the String
-        }
-        return sb.toString();
-    }
-
-    private static String generateRandomWord(Random r) {
-        return generateRandomWord(r, true);
-    }
-
-    private static String generateRandomWord(Random r, boolean capitalize) {
-        String word = StringUtil.generateRandomString(r, 4, 10);
-        if (capitalize) {
-            return String.valueOf(word.charAt(0)).toUpperCase(Locale.getDefault()) + word.substring(1);
-        } else {
-            return word;
         }
     }
 

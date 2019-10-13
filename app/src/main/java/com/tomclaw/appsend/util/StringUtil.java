@@ -13,6 +13,7 @@ import android.widget.Toast;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.util.Locale;
 import java.util.Random;
 
 /**
@@ -73,8 +74,8 @@ public class StringUtil {
     }
 
     public static String appendIfNotEmpty(String where, String what, String divider) {
-        if (!StringUtil.isEmptyOrWhitespace(what)) {
-            if (!StringUtil.isEmptyOrWhitespace(where)) {
+        if (!isEmptyOrWhitespace(what)) {
+            if (!isEmptyOrWhitespace(where)) {
                 where += divider;
             }
             where += what;
@@ -112,20 +113,48 @@ public class StringUtil {
         return location;
     }
 
+    public static String generateRandomText(Random r) {
+        int wordCount = 10 + r.nextInt(13);
+        return generateRandomText(r, wordCount);
+    }
+
+    public static String generateRandomText(Random r, int wordCount) {
+        StringBuilder sb = new StringBuilder(wordCount);
+        for (int i = 0; i < wordCount; i++) { // For each letter in the word
+            sb.append(generateRandomWord(r, i == 0))
+                    .append((i < (wordCount - 1)) ? " " : "."); // Add it to the String
+        }
+        return sb.toString();
+    }
+
+    private static String generateRandomWord(Random r) {
+        return generateRandomWord(r, true);
+    }
+
+    private static String generateRandomWord(Random r, boolean capitalize) {
+        String word = generateRandomString(r, 4, 10);
+        if (capitalize) {
+            return String.valueOf(word.charAt(0))
+                    .toUpperCase(Locale.getDefault()) + word.substring(1);
+        } else {
+            return word;
+        }
+    }
+
     public static String generateCookie() {
-        return Long.toHexString(System.currentTimeMillis()) + "-" + StringUtil.generateRandomString(random, 16, 16);
+        return Long.toHexString(System.currentTimeMillis()) + "-" + generateRandomString(random, 16, 16);
     }
 
     public static String generateBoundary() {
-        return Long.toHexString(System.currentTimeMillis()) + StringUtil.generateRandomString(random, 16, 16);
+        return Long.toHexString(System.currentTimeMillis()) + generateRandomString(random, 16, 16);
     }
 
     public static String generateRandomString() {
-        return StringUtil.generateRandomString(16);
+        return generateRandomString(16);
     }
 
     public static String generateRandomString(int length) {
-        return StringUtil.generateRandomString(random, length, length);
+        return generateRandomString(random, length, length);
     }
 
     public static String generateRandomString(Random r, int minChars, int maxChars) {
