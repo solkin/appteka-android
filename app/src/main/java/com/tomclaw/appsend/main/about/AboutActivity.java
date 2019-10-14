@@ -5,42 +5,37 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.tomclaw.appsend.R;
-import com.tomclaw.appsend.util.ThemeHelper;
-
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.OptionsItem;
-import org.androidannotations.annotations.ViewById;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.tomclaw.appsend.R;
+import com.tomclaw.appsend.util.ThemeHelper;
+
 /**
  * Created by Solkin on 17.12.2014.
  */
-@EActivity(R.layout.about_activity)
 public class AboutActivity extends AppCompatActivity {
 
-    @ViewById
-    Toolbar toolbar;
-
-    @ViewById
-    TextView appVersion;
+    private Toolbar toolbar;
+    private TextView appVersion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         ThemeHelper.updateTheme(this);
         super.onCreate(savedInstanceState);
-    }
 
-    @AfterViews
-    void init() {
+        setContentView(R.layout.about_activity);
+
+        toolbar = findViewById(R.id.toolbar);
+        appVersion = findViewById(R.id.app_version);
+
         ThemeHelper.updateStatusBar(this);
 
         setSupportActionBar(toolbar);
@@ -54,16 +49,43 @@ public class AboutActivity extends AppCompatActivity {
             appVersion.setText(getString(R.string.app_version, info.versionName, info.versionCode));
         } catch (PackageManager.NameNotFoundException ignored) {
         }
+
+        findViewById(R.id.present_chocolate).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onChocolateClicked();
+            }
+        });
+        findViewById(R.id.feedback_email).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onFeedbackClicked();
+            }
+        });
+        findViewById(R.id.forum_discuss).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onForumDiscussClicked();
+            }
+        });
+        findViewById(R.id.telegram_group).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onTelegramGroupClicked();
+            }
+        });
     }
 
-    @OptionsItem(android.R.id.home)
-    boolean actionHome() {
-        finish();
-        return true;
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
-    @Click(R.id.present_chocolate)
-    void onChocolateClicked() {
+    private void onChocolateClicked() {
         String donateUrl = getString(R.string.donate_url);
         try {
             startActivity(new Intent(Intent.ACTION_VIEW,
@@ -72,8 +94,7 @@ public class AboutActivity extends AppCompatActivity {
         }
     }
 
-    @Click(R.id.feedback_email)
-    void onFeedbackClicked() {
+    private void onFeedbackClicked() {
         Uri uri = Uri.fromParts("mailto", "inbox@tomclaw.com", null);
         Intent intent = new Intent(Intent.ACTION_SENDTO, uri)
                 .putExtra(Intent.EXTRA_SUBJECT, "Appteka")
@@ -85,8 +106,7 @@ public class AboutActivity extends AppCompatActivity {
         }
     }
 
-    @Click(R.id.forum_discuss)
-    void onForumDiscussClicked() {
+    private void onForumDiscussClicked() {
         String forumUrl = getString(R.string.forum_url);
         try {
             startActivity(new Intent(Intent.ACTION_VIEW,
@@ -95,8 +115,7 @@ public class AboutActivity extends AppCompatActivity {
         }
     }
 
-    @Click(R.id.telegram_group)
-    void onTelegramGroupClicked() {
+    private void onTelegramGroupClicked() {
         String forumUrl = getString(R.string.telegram_group_url);
         try {
             startActivity(new Intent(Intent.ACTION_VIEW,

@@ -15,7 +15,7 @@ import com.greysonparrelli.permiso.PermisoActivity;
 import com.tomclaw.appsend.AppSend;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.MainExecutor;
-import com.tomclaw.appsend.main.about.AboutActivity_;
+import com.tomclaw.appsend.main.about.AboutActivity;
 import com.tomclaw.appsend.main.controller.DiscussController;
 import com.tomclaw.appsend.main.controller.UpdateController;
 import com.tomclaw.appsend.main.discuss.DiscussFragment_;
@@ -415,7 +415,8 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
                         drawer.closeDrawers();
                         return true;
                     case R.id.nav_info:
-                        AboutActivity_.intent(HomeActivity.this).start();
+                        Intent intent = new Intent(HomeActivity.this, AboutActivity.class);
+                        startActivity(intent);
                         drawer.closeDrawers();
                         return true;
                     default:
