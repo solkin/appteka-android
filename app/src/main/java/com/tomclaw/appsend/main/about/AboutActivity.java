@@ -88,8 +88,7 @@ public class AboutActivity extends AppCompatActivity {
     private void onChocolateClicked() {
         String donateUrl = getString(R.string.donate_url);
         try {
-            startActivity(new Intent(Intent.ACTION_VIEW,
-                    Uri.parse(donateUrl)));
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(donateUrl)));
         } catch (Throwable ignored) {
         }
     }
@@ -109,8 +108,7 @@ public class AboutActivity extends AppCompatActivity {
     private void onForumDiscussClicked() {
         String forumUrl = getString(R.string.forum_url);
         try {
-            startActivity(new Intent(Intent.ACTION_VIEW,
-                    Uri.parse(forumUrl)));
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(forumUrl)));
         } catch (Throwable ignored) {
         }
     }
@@ -118,8 +116,7 @@ public class AboutActivity extends AppCompatActivity {
     private void onTelegramGroupClicked() {
         String forumUrl = getString(R.string.telegram_group_url);
         try {
-            startActivity(new Intent(Intent.ACTION_VIEW,
-                    Uri.parse(forumUrl)));
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(forumUrl)));
         } catch (Throwable ignored) {
         }
     }
