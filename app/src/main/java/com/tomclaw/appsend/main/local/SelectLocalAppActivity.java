@@ -62,7 +62,7 @@ public class SelectLocalAppActivity extends PermisoActivity implements CommonIte
         ThemeHelper.updateStatusBar(this);
 
         setSupportActionBar(toolbar);
-        final ActionBar actionBar = getSupportActionBar();
+        ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(false);
 
@@ -139,7 +139,7 @@ public class SelectLocalAppActivity extends PermisoActivity implements CommonIte
     }
 
     private void showError(@StringRes int message) {
-        Toast.makeText(this, message, Snackbar.LENGTH_LONG).show();
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
     private void leaveScreen() {

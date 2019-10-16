@@ -27,8 +27,8 @@ public class SelectDistroFragment extends DistroFragment {
 
             @Override
             public void onRationaleRequested(Permiso.IOnRationaleProvided callback, String... permissions) {
-                String title = getContext().getString(R.string.app_name);
-                String message = getContext().getString(R.string.write_permission_select);
+                String title = getString(R.string.app_name);
+                String message = getString(R.string.write_permission_select);
                 Permiso.getInstance().showRationaleInDialog(title, message, null, callback);
             }
         }, Manifest.permission.WRITE_EXTERNAL_STORAGE);
