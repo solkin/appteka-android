@@ -16,7 +16,7 @@ import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.GlideApp;
 import com.tomclaw.appsend.main.download.DownloadActivity;
 import com.tomclaw.appsend.main.item.CommonItem;
-import com.tomclaw.appsend.main.meta.MetaActivity_;
+import com.tomclaw.appsend.main.meta.MetaActivity;
 import com.tomclaw.appsend.util.FileHelper;
 import com.tomclaw.appsend.util.IntentHelper;
 import com.tomclaw.appsend.util.StringUtil;
@@ -201,10 +201,10 @@ public class UploadActivity extends AppCompatActivity implements UploadControlle
         if (isMetaActivityShown) {
             viewSwitcher.setDisplayedChild(1);
         } else {
-            MetaActivity_.intent(this)
-                    .appId(appId)
-                    .commonItem(item)
-                    .startForResult(REQUEST_UPDATE_META);
+            Intent intent = new Intent(this, MetaActivity.class)
+                    .putExtra(MetaActivity.APP_ID_EXTRA, appId)
+                    .putExtra(MetaActivity.COMMON_ITEM_EXTRA, item);
+            startActivityForResult(intent, REQUEST_UPDATE_META);
             isMetaActivityShown = true;
         }
     }

@@ -54,7 +54,7 @@ import com.tomclaw.appsend.main.home.HomeActivity;
 import com.tomclaw.appsend.main.item.StoreItem;
 import com.tomclaw.appsend.main.meta.Category;
 import com.tomclaw.appsend.main.meta.Meta;
-import com.tomclaw.appsend.main.meta.MetaActivity_;
+import com.tomclaw.appsend.main.meta.MetaActivity;
 import com.tomclaw.appsend.main.meta.Scores;
 import com.tomclaw.appsend.main.permissions.PermissionsActivity_;
 import com.tomclaw.appsend.main.permissions.PermissionsList;
@@ -1012,10 +1012,10 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
 
     private void editMeta() {
         StoreItem item = info.getItem();
-        MetaActivity_.intent(this)
-                .appId(appId)
-                .storeItem(item)
-                .startForResult(REQUEST_UPDATE_META);
+        Intent intent = new Intent(this, MetaActivity.class)
+                .putExtra(MetaActivity.APP_ID_EXTRA, appId)
+                .putExtra(MetaActivity.STORE_ITEM_EXTRA, item);
+        startActivityForResult(intent, REQUEST_UPDATE_META);
     }
 
     private void submitRating() {

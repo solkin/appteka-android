@@ -2,6 +2,8 @@ package com.tomclaw.appsend.main.meta;
 
 import android.content.pm.PackageInfo;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -16,6 +18,7 @@ import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.GlideApp;
 import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.core.StoreServiceHolder;
+import com.tomclaw.appsend.core.StoreServiceHolder_;
 import com.tomclaw.appsend.main.dto.ApiResponse;
 import com.tomclaw.appsend.main.item.CommonItem;
 import com.tomclaw.appsend.main.item.StoreItem;
@@ -47,63 +50,53 @@ import retrofit2.Response;
  * Application meta editor screen
  * Created by solkin on 23.09.17.
  */
-@EActivity(R.layout.meta_activity)
-@OptionsMenu(R.menu.meta_menu)
 public class MetaActivity extends AppCompatActivity {
 
-    @Bean
-    StoreServiceHolder serviceHolder;
+    public static final String APP_ID_EXTRA = "appId";
+    public static final String STORE_ITEM_EXTRA = "storeItem";
+    public static final String COMMON_ITEM_EXTRA = "commonItem";
 
-    @ViewById
-    Toolbar toolbar;
+    private StoreServiceHolder serviceHolder;
 
-    @ViewById
-    ViewFlipper viewFlipper;
+    private Toolbar toolbar;
+    private ViewFlipper viewFlipper;
+    private Spinner categories;
+    private CheckBox exclusive;
+    private EditText description;
+    private ImageView appIcon;
+    private TextView appLabel;
+    private TextView appPackage;
+    private TextView errorText;
+    private Button retryButton;
 
-    @ViewById
-    Spinner categories;
+    private String appId;
+    private StoreItem storeItem;
+    private CommonItem commonItem;
 
-    @ViewById
-    CheckBox exclusive;
-
-    @ViewById
-    EditText description;
-
-    @ViewById
-    ImageView appIcon;
-
-    @ViewById
-    TextView appLabel;
-
-    @ViewById
-    TextView appPackage;
-
-    @ViewById
-    TextView errorText;
-
-    @ViewById
-    Button retryButton;
-
-    @Extra
-    String appId;
-
-    @Extra
-    StoreItem storeItem;
-
-    @Extra
-    CommonItem commonItem;
-
-    @InstanceState
-    MetaResponse meta;
+    private MetaResponse meta;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        serviceHolder = StoreServiceHolder_.getInstance_(this);
+        injectExtras();
+        restoreSavedInstanceState(savedInstanceState);
         ThemeHelper.updateTheme(this);
-        super.onCreate(savedInstanceState);
-    }
 
-    @AfterViews
-    void init() {
+        super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.meta_activity);
+
+        toolbar = findViewById(R.id.toolbar);
+        viewFlipper = findViewById(R.id.view_flipper);
+        categories = findViewById(R.id.categories);
+        exclusive = findViewById(R.id.exclusive);
+        description = findViewById(R.id.description);
+        appIcon = findViewById(R.id.app_icon);
+        appLabel = findViewById(R.id.app_label);
+        appPackage = findViewById(R.id.app_package);
+        errorText = findViewById(R.id.error_text);
+        retryButton = findViewById(R.id.retry_button);
+
         ThemeHelper.updateStatusBar(this);
 
         setSupportActionBar(toolbar);
@@ -124,15 +117,51 @@ public class MetaActivity extends AppCompatActivity {
         }
     }
 
-    @OptionsItem(android.R.id.home)
-    boolean actionHome() {
-        onBackPressed();
+    private void injectExtras() {
+        Bundle extras = getIntent().getExtras();
+        if (extras!= null) {
+            if (extras.containsKey(APP_ID_EXTRA)) {
+                this.appId = extras.getString(APP_ID_EXTRA);
+            }
+            if (extras.containsKey(STORE_ITEM_EXTRA)) {
+                this.storeItem = extras.getParcelable(STORE_ITEM_EXTRA);
+            }
+            if (extras.containsKey(COMMON_ITEM_EXTRA)) {
+                this.commonItem = extras.getParcelable(COMMON_ITEM_EXTRA);
+            }
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle bundle) {
+        super.onSaveInstanceState(bundle);
+        bundle.putParcelable("meta", meta);
+    }
+
+    private void restoreSavedInstanceState(Bundle savedInstanceState) {
+        if (savedInstanceState == null) {
+            return;
+        }
+        meta = savedInstanceState.getParcelable("meta");
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.meta_menu, menu);
         return true;
     }
 
-    @OptionsItem(R.id.menu_save)
-    void onSaveMeta() {
-        saveMeta();
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            case R.id.menu_save:
+                saveMeta();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void updateHeader() {
