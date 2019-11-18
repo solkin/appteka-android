@@ -12,7 +12,7 @@
         android:layout_height="96dp"
         android:layout_centerInParent="true"
         android:gravity="center"
-        android:src="@drawable/ic_posion" />
+        android:src="@drawable/ic_placeholder" />
 
     <TextView
         android:id="@+id/empty_text"

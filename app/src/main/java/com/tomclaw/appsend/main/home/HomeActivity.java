@@ -9,10 +9,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.greysonparrelli.permiso.PermisoActivity;
-import com.tomclaw.appsend.AppSend;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.main.about.AboutActivity;
@@ -27,7 +36,6 @@ import com.tomclaw.appsend.main.local.HomeDistroFragment_;
 import com.tomclaw.appsend.main.local.HomeInstalledFragment_;
 import com.tomclaw.appsend.main.local.SelectLocalAppActivity;
 import com.tomclaw.appsend.main.local.SelectLocalAppActivity_;
-import com.tomclaw.appsend.main.migrate.MigrateActivity;
 import com.tomclaw.appsend.main.migrate.MigrateActivity_;
 import com.tomclaw.appsend.main.profile.ProfileActivity_;
 import com.tomclaw.appsend.main.settings.SettingsActivity_;
@@ -47,17 +55,6 @@ import com.tomclaw.appsend.util.ThemeHelper;
 import net.hockeyapp.android.CrashManager;
 import net.hockeyapp.android.metrics.MetricsManager;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-
-import static com.tomclaw.appsend.AppSend.app;
 import static com.tomclaw.appsend.AppSend.getLastRunBuildNumber;
 import static com.tomclaw.appsend.AppSend.wasRegistered;
 import static com.tomclaw.appsend.util.MemberImageHelper.memberImageHelper;
