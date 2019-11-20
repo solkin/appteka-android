@@ -18,7 +18,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/share_variant"
+            android:src="@drawable/ic_share_variant"
             android:tint="?attr/text_secondary_color" />
 
         <TextView

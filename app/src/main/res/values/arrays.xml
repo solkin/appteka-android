@@ -54,8 +54,8 @@
     </string-array>
 
     <array name="app_actions_icons">
-        <item>@drawable/run</item>
-        <item>@drawable/share</item>
+        <item>@drawable/ic_run</item>
+        <item>@drawable/ic_share</item>
         <item>@drawable/floppy</item>
         <item>@drawable/cloud_upload</item>
         <item>@drawable/bluetooth</item>
@@ -68,7 +68,7 @@
 
     <array name="apk_actions_icons">
         <item>@drawable/download</item>
-        <item>@drawable/share</item>
+        <item>@drawable/ic_share</item>
         <item>@drawable/cloud_upload</item>
         <item>@drawable/bluetooth</item>
         <item>@drawable/google_play</item>
@@ -78,7 +78,7 @@
     </array>
 
     <array name="message_actions_icons">
-        <item>@drawable/reply</item>
+        <item>@drawable/ic_reply</item>
         <item>@drawable/content_copy</item>
         <item>@drawable/account</item>
         <item>@drawable/delete_forever</item>

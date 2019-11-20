@@ -121,7 +121,7 @@
                     android:contentDescription=""
                     android:padding="9dp"
                     android:scaleType="center"
-                    android:src="@drawable/send"
+                    android:src="@drawable/ic_send"
                     android:tint="@color/primary_color" />
 
             </LinearLayout>
