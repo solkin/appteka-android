@@ -139,7 +139,7 @@
                     android:paddingLeft="0dp"
                     android:paddingRight="0dp"
                     android:paddingStart="0dp"
-                    android:src="@drawable/download"
+                    android:src="@drawable/ic_download"
                     android:tint="@color/grey_dark" />
 
                 <TextView

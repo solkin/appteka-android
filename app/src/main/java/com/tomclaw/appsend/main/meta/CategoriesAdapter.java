@@ -64,7 +64,7 @@ public class CategoriesAdapter extends BaseAdapter {
         TextView names = view.findViewById(R.id.name);
         Category category = getItem(position);
         if (category.getId() == 0) {
-            Drawable drawable = view.getResources().getDrawable(R.drawable.close);
+            Drawable drawable = view.getResources().getDrawable(R.drawable.ic_close);
             drawable.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
             icon.setImageDrawable(drawable);
             names.setText(R.string.category_not_defined);

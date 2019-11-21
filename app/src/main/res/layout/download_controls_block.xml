@@ -133,7 +133,7 @@
                 android:background="?selectableItemBackgroundBorderless"
                 android:contentDescription="@string/cancel"
                 android:padding="8dp"
-                android:src="@drawable/close"
+                android:src="@drawable/ic_close"
                 android:tint="@color/accent_color" />
 
         </LinearLayout>

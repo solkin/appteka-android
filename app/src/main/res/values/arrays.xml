@@ -63,25 +63,25 @@
         <item>@drawable/ic_store</item>
         <item>@drawable/lock_open</item>
         <item>@drawable/settings_box</item>
-        <item>@drawable/delete</item>
+        <item>@drawable/ic_delete</item>
     </array>
 
     <array name="apk_actions_icons">
-        <item>@drawable/download</item>
+        <item>@drawable/ic_download</item>
         <item>@drawable/ic_share</item>
         <item>@drawable/cloud_upload</item>
         <item>@drawable/bluetooth</item>
         <item>@drawable/google_play</item>
         <item>@drawable/ic_store</item>
         <item>@drawable/lock_open</item>
-        <item>@drawable/delete</item>
+        <item>@drawable/ic_delete</item>
     </array>
 
     <array name="message_actions_icons">
         <item>@drawable/ic_reply</item>
         <item>@drawable/content_copy</item>
-        <item>@drawable/account</item>
-        <item>@drawable/delete_forever</item>
+        <item>@drawable/ic_account</item>
+        <item>@drawable/ic_delete_forever</item>
     </array>
 
 </resources>

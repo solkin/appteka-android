@@ -185,7 +185,7 @@
                     android:layout_toEndOf="@id/rates_count"
                     android:layout_toRightOf="@id/rates_count"
                     android:contentDescription="@string/rates_count"
-                    android:src="@drawable/account"
+                    android:src="@drawable/ic_account"
                     android:tint="?text_secondary_color" />
 
             </RelativeLayout>

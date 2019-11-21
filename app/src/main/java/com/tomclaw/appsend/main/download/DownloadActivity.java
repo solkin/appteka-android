@@ -372,7 +372,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         abuseItem = menu.findItem(R.id.abuse);
         abuseItem.setVisible(this.info != null);
         if (canUnlink()) {
-            abuseItem.setIcon(R.drawable.delete);
+            abuseItem.setIcon(R.drawable.ic_delete);
             abuseItem.setTitle(R.string.unlink_file);
         }
         return true;
