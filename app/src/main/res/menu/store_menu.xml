@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/menu_search"
-        android:icon="@drawable/magnify"
+        android:icon="@drawable/ic_magnify"
         android:title="@string/menu_search"
         app:showAsAction="ifRoom|collapseActionView" />
 </menu>
