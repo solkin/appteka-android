@@ -43,7 +43,7 @@
         android:layout_marginBottom="22dp"
         android:layout_marginEnd="18dp"
         android:layout_marginRight="18dp"
-        android:src="@drawable/cloud_upload"
+        android:src="@drawable/ic_cloud_upload"
         app:elevation="4dp"
         app:fabSize="normal"
         app:pressedTranslationZ="12dp" />

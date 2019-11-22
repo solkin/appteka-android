@@ -52,7 +52,7 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/google_play"
+            android:src="@drawable/ic_google_play"
             android:tint="?attr/text_secondary_color" />
 
         <TextView

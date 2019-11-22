@@ -8,7 +8,7 @@
             android:title="@string/nav_store" />
         <item
             android:id="@+id/nav_uploads"
-            android:icon="@drawable/cloud_upload"
+            android:icon="@drawable/ic_cloud_upload"
             android:title="@string/nav_uploads" />
         <item
             android:id="@+id/nav_discuss"

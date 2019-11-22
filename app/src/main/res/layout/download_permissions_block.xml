@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:contentDescription="@string/permissions"
-            android:src="@drawable/lock_open"
+            android:src="@drawable/ic_lock_open"
             android:tint="@color/primary_color" />
 
         <TextView
