@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/abuse"
-        android:icon="@drawable/alert"
+        android:icon="@drawable/ic_alert"
         android:title="@string/abuse"
         app:showAsAction="ifRoom|withText" />
 </menu>
