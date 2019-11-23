@@ -19,6 +19,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.greysonparrelli.permiso.PermisoActivity;
@@ -86,6 +88,7 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
     private boolean isDarkTheme;
     private View actionView;
     private TextView unreadIndicator;
+    private AHBottomNavigation bottomNavigation;
 
     public static int navItemIndex = 0;
 
@@ -141,6 +144,48 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
             @Override
             public void onClick(View v) {
                 onUpdate();
+            }
+        });
+
+        bottomNavigation = findViewById(R.id.bottom_navigation);
+        bottomNavigation.addItem(new AHBottomNavigationItem("Home", R.drawable.ic_home_24px));
+        bottomNavigation.addItem(new AHBottomNavigationItem("News", R.drawable.ic_news_24px));
+        bottomNavigation.addItem(new AHBottomNavigationItem("Discuss", R.drawable.ic_chat_24px));
+        bottomNavigation.addItem(new AHBottomNavigationItem("Profile", R.drawable.ic_account_circle_24px));
+
+        bottomNavigation.setNotification("3", 1);
+
+        bottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
+        bottomNavigation.setForceTint(true);
+        bottomNavigation.setBehaviorTranslationEnabled(false);
+        bottomNavigation.manageFloatingActionButtonBehavior(fab);
+        bottomNavigation.setTitleTextSize(
+                getResources().getDimension(R.dimen.bottom_navigation_text_size_active),
+                getResources().getDimension(R.dimen.bottom_navigation_text_size_inactive)
+        );
+        bottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
+            @Override
+            public boolean onTabSelected(int position, boolean wasSelected) {
+                switch (position) {
+                    case 0:
+                        navItemIndex = NAV_STORE;
+                        CURRENT_TAG = TAG_STORE;
+                        break;
+                    case 1:
+                        navItemIndex = NAV_DISCUSS;
+                        CURRENT_TAG = TAG_DISCUSS;
+                        break;
+                    case 2:
+                        navItemIndex = NAV_INSTALLED;
+                        CURRENT_TAG = TAG_INSTALLED;
+                        break;
+                    case 3:
+                        navItemIndex = NAV_DISTRO;
+                        CURRENT_TAG = TAG_DISTRO;
+                        break;
+                }
+                loadHomeFragment();
+                return true;
             }
         });
 
