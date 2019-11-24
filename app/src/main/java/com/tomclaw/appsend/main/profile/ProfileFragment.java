@@ -1,7 +1,7 @@
 package com.tomclaw.appsend.main.profile;
 
-import android.annotation.SuppressLint;
-import android.os.Bundle;
+import android.app.Activity;
+import android.content.Context;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.ContextMenu;
@@ -13,9 +13,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -25,39 +22,37 @@ import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.core.StoreServiceHolder;
 import com.tomclaw.appsend.main.auth.LoginActivity_;
 import com.tomclaw.appsend.main.dto.ApiResponse;
+import com.tomclaw.appsend.main.home.HomeFragment;
 import com.tomclaw.appsend.main.profile.list.FilesActivity_;
 import com.tomclaw.appsend.main.view.MemberImageView;
 import com.tomclaw.appsend.net.Session;
 import com.tomclaw.appsend.util.RoleHelper;
-import com.tomclaw.appsend.util.ThemeHelper;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.Extra;
+import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.InstanceState;
 import org.androidannotations.annotations.OnActivityResult;
-import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.Calendar;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.app.Activity.RESULT_OK;
 import static com.tomclaw.appsend.util.MemberImageHelper.memberImageHelper;
 import static com.tomclaw.appsend.util.TimeHelper.timeHelper;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
-/**
- * Created by solkin on 16/03/2018.
- */
-@SuppressLint("Registered")
-@EActivity(R.layout.profile_activity)
-public class ProfileActivity extends AppCompatActivity {
+@EFragment(R.layout.profile_fragment)
+public class ProfileFragment extends HomeFragment {
 
     private static final int REQUEST_LOGIN = 1;
 
@@ -109,9 +104,6 @@ public class ProfileActivity extends AppCompatActivity {
     @ViewById
     LinearLayout detailsContainer;
 
-    @Extra
-    long userId;
-
     @InstanceState
     Profile profile;
 
@@ -121,24 +113,11 @@ public class ProfileActivity extends AppCompatActivity {
     @InstanceState
     boolean isError;
 
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        ThemeHelper.updateTheme(this);
-        super.onCreate(savedInstanceState);
-    }
+    @FragmentArg
+    long userId;
 
     @AfterViews
     void init() {
-        ThemeHelper.updateStatusBar(this);
-
-        setSupportActionBar(toolbar);
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayShowHomeEnabled(true);
-            actionBar.setDisplayHomeAsUpEnabled(true);
-            actionBar.setDisplayShowTitleEnabled(true);
-        }
-
         swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -153,12 +132,6 @@ public class ProfileActivity extends AppCompatActivity {
         } else {
             reloadProfile();
         }
-    }
-
-    @OptionsItem(android.R.id.home)
-    boolean actionHome() {
-        onBackPressed();
-        return true;
     }
 
     @Override
@@ -182,7 +155,10 @@ public class ProfileActivity extends AppCompatActivity {
     @Click(R.id.change_role_button)
     void onChangeRoleClicked() {
         registerForContextMenu(changeRoleButton);
-        openContextMenu(changeRoleButton);
+        Activity activity = getActivity();
+        if (activity != null) {
+            activity.openContextMenu(changeRoleButton);
+        }
     }
 
     @Click(R.id.auth_button)
@@ -297,6 +273,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void bindProfile() {
+        Context context = getContext();
         memberAvatar.setMemberId(profile.getUserId());
         if (TextUtils.isEmpty(profile.getName())) {
             memberName.setText(memberImageHelper().getName(profile.getUserId(), isThreadOwner()));
@@ -316,7 +293,7 @@ public class ProfileActivity extends AppCompatActivity {
             memberLastSeen.setVisibility(View.GONE);
         }
         detailsContainer.removeAllViews();
-        detailsContainer.addView(DetailsItem_.build(this)
+        detailsContainer.addView(DetailsItem_.build(context)
                 .setDetails(getString(R.string.apps_uploaded), String.valueOf(profile.getFilesCount()))
                 .setClickListener(new View.OnClickListener() {
                     @Override
@@ -324,11 +301,11 @@ public class ProfileActivity extends AppCompatActivity {
                         showUserFiles();
                     }
                 }));
-        detailsContainer.addView(DetailsItem_.build(this)
+        detailsContainer.addView(DetailsItem_.build(context)
                 .setDetails(getString(R.string.messages_wrote), String.valueOf(profile.getMsgCount())));
-        detailsContainer.addView(DetailsItem_.build(this)
+        detailsContainer.addView(DetailsItem_.build(context)
                 .setDetails(getString(R.string.apps_rated), String.valueOf(profile.getRatingsCount())));
-        detailsContainer.addView(DetailsItem_.build(this)
+        detailsContainer.addView(DetailsItem_.build(context)
                 .setDetails(getString(R.string.moderators_assigned), String.valueOf(profile.getModeratorsCount())));
         boolean canChangeRole = false;
         boolean isPublicProfile = session.getUserData().getUserId() != profile.getUserId();

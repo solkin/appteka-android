@@ -143,6 +143,7 @@
     <string name="get_started">Get Started</string>
     <string name="discuss_intro_text">Find, discuss the program?\nShare the impressions of the new game?\nDiscussions are created for this!</string>
     <string name="tab_discuss">Discussions</string>
+    <string name="tab_profile">Profile</string>
     <string name="discuss_intro_title">Welcome!</string>
     <string name="discuss_loading_error">Failed to open discussions</string>
     <string name="member_joined">Joined</string>

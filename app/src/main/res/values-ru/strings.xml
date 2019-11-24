@@ -138,6 +138,7 @@
     <string name="get_started">Начать</string>
     <string name="discuss_intro_text">Найти, обсудить программу?\nПоделиться впечатлениями от новой игры?\nОбсуждения созданы для этого!</string>
     <string name="tab_discuss">Обсуждения</string>
+    <string name="tab_profile">Профиль</string>
     <string name="discuss_intro_title">Добро пожаловать!</string>
     <string name="discuss_loading_error">Не удалось открыть обсуждения</string>
     <string name="member_joined">Вошёл</string>

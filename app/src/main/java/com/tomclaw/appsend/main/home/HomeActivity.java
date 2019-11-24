@@ -40,6 +40,7 @@ import com.tomclaw.appsend.main.local.SelectLocalAppActivity;
 import com.tomclaw.appsend.main.local.SelectLocalAppActivity_;
 import com.tomclaw.appsend.main.migrate.MigrateActivity_;
 import com.tomclaw.appsend.main.profile.ProfileActivity_;
+import com.tomclaw.appsend.main.profile.ProfileFragment_;
 import com.tomclaw.appsend.main.settings.SettingsActivity_;
 import com.tomclaw.appsend.main.store.StoreFragment_;
 import com.tomclaw.appsend.main.store.UserUploadsFragment_;
@@ -75,6 +76,7 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
     private static final int NAV_DISCUSS = 2;
     private static final int NAV_INSTALLED = 3;
     private static final int NAV_DISTRO = 4;
+    private static final int NAV_PROFILE = 5;
 
     private static final int REQUEST_UPLOAD = 4;
 
@@ -97,6 +99,7 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
     private static final String TAG_DISCUSS = "discuss";
     private static final String TAG_INSTALLED = "installed";
     private static final String TAG_DISTRO = "distro";
+    private static final String TAG_PROFILE = "profile";
     public static String CURRENT_TAG = TAG_STORE;
 
     private String[] activityTitles;
@@ -148,10 +151,9 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
         });
 
         bottomNavigation = findViewById(R.id.bottom_navigation);
-        bottomNavigation.addItem(new AHBottomNavigationItem("Home", R.drawable.ic_home_24px));
-        bottomNavigation.addItem(new AHBottomNavigationItem("News", R.drawable.ic_news_24px));
-        bottomNavigation.addItem(new AHBottomNavigationItem("Discuss", R.drawable.ic_chat_24px));
-        bottomNavigation.addItem(new AHBottomNavigationItem("Profile", R.drawable.ic_account_circle_24px));
+        bottomNavigation.addItem(new AHBottomNavigationItem(getString(R.string.tab_store), R.drawable.ic_store));
+        bottomNavigation.addItem(new AHBottomNavigationItem(getString(R.string.tab_discuss), R.drawable.ic_discuss));
+        bottomNavigation.addItem(new AHBottomNavigationItem(getString(R.string.tab_profile), R.drawable.ic_account));
 
         bottomNavigation.setNotification("3", 1);
 
@@ -176,12 +178,8 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
                         CURRENT_TAG = TAG_DISCUSS;
                         break;
                     case 2:
-                        navItemIndex = NAV_INSTALLED;
-                        CURRENT_TAG = TAG_INSTALLED;
-                        break;
-                    case 3:
-                        navItemIndex = NAV_DISTRO;
-                        CURRENT_TAG = TAG_DISTRO;
+                        navItemIndex = NAV_PROFILE;
+                        CURRENT_TAG = TAG_PROFILE;
                         break;
                 }
                 loadHomeFragment();
@@ -194,7 +192,8 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
                 getString(R.string.nav_uploads),
                 getString(R.string.nav_discuss),
                 getString(R.string.nav_installed),
-                getString(R.string.nav_distro)
+                getString(R.string.nav_distro),
+                getString(R.string.tab_profile)
         };
 
         navHeader.setOnClickListener(new View.OnClickListener() {
@@ -386,6 +385,8 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
                 return new HomeInstalledFragment_();
             case NAV_DISTRO:
                 return new HomeDistroFragment_();
+            case NAV_PROFILE:
+                return ProfileFragment_.builder().build();
             default:
                 throw new IllegalStateException("Invalid navigation item index");
         }
