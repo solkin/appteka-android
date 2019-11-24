@@ -276,6 +276,7 @@ public class ProfileFragment extends HomeFragment {
     }
 
     private void bindProfile() {
+        if (!isVisible()) return;
         Context context = getContext();
         memberAvatar.setMemberId(profile.getUserId());
         if (TextUtils.isEmpty(profile.getName())) {

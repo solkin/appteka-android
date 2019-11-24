@@ -386,7 +386,7 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
             case NAV_DISTRO:
                 return new HomeDistroFragment_();
             case NAV_PROFILE:
-                return ProfileFragment_.builder().build();
+                return new ProfileFragment_();
             default:
                 throw new IllegalStateException("Invalid navigation item index");
         }
