@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -32,14 +33,12 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.InstanceState;
 import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.Calendar;
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import retrofit2.Call;
@@ -135,7 +134,7 @@ public class ProfileFragment extends HomeFragment {
     }
 
     @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+    public void onCreateContextMenu(ContextMenu menu, @NonNull View v, ContextMenu.ContextMenuInfo menuInfo) {
         menu.setHeaderTitle(getString(R.string.change_role));
         for (int role : grantRoles) {
             if (role != profile.getRole()) {
@@ -186,28 +185,30 @@ public class ProfileFragment extends HomeFragment {
         call.enqueue(new Callback<ApiResponse<ProfileResponse>>() {
             @Override
             public void onResponse(Call<ApiResponse<ProfileResponse>> call, final Response<ApiResponse<ProfileResponse>> response) {
-                final ProfileResponse profileResponse = response.body().getResult();
-                if (response.isSuccessful() && profileResponse != null) {
-                    session.getUserData().onRoleUpdated(profileResponse.getProfile().getRole());
-                    session.getUserHolder().store();
-                    MainExecutor.execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            onLoaded(profileResponse);
-                        }
-                    });
-                } else {
-                    MainExecutor.execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            onLoadingError();
-                        }
-                    });
+                ApiResponse<ProfileResponse> body = response.body();
+                if (body != null) {
+                    final ProfileResponse profileResponse = body.getResult();
+                    if (response.isSuccessful() && profileResponse != null) {
+                        session.getUserData().onRoleUpdated(profileResponse.getProfile().getRole());
+                        session.getUserHolder().store();
+                        MainExecutor.execute(new Runnable() {
+                            @Override
+                            public void run() {
+                                onLoaded(profileResponse);
+                            }
+                        });
+                        return;
+                    }
                 }
+                onError();
             }
 
             @Override
             public void onFailure(Call<ApiResponse<ProfileResponse>> call, Throwable t) {
+                onError();
+            }
+
+            private void onError() {
                 MainExecutor.execute(new Runnable() {
                     @Override
                     public void run() {
@@ -225,26 +226,28 @@ public class ProfileFragment extends HomeFragment {
         call.enqueue(new Callback<ApiResponse<EmpowerResponse>>() {
             @Override
             public void onResponse(Call<ApiResponse<EmpowerResponse>> call, final Response<ApiResponse<EmpowerResponse>> response) {
-                final EmpowerResponse empowerResponse = response.body().getResult();
-                if (response.isSuccessful() && empowerResponse != null) {
-                    MainExecutor.execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            reloadProfile();
-                        }
-                    });
-                } else {
-                    MainExecutor.execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            onEmpowerError();
-                        }
-                    });
+                ApiResponse<EmpowerResponse> body = response.body();
+                if (body != null) {
+                    final EmpowerResponse empowerResponse = body.getResult();
+                    if (response.isSuccessful() && empowerResponse != null) {
+                        MainExecutor.execute(new Runnable() {
+                            @Override
+                            public void run() {
+                                reloadProfile();
+                            }
+                        });
+                        return;
+                    }
                 }
+                onError();
             }
 
             @Override
             public void onFailure(Call<ApiResponse<EmpowerResponse>> call, Throwable t) {
+                onError();
+            }
+
+            private void onError() {
                 MainExecutor.execute(new Runnable() {
                     @Override
                     public void run() {
@@ -327,11 +330,7 @@ public class ProfileFragment extends HomeFragment {
         FilesActivity_.intent(this).userId((long) profile.getUserId()).start();
     }
 
-    public boolean isSelf() {
-        return session.getUserData().getUserId() == profile.getUserId();
-    }
-
-    public boolean isThreadOwner() {
+    private boolean isThreadOwner() {
         return profile.getUserId() == 1;
     }
 
