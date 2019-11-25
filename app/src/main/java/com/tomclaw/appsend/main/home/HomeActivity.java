@@ -155,8 +155,6 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
         bottomNavigation.addItem(new AHBottomNavigationItem(getString(R.string.tab_discuss), R.drawable.ic_discuss));
         bottomNavigation.addItem(new AHBottomNavigationItem(getString(R.string.tab_profile), R.drawable.ic_account));
 
-        bottomNavigation.setNotification("3", 1);
-
         bottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
         bottomNavigation.setForceTint(true);
         bottomNavigation.setBehaviorTranslationEnabled(false);
@@ -321,6 +319,7 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
             indicatorText = count > 99 ? "99+" : String.valueOf(count);
         }
         unreadIndicator.setText(indicatorText);
+        bottomNavigation.setNotification(indicatorText, 1);
         MenuItem menuItem = navigationView.getMenu().getItem(NAV_DISCUSS);
         if (TextUtils.isEmpty(indicatorText)) {
             menuItem.setActionView(null);
