@@ -107,7 +107,7 @@
 
         <item name="bottom_bar_background">#181818</item>
 
-        <item name="toolbar_background">#263238</item>
+        <item name="toolbar_background">#181818</item>
         <item name="search_toolbar_background">#263238</item>
 
         <item name="play_view_color">@color/play_view_dark_color</item>
