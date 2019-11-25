@@ -50,6 +50,7 @@ import com.tomclaw.appsend.main.view.MemberImageView;
 import com.tomclaw.appsend.net.Session;
 import com.tomclaw.appsend.net.UserData;
 import com.tomclaw.appsend.net.UserDataListener;
+import com.tomclaw.appsend.util.ColorHelper;
 import com.tomclaw.appsend.util.KeyboardHelper;
 import com.tomclaw.appsend.util.LocaleHelper;
 import com.tomclaw.appsend.util.PreferenceHelper;
@@ -155,6 +156,9 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
         bottomNavigation.addItem(new AHBottomNavigationItem(getString(R.string.tab_discuss), R.drawable.ic_discuss));
         bottomNavigation.addItem(new AHBottomNavigationItem(getString(R.string.tab_profile), R.drawable.ic_account));
 
+        bottomNavigation.setDefaultBackgroundColor(ColorHelper.getAttributedColor(this, R.attr.bottom_bar_background));
+        bottomNavigation.setAccentColor(getResources().getColor(R.color.accent_color));
+        bottomNavigation.setInactiveColor(getResources().getColor(R.color.grey_dark));
         bottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
         bottomNavigation.setForceTint(true);
         bottomNavigation.setBehaviorTranslationEnabled(false);
