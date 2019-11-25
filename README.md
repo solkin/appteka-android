@@ -1,5 +1,5 @@
 # Appteka [![Build Status](https://travis-ci.org/solkin/appsend.svg?branch=master)](https://travis-ci.org/solkin/appsend)
-Appteka will extracts APK that are installed on your Android device and copies them to your SD card.
+Appteka is an alternative store for Android. It also can extracts APKs, are installed on your Android device and cope them into your SD card.
 
 * Fast and easy to use.
 * Extracts almost all application, including system applications.
