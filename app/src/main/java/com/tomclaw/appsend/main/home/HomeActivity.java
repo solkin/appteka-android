@@ -431,49 +431,15 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
 
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                switch (menuItem.getItemId()) {
-                    case R.id.nav_store:
-                        navItemIndex = NAV_STORE;
-                        CURRENT_TAG = TAG_STORE;
-                        break;
-                    case R.id.nav_uploads:
-                        navItemIndex = NAV_UPLOADS;
-                        CURRENT_TAG = TAG_UPLOADS;
-                        break;
-                    case R.id.nav_discuss:
-                        navItemIndex = NAV_DISCUSS;
-                        CURRENT_TAG = TAG_DISCUSS;
-                        break;
-                    case R.id.nav_installed:
-                        navItemIndex = NAV_INSTALLED;
-                        CURRENT_TAG = TAG_INSTALLED;
-                        break;
-                    case R.id.nav_distro:
-                        navItemIndex = NAV_DISTRO;
-                        CURRENT_TAG = TAG_DISTRO;
-                        break;
-                    case R.id.nav_settings:
-                        SettingsActivity_.intent(HomeActivity.this).start();
-                        drawer.closeDrawers();
-                        return true;
-                    case R.id.nav_info:
-                        Intent intent = new Intent(HomeActivity.this, AboutActivity.class);
-                        startActivity(intent);
-                        drawer.closeDrawers();
-                        return true;
-                    default:
-                        throw new IllegalStateException("Invalid menu id");
+                if (onMenuSelected(menuItem.getItemId())) {
+                    return true;
                 }
-
                 if (menuItem.isChecked()) {
                     menuItem.setChecked(false);
                 } else {
                     menuItem.setChecked(true);
                 }
                 menuItem.setChecked(true);
-
-                loadHomeFragment();
-
                 return true;
             }
         });
@@ -504,6 +470,48 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
         actionBarDrawerToggle.syncState();
     }
 
+    private boolean onMenuSelected(int id) {
+        switch (id) {
+            case R.id.menu_search:
+                SearchActivity_.intent(this).start();
+                return true;
+            case R.id.nav_store:
+                navItemIndex = NAV_STORE;
+                CURRENT_TAG = TAG_STORE;
+                break;
+            case R.id.nav_uploads:
+                navItemIndex = NAV_UPLOADS;
+                CURRENT_TAG = TAG_UPLOADS;
+                break;
+            case R.id.nav_discuss:
+                navItemIndex = NAV_DISCUSS;
+                CURRENT_TAG = TAG_DISCUSS;
+                break;
+            case R.id.nav_installed:
+                navItemIndex = NAV_INSTALLED;
+                CURRENT_TAG = TAG_INSTALLED;
+                break;
+            case R.id.nav_distro:
+                navItemIndex = NAV_DISTRO;
+                CURRENT_TAG = TAG_DISTRO;
+                break;
+            case R.id.nav_settings:
+                SettingsActivity_.intent(HomeActivity.this).start();
+                drawer.closeDrawers();
+                return true;
+            case R.id.nav_info:
+                Intent intent = new Intent(HomeActivity.this, AboutActivity.class);
+                startActivity(intent);
+                drawer.closeDrawers();
+                return true;
+            default:
+                throw new IllegalStateException("Invalid menu id");
+        }
+        loadHomeFragment();
+
+        return false;
+    }
+
     @Override
     public void onBackPressed() {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -527,20 +535,15 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
     public boolean onCreateOptionsMenu(Menu menu) {
         if (navItemIndex == NAV_STORE) {
             getMenuInflater().inflate(R.menu.store_menu, menu);
+        } else {
+            getMenuInflater().inflate(R.menu.home_menu, menu);
         }
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.menu_search) {
-            SearchActivity_.intent(this).start();
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
+        return onMenuSelected(item.getItemId());
     }
 
     private void toggleFab() {
