@@ -27,6 +27,8 @@ import com.tomclaw.appsend.main.home.HomeFragment;
 import com.tomclaw.appsend.main.profile.list.FilesActivity_;
 import com.tomclaw.appsend.main.view.MemberImageView;
 import com.tomclaw.appsend.net.Session;
+import com.tomclaw.appsend.net.UserData;
+import com.tomclaw.appsend.net.UserDataListener;
 import com.tomclaw.appsend.util.RoleHelper;
 
 import org.androidannotations.annotations.AfterViews;
@@ -51,7 +53,7 @@ import static com.tomclaw.appsend.util.TimeHelper.timeHelper;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 @EFragment(R.layout.profile_fragment)
-public class ProfileFragment extends HomeFragment {
+public class ProfileFragment extends HomeFragment implements UserDataListener {
 
     private static final int REQUEST_LOGIN = 1;
 
@@ -113,7 +115,7 @@ public class ProfileFragment extends HomeFragment {
     boolean isError;
 
     @FragmentArg
-    long userId;
+    Long userId;
 
     @AfterViews
     void init() {
@@ -131,6 +133,31 @@ public class ProfileFragment extends HomeFragment {
         } else {
             reloadProfile();
         }
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        session.getUserHolder().attachListener(this);
+    }
+
+    @Override
+    public void onStop() {
+        session.getUserHolder().removeListener(this);
+        super.onStop();
+    }
+
+
+    @Override
+    public void onUserDataChanged(@NonNull final UserData userData) {
+        MainExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                if (userId == null) {
+                    setUserId(userData.getUserId());
+                }
+            }
+        });
     }
 
     @Override
@@ -179,6 +206,7 @@ public class ProfileFragment extends HomeFragment {
     }
 
     private void loadProfile() {
+        if (userId == null) return;
         String guid = session.getUserData().getGuid();
         String stringUserId = userId == 0 ? null : String.valueOf(userId);
         Call<ApiResponse<ProfileResponse>> call = serviceHolder.getService().getProfile(1, guid, stringUserId);
@@ -375,4 +403,10 @@ public class ProfileFragment extends HomeFragment {
         return lastSeenString;
     }
 
+    public void setUserId(long userId) {
+        if (this.userId == null || this.userId != userId) {
+            this.userId = userId;
+            reloadProfile();
+        }
+    }
 }
