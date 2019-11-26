@@ -326,7 +326,12 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
         }
         detailsContainer.removeAllViews();
         detailsContainer.addView(DetailsItem_.build(context)
-                .setDetails(getString(R.string.apps_uploaded), String.valueOf(profile.getFilesCount()))
+                .setDetails(
+                        R.drawable.ic_user_uploads,
+                        R.color.user_uploads_color,
+                        getString(R.string.apps_uploaded),
+                        String.valueOf(profile.getFilesCount())
+                )
                 .setClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -334,11 +339,29 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
                     }
                 }));
         detailsContainer.addView(DetailsItem_.build(context)
-                .setDetails(getString(R.string.messages_wrote), String.valueOf(profile.getMsgCount())));
+                .setDetails(
+                        R.drawable.ic_user_messages,
+                        R.color.user_messages_color,
+                        getString(R.string.messages_wrote),
+                        String.valueOf(profile.getMsgCount())
+                )
+        );
         detailsContainer.addView(DetailsItem_.build(context)
-                .setDetails(getString(R.string.apps_rated), String.valueOf(profile.getRatingsCount())));
+                .setDetails(
+                        R.drawable.ic_user_starred,
+                        R.color.user_starred_color,
+                        getString(R.string.apps_rated),
+                        String.valueOf(profile.getRatingsCount())
+                )
+        );
         detailsContainer.addView(DetailsItem_.build(context)
-                .setDetails(getString(R.string.moderators_assigned), String.valueOf(profile.getModeratorsCount())));
+                .setDetails(
+                        R.drawable.ic_moderators,
+                        R.color.moderators_color,
+                        getString(R.string.moderators_assigned),
+                        String.valueOf(profile.getModeratorsCount())
+                )
+        );
         boolean canChangeRole = false;
         boolean isPublicProfile = session.getUserData().getUserId() != profile.getUserId();
         if (isPublicProfile && grantRoles.length > 0) {

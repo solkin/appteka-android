@@ -7,101 +7,109 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="12dp">
+        android:orientation="vertical">
 
-        <com.tomclaw.appsend.main.view.MemberImageView
-            android:id="@+id/member_avatar"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="24dp"
-            android:background="@drawable/avatar_background"
-            android:scaleType="center" />
-
-        <TextView
-            android:id="@+id/member_name"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-light"
-            android:gravity="center_horizontal"
-            android:paddingTop="16dp"
-            android:textSize="16sp"
-            tools:targetApi="jelly_bean"
-            tools:text="Guitar" />
+            android:orientation="vertical"
+            android:padding="12dp">
 
-        <TextView
-            android:id="@+id/member_role"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif"
-            android:gravity="center_horizontal"
-            android:paddingTop="6dp"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            tools:targetApi="jelly_bean"
-            tools:text="Moderator" />
+            <com.tomclaw.appsend.main.view.MemberImageView
+                android:id="@+id/member_avatar"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/avatar_background"
+                android:scaleType="center" />
 
-        <TextView
-            android:id="@+id/member_id"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="monospace"
-            android:gravity="center_horizontal"
-            android:paddingTop="6dp"
-            android:textSize="12sp"
-            android:textStyle="normal"
-            android:typeface="monospace"
-            tools:targetApi="jelly_bean"
-            tools:text="User ID: 427" />
+            <TextView
+                android:id="@+id/member_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center_horizontal"
+                android:paddingTop="16dp"
+                android:textSize="16sp"
+                tools:targetApi="jelly_bean"
+                tools:text="Guitar" />
 
-        <TextView
-            android:id="@+id/member_joined"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-light"
-            android:gravity="center_horizontal"
-            android:paddingTop="6dp"
-            android:textSize="12sp"
-            tools:targetApi="jelly_bean"
-            tools:text="Joined 17.10.2017" />
+            <TextView
+                android:id="@+id/member_role"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:gravity="center_horizontal"
+                android:paddingTop="6dp"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                tools:targetApi="jelly_bean"
+                tools:text="Moderator" />
 
-        <TextView
-            android:id="@+id/member_last_seen"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif"
-            android:gravity="center_horizontal"
-            android:paddingTop="6dp"
-            android:textSize="12sp"
-            tools:targetApi="jelly_bean"
-            tools:text="Last seen yesterday" />
+            <TextView
+                android:id="@+id/member_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="monospace"
+                android:gravity="center_horizontal"
+                android:paddingTop="6dp"
+                android:textSize="12sp"
+                android:textStyle="normal"
+                android:typeface="monospace"
+                tools:targetApi="jelly_bean"
+                tools:text="User ID: 427" />
 
-        <Button
-            android:id="@+id/change_role_button"
-            style="@style/Widget.MaterialComponents.Button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="8dp"
-            android:text="@string/change_role"
-            android:visibility="gone" />
+            <TextView
+                android:id="@+id/member_joined"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:gravity="center_horizontal"
+                android:paddingTop="6dp"
+                android:textSize="12sp"
+                tools:targetApi="jelly_bean"
+                tools:text="Joined 17.10.2017" />
 
-        <Button
-            android:id="@+id/auth_button"
-            style="@style/Widget.MaterialComponents.Button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="8dp"
-            android:text="@string/login_button"
-            android:visibility="gone" />
+            <TextView
+                android:id="@+id/member_last_seen"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:gravity="center_horizontal"
+                android:paddingTop="6dp"
+                android:textSize="12sp"
+                tools:targetApi="jelly_bean"
+                tools:text="Last seen yesterday" />
+
+            <Button
+                android:id="@+id/change_role_button"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:text="@string/change_role"
+                android:visibility="gone" />
+
+            <Button
+                android:id="@+id/auth_button"
+                style="@style/Widget.MaterialComponents.Button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="8dp"
+                android:text="@string/login_button"
+                android:visibility="gone" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/details_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"
             android:orientation="vertical">
 
         </LinearLayout>

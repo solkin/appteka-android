@@ -1,23 +1,26 @@
 package com.tomclaw.appsend.main.profile;
 
 import android.content.Context;
-import android.text.SpannableString;
-import android.text.style.UnderlineSpan;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.annotation.ColorRes;
+import androidx.annotation.DrawableRes;
 
 import com.tomclaw.appsend.R;
 
 import org.androidannotations.annotations.EViewGroup;
 import org.androidannotations.annotations.ViewById;
 
-import static com.tomclaw.appsend.util.ColorHelper.getAttributedColor;
-
 /**
  * Created by solkin on 18/03/2018.
  */
 @EViewGroup(R.layout.detail_item)
 public class DetailsItem extends RelativeLayout {
+
+    @ViewById
+    ImageView detailIcon;
 
     @ViewById
     TextView detailText;
@@ -29,17 +32,15 @@ public class DetailsItem extends RelativeLayout {
         super(context);
     }
 
-    public DetailsItem setDetails(String text, String value) {
+    public DetailsItem setDetails(@DrawableRes int icon, @ColorRes int color, String text, String value) {
+        detailIcon.setImageResource(icon);
+        detailIcon.setColorFilter(getResources().getColor(color));
         detailText.setText(text);
         detailValue.setText(value);
         return this;
     }
 
     public DetailsItem setClickListener(OnClickListener clickListener) {
-        SpannableString content = new SpannableString(detailText.getText());
-        content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
-        detailText.setText(content);
-        detailText.setTextColor(getAttributedColor(getContext(), android.R.attr.textColorLink));
         setOnClickListener(clickListener);
         return this;
     }
