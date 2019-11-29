@@ -7,25 +7,19 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.navigation.NavigationView;
 import com.greysonparrelli.permiso.PermisoActivity;
 import com.tomclaw.appsend.R;
-import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.main.about.AboutActivity;
 import com.tomclaw.appsend.main.controller.DiscussController;
 import com.tomclaw.appsend.main.controller.UpdateController;
@@ -39,19 +33,16 @@ import com.tomclaw.appsend.main.local.HomeInstalledFragment_;
 import com.tomclaw.appsend.main.local.SelectLocalAppActivity;
 import com.tomclaw.appsend.main.local.SelectLocalAppActivity_;
 import com.tomclaw.appsend.main.migrate.MigrateActivity_;
-import com.tomclaw.appsend.main.profile.ProfileActivity_;
 import com.tomclaw.appsend.main.profile.ProfileFragment_;
 import com.tomclaw.appsend.main.settings.SettingsActivity_;
 import com.tomclaw.appsend.main.store.StoreFragment_;
 import com.tomclaw.appsend.main.store.UserUploadsFragment_;
 import com.tomclaw.appsend.main.store.search.SearchActivity_;
 import com.tomclaw.appsend.main.upload.UploadActivity;
-import com.tomclaw.appsend.main.view.MemberImageView;
 import com.tomclaw.appsend.net.Session;
 import com.tomclaw.appsend.net.UserData;
 import com.tomclaw.appsend.net.UserDataListener;
 import com.tomclaw.appsend.util.ColorHelper;
-import com.tomclaw.appsend.util.KeyboardHelper;
 import com.tomclaw.appsend.util.LocaleHelper;
 import com.tomclaw.appsend.util.PreferenceHelper;
 import com.tomclaw.appsend.util.ThemeHelper;
@@ -61,7 +52,6 @@ import net.hockeyapp.android.metrics.MetricsManager;
 
 import static com.tomclaw.appsend.AppSend.getLastRunBuildNumber;
 import static com.tomclaw.appsend.AppSend.wasRegistered;
-import static com.tomclaw.appsend.util.MemberImageHelper.memberImageHelper;
 
 public class HomeActivity extends PermisoActivity implements UserDataListener,
         UpdateController.UpdateCallback,
@@ -82,15 +72,9 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
     private static final int REQUEST_UPLOAD = 4;
 
     private View updateBlock;
-    private NavigationView navigationView;
-    private DrawerLayout drawer;
-    private MemberImageView imgProfile;
-    private TextView txtName, txtWebsite;
     private Toolbar toolbar;
     private FloatingActionButton fab;
     private boolean isDarkTheme;
-    private View actionView;
-    private TextView unreadIndicator;
     private AHBottomNavigation bottomNavigation;
 
     public static int navItemIndex = 0;
@@ -125,17 +109,7 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
 
         handler = new Handler();
 
-        drawer = findViewById(R.id.drawer_layout);
-        navigationView = findViewById(R.id.nav_view);
         fab = findViewById(R.id.fab);
-
-        actionView = getLayoutInflater().inflate(R.layout.menu_indicator, navigationView, false);
-        unreadIndicator = actionView.findViewById(R.id.indicator);
-
-        View navHeader = navigationView.getHeaderView(0);
-        txtName = navHeader.findViewById(R.id.name);
-        txtWebsite = navHeader.findViewById(R.id.website);
-        imgProfile = navHeader.findViewById(R.id.img_profile);
 
         updateBlock = findViewById(R.id.update_block);
         findViewById(R.id.update_later).setOnClickListener(new View.OnClickListener() {
@@ -198,14 +172,6 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
                 getString(R.string.tab_profile)
         };
 
-        navHeader.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ProfileActivity_.intent(HomeActivity.this).start();
-                drawer.closeDrawers();
-            }
-        });
-
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -213,8 +179,6 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
                 SelectLocalAppActivity_.intent(HomeActivity.this).dialogData(dialogData).startForResult(REQUEST_UPLOAD);
             }
         });
-
-        setUpNavigationView();
 
         setToolbarTitle();
 
@@ -282,35 +246,6 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
 
     @Override
     public void onUserDataChanged(@NonNull final UserData userData) {
-        MainExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                showNavHeader(userData);
-            }
-        });
-    }
-
-    /***
-     * Load navigation menu header information
-     * like background image, profile image
-     * name, website, notifications action view (dot)
-     */
-    void showNavHeader(UserData userData) {
-        long userId = userData.getUserId();
-
-        String name = userData.getName();
-        if (TextUtils.isEmpty(name)) {
-            boolean isThreadOwner = userId == 1;
-            name = getString(memberImageHelper().getName(userId, isThreadOwner));
-        }
-        String description = userData.getEmail();
-        if (TextUtils.isEmpty(description)) {
-            description = String.valueOf(userId);
-        }
-        txtName.setText(name);
-        txtWebsite.setText(description);
-
-        imgProfile.setMemberId(userId);
     }
 
     private void updateUnreadIndicator(int count) {
@@ -322,14 +257,7 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
         if (count > 0) {
             indicatorText = count > 99 ? "99+" : String.valueOf(count);
         }
-        unreadIndicator.setText(indicatorText);
         bottomNavigation.setNotification(indicatorText, 1);
-        MenuItem menuItem = navigationView.getMenu().getItem(NAV_DISCUSS);
-        if (TextUtils.isEmpty(indicatorText)) {
-            menuItem.setActionView(null);
-        } else {
-            menuItem.setActionView(actionView);
-        }
     }
 
     /***
@@ -337,13 +265,10 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
      * selected from navigation menu
      */
     private void loadHomeFragment() {
-        selectNavMenu();
-
         setToolbarTitle();
 
         HomeFragment currentFragment = getHomeFragment();
         if (currentFragment != null) {
-            drawer.closeDrawers();
             toggleFab();
             return;
         }
@@ -365,8 +290,6 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
         handler.post(pendingRunnable);
 
         toggleFab();
-
-        drawer.closeDrawers();
 
         invalidateOptionsMenu();
     }
@@ -426,54 +349,6 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
         }
     }
 
-    private void selectNavMenu() {
-        navigationView.getMenu().getItem(navItemIndex).setChecked(true);
-    }
-
-    private void setUpNavigationView() {
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                if (onMenuSelected(menuItem.getItemId())) {
-                    return true;
-                }
-                if (menuItem.isChecked()) {
-                    menuItem.setChecked(false);
-                } else {
-                    menuItem.setChecked(true);
-                }
-                menuItem.setChecked(true);
-                return true;
-            }
-        });
-
-
-        ActionBarDrawerToggle actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.open_drawer, R.string.close_drawer) {
-
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                // Code here will be triggered once the drawer closes as we don't want anything
-                // to happen so we leave this blank
-                super.onDrawerClosed(drawerView);
-            }
-
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                // Code here will be triggered once the drawer open as we don't want anything
-                // to happen so we leave this blank
-                super.onDrawerOpened(drawerView);
-                KeyboardHelper.hideKeyboard(HomeActivity.this);
-            }
-        };
-
-        drawer.removeDrawerListener(actionBarDrawerToggle);
-        drawer.addDrawerListener(actionBarDrawerToggle);
-
-        //calling sync state is necessary or else your hamburger icon wont show up
-        actionBarDrawerToggle.syncState();
-    }
-
     private boolean onMenuSelected(int id) {
         switch (id) {
             case R.id.menu_search:
@@ -501,12 +376,10 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
                 break;
             case R.id.nav_settings:
                 SettingsActivity_.intent(HomeActivity.this).start();
-                drawer.closeDrawers();
                 return true;
             case R.id.nav_info:
                 Intent intent = new Intent(HomeActivity.this, AboutActivity.class);
                 startActivity(intent);
-                drawer.closeDrawers();
                 return true;
             default:
                 throw new IllegalStateException("Invalid menu id");
@@ -518,11 +391,6 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
 
     @Override
     public void onBackPressed() {
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawers();
-            return;
-        }
-
         if (shouldLoadHomeFragOnBackPress) {
             if (navItemIndex != NAV_STORE) {
                 navItemIndex = NAV_STORE;
