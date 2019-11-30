@@ -28,7 +28,7 @@ import com.tomclaw.appsend.main.download.DownloadActivity;
 import com.tomclaw.appsend.main.item.CommonItem;
 import com.tomclaw.appsend.main.item.StoreItem;
 import com.tomclaw.appsend.main.local.DialogData;
-import com.tomclaw.appsend.main.local.HomeDistroFragment_;
+import com.tomclaw.appsend.main.local.DistroActivity_;
 import com.tomclaw.appsend.main.local.HomeInstalledFragment_;
 import com.tomclaw.appsend.main.local.SelectLocalAppActivity;
 import com.tomclaw.appsend.main.local.SelectLocalAppActivity_;
@@ -58,7 +58,6 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
         DiscussController.DiscussCallback {
 
     public static final String ACTION_INSTALLED = "com.tomclaw.appsend.apps";
-    public static final String ACTION_DISTRO = "com.tomclaw.appsend.install";
     public static final String ACTION_STORE = "com.tomclaw.appsend.cloud";
     public static final String ACTION_DISCUSS = "com.tomclaw.appsend.discuss";
 
@@ -66,7 +65,6 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
     private static final int NAV_UPLOADS = 1;
     private static final int NAV_DISCUSS = 2;
     private static final int NAV_INSTALLED = 3;
-    private static final int NAV_DISTRO = 4;
     private static final int NAV_PROFILE = 5;
 
     private static final int REQUEST_UPLOAD = 4;
@@ -83,7 +81,6 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
     private static final String TAG_UPLOADS = "uploads";
     private static final String TAG_DISCUSS = "discuss";
     private static final String TAG_INSTALLED = "installed";
-    private static final String TAG_DISTRO = "distro";
     private static final String TAG_PROFILE = "profile";
     public static String CURRENT_TAG = TAG_STORE;
 
@@ -309,8 +306,6 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
                 return new DiscussFragment_();
             case NAV_INSTALLED:
                 return new HomeInstalledFragment_();
-            case NAV_DISTRO:
-                return new HomeDistroFragment_();
             case NAV_PROFILE:
                 return new ProfileFragment_();
             default:
@@ -332,10 +327,6 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
                 case ACTION_INSTALLED:
                     navItemIndex = NAV_INSTALLED;
                     CURRENT_TAG = TAG_INSTALLED;
-                    return true;
-                case ACTION_DISTRO:
-                    navItemIndex = NAV_DISTRO;
-                    CURRENT_TAG = TAG_DISTRO;
                     return true;
             }
         }
@@ -371,8 +362,7 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
                 CURRENT_TAG = TAG_INSTALLED;
                 break;
             case R.id.nav_distro:
-                navItemIndex = NAV_DISTRO;
-                CURRENT_TAG = TAG_DISTRO;
+                DistroActivity_.intent(this).start();
                 break;
             case R.id.nav_settings:
                 SettingsActivity_.intent(HomeActivity.this).start();
