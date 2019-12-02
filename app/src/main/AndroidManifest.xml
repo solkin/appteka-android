@@ -103,6 +103,10 @@
             android:label="@string/nav_distro"
             android:windowSoftInputMode="stateHidden" />
         <activity
+            android:name=".main.local.InstalledActivity_"
+            android:label="@string/nav_installed"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
             android:name=".main.local.SelectLocalAppActivity_"
             android:label="@string/select_app"
             android:windowSoftInputMode="stateHidden" />

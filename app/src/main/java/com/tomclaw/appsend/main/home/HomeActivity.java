@@ -29,7 +29,7 @@ import com.tomclaw.appsend.main.item.CommonItem;
 import com.tomclaw.appsend.main.item.StoreItem;
 import com.tomclaw.appsend.main.local.DialogData;
 import com.tomclaw.appsend.main.local.DistroActivity_;
-import com.tomclaw.appsend.main.local.HomeInstalledFragment_;
+import com.tomclaw.appsend.main.local.InstalledActivity_;
 import com.tomclaw.appsend.main.local.SelectLocalAppActivity;
 import com.tomclaw.appsend.main.local.SelectLocalAppActivity_;
 import com.tomclaw.appsend.main.migrate.MigrateActivity_;
@@ -57,20 +57,17 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
         UpdateController.UpdateCallback,
         DiscussController.DiscussCallback {
 
-    public static final String ACTION_INSTALLED = "com.tomclaw.appsend.apps";
     public static final String ACTION_STORE = "com.tomclaw.appsend.cloud";
     public static final String ACTION_DISCUSS = "com.tomclaw.appsend.discuss";
 
     private static final int NAV_STORE = 0;
     private static final int NAV_UPLOADS = 1;
     private static final int NAV_DISCUSS = 2;
-    private static final int NAV_INSTALLED = 3;
     private static final int NAV_PROFILE = 5;
 
     private static final int REQUEST_UPLOAD = 4;
 
     private View updateBlock;
-    private Toolbar toolbar;
     private FloatingActionButton fab;
     private boolean isDarkTheme;
     private AHBottomNavigation bottomNavigation;
@@ -80,7 +77,6 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
     private static final String TAG_STORE = "store";
     private static final String TAG_UPLOADS = "uploads";
     private static final String TAG_DISCUSS = "discuss";
-    private static final String TAG_INSTALLED = "installed";
     private static final String TAG_PROFILE = "profile";
     public static String CURRENT_TAG = TAG_STORE;
 
@@ -98,7 +94,7 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
 
         setContentView(R.layout.activity_home);
 
-        toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         ThemeHelper.updateStatusBar(this);
 
@@ -304,8 +300,6 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
                 return new UserUploadsFragment_();
             case NAV_DISCUSS:
                 return new DiscussFragment_();
-            case NAV_INSTALLED:
-                return new HomeInstalledFragment_();
             case NAV_PROFILE:
                 return new ProfileFragment_();
             default:
@@ -323,10 +317,6 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
                 case ACTION_DISCUSS:
                     navItemIndex = NAV_DISCUSS;
                     CURRENT_TAG = TAG_DISCUSS;
-                    return true;
-                case ACTION_INSTALLED:
-                    navItemIndex = NAV_INSTALLED;
-                    CURRENT_TAG = TAG_INSTALLED;
                     return true;
             }
         }
@@ -358,8 +348,7 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
                 CURRENT_TAG = TAG_DISCUSS;
                 break;
             case R.id.nav_installed:
-                navItemIndex = NAV_INSTALLED;
-                CURRENT_TAG = TAG_INSTALLED;
+                InstalledActivity_.intent(this).start();
                 break;
             case R.id.nav_distro:
                 DistroActivity_.intent(this).start();
