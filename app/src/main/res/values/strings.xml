@@ -275,4 +275,5 @@
     <string name="migrate_title">AppSend is now Appteka!</string>
     <string name="migrate_description">Everything is in the same places.\nBut more faster and stable.</string>
     <string name="yeah">Yeah!</string>
+    <string name="local_apps">Local apps</string>
 </resources>

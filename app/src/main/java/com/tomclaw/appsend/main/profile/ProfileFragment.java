@@ -362,6 +362,14 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
                         String.valueOf(profile.getModeratorsCount())
                 )
         );
+        detailsContainer.addView(DetailsItem_.build(context)
+                .setDetails(
+                        R.drawable.ic_moderators,
+                        R.color.moderators_color,
+                        getString(R.string.moderators_assigned),
+                        String.valueOf(profile.getModeratorsCount())
+                )
+        );
         boolean canChangeRole = false;
         boolean isPublicProfile = session.getUserData().getUserId() != profile.getUserId();
         if (isPublicProfile && grantRoles.length > 0) {
