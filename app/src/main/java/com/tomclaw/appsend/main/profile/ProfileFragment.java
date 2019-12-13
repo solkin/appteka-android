@@ -76,7 +76,7 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
     TextView errorText;
 
     @ViewById
-    Button retryButton;
+    Button buttonRetry;
 
     @ViewById
     MemberImageView memberAvatar;
@@ -362,11 +362,22 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
                         String.valueOf(profile.getModeratorsCount())
                 )
         );
+        detailsContainer.addView(
+                DetailsHeaderItem_.build(context).setDetails(getString(R.string.local_apps))
+        );
         detailsContainer.addView(DetailsItem_.build(context)
                 .setDetails(
-                        R.drawable.ic_moderators,
+                        R.drawable.ic_apps,
                         R.color.moderators_color,
-                        getString(R.string.moderators_assigned),
+                        getString(R.string.nav_installed),
+                        String.valueOf(profile.getModeratorsCount())
+                )
+        );
+        detailsContainer.addView(DetailsItem_.build(context)
+                .setDetails(
+                        R.drawable.ic_install,
+                        R.color.apks_color,
+                        getString(R.string.nav_distro),
                         String.valueOf(profile.getModeratorsCount())
                 )
         );
@@ -396,7 +407,7 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
 
     private void showError() {
         errorText.setText(R.string.profile_error);
-        retryButton.setOnClickListener(new View.OnClickListener() {
+        buttonRetry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 reloadProfile();
