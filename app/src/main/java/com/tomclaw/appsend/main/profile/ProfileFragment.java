@@ -306,6 +306,7 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
     private void bindProfile() {
         if (!isVisible()) return;
         Context context = getContext();
+        boolean isPublicProfile = session.getUserData().getUserId() != profile.getUserId();
         memberAvatar.setMemberId(profile.getUserId());
         if (TextUtils.isEmpty(profile.getName())) {
             memberName.setText(memberImageHelper().getName(profile.getUserId(), isThreadOwner()));
@@ -362,27 +363,28 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
                         String.valueOf(profile.getModeratorsCount())
                 )
         );
-        detailsContainer.addView(
-                DetailsHeaderItem_.build(context).setDetails(getString(R.string.local_apps))
-        );
-        detailsContainer.addView(DetailsItem_.build(context)
-                .setDetails(
-                        R.drawable.ic_apps,
-                        R.color.moderators_color,
-                        getString(R.string.nav_installed),
-                        String.valueOf(profile.getModeratorsCount())
-                )
-        );
-        detailsContainer.addView(DetailsItem_.build(context)
-                .setDetails(
-                        R.drawable.ic_install,
-                        R.color.apks_color,
-                        getString(R.string.nav_distro),
-                        String.valueOf(profile.getModeratorsCount())
-                )
-        );
+        if (!isPublicProfile) {
+            detailsContainer.addView(
+                    DetailsHeaderItem_.build(context).setDetails(getString(R.string.local_apps))
+            );
+            detailsContainer.addView(DetailsItem_.build(context)
+                    .setDetails(
+                            R.drawable.ic_apps,
+                            R.color.moderators_color,
+                            getString(R.string.nav_installed),
+                            String.valueOf(profile.getModeratorsCount())
+                    )
+            );
+            detailsContainer.addView(DetailsItem_.build(context)
+                    .setDetails(
+                            R.drawable.ic_install,
+                            R.color.apks_color,
+                            getString(R.string.nav_distro),
+                            String.valueOf(profile.getModeratorsCount())
+                    )
+            );
+        }
         boolean canChangeRole = false;
-        boolean isPublicProfile = session.getUserData().getUserId() != profile.getUserId();
         if (isPublicProfile && grantRoles.length > 0) {
             for (int role : grantRoles) {
                 if (role != profile.getRole()) {
