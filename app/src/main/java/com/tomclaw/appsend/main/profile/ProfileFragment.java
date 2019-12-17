@@ -370,9 +370,9 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
             detailsContainer.addView(DetailsItem_.build(context)
                     .setDetails(
                             R.drawable.ic_apps,
-                            R.color.moderators_color,
+                            R.color.apps_color,
                             getString(R.string.nav_installed),
-                            String.valueOf(profile.getModeratorsCount())
+                            ""
                     )
             );
             detailsContainer.addView(DetailsItem_.build(context)
@@ -380,7 +380,7 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
                             R.drawable.ic_install,
                             R.color.apks_color,
                             getString(R.string.nav_distro),
-                            String.valueOf(profile.getModeratorsCount())
+                            ""
                     )
             );
         }
