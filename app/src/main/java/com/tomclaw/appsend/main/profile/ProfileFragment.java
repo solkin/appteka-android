@@ -333,7 +333,8 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
                         R.drawable.ic_user_uploads,
                         R.color.user_uploads_color,
                         getString(R.string.apps_uploaded),
-                        String.valueOf(profile.getFilesCount())
+                        String.valueOf(profile.getFilesCount()),
+                        false
                 )
                 .setClickListener(new View.OnClickListener() {
                     @Override
@@ -346,7 +347,8 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
                         R.drawable.ic_user_messages,
                         R.color.user_messages_color,
                         getString(R.string.messages_wrote),
-                        String.valueOf(profile.getMsgCount())
+                        String.valueOf(profile.getMsgCount()),
+                        false
                 )
         );
         detailsContainer.addView(DetailsItem_.build(context)
@@ -354,7 +356,8 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
                         R.drawable.ic_user_starred,
                         R.color.user_starred_color,
                         getString(R.string.apps_rated),
-                        String.valueOf(profile.getRatingsCount())
+                        String.valueOf(profile.getRatingsCount()),
+                        false
                 )
         );
         detailsContainer.addView(DetailsItem_.build(context)
@@ -362,7 +365,8 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
                         R.drawable.ic_moderators,
                         R.color.moderators_color,
                         getString(R.string.moderators_assigned),
-                        String.valueOf(profile.getModeratorsCount())
+                        String.valueOf(profile.getModeratorsCount()),
+                        true
                 )
         );
         if (!isPublicProfile) {
@@ -374,7 +378,8 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
                             R.drawable.ic_apps,
                             R.color.apps_color,
                             getString(R.string.nav_installed),
-                            ""
+                            "",
+                            false
                     )
                     .setClickListener(new View.OnClickListener() {
                         @Override
@@ -388,7 +393,8 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
                             R.drawable.ic_install,
                             R.color.apks_color,
                             getString(R.string.nav_distro),
-                            ""
+                            "",
+                            true
                     )
                     .setClickListener(new View.OnClickListener() {
                         @Override

@@ -54,6 +54,7 @@
         tools:text="10" />
 
     <View
+        android:id="@+id/detail_divider"
         android:layout_width="0dp"
         android:layout_height="1dp"
         android:layout_below="@id/detail_text"
