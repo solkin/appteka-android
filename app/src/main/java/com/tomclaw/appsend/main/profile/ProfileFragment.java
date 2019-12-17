@@ -24,6 +24,8 @@ import com.tomclaw.appsend.core.StoreServiceHolder;
 import com.tomclaw.appsend.main.auth.LoginActivity_;
 import com.tomclaw.appsend.main.dto.ApiResponse;
 import com.tomclaw.appsend.main.home.HomeFragment;
+import com.tomclaw.appsend.main.local.DistroActivity_;
+import com.tomclaw.appsend.main.local.InstalledActivity_;
 import com.tomclaw.appsend.main.profile.list.FilesActivity_;
 import com.tomclaw.appsend.main.view.MemberImageView;
 import com.tomclaw.appsend.net.Session;
@@ -374,6 +376,12 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
                             getString(R.string.nav_installed),
                             ""
                     )
+                    .setClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            showInstalledApps();
+                        }
+                    })
             );
             detailsContainer.addView(DetailsItem_.build(context)
                     .setDetails(
@@ -382,6 +390,12 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
                             getString(R.string.nav_distro),
                             ""
                     )
+                    .setClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            showDistroApks();
+                        }
+                    })
             );
         }
         boolean canChangeRole = false;
@@ -401,6 +415,14 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
 
     private void showUserFiles() {
         FilesActivity_.intent(this).userId((long) profile.getUserId()).start();
+    }
+
+    private void showInstalledApps() {
+        InstalledActivity_.intent(this).start();
+    }
+
+    private void showDistroApks() {
+        DistroActivity_.intent(this).start();
     }
 
     private boolean isThreadOwner() {

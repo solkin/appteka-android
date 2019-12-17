@@ -347,12 +347,6 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
                 navItemIndex = NAV_DISCUSS;
                 CURRENT_TAG = TAG_DISCUSS;
                 break;
-            case R.id.nav_installed:
-                InstalledActivity_.intent(this).start();
-                break;
-            case R.id.nav_distro:
-                DistroActivity_.intent(this).start();
-                break;
             case R.id.nav_settings:
                 SettingsActivity_.intent(HomeActivity.this).start();
                 return true;
