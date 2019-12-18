@@ -28,8 +28,6 @@ import com.tomclaw.appsend.main.download.DownloadActivity;
 import com.tomclaw.appsend.main.item.CommonItem;
 import com.tomclaw.appsend.main.item.StoreItem;
 import com.tomclaw.appsend.main.local.DialogData;
-import com.tomclaw.appsend.main.local.DistroActivity_;
-import com.tomclaw.appsend.main.local.InstalledActivity_;
 import com.tomclaw.appsend.main.local.SelectLocalAppActivity;
 import com.tomclaw.appsend.main.local.SelectLocalAppActivity_;
 import com.tomclaw.appsend.main.migrate.MigrateActivity_;
