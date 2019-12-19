@@ -28,6 +28,8 @@ import com.tomclaw.appsend.main.download.DownloadActivity;
 import com.tomclaw.appsend.main.item.CommonItem;
 import com.tomclaw.appsend.main.item.StoreItem;
 import com.tomclaw.appsend.main.local.DialogData;
+import com.tomclaw.appsend.main.local.DistroActivity_;
+import com.tomclaw.appsend.main.local.InstalledActivity_;
 import com.tomclaw.appsend.main.local.SelectLocalAppActivity;
 import com.tomclaw.appsend.main.local.SelectLocalAppActivity_;
 import com.tomclaw.appsend.main.migrate.MigrateActivity_;
@@ -57,6 +59,8 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
 
     public static final String ACTION_STORE = "com.tomclaw.appsend.cloud";
     public static final String ACTION_DISCUSS = "com.tomclaw.appsend.discuss";
+    public static final String ACTION_APPS = "com.tomclaw.appsend.apps";
+    public static final String ACTION_INSTALL = "com.tomclaw.appsend.install";
 
     private static final int NAV_STORE = 0;
     private static final int NAV_UPLOADS = 1;
@@ -315,6 +319,12 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
                 case ACTION_DISCUSS:
                     navItemIndex = NAV_DISCUSS;
                     CURRENT_TAG = TAG_DISCUSS;
+                    return true;
+                case ACTION_APPS:
+                    InstalledActivity_.intent(this).start();
+                    return true;
+                case ACTION_INSTALL:
+                    DistroActivity_.intent(this).start();
                     return true;
             }
         }
