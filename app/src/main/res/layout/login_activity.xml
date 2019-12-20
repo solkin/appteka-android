@@ -73,11 +73,11 @@
 
             </LinearLayout>
 
-            <FrameLayout
+            <LinearLayout
                 android:id="@+id/buttons_group"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="center"
+                android:gravity="bottom"
                 android:orientation="vertical"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp">
@@ -85,9 +85,8 @@
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/login_button"
                     style="@style/Widget.MaterialComponents.Button"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="top|right"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
                     android:layout_marginBottom="2dp"
@@ -96,7 +95,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/register_button"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                    style="@style/Widget.MaterialComponents.Button.TextButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
@@ -105,7 +104,7 @@
                     android:layout_marginBottom="5dp"
                     android:text="@string/register_button" />
 
-            </FrameLayout>
+            </LinearLayout>
 
         </LinearLayout>
 
