@@ -36,7 +36,6 @@ import com.tomclaw.appsend.main.migrate.MigrateActivity_;
 import com.tomclaw.appsend.main.profile.ProfileFragment_;
 import com.tomclaw.appsend.main.settings.SettingsActivity_;
 import com.tomclaw.appsend.main.store.StoreFragment_;
-import com.tomclaw.appsend.main.store.UserUploadsFragment_;
 import com.tomclaw.appsend.main.store.search.SearchActivity_;
 import com.tomclaw.appsend.main.upload.UploadActivity;
 import com.tomclaw.appsend.net.Session;
@@ -63,9 +62,8 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
     public static final String ACTION_INSTALL = "com.tomclaw.appsend.install";
 
     private static final int NAV_STORE = 0;
-    private static final int NAV_UPLOADS = 1;
-    private static final int NAV_DISCUSS = 2;
-    private static final int NAV_PROFILE = 5;
+    private static final int NAV_DISCUSS = 1;
+    private static final int NAV_PROFILE = 2;
 
     private static final int REQUEST_UPLOAD = 4;
 
@@ -77,7 +75,6 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
     public static int navItemIndex = 0;
 
     private static final String TAG_STORE = "store";
-    private static final String TAG_UPLOADS = "uploads";
     private static final String TAG_DISCUSS = "discuss";
     private static final String TAG_PROFILE = "profile";
     public static String CURRENT_TAG = TAG_STORE;
@@ -131,7 +128,6 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
         bottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
         bottomNavigation.setForceTint(true);
         bottomNavigation.setBehaviorTranslationEnabled(false);
-        bottomNavigation.manageFloatingActionButtonBehavior(fab);
         bottomNavigation.setTitleTextSize(
                 getResources().getDimension(R.dimen.bottom_navigation_text_size_active),
                 getResources().getDimension(R.dimen.bottom_navigation_text_size_inactive)
@@ -183,6 +179,8 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
                 CURRENT_TAG = TAG_STORE;
             }
             loadHomeFragment();
+        } else {
+            toggleFab();
         }
 
         if (isCreateInstance) {
@@ -279,14 +277,14 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
                 );
                 fragmentTransaction.replace(R.id.frame, fragment, CURRENT_TAG);
                 fragmentTransaction.commitAllowingStateLoss();
+
+                toggleFab();
+
+                invalidateOptionsMenu();
             }
         };
 
         handler.post(pendingRunnable);
-
-        toggleFab();
-
-        invalidateOptionsMenu();
     }
 
     @Nullable
@@ -298,8 +296,6 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
         switch (navItemIndex) {
             case NAV_STORE:
                 return new StoreFragment_();
-            case NAV_UPLOADS:
-                return new UserUploadsFragment_();
             case NAV_DISCUSS:
                 return new DiscussFragment_();
             case NAV_PROFILE:
@@ -343,18 +339,6 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
             case R.id.menu_search:
                 SearchActivity_.intent(this).start();
                 return true;
-            case R.id.nav_store:
-                navItemIndex = NAV_STORE;
-                CURRENT_TAG = TAG_STORE;
-                break;
-            case R.id.nav_uploads:
-                navItemIndex = NAV_UPLOADS;
-                CURRENT_TAG = TAG_UPLOADS;
-                break;
-            case R.id.nav_discuss:
-                navItemIndex = NAV_DISCUSS;
-                CURRENT_TAG = TAG_DISCUSS;
-                break;
             case R.id.nav_settings:
                 SettingsActivity_.intent(HomeActivity.this).start();
                 return true;
@@ -365,9 +349,6 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
             default:
                 throw new IllegalStateException("Invalid menu id");
         }
-        loadHomeFragment();
-
-        return false;
     }
 
     @Override
@@ -400,7 +381,7 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
     }
 
     private void toggleFab() {
-        if (navItemIndex == NAV_STORE || navItemIndex == NAV_UPLOADS) {
+        if (navItemIndex == NAV_STORE) {
             fab.show();
         } else {
             fab.hide();
