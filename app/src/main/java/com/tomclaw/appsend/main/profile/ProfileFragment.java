@@ -436,6 +436,7 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
     }
 
     private void showError() {
+        if (!isVisible()) return;
         errorText.setText(R.string.profile_error);
         buttonRetry.setOnClickListener(new View.OnClickListener() {
             @Override
