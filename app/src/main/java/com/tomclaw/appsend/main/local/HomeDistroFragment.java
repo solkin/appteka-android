@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.widget.ListAdapter;
 
+import androidx.appcompat.app.AlertDialog;
+
 import com.google.android.material.snackbar.Snackbar;
 import com.greysonparrelli.permiso.Permiso;
 import com.tomclaw.appsend.R;
@@ -23,8 +25,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import androidx.appcompat.app.AlertDialog;
 
 import static com.tomclaw.appsend.util.IntentHelper.bluetoothApk;
 import static com.tomclaw.appsend.util.IntentHelper.openGooglePlay;

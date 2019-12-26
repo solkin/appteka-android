@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import com.caverock.androidsvg.SVG;
 import com.caverock.androidsvg.SVGImageView;
 import com.caverock.androidsvg.SVGParseException;
@@ -17,8 +19,6 @@ import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.util.LocaleHelper;
 
 import java.util.List;
-
-import androidx.annotation.NonNull;
 
 /**
  * Created by solkin on 23.09.17.

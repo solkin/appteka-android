@@ -9,6 +9,8 @@ import android.net.Uri;
 import android.provider.Settings;
 import android.widget.ListAdapter;
 
+import androidx.appcompat.app.AlertDialog;
+
 import com.google.android.material.snackbar.Snackbar;
 import com.greysonparrelli.permiso.Permiso;
 import com.tomclaw.appsend.R;
@@ -26,8 +28,6 @@ import org.androidannotations.annotations.EFragment;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import androidx.appcompat.app.AlertDialog;
 
 import static com.tomclaw.appsend.util.IntentHelper.openGooglePlay;
 
