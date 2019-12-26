@@ -8,6 +8,9 @@ import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ViewFlipper;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.material.snackbar.Snackbar;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.Config;
@@ -36,9 +39,6 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
-
-import androidx.appcompat.app.AlertDialog;
-import androidx.recyclerview.widget.RecyclerView;
 
 import static com.tomclaw.appsend.util.KeyboardHelper.hideKeyboard;
 import static com.tomclaw.appsend.util.KeyboardHelper.showKeyboard;

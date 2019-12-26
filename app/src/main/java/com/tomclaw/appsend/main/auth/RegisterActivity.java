@@ -6,6 +6,12 @@ import android.text.TextUtils;
 import android.widget.EditText;
 import android.widget.ViewFlipper;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.core.StoreServiceHolder;
@@ -24,11 +30,6 @@ import org.androidannotations.annotations.ViewById;
 
 import java.io.IOException;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
