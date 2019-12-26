@@ -9,6 +9,10 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import com.google.android.material.snackbar.Snackbar;
 import com.jaeger.library.StatusBarUtil;
 import com.tomclaw.appsend.R;
@@ -26,9 +30,6 @@ import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;

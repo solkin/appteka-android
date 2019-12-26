@@ -7,6 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.collection.LongSparseArray;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.Loader;
+
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.Config;
 import com.tomclaw.appsend.core.GlobalProvider;
@@ -17,10 +21,6 @@ import com.tomclaw.appsend.main.adapter.holder.ServiceMessageHolder;
 import com.tomclaw.appsend.main.dto.Message;
 import com.tomclaw.appsend.util.Logger;
 import com.tomclaw.appsend.util.QueryBuilder;
-
-import androidx.collection.LongSparseArray;
-import androidx.loader.app.LoaderManager;
-import androidx.loader.content.Loader;
 
 /**
  * Created by solkin on 01.07.15.

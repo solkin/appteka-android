@@ -11,14 +11,14 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 
+import androidx.annotation.NonNull;
+
 import com.tomclaw.appsend.main.dto.Message;
 import com.tomclaw.appsend.util.Logger;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-
-import androidx.annotation.NonNull;
 
 /**
  * Created with IntelliJ IDEA.
