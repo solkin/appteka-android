@@ -5,12 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.main.adapter.files.FileViewHolder;
 import com.tomclaw.appsend.main.adapter.files.FileViewHolderCreator;
 import com.tomclaw.appsend.main.item.StoreItem;
-
-import androidx.annotation.NonNull;
 
 public class StoreFileViewHolderCreator implements FileViewHolderCreator<StoreItem> {
 
