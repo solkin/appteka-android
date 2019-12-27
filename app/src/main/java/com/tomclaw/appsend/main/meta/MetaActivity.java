@@ -14,6 +14,11 @@ import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.GlideApp;
 import com.tomclaw.appsend.core.MainExecutor;
@@ -27,21 +32,8 @@ import com.tomclaw.appsend.util.KeyboardHelper;
 import com.tomclaw.appsend.util.LocaleHelper;
 import com.tomclaw.appsend.util.ThemeHelper;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Bean;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.Extra;
-import org.androidannotations.annotations.InstanceState;
-import org.androidannotations.annotations.OptionsItem;
-import org.androidannotations.annotations.OptionsMenu;
-import org.androidannotations.annotations.ViewById;
-
 import java.util.ArrayList;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -119,7 +111,7 @@ public class MetaActivity extends AppCompatActivity {
 
     private void injectExtras() {
         Bundle extras = getIntent().getExtras();
-        if (extras!= null) {
+        if (extras != null) {
             if (extras.containsKey(APP_ID_EXTRA)) {
                 this.appId = extras.getString(APP_ID_EXTRA);
             }

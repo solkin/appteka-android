@@ -5,13 +5,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.main.dto.RatingItem;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Created by Igor on 23.10.2017.

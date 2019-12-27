@@ -4,12 +4,12 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.appcompat.widget.AppCompatRatingBar;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.main.dto.RatingItem;
 import com.tomclaw.appsend.main.view.MemberImageView;
-
-import androidx.appcompat.widget.AppCompatRatingBar;
-import androidx.recyclerview.widget.RecyclerView;
 
 import static com.tomclaw.appsend.main.ratings.RatingsHelper.tintRatingIndicator;
 import static com.tomclaw.appsend.main.ratings.RatingsListener.STATE_FAILED;
