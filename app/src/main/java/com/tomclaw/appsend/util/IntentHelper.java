@@ -8,13 +8,13 @@ import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Build;
 
+import androidx.core.content.FileProvider;
+
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.main.item.CommonItem;
 
 import java.io.File;
 import java.util.List;
-
-import androidx.core.content.FileProvider;
 
 /**
  * Created by ivsolkin on 27.01.17.

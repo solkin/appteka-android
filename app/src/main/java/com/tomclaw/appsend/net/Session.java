@@ -3,6 +3,8 @@ package com.tomclaw.appsend.net;
 import android.content.ContentResolver;
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+
 import com.tomclaw.appsend.AppSend;
 import com.tomclaw.appsend.core.ContentResolverLayer;
 import com.tomclaw.appsend.main.controller.DiscussController;
@@ -16,8 +18,6 @@ import org.androidannotations.annotations.RootContext;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
-
-import androidx.annotation.NonNull;
 
 /**
  * Created by solkin on 22/04/16.

@@ -12,6 +12,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.GlideApp;
 import com.tomclaw.appsend.main.download.DownloadActivity;
@@ -21,11 +26,6 @@ import com.tomclaw.appsend.util.FileHelper;
 import com.tomclaw.appsend.util.IntentHelper;
 import com.tomclaw.appsend.util.StringUtil;
 import com.tomclaw.appsend.util.ThemeHelper;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import static com.tomclaw.appsend.util.IntentHelper.shareUrl;
 

@@ -9,10 +9,6 @@ import android.widget.AbsListView;
 import android.widget.EdgeEffect;
 import android.widget.ScrollView;
 
-import com.tomclaw.appsend.BuildConfig;
-
-import java.lang.reflect.Field;
-
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,6 +16,10 @@ import androidx.core.widget.EdgeEffectCompat;
 import androidx.core.widget.NestedScrollView;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
+
+import com.tomclaw.appsend.BuildConfig;
+
+import java.lang.reflect.Field;
 
 /**
  * Created by solkin on 25/04/16.

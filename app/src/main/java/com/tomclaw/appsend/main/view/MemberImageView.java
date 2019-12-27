@@ -5,10 +5,10 @@ import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 
-import com.tomclaw.appsend.R;
-
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.appcompat.widget.AppCompatImageView;
+
+import com.tomclaw.appsend.R;
 
 import static com.tomclaw.appsend.util.MemberImageHelper.memberImageHelper;
 

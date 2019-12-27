@@ -7,10 +7,10 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.text.TextUtils;
 
-import com.tomclaw.appsend.core.DatabaseLayer;
-
 import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
+
+import com.tomclaw.appsend.core.DatabaseLayer;
 
 /**
  * Created with IntelliJ IDEA.

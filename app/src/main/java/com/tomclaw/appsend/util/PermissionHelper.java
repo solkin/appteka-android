@@ -4,9 +4,9 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.pm.PermissionInfo;
 
-import com.tomclaw.appsend.R;
-
 import androidx.annotation.NonNull;
+
+import com.tomclaw.appsend.R;
 
 import static android.content.pm.PermissionInfo.PROTECTION_DANGEROUS;
 
