@@ -199,9 +199,16 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         boolean isCreateInstance = savedInstanceState == null;
         if (isCreateInstance) {
             Uri data = getIntent().getData();
-            if (data != null) {
-                appId = data.getQueryParameter("id");
-                appPackage = data.getQueryParameter("package");
+            if (data != null && data.getHost() != null) {
+                if (data.getHost().equals("appteka.store")) {
+                    List<String> path = data.getPathSegments();
+                    if (path.size() == 2) {
+                        appId = path.get(1);
+                    }
+                } else if (data.getHost().equals("appsend.store")) {
+                    appId = data.getQueryParameter("id");
+                    appPackage = data.getQueryParameter("package");
+                }
                 appLabel = getString(R.string.download);
             } else if (TextUtils.isEmpty(appId)) {
                 appId = getIntent().getStringExtra(STORE_APP_ID);
