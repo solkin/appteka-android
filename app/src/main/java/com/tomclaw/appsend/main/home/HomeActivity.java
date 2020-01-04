@@ -156,10 +156,7 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
 
         activityTitles = new String[]{
                 getString(R.string.nav_store),
-                getString(R.string.nav_uploads),
                 getString(R.string.nav_discuss),
-                getString(R.string.nav_installed),
-                getString(R.string.nav_distro),
                 getString(R.string.tab_profile)
         };
 
@@ -384,11 +381,8 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (navItemIndex == NAV_STORE) {
-            getMenuInflater().inflate(R.menu.store_menu, menu);
-        } else {
-            getMenuInflater().inflate(R.menu.home_menu, menu);
-        }
+        int menuRes = navItemIndex == NAV_STORE ? R.menu.store_menu : R.menu.home_menu;
+        getMenuInflater().inflate(menuRes, menu);
         return true;
     }
 
