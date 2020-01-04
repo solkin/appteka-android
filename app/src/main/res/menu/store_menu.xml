@@ -7,14 +7,6 @@
         android:title="@string/menu_search"
         app:showAsAction="ifRoom|collapseActionView" />
     <item
-        android:id="@+id/nav_installed"
-        android:icon="@drawable/ic_apps"
-        android:title="@string/nav_installed" />
-    <item
-        android:id="@+id/nav_distro"
-        android:icon="@drawable/ic_install"
-        android:title="@string/nav_distro" />
-    <item
         android:id="@+id/nav_settings"
         android:title="@string/nav_settings" />
     <item
