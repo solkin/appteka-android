@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewFlipper;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.appcompat.app.ActionBar;
@@ -435,7 +436,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString(STORE_APP_ID, appId);
         outState.putString(STORE_APP_PACKAGE, appPackage);
@@ -444,6 +445,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_UPDATE_META) {
             reloadInfo();
         } else if (requestCode == REQUEST_CODE_UNLINK) {
@@ -681,6 +683,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         }, Manifest.permission.WRITE_EXTERNAL_STORAGE);
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     private void installApp() {
         File directory = getExternalDirectory();
         File destination = new File(directory, getApkName(info.getItem()));
@@ -799,6 +802,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         extraAccess.setText(getString(R.string.has_access, access));
     }
 
+    @SuppressLint("SetTextI18n")
     private void bindVersions(List<StoreVersion> versions, String appId, int versionCode) {
         versionsContainer.removeAllViews();
         boolean isVersionsAdded = false;
@@ -1042,7 +1046,9 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
                     MainExecutor.execute(new Runnable() {
                         @Override
                         public void run() {
-                            if (response.isSuccessful() && response.body().getStatus() == 200) {
+                            if (response.isSuccessful() &&
+                                    response.body() != null &&
+                                    response.body().getStatus() == 200) {
                                 onRatingPosted();
                             } else {
                                 showRatingError();
@@ -1085,6 +1091,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         progress.getDrawable(1).setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
     }
 
+    @SuppressLint("SetTextI18n")
     private void setRating(float rating, int count, Scores scores) {
         boolean hasRating = (rating != 0 && count > 0);
         ratingContainer.setVisibility(hasRating ? View.VISIBLE : View.GONE);
