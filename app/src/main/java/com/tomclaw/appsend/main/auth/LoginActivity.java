@@ -123,7 +123,7 @@ public class LoginActivity extends AppCompatActivity {
                 MainExecutor.execute(new Runnable() {
                     @Override
                     public void run() {
-                        if (response.isSuccessful()) {
+                        if (response.isSuccessful() && response.body() != null) {
                             AuthResponse body = response.body().getResult();
                             if (body != null) {
                                 onLoginSuccessful(body);

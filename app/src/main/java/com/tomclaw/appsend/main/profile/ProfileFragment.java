@@ -149,7 +149,6 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
         super.onStop();
     }
 
-
     @Override
     public void onUserDataChanged(@NonNull final UserData userData) {
         MainExecutor.execute(new Runnable() {
@@ -197,8 +196,8 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
     @OnActivityResult(REQUEST_LOGIN)
     void onLoginResult(int resultCode) {
         if (resultCode == RESULT_OK) {
-            showProgress();
-            loadProfile();
+            setUserId(session.getUserData().getUserId());
+            reloadProfile();
         }
     }
 
