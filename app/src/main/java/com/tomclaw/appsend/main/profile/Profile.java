@@ -3,6 +3,7 @@ package com.tomclaw.appsend.main.profile;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
 import com.tomclaw.appsend.util.Unobfuscatable;
 
 /**
@@ -10,16 +11,27 @@ import com.tomclaw.appsend.util.Unobfuscatable;
  */
 public class Profile implements Parcelable, Unobfuscatable {
 
+    @SerializedName("user_id")
     private int user_id;
+    @SerializedName("join_time")
     private long join_time;
+    @SerializedName("last_seen")
     private long last_seen;
+    @SerializedName("role")
     private int role;
+    @SerializedName("mentor_id")
     private int mentor_id;
+    @SerializedName("files_count")
     private int files_count;
+    @SerializedName("msg_count")
     private int msg_count;
+    @SerializedName("ratings_count")
     private int ratings_count;
+    @SerializedName("mentor_of_count")
     private int moderators_count;
+    @SerializedName("name")
     private String name;
+    @SerializedName("is_registered")
     private boolean is_registered;
 
     protected Profile(Parcel in) {
