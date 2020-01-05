@@ -12,52 +12,52 @@ import com.tomclaw.appsend.util.Unobfuscatable;
 public class Profile implements Parcelable, Unobfuscatable {
 
     @SerializedName("user_id")
-    private int user_id;
+    private int userId;
     @SerializedName("join_time")
-    private long join_time;
+    private long joinTime;
     @SerializedName("last_seen")
-    private long last_seen;
+    private long lastSeen;
     @SerializedName("role")
     private int role;
     @SerializedName("mentor_id")
-    private int mentor_id;
+    private int mentorId;
     @SerializedName("files_count")
-    private int files_count;
+    private int filesCount;
     @SerializedName("msg_count")
-    private int msg_count;
+    private int msgCount;
     @SerializedName("ratings_count")
-    private int ratings_count;
+    private int ratingsCount;
     @SerializedName("mentor_of_count")
-    private int moderators_count;
+    private int moderatorsCount;
     @SerializedName("name")
     private String name;
     @SerializedName("is_registered")
-    private boolean is_registered;
+    private boolean isRegistered;
 
     protected Profile(Parcel in) {
-        user_id = in.readInt();
-        join_time = in.readLong();
-        last_seen = in.readLong();
+        userId = in.readInt();
+        joinTime = in.readLong();
+        lastSeen = in.readLong();
         role = in.readInt();
-        mentor_id = in.readInt();
-        files_count = in.readInt();
-        msg_count = in.readInt();
-        ratings_count = in.readInt();
-        moderators_count = in.readInt();
+        mentorId = in.readInt();
+        filesCount = in.readInt();
+        msgCount = in.readInt();
+        ratingsCount = in.readInt();
+        moderatorsCount = in.readInt();
         name = in.readString();
-        is_registered = in.readInt() == 1;
+        isRegistered = in.readInt() == 1;
     }
 
     public int getUserId() {
-        return user_id;
+        return userId;
     }
 
     public long getJoinTime() {
-        return join_time;
+        return joinTime;
     }
 
     public long getLastSeen() {
-        return last_seen;
+        return lastSeen;
     }
 
     public int getRole() {
@@ -65,23 +65,23 @@ public class Profile implements Parcelable, Unobfuscatable {
     }
 
     public int getMentorId() {
-        return mentor_id;
+        return mentorId;
     }
 
     public int getFilesCount() {
-        return files_count;
+        return filesCount;
     }
 
     public int getMsgCount() {
-        return msg_count;
+        return msgCount;
     }
 
     public int getRatingsCount() {
-        return ratings_count;
+        return ratingsCount;
     }
 
     public int getModeratorsCount() {
-        return moderators_count;
+        return moderatorsCount;
     }
 
     public String getName() {
@@ -89,22 +89,22 @@ public class Profile implements Parcelable, Unobfuscatable {
     }
 
     public boolean isRegistered() {
-        return is_registered;
+        return isRegistered;
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(user_id);
-        dest.writeLong(join_time);
-        dest.writeLong(last_seen);
+        dest.writeInt(userId);
+        dest.writeLong(joinTime);
+        dest.writeLong(lastSeen);
         dest.writeInt(role);
-        dest.writeInt(mentor_id);
-        dest.writeInt(files_count);
-        dest.writeInt(msg_count);
-        dest.writeInt(ratings_count);
-        dest.writeInt(moderators_count);
+        dest.writeInt(mentorId);
+        dest.writeInt(filesCount);
+        dest.writeInt(msgCount);
+        dest.writeInt(ratingsCount);
+        dest.writeInt(moderatorsCount);
         dest.writeString(name);
-        dest.writeInt(is_registered ? 1 : 0);
+        dest.writeInt(isRegistered ? 1 : 0);
     }
 
     @Override
