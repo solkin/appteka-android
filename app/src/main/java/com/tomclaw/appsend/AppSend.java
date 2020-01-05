@@ -6,6 +6,7 @@ import com.tomclaw.appsend.main.controller.DiscussController;
 import com.tomclaw.appsend.net.RequestDispatcher;
 import com.tomclaw.appsend.net.Session;
 import com.tomclaw.appsend.net.request.Request;
+import com.tomclaw.appsend.util.Analytics;
 import com.tomclaw.appsend.util.MemberImageHelper;
 import com.tomclaw.appsend.util.PreferenceHelper;
 import com.tomclaw.appsend.util.StringUtil;
@@ -35,6 +36,7 @@ public class AppSend extends Application {
     @AfterInject
     void init() {
         app = this;
+        Analytics.trackEvent("ping", true);
         session.init();
         actuateFlags();
         TimeHelper.init(this);
@@ -63,4 +65,5 @@ public class AppSend extends Application {
     public static int getLastRunBuildNumber() {
         return lastRunBuildNumber;
     }
+
 }
