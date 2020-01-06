@@ -292,27 +292,14 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
     private HomeFragment createHomeFragment() {
         switch (navItemIndex) {
             case NAV_STORE:
+                bottomNavigation.setCurrentItem(0, false);
                 return new StoreFragment_();
             case NAV_DISCUSS:
+                bottomNavigation.setCurrentItem(1, false);
                 return new DiscussFragment_();
             case NAV_PROFILE:
+                bottomNavigation.setCurrentItem(2, false);
                 return new ProfileFragment_();
-            default:
-                throw new IllegalStateException("Invalid navigation item index");
-        }
-    }
-
-    private void updateBottomNavigation() {
-        switch (navItemIndex) {
-            case NAV_STORE:
-                bottomNavigation.setCurrentItem(0);
-                return;
-            case NAV_DISCUSS:
-                bottomNavigation.setCurrentItem(1);
-                return;
-            case NAV_PROFILE:
-                bottomNavigation.setCurrentItem(2);
-                return;
             default:
                 throw new IllegalStateException("Invalid navigation item index");
         }
@@ -371,7 +358,6 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
                 navItemIndex = NAV_STORE;
                 CURRENT_TAG = TAG_STORE;
                 loadHomeFragment();
-                updateBottomNavigation();
                 return;
             }
         }
