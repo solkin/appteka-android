@@ -36,7 +36,7 @@ public class AppSend extends Application {
     @AfterInject
     void init() {
         app = this;
-        Analytics.trackEvent("ping", true);
+        Analytics.trackEvent("ping");
         session.init();
         actuateFlags();
         TimeHelper.init(this);

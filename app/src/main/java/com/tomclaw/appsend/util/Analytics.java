@@ -1,5 +1,10 @@
 package com.tomclaw.appsend.util;
 
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.os.Build;
+
+import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.Task;
 import com.tomclaw.appsend.core.TaskExecutor;
 
@@ -31,19 +36,28 @@ public class Analytics {
     private Analytics() {
     }
 
-    public static void trackEvent(final String event, final boolean isManual) {
-        getInstance().trackEventInternal(event, isManual);
+    public static void trackEvent(final String event) {
+        getInstance().trackEventInternal(event);
     }
 
-    private void trackEventInternal(final String event, final boolean isManual) {
+    private void trackEventInternal(final String event) {
         TaskExecutor.getInstance().execute(new Task() {
             @Override
             public void executeBackground() {
+                String packageName = app().getPackageName();
+                int versionCode = 0;
+                PackageManager manager = app().getPackageManager();
+                try {
+                    PackageInfo info = manager.getPackageInfo(packageName, 0);
+                    versionCode = info.versionCode;
+                } catch (PackageManager.NameNotFoundException ignored) {
+                }
                 HttpParamsBuilder params = new HttpParamsBuilder()
-                        .appendParam("app_id", app().getPackageName())
+                        .appendParam("app_id", packageName)
+                        .appendParam("app_version", versionCode)
+                        .appendParam("os_version", Build.VERSION.SDK_INT)
                         .appendParam("dev_id", uniqueID)
-                        .appendParam("event", event)
-                        .appendParam("manual", isManual ? 1 : 0);
+                        .appendParam("event", event);
                 try {
                     String result = HttpUtil.executePost(API_URL, params);
                     Logger.log(result);
