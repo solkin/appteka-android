@@ -435,6 +435,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     protected void onResume() {
         super.onResume();
         bindButtons();
+        bindRateContainer();
     }
 
     @Override
@@ -539,20 +540,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         appLabel = labelView.getText().toString();
         setTitle(appLabel);
 
-        long userId = Session.getInstance().getUserData().getUserId();
-        ratingMemberAvatar.setMemberId(userId);
-
-        boolean isInstalled = false;
-        PackageManager packageManager = getPackageManager();
-        try {
-            PackageInfo packageInfo = packageManager.getPackageInfo(item.getPackageName(), 0);
-            if (packageInfo != null) {
-                isInstalled = true;
-            }
-        } catch (PackageManager.NameNotFoundException ignored) {
-        }
-        boolean canRate = item.getUserId() != userId && isInstalled;
-        rateContainer.setVisibility(canRate ? View.VISIBLE : View.GONE);
+        bindRateContainer();
 
         exclusiveBadge.setVisibility(info.getMeta().isExclusive() ? View.VISIBLE : View.GONE);
         invalidateOptionsMenu();
@@ -875,6 +863,26 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
             isRatingsAdded = true;
         }
         ratingItemsContainer.setVisibility(isRatingsAdded ? View.VISIBLE : View.GONE);
+    }
+
+    private void bindRateContainer() {
+        if (info != null) {
+            long userId = Session.getInstance().getUserData().getUserId();
+            ratingMemberAvatar.setMemberId(userId);
+
+            StoreItem item = info.getItem();
+            boolean isInstalled = false;
+            PackageManager packageManager = getPackageManager();
+            try {
+                PackageInfo packageInfo = packageManager.getPackageInfo(item.getPackageName(), 0);
+                if (packageInfo != null) {
+                    isInstalled = true;
+                }
+            } catch (PackageManager.NameNotFoundException ignored) {
+            }
+            boolean canRate = item.getUserId() != userId && isInstalled;
+            rateContainer.setVisibility(canRate ? View.VISIBLE : View.GONE);
+        }
     }
 
     private void bindUserRating(UserRating rating) {
