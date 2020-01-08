@@ -255,8 +255,6 @@
     <string name="register_button">Зарегистрироваться</string>
     <string name="email_input">Электронная почта</string>
     <string name="password_input">Пароль</string>
-    <string name="registration_notice_title">Хорошие новости!</string>
-    <string name="registration_notice_message">Текущий профиль будет привязан к вашей учётной записи.</string>
     <string name="register">Регистрация</string>
     <string name="register_error">Ошибка сети. Проверьте интернет соединение и повторите попытку.</string>
     <string name="error">Ошибка</string>
