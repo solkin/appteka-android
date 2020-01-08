@@ -945,7 +945,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
 
     @Override
     public void onDownloaded(String filePath) {
-        viewFlipper.setDisplayedChild(0);
+        viewFlipper.setDisplayedChild(1);
         swipeRefresh.setEnabled(true);
         bindButtons();
 
@@ -955,7 +955,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     @Override
     public void onDownloadError() {
         showError(R.string.downloading_error);
-        viewFlipper.setDisplayedChild(0);
+        viewFlipper.setDisplayedChild(1);
         swipeRefresh.setEnabled(true);
         bindButtons();
     }
