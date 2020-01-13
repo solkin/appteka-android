@@ -4,7 +4,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
 
-import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.Task;
 import com.tomclaw.appsend.core.TaskExecutor;
 

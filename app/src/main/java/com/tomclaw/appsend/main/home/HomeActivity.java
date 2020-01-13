@@ -267,6 +267,7 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
             @Override
             public void run() {
                 Fragment fragment = createHomeFragment();
+
                 FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
                 fragmentTransaction.setCustomAnimations(
                         android.R.anim.fade_in,
@@ -275,9 +276,9 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
                 fragmentTransaction.replace(R.id.frame, fragment, CURRENT_TAG);
                 fragmentTransaction.commitAllowingStateLoss();
 
-                toggleFab();
-
                 invalidateOptionsMenu();
+
+                toggleFab();
             }
         };
 
