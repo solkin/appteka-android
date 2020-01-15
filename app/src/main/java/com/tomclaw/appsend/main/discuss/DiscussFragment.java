@@ -40,6 +40,7 @@ import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
 
+import static com.tomclaw.appsend.util.Analytics.trackEvent;
 import static com.tomclaw.appsend.util.KeyboardHelper.hideKeyboard;
 import static com.tomclaw.appsend.util.KeyboardHelper.showKeyboard;
 
@@ -142,14 +143,17 @@ public class DiscussFragment extends HomeFragment implements DiscussController.D
                                 messageEdit.setSelection(messageEdit.length());
                                 messageEdit.requestFocus();
                                 showKeyboard(getContext());
+                                trackEvent("message-reply");
                                 break;
                             }
                             case 1: {
                                 StringUtil.copyStringToClipboard(getContext(), message.getText());
+                                trackEvent("message-copy");
                                 break;
                             }
                             case 2: {
                                 showUserProfile(message);
+                                trackEvent("message-profile-show");
                                 break;
                             }
                             case 3: {
@@ -167,6 +171,7 @@ public class DiscussFragment extends HomeFragment implements DiscussController.D
                                             Snackbar.make(recycler, R.string.error_message_report, Snackbar.LENGTH_LONG).show();
                                         }
                                     }));
+                                    trackEvent("message-report");
                                 }
                                 break;
                             }
@@ -214,6 +219,7 @@ public class DiscussFragment extends HomeFragment implements DiscussController.D
                 }
             };
             taskExecutor.execute(new DiscussFragment.SendMessageTask(getContext(), message, callback));
+            trackEvent("message-send");
         }
     }
 
@@ -278,6 +284,7 @@ public class DiscussFragment extends HomeFragment implements DiscussController.D
         public void onFailMain(Throwable ex) {
             callback.onFailed();
         }
+        
     }
 
     private static class ReportMessageTask extends WeakObjectTask<Context> {
@@ -309,6 +316,7 @@ public class DiscussFragment extends HomeFragment implements DiscussController.D
         public void onFailMain(Throwable ex) {
             callback.onFailed();
         }
+
     }
 
     abstract class MessageCallback {
@@ -316,6 +324,7 @@ public class DiscussFragment extends HomeFragment implements DiscussController.D
         public abstract void onSuccess();
 
         public abstract void onFailed();
+
     }
 
     abstract class ReportCallback {
@@ -323,6 +332,7 @@ public class DiscussFragment extends HomeFragment implements DiscussController.D
         public abstract void onSuccess();
 
         public abstract void onFailed();
+
     }
 
 }

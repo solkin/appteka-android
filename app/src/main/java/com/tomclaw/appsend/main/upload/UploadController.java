@@ -30,6 +30,7 @@ import java.util.concurrent.TimeUnit;
 
 import static com.tomclaw.appsend.AppSend.app;
 import static com.tomclaw.appsend.core.Config.HOST_URL;
+import static com.tomclaw.appsend.util.Analytics.trackEvent;
 
 /**
  * Created by ivsolkin on 02.01.17.
@@ -106,6 +107,7 @@ public class UploadController extends AbstractController<UploadController.Upload
         this.appId = null;
         this.url = null;
         this.isError = false;
+        trackEvent("upload-cancel");
     }
 
     private void onPercent(final int percent) {
@@ -170,6 +172,7 @@ public class UploadController extends AbstractController<UploadController.Upload
     }
 
     private void uploadInternal() {
+        trackEvent("upload-started");
         File apk = new File(item.getPath());
         byte[] icon = PackageHelper.getPackageIconPng(
                 item.getPackageInfo().applicationInfo,
@@ -201,6 +204,7 @@ public class UploadController extends AbstractController<UploadController.Upload
             @Override
             public void onError() {
                 UploadController.this.onError();
+                trackEvent("upload-failed");
             }
         };
         String boundary = StringUtil.generateBoundary();
@@ -254,6 +258,7 @@ public class UploadController extends AbstractController<UploadController.Upload
                     String appId = resultObject.getString("app_id");
                     String location = resultObject.getString("url");
                     onCompleted(appId, location);
+                    trackEvent("upload-completed");
                     break;
                 }
                 default: {
@@ -263,6 +268,7 @@ public class UploadController extends AbstractController<UploadController.Upload
         } catch (Throwable ex) {
             Logger.e(ex, "Exception while application uploading");
             onError();
+            trackEvent("upload-failed");
         } finally {
             // Trying to disconnect in any case.
             if (connection != null) {

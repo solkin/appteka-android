@@ -51,6 +51,7 @@ import net.hockeyapp.android.metrics.MetricsManager;
 
 import static com.tomclaw.appsend.AppSend.getLastRunBuildNumber;
 import static com.tomclaw.appsend.AppSend.wasRegistered;
+import static com.tomclaw.appsend.util.Analytics.trackEvent;
 
 public class HomeActivity extends PermisoActivity implements UserDataListener,
         UpdateController.UpdateCallback,
@@ -139,14 +140,17 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
                     case 0:
                         navItemIndex = NAV_STORE;
                         CURRENT_TAG = TAG_STORE;
+                        trackEvent("click-tab-store");
                         break;
                     case 1:
                         navItemIndex = NAV_DISCUSS;
                         CURRENT_TAG = TAG_DISCUSS;
+                        trackEvent("click-tab-discuss");
                         break;
                     case 2:
                         navItemIndex = NAV_PROFILE;
                         CURRENT_TAG = TAG_PROFILE;
+                        trackEvent("click-tab-profile");
                         break;
                 }
                 loadHomeFragment();
@@ -165,6 +169,7 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
             public void onClick(View view) {
                 DialogData dialogData = new DialogData(getString(R.string.upload_app_title), getString(R.string.upload_app_message));
                 SelectLocalAppActivity_.intent(HomeActivity.this).dialogData(dialogData).startForResult(REQUEST_UPLOAD);
+                trackEvent("click-fab-upload");
             }
         });
 

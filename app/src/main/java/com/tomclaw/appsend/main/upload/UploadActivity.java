@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,6 +28,7 @@ import com.tomclaw.appsend.util.IntentHelper;
 import com.tomclaw.appsend.util.StringUtil;
 import com.tomclaw.appsend.util.ThemeHelper;
 
+import static com.tomclaw.appsend.util.Analytics.trackEvent;
 import static com.tomclaw.appsend.util.IntentHelper.shareUrl;
 
 /**
@@ -103,12 +105,14 @@ public class UploadActivity extends AppCompatActivity implements UploadControlle
                 intent.putExtra(DownloadActivity.STORE_APP_ID, appId);
                 intent.putExtra(DownloadActivity.STORE_APP_LABEL, item.getLabel());
                 startActivity(intent);
+                trackEvent("click-uploaded-share");
             }
         });
         findViewById(R.id.button_share).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 shareUrl(UploadActivity.this, formatText());
+                trackEvent("click-uploaded-open");
             }
         });
         findViewById(R.id.button_copy).setOnClickListener(new View.OnClickListener() {
@@ -116,6 +120,7 @@ public class UploadActivity extends AppCompatActivity implements UploadControlle
             public void onClick(View v) {
                 StringUtil.copyStringToClipboard(UploadActivity.this, formatText());
                 Toast.makeText(UploadActivity.this, R.string.url_copied, Toast.LENGTH_SHORT).show();
+                trackEvent("click-uploaded-copy");
             }
         });
 
@@ -155,6 +160,7 @@ public class UploadActivity extends AppCompatActivity implements UploadControlle
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_UPDATE_META) {
             viewSwitcher.setDisplayedChild(1);
         }
@@ -173,7 +179,7 @@ public class UploadActivity extends AppCompatActivity implements UploadControlle
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putParcelable(UPLOAD_ITEM, item);
         outState.putBoolean(META_ACTIVITY_SHOWN, isMetaActivityShown);
