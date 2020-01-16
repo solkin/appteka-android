@@ -317,12 +317,14 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
                 String text = formatText(getResources(), info.getUrl(),
                         LocaleHelper.getLocalizedLabel(info.getItem()), info.getItem().getSize());
                 shareUrl(DownloadActivity.this, text);
+                trackEvent("share-app-url");
             }
         });
         findViewById(R.id.play_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 openGooglePlay(DownloadActivity.this, info.getItem().getPackageName());
+                trackEvent("open-google-play");
             }
         });
         metaContainer.setOnClickListener(new View.OnClickListener() {
@@ -350,6 +352,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
                         DownloadActivity.this,
                         checksumView.getText().toString(),
                         R.string.checksum_copied);
+                trackEvent("copy-checksum");
             }
         };
         findViewById(R.id.app_checksum_title).setOnClickListener(checksumClickListener);
@@ -703,6 +706,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         Uri packageUri = Uri.parse("package:" + packageName);
         Intent uninstallIntent = new Intent(Intent.ACTION_DELETE, packageUri);
         startActivity(uninstallIntent);
+        trackEvent("remove-app");
     }
 
     private void requestAppRemoval(final String packageName) {
@@ -984,12 +988,14 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
                     .appId(appId)
                     .label(appLabel)
                     .startForResult(REQUEST_CODE_UNLINK);
+            trackEvent("unlink-app");
         } else {
             AbuseActivity_
                     .intent(this)
                     .appId(appId)
                     .label(appLabel)
                     .start();
+            trackEvent("abuse-app");
         }
     }
 
@@ -1084,6 +1090,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
                     });
                 }
             });
+            trackEvent("submit-rating");
         } catch (Throwable ex) {
             showRatingError();
         }
