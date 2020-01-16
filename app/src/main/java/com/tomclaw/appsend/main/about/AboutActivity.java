@@ -17,6 +17,8 @@ import androidx.appcompat.widget.Toolbar;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.util.ThemeHelper;
 
+import static com.tomclaw.appsend.util.Analytics.trackEvent;
+
 /**
  * Created by Solkin on 17.12.2014.
  */
@@ -73,6 +75,16 @@ public class AboutActivity extends AppCompatActivity {
                 onTelegramGroupClicked();
             }
         });
+
+        if (savedInstanceState == null) {
+            trackEvent("open-about-screen");
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        trackEvent("close-about-screen");
     }
 
     @Override
@@ -90,6 +102,7 @@ public class AboutActivity extends AppCompatActivity {
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(donateUrl)));
         } catch (Throwable ignored) {
         }
+        trackEvent("click-donate");
     }
 
     private void onFeedbackClicked() {
@@ -102,6 +115,7 @@ public class AboutActivity extends AppCompatActivity {
         } catch (Throwable ex) {
             Toast.makeText(this, getString(R.string.no_email_clients), Toast.LENGTH_SHORT).show();
         }
+        trackEvent("click-email-feedback");
     }
 
     private void onForumDiscussClicked() {
@@ -110,6 +124,7 @@ public class AboutActivity extends AppCompatActivity {
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(forumUrl)));
         } catch (Throwable ignored) {
         }
+        trackEvent("click-4pda-forum");
     }
 
     private void onTelegramGroupClicked() {
@@ -118,5 +133,6 @@ public class AboutActivity extends AppCompatActivity {
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(forumUrl)));
         } catch (Throwable ignored) {
         }
+        trackEvent("click-telegram-group");
     }
 }
