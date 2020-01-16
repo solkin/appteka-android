@@ -284,7 +284,7 @@ public class DiscussFragment extends HomeFragment implements DiscussController.D
         public void onFailMain(Throwable ex) {
             callback.onFailed();
         }
-        
+
     }
 
     private static class ReportMessageTask extends WeakObjectTask<Context> {

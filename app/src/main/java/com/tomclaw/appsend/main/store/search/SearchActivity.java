@@ -21,6 +21,8 @@ import org.androidannotations.annotations.FragmentById;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 
+import static com.tomclaw.appsend.util.Analytics.trackEvent;
+
 @SuppressLint("Registered")
 @EActivity(R.layout.activity_search)
 public class SearchActivity extends AppCompatActivity {
@@ -38,6 +40,9 @@ public class SearchActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         ThemeHelper.updateTheme(this);
         super.onCreate(savedInstanceState);
+        if (savedInstanceState == null) {
+            trackEvent("open-search-screen");
+        }
     }
 
     @AfterViews
@@ -85,4 +90,9 @@ public class SearchActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        trackEvent("close-search-screen");
+    }
 }

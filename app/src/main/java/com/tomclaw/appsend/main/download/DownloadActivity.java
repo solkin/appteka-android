@@ -439,6 +439,12 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        trackEvent("close-download-screen");
+    }
+
+    @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString(STORE_APP_ID, appId);
