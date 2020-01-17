@@ -50,6 +50,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.app.Activity.RESULT_OK;
+import static com.tomclaw.appsend.util.Analytics.trackEvent;
 import static com.tomclaw.appsend.util.MemberImageHelper.memberImageHelper;
 import static com.tomclaw.appsend.util.TimeHelper.timeHelper;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -420,14 +421,17 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
 
     private void showUserFiles() {
         FilesActivity_.intent(this).userId((long) profile.getUserId()).start();
+        trackEvent("click-user-files");
     }
 
     private void showInstalledApps() {
         InstalledActivity_.intent(this).start();
+        trackEvent("click-installed-apps");
     }
 
     private void showDistroApks() {
         DistroActivity_.intent(this).start();
+        trackEvent("click-distro-apks");
     }
 
     private boolean isThreadOwner() {
