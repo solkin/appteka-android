@@ -324,7 +324,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
             @Override
             public void onClick(View v) {
                 openGooglePlay(DownloadActivity.this, info.getItem().getPackageName());
-                trackEvent("open-google-play");
+                trackEvent("click-google-play");
             }
         });
         metaContainer.setOnClickListener(new View.OnClickListener() {
