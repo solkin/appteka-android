@@ -20,6 +20,8 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 
+import static com.tomclaw.appsend.util.Analytics.trackEvent;
+
 /**
  * Created with IntelliJ IDEA.
  * User: solkin
@@ -39,6 +41,9 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         ThemeHelper.updateTheme(this);
         super.onCreate(savedInstanceState);
+        if (savedInstanceState == null) {
+            trackEvent("open-settings-screen");
+        }
     }
 
     @AfterViews
@@ -64,6 +69,7 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         preferences.unregisterOnSharedPreferenceChangeListener(listener);
+        trackEvent("close-settings-screen");
     }
 
     @OptionsItem(android.R.id.home)
