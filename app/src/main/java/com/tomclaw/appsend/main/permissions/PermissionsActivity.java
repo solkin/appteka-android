@@ -21,6 +21,8 @@ import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 
+import static com.tomclaw.appsend.util.Analytics.trackEvent;
+
 /**
  * Created by ivsolkin on 27.01.17.
  */
@@ -42,6 +44,15 @@ public class PermissionsActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         ThemeHelper.updateTheme(this);
         super.onCreate(savedInstanceState);
+        if (savedInstanceState == null) {
+            trackEvent("open-permissions-screen");
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        trackEvent("close-permissions-screen");
     }
 
     @AfterInject
