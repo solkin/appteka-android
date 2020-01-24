@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.tomclaw.appsend.util.Analytics.trackEvent;
 import static com.tomclaw.appsend.util.IntentHelper.bluetoothApk;
 import static com.tomclaw.appsend.util.IntentHelper.openGooglePlay;
 import static com.tomclaw.appsend.util.IntentHelper.shareApk;
@@ -67,25 +68,30 @@ public class HomeDistroFragment extends DistroFragment {
                             case 0: {
                                 setRefreshOnResume();
                                 installApp(item);
+                                trackEvent("click-install-apk");
                                 break;
                             }
                             case 1: {
                                 shareApk(getContext(), new File(item.getPath()));
+                                trackEvent("click-share-apk");
                                 break;
                             }
                             case 2: {
                                 Intent intent = new Intent(getContext(), UploadActivity.class);
                                 intent.putExtra(UploadActivity.UPLOAD_ITEM, item);
                                 startActivity(intent);
+                                trackEvent("click-upload-apk");
                                 break;
                             }
                             case 3: {
                                 bluetoothApk(getContext(), item);
+                                trackEvent("click-bluetooth-share");
                                 break;
                             }
                             case 4: {
                                 final String packageName = item.getPackageName();
                                 openGooglePlay(getContext(), packageName);
+                                trackEvent("click-search-google-play");
                                 break;
                             }
                             case 5: {
@@ -93,6 +99,7 @@ public class HomeDistroFragment extends DistroFragment {
                                 intent.putExtra(DownloadActivity.STORE_APP_PACKAGE, item.getPackageName());
                                 intent.putExtra(DownloadActivity.STORE_APP_LABEL, item.getLabel());
                                 startActivity(intent);
+                                trackEvent("click-search-appteka");
                                 break;
                             }
                             case 6: {
@@ -112,6 +119,7 @@ public class HomeDistroFragment extends DistroFragment {
                                 if (file.delete()) {
                                     reloadFiles();
                                 }
+                                trackEvent("click-delete-app");
                                 break;
                             }
                         }
