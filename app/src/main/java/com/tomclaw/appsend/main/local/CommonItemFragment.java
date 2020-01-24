@@ -28,7 +28,6 @@ import org.androidannotations.annotations.ViewById;
 
 import java.util.List;
 
-import static androidx.recyclerview.widget.LinearLayoutManager.VERTICAL;
 import static com.tomclaw.appsend.util.PackageHelper.getInstalledVersionCode;
 
 @EFragment
@@ -64,7 +63,7 @@ abstract class CommonItemFragment<T extends CommonItem>
 
     @AfterViews
     void init() {
-        int orientation = VERTICAL;
+        int orientation = RecyclerView.VERTICAL;
         LinearLayoutManager layoutManager =
                 new LinearLayoutManager(getContext(), orientation, false);
         DividerItemDecoration itemDecor =
@@ -220,7 +219,7 @@ abstract class CommonItemFragment<T extends CommonItem>
         }
 
         @Override
-        public void executeBackground() throws Throwable {
+        public void executeBackground() {
             CommonItemFragment<A> fragment = getWeakObject();
             if (fragment != null && fragment.isAdded()) {
                 items = fragment.loadItemsSync();
