@@ -6,7 +6,6 @@ import com.tomclaw.appsend.main.controller.DiscussController;
 import com.tomclaw.appsend.net.RequestDispatcher;
 import com.tomclaw.appsend.net.Session;
 import com.tomclaw.appsend.net.request.Request;
-import com.tomclaw.appsend.util.Analytics;
 import com.tomclaw.appsend.util.MemberImageHelper;
 import com.tomclaw.appsend.util.PreferenceHelper;
 import com.tomclaw.appsend.util.StringUtil;
@@ -16,6 +15,8 @@ import com.tomclaw.appsend.util.states.StateHolder;
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EApplication;
+
+import static com.tomclaw.appsend.util.Analytics.trackEvent;
 
 /**
  * Created by ivsolkin on 21.03.17.
@@ -36,7 +37,7 @@ public class AppSend extends Application {
     @AfterInject
     void init() {
         app = this;
-        Analytics.trackEvent("ping");
+        trackEvent("ping");
         session.init();
         actuateFlags();
         TimeHelper.init(this);
