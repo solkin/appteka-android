@@ -90,9 +90,4 @@ public class SearchActivity extends AppCompatActivity {
         return true;
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        trackEvent("close-search-screen");
-    }
 }

@@ -69,7 +69,6 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         preferences.unregisterOnSharedPreferenceChangeListener(listener);
-        trackEvent("close-settings-screen");
     }
 
     @OptionsItem(android.R.id.home)

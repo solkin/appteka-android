@@ -49,12 +49,6 @@ public class PermissionsActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        trackEvent("close-permissions-screen");
-    }
-
     @AfterInject
     void checkExtra() {
         if (permissions == null || permissions.isEmpty()) {

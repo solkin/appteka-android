@@ -66,9 +66,4 @@ public class ProfileActivity extends AppCompatActivity {
         return true;
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        trackEvent("close-profile-screen");
-    }
 }
