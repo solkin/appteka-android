@@ -90,7 +90,7 @@ public class Analytics {
         TaskExecutor.getInstance().execute(new Task() {
             @Override
             public void executeBackground() {
-                sendEvent(createEvent(event));
+                sendEvent(createEvent(event), createInfo());
             }
         });
     }
@@ -100,7 +100,7 @@ public class Analytics {
         return createEvent(event, time);
     }
 
-    private AnalyticsEvent createEvent(String event, long time) {
+    private EnvironmentInfo createInfo() {
         String packageName = app().getPackageName();
         int versionCode = 0;
         PackageManager manager = app().getPackageManager();
@@ -110,12 +110,17 @@ public class Analytics {
         } catch (PackageManager.NameNotFoundException ignored) {
         }
         String deviceName = Build.MANUFACTURER + " " + Build.MODEL;
-        return new AnalyticsEvent(
+        return new EnvironmentInfo(
                 packageName,
                 String.valueOf(versionCode),
                 String.valueOf(Build.VERSION.SDK_INT),
                 uniqueID,
-                deviceName,
+                deviceName
+        );
+    }
+
+    private static AnalyticsEvent createEvent(String event, long time) {
+        return new AnalyticsEvent(
                 time,
                 event
         );
@@ -162,6 +167,7 @@ public class Analytics {
         File dir = eventsDir();
         List<File> files = new ArrayList<>(Arrays.asList(dir.listFiles()));
         if (files.size() >= BATCH_SIZE) {
+            EnvironmentInfo info = createInfo();
             Collections.sort(files, new AnalyticsFileComparator());
             List<AnalyticsEvent> sendEvents = new ArrayList<>();
             List<File> filesToRemove = new ArrayList<>();
@@ -173,7 +179,8 @@ public class Analytics {
                 }
                 filesToRemove.add(file);
                 if (sendEvents.size() >= BATCH_SIZE) {
-                    String data = GsonSingleton.getInstance().toJson(sendEvents);
+                    EventsBatch batch = new EventsBatch(info, sendEvents);
+                    String data = GsonSingleton.getInstance().toJson(batch);
                     Logger.log("[analytics] batch data: " + data);
                     try {
                         String result = HttpUtil.executePost(API_URL, data);
@@ -194,13 +201,13 @@ public class Analytics {
         }
     }
 
-    private void sendEvent(AnalyticsEvent event) {
+    private void sendEvent(AnalyticsEvent event, EnvironmentInfo info) {
         HttpParamsBuilder params = new HttpParamsBuilder()
-                .appendParam("app_id", event.appId)
-                .appendParam("app_version", event.appVersion)
-                .appendParam("os_version", event.osVersion)
-                .appendParam("device_id", event.deviceId)
-                .appendParam("device_name", event.deviceName)
+                .appendParam("app_id", info.appId)
+                .appendParam("app_version", info.appVersion)
+                .appendParam("os_version", info.osVersion)
+                .appendParam("device_id", info.deviceId)
+                .appendParam("device_name", info.deviceName)
                 .appendParam("time", event.time)
                 .appendParam("event", event.event);
         try {
@@ -302,7 +309,22 @@ public class Analytics {
 
     }
 
-    private static class AnalyticsEvent {
+    private static class EventsBatch {
+
+        @SerializedName("info")
+        final EnvironmentInfo info;
+
+        @SerializedName("events")
+        final List<AnalyticsEvent> events;
+
+        EventsBatch(EnvironmentInfo info, List<AnalyticsEvent> events) {
+            this.info = info;
+            this.events = events;
+        }
+
+    }
+
+    private static class EnvironmentInfo {
 
         @SerializedName("app_id")
         final String appId;
@@ -319,19 +341,26 @@ public class Analytics {
         @SerializedName("device_name")
         final String deviceName;
 
+        EnvironmentInfo(String appId, String appVersion, String osVersion,
+                               String deviceId, String deviceName) {
+            this.appId = appId;
+            this.appVersion = appVersion;
+            this.osVersion = osVersion;
+            this.deviceId = deviceId;
+            this.deviceName = deviceName;
+        }
+
+    }
+
+    private static class AnalyticsEvent {
+
         @SerializedName("time")
         final long time;
 
         @SerializedName("event")
         final String event;
 
-        AnalyticsEvent(String appId, String appVersion, String osVersion,
-                              String deviceId, String deviceName, long time, String event) {
-            this.appId = appId;
-            this.appVersion = appVersion;
-            this.osVersion = osVersion;
-            this.deviceId = deviceId;
-            this.deviceName = deviceName;
+        AnalyticsEvent(long time, String event) {
             this.time = time;
             this.event = event;
         }
