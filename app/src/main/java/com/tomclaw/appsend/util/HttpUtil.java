@@ -99,7 +99,11 @@ public class HttpUtil {
     }
 
     public static String executePost(String urlString, HttpParamsBuilder params) throws IOException {
-        return executePost(urlString, stringToArray(params.build()));
+        return executePost(urlString, params.build());
+    }
+
+    public static String executePost(String urlString, String data) throws IOException {
+        return executePost(urlString, stringToArray(data));
     }
 
     public static String executePost(String urlString, byte[] data) throws IOException {
