@@ -112,8 +112,8 @@ public class Analytics {
         String deviceName = Build.MANUFACTURER + " " + Build.MODEL;
         return new EnvironmentInfo(
                 packageName,
-                String.valueOf(versionCode),
-                String.valueOf(Build.VERSION.SDK_INT),
+                versionCode,
+                Build.VERSION.SDK_INT,
                 uniqueID,
                 deviceName
         );
@@ -330,10 +330,10 @@ public class Analytics {
         final String appId;
 
         @SerializedName("app_version")
-        final String appVersion;
+        final int appVersion;
 
         @SerializedName("os_version")
-        final String osVersion;
+        final int osVersion;
 
         @SerializedName("device_id")
         final String deviceId;
@@ -341,7 +341,7 @@ public class Analytics {
         @SerializedName("device_name")
         final String deviceName;
 
-        EnvironmentInfo(String appId, String appVersion, String osVersion,
+        EnvironmentInfo(String appId, int appVersion, int osVersion,
                                String deviceId, String deviceName) {
             this.appId = appId;
             this.appVersion = appVersion;
