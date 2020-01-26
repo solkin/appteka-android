@@ -134,7 +134,7 @@ public class Analytics {
             byte version = 1;
             output = new DataOutputStream(new FileOutputStream(file));
             output.writeByte(version);
-            output.writeLong(time);
+            output.writeLong(TimeUnit.MILLISECONDS.toSeconds(time));
             output.writeUTF(event);
             output.flush();
         } catch (IOException e) {
