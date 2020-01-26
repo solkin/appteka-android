@@ -51,11 +51,13 @@ public class Analytics {
                     versionCode = info.versionCode;
                 } catch (PackageManager.NameNotFoundException ignored) {
                 }
+                String deviceName = Build.MANUFACTURER + " " + Build.MODEL;
                 HttpParamsBuilder params = new HttpParamsBuilder()
                         .appendParam("app_id", packageName)
                         .appendParam("app_version", versionCode)
                         .appendParam("os_version", Build.VERSION.SDK_INT)
-                        .appendParam("dev_id", uniqueID)
+                        .appendParam("device_id", uniqueID)
+                        .appendParam("device_name", deviceName)
                         .appendParam("event", event);
                 try {
                     String result = HttpUtil.executePost(API_URL, params);
