@@ -34,7 +34,7 @@ import static com.tomclaw.appsend.util.StreamHelper.safeClose;
 public class Analytics {
 
     private static final String API_URL = "https://zibuhoker.ru/api/track.php";
-    private static final int BATCH_SIZE = 15;
+    private static final int BATCH_SIZE = 20;
 
     private Executor executor = Executors.newSingleThreadExecutor();
 
