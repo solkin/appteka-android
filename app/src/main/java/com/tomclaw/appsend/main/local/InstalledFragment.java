@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.os.Bundle;
 import android.text.TextUtils;
 
@@ -21,10 +22,11 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
-import static android.content.pm.PackageManager.GET_PERMISSIONS;
 import static com.tomclaw.appsend.util.states.StateHolder.stateHolder;
 
 @EFragment
@@ -83,26 +85,36 @@ abstract class InstalledFragment extends CommonItemFragment<AppItem> {
         if (context == null) {
             return null;
         }
+        boolean isShowSystemApps = PreferenceHelper.isShowSystemApps(context);
+        boolean isRunnableOnly = PreferenceHelper.isRunnableOnly(context);
         PackageManager packageManager = context.getPackageManager();
         ArrayList<AppItem> appItemList = new ArrayList<>();
+
+        Intent mainIntent = new Intent(Intent.ACTION_MAIN, null);
+        mainIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+        List<ResolveInfo> appList = packageManager.queryIntentActivities(mainIntent, 0);
+        Set<String> appSet = new HashSet<>();
+        for (ResolveInfo info : appList) {
+            appSet.add(info.resolvePackageName);
+        }
+
         List<ApplicationInfo> packages = packageManager.getInstalledApplications(PackageManager.GET_META_DATA);
         for (ApplicationInfo info : packages) {
             try {
-                PackageInfo packageInfo = packageManager.getPackageInfo(
-                        info.packageName, GET_PERMISSIONS);
+                PackageInfo packageInfo = packageManager.getPackageInfo(info.packageName, 0);
                 File file = new File(info.publicSourceDir);
                 if (file.exists()) {
-                    String label = packageManager.getApplicationLabel(info).toString();
+                    String label = packageInfo.applicationInfo.loadLabel(packageManager).toString();
                     String version = packageInfo.versionName;
                     long firstInstallTime = packageInfo.firstInstallTime;
                     long lastUpdateTime = packageInfo.lastUpdateTime;
-                    Intent launchIntent = packageManager.getLaunchIntentForPackage(info.packageName);
                     AppItem appItem = new AppItem(label, info.packageName, version, file.getPath(),
                             file.length(), firstInstallTime, lastUpdateTime, packageInfo);
                     boolean isUserApp = ((info.flags & ApplicationInfo.FLAG_SYSTEM) != ApplicationInfo.FLAG_SYSTEM &&
                             (info.flags & ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) != ApplicationInfo.FLAG_UPDATED_SYSTEM_APP);
-                    if (isUserApp || PreferenceHelper.isShowSystemApps(context)) {
-                        if (launchIntent != null || !PreferenceHelper.isRunnableOnly(context)) {
+                    if (isUserApp || isShowSystemApps) {
+                        boolean isRunnable = appSet.contains(info.packageName);
+                        if (isRunnable || !isRunnableOnly) {
                             appItemList.add(appItem);
                         }
                     }
