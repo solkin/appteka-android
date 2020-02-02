@@ -84,7 +84,7 @@ public class HomeDistroFragment extends DistroFragment {
                                 break;
                             }
                             case 3: {
-                                bluetoothApk(getContext(), item);
+                                bluetoothApk(getContext(), new File(item.getPath()));
                                 trackEvent("click-bluetooth-share");
                                 break;
                             }

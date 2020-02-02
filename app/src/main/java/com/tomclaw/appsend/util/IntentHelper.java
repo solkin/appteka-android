@@ -83,11 +83,16 @@ public class IntentHelper {
         context.startActivity(Intent.createChooser(intent, context.getResources().getText(R.string.send_to)));
     }
 
-    public static void bluetoothApk(Context context, CommonItem item) {
-        Uri uri = Uri.fromFile(new File(item.getPath()));
+    public static void bluetoothApk(Context context, File file) {
+        Uri uri;
+        if (isFileProviderUri()) {
+            uri = FileProvider.getUriForFile(context, context.getPackageName() + ".provider", file);
+        } else {
+            uri = Uri.fromFile(file);
+        }
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, item.getLabel());
+        sendIntent.putExtra(Intent.EXTRA_TEXT, file.getName());
         sendIntent.putExtra(Intent.EXTRA_STREAM, uri);
         sendIntent.setType("application/zip");
         sendIntent.setPackage("com.android.bluetooth");

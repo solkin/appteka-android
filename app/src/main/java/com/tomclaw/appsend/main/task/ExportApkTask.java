@@ -110,7 +110,7 @@ public class ExportApkTask extends PleaseWaitTask {
                     break;
                 }
                 case ACTION_BLUETOOTH: {
-                    bluetoothApk(context, appItem);
+                    bluetoothApk(context, destination);
                     break;
                 }
             }
