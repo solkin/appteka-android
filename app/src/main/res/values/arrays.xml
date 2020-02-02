@@ -46,6 +46,12 @@
         <item>@string/remove_app</item>
     </string-array>
 
+    <string-array name="upload_actions_titles">
+        <item>@string/upload_app</item>
+        <item>@string/find_on_gp</item>
+        <item>@string/find_on_store</item>
+    </string-array>
+
     <string-array name="message_actions_titles">
         <item>@string/reply</item>
         <item>@string/copy</item>
@@ -75,6 +81,12 @@
         <item>@drawable/ic_store</item>
         <item>@drawable/ic_lock_open</item>
         <item>@drawable/ic_delete</item>
+    </array>
+
+    <array name="upload_actions_icons">
+        <item>@drawable/ic_cloud_upload</item>
+        <item>@drawable/ic_google_play</item>
+        <item>@drawable/ic_store</item>
     </array>
 
     <array name="message_actions_icons">

@@ -1,9 +1,11 @@
 package com.tomclaw.appsend.main.local;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ListAdapter;
 import android.widget.Toast;
 
 import androidx.annotation.StringRes;
@@ -19,6 +21,8 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 import com.greysonparrelli.permiso.PermisoActivity;
 import com.tomclaw.appsend.R;
+import com.tomclaw.appsend.main.adapter.MenuAdapter;
+import com.tomclaw.appsend.main.download.DownloadActivity;
 import com.tomclaw.appsend.main.item.CommonItem;
 import com.tomclaw.appsend.util.PreferenceHelper;
 import com.tomclaw.appsend.util.ThemeHelper;
@@ -31,6 +35,9 @@ import org.androidannotations.annotations.ViewById;
 
 import java.util.Arrays;
 import java.util.List;
+
+import static com.tomclaw.appsend.util.Analytics.trackEvent;
+import static com.tomclaw.appsend.util.IntentHelper.openGooglePlay;
 
 @SuppressLint("Registered")
 @EActivity(R.layout.local_apps)
@@ -98,18 +105,36 @@ public class SelectLocalAppActivity extends PermisoActivity implements CommonIte
     @Override
     public void onClick(final CommonItem item) {
         if (dialogData != null) {
+            final Context context = this;
+            ListAdapter menuAdapter = new MenuAdapter(this, R.array.upload_actions_titles, R.array.upload_actions_icons);
             new AlertDialog.Builder(this)
-                    .setTitle(dialogData.getTitle())
-                    .setMessage(dialogData.getMessage())
-                    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    .setAdapter(menuAdapter, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            leaveScreen(item);
+                            switch (which) {
+                                case 0: {
+                                    leaveScreen(item);
+                                    trackEvent("click-upload-apk");
+                                    break;
+                                }
+                                case 1: {
+                                    String packageName = item.getPackageName();
+                                    openGooglePlay(context, packageName);
+                                    trackEvent("click-search-google-play");
+                                    break;
+                                }
+                                case 2: {
+                                    Intent intent = new Intent(context, DownloadActivity.class)
+                                            .putExtra(DownloadActivity.STORE_APP_PACKAGE, item.getPackageName())
+                                            .putExtra(DownloadActivity.STORE_APP_LABEL, item.getLabel())
+                                            .putExtra(DownloadActivity.STORE_FINISH_ONLY, true);
+                                    startActivity(intent);
+                                    trackEvent("click-search-appteka");
+                                    break;
+                                }
+                            }
                         }
-                    })
-                    .setNegativeButton(R.string.no, null)
-                    .create()
-                    .show();
+                    }).show();
         } else {
             leaveScreen(item);
         }

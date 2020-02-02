@@ -35,6 +35,7 @@
     <string name="extract_apk">Извлечь APK в Downloads</string>
     <string name="share_apk">Поделиться приложением</string>
     <string name="upload_apk">Загрузить в обменник</string>
+    <string name="upload_app">Загрузить в обменник</string>
     <string name="bluetooth_apk">Отправить по Bluetooth</string>
     <string name="find_on_gp">Найти в Google Play</string>
     <string name="find_on_store">Найти в обменнике</string>

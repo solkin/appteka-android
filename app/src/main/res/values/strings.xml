@@ -37,6 +37,7 @@
     <string name="extract_apk">Extract APK into Downloads</string>
     <string name="share_apk">Share APK via apps</string>
     <string name="upload_apk">Upload APK and get link</string>
+    <string name="upload_app">Upload application</string>
     <string name="bluetooth_apk">Send via Bluetooth</string>
     <string name="find_on_gp">Find in Google Play</string>
     <string name="find_on_store">Find in Appteka Store</string>
