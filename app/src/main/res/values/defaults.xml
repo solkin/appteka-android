@@ -2,7 +2,6 @@
 <resources>
     <bool name="pref_dark_theme_default">false</bool>
     <bool name="pref_show_system_default">false</bool>
-    <bool name="pref_runnable_default">false</bool>
     <string name="pref_sort_order_default" translatable="false">@string/sort_order_ascending_value</string>
     <integer name="pref_last_run_build_number_default">0</integer>
     <bool name="pref_responsibility_denial_default">true</bool>

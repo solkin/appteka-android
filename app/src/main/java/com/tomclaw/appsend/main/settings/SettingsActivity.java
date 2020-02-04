@@ -99,8 +99,6 @@ public class SettingsActivity extends AppCompatActivity {
                 startActivity(intent);
             } else if (TextUtils.equals(key, getString(R.string.pref_sort_order))) {
                 setResult(RESULT_OK);
-            } else if (TextUtils.equals(key, getString(R.string.pref_runnable))) {
-                setResult(RESULT_OK);
             }
         }
 

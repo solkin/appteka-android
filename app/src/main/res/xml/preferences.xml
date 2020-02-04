@@ -1,34 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
-        android:title="@string/pref_base_title"
-        android:key="@string/pref_base_settings">
+        android:key="@string/pref_base_settings"
+        android:title="@string/pref_base_title">
         <CheckBoxPreference
+            android:defaultValue="@bool/pref_dark_theme_default"
             android:key="@string/pref_dark_theme"
             android:summary="@string/pref_dark_theme_system"
-            android:title="@string/pref_title_dark_theme"
-            android:defaultValue="@bool/pref_dark_theme_default" />
+            android:title="@string/pref_title_dark_theme" />
         <CheckBoxPreference
+            android:defaultValue="@bool/pref_show_system_default"
             android:key="@string/pref_show_system"
             android:summary="@string/pref_summary_show_system"
-            android:title="@string/pref_title_show_system"
-            android:defaultValue="@bool/pref_show_system_default" />
-        <CheckBoxPreference
-            android:key="@string/pref_runnable"
-            android:summary="@string/pref_summary_runnable"
-            android:title="@string/pref_title_runnable"
-            android:defaultValue="@bool/pref_runnable_default" />
+            android:title="@string/pref_title_show_system" />
         <ListPreference
-            android:key="@string/pref_sort_order"
-            android:summary="@string/pref_summary_sort_order"
-            android:title="@string/pref_title_sort_order"
             android:defaultValue="@string/pref_sort_order_default"
             android:entries="@array/pref_sort_order_strings"
-            android:entryValues="@array/pref_sort_order_values" />
+            android:entryValues="@array/pref_sort_order_values"
+            android:key="@string/pref_sort_order"
+            android:summary="@string/pref_summary_sort_order"
+            android:title="@string/pref_title_sort_order" />
         <Preference
             android:key="@string/pref_clear_cache"
-            android:title="@string/pref_title_clear_cache"
-            android:summary="@string/pref_summary_clear_cache" />
+            android:summary="@string/pref_summary_clear_cache"
+            android:title="@string/pref_title_clear_cache" />
     </PreferenceCategory>
 </PreferenceScreen>
