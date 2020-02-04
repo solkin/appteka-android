@@ -52,4 +52,5 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
     implementation 'com.caverock:androidsvg-aar:1.4'
     implementation 'com.aurelhubert:ahbottomnavigation:2.3.4'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.0.0'
 }

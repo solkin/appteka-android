@@ -21,7 +21,7 @@ import static com.tomclaw.appsend.util.LocaleHelper.getLocaleLanguage;
 @EFragment(R.layout.store_fragment)
 public class SearchFragment extends BaseStoreFragment implements Debouncer.Callback<String> {
 
-    private Debouncer<String> filterDebouncer = new Debouncer<>(this, 350);
+    private Debouncer<String> filterDebouncer = new Debouncer<>(this, 1000);
 
     @Bean
     StoreServiceHolder serviceHolder;
@@ -53,6 +53,7 @@ public class SearchFragment extends BaseStoreFragment implements Debouncer.Callb
                 if (isEmptyQuery()) {
                     clearFiles();
                 } else {
+                    showProgress();
                     loadFiles(true);
                 }
             }
