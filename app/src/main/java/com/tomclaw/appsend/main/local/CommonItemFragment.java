@@ -88,7 +88,7 @@ abstract class CommonItemFragment<T extends CommonItem>
             loadAttempt();
         } else {
             updateFiles();
-            showContent();
+            onContentReady();
         }
     }
 
@@ -157,7 +157,15 @@ abstract class CommonItemFragment<T extends CommonItem>
     private void updateFiles() {
         adapter.setItems(getFiles());
         adapter.notifyDataSetChanged();
-        showContent();
+        onContentReady();
+    }
+
+    private void onContentReady() {
+        if (getFiles() == null || getFiles().isEmpty()) {
+            showEmptyView();
+        } else {
+            showContent();
+        }
     }
 
     public void showProgress() {
@@ -166,6 +174,10 @@ abstract class CommonItemFragment<T extends CommonItem>
 
     public void showContent() {
         viewFlipper.setDisplayedChild(1);
+    }
+
+    public void showEmptyView() {
+        viewFlipper.setDisplayedChild(2);
     }
 
     public void showError() {
@@ -177,7 +189,7 @@ abstract class CommonItemFragment<T extends CommonItem>
                 loadAttempt();
             }
         });
-        viewFlipper.setDisplayedChild(2);
+        viewFlipper.setDisplayedChild(3);
     }
 
     @Override

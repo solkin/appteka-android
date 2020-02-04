@@ -81,7 +81,7 @@ abstract class DistroFragment extends CommonItemFragment<ApkItem> {
     }
 
     private void walkDir(PackageManager packageManager, List<ApkItem> itemList, File dir) {
-        File listFile[] = dir.listFiles();
+        File[] listFile = dir.listFiles();
         if (listFile != null) {
             for (File file : listFile) {
                 if (file.isDirectory()) {
