@@ -16,9 +16,6 @@ import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EApplication;
 
-import static com.tomclaw.appsend.util.Analytics.trackEvent;
-import static com.tomclaw.appsend.util.Analytics.uploadEvents;
-
 /**
  * Created by ivsolkin on 21.03.17.
  */
@@ -38,8 +35,6 @@ public class AppSend extends Application {
     @AfterInject
     void init() {
         app = this;
-        uploadEvents();
-        trackEvent("ping");
         session.init();
         actuateFlags();
         TimeHelper.init(this);

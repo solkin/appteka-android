@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root_view"
     android:layout_width="match_parent"
@@ -84,7 +85,7 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/login_button"
-                    style="@style/Widget.MaterialComponents.Button"
+                    style="@style/MaterialButtonPrimary"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="5dp"
@@ -95,14 +96,15 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/register_button"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    style="@style/MaterialButtonSecondary"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
                     android:layout_marginLeft="5dp"
                     android:layout_marginRight="5dp"
                     android:layout_marginBottom="5dp"
-                    android:text="@string/register_button" />
+                    android:text="@string/register_button"
+                    android:textColor="?attr/text_secondary_color" />
 
             </LinearLayout>
 

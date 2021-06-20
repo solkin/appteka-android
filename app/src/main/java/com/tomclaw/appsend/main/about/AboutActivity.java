@@ -1,5 +1,7 @@
 package com.tomclaw.appsend.main.about;
 
+import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
+
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -16,8 +18,6 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.util.ThemeHelper;
-
-import static com.tomclaw.appsend.util.Analytics.trackEvent;
 
 /**
  * Created by Solkin on 17.12.2014.
@@ -36,8 +36,6 @@ public class AboutActivity extends AppCompatActivity {
 
         toolbar = findViewById(R.id.toolbar);
         appVersion = findViewById(R.id.app_version);
-
-        ThemeHelper.updateStatusBar(this);
 
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();

@@ -32,8 +32,8 @@
         </provider>
 
         <meta-data
-            android:name="net.hockeyapp.android.appIdentifier"
-            android:value="${HOCKEYAPP_APP_ID}" />
+            android:name="ms.appcenter.app_identifier"
+            android:value="${APPCENTER_APP_ID}" />
 
         <activity
             android:name=".main.home.HomeActivity"

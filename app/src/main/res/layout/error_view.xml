@@ -14,9 +14,9 @@
         android:textSize="14sp"
         tools:text="Failed to load something" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/button_retry"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
+        style="@style/MaterialButtonSecondary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/error_text"

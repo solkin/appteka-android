@@ -195,9 +195,9 @@
             android:text="@string/store_loading_error"
             android:textSize="14sp" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/button_retry"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
+            style="@style/MaterialButtonSecondary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

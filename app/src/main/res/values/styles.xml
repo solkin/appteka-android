@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
-    <color name="accent_color">#EF6C00</color>
-    <color name="primary_color">#32A304</color>
-    <color name="primary_dark_color">#2A8A03</color>
+    <color name="accent_color">#DA5100</color>
+    <color name="accent_dark_color">#B84400</color>
+    <color name="primary_color">#158055</color>
+    <color name="primary_dark_color">#126946</color>
 
     <color name="chocolate_color">#894121</color>
 
@@ -12,15 +13,13 @@
 
     <color name="grey">#25000000</color>
     <color name="grey_dark">#747474</color>
-    <color name="dark_back_color">#FF101010</color>
-    <color name="cardview_dark_background">#FF202020</color>
-    <color name="cardview_light_background">#FFFFFFFF</color>
+    <color name="dark_back_color">#0d0d0e</color>
 
-    <color name="permissions_container_light_background">#def1e8</color>
-    <color name="permissions_container_dark_background">#0C1D15</color>
+    <color name="permissions_container_light_background">#DBF0E8</color>
+    <color name="permissions_container_dark_background">#051C13</color>
 
-    <color name="play_view_light_color">#EF6C00</color>
-    <color name="play_view_dark_color">#a34900</color>
+    <color name="play_view_light_color">#DA5100</color>
+    <color name="play_view_dark_color">#B84400</color>
 
     <color name="divider_light">#dadada</color>
     <color name="divider_dark">#424242</color>
@@ -56,9 +55,15 @@
     <color name="apks_color">#9742c7</color>
 
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
-        <item name="colorAccent">@color/accent_color</item>
         <item name="colorPrimary">@color/primary_color</item>
-        <item name="colorPrimaryDark">@color/primary_dark_color</item>
+        <item name="colorPrimaryVariant">@color/primary_dark_color</item>
+        <item name="colorOnPrimary">@android:color/white</item>
+
+        <item name="colorSecondary">@color/accent_color</item>
+        <item name="colorSecondaryVariant">@color/accent_dark_color</item>
+        <item name="colorOnSecondary">@android:color/white</item>
+
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
 
         <item name="text_primary_color">#00000E</item>
         <item name="text_secondary_color">#4e4e4e</item>
@@ -99,9 +104,15 @@
     </style>
 
     <style name="AppThemeBlack" parent="Theme.MaterialComponents.NoActionBar">
-        <item name="colorAccent">@color/accent_color</item>
-        <item name="colorPrimary">@color/primary_color</item>
-        <item name="colorPrimaryDark">@color/primary_dark_color</item>
+        <item name="colorPrimary">#202022</item>
+        <item name="colorPrimaryVariant">#1a1a1b</item>
+        <item name="colorOnPrimary">@android:color/white</item>
+
+        <item name="colorSecondary">@color/accent_color</item>
+        <item name="colorSecondaryVariant">@color/accent_dark_color</item>
+        <item name="colorOnSecondary">@android:color/white</item>
+
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
 
         <item name="android:windowBackground">@color/dark_back_color</item>
 
@@ -112,9 +123,9 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
 
-        <item name="bottom_bar_background">#181818</item>
+        <item name="bottom_bar_background">?attr/colorPrimary</item>
 
-        <item name="toolbar_background">#181818</item>
+        <item name="toolbar_background">?attr/colorPrimary</item>
         <item name="search_toolbar_background">#263238</item>
 
         <item name="play_view_color">@color/play_view_dark_color</item>
@@ -161,6 +172,18 @@
         <item name="android:layout_height">8dp</item>
         <item name="android:max">100</item>
         <item name="android:progressDrawable">@drawable/rating_detail_element</item>
+    </style>
+
+    <style name="MaterialButtonPrimary" parent="@style/Widget.MaterialComponents.Button">
+        <item name="backgroundTint">?attr/colorSecondary</item>
+    </style>
+
+    <style name="MaterialButtonSecondary" parent="@style/Widget.MaterialComponents.Button.TextButton">
+        <item name="android:textColor">?attr/text_secondary_color</item>
+    </style>
+
+    <style name="MaterialButtonSecondaryOutline" parent="@style/Widget.MaterialComponents.Button.OutlinedButton">
+        <item name="android:textColor">?attr/text_secondary_color</item>
     </style>
 
 </resources>

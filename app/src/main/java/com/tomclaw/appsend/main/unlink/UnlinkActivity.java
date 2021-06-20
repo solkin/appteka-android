@@ -72,8 +72,6 @@ public class UnlinkActivity extends AppCompatActivity {
 
     @AfterViews
     void init() {
-        ThemeHelper.updateStatusBar(this);
-
         toolbar.setBackgroundColor(getResources().getColor(R.color.unlink_color));
         setSupportActionBar(toolbar);
         ActionBar actionBar;

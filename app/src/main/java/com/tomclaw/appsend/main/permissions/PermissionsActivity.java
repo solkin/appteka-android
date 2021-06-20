@@ -1,5 +1,7 @@
 package com.tomclaw.appsend.main.permissions;
 
+import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
+
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -20,8 +22,6 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
-
-import static com.tomclaw.appsend.util.Analytics.trackEvent;
 
 /**
  * Created by ivsolkin on 27.01.17.
@@ -58,8 +58,6 @@ public class PermissionsActivity extends AppCompatActivity {
 
     @AfterViews
     void init() {
-        ThemeHelper.updateStatusBar(this);
-
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

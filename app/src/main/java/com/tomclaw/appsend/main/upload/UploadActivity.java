@@ -28,7 +28,7 @@ import com.tomclaw.appsend.util.IntentHelper;
 import com.tomclaw.appsend.util.StringUtil;
 import com.tomclaw.appsend.util.ThemeHelper;
 
-import static com.tomclaw.appsend.util.Analytics.trackEvent;
+import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
 import static com.tomclaw.appsend.util.IntentHelper.shareUrl;
 
 /**
@@ -69,7 +69,6 @@ public class UploadActivity extends AppCompatActivity implements UploadControlle
         }
 
         setContentView(R.layout.upload_activity);
-        ThemeHelper.updateStatusBar(this);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

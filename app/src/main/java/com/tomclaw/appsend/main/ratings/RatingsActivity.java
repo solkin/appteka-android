@@ -84,8 +84,6 @@ public class RatingsActivity extends AppCompatActivity implements RatingsListene
 
     @AfterViews
     void init() {
-        ThemeHelper.updateStatusBar(this);
-
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {

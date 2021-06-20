@@ -68,9 +68,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/button_one"
-            style="@style/Widget.MaterialComponents.Button"
+            style="@style/MaterialButtonPrimary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
@@ -83,9 +83,9 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_first"
-                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                style="@style/MaterialButtonSecondaryOutline"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -96,9 +96,9 @@
                 android:layout_weight="1"
                 tools:text="@string/remove" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_second"
-                style="@style/Widget.MaterialComponents.Button"
+                style="@style/MaterialButtonPrimary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

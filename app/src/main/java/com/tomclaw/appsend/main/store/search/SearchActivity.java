@@ -1,5 +1,7 @@
 package com.tomclaw.appsend.main.store.search;
 
+import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
+
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.Editable;
@@ -20,8 +22,6 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.FragmentById;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
-
-import static com.tomclaw.appsend.util.Analytics.trackEvent;
 
 @SuppressLint("Registered")
 @EActivity(R.layout.activity_search)

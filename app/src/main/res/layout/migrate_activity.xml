@@ -40,9 +40,9 @@
             android:text="@string/migrate_description"
             android:textSize="14sp" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/close_button"
-            style="@style/Widget.MaterialComponents.Button"
+            style="@style/MaterialButtonPrimary"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="24dp"

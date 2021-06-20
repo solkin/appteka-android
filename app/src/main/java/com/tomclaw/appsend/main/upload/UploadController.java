@@ -28,9 +28,9 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
+import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
 import static com.tomclaw.appsend.AppSend.app;
 import static com.tomclaw.appsend.core.Config.HOST_URL;
-import static com.tomclaw.appsend.util.Analytics.trackEvent;
 
 /**
  * Created by ivsolkin on 02.01.17.

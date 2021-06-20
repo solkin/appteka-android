@@ -97,9 +97,9 @@
                     android:textStyle="bold"
                     tools:text="74%" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/button_cancel"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    style="@style/MaterialButtonSecondary"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -120,9 +120,9 @@
                     android:gravity="center"
                     android:orientation="horizontal">
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/button_open"
-                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        style="@style/MaterialButtonSecondary"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -130,9 +130,9 @@
                         android:layout_marginRight="4dp"
                         android:text="@string/open" />
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/button_share"
-                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        style="@style/MaterialButtonSecondary"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -140,9 +140,9 @@
                         android:layout_marginRight="4dp"
                         android:text="@string/share_url" />
 
-                    <Button
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/button_copy"
-                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        style="@style/MaterialButtonSecondary"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"

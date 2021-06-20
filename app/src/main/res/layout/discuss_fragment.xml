@@ -46,9 +46,9 @@
                 android:textColor="?attr/text_primary_color"
                 android:textSize="14sp" />
 
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/get_started_button"
-                style="@style/Widget.MaterialComponents.Button"
+                style="@style/MaterialButtonPrimary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"

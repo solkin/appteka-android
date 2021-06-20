@@ -36,7 +36,7 @@ import org.androidannotations.annotations.ViewById;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.tomclaw.appsend.util.Analytics.trackEvent;
+import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
 import static com.tomclaw.appsend.util.IntentHelper.openGooglePlay;
 
 @SuppressLint("Registered")
@@ -65,8 +65,6 @@ public class SelectLocalAppActivity extends PermisoActivity implements CommonIte
 
     @AfterViews
     void init() {
-        ThemeHelper.updateStatusBar(this);
-
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);

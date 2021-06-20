@@ -1,5 +1,7 @@
 package com.tomclaw.appsend.main.settings;
 
+import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -20,7 +22,6 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 
-import static com.tomclaw.appsend.util.Analytics.trackEvent;
 
 /**
  * Created with IntelliJ IDEA.
@@ -48,8 +49,6 @@ public class SettingsActivity extends AppCompatActivity {
 
     @AfterViews
     void init() {
-        ThemeHelper.updateStatusBar(this);
-
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {

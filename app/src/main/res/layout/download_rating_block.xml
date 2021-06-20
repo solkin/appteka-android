@@ -60,9 +60,9 @@
                     android:textColor="?attr/text_primary_color"
                     android:textSize="17sp" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/submit_rating"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    style="@style/MaterialButtonSecondary"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
@@ -94,9 +94,9 @@
                     android:paddingTop="24dp"
                     android:text="@string/error_rate_app" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/rating_retry_button"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    style="@style/MaterialButtonSecondary"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"

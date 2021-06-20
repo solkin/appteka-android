@@ -29,7 +29,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.tomclaw.appsend.util.Analytics.trackEvent;
+import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
 import static com.tomclaw.appsend.util.IntentHelper.openGooglePlay;
 
 @EFragment(R.layout.local_apps_fragment)

@@ -62,9 +62,9 @@
                 android:gravity="end"
                 android:orientation="horizontal">
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/update_later"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                    style="@style/MaterialButtonSecondary"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
@@ -72,9 +72,9 @@
                     android:paddingRight="24dp"
                     android:text="@string/later" />
 
-                <Button
+                <com.google.android.material.button.MaterialButton
                     android:id="@+id/update"
-                    style="@style/Widget.MaterialComponents.Button"
+                    style="@style/MaterialButtonPrimary"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"

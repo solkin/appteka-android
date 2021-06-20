@@ -89,8 +89,6 @@ public class MetaActivity extends AppCompatActivity {
         errorText = findViewById(R.id.error_text);
         retryButton = findViewById(R.id.retry_button);
 
-        ThemeHelper.updateStatusBar(this);
-
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
