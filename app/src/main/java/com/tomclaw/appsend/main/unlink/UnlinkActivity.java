@@ -114,14 +114,11 @@ public class UnlinkActivity extends AppCompatActivity {
                 call.enqueue(new Callback<ApiResponse<UnlinkResponse>>() {
                     @Override
                     public void onResponse(Call<ApiResponse<UnlinkResponse>> call, final Response<ApiResponse<UnlinkResponse>> response) {
-                        MainExecutor.execute(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (response.isSuccessful()) {
-                                    onFileUnlinked();
-                                } else {
-                                    onError();
-                                }
+                        MainExecutor.execute(() -> {
+                            if (response.isSuccessful()) {
+                                onFileUnlinked();
+                            } else {
+                                onError();
                             }
                         });
                     }

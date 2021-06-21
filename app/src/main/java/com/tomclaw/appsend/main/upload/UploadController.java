@@ -90,12 +90,7 @@ public class UploadController extends AbstractController<UploadController.Upload
         this.appId = null;
         this.url = null;
         this.isError = false;
-        future = executor.submit(new Runnable() {
-            @Override
-            public void run() {
-                uploadInternal();
-            }
-        });
+        future = executor.submit(() -> uploadInternal());
     }
 
     public void cancel() {
@@ -112,63 +107,23 @@ public class UploadController extends AbstractController<UploadController.Upload
 
     private void onPercent(final int percent) {
         this.lastPercent = percent;
-        MainExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                operateCallbacks(new CallbackOperation<UploadCallback>() {
-                    @Override
-                    public void invoke(UploadCallback callback) {
-                        callback.onProgress(percent);
-                    }
-                });
-            }
-        });
+        MainExecutor.execute(() -> operateCallbacks(callback -> callback.onProgress(percent)));
     }
 
     private void onUploaded() {
         this.isUploaded = true;
-        MainExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                operateCallbacks(new CallbackOperation<UploadCallback>() {
-                    @Override
-                    public void invoke(UploadCallback callback) {
-                        callback.onUploaded();
-                    }
-                });
-            }
-        });
+        MainExecutor.execute(() -> operateCallbacks(UploadCallback::onUploaded));
     }
 
     private void onCompleted(final String appId, final String url) {
         this.appId = appId;
         this.url = url;
-        MainExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                operateCallbacks(new CallbackOperation<UploadCallback>() {
-                    @Override
-                    public void invoke(UploadCallback callback) {
-                        callback.onCompleted(appId, url);
-                    }
-                });
-            }
-        });
+        MainExecutor.execute(() -> operateCallbacks(callback -> callback.onCompleted(appId, url)));
     }
 
     private void onError() {
         this.isError = true;
-        MainExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                operateCallbacks(new CallbackOperation<UploadCallback>() {
-                    @Override
-                    public void invoke(UploadCallback callback) {
-                        callback.onError();
-                    }
-                });
-            }
-        });
+        MainExecutor.execute(() -> operateCallbacks(UploadCallback::onError));
     }
 
     private void uploadInternal() {
