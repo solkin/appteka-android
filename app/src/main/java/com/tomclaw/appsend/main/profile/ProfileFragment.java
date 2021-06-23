@@ -122,12 +122,7 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
 
     @AfterViews
     void init() {
-        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                loadProfile();
-            }
-        });
+        swipeRefresh.setOnRefreshListener(this::loadProfile);
 
         if (profile != null) {
             bindProfile();
@@ -152,12 +147,9 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
 
     @Override
     public void onUserDataChanged(@NonNull final UserData userData) {
-        MainExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                if (userId == null) {
-                    setUserId(userData.getUserId());
-                }
+        MainExecutor.execute(() -> {
+            if (userId == null) {
+                setUserId(userData.getUserId());
             }
         });
     }
@@ -221,12 +213,7 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
                     if (response.isSuccessful() && profileResponse != null) {
                         session.getUserData().onRoleUpdated(profileResponse.getProfile().getRole());
                         session.getUserHolder().store();
-                        MainExecutor.execute(new Runnable() {
-                            @Override
-                            public void run() {
-                                onLoaded(profileResponse);
-                            }
-                        });
+                        MainExecutor.execute(() -> onLoaded(profileResponse));
                         return;
                     }
                 }
@@ -239,12 +226,7 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
             }
 
             private void onError() {
-                MainExecutor.execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        onLoadingError();
-                    }
-                });
+                MainExecutor.execute(() -> onLoadingError());
             }
         });
     }
@@ -260,12 +242,7 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
                 if (body != null) {
                     final EmpowerResponse empowerResponse = body.getResult();
                     if (response.isSuccessful() && empowerResponse != null) {
-                        MainExecutor.execute(new Runnable() {
-                            @Override
-                            public void run() {
-                                reloadProfile();
-                            }
-                        });
+                        MainExecutor.execute(() -> reloadProfile());
                         return;
                     }
                 }
@@ -278,12 +255,7 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
             }
 
             private void onError() {
-                MainExecutor.execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        onEmpowerError();
-                    }
-                });
+                MainExecutor.execute(() -> onEmpowerError());
             }
         });
     }
@@ -336,12 +308,7 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
                         String.valueOf(profile.getFilesCount()),
                         false
                 )
-                .setClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        showUserFiles();
-                    }
-                }));
+                .setClickListener(v -> showUserFiles()));
         detailsContainer.addView(DetailsItem_.build(context)
                 .setDetails(
                         R.drawable.ic_user_messages,
@@ -381,12 +348,7 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
                             "",
                             false
                     )
-                    .setClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            showInstalledApps();
-                        }
-                    })
+                    .setClickListener(v -> showInstalledApps())
             );
             detailsContainer.addView(DetailsItem_.build(context)
                     .setDetails(
@@ -396,12 +358,7 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
                             "",
                             true
                     )
-                    .setClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            showDistroApks();
-                        }
-                    })
+                    .setClickListener(v -> showDistroApks())
             );
         }
         boolean canChangeRole = false;
@@ -441,12 +398,7 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
     private void showError() {
         if (!isVisible()) return;
         errorText.setText(R.string.profile_error);
-        buttonRetry.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                reloadProfile();
-            }
-        });
+        buttonRetry.setOnClickListener(v -> reloadProfile());
         viewFlipper.setDisplayedChild(2);
         swipeRefresh.setRefreshing(false);
     }
