@@ -127,26 +127,18 @@ public class RatingsActivity extends AppCompatActivity implements RatingsListene
         call.enqueue(new Callback<ApiResponse<RatingsResponse>>() {
             @Override
             public void onResponse(Call<ApiResponse<RatingsResponse>> call, final Response<ApiResponse<RatingsResponse>> response) {
-                MainExecutor.execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (response.isSuccessful()) {
-                            onLoaded(response.body().getResult());
-                        } else {
-                            onLoadingError();
-                        }
+                MainExecutor.execute(() -> {
+                    if (response.isSuccessful()) {
+                        onLoaded(response.body().getResult());
+                    } else {
+                        onLoadingError();
                     }
                 });
             }
 
             @Override
             public void onFailure(Call<ApiResponse<RatingsResponse>> call, Throwable t) {
-                MainExecutor.execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        onLoadingError();
-                    }
-                });
+                MainExecutor.execute(() -> onLoadingError());
             }
         });
     }
