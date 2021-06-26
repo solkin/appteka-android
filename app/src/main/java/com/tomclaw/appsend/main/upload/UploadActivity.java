@@ -97,30 +97,21 @@ public class UploadActivity extends AppCompatActivity implements UploadControlle
                 onBackPressed();
             }
         });
-        findViewById(R.id.button_open).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(UploadActivity.this, DownloadActivity.class);
-                intent.putExtra(DownloadActivity.STORE_APP_ID, appId);
-                intent.putExtra(DownloadActivity.STORE_APP_LABEL, item.getLabel());
-                startActivity(intent);
-                trackEvent("click-uploaded-share");
-            }
+        findViewById(R.id.button_open).setOnClickListener(v -> {
+            Intent intent = new Intent(UploadActivity.this, DownloadActivity.class);
+            intent.putExtra(DownloadActivity.STORE_APP_ID, appId);
+            intent.putExtra(DownloadActivity.STORE_APP_LABEL, item.getLabel());
+            startActivity(intent);
+            trackEvent("click-uploaded-share");
         });
-        findViewById(R.id.button_share).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                shareUrl(UploadActivity.this, formatText());
-                trackEvent("click-uploaded-open");
-            }
+        findViewById(R.id.button_share).setOnClickListener(v -> {
+            shareUrl(UploadActivity.this, formatText());
+            trackEvent("click-uploaded-open");
         });
-        findViewById(R.id.button_copy).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                StringUtil.copyStringToClipboard(UploadActivity.this, formatText());
-                Toast.makeText(UploadActivity.this, R.string.url_copied, Toast.LENGTH_SHORT).show();
-                trackEvent("click-uploaded-copy");
-            }
+        findViewById(R.id.button_copy).setOnClickListener(v -> {
+            StringUtil.copyStringToClipboard(UploadActivity.this, formatText());
+            Toast.makeText(UploadActivity.this, R.string.url_copied, Toast.LENGTH_SHORT).show();
+            trackEvent("click-uploaded-copy");
         });
 
         PackageInfo packageInfo = item.getPackageInfo();
@@ -228,17 +219,11 @@ public class UploadActivity extends AppCompatActivity implements UploadControlle
             new AlertDialog.Builder(this)
                     .setTitle(getString(R.string.cancel_upload_title))
                     .setMessage(getString(R.string.cancel_upload_text))
-                    .setNegativeButton(R.string.yes, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            UploadController.getInstance().cancel();
-                            finish();
-                        }
+                    .setNegativeButton(R.string.yes, (dialog, which) -> {
+                        UploadController.getInstance().cancel();
+                        finish();
                     })
-                    .setPositiveButton(R.string.no, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                        }
+                    .setPositiveButton(R.string.no, (dialog, which) -> {
                     })
                     .show();
         }
