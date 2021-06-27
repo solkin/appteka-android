@@ -120,41 +120,33 @@ public class RegisterActivity extends AppCompatActivity {
         call.enqueue(new Callback<ApiResponse<AuthResponse>>() {
             @Override
             public void onResponse(Call<ApiResponse<AuthResponse>> call, final Response<ApiResponse<AuthResponse>> response) {
-                MainExecutor.execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (response.isSuccessful()) {
-                            AuthResponse body = response.body().getResult();
-                            if (body != null) {
-                                onRegistered(body);
-                            } else {
-                                onError();
-                            }
+                MainExecutor.execute(() -> {
+                    if (response.isSuccessful()) {
+                        AuthResponse body = response.body().getResult();
+                        if (body != null) {
+                            onRegistered(body);
                         } else {
-                            ResponseBody body = response.errorBody();
-                            String description = getString(R.string.register_error);
-                            if (body != null) {
-                                try {
-                                    description = GsonSingleton.getInstance()
-                                            .fromJson(body.string(), AuthResponse.class)
-                                            .getDescription();
-                                } catch (IOException ignored) {
-                                }
-                            }
-                            onError(description);
+                            onError();
                         }
+                    } else {
+                        ResponseBody body = response.errorBody();
+                        String description = getString(R.string.register_error);
+                        if (body != null) {
+                            try {
+                                description = GsonSingleton.getInstance()
+                                        .fromJson(body.string(), AuthResponse.class)
+                                        .getDescription();
+                            } catch (IOException ignored) {
+                            }
+                        }
+                        onError(description);
                     }
                 });
             }
 
             @Override
             public void onFailure(Call<ApiResponse<AuthResponse>> call, Throwable t) {
-                MainExecutor.execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        onError();
-                    }
-                });
+                MainExecutor.execute(() -> onError());
             }
         });
     }
