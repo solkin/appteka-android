@@ -60,7 +60,7 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
         UpdateController.UpdateCallback,
         DiscussController.DiscussCallback {
 
-    public static final String APP_IDENTIFIER_KEY = "ms.appcenter.app_identifier";
+    public static final String APP_IDENTIFIER_KEY = "appcenter.app_identifier";
 
     public static final String ACTION_STORE = "com.tomclaw.appsend.cloud";
     public static final String ACTION_DISCUSS = "com.tomclaw.appsend.discuss";
@@ -440,15 +440,12 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
 
     private void register(Application application) {
         String appIdentifier = getAppIdentifier(application.getApplicationContext());
-        if (appIdentifier == null || appIdentifier.isEmpty()) {
-            throw new RuntimeException("AppCenter app identifier was not configured correctly in manifest or build configuration.");
-        }
         AppCenter.start(getApplication(), appIdentifier, Analytics.class, Crashes.class);
     }
 
     private String getAppIdentifier(Context context) {
         String appIdentifier = getManifestString(context, APP_IDENTIFIER_KEY);
-        if (!TextUtils.isEmpty(appIdentifier)) {
+        if (TextUtils.isEmpty(appIdentifier)) {
             throw new RuntimeException("AppCenter app identifier was not configured correctly in manifest or build configuration.");
         }
         return appIdentifier;
