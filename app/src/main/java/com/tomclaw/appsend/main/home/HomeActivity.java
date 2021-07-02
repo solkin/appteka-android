@@ -109,18 +109,8 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
         fab = findViewById(R.id.fab);
 
         updateBlock = findViewById(R.id.update_block);
-        findViewById(R.id.update_later).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onUpdateLater();
-            }
-        });
-        findViewById(R.id.update).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onUpdate();
-            }
-        });
+        findViewById(R.id.update_later).setOnClickListener(v -> onUpdateLater());
+        findViewById(R.id.update).setOnClickListener(v -> onUpdate());
 
         bottomNavigation = findViewById(R.id.bottom_navigation);
         bottomNavigation.addItem(new AHBottomNavigationItem(getString(R.string.tab_store), R.drawable.ic_store));
@@ -137,29 +127,26 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
                 getResources().getDimension(R.dimen.bottom_navigation_text_size_active),
                 getResources().getDimension(R.dimen.bottom_navigation_text_size_inactive)
         );
-        bottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
-            @Override
-            public boolean onTabSelected(int position, boolean wasSelected) {
-                switch (position) {
-                    case 0:
-                        navItemIndex = NAV_STORE;
-                        CURRENT_TAG = TAG_STORE;
-                        trackEvent("click-tab-store");
-                        break;
-                    case 1:
-                        navItemIndex = NAV_DISCUSS;
-                        CURRENT_TAG = TAG_DISCUSS;
-                        trackEvent("click-tab-discuss");
-                        break;
-                    case 2:
-                        navItemIndex = NAV_PROFILE;
-                        CURRENT_TAG = TAG_PROFILE;
-                        trackEvent("click-tab-profile");
-                        break;
-                }
-                loadHomeFragment();
-                return true;
+        bottomNavigation.setOnTabSelectedListener((position, wasSelected) -> {
+            switch (position) {
+                case 0:
+                    navItemIndex = NAV_STORE;
+                    CURRENT_TAG = TAG_STORE;
+                    trackEvent("click-tab-store");
+                    break;
+                case 1:
+                    navItemIndex = NAV_DISCUSS;
+                    CURRENT_TAG = TAG_DISCUSS;
+                    trackEvent("click-tab-discuss");
+                    break;
+                case 2:
+                    navItemIndex = NAV_PROFILE;
+                    CURRENT_TAG = TAG_PROFILE;
+                    trackEvent("click-tab-profile");
+                    break;
             }
+            loadHomeFragment();
+            return true;
         });
 
         activityTitles = new String[]{
@@ -168,13 +155,10 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
                 getString(R.string.tab_profile)
         };
 
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DialogData dialogData = new DialogData(getString(R.string.upload_app_title), getString(R.string.upload_app_message));
-                SelectLocalAppActivity_.intent(HomeActivity.this).dialogData(dialogData).startForResult(REQUEST_UPLOAD);
-                trackEvent("click-fab-upload");
-            }
+        fab.setOnClickListener(view -> {
+            DialogData dialogData = new DialogData(getString(R.string.upload_app_title), getString(R.string.upload_app_message));
+            SelectLocalAppActivity_.intent(HomeActivity.this).dialogData(dialogData).startForResult(REQUEST_UPLOAD);
+            trackEvent("click-fab-upload");
         });
 
         setToolbarTitle();
@@ -271,20 +255,17 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
             return;
         }
 
-        Runnable pendingRunnable = new Runnable() {
-            @Override
-            public void run() {
-                Fragment fragment = createHomeFragment();
+        Runnable pendingRunnable = () -> {
+            Fragment fragment = createHomeFragment();
 
-                FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-                fragmentTransaction.setCustomAnimations(0, 0);
-                fragmentTransaction.replace(R.id.frame, fragment, CURRENT_TAG);
-                fragmentTransaction.commitAllowingStateLoss();
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            fragmentTransaction.setCustomAnimations(0, 0);
+            fragmentTransaction.replace(R.id.frame, fragment, CURRENT_TAG);
+            fragmentTransaction.commitAllowingStateLoss();
 
-                invalidateOptionsMenu();
+            invalidateOptionsMenu();
 
-                toggleFab();
-            }
+            toggleFab();
         };
 
         handler.post(pendingRunnable);
