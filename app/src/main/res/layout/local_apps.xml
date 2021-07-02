@@ -18,7 +18,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/toolbar"
         android:background="?attr/toolbar_background"
-        android:minHeight="?actionBarSize"
         app:tabGravity="fill"
         app:tabIndicatorColor="@color/active_tab_title_color"
         app:tabMode="fixed"
