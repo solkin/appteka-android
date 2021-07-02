@@ -71,11 +71,11 @@ public class SelectLocalAppActivity extends PermisoActivity implements CommonIte
         actionBar.setDisplayShowHomeEnabled(false);
 
         List<Pair<String, Fragment>> fragments = Arrays.asList(
-                new Pair<String, Fragment>(
+                new Pair<>(
                         getString(R.string.nav_installed),
                         new SelectInstalledFragment_()
                 ),
-                new Pair<String, Fragment>(
+                new Pair<>(
                         getString(R.string.nav_distro),
                         new SelectDistroFragment_()
                 )
@@ -106,30 +106,27 @@ public class SelectLocalAppActivity extends PermisoActivity implements CommonIte
             final Context context = this;
             ListAdapter menuAdapter = new MenuAdapter(this, R.array.upload_actions_titles, R.array.upload_actions_icons);
             new AlertDialog.Builder(this)
-                    .setAdapter(menuAdapter, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            switch (which) {
-                                case 0: {
-                                    leaveScreen(item);
-                                    trackEvent("click-upload-apk");
-                                    break;
-                                }
-                                case 1: {
-                                    String packageName = item.getPackageName();
-                                    openGooglePlay(context, packageName);
-                                    trackEvent("click-search-google-play");
-                                    break;
-                                }
-                                case 2: {
-                                    Intent intent = new Intent(context, DownloadActivity.class)
-                                            .putExtra(DownloadActivity.STORE_APP_PACKAGE, item.getPackageName())
-                                            .putExtra(DownloadActivity.STORE_APP_LABEL, item.getLabel())
-                                            .putExtra(DownloadActivity.STORE_FINISH_ONLY, true);
-                                    startActivity(intent);
-                                    trackEvent("click-search-appteka");
-                                    break;
-                                }
+                    .setAdapter(menuAdapter, (dialog, which) -> {
+                        switch (which) {
+                            case 0: {
+                                leaveScreen(item);
+                                trackEvent("click-upload-apk");
+                                break;
+                            }
+                            case 1: {
+                                String packageName = item.getPackageName();
+                                openGooglePlay(context, packageName);
+                                trackEvent("click-search-google-play");
+                                break;
+                            }
+                            case 2: {
+                                Intent intent = new Intent(context, DownloadActivity.class)
+                                        .putExtra(DownloadActivity.STORE_APP_PACKAGE, item.getPackageName())
+                                        .putExtra(DownloadActivity.STORE_APP_LABEL, item.getLabel())
+                                        .putExtra(DownloadActivity.STORE_FINISH_ONLY, true);
+                                startActivity(intent);
+                                trackEvent("click-search-appteka");
+                                break;
                             }
                         }
                     }).show();
@@ -143,18 +140,10 @@ public class SelectLocalAppActivity extends PermisoActivity implements CommonIte
             new AlertDialog.Builder(this)
                     .setTitle(getString(R.string.upload_notice_title))
                     .setMessage(getString(R.string.upload_notice_text))
-                    .setNegativeButton(R.string.yes, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            PreferenceHelper.setShowUploadNotice(SelectLocalAppActivity.this, false);
-                        }
-                    })
-                    .setPositiveButton(R.string.no, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            showError(R.string.agree_with_upload_notice);
-                            leaveScreen();
-                        }
+                    .setNegativeButton(R.string.yes, (dialog, which) -> PreferenceHelper.setShowUploadNotice(SelectLocalAppActivity.this, false))
+                    .setPositiveButton(R.string.no, (dialog, which) -> {
+                        showError(R.string.agree_with_upload_notice);
+                        leaveScreen();
                     })
                     .show();
         }
