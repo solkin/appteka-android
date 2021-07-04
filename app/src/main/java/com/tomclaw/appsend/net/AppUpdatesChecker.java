@@ -4,13 +4,14 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 
+import androidx.annotation.NonNull;
+
 import com.google.gson.annotations.SerializedName;
 import com.tomclaw.appsend.AppSend;
 import com.tomclaw.appsend.core.Response;
-import com.tomclaw.appsend.main.item.AppItem;
-import com.tomclaw.appsend.util.Logger;
+import com.tomclaw.appsend.util.Listeners;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,10 @@ import retrofit2.Callback;
 public class AppUpdatesChecker {
 
     private static AppUpdatesChecker instance;
+
+    private List<AppEntries> updates = Collections.emptyList();
+
+    private Listeners<List<AppEntries>> listeners = new Listeners<>();
 
     private AppUpdatesChecker() {
     }
@@ -59,13 +64,16 @@ public class AppUpdatesChecker {
         Call<Response<CheckUpdatesResponse>> call = AppSend.getService().checkUpdates(request);
         call.enqueue(new Callback<Response<CheckUpdatesResponse>>() {
             @Override
-            public void onResponse(Call<Response<CheckUpdatesResponse>> call, retrofit2.Response<Response<CheckUpdatesResponse>> response) {
-                Logger.log(response.toString());
+            public void onResponse(@NonNull Call<Response<CheckUpdatesResponse>> call, @NonNull retrofit2.Response<Response<CheckUpdatesResponse>> response) {
+                if (response.isSuccessful() && response.body() != null && response.body().getResult() != null && response.body().getResult().entries != null) {
+                    updates = response.body().getResult().entries;
+                    listeners.notifyListeners(updates);
+                }
             }
 
             @Override
-            public void onFailure(Call<Response<CheckUpdatesResponse>> call, Throwable t) {
-
+            public void onFailure(@NonNull Call<Response<CheckUpdatesResponse>> call, @NonNull Throwable t) {
+                listeners.notifyListeners(t);
             }
         });
     }
@@ -85,6 +93,7 @@ public class AppUpdatesChecker {
     }
 
     public static class CheckUpdatesResponse {
+        @SerializedName(value = "entries")
         private List<AppEntries> entries;
     }
 
