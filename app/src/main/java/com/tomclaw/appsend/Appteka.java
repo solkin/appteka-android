@@ -25,11 +25,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by ivsolkin on 21.03.17.
  */
 @EApplication
-public class AppSend extends Application {
+public class Appteka extends Application {
 
     private static final String APP_SESSION = StringUtil.generateRandomString(32);
 
-    private static AppSend app;
+    private static Appteka app;
 
     private static boolean wasRegistered = false;
     private static int lastRunBuildNumber = 0;
@@ -62,7 +62,7 @@ public class AppSend extends Application {
         AppUpdatesChecker.stateHolder().checkUpdates();
     }
 
-    public static AppSend app() {
+    public static Appteka app() {
         return app;
     }
 

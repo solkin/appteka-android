@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit;
 import retrofit2.Call;
 import retrofit2.Response;
 
-import static com.tomclaw.appsend.AppSend.app;
+import static com.tomclaw.appsend.Appteka.app;
 
 /**
  * Created by ivsolkin on 17.01.17.

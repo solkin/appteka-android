@@ -7,7 +7,7 @@ import android.content.pm.PackageManager;
 import androidx.annotation.NonNull;
 
 import com.google.gson.annotations.SerializedName;
-import com.tomclaw.appsend.AppSend;
+import com.tomclaw.appsend.Appteka;
 import com.tomclaw.appsend.core.Response;
 import com.tomclaw.appsend.util.Listeners;
 
@@ -45,7 +45,7 @@ public class AppUpdatesChecker {
         String guid = Session_.getInstance().getUserData().getGuid();
         Map<String, Integer> apps = new HashMap<>();
 
-        PackageManager packageManager = AppSend.app().getPackageManager();
+        PackageManager packageManager = Appteka.app().getPackageManager();
 
         List<ApplicationInfo> packages = packageManager.getInstalledApplications(PackageManager.GET_META_DATA);
         for (ApplicationInfo info : packages) {
@@ -61,7 +61,7 @@ public class AppUpdatesChecker {
         }
 
         CheckUpdatesRequest request = new CheckUpdatesRequest(guid, apps);
-        Call<Response<CheckUpdatesResponse>> call = AppSend.getService().checkUpdates(request);
+        Call<Response<CheckUpdatesResponse>> call = Appteka.getService().checkUpdates(request);
         call.enqueue(new Callback<Response<CheckUpdatesResponse>>() {
             @Override
             public void onResponse(@NonNull Call<Response<CheckUpdatesResponse>> call, @NonNull retrofit2.Response<Response<CheckUpdatesResponse>> response) {

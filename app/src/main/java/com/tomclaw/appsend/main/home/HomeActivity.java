@@ -53,8 +53,8 @@ import com.tomclaw.appsend.util.PreferenceHelper;
 import com.tomclaw.appsend.util.ThemeHelper;
 
 import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
-import static com.tomclaw.appsend.AppSend.getLastRunBuildNumber;
-import static com.tomclaw.appsend.AppSend.wasRegistered;
+import static com.tomclaw.appsend.Appteka.getLastRunBuildNumber;
+import static com.tomclaw.appsend.Appteka.wasRegistered;
 
 public class HomeActivity extends PermisoActivity implements UserDataListener,
         UpdateController.UpdateCallback,

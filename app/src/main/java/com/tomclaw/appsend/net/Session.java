@@ -5,7 +5,7 @@ import android.content.Context;
 
 import androidx.annotation.NonNull;
 
-import com.tomclaw.appsend.AppSend;
+import com.tomclaw.appsend.Appteka;
 import com.tomclaw.appsend.core.ContentResolverLayer;
 import com.tomclaw.appsend.main.controller.DiscussController;
 import com.tomclaw.appsend.net.request.FetchRequest;
@@ -34,7 +34,7 @@ public class Session {
     private Future<?> loopFuture = null;
 
     public static Session getInstance() {
-        return Session_.getInstance_(AppSend.app());
+        return Session_.getInstance_(Appteka.app());
     }
 
     public void init() {

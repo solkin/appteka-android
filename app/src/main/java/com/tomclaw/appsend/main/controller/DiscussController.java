@@ -4,7 +4,7 @@ import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.net.Session;
 import com.tomclaw.appsend.util.PreferenceHelper;
 
-import static com.tomclaw.appsend.AppSend.app;
+import static com.tomclaw.appsend.Appteka.app;
 
 /**
  * Created by solkin on 27.06.2017.

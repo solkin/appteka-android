@@ -15,7 +15,7 @@
         tools:remove="android:maxSdkVersion" />
 
     <application
-        android:name=".AppSend_"
+        android:name=".Appteka_"
         android:allowBackup="true"
         android:fullBackupContent="@xml/backup_descriptor"
         android:icon="@mipmap/ic_launcher"

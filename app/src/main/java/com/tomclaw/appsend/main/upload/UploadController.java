@@ -29,7 +29,7 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
-import static com.tomclaw.appsend.AppSend.app;
+import static com.tomclaw.appsend.Appteka.app;
 import static com.tomclaw.appsend.core.Config.HOST_URL;
 
 /**
