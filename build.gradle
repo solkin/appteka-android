@@ -10,6 +10,7 @@ buildscript {
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:7.0.2'
+        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.30'
     }
 }
 
@@ -20,5 +21,6 @@ allprojects {
         google()
         maven { url = 'https://oss.sonatype.org/content/repositories/snapshots' }
         mavenCentral()
+        maven { url "https://oss.jfrog.org/libs-snapshot" }
     }
 }
