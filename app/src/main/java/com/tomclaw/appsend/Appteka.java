@@ -4,7 +4,7 @@ import android.app.Application;
 
 import com.tomclaw.appsend.core.ApptekaService;
 import com.tomclaw.appsend.main.controller.DiscussController;
-import com.tomclaw.appsend.net.AppUpdatesChecker;
+import com.tomclaw.appsend.net.UpdatesCheckInteractor;
 import com.tomclaw.appsend.net.RequestDispatcher;
 import com.tomclaw.appsend.net.Session;
 import com.tomclaw.appsend.net.request.Request;
@@ -57,9 +57,6 @@ public class Appteka extends Application {
                 .build();
 
         service = retrofit.create(ApptekaService.class);
-
-        AppUpdatesChecker.init();
-        AppUpdatesChecker.stateHolder().checkUpdates();
     }
 
     public static Appteka app() {

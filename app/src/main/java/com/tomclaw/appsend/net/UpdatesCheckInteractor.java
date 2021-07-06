@@ -1,5 +1,8 @@
 package com.tomclaw.appsend.net;
 
+import static com.tomclaw.appsend.util.LocaleHelper.getLocaleLanguage;
+
+import android.app.Application;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -11,6 +14,10 @@ import com.tomclaw.appsend.Appteka;
 import com.tomclaw.appsend.core.Response;
 import com.tomclaw.appsend.util.Listeners;
 
+import org.androidannotations.annotations.App;
+import org.androidannotations.annotations.Bean;
+import org.androidannotations.annotations.EBean;
+
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -19,33 +26,25 @@ import java.util.Map;
 import retrofit2.Call;
 import retrofit2.Callback;
 
-public class AppUpdatesChecker {
+@EBean(scope = EBean.Scope.Singleton)
+public class UpdatesCheckInteractor {
 
-    private static AppUpdatesChecker instance;
+    @App
+    Appteka app;
 
-    private List<AppEntries> updates = Collections.emptyList();
+    @Bean
+    Session session;
 
-    private Listeners<List<AppEntries>> listeners = new Listeners<>();
+    private Map<String, AppEntry> updates = Collections.emptyMap();
 
-    private AppUpdatesChecker() {
-    }
-
-    public static void init() {
-        instance = new AppUpdatesChecker();
-    }
-
-    public static AppUpdatesChecker stateHolder() {
-        if (instance == null) {
-            throw new IllegalStateException("AppUpdatesChecker must be initialized first");
-        }
-        return instance;
-    }
+    private Listeners<Map<String, AppEntry>> listeners = new Listeners<>();
 
     public void checkUpdates() {
-        String guid = Session_.getInstance().getUserData().getGuid();
+        String guid = session.getUserData().getGuid();
+        String locale = getLocaleLanguage();
         Map<String, Integer> apps = new HashMap<>();
 
-        PackageManager packageManager = Appteka.app().getPackageManager();
+        PackageManager packageManager = app.getPackageManager();
 
         List<ApplicationInfo> packages = packageManager.getInstalledApplications(PackageManager.GET_META_DATA);
         for (ApplicationInfo info : packages) {
@@ -60,13 +59,17 @@ public class AppUpdatesChecker {
             }
         }
 
-        CheckUpdatesRequest request = new CheckUpdatesRequest(guid, apps);
+        CheckUpdatesRequest request = new CheckUpdatesRequest(guid, locale, apps);
         Call<Response<CheckUpdatesResponse>> call = Appteka.getService().checkUpdates(request);
         call.enqueue(new Callback<Response<CheckUpdatesResponse>>() {
             @Override
             public void onResponse(@NonNull Call<Response<CheckUpdatesResponse>> call, @NonNull retrofit2.Response<Response<CheckUpdatesResponse>> response) {
                 if (response.isSuccessful() && response.body() != null && response.body().getResult() != null && response.body().getResult().entries != null) {
-                    updates = response.body().getResult().entries;
+                    Map<String, AppEntry> updatesNew = new HashMap<>();
+                    for (AppEntry entry : response.body().getResult().entries) {
+                        updatesNew.put(entry.packageName, entry);
+                    }
+                    updates = updatesNew;
                     listeners.notifyListeners(updates);
                 }
             }
@@ -78,15 +81,26 @@ public class AppUpdatesChecker {
         });
     }
 
+    public Listeners<Map<String, AppEntry>> getListeners() {
+        return listeners;
+    }
+
+    public Map<String, AppEntry> getUpdates() {
+        return Collections.unmodifiableMap(updates);
+    }
+
     public static class CheckUpdatesRequest {
 
         @SerializedName(value = "guid")
         private String guid;
+        @SerializedName(value = "locale")
+        private String locale;
         @SerializedName(value = "apps")
         private Map<String, Integer> apps;
 
-        public CheckUpdatesRequest(String guid, Map<String, Integer> apps) {
+        public CheckUpdatesRequest(String guid, String locale, Map<String, Integer> apps) {
             this.guid = guid;
+            this.locale = locale;
             this.apps = apps;
         }
 
@@ -94,10 +108,10 @@ public class AppUpdatesChecker {
 
     public static class CheckUpdatesResponse {
         @SerializedName(value = "entries")
-        private List<AppEntries> entries;
+        private List<AppEntry> entries;
     }
 
-    public static class AppEntries {
+    public static class AppEntry {
 
         @SerializedName(value = "app_id")
         private String appId;

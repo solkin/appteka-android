@@ -1,7 +1,7 @@
 package com.tomclaw.appsend.core;
 
-import com.tomclaw.appsend.net.AppUpdatesChecker.CheckUpdatesResponse;
-import com.tomclaw.appsend.net.AppUpdatesChecker.CheckUpdatesRequest;
+import com.tomclaw.appsend.net.UpdatesCheckInteractor.CheckUpdatesResponse;
+import com.tomclaw.appsend.net.UpdatesCheckInteractor.CheckUpdatesRequest;
 
 import retrofit2.Call;
 import retrofit2.http.Body;

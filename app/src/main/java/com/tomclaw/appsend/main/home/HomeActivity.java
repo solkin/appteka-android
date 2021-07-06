@@ -45,9 +45,12 @@ import com.tomclaw.appsend.main.store.StoreFragment_;
 import com.tomclaw.appsend.main.store.search.SearchActivity_;
 import com.tomclaw.appsend.main.upload.UploadActivity;
 import com.tomclaw.appsend.net.Session;
+import com.tomclaw.appsend.net.UpdatesCheckInteractor;
+import com.tomclaw.appsend.net.UpdatesCheckInteractor_;
 import com.tomclaw.appsend.net.UserData;
 import com.tomclaw.appsend.net.UserDataListener;
 import com.tomclaw.appsend.util.ColorHelper;
+import com.tomclaw.appsend.util.Listeners;
 import com.tomclaw.appsend.util.LocaleHelper;
 import com.tomclaw.appsend.util.PreferenceHelper;
 import com.tomclaw.appsend.util.ThemeHelper;
@@ -55,6 +58,8 @@ import com.tomclaw.appsend.util.ThemeHelper;
 import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
 import static com.tomclaw.appsend.Appteka.getLastRunBuildNumber;
 import static com.tomclaw.appsend.Appteka.wasRegistered;
+
+import java.util.Map;
 
 public class HomeActivity extends PermisoActivity implements UserDataListener,
         UpdateController.UpdateCallback,
@@ -188,6 +193,19 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
         Session.getInstance().getUserHolder().attachListener(this);
         UpdateController.getInstance().onAttach(this);
         DiscussController.getInstance().onAttach(this);
+        UpdatesCheckInteractor updatesCheck = UpdatesCheckInteractor_.getInstance_(this);
+        updatesCheck.getListeners().attachListener(new Listeners.Listener<Map<String, UpdatesCheckInteractor.AppEntry>>() {
+            @Override
+            public void onDataChanged(Map<String, UpdatesCheckInteractor.AppEntry> data) {
+                bottomNavigation.setNotification(String.valueOf(data.size()), 2);
+            }
+
+            @Override
+            public <E extends Throwable> void onError(E ex) {
+                bottomNavigation.setNotification("", 2);
+            }
+        });
+        UpdatesCheckInteractor_.getInstance_(this).checkUpdates();
     }
 
     @Override
