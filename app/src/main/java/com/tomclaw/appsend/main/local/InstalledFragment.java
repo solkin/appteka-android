@@ -1,5 +1,7 @@
 package com.tomclaw.appsend.main.local;
 
+import static com.tomclaw.appsend.util.states.StateHolder.stateHolder;
+
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
@@ -20,14 +22,11 @@ import org.androidannotations.annotations.EFragment;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
-import static com.tomclaw.appsend.util.states.StateHolder.stateHolder;
 
 @EFragment
 abstract class InstalledFragment extends CommonItemFragment<AppItem> {
@@ -118,21 +117,11 @@ abstract class InstalledFragment extends CommonItemFragment<AppItem> {
         }
         String sortOrder = PreferenceHelper.getSortOrder(context);
         if (TextUtils.equals(sortOrder, context.getString(R.string.sort_order_ascending_value))) {
-            Collections.sort(appItemList, new Comparator<AppItem>() {
-                @Override
-                public int compare(AppItem lhs, AppItem rhs) {
-                    return lhs.getLabel().toUpperCase(locale)
-                            .compareTo(rhs.getLabel().toUpperCase(locale));
-                }
-            });
+            Collections.sort(appItemList, (lhs, rhs) -> lhs.getLabel().toUpperCase(locale)
+                    .compareTo(rhs.getLabel().toUpperCase(locale)));
         } else if (TextUtils.equals(sortOrder, context.getString(R.string.sort_order_descending_value))) {
-            Collections.sort(appItemList, new Comparator<AppItem>() {
-                @Override
-                public int compare(AppItem lhs, AppItem rhs) {
-                    return rhs.getLabel().toUpperCase(locale)
-                            .compareTo(lhs.getLabel().toUpperCase(locale));
-                }
-            });
+            Collections.sort(appItemList, (lhs, rhs) -> rhs.getLabel().toUpperCase(locale)
+                    .compareTo(lhs.getLabel().toUpperCase(locale)));
         } else if (TextUtils.equals(sortOrder, context.getString(R.string.sort_order_app_size_value))) {
             Collections.sort(appItemList, new Comparator<AppItem>() {
                 @Override
@@ -141,19 +130,9 @@ abstract class InstalledFragment extends CommonItemFragment<AppItem> {
                 }
             });
         } else if (TextUtils.equals(sortOrder, context.getString(R.string.sort_order_install_time_value))) {
-            Collections.sort(appItemList, new Comparator<AppItem>() {
-                @Override
-                public int compare(AppItem lhs, AppItem rhs) {
-                    return compareLong(rhs.getFirstInstallTime(), lhs.getFirstInstallTime());
-                }
-            });
+            Collections.sort(appItemList, (lhs, rhs) -> compareLong(rhs.getFirstInstallTime(), lhs.getFirstInstallTime()));
         } else if (TextUtils.equals(sortOrder, context.getString(R.string.sort_order_update_time_value))) {
-            Collections.sort(appItemList, new Comparator<AppItem>() {
-                @Override
-                public int compare(AppItem lhs, AppItem rhs) {
-                    return compareLong(rhs.getLastUpdateTime(), lhs.getLastUpdateTime());
-                }
-            });
+            Collections.sort(appItemList, (lhs, rhs) -> compareLong(rhs.getLastUpdateTime(), lhs.getLastUpdateTime()));
         }
         return appItemList;
     }
