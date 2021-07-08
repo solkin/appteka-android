@@ -20,12 +20,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
+        android:layout_weight="1"
         android:gravity="center_vertical"
         android:orientation="vertical"
-        android:paddingEnd="0dp"
+        android:paddingStart="10dp"
         android:paddingLeft="10dp"
-        android:paddingRight="0dp"
-        android:paddingStart="10dp">
+        android:paddingEnd="0dp"
+        android:paddingRight="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -51,10 +52,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="start|center_vertical"
                 android:fontFamily="sans-serif-light"
-                android:paddingEnd="4dp"
-                android:paddingLeft="4dp"
-                android:paddingRight="4dp"
                 android:paddingStart="4dp"
+                android:paddingLeft="4dp"
+                android:paddingEnd="4dp"
+                android:paddingRight="4dp"
                 android:singleLine="true"
                 android:textColor="?text_secondary_color"
                 android:textSize="16sp"
@@ -88,10 +89,10 @@
                 android:ellipsize="marquee"
                 android:fontFamily="sans-serif-light"
                 android:marqueeRepeatLimit="marquee_forever"
-                android:paddingEnd="4dp"
-                android:paddingLeft="4dp"
-                android:paddingRight="4dp"
                 android:paddingStart="4dp"
+                android:paddingLeft="4dp"
+                android:paddingEnd="4dp"
+                android:paddingRight="4dp"
                 android:scrollHorizontally="true"
                 android:singleLine="true"
                 android:textColor="?text_secondary_color"
@@ -101,5 +102,13 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_update"
+        style="@style/MaterialButtonSecondary"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:text="@string/update" />
 
 </LinearLayout>
