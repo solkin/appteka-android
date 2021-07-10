@@ -1,5 +1,11 @@
 package com.tomclaw.appsend.main.profile;
 
+import static android.app.Activity.RESULT_OK;
+import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
+import static com.tomclaw.appsend.util.MemberImageHelper.memberImageHelper;
+import static com.tomclaw.appsend.util.TimeHelper.timeHelper;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+
 import android.app.Activity;
 import android.content.Context;
 import android.text.TextUtils;
@@ -29,8 +35,10 @@ import com.tomclaw.appsend.main.local.InstalledActivity_;
 import com.tomclaw.appsend.main.profile.list.FilesActivity_;
 import com.tomclaw.appsend.main.view.MemberImageView;
 import com.tomclaw.appsend.net.Session;
+import com.tomclaw.appsend.net.UpdatesCheckInteractor;
 import com.tomclaw.appsend.net.UserData;
 import com.tomclaw.appsend.net.UserDataListener;
+import com.tomclaw.appsend.util.Listeners;
 import com.tomclaw.appsend.util.RoleHelper;
 
 import org.androidannotations.annotations.AfterViews;
@@ -43,17 +51,12 @@ import org.androidannotations.annotations.OnActivityResult;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.Calendar;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static android.app.Activity.RESULT_OK;
-import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
-import static com.tomclaw.appsend.util.MemberImageHelper.memberImageHelper;
-import static com.tomclaw.appsend.util.TimeHelper.timeHelper;
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 @EFragment(R.layout.profile_fragment)
 public class ProfileFragment extends HomeFragment implements UserDataListener {
@@ -65,6 +68,9 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
 
     @Bean
     Session session;
+
+    @Bean
+    UpdatesCheckInteractor updatesCheck;
 
     @ViewById
     Toolbar toolbar;
@@ -108,6 +114,8 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
     @ViewById
     LinearLayout detailsContainer;
 
+    private DetailsItem installedItem;
+
     @InstanceState
     Profile profile;
 
@@ -119,6 +127,8 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
 
     @FragmentArg
     Long userId;
+
+    private Listeners.Listener<Map<String, UpdatesCheckInteractor.AppEntry>> updatesListener;
 
     @AfterViews
     void init() {
@@ -137,11 +147,28 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
     public void onStart() {
         super.onStart();
         session.getUserHolder().attachListener(this);
+        updatesListener = new Listeners.Listener<Map<String, UpdatesCheckInteractor.AppEntry>>() {
+            @Override
+            public void onDataChanged(Map<String, UpdatesCheckInteractor.AppEntry> data) {
+                if (installedItem != null) {
+                    installedItem.setCounter(String.valueOf(data.size()));
+                }
+            }
+
+            @Override
+            public <E extends Throwable> void onError(E ex) {
+                if (installedItem != null) {
+                    installedItem.setCounter("");
+                }
+            }
+        };
+        updatesCheck.getListeners().attachListener(updatesListener);
     }
 
     @Override
     public void onStop() {
         session.getUserHolder().removeListener(this);
+        updatesCheck.getListeners().removeListener(updatesListener);
         super.onStop();
     }
 
@@ -340,7 +367,7 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
             detailsContainer.addView(
                     DetailsHeaderItem_.build(context).setDetails(getString(R.string.local_apps))
             );
-            detailsContainer.addView(DetailsItem_.build(context)
+            installedItem = DetailsItem_.build(context)
                     .setDetails(
                             R.drawable.ic_apps,
                             R.color.apps_color,
@@ -348,8 +375,8 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
                             "",
                             false
                     )
-                    .setClickListener(v -> showInstalledApps())
-            );
+                    .setClickListener(v -> showInstalledApps());
+            detailsContainer.addView(installedItem);
             detailsContainer.addView(DetailsItem_.build(context)
                     .setDetails(
                             R.drawable.ic_install,

@@ -1,6 +1,7 @@
 package com.tomclaw.appsend.main.profile;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -30,6 +31,9 @@ public class DetailsItem extends RelativeLayout {
     TextView detailValue;
 
     @ViewById
+    TextView detailCounter;
+
+    @ViewById
     View detailDivider;
 
     public DetailsItem(Context context) {
@@ -49,6 +53,15 @@ public class DetailsItem extends RelativeLayout {
         detailValue.setText(value);
         detailDivider.setVisibility(isLast ? INVISIBLE : VISIBLE);
         return this;
+    }
+
+    public void setCounter(String counter) {
+        if (TextUtils.isEmpty(counter)) {
+            detailCounter.setVisibility(GONE);
+        } else {
+            detailCounter.setText(counter);
+            detailCounter.setVisibility(VISIBLE);
+        }
     }
 
     public DetailsItem setClickListener(OnClickListener clickListener) {

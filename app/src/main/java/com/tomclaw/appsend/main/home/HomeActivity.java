@@ -95,12 +95,17 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
     private final static boolean shouldLoadHomeFragOnBackPress = true;
     private Handler handler;
 
+    private UpdatesCheckInteractor updatesCheck;
+    private Listeners.Listener<Map<String, UpdatesCheckInteractor.AppEntry>> updatesListener;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         boolean isCreateInstance = savedInstanceState == null;
 
         isDarkTheme = ThemeHelper.updateTheme(this);
         super.onCreate(savedInstanceState);
+
+        updatesCheck = UpdatesCheckInteractor_.getInstance_(this);
 
         setContentView(R.layout.activity_home);
 
@@ -193,8 +198,7 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
         Session.getInstance().getUserHolder().attachListener(this);
         UpdateController.getInstance().onAttach(this);
         DiscussController.getInstance().onAttach(this);
-        UpdatesCheckInteractor updatesCheck = UpdatesCheckInteractor_.getInstance_(this);
-        updatesCheck.getListeners().attachListener(new Listeners.Listener<Map<String, UpdatesCheckInteractor.AppEntry>>() {
+        updatesListener = new Listeners.Listener<Map<String, UpdatesCheckInteractor.AppEntry>>() {
             @Override
             public void onDataChanged(Map<String, UpdatesCheckInteractor.AppEntry> data) {
                 bottomNavigation.setNotification(String.valueOf(data.size()), 2);
@@ -204,13 +208,15 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
             public <E extends Throwable> void onError(E ex) {
                 bottomNavigation.setNotification("", 2);
             }
-        });
+        };
+        updatesCheck.getListeners().attachListener(updatesListener);
         UpdatesCheckInteractor_.getInstance_(this).checkUpdates();
     }
 
     @Override
     protected void onStop() {
         Session.getInstance().getUserHolder().removeListener(this);
+        updatesCheck.getListeners().removeListener(updatesListener);
         UpdateController.getInstance().onDetach(this);
         DiscussController.getInstance().onDetach(this);
         super.onStop();
