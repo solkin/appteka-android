@@ -376,6 +376,7 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
                             false
                     )
                     .setClickListener(v -> showInstalledApps());
+            installedItem.setCounter(String.valueOf(updatesCheck.getUpdates().size()));
             detailsContainer.addView(installedItem);
             detailsContainer.addView(DetailsItem_.build(context)
                     .setDetails(
