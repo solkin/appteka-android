@@ -130,7 +130,7 @@
         <item name="bottom_bar_background">#202022</item>
 
         <item name="toolbar_background">#202022</item>
-        <item name="search_toolbar_background">#111A16</item>
+        <item name="search_toolbar_background">#202022</item>
 
         <item name="play_view_color">@color/play_view_dark_color</item>
 
