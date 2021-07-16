@@ -13,6 +13,7 @@ import com.google.gson.annotations.SerializedName;
 import com.tomclaw.appsend.Appteka;
 import com.tomclaw.appsend.core.Response;
 import com.tomclaw.appsend.util.Listeners;
+import com.tomclaw.appsend.util.Unobfuscatable;
 
 import org.androidannotations.annotations.App;
 import org.androidannotations.annotations.Bean;
@@ -89,7 +90,7 @@ public class UpdatesCheckInteractor {
         return Collections.unmodifiableMap(updates);
     }
 
-    public static class CheckUpdatesRequest {
+    public static class CheckUpdatesRequest implements Unobfuscatable {
 
         @SerializedName(value = "guid")
         private String guid;
@@ -106,12 +107,12 @@ public class UpdatesCheckInteractor {
 
     }
 
-    public static class CheckUpdatesResponse {
+    public static class CheckUpdatesResponse implements Unobfuscatable {
         @SerializedName(value = "entries")
         private List<AppEntry> entries;
     }
 
-    public static class AppEntry {
+    public static class AppEntry implements Unobfuscatable {
 
         @SerializedName(value = "app_id")
         private String appId;
