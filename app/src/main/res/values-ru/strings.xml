@@ -267,4 +267,10 @@
     <string name="migrate_description">Всё на прежних местах. Только намного быстрее и стабильнее.</string>
     <string name="yeah">Отлично!</string>
     <string name="local_apps">Локальные приложения</string>
+    <plurals name="updates_available">
+        <item quantity="one">Доступно %d обновление</item>
+        <item quantity="few">Доступно %d обновлений</item>
+        <item quantity="many">Доступно %d обновлений</item>
+        <item quantity="other">Доступно %d обновлений</item>
+    </plurals>
 </resources>

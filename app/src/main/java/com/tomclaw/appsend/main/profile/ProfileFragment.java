@@ -151,18 +151,19 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
             @Override
             public void onDataChanged(Map<String, UpdatesCheckInteractor.AppEntry> data) {
                 if (installedItem != null) {
-                    installedItem.setCounter(String.valueOf(data.size()));
+                    installedItem.setDescription(getContext().getResources().getString(R.string.updates_available, updatesCheck.getUpdates().size()));
                 }
             }
 
             @Override
             public <E extends Throwable> void onError(E ex) {
                 if (installedItem != null) {
-                    installedItem.setCounter("");
+                    installedItem.setDescription("");
                 }
             }
         };
         updatesCheck.getListeners().attachListener(updatesListener);
+        updatesCheck.checkUpdates();
     }
 
     @Override
@@ -333,6 +334,7 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
                         R.color.user_uploads_color,
                         getString(R.string.apps_uploaded),
                         String.valueOf(profile.getFilesCount()),
+                        "",
                         false
                 )
                 .setClickListener(v -> showUserFiles()));
@@ -342,6 +344,7 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
                         R.color.user_messages_color,
                         getString(R.string.messages_wrote),
                         String.valueOf(profile.getMsgCount()),
+                        "",
                         false
                 )
         );
@@ -351,6 +354,7 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
                         R.color.user_starred_color,
                         getString(R.string.apps_rated),
                         String.valueOf(profile.getRatingsCount()),
+                        "",
                         false
                 )
         );
@@ -360,6 +364,7 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
                         R.color.moderators_color,
                         getString(R.string.moderators_assigned),
                         String.valueOf(profile.getModeratorsCount()),
+                        "",
                         true
                 )
         );
@@ -367,26 +372,27 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
             detailsContainer.addView(
                     DetailsHeaderItem_.build(context).setDetails(getString(R.string.local_apps))
             );
+            String description = "";
+            if (updatesCheck.getUpdates().size() > 0) {
+                description = context.getResources().getString(R.string.updates_available, updatesCheck.getUpdates().size());
+            }
             installedItem = DetailsItem_.build(context)
                     .setDetails(
                             R.drawable.ic_apps,
                             R.color.apps_color,
                             getString(R.string.nav_installed),
                             "",
+                            description,
                             false
                     )
                     .setClickListener(v -> showInstalledApps());
-            String counter = "";
-            if (updatesCheck.getUpdates().size() > 0) {
-                counter = String.valueOf(updatesCheck.getUpdates().size());
-            }
-            installedItem.setCounter(counter);
             detailsContainer.addView(installedItem);
             detailsContainer.addView(DetailsItem_.build(context)
                     .setDetails(
                             R.drawable.ic_install,
                             R.color.apks_color,
                             getString(R.string.nav_distro),
+                            "",
                             "",
                             true
                     )

@@ -31,7 +31,7 @@ public class DetailsItem extends RelativeLayout {
     TextView detailValue;
 
     @ViewById
-    TextView detailCounter;
+    TextView detailDescription;
 
     @ViewById
     View detailDivider;
@@ -45,22 +45,24 @@ public class DetailsItem extends RelativeLayout {
             @ColorRes int color,
             String text,
             String value,
+            String description,
             boolean isLast
     ) {
         detailIcon.setImageResource(icon);
         detailIcon.setColorFilter(getResources().getColor(color));
         detailText.setText(text);
         detailValue.setText(value);
+        setDescription(description);
         detailDivider.setVisibility(isLast ? INVISIBLE : VISIBLE);
         return this;
     }
 
-    public void setCounter(String counter) {
-        if (TextUtils.isEmpty(counter)) {
-            detailCounter.setVisibility(GONE);
+    public void setDescription(String description) {
+        if (TextUtils.isEmpty(description)) {
+            detailDescription.setVisibility(GONE);
         } else {
-            detailCounter.setText(counter);
-            detailCounter.setVisibility(VISIBLE);
+            detailDescription.setText(description);
+            detailDescription.setVisibility(VISIBLE);
         }
     }
 
