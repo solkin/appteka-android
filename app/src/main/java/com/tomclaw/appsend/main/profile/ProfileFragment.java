@@ -151,7 +151,14 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
             @Override
             public void onDataChanged(Map<String, UpdatesCheckInteractor.AppEntry> data) {
                 if (installedItem != null) {
-                    installedItem.setDescription(getContext().getResources().getString(R.string.updates_available, updatesCheck.getUpdates().size()));
+                    int updatesCount = updatesCheck.getUpdates().size();
+                    installedItem.setDescription(
+                            getContext().getResources().getQuantityString(
+                                    R.plurals.updates_available,
+                                    updatesCount,
+                                    updatesCount
+                            )
+                    );
                 }
             }
 
@@ -374,7 +381,12 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
             );
             String description = "";
             if (updatesCheck.getUpdates().size() > 0) {
-                description = context.getResources().getString(R.string.updates_available, updatesCheck.getUpdates().size());
+                int updatesCount = updatesCheck.getUpdates().size();
+                description = getContext().getResources().getQuantityString(
+                        R.plurals.updates_available,
+                        updatesCount,
+                        updatesCount
+                );
             }
             installedItem = DetailsItem_.build(context)
                     .setDetails(
