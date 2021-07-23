@@ -22,6 +22,7 @@
         tools:tint="@color/primary_color" />
 
     <LinearLayout
+        android:id="@+id/detail_text_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
@@ -77,9 +78,9 @@
         android:id="@+id/detail_divider"
         android:layout_width="0dp"
         android:layout_height="1dp"
-        android:layout_below="@id/detail_text"
-        android:layout_alignStart="@id/detail_text"
-        android:layout_alignLeft="@id/detail_text"
+        android:layout_below="@id/detail_text_container"
+        android:layout_alignStart="@id/detail_text_container"
+        android:layout_alignLeft="@id/detail_text_container"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_marginTop="12dp"
