@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.main.adapter.files.FileViewHolderCreator;
 import com.tomclaw.appsend.main.item.AppItem;
+import com.tomclaw.appsend.net.AppEntry;
 import com.tomclaw.appsend.net.UpdatesCheckInteractor;
 import com.tomclaw.appsend.util.PreferenceHelper;
 
@@ -91,7 +92,7 @@ abstract class InstalledFragment extends CommonItemFragment<AppItem> {
         PackageManager packageManager = context.getPackageManager();
         ArrayList<AppItem> appItemList = new ArrayList<>();
 
-        Map<String, UpdatesCheckInteractor.AppEntry> updates = updatesCheck.getUpdates();
+        Map<String, AppEntry> updates = updatesCheck.getUpdates();
         List<ApplicationInfo> packages = packageManager.getInstalledApplications(PackageManager.GET_META_DATA);
         for (ApplicationInfo info : packages) {
             try {
@@ -102,7 +103,7 @@ abstract class InstalledFragment extends CommonItemFragment<AppItem> {
                     String version = packageInfo.versionName;
                     long firstInstallTime = packageInfo.firstInstallTime;
                     long lastUpdateTime = packageInfo.lastUpdateTime;
-                    UpdatesCheckInteractor.AppEntry update = updates.get(info.packageName);
+                    AppEntry update = updates.get(info.packageName);
                     AppItem appItem = new AppItem(label, info.packageName, version, file.getPath(),
                             file.length(), firstInstallTime, lastUpdateTime, update, packageInfo);
                     boolean isUserApp = ((info.flags & ApplicationInfo.FLAG_SYSTEM) != ApplicationInfo.FLAG_SYSTEM &&

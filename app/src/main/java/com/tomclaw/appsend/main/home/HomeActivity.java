@@ -1,5 +1,9 @@
 package com.tomclaw.appsend.main.home;
 
+import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
+import static com.tomclaw.appsend.Appteka.getLastRunBuildNumber;
+import static com.tomclaw.appsend.Appteka.wasRegistered;
+
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
@@ -45,21 +49,12 @@ import com.tomclaw.appsend.main.store.StoreFragment_;
 import com.tomclaw.appsend.main.store.search.SearchActivity_;
 import com.tomclaw.appsend.main.upload.UploadActivity;
 import com.tomclaw.appsend.net.Session;
-import com.tomclaw.appsend.net.UpdatesCheckInteractor;
-import com.tomclaw.appsend.net.UpdatesCheckInteractor_;
 import com.tomclaw.appsend.net.UserData;
 import com.tomclaw.appsend.net.UserDataListener;
 import com.tomclaw.appsend.util.ColorHelper;
-import com.tomclaw.appsend.util.Listeners;
 import com.tomclaw.appsend.util.LocaleHelper;
 import com.tomclaw.appsend.util.PreferenceHelper;
 import com.tomclaw.appsend.util.ThemeHelper;
-
-import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
-import static com.tomclaw.appsend.Appteka.getLastRunBuildNumber;
-import static com.tomclaw.appsend.Appteka.wasRegistered;
-
-import java.util.Map;
 
 public class HomeActivity extends PermisoActivity implements UserDataListener,
         UpdateController.UpdateCallback,

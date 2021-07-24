@@ -34,6 +34,7 @@ import com.tomclaw.appsend.main.local.DistroActivity_;
 import com.tomclaw.appsend.main.local.InstalledActivity_;
 import com.tomclaw.appsend.main.profile.list.FilesActivity_;
 import com.tomclaw.appsend.main.view.MemberImageView;
+import com.tomclaw.appsend.net.AppEntry;
 import com.tomclaw.appsend.net.Session;
 import com.tomclaw.appsend.net.UpdatesCheckInteractor;
 import com.tomclaw.appsend.net.UserData;
@@ -128,7 +129,7 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
     @FragmentArg
     Long userId;
 
-    private Listeners.Listener<Map<String, UpdatesCheckInteractor.AppEntry>> updatesListener;
+    private Listeners.Listener<Map<String, AppEntry>> updatesListener;
 
     @AfterViews
     void init() {
@@ -147,9 +148,9 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
     public void onStart() {
         super.onStart();
         session.getUserHolder().attachListener(this);
-        updatesListener = new Listeners.Listener<Map<String, UpdatesCheckInteractor.AppEntry>>() {
+        updatesListener = new Listeners.Listener<Map<String, AppEntry>>() {
             @Override
-            public void onDataChanged(Map<String, UpdatesCheckInteractor.AppEntry> data) {
+            public void onDataChanged(Map<String, AppEntry> data) {
                 if (installedItem != null) {
                     int updatesCount = updatesCheck.getUpdates().size();
                     installedItem.setDescription(

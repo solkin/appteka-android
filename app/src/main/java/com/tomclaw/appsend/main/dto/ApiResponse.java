@@ -6,6 +6,7 @@ public class ApiResponse<A> implements Unobfuscatable {
 
     private final int status;
     private final A result;
+    private String description;
 
     public ApiResponse(int status, A result) {
         this.status = status;
@@ -20,4 +21,7 @@ public class ApiResponse<A> implements Unobfuscatable {
         return result;
     }
 
+    public String getDescription() {
+        return description;
+    }
 }

@@ -11,8 +11,11 @@ import com.tomclaw.appsend.main.profile.list.ListResponse;
 import com.tomclaw.appsend.main.ratings.RateResponse;
 import com.tomclaw.appsend.main.ratings.RatingsResponse;
 import com.tomclaw.appsend.main.unlink.UnlinkResponse;
+import com.tomclaw.appsend.net.CheckUpdatesRequest;
+import com.tomclaw.appsend.net.CheckUpdatesResponse;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -133,6 +136,12 @@ public interface StoreService {
             @Field("locale") String locale,
             @Field("email") String email,
             @Field("password") String password
+    );
+
+
+    @POST("api/1/app/updates")
+    Call<ApiResponse<CheckUpdatesResponse>> checkUpdates(
+            @Body CheckUpdatesRequest request
     );
 
 }

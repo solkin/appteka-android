@@ -2,9 +2,7 @@ package com.tomclaw.appsend;
 
 import android.app.Application;
 
-import com.tomclaw.appsend.core.ApptekaService;
 import com.tomclaw.appsend.main.controller.DiscussController;
-import com.tomclaw.appsend.net.UpdatesCheckInteractor;
 import com.tomclaw.appsend.net.RequestDispatcher;
 import com.tomclaw.appsend.net.Session;
 import com.tomclaw.appsend.net.request.Request;
@@ -17,9 +15,6 @@ import com.tomclaw.appsend.util.states.StateHolder;
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EApplication;
-
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by ivsolkin on 21.03.17.
@@ -37,8 +32,6 @@ public class Appteka extends Application {
     @Bean
     Session session;
 
-    private static ApptekaService service;
-
     @AfterInject
     void init() {
         app = this;
@@ -51,12 +44,6 @@ public class Appteka extends Application {
         RequestDispatcher
                 .init(this, session.getUserHolder(), APP_SESSION, Request.REQUEST_TYPE_SHORT)
                 .startObservation();
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("https://appteka.store/api/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        service = retrofit.create(ApptekaService.class);
     }
 
     public static Appteka app() {
@@ -75,9 +62,5 @@ public class Appteka extends Application {
 
     public static int getLastRunBuildNumber() {
         return lastRunBuildNumber;
-    }
-
-    public static ApptekaService getService() {
-        return service;
     }
 }

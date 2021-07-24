@@ -3,7 +3,7 @@ package com.tomclaw.appsend.main.item;
 import android.content.pm.PackageInfo;
 import android.os.Parcel;
 
-import com.tomclaw.appsend.net.UpdatesCheckInteractor.AppEntry;
+import com.tomclaw.appsend.net.AppEntry;
 
 /**
  * Created by Solkin on 11.12.2014.
