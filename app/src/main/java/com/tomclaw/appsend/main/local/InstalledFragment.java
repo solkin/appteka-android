@@ -135,6 +135,7 @@ abstract class InstalledFragment extends CommonItemFragment<AppItem> {
         } else if (TextUtils.equals(sortOrder, context.getString(R.string.sort_order_update_time_value))) {
             Collections.sort(appItemList, (lhs, rhs) -> compareLong(rhs.getLastUpdateTime(), lhs.getLastUpdateTime()));
         }
+        Collections.sort(appItemList, (lhs, rhs) -> Boolean.compare(rhs.getUpdate() != null, lhs.getUpdate() != null));
         return appItemList;
     }
 
