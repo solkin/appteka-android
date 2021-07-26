@@ -267,6 +267,8 @@
     <string name="migrate_description">Всё на прежних местах. Только намного быстрее и стабильнее.</string>
     <string name="yeah">Отлично!</string>
     <string name="local_apps">Локальные приложения</string>
+    <string name="unsupported_sdk_title">Устаревший Android</string>
+    <string name="unsupported_sdk_text">Это приложение требует Android %s и выше для корректной работы и не может быть установлено на ваше устройство. Всё равно хотите скачать приложение?</string>
     <plurals name="updates_available">
         <item quantity="one">Доступно %d обновление</item>
         <item quantity="few">Доступно %d обновлений</item>

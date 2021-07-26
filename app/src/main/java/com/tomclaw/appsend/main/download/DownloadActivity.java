@@ -640,7 +640,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             PreferenceHelper.setShowResponsibilityDenial(DownloadActivity.this, false);
-                            installApp();
+                            checkAndroidVersion();
                         }
                     })
                     .setPositiveButton(R.string.no, new DialogInterface.OnClickListener() {
@@ -651,7 +651,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
                     })
                     .show();
         } else {
-            installApp();
+            checkAndroidVersion();
         }
     }
 
@@ -673,6 +673,20 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
                 Permiso.getInstance().showRationaleInDialog(title, message, null, callback);
             }
         }, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+    }
+
+    private void checkAndroidVersion() {
+        if (info.info.getSdkVersion() > Build.VERSION.SDK_INT) {
+            new AlertDialog.Builder(this)
+                    .setTitle(getString(R.string.unsupported_sdk_title))
+                    .setMessage(getString(R.string.unsupported_sdk_text, info.info.getAndroidVersion()))
+                    .setNegativeButton(R.string.yes, (dialog, which) -> installApp())
+                    .setPositiveButton(R.string.no, (dialog, which) -> {
+                    })
+                    .show();
+        } else {
+            installApp();
+        }
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")

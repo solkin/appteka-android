@@ -273,6 +273,8 @@
     <string name="migrate_description">Everything is in the same places.\nBut more faster and stable.</string>
     <string name="yeah">Yeah!</string>
     <string name="local_apps">Local apps</string>
+    <string name="unsupported_sdk_title">Outdated Android</string>
+    <string name="unsupported_sdk_text">This app requires Android %s or higher and can not be installed on your device. Do you still want to download it?</string>
     <plurals name="updates_available">
         <item quantity="one">%d update available</item>
         <item quantity="few">%d updates available</item>
