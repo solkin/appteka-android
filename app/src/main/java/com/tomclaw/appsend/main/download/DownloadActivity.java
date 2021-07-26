@@ -693,11 +693,13 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     private void installApp() {
         File directory = getExternalDirectory();
         File destination = new File(directory, getApkName(info.getItem()));
-        if (destination.exists()) {
-            destination.delete();
-        }
         String filePath = destination.getAbsolutePath();
-        DownloadController.getInstance().download(info.getLink(), filePath);
+        if (destination.exists() && destination.length() == info.getItem().getSize()) {
+            onDownloaded(filePath);
+        } else {
+            destination.delete();
+            DownloadController.getInstance().download(info.getLink(), filePath);
+        }
         trackEvent("install-app");
     }
 
@@ -1011,7 +1013,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     }
 
     private static String getApkPrefix(StoreItem item) {
-        return FileHelper.escapeFileSymbols(item.getLabel() + "-" + item.getVersion());
+        return FileHelper.escapeFileSymbols(item.getLabel() + "-" + item.getVersion() + "-" + item.getAppId());
     }
 
     private static String getApkSuffix() {
