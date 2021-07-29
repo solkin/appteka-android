@@ -68,8 +68,12 @@
 
                 <data android:scheme="http" />
                 <data android:scheme="https" />
-                <data android:host="appsend.store" />
-                <data android:host="appteka.store" />
+                <data
+                    android:host="appsend.store"
+                    android:pathPrefix="/app" />
+                <data
+                    android:host="appteka.store"
+                    android:pathPrefix="/app" />
             </intent-filter>
         </activity>
         <activity
@@ -89,7 +93,23 @@
         <activity
             android:name=".main.profile.ProfileActivity_"
             android:label="@string/profile"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="http" />
+                <data android:scheme="https" />
+                <data
+                    android:host="appsend.store"
+                    android:pathPrefix="/user" />
+                <data
+                    android:host="appteka.store"
+                    android:pathPrefix="/user" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".main.unlink.UnlinkActivity_"
             android:label="@string/profile"
