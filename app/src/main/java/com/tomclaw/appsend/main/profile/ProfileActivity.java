@@ -6,8 +6,6 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Pair;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -15,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.tomclaw.appsend.R;
-import com.tomclaw.appsend.main.download.DownloadActivity;
 import com.tomclaw.appsend.main.home.HomeActivity;
 import com.tomclaw.appsend.util.ThemeHelper;
 
