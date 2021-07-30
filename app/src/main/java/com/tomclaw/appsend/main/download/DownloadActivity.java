@@ -522,47 +522,22 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
                 if (isRunnable) {
                     buttonsSwitcher.setDisplayedChild(1);
                     buttonFirst.setText(R.string.remove);
-                    buttonFirst.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            requestAppRemoval(packageName);
-                        }
-                    });
+                    buttonFirst.setOnClickListener(v -> requestAppRemoval(packageName));
                     if (isNewer) {
                         buttonSecond.setText(R.string.update);
-                        buttonSecond.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                updateApp();
-                            }
-                        });
+                        buttonSecond.setOnClickListener(v -> updateApp());
                     } else {
                         buttonSecond.setText(R.string.open);
-                        buttonSecond.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                openApp(launchIntent);
-                            }
-                        });
+                        buttonSecond.setOnClickListener(v -> openApp(launchIntent));
                     }
                 } else {
                     buttonsSwitcher.setDisplayedChild(0);
                     if (isNewer) {
                         buttonOne.setText(R.string.update);
-                        buttonOne.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                updateApp();
-                            }
-                        });
+                        buttonOne.setOnClickListener(v -> updateApp());
                     } else {
                         buttonOne.setText(R.string.remove);
-                        buttonOne.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                requestAppRemoval(packageName);
-                            }
-                        });
+                        buttonOne.setOnClickListener(v -> requestAppRemoval(packageName));
                     }
                 }
             }
@@ -571,12 +546,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         }
         buttonsSwitcher.setDisplayedChild(0);
         buttonOne.setText(R.string.install);
-        buttonOne.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                checkPermissionsForInstall();
-            }
-        });
+        buttonOne.setOnClickListener(v -> checkPermissionsForInstall());
     }
 
     private void responsibilityDenial() {
@@ -584,19 +554,11 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
             new AlertDialog.Builder(this)
                     .setTitle(getString(R.string.responsibility_denial_title))
                     .setMessage(getString(R.string.responsibility_denial_text))
-                    .setNegativeButton(R.string.yes, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            PreferenceHelper.setShowResponsibilityDenial(DownloadActivity.this, false);
-                            checkAndroidVersion();
-                        }
+                    .setNegativeButton(R.string.yes, (dialog, which) -> {
+                        PreferenceHelper.setShowResponsibilityDenial(DownloadActivity.this, false);
+                        checkAndroidVersion();
                     })
-                    .setPositiveButton(R.string.no, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            showError(R.string.agree_with_responsibility_condition);
-                        }
-                    })
+                    .setPositiveButton(R.string.no, (dialog, which) -> showError(R.string.agree_with_responsibility_condition))
                     .show();
         } else {
             checkAndroidVersion();
