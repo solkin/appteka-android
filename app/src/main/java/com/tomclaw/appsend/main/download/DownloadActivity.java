@@ -351,12 +351,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
                 if (finishOnly) {
                     runnable = null;
                 } else {
-                    runnable = new Runnable() {
-                        @Override
-                        public void run() {
-                            openStore();
-                        }
-                    };
+                    runnable = this::openStore;
                 }
                 finishAttempt(runnable);
                 break;
