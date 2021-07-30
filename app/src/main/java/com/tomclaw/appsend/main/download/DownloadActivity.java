@@ -292,83 +292,36 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         metaContainer = findViewById(R.id.meta_container);
         editMeta = findViewById(R.id.edit_meta);
 
-        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                reloadInfo();
-            }
+        swipeRefresh.setOnRefreshListener(this::reloadInfo);
+        findViewById(R.id.button_cancel).setOnClickListener(v -> cancelDownload());
+        findViewById(R.id.button_retry).setOnClickListener(v -> reloadInfo());
+        findViewById(R.id.share_button).setOnClickListener(v -> {
+            String text = formatText(getResources(), info.getUrl(),
+                    LocaleHelper.getLocalizedLabel(info.getItem()), info.getItem().getSize());
+            shareUrl(DownloadActivity.this, text);
+            trackEvent("share-app-url");
         });
-        findViewById(R.id.button_cancel).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cancelDownload();
-            }
+        findViewById(R.id.play_button).setOnClickListener(v -> {
+            openGooglePlay(DownloadActivity.this, info.getItem().getPackageName());
+            trackEvent("click-google-play");
         });
-        findViewById(R.id.button_retry).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                reloadInfo();
-            }
-        });
-        findViewById(R.id.share_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String text = formatText(getResources(), info.getUrl(),
-                        LocaleHelper.getLocalizedLabel(info.getItem()), info.getItem().getSize());
-                shareUrl(DownloadActivity.this, text);
-                trackEvent("share-app-url");
-            }
-        });
-        findViewById(R.id.play_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openGooglePlay(DownloadActivity.this, info.getItem().getPackageName());
-                trackEvent("click-google-play");
-            }
-        });
-        metaContainer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editMeta();
-            }
-        });
-        findViewById(R.id.submit_rating).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                submitRating();
-            }
-        });
-        findViewById(R.id.rating_retry_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                submitRating();
-            }
-        });
-        View.OnClickListener checksumClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                StringUtil.copyStringToClipboard(
-                        DownloadActivity.this,
-                        checksumView.getText().toString(),
-                        R.string.checksum_copied);
-                trackEvent("copy-checksum");
-            }
+        metaContainer.setOnClickListener(v -> editMeta());
+        findViewById(R.id.submit_rating).setOnClickListener(v -> submitRating());
+        findViewById(R.id.rating_retry_button).setOnClickListener(v -> submitRating());
+        View.OnClickListener checksumClickListener = v -> {
+            StringUtil.copyStringToClipboard(
+                    DownloadActivity.this,
+                    checksumView.getText().toString(),
+                    R.string.checksum_copied);
+            trackEvent("copy-checksum");
         };
         findViewById(R.id.app_checksum_title).setOnClickListener(checksumClickListener);
         checksumView.setOnClickListener(checksumClickListener);
-        ratingContainer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                RatingsActivity_.intent(DownloadActivity.this).appId(appId).start();
-            }
-        });
-        uploaderContainerView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                long userId = info.getItem().getUserId();
-                if (userId > 0) {
-                    ProfileActivity_.intent(DownloadActivity.this).userId(userId).start();
-                }
+        ratingContainer.setOnClickListener(v -> RatingsActivity_.intent(DownloadActivity.this).appId(appId).start());
+        uploaderContainerView.setOnClickListener(v -> {
+            long userId = info.getItem().getUserId();
+            if (userId > 0) {
+                ProfileActivity_.intent(DownloadActivity.this).userId(userId).start();
             }
         });
 
