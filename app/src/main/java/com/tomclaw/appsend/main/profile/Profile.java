@@ -33,6 +33,8 @@ public class Profile implements Parcelable, Unobfuscatable {
     private String name;
     @SerializedName("is_registered")
     private boolean isRegistered;
+    @SerializedName("url")
+    private String url;
 
     protected Profile(Parcel in) {
         userId = in.readInt();
@@ -46,6 +48,7 @@ public class Profile implements Parcelable, Unobfuscatable {
         moderatorsCount = in.readInt();
         name = in.readString();
         isRegistered = in.readInt() == 1;
+        url = in.readString();
     }
 
     public int getUserId() {
@@ -92,6 +95,10 @@ public class Profile implements Parcelable, Unobfuscatable {
         return isRegistered;
     }
 
+    public String getUrl() {
+        return url;
+    }
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(userId);
@@ -105,6 +112,7 @@ public class Profile implements Parcelable, Unobfuscatable {
         dest.writeInt(moderatorsCount);
         dest.writeString(name);
         dest.writeInt(isRegistered ? 1 : 0);
+        dest.writeString(url);
     }
 
     @Override

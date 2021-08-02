@@ -281,4 +281,5 @@
         <item quantity="many">%d updates available</item>
         <item quantity="other">%d updates available</item>
     </plurals>
+    <string name="user_url" translatable="false">%1$s (ID: %2$d)\n%3$s</string>
 </resources>

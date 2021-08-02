@@ -1,6 +1,8 @@
 package com.tomclaw.appsend.main.profile;
 
 import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
+import static com.tomclaw.appsend.util.IntentHelper.formatText;
+import static com.tomclaw.appsend.util.IntentHelper.shareUrl;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -13,7 +15,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.tomclaw.appsend.R;
+import com.tomclaw.appsend.main.download.DownloadActivity;
 import com.tomclaw.appsend.main.home.HomeActivity;
+import com.tomclaw.appsend.util.LocaleHelper;
 import com.tomclaw.appsend.util.ThemeHelper;
 
 import org.androidannotations.annotations.AfterViews;
@@ -22,6 +26,7 @@ import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.FragmentById;
 import org.androidannotations.annotations.InstanceState;
 import org.androidannotations.annotations.OptionsItem;
+import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.List;
@@ -31,6 +36,7 @@ import java.util.List;
  */
 @SuppressLint("Registered")
 @EActivity(R.layout.profile_activity)
+@OptionsMenu(R.menu.profile_menu)
 public class ProfileActivity extends AppCompatActivity {
 
     @ViewById
@@ -86,6 +92,14 @@ public class ProfileActivity extends AppCompatActivity {
     @OptionsItem(android.R.id.home)
     boolean actionHome() {
         onBackPressed();
+        return true;
+    }
+
+    @OptionsItem(R.id.share)
+    boolean sharePressed() {
+        String text = getResources().getString(R.string.user_url, profileFragment.profile.getName(), profileFragment.profile.getUserId(), profileFragment.profile.getUrl());
+        shareUrl(ProfileActivity.this, text);
+        trackEvent("share-user-url");
         return true;
     }
 
