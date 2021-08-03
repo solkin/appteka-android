@@ -106,7 +106,7 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        if (isShowHomeOnFinish) {
+        if (isShowHomeOnFinish != null && isShowHomeOnFinish) {
             Intent intent = new Intent(ProfileActivity.this, HomeActivity.class)
                     .setAction(HomeActivity.ACTION_STORE)
                     .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
