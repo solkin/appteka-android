@@ -42,7 +42,6 @@ import com.google.android.material.snackbar.Snackbar;
 import com.greysonparrelli.permiso.Permiso;
 import com.greysonparrelli.permiso.PermisoActivity;
 import com.tomclaw.appsend.R;
-import com.tomclaw.appsend.core.GlideApp;
 import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.core.StoreServiceHolder;
 import com.tomclaw.appsend.core.StoreServiceHolder_;
@@ -96,6 +95,9 @@ import static com.tomclaw.appsend.util.IntentHelper.shareUrl;
 import static com.tomclaw.appsend.util.LocaleHelper.getLocalizedName;
 import static com.tomclaw.appsend.util.PermissionHelper.getPermissionSmallInfo;
 import static com.tomclaw.appsend.util.TimeHelper.timeHelper;
+import static com.tomclaw.imageloader.util.ImageViewHandlersKt.centerCrop;
+import static com.tomclaw.imageloader.util.ImageViewHandlersKt.withPlaceholder;
+import static com.tomclaw.imageloader.util.ImageViewsKt.fetch;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 /**
@@ -430,10 +432,16 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         this.info = info;
         StoreItem item = info.getItem();
         Meta meta = info.getMeta();
-        GlideApp.with(this)
-                .load(item.getIcon())
-                .placeholder(R.drawable.app_placeholder)
-                .into(iconView);
+        fetch(iconView, item.getIcon(), imageViewHandlers -> {
+            centerCrop(imageViewHandlers);
+            withPlaceholder(imageViewHandlers, R.drawable.app_placeholder);
+            imageViewHandlers.setPlaceholder(imageViewViewHolder -> {
+                imageViewViewHolder.get().setScaleType(ImageView.ScaleType.CENTER_CROP);
+                imageViewViewHolder.get().setImageResource(R.drawable.app_placeholder);
+                return null;
+            });
+            return null;
+        });
         String sizeText;
         int sizeFactor;
         long bytes = item.getSize();

@@ -41,6 +41,8 @@ android {
 
 dependencies {
     implementation project(path: ':preference-fragment')
+    implementation 'com.github.solkin:simple-image-loader:v0.8.1'
+    implementation 'com.github.solkin:disk-lru-cache:1.4'
     implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.5.30'
     implementation 'androidx.core:core-ktx:1.6.0'
     annotationProcessor 'org.androidannotations:androidannotations:4.7.0'
@@ -54,8 +56,6 @@ dependencies {
     implementation 'com.microsoft.appcenter:appcenter-analytics:4.1.0'
     implementation 'com.microsoft.appcenter:appcenter-crashes:4.1.0'
     implementation 'com.jaeger.statusbarutil:library:1.5.1'
-    implementation 'com.github.bumptech.glide:glide:4.9.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
     implementation 'com.orhanobut:logger:1.15'
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'

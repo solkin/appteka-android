@@ -1,6 +1,9 @@
 package com.tomclaw.appsend.main.local;
 
 import static com.tomclaw.appsend.util.TimeHelper.timeHelper;
+import static com.tomclaw.imageloader.util.ImageViewHandlersKt.centerCrop;
+import static com.tomclaw.imageloader.util.ImageViewHandlersKt.withPlaceholder;
+import static com.tomclaw.imageloader.util.ImageViewsKt.fetch;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,11 +12,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tomclaw.appsend.R;
-import com.tomclaw.appsend.core.GlideApp;
 import com.tomclaw.appsend.main.adapter.files.FileViewHolder;
 import com.tomclaw.appsend.main.adapter.files.FilesListener;
 import com.tomclaw.appsend.main.download.DownloadActivity;
 import com.tomclaw.appsend.main.item.AppItem;
+import com.tomclaw.appsend.util.PackageIconLoader;
 import com.tomclaw.appsend.util.FileHelper;
 
 import java.util.concurrent.TimeUnit;
@@ -48,12 +51,17 @@ public class AppItemViewHolder extends FileViewHolder<AppItem> {
             itemView.setOnClickListener(v -> listener.onClick(item));
         }
 
-        try {
-            GlideApp.with(context)
-                    .load(item.getPackageInfo())
-                    .into(appIcon);
-        } catch (Throwable ignored) {
-        }
+        String uri = PackageIconLoader.getUri(item.getPackageInfo());
+        fetch(appIcon, uri, imageViewHandlers -> {
+            centerCrop(imageViewHandlers);
+            withPlaceholder(imageViewHandlers, R.drawable.app_placeholder);
+            imageViewHandlers.setPlaceholder(imageViewViewHolder -> {
+                imageViewViewHolder.get().setScaleType(ImageView.ScaleType.CENTER_CROP);
+                imageViewViewHolder.get().setImageResource(R.drawable.app_placeholder);
+                return null;
+            });
+            return null;
+        });
 
         appName.setText(item.getLabel());
         appVersion.setText(item.getVersion());

@@ -1,6 +1,11 @@
 package com.tomclaw.appsend.main.upload;
 
-import android.content.DialogInterface;
+import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
+import static com.tomclaw.appsend.util.IntentHelper.shareUrl;
+import static com.tomclaw.imageloader.util.ImageViewHandlersKt.centerCrop;
+import static com.tomclaw.imageloader.util.ImageViewHandlersKt.withPlaceholder;
+import static com.tomclaw.imageloader.util.ImageViewsKt.fetch;
+
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.os.Bundle;
@@ -19,7 +24,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.tomclaw.appsend.R;
-import com.tomclaw.appsend.core.GlideApp;
 import com.tomclaw.appsend.main.download.DownloadActivity;
 import com.tomclaw.appsend.main.item.CommonItem;
 import com.tomclaw.appsend.main.meta.MetaActivity;
@@ -27,9 +31,6 @@ import com.tomclaw.appsend.util.FileHelper;
 import com.tomclaw.appsend.util.IntentHelper;
 import com.tomclaw.appsend.util.StringUtil;
 import com.tomclaw.appsend.util.ThemeHelper;
-
-import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
-import static com.tomclaw.appsend.util.IntentHelper.shareUrl;
 
 /**
  * Created by ivsolkin on 02.01.17.
@@ -117,9 +118,16 @@ public class UploadActivity extends AppCompatActivity implements UploadControlle
         PackageInfo packageInfo = item.getPackageInfo();
 
         if (packageInfo != null) {
-            GlideApp.with(this)
-                    .load(packageInfo)
-                    .into(appIcon);
+            fetch(appIcon, "app-package://" + item.getPackageInfo().packageName + "/" + item.getPackageInfo().versionCode, imageViewHandlers -> {
+                centerCrop(imageViewHandlers);
+                withPlaceholder(imageViewHandlers, R.drawable.app_placeholder);
+                imageViewHandlers.setPlaceholder(imageViewViewHolder -> {
+                    imageViewViewHolder.get().setScaleType(ImageView.ScaleType.CENTER_CROP);
+                    imageViewViewHolder.get().setImageResource(R.drawable.app_placeholder);
+                    return null;
+                });
+                return null;
+            });
         }
 
         appLabel.setText(item.getLabel());

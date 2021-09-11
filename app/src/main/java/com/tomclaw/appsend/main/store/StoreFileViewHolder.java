@@ -1,11 +1,21 @@
 package com.tomclaw.appsend.main.store;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+import static com.tomclaw.appsend.main.item.StoreItem.NOT_INSTALLED;
+import static com.tomclaw.appsend.main.ratings.RatingsListener.STATE_FAILED;
+import static com.tomclaw.appsend.main.ratings.RatingsListener.STATE_LOADED;
+import static com.tomclaw.appsend.main.ratings.RatingsListener.STATE_LOADING;
+import static com.tomclaw.imageloader.util.ImageViewHandlersKt.centerCrop;
+import static com.tomclaw.imageloader.util.ImageViewHandlersKt.withPlaceholder;
+import static com.tomclaw.imageloader.util.ImageViewsKt.fetch;
+import static java.util.concurrent.TimeUnit.SECONDS;
+
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tomclaw.appsend.R;
-import com.tomclaw.appsend.core.GlideApp;
 import com.tomclaw.appsend.main.adapter.files.FileViewHolder;
 import com.tomclaw.appsend.main.adapter.files.FilesListener;
 import com.tomclaw.appsend.main.item.StoreItem;
@@ -13,14 +23,6 @@ import com.tomclaw.appsend.util.FileHelper;
 import com.tomclaw.appsend.util.LocaleHelper;
 
 import java.util.concurrent.TimeUnit;
-
-import static android.view.View.GONE;
-import static android.view.View.VISIBLE;
-import static com.tomclaw.appsend.main.item.StoreItem.NOT_INSTALLED;
-import static com.tomclaw.appsend.main.ratings.RatingsListener.STATE_FAILED;
-import static com.tomclaw.appsend.main.ratings.RatingsListener.STATE_LOADED;
-import static com.tomclaw.appsend.main.ratings.RatingsListener.STATE_LOADING;
-import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class StoreFileViewHolder extends FileViewHolder<StoreItem> {
 
@@ -67,10 +69,17 @@ public class StoreFileViewHolder extends FileViewHolder<StoreItem> {
                 listener.onClick(item);
             }
         });
-        GlideApp.with(itemView.getContext())
-                .load(item.getIcon())
-                .placeholder(R.drawable.app_placeholder)
-                .into(appIcon);
+
+        fetch(appIcon, item.getIcon(), imageViewHandlers -> {
+            centerCrop(imageViewHandlers);
+            withPlaceholder(imageViewHandlers, R.drawable.app_placeholder);
+            imageViewHandlers.setPlaceholder(imageViewViewHolder -> {
+                imageViewViewHolder.get().setScaleType(ImageView.ScaleType.CENTER_CROP);
+                imageViewViewHolder.get().setImageResource(R.drawable.app_placeholder);
+                return null;
+            });
+            return null;
+        });
 
         appName.setText(LocaleHelper.getLocalizedLabel(item));
         appVersion.setText(item.getVersion());

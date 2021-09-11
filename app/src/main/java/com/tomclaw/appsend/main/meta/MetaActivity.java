@@ -1,5 +1,9 @@
 package com.tomclaw.appsend.main.meta;
 
+import static com.tomclaw.imageloader.util.ImageViewHandlersKt.centerCrop;
+import static com.tomclaw.imageloader.util.ImageViewHandlersKt.withPlaceholder;
+import static com.tomclaw.imageloader.util.ImageViewsKt.fetch;
+
 import android.content.pm.PackageInfo;
 import android.os.Bundle;
 import android.view.Menu;
@@ -20,7 +24,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.tomclaw.appsend.R;
-import com.tomclaw.appsend.core.GlideApp;
 import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.core.StoreServiceHolder;
 import com.tomclaw.appsend.core.StoreServiceHolder_;
@@ -159,17 +162,31 @@ public class MetaActivity extends AppCompatActivity {
             PackageInfo packageInfo = commonItem.getPackageInfo();
 
             if (packageInfo != null) {
-                GlideApp.with(this)
-                        .load(packageInfo)
-                        .into(appIcon);
+                fetch(appIcon, "app-package://" + packageInfo.packageName + "/" + packageInfo.versionCode, imageViewHandlers -> {
+                    centerCrop(imageViewHandlers);
+                    withPlaceholder(imageViewHandlers, R.drawable.app_placeholder);
+                    imageViewHandlers.setPlaceholder(imageViewViewHolder -> {
+                        imageViewViewHolder.get().setScaleType(ImageView.ScaleType.CENTER_CROP);
+                        imageViewViewHolder.get().setImageResource(R.drawable.app_placeholder);
+                        return null;
+                    });
+                    return null;
+                });
             }
 
             appLabel.setText(commonItem.getLabel());
             appPackage.setText(commonItem.getPackageName());
         } else {
-            GlideApp.with(this)
-                    .load(storeItem.getIcon())
-                    .into(appIcon);
+            fetch(appIcon, storeItem.getIcon(), imageViewHandlers -> {
+                centerCrop(imageViewHandlers);
+                withPlaceholder(imageViewHandlers, R.drawable.app_placeholder);
+                imageViewHandlers.setPlaceholder(imageViewViewHolder -> {
+                    imageViewViewHolder.get().setScaleType(ImageView.ScaleType.CENTER_CROP);
+                    imageViewViewHolder.get().setImageResource(R.drawable.app_placeholder);
+                    return null;
+                });
+                return null;
+            });
 
             appLabel.setText(LocaleHelper.getLocalizedLabel(storeItem));
             appPackage.setText(storeItem.getPackageName());

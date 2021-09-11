@@ -61,8 +61,12 @@ public class StringUtil {
         }
     }
 
-    public static String urlEncode(String string) throws UnsupportedEncodingException {
-        return URLEncoder.encode(string, UTF8_ENCODING).replace("+", "%20");
+    public static String urlEncode(String string) {
+        try {
+            return URLEncoder.encode(string, UTF8_ENCODING).replace("+", "%20");
+        } catch (UnsupportedEncodingException e) {
+            return string;
+        }
     }
 
     public static String urlDecode(String string) {
