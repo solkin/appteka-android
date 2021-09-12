@@ -74,7 +74,7 @@ public class Appteka extends Application {
             );
             SimpleImageLoader.INSTANCE.initImageLoader(this, new BitmapDecoder(),
                     fileProvider, new MemoryCacheImpl(), new MainExecutorImpl(),
-                    Executors.newSingleThreadExecutor());
+                    Executors.newFixedThreadPool(5));
         } catch (IOException e) {
             e.printStackTrace();
         }
