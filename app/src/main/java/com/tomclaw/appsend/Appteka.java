@@ -2,6 +2,9 @@ package com.tomclaw.appsend;
 
 import android.app.Application;
 
+import com.tomclaw.appsend.di.AppComponent;
+import com.tomclaw.appsend.di.AppModule;
+import com.tomclaw.appsend.di.DaggerAppComponent;
 import com.tomclaw.appsend.main.controller.DiscussController;
 import com.tomclaw.appsend.net.RequestDispatcher;
 import com.tomclaw.appsend.net.Session;
@@ -44,8 +47,26 @@ public class Appteka extends Application {
     private static boolean wasRegistered = false;
     private static int lastRunBuildNumber = 0;
 
+    private static AppComponent component;
+
     @Bean
     Session session;
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        component = buildComponent();
+    }
+
+    public static AppComponent getComponent() {
+        return component;
+    }
+
+    private AppComponent buildComponent() {
+        return DaggerAppComponent.builder()
+                .appModule(new AppModule(this))
+                .build();
+    }
 
     @AfterInject
     void init() {
@@ -97,4 +118,5 @@ public class Appteka extends Application {
     public static int getLastRunBuildNumber() {
         return lastRunBuildNumber;
     }
+
 }

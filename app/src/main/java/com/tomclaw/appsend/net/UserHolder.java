@@ -3,7 +3,7 @@ package com.tomclaw.appsend.net;
 import android.content.Context;
 
 import com.tomclaw.appsend.util.GsonSingleton;
-import com.tomclaw.appsend.util.Logger;
+import com.tomclaw.appsend.util.LegacyLogger;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -61,7 +61,7 @@ public class UserHolder {
                 notifyListeners();
             }
         } catch (Throwable ex) {
-            Logger.log("error while reading user data file", ex);
+            LegacyLogger.log("error while reading user data file", ex);
         } finally {
             try {
                 if (stream != null) {
@@ -84,7 +84,7 @@ public class UserHolder {
             w.write(json);
             w.flush();
         } catch (Throwable ex) {
-            Logger.log("error while writing user data file", ex);
+            LegacyLogger.log("error while writing user data file", ex);
         } finally {
             try {
                 if (stream != null) {
@@ -100,7 +100,7 @@ public class UserHolder {
     }
 
     public void onUserRegistered(String guid, long userId, String email, String name) {
-        Logger.log("User successfully registered: " + guid + ", ID: " + userId +
+        LegacyLogger.log("User successfully registered: " + guid + ", ID: " + userId +
                 ", email: " + email + ", name: " + name);
         userData.setGuid(guid);
         userData.setUserId(userId);
@@ -129,7 +129,7 @@ public class UserHolder {
                 notifyListener(listener);
             }
         } catch (Throwable ex) {
-            Logger.log("Error while notifying listeners", ex);
+            LegacyLogger.log("Error while notifying listeners", ex);
         }
     }
 

@@ -19,7 +19,7 @@ import com.tomclaw.appsend.main.adapter.holder.IncomingMessageHolder;
 import com.tomclaw.appsend.main.adapter.holder.OutgoingMessageHolder;
 import com.tomclaw.appsend.main.adapter.holder.ServiceMessageHolder;
 import com.tomclaw.appsend.main.dto.Message;
-import com.tomclaw.appsend.util.Logger;
+import com.tomclaw.appsend.util.LegacyLogger;
 import com.tomclaw.appsend.util.QueryBuilder;
 
 /**
@@ -71,7 +71,7 @@ public class ChatAdapter extends CursorRecyclerAdapter<AbstractMessageHolder>
     private void requestHole(long from, long till) {
         Long value = requestedHoles.get(from);
         if (value == null || value != till) {
-            Logger.log("request hole for " + from + "-" + till);
+            LegacyLogger.log("request hole for " + from + "-" + till);
             requestedHoles.put(from, till);
             adapterListener.onHistoryHole(from, till);
         }

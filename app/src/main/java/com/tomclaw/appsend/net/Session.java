@@ -10,7 +10,7 @@ import com.tomclaw.appsend.core.ContentResolverLayer;
 import com.tomclaw.appsend.main.controller.DiscussController;
 import com.tomclaw.appsend.net.request.FetchRequest;
 import com.tomclaw.appsend.net.request.Request;
-import com.tomclaw.appsend.util.Logger;
+import com.tomclaw.appsend.util.LegacyLogger;
 
 import org.androidannotations.annotations.EBean;
 import org.androidannotations.annotations.RootContext;
@@ -55,14 +55,14 @@ public class Session {
         final ContentResolver contentResolver = context.getContentResolver();
         if (getUserData().isRegistered()) {
             DiscussController.getInstance().onUserReady();
-            Logger.log("start events fetching with guid: " + getUserData().getGuid());
+            LegacyLogger.log("start events fetching with guid: " + getUserData().getGuid());
             Runnable runnable = new Runnable() {
                 public void run() {
-                    Logger.log("fetch started");
+                    LegacyLogger.log("fetch started");
                     FetchRequest request = new FetchRequest(getUserData().getFetchTime());
                     do {
                         int requestResult = request.onRequest(contentResolver, userHolder);
-                        Logger.log("fetch result is " + requestResult);
+                        LegacyLogger.log("fetch result is " + requestResult);
                         if (requestResult != Request.REQUEST_DELETE) {
                             try {
                                 Thread.sleep(5000);
@@ -70,23 +70,23 @@ public class Session {
                             }
                         }
                         request.setTime(getUserData().getFetchTime());
-                        Logger.log("fetch restart attempt");
+                        LegacyLogger.log("fetch restart attempt");
                     } while (getUserData().isRegistered());
-                    Logger.log("quit fetch loop");
+                    LegacyLogger.log("quit fetch loop");
                 }
             };
             loopFuture = executor.submit(runnable);
         } else {
-            Logger.log("user needs to be registered");
+            LegacyLogger.log("user needs to be registered");
             RequestHelper.requestUserRegistration(ContentResolverLayer.from(contentResolver));
         }
     }
 
     public void stop() {
         if (loopFuture != null) {
-            Logger.log("stop events fetching...");
+            LegacyLogger.log("stop events fetching...");
             boolean result = loopFuture.cancel(true);
-            Logger.log("events fetching " + (result ? "stopped" : "not stopped"));
+            LegacyLogger.log("events fetching " + (result ? "stopped" : "not stopped"));
             if (result) {
                 loopFuture = null;
             }

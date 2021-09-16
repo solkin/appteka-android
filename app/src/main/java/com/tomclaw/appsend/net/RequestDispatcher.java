@@ -11,7 +11,7 @@ import com.tomclaw.appsend.core.Config;
 import com.tomclaw.appsend.core.GlobalProvider;
 import com.tomclaw.appsend.net.request.Request;
 import com.tomclaw.appsend.util.GsonSingleton;
-import com.tomclaw.appsend.util.Logger;
+import com.tomclaw.appsend.util.LegacyLogger;
 import com.tomclaw.appsend.util.QueryBuilder;
 
 import java.util.concurrent.ArrayBlockingQueue;
@@ -270,11 +270,11 @@ public class RequestDispatcher {
     }
 
     private void log(String message) {
-        Logger.log("rd[" + requestType + "]: " + message);
+        LegacyLogger.log("rd[" + requestType + "]: " + message);
     }
 
     private void log(String message, Throwable exception) {
-        Logger.log("rd[" + requestType + "]: " + message, exception);
+        LegacyLogger.log("rd[" + requestType + "]: " + message, exception);
     }
 
     public void notifyQueue() {
@@ -298,7 +298,7 @@ public class RequestDispatcher {
 
         @Override
         public void onChange(boolean selfChange) {
-            Logger.log("RequestDispatcher: onChange [selfChange = " + selfChange + "]");
+            LegacyLogger.log("RequestDispatcher: onChange [selfChange = " + selfChange + "]");
             notifyQueue();
         }
     }

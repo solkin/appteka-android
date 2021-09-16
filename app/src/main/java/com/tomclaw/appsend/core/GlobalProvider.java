@@ -14,7 +14,7 @@ import android.text.TextUtils;
 import androidx.annotation.NonNull;
 
 import com.tomclaw.appsend.main.dto.Message;
-import com.tomclaw.appsend.util.Logger;
+import com.tomclaw.appsend.util.LegacyLogger;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -113,7 +113,7 @@ public class GlobalProvider extends ContentProvider {
 
     @Override
     public boolean onCreate() {
-        Logger.log("GlobalProvider onCreate");
+        LegacyLogger.log("GlobalProvider onCreate");
         databaseHelper = new DatabaseHelper(getContext());
         return true;
     }
@@ -145,7 +145,7 @@ public class GlobalProvider extends ContentProvider {
 
     @Override
     public String getType(@NonNull Uri uri) {
-        Logger.log("getType, " + uri.toString());
+        LegacyLogger.log("getType, " + uri.toString());
         return null;
     }
 

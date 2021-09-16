@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Environment;
 
-import com.tomclaw.appsend.util.Logger;
+import com.tomclaw.appsend.util.LegacyLogger;
 import com.tomclaw.appsend.util.StringUtil;
 
 import java.io.File;
@@ -59,7 +59,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 mockDb(db);
             }
 
-            Logger.log("DB created: " + db.toString());
+            LegacyLogger.log("DB created: " + db.toString());
         } catch (Throwable ex) {
             ex.printStackTrace();
         }
@@ -152,13 +152,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Yo!
-        Logger.log("Now we need to upgrade database from " + oldVersion + " to " + newVersion);
+        LegacyLogger.log("Now we need to upgrade database from " + oldVersion + " to " + newVersion);
         switch (oldVersion) {
             case 1: {
                 /*db.execSQL("ALTER TABLE " + GlobalProvider.ROSTER_BUDDY_TABLE
                         + " ADD COLUMN " + GlobalProvider.ROSTER_BUDDY_DRAFT + " text");*/
             }
         }
-        Logger.log("Database upgrade completed");
+        LegacyLogger.log("Database upgrade completed");
     }
 }

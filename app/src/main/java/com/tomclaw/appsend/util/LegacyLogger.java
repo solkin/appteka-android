@@ -7,7 +7,7 @@ import com.tomclaw.appsend.core.Config;
 /**
  * Created by Solkin on 07.02.2015.
  */
-public class Logger {
+public class LegacyLogger {
 
     public static void log(String message) {
         Log.d(Config.LOG_TAG, message);

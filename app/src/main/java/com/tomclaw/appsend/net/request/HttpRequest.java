@@ -4,7 +4,7 @@ import android.text.TextUtils;
 
 import com.tomclaw.appsend.util.HttpParamsBuilder;
 import com.tomclaw.appsend.util.HttpUtil;
-import com.tomclaw.appsend.util.Logger;
+import com.tomclaw.appsend.util.LegacyLogger;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,7 +39,7 @@ public abstract class HttpRequest extends Request {
             in.close();
             return result;
         } catch (Throwable e) {
-            Logger.log("Unable to execute request due to exception: " + e.getMessage());
+            LegacyLogger.log("Unable to execute request due to exception: " + e.getMessage());
             return REQUEST_PENDING;
         } finally {
             // Trying to disconnect in any case.
@@ -100,7 +100,7 @@ public abstract class HttpRequest extends Request {
         if (!TextUtils.isEmpty(parameters)) {
             url = url.concat(QUE).concat(parameters);
         }
-        Logger.log("try to send request to ".concat(url));
+        LegacyLogger.log("try to send request to ".concat(url));
         return url;
     }
 }

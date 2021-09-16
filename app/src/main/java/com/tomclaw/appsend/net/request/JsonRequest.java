@@ -1,7 +1,7 @@
 package com.tomclaw.appsend.net.request;
 
 import com.tomclaw.appsend.util.HttpUtil;
-import com.tomclaw.appsend.util.Logger;
+import com.tomclaw.appsend.util.LegacyLogger;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,7 +16,7 @@ public abstract class JsonRequest extends HttpRequest {
     @Override
     protected int parseResponse(InputStream httpResponseStream) throws Throwable {
         String responseString = HttpUtil.streamToString(httpResponseStream);
-        Logger.log("json response\n".concat(responseString));
+        LegacyLogger.log("json response\n".concat(responseString));
         //MessagePack.newDefaultUnpacker(httpResponseStream).unpackValue().toJson();
         return parseJson(parseResponse(responseString));
     }

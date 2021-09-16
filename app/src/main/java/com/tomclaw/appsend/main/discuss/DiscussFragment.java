@@ -30,7 +30,7 @@ import com.tomclaw.appsend.net.Session;
 import com.tomclaw.appsend.util.ChatLayoutManager;
 import com.tomclaw.appsend.util.ColorHelper;
 import com.tomclaw.appsend.util.EdgeChanger;
-import com.tomclaw.appsend.util.Logger;
+import com.tomclaw.appsend.util.LegacyLogger;
 import com.tomclaw.appsend.util.StringUtil;
 
 import org.androidannotations.annotations.AfterViews;
@@ -81,7 +81,7 @@ public class DiscussFragment extends HomeFragment implements DiscussController.D
         ChatAdapter.AdapterListener adapterListener = new ChatAdapter.AdapterListener() {
             @Override
             public void onHistoryHole(long msgIdFrom, long msgIdTill) {
-                Logger.log("History hole between " + msgIdFrom + " and " + msgIdTill);
+                LegacyLogger.log("History hole between " + msgIdFrom + " and " + msgIdTill);
                 DatabaseLayer layer = ContentResolverLayer.from(getContext().getContentResolver());
                 RequestHelper.requestHistory(layer, msgIdFrom, msgIdTill);
             }
@@ -202,7 +202,7 @@ public class DiscussFragment extends HomeFragment implements DiscussController.D
 
     private void onSendMessage() {
         final String message = messageEdit.getText().toString().trim();
-        Logger.log("message = " + message);
+        LegacyLogger.log("message = " + message);
         if (!TextUtils.isEmpty(message)) {
             messageEdit.setText("");
             scrollBottom();
@@ -225,7 +225,7 @@ public class DiscussFragment extends HomeFragment implements DiscussController.D
 
     @Override
     public void onUnreadCount(int count) {
-        Logger.log("unread messages: " + count);
+        LegacyLogger.log("unread messages: " + count);
     }
 
     @Override

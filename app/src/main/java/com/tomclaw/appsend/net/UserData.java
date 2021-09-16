@@ -2,7 +2,7 @@ package com.tomclaw.appsend.net;
 
 import android.text.TextUtils;
 
-import com.tomclaw.appsend.util.Logger;
+import com.tomclaw.appsend.util.LegacyLogger;
 import com.tomclaw.appsend.util.Unobfuscatable;
 
 /**
@@ -31,12 +31,12 @@ public class UserData implements Unobfuscatable {
     }
 
     void setGuid(String guid) {
-        Logger.log("obtained guid: " + guid);
+        LegacyLogger.log("obtained guid: " + guid);
         this.guid = guid;
     }
 
     void setUserId(long userId) {
-        Logger.log("obtained user id: " + userId);
+        LegacyLogger.log("obtained user id: " + userId);
         this.userId = userId;
     }
 

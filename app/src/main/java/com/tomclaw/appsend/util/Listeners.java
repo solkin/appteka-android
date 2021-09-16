@@ -22,7 +22,7 @@ public class Listeners<D> {
                 listener.notify(data);
             }
         } catch (Throwable e) {
-            Logger.log("Error while notifying listeners", e);
+            LegacyLogger.log("Error while notifying listeners", e);
         }
     }
 
@@ -32,7 +32,7 @@ public class Listeners<D> {
                 listener.notify(ex);
             }
         } catch (Throwable e) {
-            Logger.log("Error while notifying listeners", e);
+            LegacyLogger.log("Error while notifying listeners", e);
         }
     }
 
