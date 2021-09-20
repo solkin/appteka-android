@@ -1,5 +1,7 @@
 package com.tomclaw.appsend.screen.moderation
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.avito.konveyor.ItemBinder
@@ -28,7 +30,7 @@ class ModerationActivity : AppCompatActivity(), ModerationPresenter.ModerationRo
             .inject(activity = this)
 
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.about_activity)
+        setContentView(R.layout.moderation_activity)
 
         val adapter = SimpleRecyclerAdapter(adapterPresenter, binder)
         val view = ModerationViewImpl(window.decorView, adapter)
@@ -60,8 +62,8 @@ class ModerationActivity : AppCompatActivity(), ModerationPresenter.ModerationRo
         outState.putBundle(KEY_PRESENTER_STATE, presenter.saveState())
     }
 
-    override fun openModerationScreen(appId: Int) {
-//        val intent = createChatActivityIntent(context = this, chatId = chatId)
+    override fun openAppModerationScreen(appId: Int) {
+//        val intent = createAppActivityIntent(context = this, appId = appId)
 //        startActivity(intent)
     }
 
@@ -70,5 +72,9 @@ class ModerationActivity : AppCompatActivity(), ModerationPresenter.ModerationRo
     }
 
 }
+
+fun createModerationActivityIntent(
+    context: Context,
+): Intent = Intent(context, ModerationActivity::class.java)
 
 private const val KEY_PRESENTER_STATE = "presenter_state"

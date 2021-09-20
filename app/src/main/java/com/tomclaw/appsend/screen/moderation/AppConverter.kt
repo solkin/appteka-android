@@ -19,7 +19,10 @@ class AppConverterImpl(
             id = appEntity.appId.toLong(),
             icon = appEntity.icon,
             title = appEntity.title,
-            subtitle = resourceProvider.formatAppVersion(appEntity.verName, appEntity.verCode)
+            version = resourceProvider.formatAppVersion(appEntity.verName, appEntity.verCode),
+            size = resourceProvider.formatFileSize(appEntity.size),
+            rating = appEntity.rating,
+            downloads = appEntity.downloads,
         )
     }
 

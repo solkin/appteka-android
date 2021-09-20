@@ -8,14 +8,20 @@ class AppItem(
     override val id: Long,
     val icon: String?,
     val title: String,
-    val subtitle: String?
+    val version: String,
+    val size: String,
+    val rating: Float,
+    val downloads: Int
 ) : Item, Parcelable {
 
     override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
         writeLong(id)
         writeString(icon)
         writeString(title)
-        writeString(subtitle)
+        writeString(version)
+        writeString(size)
+        writeFloat(rating)
+        writeInt(downloads)
     }
 
     override fun describeContents(): Int = 0
@@ -25,8 +31,11 @@ class AppItem(
             val id = parcel.readLong()
             val icon = parcel.readString()
             val title = parcel.readString().orEmpty()
-            val subtitle = parcel.readString()
-            return AppItem(id, icon, title, subtitle)
+            val version = parcel.readString().orEmpty()
+            val size = parcel.readString().orEmpty()
+            val rating = parcel.readFloat()
+            val downloads = parcel.readInt()
+            return AppItem(id, icon, title, version, size, rating, downloads)
         }
 
         override fun newArray(size: Int): Array<AppItem?> {

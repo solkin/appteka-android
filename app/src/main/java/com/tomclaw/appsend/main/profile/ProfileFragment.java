@@ -3,11 +3,13 @@ package com.tomclaw.appsend.main.profile;
 import static android.app.Activity.RESULT_OK;
 import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
 import static com.tomclaw.appsend.util.MemberImageHelper.memberImageHelper;
+import static com.tomclaw.appsend.util.RoleHelper.ROLE_MODERATOR;
 import static com.tomclaw.appsend.util.TimeHelper.timeHelper;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.ContextMenu;
@@ -39,6 +41,7 @@ import com.tomclaw.appsend.net.Session;
 import com.tomclaw.appsend.net.UpdatesCheckInteractor;
 import com.tomclaw.appsend.net.UserData;
 import com.tomclaw.appsend.net.UserDataListener;
+import com.tomclaw.appsend.screen.moderation.ModerationActivityKt;
 import com.tomclaw.appsend.util.Listeners;
 import com.tomclaw.appsend.util.RoleHelper;
 
@@ -316,6 +319,7 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
     private void bindProfile() {
         if (!isVisible()) return;
         Context context = getContext();
+        boolean isModerator = profile.getRole() >= ROLE_MODERATOR;
         boolean isPublicProfile = session.getUserData().getUserId() != profile.getUserId();
         memberAvatar.setMemberId(profile.getUserId());
         if (TextUtils.isEmpty(profile.getName())) {
@@ -368,14 +372,27 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
         );
         detailsContainer.addView(DetailsItem_.build(context)
                 .setDetails(
-                        R.drawable.ic_moderators,
+                        R.drawable.ic_officer,
                         R.color.moderators_color,
                         getString(R.string.moderators_assigned),
                         String.valueOf(profile.getModeratorsCount()),
                         "",
-                        true
+                        !isModerator
                 )
         );
+        if (isModerator) {
+            detailsContainer.addView(DetailsItem_.build(context)
+                    .setDetails(
+                            R.drawable.ic_moderators,
+                            R.color.on_moderation_color,
+                            getString(R.string.apps_on_moderation),
+                            "",
+                            "",
+                            true
+                    )
+                    .setClickListener(v -> showAppsOnModeration())
+            );
+        }
         if (!isPublicProfile) {
             detailsContainer.addView(
                     DetailsHeaderItem_.build(context).setDetails(getString(R.string.local_apps))
@@ -430,6 +447,12 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
     private void showUserFiles() {
         FilesActivity_.intent(this).userId((long) profile.getUserId()).start();
         trackEvent("click-user-files");
+    }
+
+    private void showAppsOnModeration() {
+        Intent intent = ModerationActivityKt.createModerationActivityIntent(getActivity());
+        startActivity(intent);
+        trackEvent("click-on-moderation");
     }
 
     private void showInstalledApps() {

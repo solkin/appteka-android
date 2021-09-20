@@ -10,7 +10,10 @@ class AppItemPresenter(
     override fun bindView(view: AppItemView, item: AppItem, position: Int) {
         view.setIcon(item.icon)
         view.setTitle(item.title)
-        view.setSubtitle(item.subtitle)
+        view.setVersion(item.version)
+        view.setSize(item.size)
+        view.setRating(item.rating)
+        view.setDownloads(item.downloads)
         view.setOnClickListener { listener.onItemClick(item) }
     }
 

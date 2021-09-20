@@ -30,7 +30,7 @@ interface ModerationPresenter : ItemClickListener {
 
     interface ModerationRouter {
 
-        fun openModerationScreen(appId: Int)
+        fun openAppModerationScreen(appId: Int)
 
         fun leaveScreen()
 

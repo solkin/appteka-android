@@ -5,6 +5,8 @@ class AppEntity(
     val icon: String?,
     val title: String,
     val verName: String,
-    val verCode: Int
-) {
-}
+    val verCode: Int,
+    val size: Long,
+    val rating: Float,
+    val downloads: Int,
+)

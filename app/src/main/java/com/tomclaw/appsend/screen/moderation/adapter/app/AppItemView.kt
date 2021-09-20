@@ -6,6 +6,10 @@ import android.widget.TextView
 import com.avito.konveyor.adapter.BaseViewHolder
 import com.avito.konveyor.blueprint.ItemView
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.util.bind
+import com.tomclaw.imageloader.util.centerCrop
+import com.tomclaw.imageloader.util.fetch
+import com.tomclaw.imageloader.util.withPlaceholder
 
 interface AppItemView : ItemView {
 
@@ -13,7 +17,13 @@ interface AppItemView : ItemView {
 
     fun setTitle(title: String)
 
-    fun setSubtitle(subtitle: String?)
+    fun setVersion(version: String)
+
+    fun setSize(size: String)
+
+    fun setRating(rating: Float)
+
+    fun setDownloads(downloads: Int)
 
     fun setOnClickListener(listener: (() -> Unit)?)
 
@@ -23,7 +33,10 @@ class AppItemViewHolder(view: View) : BaseViewHolder(view), AppItemView {
 
     private val icon: ImageView = view.findViewById(R.id.app_icon)
     private val title: TextView = view.findViewById(R.id.app_name)
-    private val subtitle: TextView = view.findViewById(R.id.app_version)
+    private val version: TextView = view.findViewById(R.id.app_version)
+    private val size: TextView = view.findViewById(R.id.app_size)
+    private val rating: TextView = view.findViewById(R.id.app_rating)
+    private val downloads: TextView = view.findViewById(R.id.app_downloads)
 
     private var listener: (() -> Unit)? = null
 
@@ -32,19 +45,37 @@ class AppItemViewHolder(view: View) : BaseViewHolder(view), AppItemView {
     }
 
     override fun setIcon(url: String?) {
-//        GlideApp.with(icon)
-//            .load(url)
-//            .placeholder(R.drawable.ic_avatar_placeholder)
-//            .circleCrop()
-//            .into(icon)
+        icon.fetch(url.orEmpty()) {
+            centerCrop()
+            withPlaceholder(R.drawable.app_placeholder)
+            placeholder =
+                {
+                    with(it.get()) {
+                        scaleType = ImageView.ScaleType.CENTER_CROP
+                        setImageResource(R.drawable.app_placeholder)
+                    }
+                }
+        }
     }
 
     override fun setTitle(title: String) {
-//        this.title.bind(title)
+        this.title.bind(title)
     }
 
-    override fun setSubtitle(subtitle: String?) {
-//        this.subtitle.bind(subtitle)
+    override fun setVersion(version: String) {
+        this.version.bind(version)
+    }
+
+    override fun setSize(size: String) {
+        this.size.bind(size)
+    }
+
+    override fun setRating(rating: Float) {
+        this.rating.bind(rating.toString())
+    }
+
+    override fun setDownloads(downloads: Int) {
+        this.downloads.bind(downloads.toString())
     }
 
     override fun setOnClickListener(listener: (() -> Unit)?) {
