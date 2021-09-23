@@ -10,6 +10,7 @@ import com.avito.konveyor.adapter.SimpleRecyclerAdapter
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.moderation.di.ModerationModule
+import com.tomclaw.appsend.util.ThemeHelper
 import javax.inject.Inject
 
 class ModerationActivity : AppCompatActivity(), ModerationPresenter.ModerationRouter {
@@ -28,6 +29,7 @@ class ModerationActivity : AppCompatActivity(), ModerationPresenter.ModerationRo
         Appteka.getComponent()
             .moderationComponent(ModerationModule(this, presenterState))
             .inject(activity = this)
+        ThemeHelper.updateTheme(this)
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.moderation_activity)
