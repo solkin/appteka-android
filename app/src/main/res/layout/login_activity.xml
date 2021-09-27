@@ -43,7 +43,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp">
 
-                    <AutoCompleteTextView
+                    <androidx.appcompat.widget.AppCompatEditText
                         android:id="@+id/email_input"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -60,7 +60,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp">
 
-                    <AutoCompleteTextView
+                    <androidx.appcompat.widget.AppCompatEditText
                         android:id="@+id/password_input"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
