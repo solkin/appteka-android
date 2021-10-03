@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit
 
 interface ModerationInteractor {
 
-    fun listApps(): Observable<List<AppEntity>>
+    fun listApps(offsetAppId: Int = 0): Observable<List<AppEntity>>
 
 }
 
@@ -16,7 +16,7 @@ class ModerationInteractorImpl(
     private val schedulers: SchedulersFactory
 ) : ModerationInteractor {
 
-    override fun listApps(): Observable<List<AppEntity>> {
+    override fun listApps(offsetAppId: Int): Observable<List<AppEntity>> {
         return Single.create<List<AppEntity>> { source ->
             val list = listOf(AppEntity(1, null, "AppSend", "1.0", 1, 100000, 5.0f, 100))
 //            val list = emptyList<AppEntity>()

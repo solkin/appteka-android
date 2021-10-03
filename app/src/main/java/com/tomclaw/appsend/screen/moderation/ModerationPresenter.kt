@@ -7,13 +7,13 @@ import com.avito.konveyor.data_source.ListDataSource
 import com.tomclaw.appsend.dto.AppEntity
 import com.tomclaw.appsend.screen.moderation.adapter.app.AppItem
 import com.tomclaw.appsend.util.SchedulersFactory
-import com.tomclaw.vika.screen.home.adapter.ItemClickListener
+import com.tomclaw.appsend.screen.moderation.adapter.ItemListener
 import dagger.Lazy
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
 import java.util.ArrayList
 
-interface ModerationPresenter : ItemClickListener {
+interface ModerationPresenter : ItemListener {
 
     fun attachView(view: ModerationView)
 
@@ -92,10 +92,22 @@ class ModerationPresenterImpl(
             )
     }
 
+    private fun loadApps(offsetAppId: Int) {
+        subscriptions += interactor.listApps(offsetAppId)
+            .observeOn(schedulers.mainThread())
+            .doAfterTerminate { onReady() }
+            .subscribe(
+                { onLoaded(it) },
+                { onLoadMoreError(it) }
+            )
+    }
+
     private fun onLoaded(entities: List<AppEntity>) {
-        items = entities.asSequence()
+        val newItems = entities
             .map { appConverter.convert(it) }
             .toList()
+            .apply { if (entities.isNotEmpty()) last().hasMore = true }
+        this.items = this.items?.plus(newItems) ?: newItems
     }
 
     private fun onReady() {
@@ -114,6 +126,15 @@ class ModerationPresenterImpl(
         view?.showError()
     }
 
+    private fun onLoadMoreError(it: Throwable) {
+        items?.last()
+            ?.apply {
+                hasProgress = false
+                hasMore = false
+                hasError = true
+            }
+    }
+
     override fun onBackPressed() {
         router?.leaveScreen()
     }
@@ -125,6 +146,14 @@ class ModerationPresenterImpl(
     override fun onItemClick(item: Item) {
 //        val chat = chatIds[item.id] ?: return
 //        router?.openModerationScreen(chat.appId)
+    }
+
+    override fun onRetryClick(item: Item) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onLoadMore(item: Item) {
+        loadApps(item.id.toInt())
     }
 
 }

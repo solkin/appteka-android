@@ -3,6 +3,8 @@ package com.tomclaw.appsend.screen.moderation.adapter.app
 import android.os.Parcel
 import android.os.Parcelable
 import com.avito.konveyor.blueprint.Item
+import com.tomclaw.appsend.util.readBool
+import com.tomclaw.appsend.util.writeBool
 
 class AppItem(
     override val id: Long,
@@ -11,7 +13,10 @@ class AppItem(
     val version: String,
     val size: String,
     val rating: Float,
-    val downloads: Int
+    val downloads: Int,
+    var hasMore: Boolean = false,
+    var hasError: Boolean = false,
+    var hasProgress: Boolean = false,
 ) : Item, Parcelable {
 
     override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
@@ -22,6 +27,9 @@ class AppItem(
         writeString(size)
         writeFloat(rating)
         writeInt(downloads)
+        writeBool(hasMore)
+        writeBool(hasError)
+        writeBool(hasProgress)
     }
 
     override fun describeContents(): Int = 0
@@ -35,7 +43,21 @@ class AppItem(
             val size = parcel.readString().orEmpty()
             val rating = parcel.readFloat()
             val downloads = parcel.readInt()
-            return AppItem(id, icon, title, version, size, rating, downloads)
+            val hasMore = parcel.readBool()
+            val hasError = parcel.readBool()
+            val hasProgress = parcel.readBool()
+            return AppItem(
+                id,
+                icon,
+                title,
+                version,
+                size,
+                rating,
+                downloads,
+                hasMore,
+                hasError,
+                hasProgress
+            )
         }
 
         override fun newArray(size: Int): Array<AppItem?> {

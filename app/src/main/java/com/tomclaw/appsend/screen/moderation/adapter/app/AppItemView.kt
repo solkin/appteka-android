@@ -1,6 +1,8 @@
 package com.tomclaw.appsend.screen.moderation.adapter.app
 
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.widget.ImageView
 import android.widget.TextView
 import com.avito.konveyor.adapter.BaseViewHolder
@@ -25,7 +27,17 @@ interface AppItemView : ItemView {
 
     fun setDownloads(downloads: Int)
 
+    fun showProgress()
+
+    fun hideProgress()
+
+    fun showError()
+
+    fun hideError()
+
     fun setOnClickListener(listener: (() -> Unit)?)
+
+    fun setOnRetryListener(listener: (() -> Unit)?)
 
 }
 
@@ -37,25 +49,45 @@ class AppItemViewHolder(view: View) : BaseViewHolder(view), AppItemView {
     private val size: TextView = view.findViewById(R.id.app_size)
     private val rating: TextView = view.findViewById(R.id.app_rating)
     private val downloads: TextView = view.findViewById(R.id.app_downloads)
+    private val progress: View = view.findViewById(R.id.item_progress)
+    private val error: View = view.findViewById(R.id.error_view)
+    private val retryButton: View = view.findViewById(R.id.button_retry)
 
-    private var listener: (() -> Unit)? = null
+    private var clickListener: (() -> Unit)? = null
+    private var retryListener: (() -> Unit)? = null
 
     init {
-        view.setOnClickListener { listener?.invoke() }
+        view.setOnClickListener { clickListener?.invoke() }
+        retryButton.setOnClickListener { retryListener?.invoke() }
     }
 
     override fun setIcon(url: String?) {
         icon.fetch(url.orEmpty()) {
             centerCrop()
             withPlaceholder(R.drawable.app_placeholder)
-            placeholder =
-                {
-                    with(it.get()) {
-                        scaleType = ImageView.ScaleType.CENTER_CROP
-                        setImageResource(R.drawable.app_placeholder)
-                    }
+            placeholder = {
+                with(it.get()) {
+                    scaleType = ImageView.ScaleType.CENTER_CROP
+                    setImageResource(R.drawable.app_placeholder)
                 }
+            }
         }
+    }
+
+    override fun showProgress() {
+        progress.visibility = VISIBLE
+    }
+
+    override fun hideProgress() {
+        progress.visibility = GONE
+    }
+
+    override fun showError() {
+        error.visibility = VISIBLE
+    }
+
+    override fun hideError() {
+        error.visibility = GONE
     }
 
     override fun setTitle(title: String) {
@@ -79,11 +111,16 @@ class AppItemViewHolder(view: View) : BaseViewHolder(view), AppItemView {
     }
 
     override fun setOnClickListener(listener: (() -> Unit)?) {
-        this.listener = listener
+        this.clickListener = listener
+    }
+
+    override fun setOnRetryListener(listener: (() -> Unit)?) {
+        this.retryListener = listener
     }
 
     override fun onUnbind() {
-        this.listener = null
+        this.clickListener = null
+        this.retryListener = null
     }
 
 }
