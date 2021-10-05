@@ -18,7 +18,11 @@ class ModerationInteractorImpl(
 
     override fun listApps(offsetAppId: Int): Observable<List<AppEntity>> {
         return Single.create<List<AppEntity>> { source ->
-            val list = listOf(AppEntity(1, null, "AppSend", "1.0", 1, 100000, 5.0f, 100))
+            val list = ArrayList<AppEntity>()
+            for (i in 1..5) {
+                val id = offsetAppId + i
+                list.add(AppEntity(id, null, "App $id", "1.0", 1, 100000, 5.0f, 100))
+            }
 //            val list = emptyList<AppEntity>()
             source.onSuccess(list)
         }.delay(1, TimeUnit.SECONDS)

@@ -107,7 +107,9 @@ class ModerationPresenterImpl(
             .map { appConverter.convert(it) }
             .toList()
             .apply { if (entities.isNotEmpty()) last().hasMore = true }
-        this.items = this.items?.plus(newItems) ?: newItems
+        this.items = this.items
+            ?.apply { if (entities.isNotEmpty()) last().hasProgress = false }
+            ?.plus(newItems) ?: newItems
     }
 
     private fun onReady() {
