@@ -53,6 +53,7 @@ class ModerationPresenterImpl(
     private val subscriptions = CompositeDisposable()
 
     private var items: List<AppItem>? = state?.getParcelableArrayList(KEY_APPS)
+    private var isError: Boolean = state?.getBoolean(KEY_ERROR) ?: false
 
     override fun attachView(view: ModerationView) {
         this.view = view
@@ -60,8 +61,16 @@ class ModerationPresenterImpl(
         subscriptions += view.navigationClicks().subscribe {
             onBackPressed()
         }
+        subscriptions += view.retryClicks().subscribe {
+            loadApps()
+        }
 
-        items?.let { onReady() } ?: loadApps()
+        if (isError) {
+            onError()
+            onReady()
+        } else {
+            items?.let { onReady() } ?: loadApps()
+        }
     }
 
     override fun detachView() {
@@ -79,6 +88,7 @@ class ModerationPresenterImpl(
 
     override fun saveState() = Bundle().apply {
         putParcelableArrayList(KEY_APPS, items?.let { ArrayList(items.orEmpty()) })
+        putBoolean(KEY_ERROR, isError)
     }
 
     private fun loadApps() {
@@ -88,7 +98,7 @@ class ModerationPresenterImpl(
             .doAfterTerminate { onReady() }
             .subscribe(
                 { onLoaded(it) },
-                { onError(it) }
+                { onError() }
             )
     }
 
@@ -98,7 +108,7 @@ class ModerationPresenterImpl(
             .doAfterTerminate { onReady() }
             .subscribe(
                 { onLoaded(it) },
-                { onLoadMoreError(it) }
+                { onLoadMoreError() }
             )
     }
 
@@ -114,21 +124,27 @@ class ModerationPresenterImpl(
 
     private fun onReady() {
         val items = this.items
-        if (items.isNullOrEmpty()) {
-            view?.showPlaceholder()
-        } else {
-            val dataSource = ListDataSource(items)
-            adapterPresenter.get().onDataSourceChanged(dataSource)
-            view?.contentUpdated()
-            view?.showContent()
+        when {
+            isError -> {
+                view?.showError()
+            }
+            items.isNullOrEmpty() -> {
+                view?.showPlaceholder()
+            }
+            else -> {
+                val dataSource = ListDataSource(items)
+                adapterPresenter.get().onDataSourceChanged(dataSource)
+                view?.contentUpdated()
+                view?.showContent()
+            }
         }
     }
 
-    private fun onError(it: Throwable) {
-        view?.showError()
+    private fun onError() {
+        this.isError = true
     }
 
-    private fun onLoadMoreError(it: Throwable) {
+    private fun onLoadMoreError() {
         items?.last()
             ?.apply {
                 hasProgress = false
@@ -161,3 +177,4 @@ class ModerationPresenterImpl(
 }
 
 private const val KEY_APPS = "apps"
+private const val KEY_ERROR = "error"

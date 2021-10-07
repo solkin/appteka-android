@@ -6,6 +6,9 @@ import com.avito.konveyor.ItemBinder
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.adapter.SimpleAdapterPresenter
 import com.avito.konveyor.blueprint.ItemBlueprint
+import com.tomclaw.appsend.core.StoreApi
+import com.tomclaw.appsend.core.StoreService
+import com.tomclaw.appsend.core.StoreServiceHolder_
 import com.tomclaw.appsend.screen.moderation.*
 import com.tomclaw.appsend.util.PerActivity
 import com.tomclaw.appsend.util.SchedulersFactory
@@ -15,6 +18,7 @@ import dagger.Lazy
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoSet
+import java.util.*
 
 @Module
 class ModerationModule(
@@ -40,8 +44,10 @@ class ModerationModule(
     @Provides
     @PerActivity
     internal fun provideInteractor(
+        api: StoreApi,
+        locale: Locale,
         schedulers: SchedulersFactory
-    ): ModerationInteractor = ModerationInteractorImpl(schedulers)
+    ): ModerationInteractor = ModerationInteractorImpl(api, locale, schedulers)
 
     @Provides
     @PerActivity

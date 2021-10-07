@@ -62,6 +62,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava3:2.9.0'
     implementation 'com.caverock:androidsvg-aar:1.4'
     implementation 'com.aurelhubert:ahbottomnavigation:2.3.4'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
@@ -72,4 +73,6 @@ dependencies {
     implementation 'io.reactivex.rxjava3:rxkotlin:3.0.1'
     implementation 'com.jakewharton.rxrelay3:rxrelay:3.0.1'
     implementation 'com.github.avito-tech:Konveyor:0.42.2'
+    debugImplementation "com.github.chuckerteam.chucker:library:3.5.2"
+    releaseImplementation "com.github.chuckerteam.chucker:library-no-op:3.5.2"
 }

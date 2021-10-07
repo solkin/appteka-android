@@ -13,9 +13,11 @@ class AppConverterImpl(
     private val resourceProvider: AppsResourceProvider
 ) : AppConverter {
 
+    private var id: Long = 1
+
     override fun convert(appEntity: AppEntity): AppItem {
         return AppItem(
-            id = appEntity.appId.toLong(),
+            id = id++,
             icon = appEntity.icon,
             title = appEntity.title,
             version = resourceProvider.formatAppVersion(appEntity.verName, appEntity.verCode),

@@ -33,7 +33,7 @@ interface ModerationView {
 }
 
 class ModerationViewImpl(
-    private val view: View,
+    view: View,
     private val adapter: SimpleRecyclerAdapter
 ) : ModerationView {
 
