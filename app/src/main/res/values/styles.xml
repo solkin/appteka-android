@@ -56,6 +56,9 @@
     <color name="apps_color">#72b3b7</color>
     <color name="apks_color">#9742c7</color>
 
+    <color name="approve_color">#689627</color>
+    <color name="decline_color">#d63205</color>
+
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/primary_color</item>
         <item name="colorPrimaryVariant">@color/primary_dark_color</item>

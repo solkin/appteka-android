@@ -283,4 +283,6 @@
     </plurals>
     <string name="user_url" translatable="false">%1$s (ID: %2$d)\n%3$s</string>
     <string name="apps_on_moderation">Apps on moderation</string>
+    <string name="moderation_approve">Approve</string>
+    <string name="moderation_decline">Decline</string>
 </resources>
