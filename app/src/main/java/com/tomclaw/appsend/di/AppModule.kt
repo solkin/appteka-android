@@ -5,6 +5,8 @@ import android.content.Context
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.tomclaw.appsend.core.Config
 import com.tomclaw.appsend.core.StoreApi
+import com.tomclaw.appsend.net.Session
+import com.tomclaw.appsend.net.UserData
 import com.tomclaw.appsend.util.Logger
 import com.tomclaw.appsend.util.LoggerImpl
 import com.tomclaw.appsend.util.SchedulersFactory
@@ -42,6 +44,10 @@ class AppModule(private val app: Application) {
     @Provides
     @Singleton
     internal fun provideLocale(): Locale = Locale.getDefault()
+
+    @Provides
+    @Singleton
+    internal fun provideUserData(): UserData = Session.getInstance().userData
 
     @Provides
     @Singleton

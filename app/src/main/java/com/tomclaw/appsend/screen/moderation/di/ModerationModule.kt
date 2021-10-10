@@ -9,6 +9,7 @@ import com.avito.konveyor.blueprint.ItemBlueprint
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.core.StoreService
 import com.tomclaw.appsend.core.StoreServiceHolder_
+import com.tomclaw.appsend.net.UserData
 import com.tomclaw.appsend.screen.moderation.*
 import com.tomclaw.appsend.util.PerActivity
 import com.tomclaw.appsend.util.SchedulersFactory
@@ -46,8 +47,9 @@ class ModerationModule(
     internal fun provideInteractor(
         api: StoreApi,
         locale: Locale,
+        userData: UserData,
         schedulers: SchedulersFactory
-    ): ModerationInteractor = ModerationInteractorImpl(api, locale, schedulers)
+    ): ModerationInteractor = ModerationInteractorImpl(api, locale, userData, schedulers)
 
     @Provides
     @PerActivity

@@ -3,6 +3,7 @@ package com.tomclaw.appsend.screen.moderation
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.core.StoreService
 import com.tomclaw.appsend.dto.AppEntity
+import com.tomclaw.appsend.net.UserData
 import com.tomclaw.appsend.util.SchedulersFactory
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
@@ -18,6 +19,7 @@ interface ModerationInteractor {
 class ModerationInteractorImpl(
     private val api: StoreApi,
     private val locale: Locale,
+    private val userData: UserData,
     private val schedulers: SchedulersFactory
 ) : ModerationInteractor {
 
@@ -35,7 +37,7 @@ class ModerationInteractorImpl(
 //            .subscribeOn(schedulers.io())
         return api
             .getModerationList(
-                userId = null,
+                guid = userData.guid,
                 appId = offsetAppId,
                 locale = locale.language
             )
