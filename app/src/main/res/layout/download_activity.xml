@@ -95,10 +95,13 @@
             </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
             <LinearLayout
+                android:id="@+id/moderation_block"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="gone"
+                tools:vosobility="visible">
 
                 <View
                     android:layout_width="match_parent"
@@ -111,6 +114,7 @@
                     android:background="?android:windowBackground">
 
                     <com.google.android.material.button.MaterialButton
+                        android:id="@+id/button_approve"
                         style="@style/Widget.MaterialComponents.Button.TextButton"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -129,6 +133,7 @@
                         android:background="?attr/divider_color" />
 
                     <com.google.android.material.button.MaterialButton
+                        android:id="@+id/button_deny"
                         style="@style/Widget.MaterialComponents.Button.TextButton"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"

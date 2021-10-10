@@ -9,6 +9,7 @@ import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.main.download.DownloadActivity.createAppActivityIntent
 import com.tomclaw.appsend.screen.moderation.di.ModerationModule
 import com.tomclaw.appsend.util.ThemeHelper
 import javax.inject.Inject
@@ -64,9 +65,9 @@ class ModerationActivity : AppCompatActivity(), ModerationPresenter.ModerationRo
         outState.putBundle(KEY_PRESENTER_STATE, presenter.saveState())
     }
 
-    override fun openAppModerationScreen(appId: Int) {
-//        val intent = createAppActivityIntent(context = this, appId = appId)
-//        startActivity(intent)
+    override fun openAppModerationScreen(appId: String, title: String) {
+        val intent = createAppActivityIntent(this, appId, title, true)
+        startActivity(intent)
     }
 
     override fun leaveScreen() {

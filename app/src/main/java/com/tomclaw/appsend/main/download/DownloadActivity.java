@@ -2,6 +2,7 @@ package com.tomclaw.appsend.main.download;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -109,6 +110,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     public static final String STORE_APP_PACKAGE = "app_package";
     public static final String STORE_APP_LABEL = "app_label";
     public static final String STORE_FINISH_ONLY = "finish_only";
+    public static final String STORE_MODERATION = "moderation";
     private static final String UNLINK_ACTION = "unlink";
     private static final String EDIT_META_ACTION = "edit_meta";
     private static final int REQUEST_CODE_UNLINK = 42;
@@ -122,6 +124,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     private String appPackage;
     private String appLabel;
     private boolean finishOnly;
+    private boolean moderation;
 
     private ViewFlipper viewFlipper;
     private TextView errorText;
@@ -218,12 +221,14 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
                 appPackage = getIntent().getStringExtra(STORE_APP_PACKAGE);
                 appLabel = getIntent().getStringExtra(STORE_APP_LABEL);
                 finishOnly = getIntent().getBooleanExtra(STORE_FINISH_ONLY, false);
+                moderation = getIntent().getBooleanExtra(STORE_MODERATION, false);
             }
         } else {
             appId = savedInstanceState.getString(STORE_APP_ID);
             appPackage = savedInstanceState.getString(STORE_APP_ID);
             appLabel = savedInstanceState.getString(STORE_APP_LABEL);
             finishOnly = savedInstanceState.getBoolean(STORE_FINISH_ONLY, false);
+            moderation = savedInstanceState.getBoolean(STORE_MODERATION, false);
         }
         if (TextUtils.isEmpty(appId) && TextUtils.isEmpty(appPackage)) {
             openStore();
@@ -326,6 +331,21 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
                 ProfileActivity_.intent(DownloadActivity.this).userId(userId).start();
             }
         });
+        if (moderation) {
+            findViewById(R.id.moderation_block).setVisibility(View.VISIBLE);
+
+            View.OnClickListener approveClickListener = v -> {
+
+                trackEvent("approve-app");
+            };
+            findViewById(R.id.button_approve).setOnClickListener(approveClickListener);
+
+            View.OnClickListener denyClickListener = v -> {
+
+                trackEvent("deny-app");
+            };
+            findViewById(R.id.button_deny).setOnClickListener(denyClickListener);
+        }
 
         if (isCreateInstance) {
             loadInfo();
@@ -396,6 +416,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         outState.putString(STORE_APP_ID, appId);
         outState.putString(STORE_APP_PACKAGE, appPackage);
         outState.putString(STORE_APP_LABEL, appLabel);
+        outState.putBoolean(STORE_MODERATION, moderation);
     }
 
     @Override
@@ -1085,6 +1106,14 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         return info != null
                 && info.actions != null
                 && Arrays.asList(info.actions).contains(EDIT_META_ACTION);
+    }
+
+    public static Intent createAppActivityIntent(Context context, String appId, String title, boolean moderation) {
+        Intent intent = new Intent(context, DownloadActivity.class);
+        intent.putExtra(DownloadActivity.STORE_APP_ID, appId);
+        intent.putExtra(DownloadActivity.STORE_APP_LABEL, title);
+        intent.putExtra(DownloadActivity.STORE_MODERATION, moderation);
+        return intent;
     }
 
 }

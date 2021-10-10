@@ -31,7 +31,7 @@ interface ModerationPresenter : ItemListener {
 
     interface ModerationRouter {
 
-        fun openAppModerationScreen(appId: Int)
+        fun openAppModerationScreen(appId: String, title: String)
 
         fun leaveScreen()
 
@@ -102,7 +102,7 @@ class ModerationPresenterImpl(
             )
     }
 
-    private fun loadApps(offsetAppId: Int) {
+    private fun loadApps(offsetAppId: String) {
         subscriptions += interactor.listApps(offsetAppId)
             .observeOn(schedulers.mainThread())
             .doAfterTerminate { onReady() }
@@ -116,9 +116,9 @@ class ModerationPresenterImpl(
         val newItems = entities
             .map { appConverter.convert(it) }
             .toList()
-            .apply { if (entities.isNotEmpty()) last().hasMore = true }
+            .apply { if (isNotEmpty()) last().hasMore = true }
         this.items = this.items
-            ?.apply { if (entities.isNotEmpty()) last().hasProgress = false }
+            ?.apply { if (isNotEmpty()) last().hasProgress = false }
             ?.plus(newItems) ?: newItems
     }
 
@@ -162,8 +162,8 @@ class ModerationPresenterImpl(
     }
 
     override fun onItemClick(item: Item) {
-//        val chat = chatIds[item.id] ?: return
-//        router?.openModerationScreen(chat.appId)
+        val app = items?.find { it.id == item.id } ?: return
+        router?.openAppModerationScreen(app.appId, app.title)
     }
 
     override fun onRetryClick(item: Item) {
@@ -171,7 +171,8 @@ class ModerationPresenterImpl(
     }
 
     override fun onLoadMore(item: Item) {
-        loadApps(item.id.toInt())
+        val app = items?.find { it.id == item.id } ?: return
+        loadApps(app.appId)
     }
 
 }

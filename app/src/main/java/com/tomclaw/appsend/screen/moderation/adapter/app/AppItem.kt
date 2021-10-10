@@ -8,6 +8,7 @@ import com.tomclaw.appsend.util.writeBool
 
 class AppItem(
     override val id: Long,
+    val appId: String,
     val icon: String?,
     val title: String,
     val version: String,
@@ -21,6 +22,7 @@ class AppItem(
 
     override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
         writeLong(id)
+        writeString(appId)
         writeString(icon)
         writeString(title)
         writeString(version)
@@ -37,6 +39,7 @@ class AppItem(
     companion object CREATOR : Parcelable.Creator<AppItem> {
         override fun createFromParcel(parcel: Parcel): AppItem {
             val id = parcel.readLong()
+            val appId = parcel.readString().orEmpty()
             val icon = parcel.readString()
             val title = parcel.readString().orEmpty()
             val version = parcel.readString().orEmpty()
@@ -48,6 +51,7 @@ class AppItem(
             val hasProgress = parcel.readBool()
             return AppItem(
                 id,
+                appId,
                 icon,
                 title,
                 version,

@@ -18,6 +18,7 @@ class AppConverterImpl(
     override fun convert(appEntity: AppEntity): AppItem {
         return AppItem(
             id = id++,
+            appId = appEntity.appId,
             icon = appEntity.icon,
             title = appEntity.title,
             version = resourceProvider.formatAppVersion(appEntity.verName, appEntity.verCode),
