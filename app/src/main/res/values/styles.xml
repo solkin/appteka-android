@@ -49,6 +49,7 @@
     <color name="toolbar_text_secondary_color">#E1E1D1</color>
 
     <color name="user_uploads_color">#228acb</color>
+    <color name="user_downloads_color">#6bb294</color>
     <color name="user_messages_color">#689627</color>
     <color name="user_starred_color">#c7b55b</color>
     <color name="moderators_color">#e32a66</color>

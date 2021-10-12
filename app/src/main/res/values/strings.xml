@@ -220,6 +220,7 @@
     <string name="role_default">User</string>
     <string name="joined_date">In Appteka since %s</string>
     <string name="apps_uploaded">Apps uploaded</string>
+    <string name="total_downloads">They were downloaded</string>
     <string name="messages_wrote">Messages wrote</string>
     <string name="apps_rated">Apps rated</string>
     <string name="moderators_assigned">Moderators assigned</string>

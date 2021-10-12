@@ -23,6 +23,8 @@ public class Profile implements Parcelable, Unobfuscatable {
     private int mentorId;
     @SerializedName("files_count")
     private int filesCount;
+    @SerializedName("total_downloads")
+    private int totalDownloads;
     @SerializedName("msg_count")
     private int msgCount;
     @SerializedName("ratings_count")
@@ -43,6 +45,7 @@ public class Profile implements Parcelable, Unobfuscatable {
         role = in.readInt();
         mentorId = in.readInt();
         filesCount = in.readInt();
+        totalDownloads = in.readInt();
         msgCount = in.readInt();
         ratingsCount = in.readInt();
         moderatorsCount = in.readInt();
@@ -73,6 +76,10 @@ public class Profile implements Parcelable, Unobfuscatable {
 
     public int getFilesCount() {
         return filesCount;
+    }
+
+    public int getTotalDownloads() {
+        return totalDownloads;
     }
 
     public int getMsgCount() {

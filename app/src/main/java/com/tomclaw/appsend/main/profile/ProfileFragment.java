@@ -352,6 +352,16 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
                 .setClickListener(v -> showUserFiles()));
         detailsContainer.addView(DetailsItem_.build(context)
                 .setDetails(
+                        R.drawable.ic_download,
+                        R.color.user_downloads_color,
+                        getString(R.string.total_downloads),
+                        String.valueOf(profile.getTotalDownloads()),
+                        "",
+                        false
+                )
+        );
+        detailsContainer.addView(DetailsItem_.build(context)
+                .setDetails(
                         R.drawable.ic_user_messages,
                         R.color.user_messages_color,
                         getString(R.string.messages_wrote),

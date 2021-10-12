@@ -214,6 +214,7 @@
     <string name="role_default">Пользователь</string>
     <string name="joined_date">В Appteka с %s</string>
     <string name="apps_uploaded">Загружено приложений</string>
+    <string name="total_downloads">Их суммарно скачали</string>
     <string name="messages_wrote">Написано сообщений</string>
     <string name="apps_rated">Приложений оценено</string>
     <string name="moderators_assigned">Модераторов назначено</string>
