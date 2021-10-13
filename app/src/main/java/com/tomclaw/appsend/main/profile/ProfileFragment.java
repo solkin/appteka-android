@@ -390,7 +390,7 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
                         !isModerator
                 )
         );
-        if (isModerator) {
+        if (isModerator && !isPublicProfile) {
             detailsContainer.addView(DetailsItem_.build(context)
                     .setDetails(
                             R.drawable.ic_moderators,
