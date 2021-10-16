@@ -286,4 +286,6 @@
     <string name="apps_on_moderation">Apps on moderation</string>
     <string name="moderation_approve">Approve</string>
     <string name="moderation_decline">Decline</string>
+    <string name="moderation_done">Thank you, your decision has been accepted</string>
+    <string name="moderation_error">Error, your decision could not be accepted</string>
 </resources>

@@ -273,6 +273,8 @@
     <string name="apps_on_moderation">На модерации</string>
     <string name="moderation_approve">Пропустить</string>
     <string name="moderation_decline">Отклонить</string>
+    <string name="moderation_done">Спасибо, ваше решение принято</string>
+    <string name="moderation_error">Ошибка, не удалось принять ваше решение</string>
     <plurals name="updates_available">
         <item quantity="one">Доступно %d обновление</item>
         <item quantity="few">Доступно %d обновлений</item>

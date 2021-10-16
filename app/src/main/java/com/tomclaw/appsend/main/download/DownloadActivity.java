@@ -46,6 +46,7 @@ import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.core.StoreServiceHolder;
 import com.tomclaw.appsend.core.StoreServiceHolder_;
+import com.tomclaw.appsend.dto.StoreResponse;
 import com.tomclaw.appsend.main.abuse.AbuseActivity_;
 import com.tomclaw.appsend.main.dto.ApiResponse;
 import com.tomclaw.appsend.main.dto.RatingItem;
@@ -67,6 +68,7 @@ import com.tomclaw.appsend.main.unlink.UnlinkActivity_;
 import com.tomclaw.appsend.main.view.MemberImageView;
 import com.tomclaw.appsend.main.view.PlayView;
 import com.tomclaw.appsend.net.Session;
+import com.tomclaw.appsend.screen.moderation.api.ModerationResponse;
 import com.tomclaw.appsend.util.FileHelper;
 import com.tomclaw.appsend.util.IntentHelper;
 import com.tomclaw.appsend.util.KeyboardHelper;
@@ -335,13 +337,13 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
             findViewById(R.id.moderation_block).setVisibility(View.VISIBLE);
 
             View.OnClickListener approveClickListener = v -> {
-
+                submitModerationDecision(true);
                 trackEvent("approve-app");
             };
             findViewById(R.id.button_approve).setOnClickListener(approveClickListener);
 
             View.OnClickListener denyClickListener = v -> {
-
+                submitModerationDecision(false);
                 trackEvent("deny-app");
             };
             findViewById(R.id.button_deny).setOnClickListener(denyClickListener);
@@ -894,6 +896,18 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         }
     }
 
+    public void onModerationProgress() {
+        swipeRefresh.setEnabled(true);
+        swipeRefresh.setRefreshing(false);
+        viewFlipper.setDisplayedChild(0);
+    }
+
+    public void onModerationDone() {
+        viewFlipper.setDisplayedChild(1);
+        swipeRefresh.setEnabled(true);
+        swipeRefresh.setRefreshing(false);
+    }
+
     @Override
     public void onDownloadStarted() {
         buttonsSwitcher.setDisplayedChild(2);
@@ -1106,6 +1120,44 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         return info != null
                 && info.actions != null
                 && Arrays.asList(info.actions).contains(EDIT_META_ACTION);
+    }
+
+    private void submitModerationDecision(boolean approve) {
+        String guid = Session.getInstance().getUserData().getGuid();
+        onModerationProgress();
+        Call<StoreResponse<ModerationResponse>> call = serviceHolder.getService().setModerationDecision(guid, appId, approve ? 1 : -1);
+        call.enqueue(new Callback<StoreResponse<ModerationResponse>>() {
+            @Override
+            public void onResponse(Call<StoreResponse<ModerationResponse>> call, final Response<StoreResponse<ModerationResponse>> response) {
+                MainExecutor.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (response.isSuccessful() &&
+                                response.body() != null &&
+                                response.body().getStatus() == 200) {
+                            Toast.makeText(DownloadActivity.this, R.string.moderation_done, Toast.LENGTH_SHORT).show();
+                            setResult(RESULT_OK);
+                            finish();
+                        } else {
+                            Toast.makeText(DownloadActivity.this, R.string.moderation_error, Toast.LENGTH_SHORT).show();
+                            onModerationDone();
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void onFailure(Call<StoreResponse<ModerationResponse>> call, Throwable t) {
+                MainExecutor.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(DownloadActivity.this, R.string.moderation_error, Toast.LENGTH_SHORT).show();
+                        onModerationDone();
+                    }
+                });
+            }
+        });
+        trackEvent("submit-moderation-decision");
     }
 
     public static Intent createAppActivityIntent(Context context, String appId, String title, boolean moderation) {

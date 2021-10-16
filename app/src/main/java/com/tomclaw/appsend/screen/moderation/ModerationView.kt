@@ -1,5 +1,6 @@
 package com.tomclaw.appsend.screen.moderation
 
+import android.annotation.SuppressLint
 import android.view.View
 import android.widget.TextView
 import android.widget.ViewFlipper
@@ -84,6 +85,7 @@ class ModerationViewImpl(
         retryButton.clicks(retryRelay)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun contentUpdated() {
         adapter.notifyDataSetChanged()
     }

@@ -15,11 +15,4 @@ interface StoreApi {
         @Query("locale") locale: String
     ): Single<StoreResponse<ModerationResponse>>
 
-    @GET("1/app/moderation/submit")
-    fun setModerationDecision(
-        @Query("guid") guid: String,
-        @Query("app_id") appId: Int,
-        @Query("decision") locale: Int
-    ): Single<StoreResponse<ModerationResponse>>
-
 }

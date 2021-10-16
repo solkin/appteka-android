@@ -65,9 +65,18 @@ class ModerationActivity : AppCompatActivity(), ModerationPresenter.ModerationRo
         outState.putBundle(KEY_PRESENTER_STATE, presenter.saveState())
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == REQUEST_UPDATE_META) {
+            if (resultCode == RESULT_OK) {
+                presenter.invalidateApps()
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data)
+    }
+
     override fun openAppModerationScreen(appId: String, title: String) {
         val intent = createAppActivityIntent(this, appId, title, true)
-        startActivity(intent)
+        startActivityForResult(intent, REQUEST_UPDATE_META)
     }
 
     override fun leaveScreen() {
@@ -81,3 +90,4 @@ fun createModerationActivityIntent(
 ): Intent = Intent(context, ModerationActivity::class.java)
 
 private const val KEY_PRESENTER_STATE = "presenter_state"
+private const val REQUEST_UPDATE_META = 1

@@ -29,6 +29,8 @@ interface ModerationPresenter : ItemListener {
 
     fun onUpdate()
 
+    fun invalidateApps()
+
     interface ModerationRouter {
 
         fun openAppModerationScreen(appId: String, title: String)
@@ -89,6 +91,11 @@ class ModerationPresenterImpl(
     override fun saveState() = Bundle().apply {
         putParcelableArrayList(KEY_APPS, items?.let { ArrayList(items.orEmpty()) })
         putBoolean(KEY_ERROR, isError)
+    }
+
+    override fun invalidateApps() {
+        items = null
+        loadApps()
     }
 
     private fun loadApps() {

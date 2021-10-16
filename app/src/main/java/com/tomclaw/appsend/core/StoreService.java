@@ -1,5 +1,6 @@
 package com.tomclaw.appsend.core;
 
+import com.tomclaw.appsend.dto.StoreResponse;
 import com.tomclaw.appsend.main.auth.AuthResponse;
 import com.tomclaw.appsend.main.dto.AbuseResult;
 import com.tomclaw.appsend.main.dto.ApiResponse;
@@ -13,6 +14,7 @@ import com.tomclaw.appsend.main.ratings.RatingsResponse;
 import com.tomclaw.appsend.main.unlink.UnlinkResponse;
 import com.tomclaw.appsend.net.CheckUpdatesRequest;
 import com.tomclaw.appsend.net.CheckUpdatesResponse;
+import com.tomclaw.appsend.screen.moderation.api.ModerationResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -142,6 +144,13 @@ public interface StoreService {
     @POST("api/1/app/updates")
     Call<ApiResponse<CheckUpdatesResponse>> checkUpdates(
             @Body CheckUpdatesRequest request
+    );
+
+    @POST("api/1/app/moderation/submit")
+    Call<StoreResponse<ModerationResponse>> setModerationDecision(
+            @Query("guid") String guid,
+            @Query("app_id") String appId,
+            @Query("decision") Integer decision
     );
 
 }
