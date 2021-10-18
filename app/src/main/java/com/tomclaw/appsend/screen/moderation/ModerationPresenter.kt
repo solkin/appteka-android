@@ -66,6 +66,9 @@ class ModerationPresenterImpl(
         subscriptions += view.retryClicks().subscribe {
             loadApps()
         }
+        subscriptions += view.refreshClicks().subscribe {
+            invalidateApps()
+        }
 
         if (isError) {
             onError()
@@ -101,7 +104,7 @@ class ModerationPresenterImpl(
     private fun loadApps() {
         subscriptions += interactor.listApps()
             .observeOn(schedulers.mainThread())
-            .doOnSubscribe { view?.showProgress() }
+            .doOnSubscribe { if (view?.isPullRefreshing() == false) view?.showProgress() }
             .doAfterTerminate { onReady() }
             .subscribe(
                 { onLoaded(it) },
@@ -141,8 +144,14 @@ class ModerationPresenterImpl(
             else -> {
                 val dataSource = ListDataSource(items)
                 adapterPresenter.get().onDataSourceChanged(dataSource)
-                view?.contentUpdated()
-                view?.showContent()
+                view?.let {
+                    it.contentUpdated()
+                    if (it.isPullRefreshing()) {
+                        it.stopPullRefreshing()
+                    } else {
+                        it.showContent()
+                    }
+                }
             }
         }
     }

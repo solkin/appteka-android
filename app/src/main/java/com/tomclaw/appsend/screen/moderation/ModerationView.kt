@@ -27,9 +27,15 @@ interface ModerationView {
 
     fun showError()
 
+    fun stopPullRefreshing()
+
+    fun isPullRefreshing(): Boolean
+
     fun navigationClicks(): Observable<Unit>
 
     fun retryClicks(): Observable<Unit>
+
+    fun refreshClicks(): Observable<Unit>
 
 }
 
@@ -48,6 +54,7 @@ class ModerationViewImpl(
 
     private val navigationRelay = PublishRelay.create<Unit>()
     private val retryRelay = PublishRelay.create<Unit>()
+    private val refreshRelay = PublishRelay.create<Unit>()
 
     init {
         toolbar.setTitle(R.string.apps_on_moderation)
@@ -60,6 +67,8 @@ class ModerationViewImpl(
         recycler.layoutManager = layoutManager
         recycler.itemAnimator = DefaultItemAnimator()
         recycler.itemAnimator?.changeDuration = DURATION_MEDIUM
+
+        refresher.setOnRefreshListener { refreshRelay.accept(Unit) }
     }
 
     override fun showProgress() {
@@ -73,6 +82,7 @@ class ModerationViewImpl(
     }
 
     override fun showPlaceholder() {
+        refresher.isRefreshing = false
         refresher.isEnabled = true
         flipper.displayedChild = 2
     }
@@ -90,11 +100,17 @@ class ModerationViewImpl(
         adapter.notifyDataSetChanged()
     }
 
+    override fun stopPullRefreshing() {
+        refresher.isRefreshing = false
+    }
+
+    override fun isPullRefreshing(): Boolean = refresher.isRefreshing
+
     override fun navigationClicks(): Observable<Unit> = navigationRelay
 
-    override fun retryClicks(): Observable<Unit> {
-        return retryRelay
-    }
+    override fun retryClicks(): Observable<Unit> = retryRelay
+
+    override fun refreshClicks(): Observable<Unit> = refreshRelay
 
 }
 
