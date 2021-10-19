@@ -1160,11 +1160,12 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         trackEvent("submit-moderation-decision");
     }
 
-    public static Intent createAppActivityIntent(Context context, String appId, String title, boolean moderation) {
+    public static Intent createAppActivityIntent(Context context, String appId, String title, boolean moderation, boolean finishOnly) {
         Intent intent = new Intent(context, DownloadActivity.class);
         intent.putExtra(DownloadActivity.STORE_APP_ID, appId);
         intent.putExtra(DownloadActivity.STORE_APP_LABEL, title);
         intent.putExtra(DownloadActivity.STORE_MODERATION, moderation);
+        intent.putExtra(DownloadActivity.STORE_FINISH_ONLY, finishOnly);
         return intent;
     }
 

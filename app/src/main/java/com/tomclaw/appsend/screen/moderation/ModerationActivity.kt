@@ -75,7 +75,7 @@ class ModerationActivity : AppCompatActivity(), ModerationPresenter.ModerationRo
     }
 
     override fun openAppModerationScreen(appId: String, title: String) {
-        val intent = createAppActivityIntent(this, appId, title, true)
+        val intent = createAppActivityIntent(this, appId, title, true, true)
         startActivityForResult(intent, REQUEST_UPDATE_META)
     }
 
