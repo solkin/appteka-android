@@ -23,6 +23,8 @@ interface ModerationView {
 
     fun contentUpdated()
 
+    fun contentUpdated(position: Int)
+
     fun showPlaceholder()
 
     fun showError()
@@ -98,6 +100,10 @@ class ModerationViewImpl(
     @SuppressLint("NotifyDataSetChanged")
     override fun contentUpdated() {
         adapter.notifyDataSetChanged()
+    }
+
+    override fun contentUpdated(position: Int) {
+        adapter.notifyItemChanged(position)
     }
 
     override fun stopPullRefreshing() {

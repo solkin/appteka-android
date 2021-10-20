@@ -123,6 +123,7 @@ class ModerationPresenterImpl(
     }
 
     private fun onLoaded(entities: List<AppEntity>) {
+        isError = false
         val newItems = entities
             .map { appConverter.convert(it) }
             .toList()
@@ -183,7 +184,17 @@ class ModerationPresenterImpl(
     }
 
     override fun onRetryClick(item: Item) {
-        TODO("Not yet implemented")
+        val app = items?.find { it.id == item.id } ?: return
+        if (items?.isNotEmpty() == true) {
+            items?.last()?.let {
+                it.hasProgress = true
+                it.hasError = false
+            }
+            items?.indexOf(app)?.let {
+                view?.contentUpdated(it)
+            }
+        }
+        loadApps(app.appId)
     }
 
     override fun onLoadMore(item: Item) {
