@@ -21,7 +21,7 @@ class AppItemPresenter(
         view.setTitle(item.title)
         view.setVersion(item.version)
         view.setSize(item.size)
-        view.setRating(item.rating)
+        view.setRating(item.rating.takeIf { it > 0 })
         view.setDownloads(item.downloads)
         if (item.hasProgress) view.showProgress() else view.hideProgress()
         if (item.hasError) view.showError() else view.hideError()
