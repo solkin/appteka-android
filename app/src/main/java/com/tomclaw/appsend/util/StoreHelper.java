@@ -21,6 +21,7 @@ public class StoreHelper {
 
     public static StoreItem parseStoreItem(JSONObject file) throws JSONException {
         String appId = file.getString("app_id");
+        int fileStatus = file.optInt("file_status");
         String defLabel = file.getString("label");
         int downloads = file.getInt("downloads");
         String icon = file.optString("icon");
@@ -38,7 +39,7 @@ public class StoreHelper {
         long userId = file.getLong("user_id");
         float rating = (float) file.optDouble("rating", 0.0);
         String filter = file.optString("filter");
-        return new StoreItem(defLabel, labels, icon, appId, packageName, verName, verCode,
+        return new StoreItem(defLabel, labels, icon, appId, fileStatus, packageName, verName, verCode,
                 sdkVersion, androidVersion, permissions, size, downloads, downloadTime, time,
                 sha1, userId, rating, filter);
     }

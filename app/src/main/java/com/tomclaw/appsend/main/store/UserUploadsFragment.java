@@ -35,7 +35,7 @@ public class UserUploadsFragment extends BaseStoreFragment implements UserDataLi
     public Call<ApiResponse<ListResponse>> createCall(String appId, int offset) {
         if (userId == null) return null;
         String locale = getLocaleLanguage();
-        return serviceHolder.getService().listFiles(userId, appId, locale);
+        return serviceHolder.getService().listFiles(userId, session.getUserHolder().getUserData().getGuid(), appId, locale);
     }
 
     @Override

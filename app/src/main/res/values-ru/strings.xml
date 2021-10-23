@@ -275,6 +275,9 @@
     <string name="moderation_decline">Отклонить</string>
     <string name="moderation_done">Спасибо, ваше решение принято</string>
     <string name="moderation_error">Ошибка, не удалось принять ваше решение</string>
+    <string name="status_unlinked">Удалено</string>
+    <string name="status_private">Приватно</string>
+    <string name="status_on_moderation">На модерации</string>
     <plurals name="updates_available">
         <item quantity="one">Доступно %d обновление</item>
         <item quantity="few">Доступно %d обновлений</item>

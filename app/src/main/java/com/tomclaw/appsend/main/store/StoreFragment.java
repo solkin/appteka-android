@@ -4,6 +4,8 @@ import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.StoreServiceHolder;
 import com.tomclaw.appsend.main.dto.ApiResponse;
 import com.tomclaw.appsend.main.profile.list.ListResponse;
+import com.tomclaw.appsend.net.Session;
+import com.tomclaw.appsend.net.UserHolder;
 
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EFragment;
@@ -18,10 +20,13 @@ public class StoreFragment extends BaseStoreFragment {
     @Bean
     StoreServiceHolder serviceHolder;
 
+    @Bean
+    Session session;
+
     @Override
     public Call<ApiResponse<ListResponse>> createCall(String appId, int offset) {
         String locale = getLocaleLanguage();
-        return serviceHolder.getService().listFiles(null, appId, locale);
+        return serviceHolder.getService().listFiles(null, session.getUserHolder().getUserData().getGuid(), appId, locale);
     }
 
 }

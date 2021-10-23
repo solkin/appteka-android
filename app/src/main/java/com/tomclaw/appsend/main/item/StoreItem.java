@@ -15,6 +15,10 @@ import java.util.Map;
 public class StoreItem extends BaseItem implements Parcelable {
 
     public static final int NOT_INSTALLED = -1;
+    public static final int FILE_STATUS_NORMAL = 0;
+    public static final int FILE_STATUS_UNLINKED = -1;
+    public static final int FILE_STATUS_PRIVATE = -2;
+    public static final int FILE_STATUS_MODERATION = -3;
 
     @SerializedName("label")
     private String label;
@@ -22,6 +26,8 @@ public class StoreItem extends BaseItem implements Parcelable {
     private String icon;
     @SerializedName("app_id")
     private String appId;
+    @SerializedName("file_status")
+    private int fileStatus;
     @SerializedName("package")
     private String packageName;
     @SerializedName("ver_name")
@@ -49,7 +55,7 @@ public class StoreItem extends BaseItem implements Parcelable {
     }
 
     public StoreItem(String label, Map<String, String> labels, String icon,
-                     String appId, String packageName, String version,
+                     String appId, int fileStatus, String packageName, String version,
                      int versionCode, int sdkVersion, String androidVersion,
                      List<String> permissions, long size, int downloads, long downloadTime,
                      long time, String sha1, long userId, float rating, String filter) {
@@ -57,6 +63,7 @@ public class StoreItem extends BaseItem implements Parcelable {
         this.labels = labels;
         this.icon = icon;
         this.appId = appId;
+        this.fileStatus = fileStatus;
         this.packageName = packageName;
         this.version = version;
         this.versionCode = versionCode;
@@ -85,6 +92,7 @@ public class StoreItem extends BaseItem implements Parcelable {
         }
         icon = in.readString();
         appId = in.readString();
+        fileStatus = in.readInt();
         packageName = in.readString();
         version = in.readString();
         versionCode = in.readInt();
@@ -112,6 +120,7 @@ public class StoreItem extends BaseItem implements Parcelable {
         }
         dest.writeString(icon);
         dest.writeString(appId);
+        dest.writeInt(fileStatus);
         dest.writeString(packageName);
         dest.writeString(version);
         dest.writeInt(versionCode);
@@ -160,6 +169,10 @@ public class StoreItem extends BaseItem implements Parcelable {
 
     public String getAppId() {
         return appId;
+    }
+
+    public int getFileStatus() {
+        return fileStatus;
     }
 
     public String getPackageName() {

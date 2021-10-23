@@ -2,6 +2,9 @@ package com.tomclaw.appsend.main.store;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
+import static com.tomclaw.appsend.main.item.StoreItem.FILE_STATUS_MODERATION;
+import static com.tomclaw.appsend.main.item.StoreItem.FILE_STATUS_PRIVATE;
+import static com.tomclaw.appsend.main.item.StoreItem.FILE_STATUS_UNLINKED;
 import static com.tomclaw.appsend.main.item.StoreItem.NOT_INSTALLED;
 import static com.tomclaw.appsend.main.ratings.RatingsListener.STATE_FAILED;
 import static com.tomclaw.appsend.main.ratings.RatingsListener.STATE_LOADED;
@@ -91,10 +94,24 @@ public class StoreFileViewHolder extends FileViewHolder<StoreItem> {
         if (isShowDownloads) {
             appDownloads.setText(String.valueOf(item.getDownloads()));
         }
+        int badgeTextRes = 0;
         if (isInstalled && isMayBeUpdated) {
-            appBadge.setText(R.string.store_app_update);
+            badgeTextRes = R.string.store_app_update;
         } else if (isInstalled) {
-            appBadge.setText(R.string.store_app_installed);
+            badgeTextRes = R.string.store_app_installed;
+        }
+        switch (item.getFileStatus()) {
+            case FILE_STATUS_UNLINKED:
+                badgeTextRes = R.string.status_unlinked;
+                appCard.setOnClickListener(null);
+                appCard.setClickable(false);
+                break;
+            case FILE_STATUS_PRIVATE:
+                badgeTextRes = R.string.status_private;
+                break;
+            case FILE_STATUS_MODERATION:
+                badgeTextRes = R.string.status_on_moderation;
+                break;
         }
         if (hasRating) {
             appRating.setText(String.valueOf(item.getRating()));
@@ -103,7 +120,13 @@ public class StoreFileViewHolder extends FileViewHolder<StoreItem> {
         ratingIcon.setVisibility(hasRating ? VISIBLE : GONE);
         appDownloads.setVisibility(isShowDownloads ? VISIBLE : GONE);
         downloadsIcon.setVisibility(isShowDownloads ? VISIBLE : GONE);
-        appBadge.setVisibility(isInstalled ? VISIBLE : GONE);
+        if (badgeTextRes > 0) {
+            appBadge.setText(badgeTextRes);
+            appBadge.setVisibility(VISIBLE);
+        } else {
+            appBadge.setVisibility(GONE);
+        }
+
 
         long appInstallDelay = System.currentTimeMillis() - SECONDS.toMillis(item.getTime());
         boolean isNewApp = appInstallDelay > 0 && appInstallDelay < TimeUnit.DAYS.toMillis(1);

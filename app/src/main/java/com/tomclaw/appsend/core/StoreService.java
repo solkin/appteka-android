@@ -109,6 +109,7 @@ public interface StoreService {
     @GET("api/1/app/list")
     Call<ApiResponse<ListResponse>> listFiles(
             @Query("user_id") Long userId,
+            @Query("guid") String guid,
             @Query("app_id") String appId,
             @Query("locale") String locale
     );
