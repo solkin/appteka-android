@@ -29,21 +29,21 @@ import java.util.concurrent.TimeUnit;
 
 public class StoreFileViewHolder extends FileViewHolder<StoreItem> {
 
-    private View itemView;
-    private View appCard;
-    private ImageView appIcon;
-    private TextView appName;
-    private TextView appVersion;
-    private TextView appSize;
-    private TextView appRating;
-    private View ratingIcon;
-    private TextView appDownloads;
-    private View downloadsIcon;
-    private TextView appBadge;
-    private View badgeNew;
-    private View viewProgress;
-    private View errorView;
-    private View buttonRetry;
+    private final View itemView;
+    private final View appCard;
+    private final ImageView appIcon;
+    private final TextView appName;
+    private final TextView appVersion;
+    private final TextView appSize;
+    private final TextView appRating;
+    private final View ratingIcon;
+    private final TextView appDownloads;
+    private final View downloadsIcon;
+    private final TextView appBadge;
+    private final View badgeNew;
+    private final View viewProgress;
+    private final View errorView;
+    private final View buttonRetry;
 
     public StoreFileViewHolder(View itemView) {
         super(itemView);
