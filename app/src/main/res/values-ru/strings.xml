@@ -284,4 +284,5 @@
         <item quantity="many">Доступно %d обновлений</item>
         <item quantity="other">Доступно %d обновлений</item>
     </plurals>
+    <string name="delete">Удалить</string>
 </resources>

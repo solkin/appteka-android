@@ -59,6 +59,13 @@
         <item>@string/report</item>
     </string-array>
 
+    <string-array name="self_message_actions_titles">
+        <item>@string/reply</item>
+        <item>@string/copy</item>
+        <item>@string/profile</item>
+        <item>@string/delete</item>
+    </string-array>
+
     <array name="app_actions_icons">
         <item>@drawable/ic_run</item>
         <item>@drawable/ic_share</item>

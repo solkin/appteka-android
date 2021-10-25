@@ -34,6 +34,7 @@ import com.tomclaw.appsend.util.LegacyLogger;
 import com.tomclaw.appsend.util.StringUtil;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
@@ -55,6 +56,9 @@ public class DiscussFragment extends HomeFragment implements DiscussController.D
 
     @ViewById
     EditText messageEdit;
+
+    @Bean
+    Session session;
 
     private ChatAdapter adapter;
     private TaskExecutor taskExecutor;
@@ -132,7 +136,11 @@ public class DiscussFragment extends HomeFragment implements DiscussController.D
     }
 
     private void showMessageContextMenu(final Message message) {
-        ListAdapter menuAdapter = new MenuAdapter(getContext(), R.array.message_actions_titles, R.array.message_actions_icons);
+        int arrayId = R.array.message_actions_titles;
+        if (message.getUserId() == session.getUserData().getUserId()) {
+            arrayId = R.array.self_message_actions_titles;
+        }
+        ListAdapter menuAdapter = new MenuAdapter(getContext(), arrayId, R.array.message_actions_icons);
         new AlertDialog.Builder(getContext())
                 .setAdapter(menuAdapter, new DialogInterface.OnClickListener() {
                     @Override
