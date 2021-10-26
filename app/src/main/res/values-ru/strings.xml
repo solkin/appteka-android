@@ -285,4 +285,6 @@
         <item quantity="other">Доступно %d обновлений</item>
     </plurals>
     <string name="delete">Удалить</string>
+    <string name="rating_deleted">Отзыв удалён</string>
+    <string name="error_rating_deletion">Не удалось удалить отзыв</string>
 </resources>

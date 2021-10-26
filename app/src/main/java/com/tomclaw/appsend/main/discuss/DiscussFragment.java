@@ -137,7 +137,7 @@ public class DiscussFragment extends HomeFragment implements DiscussController.D
 
     private void showMessageContextMenu(final Message message) {
         int arrayId = R.array.message_actions_titles;
-        if (message.getUserId() == session.getUserData().getUserId()) {
+        if (message.getUserId() == session.getUserData().getUserId() || session.getUserData().getRole() >= 200) {
             arrayId = R.array.self_message_actions_titles;
         }
         ListAdapter menuAdapter = new MenuAdapter(getContext(), arrayId, R.array.message_actions_icons);

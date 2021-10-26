@@ -1,24 +1,42 @@
 package com.tomclaw.appsend.main.ratings;
 
+import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
+import static com.tomclaw.appsend.util.KeyboardHelper.hideKeyboard;
+import static com.tomclaw.appsend.util.KeyboardHelper.showKeyboard;
+
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.snackbar.Snackbar;
 import com.tomclaw.appsend.R;
+import com.tomclaw.appsend.core.ContentResolverLayer;
+import com.tomclaw.appsend.core.DatabaseLayer;
 import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.core.StoreServiceHolder;
+import com.tomclaw.appsend.core.TaskExecutor;
+import com.tomclaw.appsend.core.WeakObjectTask;
+import com.tomclaw.appsend.main.adapter.MenuAdapter;
+import com.tomclaw.appsend.main.discuss.DiscussFragment;
 import com.tomclaw.appsend.main.dto.ApiResponse;
 import com.tomclaw.appsend.main.dto.RatingItem;
 import com.tomclaw.appsend.main.profile.ProfileActivity_;
+import com.tomclaw.appsend.net.RequestHelper;
+import com.tomclaw.appsend.net.Session;
+import com.tomclaw.appsend.util.StringUtil;
 import com.tomclaw.appsend.util.ThemeHelper;
 
 import org.androidannotations.annotations.AfterViews;
@@ -43,6 +61,9 @@ public class RatingsActivity extends AppCompatActivity implements RatingsListene
 
     @Bean
     StoreServiceHolder serviceHolder;
+
+    @Bean
+    Session session;
 
     @ViewById
     Toolbar toolbar;
@@ -113,6 +134,12 @@ public class RatingsActivity extends AppCompatActivity implements RatingsListene
     boolean actionHome() {
         onBackPressed();
         return true;
+    }
+
+    private void reloadRatings() {
+        ratingItems = null;
+        showProgress();
+        loadRatings();
     }
 
     private void loadRatings() {
@@ -215,6 +242,44 @@ public class RatingsActivity extends AppCompatActivity implements RatingsListene
 
     @Override
     public void onClick(RatingItem item) {
-        ProfileActivity_.intent(this).userId(item.getUserId()).start();
+        if (item.getUserId() == session.getUserData().getUserId() || session.getUserData().getRole() >= 200) {
+            ListAdapter menuAdapter = new MenuAdapter(this, R.array.rating_actions_titles, R.array.rating_actions_icons);
+            new AlertDialog.Builder(this)
+                    .setAdapter(menuAdapter, (dialog, which) -> {
+                        switch (which) {
+                            case 0: {
+                                ProfileActivity_.intent(this).userId(item.getUserId()).start();
+                                trackEvent("rating-profile");
+                                break;
+                            }
+                            case 1: {
+                                Call<ApiResponse<RateResponse>> call = serviceHolder.getService().deleteRating(1, session.getUserData().getGuid(), item.getRateId());
+                                call.enqueue(new Callback<ApiResponse<RateResponse>>() {
+                                    @Override
+                                    public void onResponse(Call<ApiResponse<RateResponse>> call, final Response<ApiResponse<RateResponse>> response) {
+                                        MainExecutor.execute(() -> {
+                                            if (response.isSuccessful()) {
+                                                Snackbar.make(ratingsView, R.string.rating_deleted, Snackbar.LENGTH_LONG).show();
+                                                reloadRatings();
+                                            } else {
+                                                Snackbar.make(ratingsView, R.string.error_rating_deletion, Snackbar.LENGTH_LONG).show();
+                                            }
+                                        });
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<ApiResponse<RateResponse>> call, Throwable t) {
+                                        MainExecutor.execute(() -> onLoadingError());
+                                    }
+                                });
+                                trackEvent("rating-delete");
+                                break;
+                            }
+                        }
+                    }).show();
+        } else {
+            ProfileActivity_.intent(this).userId(item.getUserId()).start();
+        }
     }
+
 }

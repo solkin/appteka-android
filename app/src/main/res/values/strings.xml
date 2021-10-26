@@ -292,4 +292,6 @@
     <string name="status_private">Private</string>
     <string name="status_on_moderation">On Moderation</string>
     <string name="delete">Delete</string>
+    <string name="rating_deleted">Rating is deleted</string>
+    <string name="error_rating_deletion">Unable to delete rating</string>
 </resources>

@@ -18,6 +18,7 @@ import com.tomclaw.appsend.screen.moderation.api.ModerationResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -71,6 +72,13 @@ public interface StoreService {
             @Field("guid") String guid,
             @Field("score") int score,
             @Field("text") String text
+    );
+
+    @DELETE("api/1/app/rate/delete")
+    Call<ApiResponse<RateResponse>> deleteRating(
+            @Query("v") int apiVer,
+            @Query("guid") String guid,
+            @Query("rate_id") int rateId
     );
 
     @GET("api/1/app/abuse")
