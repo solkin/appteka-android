@@ -12,6 +12,7 @@ import com.tomclaw.appsend.main.profile.list.ListResponse;
 import com.tomclaw.appsend.main.ratings.RateResponse;
 import com.tomclaw.appsend.main.ratings.RatingsResponse;
 import com.tomclaw.appsend.main.unlink.UnlinkResponse;
+import com.tomclaw.appsend.main.unpublish.UnpublishResponse;
 import com.tomclaw.appsend.net.CheckUpdatesRequest;
 import com.tomclaw.appsend.net.CheckUpdatesResponse;
 import com.tomclaw.appsend.screen.moderation.api.ModerationResponse;
@@ -108,6 +109,15 @@ public interface StoreService {
     @FormUrlEncoded
     @POST("api/1/app/unlink")
     Call<ApiResponse<UnlinkResponse>> unlink(
+            @Field("v") int apiVer,
+            @Field("guid") String guid,
+            @Field("app_id") String fileId,
+            @Field("reason") String reason
+    );
+
+    @FormUrlEncoded
+    @POST("api/1/app/unpublish")
+    Call<ApiResponse<UnpublishResponse>> unpublish(
             @Field("v") int apiVer,
             @Field("guid") String guid,
             @Field("app_id") String fileId,

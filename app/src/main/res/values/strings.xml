@@ -230,7 +230,7 @@
     <string name="today">Last seen today at %s</string>
     <string name="yesterday">Last seen yesterday</string>
     <string name="unable_to_change_role">Failed to change user role</string>
-    <string name="unlink_file">Delete</string>
+    <string name="unlink_file">Delete and prevent republishing</string>
     <string name="unlink_reason">App deletion reason</string>
     <string name="enter_unlink_reason">Please, provide app deletion reason:</string>
     <string name="fill_reason_field">Deletion reason field is mandatory</string>
@@ -294,4 +294,6 @@
     <string name="delete">Delete</string>
     <string name="rating_deleted">Rating is deleted</string>
     <string name="error_rating_deletion">Unable to delete rating</string>
+    <string name="unpublish_file">Remove from publication</string>
+    <string name="unpublish_of">Remove from publication of %s</string>
 </resources>

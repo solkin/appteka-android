@@ -65,6 +65,7 @@ import com.tomclaw.appsend.main.ratings.RateResponse;
 import com.tomclaw.appsend.main.ratings.RatingsActivity_;
 import com.tomclaw.appsend.main.ratings.UserRating;
 import com.tomclaw.appsend.main.unlink.UnlinkActivity_;
+import com.tomclaw.appsend.main.unpublish.UnpublishActivity_;
 import com.tomclaw.appsend.main.view.MemberImageView;
 import com.tomclaw.appsend.main.view.PlayView;
 import com.tomclaw.appsend.net.Session;
@@ -114,6 +115,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     public static final String STORE_FINISH_ONLY = "finish_only";
     public static final String STORE_MODERATION = "moderation";
     private static final String UNLINK_ACTION = "unlink";
+    private static final String UNPUBLISH_ACTION = "unpublish";
     private static final String EDIT_META_ACTION = "edit_meta";
     private static final int REQUEST_CODE_UNLINK = 42;
 
@@ -358,11 +360,11 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.download_menu, menu);
-        abuseItem = menu.findItem(R.id.abuse);
-        abuseItem.setVisible(this.info != null);
-        if (canUnlink()) {
-            abuseItem.setIcon(R.drawable.ic_delete);
-            abuseItem.setTitle(R.string.unlink_file);
+        if (!canUnlink()) {
+            menu.removeItem(R.id.unlink);
+        }
+        if (!canUnpublish()) {
+            menu.removeItem(R.id.unpublish);
         }
         return true;
     }
@@ -380,8 +382,31 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
                 finishAttempt(runnable);
                 break;
             }
+            case R.id.unlink: {
+                UnlinkActivity_
+                        .intent(this)
+                        .appId(appId)
+                        .label(appLabel)
+                        .startForResult(REQUEST_CODE_UNLINK);
+                trackEvent("unlink-app");
+                break;
+            }
+            case R.id.unpublish: {
+                UnpublishActivity_
+                        .intent(this)
+                        .appId(appId)
+                        .label(appLabel)
+                        .startForResult(REQUEST_CODE_UNLINK);
+                trackEvent("unpublish-app");
+                break;
+            }
             case R.id.abuse: {
-                onAbusePressed();
+                AbuseActivity_
+                        .intent(this)
+                        .appId(appId)
+                        .label(appLabel)
+                        .start();
+                trackEvent("abuse-app");
                 break;
             }
         }
@@ -943,24 +968,6 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         bindButtons();
     }
 
-    private void onAbusePressed() {
-        if (canUnlink()) {
-            UnlinkActivity_
-                    .intent(this)
-                    .appId(appId)
-                    .label(appLabel)
-                    .startForResult(REQUEST_CODE_UNLINK);
-            trackEvent("unlink-app");
-        } else {
-            AbuseActivity_
-                    .intent(this)
-                    .appId(appId)
-                    .label(appLabel)
-                    .start();
-            trackEvent("abuse-app");
-        }
-    }
-
     private void showError(@StringRes int message) {
         Snackbar.make(viewFlipper, message, Snackbar.LENGTH_LONG).show();
     }
@@ -1114,6 +1121,12 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         return info != null
                 && info.actions != null
                 && Arrays.asList(info.actions).contains(UNLINK_ACTION);
+    }
+
+    private boolean canUnpublish() {
+        return info != null
+                && info.actions != null
+                && Arrays.asList(info.actions).contains(UNPUBLISH_ACTION);
     }
 
     private boolean canEditMeta() {

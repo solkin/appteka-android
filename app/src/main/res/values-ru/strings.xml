@@ -224,7 +224,7 @@
     <string name="today">Был(а) сегодня в %s</string>
     <string name="yesterday">Был(а) вчера</string>
     <string name="unable_to_change_role">Не удалось сменить роль пользователя</string>
-    <string name="unlink_file">Удалить</string>
+    <string name="unlink_file">Удалить и запретить повторную публикацию</string>
     <string name="unlink_reason">Причина удаления файла</string>
     <string name="enter_unlink_reason">Пожалуйста, опишите причину удаления файла:</string>
     <string name="fill_reason_field">Поле причины удаления файла является обязательным</string>
@@ -287,4 +287,6 @@
     <string name="delete">Удалить</string>
     <string name="rating_deleted">Отзыв удалён</string>
     <string name="error_rating_deletion">Не удалось удалить отзыв</string>
+    <string name="unpublish_file">Снять с публикации</string>
+    <string name="unpublish_of">Снятие с публикации %s</string>
 </resources>
