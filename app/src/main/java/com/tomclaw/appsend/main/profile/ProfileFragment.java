@@ -309,6 +309,9 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
         profile = body.getProfile();
         grantRoles = body.getGrantRoles();
         bindProfile();
+        if (session.getUserData().getUserId() == profile.getUserId()) {
+            session.getUserHolder().updateUserInfo(body.getProfile().getName(), body.getProfile().getRole());
+        }
     }
 
     private void onLoadingError() {

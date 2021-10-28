@@ -155,7 +155,8 @@ public class LoginActivity extends AppCompatActivity {
         long userId = response.getUserId();
         String email = response.getEmail();
         String name = response.getName();
-        session.getUserHolder().onUserRegistered(guid, userId, email, name);
+        int role = response.getRole();
+        session.getUserHolder().onUserRegistered(guid, userId, email, name, role);
         setResult(RESULT_OK);
         finish();
     }

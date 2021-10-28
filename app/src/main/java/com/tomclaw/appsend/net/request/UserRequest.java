@@ -30,8 +30,9 @@ public class UserRequest extends BaseRequest {
             JSONObject result = object.getJSONObject("result");
             String guid = result.getString("guid");
             long userId = result.getLong("user_id");
+            int role = result.getInt("role");
             if (!TextUtils.isEmpty(guid)) {
-                getUserHolder().onUserRegistered(guid, userId);
+                getUserHolder().onUserRegistered(guid, userId, role);
                 return REQUEST_DELETE;
             }
         }

@@ -52,6 +52,10 @@ public class UserData implements Unobfuscatable {
         this.name = name;
     }
 
+    public void setRole(int role) {
+        this.role = role;
+    }
+
     public String getGuid() {
         return guid;
     }

@@ -95,19 +95,27 @@ public class UserHolder {
         }
     }
 
-    public void onUserRegistered(String guid, long userId) {
-        onUserRegistered(guid, userId, null, null);
+    public void onUserRegistered(String guid, long userId, int role) {
+        onUserRegistered(guid, userId, null, null, role);
     }
 
-    public void onUserRegistered(String guid, long userId, String email, String name) {
+    public void onUserRegistered(String guid, long userId, String email, String name, int role) {
         LegacyLogger.log("User successfully registered: " + guid + ", ID: " + userId +
-                ", email: " + email + ", name: " + name);
+                ", email: " + email + ", name: " + name + ", role: " + role);
         userData.setGuid(guid);
         userData.setUserId(userId);
         userData.setEmail(email);
         userData.setName(name);
+        userData.setRole(role);
         store();
         notifyListeners();
+    }
+
+    public void updateUserInfo(String name, int role) {
+        LegacyLogger.log("User info update: name: " + name + ", role: " + role);
+        userData.setName(name);
+        userData.setRole(role);
+        store();
     }
 
     public UserData getUserData() {
