@@ -231,7 +231,7 @@
     <string name="yesterday">Last seen yesterday</string>
     <string name="unable_to_change_role">Failed to change user role</string>
     <string name="unlink_file">Block</string>
-    <string name="unlink_reason">App block reason</string>
+    <string name="unlink_reason">Reason…</string>
     <string name="enter_unlink_reason">Please describe the reason:</string>
     <string name="fill_reason_field">Reason field is required</string>
     <string name="unable_to_unlink_file">Failed to complete request</string>
