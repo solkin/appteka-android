@@ -287,4 +287,9 @@
     <string name="error_rating_deletion">Не удалось удалить отзыв</string>
     <string name="unpublish_file">Снять с публикации</string>
     <string name="unpublish_of">Снятие с публикации %s</string>
+    <string name="blocked_title">Заблокировано</string>
+    <string name="blocked_message">Это приложение было загружено ранее и заблокировано модерацией</string>
+    <string name="moderation_title">Модерация</string>
+    <string name="moderation_message">Это приложение уже было загружено кем-то другим и сейчас находится на модерации</string>
+    <string name="already_uploaded">Это приложение загрузил кто-то другой раньше вас</string>
 </resources>

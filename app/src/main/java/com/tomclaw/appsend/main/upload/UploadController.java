@@ -58,6 +58,8 @@ public class UploadController extends AbstractController<UploadController.Upload
     private boolean isUploaded = false;
     private String url = null;
     private String appId = null;
+    private int userId = 0;
+    private int fileStatus = 0;
     private boolean isError = false;
 
     public boolean isCompleted() {
@@ -68,7 +70,7 @@ public class UploadController extends AbstractController<UploadController.Upload
     public void onAttached(UploadCallback callback) {
         if (item != null) {
             if (isCompleted()) {
-                callback.onCompleted(appId, url);
+                callback.onCompleted(appId, url, userId, fileStatus);
             } else if (isUploaded) {
                 callback.onUploaded();
             } else if (isError) {
@@ -89,6 +91,8 @@ public class UploadController extends AbstractController<UploadController.Upload
         this.isUploaded = false;
         this.appId = null;
         this.url = null;
+        this.userId = 0;
+        this.fileStatus = 0;
         this.isError = false;
         future = executor.submit(() -> uploadInternal());
     }
@@ -101,6 +105,8 @@ public class UploadController extends AbstractController<UploadController.Upload
         this.isUploaded = false;
         this.appId = null;
         this.url = null;
+        this.userId = 0;
+        this.fileStatus = 0;
         this.isError = false;
         trackEvent("upload-cancel");
     }
@@ -115,10 +121,12 @@ public class UploadController extends AbstractController<UploadController.Upload
         MainExecutor.execute(() -> operateCallbacks(UploadCallback::onUploaded));
     }
 
-    private void onCompleted(final String appId, final String url) {
+    private void onCompleted(final String appId, final String url, final int userId, final int fileStatus) {
         this.appId = appId;
         this.url = url;
-        MainExecutor.execute(() -> operateCallbacks(callback -> callback.onCompleted(appId, url)));
+        this.userId = userId;
+        this.fileStatus = fileStatus;
+        MainExecutor.execute(() -> operateCallbacks(callback -> callback.onCompleted(appId, url, userId, fileStatus)));
     }
 
     private void onError() {
@@ -212,7 +220,9 @@ public class UploadController extends AbstractController<UploadController.Upload
                     JSONObject resultObject = jsonObject.getJSONObject("result");
                     String appId = resultObject.getString("app_id");
                     String location = resultObject.getString("url");
-                    onCompleted(appId, location);
+                    int userId = resultObject.getInt("user_id");
+                    int fileStatus = resultObject.getInt("file_status");
+                    onCompleted(appId, location, userId, fileStatus);
                     trackEvent("upload-completed");
                     break;
                 }
@@ -241,7 +251,7 @@ public class UploadController extends AbstractController<UploadController.Upload
 
         void onUploaded();
 
-        void onCompleted(String appId, String url);
+        void onCompleted(String appId, String url, int userId, int fileStatus);
 
         void onError();
 

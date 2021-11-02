@@ -294,4 +294,9 @@
     <string name="error_rating_deletion">Unable to delete rating</string>
     <string name="unpublish_file">Remove from publication</string>
     <string name="unpublish_of">Remove from publication of %s</string>
+    <string name="blocked_title">Blocked</string>
+    <string name="blocked_message">This app has been previously uploaded and blocked by moderation</string>
+    <string name="moderation_title">Moderation</string>
+    <string name="moderation_message">This app was already been uploaded by someone else and now on moderation</string>
+    <string name="already_uploaded">This app was uploaded by someone else before you</string>
 </resources>

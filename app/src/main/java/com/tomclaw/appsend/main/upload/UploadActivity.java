@@ -6,6 +6,7 @@ import static com.tomclaw.imageloader.util.ImageViewHandlersKt.centerCrop;
 import static com.tomclaw.imageloader.util.ImageViewHandlersKt.withPlaceholder;
 import static com.tomclaw.imageloader.util.ImageViewsKt.fetch;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.os.Bundle;
@@ -19,6 +20,7 @@ import android.widget.ViewSwitcher;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.StringRes;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -27,6 +29,8 @@ import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.main.download.DownloadActivity;
 import com.tomclaw.appsend.main.item.CommonItem;
 import com.tomclaw.appsend.main.meta.MetaActivity;
+import com.tomclaw.appsend.net.Session;
+import com.tomclaw.appsend.net.Session_;
 import com.tomclaw.appsend.util.FileHelper;
 import com.tomclaw.appsend.util.IntentHelper;
 import com.tomclaw.appsend.util.StringUtil;
@@ -99,15 +103,12 @@ public class UploadActivity extends AppCompatActivity implements UploadControlle
             }
         });
         findViewById(R.id.button_open).setOnClickListener(v -> {
-            Intent intent = new Intent(UploadActivity.this, DownloadActivity.class);
-            intent.putExtra(DownloadActivity.STORE_APP_ID, appId);
-            intent.putExtra(DownloadActivity.STORE_APP_LABEL, item.getLabel());
-            startActivity(intent);
-            trackEvent("click-uploaded-share");
+            openUploaded();
+            trackEvent("click-uploaded-open");
         });
         findViewById(R.id.button_share).setOnClickListener(v -> {
             shareUrl(UploadActivity.this, formatText());
-            trackEvent("click-uploaded-open");
+            trackEvent("click-uploaded-share");
         });
         findViewById(R.id.button_copy).setOnClickListener(v -> {
             StringUtil.copyStringToClipboard(UploadActivity.this, formatText());
@@ -139,6 +140,13 @@ public class UploadActivity extends AppCompatActivity implements UploadControlle
         if (isCreateInstance) {
             UploadController.getInstance().upload(item);
         }
+    }
+
+    private void openUploaded() {
+        Intent intent = new Intent(UploadActivity.this, DownloadActivity.class);
+        intent.putExtra(DownloadActivity.STORE_APP_ID, appId);
+        intent.putExtra(DownloadActivity.STORE_APP_LABEL, item.getLabel());
+        startActivity(intent);
     }
 
     private String formatText() {
@@ -199,18 +207,38 @@ public class UploadActivity extends AppCompatActivity implements UploadControlle
     }
 
     @Override
-    public void onCompleted(String appId, String url) {
+    public void onCompleted(String appId, String url, int userId, int fileStatus) {
         this.appId = appId;
         this.url = url;
-        if (isMetaActivityShown) {
-            viewSwitcher.setDisplayedChild(1);
+        Session session = Session_.getInstance_(this);
+        if (fileStatus == -1) {
+            showAlert(R.string.blocked_title, R.string.blocked_message);
+        } else if (session.getUserData().getUserId() == userId) {
+            if (isMetaActivityShown) {
+                viewSwitcher.setDisplayedChild(1);
+            } else {
+                Intent intent = new Intent(this, MetaActivity.class)
+                        .putExtra(MetaActivity.APP_ID_EXTRA, appId)
+                        .putExtra(MetaActivity.COMMON_ITEM_EXTRA, item);
+                startActivityForResult(intent, REQUEST_UPDATE_META);
+                isMetaActivityShown = true;
+            }
+        } else if (fileStatus == -3) {
+            showAlert(R.string.moderation_title, R.string.moderation_message);
         } else {
-            Intent intent = new Intent(this, MetaActivity.class)
-                    .putExtra(MetaActivity.APP_ID_EXTRA, appId)
-                    .putExtra(MetaActivity.COMMON_ITEM_EXTRA, item);
-            startActivityForResult(intent, REQUEST_UPDATE_META);
-            isMetaActivityShown = true;
+            Toast.makeText(this, R.string.already_uploaded, Toast.LENGTH_LONG).show();
+            openUploaded();
         }
+    }
+
+    private void showAlert(@StringRes int title, @StringRes int message) {
+        new AlertDialog.Builder(this)
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton(R.string.ok, null)
+                .setOnDismissListener(dialog -> finish())
+                .create()
+                .show();
     }
 
     @Override
