@@ -12,6 +12,11 @@
         android:title="@string/unlink_file"
         app:showAsAction="withText" />
     <item
+        android:id="@+id/delete"
+        android:icon="@drawable/ic_delete"
+        android:title="@string/delete"
+        app:showAsAction="ifRoom|withText" />
+    <item
         android:id="@+id/abuse"
         android:icon="@drawable/ic_alert"
         android:title="@string/abuse"

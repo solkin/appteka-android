@@ -116,6 +116,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     public static final String STORE_MODERATION = "moderation";
     private static final String UNLINK_ACTION = "unlink";
     private static final String UNPUBLISH_ACTION = "unpublish";
+    private static final String DELETE_ACTION = "delete";
     private static final String EDIT_META_ACTION = "edit_meta";
     private static final int REQUEST_CODE_UNLINK = 42;
 
@@ -359,12 +360,19 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.download_menu, menu);
-        if (!canUnlink()) {
-            menu.removeItem(R.id.unlink);
-        }
-        if (!canUnpublish()) {
-            menu.removeItem(R.id.unpublish);
+        if (info != null) {
+            getMenuInflater().inflate(R.menu.download_menu, menu);
+            if (!canUnlink()) {
+                menu.removeItem(R.id.unlink);
+            }
+            if (!canUnpublish()) {
+                menu.removeItem(R.id.unpublish);
+            }
+            if (!canDelete()) {
+                menu.removeItem(R.id.delete);
+            } else {
+                menu.removeItem(R.id.abuse);
+            }
         }
         return true;
     }
@@ -398,6 +406,11 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
                         .label(appLabel)
                         .startForResult(REQUEST_CODE_UNLINK);
                 trackEvent("unpublish-app");
+                break;
+            }
+            case R.id.delete: {
+
+                trackEvent("delete-app");
                 break;
             }
             case R.id.abuse: {
@@ -1127,6 +1140,12 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         return info != null
                 && info.actions != null
                 && Arrays.asList(info.actions).contains(UNPUBLISH_ACTION);
+    }
+
+    private boolean canDelete() {
+        return info != null
+                && info.actions != null
+                && Arrays.asList(info.actions).contains(DELETE_ACTION);
     }
 
     private boolean canEditMeta() {
