@@ -455,6 +455,7 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
         authButton.setVisibility(isPublicProfile || profile.isRegistered() ? View.GONE : View.VISIBLE);
         showContent();
         swipeRefresh.setRefreshing(false);
+        getActivity().invalidateOptionsMenu();
     }
 
     private void showUserFiles() {

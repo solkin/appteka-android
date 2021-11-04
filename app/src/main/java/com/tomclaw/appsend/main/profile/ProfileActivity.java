@@ -8,6 +8,8 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
@@ -36,7 +38,6 @@ import java.util.List;
  */
 @SuppressLint("Registered")
 @EActivity(R.layout.profile_activity)
-@OptionsMenu(R.menu.profile_menu)
 public class ProfileActivity extends AppCompatActivity {
 
     @ViewById
@@ -89,17 +90,26 @@ public class ProfileActivity extends AppCompatActivity {
         profileFragment.setUserId(userId);
     }
 
-    @OptionsItem(android.R.id.home)
-    boolean actionHome() {
-        onBackPressed();
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        if (profileFragment.profile != null) {
+            getMenuInflater().inflate(R.menu.profile_menu, menu);
+        }
         return true;
     }
 
-    @OptionsItem(R.id.share)
-    boolean sharePressed() {
-        String text = getResources().getString(R.string.user_url, profileFragment.profile.getName(), profileFragment.profile.getUserId(), profileFragment.profile.getUrl());
-        shareUrl(ProfileActivity.this, text);
-        trackEvent("share-user-url");
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                break;
+            case R.id.share:
+                String text = getResources().getString(R.string.user_url, profileFragment.profile.getName(), profileFragment.profile.getUserId(), profileFragment.profile.getUrl());
+                shareUrl(ProfileActivity.this, text);
+                trackEvent("share-user-url");
+                break;
+        }
         return true;
     }
 
