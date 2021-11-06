@@ -105,7 +105,7 @@ public class ProfileActivity extends AppCompatActivity {
                 onBackPressed();
                 break;
             case R.id.share:
-                String text = getResources().getString(R.string.user_url, profileFragment.profile.getName(), profileFragment.profile.getUserId(), profileFragment.profile.getUrl());
+                String text = getResources().getString(R.string.user_url, profileFragment.memberName.getText(), profileFragment.profile.getUserId(), profileFragment.profile.getUrl());
                 shareUrl(ProfileActivity.this, text);
                 trackEvent("share-user-url");
                 break;
