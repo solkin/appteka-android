@@ -8,12 +8,12 @@ import com.tomclaw.appsend.util.Unobfuscatable;
 /**
  * Created by solkin on 29/10/2017.
  */
-public class RateResponse implements Parcelable, Unobfuscatable {
+public class VoidResponse implements Parcelable, Unobfuscatable {
 
-    public RateResponse() {
+    public VoidResponse() {
     }
 
-    protected RateResponse(Parcel in) {
+    protected VoidResponse(Parcel in) {
     }
 
     @Override
@@ -25,15 +25,15 @@ public class RateResponse implements Parcelable, Unobfuscatable {
         return 0;
     }
 
-    public static final Creator<RateResponse> CREATOR = new Creator<RateResponse>() {
+    public static final Creator<VoidResponse> CREATOR = new Creator<VoidResponse>() {
         @Override
-        public RateResponse createFromParcel(Parcel in) {
-            return new RateResponse(in);
+        public VoidResponse createFromParcel(Parcel in) {
+            return new VoidResponse(in);
         }
 
         @Override
-        public RateResponse[] newArray(int size) {
-            return new RateResponse[size];
+        public VoidResponse[] newArray(int size) {
+            return new VoidResponse[size];
         }
     };
 }

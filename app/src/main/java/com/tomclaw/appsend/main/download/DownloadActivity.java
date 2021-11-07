@@ -61,7 +61,7 @@ import com.tomclaw.appsend.main.meta.Scores;
 import com.tomclaw.appsend.main.permissions.PermissionsActivity_;
 import com.tomclaw.appsend.main.permissions.PermissionsList;
 import com.tomclaw.appsend.main.profile.ProfileActivity_;
-import com.tomclaw.appsend.main.ratings.RateResponse;
+import com.tomclaw.appsend.main.ratings.VoidResponse;
 import com.tomclaw.appsend.main.ratings.RatingsActivity_;
 import com.tomclaw.appsend.main.ratings.UserRating;
 import com.tomclaw.appsend.main.unlink.UnlinkActivity_;
@@ -409,7 +409,33 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
                 break;
             }
             case R.id.delete: {
+                new AlertDialog.Builder(this)
+                        .setTitle(getString(R.string.delete_app_title))
+                        .setMessage(getString(R.string.delete_app_message))
+                        .setNegativeButton(R.string.yes, (dialog, which) -> {
+                            String guid = Session.getInstance().getUserData().getGuid();
+                            Call<ApiResponse<VoidResponse>> call = serviceHolder.getService().deleteApp(1, guid, appId);
+                            call.enqueue(new Callback<ApiResponse<VoidResponse>>() {
+                                @Override
+                                public void onResponse(Call<ApiResponse<VoidResponse>> call, final Response<ApiResponse<VoidResponse>> response) {
+                                    MainExecutor.execute(() -> {
+                                        if (response.isSuccessful()) {
+                                            Toast.makeText(DownloadActivity.this, R.string.app_deleted, Toast.LENGTH_LONG).show();
+                                            finish();
+                                        } else {
+                                            Toast.makeText(DownloadActivity.this, R.string.error_app_deleted, Toast.LENGTH_LONG).show();
+                                        }
+                                    });
+                                }
 
+                                @Override
+                                public void onFailure(Call<ApiResponse<VoidResponse>> call, Throwable t) {
+                                    MainExecutor.execute(() -> Toast.makeText(DownloadActivity.this, R.string.error_app_deleted, Toast.LENGTH_LONG).show());
+                                }
+                            });
+                        })
+                        .setPositiveButton(R.string.no, null)
+                        .show();
                 trackEvent("delete-app");
                 break;
             }
@@ -1044,10 +1070,10 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
                 return;
             }
             showRatingProgress();
-            Call<ApiResponse<RateResponse>> call = serviceHolder.getService().setRating(1, appId, guid, score, text);
-            call.enqueue(new Callback<ApiResponse<RateResponse>>() {
+            Call<ApiResponse<VoidResponse>> call = serviceHolder.getService().setRating(1, appId, guid, score, text);
+            call.enqueue(new Callback<ApiResponse<VoidResponse>>() {
                 @Override
-                public void onResponse(Call<ApiResponse<RateResponse>> call, final Response<ApiResponse<RateResponse>> response) {
+                public void onResponse(Call<ApiResponse<VoidResponse>> call, final Response<ApiResponse<VoidResponse>> response) {
                     MainExecutor.execute(new Runnable() {
                         @Override
                         public void run() {
@@ -1063,7 +1089,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
                 }
 
                 @Override
-                public void onFailure(Call<ApiResponse<RateResponse>> call, Throwable t) {
+                public void onFailure(Call<ApiResponse<VoidResponse>> call, Throwable t) {
                     MainExecutor.execute(new Runnable() {
                         @Override
                         public void run() {

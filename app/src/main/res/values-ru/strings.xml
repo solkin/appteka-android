@@ -292,4 +292,9 @@
     <string name="moderation_title">Модерация</string>
     <string name="moderation_message">Это приложение уже было загружено кем-то другим и сейчас находится на модерации</string>
     <string name="already_uploaded">Это приложение загрузил кто-то другой раньше вас</string>
+    <string name="delete_app_title">Удаление из обменника</string>
+    <string name="delete_app_message">Вы действительно хотите удалить приложение из обменника Appteka? Это действие не может быть отменено.</string>
+    <string name="delete_from_store">Удалить из обменника</string>
+    <string name="app_deleted">Приложение было успешно удалено</string>
+    <string name="error_app_deleted">Произошла ошибка при удалении приложения</string>
 </resources>

@@ -9,7 +9,7 @@ import com.tomclaw.appsend.main.meta.MetaResponse;
 import com.tomclaw.appsend.main.profile.EmpowerResponse;
 import com.tomclaw.appsend.main.profile.ProfileResponse;
 import com.tomclaw.appsend.main.profile.list.ListResponse;
-import com.tomclaw.appsend.main.ratings.RateResponse;
+import com.tomclaw.appsend.main.ratings.VoidResponse;
 import com.tomclaw.appsend.main.ratings.RatingsResponse;
 import com.tomclaw.appsend.main.unlink.UnlinkResponse;
 import com.tomclaw.appsend.main.unpublish.UnpublishResponse;
@@ -67,7 +67,7 @@ public interface StoreService {
 
     @FormUrlEncoded
     @POST("api/1/app/rate")
-    Call<ApiResponse<RateResponse>> setRating(
+    Call<ApiResponse<VoidResponse>> setRating(
             @Field("v") int apiVer,
             @Field("app_id") String appId,
             @Field("guid") String guid,
@@ -76,7 +76,7 @@ public interface StoreService {
     );
 
     @DELETE("api/1/app/rate/delete")
-    Call<ApiResponse<RateResponse>> deleteRating(
+    Call<ApiResponse<VoidResponse>> deleteRating(
             @Query("v") int apiVer,
             @Query("guid") String guid,
             @Query("rate_id") int rateId
@@ -170,6 +170,13 @@ public interface StoreService {
             @Query("guid") String guid,
             @Query("app_id") String appId,
             @Query("decision") Integer decision
+    );
+
+    @DELETE("api/1/app/delete")
+    Call<ApiResponse<VoidResponse>> deleteApp(
+            @Query("v") int apiVer,
+            @Query("guid") String guid,
+            @Query("app_id") String appId
     );
 
 }
