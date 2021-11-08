@@ -112,7 +112,11 @@
         </activity>
         <activity
             android:name=".main.unlink.UnlinkActivity_"
-            android:label="@string/profile"
+            android:label="@string/unlink_file"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".main.unpublish.UnpublishActivity_"
+            android:label="@string/unpublish_file"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".main.profile.list.FilesActivity_"

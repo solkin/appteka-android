@@ -30,6 +30,7 @@ import com.microsoft.appcenter.AppCenter;
 import com.microsoft.appcenter.analytics.Analytics;
 import com.microsoft.appcenter.crashes.Crashes;
 import com.tomclaw.appsend.R;
+import com.tomclaw.appsend.core.TaskExecutor;
 import com.tomclaw.appsend.main.about.AboutActivity;
 import com.tomclaw.appsend.main.controller.DiscussController;
 import com.tomclaw.appsend.main.controller.UpdateController;
@@ -188,6 +189,7 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
         Session.getInstance().getUserHolder().attachListener(this);
         UpdateController.getInstance().onAttach(this);
         DiscussController.getInstance().onAttach(this);
+        TaskExecutor.getInstance().execute(new StatusCheckTask(this));
     }
 
     @Override
