@@ -104,10 +104,10 @@
                 <data android:scheme="https" />
                 <data
                     android:host="appsend.store"
-                    android:pathPrefix="/user" />
+                    android:pathPrefix="/profile" />
                 <data
                     android:host="appteka.store"
-                    android:pathPrefix="/user" />
+                    android:pathPrefix="/profile" />
             </intent-filter>
         </activity>
         <activity
