@@ -6,4 +6,9 @@
         android:icon="@drawable/ic_share_variant"
         android:title="@string/share_url"
         app:showAsAction="ifRoom|withText" />
+    <item
+        android:id="@+id/eliminate"
+        android:icon="@drawable/ic_delete_forever"
+        android:title="@string/eliminate_user"
+        app:showAsAction="ifRoom|withText" />
 </menu>

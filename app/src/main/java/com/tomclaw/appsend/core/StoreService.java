@@ -6,11 +6,12 @@ import com.tomclaw.appsend.main.dto.AbuseResult;
 import com.tomclaw.appsend.main.dto.ApiResponse;
 import com.tomclaw.appsend.main.dto.StoreInfo;
 import com.tomclaw.appsend.main.meta.MetaResponse;
+import com.tomclaw.appsend.main.profile.EliminateUserResponse;
 import com.tomclaw.appsend.main.profile.EmpowerResponse;
 import com.tomclaw.appsend.main.profile.ProfileResponse;
 import com.tomclaw.appsend.main.profile.list.ListResponse;
-import com.tomclaw.appsend.main.ratings.VoidResponse;
 import com.tomclaw.appsend.main.ratings.RatingsResponse;
+import com.tomclaw.appsend.main.ratings.VoidResponse;
 import com.tomclaw.appsend.main.unlink.UnlinkResponse;
 import com.tomclaw.appsend.main.unpublish.UnpublishResponse;
 import com.tomclaw.appsend.net.CheckUpdatesRequest;
@@ -177,6 +178,12 @@ public interface StoreService {
             @Query("v") int apiVer,
             @Query("guid") String guid,
             @Query("app_id") String appId
+    );
+
+    @DELETE("api/1/user/eliminate")
+    Call<ApiResponse<EliminateUserResponse>> eliminateUser(
+            @Query("guid") String guid,
+            @Query("user_id") Long userId
     );
 
 }

@@ -491,11 +491,11 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
         swipeRefresh.setRefreshing(false);
     }
 
-    private void showProgress() {
+    public void showProgress() {
         viewFlipper.setDisplayedChild(0);
     }
 
-    private void showContent() {
+    public void showContent() {
         viewFlipper.setDisplayedChild(1);
     }
 

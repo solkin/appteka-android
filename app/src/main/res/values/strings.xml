@@ -304,4 +304,9 @@
     <string name="delete_from_store">Delete from store</string>
     <string name="app_deleted">App was successfully deleted</string>
     <string name="error_app_deleted">An error occurred while deleting the application</string>
+    <string name="eliminate_user">Eliminate</string>
+    <string name="eliminate_user_title">Eliminate user</string>
+    <string name="eliminate_user_message">Are you sure want to eliminate user?</string>
+    <string name="eliminate_user_success">User is eliminated:\n%d files\n%d messages\n%d ratings</string>
+    <string name="eliminate_user_failed">Failed to eliminate user</string>
 </resources>

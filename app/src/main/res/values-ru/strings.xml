@@ -297,4 +297,9 @@
     <string name="delete_from_store">Удалить из обменника</string>
     <string name="app_deleted">Приложение было успешно удалено</string>
     <string name="error_app_deleted">Произошла ошибка при удалении приложения</string>
+    <string name="eliminate_user">Уничтожить</string>
+    <string name="eliminate_user_title">Уничтожить пользователя</string>
+    <string name="eliminate_user_message">Вы уверены, что хотите уничтожить пользователя?</string>
+    <string name="eliminate_user_success">Пользователь успешно уничтожен\n%d files\n%d messages\n%d ratings</string>
+    <string name="eliminate_user_failed">Не удалось уничтожить пользователя</string>
 </resources>
