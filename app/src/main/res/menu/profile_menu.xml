@@ -10,5 +10,5 @@
         android:id="@+id/eliminate"
         android:icon="@drawable/ic_delete_forever"
         android:title="@string/eliminate_user"
-        app:showAsAction="ifRoom|withText" />
+        app:showAsAction="never" />
 </menu>
