@@ -2,6 +2,7 @@ package com.tomclaw.appsend.net;
 
 import android.content.Context;
 
+import com.tomclaw.appsend.dto.UserIcon;
 import com.tomclaw.appsend.util.GsonSingleton;
 import com.tomclaw.appsend.util.LegacyLogger;
 
@@ -95,15 +96,16 @@ public class UserHolder {
         }
     }
 
-    public void onUserRegistered(String guid, long userId, int role) {
-        onUserRegistered(guid, userId, null, null, role);
+    public void onUserRegistered(String guid, long userId, UserIcon userIcon, int role) {
+        onUserRegistered(guid, userId, userIcon, null, null, role);
     }
 
-    public void onUserRegistered(String guid, long userId, String email, String name, int role) {
+    public void onUserRegistered(String guid, long userId, UserIcon userIcon, String email, String name, int role) {
         LegacyLogger.log("User successfully registered: " + guid + ", ID: " + userId +
                 ", email: " + email + ", name: " + name + ", role: " + role);
         userData.setGuid(guid);
         userData.setUserId(userId);
+        userData.setUserIcon(userIcon);
         userData.setEmail(email);
         userData.setName(name);
         userData.setRole(role);
@@ -111,8 +113,9 @@ public class UserHolder {
         notifyListeners();
     }
 
-    public void updateUserInfo(String name, int role) {
+    public void updateUserInfo(UserIcon userIcon, String name, int role) {
         LegacyLogger.log("User info update: name: " + name + ", role: " + role);
+        userData.setUserIcon(userIcon);
         userData.setName(name);
         userData.setRole(role);
         store();

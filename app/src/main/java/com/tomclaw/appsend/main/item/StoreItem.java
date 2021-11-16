@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
+import com.tomclaw.appsend.dto.UserIcon;
 
 import java.util.HashMap;
 import java.util.List;
@@ -48,6 +49,8 @@ public class StoreItem extends BaseItem implements Parcelable {
     private String sha1;
     @SerializedName("user_id")
     private long userId;
+    @SerializedName("user_icon")
+    private UserIcon userIcon;
     private String filter;
     private int installedVersionCode;
 
@@ -58,7 +61,7 @@ public class StoreItem extends BaseItem implements Parcelable {
                      String appId, int fileStatus, String packageName, String version,
                      int versionCode, int sdkVersion, String androidVersion,
                      List<String> permissions, long size, int downloads, long downloadTime,
-                     long time, String sha1, long userId, float rating, String filter) {
+                     long time, String sha1, long userId, UserIcon userIcon, float rating, String filter) {
         this.label = label;
         this.labels = labels;
         this.icon = icon;
@@ -76,6 +79,7 @@ public class StoreItem extends BaseItem implements Parcelable {
         this.time = time;
         this.sha1 = sha1;
         this.userId = userId;
+        this.userIcon = userIcon;
         this.rating = rating;
         this.filter = filter;
         this.installedVersionCode = NOT_INSTALLED;
@@ -105,6 +109,7 @@ public class StoreItem extends BaseItem implements Parcelable {
         time = in.readLong();
         sha1 = in.readString();
         userId = in.readLong();
+        userIcon = in.readParcelable(UserIcon.class.getClassLoader());
         rating = in.readFloat();
         filter = in.readString();
         installedVersionCode = in.readInt();
@@ -133,6 +138,7 @@ public class StoreItem extends BaseItem implements Parcelable {
         dest.writeLong(time);
         dest.writeString(sha1);
         dest.writeLong(userId);
+        dest.writeParcelable(userIcon, 0);
         dest.writeFloat(rating);
         dest.writeString(filter);
         dest.writeInt(installedVersionCode);
@@ -225,6 +231,10 @@ public class StoreItem extends BaseItem implements Parcelable {
 
     public long getUserId() {
         return userId;
+    }
+
+    public UserIcon getUserIcon() {
+        return userIcon;
     }
 
     public String getFilter() {

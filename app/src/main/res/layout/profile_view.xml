@@ -15,14 +15,12 @@
             android:orientation="vertical"
             android:padding="12dp">
 
-            <com.tomclaw.appsend.main.view.MemberImageView
-                android:id="@+id/member_avatar"
+            <include
+                layout="@layout/user_icon"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="24dp"
-                android:background="@drawable/avatar_background"
-                android:scaleType="center" />
+                android:layout_marginTop="24dp" />
 
             <TextView
                 android:id="@+id/member_name"

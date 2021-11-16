@@ -3,6 +3,7 @@ package com.tomclaw.appsend.main.dto;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.tomclaw.appsend.dto.UserIcon;
 import com.tomclaw.appsend.util.Unobfuscatable;
 
 /**
@@ -15,6 +16,7 @@ public class RatingItem implements Parcelable, Unobfuscatable {
     private String text;
     private long time;
     private long user_id;
+    private UserIcon user_icon;
 
     public RatingItem() {
     }
@@ -25,6 +27,7 @@ public class RatingItem implements Parcelable, Unobfuscatable {
         text = in.readString();
         time = in.readLong();
         user_id = in.readLong();
+        user_icon = in.readParcelable(UserIcon.class.getClassLoader());
     }
 
     @Override
@@ -34,6 +37,7 @@ public class RatingItem implements Parcelable, Unobfuscatable {
         dest.writeString(text);
         dest.writeLong(time);
         dest.writeLong(user_id);
+        dest.writeParcelable(user_icon, 0);
     }
 
     @Override
@@ -71,5 +75,9 @@ public class RatingItem implements Parcelable, Unobfuscatable {
 
     public long getUserId() {
         return user_id;
+    }
+
+    public UserIcon getUserIcon() {
+        return user_icon;
     }
 }

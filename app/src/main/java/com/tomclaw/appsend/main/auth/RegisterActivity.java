@@ -15,6 +15,7 @@ import androidx.appcompat.widget.Toolbar;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.core.StoreServiceHolder;
+import com.tomclaw.appsend.dto.UserIcon;
 import com.tomclaw.appsend.main.dto.ApiResponse;
 import com.tomclaw.appsend.net.Session;
 import com.tomclaw.appsend.util.GsonSingleton;
@@ -155,10 +156,11 @@ public class RegisterActivity extends AppCompatActivity {
         showContent();
         String guid = response.getGuid();
         long userId = response.getUserId();
+        UserIcon userIcon = response.getUserIcon();
         String email = response.getEmail();
         String name = response.getName();
         int role = response.getRole();
-        session.getUserHolder().onUserRegistered(guid, userId, email, name, role);
+        session.getUserHolder().onUserRegistered(guid, userId, userIcon, email, name, role);
         setResult(RESULT_OK);
         finish();
     }

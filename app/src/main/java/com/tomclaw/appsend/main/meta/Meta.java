@@ -3,6 +3,7 @@ package com.tomclaw.appsend.main.meta;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.tomclaw.appsend.dto.UserIcon;
 import com.tomclaw.appsend.util.Unobfuscatable;
 
 /**
@@ -16,6 +17,7 @@ public class Meta implements Parcelable, Unobfuscatable {
     private boolean similar;
     private long time;
     private long user_id;
+    private UserIcon user_icon;
     private int rate_count;
     private float rating;
     private Scores scores;
@@ -30,6 +32,7 @@ public class Meta implements Parcelable, Unobfuscatable {
         similar = in.readByte() != 0;
         time = in.readLong();
         user_id = in.readLong();
+        user_icon = in.readParcelable(UserIcon.class.getClassLoader());
         rate_count = in.readInt();
         rating = in.readFloat();
         scores = in.readParcelable(Scores.class.getClassLoader());
@@ -43,6 +46,7 @@ public class Meta implements Parcelable, Unobfuscatable {
         dest.writeByte((byte) (similar ? 1 : 0));
         dest.writeLong(time);
         dest.writeLong(user_id);
+        dest.writeParcelable(user_icon, 0);
         dest.writeInt(rate_count);
         dest.writeFloat(rating);
         dest.writeParcelable(scores, flags);
@@ -87,6 +91,10 @@ public class Meta implements Parcelable, Unobfuscatable {
 
     public long getUserId() {
         return user_id;
+    }
+
+    public UserIcon getUserIcon() {
+        return user_icon;
     }
 
     public int getRateCount() {

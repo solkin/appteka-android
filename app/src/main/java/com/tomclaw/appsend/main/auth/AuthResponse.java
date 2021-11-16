@@ -3,6 +3,7 @@ package com.tomclaw.appsend.main.auth;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.tomclaw.appsend.dto.UserIcon;
 import com.tomclaw.appsend.util.Unobfuscatable;
 
 /**
@@ -12,6 +13,7 @@ public class AuthResponse implements Parcelable, Unobfuscatable {
 
     private String guid;
     private long user_id;
+    private UserIcon user_icon;
     private int role;
     private String email;
     private String name;
@@ -20,6 +22,7 @@ public class AuthResponse implements Parcelable, Unobfuscatable {
     protected AuthResponse(Parcel in) {
         guid = in.readString();
         user_id = in.readLong();
+        user_icon = in.readParcelable(UserIcon.class.getClassLoader());
         role = in.readInt();
         email = in.readString();
         name = in.readString();
@@ -32,6 +35,10 @@ public class AuthResponse implements Parcelable, Unobfuscatable {
 
     public long getUserId() {
         return user_id;
+    }
+
+    public UserIcon getUserIcon() {
+        return user_icon;
     }
 
     public int getRole() {
@@ -54,6 +61,7 @@ public class AuthResponse implements Parcelable, Unobfuscatable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(guid);
         dest.writeLong(user_id);
+        dest.writeParcelable(user_icon, 0);
         dest.writeInt(role);
         dest.writeString(email);
         dest.writeString(name);

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/icon_back"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/user_icon_back"
+    android:padding="10dp"
+    tools:backgroundTint="@color/palette15">
+
+    <com.caverock.androidsvg.SVGImageView
+        android:id="@+id/icon_svg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        tools:src="@drawable/crown"
+        tools:tint="@android:color/white" />
+
+</FrameLayout>

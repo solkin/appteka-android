@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.google.gson.annotations.SerializedName;
+import com.tomclaw.appsend.dto.UserIcon;
 import com.tomclaw.appsend.util.Unobfuscatable;
 
 /**
@@ -13,6 +14,8 @@ public class Profile implements Parcelable, Unobfuscatable {
 
     @SerializedName("user_id")
     private int userId;
+    @SerializedName("user_icon")
+    private UserIcon userIcon;
     @SerializedName("join_time")
     private long joinTime;
     @SerializedName("last_seen")
@@ -40,6 +43,7 @@ public class Profile implements Parcelable, Unobfuscatable {
 
     protected Profile(Parcel in) {
         userId = in.readInt();
+        userIcon = in.readParcelable(Parcelable.class.getClassLoader());
         joinTime = in.readLong();
         lastSeen = in.readLong();
         role = in.readInt();
@@ -56,6 +60,10 @@ public class Profile implements Parcelable, Unobfuscatable {
 
     public int getUserId() {
         return userId;
+    }
+
+    public UserIcon getUserIcon() {
+        return userIcon;
     }
 
     public long getJoinTime() {
@@ -109,6 +117,7 @@ public class Profile implements Parcelable, Unobfuscatable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(userId);
+        dest.writeParcelable(userIcon, 0);
         dest.writeLong(joinTime);
         dest.writeLong(lastSeen);
         dest.writeInt(role);

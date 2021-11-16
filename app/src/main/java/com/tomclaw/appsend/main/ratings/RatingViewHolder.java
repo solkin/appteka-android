@@ -52,7 +52,7 @@ class RatingViewHolder extends RecyclerView.ViewHolder {
                 listener.onClick(item);
             }
         });
-        memberImageView.setMemberId(item.getUserId());
+        memberImageView.setUserIcon(item.getUserIcon());
         ratingView.setRating(item.getScore());
         dateView.setText(timeHelper().getFormattedDate(SECONDS.toMillis(item.getTime())));
         String text = item.getText();

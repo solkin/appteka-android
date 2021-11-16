@@ -4,8 +4,10 @@ import android.content.ContentValues;
 import android.database.Cursor;
 
 import com.tomclaw.appsend.core.GlobalProvider;
+import com.tomclaw.appsend.dto.UserIcon;
 
 import java.io.Serializable;
+import java.util.Collections;
 
 /**
  * Created by solkin on 17/04/16.
@@ -27,6 +29,7 @@ public class Message implements Serializable {
     private final long prevMsgId;
     private final long msgId;
     private final long userId;
+    private final UserIcon userIcon;
     private final String text;
     private final long time;
     private final String cookie;
@@ -38,6 +41,7 @@ public class Message implements Serializable {
         this.msgId = msgId;
         this.prevMsgId = prevMsgId;
         this.userId = 0;
+        this.userIcon = new UserIcon("", Collections.emptyMap(), "");
         this.text = "";
         this.time = 0;
         this.cookie = "";
@@ -50,6 +54,7 @@ public class Message implements Serializable {
         this.prevMsgId = -1;
         this.msgId = -1;
         this.userId = userId;
+        this.userIcon = new UserIcon("", Collections.emptyMap(), "");
         this.text = text;
         this.time = Long.MAX_VALUE;
         this.cookie = cookie;
@@ -62,6 +67,7 @@ public class Message implements Serializable {
                    String cookie, int type, int direction, int pushTime) {
         this.prevMsgId = prevMsgId;
         this.userId = userId;
+        this.userIcon = new UserIcon("", Collections.emptyMap(), "");
         this.msgId = msgId;
         this.text = text;
         this.time = time;
@@ -74,6 +80,7 @@ public class Message implements Serializable {
     public Message(long userId, long msgId, long prevMsgId, long time, String cookie) {
         this.prevMsgId = prevMsgId;
         this.userId = userId;
+        this.userIcon = new UserIcon("", Collections.emptyMap(), "");
         this.msgId = msgId;
         this.text = "";
         this.time = time;
@@ -112,6 +119,10 @@ public class Message implements Serializable {
 
     public long getUserId() {
         return userId;
+    }
+
+    public UserIcon getUserIcon() {
+        return userIcon;
     }
 
     public long getPrevMsgId() {

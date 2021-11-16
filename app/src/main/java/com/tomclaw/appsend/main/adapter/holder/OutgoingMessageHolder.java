@@ -2,6 +2,7 @@ package com.tomclaw.appsend.main.adapter.holder;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.text.SpannableStringBuilder;
@@ -18,7 +19,6 @@ import com.tomclaw.appsend.util.BubbleColorDrawable;
 import com.tomclaw.appsend.util.ColorHelper;
 import com.tomclaw.appsend.util.Corner;
 
-import static com.tomclaw.appsend.util.MemberImageHelper.memberImageHelper;
 import static com.tomclaw.appsend.util.StringUtil.formatQuote;
 import static com.tomclaw.appsend.util.TimeHelper.timeHelper;
 
@@ -57,8 +57,8 @@ public class OutgoingMessageHolder extends AbstractMessageHolder {
     @Override
     public void bind(final Message message, Message prevMessage,
                      final ChatAdapter.MessageClickListener clickListener) {
-        int memberColor = memberImageHelper().getColor(message.getUserId());
-        memberAvatar.setMemberId(message.getUserId());
+        int memberColor = Color.parseColor(message.getUserIcon().getColor());
+        memberAvatar.setUserIcon(message.getUserIcon());
         boolean hasMessage = !TextUtils.isEmpty(message.getText());
         String string = message.getText();
         SpannableStringBuilder spannable = formatQuote(string);

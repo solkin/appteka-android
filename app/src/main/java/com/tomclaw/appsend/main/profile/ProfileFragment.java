@@ -2,7 +2,6 @@ package com.tomclaw.appsend.main.profile;
 
 import static android.app.Activity.RESULT_OK;
 import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
-import static com.tomclaw.appsend.util.MemberImageHelper.memberImageHelper;
 import static com.tomclaw.appsend.util.RoleHelper.ROLE_MODERATOR;
 import static com.tomclaw.appsend.util.TimeHelper.timeHelper;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
@@ -44,6 +43,8 @@ import com.tomclaw.appsend.net.UserDataListener;
 import com.tomclaw.appsend.screen.moderation.ModerationActivityKt;
 import com.tomclaw.appsend.util.Listeners;
 import com.tomclaw.appsend.util.RoleHelper;
+import com.tomclaw.appsend.view.UserIconView;
+import com.tomclaw.appsend.view.UserIconViewImpl;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
@@ -91,8 +92,8 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
     @ViewById
     Button buttonRetry;
 
-    @ViewById
-    MemberImageView memberAvatar;
+    @ViewById(R.id.icon_back)
+    View memberAvatar;
 
     @ViewById
     TextView memberName;
@@ -310,7 +311,7 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
         grantRoles = body.getGrantRoles();
         bindProfile();
         if (session.getUserData().getUserId() == profile.getUserId()) {
-            session.getUserHolder().updateUserInfo(body.getProfile().getName(), body.getProfile().getRole());
+            session.getUserHolder().updateUserInfo(body.getProfile().getUserIcon(), body.getProfile().getName(), body.getProfile().getRole());
         }
     }
 
@@ -324,9 +325,10 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
         Context context = getContext();
         boolean isModerator = profile.getRole() >= ROLE_MODERATOR;
         boolean isPublicProfile = session.getUserData().getUserId() != profile.getUserId();
-        memberAvatar.setMemberId(profile.getUserId());
+        UserIconView userIcon = new UserIconViewImpl(memberAvatar);
+        userIcon.setUserIcon(profile.getUserIcon());
         if (TextUtils.isEmpty(profile.getName())) {
-            memberName.setText(memberImageHelper().getName(profile.getUserId(), isThreadOwner()));
+            memberName.setText(profile.getUserIcon().getLabel().get("en"));
         } else {
             memberName.setText(profile.getName());
         }

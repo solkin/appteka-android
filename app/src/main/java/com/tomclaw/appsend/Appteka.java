@@ -9,7 +9,6 @@ import com.tomclaw.appsend.main.controller.DiscussController;
 import com.tomclaw.appsend.net.RequestDispatcher;
 import com.tomclaw.appsend.net.Session;
 import com.tomclaw.appsend.net.request.Request;
-import com.tomclaw.appsend.util.MemberImageHelper;
 import com.tomclaw.appsend.util.PackageIconLoader;
 import com.tomclaw.appsend.util.PreferenceHelper;
 import com.tomclaw.appsend.util.StringUtil;
@@ -76,7 +75,6 @@ public class Appteka extends Application {
         actuateFlags();
         TimeHelper.init(this);
         StateHolder.init();
-        MemberImageHelper.init(this);
         DiscussController.getInstance();
         RequestDispatcher
                 .init(this, session.getUserHolder(), APP_SESSION, Request.REQUEST_TYPE_SHORT)

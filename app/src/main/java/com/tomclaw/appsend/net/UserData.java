@@ -2,8 +2,11 @@ package com.tomclaw.appsend.net;
 
 import android.text.TextUtils;
 
+import com.tomclaw.appsend.dto.UserIcon;
 import com.tomclaw.appsend.util.LegacyLogger;
 import com.tomclaw.appsend.util.Unobfuscatable;
+
+import java.util.Collections;
 
 /**
  * Created by Igor on 07.07.2015.
@@ -12,6 +15,7 @@ public class UserData implements Unobfuscatable {
 
     private String guid;
     private long userId;
+    private UserIcon userIcon;
     private long fetchTime;
     private int role;
     private String email;
@@ -20,6 +24,7 @@ public class UserData implements Unobfuscatable {
     public UserData() {
         guid = "";
         userId = 0;
+        userIcon = new UserIcon("", Collections.emptyMap(), "");
         fetchTime = 0;
         role = 0;
         email = null;
@@ -56,12 +61,20 @@ public class UserData implements Unobfuscatable {
         this.role = role;
     }
 
+    public void setUserIcon(UserIcon userIcon) {
+        this.userIcon = userIcon;
+    }
+
     public String getGuid() {
         return guid;
     }
 
     public long getUserId() {
         return userId;
+    }
+
+    public UserIcon getUserIcon() {
+        return userIcon;
     }
 
     public long getFetchTime() {

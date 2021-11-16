@@ -1,5 +1,6 @@
 package com.tomclaw.appsend.main.adapter.holder;
 
+import android.graphics.Color;
 import android.view.View;
 import android.widget.TextView;
 
@@ -9,7 +10,6 @@ import com.tomclaw.appsend.main.adapter.ChatAdapter;
 import com.tomclaw.appsend.main.dto.Message;
 import com.tomclaw.appsend.main.view.MemberImageView;
 
-import static com.tomclaw.appsend.util.MemberImageHelper.memberImageHelper;
 import static com.tomclaw.appsend.util.TimeHelper.timeHelper;
 
 /**
@@ -45,8 +45,8 @@ public class ServiceMessageHolder extends AbstractMessageHolder {
         date.setText(timeHelper().getFormattedDate(message.getTime()));
         dateContainer.setVisibility(dateVisible ? View.VISIBLE : View.GONE);
 
-        int memberColor = memberImageHelper().getColor(message.getUserId());
-        memberAvatar.setMemberId(message.getUserId());
+        int memberColor = Color.parseColor(message.getUserIcon().getColor());
+        memberAvatar.setUserIcon(message.getUserIcon());
         int messageResId;
         switch (message.getType()) {
             case GlobalProvider.MESSAGE_TYPE_JOINED: {

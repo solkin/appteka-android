@@ -1,5 +1,9 @@
 package com.tomclaw.appsend.main.adapter.holder;
 
+import static com.tomclaw.appsend.util.StringUtil.formatQuote;
+import static com.tomclaw.appsend.util.TimeHelper.timeHelper;
+
+import android.graphics.Color;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.view.View;
@@ -12,10 +16,6 @@ import com.tomclaw.appsend.main.view.MemberImageView;
 import com.tomclaw.appsend.util.BubbleColorDrawable;
 import com.tomclaw.appsend.util.ColorHelper;
 import com.tomclaw.appsend.util.Corner;
-
-import static com.tomclaw.appsend.util.MemberImageHelper.memberImageHelper;
-import static com.tomclaw.appsend.util.StringUtil.formatQuote;
-import static com.tomclaw.appsend.util.TimeHelper.timeHelper;
 
 /**
  * Created by solkin on 17/04/16.
@@ -51,8 +51,8 @@ public class IncomingMessageHolder extends AbstractMessageHolder {
     @Override
     public void bind(final Message message, Message prevMessage,
                      final ChatAdapter.MessageClickListener clickListener) {
-        int memberColor = memberImageHelper().getColor(message.getUserId());
-        memberAvatar.setMemberId(message.getUserId());
+        int memberColor = Color.parseColor(message.getUserIcon().getColor());
+        memberAvatar.setUserIcon(message.getUserIcon());
         boolean hasMessage = !TextUtils.isEmpty(message.getText());
         String string = message.getText();
         SpannableStringBuilder spannable = formatQuote(string);

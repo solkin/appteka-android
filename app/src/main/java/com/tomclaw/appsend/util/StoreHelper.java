@@ -1,5 +1,6 @@
 package com.tomclaw.appsend.util;
 
+import com.tomclaw.appsend.dto.UserIcon;
 import com.tomclaw.appsend.main.dto.StoreVersion;
 import com.tomclaw.appsend.main.item.StoreItem;
 
@@ -37,11 +38,24 @@ public class StoreHelper {
         int verCode = file.getInt("ver_code");
         String verName = file.getString("ver_name");
         long userId = file.getLong("user_id");
+        JSONObject userIconObject = file.getJSONObject("user_icon");
+        JSONObject labelObject = userIconObject.getJSONObject("label");
+        Map<String, String> label = new HashMap<>();
+        Iterator<String> labelIterator = labelObject.keys();
+        while (labelIterator.hasNext()) {
+            String locale = labelIterator.next();
+            label.put(locale, labelObject.getString(locale));
+        }
+        UserIcon userIcon = new UserIcon(
+                userIconObject.getString("icon"),
+                label,
+                userIconObject.getString("color")
+        );
         float rating = (float) file.optDouble("rating", 0.0);
         String filter = file.optString("filter");
         return new StoreItem(defLabel, labels, icon, appId, fileStatus, packageName, verName, verCode,
                 sdkVersion, androidVersion, permissions, size, downloads, downloadTime, time,
-                sha1, userId, rating, filter);
+                sha1, userId, userIcon, rating, filter);
     }
 
     public static StoreVersion parseStoreVersion(JSONObject version) throws JSONException {

@@ -47,6 +47,7 @@ import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.core.StoreServiceHolder;
 import com.tomclaw.appsend.core.StoreServiceHolder_;
 import com.tomclaw.appsend.dto.StoreResponse;
+import com.tomclaw.appsend.dto.UserIcon;
 import com.tomclaw.appsend.main.abuse.AbuseActivity_;
 import com.tomclaw.appsend.main.dto.ApiResponse;
 import com.tomclaw.appsend.main.dto.RatingItem;
@@ -553,7 +554,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         } else {
             metaBlockView.setVisibility(View.VISIBLE);
             descriptionView.setText(info.getMeta().getDescription());
-            descriptionAuthorAvatar.setMemberId(info.getMeta().getUserId());
+            descriptionAuthorAvatar.setUserIcon(info.getMeta().getUserIcon());
         }
         Category category = meta.getCategory();
         if (category != null && category.getId() != 0) {
@@ -569,7 +570,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         }
         if (item.getUserId() > 0) {
             uploaderContainerView.setVisibility(View.VISIBLE);
-            uploaderAvatar.setMemberId(item.getUserId());
+            uploaderAvatar.setUserIcon(item.getUserIcon());
         } else {
             uploaderContainerView.setVisibility(View.GONE);
         }
@@ -877,7 +878,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
 
             tintRatingIndicator(this, ratingView);
 
-            memberImageView.setMemberId(ratingItem.getUserId());
+            memberImageView.setUserIcon(ratingItem.getUserIcon());
             ratingView.setRating(ratingItem.getScore());
             dateView.setText(timeHelper().getFormattedDate(SECONDS.toMillis(ratingItem.getTime())));
             String text = ratingItem.getText();
@@ -892,7 +893,8 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     private void bindRateContainer() {
         if (info != null) {
             long userId = Session.getInstance().getUserData().getUserId();
-            ratingMemberAvatar.setMemberId(userId);
+            UserIcon userIcon = Session.getInstance().getUserData().getUserIcon();
+            ratingMemberAvatar.setUserIcon(userIcon);
 
             StoreItem item = info.getItem();
             boolean isInstalled = false;
