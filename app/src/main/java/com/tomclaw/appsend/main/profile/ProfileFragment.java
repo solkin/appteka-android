@@ -34,7 +34,6 @@ import com.tomclaw.appsend.main.home.HomeFragment;
 import com.tomclaw.appsend.main.local.DistroActivity_;
 import com.tomclaw.appsend.main.local.InstalledActivity_;
 import com.tomclaw.appsend.main.profile.list.FilesActivity_;
-import com.tomclaw.appsend.main.view.MemberImageView;
 import com.tomclaw.appsend.net.AppEntry;
 import com.tomclaw.appsend.net.Session;
 import com.tomclaw.appsend.net.UpdatesCheckInteractor;

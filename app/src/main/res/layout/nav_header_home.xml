@@ -24,12 +24,12 @@
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin">
 
-        <com.tomclaw.appsend.main.view.MemberImageView
+        <include
             android:id="@+id/img_profile"
+            layout="@layout/user_icon"
             android:layout_width="@dimen/profile_width"
             android:layout_height="@dimen/profile_height"
             android:layout_marginTop="@dimen/nav_header_vertical_spacing"
-            android:background="@drawable/avatar_background"
             android:scaleType="center" />
 
         <TextView

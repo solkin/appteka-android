@@ -4,35 +4,32 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingTop="12dp"
-    android:paddingBottom="12dp"
     android:paddingLeft="20dp"
-    android:paddingRight="20dp">
+    android:paddingTop="12dp"
+    android:paddingRight="20dp"
+    android:paddingBottom="12dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <com.tomclaw.appsend.main.view.MemberImageView
-            android:id="@+id/member_avatar"
+        <include
+            android:id="@+id/member_icon"
+            layout="@layout/user_icon_m"
             android:layout_width="36dp"
             android:layout_height="36dp"
-            android:background="@drawable/avatar_background"
-            android:scaleType="center"
-            tools:backgroundTint="@color/palette15"
-            tools:src="@drawable/crown"
-            tools:tint="@android:color/white" />
+            android:scaleType="center" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:orientation="vertical"
-            android:paddingEnd="8dp"
+            android:paddingStart="8dp"
             android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:paddingStart="8dp">
+            android:paddingEnd="8dp"
+            android:paddingRight="8dp">
 
             <androidx.appcompat.widget.AppCompatRatingBar
                 android:id="@+id/rating_view"
@@ -61,10 +58,10 @@
         android:id="@+id/comment_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:autoLink="web|email"
         android:paddingTop="12dp"
         android:textColor="?text_primary_color"
         android:textSize="16sp"
-        android:autoLink="web|email"
         tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam lobortis accumsan molestie. Maecenas purus sapien, aliquet sed vehicula quis, egestas id lectus. Fusce commodo neque augue, sit amet vehicula odio maximus eu. Cras tristique semper vulputate. Etiam vehicula diam non justo sodales vestibulum. Nam sagittis elit sit amet arcu cursus, at dapibus lacus venenatis." />
 
     <ProgressBar
@@ -72,8 +69,8 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="12dp"
         android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
         android:visibility="gone"
         tools:visibility="visible" />
 
@@ -92,10 +89,10 @@
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="12dp"
-            android:layout_marginLeft="4dp"
-            android:layout_marginRight="12dp"
             android:layout_marginStart="4dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginRight="12dp"
             android:layout_weight="1"
             android:text="@string/load_ratings_error"
             android:textSize="14sp" />

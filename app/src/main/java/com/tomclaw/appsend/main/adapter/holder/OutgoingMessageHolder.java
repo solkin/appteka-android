@@ -1,5 +1,8 @@
 package com.tomclaw.appsend.main.adapter.holder;
 
+import static com.tomclaw.appsend.util.StringUtil.formatQuote;
+import static com.tomclaw.appsend.util.TimeHelper.timeHelper;
+
 import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -14,13 +17,11 @@ import android.widget.TextView;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.main.adapter.ChatAdapter;
 import com.tomclaw.appsend.main.dto.Message;
-import com.tomclaw.appsend.main.view.MemberImageView;
 import com.tomclaw.appsend.util.BubbleColorDrawable;
 import com.tomclaw.appsend.util.ColorHelper;
 import com.tomclaw.appsend.util.Corner;
-
-import static com.tomclaw.appsend.util.StringUtil.formatQuote;
-import static com.tomclaw.appsend.util.TimeHelper.timeHelper;
+import com.tomclaw.appsend.view.UserIconView;
+import com.tomclaw.appsend.view.UserIconViewImpl;
 
 /**
  * Created by solkin on 17/04/16.
@@ -28,7 +29,7 @@ import static com.tomclaw.appsend.util.TimeHelper.timeHelper;
 public class OutgoingMessageHolder extends AbstractMessageHolder {
 
     private View rootView;
-    private MemberImageView memberAvatar;
+    private UserIconView memberAvatar;
     private TextView text;
     private View bubbleBack;
     private TextView time;
@@ -43,7 +44,7 @@ public class OutgoingMessageHolder extends AbstractMessageHolder {
         this.context = itemView.getContext();
 
         rootView = itemView;
-        memberAvatar = itemView.findViewById(R.id.member_avatar);
+        memberAvatar = new UserIconViewImpl(itemView.findViewById(R.id.member_icon));
         text = itemView.findViewById(R.id.out_text);
         bubbleBack = itemView.findViewById(R.id.out_bubble_back);
         time = itemView.findViewById(R.id.out_time);

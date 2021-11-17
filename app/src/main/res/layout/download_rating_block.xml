@@ -25,17 +25,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingBottom="8dp"
                 android:paddingLeft="12dp"
+                android:paddingTop="24dp"
                 android:paddingRight="12dp"
-                android:paddingTop="24dp">
+                android:paddingBottom="8dp">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:paddingBottom="8dp"
                     android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
                     android:text="@string/rate_this_app" />
 
                 <androidx.appcompat.widget.AppCompatRatingBar
@@ -107,16 +107,13 @@
 
         </ViewFlipper>
 
-        <com.tomclaw.appsend.main.view.MemberImageView
-            android:id="@+id/rating_member_avatar"
+        <include
+            android:id="@+id/rating_member_icon"
+            layout="@layout/user_icon"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_gravity="center_horizontal"
-            android:background="@drawable/avatar_background"
-            android:scaleType="center"
-            tools:backgroundTint="@color/palette15"
-            tools:src="@drawable/crown"
-            tools:tint="@android:color/white" />
+            android:scaleType="center" />
 
     </FrameLayout>
 
@@ -131,10 +128,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingBottom="8dp"
             android:paddingLeft="12dp"
+            android:paddingTop="8dp"
             android:paddingRight="12dp"
-            android:paddingTop="8dp">
+            android:paddingBottom="8dp">
 
             <TextView
                 android:id="@+id/rating_score"
@@ -154,10 +151,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:orientation="vertical"
-                android:paddingEnd="0dp"
+                android:paddingStart="12dp"
                 android:paddingLeft="12dp"
-                android:paddingRight="0dp"
-                android:paddingStart="12dp">
+                android:paddingEnd="0dp"
+                android:paddingRight="0dp">
 
                 <androidx.appcompat.widget.AppCompatRatingBar
                     android:id="@+id/small_rating_indicator"
@@ -195,10 +192,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:orientation="vertical"
-                android:paddingEnd="0dp"
+                android:paddingStart="12dp"
                 android:paddingLeft="12dp"
-                android:paddingRight="0dp"
-                android:paddingStart="12dp">
+                android:paddingEnd="0dp"
+                android:paddingRight="0dp">
 
                 <ProgressBar
                     android:id="@+id/rating_detail_element_five"

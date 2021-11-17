@@ -13,13 +13,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            android:gravity="center_horizontal"
             android:padding="12dp">
 
             <include
                 layout="@layout/user_icon"
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:layout_gravity="center_horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="24dp" />
 
             <TextView
@@ -85,7 +85,6 @@
                 style="@style/MaterialButtonPrimary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="8dp"
                 android:text="@string/change_role"
                 android:visibility="gone" />
@@ -95,7 +94,6 @@
                 style="@style/MaterialButtonPrimary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
                 android:layout_marginTop="8dp"
                 android:text="@string/login_button"
                 android:visibility="gone" />

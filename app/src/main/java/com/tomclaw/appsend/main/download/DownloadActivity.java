@@ -1,5 +1,20 @@
 package com.tomclaw.appsend.main.download;
 
+import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
+import static com.tomclaw.appsend.main.ratings.RatingsHelper.tintRatingIndicator;
+import static com.tomclaw.appsend.util.ColorHelper.getAttributedColor;
+import static com.tomclaw.appsend.util.FileHelper.getExternalDirectory;
+import static com.tomclaw.appsend.util.IntentHelper.formatText;
+import static com.tomclaw.appsend.util.IntentHelper.openGooglePlay;
+import static com.tomclaw.appsend.util.IntentHelper.shareUrl;
+import static com.tomclaw.appsend.util.LocaleHelper.getLocalizedName;
+import static com.tomclaw.appsend.util.PermissionHelper.getPermissionSmallInfo;
+import static com.tomclaw.appsend.util.TimeHelper.timeHelper;
+import static com.tomclaw.imageloader.util.ImageViewHandlersKt.centerCrop;
+import static com.tomclaw.imageloader.util.ImageViewHandlersKt.withPlaceholder;
+import static com.tomclaw.imageloader.util.ImageViewsKt.fetch;
+import static java.util.concurrent.TimeUnit.SECONDS;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -62,12 +77,11 @@ import com.tomclaw.appsend.main.meta.Scores;
 import com.tomclaw.appsend.main.permissions.PermissionsActivity_;
 import com.tomclaw.appsend.main.permissions.PermissionsList;
 import com.tomclaw.appsend.main.profile.ProfileActivity_;
-import com.tomclaw.appsend.main.ratings.VoidResponse;
 import com.tomclaw.appsend.main.ratings.RatingsActivity_;
 import com.tomclaw.appsend.main.ratings.UserRating;
+import com.tomclaw.appsend.main.ratings.VoidResponse;
 import com.tomclaw.appsend.main.unlink.UnlinkActivity_;
 import com.tomclaw.appsend.main.unpublish.UnpublishActivity_;
-import com.tomclaw.appsend.main.view.MemberImageView;
 import com.tomclaw.appsend.main.view.PlayView;
 import com.tomclaw.appsend.net.Session;
 import com.tomclaw.appsend.screen.moderation.api.ModerationResponse;
@@ -79,6 +93,8 @@ import com.tomclaw.appsend.util.PermissionHelper;
 import com.tomclaw.appsend.util.PreferenceHelper;
 import com.tomclaw.appsend.util.StringUtil;
 import com.tomclaw.appsend.util.ThemeHelper;
+import com.tomclaw.appsend.view.UserIconView;
+import com.tomclaw.appsend.view.UserIconViewImpl;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -89,21 +105,6 @@ import java.util.Locale;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
-import static com.tomclaw.appsend.main.ratings.RatingsHelper.tintRatingIndicator;
-import static com.tomclaw.appsend.util.ColorHelper.getAttributedColor;
-import static com.tomclaw.appsend.util.FileHelper.getExternalDirectory;
-import static com.tomclaw.appsend.util.IntentHelper.formatText;
-import static com.tomclaw.appsend.util.IntentHelper.openGooglePlay;
-import static com.tomclaw.appsend.util.IntentHelper.shareUrl;
-import static com.tomclaw.appsend.util.LocaleHelper.getLocalizedName;
-import static com.tomclaw.appsend.util.PermissionHelper.getPermissionSmallInfo;
-import static com.tomclaw.appsend.util.TimeHelper.timeHelper;
-import static com.tomclaw.imageloader.util.ImageViewHandlersKt.centerCrop;
-import static com.tomclaw.imageloader.util.ImageViewHandlersKt.withPlaceholder;
-import static com.tomclaw.imageloader.util.ImageViewsKt.fetch;
-import static java.util.concurrent.TimeUnit.SECONDS;
 
 /**
  * Created by ivsolkin on 14.01.17.
@@ -142,11 +143,11 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     private PlayView minAndroidView;
     private View metaBlockView;
     private TextView descriptionView;
-    private MemberImageView descriptionAuthorAvatar;
+    private UserIconView descriptionAuthorAvatar;
     private RelativeLayout permissionsBlock;
     private ViewGroup permissionsContainer;
     private View uploaderContainerView;
-    private MemberImageView uploaderAvatar;
+    private UserIconView uploaderAvatar;
     private TextView versionView;
     private TextView uploadedTimeView;
     private TextView checksumView;
@@ -175,7 +176,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     private View categoryContainer;
     private SVGImageView categoryIcon;
     private TextView categoryTitle;
-    private MemberImageView ratingMemberAvatar;
+    private UserIconView ratingMemberAvatar;
     private ViewFlipper ratingFlipper;
     private RatingBar userRating;
     private EditText userOpinion;
@@ -253,11 +254,11 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         minAndroidView = findViewById(R.id.min_android);
         metaBlockView = findViewById(R.id.meta_block);
         descriptionView = findViewById(R.id.description);
-        descriptionAuthorAvatar = findViewById(R.id.description_author_avatar);
+        descriptionAuthorAvatar = new UserIconViewImpl(metaBlockView.findViewById(R.id.description_author_icon));
         permissionsBlock = findViewById(R.id.permissions_block);
         permissionsContainer = findViewById(R.id.permissions_container);
         uploaderContainerView = findViewById(R.id.uploader_container);
-        uploaderAvatar = findViewById(R.id.uploader_avatar);
+        uploaderAvatar = new UserIconViewImpl(uploaderContainerView.findViewById(R.id.uploader_icon));
         versionView = findViewById(R.id.app_version);
         uploadedTimeView = findViewById(R.id.uploaded_time);
         checksumView = findViewById(R.id.app_checksum);
@@ -277,7 +278,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         ratingItemsContainer = findViewById(R.id.rating_items);
         ratingScore = findViewById(R.id.rating_score);
         ratesCount = findViewById(R.id.rates_count);
-        ratingMemberAvatar = findViewById(R.id.rating_member_avatar);
+        ratingMemberAvatar = new UserIconViewImpl(rateContainer.findViewById(R.id.rating_member_icon));
         ratingFlipper = findViewById(R.id.rating_flipper);
         userRating = findViewById(R.id.user_rating_view);
         userOpinion = findViewById(R.id.user_opinion);
@@ -871,7 +872,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         boolean isRatingsAdded = false;
         for (final RatingItem ratingItem : ratingItems) {
             View ratingItemView = getLayoutInflater().inflate(R.layout.rating_item, ratingItemsContainer, false);
-            MemberImageView memberImageView = ratingItemView.findViewById(R.id.member_avatar);
+            UserIconView memberImageView = new UserIconViewImpl(ratingItemView.findViewById(R.id.member_icon));
             AppCompatRatingBar ratingView = ratingItemView.findViewById(R.id.rating_view);
             TextView dateView = ratingItemView.findViewById(R.id.date_view);
             TextView commentView = ratingItemView.findViewById(R.id.comment_view);

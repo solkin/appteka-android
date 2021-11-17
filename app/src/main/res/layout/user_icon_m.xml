@@ -6,10 +6,10 @@
 
     <FrameLayout
         android:id="@+id/icon_back"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
         android:background="@drawable/user_icon_back"
-        android:padding="16dp"
+        android:padding="6dp"
         tools:backgroundTint="@color/palette15">
 
         <com.caverock.androidsvg.SVGImageView

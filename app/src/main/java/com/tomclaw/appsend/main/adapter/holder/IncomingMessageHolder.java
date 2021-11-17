@@ -12,34 +12,35 @@ import android.widget.TextView;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.main.adapter.ChatAdapter;
 import com.tomclaw.appsend.main.dto.Message;
-import com.tomclaw.appsend.main.view.MemberImageView;
 import com.tomclaw.appsend.util.BubbleColorDrawable;
 import com.tomclaw.appsend.util.ColorHelper;
 import com.tomclaw.appsend.util.Corner;
+import com.tomclaw.appsend.view.UserIconView;
+import com.tomclaw.appsend.view.UserIconViewImpl;
 
 /**
  * Created by solkin on 17/04/16.
  */
 public class IncomingMessageHolder extends AbstractMessageHolder {
 
-    private View rootView;
-    private MemberImageView memberAvatar;
-    private TextView text;
-    private View bubbleBack;
-    private TextView time;
-    private TextView date;
+    private final View rootView;
+    private final UserIconView memberAvatar;
+    private final TextView text;
+    private final View bubbleBack;
+    private final TextView time;
+    private final TextView date;
 
-    private BubbleColorDrawable textBackground;
+    private final BubbleColorDrawable textBackground;
 
     public IncomingMessageHolder(View itemView) {
         super(itemView);
 
         rootView = itemView;
-        memberAvatar = (MemberImageView) itemView.findViewById(R.id.member_avatar);
-        text = (TextView) itemView.findViewById(R.id.inc_text);
+        memberAvatar = new UserIconViewImpl(itemView.findViewById(R.id.member_icon));
+        text = itemView.findViewById(R.id.inc_text);
         bubbleBack = itemView.findViewById(R.id.inc_bubble_back);
-        time = (TextView) itemView.findViewById(R.id.inc_time);
-        date = (TextView) itemView.findViewById(R.id.message_date);
+        time = itemView.findViewById(R.id.inc_time);
+        date = itemView.findViewById(R.id.message_date);
 
         int bubbleColor = ColorHelper.getAttributedColor(itemView.getContext(), R.attr.discuss_bubble_color);
         textBackground = new BubbleColorDrawable(itemView.getContext(), bubbleColor, Corner.LEFT);

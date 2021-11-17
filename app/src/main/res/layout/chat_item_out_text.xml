@@ -9,8 +9,8 @@
     android:gravity="center_vertical"
     android:orientation="vertical"
     android:paddingLeft="5dp"
-    android:paddingRight="5dp"
-    android:paddingTop="5dp">
+    android:paddingTop="5dp"
+    android:paddingRight="5dp">
 
     <include layout="@layout/chat_item_date" />
 
@@ -30,22 +30,22 @@
             android:layout_weight="1"
             android:gravity="end"
             android:orientation="vertical"
-            android:paddingEnd="0dp"
+            android:paddingStart="5dp"
             android:paddingLeft="5dp"
-            android:paddingRight="0dp"
-            android:paddingStart="5dp">
+            android:paddingEnd="0dp"
+            android:paddingRight="0dp">
 
             <FrameLayout
                 android:id="@+id/out_bubble_back"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:paddingBottom="4dp"
-                android:paddingEnd="14dp"
-                android:paddingLeft="6dp"
-                android:paddingRight="14dp"
                 android:paddingStart="6dp"
+                android:paddingLeft="6dp"
                 android:paddingTop="3dp"
+                android:paddingEnd="14dp"
+                android:paddingRight="14dp"
+                android:paddingBottom="4dp"
                 tools:ignore="UselessParent">
 
                 <TextView
@@ -57,11 +57,11 @@
 
         </LinearLayout>
 
-        <com.tomclaw.appsend.main.view.MemberImageView
-            android:id="@+id/member_avatar"
+        <include
+            android:id="@+id/member_icon"
+            layout="@layout/user_icon"
             android:layout_width="36dp"
             android:layout_height="36dp"
-            android:background="@drawable/avatar_background"
             android:scaleType="center" />
 
     </LinearLayout>

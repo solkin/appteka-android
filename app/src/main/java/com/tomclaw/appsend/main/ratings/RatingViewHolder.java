@@ -1,5 +1,12 @@
 package com.tomclaw.appsend.main.ratings;
 
+import static com.tomclaw.appsend.main.ratings.RatingsHelper.tintRatingIndicator;
+import static com.tomclaw.appsend.main.ratings.RatingsListener.STATE_FAILED;
+import static com.tomclaw.appsend.main.ratings.RatingsListener.STATE_LOADED;
+import static com.tomclaw.appsend.main.ratings.RatingsListener.STATE_LOADING;
+import static com.tomclaw.appsend.util.TimeHelper.timeHelper;
+import static java.util.concurrent.TimeUnit.SECONDS;
+
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
@@ -9,14 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.main.dto.RatingItem;
-import com.tomclaw.appsend.main.view.MemberImageView;
-
-import static com.tomclaw.appsend.main.ratings.RatingsHelper.tintRatingIndicator;
-import static com.tomclaw.appsend.main.ratings.RatingsListener.STATE_FAILED;
-import static com.tomclaw.appsend.main.ratings.RatingsListener.STATE_LOADED;
-import static com.tomclaw.appsend.main.ratings.RatingsListener.STATE_LOADING;
-import static com.tomclaw.appsend.util.TimeHelper.timeHelper;
-import static java.util.concurrent.TimeUnit.SECONDS;
+import com.tomclaw.appsend.view.UserIconView;
+import com.tomclaw.appsend.view.UserIconViewImpl;
 
 /**
  * Created by solkin on 03.08.17.
@@ -24,7 +25,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 class RatingViewHolder extends RecyclerView.ViewHolder {
 
     private View itemView;
-    private MemberImageView memberImageView;
+    private UserIconView memberImageView;
     private AppCompatRatingBar ratingView;
     private TextView dateView;
     private TextView commentView;
@@ -35,7 +36,7 @@ class RatingViewHolder extends RecyclerView.ViewHolder {
     RatingViewHolder(View itemView) {
         super(itemView);
         this.itemView = itemView;
-        memberImageView = itemView.findViewById(R.id.member_avatar);
+        memberImageView = new UserIconViewImpl(itemView.findViewById(R.id.member_icon));
         ratingView = itemView.findViewById(R.id.rating_view);
         dateView = itemView.findViewById(R.id.date_view);
         commentView = itemView.findViewById(R.id.comment_view);
@@ -46,12 +47,7 @@ class RatingViewHolder extends RecyclerView.ViewHolder {
 
     void bind(final RatingItem item, boolean isLast, final RatingsListener listener) {
         tintRatingIndicator(itemView.getContext(), ratingView);
-        itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onClick(item);
-            }
-        });
+        itemView.setOnClickListener(v -> listener.onClick(item));
         memberImageView.setUserIcon(item.getUserIcon());
         ratingView.setRating(item.getScore());
         dateView.setText(timeHelper().getFormattedDate(SECONDS.toMillis(item.getTime())));
@@ -82,12 +78,7 @@ class RatingViewHolder extends RecyclerView.ViewHolder {
         progressView.setVisibility(isProgress ? View.VISIBLE : View.GONE);
         errorView.setVisibility(isError ? View.VISIBLE : View.GONE);
         if (isError) {
-            retryButtonView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    listener.onRetry();
-                }
-            });
+            retryButtonView.setOnClickListener(v -> listener.onRetry());
         } else {
             retryButtonView.setOnClickListener(null);
         }
