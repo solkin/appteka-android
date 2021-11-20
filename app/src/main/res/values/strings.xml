@@ -274,4 +274,5 @@
     <string name="eliminate_user_message">Are you sure want to eliminate user?</string>
     <string name="eliminate_user_success">User is eliminated:\n%d files\n%d messages\n%d ratings</string>
     <string name="eliminate_user_failed">Failed to eliminate user</string>
+    <string name="create_topic">Create topic</string>
 </resources>

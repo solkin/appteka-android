@@ -10,7 +10,7 @@
         android:layout_height="64dp"
         android:background="@drawable/user_icon_back"
         android:padding="16dp"
-        tools:backgroundTint="@color/palette15">
+        tools:backgroundTint="@color/primary_color">
 
         <com.caverock.androidsvg.SVGImageView
             android:id="@+id/icon_svg"

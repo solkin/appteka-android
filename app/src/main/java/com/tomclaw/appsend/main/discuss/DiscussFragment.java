@@ -45,7 +45,7 @@ import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
 import static com.tomclaw.appsend.util.KeyboardHelper.hideKeyboard;
 import static com.tomclaw.appsend.util.KeyboardHelper.showKeyboard;
 
-@EFragment(R.layout.discuss_fragment)
+@EFragment(R.layout.discuss_fragment_legacy)
 public class DiscussFragment extends HomeFragment implements DiscussController.DiscussCallback {
 
     @ViewById
