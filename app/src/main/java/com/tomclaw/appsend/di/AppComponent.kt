@@ -1,5 +1,7 @@
 package com.tomclaw.appsend.di
 
+import com.tomclaw.appsend.screen.discuss.di.DiscussComponent
+import com.tomclaw.appsend.screen.discuss.di.DiscussModule
 import com.tomclaw.appsend.screen.moderation.di.ModerationComponent
 import com.tomclaw.appsend.screen.moderation.di.ModerationModule
 import dagger.Component
@@ -10,5 +12,7 @@ import javax.inject.Singleton
 interface AppComponent {
 
     fun moderationComponent(module: ModerationModule): ModerationComponent
+
+    fun discussComponent(module: DiscussModule): DiscussComponent
 
 }
