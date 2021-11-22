@@ -45,7 +45,7 @@ dependencies {
     implementation project(path: ':preference-fragment')
     implementation 'com.github.solkin:simple-image-loader:v0.8.1'
     implementation 'com.github.solkin:disk-lru-cache:1.4'
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.6.0'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.6.10'
     implementation 'androidx.core:core-ktx:1.7.0'
     kapt 'org.androidannotations:androidannotations:4.7.0'
     implementation 'org.androidannotations:androidannotations-api:4.7.0'
