@@ -10,6 +10,7 @@ import com.tomclaw.appsend.screen.discuss.api.TopicEntry
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.kotlin.plusAssign
 
 interface DiscussPresenter : ItemListener {
 
@@ -98,6 +99,16 @@ class DiscussPresenterImpl(
             )
     }
 
+    private fun loadTopics(offset: Int) {
+        subscriptions += interactor.listTopics(offset)
+            .observeOn(schedulers.mainThread())
+            .doAfterTerminate { onReady() }
+            .subscribe(
+                { onLoaded(it) },
+                { onLoadMoreError() }
+            )
+    }
+
     private fun onLoaded(entities: List<TopicEntry>) {
         isError = false
         val newItems = entities
@@ -130,6 +141,15 @@ class DiscussPresenterImpl(
         this.isError = true
     }
 
+    private fun onLoadMoreError() {
+        items?.last()
+            ?.apply {
+                hasProgress = false
+                hasMore = false
+                hasError = true
+            }
+    }
+
     override fun onItemClick(item: Item) {
         TODO("Not yet implemented")
     }
@@ -143,7 +163,8 @@ class DiscussPresenterImpl(
     }
 
     override fun onLoadMore(item: Item) {
-        TODO("Not yet implemented")
+        val offset = items?.size ?: return
+        loadTopics(offset)
     }
 
 }

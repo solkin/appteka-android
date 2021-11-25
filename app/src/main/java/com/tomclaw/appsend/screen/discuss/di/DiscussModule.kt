@@ -12,6 +12,8 @@ import com.tomclaw.appsend.screen.discuss.DiscussPreferencesProvider
 import com.tomclaw.appsend.screen.discuss.DiscussPreferencesProviderImpl
 import com.tomclaw.appsend.screen.discuss.DiscussPresenter
 import com.tomclaw.appsend.screen.discuss.DiscussPresenterImpl
+import com.tomclaw.appsend.screen.discuss.DiscussResourceProvider
+import com.tomclaw.appsend.screen.discuss.DiscussResourceProviderImpl
 import com.tomclaw.appsend.screen.discuss.TopicConverter
 import com.tomclaw.appsend.screen.discuss.TopicConverterImpl
 import com.tomclaw.appsend.screen.discuss.adapter.topic.TopicItemBlueprint
@@ -59,7 +61,14 @@ class DiscussModule(
 
     @Provides
     @PerFragment
-    internal fun provideTopicConverter(): TopicConverter = TopicConverterImpl()
+    internal fun provideTopicConverter(
+        resourceProvider: DiscussResourceProvider
+    ): TopicConverter = TopicConverterImpl(resourceProvider)
+
+    @Provides
+    @PerFragment
+    internal fun provideDiscussResourceProvider(): DiscussResourceProvider =
+        DiscussResourceProviderImpl(context.resources)
 
     @Provides
     @PerFragment

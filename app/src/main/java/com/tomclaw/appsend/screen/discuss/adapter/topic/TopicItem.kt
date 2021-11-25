@@ -47,6 +47,7 @@ class TopicItem(
             val hasUnread = parcel.readBool()
             val lastMsgText = parcel.readString().orEmpty()
             val lastMsgUserIcon = parcel.readParcelable<UserIcon>(UserIcon.javaClass.classLoader)!!
+            val commonQnA = parcel.readBool()
             val hasMore = parcel.readBool()
             val hasError = parcel.readBool()
             val hasProgress = parcel.readBool()

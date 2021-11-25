@@ -20,7 +20,7 @@
             android:layout_height="42dp"
             android:layout_gravity="center_vertical"
             android:contentDescription="@string/app_icon"
-            tools:src="@mipmap/ic_launcher" />
+            tools:src="@drawable/ic_topic_common_qna" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -43,7 +43,7 @@
                 android:textColor="?text_primary_color"
                 android:textSize="17sp"
                 android:textStyle="bold"
-                tools:text="AppSend" />
+                tools:text="@string/topic_common_qna" />
 
             <LinearLayout
                 android:id="@+id/msg_container"

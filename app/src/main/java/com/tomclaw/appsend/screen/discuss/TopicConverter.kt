@@ -9,18 +9,28 @@ interface TopicConverter {
 
 }
 
-class TopicConverterImpl() : TopicConverter {
+class TopicConverterImpl(
+    private val resourceProvider: DiscussResourceProvider
+    ) : TopicConverter {
 
     override fun convert(entry: TopicEntry): TopicItem {
+        val icon = when (entry.topicId) {
+            1 -> "file:///android_asset/topic_common_qna.png"
+            else -> entry.icon
+        }
+        val title = when (entry.topicId) {
+            1 -> resourceProvider.commonQuestionsTopicTitle()
+            else -> entry.title
+        }
         return TopicItem(
             id = entry.topicId.toLong(),
-            icon = entry.icon,
-            title = entry.title,
+            icon = icon,
+            title = title,
             description = entry.description,
             packageName = entry.packageName,
             hasUnread = entry.readMsgId != entry.lastMsg.msgId,
             lastMsgText = entry.lastMsg.text,
-            lastMsgUserIcon = entry.lastMsg.userIcon
+            lastMsgUserIcon = entry.lastMsg.userIcon,
         )
     }
 

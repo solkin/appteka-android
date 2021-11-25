@@ -269,4 +269,5 @@
     <string name="eliminate_user_failed">Не удалось уничтожить пользователя</string>
     <string name="create_topic">Создать тему</string>
     <string name="topics_loading_failed">Не удалось загрузить темы</string>
+    <string name="topic_common_qna">Общие вопросы</string>
 </resources>

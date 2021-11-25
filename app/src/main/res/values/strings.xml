@@ -276,4 +276,5 @@
     <string name="eliminate_user_failed">Failed to eliminate user</string>
     <string name="create_topic">Create topic</string>
     <string name="topics_loading_failed">Failed to load topics</string>
+    <string name="topic_common_qna">Common questions</string>
 </resources>
