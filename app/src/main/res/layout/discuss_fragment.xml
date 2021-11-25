@@ -62,6 +62,8 @@
 
     <include layout="@layout/progress_view" />
 
+    <include layout="@layout/error_view" />
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">

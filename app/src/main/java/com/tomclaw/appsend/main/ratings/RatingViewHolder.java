@@ -48,7 +48,7 @@ class RatingViewHolder extends RecyclerView.ViewHolder {
     void bind(final RatingItem item, boolean isLast, final RatingsListener listener) {
         tintRatingIndicator(itemView.getContext(), ratingView);
         itemView.setOnClickListener(v -> listener.onClick(item));
-        memberImageView.setUserIcon(item.getUserIcon());
+        memberImageView.bind(item.getUserIcon());
         ratingView.setRating(item.getScore());
         dateView.setText(timeHelper().getFormattedDate(SECONDS.toMillis(item.getTime())));
         String text = item.getText();

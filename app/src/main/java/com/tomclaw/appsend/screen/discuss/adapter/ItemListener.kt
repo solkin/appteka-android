@@ -6,6 +6,8 @@ interface ItemListener {
 
     fun onItemClick(item: Item)
 
+    fun onPinClick(item: Item)
+
     fun onRetryClick(item: Item)
 
     fun onLoadMore(item: Item)

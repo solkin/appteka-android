@@ -47,7 +47,7 @@ public class ServiceMessageHolder extends AbstractMessageHolder {
         dateContainer.setVisibility(dateVisible ? View.VISIBLE : View.GONE);
 
         int memberColor = Color.parseColor(message.getUserIcon().getColor());
-        memberAvatar.setUserIcon(message.getUserIcon());
+        memberAvatar.bind(message.getUserIcon());
         int messageResId;
         switch (message.getType()) {
             case GlobalProvider.MESSAGE_TYPE_JOINED: {

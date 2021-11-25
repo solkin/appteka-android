@@ -8,9 +8,10 @@ import android.widget.TextView
 import com.avito.konveyor.adapter.BaseViewHolder
 import com.avito.konveyor.blueprint.ItemView
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.dto.UserIcon
 import com.tomclaw.appsend.util.bind
-import com.tomclaw.appsend.util.hide
-import com.tomclaw.appsend.util.show
+import com.tomclaw.appsend.view.UserIconView
+import com.tomclaw.appsend.view.UserIconViewImpl
 import com.tomclaw.imageloader.util.centerCrop
 import com.tomclaw.imageloader.util.fetch
 import com.tomclaw.imageloader.util.withPlaceholder
@@ -21,13 +22,9 @@ interface TopicItemView : ItemView {
 
     fun setTitle(title: String)
 
-    fun setVersion(version: String)
+    fun setMessageText(text: String)
 
-    fun setSize(size: String)
-
-    fun setRating(rating: Float?)
-
-    fun setDownloads(downloads: Int)
+    fun setMessageAvatar(userIcon: UserIcon)
 
     fun showProgress()
 
@@ -39,28 +36,30 @@ interface TopicItemView : ItemView {
 
     fun setOnClickListener(listener: (() -> Unit)?)
 
+    fun setOnPinClickListener(listener: (() -> Unit)?)
+
     fun setOnRetryListener(listener: (() -> Unit)?)
 
 }
 
 class TopicItemViewHolder(view: View) : BaseViewHolder(view), TopicItemView {
 
-    private val icon: ImageView = view.findViewById(R.id.app_icon)
-    private val title: TextView = view.findViewById(R.id.app_name)
-    private val version: TextView = view.findViewById(R.id.app_version)
-    private val size: TextView = view.findViewById(R.id.app_size)
-    private val rating: TextView = view.findViewById(R.id.app_rating)
-    private val ratingIcon: View = view.findViewById(R.id.rating_icon)
-    private val downloads: TextView = view.findViewById(R.id.app_downloads)
+    private val icon: ImageView = view.findViewById(R.id.topic_icon)
+    private val title: TextView = view.findViewById(R.id.topic_title)
+    private val msgText: TextView = view.findViewById(R.id.msg_text)
+    private val msgAvatar: UserIconView = UserIconViewImpl(view.findViewById(R.id.msg_avatar))
+    private val pinButton: View = view.findViewById(R.id.topic_pin)
     private val progress: View = view.findViewById(R.id.item_progress)
     private val error: View = view.findViewById(R.id.error_view)
     private val retryButton: View = view.findViewById(R.id.button_retry)
 
     private var clickListener: (() -> Unit)? = null
+    private var pinListener: (() -> Unit)? = null
     private var retryListener: (() -> Unit)? = null
 
     init {
         view.setOnClickListener { clickListener?.invoke() }
+        pinButton.setOnClickListener { pinListener?.invoke() }
         retryButton.setOnClickListener { retryListener?.invoke() }
     }
 
@@ -97,25 +96,20 @@ class TopicItemViewHolder(view: View) : BaseViewHolder(view), TopicItemView {
         this.title.bind(title)
     }
 
-    override fun setVersion(version: String) {
-        this.version.bind(version)
+    override fun setMessageText(text: String) {
+        this.msgText.bind(text)
     }
 
-    override fun setSize(size: String) {
-        this.size.bind(size)
-    }
-
-    override fun setRating(rating: Float?) {
-        this.rating.bind(rating?.toString())
-        rating?.let { this.ratingIcon.show() } ?: this.ratingIcon.hide()
-    }
-
-    override fun setDownloads(downloads: Int) {
-        this.downloads.bind(downloads.toString())
+    override fun setMessageAvatar(userIcon: UserIcon) {
+        this.msgAvatar.bind(userIcon)
     }
 
     override fun setOnClickListener(listener: (() -> Unit)?) {
         this.clickListener = listener
+    }
+
+    override fun setOnPinClickListener(listener: (() -> Unit)?) {
+        this.pinListener = listener
     }
 
     override fun setOnRetryListener(listener: (() -> Unit)?) {

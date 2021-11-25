@@ -53,7 +53,7 @@ public class IncomingMessageHolder extends AbstractMessageHolder {
     public void bind(final Message message, Message prevMessage,
                      final ChatAdapter.MessageClickListener clickListener) {
         int memberColor = Color.parseColor(message.getUserIcon().getColor());
-        memberAvatar.setUserIcon(message.getUserIcon());
+        memberAvatar.bind(message.getUserIcon());
         boolean hasMessage = !TextUtils.isEmpty(message.getText());
         String string = message.getText();
         SpannableStringBuilder spannable = formatQuote(string);

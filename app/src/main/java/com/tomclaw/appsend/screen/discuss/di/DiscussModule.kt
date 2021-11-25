@@ -8,8 +8,12 @@ import com.avito.konveyor.adapter.SimpleAdapterPresenter
 import com.avito.konveyor.blueprint.ItemBlueprint
 import com.tomclaw.appsend.screen.discuss.DiscussInteractor
 import com.tomclaw.appsend.screen.discuss.DiscussInteractorImpl
+import com.tomclaw.appsend.screen.discuss.DiscussPreferencesProvider
+import com.tomclaw.appsend.screen.discuss.DiscussPreferencesProviderImpl
 import com.tomclaw.appsend.screen.discuss.DiscussPresenter
 import com.tomclaw.appsend.screen.discuss.DiscussPresenterImpl
+import com.tomclaw.appsend.screen.discuss.TopicConverter
+import com.tomclaw.appsend.screen.discuss.TopicConverterImpl
 import com.tomclaw.appsend.screen.discuss.adapter.topic.TopicItemBlueprint
 import com.tomclaw.appsend.screen.discuss.adapter.topic.TopicItemPresenter
 import com.tomclaw.appsend.util.PerFragment
@@ -28,10 +32,14 @@ class DiscussModule(
     @Provides
     @PerFragment
     internal fun providePresenter(
+        converter: TopicConverter,
+        preferences: DiscussPreferencesProvider,
         interactor: DiscussInteractor,
         adapterPresenter: Lazy<AdapterPresenter>,
         schedulers: SchedulersFactory
     ): DiscussPresenter = DiscussPresenterImpl(
+        converter,
+        preferences,
         interactor,
         adapterPresenter,
         schedulers,
@@ -43,6 +51,15 @@ class DiscussModule(
     internal fun provideInteractor(
         schedulers: SchedulersFactory
     ): DiscussInteractor = DiscussInteractorImpl(schedulers)
+
+    @Provides
+    @PerFragment
+    internal fun provideDiscussPreferencesProvider(): DiscussPreferencesProvider =
+        DiscussPreferencesProviderImpl(context)
+
+    @Provides
+    @PerFragment
+    internal fun provideTopicConverter(): TopicConverter = TopicConverterImpl()
 
     @Provides
     @PerFragment

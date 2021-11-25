@@ -6,6 +6,7 @@ import com.tomclaw.appsend.screen.discuss.api.TopicEntry
 import com.tomclaw.appsend.util.SchedulersFactory
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
+import java.util.concurrent.TimeUnit
 
 interface DiscussInteractor {
 
@@ -50,6 +51,7 @@ class DiscussInteractorImpl(
                 emitter.onSuccess(list)
             }
             .toObservable()
+            .delay(1, TimeUnit.SECONDS)
             .subscribeOn(schedulers.io())
     }
 

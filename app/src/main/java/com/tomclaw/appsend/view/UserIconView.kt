@@ -12,7 +12,7 @@ import com.tomclaw.appsend.dto.UserIcon
 
 interface UserIconView {
 
-    fun setUserIcon(userIcon: UserIcon)
+    fun bind(userIcon: UserIcon)
 
 }
 
@@ -21,7 +21,7 @@ class UserIconViewImpl(view: View) : UserIconView {
     private val backView: View = view.findViewById(R.id.icon_back)
     private val svgView: SVGImageView = view.findViewById(R.id.icon_svg)
 
-    override fun setUserIcon(userIcon: UserIcon) {
+    override fun bind(userIcon: UserIcon) {
         var drawable: Drawable = backView.background
         drawable = DrawableCompat.wrap(drawable)
         DrawableCompat.setTint(drawable, Color.parseColor(userIcon.color))

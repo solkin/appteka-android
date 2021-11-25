@@ -3,18 +3,19 @@ package com.tomclaw.appsend.screen.discuss.adapter.topic
 import android.os.Parcel
 import android.os.Parcelable
 import com.avito.konveyor.blueprint.Item
+import com.tomclaw.appsend.dto.UserIcon
 import com.tomclaw.appsend.util.readBool
 import com.tomclaw.appsend.util.writeBool
 
 class TopicItem(
     override val id: Long,
-    val appId: String,
-    val icon: String?,
+    val icon: String,
     val title: String,
-    val version: String,
-    val size: String,
-    val rating: Float,
-    val downloads: Int,
+    val description: String?,
+    val packageName: String?,
+    val hasUnread: Boolean,
+    val lastMsgText: String,
+    val lastMsgUserIcon: UserIcon,
     var hasMore: Boolean = false,
     var hasError: Boolean = false,
     var hasProgress: Boolean = false,
@@ -22,13 +23,13 @@ class TopicItem(
 
     override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
         writeLong(id)
-        writeString(appId)
         writeString(icon)
         writeString(title)
-        writeString(version)
-        writeString(size)
-        writeFloat(rating)
-        writeInt(downloads)
+        writeString(description)
+        writeString(packageName)
+        writeBool(hasUnread)
+        writeString(lastMsgText)
+        writeParcelable(lastMsgUserIcon, 0)
         writeBool(hasMore)
         writeBool(hasError)
         writeBool(hasProgress)
@@ -39,25 +40,25 @@ class TopicItem(
     companion object CREATOR : Parcelable.Creator<TopicItem> {
         override fun createFromParcel(parcel: Parcel): TopicItem {
             val id = parcel.readLong()
-            val appId = parcel.readString().orEmpty()
-            val icon = parcel.readString()
+            val icon = parcel.readString().orEmpty()
             val title = parcel.readString().orEmpty()
-            val version = parcel.readString().orEmpty()
-            val size = parcel.readString().orEmpty()
-            val rating = parcel.readFloat()
-            val downloads = parcel.readInt()
+            val description = parcel.readString()
+            val packageName = parcel.readString()
+            val hasUnread = parcel.readBool()
+            val lastMsgText = parcel.readString().orEmpty()
+            val lastMsgUserIcon = parcel.readParcelable<UserIcon>(UserIcon.javaClass.classLoader)!!
             val hasMore = parcel.readBool()
             val hasError = parcel.readBool()
             val hasProgress = parcel.readBool()
             return TopicItem(
                 id,
-                appId,
                 icon,
                 title,
-                version,
-                size,
-                rating,
-                downloads,
+                description,
+                packageName,
+                hasUnread,
+                lastMsgText,
+                lastMsgUserIcon,
                 hasMore,
                 hasError,
                 hasProgress

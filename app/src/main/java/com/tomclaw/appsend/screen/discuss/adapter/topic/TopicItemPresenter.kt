@@ -1,7 +1,7 @@
 package com.tomclaw.appsend.screen.discuss.adapter.topic
 
 import com.avito.konveyor.blueprint.ItemPresenter
-import com.tomclaw.appsend.screen.moderation.adapter.ItemListener
+import com.tomclaw.appsend.screen.discuss.adapter.ItemListener
 
 class TopicItemPresenter(
     private val listener: ItemListener
@@ -19,13 +19,12 @@ class TopicItemPresenter(
 
         view.setIcon(item.icon)
         view.setTitle(item.title)
-        view.setVersion(item.version)
-        view.setSize(item.size)
-        view.setRating(item.rating.takeIf { it > 0 })
-        view.setDownloads(item.downloads)
+        view.setMessageText(item.lastMsgText)
+        view.setMessageAvatar(item.lastMsgUserIcon)
         if (item.hasProgress) view.showProgress() else view.hideProgress()
         if (item.hasError) view.showError() else view.hideError()
         view.setOnClickListener { listener.onItemClick(item) }
+        view.setOnPinClickListener { listener.onPinClick(item) }
         view.setOnRetryListener { listener.onRetryClick(item) }
     }
 

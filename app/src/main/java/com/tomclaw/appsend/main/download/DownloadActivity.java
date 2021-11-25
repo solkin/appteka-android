@@ -555,7 +555,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         } else {
             metaBlockView.setVisibility(View.VISIBLE);
             descriptionView.setText(info.getMeta().getDescription());
-            descriptionAuthorAvatar.setUserIcon(info.getMeta().getUserIcon());
+            descriptionAuthorAvatar.bind(info.getMeta().getUserIcon());
         }
         Category category = meta.getCategory();
         if (category != null && category.getId() != 0) {
@@ -571,7 +571,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         }
         if (item.getUserId() > 0) {
             uploaderContainerView.setVisibility(View.VISIBLE);
-            uploaderAvatar.setUserIcon(item.getUserIcon());
+            uploaderAvatar.bind(item.getUserIcon());
         } else {
             uploaderContainerView.setVisibility(View.GONE);
         }
@@ -879,7 +879,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
 
             tintRatingIndicator(this, ratingView);
 
-            memberImageView.setUserIcon(ratingItem.getUserIcon());
+            memberImageView.bind(ratingItem.getUserIcon());
             ratingView.setRating(ratingItem.getScore());
             dateView.setText(timeHelper().getFormattedDate(SECONDS.toMillis(ratingItem.getTime())));
             String text = ratingItem.getText();
@@ -895,7 +895,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         if (info != null) {
             long userId = Session.getInstance().getUserData().getUserId();
             UserIcon userIcon = Session.getInstance().getUserData().getUserIcon();
-            ratingMemberAvatar.setUserIcon(userIcon);
+            ratingMemberAvatar.bind(userIcon);
 
             StoreItem item = info.getItem();
             boolean isInstalled = false;

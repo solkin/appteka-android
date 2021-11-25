@@ -3,12 +3,13 @@ package com.tomclaw.appsend.screen.discuss
 import android.os.Bundle
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.blueprint.Item
-import com.tomclaw.appsend.screen.moderation.adapter.ItemListener
+import com.avito.konveyor.data_source.ListDataSource
+import com.tomclaw.appsend.screen.discuss.adapter.ItemListener
+import com.tomclaw.appsend.screen.discuss.adapter.topic.TopicItem
+import com.tomclaw.appsend.screen.discuss.api.TopicEntry
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.kotlin.plusAssign
-import java.util.ArrayList
 
 interface DiscussPresenter : ItemListener {
 
@@ -28,9 +29,11 @@ interface DiscussPresenter : ItemListener {
 }
 
 class DiscussPresenterImpl(
-    interactor: DiscussInteractor,
-    adapterPresenter: Lazy<AdapterPresenter>,
-    schedulers: SchedulersFactory,
+    private val converter: TopicConverter,
+    private val preferences: DiscussPreferencesProvider,
+    private val interactor: DiscussInteractor,
+    private val adapterPresenter: Lazy<AdapterPresenter>,
+    private val schedulers: SchedulersFactory,
     state: Bundle?
 ) : DiscussPresenter {
 
@@ -39,8 +42,31 @@ class DiscussPresenterImpl(
 
     private val subscriptions = CompositeDisposable()
 
+    private var items: List<TopicItem>? = state?.getParcelableArrayList(KEY_TOPICS)
+    private var isError: Boolean = state?.getBoolean(KEY_ERROR) ?: false
+
     override fun attachView(view: DiscussView) {
         this.view = view
+
+        view.getStartedClicks().subscribe {
+            preferences.setIntroShown()
+            loadTopics()
+        }
+
+        view.retryButtonClicks().subscribe {
+            loadTopics()
+        }
+
+        if (preferences.isShowIntro()) {
+            view.showIntro()
+        } else {
+            if (isError) {
+                onError()
+                onReady()
+            } else {
+                items?.let { onReady() } ?: loadTopics()
+            }
+        }
     }
 
     override fun detachView() {
@@ -57,9 +83,58 @@ class DiscussPresenterImpl(
     }
 
     override fun saveState() = Bundle().apply {
+        putParcelableArrayList(KEY_TOPICS, items?.let { ArrayList(items.orEmpty()) })
+        putBoolean(KEY_ERROR, isError)
+    }
+
+    private fun loadTopics() {
+        interactor.listTopics()
+            .observeOn(schedulers.mainThread())
+            .doOnSubscribe { view?.showProgress() }
+            .doAfterTerminate { onReady() }
+            .subscribe(
+                { onLoaded(it) },
+                { onError() }
+            )
+    }
+
+    private fun onLoaded(entities: List<TopicEntry>) {
+        isError = false
+        val newItems = entities
+            .map { converter.convert(it) }
+            .toList()
+            .apply { if (isNotEmpty()) last().hasMore = true }
+        this.items = this.items
+            ?.apply { if (isNotEmpty()) last().hasProgress = false }
+            ?.plus(newItems) ?: newItems
+    }
+
+    private fun onReady() {
+        val items = this.items.takeIf { !it.isNullOrEmpty() } ?: emptyList()
+        when {
+            isError -> {
+                view?.showError()
+            }
+            else -> {
+                val dataSource = ListDataSource(items)
+                adapterPresenter.get().onDataSourceChanged(dataSource)
+                view?.let {
+                    it.contentUpdated()
+                    it.showContent()
+                }
+            }
+        }
+    }
+
+    private fun onError() {
+        this.isError = true
     }
 
     override fun onItemClick(item: Item) {
+        TODO("Not yet implemented")
+    }
+
+    override fun onPinClick(item: Item) {
         TODO("Not yet implemented")
     }
 
@@ -72,3 +147,6 @@ class DiscussPresenterImpl(
     }
 
 }
+
+private const val KEY_TOPICS = "topics"
+private const val KEY_ERROR = "error"

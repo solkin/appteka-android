@@ -325,7 +325,7 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
         boolean isModerator = profile.getRole() >= ROLE_MODERATOR;
         boolean isPublicProfile = session.getUserData().getUserId() != profile.getUserId();
         UserIconView userIcon = new UserIconViewImpl(memberAvatar);
-        userIcon.setUserIcon(profile.getUserIcon());
+        userIcon.bind(profile.getUserIcon());
         if (TextUtils.isEmpty(profile.getName())) {
             memberName.setText(profile.getUserIcon().getLabel().get("en"));
         } else {
