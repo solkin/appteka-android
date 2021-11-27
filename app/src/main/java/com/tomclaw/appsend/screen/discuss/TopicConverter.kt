@@ -15,7 +15,7 @@ class TopicConverterImpl(
 
     override fun convert(entry: TopicEntry): TopicItem {
         val icon = when (entry.topicId) {
-            1 -> "file:///android_asset/topic_common_qna.png"
+            1 -> COMMON_QNA_TOPIC_ICON
             else -> entry.icon
         }
         val title = when (entry.topicId) {
@@ -35,3 +35,5 @@ class TopicConverterImpl(
     }
 
 }
+
+const val COMMON_QNA_TOPIC_ICON = "file:///android_asset/topic_common_qna.png"
