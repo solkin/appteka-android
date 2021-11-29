@@ -28,6 +28,7 @@ class TopicConverterImpl(
             title = title,
             description = entry.description,
             packageName = entry.packageName,
+            isPinned = entry.isPinned,
             hasUnread = entry.readMsgId != entry.lastMsg.msgId,
             lastMsgText = entry.lastMsg.text,
             lastMsgUserIcon = entry.lastMsg.userIcon,

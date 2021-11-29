@@ -29,6 +29,7 @@ class DiscussInteractorImpl(
                         title = "",
                         description = null,
                         packageName = null,
+                        isPinned = true,
                         readMsgId = null,
                         lastMsg = MessageEntry(
                             userId = 328575,
@@ -56,6 +57,7 @@ class DiscussInteractorImpl(
                         title = "Music Pro Player",
                         description = null,
                         packageName = "com.arobaZone.musicplayer",
+                        isPinned = false,
                         readMsgId = null,
                         lastMsg = MessageEntry(
                             userId = 328570,
@@ -75,7 +77,7 @@ class DiscussInteractorImpl(
                         ),
                     )
                 )
-                val list = when(offset) {
+                val list = when (offset) {
                     0 -> firstList
                     1 -> secondList
                     else -> emptyList()

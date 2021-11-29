@@ -10,6 +10,8 @@ import com.avito.konveyor.blueprint.ItemView
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.dto.UserIcon
 import com.tomclaw.appsend.util.bind
+import com.tomclaw.appsend.util.hide
+import com.tomclaw.appsend.util.show
 import com.tomclaw.appsend.view.UserIconView
 import com.tomclaw.appsend.view.UserIconViewImpl
 import com.tomclaw.imageloader.util.centerCrop
@@ -26,6 +28,10 @@ interface TopicItemView : ItemView {
 
     fun setMessageAvatar(userIcon: UserIcon)
 
+    fun showPin()
+
+    fun hidePin()
+
     fun showProgress()
 
     fun hideProgress()
@@ -35,8 +41,6 @@ interface TopicItemView : ItemView {
     fun hideError()
 
     fun setOnClickListener(listener: (() -> Unit)?)
-
-    fun setOnPinClickListener(listener: (() -> Unit)?)
 
     fun setOnRetryListener(listener: (() -> Unit)?)
 
@@ -48,18 +52,16 @@ class TopicItemViewHolder(view: View) : BaseViewHolder(view), TopicItemView {
     private val title: TextView = view.findViewById(R.id.topic_title)
     private val msgText: TextView = view.findViewById(R.id.msg_text)
     private val msgAvatar: UserIconView = UserIconViewImpl(view.findViewById(R.id.msg_avatar))
-    private val pinButton: View = view.findViewById(R.id.topic_pin)
+    private val topicPin: View = view.findViewById(R.id.topic_pin)
     private val progress: View = view.findViewById(R.id.item_progress)
     private val error: View = view.findViewById(R.id.error_view)
     private val retryButton: View = view.findViewById(R.id.button_retry)
 
     private var clickListener: (() -> Unit)? = null
-    private var pinListener: (() -> Unit)? = null
     private var retryListener: (() -> Unit)? = null
 
     init {
         view.setOnClickListener { clickListener?.invoke() }
-        pinButton.setOnClickListener { pinListener?.invoke() }
         retryButton.setOnClickListener { retryListener?.invoke() }
     }
 
@@ -104,12 +106,16 @@ class TopicItemViewHolder(view: View) : BaseViewHolder(view), TopicItemView {
         this.msgAvatar.bind(userIcon)
     }
 
-    override fun setOnClickListener(listener: (() -> Unit)?) {
-        this.clickListener = listener
+    override fun showPin() {
+        topicPin.show()
     }
 
-    override fun setOnPinClickListener(listener: (() -> Unit)?) {
-        this.pinListener = listener
+    override fun hidePin() {
+        topicPin.hide()
+    }
+
+    override fun setOnClickListener(listener: (() -> Unit)?) {
+        this.clickListener = listener
     }
 
     override fun setOnRetryListener(listener: (() -> Unit)?) {

@@ -21,10 +21,14 @@ class TopicItemPresenter(
         view.setTitle(item.title)
         view.setMessageText(item.lastMsgText)
         view.setMessageAvatar(item.lastMsgUserIcon)
+        if (item.isPinned) {
+            view.showPin()
+        } else {
+            view.hidePin()
+        }
         if (item.hasProgress) view.showProgress() else view.hideProgress()
         if (item.hasError) view.showError() else view.hideError()
         view.setOnClickListener { listener.onItemClick(item) }
-        view.setOnPinClickListener { listener.onPinClick(item) }
         view.setOnRetryListener { listener.onRetryClick(item) }
     }
 

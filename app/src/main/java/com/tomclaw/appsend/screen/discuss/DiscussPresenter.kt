@@ -154,10 +154,6 @@ class DiscussPresenterImpl(
         TODO("Not yet implemented")
     }
 
-    override fun onPinClick(item: Item) {
-        TODO("Not yet implemented")
-    }
-
     override fun onRetryClick(item: Item) {
         TODO("Not yet implemented")
     }

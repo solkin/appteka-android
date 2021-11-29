@@ -13,6 +13,7 @@ class TopicItem(
     val title: String,
     val description: String?,
     val packageName: String?,
+    val isPinned: Boolean,
     val hasUnread: Boolean,
     val lastMsgText: String,
     val lastMsgUserIcon: UserIcon,
@@ -27,6 +28,7 @@ class TopicItem(
         writeString(title)
         writeString(description)
         writeString(packageName)
+        writeBool(isPinned)
         writeBool(hasUnread)
         writeString(lastMsgText)
         writeParcelable(lastMsgUserIcon, 0)
@@ -44,10 +46,10 @@ class TopicItem(
             val title = parcel.readString().orEmpty()
             val description = parcel.readString()
             val packageName = parcel.readString()
+            val isPinned = parcel.readBool()
             val hasUnread = parcel.readBool()
             val lastMsgText = parcel.readString().orEmpty()
             val lastMsgUserIcon = parcel.readParcelable<UserIcon>(UserIcon.javaClass.classLoader)!!
-            val commonQnA = parcel.readBool()
             val hasMore = parcel.readBool()
             val hasError = parcel.readBool()
             val hasProgress = parcel.readBool()
@@ -57,6 +59,7 @@ class TopicItem(
                 title,
                 description,
                 packageName,
+                isPinned,
                 hasUnread,
                 lastMsgText,
                 lastMsgUserIcon,

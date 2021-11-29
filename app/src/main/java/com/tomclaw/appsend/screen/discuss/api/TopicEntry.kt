@@ -15,6 +15,8 @@ data class TopicEntry(
     val description: String?,
     @SerializedName("package")
     val packageName: String?,
+    @SerializedName("pinned")
+    val isPinned: Boolean,
     @SerializedName("read_msg_id")
     val readMsgId: Int?,
     @SerializedName("last_msg")
