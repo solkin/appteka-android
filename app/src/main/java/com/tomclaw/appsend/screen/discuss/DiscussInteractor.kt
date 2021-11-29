@@ -6,6 +6,7 @@ import com.tomclaw.appsend.screen.discuss.api.TopicEntry
 import com.tomclaw.appsend.util.SchedulersFactory
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
+import java.lang.RuntimeException
 import java.util.concurrent.TimeUnit
 
 interface DiscussInteractor {
@@ -17,6 +18,8 @@ interface DiscussInteractor {
 class DiscussInteractorImpl(
     private val schedulers: SchedulersFactory
 ) : DiscussInteractor {
+
+    private var counter = 0
 
     override fun listTopics(offset: Int): Observable<List<TopicEntry>> {
         return Single
@@ -79,7 +82,12 @@ class DiscussInteractorImpl(
                 )
                 val list = when (offset) {
                     0 -> firstList
-                    1 -> secondList
+                    1 -> {
+                        if (counter++ < 2) {
+                            throw RuntimeException()
+                        }
+                        secondList
+                    }
                     else -> emptyList()
                 }
                 emitter.onSuccess(list)

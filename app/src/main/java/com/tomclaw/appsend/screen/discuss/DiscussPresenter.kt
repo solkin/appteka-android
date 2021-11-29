@@ -155,7 +155,17 @@ class DiscussPresenterImpl(
     }
 
     override fun onRetryClick(item: Item) {
-        TODO("Not yet implemented")
+        val offset = items?.size ?: return
+        if (items?.isNotEmpty() == true) {
+            items?.last()?.let {
+                it.hasProgress = true
+                it.hasError = false
+            }
+            items?.last()?.let {
+                view?.contentUpdated(offset - 1)
+            }
+        }
+        loadTopics(offset)
     }
 
     override fun onLoadMore(item: Item) {
