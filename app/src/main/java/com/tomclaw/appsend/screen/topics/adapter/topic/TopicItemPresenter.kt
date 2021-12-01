@@ -1,7 +1,7 @@
-package com.tomclaw.appsend.screen.discuss.adapter.topic
+package com.tomclaw.appsend.screen.topics.adapter.topic
 
 import com.avito.konveyor.blueprint.ItemPresenter
-import com.tomclaw.appsend.screen.discuss.adapter.ItemListener
+import com.tomclaw.appsend.screen.topics.adapter.ItemListener
 
 class TopicItemPresenter(
     private val listener: ItemListener

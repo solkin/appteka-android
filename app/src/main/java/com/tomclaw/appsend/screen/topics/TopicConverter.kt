@@ -1,7 +1,7 @@
-package com.tomclaw.appsend.screen.discuss
+package com.tomclaw.appsend.screen.topics
 
-import com.tomclaw.appsend.screen.discuss.adapter.topic.TopicItem
-import com.tomclaw.appsend.screen.discuss.api.TopicEntry
+import com.tomclaw.appsend.screen.topics.adapter.topic.TopicItem
+import com.tomclaw.appsend.screen.topics.api.TopicEntry
 
 interface TopicConverter {
 
@@ -10,7 +10,7 @@ interface TopicConverter {
 }
 
 class TopicConverterImpl(
-    private val resourceProvider: DiscussResourceProvider
+    private val resourceProvider: TopicsResourceProvider
     ) : TopicConverter {
 
     override fun convert(entry: TopicEntry): TopicItem {

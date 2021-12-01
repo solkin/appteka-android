@@ -1,4 +1,4 @@
-package com.tomclaw.appsend.screen.discuss.adapter
+package com.tomclaw.appsend.screen.topics.adapter
 
 import com.avito.konveyor.blueprint.Item
 

@@ -1,4 +1,4 @@
-package com.tomclaw.appsend.screen.discuss
+package com.tomclaw.appsend.screen.topics
 
 import android.annotation.SuppressLint
 import android.view.View
@@ -12,7 +12,7 @@ import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
 import io.reactivex.rxjava3.core.Observable
 
-interface DiscussView {
+interface TopicsView {
 
     fun showIntro()
 
@@ -32,10 +32,10 @@ interface DiscussView {
 
 }
 
-class DiscussViewImpl(
+class TopicsViewImpl(
     private val view: View,
     private val adapter: SimpleRecyclerAdapter
-) : DiscussView {
+) : TopicsView {
 
     private val viewFlipper: ViewFlipper = view.findViewById(R.id.view_flipper)
     private val getStartedButton: View = view.findViewById(R.id.get_started_button)

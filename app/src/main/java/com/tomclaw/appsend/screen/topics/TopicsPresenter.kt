@@ -1,52 +1,52 @@
-package com.tomclaw.appsend.screen.discuss
+package com.tomclaw.appsend.screen.topics
 
 import android.os.Bundle
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.blueprint.Item
 import com.avito.konveyor.data_source.ListDataSource
-import com.tomclaw.appsend.screen.discuss.adapter.ItemListener
-import com.tomclaw.appsend.screen.discuss.adapter.topic.TopicItem
-import com.tomclaw.appsend.screen.discuss.api.TopicEntry
+import com.tomclaw.appsend.screen.topics.adapter.ItemListener
+import com.tomclaw.appsend.screen.topics.adapter.topic.TopicItem
+import com.tomclaw.appsend.screen.topics.api.TopicEntry
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
 
-interface DiscussPresenter : ItemListener {
+interface TopicsPresenter : ItemListener {
 
-    fun attachView(view: DiscussView)
+    fun attachView(view: TopicsView)
 
     fun detachView()
 
-    fun attachRouter(router: DiscussPresenter.DiscussRouter)
+    fun attachRouter(router: TopicsPresenter.TopicsRouter)
 
     fun detachRouter()
 
     fun saveState(): Bundle
 
-    interface DiscussRouter {
+    interface TopicsRouter {
     }
 
 }
 
-class DiscussPresenterImpl(
+class TopicsPresenterImpl(
     private val converter: TopicConverter,
-    private val preferences: DiscussPreferencesProvider,
-    private val interactor: DiscussInteractor,
+    private val preferences: TopicsPreferencesProvider,
+    private val interactor: TopicsInteractor,
     private val adapterPresenter: Lazy<AdapterPresenter>,
     private val schedulers: SchedulersFactory,
     state: Bundle?
-) : DiscussPresenter {
+) : TopicsPresenter {
 
-    private var view: DiscussView? = null
-    private var router: DiscussPresenter.DiscussRouter? = null
+    private var view: TopicsView? = null
+    private var router: TopicsPresenter.TopicsRouter? = null
 
     private val subscriptions = CompositeDisposable()
 
     private var items: List<TopicItem>? = state?.getParcelableArrayList(KEY_TOPICS)
     private var isError: Boolean = state?.getBoolean(KEY_ERROR) ?: false
 
-    override fun attachView(view: DiscussView) {
+    override fun attachView(view: TopicsView) {
         this.view = view
 
         view.getStartedClicks().subscribe {
@@ -75,7 +75,7 @@ class DiscussPresenterImpl(
         this.view = null
     }
 
-    override fun attachRouter(router: DiscussPresenter.DiscussRouter) {
+    override fun attachRouter(router: TopicsPresenter.TopicsRouter) {
         this.router = router
     }
 

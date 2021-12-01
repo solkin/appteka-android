@@ -1,4 +1,4 @@
-package com.tomclaw.appsend.screen.discuss.adapter.topic
+package com.tomclaw.appsend.screen.topics.adapter.topic
 
 import android.view.View
 import android.view.View.GONE

@@ -1,10 +1,10 @@
-package com.tomclaw.appsend.screen.discuss
+package com.tomclaw.appsend.screen.topics
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
 
-interface DiscussPreferencesProvider {
+interface TopicsPreferencesProvider {
 
     fun isShowIntro(): Boolean
 
@@ -12,9 +12,9 @@ interface DiscussPreferencesProvider {
 
 }
 
-class DiscussPreferencesProviderImpl(
+class TopicsPreferencesProviderImpl(
     context: Context
-) : DiscussPreferencesProvider {
+) : TopicsPreferencesProvider {
 
     private val preferences: SharedPreferences = context.getSharedPreferences(
         context.packageName + "_preferences", MODE_PRIVATE

@@ -1,4 +1,4 @@
-package com.tomclaw.appsend.screen.discuss
+package com.tomclaw.appsend.screen.topics
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,13 +10,13 @@ import com.avito.konveyor.adapter.SimpleRecyclerAdapter
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.main.home.HomeFragment
-import com.tomclaw.appsend.screen.discuss.di.DiscussModule
+import com.tomclaw.appsend.screen.topics.di.TopicsModule
 import javax.inject.Inject
 
-class DiscussFragment : HomeFragment(), DiscussPresenter.DiscussRouter {
+class TopicsFragment : HomeFragment(), TopicsPresenter.TopicsRouter {
 
     @Inject
-    lateinit var presenter: DiscussPresenter
+    lateinit var presenter: TopicsPresenter
 
     @Inject
     lateinit var adapterPresenter: AdapterPresenter
@@ -27,7 +27,7 @@ class DiscussFragment : HomeFragment(), DiscussPresenter.DiscussRouter {
     override fun onCreate(savedInstanceState: Bundle?) {
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
         Appteka.getComponent()
-            .discussComponent(DiscussModule(requireContext(), presenterState))
+            .topicsComponent(TopicsModule(requireContext(), presenterState))
             .inject(fragment = this)
 
         super.onCreate(savedInstanceState)
@@ -38,14 +38,14 @@ class DiscussFragment : HomeFragment(), DiscussPresenter.DiscussRouter {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.discuss_fragment, container, false)
+        return inflater.inflate(R.layout.topics_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val adapter = SimpleRecyclerAdapter(adapterPresenter, binder)
-        val discussView = DiscussViewImpl(view, adapter)
+        val topicsView = TopicsViewImpl(view, adapter)
 
-        presenter.attachView(discussView)
+        presenter.attachView(topicsView)
     }
 
     override fun onStart() {

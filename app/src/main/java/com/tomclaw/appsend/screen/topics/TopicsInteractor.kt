@@ -1,23 +1,23 @@
-package com.tomclaw.appsend.screen.discuss
+package com.tomclaw.appsend.screen.topics
 
 import com.tomclaw.appsend.dto.UserIcon
-import com.tomclaw.appsend.screen.discuss.api.MessageEntry
-import com.tomclaw.appsend.screen.discuss.api.TopicEntry
+import com.tomclaw.appsend.screen.topics.api.MessageEntry
+import com.tomclaw.appsend.screen.topics.api.TopicEntry
 import com.tomclaw.appsend.util.SchedulersFactory
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import java.lang.RuntimeException
 import java.util.concurrent.TimeUnit
 
-interface DiscussInteractor {
+interface TopicsInteractor {
 
     fun listTopics(offset: Int = 0): Observable<List<TopicEntry>>
 
 }
 
-class DiscussInteractorImpl(
+class TopicsInteractorImpl(
     private val schedulers: SchedulersFactory
-) : DiscussInteractor {
+) : TopicsInteractor {
 
     private var counter = 0
 

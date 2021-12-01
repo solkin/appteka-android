@@ -34,7 +34,6 @@ import com.tomclaw.appsend.core.TaskExecutor;
 import com.tomclaw.appsend.main.about.AboutActivity;
 import com.tomclaw.appsend.main.controller.DiscussController;
 import com.tomclaw.appsend.main.controller.UpdateController;
-import com.tomclaw.appsend.main.discuss.DiscussFragment_;
 import com.tomclaw.appsend.main.download.DownloadActivity;
 import com.tomclaw.appsend.main.item.CommonItem;
 import com.tomclaw.appsend.main.item.StoreItem;
@@ -52,7 +51,7 @@ import com.tomclaw.appsend.main.upload.UploadActivity;
 import com.tomclaw.appsend.net.Session;
 import com.tomclaw.appsend.net.UserData;
 import com.tomclaw.appsend.net.UserDataListener;
-import com.tomclaw.appsend.screen.discuss.DiscussFragment;
+import com.tomclaw.appsend.screen.topics.TopicsFragment;
 import com.tomclaw.appsend.util.ColorHelper;
 import com.tomclaw.appsend.util.LocaleHelper;
 import com.tomclaw.appsend.util.PreferenceHelper;
@@ -286,7 +285,7 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
                 return new StoreFragment_();
             case NAV_DISCUSS:
                 bottomNavigation.setCurrentItem(1, false);
-                return new DiscussFragment();
+                return new TopicsFragment();
             case NAV_PROFILE:
                 bottomNavigation.setCurrentItem(2, false);
                 return new ProfileFragment_();

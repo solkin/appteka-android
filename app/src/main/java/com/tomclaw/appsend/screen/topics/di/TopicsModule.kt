@@ -1,4 +1,4 @@
-package com.tomclaw.appsend.screen.discuss.di
+package com.tomclaw.appsend.screen.topics.di
 
 import android.content.Context
 import android.os.Bundle
@@ -6,18 +6,18 @@ import com.avito.konveyor.ItemBinder
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.adapter.SimpleAdapterPresenter
 import com.avito.konveyor.blueprint.ItemBlueprint
-import com.tomclaw.appsend.screen.discuss.DiscussInteractor
-import com.tomclaw.appsend.screen.discuss.DiscussInteractorImpl
-import com.tomclaw.appsend.screen.discuss.DiscussPreferencesProvider
-import com.tomclaw.appsend.screen.discuss.DiscussPreferencesProviderImpl
-import com.tomclaw.appsend.screen.discuss.DiscussPresenter
-import com.tomclaw.appsend.screen.discuss.DiscussPresenterImpl
-import com.tomclaw.appsend.screen.discuss.DiscussResourceProvider
-import com.tomclaw.appsend.screen.discuss.DiscussResourceProviderImpl
-import com.tomclaw.appsend.screen.discuss.TopicConverter
-import com.tomclaw.appsend.screen.discuss.TopicConverterImpl
-import com.tomclaw.appsend.screen.discuss.adapter.topic.TopicItemBlueprint
-import com.tomclaw.appsend.screen.discuss.adapter.topic.TopicItemPresenter
+import com.tomclaw.appsend.screen.topics.TopicsInteractor
+import com.tomclaw.appsend.screen.topics.TopicsInteractorImpl
+import com.tomclaw.appsend.screen.topics.TopicsPreferencesProvider
+import com.tomclaw.appsend.screen.topics.TopicsPreferencesProviderImpl
+import com.tomclaw.appsend.screen.topics.TopicsPresenter
+import com.tomclaw.appsend.screen.topics.TopicsPresenterImpl
+import com.tomclaw.appsend.screen.topics.TopicsResourceProvider
+import com.tomclaw.appsend.screen.topics.TopicsResourceProviderImpl
+import com.tomclaw.appsend.screen.topics.TopicConverter
+import com.tomclaw.appsend.screen.topics.TopicConverterImpl
+import com.tomclaw.appsend.screen.topics.adapter.topic.TopicItemBlueprint
+import com.tomclaw.appsend.screen.topics.adapter.topic.TopicItemPresenter
 import com.tomclaw.appsend.util.PerFragment
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
@@ -26,7 +26,7 @@ import dagger.Provides
 import dagger.multibindings.IntoSet
 
 @Module
-class DiscussModule(
+class TopicsModule(
     private val context: Context,
     private val state: Bundle?
 ) {
@@ -35,11 +35,11 @@ class DiscussModule(
     @PerFragment
     internal fun providePresenter(
         converter: TopicConverter,
-        preferences: DiscussPreferencesProvider,
-        interactor: DiscussInteractor,
+        preferences: TopicsPreferencesProvider,
+        interactor: TopicsInteractor,
         adapterPresenter: Lazy<AdapterPresenter>,
         schedulers: SchedulersFactory
-    ): DiscussPresenter = DiscussPresenterImpl(
+    ): TopicsPresenter = TopicsPresenterImpl(
         converter,
         preferences,
         interactor,
@@ -52,23 +52,23 @@ class DiscussModule(
     @PerFragment
     internal fun provideInteractor(
         schedulers: SchedulersFactory
-    ): DiscussInteractor = DiscussInteractorImpl(schedulers)
+    ): TopicsInteractor = TopicsInteractorImpl(schedulers)
 
     @Provides
     @PerFragment
-    internal fun provideDiscussPreferencesProvider(): DiscussPreferencesProvider =
-        DiscussPreferencesProviderImpl(context)
+    internal fun providePreferencesProvider(): TopicsPreferencesProvider =
+        TopicsPreferencesProviderImpl(context)
 
     @Provides
     @PerFragment
     internal fun provideTopicConverter(
-        resourceProvider: DiscussResourceProvider
+        resourceProvider: TopicsResourceProvider
     ): TopicConverter = TopicConverterImpl(resourceProvider)
 
     @Provides
     @PerFragment
-    internal fun provideDiscussResourceProvider(): DiscussResourceProvider =
-        DiscussResourceProviderImpl(context.resources)
+    internal fun provideResourceProvider(): TopicsResourceProvider =
+        TopicsResourceProviderImpl(context.resources)
 
     @Provides
     @PerFragment
@@ -95,7 +95,7 @@ class DiscussModule(
 
     @Provides
     @PerFragment
-    internal fun provideTopicItemPresenter(presenter: DiscussPresenter) =
+    internal fun provideTopicItemPresenter(presenter: TopicsPresenter) =
         TopicItemPresenter(presenter)
 
 }
