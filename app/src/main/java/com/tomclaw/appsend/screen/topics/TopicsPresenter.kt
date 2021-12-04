@@ -18,13 +18,16 @@ interface TopicsPresenter : ItemListener {
 
     fun detachView()
 
-    fun attachRouter(router: TopicsPresenter.TopicsRouter)
+    fun attachRouter(router: TopicsRouter)
 
     fun detachRouter()
 
     fun saveState(): Bundle
 
     interface TopicsRouter {
+
+        fun showChatScreen(topicId: Int, title: String)
+
     }
 
 }
@@ -151,7 +154,8 @@ class TopicsPresenterImpl(
     }
 
     override fun onItemClick(item: Item) {
-        TODO("Not yet implemented")
+        val item = items?.find { it.id == item.id } ?: return
+        router?.showChatScreen(item.id.toInt(), item.title)
     }
 
     override fun onRetryClick(item: Item) {

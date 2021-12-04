@@ -270,4 +270,5 @@
     <string name="create_topic">Создать тему</string>
     <string name="topics_loading_failed">Не удалось загрузить темы</string>
     <string name="topic_common_qna">Общие вопросы</string>
+    <string name="chat_activity">Диалог</string>
 </resources>
