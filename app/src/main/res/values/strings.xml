@@ -144,7 +144,7 @@
     <string name="tab_discuss">Discussions</string>
     <string name="tab_profile">Profile</string>
     <string name="discuss_intro_title">Welcome!</string>
-    <string name="discuss_loading_error">Failed to open discussions</string>
+    <string name="chat_loading_error">Failed to open chat</string>
     <string name="member_joined">Joined</string>
     <string name="enter_your_message">Your message…</string>
     <string name="error_sending_message">Unable to send message</string>

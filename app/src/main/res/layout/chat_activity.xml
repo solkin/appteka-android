@@ -6,82 +6,89 @@
     android:layout_height="match_parent"
     android:background="?attr/discuss_back_repeat">
 
-    <FrameLayout
+    <ViewFlipper
+        android:id="@+id/view_flipper"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="?attr/actionBarSize">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:choiceMode="none"
-            android:clipToPadding="false"
-            android:divider="@android:color/transparent"
-            android:dividerHeight="0dp"
-            android:fastScrollEnabled="false"
-            android:paddingTop="8dp"
-            android:paddingBottom="64dp"
-            android:stackFromBottom="true"
-            android:transcriptMode="normal"
-            tools:itemCount="1"
-            tools:listitem="@layout/chat_item_inc_text" />
+        <include layout="@layout/progress_view" />
 
-        <include
-            layout="@layout/progress_view"
-            tools:visibility="gone" />
+        <include layout="@layout/error_view" />
 
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom"
-            android:background="?attr/compose_gradient"
-            android:padding="8dp">
+            android:layout_height="match_parent">
 
-            <LinearLayout
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:choiceMode="none"
+                android:clipToPadding="false"
+                android:divider="@android:color/transparent"
+                android:dividerHeight="0dp"
+                android:fastScrollEnabled="false"
+                android:paddingTop="8dp"
+                android:paddingBottom="64dp"
+                android:stackFromBottom="true"
+                android:transcriptMode="normal"
+                tools:itemCount="1"
+                tools:listitem="@layout/chat_item_inc_text" />
+
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="?attr/compose_background"
-                android:baselineAligned="false"
-                android:orientation="horizontal">
+                android:layout_gravity="bottom"
+                android:background="?attr/compose_gradient"
+                android:padding="8dp">
 
-                <EditText
-                    android:id="@+id/message_edit"
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginBottom="8dp"
-                    android:layout_weight="1"
-                    android:background="@null"
-                    android:ems="10"
-                    android:hint="@string/enter_your_message"
-                    android:inputType="textCapSentences|textMultiLine"
-                    android:maxLines="2"
-                    android:minHeight="32dp"
-                    android:paddingLeft="16dp"
-                    android:paddingTop="0dp"
-                    android:paddingRight="8dp"
-                    android:paddingBottom="0dp"
-                    android:textSize="17sp" />
+                    android:background="?attr/compose_background"
+                    android:baselineAligned="false"
+                    android:orientation="horizontal">
 
-                <ImageView
-                    android:id="@+id/send_button"
-                    android:layout_width="56dp"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center_horizontal|bottom"
-                    android:background="?selectableItemBackgroundBorderless"
-                    android:contentDescription=""
-                    android:padding="9dp"
-                    android:scaleType="center"
-                    android:src="@drawable/ic_send"
-                    app:tint="@color/primary_color" />
+                    <EditText
+                        android:id="@+id/message_edit"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:ems="10"
+                        android:hint="@string/enter_your_message"
+                        android:inputType="textCapSentences|textMultiLine"
+                        android:maxLines="2"
+                        android:minHeight="32dp"
+                        android:paddingLeft="16dp"
+                        android:paddingTop="0dp"
+                        android:paddingRight="8dp"
+                        android:paddingBottom="0dp"
+                        android:textSize="17sp" />
 
-            </LinearLayout>
+                    <ImageView
+                        android:id="@+id/send_button"
+                        android:layout_width="56dp"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal|bottom"
+                        android:background="?selectableItemBackgroundBorderless"
+                        android:contentDescription=""
+                        android:padding="9dp"
+                        android:scaleType="center"
+                        android:src="@drawable/ic_send"
+                        app:tint="@color/primary_color" />
+
+                </LinearLayout>
+
+            </FrameLayout>
 
         </FrameLayout>
 
-    </FrameLayout>
+    </ViewFlipper>
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"

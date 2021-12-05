@@ -22,6 +22,7 @@ import dagger.multibindings.IntoSet
 @Module
 class ChatModule(
     private val context: Context,
+    private val topicId: Int,
     private val state: Bundle?
 ) {
 

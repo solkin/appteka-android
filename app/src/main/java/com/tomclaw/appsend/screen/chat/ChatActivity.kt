@@ -25,9 +25,14 @@ class ChatActivity : AppCompatActivity(), ChatPresenter.ChatRouter {
     lateinit var binder: ItemBinder
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val viewTitle = intent.getStringExtra(EXTRA_TITLE).takeIf { !it.isNullOrEmpty() }
+            ?: getString(R.string.chat_activity)
+        val topicId = intent.getIntExtra(EXTRA_TOPIC_ID, 0).takeIf { it != 0 }
+            ?: throw IllegalArgumentException("Topic ID must be provided")
+
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
         Appteka.getComponent()
-            .chatComponent(ChatModule(this, presenterState))
+            .chatComponent(ChatModule(this, topicId, presenterState))
             .inject(activity = this)
         ThemeHelper.updateTheme(this)
 
@@ -35,7 +40,7 @@ class ChatActivity : AppCompatActivity(), ChatPresenter.ChatRouter {
         setContentView(R.layout.chat_activity)
 
         val adapter = SimpleRecyclerAdapter(adapterPresenter, binder)
-        val view = ChatViewImpl(window.decorView, adapter)
+        val view = ChatViewImpl(window.decorView, adapter).apply { setTitle(viewTitle) }
 
         presenter.attachView(view)
     }
@@ -75,5 +80,9 @@ fun createChatActivityIntent(
     topicId: Int,
     title: String?,
 ): Intent = Intent(context, ChatActivity::class.java)
+    .putExtra(EXTRA_TOPIC_ID, topicId)
+    .putExtra(EXTRA_TITLE, title)
 
+private const val EXTRA_TOPIC_ID = "topic_id"
+private const val EXTRA_TITLE = "title"
 private const val KEY_PRESENTER_STATE = "presenter_state"

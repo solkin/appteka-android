@@ -6,6 +6,7 @@ import com.avito.konveyor.blueprint.Item
 import com.tomclaw.appsend.screen.moderation.adapter.ItemListener
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 interface ChatPresenter : ItemListener {
 
@@ -36,23 +37,40 @@ class ChatPresenterImpl(
     state: Bundle?
 ) : ChatPresenter {
 
+    private var view: ChatView? = null
+    private var router: ChatPresenter.ChatRouter? = null
+
+    private val subscriptions = CompositeDisposable()
+
     override fun attachView(view: ChatView) {
+        this.view = view
+
+        view.navigationClicks().subscribe {
+            onBackPressed()
+        }
+
+        view.retryClicks().subscribe {
+        }
     }
 
     override fun detachView() {
+        subscriptions.clear()
+        this.view = null
     }
 
     override fun attachRouter(router: ChatPresenter.ChatRouter) {
+        this.router = router
     }
 
     override fun detachRouter() {
+        this.router = null
     }
 
-    override fun saveState(): Bundle {
-        TODO("Not yet implemented")
+    override fun saveState() = Bundle().apply {
     }
 
     override fun onBackPressed() {
+        router?.leaveScreen()
     }
 
     override fun onItemClick(item: Item) {
