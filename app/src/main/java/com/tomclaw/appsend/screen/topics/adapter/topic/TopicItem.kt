@@ -31,7 +31,7 @@ class TopicItem(
         writeBool(isPinned)
         writeBool(hasUnread)
         writeString(lastMsgText)
-        writeParcelable(lastMsgUserIcon, 0)
+        lastMsgUserIcon.writeToParcel(this, flags)
         writeBool(hasMore)
         writeBool(hasError)
         writeBool(hasProgress)
@@ -49,7 +49,7 @@ class TopicItem(
             val isPinned = parcel.readBool()
             val hasUnread = parcel.readBool()
             val lastMsgText = parcel.readString().orEmpty()
-            val lastMsgUserIcon = parcel.readParcelable<UserIcon>(UserIcon.javaClass.classLoader)!!
+            val lastMsgUserIcon = UserIcon.createFromParcel(parcel)
             val hasMore = parcel.readBool()
             val hasError = parcel.readBool()
             val hasProgress = parcel.readBool()

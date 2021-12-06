@@ -1,6 +1,7 @@
 package com.tomclaw.appsend.screen.topics.api
 
 import com.google.gson.annotations.SerializedName
+import com.tomclaw.appsend.dto.MessageEntity
 
 data class TopicEntry(
     @SerializedName("topic_id")
@@ -20,5 +21,5 @@ data class TopicEntry(
     @SerializedName("read_msg_id")
     val readMsgId: Int?,
     @SerializedName("last_msg")
-    val lastMsg: MessageEntry,
+    val lastMsg: MessageEntity,
 )

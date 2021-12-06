@@ -3,35 +3,38 @@ package com.tomclaw.appsend.screen.chat.adapter.msg
 import android.os.Parcel
 import android.os.Parcelable
 import com.avito.konveyor.blueprint.Item
+import com.tomclaw.appsend.dto.UserIcon
 import com.tomclaw.appsend.util.readBool
 import com.tomclaw.appsend.util.writeBool
 
-class MsgItem(
+data class MsgItem(
     override val id: Long,
-    val appId: String,
-    val icon: String?,
-    val title: String,
-    val version: String,
-    val size: String,
-    val rating: Float,
-    val downloads: Int,
-    var hasMore: Boolean = false,
-    var hasError: Boolean = false,
-    var hasProgress: Boolean = false,
+    val topicId: Int,
+    val msgId: Int,
+    val prevMsgId: Int,
+    val userId: Int,
+    val userIcon: UserIcon,
+    val text: String,
+    val time: Long,
+    val cookie: String,
+    val type: Int,
+    val attachment: MsgAttachment,
+    val incoming: Boolean
 ) : Item, Parcelable {
 
     override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
         writeLong(id)
-        writeString(appId)
-        writeString(icon)
-        writeString(title)
-        writeString(version)
-        writeString(size)
-        writeFloat(rating)
-        writeInt(downloads)
-        writeBool(hasMore)
-        writeBool(hasError)
-        writeBool(hasProgress)
+        writeInt(topicId)
+        writeInt(msgId)
+        writeInt(prevMsgId)
+        writeInt(userId)
+        userIcon.writeToParcel(dest, flags)
+        writeString(text)
+        writeLong(time)
+        writeString(cookie)
+        writeInt(type)
+        attachment.writeToParcel(dest, flags)
+        writeBool(incoming)
     }
 
     override fun describeContents(): Int = 0
@@ -39,28 +42,30 @@ class MsgItem(
     companion object CREATOR : Parcelable.Creator<MsgItem> {
         override fun createFromParcel(parcel: Parcel): MsgItem {
             val id = parcel.readLong()
-            val appId = parcel.readString().orEmpty()
-            val icon = parcel.readString()
-            val title = parcel.readString().orEmpty()
-            val version = parcel.readString().orEmpty()
-            val size = parcel.readString().orEmpty()
-            val rating = parcel.readFloat()
-            val downloads = parcel.readInt()
-            val hasMore = parcel.readBool()
-            val hasError = parcel.readBool()
-            val hasProgress = parcel.readBool()
+            val topicId = parcel.readInt()
+            val msgId = parcel.readInt()
+            val prevMsgId = parcel.readInt()
+            val userId = parcel.readInt()
+            val userIcon = UserIcon.createFromParcel(parcel)
+            val text = parcel.readString().orEmpty()
+            val time = parcel.readLong()
+            val cookie = parcel.readString().orEmpty()
+            val type = parcel.readInt()
+            val attachment = MsgAttachment.createFromParcel(parcel)
+            val incoming = parcel.readBool()
             return MsgItem(
                 id,
-                appId,
-                icon,
-                title,
-                version,
-                size,
-                rating,
-                downloads,
-                hasMore,
-                hasError,
-                hasProgress
+                topicId,
+                msgId,
+                prevMsgId,
+                userId,
+                userIcon,
+                text,
+                time,
+                cookie,
+                type,
+                attachment,
+                incoming
             )
         }
 

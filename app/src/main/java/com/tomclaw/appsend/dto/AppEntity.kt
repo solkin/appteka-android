@@ -2,7 +2,7 @@ package com.tomclaw.appsend.dto
 
 import com.google.gson.annotations.SerializedName
 
-class AppEntity(
+data class AppEntity(
     @SerializedName("app_id")
     val appId: String,
     @SerializedName("icon")

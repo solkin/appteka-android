@@ -3,7 +3,7 @@ package com.tomclaw.appsend.screen.chat
 import android.os.Bundle
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.blueprint.Item
-import com.tomclaw.appsend.screen.moderation.adapter.ItemListener
+import com.tomclaw.appsend.screen.chat.adapter.ItemListener
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -74,9 +74,6 @@ class ChatPresenterImpl(
     }
 
     override fun onItemClick(item: Item) {
-    }
-
-    override fun onRetryClick(item: Item) {
     }
 
     override fun onLoadMore(item: Item) {

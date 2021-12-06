@@ -2,7 +2,7 @@ package com.tomclaw.appsend.dto
 
 import com.google.gson.annotations.SerializedName
 
-class StoreResponse<A>(
+data class StoreResponse<A>(
     @SerializedName("status")
     val status: Int,
     @SerializedName("result")
