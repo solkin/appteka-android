@@ -10,8 +10,10 @@ import com.tomclaw.appsend.screen.chat.ChatInteractor
 import com.tomclaw.appsend.screen.chat.ChatInteractorImpl
 import com.tomclaw.appsend.screen.chat.ChatPresenter
 import com.tomclaw.appsend.screen.chat.ChatPresenterImpl
-import com.tomclaw.appsend.screen.chat.adapter.msg.MsgItemBlueprint
-import com.tomclaw.appsend.screen.chat.adapter.msg.MsgItemPresenter
+import com.tomclaw.appsend.screen.chat.adapter.msg.IncomingMsgItemBlueprint
+import com.tomclaw.appsend.screen.chat.adapter.msg.IncomingMsgItemPresenter
+import com.tomclaw.appsend.screen.chat.adapter.outgoing.OutgoingMsgItemBlueprint
+import com.tomclaw.appsend.screen.chat.adapter.outgoing.OutgoingMsgItemPresenter
 import com.tomclaw.appsend.util.PerActivity
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
@@ -64,13 +66,25 @@ class ChatModule(
     @Provides
     @IntoSet
     @PerActivity
-    internal fun provideMsgItemBlueprint(
-        presenter: MsgItemPresenter
-    ): ItemBlueprint<*, *> = MsgItemBlueprint(presenter)
+    internal fun provideIncomingMsgItemBlueprint(
+        presenter: IncomingMsgItemPresenter
+    ): ItemBlueprint<*, *> = IncomingMsgItemBlueprint(presenter)
+
+    @Provides
+    @IntoSet
+    @PerActivity
+    internal fun provideOutgoingMsgItemBlueprint(
+        presenter: OutgoingMsgItemPresenter
+    ): ItemBlueprint<*, *> = OutgoingMsgItemBlueprint(presenter)
 
     @Provides
     @PerActivity
-    internal fun provideMsgItemPresenter(presenter: ChatPresenter) =
-        MsgItemPresenter(presenter)
+    internal fun provideIncomingMsgItemPresenter(presenter: ChatPresenter) =
+        IncomingMsgItemPresenter(presenter)
+
+    @Provides
+    @PerActivity
+    internal fun provideOutgoingMsgItemPresenter(presenter: ChatPresenter) =
+        OutgoingMsgItemPresenter(presenter)
 
 }

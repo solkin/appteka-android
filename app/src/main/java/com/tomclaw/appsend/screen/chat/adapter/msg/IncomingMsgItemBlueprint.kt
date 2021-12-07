@@ -6,14 +6,14 @@ import com.avito.konveyor.blueprint.ItemPresenter
 import com.avito.konveyor.blueprint.ViewHolderBuilder
 import com.tomclaw.appsend.R
 
-class MsgItemBlueprint(override val presenter: ItemPresenter<MsgItemView, MsgItem>) :
-    ItemBlueprint<MsgItemView, MsgItem> {
+class IncomingMsgItemBlueprint(override val presenter: ItemPresenter<MsgItemView, IncomingMsgItem>) :
+    ItemBlueprint<MsgItemView, IncomingMsgItem> {
 
     override val viewHolderProvider = ViewHolderBuilder.ViewHolderProvider(
         layoutId = R.layout.store_item,
         creator = { _, view -> MsgItemViewHolder(view) }
     )
 
-    override fun isRelevantItem(item: Item) = item is MsgItem
+    override fun isRelevantItem(item: Item) = item is IncomingMsgItem
 
 }

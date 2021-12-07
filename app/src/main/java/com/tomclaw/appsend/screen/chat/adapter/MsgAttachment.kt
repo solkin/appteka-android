@@ -1,4 +1,4 @@
-package com.tomclaw.appsend.screen.chat.adapter.msg
+package com.tomclaw.appsend.screen.chat.adapter
 
 import android.os.Parcel
 import android.os.Parcelable

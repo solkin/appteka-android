@@ -2,25 +2,23 @@ package com.tomclaw.appsend.screen.chat.adapter.msg
 
 import android.os.Parcel
 import android.os.Parcelable
-import com.avito.konveyor.blueprint.Item
 import com.tomclaw.appsend.dto.UserIcon
-import com.tomclaw.appsend.util.readBool
-import com.tomclaw.appsend.util.writeBool
+import com.tomclaw.appsend.screen.chat.adapter.MsgAttachment
+import com.tomclaw.appsend.screen.chat.adapter.MsgItem
 
-data class MsgItem(
-    override val id: Long,
-    val topicId: Int,
-    val msgId: Int,
-    val prevMsgId: Int,
-    val userId: Int,
-    val userIcon: UserIcon,
-    val text: String,
-    val time: Long,
-    val cookie: String,
-    val type: Int,
-    val attachment: MsgAttachment,
-    val incoming: Boolean
-) : Item, Parcelable {
+class IncomingMsgItem(
+    id: Long,
+    topicId: Int,
+    msgId: Int,
+    prevMsgId: Int,
+    userId: Int,
+    userIcon: UserIcon,
+    text: String,
+    time: Long,
+    type: Int,
+    attachment: MsgAttachment
+) : MsgItem(id, topicId, msgId, prevMsgId, userId, userIcon, text, time, type, attachment),
+    Parcelable {
 
     override fun writeToParcel(dest: Parcel, flags: Int) = with(dest) {
         writeLong(id)
@@ -31,16 +29,14 @@ data class MsgItem(
         userIcon.writeToParcel(dest, flags)
         writeString(text)
         writeLong(time)
-        writeString(cookie)
         writeInt(type)
         attachment.writeToParcel(dest, flags)
-        writeBool(incoming)
     }
 
     override fun describeContents(): Int = 0
 
-    companion object CREATOR : Parcelable.Creator<MsgItem> {
-        override fun createFromParcel(parcel: Parcel): MsgItem {
+    companion object CREATOR : Parcelable.Creator<IncomingMsgItem> {
+        override fun createFromParcel(parcel: Parcel): IncomingMsgItem {
             val id = parcel.readLong()
             val topicId = parcel.readInt()
             val msgId = parcel.readInt()
@@ -49,11 +45,9 @@ data class MsgItem(
             val userIcon = UserIcon.createFromParcel(parcel)
             val text = parcel.readString().orEmpty()
             val time = parcel.readLong()
-            val cookie = parcel.readString().orEmpty()
             val type = parcel.readInt()
             val attachment = MsgAttachment.createFromParcel(parcel)
-            val incoming = parcel.readBool()
-            return MsgItem(
+            return IncomingMsgItem(
                 id,
                 topicId,
                 msgId,
@@ -62,14 +56,12 @@ data class MsgItem(
                 userIcon,
                 text,
                 time,
-                cookie,
                 type,
-                attachment,
-                incoming
+                attachment
             )
         }
 
-        override fun newArray(size: Int): Array<MsgItem?> {
+        override fun newArray(size: Int): Array<IncomingMsgItem?> {
             return arrayOfNulls(size)
         }
     }
