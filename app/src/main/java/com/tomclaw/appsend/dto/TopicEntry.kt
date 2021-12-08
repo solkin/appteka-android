@@ -1,8 +1,10 @@
-package com.tomclaw.appsend.screen.topics.api
+package com.tomclaw.appsend.dto
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import com.tomclaw.appsend.dto.MessageEntity
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class TopicEntry(
     @SerializedName("topic_id")
     val topicId: Int,
@@ -22,4 +24,4 @@ data class TopicEntry(
     val readMsgId: Int?,
     @SerializedName("last_msg")
     val lastMsg: MessageEntity,
-)
+) : Parcelable

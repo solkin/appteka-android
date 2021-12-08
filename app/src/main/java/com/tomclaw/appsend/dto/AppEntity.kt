@@ -1,7 +1,10 @@
 package com.tomclaw.appsend.dto
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class AppEntity(
     @SerializedName("app_id")
     val appId: String,
@@ -19,4 +22,4 @@ data class AppEntity(
     val rating: Float,
     @SerializedName("downloads")
     val downloads: Int,
-)
+) : Parcelable

@@ -1,7 +1,7 @@
 package com.tomclaw.appsend.screen.topics
 
 import com.tomclaw.appsend.screen.topics.adapter.topic.TopicItem
-import com.tomclaw.appsend.screen.topics.api.TopicEntry
+import com.tomclaw.appsend.dto.TopicEntry
 
 interface TopicConverter {
 

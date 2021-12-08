@@ -3,6 +3,7 @@ package com.tomclaw.appsend.screen.chat
 import android.os.Bundle
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.blueprint.Item
+import com.tomclaw.appsend.dto.TopicEntry
 import com.tomclaw.appsend.screen.chat.adapter.ItemListener
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
@@ -31,6 +32,7 @@ interface ChatPresenter : ItemListener {
 }
 
 class ChatPresenterImpl(
+    private val topicId: Int,
     private val interactor: ChatInteractor,
     private val adapterPresenter: Lazy<AdapterPresenter>,
     private val schedulers: SchedulersFactory,
@@ -39,6 +41,9 @@ class ChatPresenterImpl(
 
     private var view: ChatView? = null
     private var router: ChatPresenter.ChatRouter? = null
+
+    private var topic: TopicEntry? = state?.getParcelable(KEY_TOPIC)
+    private var isError: Boolean = state?.getBoolean(KEY_ERROR) ?: false
 
     private val subscriptions = CompositeDisposable()
 
@@ -67,6 +72,27 @@ class ChatPresenterImpl(
     }
 
     override fun saveState() = Bundle().apply {
+        putParcelable(KEY_TOPIC, topic)
+        putBoolean(KEY_ERROR, isError)
+    }
+
+    private fun loadTopic() {
+        interactor.getTopic(topicId)
+            .observeOn(schedulers.mainThread())
+            .doOnSubscribe { view?.showProgress() }
+            .subscribe(
+                { onInfoLoaded(it) },
+                { onInfoError() }
+            )
+    }
+
+    private fun onInfoLoaded(topic: TopicEntry) {
+        view?.setTitle(topic.title)
+
+    }
+
+    private fun onInfoError() {
+        TODO("Not yet implemented")
     }
 
     override fun onBackPressed() {
@@ -79,3 +105,6 @@ class ChatPresenterImpl(
     override fun onLoadMore(item: Item) {
     }
 }
+
+private const val KEY_TOPIC = "topic"
+private const val KEY_ERROR = "error"

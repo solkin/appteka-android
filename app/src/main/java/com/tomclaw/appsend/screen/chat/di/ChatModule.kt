@@ -35,6 +35,7 @@ class ChatModule(
         adapterPresenter: Lazy<AdapterPresenter>,
         schedulers: SchedulersFactory
     ): ChatPresenter = ChatPresenterImpl(
+        topicId,
         interactor,
         adapterPresenter,
         schedulers,

@@ -10,7 +10,7 @@ class OutgoingMsgItemBlueprint(override val presenter: ItemPresenter<OutgoingMsg
     ItemBlueprint<OutgoingMsgItemView, OutgoingMsgItem> {
 
     override val viewHolderProvider = ViewHolderBuilder.ViewHolderProvider(
-        layoutId = R.layout.store_item,
+        layoutId = R.layout.chat_item_out_text,
         creator = { _, view -> OutgoingMsgItemViewHolder(view) }
     )
 

@@ -41,7 +41,7 @@
 
                 <include
                     android:id="@+id/member_icon"
-                    layout="@layout/user_icon"
+                    layout="@layout/user_icon_xs"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:padding="5dp"

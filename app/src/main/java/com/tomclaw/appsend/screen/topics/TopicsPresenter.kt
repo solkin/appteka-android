@@ -6,7 +6,7 @@ import com.avito.konveyor.blueprint.Item
 import com.avito.konveyor.data_source.ListDataSource
 import com.tomclaw.appsend.screen.topics.adapter.ItemListener
 import com.tomclaw.appsend.screen.topics.adapter.topic.TopicItem
-import com.tomclaw.appsend.screen.topics.api.TopicEntry
+import com.tomclaw.appsend.dto.TopicEntry
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
 import io.reactivex.rxjava3.disposables.CompositeDisposable

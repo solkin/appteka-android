@@ -2,7 +2,7 @@ package com.tomclaw.appsend.screen.topics
 
 import com.tomclaw.appsend.dto.MessageEntity
 import com.tomclaw.appsend.dto.UserIcon
-import com.tomclaw.appsend.screen.topics.api.TopicEntry
+import com.tomclaw.appsend.dto.TopicEntry
 import com.tomclaw.appsend.util.SchedulersFactory
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single

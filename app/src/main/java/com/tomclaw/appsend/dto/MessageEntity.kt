@@ -1,7 +1,10 @@
 package com.tomclaw.appsend.dto
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class MessageEntity(
     @SerializedName("topic_id")
     val topicId: Int,
@@ -25,4 +28,4 @@ data class MessageEntity(
     val attachment: AttachmentEntity?,
     @SerializedName("incoming")
     val incoming: Boolean
-)
+) : Parcelable
