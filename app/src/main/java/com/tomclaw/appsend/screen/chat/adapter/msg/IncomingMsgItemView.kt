@@ -1,41 +1,24 @@
 package com.tomclaw.appsend.screen.chat.adapter.msg
 
 import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
-import android.widget.ImageView
 import android.widget.TextView
 import com.avito.konveyor.adapter.BaseViewHolder
 import com.avito.konveyor.blueprint.ItemView
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.dto.UserIcon
 import com.tomclaw.appsend.util.bind
-import com.tomclaw.appsend.util.hide
-import com.tomclaw.appsend.util.show
-import com.tomclaw.imageloader.util.centerCrop
-import com.tomclaw.imageloader.util.fetch
-import com.tomclaw.imageloader.util.withPlaceholder
+import com.tomclaw.appsend.view.UserIconView
+import com.tomclaw.appsend.view.UserIconViewImpl
 
 interface IncomingMsgItemView : ItemView {
 
-    fun setIcon(url: String?)
+    fun setUserIcon(userIcon: UserIcon)
 
-    fun setTitle(title: String)
+    fun setTime(time: String)
 
-    fun setVersion(version: String)
+    fun setDate(date: String?)
 
-    fun setSize(size: String)
-
-    fun setRating(rating: Float?)
-
-    fun setDownloads(downloads: Int)
-
-    fun showProgress()
-
-    fun hideProgress()
-
-    fun showError()
-
-    fun hideError()
+    fun setText(text: String?)
 
     fun setOnClickListener(listener: (() -> Unit)?)
 
@@ -43,15 +26,10 @@ interface IncomingMsgItemView : ItemView {
 
 class IncomingMsgItemViewHolder(view: View) : BaseViewHolder(view), IncomingMsgItemView {
 
-    private val icon: ImageView = view.findViewById(R.id.app_icon)
-    private val title: TextView = view.findViewById(R.id.app_name)
-    private val version: TextView = view.findViewById(R.id.app_version)
-    private val size: TextView = view.findViewById(R.id.app_size)
-    private val rating: TextView = view.findViewById(R.id.app_rating)
-    private val ratingIcon: View = view.findViewById(R.id.rating_icon)
-    private val downloads: TextView = view.findViewById(R.id.app_downloads)
-    private val progress: View = view.findViewById(R.id.item_progress)
-    private val error: View = view.findViewById(R.id.error_view)
+    private val dateView: TextView = view.findViewById(R.id.message_date)
+    private val userIconView: UserIconView = UserIconViewImpl(view.findViewById(R.id.member_icon))
+    private val textView: TextView = view.findViewById(R.id.inc_text)
+    private val timeView: TextView = view.findViewById(R.id.inc_time)
 
     private var clickListener: (() -> Unit)? = null
 
@@ -59,54 +37,20 @@ class IncomingMsgItemViewHolder(view: View) : BaseViewHolder(view), IncomingMsgI
         view.setOnClickListener { clickListener?.invoke() }
     }
 
-    override fun setIcon(url: String?) {
-        icon.fetch(url.orEmpty()) {
-            centerCrop()
-            withPlaceholder(R.drawable.app_placeholder)
-            placeholder = {
-                with(it.get()) {
-                    scaleType = ImageView.ScaleType.CENTER_CROP
-                    setImageResource(R.drawable.app_placeholder)
-                }
-            }
-        }
+    override fun setUserIcon(userIcon: UserIcon) {
+        userIconView.bind(userIcon)
     }
 
-    override fun showProgress() {
-        progress.visibility = VISIBLE
+    override fun setTime(time: String) {
+        timeView.bind(time)
     }
 
-    override fun hideProgress() {
-        progress.visibility = GONE
+    override fun setDate(date: String?) {
+        dateView.bind(date)
     }
 
-    override fun showError() {
-        error.visibility = VISIBLE
-    }
-
-    override fun hideError() {
-        error.visibility = GONE
-    }
-
-    override fun setTitle(title: String) {
-        this.title.bind(title)
-    }
-
-    override fun setVersion(version: String) {
-        this.version.bind(version)
-    }
-
-    override fun setSize(size: String) {
-        this.size.bind(size)
-    }
-
-    override fun setRating(rating: Float?) {
-        this.rating.bind(rating?.toString())
-        rating?.let { this.ratingIcon.show() } ?: this.ratingIcon.hide()
-    }
-
-    override fun setDownloads(downloads: Int) {
-        this.downloads.bind(downloads.toString())
+    override fun setText(text: String?) {
+        textView.bind(text)
     }
 
     override fun setOnClickListener(listener: (() -> Unit)?) {

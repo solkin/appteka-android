@@ -5,9 +5,9 @@ import com.tomclaw.appsend.screen.chat.adapter.ItemListener
 
 class IncomingMsgItemPresenter(
     private val listener: ItemListener
-) : ItemPresenter<MsgItemView, IncomingMsgItem> {
+) : ItemPresenter<IncomingMsgItemView, IncomingMsgItem> {
 
-    override fun bindView(view: MsgItemView, item: IncomingMsgItem, position: Int) {
+    override fun bindView(view: IncomingMsgItemView, item: IncomingMsgItem, position: Int) {
         with(item) {
             listener.onLoadMore(this)
         }
