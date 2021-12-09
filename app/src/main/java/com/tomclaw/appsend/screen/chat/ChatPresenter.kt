@@ -3,11 +3,15 @@ package com.tomclaw.appsend.screen.chat
 import android.os.Bundle
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.blueprint.Item
+import com.avito.konveyor.data_source.ListDataSource
+import com.tomclaw.appsend.dto.MessageEntity
 import com.tomclaw.appsend.dto.TopicEntry
 import com.tomclaw.appsend.screen.chat.adapter.ItemListener
+import com.tomclaw.appsend.screen.topics.TopicConverter
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.kotlin.plusAssign
 
 interface ChatPresenter : ItemListener {
 
@@ -33,6 +37,7 @@ interface ChatPresenter : ItemListener {
 
 class ChatPresenterImpl(
     private val topicId: Int,
+    private val converter: MessageConverter,
     private val interactor: ChatInteractor,
     private val adapterPresenter: Lazy<AdapterPresenter>,
     private val schedulers: SchedulersFactory,
@@ -44,6 +49,7 @@ class ChatPresenterImpl(
 
     private var topic: TopicEntry? = state?.getParcelable(KEY_TOPIC)
     private var isError: Boolean = state?.getBoolean(KEY_ERROR) ?: false
+    private var history: List<MessageEntity>? = state?.getParcelableArrayList(KEY_HISTORY)
 
     private val subscriptions = CompositeDisposable()
 
@@ -55,6 +61,18 @@ class ChatPresenterImpl(
         }
 
         view.retryClicks().subscribe {
+        }
+
+        when {
+            isError -> {
+                onTopicError()
+            }
+            topic != null -> {
+                onTopicLoaded()
+            }
+            else -> {
+                loadTopic()
+            }
         }
     }
 
@@ -77,22 +95,40 @@ class ChatPresenterImpl(
     }
 
     private fun loadTopic() {
-        interactor.getTopic(topicId)
+        subscriptions += interactor.getTopic(topicId)
+            .flatMap { topic ->
+                this.topic = topic
+                interactor.loadHistory(topicId, 0, topic.lastMsg.msgId)
+            }
+            .map { this.history = it }
             .observeOn(schedulers.mainThread())
             .doOnSubscribe { view?.showProgress() }
             .subscribe(
-                { onInfoLoaded(it) },
-                { onInfoError() }
+                { onTopicLoaded() },
+                { onTopicError() }
             )
     }
 
-    private fun onInfoLoaded(topic: TopicEntry) {
+    private fun onTopicLoaded() {
+        val topic = topic ?: return
+        isError = false
         view?.setTitle(topic.title)
 
+        val history = history ?: emptyList()
+        val items = history
+            .map { converter.convert(it) }
+            .toList()
+
+        val dataSource = ListDataSource(items)
+        adapterPresenter.get().onDataSourceChanged(dataSource)
+
+        view?.contentUpdated()
+        view?.showContent()
     }
 
-    private fun onInfoError() {
-        TODO("Not yet implemented")
+    private fun onTopicError() {
+        isError = true
+        view?.showError()
     }
 
     override fun onBackPressed() {
@@ -108,3 +144,4 @@ class ChatPresenterImpl(
 
 private const val KEY_TOPIC = "topic"
 private const val KEY_ERROR = "error"
+private const val KEY_HISTORY = "history"

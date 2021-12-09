@@ -15,7 +15,7 @@ import com.tomclaw.imageloader.util.centerCrop
 import com.tomclaw.imageloader.util.fetch
 import com.tomclaw.imageloader.util.withPlaceholder
 
-interface MsgItemView : ItemView {
+interface IncomingMsgItemView : ItemView {
 
     fun setIcon(url: String?)
 
@@ -41,7 +41,7 @@ interface MsgItemView : ItemView {
 
 }
 
-class MsgItemViewHolder(view: View) : BaseViewHolder(view), MsgItemView {
+class IncomingMsgItemViewHolder(view: View) : BaseViewHolder(view), IncomingMsgItemView {
 
     private val icon: ImageView = view.findViewById(R.id.app_icon)
     private val title: TextView = view.findViewById(R.id.app_name)

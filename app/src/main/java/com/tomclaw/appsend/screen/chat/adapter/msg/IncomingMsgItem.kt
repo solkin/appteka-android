@@ -17,5 +17,5 @@ data class IncomingMsgItem(
     val text: String,
     val time: Long,
     val type: Int,
-    val attachment: MsgAttachment
+    val attachment: MsgAttachment?
 ) : Item, Parcelable

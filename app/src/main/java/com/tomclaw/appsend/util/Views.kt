@@ -1,9 +1,13 @@
 package com.tomclaw.appsend.util
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.View
+import android.view.ViewPropertyAnimator
+import android.view.animation.AccelerateDecelerateInterpolator
 import android.widget.EditText
 import android.widget.TextView
 import com.jakewharton.rxrelay3.Relay
@@ -41,3 +45,48 @@ fun View.show() {
 fun View.hide() {
     visibility = View.GONE
 }
+
+fun View.showWithAlphaAnimation(
+    duration: Long = ANIMATION_DURATION,
+    animateFully: Boolean = true,
+    endCallback: (() -> Unit)? = null
+): ViewPropertyAnimator {
+    if (animateFully) {
+        alpha = 0.0f
+    }
+    show()
+    return animate()
+        .setDuration(duration)
+        .alpha(1.0f)
+        .setInterpolator(AccelerateDecelerateInterpolator())
+        .setListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator?) {
+                alpha = 1.0f
+                show()
+                endCallback?.invoke()
+            }
+        })
+}
+
+fun View.hideWithAlphaAnimation(
+    duration: Long = ANIMATION_DURATION,
+    animateFully: Boolean = true,
+    endCallback: (() -> Unit)? = null
+): ViewPropertyAnimator {
+    if (animateFully) {
+        alpha = 1.0f
+    }
+    return animate()
+        .setDuration(duration)
+        .alpha(0.0f)
+        .setInterpolator(AccelerateDecelerateInterpolator())
+        .setListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator?) {
+                hide()
+                alpha = 1.0f
+                endCallback?.invoke()
+            }
+        })
+}
+
+const val ANIMATION_DURATION: Long = 250

@@ -60,6 +60,9 @@
     <color name="approve_color">#689627</color>
     <color name="decline_color">#d63205</color>
 
+    <color name="color_semitransparent">#baffffff</color>
+    <color name="color_semitransparent_black">#cc000000</color>
+
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/primary_color</item>
         <item name="colorPrimaryVariant">@color/primary_dark_color</item>

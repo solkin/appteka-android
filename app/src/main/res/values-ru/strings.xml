@@ -271,4 +271,5 @@
     <string name="topics_loading_failed">Не удалось загрузить темы</string>
     <string name="topic_common_qna">Общие вопросы</string>
     <string name="chat_activity">Диалог</string>
+    <string name="unsupported_message">Этот тип сообщения не поддерживается. Пожалуйста, обновите Апптеку.</string>
 </resources>

@@ -18,5 +18,5 @@ data class OutgoingMsgItem(
     val time: Long,
     val cookie: String,
     val type: Int,
-    val attachment: MsgAttachment
+    val attachment: MsgAttachment?
 ) : Item, Parcelable

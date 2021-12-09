@@ -92,7 +92,7 @@ class TopicsPresenterImpl(
     }
 
     private fun loadTopics() {
-        interactor.listTopics()
+        subscriptions += interactor.listTopics()
             .observeOn(schedulers.mainThread())
             .doOnSubscribe { view?.showProgress() }
             .doAfterTerminate { onReady() }

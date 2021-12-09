@@ -12,6 +12,8 @@ import com.avito.konveyor.adapter.SimpleRecyclerAdapter
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.util.clicks
+import com.tomclaw.appsend.util.hideWithAlphaAnimation
+import com.tomclaw.appsend.util.showWithAlphaAnimation
 import io.reactivex.rxjava3.core.Observable
 
 interface ChatView {
@@ -42,6 +44,7 @@ class ChatViewImpl(
     private val flipper: ViewFlipper = view.findViewById(R.id.view_flipper)
     private val toolbar: Toolbar = view.findViewById(R.id.toolbar)
     private val retryButton: View = view.findViewById(R.id.button_retry)
+    private val overlayProgress: View = view.findViewById(R.id.overlay_progress)
     private val errorText: TextView = view.findViewById(R.id.error_text)
     private val recycler: RecyclerView = view.findViewById(R.id.recycler)
 
@@ -67,15 +70,16 @@ class ChatViewImpl(
 
     override fun showProgress() {
         flipper.displayedChild = 0
+        overlayProgress.showWithAlphaAnimation(animateFully = true)
     }
 
     override fun showContent() {
-        flipper.displayedChild = 2
+        flipper.displayedChild = 0
+        overlayProgress.hideWithAlphaAnimation(animateFully = false)
     }
 
     override fun showError() {
         flipper.displayedChild = 1
-
         errorText.setText(R.string.chat_loading_error)
         retryButton.clicks(retryRelay)
     }

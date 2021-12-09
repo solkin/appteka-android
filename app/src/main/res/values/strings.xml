@@ -278,4 +278,5 @@
     <string name="topics_loading_failed">Failed to load topics</string>
     <string name="topic_common_qna">Common questions</string>
     <string name="chat_activity">Chat</string>
+    <string name="unsupported_message">This message type is not supported. Please, update Appteka.</string>
 </resources>

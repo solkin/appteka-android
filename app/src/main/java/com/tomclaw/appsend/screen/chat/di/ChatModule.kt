@@ -10,6 +10,10 @@ import com.tomclaw.appsend.screen.chat.ChatInteractor
 import com.tomclaw.appsend.screen.chat.ChatInteractorImpl
 import com.tomclaw.appsend.screen.chat.ChatPresenter
 import com.tomclaw.appsend.screen.chat.ChatPresenterImpl
+import com.tomclaw.appsend.screen.chat.ChatResourceProvider
+import com.tomclaw.appsend.screen.chat.ChatResourceProviderImpl
+import com.tomclaw.appsend.screen.chat.MessageConverter
+import com.tomclaw.appsend.screen.chat.MessageConverterImpl
 import com.tomclaw.appsend.screen.chat.adapter.msg.IncomingMsgItemBlueprint
 import com.tomclaw.appsend.screen.chat.adapter.msg.IncomingMsgItemPresenter
 import com.tomclaw.appsend.screen.chat.adapter.outgoing.OutgoingMsgItemBlueprint
@@ -31,11 +35,13 @@ class ChatModule(
     @Provides
     @PerActivity
     internal fun providePresenter(
+        converter: MessageConverter,
         interactor: ChatInteractor,
         adapterPresenter: Lazy<AdapterPresenter>,
         schedulers: SchedulersFactory
     ): ChatPresenter = ChatPresenterImpl(
         topicId,
+        converter,
         interactor,
         adapterPresenter,
         schedulers,
@@ -53,6 +59,17 @@ class ChatModule(
     internal fun provideAdapterPresenter(binder: ItemBinder): AdapterPresenter {
         return SimpleAdapterPresenter(binder, binder)
     }
+
+    @Provides
+    @PerActivity
+    internal fun provideMessageConverter(
+        resourceProvider: ChatResourceProvider
+    ): MessageConverter = MessageConverterImpl(resourceProvider)
+
+    @Provides
+    @PerActivity
+    internal fun provideResourceProvider(): ChatResourceProvider =
+        ChatResourceProviderImpl(context.resources)
 
     @Provides
     @PerActivity
