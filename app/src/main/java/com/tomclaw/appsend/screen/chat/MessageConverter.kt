@@ -5,19 +5,30 @@ import com.tomclaw.appsend.dto.MessageEntity
 import com.tomclaw.appsend.screen.chat.adapter.MsgAttachment
 import com.tomclaw.appsend.screen.chat.adapter.msg.IncomingMsgItem
 import com.tomclaw.appsend.screen.chat.adapter.outgoing.OutgoingMsgItem
+import java.text.DateFormat
 
 interface MessageConverter {
 
-    fun convert(message: MessageEntity): Item
+    fun convert(message: MessageEntity, prevMessage: MessageEntity?): Item
 
 }
 
 class MessageConverterImpl(
+    private val timeFormatter: DateFormat,
+    private val dateFormatter: DateFormat,
     private val resourceProvider: ChatResourceProvider
 ) : MessageConverter {
 
-    override fun convert(message: MessageEntity): Item {
-
+    override fun convert(message: MessageEntity, prevMessage: MessageEntity?): Item {
+        val time = timeFormatter.format(message.time)
+        val date = dateFormatter.format(message.time).takeIf {
+            val prevTime = prevMessage?.time ?: 0
+            val dateChanged = (prevTime > 0 && it != dateFormatter.format(prevTime))
+            val sendingMessage =
+                prevMessage?.time == Long.MAX_VALUE || message.time == Long.MAX_VALUE
+            val firstMessage = message.prevMsgId == 0
+            (firstMessage || dateChanged) && !sendingMessage
+        }
         return when (message.type) {
             0 -> {
                 var attachment: MsgAttachment? = null
@@ -36,11 +47,12 @@ class MessageConverterImpl(
                         topicId = message.topicId,
                         msgId = message.msgId,
                         prevMsgId = message.prevMsgId,
+                        type = message.type,
                         userId = message.userId,
                         userIcon = message.userIcon,
                         text = message.text,
-                        time = message.time,
-                        type = message.type,
+                        time = time,
+                        date = date,
                         attachment = attachment
                     )
                 } else {
@@ -49,13 +61,15 @@ class MessageConverterImpl(
                         topicId = message.topicId,
                         msgId = message.msgId,
                         prevMsgId = message.prevMsgId,
+                        type = message.type,
                         userId = message.userId,
                         userIcon = message.userIcon,
                         text = message.text,
-                        time = message.time,
+                        time = time,
+                        date = date,
+                        attachment = attachment,
                         cookie = message.cookie,
-                        type = message.type,
-                        attachment = attachment
+                        sent = true
                     )
                 }
             }
@@ -65,11 +79,12 @@ class MessageConverterImpl(
                     topicId = message.topicId,
                     msgId = message.msgId,
                     prevMsgId = message.prevMsgId,
+                    type = message.type,
                     userId = message.userId,
                     userIcon = message.userIcon,
                     text = resourceProvider.unsupportedMessageText(),
-                    time = message.time,
-                    type = message.type,
+                    time = time,
+                    date = date,
                     attachment = null
                 )
             }
@@ -77,5 +92,3 @@ class MessageConverterImpl(
     }
 
 }
-
-const val COMMON_QNA_TOPIC_ICON = "file:///android_asset/topic_common_qna.png"

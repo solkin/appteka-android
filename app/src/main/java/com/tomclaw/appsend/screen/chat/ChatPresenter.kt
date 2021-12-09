@@ -7,7 +7,6 @@ import com.avito.konveyor.data_source.ListDataSource
 import com.tomclaw.appsend.dto.MessageEntity
 import com.tomclaw.appsend.dto.TopicEntry
 import com.tomclaw.appsend.screen.chat.adapter.ItemListener
-import com.tomclaw.appsend.screen.topics.TopicConverter
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -115,8 +114,13 @@ class ChatPresenterImpl(
         view?.setTitle(topic.title)
 
         val history = history ?: emptyList()
+        var prevMsg: MessageEntity? = null
         val items = history
-            .map { converter.convert(it) }
+            .map {
+                val item = converter.convert(it, prevMsg)
+                prevMsg = it
+                item
+            }
             .toList()
 
         val dataSource = ListDataSource(items)

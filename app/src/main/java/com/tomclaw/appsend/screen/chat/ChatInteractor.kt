@@ -7,6 +7,7 @@ import com.tomclaw.appsend.util.SchedulersFactory
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import java.util.concurrent.TimeUnit
+import kotlin.random.Random
 
 interface ChatInteractor {
 
@@ -28,7 +29,7 @@ class ChatInteractorImpl(
                         topicId = 1,
                         type = 0,
                         icon = "",
-                        title = "",
+                        title = "Common questions",
                         description = null,
                         packageName = null,
                         isPinned = true,
@@ -41,8 +42,8 @@ class ChatInteractorImpl(
                                 color = "#9742c7"
                             ),
                             topicId = 1,
-                            msgId = 1,
-                            prevMsgId = 0,
+                            msgId = 101,
+                            prevMsgId = 100,
                             time = System.currentTimeMillis() / 1000,
                             cookie = "",
                             type = 0,
@@ -65,6 +66,7 @@ class ChatInteractorImpl(
     ): Observable<List<MessageEntity>> {
         return Single
             .create<List<MessageEntity>> { emitter ->
+                val random = Random(System.currentTimeMillis())
                 val list = ArrayList<MessageEntity>()
                 var fromId = fromId
                 if (tillId - fromId > 20) {
@@ -80,20 +82,20 @@ class ChatInteractorImpl(
                                 color = "#9742c7"
                             ),
                             topicId = topicId,
-                            msgId = 1,
-                            prevMsgId = 0,
+                            msgId = i,
+                            prevMsgId = i - 1,
                             time = System.currentTimeMillis() / 1000,
                             cookie = "",
                             type = 0,
                             text = "Lorem ipsum dolor",
                             attachment = null,
-                            incoming = true,
+                            incoming = random.nextBoolean(),
                         )
                     )
                 emitter.onSuccess(list)
             }
             .toObservable()
-            .delay(500, TimeUnit.MILLISECONDS)
+            .delay(200, TimeUnit.MILLISECONDS)
             .subscribeOn(schedulers.io())
     }
 

@@ -12,6 +12,11 @@ class IncomingMsgItemPresenter(
             listener.onLoadMore(this)
         }
 
+        view.setUserIcon(item.userIcon)
+        view.setTime(item.time)
+        view.setDate(item.date)
+        view.setText(item.text)
+
         view.setOnClickListener { listener.onItemClick(item) }
     }
 

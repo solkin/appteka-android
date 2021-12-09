@@ -1,41 +1,37 @@
 package com.tomclaw.appsend.screen.chat.adapter.outgoing
 
+import android.graphics.Color
+import android.graphics.PorterDuff
 import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.res.ResourcesCompat.getDrawable
 import com.avito.konveyor.adapter.BaseViewHolder
 import com.avito.konveyor.blueprint.ItemView
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.dto.UserIcon
+import com.tomclaw.appsend.util.BubbleColorDrawable
+import com.tomclaw.appsend.util.ColorHelper
+import com.tomclaw.appsend.util.Corner
 import com.tomclaw.appsend.util.bind
-import com.tomclaw.appsend.util.hide
-import com.tomclaw.appsend.util.show
-import com.tomclaw.imageloader.util.centerCrop
-import com.tomclaw.imageloader.util.fetch
-import com.tomclaw.imageloader.util.withPlaceholder
+import com.tomclaw.appsend.view.UserIconView
+import com.tomclaw.appsend.view.UserIconViewImpl
 
 interface OutgoingMsgItemView : ItemView {
 
-    fun setIcon(url: String?)
+    fun setUserIcon(userIcon: UserIcon)
 
-    fun setTitle(title: String)
+    fun setTime(time: String)
 
-    fun setVersion(version: String)
+    fun setDate(date: String?)
 
-    fun setSize(size: String)
+    fun setText(text: String?)
 
-    fun setRating(rating: Float?)
+    fun sendingState()
 
-    fun setDownloads(downloads: Int)
+    fun sentState()
 
-    fun showProgress()
-
-    fun hideProgress()
-
-    fun showError()
-
-    fun hideError()
+    fun deliveredState()
 
     fun setOnClickListener(listener: (() -> Unit)?)
 
@@ -43,70 +39,53 @@ interface OutgoingMsgItemView : ItemView {
 
 class OutgoingMsgItemViewHolder(view: View) : BaseViewHolder(view), OutgoingMsgItemView {
 
-    private val icon: ImageView = view.findViewById(R.id.app_icon)
-    private val title: TextView = view.findViewById(R.id.app_name)
-    private val version: TextView = view.findViewById(R.id.app_version)
-    private val size: TextView = view.findViewById(R.id.app_size)
-    private val rating: TextView = view.findViewById(R.id.app_rating)
-    private val ratingIcon: View = view.findViewById(R.id.rating_icon)
-    private val downloads: TextView = view.findViewById(R.id.app_downloads)
-    private val progress: View = view.findViewById(R.id.item_progress)
-    private val error: View = view.findViewById(R.id.error_view)
+    private val context = view.context
+    private val resources = view.resources
+    private val dateView: TextView = view.findViewById(R.id.message_date)
+    private val userIconView: UserIconView = UserIconViewImpl(view.findViewById(R.id.member_icon))
+    private val bubbleBack: View = view.findViewById(R.id.out_bubble_back)
+    private val delivery: ImageView = view.findViewById(R.id.message_delivery)
+    private val textView: TextView = view.findViewById(R.id.out_text)
+    private val timeView: TextView = view.findViewById(R.id.out_time)
 
     private var clickListener: (() -> Unit)? = null
 
     init {
+        val bubbleColor = ColorHelper.getAttributedColor(context, R.attr.discuss_bubble_color)
+        bubbleBack.background = BubbleColorDrawable(context, bubbleColor, Corner.RIGHT)
+
         view.setOnClickListener { clickListener?.invoke() }
     }
 
-    override fun setIcon(url: String?) {
-        icon.fetch(url.orEmpty()) {
-            centerCrop()
-            withPlaceholder(R.drawable.app_placeholder)
-            placeholder = {
-                with(it.get()) {
-                    scaleType = ImageView.ScaleType.CENTER_CROP
-                    setImageResource(R.drawable.app_placeholder)
-                }
-            }
-        }
+    override fun setUserIcon(userIcon: UserIcon) {
+        userIconView.bind(userIcon)
+        val memberColor = Color.parseColor(userIcon.color)
+        textView.setTextColor(memberColor)
+        delivery.setColorFilter(memberColor, PorterDuff.Mode.SRC_ATOP)
     }
 
-    override fun showProgress() {
-        progress.visibility = VISIBLE
+    override fun setTime(time: String) {
+        timeView.bind(time)
     }
 
-    override fun hideProgress() {
-        progress.visibility = GONE
+    override fun setDate(date: String?) {
+        dateView.bind(date)
     }
 
-    override fun showError() {
-        error.visibility = VISIBLE
+    override fun setText(text: String?) {
+        textView.bind(text)
     }
 
-    override fun hideError() {
-        error.visibility = GONE
+    override fun sendingState() {
+        delivery.setImageDrawable(getDrawable(resources, R.drawable.clock, null))
     }
 
-    override fun setTitle(title: String) {
-        this.title.bind(title)
+    override fun sentState() {
+        delivery.setImageDrawable(getDrawable(resources, R.drawable.check_circle, null))
     }
 
-    override fun setVersion(version: String) {
-        this.version.bind(version)
-    }
-
-    override fun setSize(size: String) {
-        this.size.bind(size)
-    }
-
-    override fun setRating(rating: Float?) {
-        this.rating.bind(rating?.toString())
-        rating?.let { this.ratingIcon.show() } ?: this.ratingIcon.hide()
-    }
-
-    override fun setDownloads(downloads: Int) {
-        this.downloads.bind(downloads.toString())
+    override fun deliveredState() {
+        delivery.setImageDrawable(getDrawable(resources, R.drawable.check_all, null))
     }
 
     override fun setOnClickListener(listener: (() -> Unit)?) {

@@ -94,7 +94,7 @@ class TopicsInteractorImpl(
                 emitter.onSuccess(list)
             }
             .toObservable()
-            .delay(1, TimeUnit.SECONDS)
+            .delay(200, TimeUnit.MILLISECONDS)
             .subscribeOn(schedulers.io())
     }
 

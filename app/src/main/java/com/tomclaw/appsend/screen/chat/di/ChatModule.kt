@@ -6,6 +6,8 @@ import com.avito.konveyor.ItemBinder
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.adapter.SimpleAdapterPresenter
 import com.avito.konveyor.blueprint.ItemBlueprint
+import com.tomclaw.appsend.di.DATE_FORMATTER
+import com.tomclaw.appsend.di.TIME_FORMATTER
 import com.tomclaw.appsend.screen.chat.ChatInteractor
 import com.tomclaw.appsend.screen.chat.ChatInteractorImpl
 import com.tomclaw.appsend.screen.chat.ChatPresenter
@@ -24,6 +26,10 @@ import dagger.Lazy
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoSet
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.Locale
+import javax.inject.Named
 
 @Module
 class ChatModule(
@@ -63,8 +69,10 @@ class ChatModule(
     @Provides
     @PerActivity
     internal fun provideMessageConverter(
+        @Named(TIME_FORMATTER) timeFormatter: DateFormat,
+        @Named(DATE_FORMATTER) dateFormatter: DateFormat,
         resourceProvider: ChatResourceProvider
-    ): MessageConverter = MessageConverterImpl(resourceProvider)
+    ): MessageConverter = MessageConverterImpl(timeFormatter, dateFormatter, resourceProvider)
 
     @Provides
     @PerActivity
@@ -97,12 +105,14 @@ class ChatModule(
 
     @Provides
     @PerActivity
-    internal fun provideIncomingMsgItemPresenter(presenter: ChatPresenter) =
-        IncomingMsgItemPresenter(presenter)
+    internal fun provideIncomingMsgItemPresenter(
+        presenter: ChatPresenter
+    ) = IncomingMsgItemPresenter(presenter)
 
     @Provides
     @PerActivity
-    internal fun provideOutgoingMsgItemPresenter(presenter: ChatPresenter) =
-        OutgoingMsgItemPresenter(presenter)
+    internal fun provideOutgoingMsgItemPresenter(
+        presenter: ChatPresenter
+    ) = OutgoingMsgItemPresenter(presenter)
 
 }

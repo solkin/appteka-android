@@ -12,11 +12,13 @@ data class OutgoingMsgItem(
     val topicId: Int,
     val msgId: Int,
     val prevMsgId: Int,
+    val type: Int,
     val userId: Int,
     val userIcon: UserIcon,
     val text: String,
-    val time: Long,
+    val time: String,
+    val date: String?,
+    val attachment: MsgAttachment?,
     val cookie: String,
-    val type: Int,
-    val attachment: MsgAttachment?
+    val sent: Boolean
 ) : Item, Parcelable
