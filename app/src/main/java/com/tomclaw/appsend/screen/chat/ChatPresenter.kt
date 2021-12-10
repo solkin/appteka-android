@@ -50,6 +50,8 @@ class ChatPresenterImpl(
     private var isError: Boolean = state?.getBoolean(KEY_ERROR) ?: false
     private var history: List<MessageEntity>? = state?.getParcelableArrayList(KEY_HISTORY)
 
+    private val journal = HashSet<Int>()
+
     private val subscriptions = CompositeDisposable()
 
     override fun attachView(view: ChatView) {
@@ -113,15 +115,7 @@ class ChatPresenterImpl(
         isError = false
         view?.setTitle(topic.title)
 
-        val history = history ?: emptyList()
-        var prevMsg: MessageEntity? = null
-        val items = history
-            .map {
-                val item = converter.convert(it, prevMsg)
-                prevMsg = it
-                item
-            }
-            .toList()
+        val items = convertHistory()
 
         val dataSource = ListDataSource(items)
         adapterPresenter.get().onDataSourceChanged(dataSource)
@@ -142,8 +136,48 @@ class ChatPresenterImpl(
     override fun onItemClick(item: Item) {
     }
 
-    override fun onLoadMore(item: Item) {
+    override fun onLoadMore(msgId: Int) {
+        if (history?.last()?.msgId == msgId && journal.add(msgId)) {
+            subscriptions += interactor.loadHistory(topicId, 0, msgId)
+                .observeOn(schedulers.mainThread())
+                .doOnSubscribe { view?.showProgress() }
+                .doAfterTerminate { journal.remove(msgId) }
+                .subscribe(
+                    { onHistoryLoaded(it) },
+                    { onHistoryError() }
+                )
+        }
     }
+
+    private fun onHistoryLoaded(list: List<MessageEntity>) {
+        val countBefore = history?.size ?: 0
+        history = (history ?: emptyList()) + list
+
+        val items = convertHistory()
+
+        val dataSource = ListDataSource(items)
+        adapterPresenter.get().onDataSourceChanged(dataSource)
+
+        view?.contentRangeInserted(countBefore, list.size)
+        view?.showContent()
+    }
+
+    private fun onHistoryError() {
+        view?.showContent()
+    }
+
+    private fun convertHistory(): List<Item> {
+        val history = history ?: emptyList()
+        var prevMsg: MessageEntity? = null
+        return history
+            .map {
+                val item = converter.convert(it, prevMsg)
+                prevMsg = it
+                item
+            }
+            .toList()
+    }
+
 }
 
 private const val KEY_TOPIC = "topic"

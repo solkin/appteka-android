@@ -2,16 +2,13 @@ package com.tomclaw.appsend.screen.chat.adapter.outgoing
 
 import com.avito.konveyor.blueprint.ItemPresenter
 import com.tomclaw.appsend.screen.chat.adapter.ItemListener
-import java.text.DateFormat
 
 class OutgoingMsgItemPresenter(
     private val listener: ItemListener
 ) : ItemPresenter<OutgoingMsgItemView, OutgoingMsgItem> {
 
     override fun bindView(view: OutgoingMsgItemView, item: OutgoingMsgItem, position: Int) {
-        with(item) {
-            listener.onLoadMore(this)
-        }
+        listener.onLoadMore(item.msgId)
 
         view.setUserIcon(item.userIcon)
         view.setTime(item.time)

@@ -6,6 +6,6 @@ interface ItemListener {
 
     fun onItemClick(item: Item)
 
-    fun onLoadMore(item: Item)
+    fun onLoadMore(msgId: Int)
 
 }

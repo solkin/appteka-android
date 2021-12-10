@@ -8,9 +8,7 @@ class IncomingMsgItemPresenter(
 ) : ItemPresenter<IncomingMsgItemView, IncomingMsgItem> {
 
     override fun bindView(view: IncomingMsgItemView, item: IncomingMsgItem, position: Int) {
-        with(item) {
-            listener.onLoadMore(this)
-        }
+        listener.onLoadMore(item.msgId)
 
         view.setUserIcon(item.userIcon)
         view.setTime(item.time)

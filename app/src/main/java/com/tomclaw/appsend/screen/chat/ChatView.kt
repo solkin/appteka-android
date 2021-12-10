@@ -28,6 +28,8 @@ interface ChatView {
 
     fun contentUpdated(position: Int)
 
+    fun contentRangeInserted(position: Int, count: Int)
+
     fun showError()
 
     fun navigationClicks(): Observable<Unit>
@@ -91,6 +93,10 @@ class ChatViewImpl(
 
     override fun contentUpdated(position: Int) {
         adapter.notifyItemChanged(position)
+    }
+
+    override fun contentRangeInserted(position: Int, count: Int) {
+        adapter.notifyItemRangeInserted(position, count)
     }
 
     override fun navigationClicks(): Observable<Unit> = navigationRelay
