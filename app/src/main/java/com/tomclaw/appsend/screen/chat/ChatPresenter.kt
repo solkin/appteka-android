@@ -93,6 +93,7 @@ class ChatPresenterImpl(
     override fun saveState() = Bundle().apply {
         putParcelable(KEY_TOPIC, topic)
         putBoolean(KEY_ERROR, isError)
+        history?.let { putParcelableArrayList(KEY_HISTORY, ArrayList(it)) }
     }
 
     private fun loadTopic() {
