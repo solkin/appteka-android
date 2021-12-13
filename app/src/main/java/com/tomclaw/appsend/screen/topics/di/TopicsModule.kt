@@ -6,6 +6,8 @@ import com.avito.konveyor.ItemBinder
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.adapter.SimpleAdapterPresenter
 import com.avito.konveyor.blueprint.ItemBlueprint
+import com.tomclaw.appsend.core.StoreApi
+import com.tomclaw.appsend.net.UserData
 import com.tomclaw.appsend.screen.topics.TopicsInteractor
 import com.tomclaw.appsend.screen.topics.TopicsInteractorImpl
 import com.tomclaw.appsend.screen.topics.TopicsPreferencesProvider
@@ -51,8 +53,10 @@ class TopicsModule(
     @Provides
     @PerFragment
     internal fun provideInteractor(
+        userData: UserData,
+        api: StoreApi,
         schedulers: SchedulersFactory
-    ): TopicsInteractor = TopicsInteractorImpl(schedulers)
+    ): TopicsInteractor = TopicsInteractorImpl(userData, api, schedulers)
 
     @Provides
     @PerFragment
