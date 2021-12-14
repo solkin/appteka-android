@@ -138,7 +138,7 @@ class ChatPresenterImpl(
     }
 
     override fun onLoadMore(msgId: Int) {
-        if (history?.last()?.msgId == msgId && journal.add(msgId)) {
+        if (history?.first()?.msgId == msgId && journal.add(msgId)) {
             subscriptions += interactor.loadHistory(topicId, 0, msgId)
                 .observeOn(schedulers.mainThread())
                 .doOnSubscribe { view?.showProgress() }
@@ -152,7 +152,7 @@ class ChatPresenterImpl(
 
     private fun onHistoryLoaded(list: List<MessageEntity>) {
         val countBefore = history?.size ?: 0
-        history = (history ?: emptyList()) + list
+        history = list + (history ?: emptyList())
 
         val items = convertHistory()
 
@@ -176,6 +176,7 @@ class ChatPresenterImpl(
                 prevMsg = it
                 item
             }
+            .asReversed()
             .toList()
     }
 

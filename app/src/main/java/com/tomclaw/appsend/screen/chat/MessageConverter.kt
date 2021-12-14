@@ -20,9 +20,9 @@ class MessageConverterImpl(
 ) : MessageConverter {
 
     override fun convert(message: MessageEntity, prevMessage: MessageEntity?): Item {
-        val time = timeFormatter.format(message.time)
-        val date = dateFormatter.format(message.time).takeIf {
-            val prevTime = prevMessage?.time ?: 0
+        val time = timeFormatter.format(message.time * 1000)
+        val date = dateFormatter.format(message.time * 1000).takeIf {
+            val prevTime = (prevMessage?.time ?: 0) * 1000
             val dateChanged = (prevTime > 0 && it != dateFormatter.format(prevTime))
             val sendingMessage =
                 prevMessage?.time == Long.MAX_VALUE || message.time == Long.MAX_VALUE

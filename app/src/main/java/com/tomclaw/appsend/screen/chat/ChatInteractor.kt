@@ -1,13 +1,14 @@
 package com.tomclaw.appsend.screen.chat
 
+import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.dto.MessageEntity
 import com.tomclaw.appsend.dto.TopicEntry
 import com.tomclaw.appsend.dto.UserIcon
+import com.tomclaw.appsend.net.UserData
 import com.tomclaw.appsend.util.SchedulersFactory
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import java.util.concurrent.TimeUnit
-import kotlin.random.Random
 
 interface ChatInteractor {
 
@@ -18,6 +19,8 @@ interface ChatInteractor {
 }
 
 class ChatInteractorImpl(
+    private val userData: UserData,
+    private val api: StoreApi,
     private val schedulers: SchedulersFactory
 ) : ChatInteractor {
 
@@ -64,40 +67,15 @@ class ChatInteractorImpl(
         fromId: Int,
         tillId: Int
     ): Observable<List<MessageEntity>> {
-        return Single
-            .create<List<MessageEntity>> { emitter ->
-                val random = Random(System.currentTimeMillis())
-                val list = ArrayList<MessageEntity>()
-                var fromId = fromId
-                if (tillId - fromId > 20) {
-                    fromId = tillId - 20
-                }
-                for (msgId in tillId downTo fromId) {
-                    list.add(
-                        MessageEntity(
-                            userId = 328570,
-                            userIcon = UserIcon(
-                                icon = "<svg height=\"24\" viewBox=\"0 0 24 24\" width=\"24\" xmlns=\"http://www.w3.org/2000/svg\" fill=\"white\"><path d=\"m16 12h-8v-6h8m.67-2h-1.67v-2h-6v2h-1.67a1.33 1.33 0 0 0 -1.33 1.33v15.34c0 .73.6 1.33 1.33 1.33h9.34a1.33 1.33 0 0 0 1.33-1.33v-15.34c0-.73-.6-1.33-1.33-1.33z\"/></svg>",
-                                label = mapOf(Pair("en", "Battery"), Pair("ru", "Батарейка")),
-                                color = "#fb8a36"
-                            ),
-                            topicId = topicId,
-                            msgId = msgId - 1,
-                            prevMsgId = msgId,
-                            time = System.currentTimeMillis() / 1000,
-                            cookie = "",
-                            type = 0,
-                            text = "Lorem ipsum dolor $msgId",
-                            attachment = null,
-                            incoming = random.nextBoolean(),
-                        )
-                    )
-                }
-                emitter.onSuccess(list)
-            }
+        return api
+            .getChatHistory(
+                guid = userData.guid,
+                topicId = topicId,
+                from = fromId,
+                till = tillId
+            )
+            .map { it.result.messages.sortedBy { msg -> msg.msgId } }
             .toObservable()
-            .delay(200, TimeUnit.MILLISECONDS)
-            .subscribeOn(schedulers.io())
     }
 
 }

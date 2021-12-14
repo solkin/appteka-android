@@ -1,6 +1,7 @@
 package com.tomclaw.appsend.core
 
 import com.tomclaw.appsend.dto.StoreResponse
+import com.tomclaw.appsend.screen.chat.api.HistoryResponse
 import com.tomclaw.appsend.screen.moderation.api.ModerationResponse
 import com.tomclaw.appsend.screen.topics.api.TopicsResponse
 import io.reactivex.rxjava3.core.Single
@@ -21,5 +22,13 @@ interface StoreApi {
         @Query("guid") guid: String,
         @Query("offset") offset: Int
     ): Single<StoreResponse<TopicsResponse>>
+
+    @GET("1/chat/history")
+    fun getChatHistory(
+        @Query("guid") guid: String,
+        @Query("topic_id") topicId: Int,
+        @Query("from") from: Int,
+        @Query("till") till: Int
+    ): Single<StoreResponse<HistoryResponse>>
 
 }

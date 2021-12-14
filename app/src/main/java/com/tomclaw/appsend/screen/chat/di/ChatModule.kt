@@ -6,8 +6,10 @@ import com.avito.konveyor.ItemBinder
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.adapter.SimpleAdapterPresenter
 import com.avito.konveyor.blueprint.ItemBlueprint
+import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.di.DATE_FORMATTER
 import com.tomclaw.appsend.di.TIME_FORMATTER
+import com.tomclaw.appsend.net.UserData
 import com.tomclaw.appsend.screen.chat.ChatInteractor
 import com.tomclaw.appsend.screen.chat.ChatInteractorImpl
 import com.tomclaw.appsend.screen.chat.ChatPresenter
@@ -57,8 +59,10 @@ class ChatModule(
     @Provides
     @PerActivity
     internal fun provideInteractor(
+        userData: UserData,
+        api: StoreApi,
         schedulers: SchedulersFactory
-    ): ChatInteractor = ChatInteractorImpl(schedulers)
+    ): ChatInteractor = ChatInteractorImpl(userData, api, schedulers)
 
     @Provides
     @PerActivity
