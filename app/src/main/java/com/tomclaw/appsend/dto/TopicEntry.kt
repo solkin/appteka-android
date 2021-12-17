@@ -11,7 +11,7 @@ data class TopicEntry(
     @SerializedName("type")
     val type: Int,
     @SerializedName("icon")
-    val icon: String,
+    val icon: String?,
     @SerializedName("title")
     val title: String,
     @SerializedName("description")

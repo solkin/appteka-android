@@ -1,7 +1,7 @@
 package com.tomclaw.appsend.screen.topics
 
-import com.tomclaw.appsend.screen.topics.adapter.topic.TopicItem
 import com.tomclaw.appsend.dto.TopicEntry
+import com.tomclaw.appsend.screen.topics.adapter.topic.TopicItem
 
 interface TopicConverter {
 
@@ -11,12 +11,12 @@ interface TopicConverter {
 
 class TopicConverterImpl(
     private val resourceProvider: TopicsResourceProvider
-    ) : TopicConverter {
+) : TopicConverter {
 
     override fun convert(entry: TopicEntry): TopicItem {
         val icon = when (entry.topicId) {
             1 -> COMMON_QNA_TOPIC_ICON
-            else -> entry.icon
+            else -> entry.icon.orEmpty()
         }
         val title = when (entry.topicId) {
             1 -> resourceProvider.commonQuestionsTopicTitle()
