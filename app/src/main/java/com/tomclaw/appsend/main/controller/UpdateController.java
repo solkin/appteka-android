@@ -2,11 +2,11 @@ package com.tomclaw.appsend.main.controller;
 
 import android.content.Context;
 
-import com.orhanobut.logger.Logger;
 import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.main.item.StoreItem;
 import com.tomclaw.appsend.util.HttpParamsBuilder;
 import com.tomclaw.appsend.util.HttpUtil;
+import com.tomclaw.appsend.util.LegacyLogger;
 import com.tomclaw.appsend.util.PackageHelper;
 
 import org.json.JSONObject;
@@ -123,7 +123,7 @@ public class UpdateController extends AbstractController<UpdateController.Update
                     .appendParam("v", "1")
                     .appendParam("build", String.valueOf(build));
             String storeUrl = HOST_UPDATE_URL + "?" + builder.build();
-            Logger.d("Store url: %s", storeUrl);
+            LegacyLogger.log(String.format("Store url: %s", storeUrl));
             URL url = new URL(storeUrl);
             connection = (HttpURLConnection) url.openConnection();
             // Executing request.
@@ -144,7 +144,7 @@ public class UpdateController extends AbstractController<UpdateController.Update
                 in = connection.getInputStream();
             }
             String result = HttpUtil.streamToString(in);
-            Logger.json(result);
+            LegacyLogger.log(result);
             JSONObject jsonObject = new JSONObject(result);
             int status = jsonObject.getInt("status");
             switch (status) {
@@ -161,7 +161,7 @@ public class UpdateController extends AbstractController<UpdateController.Update
                 }
             }
         } catch (Throwable ex) {
-            Logger.e(ex, "Exception while count loading");
+            LegacyLogger.log("Exception while count loading", ex);
             onError();
         } finally {
             // Trying to disconnect in any case.

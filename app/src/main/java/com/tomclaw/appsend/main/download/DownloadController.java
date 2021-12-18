@@ -1,6 +1,5 @@
 package com.tomclaw.appsend.main.download;
 
-import com.orhanobut.logger.Logger;
 import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.core.StoreServiceHolder;
 import com.tomclaw.appsend.core.StoreServiceHolder_;
@@ -9,6 +8,7 @@ import com.tomclaw.appsend.main.dto.ApiResponse;
 import com.tomclaw.appsend.main.dto.StoreInfo;
 import com.tomclaw.appsend.net.Session;
 import com.tomclaw.appsend.util.HttpUtil;
+import com.tomclaw.appsend.util.LegacyLogger;
 import com.tomclaw.appsend.util.VariableBuffer;
 
 import java.io.File;
@@ -293,7 +293,7 @@ public class DownloadController extends AbstractController<DownloadController.Do
                 throw new IOException("Store files loading error: " + response.code());
             }
         } catch (Throwable ex) {
-            Logger.e(ex, "Exception while loading application info");
+            LegacyLogger.log("Exception while loading application info", ex);
             onInfoError();
         }
     }
@@ -304,7 +304,7 @@ public class DownloadController extends AbstractController<DownloadController.Do
         InputStream in = null;
         OutputStream out = null;
         try {
-            Logger.d("Download app url: %s", link);
+            LegacyLogger.log(String.format("Download app url: %s", link));
             URL url = new URL(link);
             connection = (HttpURLConnection) url.openConnection();
             // Executing request.
@@ -344,7 +344,7 @@ public class DownloadController extends AbstractController<DownloadController.Do
 
             onDownloaded(filePath);
         } catch (Throwable ex) {
-            Logger.e(ex, "Exception while application downloading");
+            LegacyLogger.log("Exception while application downloading", ex);
             onDownloadError();
         } finally {
             // Trying to disconnect in any case.

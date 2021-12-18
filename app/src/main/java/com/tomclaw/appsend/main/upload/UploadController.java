@@ -2,13 +2,13 @@ package com.tomclaw.appsend.main.upload;
 
 import android.text.TextUtils;
 
-import com.orhanobut.logger.Logger;
 import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.main.controller.AbstractController;
 import com.tomclaw.appsend.main.item.CommonItem;
 import com.tomclaw.appsend.main.task.ExportApkTask;
 import com.tomclaw.appsend.net.Session;
 import com.tomclaw.appsend.util.HttpUtil;
+import com.tomclaw.appsend.util.LegacyLogger;
 import com.tomclaw.appsend.util.MultipartStream;
 import com.tomclaw.appsend.util.PackageHelper;
 import com.tomclaw.appsend.util.StringUtil;
@@ -212,7 +212,7 @@ public class UploadController extends AbstractController<UploadController.Upload
                 in = connection.getInputStream();
             }
             String result = HttpUtil.streamToString(in);
-            Logger.json(result);
+            LegacyLogger.log(result);
             JSONObject jsonObject = new JSONObject(result);
             int status = jsonObject.getInt("status");
             switch (status) {
@@ -231,7 +231,7 @@ public class UploadController extends AbstractController<UploadController.Upload
                 }
             }
         } catch (Throwable ex) {
-            Logger.e(ex, "Exception while application uploading");
+            LegacyLogger.log("Exception while application uploading", ex);
             onError();
             trackEvent("upload-failed");
         } finally {
