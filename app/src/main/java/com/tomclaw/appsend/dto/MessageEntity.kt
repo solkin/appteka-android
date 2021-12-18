@@ -21,7 +21,7 @@ data class MessageEntity(
     @SerializedName("time")
     val time: Long,
     @SerializedName("cookie")
-    val cookie: String,
+    val cookie: String?,
     @SerializedName("type")
     val type: Int,
     @SerializedName("attachment")
