@@ -3,7 +3,7 @@ package com.tomclaw.appsend.screen.topics.adapter.topic
 import android.os.Parcelable
 import com.avito.konveyor.blueprint.Item
 import com.tomclaw.appsend.dto.UserIcon
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class TopicItem(

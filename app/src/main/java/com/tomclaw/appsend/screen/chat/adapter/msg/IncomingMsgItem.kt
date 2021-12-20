@@ -4,7 +4,7 @@ import android.os.Parcelable
 import com.avito.konveyor.blueprint.Item
 import com.tomclaw.appsend.dto.UserIcon
 import com.tomclaw.appsend.screen.chat.adapter.MsgAttachment
-import kotlinx.android.parcel.Parcelize
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class IncomingMsgItem(
