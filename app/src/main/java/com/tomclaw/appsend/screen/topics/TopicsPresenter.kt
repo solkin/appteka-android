@@ -154,8 +154,8 @@ class TopicsPresenterImpl(
     }
 
     override fun onItemClick(item: Item) {
-        val item = items?.find { it.id == item.id } ?: return
-        router?.showChatScreen(item.id.toInt(), item.title)
+        val topicItem = items?.find { it.id == item.id } ?: return
+        router?.showChatScreen(topicItem.id.toInt(), topicItem.title)
     }
 
     override fun onRetryClick(item: Item) {
