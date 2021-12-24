@@ -32,7 +32,6 @@ import com.microsoft.appcenter.crashes.Crashes;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.TaskExecutor;
 import com.tomclaw.appsend.main.about.AboutActivity;
-import com.tomclaw.appsend.main.controller.DiscussController;
 import com.tomclaw.appsend.main.controller.UpdateController;
 import com.tomclaw.appsend.main.download.DownloadActivity;
 import com.tomclaw.appsend.main.item.CommonItem;
@@ -58,8 +57,7 @@ import com.tomclaw.appsend.util.PreferenceHelper;
 import com.tomclaw.appsend.util.ThemeHelper;
 
 public class HomeActivity extends PermisoActivity implements UserDataListener,
-        UpdateController.UpdateCallback,
-        DiscussController.DiscussCallback {
+        UpdateController.UpdateCallback {
 
     public static final String APP_IDENTIFIER_KEY = "appcenter.app_identifier";
 
@@ -188,7 +186,7 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
         super.onStart();
         Session.getInstance().getUserHolder().attachListener(this);
         UpdateController.getInstance().onAttach(this);
-        DiscussController.getInstance().onAttach(this);
+//        DiscussController.getInstance().onAttach(this);
         TaskExecutor.getInstance().execute(new StatusCheckTask(this));
     }
 
@@ -196,7 +194,7 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
     protected void onStop() {
         Session.getInstance().getUserHolder().removeListener(this);
         UpdateController.getInstance().onDetach(this);
-        DiscussController.getInstance().onDetach(this);
+//        DiscussController.getInstance().onDetach(this);
         super.onStop();
     }
 
@@ -234,7 +232,7 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
 
     private void updateUnreadIndicator(int count) {
         if (count > 0 && navItemIndex == NAV_DISCUSS) {
-            DiscussController.getInstance().resetUnreadCount();
+//            DiscussController.getInstance().resetUnreadCount();
             count = 0;
         }
         String indicatorText = "";
@@ -398,22 +396,10 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
         }
     }
 
-    @Override
-    public void onUnreadCount(int count) {
-        updateUnreadIndicator(count);
-    }
-
-    @Override
-    public void onShowIntro() {
-    }
-
-    @Override
-    public void onUserNotReady() {
-    }
-
-    @Override
-    public void onUserReady() {
-    }
+//    @Override
+//    public void onUnreadCount(int count) {
+//        updateUnreadIndicator(count);
+//    }
 
     private void checkMigration() {
         if (wasRegistered() && getLastRunBuildNumber() == 0) {

@@ -1,16 +1,6 @@
 package com.tomclaw.appsend.util;
 
-import android.content.ContentResolver;
-import android.content.ContentValues;
-import android.content.Context;
-import android.database.Cursor;
-import android.net.Uri;
 import android.text.TextUtils;
-
-import androidx.loader.content.CursorLoader;
-import androidx.loader.content.Loader;
-
-import com.tomclaw.appsend.core.DatabaseLayer;
 
 /**
  * Created with IntelliJ IDEA.
@@ -129,38 +119,6 @@ public class QueryBuilder {
     public QueryBuilder finishComplexExpression() {
         select.append(")");
         return this;
-    }
-
-    public Cursor query(ContentResolver contentResolver, Uri uri) {
-        return query(contentResolver, uri, null);
-    }
-
-    public Cursor query(ContentResolver contentResolver, Uri uri, String[] projection) {
-        return contentResolver.query(uri, projection, select.toString(), null, sort.toString());
-    }
-
-    public Cursor query(DatabaseLayer databaseLayer, Uri uri) {
-        return databaseLayer.query(uri, this);
-    }
-
-    public int delete(ContentResolver contentResolver, Uri uri) {
-        return contentResolver.delete(uri, select.toString(), null);
-    }
-
-    public int delete(DatabaseLayer databaseLayer, Uri uri) {
-        return databaseLayer.delete(uri, this);
-    }
-
-    public int update(ContentResolver contentResolver, ContentValues contentValues, Uri uri) {
-        return contentResolver.update(uri, contentValues, select.toString(), null);
-    }
-
-    public int update(DatabaseLayer databaseLayer, ContentValues contentValues, Uri uri) {
-        return databaseLayer.update(uri, contentValues, this);
-    }
-
-    public Loader<Cursor> createCursorLoader(Context context, Uri uri) {
-        return new CursorLoader(context, uri, null, select.toString(), null, sort.toString());
     }
 
     public QueryBuilder recycle() {

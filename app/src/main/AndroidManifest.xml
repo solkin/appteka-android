@@ -157,12 +157,6 @@
         <activity
             android:name=".screen.chat.ChatActivity"
             android:label="@string/chat_activity" />
-
-        <provider
-            android:name=".core.GlobalProvider"
-            android:authorities="com.tomclaw.appsend.core.GlobalProvider"
-            android:exported="false"
-            android:grantUriPermissions="true" />
     </application>
 
 </manifest>

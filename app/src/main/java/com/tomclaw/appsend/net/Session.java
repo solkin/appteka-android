@@ -6,10 +6,9 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 
 import com.tomclaw.appsend.Appteka;
-import com.tomclaw.appsend.core.ContentResolverLayer;
-import com.tomclaw.appsend.main.controller.DiscussController;
-import com.tomclaw.appsend.net.request.FetchRequest;
-import com.tomclaw.appsend.net.request.Request;
+import com.tomclaw.appsend.core.TaskExecutor;
+import com.tomclaw.appsend.main.home.StatusCheckTask;
+import com.tomclaw.appsend.main.home.UserRegisterTask;
 import com.tomclaw.appsend.util.LegacyLogger;
 
 import org.androidannotations.annotations.EBean;
@@ -54,31 +53,32 @@ public class Session {
         stop();
         final ContentResolver contentResolver = context.getContentResolver();
         if (getUserData().isRegistered()) {
-            DiscussController.getInstance().onUserReady();
+//            DiscussController.getInstance().onUserReady();
             LegacyLogger.log("start events fetching with guid: " + getUserData().getGuid());
             Runnable runnable = new Runnable() {
                 public void run() {
-                    LegacyLogger.log("fetch started");
-                    FetchRequest request = new FetchRequest(getUserData().getFetchTime());
-                    do {
-                        int requestResult = request.onRequest(contentResolver, userHolder);
-                        LegacyLogger.log("fetch result is " + requestResult);
-                        if (requestResult != Request.REQUEST_DELETE) {
+//                    LegacyLogger.log("fetch started");
+//                    FetchRequest request = new FetchRequest(getUserData().getFetchTime());
+//                    do {
+//                        int requestResult = request.onRequest(contentResolver, userHolder);
+//                        LegacyLogger.log("fetch result is " + requestResult);
+//                        if (requestResult != Request.REQUEST_DELETE) {
                             try {
                                 Thread.sleep(5000);
                             } catch (InterruptedException ignored) {
                             }
-                        }
-                        request.setTime(getUserData().getFetchTime());
-                        LegacyLogger.log("fetch restart attempt");
-                    } while (getUserData().isRegistered());
-                    LegacyLogger.log("quit fetch loop");
+//                        }
+//                        request.setTime(getUserData().getFetchTime());
+//                        LegacyLogger.log("fetch restart attempt");
+//                    } while (getUserData().isRegistered());
+//                    LegacyLogger.log("quit fetch loop");
                 }
             };
             loopFuture = executor.submit(runnable);
         } else {
             LegacyLogger.log("user needs to be registered");
-            RequestHelper.requestUserRegistration(ContentResolverLayer.from(contentResolver));
+            TaskExecutor.getInstance().execute(new UserRegisterTask());
+//            RequestHelper.requestUserRegistration(ContentResolverLayer.from(contentResolver));
         }
     }
 

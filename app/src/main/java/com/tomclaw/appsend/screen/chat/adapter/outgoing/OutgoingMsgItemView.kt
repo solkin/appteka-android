@@ -13,6 +13,7 @@ import com.tomclaw.appsend.dto.UserIcon
 import com.tomclaw.appsend.util.BubbleColorDrawable
 import com.tomclaw.appsend.util.ColorHelper
 import com.tomclaw.appsend.util.Corner
+import com.tomclaw.appsend.util.StringUtil
 import com.tomclaw.appsend.util.bind
 import com.tomclaw.appsend.view.UserIconView
 import com.tomclaw.appsend.view.UserIconViewImpl
@@ -25,7 +26,7 @@ interface OutgoingMsgItemView : ItemView {
 
     fun setDate(date: String?)
 
-    fun setText(text: String?)
+    fun setText(text: String)
 
     fun sendingState()
 
@@ -72,8 +73,8 @@ class OutgoingMsgItemViewHolder(view: View) : BaseViewHolder(view), OutgoingMsgI
         dateView.bind(date)
     }
 
-    override fun setText(text: String?) {
-        textView.bind(text)
+    override fun setText(text: String) {
+        textView.text = StringUtil.formatQuote(text)
     }
 
     override fun sendingState() {

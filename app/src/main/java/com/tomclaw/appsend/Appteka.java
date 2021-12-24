@@ -5,13 +5,9 @@ import android.app.Application;
 import com.tomclaw.appsend.di.AppComponent;
 import com.tomclaw.appsend.di.AppModule;
 import com.tomclaw.appsend.di.DaggerAppComponent;
-import com.tomclaw.appsend.main.controller.DiscussController;
-import com.tomclaw.appsend.net.RequestDispatcher;
 import com.tomclaw.appsend.net.Session;
-import com.tomclaw.appsend.net.request.Request;
 import com.tomclaw.appsend.util.PackageIconLoader;
 import com.tomclaw.appsend.util.PreferenceHelper;
-import com.tomclaw.appsend.util.StringUtil;
 import com.tomclaw.appsend.util.TimeHelper;
 import com.tomclaw.appsend.util.states.StateHolder;
 import com.tomclaw.cache.DiskLruCache;
@@ -38,8 +34,6 @@ import java.util.concurrent.Executors;
  */
 @EApplication
 public class Appteka extends Application {
-
-    private static final String APP_SESSION = StringUtil.generateRandomString(32);
 
     private static Appteka app;
 
@@ -75,10 +69,10 @@ public class Appteka extends Application {
         actuateFlags();
         TimeHelper.init(this);
         StateHolder.init();
-        DiscussController.getInstance();
-        RequestDispatcher
-                .init(this, session.getUserHolder(), APP_SESSION, Request.REQUEST_TYPE_SHORT)
-                .startObservation();
+//        DiscussController.getInstance();
+//        RequestDispatcher
+//                .init(this, session.getUserHolder(), APP_SESSION, Request.REQUEST_TYPE_SHORT)
+//                .startObservation();
     }
 
     private void initImageLoader() {

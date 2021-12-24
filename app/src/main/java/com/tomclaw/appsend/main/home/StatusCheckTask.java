@@ -9,7 +9,6 @@ import androidx.appcompat.app.AlertDialog;
 
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.HttpTask;
-import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.util.HttpParamsBuilder;
 import com.tomclaw.appsend.util.LocaleHelper;
 
