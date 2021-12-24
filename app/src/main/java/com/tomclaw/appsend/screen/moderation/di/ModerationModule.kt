@@ -7,19 +7,24 @@ import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.adapter.SimpleAdapterPresenter
 import com.avito.konveyor.blueprint.ItemBlueprint
 import com.tomclaw.appsend.core.StoreApi
-import com.tomclaw.appsend.core.StoreService
-import com.tomclaw.appsend.core.StoreServiceHolder_
-import com.tomclaw.appsend.net.UserData
-import com.tomclaw.appsend.screen.moderation.*
-import com.tomclaw.appsend.util.PerActivity
-import com.tomclaw.appsend.util.SchedulersFactory
+import com.tomclaw.appsend.screen.moderation.AppConverter
+import com.tomclaw.appsend.screen.moderation.AppConverterImpl
+import com.tomclaw.appsend.screen.moderation.AppsResourceProvider
+import com.tomclaw.appsend.screen.moderation.AppsResourceProviderImpl
+import com.tomclaw.appsend.screen.moderation.ModerationInteractor
+import com.tomclaw.appsend.screen.moderation.ModerationInteractorImpl
+import com.tomclaw.appsend.screen.moderation.ModerationPresenter
+import com.tomclaw.appsend.screen.moderation.ModerationPresenterImpl
 import com.tomclaw.appsend.screen.moderation.adapter.app.AppItemBlueprint
 import com.tomclaw.appsend.screen.moderation.adapter.app.AppItemPresenter
+import com.tomclaw.appsend.user.UserDataInteractor
+import com.tomclaw.appsend.util.PerActivity
+import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoSet
-import java.util.*
+import java.util.Locale
 
 @Module
 class ModerationModule(
@@ -47,9 +52,9 @@ class ModerationModule(
     internal fun provideInteractor(
         api: StoreApi,
         locale: Locale,
-        userData: UserData,
+        userDataInteractor: UserDataInteractor,
         schedulers: SchedulersFactory
-    ): ModerationInteractor = ModerationInteractorImpl(api, locale, userData, schedulers)
+    ): ModerationInteractor = ModerationInteractorImpl(api, locale, userDataInteractor, schedulers)
 
     @Provides
     @PerActivity

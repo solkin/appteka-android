@@ -1,10 +1,12 @@
 package com.tomclaw.appsend.core
 
 import com.tomclaw.appsend.dto.StoreResponse
+import com.tomclaw.appsend.main.profile.ProfileResponse
 import com.tomclaw.appsend.screen.chat.api.HistoryResponse
 import com.tomclaw.appsend.screen.chat.api.TopicInfoResponse
 import com.tomclaw.appsend.screen.moderation.api.ModerationResponse
 import com.tomclaw.appsend.screen.topics.api.TopicsResponse
+import com.tomclaw.appsend.user.api.UserDataResponse
 import io.reactivex.rxjava3.core.Single
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -37,5 +39,10 @@ interface StoreApi {
         @Query("from") from: Int,
         @Query("till") till: Int
     ): Single<StoreResponse<HistoryResponse>>
+
+    @GET("1/user/profile")
+    fun getUserData(
+        @Query("guid") guid: String
+    ): Single<StoreResponse<UserDataResponse>>
 
 }

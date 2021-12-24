@@ -2,28 +2,29 @@ package com.tomclaw.appsend.di
 
 import android.app.Application
 import android.content.Context
+import android.content.Context.MODE_PRIVATE
 import com.chuckerteam.chucker.api.ChuckerInterceptor
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import com.tomclaw.appsend.core.Config
 import com.tomclaw.appsend.core.StoreApi
-import com.tomclaw.appsend.net.Session
-import com.tomclaw.appsend.net.UserData
+import com.tomclaw.appsend.user.UserDataInteractor
+import com.tomclaw.appsend.user.UserDataInteractorImpl
 import com.tomclaw.appsend.util.Logger
 import com.tomclaw.appsend.util.LoggerImpl
-import com.tomclaw.appsend.util.PerActivity
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Module
 import dagger.Provides
+import java.io.File
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.Locale
+import javax.inject.Named
+import javax.inject.Singleton
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.create
-import java.io.File
-import java.text.DateFormat
-import java.text.SimpleDateFormat
-import java.util.*
-import javax.inject.Named
-import javax.inject.Singleton
 
 @Module
 class AppModule(private val app: Application) {
@@ -63,7 +64,14 @@ class AppModule(private val app: Application) {
 
     @Provides
     @Singleton
-    internal fun provideUserData(): UserData = Session.getInstance().userData
+    internal fun provideUserDataInteractor(
+        gson: Gson,
+        api: StoreApi
+    ): UserDataInteractor = UserDataInteractorImpl(app.getDir(USER_DIR, MODE_PRIVATE), gson, api)
+
+    @Provides
+    @Singleton
+    internal fun provideGson(): Gson = GsonBuilder().create()
 
     @Provides
     @Singleton
@@ -85,3 +93,4 @@ class AppModule(private val app: Application) {
 
 const val TIME_FORMATTER = "TimeFormatter"
 const val DATE_FORMATTER = "DateFormatter"
+const val USER_DIR = "user"

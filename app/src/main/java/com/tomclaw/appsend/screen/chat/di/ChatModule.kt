@@ -9,7 +9,6 @@ import com.avito.konveyor.blueprint.ItemBlueprint
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.di.DATE_FORMATTER
 import com.tomclaw.appsend.di.TIME_FORMATTER
-import com.tomclaw.appsend.net.UserData
 import com.tomclaw.appsend.screen.chat.ChatInteractor
 import com.tomclaw.appsend.screen.chat.ChatInteractorImpl
 import com.tomclaw.appsend.screen.chat.ChatPresenter
@@ -22,6 +21,7 @@ import com.tomclaw.appsend.screen.chat.adapter.msg.IncomingMsgItemBlueprint
 import com.tomclaw.appsend.screen.chat.adapter.msg.IncomingMsgItemPresenter
 import com.tomclaw.appsend.screen.chat.adapter.outgoing.OutgoingMsgItemBlueprint
 import com.tomclaw.appsend.screen.chat.adapter.outgoing.OutgoingMsgItemPresenter
+import com.tomclaw.appsend.user.UserDataInteractor
 import com.tomclaw.appsend.util.PerActivity
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
@@ -29,8 +29,6 @@ import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoSet
 import java.text.DateFormat
-import java.text.SimpleDateFormat
-import java.util.Locale
 import javax.inject.Named
 
 @Module
@@ -59,10 +57,10 @@ class ChatModule(
     @Provides
     @PerActivity
     internal fun provideInteractor(
-        userData: UserData,
+        userDataInteractor: UserDataInteractor,
         api: StoreApi,
         schedulers: SchedulersFactory
-    ): ChatInteractor = ChatInteractorImpl(userData, api, schedulers)
+    ): ChatInteractor = ChatInteractorImpl(userDataInteractor, api, schedulers)
 
     @Provides
     @PerActivity
