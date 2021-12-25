@@ -11,14 +11,14 @@ interface UserDataInteractor {
 }
 
 class UserDataInteractorImpl(
-    private val sessionInteractor: SessionInteractor,
+    private val sessionStorage: SessionStorage,
     private val api: StoreApi
 ) : UserDataInteractor {
 
     private var userData: UserData? = null
 
     override fun getUserData(): Single<UserData> {
-        return getCachedUserData() ?: sessionInteractor.loadSessionCredentials()
+        return getCachedUserData() ?: sessionStorage.loadSessionCredentials()
             .flatMap { loadUserData(it.guid) }
             .map { cacheUserData(it) }
     }

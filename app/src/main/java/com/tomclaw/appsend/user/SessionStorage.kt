@@ -6,16 +6,16 @@ import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileReader
 
-interface SessionInteractor {
+interface SessionStorage {
 
     fun loadSessionCredentials(): Single<SessionCredentials>
 
 }
 
-class SessionInteractorImpl(
+class SessionStorageImpl(
     private val dir: File,
     private val gson: Gson,
-) : SessionInteractor {
+) : SessionStorage {
 
     override fun loadSessionCredentials(): Single<SessionCredentials> {
         return Single.create { emitter ->
