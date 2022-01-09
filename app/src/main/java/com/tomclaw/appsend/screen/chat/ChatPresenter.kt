@@ -57,11 +57,11 @@ class ChatPresenterImpl(
     override fun attachView(view: ChatView) {
         this.view = view
 
-        view.navigationClicks().subscribe {
+        subscriptions += view.navigationClicks().subscribe {
             onBackPressed()
         }
 
-        view.retryClicks().subscribe {
+        subscriptions += view.retryClicks().subscribe {
         }
 
         when {

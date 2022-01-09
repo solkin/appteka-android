@@ -2,6 +2,7 @@ package com.tomclaw.appsend.user
 
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.dto.UserData
+import com.tomclaw.appsend.util.SchedulersFactory
 import io.reactivex.rxjava3.core.Single
 
 interface UserDataInteractor {
@@ -12,7 +13,8 @@ interface UserDataInteractor {
 
 class UserDataInteractorImpl(
     private val sessionStorage: SessionStorage,
-    private val api: StoreApi
+    private val api: StoreApi,
+    private val schedulers: SchedulersFactory
 ) : UserDataInteractor {
 
     private var userData: UserData? = null
@@ -47,6 +49,7 @@ class UserDataInteractorImpl(
                     )
                 }
             }
+            .subscribeOn(schedulers.io())
     }
 
 }

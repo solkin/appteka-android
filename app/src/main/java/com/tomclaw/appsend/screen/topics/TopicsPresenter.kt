@@ -7,6 +7,7 @@ import com.avito.konveyor.data_source.ListDataSource
 import com.tomclaw.appsend.screen.topics.adapter.ItemListener
 import com.tomclaw.appsend.screen.topics.adapter.topic.TopicItem
 import com.tomclaw.appsend.dto.TopicEntry
+import com.tomclaw.appsend.events.EventsInteractor
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -35,7 +36,8 @@ interface TopicsPresenter : ItemListener {
 class TopicsPresenterImpl(
     private val converter: TopicConverter,
     private val preferences: TopicsPreferencesProvider,
-    private val interactor: TopicsInteractor,
+    private val topicsInteractor: TopicsInteractor,
+    private val eventsInteractor: EventsInteractor,
     private val adapterPresenter: Lazy<AdapterPresenter>,
     private val schedulers: SchedulersFactory,
     state: Bundle?
@@ -52,12 +54,12 @@ class TopicsPresenterImpl(
     override fun attachView(view: TopicsView) {
         this.view = view
 
-        view.getStartedClicks().subscribe {
+        subscriptions += view.getStartedClicks().subscribe {
             preferences.setIntroShown()
             loadTopics()
         }
 
-        view.retryButtonClicks().subscribe {
+        subscriptions += view.retryButtonClicks().subscribe {
             loadTopics()
         }
 
@@ -70,6 +72,10 @@ class TopicsPresenterImpl(
             } else {
                 items?.let { onReady() } ?: loadTopics()
             }
+        }
+
+        subscriptions += eventsInteractor.subscribeOnEvents().subscribe {
+            println("Event received")
         }
     }
 
@@ -92,7 +98,7 @@ class TopicsPresenterImpl(
     }
 
     private fun loadTopics() {
-        subscriptions += interactor.listTopics()
+        subscriptions += topicsInteractor.listTopics()
             .observeOn(schedulers.mainThread())
             .doOnSubscribe { view?.showProgress() }
             .doAfterTerminate { onReady() }
@@ -103,7 +109,7 @@ class TopicsPresenterImpl(
     }
 
     private fun loadTopics(offset: Int) {
-        subscriptions += interactor.listTopics(offset)
+        subscriptions += topicsInteractor.listTopics(offset)
             .observeOn(schedulers.mainThread())
             .doAfterTerminate { onReady() }
             .subscribe(

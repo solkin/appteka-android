@@ -8,6 +8,8 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.tomclaw.appsend.core.Config
 import com.tomclaw.appsend.core.StoreApi
+import com.tomclaw.appsend.events.EventsInteractor
+import com.tomclaw.appsend.events.EventsInteractorImpl
 import com.tomclaw.appsend.user.SessionStorage
 import com.tomclaw.appsend.user.SessionStorageImpl
 import com.tomclaw.appsend.user.UserDataInteractor
@@ -68,14 +70,24 @@ class AppModule(private val app: Application) {
     @Singleton
     internal fun provideUserDataInteractor(
         sessionStorage: SessionStorage,
-        api: StoreApi
-    ): UserDataInteractor = UserDataInteractorImpl(sessionStorage, api)
+        api: StoreApi,
+        schedulers: SchedulersFactory
+    ): UserDataInteractor = UserDataInteractorImpl(sessionStorage, api, schedulers)
 
     @Provides
     @Singleton
     internal fun provideSessionInteractor(
-        gson: Gson
-    ): SessionStorage = SessionStorageImpl(app.getDir(USER_DIR, MODE_PRIVATE), gson)
+        gson: Gson,
+        schedulers: SchedulersFactory
+    ): SessionStorage = SessionStorageImpl(app.getDir(USER_DIR, MODE_PRIVATE), gson, schedulers)
+
+    @Provides
+    @Singleton
+    internal fun provideEventsInteractor(
+        userDataInteractor: UserDataInteractor,
+        api: StoreApi,
+        schedulers: SchedulersFactory
+    ): EventsInteractor = EventsInteractorImpl(userDataInteractor, api, schedulers)
 
     @Provides
     @Singleton
