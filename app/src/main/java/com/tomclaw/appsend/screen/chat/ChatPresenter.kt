@@ -6,6 +6,7 @@ import com.avito.konveyor.blueprint.Item
 import com.avito.konveyor.data_source.ListDataSource
 import com.tomclaw.appsend.dto.MessageEntity
 import com.tomclaw.appsend.dto.TopicEntry
+import com.tomclaw.appsend.events.EventsInteractor
 import com.tomclaw.appsend.screen.chat.adapter.ItemListener
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
@@ -37,7 +38,8 @@ interface ChatPresenter : ItemListener {
 class ChatPresenterImpl(
     private val topicId: Int,
     private val converter: MessageConverter,
-    private val interactor: ChatInteractor,
+    private val chatInteractor: ChatInteractor,
+    private val eventsInteractor: EventsInteractor,
     private val adapterPresenter: Lazy<AdapterPresenter>,
     private val schedulers: SchedulersFactory,
     state: Bundle?
@@ -75,6 +77,10 @@ class ChatPresenterImpl(
                 loadTopic()
             }
         }
+
+        subscriptions += eventsInteractor.subscribeOnEvents().subscribe {
+            println("Event received (chat)")
+        }
     }
 
     override fun detachView() {
@@ -97,10 +103,10 @@ class ChatPresenterImpl(
     }
 
     private fun loadTopic() {
-        subscriptions += interactor.getTopic(topicId)
+        subscriptions += chatInteractor.getTopic(topicId)
             .flatMap { topic ->
                 this.topic = topic
-                interactor.loadHistory(topicId, 0, topic.lastMsg.msgId)
+                chatInteractor.loadHistory(topicId, 0, topic.lastMsg.msgId)
             }
             .map { this.history = it }
             .observeOn(schedulers.mainThread())
@@ -139,7 +145,7 @@ class ChatPresenterImpl(
 
     override fun onLoadMore(msgId: Int) {
         if (history?.first()?.msgId == msgId && journal.add(msgId)) {
-            subscriptions += interactor.loadHistory(topicId, 0, msgId)
+            subscriptions += chatInteractor.loadHistory(topicId, 0, msgId)
                 .observeOn(schedulers.mainThread())
                 .doOnSubscribe { view?.showProgress() }
                 .doAfterTerminate { journal.remove(msgId) }

@@ -75,7 +75,7 @@ class TopicsPresenterImpl(
         }
 
         subscriptions += eventsInteractor.subscribeOnEvents().subscribe {
-            println("Event received")
+            println("Event received (topics)")
         }
     }
 

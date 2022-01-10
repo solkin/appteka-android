@@ -9,6 +9,7 @@ import com.avito.konveyor.blueprint.ItemBlueprint
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.di.DATE_FORMATTER
 import com.tomclaw.appsend.di.TIME_FORMATTER
+import com.tomclaw.appsend.events.EventsInteractor
 import com.tomclaw.appsend.screen.chat.ChatInteractor
 import com.tomclaw.appsend.screen.chat.ChatInteractorImpl
 import com.tomclaw.appsend.screen.chat.ChatPresenter
@@ -42,13 +43,15 @@ class ChatModule(
     @PerActivity
     internal fun providePresenter(
         converter: MessageConverter,
-        interactor: ChatInteractor,
+        chatInteractor: ChatInteractor,
+        eventsInteractor: EventsInteractor,
         adapterPresenter: Lazy<AdapterPresenter>,
         schedulers: SchedulersFactory
     ): ChatPresenter = ChatPresenterImpl(
         topicId,
         converter,
-        interactor,
+        chatInteractor,
+        eventsInteractor,
         adapterPresenter,
         schedulers,
         state
