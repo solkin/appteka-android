@@ -23,6 +23,7 @@ import java.io.File
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.Locale
+import java.util.concurrent.TimeUnit
 import javax.inject.Named
 import javax.inject.Singleton
 import okhttp3.OkHttpClient
@@ -96,6 +97,8 @@ class AppModule(private val app: Application) {
     @Provides
     @Singleton
     internal fun provideHttClient(): OkHttpClient = OkHttpClient.Builder()
+        .readTimeout(2, TimeUnit.MINUTES)
+        .connectTimeout(20, TimeUnit.SECONDS)
         .addInterceptor(ChuckerInterceptor.Builder(app).build())
         .build()
 

@@ -7,8 +7,11 @@ import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
 import io.reactivex.rxjava3.subjects.PublishSubject
-import java.util.concurrent.TimeUnit
+import java.io.IOException
+import java.util.concurrent.TimeUnit.MINUTES
+import java.util.concurrent.TimeUnit.SECONDS
 import java.util.concurrent.atomic.AtomicInteger
+import java.util.concurrent.atomic.AtomicLong
 
 
 interface EventsInteractor {
@@ -26,25 +29,35 @@ class EventsInteractorImpl(
     private val eventsSubject = PublishSubject.create<Unit>()
     private var observers = AtomicInteger(0)
 
+    private val fetchTime = AtomicLong(0)
+
     private val disposables = CompositeDisposable()
 
     private fun eventsLoop() {
         disposables += Observable
-            .interval(0, 5, TimeUnit.SECONDS)
+            .just(Unit)
             .flatMap { userDataInteractor.getUserData().toObservable() }
             .flatMap {
-                api.getTopicsList(it.guid, 0)
+                println("[polling] started with time " + fetchTime.get())
+                api.getEvents(guid = it.guid, time = fetchTime.get(), noDelay = false)
                     .toObservable()
-                    .takeUntil(Observable.timer(5, TimeUnit.SECONDS))
+                    .takeUntil(Observable.timer(1, MINUTES))
             }
             .observeOn(schedulers.io())
+            .subscribeOn(schedulers.mainThread())
             .subscribe(
                 { result ->
-                    // Use result, example below.
-                    println("Polling result received")
+                    fetchTime.set(result.result.time)
+                    println("[polling] result received with time " + result.result.time)
                     eventsSubject.onNext(Unit)
-                }, { throwable: Throwable? ->
-                    println(throwable)
+                    eventsLoop()
+                }, { ex ->
+                    if (ex is IOException) {
+                        println("[polling] IOException: " + ex.message)
+                        eventsLoop()
+                    } else {
+                        println("[polling] fatal exception: " + ex.message)
+                    }
                 }
             )
     }
@@ -52,15 +65,15 @@ class EventsInteractorImpl(
     override fun subscribeOnEvents(): Observable<Unit> {
         return eventsSubject
             .doOnSubscribe {
-                println("Subscribe")
+                println("[polling] subscribe")
                 if (observers.incrementAndGet() == 1) {
                     eventsLoop()
                 }
             }
             .doOnDispose {
-                println("Dispose")
+                println("[polling] dispose")
                 if (observers.decrementAndGet() == 0) {
-                    println("Stop polling")
+                    println("[polling] stop polling")
                     disposables.clear()
                 }
             }

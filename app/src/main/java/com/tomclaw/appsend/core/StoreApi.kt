@@ -1,7 +1,7 @@
 package com.tomclaw.appsend.core
 
 import com.tomclaw.appsend.dto.StoreResponse
-import com.tomclaw.appsend.main.profile.ProfileResponse
+import com.tomclaw.appsend.events.EventsResponse
 import com.tomclaw.appsend.screen.chat.api.HistoryResponse
 import com.tomclaw.appsend.screen.chat.api.TopicInfoResponse
 import com.tomclaw.appsend.screen.moderation.api.ModerationResponse
@@ -39,6 +39,13 @@ interface StoreApi {
         @Query("from") from: Int,
         @Query("till") till: Int
     ): Single<StoreResponse<HistoryResponse>>
+
+    @GET("1/chat/fetch")
+    fun getEvents(
+        @Query("guid") guid: String,
+        @Query("time") time: Long,
+        @Query("nodelay") noDelay: Boolean
+    ): Single<StoreResponse<EventsResponse>>
 
     @GET("1/user/profile")
     fun getUserData(

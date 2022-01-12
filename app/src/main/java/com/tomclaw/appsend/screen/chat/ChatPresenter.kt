@@ -79,7 +79,7 @@ class ChatPresenterImpl(
         }
 
         subscriptions += eventsInteractor.subscribeOnEvents().subscribe {
-            println("Event received (chat)")
+            println("[polling] event received (chat)")
         }
     }
 
