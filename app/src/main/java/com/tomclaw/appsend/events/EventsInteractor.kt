@@ -34,9 +34,7 @@ class EventsInteractorImpl(
     private val disposables = CompositeDisposable()
 
     private fun eventsLoop() {
-        disposables += Observable
-            .just(Unit)
-            .flatMap { userDataInteractor.getUserData().toObservable() }
+        disposables += userDataInteractor.getUserData().toObservable()
             .flatMap {
                 println("[polling] started with time " + fetchTime.get())
                 api.getEvents(guid = it.guid, time = fetchTime.get(), noDelay = false)
