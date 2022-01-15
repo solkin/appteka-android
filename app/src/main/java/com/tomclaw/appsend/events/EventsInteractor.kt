@@ -16,7 +16,7 @@ import java.util.concurrent.atomic.AtomicLong
 
 interface EventsInteractor {
 
-    fun subscribeOnEvents(): Observable<Unit>
+    fun subscribeOnEvents(): Observable<EventsResponse>
 
 }
 
@@ -26,7 +26,7 @@ class EventsInteractorImpl(
     private val schedulers: SchedulersFactory
 ) : EventsInteractor {
 
-    private val eventsSubject = PublishSubject.create<Unit>()
+    private val eventsSubject = PublishSubject.create<EventsResponse>()
     private var observers = AtomicInteger(0)
 
     private val fetchTime = AtomicLong(0)
@@ -47,7 +47,7 @@ class EventsInteractorImpl(
                 { result ->
                     fetchTime.set(result.result.time)
                     println("[polling] result received with time " + result.result.time)
-                    eventsSubject.onNext(Unit)
+                    eventsSubject.onNext(result.result)
                     eventsLoop()
                 }, { ex ->
                     if (ex is IOException) {
@@ -60,7 +60,7 @@ class EventsInteractorImpl(
             )
     }
 
-    override fun subscribeOnEvents(): Observable<Unit> {
+    override fun subscribeOnEvents(): Observable<EventsResponse> {
         return eventsSubject
             .doOnSubscribe {
                 println("[polling] subscribe")

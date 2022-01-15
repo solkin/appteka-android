@@ -78,9 +78,21 @@ class ChatPresenterImpl(
             }
         }
 
-        subscriptions += eventsInteractor.subscribeOnEvents().subscribe {
-            println("[polling] event received (chat)")
-        }
+        subscriptions += eventsInteractor.subscribeOnEvents()
+            .observeOn(schedulers.mainThread())
+            .subscribe { response ->
+                println("[polling] event received (chat)")
+                response.messages?.let { messages ->
+                    history = (history ?: emptyList()) + messages
+
+                    val items = convertHistory()
+
+                    val dataSource = ListDataSource(items)
+                    adapterPresenter.get().onDataSourceChanged(dataSource)
+
+                    view.contentUpdated(0)
+                }
+            }
     }
 
     override fun detachView() {
