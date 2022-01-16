@@ -18,14 +18,12 @@ android {
 
     defaultConfig {
         applicationId "com.tomclaw.appsend"
-        minSdkVersion 21
+        minSdkVersion 16
         //noinspection ExpiredTargetSdkVersion
         targetSdkVersion 28
         versionCode = project.hasProperty("versionCode") ? Integer.parseInt(project.versionCode) : 1000
         versionName = "7.1"
-        manifestPlaceholders = [
-                APPCENTER_APP_ID: "c8564e90-1f35-4fcc-9858-e6ad5b1594f9"
-        ]
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -56,8 +54,6 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation 'com.google.android.material:material:1.6.0'
     implementation 'com.greysonparrelli.permiso:permiso:0.3.0'
-    implementation 'com.microsoft.appcenter:appcenter-analytics:4.1.0'
-    implementation 'com.microsoft.appcenter:appcenter-crashes:4.1.0'
     implementation 'com.github.laobie:StatusBarUtil:2aac14c8e8'
     implementation 'com.google.code.gson:gson:2.8.7'
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
@@ -74,6 +70,5 @@ dependencies {
     implementation 'com.jakewharton.rxrelay3:rxrelay:3.0.1'
     implementation 'com.github.avito-tech:Konveyor:0.42.2'
     implementation 'com.github.rubensousa:BottomSheetBuilder:1.6.0'
-    debugImplementation "com.github.chuckerteam.chucker:library:3.5.2"
-    releaseImplementation "com.github.chuckerteam.chucker:library-no-op:3.5.2"
+    implementation 'com.android.support:multidex:1.0.3'
 }

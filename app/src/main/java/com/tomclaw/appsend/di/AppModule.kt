@@ -3,7 +3,6 @@ package com.tomclaw.appsend.di
 import android.app.Application
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
-import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.tomclaw.appsend.core.Config
@@ -99,7 +98,6 @@ class AppModule(private val app: Application) {
     internal fun provideHttClient(): OkHttpClient = OkHttpClient.Builder()
         .readTimeout(2, TimeUnit.MINUTES)
         .connectTimeout(20, TimeUnit.SECONDS)
-        .addInterceptor(ChuckerInterceptor.Builder(app).build())
         .build()
 
     @Provides

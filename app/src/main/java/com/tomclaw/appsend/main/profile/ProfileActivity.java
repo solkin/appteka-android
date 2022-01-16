@@ -1,6 +1,6 @@
 package com.tomclaw.appsend.main.profile;
 
-import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
+import static com.tomclaw.appsend.util.Analytics.trackEvent;
 import static com.tomclaw.appsend.util.IntentHelper.shareUrl;
 
 import android.annotation.SuppressLint;

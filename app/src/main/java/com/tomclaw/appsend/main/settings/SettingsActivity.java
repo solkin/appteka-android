@@ -1,6 +1,6 @@
 package com.tomclaw.appsend.main.settings;
 
-import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
+import static com.tomclaw.appsend.util.Analytics.trackEvent;
 
 import android.content.Context;
 import android.content.Intent;

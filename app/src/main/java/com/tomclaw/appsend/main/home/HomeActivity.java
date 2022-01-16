@@ -1,13 +1,10 @@
 package com.tomclaw.appsend.main.home;
 
-import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
 import static com.tomclaw.appsend.Appteka.getLastRunBuildNumber;
 import static com.tomclaw.appsend.Appteka.wasRegistered;
+import static com.tomclaw.appsend.util.Analytics.trackEvent;
 
-import android.app.Application;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -26,9 +23,6 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.greysonparrelli.permiso.PermisoActivity;
-import com.microsoft.appcenter.AppCenter;
-import com.microsoft.appcenter.analytics.Analytics;
-import com.microsoft.appcenter.crashes.Crashes;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.TaskExecutor;
 import com.tomclaw.appsend.main.about.AboutActivity;
@@ -59,8 +53,6 @@ import com.tomclaw.appsend.util.ThemeHelper;
 
 public class HomeActivity extends PermisoActivity implements UserDataListener,
         UpdateController.UpdateCallback, UnreadCheckTask.UnreadListener {
-
-    public static final String APP_IDENTIFIER_KEY = "appcenter.app_identifier";
 
     public static final String ACTION_STORE = "com.tomclaw.appsend.cloud";
     public static final String ACTION_DISCUSS = "com.tomclaw.appsend.discuss";
@@ -182,8 +174,6 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
         if (isCreateInstance) {
             checkForUpdates();
         }
-
-        register(getApplication());
 
         checkMigration();
     }
@@ -418,34 +408,6 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
     private void checkMigration() {
         if (wasRegistered() && getLastRunBuildNumber() == 0) {
             MigrateActivity_.intent(this).start();
-        }
-    }
-
-    private void register(Application application) {
-        String appIdentifier = getAppIdentifier(application.getApplicationContext());
-        AppCenter.start(getApplication(), appIdentifier, Analytics.class, Crashes.class);
-    }
-
-    private String getAppIdentifier(Context context) {
-        String appIdentifier = getManifestString(context, APP_IDENTIFIER_KEY);
-        if (TextUtils.isEmpty(appIdentifier)) {
-            throw new RuntimeException("AppCenter app identifier was not configured correctly in manifest or build configuration.");
-        }
-        return appIdentifier;
-    }
-
-    private String getManifestString(Context context, String key) {
-        return getManifestBundle(context).getString(key);
-    }
-
-    private Bundle getManifestBundle(Context context) {
-        try {
-            return context.getPackageManager().getApplicationInfo(
-                    context.getPackageName(),
-                    PackageManager.GET_META_DATA
-            ).metaData;
-        } catch (PackageManager.NameNotFoundException e) {
-            throw new RuntimeException(e);
         }
     }
 

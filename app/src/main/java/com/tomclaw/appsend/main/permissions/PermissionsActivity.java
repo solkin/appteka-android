@@ -1,6 +1,6 @@
 package com.tomclaw.appsend.main.permissions;
 
-import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
+import static com.tomclaw.appsend.util.Analytics.trackEvent;
 
 import android.os.Bundle;
 
