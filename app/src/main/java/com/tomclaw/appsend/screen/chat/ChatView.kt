@@ -53,12 +53,14 @@ class ChatViewImpl(
     private val navigationRelay = PublishRelay.create<Unit>()
     private val retryRelay = PublishRelay.create<Unit>()
 
+    private val layoutManager: LinearLayoutManager
+
     init {
         toolbar.setTitle(R.string.chat_activity)
         toolbar.setNavigationOnClickListener { navigationRelay.accept(Unit) }
 
         val orientation = RecyclerView.VERTICAL
-        val layoutManager = LinearLayoutManager(view.context, orientation, true)
+        layoutManager = LinearLayoutManager(view.context, orientation, true)
         adapter.setHasStableIds(true)
         recycler.adapter = adapter
         recycler.layoutManager = layoutManager
@@ -97,6 +99,10 @@ class ChatViewImpl(
 
     override fun contentRangeInserted(position: Int, count: Int) {
         adapter.notifyItemRangeInserted(position, count)
+        val visiblePosition = layoutManager.findFirstCompletelyVisibleItemPosition()
+        if (visiblePosition == 0) {
+            recycler.scrollToPosition(position)
+        }
     }
 
     override fun navigationClicks(): Observable<Unit> = navigationRelay

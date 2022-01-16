@@ -83,14 +83,18 @@ class ChatPresenterImpl(
             .subscribe { response ->
                 println("[polling] event received (chat)")
                 response.messages?.let { messages ->
-                    history = (history ?: emptyList()) + messages
+                    val countBefore = history?.size ?: 0
+                    mergeHistory(messages.filter { it.topicId == topicId })
+                    val countAfter = history?.size ?: 0
 
-                    val items = convertHistory()
+                    if (countAfter > countBefore) {
+                        val items = convertHistory()
 
-                    val dataSource = ListDataSource(items)
-                    adapterPresenter.get().onDataSourceChanged(dataSource)
+                        val dataSource = ListDataSource(items)
+                        adapterPresenter.get().onDataSourceChanged(dataSource)
 
-                    view.contentUpdated(0)
+                        view.contentRangeInserted(0, 1)
+                    }
                 }
             }
     }
@@ -118,9 +122,9 @@ class ChatPresenterImpl(
         subscriptions += chatInteractor.getTopic(topicId)
             .flatMap { topic ->
                 this.topic = topic
-                chatInteractor.loadHistory(topicId, 0, topic.lastMsg.msgId)
+                chatInteractor.loadHistory(topicId, 0, -1)
             }
-            .map { this.history = it }
+            .map { mergeHistory(it) }
             .observeOn(schedulers.mainThread())
             .doOnSubscribe { view?.showProgress() }
             .subscribe(
@@ -170,7 +174,7 @@ class ChatPresenterImpl(
 
     private fun onHistoryLoaded(list: List<MessageEntity>) {
         val countBefore = history?.size ?: 0
-        history = list + (history ?: emptyList())
+        mergeHistory(list)
 
         val items = convertHistory()
 
@@ -183,6 +187,12 @@ class ChatPresenterImpl(
 
     private fun onHistoryError() {
         view?.showContent()
+    }
+
+    private fun mergeHistory(list: List<MessageEntity>) {
+        history = ((history ?: emptyList()) + list)
+            .sortedBy { it.msgId }
+            .distinctBy { it.msgId }
     }
 
     private fun convertHistory(): List<Item> {
