@@ -6,7 +6,7 @@ import com.avito.konveyor.blueprint.Item
 import com.avito.konveyor.data_source.ListDataSource
 import com.tomclaw.appsend.screen.topics.adapter.ItemListener
 import com.tomclaw.appsend.screen.topics.adapter.topic.TopicItem
-import com.tomclaw.appsend.dto.TopicEntry
+import com.tomclaw.appsend.dto.TopicEntity
 import com.tomclaw.appsend.events.EventsInteractor
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
@@ -74,9 +74,26 @@ class TopicsPresenterImpl(
             }
         }
 
-        subscriptions += eventsInteractor.subscribeOnEvents().subscribe {
-            println("[polling] event received (topics)")
-        }
+        subscriptions += eventsInteractor.subscribeOnEvents()
+            .observeOn(schedulers.mainThread())
+            .subscribe { response ->
+                println("[polling] event received (topics)")
+                response.topics?.let { topics ->
+                    val topItems = ArrayList<TopicItem>()
+                    val filteredItems = ArrayList(items ?: emptyList())
+
+                    topics.forEach { topic ->
+                        topItems.add(converter.convert(topic))
+                        filteredItems.removeAll { it.id.toInt() == topic.topicId }
+                    }
+                    val newItems = topItems + filteredItems
+                    items = newItems
+
+                    val dataSource = ListDataSource(newItems)
+                    adapterPresenter.get().onDataSourceChanged(dataSource)
+                    view.contentUpdated()
+                }
+            }
     }
 
     override fun detachView() {
@@ -118,7 +135,7 @@ class TopicsPresenterImpl(
             )
     }
 
-    private fun onLoaded(entities: List<TopicEntry>) {
+    private fun onLoaded(entities: List<TopicEntity>) {
         isError = false
         val newItems = entities
             .map { converter.convert(it) }

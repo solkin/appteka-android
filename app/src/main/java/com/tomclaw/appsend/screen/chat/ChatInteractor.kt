@@ -2,14 +2,14 @@ package com.tomclaw.appsend.screen.chat
 
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.dto.MessageEntity
-import com.tomclaw.appsend.dto.TopicEntry
+import com.tomclaw.appsend.dto.TopicEntity
 import com.tomclaw.appsend.user.UserDataInteractor
 import com.tomclaw.appsend.util.SchedulersFactory
 import io.reactivex.rxjava3.core.Observable
 
 interface ChatInteractor {
 
-    fun getTopic(topicId: Int): Observable<TopicEntry>
+    fun getTopic(topicId: Int): Observable<TopicEntity>
 
     fun loadHistory(topicId: Int, fromId: Int, tillId: Int): Observable<List<MessageEntity>>
 
@@ -21,7 +21,7 @@ class ChatInteractorImpl(
     private val schedulers: SchedulersFactory
 ) : ChatInteractor {
 
-    override fun getTopic(topicId: Int): Observable<TopicEntry> {
+    override fun getTopic(topicId: Int): Observable<TopicEntity> {
         return userDataInteractor
             .getUserData()
             .flatMap {

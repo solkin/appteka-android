@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class TopicEntry(
+data class TopicEntity(
     @SerializedName("topic_id")
     val topicId: Int,
     @SerializedName("type")

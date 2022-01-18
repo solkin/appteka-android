@@ -5,7 +5,7 @@ import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.blueprint.Item
 import com.avito.konveyor.data_source.ListDataSource
 import com.tomclaw.appsend.dto.MessageEntity
-import com.tomclaw.appsend.dto.TopicEntry
+import com.tomclaw.appsend.dto.TopicEntity
 import com.tomclaw.appsend.events.EventsInteractor
 import com.tomclaw.appsend.screen.chat.adapter.ItemListener
 import com.tomclaw.appsend.util.SchedulersFactory
@@ -48,7 +48,7 @@ class ChatPresenterImpl(
     private var view: ChatView? = null
     private var router: ChatPresenter.ChatRouter? = null
 
-    private var topic: TopicEntry? = state?.getParcelable(KEY_TOPIC)
+    private var topic: TopicEntity? = state?.getParcelable(KEY_TOPIC)
     private var isError: Boolean = state?.getBoolean(KEY_ERROR) ?: false
     private var history: List<MessageEntity>? = state?.getParcelableArrayList(KEY_HISTORY)
 

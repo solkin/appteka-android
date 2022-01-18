@@ -1,11 +1,11 @@
 package com.tomclaw.appsend.screen.topics
 
-import com.tomclaw.appsend.dto.TopicEntry
+import com.tomclaw.appsend.dto.TopicEntity
 import com.tomclaw.appsend.screen.topics.adapter.topic.TopicItem
 
 interface TopicConverter {
 
-    fun convert(entry: TopicEntry): TopicItem
+    fun convert(entity: TopicEntity): TopicItem
 
 }
 
@@ -13,25 +13,25 @@ class TopicConverterImpl(
     private val resourceProvider: TopicsResourceProvider
 ) : TopicConverter {
 
-    override fun convert(entry: TopicEntry): TopicItem {
-        val icon = when (entry.topicId) {
+    override fun convert(entity: TopicEntity): TopicItem {
+        val icon = when (entity.topicId) {
             1 -> COMMON_QNA_TOPIC_ICON
-            else -> entry.icon.orEmpty()
+            else -> entity.icon.orEmpty()
         }
-        val title = when (entry.topicId) {
+        val title = when (entity.topicId) {
             1 -> resourceProvider.commonQuestionsTopicTitle()
-            else -> entry.title
+            else -> entity.title
         }
         return TopicItem(
-            id = entry.topicId.toLong(),
+            id = entity.topicId.toLong(),
             icon = icon,
             title = title,
-            description = entry.description,
-            packageName = entry.packageName,
-            isPinned = entry.isPinned,
-            hasUnread = entry.readMsgId != entry.lastMsg.msgId,
-            lastMsgText = entry.lastMsg.text,
-            lastMsgUserIcon = entry.lastMsg.userIcon,
+            description = entity.description,
+            packageName = entity.packageName,
+            isPinned = entity.isPinned,
+            hasUnread = entity.readMsgId != entity.lastMsg.msgId,
+            lastMsgText = entity.lastMsg.text,
+            lastMsgUserIcon = entity.lastMsg.userIcon,
         )
     }
 
