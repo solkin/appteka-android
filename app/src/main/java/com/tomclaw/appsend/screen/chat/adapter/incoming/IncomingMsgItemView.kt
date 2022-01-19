@@ -1,4 +1,4 @@
-package com.tomclaw.appsend.screen.chat.adapter.msg
+package com.tomclaw.appsend.screen.chat.adapter.incoming
 
 import android.graphics.Color
 import android.view.View
@@ -10,7 +10,6 @@ import com.tomclaw.appsend.dto.UserIcon
 import com.tomclaw.appsend.util.BubbleColorDrawable
 import com.tomclaw.appsend.util.ColorHelper.getAttributedColor
 import com.tomclaw.appsend.util.Corner
-import com.tomclaw.appsend.util.StringUtil
 import com.tomclaw.appsend.util.StringUtil.formatQuote
 import com.tomclaw.appsend.util.bind
 import com.tomclaw.appsend.view.UserIconView

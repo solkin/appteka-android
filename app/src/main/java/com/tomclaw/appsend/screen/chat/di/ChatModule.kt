@@ -18,8 +18,8 @@ import com.tomclaw.appsend.screen.chat.ChatResourceProvider
 import com.tomclaw.appsend.screen.chat.ChatResourceProviderImpl
 import com.tomclaw.appsend.screen.chat.MessageConverter
 import com.tomclaw.appsend.screen.chat.MessageConverterImpl
-import com.tomclaw.appsend.screen.chat.adapter.msg.IncomingMsgItemBlueprint
-import com.tomclaw.appsend.screen.chat.adapter.msg.IncomingMsgItemPresenter
+import com.tomclaw.appsend.screen.chat.adapter.incoming.IncomingMsgItemBlueprint
+import com.tomclaw.appsend.screen.chat.adapter.incoming.IncomingMsgItemPresenter
 import com.tomclaw.appsend.screen.chat.adapter.outgoing.OutgoingMsgItemBlueprint
 import com.tomclaw.appsend.screen.chat.adapter.outgoing.OutgoingMsgItemPresenter
 import com.tomclaw.appsend.user.UserDataInteractor

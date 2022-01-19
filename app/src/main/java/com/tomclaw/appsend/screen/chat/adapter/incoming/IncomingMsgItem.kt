@@ -1,4 +1,4 @@
-package com.tomclaw.appsend.screen.chat.adapter.msg
+package com.tomclaw.appsend.screen.chat.adapter.incoming
 
 import android.os.Parcelable
 import com.avito.konveyor.blueprint.Item

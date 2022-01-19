@@ -3,7 +3,7 @@ package com.tomclaw.appsend.screen.chat
 import com.avito.konveyor.blueprint.Item
 import com.tomclaw.appsend.dto.MessageEntity
 import com.tomclaw.appsend.screen.chat.adapter.MsgAttachment
-import com.tomclaw.appsend.screen.chat.adapter.msg.IncomingMsgItem
+import com.tomclaw.appsend.screen.chat.adapter.incoming.IncomingMsgItem
 import com.tomclaw.appsend.screen.chat.adapter.outgoing.OutgoingMsgItem
 import java.text.DateFormat
 
