@@ -50,6 +50,7 @@ class ChatPresenterImpl(
 
     private var topic: TopicEntity? = state?.getParcelable(KEY_TOPIC)
     private var isError: Boolean = state?.getBoolean(KEY_ERROR) ?: false
+    private var messageText: String = state?.getString(KEY_MESSAGE) ?: ""
     private var history: List<MessageEntity>? = state?.getParcelableArrayList(KEY_HISTORY)
 
     private val journal = HashSet<Int>()
@@ -59,11 +60,15 @@ class ChatPresenterImpl(
     override fun attachView(view: ChatView) {
         this.view = view
 
-        subscriptions += view.navigationClicks().subscribe {
-            onBackPressed()
-        }
+        view.setMessageText(messageText)
 
-        subscriptions += view.retryClicks().subscribe {
+        subscriptions += view.navigationClicks().subscribe { onBackPressed() }
+        subscriptions += view.retryClicks().subscribe { loadTopic() }
+        subscriptions += view.messageEditChanged().subscribe { messageText = it }
+        subscriptions += view.sendClicks().subscribe {
+            if (messageText.isNotBlank()) {
+                sendMessage()
+            }
         }
 
         when {
@@ -116,6 +121,26 @@ class ChatPresenterImpl(
         putParcelable(KEY_TOPIC, topic)
         putBoolean(KEY_ERROR, isError)
         history?.let { putParcelableArrayList(KEY_HISTORY, ArrayList(it)) }
+    }
+
+    private fun sendMessage() {
+        subscriptions += chatInteractor.sendMessage(topicId, messageText, null)
+            .observeOn(schedulers.mainThread())
+            .doOnSubscribe { view?.showSendProgress() }
+            .doAfterTerminate { view?.showSendButton() }
+            .subscribe(
+                { onMessageSent() },
+                { onMessageSendingError() }
+            )
+    }
+
+    private fun onMessageSent() {
+        messageText = ""
+        view?.setMessageText(messageText)
+    }
+
+    private fun onMessageSendingError() {
+        view?.showSendError()
     }
 
     private fun loadTopic() {
@@ -212,4 +237,5 @@ class ChatPresenterImpl(
 
 private const val KEY_TOPIC = "topic"
 private const val KEY_ERROR = "error"
+private const val KEY_MESSAGE = "message"
 private const val KEY_HISTORY = "history"

@@ -2,13 +2,17 @@ package com.tomclaw.appsend.screen.chat
 
 import android.annotation.SuppressLint
 import android.view.View
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.ViewFlipper
+import android.widget.ViewSwitcher
 import androidx.appcompat.widget.Toolbar
+import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
+import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.util.clicks
@@ -19,6 +23,8 @@ import io.reactivex.rxjava3.core.Observable
 interface ChatView {
 
     fun setTitle(title: String)
+
+    fun setMessageText(messageText: String)
 
     fun showProgress()
 
@@ -32,9 +38,19 @@ interface ChatView {
 
     fun showError()
 
+    fun showSendButton()
+
+    fun showSendProgress()
+
+    fun showSendError()
+
     fun navigationClicks(): Observable<Unit>
 
     fun retryClicks(): Observable<Unit>
+
+    fun messageEditChanged(): Observable<String>
+
+    fun sendClicks(): Observable<Unit>
 
 }
 
@@ -49,9 +65,14 @@ class ChatViewImpl(
     private val overlayProgress: View = view.findViewById(R.id.overlay_progress)
     private val errorText: TextView = view.findViewById(R.id.error_text)
     private val recycler: RecyclerView = view.findViewById(R.id.recycler)
+    private val messageEdit: EditText = view.findViewById(R.id.message_edit)
+    private val sendSwitcher: ViewSwitcher = view.findViewById(R.id.send_switcher)
+    private val sendButton: View = view.findViewById(R.id.send_button)
 
     private val navigationRelay = PublishRelay.create<Unit>()
     private val retryRelay = PublishRelay.create<Unit>()
+    private val messageEditRelay = PublishRelay.create<String>()
+    private val sendRelay = PublishRelay.create<Unit>()
 
     private val layoutManager: LinearLayoutManager
 
@@ -66,10 +87,20 @@ class ChatViewImpl(
         recycler.layoutManager = layoutManager
         recycler.itemAnimator = DefaultItemAnimator()
         recycler.itemAnimator?.changeDuration = DURATION_MEDIUM
+
+        retryButton.clicks(retryRelay)
+        messageEdit.addTextChangedListener { text ->
+            messageEditRelay.accept(text.toString())
+        }
+        sendButton.clicks(sendRelay)
     }
 
     override fun setTitle(title: String) {
         toolbar.title = title
+    }
+
+    override fun setMessageText(messageText: String) {
+        messageEdit.setText(messageText, TextView.BufferType.EDITABLE)
     }
 
     override fun showProgress() {
@@ -85,7 +116,18 @@ class ChatViewImpl(
     override fun showError() {
         flipper.displayedChild = 1
         errorText.setText(R.string.chat_loading_error)
-        retryButton.clicks(retryRelay)
+    }
+
+    override fun showSendButton() {
+        sendSwitcher.displayedChild = 0
+    }
+
+    override fun showSendProgress() {
+        sendSwitcher.displayedChild = 1
+    }
+
+    override fun showSendError() {
+        Snackbar.make(recycler, R.string.error_sending_message, Snackbar.LENGTH_LONG).show()
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -108,6 +150,10 @@ class ChatViewImpl(
     override fun navigationClicks(): Observable<Unit> = navigationRelay
 
     override fun retryClicks(): Observable<Unit> = retryRelay
+
+    override fun messageEditChanged(): Observable<String> = messageEditRelay
+
+    override fun sendClicks(): Observable<Unit> = sendRelay
 
 }
 

@@ -2,14 +2,17 @@ package com.tomclaw.appsend.core
 
 import com.tomclaw.appsend.dto.StoreResponse
 import com.tomclaw.appsend.events.EventsResponse
+import com.tomclaw.appsend.main.dto.ApiResponse
+import com.tomclaw.appsend.main.meta.MetaResponse
 import com.tomclaw.appsend.screen.chat.api.HistoryResponse
+import com.tomclaw.appsend.screen.chat.api.SendMessageResponse
 import com.tomclaw.appsend.screen.chat.api.TopicInfoResponse
 import com.tomclaw.appsend.screen.moderation.api.ModerationResponse
 import com.tomclaw.appsend.screen.topics.api.TopicsResponse
 import com.tomclaw.appsend.user.api.UserDataResponse
 import io.reactivex.rxjava3.core.Single
-import retrofit2.http.GET
-import retrofit2.http.Query
+import retrofit2.Call
+import retrofit2.http.*
 
 interface StoreApi {
 
@@ -51,5 +54,15 @@ interface StoreApi {
     fun getUserData(
         @Query("guid") guid: String
     ): Single<StoreResponse<UserDataResponse>>
+
+    @FormUrlEncoded
+    @POST("1/chat/push")
+    fun sendMessage(
+        @Field("guid") guid: String,
+        @Field("topic_id") topicId: Int,
+        @Field("text") text: String?,
+        @Field("attachment") attachment: String?,
+        @Field("cookie") cookie: String
+    ): Single<StoreResponse<SendMessageResponse>>
 
 }

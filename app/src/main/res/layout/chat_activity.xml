@@ -66,17 +66,30 @@
                         android:paddingBottom="0dp"
                         android:textSize="17sp" />
 
-                    <ImageView
-                        android:id="@+id/send_button"
-                        android:layout_width="56dp"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center_horizontal|bottom"
-                        android:background="?selectableItemBackgroundBorderless"
-                        android:contentDescription=""
-                        android:padding="9dp"
-                        android:scaleType="center"
-                        android:src="@drawable/ic_send"
-                        app:tint="@color/primary_color" />
+                    <ViewSwitcher
+                        android:id="@+id/send_switcher"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent">
+
+                        <ImageView
+                            android:id="@+id/send_button"
+                            android:layout_width="56dp"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center_horizontal|bottom"
+                            android:background="?selectableItemBackgroundBorderless"
+                            android:padding="9dp"
+                            android:scaleType="center"
+                            android:src="@drawable/ic_send"
+                            app:tint="@color/primary_color"
+                            android:contentDescription="" />
+
+                        <ProgressBar
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:layout_gravity="center"
+                            android:padding="10dp" />
+
+                    </ViewSwitcher>
 
                 </LinearLayout>
 
