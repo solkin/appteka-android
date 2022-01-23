@@ -45,7 +45,7 @@ dependencies {
     implementation project(path: ':preference-fragment')
     implementation 'com.github.solkin:simple-image-loader:v0.8.1'
     implementation 'com.github.solkin:disk-lru-cache:1.4'
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.6.10'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.6.20'
     implementation 'androidx.core:core-ktx:1.7.0'
     kapt 'org.androidannotations:androidannotations:4.7.0'
     implementation 'org.androidannotations:androidannotations-api:4.7.0'
@@ -72,6 +72,7 @@ dependencies {
     implementation 'io.reactivex.rxjava3:rxkotlin:3.0.1'
     implementation 'com.jakewharton.rxrelay3:rxrelay:3.0.1'
     implementation 'com.github.avito-tech:Konveyor:0.42.2'
+    implementation 'com.github.rubensousa:BottomSheetBuilder:1.6.0'
     debugImplementation "com.github.chuckerteam.chucker:library:3.5.2"
     releaseImplementation "com.github.chuckerteam.chucker:library-no-op:3.5.2"
 }
