@@ -24,6 +24,9 @@ class ChatActivity : AppCompatActivity(), ChatPresenter.ChatRouter {
     @Inject
     lateinit var binder: ItemBinder
 
+    @Inject
+    lateinit var preferences: ChatPreferencesProvider
+
     override fun onCreate(savedInstanceState: Bundle?) {
         val viewTitle = intent.getStringExtra(EXTRA_TITLE).takeIf { !it.isNullOrEmpty() }
             ?: getString(R.string.chat_activity)
@@ -40,7 +43,7 @@ class ChatActivity : AppCompatActivity(), ChatPresenter.ChatRouter {
         setContentView(R.layout.chat_activity)
 
         val adapter = SimpleRecyclerAdapter(adapterPresenter, binder)
-        val view = ChatViewImpl(window.decorView, adapter).apply { setTitle(viewTitle) }
+        val view = ChatViewImpl(window.decorView, preferences, adapter).apply { setTitle(viewTitle) }
 
         presenter.attachView(view)
     }

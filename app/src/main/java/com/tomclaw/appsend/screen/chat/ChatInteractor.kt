@@ -5,12 +5,15 @@ import com.tomclaw.appsend.dto.MessageEntity
 import com.tomclaw.appsend.dto.TopicEntity
 import com.tomclaw.appsend.screen.chat.api.SendMessageResponse
 import com.tomclaw.appsend.user.UserDataInteractor
+import com.tomclaw.appsend.util.RoleHelper
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.StringUtil
 import io.reactivex.rxjava3.core.Observable
 import retrofit2.http.Field
 
 interface ChatInteractor {
+
+    fun getUserRole(): Observable<Int>
 
     fun getTopic(topicId: Int): Observable<TopicEntity>
 
@@ -29,6 +32,14 @@ class ChatInteractorImpl(
     private val api: StoreApi,
     private val schedulers: SchedulersFactory
 ) : ChatInteractor {
+
+    override fun getUserRole(): Observable<Int> {
+        return userDataInteractor
+            .getUserData()
+            .map { it.role }
+            .toObservable()
+            .subscribeOn(schedulers.io())
+    }
 
     override fun getTopic(topicId: Int): Observable<TopicEntity> {
         return userDataInteractor

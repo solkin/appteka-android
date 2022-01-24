@@ -6,15 +6,18 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.ViewFlipper
 import android.widget.ViewSwitcher
+import androidx.annotation.MenuRes
 import androidx.appcompat.widget.Toolbar
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
+import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.util.ColorHelper.getAttributedColor
 import com.tomclaw.appsend.util.clicks
 import com.tomclaw.appsend.util.hideWithAlphaAnimation
 import com.tomclaw.appsend.util.showWithAlphaAnimation
@@ -44,6 +47,10 @@ interface ChatView {
 
     fun showSendError()
 
+    fun showBaseMessageDialog()
+
+    fun showExtendedMessageDialog()
+
     fun navigationClicks(): Observable<Unit>
 
     fun retryClicks(): Observable<Unit>
@@ -52,13 +59,17 @@ interface ChatView {
 
     fun sendClicks(): Observable<Unit>
 
+    fun msgMenuClicks(): Observable<Int>
+
 }
 
 class ChatViewImpl(
-    view: View,
+    private val view: View,
+    private val preferences: ChatPreferencesProvider,
     private val adapter: SimpleRecyclerAdapter
 ) : ChatView {
 
+    private val context = view.context
     private val flipper: ViewFlipper = view.findViewById(R.id.view_flipper)
     private val toolbar: Toolbar = view.findViewById(R.id.toolbar)
     private val retryButton: View = view.findViewById(R.id.button_retry)
@@ -73,6 +84,7 @@ class ChatViewImpl(
     private val retryRelay = PublishRelay.create<Unit>()
     private val messageEditRelay = PublishRelay.create<String>()
     private val sendRelay = PublishRelay.create<Unit>()
+    private val msgMenuRelay = PublishRelay.create<Int>()
 
     private val layoutManager: LinearLayoutManager
 
@@ -130,6 +142,29 @@ class ChatViewImpl(
         Snackbar.make(recycler, R.string.error_sending_message, Snackbar.LENGTH_LONG).show()
     }
 
+    override fun showBaseMessageDialog() {
+        showMessageDialog(R.menu.msg_base_menu)
+    }
+
+    override fun showExtendedMessageDialog() {
+        showMessageDialog(R.menu.msg_extended_menu)
+    }
+
+    private fun showMessageDialog(@MenuRes menuId: Int) {
+        val theme = R.style.BottomSheetDialogDark.takeIf { preferences.isDarkTheme() }
+            ?: R.style.BottomSheetDialogLight
+        BottomSheetBuilder(view.context, theme)
+            .setMode(BottomSheetBuilder.MODE_LIST)
+            .setIconTintColor(getAttributedColor(context, R.attr.menu_icons_tint))
+            .setItemTextColor(getAttributedColor(context, R.attr.text_primary_color))
+            .setMenu(menuId)
+            .setItemClickListener {
+                msgMenuRelay.accept(it.itemId)
+            }
+            .createDialog()
+            .show()
+    }
+
     @SuppressLint("NotifyDataSetChanged")
     override fun contentUpdated() {
         adapter.notifyDataSetChanged()
@@ -155,6 +190,14 @@ class ChatViewImpl(
 
     override fun sendClicks(): Observable<Unit> = sendRelay
 
+    override fun msgMenuClicks(): Observable<Int> = msgMenuRelay
+
 }
 
 private const val DURATION_MEDIUM = 300L
+
+const val ACTION_REPLY = 1
+const val ACTION_COPY = 2
+const val ACTION_OPEN_PROFILE = 3
+const val ACTION_REPORT = 4
+const val ACTION_DELETE = 5

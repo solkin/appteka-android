@@ -8,6 +8,8 @@ import com.tomclaw.appsend.dto.MessageEntity
 import com.tomclaw.appsend.dto.TopicEntity
 import com.tomclaw.appsend.events.EventsInteractor
 import com.tomclaw.appsend.screen.chat.adapter.ItemListener
+import com.tomclaw.appsend.util.RoleHelper
+import com.tomclaw.appsend.util.RoleHelper.ROLE_ADMIN
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -182,6 +184,18 @@ class ChatPresenterImpl(
     }
 
     override fun onItemClick(item: Item) {
+        subscriptions += chatInteractor.getUserRole()
+            .observeOn(schedulers.mainThread())
+            .subscribe(
+                { role ->
+                    if (role >= ROLE_ADMIN) {
+                        view?.showExtendedMessageDialog()
+                    } else {
+                        view?.showBaseMessageDialog()
+                    }
+                },
+                {}
+            )
     }
 
     override fun onLoadMore(msgId: Int) {

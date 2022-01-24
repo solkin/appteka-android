@@ -34,4 +34,5 @@ public class ColorHelper {
         a.recycle();
         return color;
     }
+
 }

@@ -63,6 +63,9 @@
     <color name="color_semitransparent">#baffffff</color>
     <color name="color_semitransparent_black">#cc000000</color>
 
+    <color name="icons_grey_light">#6a6a6a</color>
+    <color name="icons_grey_dark">#E1E1E1</color>
+
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/primary_color</item>
         <item name="colorPrimaryVariant">@color/primary_dark_color</item>
@@ -108,6 +111,9 @@
         <item name="three_stars">#ffffea5f</item>
         <item name="two_stars">#fff2bd69</item>
         <item name="one_stars">#fff08f74</item>
+
+        <item name="menu_icons_tint">@color/icons_grey_light</item>
+        <item name="semitransparent_color">@color/color_semitransparent</item>
 
         <item name="permissions_container_background">
             @color/permissions_container_light_background
@@ -160,6 +166,9 @@
         <item name="two_stars">#ff9d650e</item>
         <item name="one_stars">#ff902c10</item>
 
+        <item name="menu_icons_tint">@color/icons_grey_dark</item>
+        <item name="semitransparent_color">@color/color_semitransparent_black</item>
+
         <item name="permissions_container_background">@color/permissions_container_dark_background
         </item>
     </style>
@@ -192,6 +201,19 @@
     </style>
 
     <style name="MaterialButtonSecondaryOutline" parent="@style/Widget.MaterialComponents.Button.OutlinedButton">
+    </style>
+
+    <style name="BottomSheetDialogLight" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/BottomSheetStyle</item>
+    </style>
+
+    <style name="BottomSheetDialogDark" parent="Theme.MaterialComponents.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/BottomSheetStyle</item>
+    </style>
+
+    <style name="BottomSheetStyle" parent="Widget.MaterialComponents.BottomSheet.Modal">
+        <item name="behavior_hideable">true</item>
+        <item name="behavior_skipCollapsed">true</item>
     </style>
 
 </resources>
