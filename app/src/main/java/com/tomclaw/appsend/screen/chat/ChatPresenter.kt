@@ -8,7 +8,6 @@ import com.tomclaw.appsend.dto.MessageEntity
 import com.tomclaw.appsend.dto.TopicEntity
 import com.tomclaw.appsend.events.EventsInteractor
 import com.tomclaw.appsend.screen.chat.adapter.ItemListener
-import com.tomclaw.appsend.util.RoleHelper
 import com.tomclaw.appsend.util.RoleHelper.ROLE_ADMIN
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
@@ -42,6 +41,7 @@ class ChatPresenterImpl(
     private val converter: MessageConverter,
     private val chatInteractor: ChatInteractor,
     private val eventsInteractor: EventsInteractor,
+    private val resourceProvider: ChatResourceProvider,
     private val adapterPresenter: Lazy<AdapterPresenter>,
     private val schedulers: SchedulersFactory,
     state: Bundle?
@@ -72,6 +72,12 @@ class ChatPresenterImpl(
                 sendMessage()
             }
         }
+        subscriptions += view.msgReplyClicks()
+            .subscribe { message ->
+                messageText = resourceProvider.replyFormText(message.text)
+                view.setMessageText(messageText)
+                view.requestFocus()
+            }
 
         when {
             isError -> {
@@ -188,10 +194,13 @@ class ChatPresenterImpl(
             .observeOn(schedulers.mainThread())
             .subscribe(
                 { role ->
+                    val message = history?.findLast {
+                        it.msgId == item.id.toInt()
+                    } ?: return@subscribe
                     if (role >= ROLE_ADMIN) {
-                        view?.showExtendedMessageDialog()
+                        view?.showExtendedMessageDialog(message)
                     } else {
-                        view?.showBaseMessageDialog()
+                        view?.showBaseMessageDialog(message)
                     }
                 },
                 {}

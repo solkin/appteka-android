@@ -13,7 +13,7 @@
         android:icon="@drawable/ic_account"
         android:title="@string/profile" />
     <item
-        android:id="@+id/menu_report"
-        android:icon="@drawable/ic_delete"
+        android:id="@+id/menu_delete"
+        android:icon="@drawable/ic_alert"
         android:title="@string/report" />
 </menu>

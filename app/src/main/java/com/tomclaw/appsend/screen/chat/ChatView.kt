@@ -14,10 +14,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
 import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder
+import com.github.rubensousa.bottomsheetbuilder.BottomSheetMenuDialog
 import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.dto.MessageEntity
 import com.tomclaw.appsend.util.ColorHelper.getAttributedColor
+import com.tomclaw.appsend.util.KeyboardHelper
 import com.tomclaw.appsend.util.clicks
 import com.tomclaw.appsend.util.hideWithAlphaAnimation
 import com.tomclaw.appsend.util.showWithAlphaAnimation
@@ -28,6 +31,8 @@ interface ChatView {
     fun setTitle(title: String)
 
     fun setMessageText(messageText: String)
+
+    fun requestFocus()
 
     fun showProgress()
 
@@ -47,9 +52,9 @@ interface ChatView {
 
     fun showSendError()
 
-    fun showBaseMessageDialog()
+    fun showBaseMessageDialog(message: MessageEntity)
 
-    fun showExtendedMessageDialog()
+    fun showExtendedMessageDialog(message: MessageEntity)
 
     fun navigationClicks(): Observable<Unit>
 
@@ -59,7 +64,13 @@ interface ChatView {
 
     fun sendClicks(): Observable<Unit>
 
-    fun msgMenuClicks(): Observable<Int>
+    fun msgReplyClicks(): Observable<MessageEntity>
+
+    fun msgCopyClicks(): Observable<MessageEntity>
+
+    fun openProfileClicks(): Observable<MessageEntity>
+
+    fun msgDeleteClicks(): Observable<MessageEntity>
 
 }
 
@@ -84,7 +95,10 @@ class ChatViewImpl(
     private val retryRelay = PublishRelay.create<Unit>()
     private val messageEditRelay = PublishRelay.create<String>()
     private val sendRelay = PublishRelay.create<Unit>()
-    private val msgMenuRelay = PublishRelay.create<Int>()
+    private val msgReplyRelay = PublishRelay.create<MessageEntity>()
+    private val msgCopyRelay = PublishRelay.create<MessageEntity>()
+    private val openProfileRelay = PublishRelay.create<MessageEntity>()
+    private val msgDeleteRelay = PublishRelay.create<MessageEntity>()
 
     private val layoutManager: LinearLayoutManager
 
@@ -115,6 +129,11 @@ class ChatViewImpl(
         messageEdit.setText(messageText, TextView.BufferType.EDITABLE)
     }
 
+    override fun requestFocus() {
+        messageEdit.setSelection(messageEdit.length())
+        messageEdit.requestFocus()
+    }
+
     override fun showProgress() {
         flipper.displayedChild = 0
         overlayProgress.showWithAlphaAnimation(animateFully = true)
@@ -142,15 +161,15 @@ class ChatViewImpl(
         Snackbar.make(recycler, R.string.error_sending_message, Snackbar.LENGTH_LONG).show()
     }
 
-    override fun showBaseMessageDialog() {
-        showMessageDialog(R.menu.msg_base_menu)
+    override fun showBaseMessageDialog(message: MessageEntity) {
+        showMessageDialog(message, R.menu.msg_base_menu)
     }
 
-    override fun showExtendedMessageDialog() {
-        showMessageDialog(R.menu.msg_extended_menu)
+    override fun showExtendedMessageDialog(message: MessageEntity) {
+        showMessageDialog(message, R.menu.msg_extended_menu)
     }
 
-    private fun showMessageDialog(@MenuRes menuId: Int) {
+    private fun showMessageDialog(message: MessageEntity, @MenuRes menuId: Int) {
         val theme = R.style.BottomSheetDialogDark.takeIf { preferences.isDarkTheme() }
             ?: R.style.BottomSheetDialogLight
         BottomSheetBuilder(view.context, theme)
@@ -159,7 +178,12 @@ class ChatViewImpl(
             .setItemTextColor(getAttributedColor(context, R.attr.text_primary_color))
             .setMenu(menuId)
             .setItemClickListener {
-                msgMenuRelay.accept(it.itemId)
+                when (it.itemId) {
+                    R.id.menu_reply -> msgReplyRelay.accept(message)
+                    R.id.menu_copy -> msgCopyRelay.accept(message)
+                    R.id.menu_profile -> openProfileRelay.accept(message)
+                    R.id.menu_delete -> msgDeleteRelay.accept(message)
+                }
             }
             .createDialog()
             .show()
@@ -190,14 +214,14 @@ class ChatViewImpl(
 
     override fun sendClicks(): Observable<Unit> = sendRelay
 
-    override fun msgMenuClicks(): Observable<Int> = msgMenuRelay
+    override fun msgReplyClicks(): Observable<MessageEntity> = msgReplyRelay
+
+    override fun msgCopyClicks(): Observable<MessageEntity> = msgCopyRelay
+
+    override fun openProfileClicks(): Observable<MessageEntity> = openProfileRelay
+
+    override fun msgDeleteClicks(): Observable<MessageEntity> = msgDeleteRelay
 
 }
 
 private const val DURATION_MEDIUM = 300L
-
-const val ACTION_REPLY = 1
-const val ACTION_COPY = 2
-const val ACTION_OPEN_PROFILE = 3
-const val ACTION_REPORT = 4
-const val ACTION_DELETE = 5

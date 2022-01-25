@@ -38,6 +38,7 @@ class ChatModule(
         converter: MessageConverter,
         chatInteractor: ChatInteractor,
         eventsInteractor: EventsInteractor,
+        resourceProvider: ChatResourceProvider,
         adapterPresenter: Lazy<AdapterPresenter>,
         schedulers: SchedulersFactory
     ): ChatPresenter = ChatPresenterImpl(
@@ -45,6 +46,7 @@ class ChatModule(
         converter,
         chatInteractor,
         eventsInteractor,
+        resourceProvider,
         adapterPresenter,
         schedulers,
         state
