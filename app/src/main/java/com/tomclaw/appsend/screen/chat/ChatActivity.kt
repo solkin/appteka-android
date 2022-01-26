@@ -9,6 +9,7 @@ import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.main.profile.ProfileActivity.createProfileActivityIntent
 import com.tomclaw.appsend.screen.chat.di.ChatModule
 import com.tomclaw.appsend.util.ThemeHelper
 import javax.inject.Inject
@@ -43,7 +44,8 @@ class ChatActivity : AppCompatActivity(), ChatPresenter.ChatRouter {
         setContentView(R.layout.chat_activity)
 
         val adapter = SimpleRecyclerAdapter(adapterPresenter, binder)
-        val view = ChatViewImpl(window.decorView, preferences, adapter).apply { setTitle(viewTitle) }
+        val view =
+            ChatViewImpl(window.decorView, preferences, adapter).apply { setTitle(viewTitle) }
 
         presenter.attachView(view)
     }
@@ -70,6 +72,11 @@ class ChatActivity : AppCompatActivity(), ChatPresenter.ChatRouter {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putBundle(KEY_PRESENTER_STATE, presenter.saveState())
+    }
+
+    override fun openProfileScreen(userId: Int) {
+        val intent = createProfileActivityIntent(this, userId)
+        startActivity(intent)
     }
 
     override fun leaveScreen() {

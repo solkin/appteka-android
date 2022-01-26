@@ -4,6 +4,7 @@ import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
 import static com.tomclaw.appsend.util.IntentHelper.shareUrl;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -173,4 +174,9 @@ public class ProfileActivity extends AppCompatActivity {
             startActivity(intent);
         }
     }
+
+    public static Intent createProfileActivityIntent(Context context, int userId) {
+        return ProfileActivity_.intent(context).userId((long) userId).get();
+    }
+
 }

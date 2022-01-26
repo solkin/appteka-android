@@ -30,6 +30,8 @@ interface ChatPresenter : ItemListener {
 
     interface ChatRouter {
 
+        fun openProfileScreen(userId: Int)
+
         fun leaveScreen()
 
     }
@@ -72,12 +74,14 @@ class ChatPresenterImpl(
                 sendMessage()
             }
         }
-        subscriptions += view.msgReplyClicks()
-            .subscribe { message ->
-                messageText = resourceProvider.replyFormText(message.text)
-                view.setMessageText(messageText)
-                view.requestFocus()
-            }
+        subscriptions += view.msgReplyClicks().subscribe { message ->
+            messageText = resourceProvider.replyFormText(message.text)
+            view.setMessageText(messageText)
+            view.requestFocus()
+        }
+        subscriptions += view.openProfileClicks().subscribe { message ->
+            router?.openProfileScreen(message.userId)
+        }
 
         when {
             isError -> {
