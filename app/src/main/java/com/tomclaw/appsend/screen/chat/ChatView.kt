@@ -1,6 +1,9 @@
 package com.tomclaw.appsend.screen.chat
 
 import android.annotation.SuppressLint
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
@@ -14,16 +17,12 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
 import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder
-import com.github.rubensousa.bottomsheetbuilder.BottomSheetMenuDialog
 import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.dto.MessageEntity
+import com.tomclaw.appsend.util.*
 import com.tomclaw.appsend.util.ColorHelper.getAttributedColor
-import com.tomclaw.appsend.util.KeyboardHelper
-import com.tomclaw.appsend.util.clicks
-import com.tomclaw.appsend.util.hideWithAlphaAnimation
-import com.tomclaw.appsend.util.showWithAlphaAnimation
 import io.reactivex.rxjava3.core.Observable
 
 interface ChatView {
@@ -51,6 +50,8 @@ interface ChatView {
     fun showSendProgress()
 
     fun showSendError()
+
+    fun copyToClipboard(text: String)
 
     fun showBaseMessageDialog(message: MessageEntity)
 
@@ -159,6 +160,11 @@ class ChatViewImpl(
 
     override fun showSendError() {
         Snackbar.make(recycler, R.string.error_sending_message, Snackbar.LENGTH_LONG).show()
+    }
+
+    override fun copyToClipboard(text: String) {
+        val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        clipboard.setPrimaryClip(ClipData.newPlainText("", text))
     }
 
     override fun showBaseMessageDialog(message: MessageEntity) {

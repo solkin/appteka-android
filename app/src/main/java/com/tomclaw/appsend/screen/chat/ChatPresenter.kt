@@ -79,6 +79,9 @@ class ChatPresenterImpl(
             view.setMessageText(messageText)
             view.requestFocus()
         }
+        subscriptions += view.msgCopyClicks().subscribe { message ->
+            view.copyToClipboard(message.text)
+        }
         subscriptions += view.openProfileClicks().subscribe { message ->
             router?.openProfileScreen(message.userId)
         }
