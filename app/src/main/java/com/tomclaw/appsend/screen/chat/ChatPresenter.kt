@@ -197,14 +197,14 @@ class ChatPresenterImpl(
     }
 
     override fun onItemClick(item: Item) {
-        subscriptions += chatInteractor.getUserRole()
+        subscriptions += chatInteractor.getUserData()
             .observeOn(schedulers.mainThread())
             .subscribe(
-                { role ->
+                { userData ->
                     val message = history?.findLast {
                         it.msgId == item.id.toInt()
                     } ?: return@subscribe
-                    if (role >= ROLE_ADMIN) {
+                    if (userData.role >= ROLE_ADMIN || userData.userId == message.userId) {
                         view?.showExtendedMessageDialog(message)
                     } else {
                         view?.showBaseMessageDialog(message)

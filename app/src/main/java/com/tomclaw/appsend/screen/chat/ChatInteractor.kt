@@ -3,6 +3,7 @@ package com.tomclaw.appsend.screen.chat
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.dto.MessageEntity
 import com.tomclaw.appsend.dto.TopicEntity
+import com.tomclaw.appsend.dto.UserData
 import com.tomclaw.appsend.screen.chat.api.SendMessageResponse
 import com.tomclaw.appsend.user.UserDataInteractor
 import com.tomclaw.appsend.util.RoleHelper
@@ -13,7 +14,7 @@ import retrofit2.http.Field
 
 interface ChatInteractor {
 
-    fun getUserRole(): Observable<Int>
+    fun getUserData(): Observable<UserData>
 
     fun getTopic(topicId: Int): Observable<TopicEntity>
 
@@ -33,10 +34,9 @@ class ChatInteractorImpl(
     private val schedulers: SchedulersFactory
 ) : ChatInteractor {
 
-    override fun getUserRole(): Observable<Int> {
+    override fun getUserData(): Observable<UserData> {
         return userDataInteractor
             .getUserData()
-            .map { it.role }
             .toObservable()
             .subscribeOn(schedulers.io())
     }
