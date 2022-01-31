@@ -57,6 +57,10 @@ interface ChatView {
 
     fun showExtendedMessageDialog(message: MessageEntity)
 
+    fun showReportSuccess()
+
+    fun showReportFailed()
+
     fun navigationClicks(): Observable<Unit>
 
     fun retryClicks(): Observable<Unit>
@@ -71,7 +75,7 @@ interface ChatView {
 
     fun openProfileClicks(): Observable<MessageEntity>
 
-    fun msgDeleteClicks(): Observable<MessageEntity>
+    fun msgReportClicks(): Observable<MessageEntity>
 
 }
 
@@ -99,7 +103,7 @@ class ChatViewImpl(
     private val msgReplyRelay = PublishRelay.create<MessageEntity>()
     private val msgCopyRelay = PublishRelay.create<MessageEntity>()
     private val openProfileRelay = PublishRelay.create<MessageEntity>()
-    private val msgDeleteRelay = PublishRelay.create<MessageEntity>()
+    private val msgReportRelay = PublishRelay.create<MessageEntity>()
 
     private val layoutManager: LinearLayoutManager
 
@@ -188,11 +192,19 @@ class ChatViewImpl(
                     R.id.menu_reply -> msgReplyRelay.accept(message)
                     R.id.menu_copy -> msgCopyRelay.accept(message)
                     R.id.menu_profile -> openProfileRelay.accept(message)
-                    R.id.menu_delete -> msgDeleteRelay.accept(message)
+                    R.id.menu_report -> msgReportRelay.accept(message)
                 }
             }
             .createDialog()
             .show()
+    }
+
+    override fun showReportSuccess() {
+        Snackbar.make(recycler, R.string.message_report_sent, Snackbar.LENGTH_LONG).show()
+    }
+
+    override fun showReportFailed() {
+        Snackbar.make(recycler, R.string.error_message_report, Snackbar.LENGTH_LONG).show()
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -226,7 +238,7 @@ class ChatViewImpl(
 
     override fun openProfileClicks(): Observable<MessageEntity> = openProfileRelay
 
-    override fun msgDeleteClicks(): Observable<MessageEntity> = msgDeleteRelay
+    override fun msgReportClicks(): Observable<MessageEntity> = msgReportRelay
 
 }
 

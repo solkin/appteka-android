@@ -5,6 +5,7 @@ import com.tomclaw.appsend.events.EventsResponse
 import com.tomclaw.appsend.main.dto.ApiResponse
 import com.tomclaw.appsend.main.meta.MetaResponse
 import com.tomclaw.appsend.screen.chat.api.HistoryResponse
+import com.tomclaw.appsend.screen.chat.api.ReportMessageResponse
 import com.tomclaw.appsend.screen.chat.api.SendMessageResponse
 import com.tomclaw.appsend.screen.chat.api.TopicInfoResponse
 import com.tomclaw.appsend.screen.moderation.api.ModerationResponse
@@ -64,5 +65,12 @@ interface StoreApi {
         @Field("attachment") attachment: String?,
         @Field("cookie") cookie: String
     ): Single<StoreResponse<SendMessageResponse>>
+
+    @FormUrlEncoded
+    @POST("1/chat/report")
+    fun reportMessage(
+        @Field("guid") guid: String,
+        @Field("msg_id") msgId: Int
+    ): Single<StoreResponse<ReportMessageResponse>>
 
 }

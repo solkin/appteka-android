@@ -85,6 +85,9 @@ class ChatPresenterImpl(
         subscriptions += view.openProfileClicks().subscribe { message ->
             router?.openProfileScreen(message.userId)
         }
+        subscriptions += view.msgReportClicks().subscribe { message ->
+            reportMessage(message.msgId)
+        }
 
         when {
             isError -> {
@@ -190,6 +193,15 @@ class ChatPresenterImpl(
     private fun onTopicError() {
         isError = true
         view?.showError()
+    }
+
+    private fun reportMessage(msgId: Int) {
+        subscriptions += chatInteractor.reportMessage(msgId)
+            .observeOn(schedulers.mainThread())
+            .subscribe(
+                { view?.showReportSuccess() },
+                { view?.showReportFailed() }
+            )
     }
 
     override fun onBackPressed() {
