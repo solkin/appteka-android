@@ -119,6 +119,33 @@ class ChatPresenterImpl(
                         view.contentRangeInserted(0, 1)
                     }
                 }
+                response.deleted?.let { messages ->
+                    val deletedIndexes = ArrayList<Int>()
+
+                    messages
+                        .filter { it.topicId == topicId }
+                        .forEach { delMsg ->
+                            history
+                                ?.binarySearch { it.msgId.compareTo(delMsg.msgId) }
+                                ?.takeIf { it >= 0 }
+                                ?.let { deletedIndexes += it }
+                        }
+
+                    val mutableHistory = history?.toMutableList()
+                    deletedIndexes.forEach { index ->
+                        mutableHistory?.removeAt(index)
+                    }
+                    history = mutableHistory
+
+                    val items = convertHistory()
+
+                    val dataSource = ListDataSource(items)
+                    adapterPresenter.get().onDataSourceChanged(dataSource)
+
+                    deletedIndexes.forEach { index ->
+                        view.contentItemRemoved(items.size - index)
+                    }
+                }
             }
     }
 

@@ -43,6 +43,8 @@ interface ChatView {
 
     fun contentRangeInserted(position: Int, count: Int)
 
+    fun contentItemRemoved(position: Int)
+
     fun showError()
 
     fun showSendButton()
@@ -222,6 +224,10 @@ class ChatViewImpl(
         if (visiblePosition == 0) {
             recycler.scrollToPosition(position)
         }
+    }
+
+    override fun contentItemRemoved(position: Int) {
+        adapter.notifyItemRemoved(position)
     }
 
     override fun navigationClicks(): Observable<Unit> = navigationRelay
