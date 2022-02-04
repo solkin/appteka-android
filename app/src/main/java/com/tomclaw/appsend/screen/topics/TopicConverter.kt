@@ -30,6 +30,7 @@ class TopicConverterImpl(
             packageName = entity.packageName,
             isPinned = entity.isPinned,
             hasUnread = entity.readMsgId != entity.lastMsg.msgId,
+            lastMsgId = entity.lastMsg.msgId,
             lastMsgText = entity.lastMsg.text,
             lastMsgUserIcon = entity.lastMsg.userIcon,
         )

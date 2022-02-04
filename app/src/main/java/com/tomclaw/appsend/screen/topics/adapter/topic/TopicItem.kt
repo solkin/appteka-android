@@ -14,6 +14,7 @@ data class TopicItem(
     val packageName: String?,
     val isPinned: Boolean,
     val hasUnread: Boolean,
+    val lastMsgId: Int,
     val lastMsgText: String,
     val lastMsgUserIcon: UserIcon,
     var hasMore: Boolean = false,

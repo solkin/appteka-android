@@ -4,10 +4,10 @@ import android.os.Bundle
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.blueprint.Item
 import com.avito.konveyor.data_source.ListDataSource
-import com.tomclaw.appsend.screen.topics.adapter.ItemListener
-import com.tomclaw.appsend.screen.topics.adapter.topic.TopicItem
 import com.tomclaw.appsend.dto.TopicEntity
 import com.tomclaw.appsend.events.EventsInteractor
+import com.tomclaw.appsend.screen.topics.adapter.ItemListener
+import com.tomclaw.appsend.screen.topics.adapter.topic.TopicItem
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -93,6 +93,16 @@ class TopicsPresenterImpl(
                     adapterPresenter.get().onDataSourceChanged(dataSource)
                     view.contentUpdated()
                 }
+                response.deleted?.let { messages ->
+                    messages.forEach { delMsg ->
+                        items?.forEach { topic ->
+                            if (topic.lastMsgId == delMsg.msgId) {
+                                loadTopics()
+                                return@let
+                            }
+                        }
+                    }
+                }
             }
     }
 
@@ -117,7 +127,10 @@ class TopicsPresenterImpl(
     private fun loadTopics() {
         subscriptions += topicsInteractor.listTopics()
             .observeOn(schedulers.mainThread())
-            .doOnSubscribe { view?.showProgress() }
+            .doOnSubscribe {
+                items = null
+                view?.showProgress()
+            }
             .doAfterTerminate { onReady() }
             .subscribe(
                 { onLoaded(it) },
