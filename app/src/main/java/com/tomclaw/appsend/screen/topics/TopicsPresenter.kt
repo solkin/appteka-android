@@ -1,6 +1,7 @@
 package com.tomclaw.appsend.screen.topics
 
 import android.os.Bundle
+import android.util.Log
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.blueprint.Item
 import com.avito.konveyor.data_source.ListDataSource
@@ -192,6 +193,10 @@ class TopicsPresenterImpl(
     override fun onItemClick(item: Item) {
         val topicItem = items?.find { it.id == item.id } ?: return
         router?.showChatScreen(topicItem.id.toInt(), topicItem.title)
+    }
+
+    override fun onItemLongClick(item: Item) {
+        Log.d("~@~", "long click")
     }
 
     override fun onRetryClick(item: Item) {

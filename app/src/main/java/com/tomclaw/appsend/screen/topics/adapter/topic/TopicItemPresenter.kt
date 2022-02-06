@@ -29,6 +29,7 @@ class TopicItemPresenter(
         if (item.hasProgress) view.showProgress() else view.hideProgress()
         if (item.hasError) view.showError() else view.hideError()
         view.setOnClickListener { listener.onItemClick(item) }
+        view.setOnLongClickListener { listener.onItemLongClick(item) }
         view.setOnRetryListener { listener.onRetryClick(item) }
     }
 

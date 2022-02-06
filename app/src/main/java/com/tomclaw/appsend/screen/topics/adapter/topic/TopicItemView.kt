@@ -42,6 +42,8 @@ interface TopicItemView : ItemView {
 
     fun setOnClickListener(listener: (() -> Unit)?)
 
+    fun setOnLongClickListener(listener: (() -> Unit)?)
+
     fun setOnRetryListener(listener: (() -> Unit)?)
 
 }
@@ -58,10 +60,12 @@ class TopicItemViewHolder(view: View) : BaseViewHolder(view), TopicItemView {
     private val retryButton: View = view.findViewById(R.id.button_retry)
 
     private var clickListener: (() -> Unit)? = null
+    private var longClickListener: (() -> Unit)? = null
     private var retryListener: (() -> Unit)? = null
 
     init {
         view.setOnClickListener { clickListener?.invoke() }
+        view.setOnLongClickListener { longClickListener?.invoke()?.let { true } ?: false }
         retryButton.setOnClickListener { retryListener?.invoke() }
     }
 
@@ -116,6 +120,10 @@ class TopicItemViewHolder(view: View) : BaseViewHolder(view), TopicItemView {
 
     override fun setOnClickListener(listener: (() -> Unit)?) {
         this.clickListener = listener
+    }
+
+    override fun setOnLongClickListener(listener: (() -> Unit)?) {
+        this.longClickListener = listener
     }
 
     override fun setOnRetryListener(listener: (() -> Unit)?) {
