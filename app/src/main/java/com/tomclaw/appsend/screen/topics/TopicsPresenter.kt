@@ -1,7 +1,6 @@
 package com.tomclaw.appsend.screen.topics
 
 import android.os.Bundle
-import android.util.Log
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.blueprint.Item
 import com.avito.konveyor.data_source.ListDataSource
@@ -64,6 +63,10 @@ class TopicsPresenterImpl(
             loadTopics()
         }
 
+        subscriptions += view.pinTopicClicks().subscribe { topic ->
+            pinTopic(topicId = topic.id.toInt())
+        }
+
         if (preferences.isShowIntro()) {
             view.showIntro()
         } else {
@@ -80,8 +83,11 @@ class TopicsPresenterImpl(
             .subscribe { response ->
                 println("[polling] event received (topics)")
                 response.topics?.let { topics ->
+                    val isInvalidateTopics = response.invalidateTopics ?: false
                     val topItems = ArrayList<TopicItem>()
-                    val filteredItems = ArrayList(items ?: emptyList())
+                    val filteredItems = ArrayList(
+                        items?.takeUnless { isInvalidateTopics } ?: emptyList()
+                    )
 
                     topics.forEach { topic ->
                         topItems.add(converter.convert(topic))
@@ -93,16 +99,6 @@ class TopicsPresenterImpl(
                     val dataSource = ListDataSource(newItems)
                     adapterPresenter.get().onDataSourceChanged(dataSource)
                     view.contentUpdated()
-                }
-                response.deleted?.let { messages ->
-                    messages.forEach { delMsg ->
-                        items?.forEach { topic ->
-                            if (topic.lastMsgId == delMsg.msgId) {
-                                loadTopics()
-                                return@let
-                            }
-                        }
-                    }
                 }
             }
     }
@@ -190,13 +186,20 @@ class TopicsPresenterImpl(
             }
     }
 
+    private fun pinTopic(topicId: Int) {
+        subscriptions += topicsInteractor.pinTopic(topicId)
+            .observeOn(schedulers.mainThread())
+            .subscribe({ }, { view?.showPinFailed() })
+    }
+
     override fun onItemClick(item: Item) {
         val topicItem = items?.find { it.id == item.id } ?: return
         router?.showChatScreen(topicItem.id.toInt(), topicItem.title)
     }
 
     override fun onItemLongClick(item: Item) {
-        Log.d("~@~", "long click")
+        val topicItem = items?.find { it.id == item.id } ?: return
+        view?.showMessageDialog(topicItem)
     }
 
     override fun onRetryClick(item: Item) {

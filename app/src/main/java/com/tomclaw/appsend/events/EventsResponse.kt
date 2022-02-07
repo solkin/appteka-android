@@ -11,6 +11,8 @@ class EventsResponse(
     val messages: List<MessageEntity>?,
     @SerializedName("topics")
     val topics: List<TopicEntity>?,
+    @SerializedName("inv_topics")
+    val invalidateTopics: Boolean?,
     @SerializedName("deleted")
     val deleted: List<MessageEntity>?,
 )

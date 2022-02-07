@@ -279,4 +279,7 @@
     <string name="topic_common_qna">Common questions</string>
     <string name="chat_activity">Chat</string>
     <string name="unsupported_message">This message type is not supported. Please, update Appteka.</string>
+    <string name="pin">Pin chat</string>
+    <string name="unpin">Pin chat off</string>
+    <string name="error_topic_pin">Unable to change chat pin</string>
 </resources>

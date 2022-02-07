@@ -86,7 +86,7 @@
             android:layout_height="36dp"
             android:layout_gravity="end|center_vertical"
             android:padding="8dp"
-            android:src="@drawable/ic_baseline_push_pin_24"
+            android:src="@drawable/ic_pin"
             app:tint="?text_secondary_color" />
 
     </LinearLayout>

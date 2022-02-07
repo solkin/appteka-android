@@ -9,6 +9,7 @@ import com.tomclaw.appsend.screen.chat.api.ReportMessageResponse
 import com.tomclaw.appsend.screen.chat.api.SendMessageResponse
 import com.tomclaw.appsend.screen.chat.api.TopicInfoResponse
 import com.tomclaw.appsend.screen.moderation.api.ModerationResponse
+import com.tomclaw.appsend.screen.topics.api.PinTopicResponse
 import com.tomclaw.appsend.screen.topics.api.TopicsResponse
 import com.tomclaw.appsend.user.api.UserDataResponse
 import io.reactivex.rxjava3.core.Single
@@ -35,6 +36,13 @@ interface StoreApi {
         @Query("guid") guid: String,
         @Query("topic_id") topicId: Int
     ): Single<StoreResponse<TopicInfoResponse>>
+
+    @FormUrlEncoded
+    @POST("1/chat/topic/pin")
+    fun pinTopic(
+        @Field("guid") guid: String,
+        @Field("topic_id") topicId: Int
+    ): Single<StoreResponse<PinTopicResponse>>
 
     @GET("1/chat/history")
     fun getChatHistory(

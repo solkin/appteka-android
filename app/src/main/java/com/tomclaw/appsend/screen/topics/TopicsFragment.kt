@@ -23,6 +23,9 @@ class TopicsFragment : HomeFragment(), TopicsPresenter.TopicsRouter {
     lateinit var adapterPresenter: AdapterPresenter
 
     @Inject
+    lateinit var preferences: TopicsPreferencesProvider
+
+    @Inject
     lateinit var binder: ItemBinder
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,7 +47,7 @@ class TopicsFragment : HomeFragment(), TopicsPresenter.TopicsRouter {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val adapter = SimpleRecyclerAdapter(adapterPresenter, binder)
-        val topicsView = TopicsViewImpl(view, adapter)
+        val topicsView = TopicsViewImpl(view, preferences, adapter)
 
         presenter.attachView(topicsView)
     }
