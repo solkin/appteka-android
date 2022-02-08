@@ -144,6 +144,7 @@ public class UploadController extends AbstractController<UploadController.Upload
         final long size = apk.length() + icon.length;
         String apkName = ExportApkTask.getApkName(item);
         String iconName = ExportApkTask.getIconName(item);
+        String label = item.getLabel();
         String guid = null;
         if (Session.getInstance().getUserData().isRegistered()) {
             guid = Session.getInstance().getUserData().getGuid();
@@ -198,6 +199,7 @@ public class UploadController extends AbstractController<UploadController.Upload
             if (!TextUtils.isEmpty(guid)) {
                 multipartStream.writePart("guid", guid);
             }
+            multipartStream.writePart("label", label);
             multipartStream.writePart("icon_file", iconName, iconStream, "image/png", emptyHandler);
             multipartStream.writePart("apk_file", apkName, apkStream, "application/vnd.android.package-archive", handler);
             multipartStream.writeLastBoundaryIfNeeds();
