@@ -282,4 +282,6 @@
     <string name="pin">Pin chat</string>
     <string name="unpin">Pin chat off</string>
     <string name="error_topic_pin">Unable to change chat pin</string>
+    <string name="discuss_app">Discuss</string>
+    <string name="error_app_topic_creation">Failed to open application topic</string>
 </resources>

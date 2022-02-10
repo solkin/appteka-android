@@ -2,6 +2,7 @@ package com.tomclaw.appsend.core;
 
 import com.tomclaw.appsend.dto.StoreResponse;
 import com.tomclaw.appsend.main.auth.AuthResponse;
+import com.tomclaw.appsend.main.download.CreateTopicResponse;
 import com.tomclaw.appsend.main.dto.AbuseResult;
 import com.tomclaw.appsend.main.dto.ApiResponse;
 import com.tomclaw.appsend.main.dto.StoreInfo;
@@ -184,6 +185,12 @@ public interface StoreService {
     Call<ApiResponse<EliminateUserResponse>> eliminateUser(
             @Query("guid") String guid,
             @Query("user_id") Long userId
+    );
+
+    @POST("api/1/chat/topic/create")
+    Call<ApiResponse<CreateTopicResponse>> createTopic(
+            @Query("guid") String guid,
+            @Query("package") String packageName
     );
 
 }

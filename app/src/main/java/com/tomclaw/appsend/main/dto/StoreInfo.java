@@ -28,6 +28,8 @@ public class StoreInfo implements Parcelable, Unobfuscatable {
     @SerializedName("user_rating")
     public UserRating userRating;
     public String[] actions;
+    @SerializedName("topic_id")
+    private int topicId;
 
     public StoreInfo() {
     }
@@ -42,6 +44,7 @@ public class StoreInfo implements Parcelable, Unobfuscatable {
         rates = in.createTypedArrayList(RatingItem.CREATOR);
         userRating = in.readParcelable(UserRating.class.getClassLoader());
         actions = in.createStringArray();
+        topicId = in.readInt();
     }
 
     @Override
@@ -55,6 +58,7 @@ public class StoreInfo implements Parcelable, Unobfuscatable {
         dest.writeTypedList(rates);
         dest.writeParcelable(userRating, flags);
         dest.writeStringArray(actions);
+        dest.writeInt(topicId);
     }
 
     @Override
@@ -100,6 +104,10 @@ public class StoreInfo implements Parcelable, Unobfuscatable {
 
     public String[] getActions() {
         return actions;
+    }
+
+    public int getTopicId() {
+        return topicId;
     }
 
     public static final Creator<StoreInfo> CREATOR = new Creator<StoreInfo>() {

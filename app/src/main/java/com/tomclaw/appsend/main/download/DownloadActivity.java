@@ -2,6 +2,7 @@ package com.tomclaw.appsend.main.download;
 
 import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
 import static com.tomclaw.appsend.main.ratings.RatingsHelper.tintRatingIndicator;
+import static com.tomclaw.appsend.screen.chat.ChatActivityKt.createChatActivityIntent;
 import static com.tomclaw.appsend.util.ColorHelper.getAttributedColor;
 import static com.tomclaw.appsend.util.FileHelper.getExternalDirectory;
 import static com.tomclaw.appsend.util.IntentHelper.formatText;
@@ -62,6 +63,7 @@ import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.core.StoreServiceHolder;
 import com.tomclaw.appsend.core.StoreServiceHolder_;
 import com.tomclaw.appsend.dto.StoreResponse;
+import com.tomclaw.appsend.dto.TopicEntity;
 import com.tomclaw.appsend.dto.UserIcon;
 import com.tomclaw.appsend.main.abuse.AbuseActivity_;
 import com.tomclaw.appsend.main.dto.ApiResponse;
@@ -184,6 +186,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     private MenuItem abuseItem;
     private View metaContainer;
     private View editMeta;
+    private View discussButton;
 
     private StoreInfo info;
 
@@ -306,6 +309,8 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         metaContainer = findViewById(R.id.meta_container);
         editMeta = findViewById(R.id.edit_meta);
 
+        discussButton = findViewById(R.id.discuss_button);
+
         swipeRefresh.setOnRefreshListener(this::reloadInfo);
         findViewById(R.id.button_cancel).setOnClickListener(v -> cancelDownload());
         findViewById(R.id.button_retry).setOnClickListener(v -> reloadInfo());
@@ -318,6 +323,10 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         findViewById(R.id.play_button).setOnClickListener(v -> {
             openGooglePlay(DownloadActivity.this, info.getItem().getPackageName());
             trackEvent("click-google-play");
+        });
+        discussButton.setOnClickListener(v -> {
+            discussApp(info.getTopicId(), info.getItem());
+            trackEvent("click-discuss");
         });
         metaContainer.setOnClickListener(v -> editMeta());
         findViewById(R.id.submit_rating).setOnClickListener(v -> submitRating());
@@ -357,6 +366,39 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         if (isCreateInstance) {
             loadInfo();
             trackEvent("open-download-screen");
+        }
+    }
+
+    private void discussApp(int topicId, StoreItem storeItem) {
+        if (topicId != 0) {
+            Intent intent = createChatActivityIntent(this, topicId, storeItem.getLabel());
+            startActivity(intent);
+        } else {
+            discussButton.setEnabled(false);
+            String guid = Session.getInstance().getUserData().getGuid();
+            Call<ApiResponse<CreateTopicResponse>> call = serviceHolder.getService().createTopic(guid, storeItem.getPackageName());
+            call.enqueue(new Callback<ApiResponse<CreateTopicResponse>>() {
+                @Override
+                public void onResponse(Call<ApiResponse<CreateTopicResponse>> call, final Response<ApiResponse<CreateTopicResponse>> response) {
+                    MainExecutor.execute(() -> {
+                        discussButton.setEnabled(true);
+                        ApiResponse<CreateTopicResponse> body = response.body();
+                        if (response.isSuccessful() && body != null) {
+                            TopicEntity topic = body.getResult().getTopic();
+                            Intent intent = createChatActivityIntent(DownloadActivity.this, topic.getTopicId(), topic.getTitle());
+                            startActivity(intent);
+                            return;
+                        }
+                        MainExecutor.execute(() -> Toast.makeText(DownloadActivity.this, R.string.error_app_topic_creation, Toast.LENGTH_LONG).show());
+                    });
+                }
+
+                @Override
+                public void onFailure(Call<ApiResponse<CreateTopicResponse>> call, Throwable t) {
+                    discussButton.setEnabled(true);
+                    MainExecutor.execute(() -> Toast.makeText(DownloadActivity.this, R.string.error_app_topic_creation, Toast.LENGTH_LONG).show());
+                }
+            });
         }
     }
 
