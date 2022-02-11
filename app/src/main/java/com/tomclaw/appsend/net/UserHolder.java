@@ -1,8 +1,16 @@
 package com.tomclaw.appsend.net;
 
 import android.content.Context;
+import android.text.TextUtils;
 
+import androidx.annotation.NonNull;
+
+import com.tomclaw.appsend.core.MainExecutor;
+import com.tomclaw.appsend.core.StoreServiceHolder;
+import com.tomclaw.appsend.core.StoreServiceHolder_;
 import com.tomclaw.appsend.dto.UserIcon;
+import com.tomclaw.appsend.main.dto.ApiResponse;
+import com.tomclaw.appsend.main.profile.ProfileResponse;
 import com.tomclaw.appsend.util.GsonSingleton;
 import com.tomclaw.appsend.util.LegacyLogger;
 
@@ -15,6 +23,10 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by Igor on 03.07.2015.
@@ -148,6 +160,32 @@ public class UserHolder {
         final UserData data = userData;
         if (data != null) {
             listener.onUserDataChanged(data);
+        }
+    }
+
+    public void reloadProfile(StoreServiceHolder serviceHolder) {
+        String guid = userData.getGuid();
+        long userId = userData.getUserId();
+        if (!TextUtils.isEmpty(guid)) {
+            Call<ApiResponse<ProfileResponse>> call = serviceHolder.getService().getProfile(1, guid, Long.toString(userId));
+            call.enqueue(new Callback<ApiResponse<ProfileResponse>>() {
+                @Override
+                public void onResponse(@NonNull Call<ApiResponse<ProfileResponse>> call, @NonNull final Response<ApiResponse<ProfileResponse>> response) {
+                    ApiResponse<ProfileResponse> body = response.body();
+                    if (body != null) {
+                        final ProfileResponse profileResponse = body.getResult();
+                        if (response.isSuccessful() && profileResponse != null) {
+                            getUserData().onRoleUpdated(profileResponse.getProfile().getRole());
+                            store();
+                            LegacyLogger.log("Profile successfully reloaded");
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(@NonNull Call<ApiResponse<ProfileResponse>> call, @NonNull Throwable t) {
+                }
+            });
         }
     }
 

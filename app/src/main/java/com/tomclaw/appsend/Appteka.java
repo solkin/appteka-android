@@ -69,10 +69,6 @@ public class Appteka extends Application {
         actuateFlags();
         TimeHelper.init(this);
         StateHolder.init();
-//        DiscussController.getInstance();
-//        RequestDispatcher
-//                .init(this, session.getUserHolder(), APP_SESSION, Request.REQUEST_TYPE_SHORT)
-//                .startObservation();
     }
 
     private void initImageLoader() {
