@@ -22,7 +22,11 @@ class TopicItemPresenter(
         view.setMessageText(item.lastMsgText)
         view.setMessageAvatar(item.lastMsgUserIcon)
         if (item.isPinned) {
-            view.showPin()
+            if (item.hasUnread) {
+                view.showPinUnread()
+            } else {
+                view.showPin()
+            }
         } else {
             view.hidePin()
         }

@@ -2,9 +2,8 @@ package com.tomclaw.appsend.core
 
 import com.tomclaw.appsend.dto.StoreResponse
 import com.tomclaw.appsend.events.EventsResponse
-import com.tomclaw.appsend.main.dto.ApiResponse
-import com.tomclaw.appsend.main.meta.MetaResponse
 import com.tomclaw.appsend.screen.chat.api.HistoryResponse
+import com.tomclaw.appsend.screen.chat.api.ReadTopicResponse
 import com.tomclaw.appsend.screen.chat.api.ReportMessageResponse
 import com.tomclaw.appsend.screen.chat.api.SendMessageResponse
 import com.tomclaw.appsend.screen.chat.api.TopicInfoResponse
@@ -13,8 +12,11 @@ import com.tomclaw.appsend.screen.topics.api.PinTopicResponse
 import com.tomclaw.appsend.screen.topics.api.TopicsResponse
 import com.tomclaw.appsend.user.api.UserDataResponse
 import io.reactivex.rxjava3.core.Single
-import retrofit2.Call
-import retrofit2.http.*
+import retrofit2.http.Field
+import retrofit2.http.FormUrlEncoded
+import retrofit2.http.GET
+import retrofit2.http.POST
+import retrofit2.http.Query
 
 interface StoreApi {
 
@@ -80,5 +82,13 @@ interface StoreApi {
         @Field("guid") guid: String,
         @Field("msg_id") msgId: Int
     ): Single<StoreResponse<ReportMessageResponse>>
+
+    @FormUrlEncoded
+    @POST("1/chat/topic/read")
+    fun readTopic(
+        @Field("guid") guid: String,
+        @Field("topic_id") topicId: Int,
+        @Field("msg_id") msgId: Int
+    ): Single<StoreResponse<ReadTopicResponse>>
 
 }

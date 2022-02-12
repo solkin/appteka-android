@@ -82,11 +82,12 @@
 
         <ImageView
             android:id="@+id/topic_pin"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:layout_gravity="end|center_vertical"
-            android:padding="8dp"
+            android:padding="6dp"
             android:src="@drawable/ic_pin"
+            android:background="@drawable/grey_circle_filled"
             app:tint="?text_secondary_color" />
 
     </LinearLayout>

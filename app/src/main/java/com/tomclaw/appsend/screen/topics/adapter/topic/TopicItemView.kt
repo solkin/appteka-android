@@ -30,6 +30,8 @@ interface TopicItemView : ItemView {
 
     fun showPin()
 
+    fun showPinUnread()
+
     fun hidePin()
 
     fun showProgress()
@@ -111,6 +113,12 @@ class TopicItemViewHolder(view: View) : BaseViewHolder(view), TopicItemView {
     }
 
     override fun showPin() {
+        topicPin.background = null
+        topicPin.show()
+    }
+
+    override fun showPinUnread() {
+        topicPin.setBackgroundResource(R.drawable.grey_circle_filled)
         topicPin.show()
     }
 

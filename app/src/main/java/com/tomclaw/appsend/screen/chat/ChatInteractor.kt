@@ -4,6 +4,7 @@ import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.dto.MessageEntity
 import com.tomclaw.appsend.dto.TopicEntity
 import com.tomclaw.appsend.dto.UserData
+import com.tomclaw.appsend.screen.chat.api.ReadTopicResponse
 import com.tomclaw.appsend.screen.chat.api.ReportMessageResponse
 import com.tomclaw.appsend.screen.chat.api.SendMessageResponse
 import com.tomclaw.appsend.user.UserDataInteractor
@@ -28,6 +29,8 @@ interface ChatInteractor {
     ): Observable<SendMessageResponse>
 
     fun reportMessage(msgId: Int): Observable<ReportMessageResponse>
+
+    fun readTopic(topicId: Int, msgId: Int): Observable<ReadTopicResponse>
 
 }
 
@@ -106,6 +109,21 @@ class ChatInteractorImpl(
             .flatMap {
                 api.reportMessage(
                     guid = it.guid,
+                    msgId = msgId,
+                )
+            }
+            .map { it.result }
+            .toObservable()
+            .subscribeOn(schedulers.io())
+    }
+
+    override fun readTopic(topicId: Int, msgId: Int): Observable<ReadTopicResponse> {
+        return userDataInteractor
+            .getUserData()
+            .flatMap {
+                api.readTopic(
+                    guid = it.guid,
+                    topicId = topicId,
                     msgId = msgId,
                 )
             }

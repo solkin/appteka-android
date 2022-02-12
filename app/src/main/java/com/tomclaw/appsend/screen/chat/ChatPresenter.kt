@@ -118,6 +118,8 @@ class ChatPresenterImpl(
 
                         view.contentRangeInserted(0, 1)
                     }
+
+                    readTopic()
                 }
                 response.deleted?.let { messages ->
                     val deletedIndexes = ArrayList<Int>()
@@ -215,6 +217,8 @@ class ChatPresenterImpl(
 
         view?.contentUpdated()
         view?.showContent()
+
+        readTopic()
     }
 
     private fun onTopicError() {
@@ -229,6 +233,14 @@ class ChatPresenterImpl(
                 { view?.showReportSuccess() },
                 { view?.showReportFailed() }
             )
+    }
+
+    private fun readTopic() {
+        history?.last()?.let { msg ->
+            subscriptions += chatInteractor.readTopic(topicId, msg.msgId)
+                .observeOn(schedulers.mainThread())
+                .subscribe({ }, { })
+        }
     }
 
     override fun onBackPressed() {
