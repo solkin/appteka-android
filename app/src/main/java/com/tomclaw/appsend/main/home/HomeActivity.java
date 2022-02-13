@@ -48,6 +48,7 @@ import com.tomclaw.appsend.main.store.StoreFragment_;
 import com.tomclaw.appsend.main.store.search.SearchActivity_;
 import com.tomclaw.appsend.main.upload.UploadActivity;
 import com.tomclaw.appsend.net.Session;
+import com.tomclaw.appsend.net.Session_;
 import com.tomclaw.appsend.net.UserData;
 import com.tomclaw.appsend.net.UserDataListener;
 import com.tomclaw.appsend.screen.topics.TopicsFragment;
@@ -57,7 +58,7 @@ import com.tomclaw.appsend.util.PreferenceHelper;
 import com.tomclaw.appsend.util.ThemeHelper;
 
 public class HomeActivity extends PermisoActivity implements UserDataListener,
-        UpdateController.UpdateCallback {
+        UpdateController.UpdateCallback, UnreadCheckTask.UnreadListener {
 
     public static final String APP_IDENTIFIER_KEY = "appcenter.app_identifier";
 
@@ -88,6 +89,9 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
 
     private final static boolean shouldLoadHomeFragOnBackPress = true;
     private Handler handler;
+
+    private @Nullable
+    UnreadCheckTask unreadCheckTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,6 +140,9 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
                 case 1:
                     navItemIndex = NAV_DISCUSS;
                     CURRENT_TAG = TAG_DISCUSS;
+                    if (unreadCheckTask != null) {
+                        unreadCheckTask.resetUnreadCount();
+                    }
                     trackEvent("click-tab-discuss");
                     break;
                 case 2:
@@ -179,6 +186,8 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
         register(getApplication());
 
         checkMigration();
+
+        unreadCheckTask = new UnreadCheckTask(Session_.getInstance().getUserData().getGuid());
     }
 
     @Override
@@ -186,15 +195,20 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
         super.onStart();
         Session.getInstance().getUserHolder().attachListener(this);
         UpdateController.getInstance().onAttach(this);
-//        DiscussController.getInstance().onAttach(this);
         TaskExecutor.getInstance().execute(new StatusCheckTask(this));
+        if (unreadCheckTask != null) {
+            unreadCheckTask.setListener(this);
+            TaskExecutor.getInstance().execute(unreadCheckTask);
+        }
     }
 
     @Override
     protected void onStop() {
         Session.getInstance().getUserHolder().removeListener(this);
         UpdateController.getInstance().onDetach(this);
-//        DiscussController.getInstance().onDetach(this);
+        if (unreadCheckTask != null) {
+            unreadCheckTask.detachListener();
+        }
         super.onStop();
     }
 
@@ -232,7 +246,9 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
 
     private void updateUnreadIndicator(int count) {
         if (count > 0 && navItemIndex == NAV_DISCUSS) {
-//            DiscussController.getInstance().resetUnreadCount();
+            if (unreadCheckTask != null) {
+                unreadCheckTask.resetUnreadCount();
+            }
             count = 0;
         }
         String indicatorText = "";
@@ -396,10 +412,10 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
         }
     }
 
-//    @Override
-//    public void onUnreadCount(int count) {
-//        updateUnreadIndicator(count);
-//    }
+    @Override
+    public void onUnread(int count) {
+        updateUnreadIndicator(count);
+    }
 
     private void checkMigration() {
         if (wasRegistered() && getLastRunBuildNumber() == 0) {

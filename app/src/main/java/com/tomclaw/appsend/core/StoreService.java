@@ -1,6 +1,7 @@
 package com.tomclaw.appsend.core;
 
 import com.tomclaw.appsend.dto.StoreResponse;
+import com.tomclaw.appsend.events.EventsResponse;
 import com.tomclaw.appsend.main.auth.AuthResponse;
 import com.tomclaw.appsend.main.download.CreateTopicResponse;
 import com.tomclaw.appsend.main.dto.AbuseResult;
@@ -191,6 +192,13 @@ public interface StoreService {
     Call<ApiResponse<CreateTopicResponse>> createTopic(
             @Query("guid") String guid,
             @Query("package") String packageName
+    );
+
+    @GET("api/1/chat/fetch")
+    Call<StoreResponse<EventsResponse>> getEvents(
+            @Query("guid") String guid,
+            @Query("time") Long time,
+            @Query("nodelay") Boolean noDelay
     );
 
 }
