@@ -30,9 +30,11 @@ interface TopicItemView : ItemView {
 
     fun showPin()
 
-    fun showPinUnread()
-
     fun hidePin()
+
+    fun showUnread()
+
+    fun hideUnread()
 
     fun showProgress()
 
@@ -57,6 +59,7 @@ class TopicItemViewHolder(view: View) : BaseViewHolder(view), TopicItemView {
     private val msgText: TextView = view.findViewById(R.id.msg_text)
     private val msgAvatar: UserIconView = UserIconViewImpl(view.findViewById(R.id.msg_avatar))
     private val topicPin: View = view.findViewById(R.id.topic_pin)
+    private val topicUnread: View = view.findViewById(R.id.topic_unread)
     private val progress: View = view.findViewById(R.id.item_progress)
     private val error: View = view.findViewById(R.id.error_view)
     private val retryButton: View = view.findViewById(R.id.button_retry)
@@ -117,13 +120,16 @@ class TopicItemViewHolder(view: View) : BaseViewHolder(view), TopicItemView {
         topicPin.show()
     }
 
-    override fun showPinUnread() {
-        topicPin.setBackgroundResource(R.drawable.grey_circle_filled)
-        topicPin.show()
-    }
-
     override fun hidePin() {
         topicPin.hide()
+    }
+
+    override fun showUnread() {
+        topicUnread.show()
+    }
+
+    override fun hideUnread() {
+        topicUnread.hide()
     }
 
     override fun setOnClickListener(listener: (() -> Unit)?) {

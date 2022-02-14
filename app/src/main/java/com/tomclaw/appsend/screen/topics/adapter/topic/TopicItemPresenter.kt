@@ -22,13 +22,14 @@ class TopicItemPresenter(
         view.setMessageText(item.lastMsgText)
         view.setMessageAvatar(item.lastMsgUserIcon)
         if (item.isPinned) {
-            if (item.hasUnread) {
-                view.showPinUnread()
-            } else {
-                view.showPin()
-            }
+            view.showPin()
         } else {
             view.hidePin()
+        }
+        if (item.hasUnread) {
+            view.showUnread()
+        } else {
+            view.hideUnread()
         }
         if (item.hasProgress) view.showProgress() else view.hideProgress()
         if (item.hasError) view.showError() else view.hideError()
