@@ -50,12 +50,8 @@ class EventsInteractorImpl(
                     eventsSubject.onNext(result.result)
                     eventsLoop()
                 }, { ex ->
-                    if (ex is IOException) {
-                        println("[polling] IOException: " + ex.message)
-                        eventsLoop()
-                    } else {
-                        println("[polling] fatal exception: " + ex.message)
-                    }
+                    println("[polling] Exception: " + ex.message)
+                    eventsLoop()
                 }
             )
     }
