@@ -8,6 +8,7 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
 import io.reactivex.rxjava3.subjects.PublishSubject
 import java.io.IOException
+import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeUnit.MINUTES
 import java.util.concurrent.TimeUnit.SECONDS
 import java.util.concurrent.atomic.AtomicInteger
@@ -43,15 +44,20 @@ class EventsInteractorImpl(
             }
             .observeOn(schedulers.io())
             .subscribeOn(schedulers.mainThread())
+            .retryWhen { errors ->
+                errors.flatMap {
+                    println("[polling] Retry after exception: " + it.message)
+                    Observable.timer(5, SECONDS)
+                }
+            }
+            .repeat()
             .subscribe(
                 { result ->
                     fetchTime.set(result.result.time)
                     println("[polling] result received with time " + result.result.time)
                     eventsSubject.onNext(result.result)
-                    eventsLoop()
                 }, { ex ->
                     println("[polling] Exception: " + ex.message)
-                    eventsLoop()
                 }
             )
     }
