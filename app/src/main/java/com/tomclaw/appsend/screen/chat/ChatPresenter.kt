@@ -236,7 +236,7 @@ class ChatPresenterImpl(
     }
 
     private fun readTopic() {
-        history?.last()?.let { msg ->
+        history?.takeIf { it.isNotEmpty() }?.last()?.let { msg ->
             subscriptions += chatInteractor.readTopic(topicId, msg.msgId)
                 .observeOn(schedulers.mainThread())
                 .subscribe({ }, { })
