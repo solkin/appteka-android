@@ -23,5 +23,5 @@ data class TopicEntity(
     @SerializedName("read_msg_id")
     val readMsgId: Int?,
     @SerializedName("last_msg")
-    val lastMsg: MessageEntity,
+    val lastMsg: MessageEntity?,
 ) : Parcelable

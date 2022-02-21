@@ -2,6 +2,7 @@ package com.tomclaw.appsend.screen.topics
 
 import com.tomclaw.appsend.dto.TopicEntity
 import com.tomclaw.appsend.screen.topics.adapter.topic.TopicItem
+import java.lang.IllegalArgumentException
 
 interface TopicConverter {
 
@@ -22,6 +23,7 @@ class TopicConverterImpl(
             1 -> resourceProvider.commonQuestionsTopicTitle()
             else -> entity.title
         }
+        entity.lastMsg ?: throw IllegalStateException("lastMsg must be specified")
         return TopicItem(
             id = entity.topicId.toLong(),
             icon = icon,
