@@ -27,8 +27,8 @@
             android:autoLink="web|email"
             android:gravity="fill_horizontal"
             android:textColor="?text_primary_color"
-            android:textSize="16sp"
             android:textIsSelectable="true"
+            android:textSize="16sp"
             tools:text="App Description" />
 
         <LinearLayout

@@ -91,6 +91,7 @@
             android:layout_marginRight="18dp"
             android:layout_marginBottom="18dp"
             android:src="@drawable/ic_baseline_add_24"
+            android:visibility="gone"
             app:elevation="4dp"
             app:fabSize="normal"
             app:pressedTranslationZ="12dp" />
