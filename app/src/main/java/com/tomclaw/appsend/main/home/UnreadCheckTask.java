@@ -31,6 +31,7 @@ public class UnreadCheckTask extends HttpTask {
             try {
                 JSONArray topics = result.optJSONArray("entries");
                 if (topics != null) {
+                    count = 0;
                     for (int i = 0; i < topics.length(); i++) {
                         JSONObject topic = topics.getJSONObject(i);
                         boolean isPinned = topic.optBoolean("pinned");
