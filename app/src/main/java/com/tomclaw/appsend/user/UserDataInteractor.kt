@@ -20,7 +20,11 @@ class UserDataInteractorImpl(
     private var userData: UserData? = null
 
     override fun getUserData(): Single<UserData> {
-        return getCachedUserData() ?: sessionStorage.loadSessionCredentials()
+        return getCachedUserData() ?: loadAndCacheUserData()
+    }
+
+    private fun loadAndCacheUserData(): Single<UserData> {
+        return sessionStorage.loadSessionCredentials()
             .flatMap { loadUserData(it.guid) }
             .map { cacheUserData(it) }
     }

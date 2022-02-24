@@ -39,6 +39,7 @@ android {
     lint {
         abortOnError false
     }
+    namespace 'com.tomclaw.appsend'
 }
 
 dependencies {
