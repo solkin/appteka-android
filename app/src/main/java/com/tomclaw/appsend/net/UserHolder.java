@@ -10,6 +10,7 @@ import com.tomclaw.appsend.core.StoreServiceHolder;
 import com.tomclaw.appsend.core.StoreServiceHolder_;
 import com.tomclaw.appsend.dto.UserIcon;
 import com.tomclaw.appsend.main.dto.ApiResponse;
+import com.tomclaw.appsend.main.profile.Profile;
 import com.tomclaw.appsend.main.profile.ProfileResponse;
 import com.tomclaw.appsend.util.GsonSingleton;
 import com.tomclaw.appsend.util.LegacyLogger;
@@ -175,8 +176,8 @@ public class UserHolder {
                     if (body != null) {
                         final ProfileResponse profileResponse = body.getResult();
                         if (response.isSuccessful() && profileResponse != null) {
-                            getUserData().onRoleUpdated(profileResponse.getProfile().getRole());
-                            store();
+                            Profile profile = profileResponse.getProfile();
+                            updateUserInfo(profile.getUserIcon(), profile.getName(), profile.getRole());
                             LegacyLogger.log("Profile successfully reloaded");
                         }
                     }
