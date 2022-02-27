@@ -76,7 +76,6 @@
             android:clipToPadding="false"
             android:dividerHeight="0.5dp"
             android:fastScrollEnabled="false"
-            android:paddingBottom="64dp"
             android:stackFromBottom="false"
             android:transcriptMode="normal"
             tools:itemCount="3"
