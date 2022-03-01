@@ -54,7 +54,7 @@ interface StoreApi {
         @Query("till") till: Int
     ): Single<StoreResponse<HistoryResponse>>
 
-    @GET("1/chat/fetch")
+    @GET("2/chat/fetch")
     fun getEvents(
         @Query("guid") guid: String,
         @Query("time") time: Long,
