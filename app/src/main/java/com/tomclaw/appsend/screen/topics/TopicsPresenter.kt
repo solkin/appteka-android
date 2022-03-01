@@ -94,7 +94,8 @@ class TopicsPresenterImpl(
                         filteredItems.removeAll { it.id.toInt() == topic.topicId }
                     }
                     val newItems = topItems + filteredItems
-                    items = newItems
+                    newItems.forEach { item -> item.hasMore = false }
+                    items = newItems.apply { if (isNotEmpty()) last().hasMore = true }
 
                     val dataSource = ListDataSource(newItems)
                     adapterPresenter.get().onDataSourceChanged(dataSource)
