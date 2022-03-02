@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.view.MenuInflater
 import android.view.View
 import android.widget.EditText
 import android.widget.TextView
@@ -63,6 +64,10 @@ interface ChatView {
 
     fun showReportFailed()
 
+    fun showMenu(hasPin: Boolean)
+
+    fun hideMenu()
+
     fun navigationClicks(): Observable<Unit>
 
     fun retryClicks(): Observable<Unit>
@@ -78,6 +83,8 @@ interface ChatView {
     fun openProfileClicks(): Observable<MessageEntity>
 
     fun msgReportClicks(): Observable<MessageEntity>
+
+    fun pinChatClicks(): Observable<Unit>
 
 }
 
@@ -106,12 +113,26 @@ class ChatViewImpl(
     private val msgCopyRelay = PublishRelay.create<MessageEntity>()
     private val openProfileRelay = PublishRelay.create<MessageEntity>()
     private val msgReportRelay = PublishRelay.create<MessageEntity>()
+    private val pinChatRelay = PublishRelay.create<Unit>()
 
     private val layoutManager: LinearLayoutManager
 
     init {
         toolbar.setTitle(R.string.chat_activity)
         toolbar.setNavigationOnClickListener { navigationRelay.accept(Unit) }
+        toolbar.setOnMenuItemClickListener {  item ->
+            when(item.itemId) {
+                R.id.pin -> {
+                    pinChatRelay.accept(Unit)
+                    true
+                }
+                R.id.pin_off -> {
+                    pinChatRelay.accept(Unit)
+                    true
+                }
+                else -> false
+            }
+        }
 
         val orientation = RecyclerView.VERTICAL
         layoutManager = LinearLayoutManager(view.context, orientation, true)
@@ -209,6 +230,22 @@ class ChatViewImpl(
         Snackbar.make(recycler, R.string.error_message_report, Snackbar.LENGTH_LONG).show()
     }
 
+    override fun showMenu(hasPin: Boolean) {
+        toolbar.menu.clear()
+        toolbar.inflateMenu(R.menu.chat_menu)
+        if (hasPin) {
+            toolbar.menu.removeItem(R.id.pin)
+        } else {
+            toolbar.menu.removeItem(R.id.pin_off)
+        }
+        toolbar.invalidateMenu()
+    }
+
+    override fun hideMenu() {
+        toolbar.menu.clear()
+        toolbar.invalidateMenu()
+    }
+
     @SuppressLint("NotifyDataSetChanged")
     override fun contentUpdated() {
         adapter.notifyDataSetChanged()
@@ -245,6 +282,8 @@ class ChatViewImpl(
     override fun openProfileClicks(): Observable<MessageEntity> = openProfileRelay
 
     override fun msgReportClicks(): Observable<MessageEntity> = msgReportRelay
+
+    override fun pinChatClicks(): Observable<Unit> = pinChatRelay
 
 }
 

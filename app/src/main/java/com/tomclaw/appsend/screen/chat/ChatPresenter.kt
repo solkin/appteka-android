@@ -88,6 +88,9 @@ class ChatPresenterImpl(
         subscriptions += view.msgReportClicks().subscribe { message ->
             reportMessage(message.msgId)
         }
+        subscriptions += view.pinChatClicks().subscribe {
+            pinTopic()
+        }
 
         when {
             isError -> {
@@ -120,6 +123,7 @@ class ChatPresenterImpl(
                     }
 
                     readTopic()
+                    invalidateMenu()
                 }
                 response.deleted?.let { messages ->
                     val deletedIndexes = ArrayList<Int>()
@@ -146,6 +150,15 @@ class ChatPresenterImpl(
 
                     deletedIndexes.forEach { index ->
                         view.contentItemRemoved(items.size - index)
+                    }
+
+                    invalidateMenu()
+                }
+                response.topics?.let { topics ->
+                    topics.find { it.topicId == topicId }?.let { newTopic ->
+                        topic = newTopic
+
+                        invalidateMenu()
                     }
                 }
             }
@@ -184,6 +197,8 @@ class ChatPresenterImpl(
     private fun onMessageSent() {
         messageText = ""
         view?.setMessageText(messageText)
+
+        invalidateMenu()
     }
 
     private fun onMessageSendingError() {
@@ -215,8 +230,13 @@ class ChatPresenterImpl(
         val dataSource = ListDataSource(items)
         adapterPresenter.get().onDataSourceChanged(dataSource)
 
-        view?.contentUpdated()
-        view?.showContent()
+        view?.let {
+            with(it) {
+                contentUpdated()
+                showContent()
+                invalidateMenu()
+            }
+        }
 
         readTopic()
     }
@@ -240,6 +260,23 @@ class ChatPresenterImpl(
             subscriptions += chatInteractor.readTopic(topicId, msg.msgId)
                 .observeOn(schedulers.mainThread())
                 .subscribe({ }, { })
+        }
+    }
+
+    private fun pinTopic() {
+        subscriptions += chatInteractor.pinTopic(topicId)
+            .observeOn(schedulers.mainThread())
+            .subscribe(
+                { }, { }
+            )
+    }
+
+    private fun invalidateMenu() {
+        val topic = topic ?: return
+        if (history?.isNotEmpty() == true) {
+            view?.showMenu(topic.isPinned)
+        } else {
+            view?.hideMenu()
         }
     }
 

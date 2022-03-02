@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/pin"
+        android:icon="@drawable/ic_pin"
+        android:title="@string/pin"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/pin_off"
+        android:icon="@drawable/ic_pin_off"
+        android:title="@string/unpin"
+        app:showAsAction="never" />
+</menu>
