@@ -250,8 +250,6 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
                 if (body != null) {
                     final ProfileResponse profileResponse = body.getResult();
                     if (response.isSuccessful() && profileResponse != null) {
-                        session.getUserData().onRoleUpdated(profileResponse.getProfile().getRole());
-                        session.getUserHolder().store();
                         MainExecutor.execute(() -> onLoaded(profileResponse));
                         return;
                     }
@@ -308,10 +306,11 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
         isError = false;
         profile = body.getProfile();
         grantRoles = body.getGrantRoles();
-        bindProfile();
         if (session.getUserData().getUserId() == profile.getUserId()) {
             session.getUserHolder().updateUserInfo(body.getProfile().getUserIcon(), body.getProfile().getName(), body.getProfile().getRole());
+            session.getUserHolder().store();
         }
+        bindProfile();
     }
 
     private void onLoadingError() {
