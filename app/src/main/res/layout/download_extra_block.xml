@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="8dp"
@@ -102,9 +103,24 @@
             android:layout_height="wrap_content"
             android:paddingStart="8dp"
             android:paddingLeft="8dp"
+            android:paddingRight="8dp"
             android:text="@string/discuss_app"
             android:textColor="?attr/text_secondary_color"
             android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/msg_count"
+            android:layout_width="wrap_content"
+            android:layout_height="26dp"
+            android:background="@drawable/msg_count_back"
+            android:gravity="center"
+            android:minWidth="26dp"
+            android:paddingLeft="6dp"
+            android:paddingRight="6dp"
+            android:textColor="#FF111111"
+            android:textStyle="bold"
+            android:typeface="normal"
+            tools:text="10" />
 
     </LinearLayout>
 

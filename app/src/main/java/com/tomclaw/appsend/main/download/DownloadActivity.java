@@ -187,6 +187,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     private View metaContainer;
     private View editMeta;
     private View discussButton;
+    private TextView msgCount;
 
     private StoreInfo info;
 
@@ -310,6 +311,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         editMeta = findViewById(R.id.edit_meta);
 
         discussButton = findViewById(R.id.discuss_button);
+        msgCount = findViewById(R.id.msg_count);
 
         swipeRefresh.setOnRefreshListener(this::reloadInfo);
         findViewById(R.id.button_cancel).setOnClickListener(v -> cancelDownload());
@@ -637,6 +639,13 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         boolean isCanEditMeta = canEditMeta();
         metaContainer.setClickable(isCanEditMeta);
         editMeta.setVisibility(isCanEditMeta ? View.VISIBLE : View.GONE);
+
+        if (info.getMsgCount() > 0) {
+            msgCount.setVisibility(View.VISIBLE);
+            msgCount.setText(String.valueOf(info.getMsgCount()));
+        } else {
+            msgCount.setVisibility(View.GONE);
+        }
     }
 
     private void bindButtons() {
