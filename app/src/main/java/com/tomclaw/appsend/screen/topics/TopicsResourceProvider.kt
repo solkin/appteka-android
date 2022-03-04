@@ -7,12 +7,18 @@ interface TopicsResourceProvider {
 
     fun commonQuestionsTopicTitle(): String
 
+    fun commonQuestionsTopicDescription(): String
+
 }
 
 class TopicsResourceProviderImpl(val resources: Resources) : TopicsResourceProvider {
 
     override fun commonQuestionsTopicTitle(): String {
-        return resources.getString(R.string.topic_common_qna)
+        return resources.getString(R.string.topic_common_qna_title)
+    }
+
+    override fun commonQuestionsTopicDescription(): String {
+        return resources.getString(R.string.topic_common_qna_description)
     }
 
 }

@@ -269,7 +269,8 @@
     <string name="eliminate_user_failed">Не удалось уничтожить пользователя</string>
     <string name="create_topic">Создать тему</string>
     <string name="topics_loading_failed">Не удалось загрузить темы</string>
-    <string name="topic_common_qna">Общие вопросы</string>
+    <string name="topic_common_qna_title">Общие вопросы</string>
+    <string name="topic_common_qna_description">Вопросы и ответы на любые темы</string>
     <string name="chat_activity">Диалог</string>
     <string name="unsupported_message">Этот тип сообщения не поддерживается. Пожалуйста, обновите Апптеку.</string>
     <string name="pin">Закрепить чат</string>

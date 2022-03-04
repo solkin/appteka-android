@@ -9,6 +9,10 @@ interface ChatResourceProvider {
 
     fun replyFormText(msg: String): String
 
+    fun commonQuestionsTopicTitle(): String
+
+    fun commonQuestionsTopicDescription(): String
+
 }
 
 class ChatResourceProviderImpl(val resources: Resources) : ChatResourceProvider {
@@ -19,6 +23,14 @@ class ChatResourceProviderImpl(val resources: Resources) : ChatResourceProvider 
 
     override fun replyFormText(msg: String): String {
         return resources.getString(R.string.reply_form, msg)
+    }
+
+    override fun commonQuestionsTopicTitle(): String {
+        return resources.getString(R.string.topic_common_qna_title)
+    }
+
+    override fun commonQuestionsTopicDescription(): String {
+        return resources.getString(R.string.topic_common_qna_description)
     }
 
 }

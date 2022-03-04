@@ -77,11 +77,11 @@
                             android:layout_height="match_parent"
                             android:layout_gravity="center_horizontal|bottom"
                             android:background="?selectableItemBackgroundBorderless"
+                            android:contentDescription=""
                             android:padding="9dp"
                             android:scaleType="center"
                             android:src="@drawable/ic_send"
-                            app:tint="@color/primary_color"
-                            android:contentDescription="" />
+                            app:tint="@color/primary_color" />
 
                         <ProgressBar
                             android:layout_width="48dp"
@@ -115,8 +115,19 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/toolbar_background"
-            app:navigationIcon="?attr/homeAsUpIndicator"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            android:contentInsetLeft="0dp"
+            android:contentInsetStart="0dp"
+            app:contentInsetLeft="0dp"
+            app:contentInsetStart="0dp"
+            android:contentInsetRight="0dp"
+            android:contentInsetEnd="0dp"
+            app:contentInsetRight="0dp"
+            app:contentInsetEnd="0dp"
+            app:popupTheme="@style/AppTheme.PopupOverlay">
+
+            <include layout="@layout/chat_toolbar"/>
+
+        </androidx.appcompat.widget.Toolbar>
 
     </com.google.android.material.appbar.AppBarLayout>
 

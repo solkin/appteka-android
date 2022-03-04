@@ -7,6 +7,7 @@ import android.content.Context
 import android.view.MenuInflater
 import android.view.View
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.ViewFlipper
 import android.widget.ViewSwitcher
@@ -24,11 +25,18 @@ import com.tomclaw.appsend.R
 import com.tomclaw.appsend.dto.MessageEntity
 import com.tomclaw.appsend.util.*
 import com.tomclaw.appsend.util.ColorHelper.getAttributedColor
+import com.tomclaw.imageloader.util.centerCrop
+import com.tomclaw.imageloader.util.fetch
+import com.tomclaw.imageloader.util.withPlaceholder
 import io.reactivex.rxjava3.core.Observable
 
 interface ChatView {
 
+    fun setIcon(url: String?)
+
     fun setTitle(title: String)
+
+    fun setSubtitle(subtitle: String)
 
     fun setMessageText(messageText: String)
 
@@ -70,6 +78,8 @@ interface ChatView {
 
     fun navigationClicks(): Observable<Unit>
 
+    fun toolbarClicks(): Observable<Unit>
+
     fun retryClicks(): Observable<Unit>
 
     fun messageEditChanged(): Observable<String>
@@ -97,6 +107,11 @@ class ChatViewImpl(
     private val context = view.context
     private val flipper: ViewFlipper = view.findViewById(R.id.view_flipper)
     private val toolbar: Toolbar = view.findViewById(R.id.toolbar)
+    private val back: View = view.findViewById(R.id.go_back)
+    private val icon: ImageView = view.findViewById(R.id.icon)
+    private val title: TextView = view.findViewById(R.id.title)
+    private val subtitle: TextView = view.findViewById(R.id.subtitle)
+    private val header: View = view.findViewById(R.id.header)
     private val retryButton: View = view.findViewById(R.id.button_retry)
     private val overlayProgress: View = view.findViewById(R.id.overlay_progress)
     private val errorText: TextView = view.findViewById(R.id.error_text)
@@ -106,6 +121,7 @@ class ChatViewImpl(
     private val sendButton: View = view.findViewById(R.id.send_button)
 
     private val navigationRelay = PublishRelay.create<Unit>()
+    private val toolbarRelay = PublishRelay.create<Unit>()
     private val retryRelay = PublishRelay.create<Unit>()
     private val messageEditRelay = PublishRelay.create<String>()
     private val sendRelay = PublishRelay.create<Unit>()
@@ -118,10 +134,9 @@ class ChatViewImpl(
     private val layoutManager: LinearLayoutManager
 
     init {
-        toolbar.setTitle(R.string.chat_activity)
-        toolbar.setNavigationOnClickListener { navigationRelay.accept(Unit) }
-        toolbar.setOnMenuItemClickListener {  item ->
-            when(item.itemId) {
+        title.setText(R.string.chat_activity)
+        toolbar.setOnMenuItemClickListener { item ->
+            when (item.itemId) {
                 R.id.pin -> {
                     pinChatRelay.accept(Unit)
                     true
@@ -133,6 +148,8 @@ class ChatViewImpl(
                 else -> false
             }
         }
+        back.clicks(navigationRelay)
+        header.setOnClickListener { toolbarRelay.accept(Unit) }
 
         val orientation = RecyclerView.VERTICAL
         layoutManager = LinearLayoutManager(view.context, orientation, true)
@@ -149,8 +166,25 @@ class ChatViewImpl(
         sendButton.clicks(sendRelay)
     }
 
+    override fun setIcon(url: String?) {
+        icon.fetch(url.orEmpty()) {
+            centerCrop()
+            withPlaceholder(R.drawable.app_placeholder)
+            placeholder = {
+                with(it.get()) {
+                    scaleType = ImageView.ScaleType.CENTER_CROP
+                    setImageResource(R.drawable.app_placeholder)
+                }
+            }
+        }
+    }
+
     override fun setTitle(title: String) {
-        toolbar.title = title
+        this.title.text = title
+    }
+
+    override fun setSubtitle(subtitle: String) {
+        this.subtitle.text = subtitle
     }
 
     override fun setMessageText(messageText: String) {
@@ -268,6 +302,8 @@ class ChatViewImpl(
     }
 
     override fun navigationClicks(): Observable<Unit> = navigationRelay
+
+    override fun toolbarClicks(): Observable<Unit> = toolbarRelay
 
     override fun retryClicks(): Observable<Unit> = retryRelay
 

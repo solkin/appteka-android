@@ -1281,4 +1281,13 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         return intent;
     }
 
+    public static Intent createAppActivityIntent(Context context, String packageName, String title, boolean finishOnly) {
+        Intent intent = new Intent(context, DownloadActivity.class);
+        intent.putExtra(DownloadActivity.STORE_APP_PACKAGE, packageName);
+        intent.putExtra(DownloadActivity.STORE_APP_LABEL, title);
+        intent.putExtra(DownloadActivity.STORE_MODERATION, false);
+        intent.putExtra(DownloadActivity.STORE_FINISH_ONLY, finishOnly);
+        return intent;
+    }
+
 }

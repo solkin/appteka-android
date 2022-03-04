@@ -9,6 +9,7 @@ import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.main.download.DownloadActivity.createAppActivityIntent
 import com.tomclaw.appsend.main.profile.ProfileActivity.createProfileActivityIntent
 import com.tomclaw.appsend.screen.chat.di.ChatModule
 import com.tomclaw.appsend.util.ThemeHelper
@@ -76,6 +77,11 @@ class ChatActivity : AppCompatActivity(), ChatPresenter.ChatRouter {
 
     override fun openProfileScreen(userId: Int) {
         val intent = createProfileActivityIntent(this, userId)
+        startActivity(intent)
+    }
+
+    override fun openAppScreen(packageName: String, title: String) {
+        val intent = createAppActivityIntent(this, packageName, title, true)
         startActivity(intent)
     }
 

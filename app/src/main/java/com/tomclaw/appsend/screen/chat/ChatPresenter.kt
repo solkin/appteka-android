@@ -8,9 +8,12 @@ import com.tomclaw.appsend.dto.MessageEntity
 import com.tomclaw.appsend.dto.TopicEntity
 import com.tomclaw.appsend.events.EventsInteractor
 import com.tomclaw.appsend.screen.chat.adapter.ItemListener
+import com.tomclaw.appsend.screen.topics.COMMON_QNA_TOPIC_ICON
+import com.tomclaw.appsend.screen.topics.TopicConverter
 import com.tomclaw.appsend.util.RoleHelper.ROLE_ADMIN
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
+import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
 
@@ -31,6 +34,8 @@ interface ChatPresenter : ItemListener {
     interface ChatRouter {
 
         fun openProfileScreen(userId: Int)
+
+        fun openAppScreen(packageName: String, title: String)
 
         fun leaveScreen()
 
@@ -90,6 +95,12 @@ class ChatPresenterImpl(
         }
         subscriptions += view.pinChatClicks().subscribe {
             pinTopic()
+        }
+        subscriptions += view.toolbarClicks().subscribe {
+            val packageName = topic?.packageName
+            if (!packageName.isNullOrEmpty()) {
+                router?.openAppScreen(packageName, topic?.title.orEmpty())
+            }
         }
 
         when {
@@ -222,8 +233,22 @@ class ChatPresenterImpl(
 
     private fun onTopicLoaded() {
         val topic = topic ?: return
+        val icon = when (topic.topicId) {
+            1 -> COMMON_QNA_TOPIC_ICON
+            else -> topic.icon.orEmpty()
+        }
+        val title = when (topic.topicId) {
+            1 -> resourceProvider.commonQuestionsTopicTitle()
+            else -> topic.title
+        }
+        val description = when (topic.topicId) {
+            1 -> resourceProvider.commonQuestionsTopicDescription()
+            else -> topic.description
+        }
         isError = false
-        view?.setTitle(topic.title)
+        view?.setIcon(icon)
+        view?.setTitle(title)
+        view?.setSubtitle(description ?: topic.packageName.orEmpty())
 
         val items = convertHistory()
 

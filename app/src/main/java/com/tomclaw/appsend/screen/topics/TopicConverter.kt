@@ -23,12 +23,16 @@ class TopicConverterImpl(
             1 -> resourceProvider.commonQuestionsTopicTitle()
             else -> entity.title
         }
+        val description = when (entity.topicId) {
+            1 -> resourceProvider.commonQuestionsTopicDescription()
+            else -> entity.description
+        }
         entity.lastMsg ?: throw IllegalStateException("lastMsg must be specified")
         return TopicItem(
             id = entity.topicId.toLong(),
             icon = icon,
             title = title,
-            description = entity.description,
+            description = description,
             packageName = entity.packageName,
             isPinned = entity.isPinned,
             hasUnread = entity.readMsgId?.let { it < entity.lastMsg.msgId } ?: false,

@@ -15,8 +15,13 @@ import com.tomclaw.appsend.screen.chat.adapter.incoming.IncomingMsgItemBlueprint
 import com.tomclaw.appsend.screen.chat.adapter.incoming.IncomingMsgItemPresenter
 import com.tomclaw.appsend.screen.chat.adapter.outgoing.OutgoingMsgItemBlueprint
 import com.tomclaw.appsend.screen.chat.adapter.outgoing.OutgoingMsgItemPresenter
+import com.tomclaw.appsend.screen.topics.TopicConverter
+import com.tomclaw.appsend.screen.topics.TopicConverterImpl
+import com.tomclaw.appsend.screen.topics.TopicsResourceProvider
+import com.tomclaw.appsend.screen.topics.TopicsResourceProviderImpl
 import com.tomclaw.appsend.user.UserDataInteractor
 import com.tomclaw.appsend.util.PerActivity
+import com.tomclaw.appsend.util.PerFragment
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
 import dagger.Module

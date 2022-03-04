@@ -276,7 +276,8 @@
     <string name="eliminate_user_failed">Failed to eliminate user</string>
     <string name="create_topic">Create topic</string>
     <string name="topics_loading_failed">Failed to load topics</string>
-    <string name="topic_common_qna">Common questions</string>
+    <string name="topic_common_qna_title">Common questions</string>
+    <string name="topic_common_qna_description">Questions and answers on any topic</string>
     <string name="chat_activity">Chat</string>
     <string name="unsupported_message">This message type is not supported. Please, update Appteka.</string>
     <string name="pin">Pin chat</string>

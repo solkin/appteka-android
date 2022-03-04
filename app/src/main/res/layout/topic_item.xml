@@ -58,7 +58,7 @@
                     android:textColor="?text_primary_color"
                     android:textSize="17sp"
                     android:textStyle="bold"
-                    tools:text="@string/topic_common_qna" />
+                    tools:text="@string/topic_common_qna_title" />
 
             </LinearLayout>
 
