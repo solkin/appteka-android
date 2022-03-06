@@ -13,7 +13,8 @@
         android:layout_height="wrap_content"
         android:background="?selectableItemBackgroundBorderless"
         android:gravity="center_vertical"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingRight="4dp">
 
         <ImageView
             android:id="@+id/back"
@@ -36,15 +37,18 @@
         android:id="@+id/header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
         android:background="?selectableItemBackgroundBorderless"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingLeft="4dp"
+        android:paddingRight="4dp">
 
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:lines="1"
+            android:singleLine="true"
             android:textColor="@android:color/white"
             android:textSize="17sp"
             android:textStyle="bold"
@@ -54,6 +58,9 @@
             android:id="@+id/subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:lines="1"
+            android:singleLine="true"
             android:textColor="#80ffffff"
             android:textSize="12sp"
             tools:text="Last seen at 3:34 a.m" />
