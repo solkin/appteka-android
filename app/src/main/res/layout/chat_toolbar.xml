@@ -25,8 +25,8 @@
 
         <ImageView
             android:id="@+id/icon"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
             android:layout_marginLeft="2dp"
             android:scaleType="centerCrop"
             android:src="@drawable/app_placeholder" />
