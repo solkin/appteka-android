@@ -40,15 +40,9 @@ interface TopicItemView : ItemView {
 
     fun hideProgress()
 
-    fun showError()
-
-    fun hideError()
-
     fun setOnClickListener(listener: (() -> Unit)?)
 
     fun setOnLongClickListener(listener: (() -> Unit)?)
-
-    fun setOnRetryListener(listener: (() -> Unit)?)
 
 }
 
@@ -61,17 +55,13 @@ class TopicItemViewHolder(view: View) : BaseViewHolder(view), TopicItemView {
     private val topicPin: View = view.findViewById(R.id.topic_pin)
     private val topicUnread: View = view.findViewById(R.id.topic_unread)
     private val progress: View = view.findViewById(R.id.item_progress)
-    private val error: View = view.findViewById(R.id.error_view)
-    private val retryButton: View = view.findViewById(R.id.button_retry)
 
     private var clickListener: (() -> Unit)? = null
     private var longClickListener: (() -> Unit)? = null
-    private var retryListener: (() -> Unit)? = null
 
     init {
         view.setOnClickListener { clickListener?.invoke() }
         view.setOnLongClickListener { longClickListener?.invoke()?.let { true } ?: false }
-        retryButton.setOnClickListener { retryListener?.invoke() }
     }
 
     override fun setIcon(url: String?) {
@@ -88,19 +78,11 @@ class TopicItemViewHolder(view: View) : BaseViewHolder(view), TopicItemView {
     }
 
     override fun showProgress() {
-        progress.visibility = VISIBLE
+        progress.show()
     }
 
     override fun hideProgress() {
-        progress.visibility = GONE
-    }
-
-    override fun showError() {
-        error.visibility = VISIBLE
-    }
-
-    override fun hideError() {
-        error.visibility = GONE
+        progress.hide()
     }
 
     override fun setTitle(title: String) {
@@ -140,13 +122,8 @@ class TopicItemViewHolder(view: View) : BaseViewHolder(view), TopicItemView {
         this.longClickListener = listener
     }
 
-    override fun setOnRetryListener(listener: (() -> Unit)?) {
-        this.retryListener = listener
-    }
-
     override fun onUnbind() {
         this.clickListener = null
-        this.retryListener = null
     }
 
 }

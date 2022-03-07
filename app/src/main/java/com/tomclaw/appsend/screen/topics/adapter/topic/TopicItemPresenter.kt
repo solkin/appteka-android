@@ -12,7 +12,6 @@ class TopicItemPresenter(
             if (hasMore) {
                 hasMore = false
                 hasProgress = true
-                hasError = false
                 listener.onLoadMore(this)
             }
         }
@@ -32,10 +31,8 @@ class TopicItemPresenter(
             view.hideUnread()
         }
         if (item.hasProgress) view.showProgress() else view.hideProgress()
-        if (item.hasError) view.showError() else view.hideError()
         view.setOnClickListener { listener.onItemClick(item) }
         view.setOnLongClickListener { listener.onItemLongClick(item) }
-        view.setOnRetryListener { listener.onRetryClick(item) }
     }
 
 }

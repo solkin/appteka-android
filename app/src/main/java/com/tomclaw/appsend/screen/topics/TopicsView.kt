@@ -26,7 +26,7 @@ interface TopicsView {
 
     fun showContent()
 
-    fun showMessageDialog(topic: TopicItem)
+    fun showMessageDialog(topicId: Int, isPinned: Boolean)
 
     fun showPinFailed()
 
@@ -34,7 +34,7 @@ interface TopicsView {
 
     fun retryButtonClicks(): Observable<Unit>
 
-    fun pinTopicClicks(): Observable<TopicItem>
+    fun pinTopicClicks(): Observable<Int>
 
     fun contentUpdated()
 
@@ -57,7 +57,7 @@ class TopicsViewImpl(
 
     private val getStartedRelay = PublishRelay.create<Unit>()
     private val retryButtonRelay = PublishRelay.create<Unit>()
-    private val pinTopicRelay = PublishRelay.create<TopicItem>()
+    private val pinTopicRelay = PublishRelay.create<Int>()
 
     init {
         val orientation = RecyclerView.VERTICAL
@@ -89,7 +89,7 @@ class TopicsViewImpl(
         viewFlipper.displayedChild = 3
     }
 
-    override fun showMessageDialog(topic: TopicItem) {
+    override fun showMessageDialog(topicId: Int, isPinned: Boolean) {
         val theme = R.style.BottomSheetDialogDark.takeIf { preferences.isDarkTheme() }
             ?: R.style.BottomSheetDialogLight
         BottomSheetBuilder(view.context, theme)
@@ -97,18 +97,18 @@ class TopicsViewImpl(
             .setIconTintColor(ColorHelper.getAttributedColor(context, R.attr.menu_icons_tint))
             .setItemTextColor(ColorHelper.getAttributedColor(context, R.attr.text_primary_color))
             .apply {
-                if (topic.isPinned) {
+                if (isPinned) {
                     addItem(
                         MENU_PIN,
                         R.string.unpin,
                         R.drawable.ic_pin_off
-                    ).setItemClickListener { pinTopicRelay.accept(topic) }
+                    ).setItemClickListener { pinTopicRelay.accept(topicId) }
                 } else {
                     addItem(
                         MENU_PIN,
                         R.string.pin,
                         R.drawable.ic_pin
-                    ).setItemClickListener { pinTopicRelay.accept(topic) }
+                    ).setItemClickListener { pinTopicRelay.accept(topicId) }
                 }
             }
             .createDialog()
@@ -132,7 +132,7 @@ class TopicsViewImpl(
 
     override fun retryButtonClicks(): Observable<Unit> = retryButtonRelay
 
-    override fun pinTopicClicks(): Observable<TopicItem> = pinTopicRelay
+    override fun pinTopicClicks(): Observable<Int> = pinTopicRelay
 
 }
 

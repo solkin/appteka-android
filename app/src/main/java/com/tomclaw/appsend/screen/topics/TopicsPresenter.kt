@@ -7,11 +7,12 @@ import com.avito.konveyor.data_source.ListDataSource
 import com.tomclaw.appsend.dto.TopicEntity
 import com.tomclaw.appsend.events.EventsInteractor
 import com.tomclaw.appsend.screen.topics.adapter.ItemListener
-import com.tomclaw.appsend.screen.topics.adapter.topic.TopicItem
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
+import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
+import java.util.concurrent.TimeUnit
 
 interface TopicsPresenter : ItemListener {
 
@@ -48,8 +49,9 @@ class TopicsPresenterImpl(
 
     private val subscriptions = CompositeDisposable()
 
-    private var items: List<TopicItem>? = state?.getParcelableArrayList(KEY_TOPICS)
+    private var entities: List<TopicEntity>? = state?.getParcelableArrayList(KEY_TOPICS)
     private var isError: Boolean = state?.getBoolean(KEY_ERROR) ?: false
+    private var hasMore: Boolean = state?.getBoolean(KEY_HAS_MORE) ?: false
 
     override fun attachView(view: TopicsView) {
         this.view = view
@@ -63,8 +65,8 @@ class TopicsPresenterImpl(
             loadTopics()
         }
 
-        subscriptions += view.pinTopicClicks().subscribe { topic ->
-            pinTopic(topicId = topic.id.toInt())
+        subscriptions += view.pinTopicClicks().subscribe { topicId ->
+            pinTopic(topicId)
         }
 
         if (preferences.isShowIntro()) {
@@ -72,9 +74,8 @@ class TopicsPresenterImpl(
         } else {
             if (isError) {
                 onError()
-                onReady()
             } else {
-                items?.let { onReady() } ?: loadTopics()
+                entities?.let { bindEntities() } ?: loadTopics()
             }
         }
 
@@ -84,22 +85,18 @@ class TopicsPresenterImpl(
                 println("[polling] event received (topics)")
                 response.topics?.let { topics ->
                     val isInvalidateTopics = response.invalidateTopics ?: false
-                    val topItems = ArrayList<TopicItem>()
-                    val filteredItems = ArrayList(
-                        items?.takeUnless { isInvalidateTopics } ?: emptyList()
+                    val topItems = ArrayList(topics)
+                    val filteredEntities = ArrayList(
+                        entities?.takeUnless { isInvalidateTopics } ?: emptyList()
                     )
-
                     topics.forEach { topic ->
-                        topItems.add(converter.convert(topic))
-                        filteredItems.removeAll { it.id.toInt() == topic.topicId }
+                        filteredEntities.removeAll { it.topicId == topic.topicId }
                     }
-                    val newItems = topItems + filteredItems
-                    newItems.forEach { item -> item.hasMore = false }
-                    items = newItems.apply { if (isNotEmpty()) last().hasMore = true }
+                    val newEntities = topItems + filteredEntities
+                    entities = newEntities
+                    hasMore = hasMore || isInvalidateTopics
 
-                    val dataSource = ListDataSource(newItems)
-                    adapterPresenter.get().onDataSourceChanged(dataSource)
-                    view.contentUpdated()
+                    bindEntities()
                 }
             }
     }
@@ -118,18 +115,18 @@ class TopicsPresenterImpl(
     }
 
     override fun saveState() = Bundle().apply {
-        putParcelableArrayList(KEY_TOPICS, items?.let { ArrayList(items.orEmpty()) })
+        putParcelableArrayList(KEY_TOPICS, entities?.let { ArrayList(entities.orEmpty()) })
         putBoolean(KEY_ERROR, isError)
+        putBoolean(KEY_HAS_MORE, hasMore)
     }
 
     private fun loadTopics() {
         subscriptions += topicsInteractor.listTopics()
             .observeOn(schedulers.mainThread())
             .doOnSubscribe {
-                items = null
+                entities = null
                 view?.showProgress()
             }
-            .doAfterTerminate { onReady() }
             .subscribe(
                 { onLoaded(it) },
                 { onError() }
@@ -139,52 +136,43 @@ class TopicsPresenterImpl(
     private fun loadTopics(offset: Int) {
         subscriptions += topicsInteractor.listTopics(offset)
             .observeOn(schedulers.mainThread())
-            .doAfterTerminate { onReady() }
+            .retryWhen { errors ->
+                errors.flatMap {
+                    println("[topics] Retry after exception: " + it.message)
+                    Observable.timer(3, TimeUnit.SECONDS)
+                }
+            }
             .subscribe(
                 { onLoaded(it) },
-                { onLoadMoreError() }
+                { onError() }
             )
     }
 
     private fun onLoaded(entities: List<TopicEntity>) {
         isError = false
-        val newItems = entities
-            .map { converter.convert(it) }
-            .toList()
-            .apply { if (isNotEmpty()) last().hasMore = true }
-        this.items = this.items
-            ?.apply { if (isNotEmpty()) last().hasProgress = false }
-            ?.plus(newItems) ?: newItems
+        hasMore = entities.isNotEmpty()
+        this.entities = (this.entities ?: emptyList()).plus(entities)
+        bindEntities()
     }
 
-    private fun onReady() {
-        val items = this.items.takeIf { !it.isNullOrEmpty() } ?: emptyList()
-        when {
-            isError -> {
-                view?.showError()
-            }
-            else -> {
-                val dataSource = ListDataSource(items)
-                adapterPresenter.get().onDataSourceChanged(dataSource)
-                view?.let {
-                    it.contentUpdated()
-                    it.showContent()
-                }
-            }
+    private fun bindEntities() {
+        val entities = this.entities ?: emptyList()
+
+        val items = entities
+            .map { converter.convert(it) }
+            .apply { if (isNotEmpty()) last().hasMore = hasMore }
+
+        val dataSource = ListDataSource(items)
+        adapterPresenter.get().onDataSourceChanged(dataSource)
+        view?.let {
+            it.contentUpdated()
+            it.showContent()
         }
     }
 
     private fun onError() {
         this.isError = true
-    }
-
-    private fun onLoadMoreError() {
-        items?.last()
-            ?.apply {
-                hasProgress = false
-                hasMore = false
-                hasError = true
-            }
+        view?.showError()
     }
 
     private fun pinTopic(topicId: Int) {
@@ -194,31 +182,17 @@ class TopicsPresenterImpl(
     }
 
     override fun onItemClick(item: Item) {
-        val topicItem = items?.find { it.id == item.id } ?: return
-        router?.showChatScreen(topicItem.id.toInt(), topicItem.title)
+        val entity = entities?.find { it.topicId.toLong() == item.id } ?: return
+        router?.showChatScreen(entity.topicId, entity.title)
     }
 
     override fun onItemLongClick(item: Item) {
-        val topicItem = items?.find { it.id == item.id } ?: return
-        view?.showMessageDialog(topicItem)
-    }
-
-    override fun onRetryClick(item: Item) {
-        val offset = items?.size ?: return
-        if (items?.isNotEmpty() == true) {
-            items?.last()?.let {
-                it.hasProgress = true
-                it.hasError = false
-            }
-            items?.last()?.let {
-                view?.contentUpdated(offset - 1)
-            }
-        }
-        loadTopics(offset)
+        val entity = entities?.find { it.topicId.toLong() == item.id } ?: return
+        view?.showMessageDialog(entity.topicId, entity.isPinned)
     }
 
     override fun onLoadMore(item: Item) {
-        val offset = items?.size ?: return
+        val offset = entities?.size ?: return
         loadTopics(offset)
     }
 
@@ -226,3 +200,4 @@ class TopicsPresenterImpl(
 
 private const val KEY_TOPICS = "topics"
 private const val KEY_ERROR = "error"
+private const val KEY_HAS_MORE = "has_more"

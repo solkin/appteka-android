@@ -18,6 +18,5 @@ data class TopicItem(
     val lastMsgText: String,
     val lastMsgUserIcon: UserIcon,
     var hasMore: Boolean = false,
-    var hasError: Boolean = false,
     var hasProgress: Boolean = false,
 ) : Item, Parcelable
