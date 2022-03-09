@@ -28,7 +28,7 @@ interface TopicsPresenter : ItemListener {
 
     interface TopicsRouter {
 
-        fun showChatScreen(topicId: Int, title: String)
+        fun showChatScreen(entity: TopicEntity)
 
     }
 
@@ -183,7 +183,7 @@ class TopicsPresenterImpl(
 
     override fun onItemClick(item: Item) {
         val entity = entities?.find { it.topicId.toLong() == item.id } ?: return
-        router?.showChatScreen(entity.topicId, entity.title)
+        router?.showChatScreen(entity)
     }
 
     override fun onItemLongClick(item: Item) {

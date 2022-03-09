@@ -9,6 +9,7 @@ import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.dto.TopicEntity
 import com.tomclaw.appsend.main.download.DownloadActivity.createAppActivityIntent
 import com.tomclaw.appsend.main.profile.ProfileActivity.createProfileActivityIntent
 import com.tomclaw.appsend.screen.chat.di.ChatModule
@@ -30,14 +31,15 @@ class ChatActivity : AppCompatActivity(), ChatPresenter.ChatRouter {
     lateinit var preferences: ChatPreferencesProvider
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val topicEntity = intent.getParcelableExtra<TopicEntity>(EXTRA_TOPIC_ENTITY)
         val viewTitle = intent.getStringExtra(EXTRA_TITLE).takeIf { !it.isNullOrEmpty() }
             ?: getString(R.string.chat_activity)
         val topicId = intent.getIntExtra(EXTRA_TOPIC_ID, 0).takeIf { it != 0 }
-            ?: throw IllegalArgumentException("Topic ID must be provided")
+            ?: topicEntity?.topicId ?: throw IllegalArgumentException("Topic ID must be provided")
 
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
         Appteka.getComponent()
-            .chatComponent(ChatModule(this, topicId, presenterState))
+            .chatComponent(ChatModule(this, topicEntity, topicId, presenterState))
             .inject(activity = this)
         ThemeHelper.updateTheme(this)
 
@@ -99,6 +101,13 @@ fun createChatActivityIntent(
     .putExtra(EXTRA_TOPIC_ID, topicId)
     .putExtra(EXTRA_TITLE, title)
 
+fun createChatActivityIntent(
+    context: Context,
+    topicEntity: TopicEntity,
+): Intent = Intent(context, ChatActivity::class.java)
+    .putExtra(EXTRA_TOPIC_ENTITY, topicEntity)
+
 private const val EXTRA_TOPIC_ID = "topic_id"
 private const val EXTRA_TITLE = "title"
+private const val EXTRA_TOPIC_ENTITY = "topic_entity"
 private const val KEY_PRESENTER_STATE = "presenter_state"

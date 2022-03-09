@@ -9,11 +9,9 @@ import com.tomclaw.appsend.dto.TopicEntity
 import com.tomclaw.appsend.events.EventsInteractor
 import com.tomclaw.appsend.screen.chat.adapter.ItemListener
 import com.tomclaw.appsend.screen.topics.COMMON_QNA_TOPIC_ICON
-import com.tomclaw.appsend.screen.topics.TopicConverter
 import com.tomclaw.appsend.util.RoleHelper.ROLE_ADMIN
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
-import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
 
@@ -44,6 +42,7 @@ interface ChatPresenter : ItemListener {
 }
 
 class ChatPresenterImpl(
+    topicEntity: TopicEntity?,
     private val topicId: Int,
     private val converter: MessageConverter,
     private val chatInteractor: ChatInteractor,
@@ -57,7 +56,7 @@ class ChatPresenterImpl(
     private var view: ChatView? = null
     private var router: ChatPresenter.ChatRouter? = null
 
-    private var topic: TopicEntity? = state?.getParcelable(KEY_TOPIC)
+    private var topic: TopicEntity? = state?.getParcelable(KEY_TOPIC) ?: topicEntity
     private var isError: Boolean = state?.getBoolean(KEY_ERROR) ?: false
     private var messageText: String = state?.getString(KEY_MESSAGE) ?: ""
     private var history: List<MessageEntity>? = state?.getParcelableArrayList(KEY_HISTORY)
@@ -109,6 +108,11 @@ class ChatPresenterImpl(
             }
             topic != null -> {
                 onTopicLoaded()
+                if (history != null) {
+                    onHistoryLoaded()
+                } else {
+                    loadHistory()
+                }
             }
             else -> {
                 loadTopic()
@@ -218,15 +222,14 @@ class ChatPresenterImpl(
 
     private fun loadTopic() {
         subscriptions += chatInteractor.getTopic(topicId)
-            .flatMap { topic ->
-                this.topic = topic
-                chatInteractor.loadHistory(topicId, 0, -1)
-            }
-            .map { mergeHistory(it) }
+            .map { this.topic = it }
             .observeOn(schedulers.mainThread())
             .doOnSubscribe { view?.showProgress() }
             .subscribe(
-                { onTopicLoaded() },
+                {
+                    onTopicLoaded()
+                    loadHistory()
+                },
                 { onTopicError() }
             )
     }
@@ -249,19 +252,28 @@ class ChatPresenterImpl(
         view?.setIcon(icon)
         view?.setTitle(title)
         view?.setSubtitle(description ?: topic.packageName.orEmpty())
+    }
 
+    private fun loadHistory() {
+        subscriptions += chatInteractor.loadHistory(topicId, 0, -1)
+            .map { mergeHistory(it) }
+            .observeOn(schedulers.mainThread())
+            .doOnSubscribe { view?.showProgress() }
+            .subscribe(
+                { onHistoryLoaded() },
+                { onTopicError() }
+            )
+    }
+
+    private fun onHistoryLoaded() {
         val items = convertHistory()
 
         val dataSource = ListDataSource(items)
         adapterPresenter.get().onDataSourceChanged(dataSource)
 
-        view?.let {
-            with(it) {
-                contentUpdated()
-                showContent()
-                invalidateMenu()
-            }
-        }
+        view?.contentUpdated()
+        view?.showContent()
+        invalidateMenu()
 
         readTopic()
     }
@@ -281,10 +293,14 @@ class ChatPresenterImpl(
     }
 
     private fun readTopic() {
-        history?.takeIf { it.isNotEmpty() }?.last()?.let { msg ->
-            subscriptions += chatInteractor.readTopic(topicId, msg.msgId)
-                .observeOn(schedulers.mainThread())
-                .subscribe({ }, { })
+        if (topic?.isPinned == true) {
+            history?.takeIf { it.isNotEmpty() }?.last()?.let { msg ->
+                if (msg.msgId > (topic?.readMsgId ?: 0)) {
+                    subscriptions += chatInteractor.readTopic(topicId, msg.msgId)
+                        .observeOn(schedulers.mainThread())
+                        .subscribe({ }, { })
+                }
+            }
         }
     }
 

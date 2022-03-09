@@ -9,6 +9,7 @@ import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.dto.TopicEntity
 import com.tomclaw.appsend.main.home.HomeFragment
 import com.tomclaw.appsend.screen.chat.createChatActivityIntent
 import com.tomclaw.appsend.screen.topics.di.TopicsModule
@@ -72,8 +73,8 @@ class TopicsFragment : HomeFragment(), TopicsPresenter.TopicsRouter {
         outState.putBundle(KEY_PRESENTER_STATE, presenter.saveState())
     }
 
-    override fun showChatScreen(topicId: Int, title: String) {
-        val intent = createChatActivityIntent(requireContext(), topicId, title)
+    override fun showChatScreen(entity: TopicEntity) {
+        val intent = createChatActivityIntent(requireContext(), entity)
         startActivity(intent)
     }
 

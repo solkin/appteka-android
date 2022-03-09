@@ -9,19 +9,24 @@ import com.avito.konveyor.blueprint.ItemBlueprint
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.di.DATE_FORMATTER
 import com.tomclaw.appsend.di.TIME_FORMATTER
+import com.tomclaw.appsend.dto.TopicEntity
 import com.tomclaw.appsend.events.EventsInteractor
-import com.tomclaw.appsend.screen.chat.*
+import com.tomclaw.appsend.screen.chat.ChatInteractor
+import com.tomclaw.appsend.screen.chat.ChatInteractorImpl
+import com.tomclaw.appsend.screen.chat.ChatPreferencesProvider
+import com.tomclaw.appsend.screen.chat.ChatPreferencesProviderImpl
+import com.tomclaw.appsend.screen.chat.ChatPresenter
+import com.tomclaw.appsend.screen.chat.ChatPresenterImpl
+import com.tomclaw.appsend.screen.chat.ChatResourceProvider
+import com.tomclaw.appsend.screen.chat.ChatResourceProviderImpl
+import com.tomclaw.appsend.screen.chat.MessageConverter
+import com.tomclaw.appsend.screen.chat.MessageConverterImpl
 import com.tomclaw.appsend.screen.chat.adapter.incoming.IncomingMsgItemBlueprint
 import com.tomclaw.appsend.screen.chat.adapter.incoming.IncomingMsgItemPresenter
 import com.tomclaw.appsend.screen.chat.adapter.outgoing.OutgoingMsgItemBlueprint
 import com.tomclaw.appsend.screen.chat.adapter.outgoing.OutgoingMsgItemPresenter
-import com.tomclaw.appsend.screen.topics.TopicConverter
-import com.tomclaw.appsend.screen.topics.TopicConverterImpl
-import com.tomclaw.appsend.screen.topics.TopicsResourceProvider
-import com.tomclaw.appsend.screen.topics.TopicsResourceProviderImpl
 import com.tomclaw.appsend.user.UserDataInteractor
 import com.tomclaw.appsend.util.PerActivity
-import com.tomclaw.appsend.util.PerFragment
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
 import dagger.Module
@@ -33,6 +38,7 @@ import javax.inject.Named
 @Module
 class ChatModule(
     private val context: Context,
+    private val topicEntity: TopicEntity?,
     private val topicId: Int,
     private val state: Bundle?
 ) {
@@ -47,6 +53,7 @@ class ChatModule(
         adapterPresenter: Lazy<AdapterPresenter>,
         schedulers: SchedulersFactory
     ): ChatPresenter = ChatPresenterImpl(
+        topicEntity,
         topicId,
         converter,
         chatInteractor,
