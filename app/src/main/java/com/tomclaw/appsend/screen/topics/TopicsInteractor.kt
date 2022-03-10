@@ -3,13 +3,14 @@ package com.tomclaw.appsend.screen.topics
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.dto.TopicEntity
 import com.tomclaw.appsend.screen.topics.api.PinTopicResponse
+import com.tomclaw.appsend.screen.topics.api.TopicsResponse
 import com.tomclaw.appsend.user.UserDataInteractor
 import com.tomclaw.appsend.util.SchedulersFactory
 import io.reactivex.rxjava3.core.Observable
 
 interface TopicsInteractor {
 
-    fun listTopics(offset: Int = 0): Observable<List<TopicEntity>>
+    fun listTopics(offset: Int = 0): Observable<TopicsResponse>
 
     fun pinTopic(topicId: Int): Observable<PinTopicResponse>
 
@@ -21,7 +22,7 @@ class TopicsInteractorImpl(
     private val schedulers: SchedulersFactory
 ) : TopicsInteractor {
 
-    override fun listTopics(offset: Int): Observable<List<TopicEntity>> {
+    override fun listTopics(offset: Int): Observable<TopicsResponse> {
         return userDataInteractor
             .getUserData()
             .flatMap {
@@ -30,7 +31,7 @@ class TopicsInteractorImpl(
                     offset = offset
                 )
             }
-            .map { it.result.topics }
+            .map { it.result }
             .toObservable()
             .subscribeOn(schedulers.io())
     }

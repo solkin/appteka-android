@@ -128,7 +128,7 @@ class TopicsPresenterImpl(
                 view?.showProgress()
             }
             .subscribe(
-                { onLoaded(it) },
+                { onLoaded(it.topics, it.hasMore) },
                 { onError() }
             )
     }
@@ -143,15 +143,15 @@ class TopicsPresenterImpl(
                 }
             }
             .subscribe(
-                { onLoaded(it) },
+                { onLoaded(it.topics, it.hasMore) },
                 { onError() }
             )
     }
 
-    private fun onLoaded(entities: List<TopicEntity>) {
+    private fun onLoaded(entities: List<TopicEntity>, hasMore: Boolean) {
         isError = false
-        hasMore = entities.isNotEmpty()
         this.entities = (this.entities ?: emptyList()).plus(entities)
+        this.hasMore = hasMore
         bindEntities()
     }
 
