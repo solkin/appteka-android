@@ -1,7 +1,5 @@
 package com.tomclaw.appsend.core;
 
-import android.net.Uri;
-
 /**
  * Created by ivsolkin on 23.06.17.
  */

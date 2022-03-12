@@ -20,17 +20,19 @@ class UserDataInteractorImpl(
     private var userData: UserData? = null
 
     override fun getUserData(): Single<UserData> {
-        return getCachedUserData() ?: loadAndCacheUserData()
+        return Single
+            .create<UserData> { emitter ->
+                userData?.let {
+                    emitter.onSuccess(it)
+                } ?: emitter.onError(Exception("No cached user data"))
+            }
+            .onErrorResumeWith(loadAndCacheUserData())
     }
 
     private fun loadAndCacheUserData(): Single<UserData> {
         return sessionStorage.loadSessionCredentials()
             .flatMap { loadUserData(it.guid) }
             .map { cacheUserData(it) }
-    }
-
-    private fun getCachedUserData(): Single<UserData>? {
-        return userData?.let { Single.just(it) }
     }
 
     private fun cacheUserData(userData: UserData): UserData {
