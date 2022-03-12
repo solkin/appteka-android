@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
-import android.view.MenuInflater
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
@@ -23,8 +22,10 @@ import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.dto.MessageEntity
-import com.tomclaw.appsend.util.*
 import com.tomclaw.appsend.util.ColorHelper.getAttributedColor
+import com.tomclaw.appsend.util.clicks
+import com.tomclaw.appsend.util.hideWithAlphaAnimation
+import com.tomclaw.appsend.util.showWithAlphaAnimation
 import com.tomclaw.imageloader.util.centerCrop
 import com.tomclaw.imageloader.util.fetch
 import com.tomclaw.imageloader.util.withPlaceholder
@@ -53,6 +54,8 @@ interface ChatView {
     fun contentRangeInserted(position: Int, count: Int)
 
     fun contentItemRemoved(position: Int)
+
+    fun scrollBottom()
 
     fun showError()
 
@@ -299,6 +302,10 @@ class ChatViewImpl(
 
     override fun contentItemRemoved(position: Int) {
         adapter.notifyItemRemoved(position)
+    }
+
+    override fun scrollBottom() {
+        recycler.scrollToPosition(0)
     }
 
     override fun navigationClicks(): Observable<Unit> = navigationRelay

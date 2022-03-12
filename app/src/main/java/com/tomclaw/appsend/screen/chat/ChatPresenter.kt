@@ -212,6 +212,7 @@ class ChatPresenterImpl(
     private fun onMessageSent() {
         messageText = ""
         view?.setMessageText(messageText)
+        view?.scrollBottom()
 
         invalidateMenu()
     }
