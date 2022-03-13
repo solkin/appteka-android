@@ -41,6 +41,11 @@ class MessageConverterImpl(
                         message.attachment.height
                     )
                 }
+                val text = if (attachment != null) {
+                    resourceProvider.unsupportedMessageText()
+                } else {
+                    message.text
+                }
                 if (message.incoming) {
                     IncomingMsgItem(
                         id = message.msgId.toLong(),
@@ -50,7 +55,7 @@ class MessageConverterImpl(
                         type = message.type,
                         userId = message.userId,
                         userIcon = message.userIcon,
-                        text = message.text,
+                        text = text,
                         time = time,
                         date = date,
                         attachment = attachment
@@ -64,7 +69,7 @@ class MessageConverterImpl(
                         type = message.type,
                         userId = message.userId,
                         userIcon = message.userIcon,
-                        text = message.text,
+                        text = text,
                         time = time,
                         date = date,
                         attachment = attachment,
