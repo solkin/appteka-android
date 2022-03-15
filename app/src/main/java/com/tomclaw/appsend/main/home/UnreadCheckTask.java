@@ -74,7 +74,16 @@ public class UnreadCheckTask extends HttpTask {
 
     private void notifyListener() {
         if (listener != null) {
-            MainExecutor.execute(() -> listener.onUnread(count));
+            MainExecutor.execute(() -> {
+                final UnreadListener unreadListener = listener;
+                try {
+                    if (unreadListener != null) {
+                        unreadListener.onUnread(count);
+                    }
+                } catch (Throwable ex) {
+                    ex.printStackTrace();
+                }
+            });
         }
     }
 

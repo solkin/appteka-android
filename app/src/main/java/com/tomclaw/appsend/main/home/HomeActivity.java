@@ -186,8 +186,6 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
         register(getApplication());
 
         checkMigration();
-
-        unreadCheckTask = new UnreadCheckTask(Session_.getInstance().getUserData().getGuid());
     }
 
     @Override
@@ -196,10 +194,10 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
         Session.getInstance().getUserHolder().attachListener(this);
         UpdateController.getInstance().onAttach(this);
         TaskExecutor.getInstance().execute(new StatusCheckTask(this));
-        if (unreadCheckTask != null) {
-            unreadCheckTask.setListener(this);
-            TaskExecutor.getInstance().execute(unreadCheckTask);
-        }
+        UnreadCheckTask unreadCheckTask = new UnreadCheckTask(Session_.getInstance().getUserData().getGuid());
+        this.unreadCheckTask = unreadCheckTask;
+        unreadCheckTask.setListener(this);
+        TaskExecutor.getInstance().execute(unreadCheckTask);
     }
 
     @Override

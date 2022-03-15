@@ -2,6 +2,7 @@ package com.tomclaw.appsend.user
 
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.dto.UserData
+import com.tomclaw.appsend.net.Session_
 import com.tomclaw.appsend.util.SchedulersFactory
 import io.reactivex.rxjava3.core.Single
 
@@ -18,6 +19,14 @@ class UserDataInteractorImpl(
 ) : UserDataInteractor {
 
     private var userData: UserData? = null
+
+    init {
+        //TODO: Remove temporary cache invalidation due to legacy authorization
+        Session_.getInstance().userHolder.attachListener {
+            println("Invalidate user data cache after authorization")
+            invalidateUserDataCache()
+        }
+    }
 
     override fun getUserData(): Single<UserData> {
         return Single
@@ -38,6 +47,10 @@ class UserDataInteractorImpl(
     private fun cacheUserData(userData: UserData): UserData {
         this.userData = userData
         return userData
+    }
+
+    private fun invalidateUserDataCache() {
+        this.userData = null
     }
 
     private fun loadUserData(guid: String): Single<UserData> {
