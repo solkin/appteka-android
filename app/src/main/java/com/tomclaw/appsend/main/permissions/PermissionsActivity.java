@@ -32,7 +32,7 @@ public class PermissionsActivity extends AppCompatActivity {
     @ViewById
     Toolbar toolbar;
 
-    @ViewById
+    @ViewById(R.id.recycler_view)
     RecyclerView recyclerView;
 
     @Extra
