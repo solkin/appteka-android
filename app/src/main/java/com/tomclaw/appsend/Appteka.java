@@ -1,5 +1,7 @@
 package com.tomclaw.appsend;
 
+import static java.util.Collections.singletonList;
+
 import android.app.Application;
 
 import com.tomclaw.appsend.di.AppComponent;
@@ -81,7 +83,7 @@ public class Appteka extends Application {
                     new ContentLoader(getContentResolver()),
                     new PackageIconLoader(getPackageManager())
             );
-            SimpleImageLoader.INSTANCE.initImageLoader(this, new BitmapDecoder(),
+            SimpleImageLoader.INSTANCE.initImageLoader(this, singletonList(new BitmapDecoder()),
                     fileProvider, new MemoryCacheImpl(), new MainExecutorImpl(),
                     Executors.newFixedThreadPool(5));
         } catch (IOException e) {
