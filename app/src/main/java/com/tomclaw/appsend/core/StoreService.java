@@ -127,8 +127,15 @@ public interface StoreService {
             @Field("reason") String reason
     );
 
-    @GET("api/1/app/list")
-    Call<ApiResponse<ListResponse>> listFiles(
+    @GET("api/1/app/top/list")
+    Call<ApiResponse<ListResponse>> listTopFiles(
+            @Query("guid") String guid,
+            @Query("app_id") String appId,
+            @Query("locale") String locale
+    );
+
+    @GET("api/1/user/app/list")
+    Call<ApiResponse<ListResponse>> listUserFiles(
             @Query("user_id") Long userId,
             @Query("guid") String guid,
             @Query("app_id") String appId,

@@ -30,7 +30,7 @@ public class UploadsFragment extends BaseStoreFragment {
     public Call<ApiResponse<ListResponse>> createCall(String appId, int offset) {
         if (userId == null) return null;
         String locale = getLocaleLanguage();
-        return serviceHolder.getService().listFiles(userId, session.getUserHolder().getUserData().getGuid(), appId, locale);
+        return serviceHolder.getService().listUserFiles(userId, session.getUserHolder().getUserData().getGuid(), appId, locale);
     }
 
     public void setUserId(long userId) {
