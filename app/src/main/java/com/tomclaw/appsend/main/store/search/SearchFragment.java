@@ -18,7 +18,7 @@ import retrofit2.Call;
 
 import static com.tomclaw.appsend.util.LocaleHelper.getLocaleLanguage;
 
-@EFragment(R.layout.store_fragment)
+@EFragment(R.layout.search_fragment)
 public class SearchFragment extends BaseStoreFragment implements Debouncer.Callback<String> {
 
     private Debouncer<String> filterDebouncer = new Debouncer<>(this, 1000);

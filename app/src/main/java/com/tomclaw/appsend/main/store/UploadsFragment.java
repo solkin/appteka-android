@@ -14,7 +14,7 @@ import retrofit2.Call;
 
 import static com.tomclaw.appsend.util.LocaleHelper.getLocaleLanguage;
 
-@EFragment(R.layout.store_fragment)
+@EFragment(R.layout.uploads_fragment)
 public class UploadsFragment extends BaseStoreFragment {
 
     @Bean
