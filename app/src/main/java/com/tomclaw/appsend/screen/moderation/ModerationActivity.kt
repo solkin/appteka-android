@@ -65,6 +65,7 @@ class ModerationActivity : AppCompatActivity(), ModerationPresenter.ModerationRo
         outState.putBundle(KEY_PRESENTER_STATE, presenter.saveState())
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == REQUEST_UPDATE_META) {
             if (resultCode == RESULT_OK) {
