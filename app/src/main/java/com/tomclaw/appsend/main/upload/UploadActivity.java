@@ -6,7 +6,6 @@ import static com.tomclaw.imageloader.util.ImageViewHandlersKt.centerCrop;
 import static com.tomclaw.imageloader.util.ImageViewHandlersKt.withPlaceholder;
 import static com.tomclaw.imageloader.util.ImageViewsKt.fetch;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.os.Bundle;
@@ -33,6 +32,7 @@ import com.tomclaw.appsend.net.Session;
 import com.tomclaw.appsend.net.Session_;
 import com.tomclaw.appsend.util.FileHelper;
 import com.tomclaw.appsend.util.IntentHelper;
+import com.tomclaw.appsend.util.PackageIconLoader;
 import com.tomclaw.appsend.util.StringUtil;
 import com.tomclaw.appsend.util.ThemeHelper;
 
@@ -119,7 +119,8 @@ public class UploadActivity extends AppCompatActivity implements UploadControlle
         PackageInfo packageInfo = item.getPackageInfo();
 
         if (packageInfo != null) {
-            fetch(appIcon, "app-package://" + item.getPackageInfo().packageName + "/" + item.getPackageInfo().versionCode, imageViewHandlers -> {
+            String uri = PackageIconLoader.getUri(item.getPackageInfo());
+            fetch(appIcon, uri, imageViewHandlers -> {
                 centerCrop(imageViewHandlers);
                 withPlaceholder(imageViewHandlers, R.drawable.app_placeholder);
                 imageViewHandlers.setPlaceholder(imageViewViewHolder -> {

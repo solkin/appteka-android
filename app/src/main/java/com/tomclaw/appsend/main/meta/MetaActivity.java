@@ -33,6 +33,7 @@ import com.tomclaw.appsend.main.item.StoreItem;
 import com.tomclaw.appsend.net.Session;
 import com.tomclaw.appsend.util.KeyboardHelper;
 import com.tomclaw.appsend.util.LocaleHelper;
+import com.tomclaw.appsend.util.PackageIconLoader;
 import com.tomclaw.appsend.util.ThemeHelper;
 
 import java.util.ArrayList;
@@ -162,7 +163,8 @@ public class MetaActivity extends AppCompatActivity {
             PackageInfo packageInfo = commonItem.getPackageInfo();
 
             if (packageInfo != null) {
-                fetch(appIcon, "app-package://" + packageInfo.packageName + "/" + packageInfo.versionCode, imageViewHandlers -> {
+                String uri = PackageIconLoader.getUri(packageInfo);
+                fetch(appIcon, uri, imageViewHandlers -> {
                     centerCrop(imageViewHandlers);
                     withPlaceholder(imageViewHandlers, R.drawable.app_placeholder);
                     imageViewHandlers.setPlaceholder(imageViewViewHolder -> {
