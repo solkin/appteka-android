@@ -4,6 +4,8 @@ import com.tomclaw.appsend.screen.chat.di.ChatComponent
 import com.tomclaw.appsend.screen.chat.di.ChatModule
 import com.tomclaw.appsend.screen.moderation.di.ModerationComponent
 import com.tomclaw.appsend.screen.moderation.di.ModerationModule
+import com.tomclaw.appsend.screen.store.di.StoreComponent
+import com.tomclaw.appsend.screen.store.di.StoreModule
 import com.tomclaw.appsend.screen.topics.di.TopicsComponent
 import com.tomclaw.appsend.screen.topics.di.TopicsModule
 import dagger.Component
@@ -18,5 +20,7 @@ interface AppComponent {
     fun topicsComponent(module: TopicsModule): TopicsComponent
 
     fun chatComponent(module: ChatModule): ChatComponent
+
+    fun storeComponent(module: StoreModule): StoreComponent
 
 }

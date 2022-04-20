@@ -1,7 +1,6 @@
 package com.tomclaw.appsend.screen.topics
 
 import com.tomclaw.appsend.core.StoreApi
-import com.tomclaw.appsend.dto.TopicEntity
 import com.tomclaw.appsend.screen.topics.api.PinTopicResponse
 import com.tomclaw.appsend.screen.topics.api.TopicsResponse
 import com.tomclaw.appsend.user.UserDataInteractor

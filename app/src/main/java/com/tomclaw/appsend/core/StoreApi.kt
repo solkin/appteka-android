@@ -20,6 +20,13 @@ import retrofit2.http.Query
 
 interface StoreApi {
 
+    @GET("1/app/top/list")
+    fun getTopList(
+        @Query("guid") guid: String,
+        @Query("app_id") appId: String?,
+        @Query("locale") locale: String
+    ): Single<StoreResponse<ModerationResponse>>
+
     @GET("1/app/moderation/list")
     fun getModerationList(
         @Query("guid") guid: String,

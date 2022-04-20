@@ -44,13 +44,13 @@ import com.tomclaw.appsend.main.local.SelectLocalAppActivity_;
 import com.tomclaw.appsend.main.migrate.MigrateActivity_;
 import com.tomclaw.appsend.main.profile.ProfileFragment_;
 import com.tomclaw.appsend.main.settings.SettingsActivity_;
-import com.tomclaw.appsend.main.store.StoreFragment_;
 import com.tomclaw.appsend.main.store.search.SearchActivity_;
 import com.tomclaw.appsend.main.upload.UploadActivity;
 import com.tomclaw.appsend.net.Session;
 import com.tomclaw.appsend.net.Session_;
 import com.tomclaw.appsend.net.UserData;
 import com.tomclaw.appsend.net.UserDataListener;
+import com.tomclaw.appsend.screen.store.StoreFragment;
 import com.tomclaw.appsend.screen.topics.TopicsFragment;
 import com.tomclaw.appsend.util.ColorHelper;
 import com.tomclaw.appsend.util.LocaleHelper;
@@ -294,7 +294,7 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
         switch (navItemIndex) {
             case NAV_STORE:
                 bottomNavigation.setCurrentItem(0, false);
-                return new StoreFragment_();
+                return new StoreFragment();
             case NAV_DISCUSS:
                 bottomNavigation.setCurrentItem(1, false);
                 return new TopicsFragment();
