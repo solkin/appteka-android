@@ -12,7 +12,6 @@ class AppItemPresenter(
             if (hasMore) {
                 hasMore = false
                 hasProgress = true
-                hasError = false
                 listener.onLoadMore(this)
             }
         }
@@ -24,9 +23,7 @@ class AppItemPresenter(
         view.setRating(item.rating.takeIf { it > 0 })
         view.setDownloads(item.downloads)
         if (item.hasProgress) view.showProgress() else view.hideProgress()
-        if (item.hasError) view.showError() else view.hideError()
         view.setOnClickListener { listener.onItemClick(item) }
-        view.setOnRetryListener { listener.onRetryClick(item) }
     }
 
 }

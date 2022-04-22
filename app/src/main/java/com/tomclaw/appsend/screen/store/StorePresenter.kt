@@ -9,9 +9,10 @@ import com.tomclaw.appsend.screen.store.adapter.ItemListener
 import com.tomclaw.appsend.screen.store.adapter.app.AppItem
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
+import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
-import java.util.ArrayList
+import java.util.concurrent.TimeUnit
 
 interface StorePresenter : ItemListener {
 
@@ -65,9 +66,8 @@ class StorePresenterImpl(
 
         if (isError) {
             onError()
-            onReady()
         } else {
-            items?.let { onReady() } ?: loadApps()
+            items?.let { bindItems() } ?: loadApps()
         }
     }
 
@@ -98,7 +98,6 @@ class StorePresenterImpl(
         subscriptions += interactor.listApps()
             .observeOn(schedulers.mainThread())
             .doOnSubscribe { if (view?.isPullRefreshing() == false) view?.showProgress() }
-            .doAfterTerminate { onReady() }
             .subscribe(
                 { onLoaded(it) },
                 { onError() }
@@ -108,10 +107,15 @@ class StorePresenterImpl(
     private fun loadApps(offsetAppId: String) {
         subscriptions += interactor.listApps(offsetAppId)
             .observeOn(schedulers.mainThread())
-            .doAfterTerminate { onReady() }
+            .retryWhen { errors ->
+                errors.flatMap {
+                    println("[store] Retry after exception: " + it.message)
+                    Observable.timer(3, TimeUnit.SECONDS)
+                }
+            }
             .subscribe(
                 { onLoaded(it) },
-                { onLoadMoreError() }
+                { onError() }
             )
     }
 
@@ -124,14 +128,12 @@ class StorePresenterImpl(
         this.items = this.items
             ?.apply { if (isNotEmpty()) last().hasProgress = false }
             ?.plus(newItems) ?: newItems
+        bindItems()
     }
 
-    private fun onReady() {
+    private fun bindItems() {
         val items = this.items
         when {
-            isError -> {
-                view?.showError()
-            }
             items.isNullOrEmpty() -> {
                 view?.showPlaceholder()
             }
@@ -152,15 +154,7 @@ class StorePresenterImpl(
 
     private fun onError() {
         this.isError = true
-    }
-
-    private fun onLoadMoreError() {
-        items?.last()
-            ?.apply {
-                hasProgress = false
-                hasMore = false
-                hasError = true
-            }
+        view?.showError()
     }
 
     override fun onUpdate() {
@@ -170,20 +164,6 @@ class StorePresenterImpl(
     override fun onItemClick(item: Item) {
         val app = items?.find { it.id == item.id } ?: return
         router?.openAppScreen(app.appId, app.title)
-    }
-
-    override fun onRetryClick(item: Item) {
-        val app = items?.find { it.id == item.id } ?: return
-        if (items?.isNotEmpty() == true) {
-            items?.last()?.let {
-                it.hasProgress = true
-                it.hasError = false
-            }
-            items?.indexOf(app)?.let {
-                view?.contentUpdated(it)
-            }
-        }
-        loadApps(app.appId)
     }
 
     override fun onLoadMore(item: Item) {
