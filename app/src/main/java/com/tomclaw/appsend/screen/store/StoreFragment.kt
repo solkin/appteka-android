@@ -12,6 +12,7 @@ import com.tomclaw.appsend.R
 import com.tomclaw.appsend.main.download.DownloadActivity
 import com.tomclaw.appsend.main.home.HomeFragment
 import com.tomclaw.appsend.screen.store.di.StoreModule
+import java.util.Locale
 import javax.inject.Inject
 
 class StoreFragment : HomeFragment(), StorePresenter.StoreRouter {
@@ -24,6 +25,12 @@ class StoreFragment : HomeFragment(), StorePresenter.StoreRouter {
 
     @Inject
     lateinit var binder: ItemBinder
+
+    @Inject
+    lateinit var preferences: StorePreferencesProvider
+
+    @Inject
+    lateinit var locale: Locale
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
@@ -44,7 +51,7 @@ class StoreFragment : HomeFragment(), StorePresenter.StoreRouter {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val adapter = SimpleRecyclerAdapter(adapterPresenter, binder)
-        val topicsView = StoreViewImpl(view, adapter)
+        val topicsView = StoreViewImpl(view, preferences, adapter, locale)
 
         presenter.attachView(topicsView)
     }
@@ -70,7 +77,8 @@ class StoreFragment : HomeFragment(), StorePresenter.StoreRouter {
     }
 
     override fun openAppScreen(appId: String, title: String) {
-        val intent = DownloadActivity.createAppActivityIntent(requireContext(), appId, title, false,true)
+        val intent =
+            DownloadActivity.createAppActivityIntent(requireContext(), appId, title, false, true)
         startActivity(intent)
     }
 

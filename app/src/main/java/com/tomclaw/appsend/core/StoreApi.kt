@@ -1,5 +1,6 @@
 package com.tomclaw.appsend.core
 
+import com.tomclaw.appsend.categories.CategoriesResponse
 import com.tomclaw.appsend.dto.StoreResponse
 import com.tomclaw.appsend.events.EventsResponse
 import com.tomclaw.appsend.screen.chat.api.HistoryResponse
@@ -97,5 +98,8 @@ interface StoreApi {
         @Field("topic_id") topicId: Int,
         @Field("msg_id") msgId: Int
     ): Single<StoreResponse<ReadTopicResponse>>
+
+    @GET("1/categories")
+    fun getCategories(): Single<StoreResponse<CategoriesResponse>>
 
 }

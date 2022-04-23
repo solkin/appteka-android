@@ -30,7 +30,7 @@ class UserDataInteractorImpl(
 
     override fun getUserData(): Single<UserData> {
         return Single
-            .create<UserData> { emitter ->
+            .create { emitter ->
                 userData?.let {
                     emitter.onSuccess(it)
                 } ?: emitter.onError(Exception("No cached user data"))

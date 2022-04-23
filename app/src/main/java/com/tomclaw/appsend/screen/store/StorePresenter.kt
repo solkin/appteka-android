@@ -4,6 +4,8 @@ import android.os.Bundle
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.blueprint.Item
 import com.avito.konveyor.data_source.ListDataSource
+import com.tomclaw.appsend.categories.CategoriesInteractor
+import com.tomclaw.appsend.categories.Category
 import com.tomclaw.appsend.dto.AppEntity
 import com.tomclaw.appsend.screen.store.adapter.ItemListener
 import com.tomclaw.appsend.screen.store.adapter.app.AppItem
@@ -39,7 +41,8 @@ interface StorePresenter : ItemListener {
 }
 
 class StorePresenterImpl(
-    private val interactor: StoreInteractor,
+    private val storeInteractor: StoreInteractor,
+    private val categoriesInteractor: CategoriesInteractor,
     private val adapterPresenter: Lazy<AdapterPresenter>,
     private val appConverter: AppConverter,
     private val schedulers: SchedulersFactory,
@@ -62,6 +65,9 @@ class StorePresenterImpl(
         }
         subscriptions += view.refreshClicks().subscribe {
             invalidateApps()
+        }
+        subscriptions += view.categoriesClicks().subscribe {
+            loadCategories()
         }
 
         if (isError) {
@@ -95,7 +101,7 @@ class StorePresenterImpl(
     }
 
     private fun loadApps() {
-        subscriptions += interactor.listApps()
+        subscriptions += storeInteractor.listApps()
             .observeOn(schedulers.mainThread())
             .doOnSubscribe { if (view?.isPullRefreshing() == false) view?.showProgress() }
             .subscribe(
@@ -105,7 +111,7 @@ class StorePresenterImpl(
     }
 
     private fun loadApps(offsetAppId: String) {
-        subscriptions += interactor.listApps(offsetAppId)
+        subscriptions += storeInteractor.listApps(offsetAppId)
             .observeOn(schedulers.mainThread())
             .retryWhen { errors ->
                 errors.flatMap {
@@ -169,6 +175,26 @@ class StorePresenterImpl(
     override fun onLoadMore(item: Item) {
         val app = items?.find { it.id == item.id } ?: return
         loadApps(app.appId)
+    }
+
+    private fun loadCategories() {
+        subscriptions += categoriesInteractor.getCategories()
+            .toObservable()
+            .observeOn(schedulers.mainThread())
+            .retryWhen { errors ->
+                errors.flatMap {
+                    println("[categories] Retry after exception: " + it.message)
+                    Observable.timer(3, TimeUnit.SECONDS)
+                }
+            }
+            .subscribe(
+                { onCategoriesLoaded(it) },
+                { onError() }
+            )
+    }
+
+    private fun onCategoriesLoaded(it: List<Category>) {
+        view?.showCategories(it)
     }
 
 }

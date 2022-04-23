@@ -6,6 +6,8 @@ import android.content.Context.MODE_PRIVATE
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.tomclaw.appsend.categories.CategoriesInteractor
+import com.tomclaw.appsend.categories.CategoriesInteractorImpl
 import com.tomclaw.appsend.core.Config
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.events.EventsInteractor
@@ -89,6 +91,13 @@ class AppModule(private val app: Application) {
         api: StoreApi,
         schedulers: SchedulersFactory
     ): EventsInteractor = EventsInteractorImpl(userDataInteractor, api, schedulers)
+
+    @Provides
+    @Singleton
+    internal fun provideCategoriesInteractor(
+        api: StoreApi,
+        schedulers: SchedulersFactory
+    ): CategoriesInteractor = CategoriesInteractorImpl(api, schedulers)
 
     @Provides
     @Singleton
