@@ -26,7 +26,10 @@ class CategoriesInteractorImpl(
             }
             .onErrorResumeWith(
                 api.getCategories()
-                    .map { it.result.categories }
+                    .map {
+                        categories = it.result.categories
+                        it.result.categories
+                    }
                     .subscribeOn(schedulers.io())
             )
     }
