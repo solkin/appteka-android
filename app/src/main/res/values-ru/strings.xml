@@ -278,5 +278,5 @@
     <string name="error_topic_pin">Не удалось изменить закрепление чата</string>
     <string name="discuss_app">Обсудить</string>
     <string name="error_app_topic_creation">Не удалось открыть тему для обсуждения приложения</string>
-    <string name="categories">Категории</string>
+    <string name="all_categories">Все категории</string>
 </resources>

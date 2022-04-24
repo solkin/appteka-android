@@ -29,9 +29,6 @@ class StoreFragment : HomeFragment(), StorePresenter.StoreRouter {
     @Inject
     lateinit var preferences: StorePreferencesProvider
 
-    @Inject
-    lateinit var locale: Locale
-
     override fun onCreate(savedInstanceState: Bundle?) {
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
         Appteka.getComponent()
@@ -51,7 +48,7 @@ class StoreFragment : HomeFragment(), StorePresenter.StoreRouter {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val adapter = SimpleRecyclerAdapter(adapterPresenter, binder)
-        val topicsView = StoreViewImpl(view, preferences, adapter, locale)
+        val topicsView = StoreViewImpl(view, preferences, adapter)
 
         presenter.attachView(topicsView)
     }

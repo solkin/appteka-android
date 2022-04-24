@@ -14,13 +14,12 @@ import com.caverock.androidsvg.SVG
 import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
-import com.tomclaw.appsend.categories.Category
+import com.tomclaw.appsend.categories.CategoryItem
 import com.tomclaw.appsend.util.ColorHelper
 import com.tomclaw.appsend.util.clicks
 import com.tomclaw.appsend.util.dpToPx
 import com.tomclaw.appsend.util.toBitmap
 import io.reactivex.rxjava3.core.Observable
-import java.util.Locale
 
 interface StoreView {
 
@@ -36,7 +35,7 @@ interface StoreView {
 
     fun showError()
 
-    fun showCategories(categories: List<Category>)
+    fun showCategories(items: List<CategoryItem>)
 
     fun stopPullRefreshing()
 
@@ -54,7 +53,6 @@ class StoreViewImpl(
     view: View,
     private val preferences: StorePreferencesProvider,
     private val adapter: SimpleRecyclerAdapter,
-    private val locale: Locale,
 ) : StoreView {
 
     private val context = view.context
@@ -106,7 +104,7 @@ class StoreViewImpl(
         retryButton.clicks(retryRelay)
     }
 
-    override fun showCategories(categories: List<Category>) {
+    override fun showCategories(items: List<CategoryItem>) {
         val theme = R.style.BottomSheetDialogDark.takeIf { preferences.isDarkTheme() }
             ?: R.style.BottomSheetDialogLight
         BottomSheetBuilder(context, theme)
@@ -114,15 +112,15 @@ class StoreViewImpl(
             .setIconTintColor(ColorHelper.getAttributedColor(context, R.attr.menu_icons_tint))
             .setItemTextColor(ColorHelper.getAttributedColor(context, R.attr.text_primary_color))
             .apply {
-                for (category in categories) {
-                    val title = category.name[locale.language] ?: category.name["en"]
-                    val picture = SVG.getFromString(category.icon).renderToPicture()
+                for (item in items) {
+                    val title = item.title
+                    val picture = SVG.getFromString(item.icon).renderToPicture()
                     val bitmap = picture.toBitmap(
                         bitmapWidth = dpToPx(picture.width, context.resources),
                         bitmapHeight = dpToPx(picture.height, context.resources)
                     )
                     val icon = BitmapDrawable(context.resources, bitmap)
-                    addItem(category.id, title, icon)
+                    addItem(item.id, title, icon)
                 }
             }
             .setItemClickListener {

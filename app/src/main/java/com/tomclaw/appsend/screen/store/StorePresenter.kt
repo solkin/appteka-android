@@ -6,6 +6,7 @@ import com.avito.konveyor.blueprint.Item
 import com.avito.konveyor.data_source.ListDataSource
 import com.tomclaw.appsend.categories.CategoriesInteractor
 import com.tomclaw.appsend.categories.Category
+import com.tomclaw.appsend.categories.CategoryConverter
 import com.tomclaw.appsend.dto.AppEntity
 import com.tomclaw.appsend.screen.store.adapter.ItemListener
 import com.tomclaw.appsend.screen.store.adapter.app.AppItem
@@ -43,6 +44,7 @@ interface StorePresenter : ItemListener {
 class StorePresenterImpl(
     private val storeInteractor: StoreInteractor,
     private val categoriesInteractor: CategoriesInteractor,
+    private val categoryConverter: CategoryConverter,
     private val adapterPresenter: Lazy<AdapterPresenter>,
     private val appConverter: AppConverter,
     private val schedulers: SchedulersFactory,
@@ -193,8 +195,9 @@ class StorePresenterImpl(
             )
     }
 
-    private fun onCategoriesLoaded(it: List<Category>) {
-        view?.showCategories(it)
+    private fun onCategoriesLoaded(categories: List<Category>) {
+        val items = categories.map { categoryConverter.convert(it) }.sortedBy { it.title }
+        view?.showCategories(items)
     }
 
 }

@@ -43,7 +43,7 @@
                         android:layout_height="wrap_content"
                         android:paddingStart="8dp"
                         android:paddingLeft="8dp"
-                        android:text="@string/categories"
+                        android:text="@string/all_categories"
                         android:textColor="?attr/text_secondary_color"
                         android:textSize="16sp" />
 

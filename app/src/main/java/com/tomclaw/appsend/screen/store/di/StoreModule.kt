@@ -7,6 +7,8 @@ import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.adapter.SimpleAdapterPresenter
 import com.avito.konveyor.blueprint.ItemBlueprint
 import com.tomclaw.appsend.categories.CategoriesInteractor
+import com.tomclaw.appsend.categories.CategoryConverter
+import com.tomclaw.appsend.categories.CategoryConverterImpl
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.screen.store.AppConverter
 import com.tomclaw.appsend.screen.store.AppConverterImpl
@@ -40,12 +42,14 @@ class StoreModule(
     internal fun providePresenter(
         storeInteractor: StoreInteractor,
         categoriesInteractor: CategoriesInteractor,
+        categoryConverter: CategoryConverter,
         adapterPresenter: Lazy<AdapterPresenter>,
         appConverter: AppConverter,
         schedulers: SchedulersFactory
     ): StorePresenter = StorePresenterImpl(
         storeInteractor,
         categoriesInteractor,
+        categoryConverter,
         adapterPresenter,
         appConverter,
         schedulers,
@@ -106,4 +110,10 @@ class StoreModule(
     @PerFragment
     internal fun provideAppItemPresenter(presenter: StorePresenter) =
         AppItemPresenter(presenter)
+
+    @Provides
+    @PerFragment
+    internal fun provideCategoryConverter(locale: Locale): CategoryConverter =
+        CategoryConverterImpl(locale)
+
 }

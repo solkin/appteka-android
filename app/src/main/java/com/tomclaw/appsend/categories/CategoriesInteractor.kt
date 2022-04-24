@@ -27,8 +27,9 @@ class CategoriesInteractorImpl(
             .onErrorResumeWith(
                 api.getCategories()
                     .map {
-                        categories = it.result.categories
-                        it.result.categories
+                        val categoriesSorted = it.result.categories
+                        categories = categoriesSorted
+                        categoriesSorted
                     }
                     .subscribeOn(schedulers.io())
             )
