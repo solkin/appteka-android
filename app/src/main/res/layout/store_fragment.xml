@@ -33,12 +33,14 @@
                     android:padding="12dp">
 
                     <ImageView
+                        android:id="@+id/category_icon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:src="@drawable/ic_category"
                         app:tint="?attr/text_secondary_color" />
 
                     <TextView
+                        android:id="@+id/category_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingStart="8dp"
@@ -49,20 +51,26 @@
 
                 </LinearLayout>
 
-                <View
+                <FrameLayout
                     android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="?attr/divider_color" />
+                    android:layout_height="match_parent">
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:clipToPadding="false"
-                    android:paddingTop="4dp"
-                    android:paddingBottom="4dp"
-                    android:scrollbarStyle="outsideOverlay"
-                    android:scrollbars="vertical" />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:clipToPadding="false"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="4dp"
+                        android:scrollbarStyle="outsideOverlay"
+                        android:scrollbars="vertical" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="5dp"
+                        android:background="@drawable/shadow" />
+
+                </FrameLayout>
 
             </LinearLayout>
 

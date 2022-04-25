@@ -9,6 +9,7 @@ import com.tomclaw.appsend.screen.chat.api.ReportMessageResponse
 import com.tomclaw.appsend.screen.chat.api.SendMessageResponse
 import com.tomclaw.appsend.screen.chat.api.TopicInfoResponse
 import com.tomclaw.appsend.screen.moderation.api.ModerationResponse
+import com.tomclaw.appsend.screen.store.api.AppsListResponse
 import com.tomclaw.appsend.screen.topics.api.PinTopicResponse
 import com.tomclaw.appsend.screen.topics.api.TopicsResponse
 import com.tomclaw.appsend.user.api.UserDataResponse
@@ -26,7 +27,15 @@ interface StoreApi {
         @Query("guid") guid: String,
         @Query("app_id") appId: String?,
         @Query("locale") locale: String
-    ): Single<StoreResponse<ModerationResponse>>
+    ): Single<StoreResponse<AppsListResponse>>
+
+    @GET("1/app/category/list")
+    fun getTopListByCategory(
+        @Query("guid") guid: String,
+        @Query("app_id") appId: String?,
+        @Query("category_id") categoryId: Int,
+        @Query("locale") locale: String
+    ): Single<StoreResponse<AppsListResponse>>
 
     @GET("1/app/moderation/list")
     fun getModerationList(

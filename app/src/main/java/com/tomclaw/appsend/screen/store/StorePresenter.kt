@@ -7,6 +7,7 @@ import com.avito.konveyor.data_source.ListDataSource
 import com.tomclaw.appsend.categories.CategoriesInteractor
 import com.tomclaw.appsend.categories.Category
 import com.tomclaw.appsend.categories.CategoryConverter
+import com.tomclaw.appsend.categories.CategoryItem
 import com.tomclaw.appsend.dto.AppEntity
 import com.tomclaw.appsend.screen.store.adapter.ItemListener
 import com.tomclaw.appsend.screen.store.adapter.app.AppItem
@@ -58,6 +59,7 @@ class StorePresenterImpl(
 
     private var items: List<AppItem>? = state?.getParcelableArrayList(KEY_APPS)
     private var isError: Boolean = state?.getBoolean(KEY_ERROR) ?: false
+    private var category: CategoryItem? = state?.getParcelable(KEY_CATEGORY_ID)
 
     override fun attachView(view: StoreView) {
         this.view = view
@@ -68,13 +70,20 @@ class StorePresenterImpl(
         subscriptions += view.refreshClicks().subscribe {
             invalidateApps()
         }
-        subscriptions += view.categoriesClicks().subscribe {
+        subscriptions += view.categoriesButtonClicks().subscribe {
             loadCategories()
+        }
+        subscriptions += view.categorySelectedClicks().subscribe { categoryItem ->
+            onCategorySelected(categoryItem)
+        }
+        subscriptions += view.categoryClearedClicks().subscribe {
+            onCategorySelected()
         }
 
         if (isError) {
             onError()
         } else {
+            view.setSelectedCategory(category)
             items?.let { bindItems() } ?: loadApps()
         }
     }
@@ -95,6 +104,7 @@ class StorePresenterImpl(
     override fun saveState() = Bundle().apply {
         putParcelableArrayList(KEY_APPS, items?.let { ArrayList(items.orEmpty()) })
         putBoolean(KEY_ERROR, isError)
+        putParcelable(KEY_CATEGORY_ID, category)
     }
 
     override fun invalidateApps() {
@@ -103,7 +113,7 @@ class StorePresenterImpl(
     }
 
     private fun loadApps() {
-        subscriptions += storeInteractor.listApps()
+        subscriptions += storeInteractor.listApps(categoryId = category?.id)
             .observeOn(schedulers.mainThread())
             .doOnSubscribe { if (view?.isPullRefreshing() == false) view?.showProgress() }
             .subscribe(
@@ -113,7 +123,7 @@ class StorePresenterImpl(
     }
 
     private fun loadApps(offsetAppId: String) {
-        subscriptions += storeInteractor.listApps(offsetAppId)
+        subscriptions += storeInteractor.listApps(offsetAppId, category?.id)
             .observeOn(schedulers.mainThread())
             .retryWhen { errors ->
                 errors.flatMap {
@@ -200,7 +210,14 @@ class StorePresenterImpl(
         view?.showCategories(items)
     }
 
+    private fun onCategorySelected(categoryItem: CategoryItem? = null) {
+        category = categoryItem
+        view?.setSelectedCategory(categoryItem)
+        invalidateApps()
+    }
+
 }
 
 private const val KEY_APPS = "apps"
 private const val KEY_ERROR = "error"
+private const val KEY_CATEGORY_ID = "category"

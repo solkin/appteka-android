@@ -2,7 +2,9 @@ package com.tomclaw.appsend.screen.store
 
 import android.annotation.SuppressLint
 import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.ViewFlipper
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -37,6 +39,8 @@ interface StoreView {
 
     fun showCategories(items: List<CategoryItem>)
 
+    fun setSelectedCategory(category: CategoryItem?)
+
     fun stopPullRefreshing()
 
     fun isPullRefreshing(): Boolean
@@ -45,7 +49,11 @@ interface StoreView {
 
     fun refreshClicks(): Observable<Unit>
 
-    fun categoriesClicks(): Observable<Unit>
+    fun categoriesButtonClicks(): Observable<Unit>
+
+    fun categorySelectedClicks(): Observable<CategoryItem>
+
+    fun categoryClearedClicks(): Observable<Unit>
 
 }
 
@@ -62,10 +70,14 @@ class StoreViewImpl(
     private val error: TextView = view.findViewById(R.id.error_text)
     private val retryButton: View = view.findViewById(R.id.button_retry)
     private val categoriesButton: View = view.findViewById(R.id.button_categories)
+    private val categoryIcon: ImageView = view.findViewById(R.id.category_icon)
+    private val categoryTitle: TextView = view.findViewById(R.id.category_title)
 
     private val retryRelay = PublishRelay.create<Unit>()
     private val refreshRelay = PublishRelay.create<Unit>()
-    private val categoriesRelay = PublishRelay.create<Unit>()
+    private val categoriesButtonRelay = PublishRelay.create<Unit>()
+    private val categorySelectedRelay = PublishRelay.create<CategoryItem>()
+    private val categoryClearedRelay = PublishRelay.create<Unit>()
 
     init {
         val orientation = RecyclerView.VERTICAL
@@ -77,7 +89,7 @@ class StoreViewImpl(
         recycler.itemAnimator?.changeDuration = DURATION_MEDIUM
 
         refresher.setOnRefreshListener { refreshRelay.accept(Unit) }
-        categoriesButton.setOnClickListener { categoriesRelay.accept(Unit) }
+        categoriesButton.setOnClickListener { categoriesButtonRelay.accept(Unit) }
     }
 
     override fun showProgress() {
@@ -112,22 +124,45 @@ class StoreViewImpl(
             .setIconTintColor(ColorHelper.getAttributedColor(context, R.attr.menu_icons_tint))
             .setItemTextColor(ColorHelper.getAttributedColor(context, R.attr.text_primary_color))
             .apply {
+                addItem(0, R.string.all_categories, R.drawable.ic_category)
+            }
+            .apply {
                 for (item in items) {
                     val title = item.title
-                    val picture = SVG.getFromString(item.icon).renderToPicture()
-                    val bitmap = picture.toBitmap(
-                        bitmapWidth = dpToPx(picture.width, context.resources),
-                        bitmapHeight = dpToPx(picture.height, context.resources)
-                    )
-                    val icon = BitmapDrawable(context.resources, bitmap)
+                    val icon = svgToDrawable(item.icon)
                     addItem(item.id, title, icon)
                 }
             }
-            .setItemClickListener {
-
+            .setItemClickListener { item ->
+                val categoryItem = items.find {
+                    it.id == item.itemId
+                } ?: run {
+                    categoryClearedRelay.accept(Unit)
+                    return@setItemClickListener
+                }
+                categorySelectedRelay.accept(categoryItem)
             }
             .createDialog()
             .show()
+    }
+
+    private fun svgToDrawable(icon: String): Drawable {
+        val picture = SVG.getFromString(icon).renderToPicture()
+        val bitmap = picture.toBitmap(
+            bitmapWidth = dpToPx(picture.width, context.resources),
+            bitmapHeight = dpToPx(picture.height, context.resources)
+        )
+        return BitmapDrawable(context.resources, bitmap)
+    }
+
+    override fun setSelectedCategory(category: CategoryItem?) {
+        category?.let {
+            categoryIcon.setImageDrawable(svgToDrawable(it.icon))
+            categoryTitle.text = it.title
+        } ?: run {
+            categoryIcon.setImageResource(R.drawable.ic_category)
+            categoryTitle.setText(R.string.all_categories)
+        }
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -149,7 +184,11 @@ class StoreViewImpl(
 
     override fun refreshClicks(): Observable<Unit> = refreshRelay
 
-    override fun categoriesClicks(): Observable<Unit> = categoriesRelay
+    override fun categoriesButtonClicks(): Observable<Unit> = categoriesButtonRelay
+
+    override fun categorySelectedClicks(): Observable<CategoryItem> = categorySelectedRelay
+
+    override fun categoryClearedClicks(): Observable<Unit> = categoryClearedRelay
 
 }
 
