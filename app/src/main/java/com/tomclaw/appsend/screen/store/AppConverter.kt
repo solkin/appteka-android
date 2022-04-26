@@ -2,6 +2,7 @@ package com.tomclaw.appsend.screen.store
 
 import com.tomclaw.appsend.dto.AppEntity
 import com.tomclaw.appsend.screen.store.adapter.app.AppItem
+import java.util.concurrent.TimeUnit
 
 interface AppConverter {
 
@@ -25,6 +26,8 @@ class AppConverterImpl(
             size = resourceProvider.formatFileSize(appEntity.size),
             rating = appEntity.rating,
             downloads = appEntity.downloads,
+            isNew = (TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()) - appEntity.time) <
+                    TimeUnit.DAYS.toSeconds(1)
         )
     }
 

@@ -29,6 +29,10 @@ interface AppItemView : ItemView {
 
     fun setDownloads(downloads: Int)
 
+    fun showBadge()
+
+    fun hideBadge()
+
     fun showProgress()
 
     fun hideProgress()
@@ -46,6 +50,7 @@ class AppItemViewHolder(view: View) : BaseViewHolder(view), AppItemView {
     private val rating: TextView = view.findViewById(R.id.app_rating)
     private val ratingIcon: View = view.findViewById(R.id.rating_icon)
     private val downloads: TextView = view.findViewById(R.id.app_downloads)
+    private val badge: View = view.findViewById(R.id.badge_new)
     private val progress: View = view.findViewById(R.id.item_progress)
 
     private var clickListener: (() -> Unit)? = null
@@ -94,6 +99,14 @@ class AppItemViewHolder(view: View) : BaseViewHolder(view), AppItemView {
 
     override fun setDownloads(downloads: Int) {
         this.downloads.bind(downloads.toString())
+    }
+
+    override fun showBadge() {
+        badge.show()
+    }
+
+    override fun hideBadge() {
+        badge.hide()
     }
 
     override fun setOnClickListener(listener: (() -> Unit)?) {

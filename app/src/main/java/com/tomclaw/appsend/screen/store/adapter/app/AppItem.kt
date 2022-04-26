@@ -16,6 +16,7 @@ class AppItem(
     val size: String,
     val rating: Float,
     val downloads: Int,
+    var isNew: Boolean = false,
     var hasMore: Boolean = false,
     var hasProgress: Boolean = false,
 ) : Item, Parcelable {
@@ -29,6 +30,7 @@ class AppItem(
         writeString(size)
         writeFloat(rating)
         writeInt(downloads)
+        writeBool(isNew)
         writeBool(hasMore)
         writeBool(hasProgress)
     }
@@ -45,6 +47,7 @@ class AppItem(
             val size = parcel.readString().orEmpty()
             val rating = parcel.readFloat()
             val downloads = parcel.readInt()
+            val isNew = parcel.readBool()
             val hasMore = parcel.readBool()
             val hasProgress = parcel.readBool()
             return AppItem(
@@ -56,6 +59,7 @@ class AppItem(
                 size,
                 rating,
                 downloads,
+                isNew,
                 hasMore,
                 hasProgress
             )

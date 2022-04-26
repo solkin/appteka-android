@@ -16,6 +16,8 @@ data class AppEntity(
     val verName: String,
     @SerializedName("ver_code")
     val verCode: Int,
+    @SerializedName("time")
+    val time: Long,
     @SerializedName("size")
     val size: Long,
     @SerializedName("rating")

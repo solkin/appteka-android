@@ -22,6 +22,7 @@ class AppItemPresenter(
         view.setSize(item.size)
         view.setRating(item.rating.takeIf { it > 0 })
         view.setDownloads(item.downloads)
+        if (item.isNew) view.showBadge() else view.hideBadge()
         if (item.hasProgress) view.showProgress() else view.hideProgress()
         view.setOnClickListener { listener.onItemClick(item) }
     }
