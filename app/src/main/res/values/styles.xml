@@ -69,6 +69,8 @@
     <color name="icons_grey_light">#6a6a6a</color>
     <color name="icons_grey_dark">#E1E1E1</color>
 
+    <color name="sdk_incompatible_tint">#d63205</color>
+
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/primary_color</item>
         <item name="colorPrimaryVariant">@color/primary_dark_color</item>

@@ -883,6 +883,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
             TextView versionCodeView = versionView.findViewById(R.id.app_version_code);
             TextView versionDownloads = versionView.findViewById(R.id.app_version_downloads);
             TextView newerBadge = versionView.findViewById(R.id.app_newer_badge);
+            View sdkIncompatibleBadge = versionView.findViewById(R.id.sdk_incompatible);
             versionNameView.setText(version.getVerName());
             versionCodeView.setText('(' + String.valueOf(version.getVerCode()) + ')');
             versionDownloads.setText(String.valueOf(version.getDownloads()));
@@ -897,6 +898,8 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
             } else {
                 newerBadge.setVisibility(View.GONE);
             }
+            boolean isIncompatible = version.getSdkVersion() > Build.VERSION.SDK_INT;
+            sdkIncompatibleBadge.setVisibility(isIncompatible ? View.VISIBLE : View.GONE);
             versionView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

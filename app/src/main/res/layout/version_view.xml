@@ -76,6 +76,18 @@
             android:src="@drawable/briefcase_download"
             app:tint="@color/grey_dark" />
 
+        <ImageView
+            android:id="@+id/sdk_incompatible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginLeft="4dp"
+            android:contentDescription="@string/app_version"
+            android:src="@drawable/ic_android"
+            android:visibility="gone"
+            app:tint="@color/sdk_incompatible_tint"
+            tools:visibility="visible" />
+
     </LinearLayout>
 
 </LinearLayout>

@@ -1,7 +1,6 @@
 package com.tomclaw.appsend.util;
 
 import com.tomclaw.appsend.dto.UserIcon;
-import com.tomclaw.appsend.main.dto.StoreVersion;
 import com.tomclaw.appsend.main.item.StoreItem;
 
 import org.json.JSONArray;
@@ -56,14 +55,6 @@ public class StoreHelper {
         return new StoreItem(defLabel, labels, icon, appId, fileStatus, packageName, verName, verCode,
                 sdkVersion, androidVersion, permissions, size, downloads, downloadTime, time,
                 sha1, userId, userIcon, rating, filter);
-    }
-
-    public static StoreVersion parseStoreVersion(JSONObject version) throws JSONException {
-        String appId = version.getString("app_id");
-        int downloads = version.getInt("downloads");
-        int verCode = version.getInt("ver_code");
-        String verName = version.getString("ver_name");
-        return new StoreVersion(appId, downloads, verCode, verName);
     }
 
     public static Map<String, String> parseStringMap(JSONObject object) throws JSONException {

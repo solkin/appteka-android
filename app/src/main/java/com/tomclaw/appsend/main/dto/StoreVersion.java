@@ -19,12 +19,15 @@ public class StoreVersion implements Parcelable, Unobfuscatable {
     private int verCode;
     @SerializedName("ver_name")
     private String verName;
+    @SerializedName("sdk_version")
+    private int sdkVersion;
 
-    public StoreVersion(String appId, int downloads, int verCode, String verName) {
+    public StoreVersion(String appId, int downloads, int verCode, String verName, int sdkVersion) {
         this.appId = appId;
         this.downloads = downloads;
         this.verCode = verCode;
         this.verName = verName;
+        this.sdkVersion = sdkVersion;
     }
 
     protected StoreVersion(Parcel in) {
@@ -32,6 +35,7 @@ public class StoreVersion implements Parcelable, Unobfuscatable {
         downloads = in.readInt();
         verCode = in.readInt();
         verName = in.readString();
+        sdkVersion = in.readInt();
     }
 
     @Override
@@ -40,6 +44,7 @@ public class StoreVersion implements Parcelable, Unobfuscatable {
         dest.writeInt(downloads);
         dest.writeInt(verCode);
         dest.writeString(verName);
+        dest.writeInt(sdkVersion);
     }
 
     @Override
@@ -61,6 +66,10 @@ public class StoreVersion implements Parcelable, Unobfuscatable {
 
     public String getVerName() {
         return verName;
+    }
+
+    public int getSdkVersion() {
+        return sdkVersion;
     }
 
     public static final Creator<StoreVersion> CREATOR = new Creator<StoreVersion>() {
