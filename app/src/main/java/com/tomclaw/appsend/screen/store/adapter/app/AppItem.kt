@@ -3,7 +3,6 @@ package com.tomclaw.appsend.screen.store.adapter.app
 import android.os.Parcel
 import android.os.Parcelable
 import com.avito.konveyor.blueprint.Item
-import com.tomclaw.appsend.screen.moderation.adapter.app.AppItem
 import com.tomclaw.appsend.util.readBool
 import com.tomclaw.appsend.util.writeBool
 
