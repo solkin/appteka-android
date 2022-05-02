@@ -8,7 +8,7 @@ import com.avito.konveyor.blueprint.ItemView
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.dto.UserIcon
 import com.tomclaw.appsend.util.BubbleColorDrawable
-import com.tomclaw.appsend.util.ColorHelper.getAttributedColor
+import com.tomclaw.appsend.util.getAttributedColor
 import com.tomclaw.appsend.util.Corner
 import com.tomclaw.appsend.util.StringUtil.formatQuote
 import com.tomclaw.appsend.util.bind

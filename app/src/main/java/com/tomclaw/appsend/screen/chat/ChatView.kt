@@ -22,8 +22,8 @@ import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.dto.MessageEntity
-import com.tomclaw.appsend.util.ColorHelper.getAttributedColor
 import com.tomclaw.appsend.util.clicks
+import com.tomclaw.appsend.util.getAttributedColor
 import com.tomclaw.appsend.util.hideWithAlphaAnimation
 import com.tomclaw.appsend.util.showWithAlphaAnimation
 import com.tomclaw.imageloader.util.centerCrop

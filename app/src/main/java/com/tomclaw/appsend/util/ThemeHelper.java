@@ -1,5 +1,7 @@
 package com.tomclaw.appsend.util;
 
+import static com.tomclaw.appsend.util.ColorsKt.getAttributedColor;
+
 import android.app.Activity;
 
 import com.jaeger.library.StatusBarUtil;
@@ -17,7 +19,7 @@ public class ThemeHelper {
     }
 
     public static void updateStatusBar(Activity activity) {
-        int toolbarColor = ColorHelper.getAttributedColor(activity, R.attr.toolbar_background);
+        int toolbarColor = getAttributedColor(activity, R.attr.toolbar_background);
         updateStatusBar(activity, toolbarColor);
     }
 

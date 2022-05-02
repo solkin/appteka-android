@@ -17,9 +17,9 @@ import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.categories.CategoryItem
-import com.tomclaw.appsend.util.ColorHelper
 import com.tomclaw.appsend.util.clicks
 import com.tomclaw.appsend.util.dpToPx
+import com.tomclaw.appsend.util.getAttributedColor
 import com.tomclaw.appsend.util.toBitmap
 import io.reactivex.rxjava3.core.Observable
 
@@ -121,8 +121,8 @@ class StoreViewImpl(
             ?: R.style.BottomSheetDialogLight
         BottomSheetBuilder(context, theme)
             .setMode(BottomSheetBuilder.MODE_LIST)
-            .setIconTintColor(ColorHelper.getAttributedColor(context, R.attr.menu_icons_tint))
-            .setItemTextColor(ColorHelper.getAttributedColor(context, R.attr.text_primary_color))
+            .setIconTintColor(getAttributedColor(context, R.attr.menu_icons_tint))
+            .setItemTextColor(getAttributedColor(context, R.attr.text_primary_color))
             .apply {
                 addItem(0, R.string.all_categories, R.drawable.ic_category)
             }

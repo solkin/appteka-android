@@ -11,10 +11,10 @@ import com.avito.konveyor.blueprint.ItemView
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.dto.UserIcon
 import com.tomclaw.appsend.util.BubbleColorDrawable
-import com.tomclaw.appsend.util.ColorHelper
 import com.tomclaw.appsend.util.Corner
 import com.tomclaw.appsend.util.StringUtil
 import com.tomclaw.appsend.util.bind
+import com.tomclaw.appsend.util.getAttributedColor
 import com.tomclaw.appsend.view.UserIconView
 import com.tomclaw.appsend.view.UserIconViewImpl
 
@@ -52,7 +52,7 @@ class OutgoingMsgItemViewHolder(view: View) : BaseViewHolder(view), OutgoingMsgI
     private var clickListener: (() -> Unit)? = null
 
     init {
-        val bubbleColor = ColorHelper.getAttributedColor(context, R.attr.discuss_bubble_color)
+        val bubbleColor = getAttributedColor(context, R.attr.discuss_bubble_color)
         bubbleBack.background = BubbleColorDrawable(context, bubbleColor, Corner.RIGHT)
 
         view.setOnClickListener { clickListener?.invoke() }

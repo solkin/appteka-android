@@ -7,7 +7,7 @@ import android.widget.RatingBar;
 
 import com.tomclaw.appsend.R;
 
-import static com.tomclaw.appsend.util.ColorHelper.getAttributedColor;
+import static com.tomclaw.appsend.util.ColorsKt.getAttributedColor;
 
 /**
  * Created by Igor on 23.10.2017.

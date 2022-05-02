@@ -1,6 +1,7 @@
 package com.tomclaw.appsend.main.store.search;
 
 import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
+import static com.tomclaw.appsend.util.ColorsKt.getAttributedColor;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -14,7 +15,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.tomclaw.appsend.R;
-import com.tomclaw.appsend.util.ColorHelper;
 import com.tomclaw.appsend.util.ThemeHelper;
 
 import org.androidannotations.annotations.AfterViews;
@@ -47,7 +47,7 @@ public class SearchActivity extends AppCompatActivity {
 
     @AfterViews
     void init() {
-        int toolbarColor = ColorHelper.getAttributedColor(this, R.attr.search_toolbar_background);
+        int toolbarColor = getAttributedColor(this, R.attr.search_toolbar_background);
         ThemeHelper.updateStatusBar(this, toolbarColor);
 
         setSupportActionBar(toolbar);

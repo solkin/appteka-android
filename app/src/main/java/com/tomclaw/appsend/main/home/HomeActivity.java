@@ -3,6 +3,7 @@ package com.tomclaw.appsend.main.home;
 import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
 import static com.tomclaw.appsend.Appteka.getLastRunBuildNumber;
 import static com.tomclaw.appsend.Appteka.wasRegistered;
+import static com.tomclaw.appsend.util.ColorsKt.getAttributedColor;
 
 import android.app.Application;
 import android.content.Context;
@@ -52,7 +53,6 @@ import com.tomclaw.appsend.net.UserData;
 import com.tomclaw.appsend.net.UserDataListener;
 import com.tomclaw.appsend.screen.store.StoreFragment;
 import com.tomclaw.appsend.screen.topics.TopicsFragment;
-import com.tomclaw.appsend.util.ColorHelper;
 import com.tomclaw.appsend.util.LocaleHelper;
 import com.tomclaw.appsend.util.PreferenceHelper;
 import com.tomclaw.appsend.util.ThemeHelper;
@@ -120,7 +120,7 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
         bottomNavigation.addItem(new AHBottomNavigationItem(getString(R.string.tab_discuss), R.drawable.ic_discuss));
         bottomNavigation.addItem(new AHBottomNavigationItem(getString(R.string.tab_profile), R.drawable.ic_account));
 
-        bottomNavigation.setDefaultBackgroundColor(ColorHelper.getAttributedColor(this, R.attr.bottom_bar_background));
+        bottomNavigation.setDefaultBackgroundColor(getAttributedColor(this, R.attr.bottom_bar_background));
         bottomNavigation.setAccentColor(getResources().getColor(R.color.accent_color));
         bottomNavigation.setInactiveColor(getResources().getColor(R.color.grey_dark));
         bottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);

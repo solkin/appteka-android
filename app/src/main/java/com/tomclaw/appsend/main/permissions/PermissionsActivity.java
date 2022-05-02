@@ -1,6 +1,7 @@
 package com.tomclaw.appsend.main.permissions;
 
 import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
+import static com.tomclaw.appsend.util.ColorsKt.getAttributedColor;
 
 import android.os.Bundle;
 
@@ -12,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.tomclaw.appsend.R;
-import com.tomclaw.appsend.util.ColorHelper;
 import com.tomclaw.appsend.util.EdgeChanger;
 import com.tomclaw.appsend.util.ThemeHelper;
 
@@ -71,7 +71,7 @@ public class PermissionsActivity extends AppCompatActivity {
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
         recyclerView.setItemAnimator(itemAnimator);
 
-        final int toolbarColor = ColorHelper.getAttributedColor(this, R.attr.toolbar_background);
+        final int toolbarColor = getAttributedColor(this, R.attr.toolbar_background);
         EdgeChanger.setEdgeGlowColor(recyclerView, toolbarColor, null);
 
         adapter = new PermissionsAdapter(this, permissions.getList());

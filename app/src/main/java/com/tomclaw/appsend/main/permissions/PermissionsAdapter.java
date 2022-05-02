@@ -15,7 +15,7 @@ import com.tomclaw.appsend.util.PermissionHelper;
 
 import java.util.List;
 
-import static com.tomclaw.appsend.util.ColorHelper.getAttributedColor;
+import static com.tomclaw.appsend.util.ColorsKt.getAttributedColor;
 import static com.tomclaw.appsend.util.PermissionHelper.getPermissionSmallInfo;
 
 /**

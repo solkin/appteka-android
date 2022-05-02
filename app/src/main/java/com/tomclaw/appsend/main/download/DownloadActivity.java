@@ -3,7 +3,7 @@ package com.tomclaw.appsend.main.download;
 import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
 import static com.tomclaw.appsend.main.ratings.RatingsHelper.tintRatingIndicator;
 import static com.tomclaw.appsend.screen.chat.ChatActivityKt.createChatActivityIntent;
-import static com.tomclaw.appsend.util.ColorHelper.getAttributedColor;
+import static com.tomclaw.appsend.util.ColorsKt.getAttributedColor;
 import static com.tomclaw.appsend.util.FileHelper.getExternalDirectory;
 import static com.tomclaw.appsend.util.IntentHelper.formatText;
 import static com.tomclaw.appsend.util.IntentHelper.openGooglePlay;

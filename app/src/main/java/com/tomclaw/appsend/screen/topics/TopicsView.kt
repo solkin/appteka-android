@@ -12,8 +12,7 @@ import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
-import com.tomclaw.appsend.screen.topics.adapter.topic.TopicItem
-import com.tomclaw.appsend.util.ColorHelper
+import com.tomclaw.appsend.util.getAttributedColor
 import io.reactivex.rxjava3.core.Observable
 
 interface TopicsView {
@@ -94,8 +93,8 @@ class TopicsViewImpl(
             ?: R.style.BottomSheetDialogLight
         BottomSheetBuilder(view.context, theme)
             .setMode(BottomSheetBuilder.MODE_LIST)
-            .setIconTintColor(ColorHelper.getAttributedColor(context, R.attr.menu_icons_tint))
-            .setItemTextColor(ColorHelper.getAttributedColor(context, R.attr.text_primary_color))
+            .setIconTintColor(getAttributedColor(context, R.attr.menu_icons_tint))
+            .setItemTextColor(getAttributedColor(context, R.attr.text_primary_color))
             .apply {
                 if (isPinned) {
                     addItem(
