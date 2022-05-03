@@ -2,7 +2,6 @@ package com.tomclaw.appsend.screen.topics
 
 import com.tomclaw.appsend.dto.TopicEntity
 import com.tomclaw.appsend.screen.topics.adapter.topic.TopicItem
-import java.lang.IllegalArgumentException
 
 interface TopicConverter {
 
