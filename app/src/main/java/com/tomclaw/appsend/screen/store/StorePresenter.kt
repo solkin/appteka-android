@@ -109,6 +109,7 @@ class StorePresenterImpl(
 
     override fun invalidateApps() {
         items = null
+        isError = false
         loadApps()
     }
 
