@@ -2,6 +2,8 @@ package com.tomclaw.appsend.di
 
 import com.tomclaw.appsend.screen.chat.di.ChatComponent
 import com.tomclaw.appsend.screen.chat.di.ChatModule
+import com.tomclaw.appsend.screen.details.di.DetailsComponent
+import com.tomclaw.appsend.screen.details.di.DetailsModule
 import com.tomclaw.appsend.screen.moderation.di.ModerationComponent
 import com.tomclaw.appsend.screen.moderation.di.ModerationModule
 import com.tomclaw.appsend.screen.store.di.StoreComponent
@@ -22,5 +24,7 @@ interface AppComponent {
     fun chatComponent(module: ChatModule): ChatComponent
 
     fun storeComponent(module: StoreModule): StoreComponent
+
+    fun detailsComponent(module: DetailsModule): DetailsComponent
 
 }
