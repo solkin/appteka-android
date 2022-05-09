@@ -80,7 +80,8 @@
         <item name="colorSecondaryVariant">@color/accent_dark_color</item>
         <item name="colorOnSecondary">@android:color/white</item>
 
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor">#efefef</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
 
         <item name="android:windowBackground">@color/light_back_color</item>
 
@@ -93,7 +94,7 @@
 
         <item name="bottom_bar_background">#ffffff</item>
 
-        <item name="toolbar_background">@color/primary_color</item>
+        <item name="toolbar_background">@android:color/white</item>
         <item name="search_toolbar_background">#324D42</item>
 
         <item name="play_view_color">@color/play_view_light_color</item>
@@ -134,7 +135,8 @@
         <item name="colorSecondaryVariant">@color/accent_dark_color</item>
         <item name="colorOnSecondary">@android:color/white</item>
 
-        <item name="android:statusBarColor" tools:targetApi="l">#1a1a1b</item>
+        <item name="android:statusBarColor">#1a1a1b</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
 
         <item name="android:windowBackground">@color/dark_back_color</item>
 
@@ -178,9 +180,9 @@
         </item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar" />
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.ActionBar" />
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents.Dark" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents" />
 
     <style name="Chat.Message" parent="android:Widget.TextView">
         <item name="android:layout_width">wrap_content</item>

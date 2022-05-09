@@ -9,11 +9,9 @@ import com.tomclaw.appsend.screen.chat.api.ReportMessageResponse
 import com.tomclaw.appsend.screen.chat.api.SendMessageResponse
 import com.tomclaw.appsend.screen.topics.api.PinTopicResponse
 import com.tomclaw.appsend.user.UserDataInteractor
-import com.tomclaw.appsend.util.RoleHelper
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.StringUtil
 import io.reactivex.rxjava3.core.Observable
-import retrofit2.http.Field
 
 interface ChatInteractor {
 

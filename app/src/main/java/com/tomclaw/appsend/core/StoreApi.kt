@@ -8,6 +8,7 @@ import com.tomclaw.appsend.screen.chat.api.ReadTopicResponse
 import com.tomclaw.appsend.screen.chat.api.ReportMessageResponse
 import com.tomclaw.appsend.screen.chat.api.SendMessageResponse
 import com.tomclaw.appsend.screen.chat.api.TopicInfoResponse
+import com.tomclaw.appsend.screen.details.api.Details
 import com.tomclaw.appsend.screen.moderation.api.ModerationResponse
 import com.tomclaw.appsend.screen.store.api.AppsListResponse
 import com.tomclaw.appsend.screen.topics.api.PinTopicResponse
@@ -110,5 +111,12 @@ interface StoreApi {
 
     @GET("1/categories")
     fun getCategories(): Single<StoreResponse<CategoriesResponse>>
+
+    @GET("1/app/info")
+    fun getInfo(
+        @Query("guid") guid: String,
+        @Query("app_id") appId: String?,
+        @Query("package") packageName: String?
+    ): Single<StoreResponse<Details>>
 
 }

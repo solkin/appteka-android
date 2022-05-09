@@ -279,4 +279,5 @@
     <string name="discuss_app">Обсудить</string>
     <string name="error_app_topic_creation">Не удалось открыть тему для обсуждения приложения</string>
     <string name="all_categories">Все категории</string>
+    <string name="details_activity">Сведения</string>
 </resources>
