@@ -3,8 +3,6 @@ package com.tomclaw.appsend.main.home;
 import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
 import static com.tomclaw.appsend.Appteka.getLastRunBuildNumber;
 import static com.tomclaw.appsend.Appteka.wasRegistered;
-import static com.tomclaw.appsend.screen.details.DetailsActivityKt.createDetailsActivityIntent;
-import static com.tomclaw.appsend.util.ColorsKt.getAttributedColor;
 
 import android.app.Application;
 import android.content.Context;
@@ -24,8 +22,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
-import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
+import com.google.android.material.badge.BadgeDrawable;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.greysonparrelli.permiso.PermisoActivity;
 import com.microsoft.appcenter.AppCenter;
@@ -77,7 +75,7 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
     private View updateBlock;
     private FloatingActionButton fab;
     private boolean isDarkTheme;
-    private AHBottomNavigation bottomNavigation;
+    private BottomNavigationView bottomNavigation;
 
     public static int navItemIndex = 0;
 
@@ -117,40 +115,24 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
         findViewById(R.id.update).setOnClickListener(v -> onUpdate());
 
         bottomNavigation = findViewById(R.id.bottom_navigation);
-        bottomNavigation.addItem(new AHBottomNavigationItem(getString(R.string.tab_store), R.drawable.ic_store));
-        bottomNavigation.addItem(new AHBottomNavigationItem(getString(R.string.tab_discuss), R.drawable.ic_discuss));
-        bottomNavigation.addItem(new AHBottomNavigationItem(getString(R.string.tab_profile), R.drawable.ic_account));
 
-        bottomNavigation.setDefaultBackgroundColor(getAttributedColor(this, R.attr.bottom_bar_background));
-        bottomNavigation.setAccentColor(getResources().getColor(R.color.accent_color));
-        bottomNavigation.setInactiveColor(getResources().getColor(R.color.grey_dark));
-        bottomNavigation.setTitleState(AHBottomNavigation.TitleState.ALWAYS_SHOW);
-        bottomNavigation.setForceTint(true);
-        bottomNavigation.setBehaviorTranslationEnabled(false);
-        bottomNavigation.setTitleTextSize(
-                getResources().getDimension(R.dimen.bottom_navigation_text_size_active),
-                getResources().getDimension(R.dimen.bottom_navigation_text_size_inactive)
-        );
-        bottomNavigation.setOnTabSelectedListener((position, wasSelected) -> {
-            switch (position) {
-                case 0:
-                    navItemIndex = NAV_STORE;
-                    CURRENT_TAG = TAG_STORE;
-                    trackEvent("click-tab-store");
-                    break;
-                case 1:
-                    navItemIndex = NAV_DISCUSS;
-                    CURRENT_TAG = TAG_DISCUSS;
-                    if (unreadCheckTask != null) {
-                        unreadCheckTask.resetUnreadCount();
-                    }
-                    trackEvent("click-tab-discuss");
-                    break;
-                case 2:
-                    navItemIndex = NAV_PROFILE;
-                    CURRENT_TAG = TAG_PROFILE;
-                    trackEvent("click-tab-profile");
-                    break;
+        bottomNavigation.setOnItemSelectedListener((item) -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.nav_store) {
+                navItemIndex = NAV_STORE;
+                CURRENT_TAG = TAG_STORE;
+                trackEvent("click-tab-store");
+            } else if (itemId == R.id.nav_discuss) {
+                navItemIndex = NAV_DISCUSS;
+                CURRENT_TAG = TAG_DISCUSS;
+                if (unreadCheckTask != null) {
+                    unreadCheckTask.resetUnreadCount();
+                }
+                trackEvent("click-tab-discuss");
+            } else if (itemId == R.id.nav_profile) {
+                navItemIndex = NAV_PROFILE;
+                CURRENT_TAG = TAG_PROFILE;
+                trackEvent("click-tab-profile");
             }
             loadHomeFragment();
             return true;
@@ -223,19 +205,15 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        switch (requestCode) {
-            case REQUEST_UPLOAD: {
-                if (resultCode == RESULT_OK) {
-                    CommonItem item = data.getParcelableExtra(SelectLocalAppActivity.SELECTED_ITEM);
-                    Intent intent = new Intent(this, UploadActivity.class);
-                    intent.putExtra(UploadActivity.UPLOAD_ITEM, item);
-                    startActivity(intent);
-                }
-                break;
+        if (requestCode == REQUEST_UPLOAD) {
+            if (resultCode == RESULT_OK) {
+                CommonItem item = data.getParcelableExtra(SelectLocalAppActivity.SELECTED_ITEM);
+                Intent intent = new Intent(this, UploadActivity.class);
+                intent.putExtra(UploadActivity.UPLOAD_ITEM, item);
+                startActivity(intent);
             }
-            default: {
-                super.onActivityResult(requestCode, resultCode, data);
-            }
+        } else {
+            super.onActivityResult(requestCode, resultCode, data);
         }
     }
 
@@ -250,11 +228,17 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
             }
             count = 0;
         }
-        String indicatorText = "";
         if (count > 0) {
-            indicatorText = count > 99 ? "99+" : String.valueOf(count);
+            BadgeDrawable badge = bottomNavigation.getOrCreateBadge(R.id.nav_discuss);
+            badge.setVisible(true);
+            badge.setNumber(count);
+        } else {
+            BadgeDrawable badge = bottomNavigation.getBadge(R.id.nav_discuss);
+            if (badge != null) {
+                badge.setVisible(false);
+                badge.clearNumber();
+            }
         }
-        bottomNavigation.setNotification(indicatorText, 1);
     }
 
     /***
@@ -294,13 +278,13 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
     private HomeFragment createHomeFragment() {
         switch (navItemIndex) {
             case NAV_STORE:
-                bottomNavigation.setCurrentItem(0, false);
+                bottomNavigation.setSelectedItemId(R.id.nav_store);
                 return new StoreFragment();
             case NAV_DISCUSS:
-                bottomNavigation.setCurrentItem(1, false);
+                bottomNavigation.setSelectedItemId(R.id.nav_discuss);
                 return new TopicsFragment();
             case NAV_PROFILE:
-                bottomNavigation.setCurrentItem(2, false);
+                bottomNavigation.setSelectedItemId(R.id.nav_profile);
                 return new ProfileFragment_();
             default:
                 throw new IllegalStateException("Invalid navigation item index");
@@ -337,20 +321,18 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
     }
 
     private boolean onMenuSelected(int id) {
-        switch (id) {
-            case R.id.menu_search:
-                SearchActivity_.intent(this).start();
-                return true;
-            case R.id.nav_settings:
-                SettingsActivity_.intent(HomeActivity.this).start();
-                return true;
-            case R.id.nav_info:
-                Intent intent = new Intent(HomeActivity.this, AboutActivity.class);
-                startActivity(intent);
-                return true;
-            default:
-                throw new IllegalStateException("Invalid menu id");
+        if (id == R.id.menu_search) {
+            SearchActivity_.intent(this).start();
+            return true;
+        } else if (id == R.id.nav_settings) {
+            SettingsActivity_.intent(HomeActivity.this).start();
+            return true;
+        } else if (id == R.id.nav_info) {
+            Intent intent = new Intent(HomeActivity.this, AboutActivity.class);
+            startActivity(intent);
+            return true;
         }
+        throw new IllegalStateException("Invalid menu id");
     }
 
     @Override

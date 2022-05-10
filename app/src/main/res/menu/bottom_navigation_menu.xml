@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_store"
+        android:enabled="true"
+        android:icon="@drawable/cloud"
+        android:title="@string/tab_store" />
+    <item
+        android:id="@+id/nav_discuss"
+        android:enabled="true"
+        android:icon="@drawable/discuss"
+        android:title="@string/tab_discuss" />
+    <item
+        android:id="@+id/nav_profile"
+        android:enabled="true"
+        android:icon="@drawable/account"
+        android:title="@string/tab_profile" />
+</menu>
