@@ -71,7 +71,7 @@
 
     <color name="sdk_incompatible_tint">#d63205</color>
 
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.Material3.Light.NoActionBar">
         <item name="colorPrimary">@color/primary_color</item>
         <item name="colorPrimaryVariant">@color/primary_dark_color</item>
         <item name="colorOnPrimary">@android:color/white</item>
@@ -94,7 +94,6 @@
 
         <item name="bottom_bar_background">#ffffff</item>
 
-        <item name="toolbar_background">@android:color/white</item>
         <item name="search_toolbar_background">#324D42</item>
 
         <item name="play_view_color">@color/play_view_light_color</item>
@@ -126,7 +125,7 @@
         </item>
     </style>
 
-    <style name="AppThemeBlack" parent="Theme.MaterialComponents.NoActionBar">
+    <style name="AppThemeBlack" parent="Theme.Material3.Dark.NoActionBar">
         <item name="colorPrimary">@color/primary_color</item>
         <item name="colorPrimaryVariant">@color/primary_dark_color</item>
         <item name="colorOnPrimary">@android:color/white</item>
@@ -149,7 +148,6 @@
 
         <item name="bottom_bar_background">#202022</item>
 
-        <item name="toolbar_background">#202022</item>
         <item name="search_toolbar_background">#202022</item>
 
         <item name="play_view_color">@color/play_view_dark_color</item>
@@ -180,9 +178,9 @@
         </item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.ActionBar" />
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.Material3.ActionBar" />
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.Material3" />
 
     <style name="Chat.Message" parent="android:Widget.TextView">
         <item name="android:layout_width">wrap_content</item>
@@ -201,24 +199,24 @@
         <item name="android:progressDrawable">@drawable/rating_detail_element</item>
     </style>
 
-    <style name="MaterialButtonPrimary" parent="@style/Widget.MaterialComponents.Button">
+    <style name="MaterialButtonPrimary" parent="@style/Widget.Material3.Button">
     </style>
 
-    <style name="MaterialButtonSecondary" parent="@style/Widget.MaterialComponents.Button.TextButton">
+    <style name="MaterialButtonSecondary" parent="@style/Widget.Material3.Button.TextButton">
     </style>
 
-    <style name="MaterialButtonSecondaryOutline" parent="@style/Widget.MaterialComponents.Button.OutlinedButton">
+    <style name="MaterialButtonSecondaryOutline" parent="@style/Widget.Material3.Button.OutlinedButton">
     </style>
 
-    <style name="BottomSheetDialogLight" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
+    <style name="BottomSheetDialogLight" parent="Theme.Material3.Light.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/BottomSheetStyle</item>
     </style>
 
-    <style name="BottomSheetDialogDark" parent="Theme.MaterialComponents.BottomSheetDialog">
+    <style name="BottomSheetDialogDark" parent="ThemeOverlay.Material3.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/BottomSheetStyle</item>
     </style>
 
-    <style name="BottomSheetStyle" parent="Widget.MaterialComponents.BottomSheet.Modal">
+    <style name="BottomSheetStyle" parent="Widget.Material3.BottomSheet.Modal">
         <item name="behavior_hideable">true</item>
         <item name="behavior_skipCollapsed">true</item>
     </style>

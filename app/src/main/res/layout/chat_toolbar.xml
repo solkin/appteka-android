@@ -5,7 +5,6 @@
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
     android:layout_height="?actionBarSize"
-    android:background="?toolbar_background"
     android:gravity="center_vertical">
 
     <LinearLayout

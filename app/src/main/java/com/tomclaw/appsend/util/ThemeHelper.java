@@ -18,13 +18,4 @@ public class ThemeHelper {
         return isDarkTheme;
     }
 
-    public static void updateStatusBar(Activity activity) {
-        int toolbarColor = getAttributedColor(activity, R.attr.toolbar_background);
-        updateStatusBar(activity, toolbarColor);
-    }
-
-    public static void updateStatusBar(Activity activity, int color) {
-        StatusBarUtil.setColor(activity, color);
-    }
-
 }

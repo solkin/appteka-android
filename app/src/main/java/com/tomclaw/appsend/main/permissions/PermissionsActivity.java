@@ -71,9 +71,6 @@ public class PermissionsActivity extends AppCompatActivity {
         RecyclerView.ItemAnimator itemAnimator = new DefaultItemAnimator();
         recyclerView.setItemAnimator(itemAnimator);
 
-        final int toolbarColor = getAttributedColor(this, R.attr.toolbar_background);
-        EdgeChanger.setEdgeGlowColor(recyclerView, toolbarColor, null);
-
         adapter = new PermissionsAdapter(this, permissions.getList());
         recyclerView.setAdapter(adapter);
     }
