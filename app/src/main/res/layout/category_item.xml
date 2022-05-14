@@ -18,7 +18,7 @@
             android:layout_width="22dp"
             android:layout_height="22dp"
             android:layout_gravity="center"
-            tools:src="@drawable/ic_android"
+            tools:src="@drawable/battery_60"
             tools:tint="@android:color/white" />
 
     </FrameLayout>

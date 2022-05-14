@@ -4,6 +4,7 @@
     <attr name="text_secondary_color" format="color|reference" />
     <attr name="donate_card_background" format="color|reference" />
     <attr name="bottom_bar_background" format="color|reference" />
+    <attr name="toolbar_background" format="color|reference" />
     <attr name="search_toolbar_background" format="color|reference" />
     <attr name="permissions_container_background" format="color|reference" />
     <attr name="rating_empty" format="color|reference" />

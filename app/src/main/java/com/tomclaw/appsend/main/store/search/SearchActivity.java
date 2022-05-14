@@ -47,6 +47,9 @@ public class SearchActivity extends AppCompatActivity {
 
     @AfterViews
     void init() {
+        int toolbarColor = getAttributedColor(this, R.attr.search_toolbar_background);
+        ThemeHelper.updateStatusBar(this, toolbarColor);
+
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {

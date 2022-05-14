@@ -75,19 +75,12 @@ class StoreFragment : HomeFragment(), StorePresenter.StoreRouter {
     }
 
     override fun openAppScreen(appId: String, title: String) {
-//        val intent = createDetailsActivityIntent(
-//            context = requireContext(),
-//            appId = appId,
-//            label = title,
-//            moderation = false,
-//            finishOnly = true
-//        )
-        val intent = DownloadActivity.createAppActivityIntent(
-            requireContext(),
-            appId,
-            title,
-            false,
-            true
+        val intent = createDetailsActivityIntent(
+            context = requireContext(),
+            appId = appId,
+            label = title,
+            moderation = false,
+            finishOnly = true
         )
         startActivity(intent)
     }

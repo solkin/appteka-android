@@ -115,7 +115,7 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/button_approve"
-                        style="@style/Widget.Material3.Button.TextButton"
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="6dp"
@@ -134,7 +134,7 @@
 
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/button_deny"
-                        style="@style/Widget.Material3.Button.TextButton"
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="6dp"
