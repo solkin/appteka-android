@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -9,7 +8,7 @@
         android:id="@+id/recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="?actionBarSize" />
+        android:layout_marginTop="?actionBarSize" />
 
     <FrameLayout
         android:id="@+id/blocking_progress"
@@ -34,6 +33,7 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            android:background="?attr/toolbar_background"
             app:navigationIcon="?attr/homeAsUpIndicator"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 

@@ -4,6 +4,9 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.avito.konveyor.ItemBinder
+import com.avito.konveyor.adapter.AdapterPresenter
+import com.avito.konveyor.adapter.SimpleRecyclerAdapter
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.details.di.DetailsModule
@@ -14,6 +17,12 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
 
     @Inject
     lateinit var presenter: DetailsPresenter
+
+    @Inject
+    lateinit var adapterPresenter: AdapterPresenter
+
+    @Inject
+    lateinit var binder: ItemBinder
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val appId = intent.getStringExtra(EXTRA_APP_ID)
@@ -29,7 +38,8 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.details_activity)
 
-        val view = DetailsViewImpl(window.decorView)
+        val adapter = SimpleRecyclerAdapter(adapterPresenter, binder)
+        val view = DetailsViewImpl(window.decorView, adapter)
 
         presenter.attachView(view)
     }

@@ -1,12 +1,17 @@
 package com.tomclaw.appsend.screen.details
 
 import android.os.Bundle
+import com.avito.konveyor.adapter.AdapterPresenter
+import com.avito.konveyor.data_source.ListDataSource
+import com.tomclaw.appsend.screen.details.adapter.ItemListener
+import com.tomclaw.appsend.screen.details.adapter.header.HeaderItem
 import com.tomclaw.appsend.screen.details.api.Details
 import com.tomclaw.appsend.util.SchedulersFactory
+import dagger.Lazy
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
 
-interface DetailsPresenter {
+interface DetailsPresenter : ItemListener {
 
     fun attachView(view: DetailsView)
 
@@ -32,6 +37,7 @@ class DetailsPresenterImpl(
     private val appId: String?,
     private val packageName: String?,
     private val interactor: DetailsInteractor,
+    private val adapterPresenter: Lazy<AdapterPresenter>,
     private val schedulers: SchedulersFactory,
     state: Bundle?
 ) : DetailsPresenter {
@@ -92,20 +98,23 @@ class DetailsPresenterImpl(
 
     private fun bindDetails() {
         val details = this.details ?: return
-        view?.let {
-            with(it) {
-                setAppIcon(details.info?.icon)
-                setAppLabel(details.info?.label)
-                setAppPackage(details.info?.packageName)
-                if (details.info?.userId != null && details.info.userIcon != null) {
-                    showUploader()
-                    setUploaderIcon(details.info.userIcon)
-                    setUploaderName(details.info.userIcon.label["en"].orEmpty()) // TODO: locale + real name
-                } else {
-                    hideUploader()
-                }
-            }
-        }
+
+        val items = listOf(
+            HeaderItem(
+                1,
+                details.info?.icon,
+                details.info?.packageName.orEmpty(),
+                details.info?.label.orEmpty(),
+                details.info?.userId,
+                details.info?.userIcon,
+                "name"
+            ),
+        )
+
+        val dataSource = ListDataSource(items)
+        adapterPresenter.get().onDataSourceChanged(dataSource)
+
+        view?.contentUpdated()
     }
 
     private fun onLoadingError() {
