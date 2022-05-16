@@ -66,6 +66,7 @@
     <string name="error_message_report">غير قادر على الإبلاغ عن سوء المعاملة</string>
     <string name="error_rate_app">فشل في تقديم التقييمات، يرجى المحاولة مرة أخرى</string>
     <string name="error_sending_message">غير قادر على إرسال رسالة</string>
+    <string name="exclusive_short">تطبيق</string>
     <string name="exclusive">تطبيق حصري (غير موجود في Google Play)</string>
     <string name="exclusive_app">تطبيق حصري</string>
     <string name="extract_apk">استخراج APK في التنزيلات</string>
@@ -176,6 +177,7 @@
     <string name="profile_error">فشل في استرداد الملف الشخصي. يرجى إعادة محاولة الطلب.</string>
     <string name="rate_this_app">قيم هذا التطبيق</string>
     <string name="rates_count">معدلات العد</string>
+    <string name="rating">Rating</string>
     <string name="ratings">التقييمات</string>
     <string name="read_more">اقرأ أكثر</string>
     <string name="refresh">ينعش</string>

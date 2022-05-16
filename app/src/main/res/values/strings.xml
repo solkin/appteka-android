@@ -155,6 +155,7 @@
     <string name="message_report_sent">Thank you for helping in discussions moderation!</string>
     <string name="reply_form" translatable="false">&gt; %s\n</string>
     <string name="app_description">App description</string>
+    <string name="exclusive_short">Exclusive</string>
     <string name="exclusive">Exclusive app (do not present in Google Play)</string>
     <string name="description">Description</string>
     <string name="save_meta">Save</string>
@@ -164,6 +165,7 @@
     <string name="description_author">is description author</string>
     <string name="edit_meta">Edit Description</string>
     <string name="category">Application\ncategory</string>
+    <string name="rating">Rating</string>
     <string name="ratings">Ratings</string>
     <string name="load_ratings_error">An error occurred while loading ratings</string>
     <string name="load_files_error">An error occurred while loading files</string>

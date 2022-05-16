@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <HorizontalScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -17,7 +18,190 @@
         android:paddingEnd="24dp"
         tools:ignore="UselessLeaf">
 
-        <!-- Include @layout/details_play_text /  @layout/details_play_icon -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="2dp"
+                android:fontFamily="sans-serif-medium"
+                android:includeFontPadding="false"
+                android:textColor="?text_primary_color"
+                android:textSize="16sp"
+                app:drawableEndCompat="@drawable/ic_star_14"
+                app:drawableTint="?text_primary_color"
+                tools:text="4.4" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:includeFontPadding="false"
+                android:paddingTop="8sp"
+                android:text="@string/ratings"
+                android:textColor="?text_secondary_color"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <include layout="@layout/details_play_item_divider" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="2dp"
+                android:fontFamily="sans-serif-medium"
+                android:includeFontPadding="false"
+                android:textColor="?text_primary_color"
+                android:textSize="16sp"
+                tools:text="57" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:includeFontPadding="false"
+                android:paddingTop="8sp"
+                android:text="@string/downloads"
+                android:textColor="?text_secondary_color"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <include layout="@layout/details_play_item_divider" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingTop="4dp"
+            android:paddingBottom="8dp"
+            tools:ignore="UseCompoundDrawables">
+
+            <ImageView
+                android:layout_width="26sp"
+                android:layout_height="26sp"
+                android:contentDescription="@string/size_comment"
+                app:tint="?text_primary_color"
+                tools:src="@drawable/ic_download_box_outline" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:includeFontPadding="false"
+                android:paddingTop="4sp"
+                android:textColor="?text_secondary_color"
+                android:textSize="14sp"
+                tools:text="9 MB" />
+
+        </LinearLayout>
+
+        <include layout="@layout/details_play_item_divider" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingTop="4dp"
+            android:paddingBottom="8dp"
+            tools:ignore="UseCompoundDrawables">
+
+            <ImageView
+                android:layout_width="26sp"
+                android:layout_height="26sp"
+                android:contentDescription="@string/exclusive_short"
+                app:tint="?text_primary_color"
+                tools:src="@drawable/creation" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:includeFontPadding="false"
+                android:paddingTop="4sp"
+                android:text="@string/exclusive_short"
+                android:textColor="?text_secondary_color"
+                android:textSize="14sp" />
+
+        </LinearLayout>
+
+        <include layout="@layout/details_play_item_divider" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingTop="4dp"
+            android:paddingBottom="8dp">
+
+            <com.caverock.androidsvg.SVGImageView
+                android:layout_width="26sp"
+                android:layout_height="26sp"
+                app:tint="?text_primary_color"
+                tools:src="@drawable/ic_apps"
+                tools:tint="?text_primary_color" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:includeFontPadding="false"
+                android:paddingTop="4sp"
+                android:textColor="?text_secondary_color"
+                android:textSize="14sp"
+                tools:text="Tools" />
+
+        </LinearLayout>
+
+        <include layout="@layout/details_play_item_divider" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="2dp"
+                android:fontFamily="sans-serif-medium"
+                android:includeFontPadding="false"
+                android:textColor="?text_primary_color"
+                android:textSize="16sp"
+                tools:text="5.0" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-light"
+                android:includeFontPadding="false"
+                android:paddingTop="8sp"
+                android:text="@string/android"
+                android:textColor="?text_secondary_color"
+                android:textSize="14sp" />
+
+        </LinearLayout>
 
     </LinearLayout>
 
