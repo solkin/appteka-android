@@ -33,8 +33,6 @@ data class AppInfo(
     val size: Long,
     @SerializedName("downloads")
     val downloads: Int?,
-    @SerializedName("rating")
-    val rating: Float?,
     @SerializedName("download_time")
     val downloadTime: Long?,
     @SerializedName("time")

@@ -20,6 +20,7 @@ import com.tomclaw.appsend.categories.CategoryItem
 import com.tomclaw.appsend.util.clicks
 import com.tomclaw.appsend.util.dpToPx
 import com.tomclaw.appsend.util.getAttributedColor
+import com.tomclaw.appsend.util.svgToDrawable
 import com.tomclaw.appsend.util.toBitmap
 import io.reactivex.rxjava3.core.Observable
 
@@ -129,7 +130,7 @@ class StoreViewImpl(
             .apply {
                 for (item in items) {
                     val title = item.title
-                    val icon = svgToDrawable(item.icon)
+                    val icon = svgToDrawable(item.icon, context.resources)
                     addItem(item.id, title, icon)
                 }
             }
@@ -146,18 +147,9 @@ class StoreViewImpl(
             .show()
     }
 
-    private fun svgToDrawable(icon: String): Drawable {
-        val picture = SVG.getFromString(icon).renderToPicture()
-        val bitmap = picture.toBitmap(
-            bitmapWidth = dpToPx(picture.width, context.resources),
-            bitmapHeight = dpToPx(picture.height, context.resources)
-        )
-        return BitmapDrawable(context.resources, bitmap)
-    }
-
     override fun setSelectedCategory(category: CategoryItem?) {
         category?.let {
-            categoryIcon.setImageDrawable(svgToDrawable(it.icon))
+            categoryIcon.setImageDrawable(svgToDrawable(it.icon, context.resources))
             categoryTitle.text = it.title
         } ?: run {
             categoryIcon.setImageResource(R.drawable.ic_category)

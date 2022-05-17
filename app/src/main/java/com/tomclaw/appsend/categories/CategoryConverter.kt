@@ -20,4 +20,4 @@ class CategoryConverterImpl(private val locale: Locale) : CategoryConverter {
 
 }
 
-private const val DEFAULT_LOCALE = "en"
+const val DEFAULT_LOCALE = "en"

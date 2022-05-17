@@ -5,6 +5,7 @@ import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.data_source.ListDataSource
 import com.tomclaw.appsend.screen.details.adapter.ItemListener
 import com.tomclaw.appsend.screen.details.adapter.header.HeaderItem
+import com.tomclaw.appsend.screen.details.adapter.play.PlayItem
 import com.tomclaw.appsend.screen.details.api.Details
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
@@ -101,13 +102,23 @@ class DetailsPresenterImpl(
 
         val items = listOf(
             HeaderItem(
-                1,
-                details.info?.icon,
-                details.info?.packageName.orEmpty(),
-                details.info?.label.orEmpty(),
-                details.info?.userId,
-                details.info?.userIcon,
-                "name"
+                id = 1,
+                icon = details.info?.icon,
+                packageName = details.info?.packageName.orEmpty(),
+                label = details.info?.label.orEmpty(),
+                userId = details.info?.userId,
+                userIcon = details.info?.userIcon,
+                userName = "name"
+            ),
+            PlayItem(
+                id = 2,
+                rating = details.meta?.rating,
+                downloads = details.info?.downloads ?: 0,
+                size = details.info?.size ?: 0,
+                exclusive = details.meta?.exclusive ?: false,
+                category = details.meta?.category,
+                osVersion = details.info?.androidVersion,
+                minSdk = details.info?.sdkVersion,
             ),
         )
 
