@@ -40,7 +40,7 @@
                     android:fontFamily="sans-serif-medium"
                     android:includeFontPadding="false"
                     android:textColor="?text_primary_color"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     app:drawableEndCompat="@drawable/ic_star_14"
                     app:drawableTint="?text_primary_color"
                     tools:text="4.4" />
@@ -48,12 +48,12 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-light"
+                    android:fontFamily="sans-serif-condensed-light"
                     android:includeFontPadding="false"
                     android:paddingTop="8sp"
                     android:text="@string/ratings"
                     android:textColor="?text_secondary_color"
-                    android:textSize="14sp" />
+                    android:textSize="12sp" />
 
             </LinearLayout>
 
@@ -77,18 +77,18 @@
                 android:fontFamily="sans-serif-medium"
                 android:includeFontPadding="false"
                 android:textColor="?text_primary_color"
-                android:textSize="16sp"
+                android:textSize="14sp"
                 tools:text="57" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-light"
+                android:fontFamily="sans-serif-condensed-light"
                 android:includeFontPadding="false"
                 android:paddingTop="8sp"
                 android:text="@string/downloads"
                 android:textColor="?text_secondary_color"
-                android:textSize="14sp" />
+                android:textSize="12sp" />
 
         </LinearLayout>
 
@@ -104,8 +104,8 @@
             tools:ignore="UseCompoundDrawables">
 
             <ImageView
-                android:layout_width="26sp"
-                android:layout_height="26sp"
+                android:layout_width="24sp"
+                android:layout_height="24sp"
                 android:contentDescription="@string/size_comment"
                 android:src="@drawable/ic_download_box_outline"
                 app:tint="?text_primary_color" />
@@ -114,11 +114,11 @@
                 android:id="@+id/size_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-light"
+                android:fontFamily="sans-serif-condensed-light"
                 android:includeFontPadding="false"
                 android:paddingTop="4sp"
                 android:textColor="?text_secondary_color"
-                android:textSize="14sp"
+                android:textSize="12sp"
                 tools:text="9 MB" />
 
         </LinearLayout>
@@ -142,8 +142,8 @@
                 tools:ignore="UseCompoundDrawables">
 
                 <ImageView
-                    android:layout_width="26sp"
-                    android:layout_height="26sp"
+                    android:layout_width="24sp"
+                    android:layout_height="24sp"
                     android:contentDescription="@string/exclusive_short"
                     android:src="@drawable/creation"
                     app:tint="?text_primary_color" />
@@ -151,12 +151,12 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-light"
+                    android:fontFamily="sans-serif-condensed-light"
                     android:includeFontPadding="false"
                     android:paddingTop="4sp"
                     android:text="@string/exclusive_short"
                     android:textColor="?text_secondary_color"
-                    android:textSize="14sp" />
+                    android:textSize="12sp" />
 
             </LinearLayout>
 
@@ -181,8 +181,8 @@
 
                 <ImageView
                     android:id="@+id/category_svg"
-                    android:layout_width="26sp"
-                    android:layout_height="26sp"
+                    android:layout_width="24sp"
+                    android:layout_height="24sp"
                     app:tint="?text_primary_color"
                     tools:src="@drawable/ic_apps" />
 
@@ -190,11 +190,11 @@
                     android:id="@+id/category_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-light"
+                    android:fontFamily="sans-serif-condensed-light"
                     android:includeFontPadding="false"
                     android:paddingTop="4sp"
                     android:textColor="?text_secondary_color"
-                    android:textSize="14sp"
+                    android:textSize="12sp"
                     tools:text="Tools" />
 
             </LinearLayout>
@@ -226,18 +226,18 @@
                     android:fontFamily="sans-serif-medium"
                     android:includeFontPadding="false"
                     android:textColor="?text_primary_color"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     tools:text="5.0" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-light"
+                    android:fontFamily="sans-serif-condensed-light"
                     android:includeFontPadding="false"
                     android:paddingTop="8sp"
                     android:text="@string/android"
                     android:textColor="?text_secondary_color"
-                    android:textSize="14sp" />
+                    android:textSize="12sp" />
 
             </LinearLayout>
 
