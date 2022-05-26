@@ -4,6 +4,7 @@
     <item
         android:id="@+id/unlink"
         android:icon="@drawable/ic_delete"
-        app:showAsAction="ifRoom|withText"
-        android:title="@string/unlink_file" />
+        android:title="@string/unlink_file"
+        app:iconTint="?text_primary_color"
+        app:showAsAction="ifRoom|withText" />
 </menu>

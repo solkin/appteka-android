@@ -4,6 +4,7 @@
     <item
         android:id="@+id/send"
         android:icon="@drawable/ic_send"
-        app:showAsAction="ifRoom|withText"
-        android:title="@string/send_abuse" />
+        android:title="@string/send_abuse"
+        app:iconTint="?text_primary_color"
+        app:showAsAction="ifRoom|withText" />
 </menu>

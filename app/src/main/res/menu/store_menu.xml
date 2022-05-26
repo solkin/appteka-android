@@ -5,6 +5,7 @@
         android:id="@+id/menu_search"
         android:icon="@drawable/ic_magnify"
         android:title="@string/menu_search"
+        app:iconTint="?text_primary_color"
         app:showAsAction="ifRoom|collapseActionView" />
     <item
         android:id="@+id/nav_settings"

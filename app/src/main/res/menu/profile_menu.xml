@@ -5,6 +5,7 @@
         android:id="@+id/share"
         android:icon="@drawable/ic_share_variant"
         android:title="@string/share_url"
+        app:iconTint="?text_primary_color"
         app:showAsAction="ifRoom|withText" />
     <item
         android:id="@+id/eliminate"

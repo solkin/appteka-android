@@ -15,10 +15,12 @@
         android:id="@+id/delete"
         android:icon="@drawable/ic_delete"
         android:title="@string/delete_from_store"
+        app:iconTint="?text_primary_color"
         app:showAsAction="ifRoom|withText" />
     <item
         android:id="@+id/abuse"
         android:icon="@drawable/ic_alert"
         android:title="@string/abuse"
+        app:iconTint="?text_primary_color"
         app:showAsAction="ifRoom|withText" />
 </menu>

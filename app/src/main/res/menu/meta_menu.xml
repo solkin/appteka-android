@@ -4,6 +4,7 @@
     <item
         android:id="@+id/menu_save"
         android:icon="@drawable/content_save"
-        app:showAsAction="ifRoom|withText"
-        android:title="@string/save_meta" />
+        android:title="@string/save_meta"
+        app:iconTint="?text_primary_color"
+        app:showAsAction="ifRoom|withText" />
 </menu>
