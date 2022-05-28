@@ -2,8 +2,10 @@ package com.tomclaw.appsend.screen.details
 
 import android.os.Bundle
 import com.avito.konveyor.adapter.AdapterPresenter
+import com.avito.konveyor.blueprint.Item
 import com.avito.konveyor.data_source.ListDataSource
 import com.tomclaw.appsend.screen.details.adapter.ItemListener
+import com.tomclaw.appsend.screen.details.adapter.description.DescriptionItem
 import com.tomclaw.appsend.screen.details.adapter.header.HeaderItem
 import com.tomclaw.appsend.screen.details.adapter.play.PlayItem
 import com.tomclaw.appsend.screen.details.api.Details
@@ -100,27 +102,36 @@ class DetailsPresenterImpl(
     private fun bindDetails() {
         val details = this.details ?: return
 
-        val items = listOf(
-            HeaderItem(
-                id = 1,
-                icon = details.info?.icon,
-                packageName = details.info?.packageName.orEmpty(),
-                label = details.info?.label.orEmpty(),
-                userId = details.info?.userId,
-                userIcon = details.info?.userIcon,
-                userName = "name"
-            ),
-            PlayItem(
-                id = 2,
-                rating = details.meta?.rating,
-                downloads = details.info?.downloads ?: 0,
-                size = details.info?.size ?: 0,
-                exclusive = details.meta?.exclusive ?: false,
-                category = details.meta?.category,
-                osVersion = details.info?.androidVersion,
-                minSdk = details.info?.sdkVersion,
-            ),
+        val items = ArrayList<Item>()
+        items += HeaderItem(
+            id = 1,
+            icon = details.info?.icon,
+            packageName = details.info?.packageName.orEmpty(),
+            label = details.info?.label.orEmpty(),
+            userId = details.info?.userId,
+            userIcon = details.info?.userIcon,
+            userName = "name"
         )
+        items += PlayItem(
+            id = 2,
+            rating = details.meta?.rating,
+            downloads = details.info.downloads ?: 0,
+            size = details.info.size,
+            exclusive = details.meta?.exclusive ?: false,
+            category = details.meta?.category,
+            osVersion = details.info.androidVersion,
+            minSdk = details.info.sdkVersion,
+        )
+        if (!details.meta?.description.isNullOrBlank()) {
+            items += DescriptionItem(
+                id = 3,
+                text = details.meta?.description.orEmpty(),
+                versionName = details.info.version,
+                versionCode = details.info.versionCode,
+                uploadDate = details.info.time,
+                checksum = details.info.sha1,
+            )
+        }
 
         val dataSource = ListDataSource(items)
         adapterPresenter.get().onDataSourceChanged(dataSource)

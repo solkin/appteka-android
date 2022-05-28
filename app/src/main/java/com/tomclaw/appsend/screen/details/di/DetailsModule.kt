@@ -12,6 +12,10 @@ import com.tomclaw.appsend.screen.details.DetailsInteractor
 import com.tomclaw.appsend.screen.details.DetailsInteractorImpl
 import com.tomclaw.appsend.screen.details.DetailsPresenter
 import com.tomclaw.appsend.screen.details.DetailsPresenterImpl
+import com.tomclaw.appsend.screen.details.adapter.description.DescriptionItemBlueprint
+import com.tomclaw.appsend.screen.details.adapter.description.DescriptionItemPresenter
+import com.tomclaw.appsend.screen.details.adapter.description.DescriptionResourceProvider
+import com.tomclaw.appsend.screen.details.adapter.description.DescriptionResourceProviderImpl
 import com.tomclaw.appsend.screen.details.adapter.header.HeaderItemBlueprint
 import com.tomclaw.appsend.screen.details.adapter.header.HeaderItemPresenter
 import com.tomclaw.appsend.screen.details.adapter.play.PlayItemBlueprint
@@ -72,6 +76,12 @@ class DetailsModule(
 
     @Provides
     @PerActivity
+    internal fun provideDescriptionResourceProvider(locale: Locale): DescriptionResourceProvider {
+        return DescriptionResourceProviderImpl(context.resources, locale)
+    }
+
+    @Provides
+    @PerActivity
     internal fun provideItemBinder(
         blueprintSet: Set<@JvmSuppressWildcards ItemBlueprint<*, *>>
     ): ItemBinder {
@@ -106,5 +116,18 @@ class DetailsModule(
         locale: Locale,
         resourceProvider: PlayResourceProvider
     ) = PlayItemPresenter(locale, resourceProvider)
+
+    @Provides
+    @IntoSet
+    @PerActivity
+    internal fun provideDescriptionItemBlueprint(
+        presenter: DescriptionItemPresenter
+    ): ItemBlueprint<*, *> = DescriptionItemBlueprint(presenter)
+
+    @Provides
+    @PerActivity
+    internal fun provideDescriptionItemPresenter(
+        resourceProvider: DescriptionResourceProvider
+    ) = DescriptionItemPresenter(resourceProvider)
 
 }

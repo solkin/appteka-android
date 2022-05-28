@@ -27,5 +27,5 @@ data class Details(
     @SerializedName("meta")
     val meta: Meta?,
     @SerializedName("info")
-    val info: AppInfo?,
+    val info: AppInfo,
 ) : Parcelable
