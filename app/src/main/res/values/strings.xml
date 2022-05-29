@@ -289,4 +289,9 @@
     <string name="error_app_topic_creation">Failed to open application topic</string>
     <string name="all_categories">All Categories</string>
     <string name="details_activity">Details</string>
+    <string name="internet_access">Unlimited Internet access</string>
+    <string name="calls_access">Phone calls history access</string>
+    <string name="sms_access">Contents of SMS</string>
+    <string name="storage_access">Storage access</string>
+    <string name="location_access">Geolocation tracking</string>
 </resources>

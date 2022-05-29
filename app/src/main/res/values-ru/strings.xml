@@ -282,4 +282,9 @@
     <string name="error_app_topic_creation">Не удалось открыть тему для обсуждения приложения</string>
     <string name="all_categories">Все категории</string>
     <string name="details_activity">Сведения</string>
+    <string name="internet_access">Безлимитный доступ к Интернет</string>
+    <string name="calls_access">Доступ к истории звонков</string>
+    <string name="sms_access">Просмотр содержимого СМС сообщений</string>
+    <string name="storage_access">Доступ к файлам накопителя</string>
+    <string name="location_access">Отслеживание геолокации</string>
 </resources>
