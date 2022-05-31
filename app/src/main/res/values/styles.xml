@@ -95,7 +95,7 @@
         <item name="bottom_bar_background">#ffffff</item>
 
         <item name="toolbar_background">@android:color/white</item>
-        <item name="search_toolbar_background">#324D42</item>
+        <item name="search_toolbar_background">@android:color/white</item>
 
         <item name="play_view_color">@color/play_view_light_color</item>
 
