@@ -40,7 +40,7 @@
                     android:fontFamily="sans-serif-medium"
                     android:includeFontPadding="false"
                     android:textColor="?text_primary_color"
-                    android:textSize="14sp"
+                    android:textSize="15sp"
                     app:drawableEndCompat="@drawable/ic_star_14"
                     app:drawableTint="?text_primary_color"
                     tools:text="4.4" />
@@ -53,7 +53,7 @@
                     android:paddingTop="8sp"
                     android:text="@string/ratings"
                     android:textColor="?text_secondary_color"
-                    android:textSize="12sp" />
+                    android:textSize="13sp" />
 
             </LinearLayout>
 
@@ -77,7 +77,7 @@
                 android:fontFamily="sans-serif-medium"
                 android:includeFontPadding="false"
                 android:textColor="?text_primary_color"
-                android:textSize="14sp"
+                android:textSize="15sp"
                 tools:text="57" />
 
             <TextView
@@ -88,7 +88,7 @@
                 android:paddingTop="8sp"
                 android:text="@string/downloads"
                 android:textColor="?text_secondary_color"
-                android:textSize="12sp" />
+                android:textSize="13sp" />
 
         </LinearLayout>
 
@@ -104,8 +104,8 @@
             tools:ignore="UseCompoundDrawables">
 
             <ImageView
-                android:layout_width="24sp"
-                android:layout_height="24sp"
+                android:layout_width="25sp"
+                android:layout_height="25sp"
                 android:contentDescription="@string/size_comment"
                 android:src="@drawable/ic_download_box_outline"
                 app:tint="?text_primary_color" />
@@ -116,9 +116,9 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-condensed-light"
                 android:includeFontPadding="false"
-                android:paddingTop="4sp"
+                android:paddingTop="5sp"
                 android:textColor="?text_secondary_color"
-                android:textSize="12sp"
+                android:textSize="13sp"
                 tools:text="9 MB" />
 
         </LinearLayout>
@@ -142,8 +142,8 @@
                 tools:ignore="UseCompoundDrawables">
 
                 <ImageView
-                    android:layout_width="24sp"
-                    android:layout_height="24sp"
+                    android:layout_width="25sp"
+                    android:layout_height="25sp"
                     android:contentDescription="@string/exclusive_short"
                     android:src="@drawable/creation"
                     app:tint="?text_primary_color" />
@@ -153,10 +153,10 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-condensed-light"
                     android:includeFontPadding="false"
-                    android:paddingTop="4sp"
+                    android:paddingTop="5sp"
                     android:text="@string/exclusive_short"
                     android:textColor="?text_secondary_color"
-                    android:textSize="12sp" />
+                    android:textSize="13sp" />
 
             </LinearLayout>
 
@@ -181,8 +181,8 @@
 
                 <ImageView
                     android:id="@+id/category_svg"
-                    android:layout_width="24sp"
-                    android:layout_height="24sp"
+                    android:layout_width="25sp"
+                    android:layout_height="25sp"
                     app:tint="?text_primary_color"
                     tools:src="@drawable/ic_apps" />
 
@@ -192,9 +192,9 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-condensed-light"
                     android:includeFontPadding="false"
-                    android:paddingTop="4sp"
+                    android:paddingTop="5sp"
                     android:textColor="?text_secondary_color"
-                    android:textSize="12sp"
+                    android:textSize="13sp"
                     tools:text="Tools" />
 
             </LinearLayout>
@@ -226,7 +226,7 @@
                     android:fontFamily="sans-serif-medium"
                     android:includeFontPadding="false"
                     android:textColor="?text_primary_color"
-                    android:textSize="14sp"
+                    android:textSize="15sp"
                     tools:text="5.0" />
 
                 <TextView
@@ -237,7 +237,7 @@
                     android:paddingTop="8sp"
                     android:text="@string/android"
                     android:textColor="?text_secondary_color"
-                    android:textSize="12sp" />
+                    android:textSize="13sp" />
 
             </LinearLayout>
 

@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-black"
-        android:paddingBottom="12dp"
+        android:paddingBottom="13dp"
         android:text="@string/description"
         android:textColor="?text_primary_color"
         android:textSize="15sp" />
@@ -26,7 +26,7 @@
         android:gravity="fill"
         android:textColor="?text_primary_color"
         android:textIsSelectable="true"
-        android:textSize="14sp"
+        android:textSize="15sp"
         tools:text="Application description text here" />
 
     <TextView
@@ -36,14 +36,14 @@
         android:fontFamily="sans-serif-black"
         android:text="@string/app_version_title"
         android:textColor="?attr/text_primary_color"
-        android:textSize="13sp" />
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/app_version"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="?attr/text_secondary_color"
-        android:textSize="14sp"
+        android:textSize="15sp"
         tools:text="1.7 (490)" />
 
     <TextView
@@ -53,14 +53,14 @@
         android:fontFamily="sans-serif-black"
         android:text="@string/uploaded_title"
         android:textColor="?attr/text_primary_color"
-        android:textSize="13sp" />
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/upload_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="?attr/text_secondary_color"
-        android:textSize="14sp"
+        android:textSize="15sp"
         tools:text="18.01.2017" />
 
     <TextView
@@ -71,7 +71,7 @@
         android:fontFamily="sans-serif-black"
         android:text="@string/checksum_title"
         android:textColor="?attr/text_primary_color"
-        android:textSize="13sp" />
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/app_checksum"
@@ -79,7 +79,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="monospace"
         android:textColor="?attr/text_secondary_color"
-        android:textSize="12sp"
+        android:textSize="13sp"
         android:typeface="monospace"
         tools:text="d3cdd8d14a376b8309ee1c06a78cb01142427e59" />
 
