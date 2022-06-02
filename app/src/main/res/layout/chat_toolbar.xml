@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="6dp"
             android:src="@drawable/ic_arrow_back"
-            app:tint="?text_primary_color" />
+            app:tint="?android:textColorPrimary" />
 
         <ImageView
             android:id="@+id/icon"
@@ -51,7 +51,7 @@
             android:ellipsize="end"
             android:lines="1"
             android:singleLine="true"
-            android:textColor="?text_primary_color"
+            android:textColor="?android:textColorPrimary"
             android:textSize="17sp"
             android:textStyle="bold"
             tools:text="Name" />
@@ -63,7 +63,7 @@
             android:ellipsize="end"
             android:lines="1"
             android:singleLine="true"
-            android:textColor="?text_secondary_color"
+            android:textColor="?android:textColorSecondary"
             android:textSize="12sp"
             tools:text="Last seen at 3:34 a.m" />
 

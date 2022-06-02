@@ -5,6 +5,6 @@
         android:id="@+id/send"
         android:icon="@drawable/ic_send"
         android:title="@string/send_abuse"
-        app:iconTint="?text_primary_color"
+        app:iconTint="?android:textColorPrimary"
         app:showAsAction="ifRoom|withText" />
 </menu>
