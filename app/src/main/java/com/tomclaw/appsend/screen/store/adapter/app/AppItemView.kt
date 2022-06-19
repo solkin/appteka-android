@@ -37,7 +37,11 @@ interface AppItemView : ItemView {
 
     fun hideProgress()
 
+    fun setStatus(status: String?)
+
     fun setOnClickListener(listener: (() -> Unit)?)
+
+    fun setClickable(clickable: Boolean)
 
 }
 
@@ -52,6 +56,7 @@ class AppItemViewHolder(view: View) : BaseViewHolder(view), AppItemView {
     private val downloads: TextView = view.findViewById(R.id.app_downloads)
     private val badge: View = view.findViewById(R.id.badge_new)
     private val progress: View = view.findViewById(R.id.item_progress)
+    private val status: TextView = view.findViewById(R.id.app_badge)
 
     private var clickListener: (() -> Unit)? = null
 
@@ -109,8 +114,16 @@ class AppItemViewHolder(view: View) : BaseViewHolder(view), AppItemView {
         badge.hide()
     }
 
+    override fun setStatus(status: String?) {
+        this.status.bind(status)
+    }
+
     override fun setOnClickListener(listener: (() -> Unit)?) {
         this.clickListener = listener
+    }
+
+    override fun setClickable(clickable: Boolean) {
+        itemView.isClickable = clickable
     }
 
     override fun onUnbind() {

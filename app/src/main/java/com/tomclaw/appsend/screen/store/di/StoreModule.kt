@@ -80,7 +80,7 @@ class StoreModule(
     @Provides
     @PerFragment
     internal fun provideAppsConverter(resourceProvider: AppsResourceProvider): AppConverter {
-        return AppConverterImpl(resourceProvider)
+        return AppConverterImpl(resourceProvider, context.packageManager)
     }
 
     @Provides
@@ -108,8 +108,10 @@ class StoreModule(
 
     @Provides
     @PerFragment
-    internal fun provideAppItemPresenter(presenter: StorePresenter) =
-        AppItemPresenter(presenter)
+    internal fun provideAppItemPresenter(
+        presenter: StorePresenter,
+        resourceProvider: AppsResourceProvider
+    ) = AppItemPresenter(presenter, resourceProvider)
 
     @Provides
     @PerFragment

@@ -8,6 +8,8 @@ import kotlinx.parcelize.Parcelize
 data class AppEntity(
     @SerializedName("app_id")
     val appId: String,
+    @SerializedName("package")
+    val packageName: String,
     @SerializedName("icon")
     val icon: String?,
     @SerializedName("label")
@@ -24,4 +26,6 @@ data class AppEntity(
     val rating: Float,
     @SerializedName("downloads")
     val downloads: Int,
+    @SerializedName("file_status")
+    val status: Int,
 ) : Parcelable
