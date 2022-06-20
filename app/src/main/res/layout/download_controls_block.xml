@@ -110,6 +110,21 @@
                 android:layout_weight="1"
                 tools:text="@string/open" />
 
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/button_third"
+                style="@style/MaterialButtonPrimary"
+                android:layout_width="38dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="6dp"
+                android:layout_marginLeft="6dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_weight="0"
+                app:icon="@drawable/ic_download"
+                app:iconGravity="textStart"
+                app:iconPadding="0dp" />
+
         </LinearLayout>
 
         <LinearLayout

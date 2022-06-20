@@ -3,7 +3,6 @@ package com.tomclaw.appsend.main.download;
 import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
 import static com.tomclaw.appsend.main.ratings.RatingsHelper.tintRatingIndicator;
 import static com.tomclaw.appsend.screen.chat.ChatActivityKt.createChatActivityIntent;
-import static com.tomclaw.appsend.screen.details.DetailsActivityKt.createDetailsActivityIntent;
 import static com.tomclaw.appsend.util.ColorsKt.getAttributedColor;
 import static com.tomclaw.appsend.util.FileHelper.getExternalDirectory;
 import static com.tomclaw.appsend.util.IntentHelper.formatText;
@@ -87,7 +86,6 @@ import com.tomclaw.appsend.main.unlink.UnlinkActivity_;
 import com.tomclaw.appsend.main.unpublish.UnpublishActivity_;
 import com.tomclaw.appsend.main.view.PlayView;
 import com.tomclaw.appsend.net.Session;
-import com.tomclaw.appsend.screen.details.DetailsActivity;
 import com.tomclaw.appsend.screen.moderation.api.ModerationResponse;
 import com.tomclaw.appsend.util.FileHelper;
 import com.tomclaw.appsend.util.IntentHelper;
@@ -163,6 +161,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
     private Button buttonOne;
     private Button buttonFirst;
     private Button buttonSecond;
+    private Button buttonThird;
     private ProgressBar progress;
     private TextView extraAccess;
     private SwipeRefreshLayout swipeRefresh;
@@ -276,6 +275,7 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
         buttonOne = findViewById(R.id.button_one);
         buttonFirst = findViewById(R.id.button_first);
         buttonSecond = findViewById(R.id.button_second);
+        buttonThird = findViewById(R.id.button_third);
         progress = findViewById(R.id.progress);
         extraAccess = findViewById(R.id.extra_access);
         swipeRefresh = findViewById(R.id.swipe_refresh);
@@ -676,10 +676,12 @@ public class DownloadActivity extends PermisoActivity implements DownloadControl
                     if (isNewer) {
                         buttonSecond.setText(R.string.update);
                         buttonSecond.setOnClickListener(v -> updateApp());
+                        buttonThird.setVisibility(View.GONE);
                     } else {
                         buttonSecond.setText(R.string.open);
                         buttonSecond.setOnClickListener(v -> openApp(launchIntent));
                     }
+                    buttonThird.setOnClickListener(v -> updateApp());
                 } else {
                     buttonsSwitcher.setDisplayedChild(0);
                     if (isNewer) {
