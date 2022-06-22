@@ -14,7 +14,7 @@ android {
             if (project.hasProperty("keyPassword")) keyPassword project.keyPassword
         }
     }
-    compileSdkVersion 31
+    compileSdkVersion 32
 
     defaultConfig {
         applicationId "com.tomclaw.appsend"
@@ -22,7 +22,7 @@ android {
         //noinspection ExpiredTargetSdkVersion
         targetSdkVersion 28
         versionCode = project.hasProperty("versionCode") ? Integer.parseInt(project.versionCode) : 1000
-        versionName = "7.5"
+        versionName = "8.0"
         manifestPlaceholders = [
                 APPCENTER_APP_ID: "c8564e90-1f35-4fcc-9858-e6ad5b1594f9"
         ]
@@ -46,11 +46,11 @@ dependencies {
     implementation project(path: ':preference-fragment')
     implementation 'com.github.solkin:simple-image-loader:v0.9.0'
     implementation 'com.github.solkin:disk-lru-cache:1.4'
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.7.0'
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.7.10'
     implementation 'androidx.core:core-ktx:1.8.0'
     kapt 'org.androidannotations:androidannotations:4.8.0'
     implementation 'org.androidannotations:androidannotations-api:4.8.0'
-    implementation 'androidx.appcompat:appcompat:1.4.2'
+    implementation 'androidx.appcompat:appcompat:1.5.0'
     kapt 'androidx.annotation:annotation:1.4.0'
     implementation 'androidx.annotation:annotation:1.4.0'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
@@ -75,4 +75,6 @@ dependencies {
     implementation 'com.github.rubensousa:BottomSheetBuilder:1.6.0'
     debugImplementation "com.github.chuckerteam.chucker:library:3.5.2"
     releaseImplementation "com.github.chuckerteam.chucker:library-no-op:3.5.2"
+    implementation "androidx.lifecycle:lifecycle-viewmodel:2.5.1"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
 }
