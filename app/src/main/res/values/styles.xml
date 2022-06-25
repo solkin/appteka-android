@@ -45,12 +45,6 @@
 
     <color name="rating_box_background">#07000000</color>
 
-    <color name="inactive_tab_title_color">#ccffffff</color>
-    <color name="active_tab_title_color">#fff</color>
-
-    <color name="toolbar_text_primary_color">#FFFFEF</color>
-    <color name="toolbar_text_secondary_color">#E1E1D1</color>
-
     <color name="user_uploads_color">#228acb</color>
     <color name="user_downloads_color">#6bb294</color>
     <color name="user_messages_color">#689627</color>

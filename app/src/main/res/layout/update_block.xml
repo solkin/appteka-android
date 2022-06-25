@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:singleLine="true"
                 android:text="@string/update_available"
-                android:textColor="@color/toolbar_text_primary_color"
+                android:textColor="?android:textColorPrimary"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -52,7 +52,7 @@
                 android:maxLines="2"
                 android:scrollHorizontally="true"
                 android:text="@string/update_description"
-                android:textColor="@color/toolbar_text_secondary_color"
+                android:textColor="?android:textColorSecondary"
                 android:textSize="15sp" />
 
             <LinearLayout
