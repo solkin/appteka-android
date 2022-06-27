@@ -16,12 +16,10 @@ class AppConverterImpl(
     private val packageManager: PackageManager
 ) : AppConverter {
 
-    private var id: Long = 1
-
     override fun convert(appEntity: AppEntity): AppItem {
         val installedVersionCode = getInstalledVersionCode(appEntity.packageName)
         return AppItem(
-            id = id++,
+            id = getItemId(appEntity),
             appId = appEntity.appId,
             icon = appEntity.icon,
             title = appEntity.title,
@@ -43,6 +41,10 @@ class AppConverterImpl(
         } catch (ex: Throwable) {
             NOT_INSTALLED
         }
+    }
+
+    private fun getItemId(entity: AppEntity): Long {
+        return (entity.appId.hashCode() + entity.packageName.hashCode()).toLong()
     }
 
 }
