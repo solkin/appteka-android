@@ -18,6 +18,10 @@ import com.tomclaw.appsend.screen.details.adapter.description.DescriptionResourc
 import com.tomclaw.appsend.screen.details.adapter.description.DescriptionResourceProviderImpl
 import com.tomclaw.appsend.screen.details.adapter.header.HeaderItemBlueprint
 import com.tomclaw.appsend.screen.details.adapter.header.HeaderItemPresenter
+import com.tomclaw.appsend.screen.details.adapter.permissions.PermissionsItemBlueprint
+import com.tomclaw.appsend.screen.details.adapter.permissions.PermissionsItemPresenter
+import com.tomclaw.appsend.screen.details.adapter.permissions.PermissionsResourceProvider
+import com.tomclaw.appsend.screen.details.adapter.permissions.PermissionsResourceProviderImpl
 import com.tomclaw.appsend.screen.details.adapter.play.PlayItemBlueprint
 import com.tomclaw.appsend.screen.details.adapter.play.PlayItemPresenter
 import com.tomclaw.appsend.screen.details.adapter.play.PlayResourceProvider
@@ -82,6 +86,12 @@ class DetailsModule(
 
     @Provides
     @PerActivity
+    internal fun providePermissionsResourceProvider(locale: Locale): PermissionsResourceProvider {
+        return PermissionsResourceProviderImpl(context.resources, locale)
+    }
+
+    @Provides
+    @PerActivity
     internal fun provideItemBinder(
         blueprintSet: Set<@JvmSuppressWildcards ItemBlueprint<*, *>>
     ): ItemBinder {
@@ -129,5 +139,19 @@ class DetailsModule(
     internal fun provideDescriptionItemPresenter(
         resourceProvider: DescriptionResourceProvider
     ) = DescriptionItemPresenter(resourceProvider)
+
+    @Provides
+    @IntoSet
+    @PerActivity
+    internal fun providePermissionsItemBlueprint(
+        presenter: PermissionsItemPresenter
+    ): ItemBlueprint<*, *> = PermissionsItemBlueprint(presenter)
+
+    @Provides
+    @PerActivity
+    internal fun providePermissionsItemPresenter(
+        resourceProvider: PermissionsResourceProvider,
+        presenter: DetailsPresenter
+    ) = PermissionsItemPresenter(resourceProvider, presenter)
 
 }

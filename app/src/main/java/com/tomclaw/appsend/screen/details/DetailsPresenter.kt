@@ -7,6 +7,7 @@ import com.avito.konveyor.data_source.ListDataSource
 import com.tomclaw.appsend.screen.details.adapter.ItemListener
 import com.tomclaw.appsend.screen.details.adapter.description.DescriptionItem
 import com.tomclaw.appsend.screen.details.adapter.header.HeaderItem
+import com.tomclaw.appsend.screen.details.adapter.permissions.PermissionsItem
 import com.tomclaw.appsend.screen.details.adapter.play.PlayItem
 import com.tomclaw.appsend.screen.details.api.Details
 import com.tomclaw.appsend.util.SchedulersFactory
@@ -105,11 +106,11 @@ class DetailsPresenterImpl(
         val items = ArrayList<Item>()
         items += HeaderItem(
             id = 1,
-            icon = details.info?.icon,
-            packageName = details.info?.packageName.orEmpty(),
-            label = details.info?.label.orEmpty(),
-            userId = details.info?.userId,
-            userIcon = details.info?.userIcon,
+            icon = details.info.icon,
+            packageName = details.info.packageName,
+            label = details.info.label.orEmpty(),
+            userId = details.info.userId,
+            userIcon = details.info.userIcon,
             userName = "name"
         )
         items += PlayItem(
@@ -130,6 +131,12 @@ class DetailsPresenterImpl(
                 versionCode = details.info.versionCode,
                 uploadDate = details.info.time,
                 checksum = details.info.sha1,
+            )
+        }
+        if (!details.info.permissions.isNullOrEmpty()) {
+            items += PermissionsItem(
+                id = 4,
+                permissions = details.info.permissions,
             )
         }
 

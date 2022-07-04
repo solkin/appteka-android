@@ -23,7 +23,7 @@
             android:paddingBottom="4dp"
             android:text="@string/required_permissions"
             android:textColor="?text_primary_color"
-            android:textSize="15sp" />
+            android:textSize="16sp" />
 
         <ImageView
             android:layout_width="24dp"
@@ -38,12 +38,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:drawablePadding="8dp"
+        android:drawablePadding="12dp"
         android:fontFamily="sans-serif"
         android:gravity="center_vertical"
         android:text="@string/internet_access"
         android:textColor="?attr/text_primary_color"
-        android:textSize="13sp"
+        android:textSize="16sp"
         app:drawableLeftCompat="@drawable/ic_internet"
         app:drawableTint="?text_secondary_color" />
 
@@ -52,12 +52,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:drawablePadding="8dp"
+        android:drawablePadding="12dp"
         android:fontFamily="sans-serif"
         android:gravity="center_vertical"
         android:text="@string/calls_access"
         android:textColor="?attr/text_primary_color"
-        android:textSize="13sp"
+        android:textSize="16sp"
         app:drawableLeftCompat="@drawable/ic_phone"
         app:drawableTint="?text_secondary_color" />
 
@@ -66,12 +66,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:drawablePadding="8dp"
+        android:drawablePadding="12dp"
         android:fontFamily="sans-serif"
         android:gravity="center_vertical"
         android:text="@string/sms_access"
         android:textColor="?attr/text_primary_color"
-        android:textSize="13sp"
+        android:textSize="16sp"
         app:drawableLeftCompat="@drawable/ic_sms"
         app:drawableTint="?text_secondary_color" />
 
@@ -80,12 +80,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:drawablePadding="8dp"
+        android:drawablePadding="12dp"
         android:fontFamily="sans-serif"
         android:gravity="center_vertical"
         android:text="@string/storage_access"
         android:textColor="?attr/text_primary_color"
-        android:textSize="13sp"
+        android:textSize="16sp"
         app:drawableLeftCompat="@drawable/ic_storage"
         app:drawableTint="?text_secondary_color" />
 
@@ -94,12 +94,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:drawablePadding="8dp"
+        android:drawablePadding="12dp"
         android:fontFamily="sans-serif"
         android:gravity="center_vertical"
         android:text="@string/location_access"
         android:textColor="?attr/text_primary_color"
-        android:textSize="13sp"
+        android:textSize="16sp"
         app:drawableLeftCompat="@drawable/ic_location"
         app:drawableTint="?text_secondary_color" />
 
@@ -108,13 +108,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:drawablePadding="8dp"
+        android:drawablePadding="12dp"
         android:fontFamily="sans-serif"
         android:gravity="center_vertical"
         tools:text="14 other permissions"
         android:textColor="?attr/text_primary_color"
-        android:textSize="13sp"
-        app:drawableLeftCompat="@drawable/ic_lock_open"
+        android:textSize="16sp"
+        app:drawableLeftCompat="@drawable/ic_permissions"
         app:drawableTint="?text_secondary_color" />
 
 </LinearLayout>
