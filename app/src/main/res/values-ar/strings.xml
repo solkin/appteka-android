@@ -326,4 +326,12 @@
     <string name="sms_access">SMS access</string>
     <string name="storage_access">Storage access</string>
     <string name="location_access">Location access</string>
+    <plurals name="other_access">
+        <item quantity="zero">%d other permissions</item>
+        <item quantity="one">%d another permission</item>
+        <item quantity="two">%d other permissions</item>
+        <item quantity="few">%d other permissions</item>
+        <item quantity="many">%d other permissions</item>
+        <item quantity="other">%d other permissions</item>
+    </plurals>
 </resources>

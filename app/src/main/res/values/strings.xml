@@ -294,4 +294,10 @@
     <string name="sms_access">Contents of SMS</string>
     <string name="storage_access">Storage access</string>
     <string name="location_access">Geolocation tracking</string>
+    <plurals name="other_access">
+        <item quantity="one">%d another permission</item>
+        <item quantity="few">%d other permissions</item>
+        <item quantity="many">%d other permissions</item>
+        <item quantity="other">%d other permissions</item>
+    </plurals>
 </resources>

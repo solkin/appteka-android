@@ -287,4 +287,10 @@
     <string name="sms_access">Просмотр содержимого СМС сообщений</string>
     <string name="storage_access">Доступ к файлам накопителя</string>
     <string name="location_access">Отслеживание геолокации</string>
+    <plurals name="other_access">
+        <item quantity="one">%d другое разрешение</item>
+        <item quantity="few">%d других разрешений</item>
+        <item quantity="many">%d других разрешений</item>
+        <item quantity="other">%d других разрешений</item>
+    </plurals>
 </resources>

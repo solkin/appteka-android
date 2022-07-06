@@ -9,6 +9,8 @@ import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.main.permissions.PermissionsActivity_
+import com.tomclaw.appsend.main.permissions.PermissionsList
 import com.tomclaw.appsend.screen.details.di.DetailsModule
 import com.tomclaw.appsend.util.ThemeHelper
 import javax.inject.Inject
@@ -70,6 +72,12 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
 
     override fun leaveScreen() {
         finish()
+    }
+
+    override fun openPermissionsScreen(permissions: List<String>) {
+        PermissionsActivity_.intent(this)
+            .permissions(PermissionsList(ArrayList(permissions)))
+            .start()
     }
 
 }

@@ -7,5 +7,5 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class PermissionsItem(
     override val id: Long,
-    val permissions: List<String>?,
+    val permissions: List<String>,
 ) : Item, Parcelable

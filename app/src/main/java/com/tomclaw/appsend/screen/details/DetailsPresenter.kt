@@ -33,6 +33,8 @@ interface DetailsPresenter : ItemListener {
 
         fun leaveScreen()
 
+        fun openPermissionsScreen(permissions: List<String>)
+
     }
 
 }
@@ -151,6 +153,10 @@ class DetailsPresenterImpl(
 
     override fun onBackPressed() {
         router?.leaveScreen()
+    }
+
+    override fun onPermissionsClick(permissions: List<String>) {
+        router?.openPermissionsScreen(permissions)
     }
 
 }

@@ -86,8 +86,8 @@ class DetailsModule(
 
     @Provides
     @PerActivity
-    internal fun providePermissionsResourceProvider(locale: Locale): PermissionsResourceProvider {
-        return PermissionsResourceProviderImpl(context.resources, locale)
+    internal fun providePermissionsResourceProvider(): PermissionsResourceProvider {
+        return PermissionsResourceProviderImpl(context.resources)
     }
 
     @Provides
