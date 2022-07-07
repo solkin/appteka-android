@@ -9,6 +9,7 @@ import com.tomclaw.appsend.screen.details.adapter.description.DescriptionItem
 import com.tomclaw.appsend.screen.details.adapter.header.HeaderItem
 import com.tomclaw.appsend.screen.details.adapter.permissions.PermissionsItem
 import com.tomclaw.appsend.screen.details.adapter.play.PlayItem
+import com.tomclaw.appsend.screen.details.adapter.scores.ScoresItem
 import com.tomclaw.appsend.screen.details.api.Details
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
@@ -34,6 +35,8 @@ interface DetailsPresenter : ItemListener {
         fun leaveScreen()
 
         fun openPermissionsScreen(permissions: List<String>)
+
+        fun openRatingsScreen(appId: String)
 
     }
 
@@ -141,6 +144,19 @@ class DetailsPresenterImpl(
                 permissions = details.info.permissions,
             )
         }
+        if (
+            details.meta?.scores != null &&
+            details.meta.rating != null &&
+            details.meta.rateCount != null &&
+            details.meta.rateCount > 0
+        ) {
+            items += ScoresItem(
+                id = 5,
+                rateCount = details.meta.rateCount,
+                rating = details.meta.rating,
+                scores = details.meta.scores
+            )
+        }
 
         val dataSource = ListDataSource(items)
         adapterPresenter.get().onDataSourceChanged(dataSource)
@@ -157,6 +173,12 @@ class DetailsPresenterImpl(
 
     override fun onPermissionsClick(permissions: List<String>) {
         router?.openPermissionsScreen(permissions)
+    }
+
+    override fun onScoresClick() {
+        details?.info?.appId?.let { appId ->
+            router?.openRatingsScreen(appId)
+        }
     }
 
 }

@@ -26,6 +26,8 @@ import com.tomclaw.appsend.screen.details.adapter.play.PlayItemBlueprint
 import com.tomclaw.appsend.screen.details.adapter.play.PlayItemPresenter
 import com.tomclaw.appsend.screen.details.adapter.play.PlayResourceProvider
 import com.tomclaw.appsend.screen.details.adapter.play.PlayResourceProviderImpl
+import com.tomclaw.appsend.screen.details.adapter.scores.ScoresItemBlueprint
+import com.tomclaw.appsend.screen.details.adapter.scores.ScoresItemPresenter
 import com.tomclaw.appsend.user.UserDataInteractor
 import com.tomclaw.appsend.util.PerActivity
 import com.tomclaw.appsend.util.SchedulersFactory
@@ -153,5 +155,18 @@ class DetailsModule(
         resourceProvider: PermissionsResourceProvider,
         presenter: DetailsPresenter
     ) = PermissionsItemPresenter(resourceProvider, presenter)
+
+    @Provides
+    @IntoSet
+    @PerActivity
+    internal fun provideScoresItemBlueprint(
+        presenter: ScoresItemPresenter
+    ): ItemBlueprint<*, *> = ScoresItemBlueprint(presenter)
+
+    @Provides
+    @PerActivity
+    internal fun provideScoresItemPresenter(
+        presenter: DetailsPresenter
+    ) = ScoresItemPresenter(presenter)
 
 }

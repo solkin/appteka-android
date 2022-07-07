@@ -191,7 +191,7 @@
     <style name="RatingDetailElementSmall" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">8dp</item>
-        <item name="android:max">100</item>
+        <item name="android:max">101</item>
         <item name="android:progressDrawable">@drawable/rating_detail_element</item>
     </style>
 

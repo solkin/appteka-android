@@ -4,4 +4,6 @@ interface ItemListener {
 
     fun onPermissionsClick(permissions: List<String>)
 
+    fun onScoresClick()
+
 }
