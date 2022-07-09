@@ -9,6 +9,7 @@ import com.tomclaw.appsend.screen.details.adapter.description.DescriptionItem
 import com.tomclaw.appsend.screen.details.adapter.header.HeaderItem
 import com.tomclaw.appsend.screen.details.adapter.permissions.PermissionsItem
 import com.tomclaw.appsend.screen.details.adapter.play.PlayItem
+import com.tomclaw.appsend.screen.details.adapter.rating.RatingItem
 import com.tomclaw.appsend.screen.details.adapter.scores.ScoresItem
 import com.tomclaw.appsend.screen.details.api.Details
 import com.tomclaw.appsend.util.SchedulersFactory
@@ -108,9 +109,11 @@ class DetailsPresenterImpl(
     private fun bindDetails() {
         val details = this.details ?: return
 
+        var id: Long = 1
+
         val items = ArrayList<Item>()
         items += HeaderItem(
-            id = 1,
+            id = id++,
             icon = details.info.icon,
             packageName = details.info.packageName,
             label = details.info.label.orEmpty(),
@@ -119,7 +122,7 @@ class DetailsPresenterImpl(
             userName = "name"
         )
         items += PlayItem(
-            id = 2,
+            id = id++,
             rating = details.meta?.rating,
             downloads = details.info.downloads ?: 0,
             size = details.info.size,
@@ -130,7 +133,7 @@ class DetailsPresenterImpl(
         )
         if (!details.meta?.description.isNullOrBlank()) {
             items += DescriptionItem(
-                id = 3,
+                id = id++,
                 text = details.meta?.description.orEmpty(),
                 versionName = details.info.version,
                 versionCode = details.info.versionCode,
@@ -140,7 +143,7 @@ class DetailsPresenterImpl(
         }
         if (!details.info.permissions.isNullOrEmpty()) {
             items += PermissionsItem(
-                id = 4,
+                id = id++,
                 permissions = details.info.permissions,
             )
         }
@@ -151,11 +154,24 @@ class DetailsPresenterImpl(
             details.meta.rateCount > 0
         ) {
             items += ScoresItem(
-                id = 5,
+                id = id++,
                 rateCount = details.meta.rateCount,
                 rating = details.meta.rating,
                 scores = details.meta.scores
             )
+        }
+
+        if (!details.ratingsList.isNullOrEmpty()) {
+            items += details.ratingsList.map { rating ->
+                RatingItem(
+                    id++,
+                    rating.score,
+                    rating.text,
+                    rating.time,
+                    rating.userId,
+                    rating.userIcon
+                )
+            }
         }
 
         val dataSource = ListDataSource(items)

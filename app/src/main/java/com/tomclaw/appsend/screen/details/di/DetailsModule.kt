@@ -8,6 +8,7 @@ import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.adapter.SimpleAdapterPresenter
 import com.avito.konveyor.blueprint.ItemBlueprint
 import com.tomclaw.appsend.core.StoreApi
+import com.tomclaw.appsend.di.DATE_FORMATTER
 import com.tomclaw.appsend.screen.details.DetailsInteractor
 import com.tomclaw.appsend.screen.details.DetailsInteractorImpl
 import com.tomclaw.appsend.screen.details.DetailsPresenter
@@ -26,6 +27,8 @@ import com.tomclaw.appsend.screen.details.adapter.play.PlayItemBlueprint
 import com.tomclaw.appsend.screen.details.adapter.play.PlayItemPresenter
 import com.tomclaw.appsend.screen.details.adapter.play.PlayResourceProvider
 import com.tomclaw.appsend.screen.details.adapter.play.PlayResourceProviderImpl
+import com.tomclaw.appsend.screen.details.adapter.rating.RatingItemBlueprint
+import com.tomclaw.appsend.screen.details.adapter.rating.RatingItemPresenter
 import com.tomclaw.appsend.screen.details.adapter.scores.ScoresItemBlueprint
 import com.tomclaw.appsend.screen.details.adapter.scores.ScoresItemPresenter
 import com.tomclaw.appsend.user.UserDataInteractor
@@ -35,7 +38,9 @@ import dagger.Lazy
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoSet
+import java.text.DateFormat
 import java.util.Locale
+import javax.inject.Named
 
 @Module
 class DetailsModule(
@@ -168,5 +173,19 @@ class DetailsModule(
     internal fun provideScoresItemPresenter(
         presenter: DetailsPresenter
     ) = ScoresItemPresenter(presenter)
+
+    @Provides
+    @IntoSet
+    @PerActivity
+    internal fun provideRatingItemBlueprint(
+        presenter: RatingItemPresenter
+    ): ItemBlueprint<*, *> = RatingItemBlueprint(presenter)
+
+    @Provides
+    @PerActivity
+    internal fun provideRatingItemPresenter(
+        @Named(DATE_FORMATTER) dateFormatter: DateFormat,
+        presenter: DetailsPresenter
+    ) = RatingItemPresenter(dateFormatter, presenter)
 
 }
