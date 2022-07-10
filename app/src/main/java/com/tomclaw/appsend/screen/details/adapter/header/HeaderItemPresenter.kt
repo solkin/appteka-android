@@ -1,10 +1,13 @@
 package com.tomclaw.appsend.screen.details.adapter.header
 
 import com.avito.konveyor.blueprint.ItemPresenter
+import com.tomclaw.appsend.categories.DEFAULT_LOCALE
 import com.tomclaw.appsend.screen.details.adapter.ItemListener
+import java.util.Locale
 
 class HeaderItemPresenter(
-    private val listener: ItemListener
+    private val locale: Locale,
+    private val listener: ItemListener,
 ) : ItemPresenter<HeaderItemView, HeaderItem> {
 
     override fun bindView(view: HeaderItemView, item: HeaderItem, position: Int) {
@@ -14,7 +17,13 @@ class HeaderItemPresenter(
         if (item.userId != null && item.userIcon != null) {
             view.showUploader()
             view.setUploaderIcon(item.userIcon)
-            view.setUploaderName(item.userIcon.label["en"].orEmpty()) // TODO: locale + real name
+
+            val name = item.userName.takeIf { !it.isNullOrBlank() }
+                ?: item.userIcon.label[locale.language]
+                ?: item.userIcon.label[DEFAULT_LOCALE].orEmpty()
+            view.setUploaderName(name)
+
+            view.setOnUploaderClickListener { listener.onProfileClick(item.userId) }
         } else {
             view.hideUploader()
         }

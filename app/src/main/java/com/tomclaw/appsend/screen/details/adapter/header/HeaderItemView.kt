@@ -32,7 +32,7 @@ interface HeaderItemView : ItemView {
 
     fun setUploaderName(name: String)
 
-    fun setOnClickListener(listener: (() -> Unit)?)
+    fun setOnUploaderClickListener(listener: (() -> Unit)?)
 
 }
 
@@ -45,10 +45,10 @@ class HeaderItemViewHolder(view: View) : BaseViewHolder(view), HeaderItemView {
     private val uploaderIcon: UserIconView = UserIconViewImpl(view.findViewById(R.id.uploader_icon))
     private val uploaderName: TextView = view.findViewById(R.id.uploader_name)
 
-    private var clickListener: (() -> Unit)? = null
+    private var uploaderClickListener: (() -> Unit)? = null
 
     init {
-        view.setOnClickListener { clickListener?.invoke() }
+        uploaderContainer.setOnClickListener { uploaderClickListener?.invoke() }
     }
 
     override fun setAppIcon(url: String?) {
@@ -88,12 +88,12 @@ class HeaderItemViewHolder(view: View) : BaseViewHolder(view), HeaderItemView {
         this.uploaderName.bind(name)
     }
 
-    override fun setOnClickListener(listener: (() -> Unit)?) {
-        this.clickListener = listener
+    override fun setOnUploaderClickListener(listener: (() -> Unit)?) {
+        this.uploaderClickListener = listener
     }
 
     override fun onUnbind() {
-        this.clickListener = null
+        this.uploaderClickListener = null
     }
 
 }

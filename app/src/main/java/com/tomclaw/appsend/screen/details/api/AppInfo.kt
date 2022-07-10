@@ -41,6 +41,8 @@ data class AppInfo(
     val sha1: String,
     @SerializedName("user_id")
     val userId: Int?,
+    @SerializedName("user_name")
+    val userName: String? = null,
     @SerializedName("user_icon")
     val userIcon: UserIcon?,
 ) : Parcelable

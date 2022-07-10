@@ -85,7 +85,7 @@
                 android:layout_gravity="center_vertical"
                 android:fontFamily="sans-serif-medium"
                 android:includeFontPadding="false"
-                android:paddingStart="4dp"
+                android:paddingStart="6dp"
                 android:textColor="?text_primary_color"
                 android:textSize="12sp"
                 tools:text="Crown" />

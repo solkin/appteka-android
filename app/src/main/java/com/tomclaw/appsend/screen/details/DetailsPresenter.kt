@@ -39,6 +39,8 @@ interface DetailsPresenter : ItemListener {
 
         fun openRatingsScreen(appId: String)
 
+        fun openProfile(userId: Int)
+
     }
 
 }
@@ -119,7 +121,7 @@ class DetailsPresenterImpl(
             label = details.info.label.orEmpty(),
             userId = details.info.userId,
             userIcon = details.info.userIcon,
-            userName = "name"
+            userName = details.info.userName
         )
         items += PlayItem(
             id = id++,
@@ -185,6 +187,10 @@ class DetailsPresenterImpl(
 
     override fun onBackPressed() {
         router?.leaveScreen()
+    }
+
+    override fun onProfileClick(userId: Int) {
+        router?.openProfile(userId)
     }
 
     override fun onPermissionsClick(permissions: List<String>) {

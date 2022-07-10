@@ -117,8 +117,9 @@ class DetailsModule(
     @Provides
     @PerActivity
     internal fun provideHeaderItemPresenter(
+        locale: Locale,
         presenter: DetailsPresenter
-    ) = HeaderItemPresenter(presenter)
+    ) = HeaderItemPresenter(locale, presenter)
 
     @Provides
     @IntoSet

@@ -11,6 +11,7 @@ import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.main.permissions.PermissionsActivity_
 import com.tomclaw.appsend.main.permissions.PermissionsList
+import com.tomclaw.appsend.main.profile.ProfileActivity_
 import com.tomclaw.appsend.main.ratings.RatingsActivity_
 import com.tomclaw.appsend.screen.details.di.DetailsModule
 import com.tomclaw.appsend.util.ThemeHelper
@@ -85,6 +86,12 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
     override fun openRatingsScreen(appId: String) {
         RatingsActivity_.intent(this)
             .appId(appId)
+            .start()
+    }
+
+    override fun openProfile(userId: Int) {
+        ProfileActivity_.intent(this)
+            .userId(userId.toLong())
             .start()
     }
 
