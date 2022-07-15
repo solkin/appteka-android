@@ -13,6 +13,8 @@ import com.tomclaw.appsend.screen.details.DetailsInteractor
 import com.tomclaw.appsend.screen.details.DetailsInteractorImpl
 import com.tomclaw.appsend.screen.details.DetailsPresenter
 import com.tomclaw.appsend.screen.details.DetailsPresenterImpl
+import com.tomclaw.appsend.screen.details.adapter.controls.ControlsItemBlueprint
+import com.tomclaw.appsend.screen.details.adapter.controls.ControlsItemPresenter
 import com.tomclaw.appsend.screen.details.adapter.description.DescriptionItemBlueprint
 import com.tomclaw.appsend.screen.details.adapter.description.DescriptionItemPresenter
 import com.tomclaw.appsend.screen.details.adapter.description.DescriptionResourceProvider
@@ -32,6 +34,7 @@ import com.tomclaw.appsend.screen.details.adapter.rating.RatingItemPresenter
 import com.tomclaw.appsend.screen.details.adapter.scores.ScoresItemBlueprint
 import com.tomclaw.appsend.screen.details.adapter.scores.ScoresItemPresenter
 import com.tomclaw.appsend.user.UserDataInteractor
+import com.tomclaw.appsend.util.PackageManagerWrapper
 import com.tomclaw.appsend.util.PerActivity
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
@@ -188,5 +191,19 @@ class DetailsModule(
         @Named(DATE_FORMATTER) dateFormatter: DateFormat,
         presenter: DetailsPresenter
     ) = RatingItemPresenter(dateFormatter, presenter)
+
+    @Provides
+    @IntoSet
+    @PerActivity
+    internal fun provideControlsItemBlueprint(
+        presenter: ControlsItemPresenter
+    ): ItemBlueprint<*, *> = ControlsItemBlueprint(presenter)
+
+    @Provides
+    @PerActivity
+    internal fun provideControlsItemPresenter(
+        packageManager: PackageManagerWrapper,
+        presenter: DetailsPresenter
+    ) = ControlsItemPresenter(packageManager, presenter)
 
 }

@@ -18,6 +18,8 @@ import com.tomclaw.appsend.user.UserDataInteractor
 import com.tomclaw.appsend.user.UserDataInteractorImpl
 import com.tomclaw.appsend.util.Logger
 import com.tomclaw.appsend.util.LoggerImpl
+import com.tomclaw.appsend.util.PackageManagerWrapper
+import com.tomclaw.appsend.util.PackageManagerWrapperImpl
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Module
 import dagger.Provides
@@ -102,6 +104,12 @@ class AppModule(private val app: Application) {
     @Provides
     @Singleton
     internal fun provideGson(): Gson = GsonBuilder().create()
+
+    @Provides
+    @Singleton
+    internal fun providePackageManagerWrapper(
+        context: Context
+    ): PackageManagerWrapper = PackageManagerWrapperImpl(context.packageManager)
 
     @Provides
     @Singleton

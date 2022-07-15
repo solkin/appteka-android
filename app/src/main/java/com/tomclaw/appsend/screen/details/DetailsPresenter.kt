@@ -5,6 +5,7 @@ import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.blueprint.Item
 import com.avito.konveyor.data_source.ListDataSource
 import com.tomclaw.appsend.screen.details.adapter.ItemListener
+import com.tomclaw.appsend.screen.details.adapter.controls.ControlsItem
 import com.tomclaw.appsend.screen.details.adapter.description.DescriptionItem
 import com.tomclaw.appsend.screen.details.adapter.header.HeaderItem
 import com.tomclaw.appsend.screen.details.adapter.permissions.PermissionsItem
@@ -133,10 +134,21 @@ class DetailsPresenterImpl(
             osVersion = details.info.androidVersion,
             minSdk = details.info.sdkVersion,
         )
+        items += ControlsItem(
+            id = id++,
+            appId = details.info.appId,
+            packageName = details.info.packageName,
+            versionCode = details.info.versionCode,
+            sdkVersion = details.info.sdkVersion,
+            androidVersion = details.info.androidVersion,
+            size = details.info.size,
+            link = details.link,
+            expiresIn = details.expiresIn,
+        )
         if (!details.meta?.description.isNullOrBlank()) {
             items += DescriptionItem(
                 id = id++,
-                text = details.meta?.description.orEmpty(),
+                text = details.meta?.description.orEmpty().trim(),
                 versionName = details.info.version,
                 versionCode = details.info.versionCode,
                 uploadDate = details.info.time,
@@ -201,6 +213,9 @@ class DetailsPresenterImpl(
         details?.info?.appId?.let { appId ->
             router?.openRatingsScreen(appId)
         }
+    }
+
+    override fun onInstallClick(appId: String) {
     }
 
 }

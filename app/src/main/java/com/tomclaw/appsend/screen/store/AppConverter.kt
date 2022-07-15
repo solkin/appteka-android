@@ -1,8 +1,9 @@
 package com.tomclaw.appsend.screen.store
 
-import android.content.pm.PackageManager
 import com.tomclaw.appsend.dto.AppEntity
 import com.tomclaw.appsend.screen.store.adapter.app.AppItem
+import com.tomclaw.appsend.util.NOT_INSTALLED
+import com.tomclaw.appsend.util.PackageManagerWrapper
 import java.util.concurrent.TimeUnit
 
 interface AppConverter {
@@ -13,11 +14,11 @@ interface AppConverter {
 
 class AppConverterImpl(
     private val resourceProvider: AppsResourceProvider,
-    private val packageManager: PackageManager
+    private val packageManager: PackageManagerWrapper
 ) : AppConverter {
 
     override fun convert(appEntity: AppEntity): AppItem {
-        val installedVersionCode = getInstalledVersionCode(appEntity.packageName)
+        val installedVersionCode = packageManager.getInstalledVersionCode(appEntity.packageName)
         return AppItem(
             id = getItemId(appEntity),
             appId = appEntity.appId,
@@ -35,18 +36,8 @@ class AppConverterImpl(
         )
     }
 
-    private fun getInstalledVersionCode(packageName: String): Int {
-        return try {
-            packageManager.getPackageInfo(packageName, 0).versionCode
-        } catch (ex: Throwable) {
-            NOT_INSTALLED
-        }
-    }
-
     private fun getItemId(entity: AppEntity): Long {
         return (entity.appId.hashCode() + entity.packageName.hashCode()).toLong()
     }
 
 }
-
-private const val NOT_INSTALLED = -1

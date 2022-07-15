@@ -23,6 +23,7 @@ import com.tomclaw.appsend.screen.store.StorePresenterImpl
 import com.tomclaw.appsend.screen.store.adapter.app.AppItemBlueprint
 import com.tomclaw.appsend.screen.store.adapter.app.AppItemPresenter
 import com.tomclaw.appsend.user.UserDataInteractor
+import com.tomclaw.appsend.util.PackageManagerWrapper
 import com.tomclaw.appsend.util.PerFragment
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
@@ -79,8 +80,11 @@ class StoreModule(
 
     @Provides
     @PerFragment
-    internal fun provideAppsConverter(resourceProvider: AppsResourceProvider): AppConverter {
-        return AppConverterImpl(resourceProvider, context.packageManager)
+    internal fun provideAppsConverter(
+        resourceProvider: AppsResourceProvider,
+        packageManagerWrapper: PackageManagerWrapper,
+    ): AppConverter {
+        return AppConverterImpl(resourceProvider, packageManagerWrapper)
     }
 
     @Provides
