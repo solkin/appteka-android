@@ -3,7 +3,7 @@ package com.tomclaw.appsend.screen.store
 import com.tomclaw.appsend.dto.AppEntity
 import com.tomclaw.appsend.screen.store.adapter.app.AppItem
 import com.tomclaw.appsend.util.NOT_INSTALLED
-import com.tomclaw.appsend.util.PackageManagerWrapper
+import com.tomclaw.appsend.util.PackageObserver
 import java.util.concurrent.TimeUnit
 
 interface AppConverter {
@@ -14,11 +14,11 @@ interface AppConverter {
 
 class AppConverterImpl(
     private val resourceProvider: AppsResourceProvider,
-    private val packageManager: PackageManagerWrapper
+    private val packageObserver: PackageObserver
 ) : AppConverter {
 
     override fun convert(appEntity: AppEntity): AppItem {
-        val installedVersionCode = packageManager.getInstalledVersionCode(appEntity.packageName)
+        val installedVersionCode = packageObserver.pickInstalledVersionCode(appEntity.packageName)
         return AppItem(
             id = getItemId(appEntity),
             appId = appEntity.appId,

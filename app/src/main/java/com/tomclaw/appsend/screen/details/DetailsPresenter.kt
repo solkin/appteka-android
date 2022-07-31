@@ -13,6 +13,8 @@ import com.tomclaw.appsend.screen.details.adapter.play.PlayItem
 import com.tomclaw.appsend.screen.details.adapter.rating.RatingItem
 import com.tomclaw.appsend.screen.details.adapter.scores.ScoresItem
 import com.tomclaw.appsend.screen.details.api.Details
+import com.tomclaw.appsend.util.NOT_INSTALLED
+import com.tomclaw.appsend.util.PackageObserver
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -51,6 +53,7 @@ class DetailsPresenterImpl(
     private val packageName: String?,
     private val interactor: DetailsInteractor,
     private val adapterPresenter: Lazy<AdapterPresenter>,
+    private val packageObserver: PackageObserver,
     private val schedulers: SchedulersFactory,
     state: Bundle?
 ) : DetailsPresenter {
@@ -59,8 +62,10 @@ class DetailsPresenterImpl(
     private var router: DetailsPresenter.DetailsRouter? = null
 
     private var details: Details? = state?.getParcelable(KEY_DETAILS)
+    private var installedVersionCode: Int = state?.getInt(KEY_INSTALLED_VERSION) ?: NOT_INSTALLED
 
     private val subscriptions = CompositeDisposable()
+    private val observerSubscription = CompositeDisposable()
 
     override fun attachView(view: DetailsView) {
         this.view = view
@@ -70,7 +75,7 @@ class DetailsPresenterImpl(
         }
 
         if (details != null) {
-            bindDetails()
+            triggerDetailsChanged()
         } else {
             loadDetails()
         }
@@ -105,8 +110,22 @@ class DetailsPresenterImpl(
 
     private fun onDetailsLoaded(details: Details) {
         this.details = details
-        bindDetails()
-        view?.showContent()
+        triggerDetailsChanged()
+    }
+
+    private fun triggerDetailsChanged() {
+        val packageName = details?.info?.packageName ?: return
+        observerSubscription.clear()
+        observerSubscription += packageObserver.observe(packageName)
+            .observeOn(schedulers.mainThread())
+            .subscribeOn(schedulers.io())
+            .subscribe(
+                { installedVersionCode ->
+                    this.installedVersionCode = installedVersionCode
+                    bindDetails()
+                    view?.showContent()
+                }, {}
+            )
     }
 
     private fun bindDetails() {
@@ -144,6 +163,7 @@ class DetailsPresenterImpl(
             size = details.info.size,
             link = details.link,
             expiresIn = details.expiresIn,
+            installedVersionCode = installedVersionCode,
         )
         if (!details.meta?.description.isNullOrBlank()) {
             items += DescriptionItem(
@@ -221,3 +241,4 @@ class DetailsPresenterImpl(
 }
 
 private const val KEY_DETAILS = "details"
+private const val KEY_INSTALLED_VERSION = "versionCode"

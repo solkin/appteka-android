@@ -34,7 +34,7 @@ import com.tomclaw.appsend.screen.details.adapter.rating.RatingItemPresenter
 import com.tomclaw.appsend.screen.details.adapter.scores.ScoresItemBlueprint
 import com.tomclaw.appsend.screen.details.adapter.scores.ScoresItemPresenter
 import com.tomclaw.appsend.user.UserDataInteractor
-import com.tomclaw.appsend.util.PackageManagerWrapper
+import com.tomclaw.appsend.util.PackageObserver
 import com.tomclaw.appsend.util.PerActivity
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
@@ -58,12 +58,14 @@ class DetailsModule(
     internal fun providePresenter(
         interactor: DetailsInteractor,
         adapterPresenter: Lazy<AdapterPresenter>,
+        packageObserver: PackageObserver,
         schedulers: SchedulersFactory
     ): DetailsPresenter = DetailsPresenterImpl(
         appId,
         packageName,
         interactor,
         adapterPresenter,
+        packageObserver,
         schedulers,
         state
     )
@@ -202,8 +204,7 @@ class DetailsModule(
     @Provides
     @PerActivity
     internal fun provideControlsItemPresenter(
-        packageManager: PackageManagerWrapper,
-        presenter: DetailsPresenter
-    ) = ControlsItemPresenter(packageManager, presenter)
+        presenter: DetailsPresenter,
+    ) = ControlsItemPresenter(presenter)
 
 }

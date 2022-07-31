@@ -15,4 +15,5 @@ data class ControlsItem(
     val size: Long,
     val link: String,
     val expiresIn: Long,
+    val installedVersionCode: Int,
 ) : Item, Parcelable

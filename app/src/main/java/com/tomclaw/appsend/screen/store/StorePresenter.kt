@@ -11,6 +11,7 @@ import com.tomclaw.appsend.categories.CategoryItem
 import com.tomclaw.appsend.dto.AppEntity
 import com.tomclaw.appsend.screen.store.adapter.ItemListener
 import com.tomclaw.appsend.screen.store.adapter.app.AppItem
+import com.tomclaw.appsend.util.PackageObserver
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
 import io.reactivex.rxjava3.core.Observable
