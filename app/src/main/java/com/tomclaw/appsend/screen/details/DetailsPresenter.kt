@@ -34,6 +34,8 @@ interface DetailsPresenter : ItemListener {
 
     fun onBackPressed()
 
+    fun showSnackbar(text: String)
+
     interface DetailsRouter {
 
         fun leaveScreen()
@@ -43,6 +45,10 @@ interface DetailsPresenter : ItemListener {
         fun openRatingsScreen(appId: String)
 
         fun openProfile(userId: Int)
+
+        fun openApp(packageName: String)
+
+        fun removeApp(packageName: String)
 
     }
 
@@ -221,6 +227,10 @@ class DetailsPresenterImpl(
         router?.leaveScreen()
     }
 
+    override fun showSnackbar(text: String) {
+        view?.showSnackbar(text)
+    }
+
     override fun onProfileClick(userId: Int) {
         router?.openProfile(userId)
     }
@@ -235,7 +245,15 @@ class DetailsPresenterImpl(
         }
     }
 
-    override fun onInstallClick(appId: String) {
+    override fun onInstallClick() {
+    }
+
+    override fun onOpenClick(packageName: String) {
+        router?.openApp(packageName)
+    }
+
+    override fun onRemoveClick(packageName: String) {
+        router?.removeApp(packageName)
     }
 
 }

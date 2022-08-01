@@ -23,7 +23,9 @@ class ControlsItemPresenter(
                 view.showOpenButton()
             }
         }
-        view.setOnInstallClickListener { listener.onInstallClick(item.appId) }
+        view.setOnInstallClickListener { listener.onInstallClick() }
+        view.setOnOpenClickListener { listener.onOpenClick(item.packageName) }
+        view.setOnRemoveClickListener { listener.onRemoveClick(item.packageName) }
     }
 
 }

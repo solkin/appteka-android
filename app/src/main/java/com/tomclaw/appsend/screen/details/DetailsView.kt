@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
+import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.util.hideWithAlphaAnimation
@@ -20,6 +21,8 @@ interface DetailsView {
     fun showContent()
 
     fun contentUpdated()
+
+    fun showSnackbar(text: String)
 
     fun navigationClicks(): Observable<Unit>
 
@@ -64,6 +67,10 @@ class DetailsViewImpl(
     @SuppressLint("NotifyDataSetChanged")
     override fun contentUpdated() {
         adapter.notifyDataSetChanged()
+    }
+
+    override fun showSnackbar(text: String) {
+        Snackbar.make(recycler, text, Snackbar.LENGTH_SHORT).show()
     }
 
     override fun navigationClicks(): Observable<Unit> = navigationRelay

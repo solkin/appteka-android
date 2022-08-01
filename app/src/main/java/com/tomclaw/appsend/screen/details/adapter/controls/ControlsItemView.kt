@@ -23,6 +23,10 @@ interface ControlsItemView : ItemView {
 
     fun setOnInstallClickListener(listener: (() -> Unit)?)
 
+    fun setOnOpenClickListener(listener: (() -> Unit)?)
+
+    fun setOnRemoveClickListener(listener: (() -> Unit)?)
+
 }
 
 class ControlsItemViewHolder(view: View) : BaseViewHolder(view), ControlsItemView {
@@ -77,6 +81,14 @@ class ControlsItemViewHolder(view: View) : BaseViewHolder(view), ControlsItemVie
 
     override fun setOnInstallClickListener(listener: (() -> Unit)?) {
         this.installClickListener = listener
+    }
+
+    override fun setOnOpenClickListener(listener: (() -> Unit)?) {
+        this.openClickListener = listener
+    }
+
+    override fun setOnRemoveClickListener(listener: (() -> Unit)?) {
+        this.removeClickListener = listener
     }
 
     override fun onUnbind() {

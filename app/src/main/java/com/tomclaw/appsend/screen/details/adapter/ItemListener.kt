@@ -8,6 +8,10 @@ interface ItemListener {
 
     fun onScoresClick()
 
-    fun onInstallClick(appId: String)
+    fun onInstallClick()
+
+    fun onOpenClick(packageName: String)
+
+    fun onRemoveClick(packageName: String)
 
 }

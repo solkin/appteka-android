@@ -1,12 +1,18 @@
 package com.tomclaw.appsend.screen.details
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.avito.konveyor.ItemBinder
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
+import com.greysonparrelli.permiso.Permiso
+import com.greysonparrelli.permiso.Permiso.IOnPermissionResult
+import com.greysonparrelli.permiso.Permiso.IOnRationaleProvided
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.main.permissions.PermissionsActivity_
@@ -39,6 +45,7 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
             .detailsComponent(DetailsModule(appId, packageName, this, presenterState))
             .inject(activity = this)
         ThemeHelper.updateTheme(this)
+        Permiso.getInstance().setActivity(this)
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.details_activity)
@@ -56,6 +63,11 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
     override fun onStart() {
         super.onStart()
         presenter.attachRouter(this)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Permiso.getInstance().setActivity(this)
     }
 
     override fun onStop() {
@@ -93,6 +105,42 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
         ProfileActivity_.intent(this)
             .userId(userId.toLong())
             .start()
+    }
+
+    override fun openApp(packageName: String) {
+        val intent = packageManager.getLaunchIntentForPackage(packageName)
+        startActivity(intent)
+    }
+
+    override fun removeApp(packageName: String) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            Permiso.getInstance().requestPermissions(object : IOnPermissionResult {
+                override fun onPermissionResult(resultSet: Permiso.ResultSet) {
+                    if (resultSet.areAllPermissionsGranted()) {
+                        onRemoveAppPermitted(packageName)
+                    } else {
+                        presenter.showSnackbar(getString(R.string.request_delete_packages))
+                    }
+                }
+
+                override fun onRationaleRequested(
+                    callback: IOnRationaleProvided,
+                    vararg permissions: String
+                ) {
+                    val title: String = getString(R.string.app_name)
+                    val message: String = getString(R.string.request_delete_packages)
+                    Permiso.getInstance().showRationaleInDialog(title, message, null, callback)
+                }
+            }, Manifest.permission.REQUEST_DELETE_PACKAGES)
+        } else {
+            onRemoveAppPermitted(packageName)
+        }
+    }
+
+    private fun onRemoveAppPermitted(packageName: String) {
+        val packageUri = Uri.parse("package:$packageName")
+        val uninstallIntent = Intent(Intent.ACTION_DELETE, packageUri)
+        startActivity(uninstallIntent)
     }
 
 }
