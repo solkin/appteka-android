@@ -13,6 +13,8 @@ import com.tomclaw.appsend.screen.details.adapter.play.PlayItem
 import com.tomclaw.appsend.screen.details.adapter.rating.RatingItem
 import com.tomclaw.appsend.screen.details.adapter.scores.ScoresItem
 import com.tomclaw.appsend.screen.details.api.Details
+import com.tomclaw.appsend.util.DownloadManager
+import com.tomclaw.appsend.util.DownloadState
 import com.tomclaw.appsend.util.NOT_INSTALLED
 import com.tomclaw.appsend.util.PackageObserver
 import com.tomclaw.appsend.util.SchedulersFactory
@@ -60,6 +62,7 @@ class DetailsPresenterImpl(
     private val interactor: DetailsInteractor,
     private val adapterPresenter: Lazy<AdapterPresenter>,
     private val packageObserver: PackageObserver,
+    private val downloadManager: DownloadManager,
     private val schedulers: SchedulersFactory,
     state: Bundle?
 ) : DetailsPresenter {
@@ -69,6 +72,7 @@ class DetailsPresenterImpl(
 
     private var details: Details? = state?.getParcelable(KEY_DETAILS)
     private var installedVersionCode: Int = state?.getInt(KEY_INSTALLED_VERSION) ?: NOT_INSTALLED
+    private var downloadState: DownloadState? = state?.getParcelable(KEY_INSTALLED_VERSION)
 
     private val subscriptions = CompositeDisposable()
     private val observerSubscription = CompositeDisposable()
@@ -102,6 +106,8 @@ class DetailsPresenterImpl(
 
     override fun saveState() = Bundle().apply {
         putParcelable(KEY_DETAILS, details)
+        putInt(KEY_INSTALLED_VERSION, installedVersionCode)
+        putParcelable(KEY_DOWNLOAD_STATE, downloadState)
     }
 
     private fun loadDetails() {
@@ -121,13 +127,19 @@ class DetailsPresenterImpl(
 
     private fun triggerDetailsChanged() {
         val packageName = details?.info?.packageName ?: return
+        val appId = details?.info?.appId ?: return
         observerSubscription.clear()
         observerSubscription += packageObserver.observe(packageName)
+            .map { installedVersionCode ->
+                this.installedVersionCode = installedVersionCode
+                installedVersionCode
+            }
+            .flatMap { downloadManager.status(appId) }
             .observeOn(schedulers.mainThread())
             .subscribeOn(schedulers.io())
             .subscribe(
-                { installedVersionCode ->
-                    this.installedVersionCode = installedVersionCode
+                { downloadState ->
+                    this.downloadState = downloadState
                     bindDetails()
                     view?.showContent()
                 }, {}
@@ -147,7 +159,8 @@ class DetailsPresenterImpl(
             label = details.info.label.orEmpty(),
             userId = details.info.userId,
             userIcon = details.info.userIcon,
-            userName = details.info.userName
+            userName = details.info.userName,
+            downloadState = downloadState,
         )
         items += PlayItem(
             id = id++,
@@ -246,6 +259,8 @@ class DetailsPresenterImpl(
     }
 
     override fun onInstallClick() {
+        val details = details ?: return
+        downloadManager.download(details.info.appId, details.link)
     }
 
     override fun onOpenClick(packageName: String) {
@@ -260,3 +275,4 @@ class DetailsPresenterImpl(
 
 private const val KEY_DETAILS = "details"
 private const val KEY_INSTALLED_VERSION = "versionCode"
+private const val KEY_DOWNLOAD_STATE = "downloadState"

@@ -8,23 +8,62 @@
     android:orientation="horizontal"
     android:padding="4dp">
 
-    <androidx.cardview.widget.CardView
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_margin="16dp"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="6dp">
+    <ViewFlipper
+        android:id="@+id/icon_flipper"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-        <ImageView
-            android:id="@+id/app_icon"
+        <androidx.cardview.widget.CardView
             android:layout_width="64dp"
             android:layout_height="64dp"
-            android:layout_gravity="center_vertical"
-            android:contentDescription="@string/app_icon"
-            android:scaleType="centerCrop"
-            tools:src="@mipmap/ic_launcher" />
+            android:layout_margin="16dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="6dp">
 
-    </androidx.cardview.widget.CardView>
+            <ImageView
+                android:id="@+id/app_icon"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_gravity="center_vertical"
+                android:contentDescription="@string/app_icon"
+                android:scaleType="centerCrop"
+                tools:src="@mipmap/ic_launcher" />
+
+        </androidx.cardview.widget.CardView>
+
+        <FrameLayout
+            android:layout_width="96dp"
+            android:layout_height="96dp">
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="84dp"
+                android:layout_height="84dp"
+                android:layout_gravity="center"
+                android:indeterminateDrawable="@drawable/progress"
+                android:progressDrawable="@drawable/progress" />
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="6dp">
+
+                <ImageView
+                    android:id="@+id/app_icon_progress"
+                    android:layout_width="42dp"
+                    android:layout_height="42dp"
+                    android:layout_gravity="center_vertical"
+                    android:contentDescription="@string/app_icon"
+                    android:scaleType="centerCrop"
+                    tools:src="@mipmap/ic_launcher" />
+
+            </androidx.cardview.widget.CardView>
+
+        </FrameLayout>
+
+    </ViewFlipper>
 
     <LinearLayout
         android:layout_width="match_parent"

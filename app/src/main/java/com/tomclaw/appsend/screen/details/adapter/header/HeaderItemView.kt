@@ -2,7 +2,9 @@ package com.tomclaw.appsend.screen.details.adapter.header
 
 import android.view.View
 import android.widget.ImageView
+import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.ViewFlipper
 import com.avito.konveyor.adapter.BaseViewHolder
 import com.avito.konveyor.blueprint.ItemView
 import com.tomclaw.appsend.R
@@ -17,6 +19,12 @@ import com.tomclaw.imageloader.util.fetch
 import com.tomclaw.imageloader.util.withPlaceholder
 
 interface HeaderItemView : ItemView {
+
+    fun setIndeterminate()
+
+    fun setProgress(progress: Int)
+
+    fun hideProgress()
 
     fun setAppIcon(url: String?)
 
@@ -38,6 +46,8 @@ interface HeaderItemView : ItemView {
 
 class HeaderItemViewHolder(view: View) : BaseViewHolder(view), HeaderItemView {
 
+    private val iconFlipper: ViewFlipper = view.findViewById(R.id.icon_flipper)
+    private val progressBar: ProgressBar = view.findViewById(R.id.progress_bar)
     private val appIcon: ImageView = view.findViewById(R.id.app_icon)
     private val appLabel: TextView = view.findViewById(R.id.app_label)
     private val appPackage: TextView = view.findViewById(R.id.app_package)
@@ -49,6 +59,21 @@ class HeaderItemViewHolder(view: View) : BaseViewHolder(view), HeaderItemView {
 
     init {
         uploaderContainer.setOnClickListener { uploaderClickListener?.invoke() }
+    }
+
+    override fun setIndeterminate() {
+        iconFlipper.displayedChild = 1
+        progressBar.isIndeterminate = true
+    }
+
+    override fun setProgress(progress: Int) {
+        iconFlipper.displayedChild = 1
+        progressBar.isIndeterminate = false
+        progressBar.progress = progress
+    }
+
+    override fun hideProgress() {
+        iconFlipper.displayedChild = 0
     }
 
     override fun setAppIcon(url: String?) {

@@ -3,6 +3,7 @@ package com.tomclaw.appsend.di
 import android.app.Application
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
+import android.os.Environment
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -16,6 +17,8 @@ import com.tomclaw.appsend.user.SessionStorage
 import com.tomclaw.appsend.user.SessionStorageImpl
 import com.tomclaw.appsend.user.UserDataInteractor
 import com.tomclaw.appsend.user.UserDataInteractorImpl
+import com.tomclaw.appsend.util.DownloadManager
+import com.tomclaw.appsend.util.DownloadManagerImpl
 import com.tomclaw.appsend.util.Logger
 import com.tomclaw.appsend.util.LoggerImpl
 import com.tomclaw.appsend.util.PackageObserver
@@ -110,6 +113,15 @@ class AppModule(private val app: Application) {
     internal fun providePackageObserver(
         context: Context
     ): PackageObserver = PackageObserverImpl(context, context.packageManager)
+
+    @Provides
+    @Singleton
+    internal fun provideDownloadManager(
+        schedulers: SchedulersFactory
+    ): DownloadManager = DownloadManagerImpl(
+        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
+        schedulers
+    )
 
     @Provides
     @Singleton
