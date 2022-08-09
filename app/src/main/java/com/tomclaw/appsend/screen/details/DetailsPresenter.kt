@@ -14,13 +14,14 @@ import com.tomclaw.appsend.screen.details.adapter.rating.RatingItem
 import com.tomclaw.appsend.screen.details.adapter.scores.ScoresItem
 import com.tomclaw.appsend.screen.details.api.Details
 import com.tomclaw.appsend.util.DownloadManager
-import com.tomclaw.appsend.util.DownloadState
+import com.tomclaw.appsend.util.IDLE
 import com.tomclaw.appsend.util.NOT_INSTALLED
 import com.tomclaw.appsend.util.PackageObserver
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
+import java.util.concurrent.TimeUnit
 
 interface DetailsPresenter : ItemListener {
 
@@ -72,7 +73,7 @@ class DetailsPresenterImpl(
 
     private var details: Details? = state?.getParcelable(KEY_DETAILS)
     private var installedVersionCode: Int = state?.getInt(KEY_INSTALLED_VERSION) ?: NOT_INSTALLED
-    private var downloadState: DownloadState? = state?.getParcelable(KEY_INSTALLED_VERSION)
+    private var downloadState: Int = state?.getInt(KEY_DOWNLOAD_STATE) ?: IDLE
 
     private val subscriptions = CompositeDisposable()
     private val observerSubscription = CompositeDisposable()
@@ -107,7 +108,7 @@ class DetailsPresenterImpl(
     override fun saveState() = Bundle().apply {
         putParcelable(KEY_DETAILS, details)
         putInt(KEY_INSTALLED_VERSION, installedVersionCode)
-        putParcelable(KEY_DOWNLOAD_STATE, downloadState)
+        putInt(KEY_DOWNLOAD_STATE, downloadState)
     }
 
     private fun loadDetails() {
@@ -134,7 +135,7 @@ class DetailsPresenterImpl(
                 this.installedVersionCode = installedVersionCode
                 installedVersionCode
             }
-            .flatMap { downloadManager.status(appId) }
+            .flatMap { downloadManager.status(appId).throttleFirst(500, TimeUnit.MILLISECONDS) }
             .observeOn(schedulers.mainThread())
             .subscribeOn(schedulers.io())
             .subscribe(
@@ -260,7 +261,7 @@ class DetailsPresenterImpl(
 
     override fun onInstallClick() {
         val details = details ?: return
-        downloadManager.download(details.info.appId, details.link)
+        downloadManager.download(details.info.appId, "https://zibuhoker.ru/ifm/com.reddish.redbox_2.4_42.apk") // TODO: replace with real URL details.link
     }
 
     override fun onOpenClick(packageName: String) {

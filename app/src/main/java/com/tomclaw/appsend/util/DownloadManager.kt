@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit
 
 interface DownloadManager {
 
-    fun status(appId: String): Observable<DownloadState>
+    fun status(appId: String): Observable<Int>
 
     fun download(appId: String, url: String)
 
@@ -29,32 +29,30 @@ class DownloadManagerImpl(
     private val schedulers: SchedulersFactory,
 ) : DownloadManager {
 
-    private val packages = HashMap<String, BehaviorRelay<DownloadState>>()
+    private val packages = HashMap<String, BehaviorRelay<Int>>()
     private val downloads = HashMap<String, Disposable>()
 
-    override fun status(appId: String): Observable<DownloadState> {
+    override fun status(appId: String): Observable<Int> {
         return packages[appId] ?: let {
-            val status = DownloadState(status = Status.IDLE, percent = 0)
-            val relay = BehaviorRelay.createDefault(status)
+            val relay = BehaviorRelay.createDefault(IDLE)
             packages[appId] = relay
             relay
         }
     }
 
     override fun download(appId: String, url: String) {
-        val status = DownloadState(status = Status.AWAIT, percent = 0)
-        val relay = packages[appId] ?: BehaviorRelay.createDefault(status)
+        val relay = packages[appId] ?: BehaviorRelay.createDefault(AWAIT)
         val file = File(dir, "$appId.apk") // TODO: make file name human-readable
         val disposable = downloadInternal(url, file)
             .doOnComplete {
-                relay.accept(DownloadState(status = Status.COMPLETED, percent = 100))
+                relay.accept(COMPLETED)
             }
             .subscribeOn(schedulers.io())
             .subscribe(
                 { percent ->
-                    relay.accept(DownloadState(status = Status.PROGRESS, percent = percent))
+                    relay.accept(percent)
                 }, {
-                    relay.accept(DownloadState(status = Status.ERROR, percent = 0))
+                    relay.accept(ERROR)
                 }
             )
         downloads[appId] = disposable
@@ -132,12 +130,7 @@ class DownloadManagerImpl(
 
 }
 
-@Parcelize
-data class DownloadState(
-    val status: Status,
-    val percent: Int
-) : Parcelable
-
-enum class Status {
-    IDLE, AWAIT, PROGRESS, COMPLETED, ERROR
-}
+const val ERROR: Int = -3
+const val IDLE: Int = -2
+const val AWAIT: Int = -1
+const val COMPLETED: Int = 101

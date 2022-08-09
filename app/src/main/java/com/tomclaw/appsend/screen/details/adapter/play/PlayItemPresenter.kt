@@ -19,7 +19,7 @@ class PlayItemPresenter(
         if (item.exclusive) view.showExclusive() else view.hideExclusive()
 
         item.category?.let {
-            val title = it.name[locale.language] ?: it.name[DEFAULT_LOCALE].orEmpty()
+            val title = it.name[locale.language] ?: it.name[DEFAULT_LOCALE].orEmpty() // TODO: check for crash on nullable it.name
             view.showCategory(it.icon, title)
         } ?: view.hideCategory()
 
