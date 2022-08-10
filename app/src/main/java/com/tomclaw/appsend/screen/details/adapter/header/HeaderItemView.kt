@@ -5,6 +5,7 @@ import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.ViewFlipper
+import androidx.core.view.isVisible
 import com.avito.konveyor.adapter.BaseViewHolder
 import com.avito.konveyor.blueprint.ItemView
 import com.tomclaw.appsend.R
@@ -46,7 +47,7 @@ interface HeaderItemView : ItemView {
 
 class HeaderItemViewHolder(view: View) : BaseViewHolder(view), HeaderItemView {
 
-    private val iconFlipper: ViewFlipper = view.findViewById(R.id.icon_flipper)
+    private val progressBack: View = view.findViewById(R.id.progress_back)
     private val progressBar: ProgressBar = view.findViewById(R.id.progress_bar)
     private val appIcon: ImageView = view.findViewById(R.id.app_icon)
     private val appLabel: TextView = view.findViewById(R.id.app_label)
@@ -62,18 +63,18 @@ class HeaderItemViewHolder(view: View) : BaseViewHolder(view), HeaderItemView {
     }
 
     override fun setIndeterminate() {
-        iconFlipper.displayedChild = 1
+        progressBack.isVisible = true
         progressBar.isIndeterminate = true
     }
 
     override fun setProgress(progress: Int) {
-        iconFlipper.displayedChild = 1
+        progressBack.isVisible = true
         progressBar.isIndeterminate = false
         progressBar.progress = progress
     }
 
     override fun hideProgress() {
-        iconFlipper.displayedChild = 0
+        progressBack.isVisible = false
     }
 
     override fun setAppIcon(url: String?) {

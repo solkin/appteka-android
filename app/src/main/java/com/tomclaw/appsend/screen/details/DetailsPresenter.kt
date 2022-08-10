@@ -75,6 +75,8 @@ class DetailsPresenterImpl(
     private var installedVersionCode: Int = state?.getInt(KEY_INSTALLED_VERSION) ?: NOT_INSTALLED
     private var downloadState: Int = state?.getInt(KEY_DOWNLOAD_STATE) ?: IDLE
 
+    private val items = ArrayList<Item>()
+
     private val subscriptions = CompositeDisposable()
     private val observerSubscription = CompositeDisposable()
 
@@ -133,14 +135,15 @@ class DetailsPresenterImpl(
         observerSubscription += packageObserver.observe(packageName)
             .map { installedVersionCode ->
                 this.installedVersionCode = installedVersionCode
-                installedVersionCode
             }
-            .flatMap { downloadManager.status(appId).throttleFirst(500, TimeUnit.MILLISECONDS) }
+            .flatMap { downloadManager.status(appId) }
+            .map { downloadState ->
+                this.downloadState = downloadState
+            }
             .observeOn(schedulers.mainThread())
             .subscribeOn(schedulers.io())
             .subscribe(
-                { downloadState ->
-                    this.downloadState = downloadState
+                {
                     bindDetails()
                     view?.showContent()
                 }, {}
@@ -152,7 +155,8 @@ class DetailsPresenterImpl(
 
         var id: Long = 1
 
-        val items = ArrayList<Item>()
+        items.clear()
+
         items += HeaderItem(
             id = id++,
             icon = details.info.icon,
@@ -228,10 +232,14 @@ class DetailsPresenterImpl(
             }
         }
 
-        val dataSource = ListDataSource(items)
-        adapterPresenter.get().onDataSourceChanged(dataSource)
+        bindItems()
 
         view?.contentUpdated()
+    }
+
+    private fun bindItems() {
+        val dataSource = ListDataSource(items)
+        adapterPresenter.get().onDataSourceChanged(dataSource)
     }
 
     private fun onLoadingError() {
@@ -261,7 +269,10 @@ class DetailsPresenterImpl(
 
     override fun onInstallClick() {
         val details = details ?: return
-        downloadManager.download(details.info.appId, "https://zibuhoker.ru/ifm/com.reddish.redbox_2.4_42.apk") // TODO: replace with real URL details.link
+        downloadManager.download(
+            details.info.appId,
+            "https://zibuhoker.ru/ifm/com.reddish.redbox_2.4_42.apk"
+        ) // TODO: replace with real URL details.link
     }
 
     override fun onOpenClick(packageName: String) {
