@@ -43,7 +43,7 @@ class DownloadManagerImpl(
     }
 
     override fun download(appId: String, url: String) {
-        val relay = packages[appId] ?: BehaviorRelay.createDefault(AWAIT)
+        val relay = packages[appId] ?: BehaviorRelay.createDefault(AWAIT) // TODO: remove relay on dispose if state is terminating; set default state COMPLETED if apk file exist and ready
         val file = File(dir, "$appId.apk") // TODO: make file name human-readable
         downloads[appId] = executor.submit {
             val success = downloadBlocking(

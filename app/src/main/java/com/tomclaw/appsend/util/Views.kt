@@ -8,6 +8,7 @@ import android.text.TextWatcher
 import android.view.View
 import android.view.ViewPropertyAnimator
 import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.BounceInterpolator
 import android.widget.EditText
 import android.widget.TextView
 import com.jakewharton.rxrelay3.Relay
@@ -47,7 +48,7 @@ fun View.hide() {
 }
 
 fun View.showWithAlphaAnimation(
-    duration: Long = ANIMATION_DURATION,
+    duration: Long = ANIMATION_DURATION_SHORT,
     animateFully: Boolean = true,
     endCallback: (() -> Unit)? = null
 ): ViewPropertyAnimator {
@@ -69,7 +70,7 @@ fun View.showWithAlphaAnimation(
 }
 
 fun View.hideWithAlphaAnimation(
-    duration: Long = ANIMATION_DURATION,
+    duration: Long = ANIMATION_DURATION_SHORT,
     animateFully: Boolean = true,
     endCallback: (() -> Unit)? = null
 ): ViewPropertyAnimator {
@@ -89,4 +90,22 @@ fun View.hideWithAlphaAnimation(
         })
 }
 
-const val ANIMATION_DURATION: Long = 250
+fun View.scaleWithAnimation(
+    factor: Float,
+    duration: Long = ANIMATION_DURATION_LONG,
+    endCallback: (() -> Unit)? = null,
+): ViewPropertyAnimator {
+    return animate()
+        .setDuration(duration)
+        .scaleX(factor)
+        .scaleY(factor)
+        .setInterpolator(BounceInterpolator())
+        .setListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator?) {
+                endCallback?.invoke()
+            }
+        })
+}
+
+const val ANIMATION_DURATION_SHORT: Long = 250
+const val ANIMATION_DURATION_LONG: Long = 350

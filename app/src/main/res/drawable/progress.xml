@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
     <item android:id="@android:id/progress">
-        <rotate android:toDegrees="360">
+        <rotate
+            android:fromDegrees="270"
+            android:toDegrees="270">
             <shape
                 android:innerRadiusRatio="3"
                 android:shape="ring"
                 android:thickness="3dp"
-                android:thicknessRatio="20.0">
-                <solid android:color="@color/accent_color" />
+                android:thicknessRatio="20.0"
+                tools:useLevel="false">
+                <gradient
+                    android:endColor="@color/accent_bright_color"
+                    android:startColor="@color/accent_concentrated_color"
+                    android:type="linear"
+                    android:useLevel="false" />
             </shape>
         </rotate>
     </item>

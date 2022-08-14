@@ -4,7 +4,6 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
-import android.widget.ViewFlipper
 import androidx.core.view.isVisible
 import com.avito.konveyor.adapter.BaseViewHolder
 import com.avito.konveyor.blueprint.ItemView
@@ -12,6 +11,7 @@ import com.tomclaw.appsend.R
 import com.tomclaw.appsend.dto.UserIcon
 import com.tomclaw.appsend.util.bind
 import com.tomclaw.appsend.util.hide
+import com.tomclaw.appsend.util.scaleWithAnimation
 import com.tomclaw.appsend.util.show
 import com.tomclaw.appsend.view.UserIconView
 import com.tomclaw.appsend.view.UserIconViewImpl
@@ -47,9 +47,9 @@ interface HeaderItemView : ItemView {
 
 class HeaderItemViewHolder(view: View) : BaseViewHolder(view), HeaderItemView {
 
-    private val progressBack: View = view.findViewById(R.id.progress_back)
     private val progressBar: ProgressBar = view.findViewById(R.id.progress_bar)
     private val appIcon: ImageView = view.findViewById(R.id.app_icon)
+    private val iconBack: View = view.findViewById(R.id.icon_back)
     private val appLabel: TextView = view.findViewById(R.id.app_label)
     private val appPackage: TextView = view.findViewById(R.id.app_package)
     private val uploaderContainer: View = view.findViewById(R.id.uploader_container)
@@ -63,18 +63,27 @@ class HeaderItemViewHolder(view: View) : BaseViewHolder(view), HeaderItemView {
     }
 
     override fun setIndeterminate() {
-        progressBack.isVisible = true
+        if (!progressBar.isVisible || iconBack.scaleX == 1.0f) {
+            progressBar.show()
+            iconBack.scaleWithAnimation(0.6f)
+        }
         progressBar.isIndeterminate = true
     }
 
     override fun setProgress(progress: Int) {
-        progressBack.isVisible = true
+        if (!progressBar.isVisible || iconBack.scaleX == 1.0f) {
+            progressBar.show()
+            iconBack.scaleWithAnimation(0.6f)
+        }
         progressBar.isIndeterminate = false
         progressBar.progress = progress
     }
 
     override fun hideProgress() {
-        progressBack.isVisible = false
+        if (progressBar.isVisible || iconBack.scaleX != 1.0f) {
+            progressBar.hide()
+            iconBack.scaleWithAnimation(1.0f)
+        }
     }
 
     override fun setAppIcon(url: String?) {
