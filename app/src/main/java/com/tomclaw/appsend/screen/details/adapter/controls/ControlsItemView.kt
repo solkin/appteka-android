@@ -4,6 +4,8 @@ import android.view.View
 import com.avito.konveyor.adapter.BaseViewHolder
 import com.avito.konveyor.blueprint.ItemView
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.util.disable
+import com.tomclaw.appsend.util.enable
 import com.tomclaw.appsend.util.hide
 import com.tomclaw.appsend.util.show
 
@@ -11,15 +13,23 @@ interface ControlsItemView : ItemView {
 
     fun showInstallButton()
 
+    fun disableInstallButton()
+
     fun showUpdateButton()
 
+    fun disableUpdateButton()
+
     fun showOpenButton()
+
+    fun disableOpenButton()
 
     fun showRemoveButton()
 
     fun showCancelButton()
 
     fun hideButtons()
+
+    fun enableButtons()
 
     fun setOnInstallClickListener(listener: (() -> Unit)?)
 
@@ -55,12 +65,24 @@ class ControlsItemViewHolder(view: View) : BaseViewHolder(view), ControlsItemVie
         installButton.show()
     }
 
+    override fun disableInstallButton() {
+        installButton.disable()
+    }
+
     override fun showUpdateButton() {
         updateButton.show()
     }
 
+    override fun disableUpdateButton() {
+        updateButton.disable()
+    }
+
     override fun showOpenButton() {
         openButton.show()
+    }
+
+    override fun disableOpenButton() {
+        openButton.disable()
     }
 
     override fun showRemoveButton() {
@@ -77,6 +99,12 @@ class ControlsItemViewHolder(view: View) : BaseViewHolder(view), ControlsItemVie
         openButton.hide()
         removeButton.hide()
         cancelButton.hide()
+    }
+
+    override fun enableButtons() {
+        installButton.enable()
+        updateButton.enable()
+        openButton.enable()
     }
 
     override fun setOnInstallClickListener(listener: (() -> Unit)?) {

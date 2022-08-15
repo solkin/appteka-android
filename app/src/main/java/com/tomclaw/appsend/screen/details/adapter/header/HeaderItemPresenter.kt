@@ -16,9 +16,9 @@ class HeaderItemPresenter(
 
     override fun bindView(view: HeaderItemView, item: HeaderItem, position: Int) {
         when (item.downloadState) {
+            IDLE -> view.hideProgress()
             AWAIT -> view.setIndeterminate()
             COMPLETED -> view.hideProgress()
-            IDLE -> view.hideProgress()
             ERROR -> view.hideProgress()
             else -> view.setProgress(item.downloadState)
         }

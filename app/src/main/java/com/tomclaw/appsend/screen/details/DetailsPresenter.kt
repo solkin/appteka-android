@@ -188,6 +188,7 @@ class DetailsPresenterImpl(
             link = details.link,
             expiresIn = details.expiresIn,
             installedVersionCode = installedVersionCode,
+            downloadState = downloadState,
         )
         if (!details.meta?.description.isNullOrBlank()) {
             items += DescriptionItem(

@@ -8,7 +8,6 @@ import android.text.TextWatcher
 import android.view.View
 import android.view.ViewPropertyAnimator
 import android.view.animation.AccelerateDecelerateInterpolator
-import android.view.animation.BounceInterpolator
 import android.widget.EditText
 import android.widget.TextView
 import com.jakewharton.rxrelay3.Relay
@@ -45,6 +44,14 @@ fun View.show() {
 
 fun View.hide() {
     visibility = View.GONE
+}
+
+fun View.enable() {
+    isEnabled = true
+}
+
+fun View.disable() {
+    isEnabled = false
 }
 
 fun View.showWithAlphaAnimation(
@@ -99,7 +106,7 @@ fun View.scaleWithAnimation(
         .setDuration(duration)
         .scaleX(factor)
         .scaleY(factor)
-        .setInterpolator(BounceInterpolator())
+        .setInterpolator(AccelerateDecelerateInterpolator())
         .setListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator?) {
                 endCallback?.invoke()

@@ -13,7 +13,7 @@
                 tools:useLevel="false">
                 <gradient
                     android:endColor="@color/accent_bright_color"
-                    android:startColor="@color/accent_concentrated_color"
+                    android:startColor="@color/accent_color"
                     android:type="linear"
                     android:useLevel="false" />
             </shape>

@@ -14,5 +14,5 @@ data class HeaderItem(
     val userId: Int?,
     val userIcon: UserIcon?,
     val userName: String?,
-    val downloadState: Int
+    val downloadState: Int,
 ) : Item, Parcelable

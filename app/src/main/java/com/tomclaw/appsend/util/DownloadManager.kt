@@ -134,7 +134,7 @@ class DownloadManagerImpl(
 
 }
 
-const val ERROR: Int = -3
 const val IDLE: Int = -2
 const val AWAIT: Int = -1
 const val COMPLETED: Int = 101
+const val ERROR: Int = -3
