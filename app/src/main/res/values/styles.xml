@@ -6,9 +6,6 @@
     <color name="primary_color">#32A304</color>
     <color name="primary_dark_color">#2A8A03</color>
 
-    <color name="accent_bright_color">#ff7828</color>
-    <color name="accent_concentrated_color">#c14800</color>
-
     <color name="chocolate_color">#894121</color>
 
     <color name="badge_color">#f79406</color>

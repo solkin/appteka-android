@@ -31,15 +31,14 @@
 
         </androidx.cardview.widget.CardView>
 
-        <ProgressBar
+        <com.google.android.material.progressindicator.CircularProgressIndicator
             android:id="@+id/progress_bar"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_gravity="center"
-            android:indeterminateBehavior="cycle"
-            android:indeterminateDrawable="@drawable/progress"
-            android:indeterminateOnly="false"
-            android:progressDrawable="@drawable/progress" />
+            android:progress="100"
+            app:indicatorInset="3dp"
+            app:indicatorSize="64dp" />
 
     </FrameLayout>
 
