@@ -21,7 +21,6 @@ import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
-import java.util.concurrent.TimeUnit
 
 interface DetailsPresenter : ItemListener {
 
@@ -49,7 +48,7 @@ interface DetailsPresenter : ItemListener {
 
         fun openProfile(userId: Int)
 
-        fun openApp(packageName: String)
+        fun launchApp(packageName: String)
 
         fun removeApp(packageName: String)
 
@@ -276,12 +275,16 @@ class DetailsPresenterImpl(
         ) // TODO: replace with real URL details.link
     }
 
-    override fun onOpenClick(packageName: String) {
-        router?.openApp(packageName)
+    override fun onLaunchClick(packageName: String) {
+        router?.launchApp(packageName)
     }
 
     override fun onRemoveClick(packageName: String) {
         router?.removeApp(packageName)
+    }
+
+    override fun onCancelClick(appId: String) {
+        downloadManager.cancel(appId)
     }
 
 }

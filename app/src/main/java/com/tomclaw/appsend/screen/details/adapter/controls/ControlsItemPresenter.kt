@@ -42,16 +42,17 @@ class ControlsItemPresenter(
             else -> {
                 if (isProgress) {
                     view.showCancelButton()
-                    view.disableOpenButton()
+                    view.disableLaunchButton()
                 } else {
                     view.showRemoveButton()
-                    view.showOpenButton()
+                    view.showLaunchButton()
                 }
             }
         }
         view.setOnInstallClickListener { listener.onInstallClick() }
-        view.setOnOpenClickListener { listener.onOpenClick(item.packageName) }
+        view.setOnLaunchClickListener { listener.onLaunchClick(item.packageName) }
         view.setOnRemoveClickListener { listener.onRemoveClick(item.packageName) }
+        view.setOnCancelClickListener { listener.onCancelClick(item.appId) }
     }
 
 }

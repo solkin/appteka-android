@@ -52,7 +52,7 @@
         app:cornerRadius="99dp" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/open_button"
+        android:id="@+id/launch_button"
         style="@style/MaterialButtonPrimary"
         android:layout_width="0dp"
         android:layout_height="wrap_content"

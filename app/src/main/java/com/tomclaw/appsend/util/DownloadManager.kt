@@ -2,7 +2,6 @@ package com.tomclaw.appsend.util
 
 import com.jakewharton.rxrelay3.BehaviorRelay
 import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.disposables.Disposable
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -31,19 +30,19 @@ class DownloadManagerImpl(
 
     private val executor = Executors.newSingleThreadExecutor()
 
-    private val packages = HashMap<String, BehaviorRelay<Int>>()
+    private val relays = HashMap<String, BehaviorRelay<Int>>()
     private val downloads = HashMap<String, Future<*>>()
 
     override fun status(appId: String): Observable<Int> {
-        return packages[appId] ?: let {
+        return relays[appId] ?: let {
             val relay = BehaviorRelay.createDefault(IDLE)
-            packages[appId] = relay
+            relays[appId] = relay
             relay
         }
     }
 
     override fun download(appId: String, url: String) {
-        val relay = packages[appId] ?: BehaviorRelay.create() // TODO: remove relay on dispose if state is terminating; set default state COMPLETED if apk file exist and ready
+        val relay = relays[appId] ?: BehaviorRelay.create() // TODO: remove relay on dispose if state is terminating; set default state COMPLETED if apk file exist and ready
         relay.accept(AWAIT)
         val file = File(dir, "$appId.apk") // TODO: make file name human-readable
         downloads[appId] = executor.submit {
@@ -56,12 +55,12 @@ class DownloadManagerImpl(
                 relay.accept(COMPLETED)
             }
         }
-        packages[appId] = relay
+        relays[appId] = relay
     }
 
     override fun cancel(appId: String) {
         downloads.remove(appId)?.cancel(true)
-        packages.remove(appId)
+        relays.remove(appId)?.accept(IDLE)
     }
 
     private fun downloadBlocking(

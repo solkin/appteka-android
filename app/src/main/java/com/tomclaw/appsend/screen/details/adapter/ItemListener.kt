@@ -10,8 +10,10 @@ interface ItemListener {
 
     fun onInstallClick()
 
-    fun onOpenClick(packageName: String)
+    fun onLaunchClick(packageName: String)
 
     fun onRemoveClick(packageName: String)
+
+    fun onCancelClick(appId: String)
 
 }

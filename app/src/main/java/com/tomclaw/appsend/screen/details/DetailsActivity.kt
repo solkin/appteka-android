@@ -107,7 +107,7 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
             .start()
     }
 
-    override fun openApp(packageName: String) {
+    override fun launchApp(packageName: String) {
         val intent = packageManager.getLaunchIntentForPackage(packageName)
         startActivity(intent)
     }
