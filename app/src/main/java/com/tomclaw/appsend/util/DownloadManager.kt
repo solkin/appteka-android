@@ -25,6 +25,7 @@ interface DownloadManager {
 
 class DownloadManagerImpl(
     private val dir: File,
+    private val notifications: Notifications,
     private val schedulers: SchedulersFactory,
 ) : DownloadManager {
 
@@ -42,17 +43,51 @@ class DownloadManagerImpl(
     }
 
     override fun download(appId: String, url: String) {
-        val relay = relays[appId] ?: BehaviorRelay.create() // TODO: remove relay on dispose if state is terminating; set default state COMPLETED if apk file exist and ready
+        val relay = relays[appId]
+            ?: BehaviorRelay.create() // TODO: remove relay on dispose if state is terminating; set default state COMPLETED if apk file exist and ready
         relay.accept(AWAIT)
+        notifications.showDownloadingNotification(
+            notificationId = appId.hashCode(), // TODO: replace with stable ID
+            title = appId,
+            text = url,
+            progress = 0,
+            indeterminate = true,
+            icon = null,
+        )
         val file = File(dir, "$appId.apk") // TODO: make file name human-readable
         downloads[appId] = executor.submit {
             val success = downloadBlocking(
                 url,
                 file,
-                progressCallback = { percent -> relay.accept(percent) },
-                errorCallback = { relay.accept(ERROR) })
+                progressCallback = { percent ->
+                    relay.accept(percent)
+                    notifications.showDownloadingNotification(
+                        notificationId = appId.hashCode(), // TODO: replace with stable ID
+                        title = appId,
+                        text = url,
+                        progress = percent,
+                        indeterminate = false,
+                        icon = null,
+                    )
+                },
+                errorCallback = {
+                    relay.accept(ERROR)
+                    notifications.showErrorNotification(
+                        notificationId = appId.hashCode(), // TODO: replace with stable ID
+                        title = appId,
+                        text = url,
+                        icon = null,
+                    )
+                },
+            )
             if (success) {
                 relay.accept(COMPLETED)
+                notifications.showInstallNotification(
+                    notificationId = appId.hashCode(), // TODO: replace with stable ID
+                    title = appId,
+                    text = url,
+                    icon = null,
+                )
             }
         }
         relays[appId] = relay
@@ -61,6 +96,7 @@ class DownloadManagerImpl(
     override fun cancel(appId: String) {
         downloads.remove(appId)?.cancel(true)
         relays.remove(appId)?.accept(IDLE)
+        notifications.hideNotification(notificationId = appId.hashCode()) // TODO: replace with stable ID
     }
 
     private fun downloadBlocking(
@@ -117,7 +153,7 @@ class DownloadManagerImpl(
                     percent = p
                 }
                 buffer.onExecuteStart()
-                Thread.sleep(10)
+                Thread.sleep(10) // TODO: remove this slowing down
             }
             progressCallback(100)
             return true

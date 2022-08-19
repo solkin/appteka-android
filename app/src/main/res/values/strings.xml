@@ -294,6 +294,10 @@
     <string name="sms_access">Contents of SMS</string>
     <string name="storage_access">Storage access</string>
     <string name="location_access">Geolocation tracking</string>
+    <string name="downloading_channel_name">Downloading apps</string>
+    <string name="install_channel_name">Install apps</string>
+    <string name="downloading_channel_description">Downloading apps in progress</string>
+    <string name="install_channel_description">Ready for install apps</string>
     <plurals name="other_access">
         <item quantity="one">%d another permission</item>
         <item quantity="few">%d other permissions</item>

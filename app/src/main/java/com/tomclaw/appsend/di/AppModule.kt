@@ -21,6 +21,8 @@ import com.tomclaw.appsend.util.DownloadManager
 import com.tomclaw.appsend.util.DownloadManagerImpl
 import com.tomclaw.appsend.util.Logger
 import com.tomclaw.appsend.util.LoggerImpl
+import com.tomclaw.appsend.util.Notifications
+import com.tomclaw.appsend.util.NotificationsImpl
 import com.tomclaw.appsend.util.PackageObserver
 import com.tomclaw.appsend.util.PackageObserverImpl
 import com.tomclaw.appsend.util.SchedulersFactory
@@ -76,6 +78,10 @@ class AppModule(private val app: Application) {
 
     @Provides
     @Singleton
+    internal fun provideNotifications(): Notifications = NotificationsImpl(app)
+
+    @Provides
+    @Singleton
     internal fun provideUserDataInteractor(
         sessionStorage: SessionStorage,
         api: StoreApi,
@@ -117,9 +123,11 @@ class AppModule(private val app: Application) {
     @Provides
     @Singleton
     internal fun provideDownloadManager(
+        notifications: Notifications,
         schedulers: SchedulersFactory
     ): DownloadManager = DownloadManagerImpl(
         Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
+        notifications,
         schedulers
     )
 
