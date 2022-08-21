@@ -46,14 +46,9 @@ class DownloadManagerImpl(
         val relay = relays[appId]
             ?: BehaviorRelay.create() // TODO: remove relay on dispose if state is terminating; set default state COMPLETED if apk file exist and ready
         relay.accept(AWAIT)
-        notifications.showDownloadingNotification(
-            notificationId = appId.hashCode(), // TODO: replace with stable ID
-            title = appId,
-            text = url,
-            progress = 0,
-            indeterminate = true,
-            icon = null,
-        )
+
+        notifications.startObservation(appId, "App $appId", relay)
+
         val file = File(dir, "$appId.apk") // TODO: make file name human-readable
         downloads[appId] = executor.submit {
             val success = downloadBlocking(
@@ -61,33 +56,13 @@ class DownloadManagerImpl(
                 file,
                 progressCallback = { percent ->
                     relay.accept(percent)
-                    notifications.showDownloadingNotification(
-                        notificationId = appId.hashCode(), // TODO: replace with stable ID
-                        title = appId,
-                        text = url,
-                        progress = percent,
-                        indeterminate = false,
-                        icon = null,
-                    )
                 },
                 errorCallback = {
                     relay.accept(ERROR)
-                    notifications.showErrorNotification(
-                        notificationId = appId.hashCode(), // TODO: replace with stable ID
-                        title = appId,
-                        text = url,
-                        icon = null,
-                    )
                 },
             )
             if (success) {
                 relay.accept(COMPLETED)
-                notifications.showInstallNotification(
-                    notificationId = appId.hashCode(), // TODO: replace with stable ID
-                    title = appId,
-                    text = url,
-                    icon = null,
-                )
             }
         }
         relays[appId] = relay
@@ -96,7 +71,6 @@ class DownloadManagerImpl(
     override fun cancel(appId: String) {
         downloads.remove(appId)?.cancel(true)
         relays.remove(appId)?.accept(IDLE)
-        notifications.hideNotification(notificationId = appId.hashCode()) // TODO: replace with stable ID
     }
 
     private fun downloadBlocking(

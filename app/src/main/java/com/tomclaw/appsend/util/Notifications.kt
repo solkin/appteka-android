@@ -4,38 +4,16 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.content.Context.NOTIFICATION_SERVICE
-import android.graphics.Bitmap
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import com.tomclaw.appsend.BuildConfig
 import com.tomclaw.appsend.R
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.disposables.Disposable
 
 interface Notifications {
 
-    fun showDownloadingNotification(
-        notificationId: Int,
-        title: String,
-        text: String,
-        progress: Int,
-        indeterminate: Boolean,
-        icon: Bitmap?
-    )
-
-    fun showInstallNotification(
-        notificationId: Int,
-        title: String,
-        text: String,
-        icon: Bitmap?
-    )
-
-    fun showErrorNotification(
-        notificationId: Int,
-        title: String,
-        text: String,
-        icon: Bitmap?
-    )
-
-    fun hideNotification(notificationId: Int)
+    fun startObservation(appId: String, label: String, observable: Observable<Int>)
 
 }
 
@@ -61,59 +39,59 @@ class NotificationsImpl(
         }
     }
 
-    override fun showDownloadingNotification(
-        notificationId: Int,
-        title: String,
-        text: String,
-        progress: Int,
-        indeterminate: Boolean,
-        icon: Bitmap?
-    ) {
-        val notification = NotificationCompat.Builder(context, CHANNEL_INSTALL)
-            .setContentTitle(title)
-            .setContentText(text)
-            .setProgress(100, progress, indeterminate)
-            .setSmallIcon(R.drawable.ic_pill)
-            .setLargeIcon(icon)
-            .setGroup(NOTIFICATION_GROUP)
-            .build()
-        notificationManager.notify(notificationId, notification)
-    }
+    override fun startObservation(appId: String, label: String, observable: Observable<Int>) {
+        val notificationId = appId.hashCode() // TODO: replace with stable ID
 
-    override fun showInstallNotification(
-        notificationId: Int,
-        title: String,
-        text: String,
-        icon: Bitmap?
-    ) {
-        val notification = NotificationCompat.Builder(context, CHANNEL_INSTALL)
-            .setContentTitle(title)
-            .setContentText(text)
+        val notificationBuilder = NotificationCompat.Builder(context, CHANNEL_INSTALL)
+            .setContentTitle(label)
             .setSmallIcon(R.drawable.ic_pill)
-            .setLargeIcon(icon)
-            .setGroup(NOTIFICATION_GROUP)
-            .build()
-        notificationManager.notify(notificationId, notification)
-    }
+            .setLargeIcon(null)
+            .setSilent(true)
+            .setGroup(GROUP_NOTIFICATIONS)
 
-    override fun showErrorNotification(
-        notificationId: Int,
-        title: String,
-        text: String,
-        icon: Bitmap?
-    ) {
-        val notification = NotificationCompat.Builder(context, CHANNEL_INSTALL)
-            .setContentTitle(title)
-            .setContentText(text)
-            .setSmallIcon(R.drawable.ic_pill)
-            .setLargeIcon(icon)
-            .setGroup(NOTIFICATION_GROUP)
-            .build()
-        notificationManager.notify(notificationId, notification)
-    }
-
-    override fun hideNotification(notificationId: Int) {
-        notificationManager.cancel(notificationId)
+        var disposable: Disposable? = null
+        disposable = observable.subscribe { status ->
+            when (status) {
+                AWAIT -> {
+                    val notification = notificationBuilder
+                        .setContentText("await")
+                        .setProgress(100, 0, true)
+                        .setOngoing(true)
+                        .build()
+                    notificationManager.notify(notificationId, notification)
+                }
+                ERROR -> {
+                    val notification = notificationBuilder
+                        .setContentText("error")
+                        .setProgress(0, 0, false)
+                        .build()
+                    notificationManager.notify(notificationId, notification)
+                }
+                COMPLETED -> {
+                    notificationManager.cancel(notificationId)
+                    val notification = NotificationCompat.Builder(context, CHANNEL_INSTALL)
+                        .setContentTitle(label)
+                        .setContentText("completed")
+                        .setSmallIcon(R.drawable.ic_pill)
+                        .setLargeIcon(null)
+                        .setGroup(GROUP_NOTIFICATIONS)
+                        .build()
+                    notificationManager.notify(notificationId, notification)
+                }
+                IDLE -> {
+                    notificationManager.cancel(notificationId)
+                    disposable?.dispose()
+                }
+                else -> {
+                    val notification = notificationBuilder
+                        .setContentText("progress")
+                        .setProgress(100, status, false)
+                        .setOngoing(true)
+                        .build()
+                    notificationManager.notify(notificationId, notification)
+                }
+            }
+        }
     }
 
     private fun createNotificationChannel(
@@ -132,6 +110,6 @@ class NotificationsImpl(
 
 }
 
-const val NOTIFICATION_GROUP = BuildConfig.APPLICATION_ID + ".NOTIFICATIONS"
+const val GROUP_NOTIFICATIONS = BuildConfig.APPLICATION_ID + ".NOTIFICATIONS"
 const val CHANNEL_DOWNLOADING = "downloading_channel_id"
 const val CHANNEL_INSTALL = "install_channel_id"
