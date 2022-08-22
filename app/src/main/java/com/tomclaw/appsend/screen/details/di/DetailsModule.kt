@@ -35,6 +35,7 @@ import com.tomclaw.appsend.screen.details.adapter.scores.ScoresItemBlueprint
 import com.tomclaw.appsend.screen.details.adapter.scores.ScoresItemPresenter
 import com.tomclaw.appsend.user.UserDataInteractor
 import com.tomclaw.appsend.util.DownloadManager
+import com.tomclaw.appsend.util.Notifications
 import com.tomclaw.appsend.util.PackageObserver
 import com.tomclaw.appsend.util.PerActivity
 import com.tomclaw.appsend.util.SchedulersFactory
@@ -61,6 +62,7 @@ class DetailsModule(
         adapterPresenter: Lazy<AdapterPresenter>,
         packageObserver: PackageObserver,
         downloadManager: DownloadManager,
+        notifications: Notifications,
         schedulers: SchedulersFactory
     ): DetailsPresenter = DetailsPresenterImpl(
         appId,
@@ -69,6 +71,7 @@ class DetailsModule(
         adapterPresenter,
         packageObserver,
         downloadManager,
+        notifications,
         schedulers,
         state
     )

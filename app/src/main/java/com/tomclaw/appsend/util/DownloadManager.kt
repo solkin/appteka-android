@@ -17,7 +17,7 @@ interface DownloadManager {
 
     fun status(appId: String): Observable<Int>
 
-    fun download(appId: String, url: String)
+    fun download(appId: String, url: String): Observable<Int>
 
     fun cancel(appId: String)
 
@@ -25,8 +25,6 @@ interface DownloadManager {
 
 class DownloadManagerImpl(
     private val dir: File,
-    private val notifications: Notifications,
-    private val schedulers: SchedulersFactory,
 ) : DownloadManager {
 
     private val executor = Executors.newSingleThreadExecutor()
@@ -42,13 +40,10 @@ class DownloadManagerImpl(
         }
     }
 
-    override fun download(appId: String, url: String) {
+    override fun download(appId: String, url: String): Observable<Int> {
         val relay = relays[appId]
             ?: BehaviorRelay.create() // TODO: remove relay on dispose if state is terminating; set default state COMPLETED if apk file exist and ready
         relay.accept(AWAIT)
-
-        notifications.startObservation(appId, "App $appId", relay)
-
         val file = File(dir, "$appId.apk") // TODO: make file name human-readable
         downloads[appId] = executor.submit {
             val success = downloadBlocking(
@@ -66,6 +61,7 @@ class DownloadManagerImpl(
             }
         }
         relays[appId] = relay
+        return relay
     }
 
     override fun cancel(appId: String) {

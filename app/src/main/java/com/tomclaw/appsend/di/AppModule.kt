@@ -122,13 +122,8 @@ class AppModule(private val app: Application) {
 
     @Provides
     @Singleton
-    internal fun provideDownloadManager(
-        notifications: Notifications,
-        schedulers: SchedulersFactory
-    ): DownloadManager = DownloadManagerImpl(
+    internal fun provideDownloadManager(): DownloadManager = DownloadManagerImpl(
         Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
-        notifications,
-        schedulers
     )
 
     @Provides
