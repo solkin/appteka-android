@@ -21,8 +21,8 @@ import com.tomclaw.appsend.util.DownloadManager
 import com.tomclaw.appsend.util.DownloadManagerImpl
 import com.tomclaw.appsend.util.Logger
 import com.tomclaw.appsend.util.LoggerImpl
-import com.tomclaw.appsend.util.Notifications
-import com.tomclaw.appsend.util.NotificationsImpl
+import com.tomclaw.appsend.util.DownloadNotifications
+import com.tomclaw.appsend.util.DownloadNotificationsImpl
 import com.tomclaw.appsend.util.PackageObserver
 import com.tomclaw.appsend.util.PackageObserverImpl
 import com.tomclaw.appsend.util.SchedulersFactory
@@ -78,7 +78,7 @@ class AppModule(private val app: Application) {
 
     @Provides
     @Singleton
-    internal fun provideNotifications(): Notifications = NotificationsImpl(app)
+    internal fun provideNotifications(): DownloadNotifications = DownloadNotificationsImpl(app)
 
     @Provides
     @Singleton

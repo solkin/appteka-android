@@ -16,7 +16,7 @@ import com.tomclaw.appsend.screen.details.api.Details
 import com.tomclaw.appsend.util.DownloadManager
 import com.tomclaw.appsend.util.IDLE
 import com.tomclaw.appsend.util.NOT_INSTALLED
-import com.tomclaw.appsend.util.Notifications
+import com.tomclaw.appsend.util.DownloadNotifications
 import com.tomclaw.appsend.util.PackageObserver
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
@@ -64,7 +64,7 @@ class DetailsPresenterImpl(
     private val adapterPresenter: Lazy<AdapterPresenter>,
     private val packageObserver: PackageObserver,
     private val downloadManager: DownloadManager,
-    private val notifications: Notifications,
+    private val notifications: DownloadNotifications,
     private val schedulers: SchedulersFactory,
     state: Bundle?
 ) : DetailsPresenter {
@@ -271,11 +271,18 @@ class DetailsPresenterImpl(
 
     override fun onInstallClick() {
         val details = details ?: return
-        val relay = downloadManager.download(
+        val file = downloadManager.download(
             details.info.appId,
             "https://zibuhoker.ru/ifm/com.reddish.redbox_2.4_42.apk"
         ) // TODO: replace with real URL details.link
-        notifications.startObservation(details.info.appId, details.info.label.orEmpty(), relay)
+        val relay = downloadManager.status(details.info.appId)
+        notifications.subscribe(
+            appId = details.info.appId,
+            label = details.info.label.orEmpty(),
+            icon = details.info.icon,
+            file = file,
+            observable = relay,
+        )
     }
 
     override fun onLaunchClick(packageName: String) {

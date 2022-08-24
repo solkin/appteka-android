@@ -1,7 +1,6 @@
 package com.tomclaw.appsend.screen.details.di
 
 import android.content.Context
-import android.content.res.Resources
 import android.os.Bundle
 import com.avito.konveyor.ItemBinder
 import com.avito.konveyor.adapter.AdapterPresenter
@@ -35,7 +34,7 @@ import com.tomclaw.appsend.screen.details.adapter.scores.ScoresItemBlueprint
 import com.tomclaw.appsend.screen.details.adapter.scores.ScoresItemPresenter
 import com.tomclaw.appsend.user.UserDataInteractor
 import com.tomclaw.appsend.util.DownloadManager
-import com.tomclaw.appsend.util.Notifications
+import com.tomclaw.appsend.util.DownloadNotifications
 import com.tomclaw.appsend.util.PackageObserver
 import com.tomclaw.appsend.util.PerActivity
 import com.tomclaw.appsend.util.SchedulersFactory
@@ -62,7 +61,7 @@ class DetailsModule(
         adapterPresenter: Lazy<AdapterPresenter>,
         packageObserver: PackageObserver,
         downloadManager: DownloadManager,
-        notifications: Notifications,
+        notifications: DownloadNotifications,
         schedulers: SchedulersFactory
     ): DetailsPresenter = DetailsPresenterImpl(
         appId,

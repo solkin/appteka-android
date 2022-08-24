@@ -1,8 +1,6 @@
 package com.tomclaw.appsend.screen.store
 
 import android.annotation.SuppressLint
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -12,16 +10,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
-import com.caverock.androidsvg.SVG
 import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.categories.CategoryItem
 import com.tomclaw.appsend.util.clicks
-import com.tomclaw.appsend.util.dpToPx
 import com.tomclaw.appsend.util.getAttributedColor
 import com.tomclaw.appsend.util.svgToDrawable
-import com.tomclaw.appsend.util.toBitmap
 import io.reactivex.rxjava3.core.Observable
 
 interface StoreView {

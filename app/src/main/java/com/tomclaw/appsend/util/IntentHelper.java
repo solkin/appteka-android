@@ -65,6 +65,23 @@ public class IntentHelper {
         context.startActivity(intent);
     }
 
+    public static Intent openFileIntent(Context context, String filePath, String type) {
+        File file = new File(filePath);
+        Uri uri;
+        if (isFileProviderUri()) {
+            uri = FileProvider.getUriForFile(context, context.getPackageName() + ".provider", file);
+        } else {
+            uri = Uri.fromFile(file);
+        }
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setDataAndType(uri, type);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        grantUriPermission(context, uri, intent);
+
+        return intent;
+    }
+
     public static void shareApk(Context context, File file) {
         Uri uri;
         if (isFileProviderUri()) {
