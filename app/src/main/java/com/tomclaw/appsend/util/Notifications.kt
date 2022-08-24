@@ -44,9 +44,10 @@ class NotificationsImpl(
 
         val notificationBuilder = NotificationCompat.Builder(context, CHANNEL_INSTALL)
             .setContentTitle(label)
-            .setSmallIcon(R.drawable.ic_pill)
+            .setSmallIcon(android.R.drawable.stat_sys_download)
             .setLargeIcon(null)
             .setSilent(true)
+            .setOngoing(true)
             .setGroup(GROUP_NOTIFICATIONS)
 
         var disposable: Disposable? = null
@@ -54,16 +55,17 @@ class NotificationsImpl(
             when (status) {
                 AWAIT -> {
                     val notification = notificationBuilder
-                        .setContentText("await")
+                        .setContentText(context.getString(R.string.waiting_for_download))
                         .setProgress(100, 0, true)
-                        .setOngoing(true)
                         .build()
                     notificationManager.notify(notificationId, notification)
                 }
                 ERROR -> {
                     val notification = notificationBuilder
-                        .setContentText("error")
+                        .setContentText(context.getString(R.string.download_failed))
+                        .setSmallIcon(android.R.drawable.stat_sys_warning)
                         .setProgress(0, 0, false)
+                        .setOngoing(false)
                         .build()
                     notificationManager.notify(notificationId, notification)
                 }
@@ -71,10 +73,11 @@ class NotificationsImpl(
                     notificationManager.cancel(notificationId)
                     val notification = NotificationCompat.Builder(context, CHANNEL_INSTALL)
                         .setContentTitle(label)
-                        .setContentText("completed")
-                        .setSmallIcon(R.drawable.ic_pill)
+                        .setContentText(context.getString(R.string.tap_to_install))
+                        .setSmallIcon(android.R.drawable.stat_sys_download_done)
                         .setLargeIcon(null)
                         .setGroup(GROUP_NOTIFICATIONS)
+                        .setOngoing(false)
                         .build()
                     notificationManager.notify(notificationId, notification)
                 }
@@ -84,9 +87,8 @@ class NotificationsImpl(
                 }
                 else -> {
                     val notification = notificationBuilder
-                        .setContentText("progress")
+                        .setContentText(context.getString(R.string.downloading_progress, status))
                         .setProgress(100, status, false)
-                        .setOngoing(true)
                         .build()
                     notificationManager.notify(notificationId, notification)
                 }

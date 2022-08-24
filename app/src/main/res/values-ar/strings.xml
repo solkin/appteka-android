@@ -326,6 +326,10 @@
     <string name="sms_access">SMS access</string>
     <string name="storage_access">Storage access</string>
     <string name="location_access">Location access</string>
+    <string name="tap_to_install">Tap to install</string>
+    <string name="downloading_progress">Downloading: %d%%</string>
+    <string name="download_failed">Download failed</string>
+    <string name="waiting_for_download">Waiting for download…</string>
     <plurals name="other_access">
         <item quantity="zero">%d other permissions</item>
         <item quantity="one">%d another permission</item>

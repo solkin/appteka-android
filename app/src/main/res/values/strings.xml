@@ -298,6 +298,10 @@
     <string name="install_channel_name">Install apps</string>
     <string name="downloading_channel_description">Downloading apps in progress</string>
     <string name="install_channel_description">Ready for install apps</string>
+    <string name="tap_to_install">Tap to install</string>
+    <string name="downloading_progress">Downloading: %d%%</string>
+    <string name="download_failed">Download failed</string>
+    <string name="waiting_for_download">Waiting for download…</string>
     <plurals name="other_access">
         <item quantity="one">%d another permission</item>
         <item quantity="few">%d other permissions</item>

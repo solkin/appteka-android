@@ -287,6 +287,10 @@
     <string name="sms_access">Просмотр содержимого СМС сообщений</string>
     <string name="storage_access">Доступ к файлам накопителя</string>
     <string name="location_access">Отслеживание геолокации</string>
+    <string name="tap_to_install">Нажмите для установки</string>
+    <string name="downloading_progress">Скачивание: %d%%</string>
+    <string name="download_failed">Ошибка скачивания</string>
+    <string name="waiting_for_download">Ожидание скачивания…</string>
     <plurals name="other_access">
         <item quantity="one">%d другое разрешение</item>
         <item quantity="few">%d других разрешений</item>
