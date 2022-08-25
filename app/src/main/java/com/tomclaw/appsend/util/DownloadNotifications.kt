@@ -8,7 +8,6 @@ import android.app.PendingIntent.FLAG_CANCEL_CURRENT
 import android.content.Context
 import android.content.Context.NOTIFICATION_SERVICE
 import android.content.Intent
-import android.content.res.Resources
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.graphics.drawable.toBitmap
@@ -17,8 +16,6 @@ import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.imageloader.SimpleImageLoader.imageLoader
 import com.tomclaw.imageloader.core.Handlers
-import com.tomclaw.imageloader.core.ViewHolder
-import com.tomclaw.imageloader.core.ViewSize
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.Disposable
 import java.io.File
@@ -182,32 +179,6 @@ class DownloadNotificationsImpl(
         val mChannel = NotificationChannel(channelId, channelName, importance)
         mChannel.description = channelDescription
         notificationManager.createNotificationChannel(mChannel)
-    }
-
-    class NotificationIconHolder(
-        resources: Resources,
-        private val notificationBuilder: NotificationCompat.Builder
-    ) : ViewHolder<NotificationCompat.Builder> {
-
-        private val size = ViewSize(dpToPx(64, resources), dpToPx(64, resources))
-
-        override var tag: Any?
-            get() = notificationBuilder.extras.getString("tag")
-            set(value) {
-                notificationBuilder.extras.putString("tag", value.toString())
-            }
-
-        override fun get(): NotificationCompat.Builder {
-            return notificationBuilder
-        }
-
-        override fun getSize(): ViewSize {
-            return size
-        }
-
-        override fun optSize(): ViewSize {
-            return size
-        }
     }
 
 }
