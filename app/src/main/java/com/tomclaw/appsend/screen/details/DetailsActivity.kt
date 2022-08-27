@@ -20,7 +20,9 @@ import com.tomclaw.appsend.main.permissions.PermissionsList
 import com.tomclaw.appsend.main.profile.ProfileActivity_
 import com.tomclaw.appsend.main.ratings.RatingsActivity_
 import com.tomclaw.appsend.screen.details.di.DetailsModule
+import com.tomclaw.appsend.util.IntentHelper
 import com.tomclaw.appsend.util.ThemeHelper
+import java.io.File
 import javax.inject.Inject
 
 class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
@@ -109,6 +111,15 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
 
     override fun launchApp(packageName: String) {
         val intent = packageManager.getLaunchIntentForPackage(packageName)
+        startActivity(intent)
+    }
+
+    override fun installApp(file: File) {
+        val intent = IntentHelper.openFileIntent(
+            this,
+            file.absolutePath,
+            "application/vnd.android.package-archive"
+        )
         startActivity(intent)
     }
 

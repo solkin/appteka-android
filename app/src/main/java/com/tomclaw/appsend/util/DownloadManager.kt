@@ -17,7 +17,7 @@ interface DownloadManager {
 
     fun status(appId: String): Observable<Int>
 
-    fun download(appId: String, url: String): File
+    fun download(label: String, version: String, appId: String, url: String): File
 
     fun cancel(appId: String)
 
@@ -40,15 +40,21 @@ class DownloadManagerImpl(
         }
     }
 
-    override fun download(appId: String, url: String): File {
+    override fun download(label: String, version: String, appId: String, url: String): File {
+        val fileName = escapeFileSymbols("$label-$version-$appId")
+        val tmpFile = File(dir, "$fileName.apk.tmp")
+        val targetFile = File(dir, "$fileName.apk")
         val relay = relays[appId]
-            ?: BehaviorRelay.create() // TODO: remove relay on dispose if state is terminating; set default state COMPLETED if apk file exist and ready
+            ?: BehaviorRelay.create() // TODO: remove relay on dispose if state is terminating
+        if (targetFile.exists()) {
+            relay.accept(COMPLETED)
+            return targetFile
+        }
         relay.accept(AWAIT)
-        val file = File(dir, "$appId.apk") // TODO: make file name human-readable
         downloads[appId] = executor.submit {
             val success = downloadBlocking(
-                url,
-                file,
+                url = url,
+                file = tmpFile,
                 progressCallback = { percent ->
                     relay.accept(percent)
                 },
@@ -57,11 +63,12 @@ class DownloadManagerImpl(
                 },
             )
             if (success) {
+                tmpFile.renameTo(targetFile)
                 relay.accept(COMPLETED)
             }
         }
         relays[appId] = relay
-        return file
+        return targetFile
     }
 
     override fun cancel(appId: String) {
@@ -138,9 +145,19 @@ class DownloadManagerImpl(
         return false
     }
 
+    private fun escapeFileSymbols(name: String): String {
+        var fileName = name
+        for (symbol in RESERVED_CHARS) {
+            fileName = fileName.replace(symbol[0], '_')
+        }
+        return fileName
+    }
+
 }
 
 const val IDLE: Int = -2
 const val AWAIT: Int = -1
 const val COMPLETED: Int = 101
 const val ERROR: Int = -3
+
+private val RESERVED_CHARS = arrayOf("|", "\\", "/", "?", "*", "<", "\"", ":", ">")

@@ -13,6 +13,7 @@ import com.tomclaw.appsend.screen.details.adapter.play.PlayItem
 import com.tomclaw.appsend.screen.details.adapter.rating.RatingItem
 import com.tomclaw.appsend.screen.details.adapter.scores.ScoresItem
 import com.tomclaw.appsend.screen.details.api.Details
+import com.tomclaw.appsend.util.COMPLETED
 import com.tomclaw.appsend.util.DownloadManager
 import com.tomclaw.appsend.util.IDLE
 import com.tomclaw.appsend.util.NOT_INSTALLED
@@ -22,6 +23,7 @@ import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
+import java.io.File
 
 interface DetailsPresenter : ItemListener {
 
@@ -51,6 +53,8 @@ interface DetailsPresenter : ItemListener {
 
         fun launchApp(packageName: String)
 
+        fun installApp(file: File)
+
         fun removeApp(packageName: String)
 
     }
@@ -75,6 +79,8 @@ class DetailsPresenterImpl(
     private var details: Details? = state?.getParcelable(KEY_DETAILS)
     private var installedVersionCode: Int = state?.getInt(KEY_INSTALLED_VERSION) ?: NOT_INSTALLED
     private var downloadState: Int = state?.getInt(KEY_DOWNLOAD_STATE) ?: IDLE
+    private var targetFile: File? = state?.getString(KEY_TARGET_FILE)?.let { File(it) }
+    private var needInstall: Boolean = state?.getBoolean(KEY_NEED_INSTALL) ?: false
 
     private val items = ArrayList<Item>()
 
@@ -97,6 +103,7 @@ class DetailsPresenterImpl(
 
     override fun detachView() {
         subscriptions.clear()
+        observerSubscription.clear()
         this.view = null
     }
 
@@ -112,6 +119,8 @@ class DetailsPresenterImpl(
         putParcelable(KEY_DETAILS, details)
         putInt(KEY_INSTALLED_VERSION, installedVersionCode)
         putInt(KEY_DOWNLOAD_STATE, downloadState)
+        putString(KEY_TARGET_FILE, targetFile?.absolutePath)
+        putBoolean(KEY_NEED_INSTALL, needInstall)
     }
 
     private fun loadDetails() {
@@ -145,6 +154,7 @@ class DetailsPresenterImpl(
             .subscribeOn(schedulers.io())
             .subscribe(
                 {
+                    tryInstall()
                     bindDetails()
                     view?.showContent()
                 }, {}
@@ -244,6 +254,16 @@ class DetailsPresenterImpl(
         adapterPresenter.get().onDataSourceChanged(dataSource)
     }
 
+    private fun tryInstall(): Boolean {
+        val file = targetFile ?: return false
+        if (needInstall && downloadState == COMPLETED && file.exists()) {
+            router?.installApp(file)
+            needInstall = false
+            return true
+        }
+        return false
+    }
+
     private fun onLoadingError() {
     }
 
@@ -271,10 +291,17 @@ class DetailsPresenterImpl(
 
     override fun onInstallClick() {
         val details = details ?: return
+        needInstall = true
         val file = downloadManager.download(
-            details.info.appId,
-            "https://zibuhoker.ru/ifm/com.reddish.redbox_2.4_42.apk"
+            label = details.info.label.orEmpty(),
+            version = details.info.version,
+            appId = details.info.appId,
+            url = "https://zibuhoker.ru/ifm/com.reddish.redbox_2.4_42.apk"
         ) // TODO: replace with real URL details.link
+        this.targetFile = file
+        if (tryInstall()) {
+            return
+        }
         val relay = downloadManager.status(details.info.appId)
         notifications.subscribe(
             appId = details.info.appId,
@@ -302,3 +329,5 @@ class DetailsPresenterImpl(
 private const val KEY_DETAILS = "details"
 private const val KEY_INSTALLED_VERSION = "versionCode"
 private const val KEY_DOWNLOAD_STATE = "downloadState"
+private const val KEY_TARGET_FILE = "targetFile"
+private const val KEY_NEED_INSTALL = "needInstall"
