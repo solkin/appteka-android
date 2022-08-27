@@ -73,7 +73,7 @@ class DownloadManagerImpl(
 
     override fun cancel(appId: String) {
         downloads.remove(appId)?.cancel(true)
-        relays.remove(appId)?.accept(IDLE)
+        relays[appId]?.accept(IDLE)
     }
 
     private fun downloadBlocking(
