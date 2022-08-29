@@ -90,7 +90,9 @@ class DownloadNotificationsImpl(
                 AWAIT -> {
                     val notification = notificationBuilder
                         .setContentText(context.getString(R.string.waiting_for_download))
+                        .setSmallIcon(android.R.drawable.stat_sys_download)
                         .setProgress(100, 0, true)
+                        .setOngoing(true)
                         .build()
                     notificationManager.notify(notificationId, notification)
                 }
