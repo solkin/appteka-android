@@ -134,6 +134,8 @@ class DownloadManagerImpl(
             }
             progressCallback(100)
             return true
+        } catch (ex: InterruptedException) {
+            LegacyLogger.log("Interruption while application downloading", ex)
         } catch (ex: Throwable) {
             LegacyLogger.log("Exception while application downloading", ex)
             errorCallback(ex)
