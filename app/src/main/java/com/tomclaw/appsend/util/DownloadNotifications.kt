@@ -104,6 +104,7 @@ class DownloadNotificationsImpl(
                         .setOngoing(false)
                         .build()
                     notificationManager.notify(notificationId, notification)
+                    disposable?.dispose()
                 }
                 COMPLETED -> {
                     notificationManager.cancel(notificationId)
@@ -124,6 +125,7 @@ class DownloadNotificationsImpl(
                     icon?.run { context.imageLoader().load(installIconHolder, icon, handlers) }
                     val notification = installNotificationBuilder.build()
                     notificationManager.notify(notificationId, notification)
+                    disposable?.dispose()
                 }
                 IDLE -> {
                     notificationManager.cancel(notificationId)
