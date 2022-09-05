@@ -1,5 +1,6 @@
 package com.tomclaw.appsend.util
 
+import android.util.Log
 import com.jakewharton.rxrelay3.BehaviorRelay
 import io.reactivex.rxjava3.core.Observable
 import java.io.File
@@ -12,6 +13,8 @@ import java.net.URL
 import java.util.concurrent.Executors
 import java.util.concurrent.Future
 import java.util.concurrent.TimeUnit
+import java.util.concurrent.atomic.AtomicInteger
+import java.util.concurrent.atomic.AtomicIntegerArray
 
 interface DownloadManager {
 
@@ -23,6 +26,7 @@ interface DownloadManager {
 
 }
 
+
 class DownloadManagerImpl(
     private val dir: File,
 ) : DownloadManager {
@@ -33,10 +37,25 @@ class DownloadManagerImpl(
     private val downloads = HashMap<String, Future<*>>()
 
     override fun status(appId: String): Observable<Int> {
-        return relays[appId] ?: let {
+        val relay = relays[appId] ?: let {
             val relay = BehaviorRelay.createDefault(IDLE)
+            relay.accept(IDLE)
             relays[appId] = relay
             relay
+        }
+        return relay.doFinally {
+            LegacyLogger.log("Finally status relay")
+            if (relay.hasObservers()) {
+                LegacyLogger.log("Relay $appId has observers")
+                return@doFinally
+            }
+            val inactiveState = relay.hasValue() &&
+                    (relay.value == IDLE || relay.value == COMPLETED || relay.value == ERROR)
+            LegacyLogger.log("Relay $appId is inactive: $inactiveState")
+            if (!relay.hasValue() || inactiveState) {
+                relays.remove(appId)
+                LegacyLogger.log("Relay $appId removed")
+            }
         }
     }
 
@@ -44,8 +63,7 @@ class DownloadManagerImpl(
         val fileName = escapeFileSymbols("$label-$version-$appId")
         val tmpFile = File(dir, "$fileName.apk.tmp")
         val targetFile = File(dir, "$fileName.apk")
-        val relay = relays[appId]
-            ?: BehaviorRelay.create() // TODO: remove relay on dispose if state is terminating
+        val relay = relays[appId] ?: BehaviorRelay.create()
         if (targetFile.exists()) {
             relay.accept(COMPLETED)
             return targetFile
