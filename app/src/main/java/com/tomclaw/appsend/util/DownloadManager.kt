@@ -1,6 +1,5 @@
 package com.tomclaw.appsend.util
 
-import android.util.Log
 import com.jakewharton.rxrelay3.BehaviorRelay
 import io.reactivex.rxjava3.core.Observable
 import java.io.File
@@ -13,8 +12,6 @@ import java.net.URL
 import java.util.concurrent.Executors
 import java.util.concurrent.Future
 import java.util.concurrent.TimeUnit
-import java.util.concurrent.atomic.AtomicInteger
-import java.util.concurrent.atomic.AtomicIntegerArray
 
 interface DownloadManager {
 

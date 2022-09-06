@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.os.Environment
+import android.os.Environment.DIRECTORY_DOWNLOADS
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -123,7 +124,7 @@ class AppModule(private val app: Application) {
     @Provides
     @Singleton
     internal fun provideDownloadManager(): DownloadManager = DownloadManagerImpl(
-        Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
+        File(Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS), APPS_DIR),
     )
 
     @Provides
@@ -149,3 +150,4 @@ class AppModule(private val app: Application) {
 const val TIME_FORMATTER = "TimeFormatter"
 const val DATE_FORMATTER = "DateFormatter"
 const val USER_DIR = "user"
+const val APPS_DIR = "Apps"
