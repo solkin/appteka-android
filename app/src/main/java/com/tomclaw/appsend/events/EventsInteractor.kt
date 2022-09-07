@@ -26,7 +26,6 @@ class EventsInteractorImpl(
 ) : EventsInteractor {
 
     private val eventsSubject = PublishSubject.create<EventsResponse>()
-    private var observers = AtomicInteger(0)
 
     private val fetchTime = AtomicLong(0)
 
@@ -64,13 +63,14 @@ class EventsInteractorImpl(
         return eventsSubject
             .doOnSubscribe {
                 println("[polling] subscribe")
-                if (observers.incrementAndGet() == 1) {
+                if (!eventsSubject.hasObservers()) {
+                    println("[polling] start events looping")
                     eventsLoop()
                 }
             }
-            .doOnDispose {
+            .doFinally {
                 println("[polling] dispose")
-                if (observers.decrementAndGet() == 0) {
+                if (!eventsSubject.hasObservers()) {
                     println("[polling] stop polling")
                     disposables.clear()
                 }
