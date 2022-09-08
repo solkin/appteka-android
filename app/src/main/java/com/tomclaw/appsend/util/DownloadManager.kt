@@ -41,17 +41,17 @@ class DownloadManagerImpl(
             relay
         }
         return relay.doFinally {
-            LegacyLogger.log("Finally status relay")
+            println("[download] Finally status relay")
             if (relay.hasObservers()) {
-                LegacyLogger.log("Relay $appId has observers")
+                println("[download] Relay $appId has observers")
                 return@doFinally
             }
             val inactiveState = relay.hasValue() &&
                     (relay.value == IDLE || relay.value == COMPLETED || relay.value == ERROR)
-            LegacyLogger.log("Relay $appId is inactive: $inactiveState")
+            println("[download] Relay $appId is inactive: $inactiveState")
             if (!relay.hasValue() || inactiveState) {
                 relays.remove(appId)
-                LegacyLogger.log("Relay $appId removed")
+                println("[download] Relay $appId removed")
             }
         }
     }
@@ -81,6 +81,7 @@ class DownloadManagerImpl(
                 tmpFile.renameTo(targetFile)
                 relay.accept(COMPLETED)
             }
+            downloads.remove(appId)
         }
         relays[appId] = relay
         return targetFile
@@ -101,7 +102,7 @@ class DownloadManagerImpl(
         var input: InputStream? = null
         var output: OutputStream? = null
         try {
-            LegacyLogger.log(String.format("Download app url: %s", url))
+            println("[download] " + String.format("Download app url: %s", url))
             val u = URL(url)
             connection = u.openConnection() as HttpURLConnection
             with(connection) {
@@ -145,14 +146,14 @@ class DownloadManagerImpl(
                     percent = p
                 }
                 buffer.onExecuteStart()
-                Thread.sleep(10) // TODO: remove this slowing down
+                Thread.sleep(5) // TODO: remove this slowing down
             }
             progressCallback(100)
             return true
         } catch (ex: InterruptedException) {
-            LegacyLogger.log("Interruption while application downloading", ex)
+            println("[download] Interruption while application downloading\n$ex")
         } catch (ex: Throwable) {
-            LegacyLogger.log("Exception while application downloading", ex)
+            println("[download] Exception while application downloading\n$ex")
             errorCallback(ex)
         } finally {
             connection?.disconnect()
