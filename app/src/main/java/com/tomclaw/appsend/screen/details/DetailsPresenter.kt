@@ -15,9 +15,9 @@ import com.tomclaw.appsend.screen.details.adapter.scores.ScoresItem
 import com.tomclaw.appsend.screen.details.api.Details
 import com.tomclaw.appsend.util.COMPLETED
 import com.tomclaw.appsend.util.DownloadManager
+import com.tomclaw.appsend.util.DownloadNotifications
 import com.tomclaw.appsend.util.IDLE
 import com.tomclaw.appsend.util.NOT_INSTALLED
-import com.tomclaw.appsend.util.DownloadNotifications
 import com.tomclaw.appsend.util.PackageObserver
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy

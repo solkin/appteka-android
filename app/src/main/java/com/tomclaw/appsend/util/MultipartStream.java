@@ -72,7 +72,7 @@ public class MultipartStream extends OutputStream {
             VariableBuffer buffer = new VariableBuffer();
             int cache;
             long sent = 0;
-            while ((cache = inputStream.read(buffer.calculateBuffer())) != -1) {
+            while ((cache = inputStream.read(buffer.getBuffer(), 0, buffer.getNextBufferSize())) != -1) {
                 buffer.onExecuteStart();
                 outputStream.write(buffer.getBuffer(), 0, cache);
                 outputStream.flush();

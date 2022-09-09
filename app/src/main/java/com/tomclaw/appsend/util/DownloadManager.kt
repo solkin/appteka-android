@@ -2,6 +2,7 @@ package com.tomclaw.appsend.util
 
 import com.jakewharton.rxrelay3.BehaviorRelay
 import io.reactivex.rxjava3.core.Observable
+import java.io.BufferedInputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
@@ -116,9 +117,9 @@ class DownloadManagerImpl(
             connection.connect()
             val responseCode = connection.responseCode
             input = if (responseCode >= HttpUtil.SC_BAD_REQUEST) {
-                connection.errorStream
+                BufferedInputStream(connection.errorStream)
             } else {
-                connection.inputStream
+                BufferedInputStream(connection.inputStream)
             }
             val total = connection.contentLength
             if (total <= 0) {
@@ -130,14 +131,12 @@ class DownloadManagerImpl(
                 file.delete()
             }
             output = FileOutputStream(file)
-            val buffer = VariableBuffer()
             var cache: Int
             var read: Long = 0
             var percent = 0
-            buffer.onExecuteStart()
-            while (input.read(buffer.calculateBuffer()).also { cache = it } != -1) {
-                buffer.onExecuteCompleted(cache)
-                output.write(buffer.buffer, 0, cache)
+            val buffer = ByteArray(BUFFER_SIZE)
+            while (input.read(buffer).also { cache = it } != -1) {
+                output.write(buffer, 0, cache)
                 output.flush()
                 read += cache.toLong()
                 val p = (100 * read / total).toInt()
@@ -145,7 +144,6 @@ class DownloadManagerImpl(
                     progressCallback(percent)
                     percent = p
                 }
-                buffer.onExecuteStart()
                 Thread.sleep(5) // TODO: remove this slowing down
             }
             progressCallback(100)
@@ -157,8 +155,8 @@ class DownloadManagerImpl(
             errorCallback(ex)
         } finally {
             connection?.disconnect()
-            HttpUtil.closeSafely(input)
-            HttpUtil.closeSafely(output)
+            input.safeClose()
+            output.safeClose()
         }
         return false
     }
@@ -177,5 +175,7 @@ const val IDLE: Int = -2
 const val AWAIT: Int = -1
 const val COMPLETED: Int = 101
 const val ERROR: Int = -3
+
+private const val BUFFER_SIZE = 128 * 1024
 
 private val RESERVED_CHARS = arrayOf("|", "\\", "/", "?", "*", "<", "\"", ":", ">")

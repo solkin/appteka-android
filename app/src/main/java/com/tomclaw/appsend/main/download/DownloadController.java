@@ -333,7 +333,7 @@ public class DownloadController extends AbstractController<DownloadController.Do
             int cache;
             long read = 0;
             buffer.onExecuteStart();
-            while ((cache = in.read(buffer.calculateBuffer())) != -1) {
+            while ((cache = in.read(buffer.getBuffer(), 0, buffer.getNextBufferSize())) != -1) {
                 buffer.onExecuteCompleted(cache);
                 out.write(buffer.getBuffer(), 0, cache);
                 out.flush();
