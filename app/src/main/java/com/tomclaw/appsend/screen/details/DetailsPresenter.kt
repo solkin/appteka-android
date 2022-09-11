@@ -4,6 +4,8 @@ import android.os.Bundle
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.blueprint.Item
 import com.avito.konveyor.data_source.ListDataSource
+import com.tomclaw.appsend.download.COMPLETED
+import com.tomclaw.appsend.download.DownloadManager
 import com.tomclaw.appsend.screen.details.adapter.ItemListener
 import com.tomclaw.appsend.screen.details.adapter.controls.ControlsItem
 import com.tomclaw.appsend.screen.details.adapter.description.DescriptionItem
@@ -13,10 +15,8 @@ import com.tomclaw.appsend.screen.details.adapter.play.PlayItem
 import com.tomclaw.appsend.screen.details.adapter.rating.RatingItem
 import com.tomclaw.appsend.screen.details.adapter.scores.ScoresItem
 import com.tomclaw.appsend.screen.details.api.Details
-import com.tomclaw.appsend.util.COMPLETED
-import com.tomclaw.appsend.util.DownloadManager
-import com.tomclaw.appsend.util.DownloadNotifications
-import com.tomclaw.appsend.util.IDLE
+import com.tomclaw.appsend.download.DownloadNotifications
+import com.tomclaw.appsend.download.IDLE
 import com.tomclaw.appsend.util.NOT_INSTALLED
 import com.tomclaw.appsend.util.PackageObserver
 import com.tomclaw.appsend.util.SchedulersFactory

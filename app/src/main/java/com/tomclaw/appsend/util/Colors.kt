@@ -2,7 +2,9 @@ package com.tomclaw.appsend.util
 
 import android.content.Context
 import android.graphics.Color
+import android.os.Build
 import android.util.TypedValue
+import com.tomclaw.appsend.R
 import kotlin.math.max
 
 /**
@@ -28,4 +30,12 @@ fun getAttributedColor(context: Context, attr: Int): Int {
     val color = a.getColor(0, Color.WHITE)
     a.recycle()
     return color
+}
+
+fun getColor(color: Int, context: Context): Int {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        context.resources.getColor(R.color.primary_color, context.theme)
+    } else {
+        context.resources.getColor(R.color.primary_color)
+    }
 }

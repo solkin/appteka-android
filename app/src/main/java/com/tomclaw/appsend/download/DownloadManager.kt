@@ -1,6 +1,7 @@
-package com.tomclaw.appsend.util
+package com.tomclaw.appsend.download
 
 import com.jakewharton.rxrelay3.BehaviorRelay
+import com.tomclaw.appsend.util.safeClose
 import io.reactivex.rxjava3.core.Observable
 import java.io.BufferedInputStream
 import java.io.File
@@ -108,7 +109,7 @@ class DownloadManagerImpl(
             connection = u.openConnection() as HttpURLConnection
             with(connection) {
                 connectTimeout = TimeUnit.SECONDS.toMillis(30).toInt()
-                requestMethod = HttpUtil.GET
+                requestMethod = GET
                 useCaches = false
                 doInput = true
                 doOutput = true
@@ -116,7 +117,7 @@ class DownloadManagerImpl(
             }
             connection.connect()
             val responseCode = connection.responseCode
-            input = if (responseCode >= HttpUtil.SC_BAD_REQUEST) {
+            input = if (responseCode >= SC_BAD_REQUEST) {
                 BufferedInputStream(connection.errorStream)
             } else {
                 BufferedInputStream(connection.inputStream)
@@ -170,6 +171,9 @@ class DownloadManagerImpl(
     }
 
 }
+
+const val GET = "GET"
+const val SC_BAD_REQUEST = 400
 
 const val IDLE: Int = -2
 const val AWAIT: Int = -1

@@ -1,4 +1,4 @@
-package com.tomclaw.appsend.util
+package com.tomclaw.appsend.download
 
 import android.annotation.SuppressLint
 import android.app.NotificationChannel
@@ -14,6 +14,9 @@ import androidx.core.graphics.drawable.toBitmap
 import com.tomclaw.appsend.BuildConfig
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
+import com.tomclaw.appsend.util.IntentHelper
+import com.tomclaw.appsend.util.NotificationIconHolder
+import com.tomclaw.appsend.util.getColor
 import com.tomclaw.imageloader.SimpleImageLoader.imageLoader
 import com.tomclaw.imageloader.core.Handlers
 import io.reactivex.rxjava3.core.Observable
@@ -71,7 +74,7 @@ class DownloadNotificationsImpl(
             .setLargeIcon(null)
             .setSilent(true)
             .setOngoing(true)
-            .setColor(context.resources.getColor(R.color.primary_color))
+            .setColor(getColor(R.color.primary_color, context))
             .setContentIntent(openDetailsIntent)
             .setGroup(GROUP_NOTIFICATIONS)
 
@@ -116,7 +119,7 @@ class DownloadNotificationsImpl(
                             .setSmallIcon(android.R.drawable.stat_sys_download_done)
                             .setGroup(GROUP_NOTIFICATIONS)
                             .setOngoing(false)
-                            .setColor(context.resources.getColor(R.color.primary_color))
+                            .setColor(getColor(R.color.primary_color, context))
                             .setContentIntent(installIntent)
                     val installIconHolder = NotificationIconHolder(
                         resources = context.resources,

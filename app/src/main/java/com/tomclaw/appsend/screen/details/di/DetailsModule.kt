@@ -8,6 +8,7 @@ import com.avito.konveyor.adapter.SimpleAdapterPresenter
 import com.avito.konveyor.blueprint.ItemBlueprint
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.di.DATE_FORMATTER
+import com.tomclaw.appsend.download.DownloadManager
 import com.tomclaw.appsend.screen.details.DetailsInteractor
 import com.tomclaw.appsend.screen.details.DetailsInteractorImpl
 import com.tomclaw.appsend.screen.details.DetailsPresenter
@@ -33,8 +34,7 @@ import com.tomclaw.appsend.screen.details.adapter.rating.RatingItemPresenter
 import com.tomclaw.appsend.screen.details.adapter.scores.ScoresItemBlueprint
 import com.tomclaw.appsend.screen.details.adapter.scores.ScoresItemPresenter
 import com.tomclaw.appsend.user.UserDataInteractor
-import com.tomclaw.appsend.util.DownloadManager
-import com.tomclaw.appsend.util.DownloadNotifications
+import com.tomclaw.appsend.download.DownloadNotifications
 import com.tomclaw.appsend.util.PackageObserver
 import com.tomclaw.appsend.util.PerActivity
 import com.tomclaw.appsend.util.SchedulersFactory

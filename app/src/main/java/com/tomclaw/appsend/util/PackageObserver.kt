@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
-import android.util.Log
 import com.jakewharton.rxrelay3.BehaviorRelay
 import io.reactivex.rxjava3.core.Observable
 
@@ -24,7 +23,6 @@ class PackageObserverImpl(
     private val packages = HashMap<String, BehaviorRelay<Int>>()
 
     init {
-
         val filter = IntentFilter()
         filter.addAction("android.intent.action.PACKAGE_ADDED")
         filter.addAction("android.intent.action.PACKAGE_REMOVED")
@@ -36,7 +34,7 @@ class PackageObserverImpl(
 
         val receiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
-                Log.d("~@~", "Intent: " + intent.action + "/" + intent.dataString)
+                println("[packages] Intent: " + intent.action + "/" + intent.dataString)
                 val packageName = intent.dataString?.replace("package:", "")
                 if (!packageName.isNullOrEmpty()) {
                     packages[packageName]?.let { relay ->
@@ -47,7 +45,7 @@ class PackageObserverImpl(
             }
         }
         context.registerReceiver(receiver, filter)
-        Log.d("~@~", "Package observing started")
+        println("[packages] Package observing started")
     }
 
     override fun observe(packageName: String): Observable<Int> {

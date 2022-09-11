@@ -2,10 +2,10 @@ package com.tomclaw.appsend.screen.details.adapter.controls
 
 import com.avito.konveyor.blueprint.ItemPresenter
 import com.tomclaw.appsend.screen.details.adapter.ItemListener
-import com.tomclaw.appsend.util.AWAIT
-import com.tomclaw.appsend.util.COMPLETED
-import com.tomclaw.appsend.util.ERROR
-import com.tomclaw.appsend.util.IDLE
+import com.tomclaw.appsend.download.AWAIT
+import com.tomclaw.appsend.download.COMPLETED
+import com.tomclaw.appsend.download.ERROR
+import com.tomclaw.appsend.download.IDLE
 import com.tomclaw.appsend.util.NOT_INSTALLED
 
 class ControlsItemPresenter(
