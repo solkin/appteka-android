@@ -16,4 +16,6 @@ interface ItemListener {
 
     fun onCancelClick(appId: String)
 
+    fun onRateClick(appId: String)
+
 }

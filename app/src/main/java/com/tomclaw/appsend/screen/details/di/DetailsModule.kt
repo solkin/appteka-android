@@ -35,6 +35,8 @@ import com.tomclaw.appsend.screen.details.adapter.scores.ScoresItemBlueprint
 import com.tomclaw.appsend.screen.details.adapter.scores.ScoresItemPresenter
 import com.tomclaw.appsend.user.UserDataInteractor
 import com.tomclaw.appsend.download.DownloadNotifications
+import com.tomclaw.appsend.screen.details.adapter.user_rate.UserRateItemBlueprint
+import com.tomclaw.appsend.screen.details.adapter.user_rate.UserRateItemPresenter
 import com.tomclaw.appsend.util.PackageObserver
 import com.tomclaw.appsend.util.PerActivity
 import com.tomclaw.appsend.util.SchedulersFactory
@@ -211,5 +213,18 @@ class DetailsModule(
     internal fun provideControlsItemPresenter(
         presenter: DetailsPresenter,
     ) = ControlsItemPresenter(presenter)
+
+    @Provides
+    @IntoSet
+    @PerActivity
+    internal fun provideUserRateItemBlueprint(
+        presenter: UserRateItemPresenter
+    ): ItemBlueprint<*, *> = UserRateItemBlueprint(presenter)
+
+    @Provides
+    @PerActivity
+    internal fun provideUserRateItemPresenter(
+        presenter: DetailsPresenter,
+    ) = UserRateItemPresenter(presenter)
 
 }
