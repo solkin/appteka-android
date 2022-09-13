@@ -17,6 +17,7 @@ import com.tomclaw.appsend.screen.details.adapter.scores.ScoresItem
 import com.tomclaw.appsend.screen.details.api.Details
 import com.tomclaw.appsend.download.DownloadNotifications
 import com.tomclaw.appsend.download.IDLE
+import com.tomclaw.appsend.screen.details.adapter.user_rate.UserRateItem
 import com.tomclaw.appsend.util.NOT_INSTALLED
 import com.tomclaw.appsend.util.PackageObserver
 import com.tomclaw.appsend.util.SchedulersFactory
@@ -201,6 +202,12 @@ class DetailsPresenterImpl(
             installedVersionCode = installedVersionCode,
             downloadState = downloadState,
         )
+        if (installedVersionCode != NOT_INSTALLED) {
+            items += UserRateItem(
+                id = id++,
+                appId = details.info.appId,
+            )
+        }
         if (!details.meta?.description.isNullOrBlank()) {
             items += DescriptionItem(
                 id = id++,
@@ -322,6 +329,9 @@ class DetailsPresenterImpl(
 
     override fun onCancelClick(appId: String) {
         downloadManager.cancel(appId)
+    }
+
+    override fun onRateClick(appId: String) {
     }
 
 }

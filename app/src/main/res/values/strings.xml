@@ -302,6 +302,9 @@
     <string name="downloading_progress">Downloading: %d%%</string>
     <string name="download_failed">Download failed</string>
     <string name="waiting_for_download">Waiting for download…</string>
+    <string name="rate_app">Rate application</string>
+    <string name="rate_app_description">Share your opinion</string>
+    <string name="write_feedback">Write a feedback</string>
     <plurals name="other_access">
         <item quantity="one">%d another permission</item>
         <item quantity="few">%d other permissions</item>

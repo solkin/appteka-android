@@ -55,6 +55,7 @@ dependencies {
     implementation 'androidx.annotation:annotation:1.4.0'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation 'com.google.android.material:material:1.6.1'
+    implementation 'me.zhanghai.android.materialratingbar:library:1.4.0'
     implementation 'com.greysonparrelli.permiso:permiso:0.3.0'
     implementation 'com.microsoft.appcenter:appcenter-analytics:4.1.0'
     implementation 'com.microsoft.appcenter:appcenter-crashes:4.1.0'

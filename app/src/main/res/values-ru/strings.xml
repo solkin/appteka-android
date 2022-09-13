@@ -291,6 +291,9 @@
     <string name="downloading_progress">Скачивание: %d%%</string>
     <string name="download_failed">Ошибка скачивания</string>
     <string name="waiting_for_download">Ожидание скачивания…</string>
+    <string name="rate_app">Оценить приложение</string>
+    <string name="rate_app_description">Поделитесь своим мнением</string>
+    <string name="write_feedback">Напишите отзыв</string>
     <plurals name="other_access">
         <item quantity="one">%d другое разрешение</item>
         <item quantity="few">%d других разрешений</item>
