@@ -159,6 +159,9 @@
         <activity
             android:name=".screen.details.DetailsActivity"
             android:label="@string/details_activity" />
+        <activity
+            android:name=".screen.rate.RateActivity"
+            android:label="@string/rate_app" />
     </application>
 
 </manifest>

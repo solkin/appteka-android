@@ -58,6 +58,8 @@ interface DetailsPresenter : ItemListener {
 
         fun removeApp(packageName: String)
 
+        fun openRateScreen(appId: String, label: String?, icon: String?)
+
     }
 
 }
@@ -303,8 +305,8 @@ class DetailsPresenterImpl(
             label = details.info.label.orEmpty(),
             version = details.info.version,
             appId = details.info.appId,
-            url = "https://zibuhoker.ru/ifm/com.reddish.redbox_2.4_42.apk"
-        ) // TODO: replace with real URL details.link
+            url = details.link
+        )
         this.targetFile = file
         if (tryInstall()) {
             return
@@ -332,6 +334,8 @@ class DetailsPresenterImpl(
     }
 
     override fun onRateClick(appId: String) {
+        val details = details ?: return
+        router?.openRateScreen(details.info.appId, details.info.label, details.info.icon)
     }
 
 }

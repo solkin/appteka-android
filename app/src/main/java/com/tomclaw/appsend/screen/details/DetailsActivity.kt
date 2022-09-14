@@ -20,6 +20,7 @@ import com.tomclaw.appsend.main.permissions.PermissionsList
 import com.tomclaw.appsend.main.profile.ProfileActivity_
 import com.tomclaw.appsend.main.ratings.RatingsActivity_
 import com.tomclaw.appsend.screen.details.di.DetailsModule
+import com.tomclaw.appsend.screen.rate.createRateActivityIntent
 import com.tomclaw.appsend.util.IntentHelper
 import com.tomclaw.appsend.util.ThemeHelper
 import java.io.File
@@ -146,6 +147,16 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
         } else {
             onRemoveAppPermitted(packageName)
         }
+    }
+
+    override fun openRateScreen(appId: String, label: String?, icon: String?) {
+        val intent = createRateActivityIntent(
+            context = this,
+            appId = appId,
+            label = label,
+            icon = icon,
+        )
+        startActivity(intent)
     }
 
     private fun onRemoveAppPermitted(packageName: String) {
