@@ -125,7 +125,7 @@
             app:contentInsetEnd="0dp"
             app:popupTheme="@style/AppTheme.PopupOverlay">
 
-            <include layout="@layout/chat_toolbar"/>
+            <include layout="@layout/icon_toolbar"/>
 
         </androidx.appcompat.widget.Toolbar>
 

@@ -3,6 +3,7 @@ package com.tomclaw.appsend.screen.rate
 import android.os.Bundle
 import com.tomclaw.appsend.util.SchedulersFactory
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.kotlin.plusAssign
 
 interface RatePresenter {
 
@@ -40,6 +41,8 @@ class RatePresenterImpl(
 
     override fun attachView(view: RateView) {
         this.view = view
+
+        subscriptions += view.navigationClicks().subscribe { onBackPressed() }
     }
 
     override fun detachView() {
