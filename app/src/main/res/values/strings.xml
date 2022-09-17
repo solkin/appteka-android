@@ -305,6 +305,10 @@
     <string name="rate_app">Rate application</string>
     <string name="rate_app_description">Share your opinion</string>
     <string name="write_feedback">Write a feedback</string>
+    <string name="reviews_policy">Reviews are visible to everyone on your behalf</string>
+    <string name="publish_review">Publish review</string>
+    <string name="enter_your_review">Share your experience (optional)</string>
+    <string name="review_publish_failed">Review publish failed</string>
     <plurals name="other_access">
         <item quantity="one">%d another permission</item>
         <item quantity="few">%d other permissions</item>

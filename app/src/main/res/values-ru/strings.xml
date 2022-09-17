@@ -294,6 +294,10 @@
     <string name="rate_app">Оценить приложение</string>
     <string name="rate_app_description">Поделитесь своим мнением</string>
     <string name="write_feedback">Напишите отзыв</string>
+    <string name="reviews_policy">Отзывы видны всем от вашего имени</string>
+    <string name="publish_review">Опубликовать отзыв</string>
+    <string name="enter_your_review">Поделитесь впечатлениями (необязательно)</string>
+    <string name="review_publish_failed">Не удалось опубликовать отзыв</string>
     <plurals name="other_access">
         <item quantity="one">%d другое разрешение</item>
         <item quantity="few">%d других разрешений</item>
