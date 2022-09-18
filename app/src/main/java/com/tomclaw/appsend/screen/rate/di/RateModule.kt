@@ -26,10 +26,14 @@ class RateModule(
     @PerActivity
     internal fun providePresenter(
         interactor: RateInteractor,
+        userDataInteractor: UserDataInteractor,
+        locale: Locale,
         schedulers: SchedulersFactory
     ): RatePresenter = RatePresenterImpl(
         appId,
         interactor,
+        userDataInteractor,
+        locale,
         schedulers,
         state
     )
