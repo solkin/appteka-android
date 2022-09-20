@@ -70,6 +70,7 @@ class RatePresenterImpl(
 
     private fun onSubmitReview() {
         subscriptions += interactor.submitReview(appId, rating, review)
+            .doOnSubscribe { view?.showProgress() }
             .observeOn(schedulers.mainThread())
             .subscribe(
                 { onReviewSubmitted() },
@@ -82,6 +83,7 @@ class RatePresenterImpl(
     }
 
     private fun onReviewSubmitError() {
+        view?.showContent()
         view?.showError()
     }
 
