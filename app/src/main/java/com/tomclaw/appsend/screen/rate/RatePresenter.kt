@@ -1,7 +1,6 @@
 package com.tomclaw.appsend.screen.rate
 
 import android.os.Bundle
-import android.text.TextUtils
 import com.tomclaw.appsend.categories.DEFAULT_LOCALE
 import com.tomclaw.appsend.dto.UserData
 import com.tomclaw.appsend.user.UserDataInteractor
@@ -34,6 +33,7 @@ interface RatePresenter {
 
 class RatePresenterImpl(
     private val appId: String,
+    startRating: Float,
     private val interactor: RateInteractor,
     private val userDataInteractor: UserDataInteractor,
     private val locale: Locale,
@@ -44,12 +44,21 @@ class RatePresenterImpl(
     private var view: RateView? = null
     private var router: RatePresenter.RateRouter? = null
 
+    private var rating: Float = state?.getFloat(KEY_RATING) ?: startRating
+    private var review: String = state?.getString(KEY_REVIEW).orEmpty()
+
     private val subscriptions = CompositeDisposable()
 
     override fun attachView(view: RateView) {
         this.view = view
 
+        view.setRating(rating)
+        view.setReview(review)
+
         subscriptions += view.navigationClicks().subscribe { onBackPressed() }
+        subscriptions += view.ratingChanged().subscribe { rating = it }
+        subscriptions += view.reviewEditChanged().subscribe { review = it }
+        subscriptions += view.submitClicks().subscribe { onSubmitReview() }
         subscriptions += userDataInteractor
             .getUserData()
             .subscribeOn(schedulers.io())
@@ -57,6 +66,23 @@ class RatePresenterImpl(
             .subscribe({ userData ->
                 bindMemberInfo(userData)
             }, {})
+    }
+
+    private fun onSubmitReview() {
+        subscriptions += interactor.submitReview(appId, rating, review)
+            .observeOn(schedulers.mainThread())
+            .subscribe(
+                { onReviewSubmitted() },
+                { onReviewSubmitError() }
+            )
+    }
+
+    private fun onReviewSubmitted() {
+        router?.leaveScreen()
+    }
+
+    private fun onReviewSubmitError() {
+        view?.showError()
     }
 
     private fun bindMemberInfo(userData: UserData) {
@@ -80,6 +106,8 @@ class RatePresenterImpl(
     }
 
     override fun saveState(): Bundle = Bundle().apply {
+        putFloat(KEY_RATING, rating)
+        putString(KEY_REVIEW, review)
     }
 
     override fun onBackPressed() {
@@ -87,3 +115,6 @@ class RatePresenterImpl(
     }
 
 }
+
+private const val KEY_RATING = "rating"
+private const val KEY_REVIEW = "review"

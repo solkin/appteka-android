@@ -149,10 +149,11 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
         }
     }
 
-    override fun openRateScreen(appId: String, label: String?, icon: String?) {
+    override fun openRateScreen(appId: String, rating: Float, label: String?, icon: String?) {
         val intent = createRateActivityIntent(
             context = this,
             appId = appId,
+            rating = rating,
             label = label,
             icon = icon,
         )

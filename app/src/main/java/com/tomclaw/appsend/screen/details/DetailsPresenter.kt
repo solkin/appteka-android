@@ -58,7 +58,7 @@ interface DetailsPresenter : ItemListener {
 
         fun removeApp(packageName: String)
 
-        fun openRateScreen(appId: String, label: String?, icon: String?)
+        fun openRateScreen(appId: String, rating: Float, label: String?, icon: String?)
 
     }
 
@@ -333,9 +333,9 @@ class DetailsPresenterImpl(
         downloadManager.cancel(appId)
     }
 
-    override fun onRateClick(appId: String) {
+    override fun onRateClick(rating: Float) {
         val details = details ?: return
-        router?.openRateScreen(details.info.appId, details.info.label, details.info.icon)
+        router?.openRateScreen(details.info.appId, rating, details.info.label, details.info.icon)
     }
 
 }

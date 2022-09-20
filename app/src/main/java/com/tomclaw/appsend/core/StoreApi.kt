@@ -10,6 +10,7 @@ import com.tomclaw.appsend.screen.chat.api.SendMessageResponse
 import com.tomclaw.appsend.screen.chat.api.TopicInfoResponse
 import com.tomclaw.appsend.screen.details.api.Details
 import com.tomclaw.appsend.screen.moderation.api.ModerationResponse
+import com.tomclaw.appsend.screen.rate.api.SubmitReviewResponse
 import com.tomclaw.appsend.screen.store.api.AppsListResponse
 import com.tomclaw.appsend.screen.topics.api.PinTopicResponse
 import com.tomclaw.appsend.screen.topics.api.TopicsResponse
@@ -118,5 +119,14 @@ interface StoreApi {
         @Query("app_id") appId: String?,
         @Query("package") packageName: String?
     ): Single<StoreResponse<Details>>
+
+    @FormUrlEncoded
+    @POST("1/app/rate")
+    fun submitReview(
+        @Field("guid") guid: String,
+        @Field("app_id") appId: String,
+        @Field("score") score: Int,
+        @Field("text") text: String?
+    ): Single<StoreResponse<SubmitReviewResponse>>
 
 }

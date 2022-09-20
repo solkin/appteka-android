@@ -20,10 +20,11 @@ class RateActivity : AppCompatActivity(), RatePresenter.RateRouter {
             ?: throw IllegalArgumentException("App ID must be provided")
         val label = intent.getStringExtra(EXTRA_LABEL).orEmpty()
         val icon = intent.getStringExtra(EXTRA_ICON)
+        val rating = intent.getFloatExtra(EXTRA_RATING, 0f)
 
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
         Appteka.getComponent()
-            .rateComponent(RateModule(this, appId, presenterState))
+            .rateComponent(RateModule(this, appId, rating, presenterState))
             .inject(activity = this)
         ThemeHelper.updateTheme(this)
 
@@ -71,14 +72,17 @@ class RateActivity : AppCompatActivity(), RatePresenter.RateRouter {
 fun createRateActivityIntent(
     context: Context,
     appId: String,
+    rating: Float? = null,
     label: String? = null,
     icon: String? = null,
 ): Intent = Intent(context, RateActivity::class.java)
     .putExtra(EXTRA_APP_ID, appId)
+    .putExtra(EXTRA_RATING, rating)
     .putExtra(EXTRA_LABEL, label)
     .putExtra(EXTRA_ICON, icon)
 
 private const val EXTRA_APP_ID = "app_id"
 private const val EXTRA_LABEL = "label"
 private const val EXTRA_ICON = "icon"
+private const val EXTRA_RATING = "rating"
 private const val KEY_PRESENTER_STATE = "presenter_state"

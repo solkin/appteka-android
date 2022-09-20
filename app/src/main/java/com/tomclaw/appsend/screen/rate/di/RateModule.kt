@@ -19,6 +19,7 @@ import java.util.Locale
 class RateModule(
     private val context: Context,
     private val appId: String,
+    private val startRating: Float,
     private val state: Bundle?
 ) {
 
@@ -31,6 +32,7 @@ class RateModule(
         schedulers: SchedulersFactory
     ): RatePresenter = RatePresenterImpl(
         appId,
+        startRating,
         interactor,
         userDataInteractor,
         locale,

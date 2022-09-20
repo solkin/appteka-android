@@ -10,8 +10,7 @@ interface UserRateItemView : ItemView {
 
     fun setRating(value: Float)
 
-    fun setOnClickListener(listener: (() -> Unit)?)
-
+    fun setOnRateListener(listener: ((Float) -> Unit)?)
 }
 
 class UserRateItemViewHolder(view: View) : BaseViewHolder(view), UserRateItemView {
@@ -19,13 +18,13 @@ class UserRateItemViewHolder(view: View) : BaseViewHolder(view), UserRateItemVie
     private val ratingView: MaterialRatingBar = view.findViewById(R.id.rating_view)
     private val feedbackButton: View = view.findViewById(R.id.feedback_button)
 
-    private var clickListener: (() -> Unit)? = null
+    private var rateListener: ((Float) -> Unit)? = null
 
     init {
-        feedbackButton.setOnClickListener { clickListener?.invoke() }
-        ratingView.setOnRatingBarChangeListener { _, _, fromUser ->
+        feedbackButton.setOnClickListener { rateListener?.invoke(ratingView.rating) }
+        ratingView.setOnRatingBarChangeListener { _, rating, fromUser ->
             if (fromUser) {
-                clickListener?.invoke()
+                rateListener?.invoke(rating)
             }
         }
     }
@@ -34,12 +33,12 @@ class UserRateItemViewHolder(view: View) : BaseViewHolder(view), UserRateItemVie
         ratingView.rating = value
     }
 
-    override fun setOnClickListener(listener: (() -> Unit)?) {
-        this.clickListener = listener
+    override fun setOnRateListener(listener: ((Float) -> Unit)?) {
+        this.rateListener = listener
     }
 
     override fun onUnbind() {
-        this.clickListener = null
+        this.rateListener = null
     }
 
 }

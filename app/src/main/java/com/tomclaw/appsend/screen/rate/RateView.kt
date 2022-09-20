@@ -32,6 +32,10 @@ interface RateView {
 
     fun setMemberName(name: String)
 
+    fun setRating(rating: Float)
+
+    fun setReview(review: String)
+
     fun showProgress()
 
     fun showContent()
@@ -39,6 +43,8 @@ interface RateView {
     fun showError()
 
     fun navigationClicks(): Observable<Unit>
+
+    fun ratingChanged(): Observable<Float>
 
     fun reviewEditChanged(): Observable<String>
 
@@ -61,20 +67,20 @@ class RateViewImpl(view: View) : RateView {
     private val submitButton: View = view.findViewById(R.id.submit_button)
 
     private val navigationRelay = PublishRelay.create<Unit>()
-    private val reviewEditRelay = PublishRelay.create<String>()
     private val ratingRelay = PublishRelay.create<Float>()
+    private val reviewEditRelay = PublishRelay.create<String>()
     private val submitRelay = PublishRelay.create<Unit>()
 
     init {
         subtitle.setText(R.string.rate_app)
         back.clicks(navigationRelay)
-        reviewEdit.addTextChangedListener { text ->
-            reviewEditRelay.accept(text.toString())
-        }
         ratingView.setOnRatingBarChangeListener { _, rating, fromUser ->
             if (fromUser) {
                 ratingRelay.accept(rating)
             }
+        }
+        reviewEdit.addTextChangedListener { text ->
+            reviewEditRelay.accept(text.toString())
         }
         submitButton.clicks(submitRelay)
     }
@@ -104,6 +110,14 @@ class RateViewImpl(view: View) : RateView {
         this.memberName.bind(name)
     }
 
+    override fun setRating(rating: Float) {
+        this.ratingView.rating = rating
+    }
+
+    override fun setReview(review: String) {
+        this.reviewEdit.setText(review, TextView.BufferType.EDITABLE)
+    }
+
     override fun showProgress() {
         overlayProgress.showWithAlphaAnimation(animateFully = true)
     }
@@ -117,6 +131,8 @@ class RateViewImpl(view: View) : RateView {
     }
 
     override fun navigationClicks(): Observable<Unit> = navigationRelay
+
+    override fun ratingChanged(): Observable<Float> = ratingRelay
 
     override fun reviewEditChanged(): Observable<String> = reviewEditRelay
 
