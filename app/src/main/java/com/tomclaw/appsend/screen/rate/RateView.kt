@@ -3,6 +3,7 @@ package com.tomclaw.appsend.screen.rate
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.RatingBar
 import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.widget.addTextChangedListener
@@ -20,7 +21,6 @@ import com.tomclaw.imageloader.util.centerCrop
 import com.tomclaw.imageloader.util.fetch
 import com.tomclaw.imageloader.util.withPlaceholder
 import io.reactivex.rxjava3.core.Observable
-import me.zhanghai.android.materialratingbar.MaterialRatingBar
 
 interface RateView {
 
@@ -62,7 +62,7 @@ class RateViewImpl(view: View) : RateView {
     private val subtitle: TextView = view.findViewById(R.id.subtitle)
     private val memberIcon: UserIconView = UserIconViewImpl(view.findViewById(R.id.member_icon))
     private val memberName: TextView = view.findViewById(R.id.member_name)
-    private val ratingView: MaterialRatingBar = view.findViewById(R.id.rating_view)
+    private val ratingView: RatingBar = view.findViewById(R.id.rating_view)
     private val reviewEdit: EditText = view.findViewById(R.id.review_edit)
     private val submitButton: View = view.findViewById(R.id.submit_button)
 

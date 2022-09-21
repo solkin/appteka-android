@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -31,19 +32,22 @@
             android:paddingEnd="8dp"
             android:paddingRight="8dp">
 
-            <androidx.appcompat.widget.AppCompatRatingBar
+            <me.zhanghai.android.materialratingbar.MaterialRatingBar
                 android:id="@+id/rating_view"
-                style="@style/RatingDetailElementSmall"
+                style="@style/Widget.MaterialRatingBar.RatingBar"
                 android:layout_width="wrap_content"
-                android:layout_height="20dp"
+                android:layout_height="18dp"
+                android:layout_marginBottom="2dp"
                 android:isIndicator="true"
                 android:numStars="5"
                 android:progressBackgroundTint="?rating_empty"
                 android:progressDrawable="@drawable/rating_bar_small"
                 android:progressTint="?rating_fill"
-                android:rating="3.5"
+                android:rating="0"
                 android:secondaryProgressTint="?rating_empty"
-                android:stepSize="0.5" />
+                android:stepSize="0.5"
+                app:mrb_fillBackgroundStars="true"
+                tools:rating="3.5" />
 
             <TextView
                 android:id="@+id/date_view"

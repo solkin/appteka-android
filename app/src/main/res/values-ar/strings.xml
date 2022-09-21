@@ -337,6 +337,8 @@
     <string name="publish_review">Publish review</string>
     <string name="enter_your_review">Share your experience (optional)</string>
     <string name="review_publish_failed">Review publish failed</string>
+    <string name="your_review">Your review</string>
+    <string name="edit_feedback">Edit feedback</string>
     <plurals name="other_access">
         <item quantity="zero">%d other permissions</item>
         <item quantity="one">%d another permission</item>

@@ -298,6 +298,8 @@
     <string name="publish_review">Опубликовать отзыв</string>
     <string name="enter_your_review">Поделитесь впечатлениями (необязательно)</string>
     <string name="review_publish_failed">Не удалось опубликовать отзыв</string>
+    <string name="your_review">Ваш отзыв</string>
+    <string name="edit_feedback">Изменить отзыв</string>
     <plurals name="other_access">
         <item quantity="one">%d другое разрешение</item>
         <item quantity="few">%d других разрешений</item>
