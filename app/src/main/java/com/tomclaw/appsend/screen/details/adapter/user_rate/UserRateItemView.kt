@@ -11,6 +11,7 @@ interface UserRateItemView : ItemView {
     fun setRating(value: Float)
 
     fun setOnRateListener(listener: ((Float) -> Unit)?)
+
 }
 
 class UserRateItemViewHolder(view: View) : BaseViewHolder(view), UserRateItemView {

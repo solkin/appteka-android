@@ -34,6 +34,7 @@ interface RatePresenter {
 class RatePresenterImpl(
     private val appId: String,
     startRating: Float,
+    startReview: String,
     private val interactor: RateInteractor,
     private val userDataInteractor: UserDataInteractor,
     private val locale: Locale,
@@ -45,7 +46,7 @@ class RatePresenterImpl(
     private var router: RatePresenter.RateRouter? = null
 
     private var rating: Float = state?.getFloat(KEY_RATING) ?: startRating
-    private var review: String = state?.getString(KEY_REVIEW).orEmpty()
+    private var review: String = state?.getString(KEY_REVIEW) ?: startReview
 
     private val subscriptions = CompositeDisposable()
 

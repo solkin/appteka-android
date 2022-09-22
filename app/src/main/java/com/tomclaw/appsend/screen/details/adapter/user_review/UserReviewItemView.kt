@@ -13,34 +13,46 @@ import com.tomclaw.appsend.view.UserIconViewImpl
 
 interface UserReviewItemView : ItemView {
 
-    fun setUserIcon(userIcon: UserIcon)
+    fun setMemberName(name: String)
+
+    fun setMemberIcon(userIcon: UserIcon)
 
     fun setRating(value: Float)
 
     fun setDate(date: String)
 
-    fun setComment(text: String?)
+    fun setReview(text: String?)
 
-    fun setOnClickListener(listener: (() -> Unit)?)
+    fun setOnEditListener(listener: (() -> Unit)?)
 
 }
 
 class UserReviewItemViewHolder(view: View) : BaseViewHolder(view), UserReviewItemView {
 
-    private val context = view.context
-    private val userIconView: UserIconView = UserIconViewImpl(view.findViewById(R.id.member_icon))
+    private val memberIcon: UserIconView = UserIconViewImpl(view.findViewById(R.id.member_icon))
+    private val memberName: TextView = view.findViewById(R.id.member_name)
     private val ratingView: RatingBar = view.findViewById(R.id.rating_view)
     private val dateView: TextView = view.findViewById(R.id.date_view)
-    private val commentView: TextView = view.findViewById(R.id.comment_view)
+    private val reviewView: TextView = view.findViewById(R.id.review_view)
+    private val feedbackButton: View = view.findViewById(R.id.feedback_button)
 
-    private var clickListener: (() -> Unit)? = null
+    private var editListener: (() -> Unit)? = null
 
     init {
-        view.setOnClickListener { clickListener?.invoke() }
+        feedbackButton.setOnClickListener { editListener?.invoke() }
+        ratingView.setOnRatingBarChangeListener { _, _, fromUser ->
+            if (fromUser) {
+                editListener?.invoke()
+            }
+        }
     }
 
-    override fun setUserIcon(userIcon: UserIcon) {
-        userIconView.bind(userIcon)
+    override fun setMemberIcon(userIcon: UserIcon) {
+        this.memberIcon.bind(userIcon)
+    }
+
+    override fun setMemberName(name: String) {
+        this.memberName.bind(name)
     }
 
     override fun setRating(value: Float) {
@@ -51,16 +63,16 @@ class UserReviewItemViewHolder(view: View) : BaseViewHolder(view), UserReviewIte
         dateView.bind(date)
     }
 
-    override fun setComment(text: String?) {
-        commentView.bind(text)
+    override fun setReview(text: String?) {
+        reviewView.bind(text)
     }
 
-    override fun setOnClickListener(listener: (() -> Unit)?) {
-        this.clickListener = listener
+    override fun setOnEditListener(listener: (() -> Unit)?) {
+        this.editListener = listener
     }
 
     override fun onUnbind() {
-        this.clickListener = null
+        this.editListener = null
     }
 
 }

@@ -21,10 +21,11 @@ class RateActivity : AppCompatActivity(), RatePresenter.RateRouter {
         val label = intent.getStringExtra(EXTRA_LABEL).orEmpty()
         val icon = intent.getStringExtra(EXTRA_ICON)
         val rating = intent.getFloatExtra(EXTRA_RATING, 0f)
+        val review = intent.getStringExtra(EXTRA_REVIEW).orEmpty()
 
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
         Appteka.getComponent()
-            .rateComponent(RateModule(this, appId, rating, presenterState))
+            .rateComponent(RateModule(this, appId, rating, review, presenterState))
             .inject(activity = this)
         ThemeHelper.updateTheme(this)
 
@@ -73,11 +74,13 @@ fun createRateActivityIntent(
     context: Context,
     appId: String,
     rating: Float? = null,
+    review: String? = null,
     label: String? = null,
     icon: String? = null,
 ): Intent = Intent(context, RateActivity::class.java)
     .putExtra(EXTRA_APP_ID, appId)
     .putExtra(EXTRA_RATING, rating)
+    .putExtra(EXTRA_REVIEW, review)
     .putExtra(EXTRA_LABEL, label)
     .putExtra(EXTRA_ICON, icon)
 
@@ -85,4 +88,5 @@ private const val EXTRA_APP_ID = "app_id"
 private const val EXTRA_LABEL = "label"
 private const val EXTRA_ICON = "icon"
 private const val EXTRA_RATING = "rating"
+private const val EXTRA_REVIEW = "review"
 private const val KEY_PRESENTER_STATE = "presenter_state"

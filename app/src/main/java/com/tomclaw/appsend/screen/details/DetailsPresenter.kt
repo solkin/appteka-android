@@ -18,6 +18,7 @@ import com.tomclaw.appsend.screen.details.api.Details
 import com.tomclaw.appsend.download.DownloadNotifications
 import com.tomclaw.appsend.download.IDLE
 import com.tomclaw.appsend.screen.details.adapter.user_rate.UserRateItem
+import com.tomclaw.appsend.screen.details.adapter.user_review.UserReviewItem
 import com.tomclaw.appsend.util.NOT_INSTALLED
 import com.tomclaw.appsend.util.PackageObserver
 import com.tomclaw.appsend.util.SchedulersFactory
@@ -58,7 +59,13 @@ interface DetailsPresenter : ItemListener {
 
         fun removeApp(packageName: String)
 
-        fun openRateScreen(appId: String, rating: Float, label: String?, icon: String?)
+        fun openRateScreen(
+            appId: String,
+            rating: Float,
+            review: String?,
+            label: String?,
+            icon: String?
+        )
 
     }
 
@@ -204,7 +211,16 @@ class DetailsPresenterImpl(
             installedVersionCode = installedVersionCode,
             downloadState = downloadState,
         )
-        if (installedVersionCode != NOT_INSTALLED) {
+        if (details.userRating != null) {
+            items += UserReviewItem(
+                id = id++,
+                score = details.userRating.score,
+                text = details.userRating.text,
+                time = details.userRating.time,
+                userId = details.userRating.userId,
+                userIcon = details.userRating.userIcon,
+            )
+        } else if (installedVersionCode != NOT_INSTALLED) {
             items += UserRateItem(
                 id = id++,
                 appId = details.info.appId,
@@ -333,9 +349,15 @@ class DetailsPresenterImpl(
         downloadManager.cancel(appId)
     }
 
-    override fun onRateClick(rating: Float) {
+    override fun onRateClick(rating: Float, review: String?) {
         val details = details ?: return
-        router?.openRateScreen(details.info.appId, rating, details.info.label, details.info.icon)
+        router?.openRateScreen(
+            details.info.appId,
+            rating,
+            review,
+            details.info.label,
+            details.info.icon
+        )
     }
 
 }

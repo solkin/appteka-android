@@ -20,6 +20,7 @@ class RateModule(
     private val context: Context,
     private val appId: String,
     private val startRating: Float,
+    private val startReview: String,
     private val state: Bundle?
 ) {
 
@@ -33,6 +34,7 @@ class RateModule(
     ): RatePresenter = RatePresenterImpl(
         appId,
         startRating,
+        startReview,
         interactor,
         userDataInteractor,
         locale,

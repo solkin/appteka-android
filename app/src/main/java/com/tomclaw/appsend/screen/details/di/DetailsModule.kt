@@ -37,6 +37,8 @@ import com.tomclaw.appsend.user.UserDataInteractor
 import com.tomclaw.appsend.download.DownloadNotifications
 import com.tomclaw.appsend.screen.details.adapter.user_rate.UserRateItemBlueprint
 import com.tomclaw.appsend.screen.details.adapter.user_rate.UserRateItemPresenter
+import com.tomclaw.appsend.screen.details.adapter.user_review.UserReviewItemBlueprint
+import com.tomclaw.appsend.screen.details.adapter.user_review.UserReviewItemPresenter
 import com.tomclaw.appsend.util.PackageObserver
 import com.tomclaw.appsend.util.PerActivity
 import com.tomclaw.appsend.util.SchedulersFactory
@@ -226,5 +228,19 @@ class DetailsModule(
     internal fun provideUserRateItemPresenter(
         presenter: DetailsPresenter,
     ) = UserRateItemPresenter(presenter)
+
+    @Provides
+    @IntoSet
+    @PerActivity
+    internal fun provideUserReviewItemBlueprint(
+        presenter: UserReviewItemPresenter
+    ): ItemBlueprint<*, *> = UserReviewItemBlueprint(presenter)
+
+    @Provides
+    @PerActivity
+    internal fun provideUserReviewItemPresenter(
+        @Named(DATE_FORMATTER) dateFormatter: DateFormat,
+        presenter: DetailsPresenter,
+    ) = UserReviewItemPresenter(dateFormatter, presenter)
 
 }

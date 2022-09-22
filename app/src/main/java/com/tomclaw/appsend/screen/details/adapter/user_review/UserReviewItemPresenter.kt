@@ -10,12 +10,12 @@ class UserReviewItemPresenter(
 ) : ItemPresenter<UserReviewItemView, UserReviewItem> {
 
     override fun bindView(view: UserReviewItemView, item: UserReviewItem, position: Int) {
-        view.setUserIcon(item.userIcon)
+        view.setMemberIcon(item.userIcon)
         view.setRating(item.score.toFloat())
         val date: String = dateFormatter.format(item.time * 1000)
         view.setDate(date)
-        view.setComment(item.text)
-        view.setOnClickListener { listener.onScoresClick() }
+        view.setReview(item.text)
+        view.setOnEditListener { listener.onRateClick(item.score.toFloat(), item.text) }
     }
 
 }

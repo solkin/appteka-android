@@ -16,6 +16,6 @@ interface ItemListener {
 
     fun onCancelClick(appId: String)
 
-    fun onRateClick(rating: Float)
+    fun onRateClick(rating: Float, review: String?)
 
 }

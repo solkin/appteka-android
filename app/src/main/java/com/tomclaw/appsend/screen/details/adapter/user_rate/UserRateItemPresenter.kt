@@ -11,7 +11,7 @@ class UserRateItemPresenter(
 
     override fun bindView(view: UserRateItemView, item: UserRateItem, position: Int) {
         view.setOnRateListener { rating ->
-            listener.onRateClick(rating)
+            listener.onRateClick(rating, review = null)
             MainExecutor.executeLater({
                 view.setRating(0f)
             }, TimeUnit.SECONDS.toMillis(1))
