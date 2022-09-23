@@ -219,6 +219,7 @@ class DetailsPresenterImpl(
                 time = details.userRating.time,
                 userId = details.userRating.userId,
                 userIcon = details.userRating.userIcon,
+                userName = details.userRating.userName,
             )
         } else if (installedVersionCode != NOT_INSTALLED) {
             items += UserRateItem(

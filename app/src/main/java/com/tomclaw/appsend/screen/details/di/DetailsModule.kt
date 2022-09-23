@@ -240,7 +240,8 @@ class DetailsModule(
     @PerActivity
     internal fun provideUserReviewItemPresenter(
         @Named(DATE_FORMATTER) dateFormatter: DateFormat,
+        locale: Locale,
         presenter: DetailsPresenter,
-    ) = UserReviewItemPresenter(dateFormatter, presenter)
+    ) = UserReviewItemPresenter(dateFormatter, locale, presenter)
 
 }

@@ -13,4 +13,5 @@ data class UserReviewItem(
     val time: Long,
     val userId: Long,
     val userIcon: UserIcon,
+    val userName: String?,
 ) : Item, Parcelable

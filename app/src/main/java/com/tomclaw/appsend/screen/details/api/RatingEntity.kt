@@ -19,4 +19,6 @@ data class RatingEntity(
     val userId: Long,
     @SerializedName("user_icon")
     val userIcon: UserIcon,
+    @SerializedName("user_name")
+    val userName: String?,
 ) : Parcelable
