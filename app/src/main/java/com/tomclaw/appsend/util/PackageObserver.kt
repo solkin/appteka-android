@@ -13,6 +13,7 @@ interface PackageObserver {
     fun observe(packageName: String): Observable<Int>
 
     fun pickInstalledVersionCode(packageName: String): Int
+
 }
 
 class PackageObserverImpl(
@@ -49,14 +50,20 @@ class PackageObserverImpl(
     }
 
     override fun observe(packageName: String): Observable<Int> {
-        return packages[packageName] ?: let {
+        val observable = packages[packageName] ?: let {
             val versionCode = pickInstalledVersionCode(packageName)
-            val observable = BehaviorRelay.createDefault(versionCode).apply {
-                doOnDispose { packages.remove(packageName) }
-            }
+            val observable = BehaviorRelay.createDefault(versionCode)
             packages[packageName] = observable
             observable
         }
+        return observable
+            .doOnSubscribe {
+                println("[packages] Package $packageName observer subscribed")
+            }
+            .doOnDispose {
+                println("[packages] Package $packageName observer disposed")
+                packages.remove(packageName)
+            }
     }
 
     override fun pickInstalledVersionCode(packageName: String): Int {

@@ -88,6 +88,16 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
         outState.putBundle(KEY_PRESENTER_STATE, presenter.saveState())
     }
 
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == REQUEST_REVIEW_PUBLISH) {
+            if (resultCode == RESULT_OK) {
+                presenter.invalidateDetails()
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data)
+    }
+
     override fun leaveScreen() {
         finish()
     }
@@ -158,7 +168,7 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
             label = label,
             icon = icon,
         )
-        startActivity(intent)
+        startActivityForResult(intent, REQUEST_REVIEW_PUBLISH)
     }
 
     private fun onRemoveAppPermitted(packageName: String) {
@@ -190,3 +200,5 @@ private const val EXTRA_LABEL = "label"
 private const val EXTRA_MODERATION = "moderation"
 private const val EXTRA_FINISH_ONLY = "finishOnly"
 private const val KEY_PRESENTER_STATE = "presenter_state"
+
+private const val REQUEST_REVIEW_PUBLISH = 1

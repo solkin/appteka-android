@@ -43,6 +43,8 @@ interface DetailsPresenter : ItemListener {
 
     fun showSnackbar(text: String)
 
+    fun invalidateDetails()
+
     interface DetailsRouter {
 
         fun leaveScreen()
@@ -299,6 +301,10 @@ class DetailsPresenterImpl(
 
     override fun showSnackbar(text: String) {
         view?.showSnackbar(text)
+    }
+
+    override fun invalidateDetails() {
+        loadDetails()
     }
 
     override fun onProfileClick(userId: Int) {

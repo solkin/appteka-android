@@ -1,5 +1,6 @@
 package com.tomclaw.appsend.screen.rate
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -64,7 +65,12 @@ class RateActivity : AppCompatActivity(), RatePresenter.RateRouter {
         outState.putBundle(KEY_PRESENTER_STATE, presenter.saveState())
     }
 
-    override fun leaveScreen() {
+    override fun leaveScreen(success: Boolean) {
+        if (success) {
+            setResult(Activity.RESULT_OK)
+        } else {
+            setResult(Activity.RESULT_CANCELED)
+        }
         finish()
     }
 

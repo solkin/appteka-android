@@ -25,7 +25,7 @@ interface RatePresenter {
 
     interface RateRouter {
 
-        fun leaveScreen()
+        fun leaveScreen(success: Boolean)
 
     }
 
@@ -80,7 +80,7 @@ class RatePresenterImpl(
     }
 
     private fun onReviewSubmitted() {
-        router?.leaveScreen()
+        router?.leaveScreen(success = true)
     }
 
     private fun onReviewSubmitError() {
@@ -114,7 +114,7 @@ class RatePresenterImpl(
     }
 
     override fun onBackPressed() {
-        router?.leaveScreen()
+        router?.leaveScreen(success = false)
     }
 
 }
