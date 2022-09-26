@@ -13,6 +13,8 @@ import com.tomclaw.appsend.R
 import com.tomclaw.appsend.dto.UserIcon
 import com.tomclaw.appsend.util.bind
 import com.tomclaw.appsend.util.clicks
+import com.tomclaw.appsend.util.disable
+import com.tomclaw.appsend.util.enable
 import com.tomclaw.appsend.util.hideWithAlphaAnimation
 import com.tomclaw.appsend.util.showWithAlphaAnimation
 import com.tomclaw.appsend.view.UserIconView
@@ -35,6 +37,10 @@ interface RateView {
     fun setRating(rating: Float)
 
     fun setReview(review: String)
+
+    fun enableSubmitButton()
+
+    fun disableSubmitButton()
 
     fun showProgress()
 
@@ -116,6 +122,14 @@ class RateViewImpl(view: View) : RateView {
 
     override fun setReview(review: String) {
         this.reviewEdit.setText(review, TextView.BufferType.EDITABLE)
+    }
+
+    override fun enableSubmitButton() {
+        submitButton.enable()
+    }
+
+    override fun disableSubmitButton() {
+        submitButton.disable()
     }
 
     override fun showProgress() {

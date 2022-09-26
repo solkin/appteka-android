@@ -53,11 +53,13 @@ class RatePresenterImpl(
     override fun attachView(view: RateView) {
         this.view = view
 
-        view.setRating(rating)
-        view.setReview(review)
+        bindData()
 
         subscriptions += view.navigationClicks().subscribe { onBackPressed() }
-        subscriptions += view.ratingChanged().subscribe { rating = it }
+        subscriptions += view.ratingChanged().subscribe {
+            rating = it
+            bindData()
+        }
         subscriptions += view.reviewEditChanged().subscribe { review = it }
         subscriptions += view.submitClicks().subscribe { onSubmitReview() }
         subscriptions += userDataInteractor
@@ -67,6 +69,18 @@ class RatePresenterImpl(
             .subscribe({ userData ->
                 bindMemberInfo(userData)
             }, {})
+    }
+
+    private fun bindData() {
+        with(view ?: return) {
+            setRating(rating)
+            setReview(review)
+            if (rating > 0) {
+                enableSubmitButton()
+            } else {
+                disableSubmitButton()
+            }
+        }
     }
 
     private fun onSubmitReview() {
