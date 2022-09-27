@@ -4,6 +4,8 @@ import static com.tomclaw.imageloader.util.ImageViewHandlersKt.centerCrop;
 import static com.tomclaw.imageloader.util.ImageViewHandlersKt.withPlaceholder;
 import static com.tomclaw.imageloader.util.ImageViewsKt.fetch;
 
+import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.os.Bundle;
 import android.view.Menu;
@@ -30,6 +32,7 @@ import com.tomclaw.appsend.core.StoreServiceHolder_;
 import com.tomclaw.appsend.main.dto.ApiResponse;
 import com.tomclaw.appsend.main.item.CommonItem;
 import com.tomclaw.appsend.main.item.StoreItem;
+import com.tomclaw.appsend.main.unpublish.UnpublishActivity_;
 import com.tomclaw.appsend.net.Session;
 import com.tomclaw.appsend.util.KeyboardHelper;
 import com.tomclaw.appsend.util.LocaleHelper;
@@ -37,6 +40,7 @@ import com.tomclaw.appsend.util.PackageIconLoader;
 import com.tomclaw.appsend.util.ThemeHelper;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -328,5 +332,15 @@ public class MetaActivity extends AppCompatActivity {
             }
         });
         viewFlipper.setDisplayedChild(2);
+    }
+
+    public static Intent createEditMetaActivityIntent(Context context, String appId, String label, String icon, String packageName) {
+        StoreItem item = new StoreItem(label, Collections.emptyMap(), icon, appId, 0,
+                packageName, "", 0, 0, "",
+                Collections.emptyList(), 0, 0, 0, 0,
+                "", 0, null, 0, "");
+        return new Intent(context, MetaActivity.class)
+                .putExtra(MetaActivity.APP_ID_EXTRA, appId)
+                .putExtra(MetaActivity.STORE_ITEM_EXTRA, item);
     }
 }

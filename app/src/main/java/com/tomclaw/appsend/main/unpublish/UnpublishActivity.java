@@ -2,6 +2,7 @@ package com.tomclaw.appsend.main.unpublish;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.inputmethod.InputMethodManager;
@@ -20,6 +21,7 @@ import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.core.StoreServiceHolder;
 import com.tomclaw.appsend.main.dto.ApiResponse;
+import com.tomclaw.appsend.main.profile.ProfileActivity_;
 import com.tomclaw.appsend.net.Session;
 import com.tomclaw.appsend.util.ThemeHelper;
 
@@ -166,5 +168,9 @@ public class UnpublishActivity extends AppCompatActivity {
         reasonInput.setEnabled(true);
         viewFlipper.setDisplayedChild(0);
         showError(getString(R.string.unable_to_unlink_file));
+    }
+
+    public static Intent createUnpublishActivityIntent(Context context, String appId, String label) {
+        return UnpublishActivity_.intent(context).appId(appId).label(label).get();
     }
 }

@@ -24,7 +24,21 @@ interface DetailsView {
 
     fun showSnackbar(text: String)
 
+    fun showMenu(canEdit: Boolean, canUnlink: Boolean, canUnpublish: Boolean, canDelete: Boolean)
+
+    fun hideMenu()
+
     fun navigationClicks(): Observable<Unit>
+
+    fun editClicks(): Observable<Unit>
+
+    fun unpublishClicks(): Observable<Unit>
+
+    fun unlinkClicks(): Observable<Unit>
+
+    fun deleteClicks(): Observable<Unit>
+
+    fun abuseClicks(): Observable<Unit>
 
     fun retryClicks(): Observable<Unit>
 
@@ -40,12 +54,27 @@ class DetailsViewImpl(
     private val blockingProgress: View = view.findViewById(R.id.blocking_progress)
 
     private val navigationRelay = PublishRelay.create<Unit>()
+    private val editRelay = PublishRelay.create<Unit>()
+    private val unpublishRelay = PublishRelay.create<Unit>()
+    private val unlinkRelay = PublishRelay.create<Unit>()
+    private val deleteRelay = PublishRelay.create<Unit>()
+    private val abuseRelay = PublishRelay.create<Unit>()
     private val retryRelay = PublishRelay.create<Unit>()
 
     private val layoutManager: LinearLayoutManager
 
     init {
         toolbar.setNavigationOnClickListener { navigationRelay.accept(Unit) }
+        toolbar.setOnMenuItemClickListener { item ->
+            when (item.itemId) {
+                R.id.edit_meta -> editRelay.accept(Unit)
+                R.id.unpublish -> unpublishRelay.accept(Unit)
+                R.id.unlink -> unlinkRelay.accept(Unit)
+                R.id.delete -> deleteRelay.accept(Unit)
+                R.id.abuse -> abuseRelay.accept(Unit)
+            }
+            true
+        }
 
         val orientation = RecyclerView.VERTICAL
         layoutManager = LinearLayoutManager(view.context, orientation, false)
@@ -73,7 +102,47 @@ class DetailsViewImpl(
         Snackbar.make(recycler, text, Snackbar.LENGTH_SHORT).show()
     }
 
+    override fun showMenu(
+        canEdit: Boolean,
+        canUnlink: Boolean,
+        canUnpublish: Boolean,
+        canDelete: Boolean
+    ) {
+        toolbar.menu.clear()
+        toolbar.inflateMenu(R.menu.details_menu)
+        if (!canEdit) {
+            toolbar.menu.removeItem(R.id.edit_meta)
+        }
+        if (!canUnlink) {
+            toolbar.menu.removeItem(R.id.unlink)
+        }
+        if (!canUnpublish) {
+            toolbar.menu.removeItem(R.id.unpublish)
+        }
+        if (!canDelete) {
+            toolbar.menu.removeItem(R.id.delete)
+        } else {
+            toolbar.menu.removeItem(R.id.abuse)
+        }
+        toolbar.invalidateMenu()
+    }
+
+    override fun hideMenu() {
+        toolbar.menu.clear()
+        toolbar.invalidateMenu()
+    }
+
     override fun navigationClicks(): Observable<Unit> = navigationRelay
+
+    override fun editClicks(): Observable<Unit> = editRelay
+
+    override fun unpublishClicks(): Observable<Unit> = unpublishRelay
+
+    override fun unlinkClicks(): Observable<Unit> = unlinkRelay
+
+    override fun deleteClicks(): Observable<Unit> = deleteRelay
+
+    override fun abuseClicks(): Observable<Unit> = abuseRelay
 
     override fun retryClicks(): Observable<Unit> = retryRelay
 

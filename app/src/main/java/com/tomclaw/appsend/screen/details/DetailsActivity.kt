@@ -15,10 +15,17 @@ import com.greysonparrelli.permiso.Permiso.IOnPermissionResult
 import com.greysonparrelli.permiso.Permiso.IOnRationaleProvided
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.main.abuse.AbuseActivity.createAbuseActivityIntent
+import com.tomclaw.appsend.main.abuse.AbuseActivity_
+import com.tomclaw.appsend.main.meta.MetaActivity.createEditMetaActivityIntent
 import com.tomclaw.appsend.main.permissions.PermissionsActivity_
 import com.tomclaw.appsend.main.permissions.PermissionsList
 import com.tomclaw.appsend.main.profile.ProfileActivity_
 import com.tomclaw.appsend.main.ratings.RatingsActivity_
+import com.tomclaw.appsend.main.unlink.UnlinkActivity.createUnlinkActivityIntent
+import com.tomclaw.appsend.main.unlink.UnlinkActivity_
+import com.tomclaw.appsend.main.unpublish.UnpublishActivity.createUnpublishActivityIntent
+import com.tomclaw.appsend.main.unpublish.UnpublishActivity_
 import com.tomclaw.appsend.screen.details.di.DetailsModule
 import com.tomclaw.appsend.screen.rate.createRateActivityIntent
 import com.tomclaw.appsend.util.IntentHelper
@@ -90,10 +97,11 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
 
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == REQUEST_REVIEW_PUBLISH) {
-            if (resultCode == RESULT_OK) {
-                presenter.invalidateDetails()
-            }
+        when (requestCode) {
+            REQUEST_REVIEW_PUBLISH -> if (resultCode == RESULT_OK) presenter.invalidateDetails()
+            REQUEST_EDIT_META -> if (resultCode == RESULT_OK) presenter.invalidateDetails()
+            REQUEST_UNPUBLISH -> if (resultCode == RESULT_OK) presenter.invalidateDetails()
+            REQUEST_UNLINK -> if (resultCode == RESULT_OK) presenter.onBackPressed()
         }
         super.onActivityResult(requestCode, resultCode, data)
     }
@@ -159,7 +167,13 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
         }
     }
 
-    override fun openRateScreen(appId: String, rating: Float, review: String?, label: String?, icon: String?) {
+    override fun openRateScreen(
+        appId: String,
+        rating: Float,
+        review: String?,
+        label: String?,
+        icon: String?
+    ) {
         val intent = createRateActivityIntent(
             context = this,
             appId = appId,
@@ -169,6 +183,31 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
             icon = icon,
         )
         startActivityForResult(intent, REQUEST_REVIEW_PUBLISH)
+    }
+
+    override fun openEditMetaScreen(
+        appId: String,
+        label: String?,
+        icon: String?,
+        packageName: String
+    ) {
+        val intent = createEditMetaActivityIntent(this, appId, label, icon, packageName)
+        startActivityForResult(intent, REQUEST_EDIT_META)
+    }
+
+    override fun openUnpublishScreen(appId: String, label: String?) {
+        val intent = createUnpublishActivityIntent(this, appId, label)
+        startActivityForResult(intent, REQUEST_UNPUBLISH)
+    }
+
+    override fun openUnlinkScreen(appId: String, label: String?) {
+        val intent = createUnlinkActivityIntent(this, appId, label)
+        startActivityForResult(intent, REQUEST_UNLINK)
+    }
+
+    override fun openAbuseScreen(appId: String, label: String?) {
+        val intent = createAbuseActivityIntent(this, appId, label)
+        startActivity(intent)
     }
 
     private fun onRemoveAppPermitted(packageName: String) {
@@ -202,3 +241,6 @@ private const val EXTRA_FINISH_ONLY = "finishOnly"
 private const val KEY_PRESENTER_STATE = "presenter_state"
 
 private const val REQUEST_REVIEW_PUBLISH = 1
+private const val REQUEST_EDIT_META = 2
+private const val REQUEST_UNLINK = 3
+private const val REQUEST_UNPUBLISH = 4

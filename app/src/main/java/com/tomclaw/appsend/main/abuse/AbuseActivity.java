@@ -1,6 +1,7 @@
 package com.tomclaw.appsend.main.abuse;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.inputmethod.InputMethodManager;
@@ -20,6 +21,7 @@ import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.core.StoreServiceHolder;
 import com.tomclaw.appsend.main.dto.AbuseResult;
 import com.tomclaw.appsend.main.dto.ApiResponse;
+import com.tomclaw.appsend.main.unlink.UnlinkActivity_;
 import com.tomclaw.appsend.util.ThemeHelper;
 
 import org.androidannotations.annotations.AfterViews;
@@ -179,5 +181,9 @@ public class AbuseActivity extends AppCompatActivity {
         emailInput.setEnabled(true);
         viewFlipper.setDisplayedChild(0);
         showError(getString(R.string.unable_to_send_abuse));
+    }
+
+    public static Intent createAbuseActivityIntent(Context context, String appId, String label) {
+        return AbuseActivity_.intent(context).appId(appId).label(label).get();
     }
 }

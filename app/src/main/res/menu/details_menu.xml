@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/edit_meta"
+        android:icon="@drawable/ic_edit"
+        android:title="@string/edit_meta"
+        app:iconTint="?android:textColorPrimary"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/unpublish"
+        android:icon="@drawable/ic_delete"
+        android:title="@string/unpublish_file"
+        app:iconTint="?android:textColorPrimary"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/unlink"
+        android:icon="@drawable/ic_block"
+        android:title="@string/unlink_file"
+        app:iconTint="?android:textColorPrimary"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/delete"
+        android:icon="@drawable/ic_delete_forever"
+        android:title="@string/delete_from_store"
+        app:iconTint="?android:textColorPrimary"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/abuse"
+        android:icon="@drawable/ic_alert"
+        android:title="@string/abuse"
+        app:iconTint="?android:textColorPrimary"
+        app:showAsAction="never" />
+</menu>

@@ -6,6 +6,8 @@ import com.avito.konveyor.blueprint.Item
 import com.avito.konveyor.data_source.ListDataSource
 import com.tomclaw.appsend.download.COMPLETED
 import com.tomclaw.appsend.download.DownloadManager
+import com.tomclaw.appsend.download.DownloadNotifications
+import com.tomclaw.appsend.download.IDLE
 import com.tomclaw.appsend.screen.details.adapter.ItemListener
 import com.tomclaw.appsend.screen.details.adapter.controls.ControlsItem
 import com.tomclaw.appsend.screen.details.adapter.description.DescriptionItem
@@ -14,11 +16,9 @@ import com.tomclaw.appsend.screen.details.adapter.permissions.PermissionsItem
 import com.tomclaw.appsend.screen.details.adapter.play.PlayItem
 import com.tomclaw.appsend.screen.details.adapter.rating.RatingItem
 import com.tomclaw.appsend.screen.details.adapter.scores.ScoresItem
-import com.tomclaw.appsend.screen.details.api.Details
-import com.tomclaw.appsend.download.DownloadNotifications
-import com.tomclaw.appsend.download.IDLE
 import com.tomclaw.appsend.screen.details.adapter.user_rate.UserRateItem
 import com.tomclaw.appsend.screen.details.adapter.user_review.UserReviewItem
+import com.tomclaw.appsend.screen.details.api.Details
 import com.tomclaw.appsend.util.NOT_INSTALLED
 import com.tomclaw.appsend.util.PackageObserver
 import com.tomclaw.appsend.util.SchedulersFactory
@@ -69,6 +69,14 @@ interface DetailsPresenter : ItemListener {
             icon: String?
         )
 
+        fun openEditMetaScreen(appId: String, label: String?, icon: String?, packageName: String)
+
+        fun openUnpublishScreen(appId: String, label: String?)
+
+        fun openUnlinkScreen(appId: String, label: String?)
+
+        fun openAbuseScreen(appId: String, label: String?)
+
     }
 
 }
@@ -102,8 +110,24 @@ class DetailsPresenterImpl(
     override fun attachView(view: DetailsView) {
         this.view = view
 
-        subscriptions += view.navigationClicks().subscribe {
-            onBackPressed()
+        subscriptions += view.navigationClicks().subscribe { onBackPressed() }
+        subscriptions += view.editClicks().subscribe {
+            appId?.let { appId ->
+                val info = details?.info ?: return@subscribe
+                router?.openEditMetaScreen(appId, info.label, info.icon, info.packageName)
+            }
+        }
+        subscriptions += view.unpublishClicks().subscribe {
+            appId?.let { appId -> router?.openUnpublishScreen(appId, details?.info?.label) }
+        }
+        subscriptions += view.unlinkClicks().subscribe {
+            appId?.let { appId -> router?.openUnlinkScreen(appId, details?.info?.label) }
+        }
+        subscriptions += view.deleteClicks().subscribe {
+            // TODO: add delete app impl
+        }
+        subscriptions += view.abuseClicks().subscribe {
+            appId?.let { appId -> router?.openAbuseScreen(appId, details?.info?.label) }
         }
 
         if (details != null) {
@@ -138,7 +162,10 @@ class DetailsPresenterImpl(
     private fun loadDetails() {
         subscriptions += interactor.loadDetails(appId, packageName)
             .observeOn(schedulers.mainThread())
-            .doOnSubscribe { view?.showProgress() }
+            .doOnSubscribe {
+                view?.hideMenu()
+                view?.showProgress()
+            }
             .subscribe(
                 { onDetailsLoaded(it) },
                 { onLoadingError() }
@@ -274,6 +301,13 @@ class DetailsPresenterImpl(
 
         bindItems()
 
+        view?.showMenu(
+            canEdit = checkAction(ACTION_EDIT_META),
+            canUnlink = checkAction(ACTION_UNLINK),
+            canUnpublish = checkAction(ACTION_UNPUBLISH),
+            canDelete = checkAction(ACTION_DELETE)
+        )
+
         view?.contentUpdated()
     }
 
@@ -290,6 +324,10 @@ class DetailsPresenterImpl(
             return true
         }
         return false
+    }
+
+    private fun checkAction(action: String, fallback: Boolean = false): Boolean {
+        return details?.actions?.contains(action) ?: fallback
     }
 
     private fun onLoadingError() {
@@ -374,3 +412,8 @@ private const val KEY_INSTALLED_VERSION = "versionCode"
 private const val KEY_DOWNLOAD_STATE = "downloadState"
 private const val KEY_TARGET_FILE = "targetFile"
 private const val KEY_NEED_INSTALL = "needInstall"
+
+private const val ACTION_UNLINK = "unlink"
+private const val ACTION_UNPUBLISH = "unpublish"
+private const val ACTION_DELETE = "delete"
+private const val ACTION_EDIT_META = "edit_meta"
