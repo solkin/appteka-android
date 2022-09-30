@@ -18,4 +18,6 @@ interface ItemListener {
 
     fun onRateClick(rating: Float, review: String?)
 
+    fun onVersionsClick()
+
 }

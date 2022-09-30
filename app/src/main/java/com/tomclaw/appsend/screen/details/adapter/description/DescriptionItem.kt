@@ -10,6 +10,7 @@ data class DescriptionItem(
     val text: String,
     val versionName: String,
     val versionCode: Int,
+    val versionsCount: Int,
     val uploadDate: Long,
     val checksum: String,
 ) : Item, Parcelable

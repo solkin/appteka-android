@@ -159,8 +159,9 @@ class DetailsModule(
     @Provides
     @PerActivity
     internal fun provideDescriptionItemPresenter(
+        presenter: DetailsPresenter,
         resourceProvider: DescriptionResourceProvider
-    ) = DescriptionItemPresenter(resourceProvider)
+    ) = DescriptionItemPresenter(presenter, resourceProvider)
 
     @Provides
     @IntoSet

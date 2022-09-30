@@ -300,9 +300,15 @@
     <string name="review_publish_failed">Не удалось опубликовать отзыв</string>
     <string name="your_review">Ваш отзыв</string>
     <string name="edit_feedback">Изменить отзыв</string>
+    <plurals name="other_versions_count">
+        <item quantity="one">%d версия</item>
+        <item quantity="few">%d версии</item>
+        <item quantity="many">%d версий</item>
+        <item quantity="other">%d версий</item>
+    </plurals>
     <plurals name="other_access">
         <item quantity="one">%d другое разрешение</item>
-        <item quantity="few">%d других разрешений</item>
+        <item quantity="few">%d других разрешения</item>
         <item quantity="many">%d других разрешений</item>
         <item quantity="other">%d других разрешений</item>
     </plurals>

@@ -262,6 +262,7 @@ class DetailsPresenterImpl(
                 text = details.meta?.description.orEmpty().trim(),
                 versionName = details.info.version,
                 versionCode = details.info.versionCode,
+                versionsCount = details.versions?.size ?: 0,
                 uploadDate = details.info.time,
                 checksum = details.info.sha1,
             )
@@ -403,6 +404,10 @@ class DetailsPresenterImpl(
             details.info.label,
             details.info.icon
         )
+    }
+
+    override fun onVersionsClick() {
+
     }
 
 }

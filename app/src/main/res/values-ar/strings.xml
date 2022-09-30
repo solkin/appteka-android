@@ -339,6 +339,14 @@
     <string name="review_publish_failed">Review publish failed</string>
     <string name="your_review">Your review</string>
     <string name="edit_feedback">Edit feedback</string>
+    <plurals name="other_versions_count">
+        <item quantity="zero">%d version</item>
+        <item quantity="one">%d version</item>
+        <item quantity="two">%d versions</item>
+        <item quantity="few">%d versions</item>
+        <item quantity="many">%d versions</item>
+        <item quantity="other">%d versions</item>
+    </plurals>
     <plurals name="other_access">
         <item quantity="zero">%d other permissions</item>
         <item quantity="one">%d another permission</item>
