@@ -16,16 +16,13 @@ import com.greysonparrelli.permiso.Permiso.IOnRationaleProvided
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.main.abuse.AbuseActivity.createAbuseActivityIntent
-import com.tomclaw.appsend.main.abuse.AbuseActivity_
 import com.tomclaw.appsend.main.meta.MetaActivity.createEditMetaActivityIntent
 import com.tomclaw.appsend.main.permissions.PermissionsActivity_
 import com.tomclaw.appsend.main.permissions.PermissionsList
 import com.tomclaw.appsend.main.profile.ProfileActivity_
 import com.tomclaw.appsend.main.ratings.RatingsActivity_
 import com.tomclaw.appsend.main.unlink.UnlinkActivity.createUnlinkActivityIntent
-import com.tomclaw.appsend.main.unlink.UnlinkActivity_
 import com.tomclaw.appsend.main.unpublish.UnpublishActivity.createUnpublishActivityIntent
-import com.tomclaw.appsend.main.unpublish.UnpublishActivity_
 import com.tomclaw.appsend.screen.details.di.DetailsModule
 import com.tomclaw.appsend.screen.rate.createRateActivityIntent
 import com.tomclaw.appsend.util.IntentHelper
@@ -44,6 +41,9 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
     @Inject
     lateinit var binder: ItemBinder
 
+    @Inject
+    lateinit var preferences: DetailsPreferencesProvider
+
     override fun onCreate(savedInstanceState: Bundle?) {
         val appId = intent.getStringExtra(EXTRA_APP_ID)
         val packageName = intent.getStringExtra(EXTRA_PACKAGE)
@@ -61,7 +61,7 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
         setContentView(R.layout.details_activity)
 
         val adapter = SimpleRecyclerAdapter(adapterPresenter, binder)
-        val view = DetailsViewImpl(window.decorView, adapter)
+        val view = DetailsViewImpl(window.decorView, preferences, adapter)
 
         presenter.attachView(view)
     }
@@ -210,6 +210,11 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
         startActivity(intent)
     }
 
+    override fun openDetailsScreen(appId: String, label: String?) {
+        val intent = createDetailsActivityIntent(this, appId, label = label.orEmpty())
+        startActivity(intent)
+    }
+
     private fun onRemoveAppPermitted(packageName: String) {
         val packageUri = Uri.parse("package:$packageName")
         val uninstallIntent = Intent(Intent.ACTION_DELETE, packageUri)
@@ -231,7 +236,6 @@ fun createDetailsActivityIntent(
     .putExtra(EXTRA_LABEL, label)
     .putExtra(EXTRA_MODERATION, moderation)
     .putExtra(EXTRA_FINISH_ONLY, finishOnly)
-    .putExtra(EXTRA_LABEL, label)
 
 private const val EXTRA_APP_ID = "app_id"
 private const val EXTRA_PACKAGE = "package_name"

@@ -7,9 +7,12 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
+import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.screen.details.api.AppVersion
+import com.tomclaw.appsend.util.getAttributedColor
 import com.tomclaw.appsend.util.hideWithAlphaAnimation
 import com.tomclaw.appsend.util.showWithAlphaAnimation
 import io.reactivex.rxjava3.core.Observable
@@ -21,6 +24,8 @@ interface DetailsView {
     fun showContent()
 
     fun contentUpdated()
+
+    fun showVersionsDialog(items: List<AppVersion>)
 
     fun showSnackbar(text: String)
 
@@ -42,13 +47,17 @@ interface DetailsView {
 
     fun retryClicks(): Observable<Unit>
 
+    fun versionClicks(): Observable<AppVersion>
+
 }
 
 class DetailsViewImpl(
     view: View,
+    private val preferences: DetailsPreferencesProvider,
     private val adapter: SimpleRecyclerAdapter
 ) : DetailsView {
 
+    private val context = view.context
     private val toolbar: Toolbar = view.findViewById(R.id.toolbar)
     private val recycler: RecyclerView = view.findViewById(R.id.recycler)
     private val blockingProgress: View = view.findViewById(R.id.blocking_progress)
@@ -60,6 +69,7 @@ class DetailsViewImpl(
     private val deleteRelay = PublishRelay.create<Unit>()
     private val abuseRelay = PublishRelay.create<Unit>()
     private val retryRelay = PublishRelay.create<Unit>()
+    private val versionRelay = PublishRelay.create<AppVersion>()
 
     private val layoutManager: LinearLayoutManager
 
@@ -96,6 +106,28 @@ class DetailsViewImpl(
     @SuppressLint("NotifyDataSetChanged")
     override fun contentUpdated() {
         adapter.notifyDataSetChanged()
+    }
+
+    override fun showVersionsDialog(items: List<AppVersion>) {
+        val theme = R.style.BottomSheetDialogDark.takeIf { preferences.isDarkTheme() }
+            ?: R.style.BottomSheetDialogLight
+        BottomSheetBuilder(context, theme)
+            .setMode(BottomSheetBuilder.MODE_LIST)
+            .setIconTintColor(getAttributedColor(context, R.attr.menu_icons_tint))
+            .setItemTextColor(getAttributedColor(context, R.attr.text_primary_color))
+            .apply {
+                for (item in items) {
+                    val title = item.verName + " (" + item.verCode + ")"
+                    addItem(item.appId.hashCode(), title, R.drawable.briefcase_download)
+                }
+            }
+            .setItemClickListener { item ->
+                items.find {
+                    it.appId.hashCode() == item.itemId
+                }?.let { versionRelay.accept(it) }
+            }
+            .createDialog()
+            .show()
     }
 
     override fun showSnackbar(text: String) {
@@ -145,6 +177,8 @@ class DetailsViewImpl(
     override fun abuseClicks(): Observable<Unit> = abuseRelay
 
     override fun retryClicks(): Observable<Unit> = retryRelay
+
+    override fun versionClicks(): Observable<AppVersion> = versionRelay
 
 }
 

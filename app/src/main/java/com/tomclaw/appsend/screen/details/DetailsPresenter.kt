@@ -77,6 +77,8 @@ interface DetailsPresenter : ItemListener {
 
         fun openAbuseScreen(appId: String, label: String?)
 
+        fun openDetailsScreen(appId: String, label: String?)
+
     }
 
 }
@@ -128,6 +130,11 @@ class DetailsPresenterImpl(
         }
         subscriptions += view.abuseClicks().subscribe {
             appId?.let { appId -> router?.openAbuseScreen(appId, details?.info?.label) }
+        }
+        subscriptions += view.versionClicks().subscribe { version ->
+            details?.let { details ->
+                router?.openDetailsScreen(version.appId, details.info.label)
+            }
         }
 
         if (details != null) {
@@ -407,7 +414,8 @@ class DetailsPresenterImpl(
     }
 
     override fun onVersionsClick() {
-
+        val versions = details?.versions ?: return
+        view?.showVersionsDialog(versions)
     }
 
 }
