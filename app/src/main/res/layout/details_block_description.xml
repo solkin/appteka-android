@@ -85,7 +85,7 @@
                 android:minWidth="24dp"
                 android:paddingStart="4dp"
                 android:paddingEnd="4dp"
-                android:textColor="?text_primary_color"
+                android:textColor="@color/text_primary_color_light"
                 android:textSize="12sp"
                 tools:text="10 versions" />
 

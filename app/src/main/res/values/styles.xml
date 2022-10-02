@@ -57,11 +57,19 @@
     <color name="approve_color">#689627</color>
     <color name="decline_color">#d63205</color>
 
+    <color name="newer_color">#32A304</color>
+    <color name="newer_text_color">#2a8a03</color>
+    <color name="incompatible_color">#EE2200</color>
+    <color name="incompatible_text_color">#d51e00</color>
+
     <color name="color_semitransparent">#baffffff</color>
     <color name="color_semitransparent_black">#cc000000</color>
 
     <color name="icons_grey_light">#6a6a6a</color>
     <color name="icons_grey_dark">#E1E1E1</color>
+
+    <color name="text_primary_color_light">#00000E</color>
+    <color name="text_primary_color_dark">#FFFFF1</color>
 
     <color name="sdk_incompatible_tint">#d63205</color>
 
@@ -79,7 +87,7 @@
 
         <item name="android:windowBackground">@color/light_back_color</item>
 
-        <item name="text_primary_color">#00000E</item>
+        <item name="text_primary_color">@color/text_primary_color_light</item>
         <item name="text_secondary_color">#4e4e4e</item>
         <item name="donate_card_background">#f0f0f0</item>
 
@@ -134,7 +142,7 @@
 
         <item name="android:windowBackground">@color/dark_back_color</item>
 
-        <item name="text_primary_color">#FFFFF1</item>
+        <item name="text_primary_color">@color/text_primary_color_dark</item>
         <item name="text_secondary_color">#B1B1B1</item>
         <item name="donate_card_background">#151515</item>
 

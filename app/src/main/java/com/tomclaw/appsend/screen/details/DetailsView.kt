@@ -11,7 +11,6 @@ import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
-import com.tomclaw.appsend.screen.details.api.AppVersion
 import com.tomclaw.appsend.util.getAttributedColor
 import com.tomclaw.appsend.util.hideWithAlphaAnimation
 import com.tomclaw.appsend.util.showWithAlphaAnimation
@@ -25,7 +24,7 @@ interface DetailsView {
 
     fun contentUpdated()
 
-    fun showVersionsDialog(items: List<AppVersion>)
+    fun showVersionsDialog(items: List<VersionItem>)
 
     fun showSnackbar(text: String)
 
@@ -47,9 +46,17 @@ interface DetailsView {
 
     fun retryClicks(): Observable<Unit>
 
-    fun versionClicks(): Observable<AppVersion>
+    fun versionClicks(): Observable<VersionItem>
 
 }
+
+data class VersionItem(
+    val versionId: Int,
+    val appId: String,
+    val title: String,
+    val compatible: Boolean,
+    val newer: Boolean,
+)
 
 class DetailsViewImpl(
     view: View,
@@ -69,7 +76,7 @@ class DetailsViewImpl(
     private val deleteRelay = PublishRelay.create<Unit>()
     private val abuseRelay = PublishRelay.create<Unit>()
     private val retryRelay = PublishRelay.create<Unit>()
-    private val versionRelay = PublishRelay.create<AppVersion>()
+    private val versionRelay = PublishRelay.create<VersionItem>()
 
     private val layoutManager: LinearLayoutManager
 
@@ -108,22 +115,34 @@ class DetailsViewImpl(
         adapter.notifyDataSetChanged()
     }
 
-    override fun showVersionsDialog(items: List<AppVersion>) {
+    override fun showVersionsDialog(items: List<VersionItem>) {
         val theme = R.style.BottomSheetDialogDark.takeIf { preferences.isDarkTheme() }
             ?: R.style.BottomSheetDialogLight
         BottomSheetBuilder(context, theme)
             .setMode(BottomSheetBuilder.MODE_LIST)
-            .setIconTintColor(getAttributedColor(context, R.attr.menu_icons_tint))
-            .setItemTextColor(getAttributedColor(context, R.attr.text_primary_color))
             .apply {
                 for (item in items) {
-                    val title = item.verName + " (" + item.verCode + ")"
-                    addItem(item.appId.hashCode(), title, R.drawable.briefcase_download)
+                    val icon = if (item.compatible) {
+                        if (item.newer) {
+                            setIconTintColorResource(R.color.newer_color)
+                            setItemTextColorResource(R.color.newer_text_color)
+                            R.drawable.ic_new
+                        } else {
+                            setIconTintColor(getAttributedColor(context, R.attr.menu_icons_tint))
+                            setItemTextColor(getAttributedColor(context, R.attr.text_primary_color))
+                            R.drawable.ic_download_circle
+                        }
+                    } else {
+                        setIconTintColorResource(R.color.incompatible_color)
+                        setItemTextColorResource(R.color.incompatible_text_color)
+                        R.drawable.ic_alert_circle
+                    }
+                    addItem(item.versionId, item.title, icon)
                 }
             }
             .setItemClickListener { item ->
                 items.find {
-                    it.appId.hashCode() == item.itemId
+                    it.versionId == item.itemId
                 }?.let { versionRelay.accept(it) }
             }
             .createDialog()
@@ -178,7 +197,7 @@ class DetailsViewImpl(
 
     override fun retryClicks(): Observable<Unit> = retryRelay
 
-    override fun versionClicks(): Observable<AppVersion> = versionRelay
+    override fun versionClicks(): Observable<VersionItem> = versionRelay
 
 }
 

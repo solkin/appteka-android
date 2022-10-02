@@ -1,5 +1,6 @@
 package com.tomclaw.appsend.screen.details
 
+import android.os.Build
 import android.os.Bundle
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.blueprint.Item
@@ -414,8 +415,18 @@ class DetailsPresenterImpl(
     }
 
     override fun onVersionsClick() {
+        val info = details?.info ?: return
         val versions = details?.versions ?: return
-        view?.showVersionsDialog(versions)
+        val items = versions.map { version ->
+            VersionItem(
+                versionId = version.appId.hashCode(),
+                appId = version.appId,
+                title = version.verName + " (" + version.verCode + ")",
+                compatible = version.sdkVersion <= Build.VERSION.SDK_INT,
+                newer = version.verCode > info.versionCode,
+            )
+        }
+        view?.showVersionsDialog(items)
     }
 
 }
