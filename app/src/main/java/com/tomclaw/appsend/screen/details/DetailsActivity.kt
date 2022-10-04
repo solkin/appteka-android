@@ -95,6 +95,15 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
         outState.putBundle(KEY_PRESENTER_STATE, presenter.saveState())
     }
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String?>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        Permiso.getInstance().onRequestPermissionResult(requestCode, permissions, grantResults)
+    }
+
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode) {
@@ -108,6 +117,27 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
 
     override fun leaveScreen() {
         finish()
+    }
+
+    override fun requestStoragePermissions(callback: () -> Unit) {
+        Permiso.getInstance().requestPermissions(object : IOnPermissionResult {
+            override fun onPermissionResult(resultSet: Permiso.ResultSet) {
+                if (resultSet.isPermissionGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    callback()
+                } else {
+                    presenter.showSnackbar(getString(R.string.write_permission_install))
+                }
+            }
+
+            override fun onRationaleRequested(
+                callback: IOnRationaleProvided,
+                vararg permissions: String
+            ) {
+                val title: String = getString(R.string.app_name)
+                val message: String = getString(R.string.write_permission_install)
+                Permiso.getInstance().showRationaleInDialog(title, message, null, callback)
+            }
+        }, Manifest.permission.WRITE_EXTERNAL_STORAGE)
     }
 
     override fun openPermissionsScreen(permissions: List<String>) {
@@ -146,7 +176,7 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             Permiso.getInstance().requestPermissions(object : IOnPermissionResult {
                 override fun onPermissionResult(resultSet: Permiso.ResultSet) {
-                    if (resultSet.areAllPermissionsGranted()) {
+                    if (resultSet.isPermissionGranted(Manifest.permission.REQUEST_DELETE_PACKAGES)) {
                         onRemoveAppPermitted(packageName)
                     } else {
                         presenter.showSnackbar(getString(R.string.request_delete_packages))
@@ -213,6 +243,7 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
     override fun openDetailsScreen(appId: String, label: String?) {
         val intent = createDetailsActivityIntent(this, appId, label = label.orEmpty())
         startActivity(intent)
+        finish()
     }
 
     private fun onRemoveAppPermitted(packageName: String) {

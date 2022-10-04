@@ -50,6 +50,8 @@ interface DetailsPresenter : ItemListener {
 
         fun leaveScreen()
 
+        fun requestStoragePermissions(callback: () -> Unit)
+
         fun openPermissionsScreen(permissions: List<String>)
 
         fun openRatingsScreen(appId: String)
@@ -369,6 +371,10 @@ class DetailsPresenterImpl(
     }
 
     override fun onInstallClick() {
+        router?.requestStoragePermissions { onInstall() }
+    }
+
+    private fun onInstall() {
         val details = details ?: return
         needInstall = true
         val file = downloadManager.download(
