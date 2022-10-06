@@ -56,6 +56,8 @@ import javax.inject.Named
 class DetailsModule(
     private val appId: String?,
     private val packageName: String?,
+    private val moderation: Boolean,
+    private val finishOnly: Boolean,
     private val context: Context,
     private val state: Bundle?
 ) {
@@ -72,6 +74,8 @@ class DetailsModule(
     ): DetailsPresenter = DetailsPresenterImpl(
         appId,
         packageName,
+        moderation,
+        finishOnly,
         interactor,
         adapterPresenter,
         packageObserver,

@@ -16,6 +16,7 @@ import com.greysonparrelli.permiso.Permiso.IOnRationaleProvided
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.main.abuse.AbuseActivity.createAbuseActivityIntent
+import com.tomclaw.appsend.main.home.HomeActivity.createStoreActivityIntent
 import com.tomclaw.appsend.main.meta.MetaActivity.createEditMetaActivityIntent
 import com.tomclaw.appsend.main.permissions.PermissionsActivity_
 import com.tomclaw.appsend.main.permissions.PermissionsList
@@ -49,10 +50,21 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
         val packageName = intent.getStringExtra(EXTRA_PACKAGE)
         appId ?: packageName
         ?: throw IllegalArgumentException("appId or packageName must be provided")
+        val moderation = intent.getBooleanExtra(EXTRA_MODERATION, false)
+        val finishOnly = intent.getBooleanExtra(EXTRA_FINISH_ONLY, false)
 
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
         Appteka.getComponent()
-            .detailsComponent(DetailsModule(appId, packageName, this, presenterState))
+            .detailsComponent(
+                DetailsModule(
+                    appId,
+                    packageName,
+                    moderation,
+                    finishOnly,
+                    this,
+                    presenterState
+                )
+            )
             .inject(activity = this)
         ThemeHelper.updateTheme(this)
         Permiso.getInstance().setActivity(this)
@@ -107,8 +119,8 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         when (requestCode) {
-            REQUEST_REVIEW_PUBLISH -> if (resultCode == RESULT_OK) presenter.invalidateDetails()
-            REQUEST_EDIT_META -> if (resultCode == RESULT_OK) presenter.invalidateDetails()
+            REQUEST_REVIEW_PUBLISH,
+            REQUEST_EDIT_META,
             REQUEST_UNPUBLISH -> if (resultCode == RESULT_OK) presenter.invalidateDetails()
             REQUEST_UNLINK -> if (resultCode == RESULT_OK) presenter.onBackPressed()
         }
@@ -244,6 +256,11 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
         val intent = createDetailsActivityIntent(this, appId, label = label.orEmpty())
         startActivity(intent)
         finish()
+    }
+
+    override fun openStoreScreen() {
+        val intent = createStoreActivityIntent(this)
+        startActivity(intent)
     }
 
     private fun onRemoveAppPermitted(packageName: String) {

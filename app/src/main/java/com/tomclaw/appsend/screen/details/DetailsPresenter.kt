@@ -82,6 +82,8 @@ interface DetailsPresenter : ItemListener {
 
         fun openDetailsScreen(appId: String, label: String?)
 
+        fun openStoreScreen()
+
     }
 
 }
@@ -89,6 +91,8 @@ interface DetailsPresenter : ItemListener {
 class DetailsPresenterImpl(
     private val appId: String?,
     private val packageName: String?,
+    private val moderation: Boolean,
+    private val finishOnly: Boolean,
     private val interactor: DetailsInteractor,
     private val adapterPresenter: Lazy<AdapterPresenter>,
     private val packageObserver: PackageObserver,
@@ -136,6 +140,7 @@ class DetailsPresenterImpl(
         }
         subscriptions += view.versionClicks().subscribe { version ->
             details?.let { details ->
+                router?.leaveScreen()
                 router?.openDetailsScreen(version.appId, details.info.label)
             }
         }
@@ -346,6 +351,9 @@ class DetailsPresenterImpl(
 
     override fun onBackPressed() {
         router?.leaveScreen()
+        if (!finishOnly) {
+            router?.openStoreScreen()
+        }
     }
 
     override fun showSnackbar(text: String) {

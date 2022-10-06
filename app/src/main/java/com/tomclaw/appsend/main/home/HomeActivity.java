@@ -434,4 +434,10 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
         }
     }
 
+    public static Intent createStoreActivityIntent(Context context) {
+        return new Intent(context, HomeActivity.class)
+                .setAction(HomeActivity.ACTION_STORE)
+                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+    }
+
 }
