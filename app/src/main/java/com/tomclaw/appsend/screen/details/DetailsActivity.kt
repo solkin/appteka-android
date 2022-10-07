@@ -6,6 +6,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AppCompatActivity
 import com.avito.konveyor.ItemBinder
 import com.avito.konveyor.adapter.AdapterPresenter
@@ -44,6 +45,20 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
 
     @Inject
     lateinit var preferences: DetailsPreferencesProvider
+
+    private val invalidateDetailsResultLauncher =
+        registerForActivityResult(StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK) {
+                presenter.invalidateDetails()
+            }
+        }
+
+    private val backPressedResultLauncher =
+        registerForActivityResult(StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK) {
+                presenter.onBackPressed()
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val appId = intent.getStringExtra(EXTRA_APP_ID)
@@ -114,17 +129,6 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         Permiso.getInstance().onRequestPermissionResult(requestCode, permissions, grantResults)
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        when (requestCode) {
-            REQUEST_REVIEW_PUBLISH,
-            REQUEST_EDIT_META,
-            REQUEST_UNPUBLISH -> if (resultCode == RESULT_OK) presenter.invalidateDetails()
-            REQUEST_UNLINK -> if (resultCode == RESULT_OK) presenter.onBackPressed()
-        }
-        super.onActivityResult(requestCode, resultCode, data)
     }
 
     override fun leaveScreen() {
@@ -224,7 +228,7 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
             label = label,
             icon = icon,
         )
-        startActivityForResult(intent, REQUEST_REVIEW_PUBLISH)
+        invalidateDetailsResultLauncher.launch(intent)
     }
 
     override fun openEditMetaScreen(
@@ -234,17 +238,17 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
         packageName: String
     ) {
         val intent = createEditMetaActivityIntent(this, appId, label, icon, packageName)
-        startActivityForResult(intent, REQUEST_EDIT_META)
+        invalidateDetailsResultLauncher.launch(intent)
     }
 
     override fun openUnpublishScreen(appId: String, label: String?) {
         val intent = createUnpublishActivityIntent(this, appId, label)
-        startActivityForResult(intent, REQUEST_UNPUBLISH)
+        invalidateDetailsResultLauncher.launch(intent)
     }
 
     override fun openUnlinkScreen(appId: String, label: String?) {
         val intent = createUnlinkActivityIntent(this, appId, label)
-        startActivityForResult(intent, REQUEST_UNLINK)
+        backPressedResultLauncher.launch(intent)
     }
 
     override fun openAbuseScreen(appId: String, label: String?) {
@@ -291,8 +295,3 @@ private const val EXTRA_LABEL = "label"
 private const val EXTRA_MODERATION = "moderation"
 private const val EXTRA_FINISH_ONLY = "finishOnly"
 private const val KEY_PRESENTER_STATE = "presenter_state"
-
-private const val REQUEST_REVIEW_PUBLISH = 1
-private const val REQUEST_EDIT_META = 2
-private const val REQUEST_UNLINK = 3
-private const val REQUEST_UNPUBLISH = 4
