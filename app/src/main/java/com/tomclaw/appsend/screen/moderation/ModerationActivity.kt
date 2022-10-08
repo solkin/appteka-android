@@ -3,13 +3,14 @@ package com.tomclaw.appsend.screen.moderation
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AppCompatActivity
 import com.avito.konveyor.ItemBinder
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
-import com.tomclaw.appsend.main.download.DownloadActivity.createAppActivityIntent
+import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.screen.moderation.di.ModerationModule
 import com.tomclaw.appsend.util.ThemeHelper
 import javax.inject.Inject
@@ -24,6 +25,13 @@ class ModerationActivity : AppCompatActivity(), ModerationPresenter.ModerationRo
 
     @Inject
     lateinit var binder: ItemBinder
+
+    private val invalidateDetailsResultLauncher =
+        registerForActivityResult(StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK) {
+                presenter.invalidateApps()
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
@@ -65,19 +73,15 @@ class ModerationActivity : AppCompatActivity(), ModerationPresenter.ModerationRo
         outState.putBundle(KEY_PRESENTER_STATE, presenter.saveState())
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == REQUEST_UPDATE_META) {
-            if (resultCode == RESULT_OK) {
-                presenter.invalidateApps()
-            }
-        }
-        super.onActivityResult(requestCode, resultCode, data)
-    }
-
     override fun openAppModerationScreen(appId: String, title: String) {
-        val intent = createAppActivityIntent(this, appId, title, true, true)
-        startActivityForResult(intent, REQUEST_UPDATE_META)
+        val intent = createDetailsActivityIntent(
+            context = this,
+            appId = appId,
+            label = title,
+            moderation = true,
+            finishOnly = true
+        )
+        invalidateDetailsResultLauncher.launch(intent)
     }
 
     override fun leaveScreen() {
@@ -91,4 +95,3 @@ fun createModerationActivityIntent(
 ): Intent = Intent(context, ModerationActivity::class.java)
 
 private const val KEY_PRESENTER_STATE = "presenter_state"
-private const val REQUEST_UPDATE_META = 1
