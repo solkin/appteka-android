@@ -21,9 +21,11 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 import com.greysonparrelli.permiso.PermisoActivity;
 import com.tomclaw.appsend.R;
+import com.tomclaw.appsend.core.Config;
 import com.tomclaw.appsend.main.adapter.MenuAdapter;
 import com.tomclaw.appsend.main.download.DownloadActivity;
 import com.tomclaw.appsend.main.item.CommonItem;
+import com.tomclaw.appsend.util.LocaleHelper;
 import com.tomclaw.appsend.util.PreferenceHelper;
 import com.tomclaw.appsend.util.ThemeHelper;
 
@@ -37,6 +39,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
+import static com.tomclaw.appsend.main.download.DownloadActivity.createAppActivityIntent;
+import static com.tomclaw.appsend.screen.details.DetailsActivityKt.createDetailsActivityIntent;
 import static com.tomclaw.appsend.util.IntentHelper.openGooglePlay;
 
 @SuppressLint("Registered")
@@ -120,10 +124,24 @@ public class SelectLocalAppActivity extends PermisoActivity implements CommonIte
                                 break;
                             }
                             case 2: {
-                                Intent intent = new Intent(context, DownloadActivity.class)
-                                        .putExtra(DownloadActivity.STORE_APP_PACKAGE, item.getPackageName())
-                                        .putExtra(DownloadActivity.STORE_APP_LABEL, item.getLabel())
-                                        .putExtra(DownloadActivity.STORE_FINISH_ONLY, true);
+                                String packageName = item.getPackageName();
+                                String label = item.getLabel();
+                                Intent intent = Config.NEW_DETAILS_SCREEN ?
+                                        createDetailsActivityIntent(
+                                                context,
+                                                null,
+                                                packageName,
+                                                label,
+                                                false,
+                                                true
+                                        )
+                                        :
+                                        createAppActivityIntent(
+                                                context,
+                                                packageName,
+                                                label,
+                                                true
+                                        );
                                 startActivity(intent);
                                 trackEvent("click-search-appteka");
                                 break;

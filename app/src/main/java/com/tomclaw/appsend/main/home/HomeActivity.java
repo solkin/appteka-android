@@ -3,6 +3,8 @@ package com.tomclaw.appsend.main.home;
 import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
 import static com.tomclaw.appsend.Appteka.getLastRunBuildNumber;
 import static com.tomclaw.appsend.Appteka.wasRegistered;
+import static com.tomclaw.appsend.main.download.DownloadActivity.createAppActivityIntent;
+import static com.tomclaw.appsend.screen.details.DetailsActivityKt.createDetailsActivityIntent;
 
 import android.app.Application;
 import android.content.Context;
@@ -32,6 +34,7 @@ import com.microsoft.appcenter.AppCenter;
 import com.microsoft.appcenter.analytics.Analytics;
 import com.microsoft.appcenter.crashes.Crashes;
 import com.tomclaw.appsend.R;
+import com.tomclaw.appsend.core.Config;
 import com.tomclaw.appsend.core.TaskExecutor;
 import com.tomclaw.appsend.main.about.AboutActivity;
 import com.tomclaw.appsend.main.controller.UpdateController;
@@ -388,9 +391,26 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
     private void onUpdate() {
         StoreItem item = UpdateController.getInstance().getStoreItem();
         if (item != null) {
-            Intent intent = new Intent(this, DownloadActivity.class);
-            intent.putExtra(DownloadActivity.STORE_APP_ID, item.getAppId());
-            intent.putExtra(DownloadActivity.STORE_APP_LABEL, LocaleHelper.getLocalizedLabel(item));
+            String appId = item.getAppId();
+            String label = LocaleHelper.getLocalizedLabel(item);
+            Intent intent = Config.NEW_DETAILS_SCREEN ?
+                    createDetailsActivityIntent(
+                            this,
+                            appId,
+                            null,
+                            label,
+                            false,
+                            true
+                    )
+                    :
+                    createAppActivityIntent(
+                            this,
+                            appId,
+                            label,
+                            false,
+                            true
+                    );
+
             startActivity(intent);
         }
     }

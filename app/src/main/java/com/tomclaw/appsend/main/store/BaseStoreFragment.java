@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.tomclaw.appsend.R;
+import com.tomclaw.appsend.core.Config;
 import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.main.adapter.files.FilesAdapter;
 import com.tomclaw.appsend.main.adapter.files.FilesListener;
@@ -39,6 +40,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static androidx.recyclerview.widget.RecyclerView.VERTICAL;
+import static com.tomclaw.appsend.main.download.DownloadActivity.createAppActivityIntent;
+import static com.tomclaw.appsend.screen.details.DetailsActivityKt.createDetailsActivityIntent;
 import static com.tomclaw.appsend.util.PackageHelper.getInstalledVersionCode;
 import static com.tomclaw.appsend.util.states.StateHolder.stateHolder;
 
@@ -258,10 +261,29 @@ public abstract class BaseStoreFragment extends HomeFragment implements FilesLis
 
     @Override
     public void onClick(StoreItem item) {
-        Intent intent = new Intent(getContext(), DownloadActivity.class)
-                .putExtra(DownloadActivity.STORE_APP_ID, item.getAppId())
-                .putExtra(DownloadActivity.STORE_APP_LABEL, LocaleHelper.getLocalizedLabel(item))
-                .putExtra(DownloadActivity.STORE_FINISH_ONLY, true);
+        Context context = getContext();
+        if (context == null) {
+            return;
+        }
+        String appId = item.getAppId();
+        String label = LocaleHelper.getLocalizedLabel(item);
+        Intent intent = Config.NEW_DETAILS_SCREEN ?
+                createDetailsActivityIntent(
+                        context,
+                        appId,
+                        null,
+                        label,
+                        false,
+                        true
+                )
+                :
+                createAppActivityIntent(
+                        context,
+                        appId,
+                        label,
+                        false,
+                        true
+                );
         startActivity(intent);
     }
 

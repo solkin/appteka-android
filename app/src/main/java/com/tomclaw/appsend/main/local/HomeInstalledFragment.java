@@ -1,6 +1,8 @@
 package com.tomclaw.appsend.main.local;
 
 import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
+import static com.tomclaw.appsend.main.download.DownloadActivity.createAppActivityIntent;
+import static com.tomclaw.appsend.screen.details.DetailsActivityKt.createDetailsActivityIntent;
 import static com.tomclaw.appsend.util.IntentHelper.openGooglePlay;
 
 import android.Manifest;
@@ -16,6 +18,7 @@ import androidx.appcompat.app.AlertDialog;
 import com.google.android.material.snackbar.Snackbar;
 import com.greysonparrelli.permiso.Permiso;
 import com.tomclaw.appsend.R;
+import com.tomclaw.appsend.core.Config;
 import com.tomclaw.appsend.core.TaskExecutor;
 import com.tomclaw.appsend.main.adapter.MenuAdapter;
 import com.tomclaw.appsend.main.download.DownloadActivity;
@@ -104,9 +107,24 @@ public class HomeInstalledFragment extends InstalledFragment {
                             break;
                         }
                         case 6: {
-                            Intent intent = new Intent(getContext(), DownloadActivity.class);
-                            intent.putExtra(DownloadActivity.STORE_APP_PACKAGE, item.getPackageName());
-                            intent.putExtra(DownloadActivity.STORE_APP_LABEL, item.getLabel());
+                            String packageName = item.getPackageName();
+                            String label = item.getLabel();
+                            Intent intent = Config.NEW_DETAILS_SCREEN ?
+                                    createDetailsActivityIntent(
+                                            getContext(),
+                                            null,
+                                            packageName,
+                                            label,
+                                            false,
+                                            true
+                                    )
+                                    :
+                                    createAppActivityIntent(
+                                            getContext(),
+                                            packageName,
+                                            label,
+                                            true
+                                    );
                             startActivity(intent);
                             trackEvent("click-search-appteka");
                             break;

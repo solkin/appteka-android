@@ -11,6 +11,7 @@ import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.core.Config
 import com.tomclaw.appsend.main.download.DownloadActivity
+import com.tomclaw.appsend.main.download.DownloadActivity.createAppActivityIntent
 import com.tomclaw.appsend.main.home.HomeFragment
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.screen.store.di.StoreModule
@@ -85,7 +86,7 @@ class StoreFragment : HomeFragment(), StorePresenter.StoreRouter {
                 finishOnly = true
             )
         } else {
-            DownloadActivity.createAppActivityIntent(
+            createAppActivityIntent(
                 requireContext(),
                 appId,
                 title,

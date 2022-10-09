@@ -1,5 +1,7 @@
 package com.tomclaw.appsend.main.local;
 
+import static com.tomclaw.appsend.main.download.DownloadActivity.createAppActivityIntent;
+import static com.tomclaw.appsend.screen.details.DetailsActivityKt.createDetailsActivityIntent;
 import static com.tomclaw.appsend.util.TimeHelper.timeHelper;
 import static com.tomclaw.imageloader.util.ImageViewHandlersKt.centerCrop;
 import static com.tomclaw.imageloader.util.ImageViewHandlersKt.withPlaceholder;
@@ -12,9 +14,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tomclaw.appsend.R;
+import com.tomclaw.appsend.core.Config;
 import com.tomclaw.appsend.main.adapter.files.FileViewHolder;
 import com.tomclaw.appsend.main.adapter.files.FilesListener;
-import com.tomclaw.appsend.main.download.DownloadActivity;
 import com.tomclaw.appsend.main.item.AppItem;
 import com.tomclaw.appsend.util.PackageIconLoader;
 import com.tomclaw.appsend.util.FileHelper;
@@ -23,14 +25,14 @@ import java.util.concurrent.TimeUnit;
 
 public class AppItemViewHolder extends FileViewHolder<AppItem> {
 
-    private View itemView;
-    private ImageView appIcon;
-    private TextView appName;
-    private TextView appVersion;
-    private TextView appUpdateTime;
-    private TextView appSize;
-    private View badgeNew;
-    private View updateButton;
+    private final View itemView;
+    private final ImageView appIcon;
+    private final TextView appName;
+    private final TextView appVersion;
+    private final TextView appUpdateTime;
+    private final TextView appSize;
+    private final View badgeNew;
+    private final View updateButton;
 
     public AppItemViewHolder(View itemView) {
         super(itemView);
@@ -79,10 +81,25 @@ public class AppItemViewHolder extends FileViewHolder<AppItem> {
 
         updateButton.setVisibility(item.getUpdate() != null ? View.VISIBLE : View.GONE);
         updateButton.setOnClickListener(v -> {
-            Intent intent = new Intent(context, DownloadActivity.class)
-                    .putExtra(DownloadActivity.STORE_APP_ID, item.getUpdate().getAppId())
-                    .putExtra(DownloadActivity.STORE_APP_LABEL, item.getUpdate().getLabel())
-                    .putExtra(DownloadActivity.STORE_FINISH_ONLY, true);
+            String appId = item.getUpdate().getAppId();
+            String label = item.getUpdate().getLabel();
+            Intent intent = Config.NEW_DETAILS_SCREEN ?
+                    createDetailsActivityIntent(
+                            context,
+                            appId,
+                            null,
+                            label,
+                            false,
+                            true
+                    )
+                    :
+                    createAppActivityIntent(
+                            context,
+                            appId,
+                            label,
+                            false,
+                            true
+                    );
             context.startActivity(intent);
         });
     }
