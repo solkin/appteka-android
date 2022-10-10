@@ -1,6 +1,7 @@
 package com.tomclaw.appsend.screen.details
 
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.view.View
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -118,7 +119,8 @@ class DetailsViewImpl(
     override fun showVersionsDialog(items: List<VersionItem>) {
         val theme = R.style.BottomSheetDialogDark.takeIf { preferences.isDarkTheme() }
             ?: R.style.BottomSheetDialogLight
-        BottomSheetBuilder(context, theme)
+        var bottomSheet: Dialog? = null
+        bottomSheet = BottomSheetBuilder(context, theme)
             .setMode(BottomSheetBuilder.MODE_LIST)
             .apply {
                 for (item in items) {
@@ -143,10 +145,13 @@ class DetailsViewImpl(
             .setItemClickListener { item ->
                 items.find {
                     it.versionId == item.itemId
-                }?.let { versionRelay.accept(it) }
+                }?.let {
+                    bottomSheet?.hide()
+                    versionRelay.accept(it)
+                }
             }
             .createDialog()
-            .show()
+            .apply { show() }
     }
 
     override fun showSnackbar(text: String) {
