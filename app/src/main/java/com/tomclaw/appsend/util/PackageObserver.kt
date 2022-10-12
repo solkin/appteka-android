@@ -60,9 +60,12 @@ class PackageObserverImpl(
             .doOnSubscribe {
                 println("[packages] Package $packageName observer subscribed")
             }
-            .doOnDispose {
+            .doFinally {
                 println("[packages] Package $packageName observer disposed")
-                packages.remove(packageName)
+                if (!observable.hasObservers()) {
+                    println("[packages] Package $packageName observer removed")
+                    packages.remove(packageName)
+                }
             }
     }
 
