@@ -1,5 +1,7 @@
 package com.tomclaw.appsend.di
 
+import com.tomclaw.appsend.download.di.DownloadComponent
+import com.tomclaw.appsend.download.di.DownloadModule
 import com.tomclaw.appsend.screen.chat.di.ChatComponent
 import com.tomclaw.appsend.screen.chat.di.ChatModule
 import com.tomclaw.appsend.screen.details.di.DetailsComponent
@@ -30,5 +32,7 @@ interface AppComponent {
     fun detailsComponent(module: DetailsModule): DetailsComponent
 
     fun rateComponent(module: RateModule): RateComponent
+
+    fun downloadComponent(module: DownloadModule): DownloadComponent
 
 }

@@ -7,6 +7,7 @@ import com.tomclaw.appsend.download.AWAIT
 import com.tomclaw.appsend.download.COMPLETED
 import com.tomclaw.appsend.download.ERROR
 import com.tomclaw.appsend.download.IDLE
+import com.tomclaw.appsend.download.STARTED
 import java.util.Locale
 
 class HeaderItemPresenter(
@@ -18,6 +19,7 @@ class HeaderItemPresenter(
         when (item.downloadState) {
             IDLE -> view.hideProgress()
             AWAIT -> view.setIndeterminate()
+            STARTED -> view.setIndeterminate()
             COMPLETED -> view.hideProgress()
             ERROR -> view.hideProgress()
             else -> view.setProgress(item.downloadState)

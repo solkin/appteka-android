@@ -16,6 +16,7 @@ import com.greysonparrelli.permiso.Permiso.IOnPermissionResult
 import com.greysonparrelli.permiso.Permiso.IOnRationaleProvided
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.download.createDownloadIntent
 import com.tomclaw.appsend.main.abuse.AbuseActivity.createAbuseActivityIntent
 import com.tomclaw.appsend.main.home.HomeActivity.createStoreActivityIntent
 import com.tomclaw.appsend.main.meta.MetaActivity.createEditMetaActivityIntent
@@ -265,6 +266,11 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
     override fun openStoreScreen() {
         val intent = createStoreActivityIntent(this)
         startActivity(intent)
+    }
+
+    override fun startDownload(label: String, version: String, icon: String?, appId: String, url: String) {
+        val intent = createDownloadIntent(context = this, label, version, icon, appId, url)
+        startService(intent)
     }
 
     private fun onRemoveAppPermitted(packageName: String) {

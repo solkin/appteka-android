@@ -21,6 +21,8 @@ interface DownloadManager {
 
     fun download(label: String, version: String, appId: String, url: String): File
 
+    fun targetFile(label: String, version: String, appId: String): File
+
     fun cancel(appId: String)
 
 }
@@ -59,9 +61,8 @@ class DownloadManagerImpl(
     }
 
     override fun download(label: String, version: String, appId: String, url: String): File {
-        val fileName = escapeFileSymbols("$label-$version-$appId")
-        val tmpFile = File(dir, "$fileName.apk.tmp")
-        val targetFile = File(dir, "$fileName.apk")
+        val tmpFile = tempFile(label, version, appId)
+        val targetFile = targetFile(label, version, appId)
         val relay = relays[appId] ?: BehaviorRelay.create()
         if (targetFile.exists()) {
             relay.accept(COMPLETED)
@@ -69,6 +70,7 @@ class DownloadManagerImpl(
         }
         relay.accept(AWAIT)
         downloads[appId] = executor.submit {
+            relay.accept(STARTED)
             val success = downloadBlocking(
                 url = url,
                 file = tmpFile,
@@ -87,6 +89,20 @@ class DownloadManagerImpl(
         }
         relays[appId] = relay
         return targetFile
+    }
+
+    override fun targetFile(label: String, version: String, appId: String): File {
+        val fileName = fileName(label, version, appId)
+        return File(dir, "$fileName.apk")
+    }
+
+    private fun tempFile(label: String, version: String, appId: String): File {
+        val fileName = fileName(label, version, appId)
+        return File(dir, "$fileName.apk.tmp")
+    }
+
+    private fun fileName(label: String, version: String, appId: String): String {
+        return escapeFileSymbols("$label-$version-$appId")
     }
 
     override fun cancel(appId: String) {
@@ -175,10 +191,11 @@ class DownloadManagerImpl(
 const val GET = "GET"
 const val SC_BAD_REQUEST = 400
 
-const val IDLE: Int = -2
-const val AWAIT: Int = -1
+const val IDLE: Int = -30
+const val AWAIT: Int = -10
+const val STARTED: Int = -20
 const val COMPLETED: Int = 101
-const val ERROR: Int = -3
+const val ERROR: Int = -40
 
 private const val BUFFER_SIZE = 128 * 1024
 

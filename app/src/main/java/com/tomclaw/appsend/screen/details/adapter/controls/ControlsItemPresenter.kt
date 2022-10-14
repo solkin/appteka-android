@@ -6,6 +6,7 @@ import com.tomclaw.appsend.download.AWAIT
 import com.tomclaw.appsend.download.COMPLETED
 import com.tomclaw.appsend.download.ERROR
 import com.tomclaw.appsend.download.IDLE
+import com.tomclaw.appsend.download.STARTED
 import com.tomclaw.appsend.util.NOT_INSTALLED
 
 class ControlsItemPresenter(
@@ -18,6 +19,7 @@ class ControlsItemPresenter(
         val isProgress = when (item.downloadState) {
             IDLE -> false
             AWAIT -> true
+            STARTED -> true
             COMPLETED -> false
             ERROR -> false
             else -> true

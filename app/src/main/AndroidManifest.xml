@@ -12,6 +12,8 @@
     <uses-permission
         android:name="android.permission.REQUEST_DELETE_PACKAGES"
         tools:remove="android:maxSdkVersion" />
+    <uses-permission
+        android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:name=".Appteka_"
@@ -162,6 +164,8 @@
         <activity
             android:name=".screen.rate.RateActivity"
             android:label="@string/rate_app" />
+
+        <service android:name=".download.DownloadService" />
     </application>
 
 </manifest>

@@ -84,6 +84,8 @@ interface DetailsPresenter : ItemListener {
 
         fun openStoreScreen()
 
+        fun startDownload(label: String, version: String, icon: String?, appId: String, url: String)
+
     }
 
 }
@@ -97,7 +99,6 @@ class DetailsPresenterImpl(
     private val adapterPresenter: Lazy<AdapterPresenter>,
     private val packageObserver: PackageObserver,
     private val downloadManager: DownloadManager,
-    private val notifications: DownloadNotifications,
     private val schedulers: SchedulersFactory,
     state: Bundle?
 ) : DetailsPresenter {
@@ -385,24 +386,24 @@ class DetailsPresenterImpl(
     private fun onInstall() {
         val details = details ?: return
         needInstall = true
-        val file = downloadManager.download(
+
+        router?.startDownload(
             label = details.info.label.orEmpty(),
             version = details.info.version,
             appId = details.info.appId,
+            icon = details.info.icon,
             url = details.link
+        )
+
+        val file = downloadManager.targetFile(
+            label = details.info.label.orEmpty(),
+            version = details.info.version,
+            appId = details.info.appId
         )
         this.targetFile = file
         if (tryInstall()) {
             return
         }
-        val relay = downloadManager.status(details.info.appId)
-        notifications.subscribe(
-            appId = details.info.appId,
-            label = details.info.label.orEmpty(),
-            icon = details.info.icon,
-            file = file,
-            observable = relay,
-        )
     }
 
     override fun onLaunchClick(packageName: String) {

@@ -1,6 +1,7 @@
 package com.tomclaw.appsend.download
 
 import android.annotation.SuppressLint
+import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -30,6 +31,8 @@ interface DownloadNotifications {
         label: String,
         icon: String?,
         file: File,
+        start: (Int, Notification) -> Unit,
+        stop: () -> Unit,
         observable: Observable<Int>
     )
 
@@ -62,6 +65,8 @@ class DownloadNotificationsImpl(
         label: String,
         icon: String?,
         file: File,
+        start: (Int, Notification) -> Unit,
+        stop: () -> Unit,
         observable: Observable<Int>
     ) {
         val notificationId = appId.hashCode() // TODO: replace with stable ID
@@ -105,8 +110,10 @@ class DownloadNotificationsImpl(
                         .setSmallIcon(android.R.drawable.stat_sys_warning)
                         .setProgress(0, 0, false)
                         .setOngoing(false)
+                        .setAutoCancel(true)
                         .build()
                     notificationManager.notify(notificationId, notification)
+                    stop()
                     disposable?.dispose()
                 }
                 COMPLETED -> {
@@ -119,6 +126,7 @@ class DownloadNotificationsImpl(
                             .setSmallIcon(android.R.drawable.stat_sys_download_done)
                             .setGroup(GROUP_NOTIFICATIONS)
                             .setOngoing(false)
+                            .setAutoCancel(true)
                             .setColor(getColor(R.color.primary_color, context))
                             .setContentIntent(installIntent)
                     val installIconHolder = NotificationIconHolder(
@@ -128,18 +136,29 @@ class DownloadNotificationsImpl(
                     icon?.run { context.imageLoader().load(installIconHolder, icon, handlers) }
                     val notification = installNotificationBuilder.build()
                     notificationManager.notify(notificationId, notification)
+                    stop()
                     disposable?.dispose()
                 }
                 IDLE -> {
                     notificationManager.cancel(notificationId)
+                    stop()
                     disposable?.dispose()
+                }
+                STARTED -> {
+                    val notification = notificationBuilder.build()
+                    notificationManager.notify(DOWNLOAD_NOTIFICATION_ID, notification)
+                    start(
+                        DOWNLOAD_NOTIFICATION_ID,
+                        notification
+                    )
                 }
                 else -> {
                     val notification = notificationBuilder
                         .setContentText(context.getString(R.string.downloading_progress, status))
                         .setProgress(100, status, false)
                         .build()
-                    notificationManager.notify(notificationId, notification)
+                    notificationManager.cancel(notificationId)
+                    notificationManager.notify(DOWNLOAD_NOTIFICATION_ID, notification)
                 }
             }
         }
@@ -190,6 +209,7 @@ class DownloadNotificationsImpl(
 
 }
 
+const val DOWNLOAD_NOTIFICATION_ID = 1
 const val GROUP_NOTIFICATIONS = BuildConfig.APPLICATION_ID + ".NOTIFICATIONS"
 const val CHANNEL_DOWNLOADING = "downloading_channel_id"
 const val CHANNEL_INSTALL = "install_channel_id"
