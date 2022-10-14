@@ -68,7 +68,7 @@ fun View.showWithAlphaAnimation(
         .alpha(1.0f)
         .setInterpolator(AccelerateDecelerateInterpolator())
         .setListener(object : AnimatorListenerAdapter() {
-            override fun onAnimationEnd(animation: Animator?) {
+            override fun onAnimationEnd(animation: Animator) {
                 alpha = 1.0f
                 show()
                 endCallback?.invoke()
@@ -89,7 +89,7 @@ fun View.hideWithAlphaAnimation(
         .alpha(0.0f)
         .setInterpolator(AccelerateDecelerateInterpolator())
         .setListener(object : AnimatorListenerAdapter() {
-            override fun onAnimationEnd(animation: Animator?) {
+            override fun onAnimationEnd(animation: Animator) {
                 hide()
                 alpha = 1.0f
                 endCallback?.invoke()
@@ -108,7 +108,7 @@ fun View.scaleWithAnimation(
         .scaleY(factor)
         .setInterpolator(AccelerateDecelerateInterpolator())
         .setListener(object : AnimatorListenerAdapter() {
-            override fun onAnimationEnd(animation: Animator?) {
+            override fun onAnimationEnd(animation: Animator) {
                 endCallback?.invoke()
             }
         })
