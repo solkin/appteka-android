@@ -24,7 +24,6 @@
     <string name="apps_rated">التطبيقات مصنفة</string>
     <string name="apps_uploaded">تحميل التطبيقات</string>
     <string name="total_downloads">They were downloaded</string>
-    <string name="back_button_label">الى الخلف</string>
     <string name="bluetooth_apk">إرسال عبر بلوتوث</string>
     <string name="bytes">%d B</string>
     <string name="cache_cleared_successfully">تم مسح ذاكرة التخزين المؤقت بنجاح</string>
@@ -134,7 +133,6 @@
     <string name="new_app">جديد</string>
     <string name="newer">أحدث</string>
     <string name="next_button_label">التالي</string>
-    <string name="no">لا</string>
     <string name="no_email_clients">لا يوجد عملاء بريد إلكتروني مثبت</string>
     <string name="non_launchable_package">هذه الحزمة غير قابلة للتشغيل.</string>
     <string name="obtaining_link_message">الحصول على رابط الملف ...</string>
@@ -216,7 +214,6 @@
     <string name="size_comment">حجم التطبيق</string>
     <string name="skip_button_label">تخطي</string>
     <string name="sort_order_app_size">حسب حجم التطبيق</string>
-    <string name="sort_order_app_size_value">sort_order_app_size</string>
     <string name="sort_order_ascending">A - Z</string>
     <string name="sort_order_ascending_value">sort_order_ascending</string>
     <string name="sort_order_descending">Z - A</string>
