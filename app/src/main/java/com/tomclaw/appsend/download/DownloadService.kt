@@ -4,6 +4,7 @@ import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.os.Binder
+import android.os.Build
 import android.os.IBinder
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.download.di.DownloadModule
@@ -25,16 +26,19 @@ class DownloadService : Service() {
             .inject(service = this)
     }
 
-    override fun onStartCommand(intent: Intent, flags: Int, startId: Int): Int {
-        val label = intent.getStringExtra(EXTRA_LABEL)
-            ?: throw IllegalArgumentException("label must be provided")
-        val version = intent.getStringExtra(EXTRA_VERSION)
-            ?: throw IllegalArgumentException("version must be provided")
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        intent?.let { onIntentReceived(it) }
+
+        return super.onStartCommand(intent, flags, startId)
+    }
+
+    private fun onIntentReceived(intent: Intent): Boolean {
+        val label = intent.getStringExtra(EXTRA_LABEL) ?: return false
+        val version = intent.getStringExtra(EXTRA_VERSION) ?: return false
         val icon = intent.getStringExtra(EXTRA_ICON)
-        val appId = intent.getStringExtra(EXTRA_APP_ID)
-            ?: throw IllegalArgumentException("appId must be provided")
-        val url = intent.getStringExtra(EXTRA_URL)
-            ?: throw IllegalArgumentException("url must be provided")
+        val appId = intent.getStringExtra(EXTRA_APP_ID) ?: return false
+        val url = intent.getStringExtra(EXTRA_URL) ?: return false
+
         println("[service] onStartCommand(label = $label, version = $version, appId = $appId, url = $url)")
 
         val relay = downloadManager.status(appId)
@@ -49,16 +53,20 @@ class DownloadService : Service() {
             start = { notificationId, notification ->
                 startForeground(notificationId, notification)
             },
-            stop = { stopForeground(true) },
+            stop = {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    stopForeground(STOP_FOREGROUND_REMOVE)
+                } else {
+                    stopForeground(true)
+                }
+            },
             observable = relay,
         )
-
-        return super.onStartCommand(intent, flags, startId)
+        return true
     }
 
     override fun onDestroy() {
         println("[service] onDestroy")
-        stopForeground(true)
     }
 
     override fun onBind(intent: Intent): IBinder {
