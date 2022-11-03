@@ -54,19 +54,25 @@ class DownloadService : Service() {
                 startForeground(notificationId, notification)
             },
             stop = {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                    stopForeground(STOP_FOREGROUND_REMOVE)
-                } else {
-                    stopForeground(true)
-                }
+                stopForeground()
             },
             observable = relay,
         )
         return true
     }
 
+    @Suppress("DEPRECATION")
+    private fun Service.stopForeground() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            stopForeground(STOP_FOREGROUND_REMOVE)
+        } else {
+            stopForeground(true)
+        }
+    }
+
     override fun onDestroy() {
         println("[service] onDestroy")
+        stopForeground()
     }
 
     override fun onBind(intent: Intent): IBinder {
