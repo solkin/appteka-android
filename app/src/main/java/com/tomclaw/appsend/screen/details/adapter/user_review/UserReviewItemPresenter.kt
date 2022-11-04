@@ -19,7 +19,7 @@ class UserReviewItemPresenter(
             ?: item.userIcon.label[DEFAULT_LOCALE].orEmpty()
         view.setMemberName(name)
         view.setRating(item.score.toFloat())
-        val date: String = dateFormatter.format(item.time * 1000)
+        val date: String = dateFormatter.format(item.time)
         view.setDate(date)
         view.setReview(item.text)
         view.setOnEditListener { listener.onRateClick(item.score.toFloat(), item.text) }

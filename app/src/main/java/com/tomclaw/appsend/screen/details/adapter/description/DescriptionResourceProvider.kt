@@ -2,7 +2,6 @@ package com.tomclaw.appsend.screen.details.adapter.description
 
 import android.content.res.Resources
 import com.tomclaw.appsend.R
-import com.tomclaw.appsend.util.TimeHelper
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.Locale

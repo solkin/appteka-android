@@ -12,7 +12,7 @@ class RatingItemPresenter(
     override fun bindView(view: RatingItemView, item: RatingItem, position: Int) {
         view.setUserIcon(item.userIcon)
         view.setRating(item.score.toFloat())
-        val date: String = dateFormatter.format(item.time * 1000)
+        val date: String = dateFormatter.format(item.time)
         view.setDate(date)
         view.setComment(item.text)
         view.setOnClickListener { listener.onScoresClick() }

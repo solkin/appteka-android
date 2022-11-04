@@ -261,7 +261,7 @@ class DetailsPresenterImpl(
                 id = id++,
                 score = details.userRating.score,
                 text = details.userRating.text,
-                time = details.userRating.time,
+                time = details.userRating.time * 1000,
                 userId = details.userRating.userId,
                 userIcon = details.userRating.userIcon,
                 userName = details.userRating.userName,
@@ -279,7 +279,7 @@ class DetailsPresenterImpl(
                 versionName = details.info.version,
                 versionCode = details.info.versionCode,
                 versionsCount = details.versions?.size ?: 0,
-                uploadDate = details.info.time,
+                uploadDate = details.info.time * 1000,
                 checksum = details.info.sha1,
             )
         }
@@ -309,7 +309,7 @@ class DetailsPresenterImpl(
                     id++,
                     rating.score,
                     rating.text,
-                    rating.time,
+                    rating.time * 1000,
                     rating.userId,
                     rating.userIcon
                 )
