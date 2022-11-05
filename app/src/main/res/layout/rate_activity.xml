@@ -19,12 +19,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="20dp">
+            android:paddingTop="20dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp">
 
                 <include
                     android:id="@+id/member_icon"
@@ -71,7 +73,9 @@
                 style="@style/Widget.MaterialRatingBar.RatingBar"
                 android:layout_width="match_parent"
                 android:layout_height="32dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginTop="24dp"
+                android:layout_marginRight="20dp"
                 android:layout_marginBottom="24dp"
                 android:isIndicator="false"
                 android:numStars="5"
@@ -83,7 +87,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:background="@drawable/edit_text_border"
                 android:ems="10"
                 android:hint="@string/enter_your_review"
@@ -101,6 +106,10 @@
                 style="@style/MaterialButtonPrimary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="20dp"
                 android:text="@string/publish_review"
                 app:cornerRadius="99dp" />
 
