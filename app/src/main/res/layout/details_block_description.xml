@@ -134,6 +134,7 @@
         android:fontFamily="monospace"
         android:paddingBottom="4dp"
         android:textColor="?attr/text_secondary_color"
+        android:textIsSelectable="true"
         android:textSize="13sp"
         android:typeface="monospace"
         tools:text="d3cdd8d14a376b8309ee1c06a78cb01142427e59" />
