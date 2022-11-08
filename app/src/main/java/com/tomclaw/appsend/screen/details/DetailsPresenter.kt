@@ -7,7 +7,6 @@ import com.avito.konveyor.blueprint.Item
 import com.avito.konveyor.data_source.ListDataSource
 import com.tomclaw.appsend.download.COMPLETED
 import com.tomclaw.appsend.download.DownloadManager
-import com.tomclaw.appsend.download.DownloadNotifications
 import com.tomclaw.appsend.download.IDLE
 import com.tomclaw.appsend.screen.details.adapter.ItemListener
 import com.tomclaw.appsend.screen.details.adapter.controls.ControlsItem
@@ -432,7 +431,10 @@ class DetailsPresenterImpl(
     override fun onVersionsClick() {
         val info = details?.info ?: return
         val versions = details?.versions ?: return
-        val items = versions.map { version ->
+        val items = versions
+            .sortedBy { it.verCode }
+            .reversed()
+            .map { version ->
             VersionItem(
                 versionId = version.appId.hashCode(),
                 appId = version.appId,
