@@ -1,6 +1,7 @@
 package com.tomclaw.appsend.screen.details
 
 import android.Manifest
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -133,6 +134,11 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
     }
 
     override fun leaveScreen() {
+        finish()
+    }
+
+    override fun leaveModeration() {
+        setResult(Activity.RESULT_OK)
         finish()
     }
 

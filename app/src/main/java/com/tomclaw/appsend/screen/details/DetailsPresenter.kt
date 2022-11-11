@@ -49,6 +49,8 @@ interface DetailsPresenter : ItemListener {
 
         fun leaveScreen()
 
+        fun leaveModeration()
+
         fun requestStoragePermissions(callback: () -> Unit)
 
         fun openPermissionsScreen(permissions: List<String>)
@@ -143,6 +145,13 @@ class DetailsPresenterImpl(
                 router?.leaveScreen()
                 router?.openDetailsScreen(version.appId, details.info.label)
             }
+        }
+        subscriptions += view.moderationClicks().subscribe { isApprove ->
+            sendModerationDecision(isApprove)
+        }
+
+        if (moderation) {
+            view.showModeration()
         }
 
         if (details != null) {
@@ -346,6 +355,24 @@ class DetailsPresenterImpl(
         return details?.actions?.contains(action) ?: fallback
     }
 
+    private fun sendModerationDecision(isApprove: Boolean) {
+        val details = details ?: return
+        subscriptions += interactor.sendModerationDecision(details.info.appId, isApprove)
+            .observeOn(schedulers.mainThread())
+            .doOnSubscribe {
+                view?.hideMenu()
+                view?.showProgress()
+            }
+            .subscribe(
+                { onModerationDecisionSent() },
+                { onLoadingError() }
+            )
+    }
+
+    private fun onModerationDecisionSent() {
+        router?.leaveModeration()
+    }
+
     private fun onLoadingError() {
     }
 
@@ -435,14 +462,14 @@ class DetailsPresenterImpl(
             .sortedBy { it.verCode }
             .reversed()
             .map { version ->
-            VersionItem(
-                versionId = version.appId.hashCode(),
-                appId = version.appId,
-                title = version.verName + " (" + version.verCode + ")",
-                compatible = version.sdkVersion <= Build.VERSION.SDK_INT,
-                newer = version.verCode > info.versionCode,
-            )
-        }
+                VersionItem(
+                    versionId = version.appId.hashCode(),
+                    appId = version.appId,
+                    title = version.verName + " (" + version.verCode + ")",
+                    compatible = version.sdkVersion <= Build.VERSION.SDK_INT,
+                    newer = version.verCode > info.versionCode,
+                )
+            }
         view?.showVersionsDialog(items)
     }
 

@@ -14,6 +14,7 @@ import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.util.getAttributedColor
 import com.tomclaw.appsend.util.hideWithAlphaAnimation
+import com.tomclaw.appsend.util.show
 import com.tomclaw.appsend.util.showWithAlphaAnimation
 import io.reactivex.rxjava3.core.Observable
 
@@ -33,6 +34,8 @@ interface DetailsView {
 
     fun hideMenu()
 
+    fun showModeration()
+
     fun navigationClicks(): Observable<Unit>
 
     fun editClicks(): Observable<Unit>
@@ -48,6 +51,8 @@ interface DetailsView {
     fun retryClicks(): Observable<Unit>
 
     fun versionClicks(): Observable<VersionItem>
+
+    fun moderationClicks(): Observable<Boolean>
 
 }
 
@@ -68,6 +73,9 @@ class DetailsViewImpl(
     private val context = view.context
     private val toolbar: Toolbar = view.findViewById(R.id.toolbar)
     private val recycler: RecyclerView = view.findViewById(R.id.recycler)
+    private val moderation: View = view.findViewById(R.id.moderation_container)
+    private val approveButton: View = view.findViewById(R.id.button_approve)
+    private val denyButton: View = view.findViewById(R.id.button_deny)
     private val blockingProgress: View = view.findViewById(R.id.blocking_progress)
 
     private val navigationRelay = PublishRelay.create<Unit>()
@@ -78,6 +86,7 @@ class DetailsViewImpl(
     private val abuseRelay = PublishRelay.create<Unit>()
     private val retryRelay = PublishRelay.create<Unit>()
     private val versionRelay = PublishRelay.create<VersionItem>()
+    private val moderationRelay = PublishRelay.create<Boolean>()
 
     private val layoutManager: LinearLayoutManager
 
@@ -92,6 +101,13 @@ class DetailsViewImpl(
                 R.id.abuse -> abuseRelay.accept(Unit)
             }
             true
+        }
+
+        approveButton.setOnClickListener {
+            moderationRelay.accept(true)
+        }
+        denyButton.setOnClickListener {
+            moderationRelay.accept(false)
         }
 
         val orientation = RecyclerView.VERTICAL
@@ -188,6 +204,10 @@ class DetailsViewImpl(
         toolbar.invalidateMenu()
     }
 
+    override fun showModeration() {
+        moderation.show()
+    }
+
     override fun navigationClicks(): Observable<Unit> = navigationRelay
 
     override fun editClicks(): Observable<Unit> = editRelay
@@ -203,6 +223,8 @@ class DetailsViewImpl(
     override fun retryClicks(): Observable<Unit> = retryRelay
 
     override fun versionClicks(): Observable<VersionItem> = versionRelay
+
+    override fun moderationClicks(): Observable<Boolean> = moderationRelay
 
 }
 

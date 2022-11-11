@@ -9,12 +9,12 @@
         android:id="@+id/recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/moderation_block"
+        android:layout_above="@+id/moderation_container"
         android:layout_alignTop="@id/toolbar_container"
         android:layout_marginTop="?actionBarSize" />
 
     <LinearLayout
-        android:id="@+id/moderation_block"
+        android:id="@+id/moderation_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="-6dp"
