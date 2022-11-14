@@ -9,9 +9,11 @@ import com.tomclaw.appsend.screen.moderation.adapter.app.AppItem
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.screen.moderation.adapter.ItemListener
 import dagger.Lazy
+import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
 import java.util.ArrayList
+import java.util.concurrent.TimeUnit
 
 interface ModerationPresenter : ItemListener {
 
@@ -115,6 +117,12 @@ class ModerationPresenterImpl(
     private fun loadApps(offsetAppId: String) {
         subscriptions += interactor.listApps(offsetAppId)
             .observeOn(schedulers.mainThread())
+            .retryWhen { errors ->
+                errors.flatMap {
+                    println("[moderation] Retry after exception: " + it.message)
+                    Observable.timer(3, TimeUnit.SECONDS)
+                }
+            }
             .doAfterTerminate { onReady() }
             .subscribe(
                 { onLoaded(it) },
