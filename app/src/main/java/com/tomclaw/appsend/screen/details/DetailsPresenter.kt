@@ -23,9 +23,11 @@ import com.tomclaw.appsend.util.NOT_INSTALLED
 import com.tomclaw.appsend.util.PackageObserver
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
+import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
 import java.io.File
+import java.util.concurrent.TimeUnit
 
 interface DetailsPresenter : ItemListener {
 
@@ -186,6 +188,12 @@ class DetailsPresenterImpl(
     private fun loadDetails() {
         subscriptions += interactor.loadDetails(appId, packageName)
             .observeOn(schedulers.mainThread())
+            .retryWhen { errors ->
+                errors.flatMap {
+                    println("[details] Retry after exception: " + it.message)
+                    Observable.timer(3, TimeUnit.SECONDS)
+                }
+            }
             .doOnSubscribe {
                 view?.hideMenu()
                 view?.showProgress()
@@ -358,7 +366,14 @@ class DetailsPresenterImpl(
     private fun sendModerationDecision(isApprove: Boolean) {
         val details = details ?: return
         subscriptions += interactor.sendModerationDecision(details.info.appId, isApprove)
+            .toObservable()
             .observeOn(schedulers.mainThread())
+            .retryWhen { errors ->
+                errors.flatMap {
+                    println("[moderation decision] Retry after exception: " + it.message)
+                    Observable.timer(3, TimeUnit.SECONDS)
+                }
+            }
             .doOnSubscribe {
                 view?.hideMenu()
                 view?.showProgress()
