@@ -44,7 +44,7 @@ class DetailsInteractorImpl(
         appId: String,
         isApprove: Boolean
     ): Single<ModerationDecisionResponse> {
-        val decision = if (isApprove) 1 else 0
+        val decision = if (isApprove) MODERATION_APPROVE else MODERATION_DENY
         return userDataInteractor
             .getUserData()
             .flatMap {
@@ -59,3 +59,6 @@ class DetailsInteractorImpl(
     }
 
 }
+
+const val MODERATION_APPROVE = 1
+const val MODERATION_DENY = -1
