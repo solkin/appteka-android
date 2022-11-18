@@ -300,6 +300,12 @@
     <string name="review_publish_failed">Не удалось опубликовать отзыв</string>
     <string name="your_review">Ваш отзыв</string>
     <string name="edit_feedback">Изменить отзыв</string>
+    <string name="details_error_title">Что-то пошло не так</string>
+    <string name="details_error_subtitle">Попробуйте ещё раз</string>
+    <string name="downloading_channel_name">Скачивание приложения</string>
+    <string name="install_channel_name">Установка приложения</string>
+    <string name="downloading_channel_description">Отображение прогресса скачивания приложений</string>
+    <string name="install_channel_description">Готовые к установке приложения</string>
     <plurals name="other_versions_count">
         <item quantity="one">%d версия</item>
         <item quantity="few">%d версии</item>

@@ -26,6 +26,7 @@ import dagger.Lazy
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
+import retrofit2.HttpException
 import java.io.File
 import java.util.concurrent.TimeUnit
 
@@ -151,6 +152,9 @@ class DetailsPresenterImpl(
         subscriptions += view.moderationClicks().subscribe { isApprove ->
             sendModerationDecision(isApprove)
         }
+        subscriptions += view.retryClicks().subscribe {
+            loadDetails()
+        }
 
         if (moderation) {
             view.showModeration()
@@ -190,12 +194,16 @@ class DetailsPresenterImpl(
             .observeOn(schedulers.mainThread())
             .retryWhen { errors ->
                 errors.flatMap {
+                    if (it is HttpException) {
+                        throw it
+                    }
                     println("[details] Retry after exception: " + it.message)
                     Observable.timer(3, TimeUnit.SECONDS)
                 }
             }
             .doOnSubscribe {
                 view?.hideMenu()
+                view?.hideError()
                 view?.showProgress()
             }
             .subscribe(
@@ -389,6 +397,9 @@ class DetailsPresenterImpl(
     }
 
     private fun onLoadingError() {
+        view?.hideMenu()
+        view?.showContent()
+        view?.showError()
     }
 
     override fun onBackPressed() {

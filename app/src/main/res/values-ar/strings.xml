@@ -274,6 +274,7 @@
     <string name="write_permission_select">من أجل مسح وتحديد توزيع التطبيقات ، تحتاج إلى منح أذونات التخزين</string>
     <string name="yeah">نعم!</string>
     <string name="yes">نعم</string>
+    <string name="no">No</string>
     <string name="yesterday">شوهد آخر مرة أمس</string>
     <string name="your_email">بريدك الإلكتروني</string>
     <string name="your_opinion">أخبرنا ما رأيك</string>
@@ -336,6 +337,12 @@
     <string name="review_publish_failed">Review publish failed</string>
     <string name="your_review">Your review</string>
     <string name="edit_feedback">Edit feedback</string>
+    <string name="details_error_title">Something went wrong</string>
+    <string name="details_error_subtitle">You can try again</string>
+    <string name="downloading_channel_name">Downloading apps</string>
+    <string name="install_channel_name">Install apps</string>
+    <string name="downloading_channel_description">Downloading apps in progress</string>
+    <string name="install_channel_description">Ready for install apps</string>
     <plurals name="other_versions_count">
         <item quantity="zero">%d version</item>
         <item quantity="one">%d version</item>

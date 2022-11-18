@@ -3,6 +3,7 @@ package com.tomclaw.appsend.screen.details
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -13,6 +14,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.util.getAttributedColor
+import com.tomclaw.appsend.util.hide
 import com.tomclaw.appsend.util.hideWithAlphaAnimation
 import com.tomclaw.appsend.util.show
 import com.tomclaw.appsend.util.showWithAlphaAnimation
@@ -35,6 +37,10 @@ interface DetailsView {
     fun hideMenu()
 
     fun showModeration()
+
+    fun showError()
+
+    fun hideError()
 
     fun navigationClicks(): Observable<Unit>
 
@@ -73,10 +79,12 @@ class DetailsViewImpl(
     private val context = view.context
     private val toolbar: Toolbar = view.findViewById(R.id.toolbar)
     private val recycler: RecyclerView = view.findViewById(R.id.recycler)
+    private val error: View = view.findViewById(R.id.error)
     private val moderation: View = view.findViewById(R.id.moderation_container)
     private val approveButton: View = view.findViewById(R.id.button_approve)
     private val denyButton: View = view.findViewById(R.id.button_deny)
     private val blockingProgress: View = view.findViewById(R.id.blocking_progress)
+    private val retryButton: View = view.findViewById(R.id.retry_button)
 
     private val navigationRelay = PublishRelay.create<Unit>()
     private val editRelay = PublishRelay.create<Unit>()
@@ -109,6 +117,8 @@ class DetailsViewImpl(
         denyButton.setOnClickListener {
             moderationRelay.accept(false)
         }
+
+        retryButton.setOnClickListener { retryRelay.accept(Unit) }
 
         val orientation = RecyclerView.VERTICAL
         layoutManager = LinearLayoutManager(view.context, orientation, false)
@@ -206,6 +216,14 @@ class DetailsViewImpl(
 
     override fun showModeration() {
         moderation.show()
+    }
+
+    override fun showError() {
+        error.show()
+    }
+
+    override fun hideError() {
+        error.hide()
     }
 
     override fun navigationClicks(): Observable<Unit> = navigationRelay
