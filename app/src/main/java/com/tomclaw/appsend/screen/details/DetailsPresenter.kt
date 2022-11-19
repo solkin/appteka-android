@@ -125,6 +125,7 @@ class DetailsPresenterImpl(
         this.view = view
 
         subscriptions += view.navigationClicks().subscribe { onBackPressed() }
+        subscriptions += view.swipeRefresh().subscribe { invalidateDetails() }
         subscriptions += view.editClicks().subscribe {
             appId?.let { appId ->
                 val info = details?.info ?: return@subscribe
@@ -152,16 +153,14 @@ class DetailsPresenterImpl(
         subscriptions += view.moderationClicks().subscribe { isApprove ->
             sendModerationDecision(isApprove)
         }
-        subscriptions += view.retryClicks().subscribe {
-            loadDetails()
-        }
+        subscriptions += view.retryClicks().subscribe { invalidateDetails() }
 
         if (moderation) {
             view.showModeration()
         }
 
         if (details != null) {
-            triggerDetailsChanged()
+            dispatchPackageStatus()
         } else {
             loadDetails()
         }
@@ -214,10 +213,10 @@ class DetailsPresenterImpl(
 
     private fun onDetailsLoaded(details: Details) {
         this.details = details
-        triggerDetailsChanged()
+        dispatchPackageStatus()
     }
 
-    private fun triggerDetailsChanged() {
+    private fun dispatchPackageStatus() {
         val packageName = details?.info?.packageName ?: return
         val appId = details?.info?.appId ?: return
         observerSubscription.clear()

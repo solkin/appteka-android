@@ -8,6 +8,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
 import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder
 import com.google.android.material.snackbar.Snackbar
@@ -44,6 +45,8 @@ interface DetailsView {
 
     fun navigationClicks(): Observable<Unit>
 
+    fun swipeRefresh(): Observable<Unit>
+
     fun editClicks(): Observable<Unit>
 
     fun unpublishClicks(): Observable<Unit>
@@ -78,6 +81,7 @@ class DetailsViewImpl(
 
     private val context = view.context
     private val toolbar: Toolbar = view.findViewById(R.id.toolbar)
+    private val swipeRefresh: SwipeRefreshLayout = view.findViewById(R.id.swipe_refresh)
     private val recycler: RecyclerView = view.findViewById(R.id.recycler)
     private val error: View = view.findViewById(R.id.error)
     private val moderation: View = view.findViewById(R.id.moderation_container)
@@ -87,6 +91,7 @@ class DetailsViewImpl(
     private val retryButton: View = view.findViewById(R.id.retry_button)
 
     private val navigationRelay = PublishRelay.create<Unit>()
+    private val refreshRelay = PublishRelay.create<Unit>()
     private val editRelay = PublishRelay.create<Unit>()
     private val unpublishRelay = PublishRelay.create<Unit>()
     private val unlinkRelay = PublishRelay.create<Unit>()
@@ -109,6 +114,10 @@ class DetailsViewImpl(
                 R.id.abuse -> abuseRelay.accept(Unit)
             }
             true
+        }
+
+        swipeRefresh.setOnRefreshListener {
+            refreshRelay.accept(Unit)
         }
 
         approveButton.setOnClickListener {
@@ -135,6 +144,7 @@ class DetailsViewImpl(
 
     override fun showContent() {
         blockingProgress.hideWithAlphaAnimation(animateFully = false)
+        swipeRefresh.isRefreshing = false
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -227,6 +237,8 @@ class DetailsViewImpl(
     }
 
     override fun navigationClicks(): Observable<Unit> = navigationRelay
+
+    override fun swipeRefresh(): Observable<Unit> = refreshRelay
 
     override fun editClicks(): Observable<Unit> = editRelay
 
