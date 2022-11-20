@@ -3,63 +3,102 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
     android:paddingStart="8dp"
     android:paddingTop="8dp"
     android:paddingEnd="8dp">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/cancel_button"
-        style="@style/MaterialButtonSecondaryOutline"
-        android:layout_width="0dp"
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="8dp"
-        android:layout_weight="1"
-        android:text="@string/cancel"
-        app:cornerRadius="99dp" />
+        android:orientation="horizontal">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/remove_button"
-        style="@style/MaterialButtonSecondaryOutline"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="8dp"
-        android:layout_weight="1"
-        android:text="@string/remove"
-        app:cornerRadius="99dp" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/cancel_button"
+            style="@style/MaterialButtonSecondaryOutline"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:text="@string/cancel"
+            app:cornerRadius="99dp" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/install_button"
-        style="@style/MaterialButtonPrimary"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="8dp"
-        android:layout_weight="1"
-        android:text="@string/install"
-        app:cornerRadius="99dp" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/remove_button"
+            style="@style/MaterialButtonSecondaryOutline"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:text="@string/remove"
+            app:cornerRadius="99dp" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/update_button"
-        style="@style/MaterialButtonPrimary"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="8dp"
-        android:layout_weight="1"
-        android:text="@string/update"
-        app:cornerRadius="99dp" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/install_button"
+            style="@style/MaterialButtonPrimary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:text="@string/install"
+            app:cornerRadius="99dp" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/launch_button"
-        style="@style/MaterialButtonPrimary"
-        android:layout_width="0dp"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/update_button"
+            style="@style/MaterialButtonPrimary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:text="@string/update"
+            app:cornerRadius="99dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/launch_button"
+            style="@style/MaterialButtonPrimary"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:text="@string/open"
+            app:cornerRadius="99dp" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="8dp"
-        android:layout_weight="1"
-        android:text="@string/open"
-        app:cornerRadius="99dp" />
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/discuss_button"
+            style="@style/MaterialButtonSecondaryText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:text="@string/discuss_app"
+            app:cornerRadius="99dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/market_button"
+            style="@style/MaterialButtonSecondaryText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_weight="1"
+            android:text="@string/google_play"
+            app:cornerRadius="99dp" />
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
 
 </androidx.appcompat.widget.LinearLayoutCompat>

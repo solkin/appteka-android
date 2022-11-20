@@ -215,6 +215,10 @@
         <item name="textAllCaps">false</item>
     </style>
 
+    <style name="MaterialButtonSecondaryText" parent="@style/Widget.MaterialComponents.Button.TextButton">
+        <item name="textAllCaps">false</item>
+    </style>
+
     <style name="BottomSheetDialogLight" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/BottomSheetStyle</item>
     </style>

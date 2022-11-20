@@ -2,8 +2,10 @@ package com.tomclaw.appsend.screen.details
 
 import android.Manifest
 import android.app.Activity
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.content.Intent.ACTION_VIEW
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -274,7 +276,26 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
         startActivity(intent)
     }
 
-    override fun startDownload(label: String, version: String, icon: String?, appId: String, url: String) {
+    override fun openGooglePlay(packageName: String) {
+        try {
+            val intent = Intent(ACTION_VIEW, Uri.parse("market://details?id=$packageName"))
+            startActivity(intent)
+        } catch (ex: ActivityNotFoundException) {
+            val intent = Intent(
+                ACTION_VIEW,
+                Uri.parse("https://play.google.com/store/apps/details?id=$packageName")
+            )
+            startActivity(intent)
+        }
+    }
+
+    override fun startDownload(
+        label: String,
+        version: String,
+        icon: String?,
+        appId: String,
+        url: String
+    ) {
         val intent = createDownloadIntent(context = this, label, version, icon, appId, url)
         startService(intent)
     }

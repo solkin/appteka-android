@@ -88,6 +88,8 @@ interface DetailsPresenter : ItemListener {
 
         fun openStoreScreen()
 
+        fun openGooglePlay(packageName: String)
+
         fun startDownload(label: String, version: String, icon: String?, appId: String, url: String)
 
     }
@@ -467,6 +469,14 @@ class DetailsPresenterImpl(
 
     override fun onCancelClick(appId: String) {
         downloadManager.cancel(appId)
+    }
+
+    override fun onDiscussClick() {
+        // TODO: open topicId or create new topic and open it
+    }
+
+    override fun onMarketClick(packageName: String) {
+        router?.openGooglePlay(packageName)
     }
 
     override fun onRateClick(rating: Float, review: String?) {

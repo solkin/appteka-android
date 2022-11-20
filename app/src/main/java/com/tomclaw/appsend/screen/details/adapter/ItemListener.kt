@@ -16,6 +16,10 @@ interface ItemListener {
 
     fun onCancelClick(appId: String)
 
+    fun onDiscussClick()
+
+    fun onMarketClick(packageName: String)
+
     fun onRateClick(rating: Float, review: String?)
 
     fun onVersionsClick()

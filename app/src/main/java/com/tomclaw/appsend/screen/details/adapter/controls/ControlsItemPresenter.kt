@@ -56,6 +56,8 @@ class ControlsItemPresenter(
         view.setOnLaunchClickListener { listener.onLaunchClick(item.packageName) }
         view.setOnRemoveClickListener { listener.onRemoveClick(item.packageName) }
         view.setOnCancelClickListener { listener.onCancelClick(item.appId) }
+        view.setOnDiscussClickListener { listener.onDiscussClick() }
+        view.setOnMarketClickListener { listener.onMarketClick(item.packageName) }
     }
 
 }
