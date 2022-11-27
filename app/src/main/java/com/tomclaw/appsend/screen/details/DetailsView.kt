@@ -3,7 +3,6 @@ package com.tomclaw.appsend.screen.details
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -46,6 +45,8 @@ interface DetailsView {
     fun navigationClicks(): Observable<Unit>
 
     fun swipeRefresh(): Observable<Unit>
+
+    fun shareClicks(): Observable<Unit>
 
     fun editClicks(): Observable<Unit>
 
@@ -92,6 +93,7 @@ class DetailsViewImpl(
 
     private val navigationRelay = PublishRelay.create<Unit>()
     private val refreshRelay = PublishRelay.create<Unit>()
+    private val shareRelay = PublishRelay.create<Unit>()
     private val editRelay = PublishRelay.create<Unit>()
     private val unpublishRelay = PublishRelay.create<Unit>()
     private val unlinkRelay = PublishRelay.create<Unit>()
@@ -107,6 +109,7 @@ class DetailsViewImpl(
         toolbar.setNavigationOnClickListener { navigationRelay.accept(Unit) }
         toolbar.setOnMenuItemClickListener { item ->
             when (item.itemId) {
+                R.id.share -> shareRelay.accept(Unit)
                 R.id.edit_meta -> editRelay.accept(Unit)
                 R.id.unpublish -> unpublishRelay.accept(Unit)
                 R.id.unlink -> unlinkRelay.accept(Unit)
@@ -239,6 +242,8 @@ class DetailsViewImpl(
     override fun navigationClicks(): Observable<Unit> = navigationRelay
 
     override fun swipeRefresh(): Observable<Unit> = refreshRelay
+
+    override fun shareClicks(): Observable<Unit> = shareRelay
 
     override fun editClicks(): Observable<Unit> = editRelay
 

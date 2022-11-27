@@ -36,6 +36,8 @@ import com.tomclaw.appsend.screen.details.adapter.scores.ScoresItemPresenter
 import com.tomclaw.appsend.user.UserDataInteractor
 import com.tomclaw.appsend.screen.details.DetailsPreferencesProvider
 import com.tomclaw.appsend.screen.details.DetailsPreferencesProviderImpl
+import com.tomclaw.appsend.screen.details.DetailsResourceProvider
+import com.tomclaw.appsend.screen.details.DetailsResourceProviderImpl
 import com.tomclaw.appsend.screen.details.adapter.user_rate.UserRateItemBlueprint
 import com.tomclaw.appsend.screen.details.adapter.user_rate.UserRateItemPresenter
 import com.tomclaw.appsend.screen.details.adapter.user_review.UserReviewItemBlueprint
@@ -65,6 +67,7 @@ class DetailsModule(
     @PerActivity
     internal fun providePresenter(
         interactor: DetailsInteractor,
+        resourceProvider: DetailsResourceProvider,
         adapterPresenter: Lazy<AdapterPresenter>,
         packageObserver: PackageObserver,
         downloadManager: DownloadManager,
@@ -75,6 +78,7 @@ class DetailsModule(
         moderation,
         finishOnly,
         interactor,
+        resourceProvider,
         adapterPresenter,
         packageObserver,
         downloadManager,
@@ -89,6 +93,12 @@ class DetailsModule(
         api: StoreApi,
         schedulers: SchedulersFactory
     ): DetailsInteractor = DetailsInteractorImpl(userDataInteractor, api, schedulers)
+
+    @Provides
+    @PerActivity
+    internal fun provideDetailsResourceProvider(
+        locale: Locale
+    ): DetailsResourceProvider = DetailsResourceProviderImpl(resources = context.resources, locale)
 
     @Provides
     @PerActivity

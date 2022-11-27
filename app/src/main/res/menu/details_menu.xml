@@ -2,11 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/share"
+        android:icon="@drawable/ic_share_variant"
+        android:title="@string/share_url"
+        app:iconTint="?android:textColorPrimary"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/edit_meta"
         android:icon="@drawable/ic_edit"
         android:title="@string/edit_meta"
         app:iconTint="?android:textColorPrimary"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="never" />
     <item
         android:id="@+id/unpublish"
         android:icon="@drawable/ic_delete"

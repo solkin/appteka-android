@@ -300,6 +300,14 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
         startService(intent)
     }
 
+    override fun openShare(title: String, text: String) {
+        val intent = Intent()
+            .setAction(Intent.ACTION_SEND)
+            .putExtra(Intent.EXTRA_TEXT, text)
+            .setType("text/plain")
+        startActivity(Intent.createChooser(intent, title))
+    }
+
     private fun onRemoveAppPermitted(packageName: String) {
         val packageUri = Uri.parse("package:$packageName")
         val uninstallIntent = Intent(Intent.ACTION_DELETE, packageUri)

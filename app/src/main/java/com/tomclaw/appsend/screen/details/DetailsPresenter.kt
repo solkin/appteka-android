@@ -92,6 +92,8 @@ interface DetailsPresenter : ItemListener {
 
         fun startDownload(label: String, version: String, icon: String?, appId: String, url: String)
 
+        fun openShare(title: String, text: String)
+
     }
 
 }
@@ -102,6 +104,7 @@ class DetailsPresenterImpl(
     private val moderation: Boolean,
     private val finishOnly: Boolean,
     private val interactor: DetailsInteractor,
+    private val resourceProvider: DetailsResourceProvider,
     private val adapterPresenter: Lazy<AdapterPresenter>,
     private val packageObserver: PackageObserver,
     private val downloadManager: DownloadManager,
@@ -128,6 +131,18 @@ class DetailsPresenterImpl(
 
         subscriptions += view.navigationClicks().subscribe { onBackPressed() }
         subscriptions += view.swipeRefresh().subscribe { invalidateDetails() }
+        subscriptions += view.shareClicks().subscribe {
+            val details = details ?: return@subscribe
+            router?.openShare(
+                title = resourceProvider.shareTitle(),
+                text = resourceProvider.formatShareText(
+                    details.url,
+                    details.info.label,
+                    details.info.labels,
+                    details.info.size
+                )
+            )
+        }
         subscriptions += view.editClicks().subscribe {
             appId?.let { appId ->
                 val info = details?.info ?: return@subscribe
