@@ -27,7 +27,6 @@ interface RatingItemView : ItemView {
 
 class RatingItemViewHolder(view: View) : BaseViewHolder(view), RatingItemView {
 
-    private val context = view.context
     private val userIconView: UserIconView = UserIconViewImpl(view.findViewById(R.id.member_icon))
     private val ratingView: RatingBar = view.findViewById(R.id.rating_view)
     private val dateView: TextView = view.findViewById(R.id.date_view)

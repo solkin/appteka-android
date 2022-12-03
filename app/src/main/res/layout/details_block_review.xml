@@ -22,9 +22,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="8dp"
+        android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:gravity="center_vertical">
+        android:paddingBottom="8dp">
 
         <include
             android:id="@+id/member_icon"
@@ -48,9 +48,9 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-medium"
                 android:includeFontPadding="false"
-                android:paddingBottom="2dp"
                 android:paddingStart="2dp"
                 android:paddingEnd="2dp"
+                android:paddingBottom="2dp"
                 android:textColor="?text_primary_color"
                 android:textSize="14sp"
                 tools:text="Crown" />
@@ -110,9 +110,9 @@
         style="@style/MaterialButtonSecondary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/edit_feedback"
         android:paddingLeft="0dp"
         android:paddingRight="0dp"
+        android:text="@string/edit_feedback"
         app:cornerRadius="99dp" />
 
 </LinearLayout>

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="?selectableItemBackground"
     android:orientation="horizontal"
     android:paddingLeft="12dp"
     android:paddingTop="8dp"
@@ -38,14 +39,14 @@
             android:layout_marginBottom="2dp"
             android:isIndicator="true"
             android:numStars="5"
-            app:mrb_fillBackgroundStars="true"
             android:progressBackgroundTint="?rating_empty"
             android:progressDrawable="@drawable/rating_bar_small"
             android:progressTint="?rating_fill"
-            android:secondaryProgressTint="?rating_empty"
             android:rating="0"
-            tools:rating="3.5"
-            android:stepSize="0.5" />
+            android:secondaryProgressTint="?rating_empty"
+            android:stepSize="0.5"
+            app:mrb_fillBackgroundStars="true"
+            tools:rating="3.5" />
 
         <TextView
             android:id="@+id/rates_count"
