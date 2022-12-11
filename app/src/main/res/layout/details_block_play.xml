@@ -126,6 +126,65 @@
         <include layout="@layout/details_play_item_divider" />
 
         <LinearLayout
+            android:id="@+id/os_version_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingTop="4dp"
+                android:paddingBottom="8dp">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/os_version_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:drawablePadding="2dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:includeFontPadding="false"
+                        android:textColor="?text_primary_color"
+                        android:textSize="16sp"
+                        tools:text="5.0" />
+
+                    <ImageView
+                        android:id="@+id/os_incompatible_image"
+                        android:layout_width="26sp"
+                        android:layout_height="26sp"
+                        android:paddingStart="2dp"
+                        android:paddingEnd="0dp"
+                        app:tint="@color/sdk_incompatible_tint"
+                        android:src="@drawable/ic_alert" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-condensed-light"
+                    android:includeFontPadding="false"
+                    android:paddingTop="5sp"
+                    android:text="@string/android"
+                    android:textColor="?text_secondary_color"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <include layout="@layout/details_play_item_divider" />
+
+        <LinearLayout
             android:id="@+id/exclusive_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -196,48 +255,6 @@
                     android:textColor="?text_secondary_color"
                     android:textSize="14sp"
                     tools:text="Tools" />
-
-            </LinearLayout>
-
-            <include layout="@layout/details_play_item_divider" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/os_version_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:orientation="vertical"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp">
-
-                <TextView
-                    android:id="@+id/os_version_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawablePadding="2dp"
-                    android:fontFamily="sans-serif-medium"
-                    android:includeFontPadding="false"
-                    android:textColor="?text_primary_color"
-                    android:textSize="16sp"
-                    tools:text="5.0" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-condensed-light"
-                    android:includeFontPadding="false"
-                    android:paddingTop="8sp"
-                    android:text="@string/android"
-                    android:textColor="?text_secondary_color"
-                    android:textSize="14sp" />
 
             </LinearLayout>
 

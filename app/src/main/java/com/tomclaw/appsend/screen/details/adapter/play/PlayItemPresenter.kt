@@ -1,5 +1,6 @@
 package com.tomclaw.appsend.screen.details.adapter.play
 
+import android.os.Build
 import com.avito.konveyor.blueprint.ItemPresenter
 import com.tomclaw.appsend.categories.DEFAULT_LOCALE
 import java.util.Locale
@@ -19,11 +20,17 @@ class PlayItemPresenter(
         if (item.exclusive) view.showExclusive() else view.hideExclusive()
 
         item.category?.let {
-            val title = it.name[locale.language] ?: it.name[DEFAULT_LOCALE].orEmpty() // TODO: check for crash on nullable it.name
+            val title = it.name[locale.language] ?: it.name[DEFAULT_LOCALE].orEmpty()
             view.showCategory(it.icon, title)
         } ?: view.hideCategory()
 
-        item.osVersion?.let { view.showOsVersion(it) } ?: view.hideOsVersion()
+        item.osVersion?.let { osVersion ->
+            if ((item.minSdk ?: 0) <= Build.VERSION.SDK_INT) {
+                view.showOsVersionCompatible(osVersion)
+            } else {
+                view.showOsVersionIncompatible(osVersion)
+            }
+        } ?: view.hideOsVersion()
     }
 
 }

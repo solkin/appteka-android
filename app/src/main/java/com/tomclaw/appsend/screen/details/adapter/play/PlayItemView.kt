@@ -9,6 +9,7 @@ import com.caverock.androidsvg.SVG
 import com.caverock.androidsvg.SVGImageView
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.util.bind
+import com.tomclaw.appsend.util.getAttributedColor
 import com.tomclaw.appsend.util.hide
 import com.tomclaw.appsend.util.show
 import com.tomclaw.appsend.util.svgToDrawable
@@ -31,7 +32,9 @@ interface PlayItemView : ItemView {
 
     fun hideCategory()
 
-    fun showOsVersion(version: String)
+    fun showOsVersionCompatible(version: String)
+
+    fun showOsVersionIncompatible(version: String)
 
     fun hideOsVersion()
 
@@ -50,6 +53,7 @@ class PlayItemViewHolder(view: View) : BaseViewHolder(view), PlayItemView {
     private val categoryTitle: TextView = view.findViewById(R.id.category_title)
     private val osVersionContainer: View = view.findViewById(R.id.os_version_container)
     private val osVersionView: TextView = view.findViewById(R.id.os_version_view)
+    private val osIncompatibleImage: ImageView = view.findViewById(R.id.os_incompatible_image)
 
     override fun showRating(rating: String) {
         ratingContainer.show()
@@ -86,9 +90,18 @@ class PlayItemViewHolder(view: View) : BaseViewHolder(view), PlayItemView {
         categoryContainer.hide()
     }
 
-    override fun showOsVersion(version: String) {
+    override fun showOsVersionCompatible(version: String) {
         osVersionContainer.show()
         osVersionView.bind(version)
+        osVersionView.setTextColor(getAttributedColor(context, R.attr.text_primary_color))
+        osIncompatibleImage.hide()
+    }
+
+    override fun showOsVersionIncompatible(version: String) {
+        osVersionContainer.show()
+        osVersionView.bind(version)
+        osVersionView.setTextColor(context.resources.getColor(R.color.sdk_incompatible_tint))
+        osIncompatibleImage.show()
     }
 
     override fun hideOsVersion() {
