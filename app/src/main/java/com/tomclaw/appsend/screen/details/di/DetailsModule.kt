@@ -9,6 +9,8 @@ import com.avito.konveyor.blueprint.ItemBlueprint
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.di.DATE_FORMATTER
 import com.tomclaw.appsend.download.DownloadManager
+import com.tomclaw.appsend.screen.details.DetailsConverter
+import com.tomclaw.appsend.screen.details.DetailsConverterImpl
 import com.tomclaw.appsend.screen.details.DetailsInteractor
 import com.tomclaw.appsend.screen.details.DetailsInteractorImpl
 import com.tomclaw.appsend.screen.details.DetailsPresenter
@@ -69,6 +71,7 @@ class DetailsModule(
         interactor: DetailsInteractor,
         resourceProvider: DetailsResourceProvider,
         adapterPresenter: Lazy<AdapterPresenter>,
+        detailsConverter: DetailsConverter,
         packageObserver: PackageObserver,
         downloadManager: DownloadManager,
         schedulers: SchedulersFactory
@@ -80,6 +83,7 @@ class DetailsModule(
         interactor,
         resourceProvider,
         adapterPresenter,
+        detailsConverter,
         packageObserver,
         downloadManager,
         schedulers,
@@ -99,6 +103,10 @@ class DetailsModule(
     internal fun provideDetailsResourceProvider(
         locale: Locale
     ): DetailsResourceProvider = DetailsResourceProviderImpl(resources = context.resources, locale)
+
+    @Provides
+    @PerActivity
+    internal fun provideDetailsConverterProvider(): DetailsConverter = DetailsConverterImpl()
 
     @Provides
     @PerActivity

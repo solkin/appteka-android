@@ -3,6 +3,7 @@ package com.tomclaw.appsend.screen.details
 import android.content.res.Resources
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.categories.DEFAULT_LOCALE
+import com.tomclaw.appsend.screen.details.api.AppVersion
 import com.tomclaw.appsend.util.FileHelper
 import java.util.Locale
 
@@ -16,6 +17,8 @@ interface DetailsResourceProvider {
         labels: Map<String, String>?,
         size: Long
     ): String
+
+    fun formatVersion(version: AppVersion): String
 
 }
 
@@ -41,6 +44,10 @@ class DetailsResourceProviderImpl(
             ?: defaultLabel.orEmpty()
         val sizeString = FileHelper.formatBytes(resources, size)
         return resources.getString(R.string.uploaded_url, localizedLabel, sizeString, url)
+    }
+
+    override fun formatVersion(version: AppVersion): String {
+        return resources.getString(R.string.app_version_format, version.verName, version.verCode)
     }
 
 }
