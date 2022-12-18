@@ -147,8 +147,12 @@ class DetailsPresenterImpl(
         subscriptions += view.unlinkClicks().subscribe {
             appId?.let { appId -> router?.openUnlinkScreen(appId, details?.info?.label) }
         }
-        subscriptions += view.deleteClicks().subscribe {
-            // TODO: add delete app impl
+        subscriptions += view.deleteClicks().subscribe { isConfirmed ->
+            if (!isConfirmed) {
+                view.showDeletionDialog()
+            } else {
+                deleteFromStore()
+            }
         }
         subscriptions += view.abuseClicks().subscribe {
             appId?.let { appId -> router?.openAbuseScreen(appId, details?.info?.label) }
@@ -178,6 +182,7 @@ class DetailsPresenterImpl(
     override fun detachView() {
         subscriptions.clear()
         observerSubscription.clear()
+        view?.onDismiss()
         this.view = null
     }
 
@@ -308,6 +313,31 @@ class DetailsPresenterImpl(
 
     private fun onModerationDecisionSent() {
         router?.leaveModeration()
+    }
+
+    private fun deleteFromStore() {
+        val details = details ?: return
+        subscriptions += interactor.deleteApplication(details.info.appId)
+            .toObservable()
+            .observeOn(schedulers.mainThread())
+            .retryWhen { errors ->
+                errors.flatMap {
+                    println("[delete from store] Retry after exception: " + it.message)
+                    Observable.timer(3, TimeUnit.SECONDS)
+                }
+            }
+            .doOnSubscribe {
+                view?.hideMenu()
+                view?.showProgress()
+            }
+            .subscribe(
+                { onApplicationDeletedFromStore() },
+                { onLoadingError() }
+            )
+    }
+
+    private fun onApplicationDeletedFromStore() {
+        router?.leaveScreen()
     }
 
     private fun onLoadingError() {

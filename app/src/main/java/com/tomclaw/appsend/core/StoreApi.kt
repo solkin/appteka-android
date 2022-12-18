@@ -8,6 +8,7 @@ import com.tomclaw.appsend.screen.chat.api.ReadTopicResponse
 import com.tomclaw.appsend.screen.chat.api.ReportMessageResponse
 import com.tomclaw.appsend.screen.chat.api.SendMessageResponse
 import com.tomclaw.appsend.screen.chat.api.TopicInfoResponse
+import com.tomclaw.appsend.screen.details.api.DeletionResponse
 import com.tomclaw.appsend.screen.details.api.Details
 import com.tomclaw.appsend.screen.details.api.ModerationDecisionResponse
 import com.tomclaw.appsend.screen.moderation.api.ModerationResponse
@@ -17,6 +18,7 @@ import com.tomclaw.appsend.screen.topics.api.PinTopicResponse
 import com.tomclaw.appsend.screen.topics.api.TopicsResponse
 import com.tomclaw.appsend.user.api.UserDataResponse
 import io.reactivex.rxjava3.core.Single
+import retrofit2.http.DELETE
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
@@ -136,5 +138,11 @@ interface StoreApi {
         @Query("app_id") appId: String,
         @Query("decision") decision: Int
     ): Single<StoreResponse<ModerationDecisionResponse>>
+
+    @DELETE("1/app/delete")
+    fun deleteApplication(
+        @Query("guid") guid: String,
+        @Query("app_id") appId: String
+    ): Single<StoreResponse<DeletionResponse>>
 
 }

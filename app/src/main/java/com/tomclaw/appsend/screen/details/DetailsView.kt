@@ -3,6 +3,7 @@ package com.tomclaw.appsend.screen.details
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -42,6 +43,8 @@ interface DetailsView {
 
     fun hideError()
 
+    fun showDeletionDialog()
+
     fun navigationClicks(): Observable<Unit>
 
     fun swipeRefresh(): Observable<Unit>
@@ -54,7 +57,7 @@ interface DetailsView {
 
     fun unlinkClicks(): Observable<Unit>
 
-    fun deleteClicks(): Observable<Unit>
+    fun deleteClicks(): Observable<Boolean>
 
     fun abuseClicks(): Observable<Unit>
 
@@ -63,6 +66,8 @@ interface DetailsView {
     fun versionClicks(): Observable<VersionItem>
 
     fun moderationClicks(): Observable<Boolean>
+
+    fun onDismiss()
 
 }
 
@@ -97,13 +102,15 @@ class DetailsViewImpl(
     private val editRelay = PublishRelay.create<Unit>()
     private val unpublishRelay = PublishRelay.create<Unit>()
     private val unlinkRelay = PublishRelay.create<Unit>()
-    private val deleteRelay = PublishRelay.create<Unit>()
+    private val deleteRelay = PublishRelay.create<Boolean>()
     private val abuseRelay = PublishRelay.create<Unit>()
     private val retryRelay = PublishRelay.create<Unit>()
     private val versionRelay = PublishRelay.create<VersionItem>()
     private val moderationRelay = PublishRelay.create<Boolean>()
 
     private val layoutManager: LinearLayoutManager
+
+    private var dialog: Dialog? = null
 
     init {
         toolbar.setNavigationOnClickListener { navigationRelay.accept(Unit) }
@@ -113,7 +120,7 @@ class DetailsViewImpl(
                 R.id.edit_meta -> editRelay.accept(Unit)
                 R.id.unpublish -> unpublishRelay.accept(Unit)
                 R.id.unlink -> unlinkRelay.accept(Unit)
-                R.id.delete -> deleteRelay.accept(Unit)
+                R.id.delete -> deleteRelay.accept(false)
                 R.id.abuse -> abuseRelay.accept(Unit)
             }
             true
@@ -239,6 +246,19 @@ class DetailsViewImpl(
         error.hide()
     }
 
+    override fun showDeletionDialog() {
+        dialog?.dismiss()
+        dialog = AlertDialog.Builder(context)
+            .setTitle(context.resources.getString(R.string.delete_app_title))
+            .setMessage(context.resources.getString(R.string.delete_app_message))
+            .setNegativeButton(R.string.yes) { _, _ ->
+                deleteRelay.accept(true)
+            }
+            .setPositiveButton(R.string.no, null)
+            .create()
+        dialog?.show()
+    }
+
     override fun navigationClicks(): Observable<Unit> = navigationRelay
 
     override fun swipeRefresh(): Observable<Unit> = refreshRelay
@@ -251,7 +271,7 @@ class DetailsViewImpl(
 
     override fun unlinkClicks(): Observable<Unit> = unlinkRelay
 
-    override fun deleteClicks(): Observable<Unit> = deleteRelay
+    override fun deleteClicks(): Observable<Boolean> = deleteRelay
 
     override fun abuseClicks(): Observable<Unit> = abuseRelay
 
@@ -260,6 +280,10 @@ class DetailsViewImpl(
     override fun versionClicks(): Observable<VersionItem> = versionRelay
 
     override fun moderationClicks(): Observable<Boolean> = moderationRelay
+
+    override fun onDismiss() {
+        dialog?.dismiss()
+    }
 
 }
 
