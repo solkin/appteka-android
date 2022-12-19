@@ -21,13 +21,12 @@ interface DetailsConverter {
 
 class DetailsConverterImpl : DetailsConverter {
 
-    private var id: Long = 1
-
     override fun convert(
         details: Details,
         downloadState: Int,
         installedVersionCode: Int
     ): List<Item> {
+        var id: Long = 1
         val items = ArrayList<Item>()
 
         items += HeaderItem(
