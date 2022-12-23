@@ -1,5 +1,8 @@
 package com.tomclaw.appsend.screen.details.adapter.header
 
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.graphics.Color.parseColor
 import android.view.View
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -118,6 +121,8 @@ class HeaderItemViewHolder(view: View) : BaseViewHolder(view), HeaderItemView {
 
     override fun setUploaderIcon(userIcon: UserIcon) {
         this.uploaderIcon.bind(userIcon)
+        val color = parseColor(userIcon.color)
+        this.uploaderContainer.backgroundTintList = ColorStateList.valueOf(color)
     }
 
     override fun setUploaderName(name: String) {

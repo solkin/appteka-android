@@ -82,12 +82,15 @@
             android:typeface="monospace"
             tools:text="com.example.android.app" />
 
+
         <LinearLayout
             android:id="@+id/uploader_container"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingTop="5dp">
+            android:layout_marginTop="5dp"
+            android:background="@drawable/rounded_white_ripple"
+            android:backgroundTint="@color/primary_color"
+            android:orientation="horizontal">
 
             <include
                 android:id="@+id/uploader_icon"
@@ -99,9 +102,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:fontFamily="sans-serif-medium"
+                android:fontFamily="sans-serif"
                 android:includeFontPadding="false"
                 android:paddingStart="6dp"
+                android:paddingEnd="9dp"
                 android:textColor="?text_primary_color"
                 android:textSize="12sp"
                 tools:text="Crown" />
