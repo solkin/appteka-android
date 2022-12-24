@@ -1,11 +1,9 @@
 package com.tomclaw.appsend.screen.details.adapter.header
 
 import android.content.res.ColorStateList
-import android.graphics.Color
 import android.graphics.Color.parseColor
 import android.view.View
 import android.widget.ImageView
-import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.core.view.isVisible
 import com.avito.konveyor.adapter.BaseViewHolder

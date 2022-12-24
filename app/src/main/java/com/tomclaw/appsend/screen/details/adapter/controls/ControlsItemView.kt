@@ -43,8 +43,6 @@ interface ControlsItemView : ItemView {
 
     fun setOnDiscussClickListener(listener: (() -> Unit)?)
 
-    fun setOnMarketClickListener(listener: (() -> Unit)?)
-
 }
 
 class ControlsItemViewHolder(view: View) : BaseViewHolder(view), ControlsItemView {
@@ -55,7 +53,6 @@ class ControlsItemViewHolder(view: View) : BaseViewHolder(view), ControlsItemVie
     private val removeButton: View = view.findViewById(R.id.remove_button)
     private val cancelButton: View = view.findViewById(R.id.cancel_button)
     private val discussButton: View = view.findViewById(R.id.discuss_button)
-    private val marketButton: View = view.findViewById(R.id.market_button)
 
     private var installClickListener: (() -> Unit)? = null
     private var updateClickListener: (() -> Unit)? = null
@@ -63,7 +60,6 @@ class ControlsItemViewHolder(view: View) : BaseViewHolder(view), ControlsItemVie
     private var removeClickListener: (() -> Unit)? = null
     private var cancelClickListener: (() -> Unit)? = null
     private var discussClickListener: (() -> Unit)? = null
-    private var marketClickListener: (() -> Unit)? = null
 
     init {
         installButton.setOnClickListener { installClickListener?.invoke() }
@@ -72,7 +68,6 @@ class ControlsItemViewHolder(view: View) : BaseViewHolder(view), ControlsItemVie
         removeButton.setOnClickListener { removeClickListener?.invoke() }
         cancelButton.setOnClickListener { cancelClickListener?.invoke() }
         discussButton.setOnClickListener { discussClickListener?.invoke() }
-        marketButton.setOnClickListener { marketClickListener?.invoke() }
     }
 
     override fun showInstallButton() {
@@ -143,10 +138,6 @@ class ControlsItemViewHolder(view: View) : BaseViewHolder(view), ControlsItemVie
 
     override fun setOnDiscussClickListener(listener: (() -> Unit)?) {
         this.discussClickListener = listener
-    }
-
-    override fun setOnMarketClickListener(listener: (() -> Unit)?) {
-        this.marketClickListener = listener
     }
 
     override fun onUnbind() {

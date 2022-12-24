@@ -418,8 +418,9 @@ class DetailsPresenterImpl(
         // TODO: open topicId or create new topic and open it
     }
 
-    override fun onMarketClick(packageName: String) {
-        router?.openGooglePlay(packageName)
+    override fun onGooglePlayClick() {
+        val info = details?.info ?: return
+        router?.openGooglePlay(info.packageName)
     }
 
     override fun onRateClick(rating: Float, review: String?) {

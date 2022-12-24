@@ -18,7 +18,7 @@ interface ItemListener {
 
     fun onDiscussClick()
 
-    fun onMarketClick(packageName: String)
+    fun onGooglePlayClick()
 
     fun onRateClick(rating: Float, review: String?)
 

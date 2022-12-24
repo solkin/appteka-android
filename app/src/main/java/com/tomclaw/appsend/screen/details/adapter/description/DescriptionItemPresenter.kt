@@ -15,6 +15,7 @@ class DescriptionItemPresenter(
         view.setUploadDate(resourceProvider.formatDate(item.uploadDate))
         view.setChecksum(item.checksum)
 
+        view.setOnGooglePlayClickListener { listener.onGooglePlayClick() }
         view.setOnVersionsClickListener { listener.onVersionsClick() }
     }
 
