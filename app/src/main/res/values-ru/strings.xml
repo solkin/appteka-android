@@ -306,6 +306,7 @@
     <string name="install_channel_name">Установка приложения</string>
     <string name="downloading_channel_description">Отображение прогресса скачивания приложений</string>
     <string name="install_channel_description">Готовые к установке приложения</string>
+    <string name="discuss_description">Обсудите приложение с\u00A0другими пользователями во\u00A0встроенном мессенджере</string>
     <plurals name="other_versions_count">
         <item quantity="one">%d версия</item>
         <item quantity="few">%d версии</item>

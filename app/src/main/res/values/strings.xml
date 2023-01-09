@@ -313,6 +313,7 @@
     <string name="edit_feedback">Edit feedback</string>
     <string name="details_error_title">Something went wrong</string>
     <string name="details_error_subtitle">You can try again</string>
+    <string name="discuss_description">Discuss application with other users in\u00A0embedded messenger</string>
     <plurals name="other_versions_count">
         <item quantity="one">%d version</item>
         <item quantity="few">%d versions</item>

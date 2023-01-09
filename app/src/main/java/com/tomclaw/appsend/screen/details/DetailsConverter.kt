@@ -3,6 +3,7 @@ package com.tomclaw.appsend.screen.details
 import com.avito.konveyor.blueprint.Item
 import com.tomclaw.appsend.screen.details.adapter.controls.ControlsItem
 import com.tomclaw.appsend.screen.details.adapter.description.DescriptionItem
+import com.tomclaw.appsend.screen.details.adapter.discuss.DiscussItem
 import com.tomclaw.appsend.screen.details.adapter.header.HeaderItem
 import com.tomclaw.appsend.screen.details.adapter.permissions.PermissionsItem
 import com.tomclaw.appsend.screen.details.adapter.play.PlayItem
@@ -78,6 +79,10 @@ class DetailsConverterImpl : DetailsConverter {
                 appId = details.info.appId,
             )
         }
+        items += DiscussItem(
+            id = id++,
+            msgCount = details.msgCount,
+        )
         if (!details.meta?.description.isNullOrBlank()) {
             items += DescriptionItem(
                 id = id++,

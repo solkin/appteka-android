@@ -40,6 +40,8 @@ import com.tomclaw.appsend.screen.details.DetailsPreferencesProvider
 import com.tomclaw.appsend.screen.details.DetailsPreferencesProviderImpl
 import com.tomclaw.appsend.screen.details.DetailsResourceProvider
 import com.tomclaw.appsend.screen.details.DetailsResourceProviderImpl
+import com.tomclaw.appsend.screen.details.adapter.discuss.DiscussItemBlueprint
+import com.tomclaw.appsend.screen.details.adapter.discuss.DiscussItemPresenter
 import com.tomclaw.appsend.screen.details.adapter.user_rate.UserRateItemBlueprint
 import com.tomclaw.appsend.screen.details.adapter.user_rate.UserRateItemPresenter
 import com.tomclaw.appsend.screen.details.adapter.user_review.UserReviewItemBlueprint
@@ -271,5 +273,18 @@ class DetailsModule(
         locale: Locale,
         presenter: DetailsPresenter,
     ) = UserReviewItemPresenter(dateFormatter, locale, presenter)
+
+    @Provides
+    @IntoSet
+    @PerActivity
+    internal fun provideDiscussItemBlueprint(
+        presenter: DiscussItemPresenter
+    ): ItemBlueprint<*, *> = DiscussItemBlueprint(presenter)
+
+    @Provides
+    @PerActivity
+    internal fun provideDiscussItemPresenter(
+        presenter: DetailsPresenter,
+    ) = DiscussItemPresenter(presenter)
 
 }

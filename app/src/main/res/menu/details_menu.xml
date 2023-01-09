@@ -2,6 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/discuss"
+        android:icon="@drawable/ic_discuss"
+        android:title="@string/discuss_app"
+        app:iconTint="?android:textColorPrimary"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/share"
         android:icon="@drawable/ic_share_variant"
         android:title="@string/share_url"
