@@ -77,6 +77,8 @@ interface DetailsPresenter : ItemListener {
 
         fun openDetailsScreen(appId: String, label: String?)
 
+        fun openChatScreen(topicId: Int, label: String?)
+
         fun openStoreScreen()
 
         fun openGooglePlay(packageName: String)
@@ -415,7 +417,12 @@ class DetailsPresenterImpl(
     }
 
     override fun onDiscussClick() {
-        // TODO: open topicId or create new topic and open it
+        val details = details ?: return
+        details.topicId?.let { topicId ->
+            router?.openChatScreen(topicId, details.info.label)
+        } ?: {
+            // TODO: create new topic and open it
+        }
     }
 
     override fun onGooglePlayClick() {

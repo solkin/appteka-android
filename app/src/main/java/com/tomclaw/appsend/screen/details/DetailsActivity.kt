@@ -29,6 +29,7 @@ import com.tomclaw.appsend.main.profile.ProfileActivity_
 import com.tomclaw.appsend.main.ratings.RatingsActivity_
 import com.tomclaw.appsend.main.unlink.UnlinkActivity.createUnlinkActivityIntent
 import com.tomclaw.appsend.main.unpublish.UnpublishActivity.createUnpublishActivityIntent
+import com.tomclaw.appsend.screen.chat.createChatActivityIntent
 import com.tomclaw.appsend.screen.details.di.DetailsModule
 import com.tomclaw.appsend.screen.rate.createRateActivityIntent
 import com.tomclaw.appsend.util.IntentHelper
@@ -269,6 +270,11 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
         val intent = createDetailsActivityIntent(this, appId, label = label.orEmpty())
         startActivity(intent)
         finish()
+    }
+
+    override fun openChatScreen(topicId: Int, label: String?) {
+        val intent = createChatActivityIntent(this, topicId, label)
+        startActivity(intent)
     }
 
     override fun openStoreScreen() {
