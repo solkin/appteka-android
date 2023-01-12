@@ -418,10 +418,22 @@ class DetailsPresenterImpl(
 
     override fun onDiscussClick() {
         val details = details ?: return
-        details.topicId?.let { topicId ->
-            router?.openChatScreen(topicId, details.info.label)
-        } ?: {
-            // TODO: create new topic and open it
+        if (details.topicId != null) {
+            router?.openChatScreen(details.topicId, details.info.label)
+        } else {
+            subscriptions += interactor.createTopic(details.info.packageName)
+                .toObservable()
+                .observeOn(schedulers.mainThread())
+                .retryWhen { errors ->
+                    errors.flatMap {
+                        println("[discuss create] Retry after exception: " + it.message)
+                        Observable.timer(3, TimeUnit.SECONDS)
+                    }
+                }
+                .subscribe(
+                    { router?.openChatScreen(topicId = it.topic.topicId, label = it.topic.title) },
+                    { showSnackbar(resourceProvider.createTopicError()) }
+                )
         }
     }
 

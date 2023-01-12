@@ -8,6 +8,7 @@ import com.tomclaw.appsend.screen.chat.api.ReadTopicResponse
 import com.tomclaw.appsend.screen.chat.api.ReportMessageResponse
 import com.tomclaw.appsend.screen.chat.api.SendMessageResponse
 import com.tomclaw.appsend.screen.chat.api.TopicInfoResponse
+import com.tomclaw.appsend.screen.details.api.CreateTopicResponse
 import com.tomclaw.appsend.screen.details.api.DeletionResponse
 import com.tomclaw.appsend.screen.details.api.Details
 import com.tomclaw.appsend.screen.details.api.ModerationDecisionResponse
@@ -144,5 +145,11 @@ interface StoreApi {
         @Query("guid") guid: String,
         @Query("app_id") appId: String
     ): Single<StoreResponse<DeletionResponse>>
+
+    @POST("1/chat/topic/create")
+    fun createTopic(
+        @Query("guid") guid: String,
+        @Query("package") packageName: String
+    ): Single<StoreResponse<CreateTopicResponse>>
 
 }

@@ -86,6 +86,7 @@ import com.tomclaw.appsend.main.unlink.UnlinkActivity_;
 import com.tomclaw.appsend.main.unpublish.UnpublishActivity_;
 import com.tomclaw.appsend.main.view.PlayView;
 import com.tomclaw.appsend.net.Session;
+import com.tomclaw.appsend.screen.details.api.CreateTopicResponse;
 import com.tomclaw.appsend.screen.moderation.api.ModerationResponse;
 import com.tomclaw.appsend.util.FileHelper;
 import com.tomclaw.appsend.util.IntentHelper;

@@ -3,7 +3,7 @@ package com.tomclaw.appsend.core;
 import com.tomclaw.appsend.dto.StoreResponse;
 import com.tomclaw.appsend.events.EventsResponse;
 import com.tomclaw.appsend.main.auth.AuthResponse;
-import com.tomclaw.appsend.main.download.CreateTopicResponse;
+import com.tomclaw.appsend.screen.details.api.CreateTopicResponse;
 import com.tomclaw.appsend.main.dto.AbuseResult;
 import com.tomclaw.appsend.main.dto.ApiResponse;
 import com.tomclaw.appsend.main.dto.StoreInfo;

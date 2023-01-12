@@ -20,6 +20,8 @@ interface DetailsResourceProvider {
 
     fun formatVersion(version: AppVersion): String
 
+    fun createTopicError(): String
+
 }
 
 class DetailsResourceProviderImpl(
@@ -48,6 +50,10 @@ class DetailsResourceProviderImpl(
 
     override fun formatVersion(version: AppVersion): String {
         return resources.getString(R.string.app_version_format, version.verName, version.verCode)
+    }
+
+    override fun createTopicError(): String {
+        return resources.getString(R.string.error_app_topic_creation)
     }
 
 }

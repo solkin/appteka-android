@@ -1,6 +1,7 @@
 package com.tomclaw.appsend.screen.details
 
 import com.tomclaw.appsend.core.StoreApi
+import com.tomclaw.appsend.screen.details.api.CreateTopicResponse
 import com.tomclaw.appsend.screen.details.api.DeletionResponse
 import com.tomclaw.appsend.screen.details.api.Details
 import com.tomclaw.appsend.screen.details.api.ModerationDecisionResponse
@@ -19,6 +20,8 @@ interface DetailsInteractor {
     ): Single<ModerationDecisionResponse>
 
     fun deleteApplication(appId: String): Single<DeletionResponse>
+
+    fun createTopic(packageName: String): Single<CreateTopicResponse>
 
 }
 
@@ -68,6 +71,19 @@ class DetailsInteractorImpl(
                 api.deleteApplication(
                     guid = it.guid,
                     appId = appId,
+                )
+            }
+            .map { it.result }
+            .subscribeOn(schedulers.io())
+    }
+
+    override fun createTopic(packageName: String): Single<CreateTopicResponse> {
+        return userDataInteractor
+            .getUserData()
+            .flatMap {
+                api.createTopic(
+                    guid = it.guid,
+                    packageName = packageName,
                 )
             }
             .map { it.result }
