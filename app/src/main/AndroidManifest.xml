@@ -62,7 +62,7 @@
             android:name=".main.download.DownloadActivity"
             android:label="@string/download"
             android:windowSoftInputMode="stateAlwaysHidden">
-            <intent-filter>
+            <!--intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
@@ -76,7 +76,7 @@
                 <data
                     android:host="appteka.store"
                     android:pathPrefix="/app" />
-            </intent-filter>
+            </intent-filter-->
         </activity>
         <activity
             android:name=".main.permissions.PermissionsActivity_"

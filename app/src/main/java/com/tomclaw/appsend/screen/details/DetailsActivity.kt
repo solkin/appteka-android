@@ -9,6 +9,7 @@ import android.content.Intent.ACTION_VIEW
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.text.TextUtils
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AppCompatActivity
 import com.avito.konveyor.ItemBinder
@@ -21,6 +22,7 @@ import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.download.createDownloadIntent
 import com.tomclaw.appsend.main.abuse.AbuseActivity.createAbuseActivityIntent
+import com.tomclaw.appsend.main.download.DownloadActivity
 import com.tomclaw.appsend.main.home.HomeActivity.createStoreActivityIntent
 import com.tomclaw.appsend.main.meta.MetaActivity.createEditMetaActivityIntent
 import com.tomclaw.appsend.main.permissions.PermissionsActivity_
@@ -66,12 +68,31 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val appId = intent.getStringExtra(EXTRA_APP_ID)
-        val packageName = intent.getStringExtra(EXTRA_PACKAGE)
-        appId ?: packageName
-        ?: throw IllegalArgumentException("appId or packageName must be provided")
-        val moderation = intent.getBooleanExtra(EXTRA_MODERATION, false)
-        val finishOnly = intent.getBooleanExtra(EXTRA_FINISH_ONLY, false)
+        var appId: String? = null
+        var packageName: String? = null
+        var moderation = false
+        var finishOnly = false
+
+        val data = intent.data
+        if (data != null && data.host != null) {
+            if (data.host == "appteka.store") {
+                val path = data.pathSegments
+                if (path.size == 2) {
+                    appId = path[1]
+                }
+            } else if (data.host == "appsend.store") {
+                appId = data.getQueryParameter("id")
+                packageName = data.getQueryParameter("package")
+            }
+        } else {
+            appId = intent.getStringExtra(EXTRA_APP_ID)
+            packageName = intent.getStringExtra(EXTRA_PACKAGE)
+            moderation = intent.getBooleanExtra(EXTRA_MODERATION, false)
+            finishOnly = intent.getBooleanExtra(EXTRA_FINISH_ONLY, false)
+        }
+        appId
+            ?: packageName
+            ?: throw IllegalArgumentException("appId or packageName must be provided")
 
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
         Appteka.getComponent()
