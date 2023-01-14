@@ -75,5 +75,6 @@ dependencies {
     implementation 'com.github.avito-tech:Konveyor:0.42.2'
     implementation 'com.github.rubensousa:BottomSheetBuilder:1.6.0'
     debugImplementation 'com.github.chuckerteam.chucker:library:3.5.2'
+    releaseImplementation 'com.github.chuckerteam.chucker:library-no-op:3.5.2'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
 }
