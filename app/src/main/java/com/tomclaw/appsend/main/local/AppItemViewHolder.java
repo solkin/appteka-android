@@ -1,6 +1,5 @@
 package com.tomclaw.appsend.main.local;
 
-import static com.tomclaw.appsend.main.download.DownloadActivity.createAppActivityIntent;
 import static com.tomclaw.appsend.screen.details.DetailsActivityKt.createDetailsActivityIntent;
 import static com.tomclaw.appsend.util.TimeHelper.timeHelper;
 import static com.tomclaw.imageloader.util.ImageViewHandlersKt.centerCrop;
@@ -14,12 +13,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tomclaw.appsend.R;
-import com.tomclaw.appsend.core.Config;
 import com.tomclaw.appsend.main.adapter.files.FileViewHolder;
 import com.tomclaw.appsend.main.adapter.files.FilesListener;
 import com.tomclaw.appsend.main.item.AppItem;
-import com.tomclaw.appsend.util.PackageIconLoader;
 import com.tomclaw.appsend.util.FileHelper;
+import com.tomclaw.appsend.util.PackageIconLoader;
 
 import java.util.concurrent.TimeUnit;
 
@@ -83,23 +81,14 @@ public class AppItemViewHolder extends FileViewHolder<AppItem> {
         updateButton.setOnClickListener(v -> {
             String appId = item.getUpdate().getAppId();
             String label = item.getUpdate().getLabel();
-            Intent intent = Config.NEW_DETAILS_SCREEN ?
-                    createDetailsActivityIntent(
-                            context,
-                            appId,
-                            null,
-                            label,
-                            false,
-                            true
-                    )
-                    :
-                    createAppActivityIntent(
-                            context,
-                            appId,
-                            label,
-                            false,
-                            true
-                    );
+            Intent intent = createDetailsActivityIntent(
+                    context,
+                    appId,
+                    null,
+                    label,
+                    false,
+                    true
+            );
             context.startActivity(intent);
         });
     }

@@ -10,8 +10,6 @@ import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
-import com.tomclaw.appsend.core.Config
-import com.tomclaw.appsend.main.download.DownloadActivity.createAppActivityIntent
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.screen.moderation.di.ModerationModule
 import com.tomclaw.appsend.util.ThemeHelper
@@ -76,23 +74,13 @@ class ModerationActivity : AppCompatActivity(), ModerationPresenter.ModerationRo
     }
 
     override fun openAppModerationScreen(appId: String, title: String) {
-        val intent = if (Config.NEW_DETAILS_SCREEN) {
-            createDetailsActivityIntent(
-                context = this,
-                appId = appId,
-                label = title,
-                moderation = true,
-                finishOnly = true
-            )
-        } else {
-            createAppActivityIntent(
-                this,
-                appId,
-                title,
-                true,
-                true
-            )
-        }
+        val intent = createDetailsActivityIntent(
+            context = this,
+            appId = appId,
+            label = title,
+            moderation = true,
+            finishOnly = true
+        )
         invalidateDetailsResultLauncher.launch(intent)
     }
 

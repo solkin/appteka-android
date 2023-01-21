@@ -1,8 +1,11 @@
 package com.tomclaw.appsend.main.local;
 
+import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
+import static com.tomclaw.appsend.screen.details.DetailsActivityKt.createDetailsActivityIntent;
+import static com.tomclaw.appsend.util.IntentHelper.openGooglePlay;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ListAdapter;
@@ -21,11 +24,8 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 import com.greysonparrelli.permiso.PermisoActivity;
 import com.tomclaw.appsend.R;
-import com.tomclaw.appsend.core.Config;
 import com.tomclaw.appsend.main.adapter.MenuAdapter;
-import com.tomclaw.appsend.main.download.DownloadActivity;
 import com.tomclaw.appsend.main.item.CommonItem;
-import com.tomclaw.appsend.util.LocaleHelper;
 import com.tomclaw.appsend.util.PreferenceHelper;
 import com.tomclaw.appsend.util.ThemeHelper;
 
@@ -37,11 +37,6 @@ import org.androidannotations.annotations.ViewById;
 
 import java.util.Arrays;
 import java.util.List;
-
-import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
-import static com.tomclaw.appsend.main.download.DownloadActivity.createAppActivityIntent;
-import static com.tomclaw.appsend.screen.details.DetailsActivityKt.createDetailsActivityIntent;
-import static com.tomclaw.appsend.util.IntentHelper.openGooglePlay;
 
 @SuppressLint("Registered")
 @EActivity(R.layout.local_apps)
@@ -126,22 +121,14 @@ public class SelectLocalAppActivity extends PermisoActivity implements CommonIte
                             case 2: {
                                 String packageName = item.getPackageName();
                                 String label = item.getLabel();
-                                Intent intent = Config.NEW_DETAILS_SCREEN ?
-                                        createDetailsActivityIntent(
-                                                context,
-                                                null,
-                                                packageName,
-                                                label,
-                                                false,
-                                                true
-                                        )
-                                        :
-                                        createAppActivityIntent(
-                                                context,
-                                                packageName,
-                                                label,
-                                                true
-                                        );
+                                Intent intent = createDetailsActivityIntent(
+                                        context,
+                                        null,
+                                        packageName,
+                                        label,
+                                        false,
+                                        true
+                                );
                                 startActivity(intent);
                                 trackEvent("click-search-appteka");
                                 break;

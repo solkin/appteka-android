@@ -1,5 +1,10 @@
 package com.tomclaw.appsend.main.store;
 
+import static androidx.recyclerview.widget.RecyclerView.VERTICAL;
+import static com.tomclaw.appsend.screen.details.DetailsActivityKt.createDetailsActivityIntent;
+import static com.tomclaw.appsend.util.PackageHelper.getInstalledVersionCode;
+import static com.tomclaw.appsend.util.states.StateHolder.stateHolder;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -16,11 +21,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.tomclaw.appsend.R;
-import com.tomclaw.appsend.core.Config;
 import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.main.adapter.files.FilesAdapter;
 import com.tomclaw.appsend.main.adapter.files.FilesListener;
-import com.tomclaw.appsend.main.download.DownloadActivity;
 import com.tomclaw.appsend.main.dto.ApiResponse;
 import com.tomclaw.appsend.main.home.HomeFragment;
 import com.tomclaw.appsend.main.item.StoreItem;
@@ -38,12 +41,6 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static androidx.recyclerview.widget.RecyclerView.VERTICAL;
-import static com.tomclaw.appsend.main.download.DownloadActivity.createAppActivityIntent;
-import static com.tomclaw.appsend.screen.details.DetailsActivityKt.createDetailsActivityIntent;
-import static com.tomclaw.appsend.util.PackageHelper.getInstalledVersionCode;
-import static com.tomclaw.appsend.util.states.StateHolder.stateHolder;
 
 @EFragment
 public abstract class BaseStoreFragment extends HomeFragment implements FilesListener<StoreItem> {
@@ -267,23 +264,14 @@ public abstract class BaseStoreFragment extends HomeFragment implements FilesLis
         }
         String appId = item.getAppId();
         String label = LocaleHelper.getLocalizedLabel(item);
-        Intent intent = Config.NEW_DETAILS_SCREEN ?
-                createDetailsActivityIntent(
-                        context,
-                        appId,
-                        null,
-                        label,
-                        false,
-                        true
-                )
-                :
-                createAppActivityIntent(
-                        context,
-                        appId,
-                        label,
-                        false,
-                        true
-                );
+        Intent intent = createDetailsActivityIntent(
+                context,
+                appId,
+                null,
+                label,
+                false,
+                true
+        );
         startActivity(intent);
     }
 

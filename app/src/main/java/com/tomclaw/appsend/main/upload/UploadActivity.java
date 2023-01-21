@@ -1,7 +1,6 @@
 package com.tomclaw.appsend.main.upload;
 
 import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
-import static com.tomclaw.appsend.main.download.DownloadActivity.createAppActivityIntent;
 import static com.tomclaw.appsend.screen.details.DetailsActivityKt.createDetailsActivityIntent;
 import static com.tomclaw.appsend.util.IntentHelper.shareUrl;
 import static com.tomclaw.imageloader.util.ImageViewHandlersKt.centerCrop;
@@ -27,15 +26,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.tomclaw.appsend.R;
-import com.tomclaw.appsend.core.Config;
-import com.tomclaw.appsend.main.download.DownloadActivity;
 import com.tomclaw.appsend.main.item.CommonItem;
 import com.tomclaw.appsend.main.meta.MetaActivity;
 import com.tomclaw.appsend.net.Session;
 import com.tomclaw.appsend.net.Session_;
 import com.tomclaw.appsend.util.FileHelper;
 import com.tomclaw.appsend.util.IntentHelper;
-import com.tomclaw.appsend.util.LocaleHelper;
 import com.tomclaw.appsend.util.PackageIconLoader;
 import com.tomclaw.appsend.util.StringUtil;
 import com.tomclaw.appsend.util.ThemeHelper;
@@ -149,23 +145,14 @@ public class UploadActivity extends AppCompatActivity implements UploadControlle
 
     private void openUploaded() {
         String label = item.getLabel();
-        Intent intent = Config.NEW_DETAILS_SCREEN ?
-                createDetailsActivityIntent(
-                        this,
-                        appId,
-                        null,
-                        label,
-                        false,
-                        false
-                )
-                :
-                createAppActivityIntent(
-                        this,
-                        appId,
-                        label,
-                        false,
-                        false
-                );
+        Intent intent = createDetailsActivityIntent(
+                this,
+                appId,
+                null,
+                label,
+                false,
+                false
+        );
         startActivity(intent);
     }
 

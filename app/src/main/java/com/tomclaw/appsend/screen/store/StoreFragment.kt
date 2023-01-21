@@ -9,13 +9,9 @@ import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
-import com.tomclaw.appsend.core.Config
-import com.tomclaw.appsend.main.download.DownloadActivity
-import com.tomclaw.appsend.main.download.DownloadActivity.createAppActivityIntent
 import com.tomclaw.appsend.main.home.HomeFragment
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.screen.store.di.StoreModule
-import java.util.Locale
 import javax.inject.Inject
 
 class StoreFragment : HomeFragment(), StorePresenter.StoreRouter {
@@ -77,23 +73,13 @@ class StoreFragment : HomeFragment(), StorePresenter.StoreRouter {
     }
 
     override fun openAppScreen(appId: String, title: String) {
-        val intent = if (Config.NEW_DETAILS_SCREEN) {
-            createDetailsActivityIntent(
-                context = requireContext(),
-                appId = appId,
-                label = title,
-                moderation = false,
-                finishOnly = true
-            )
-        } else {
-            createAppActivityIntent(
-                requireContext(),
-                appId,
-                title,
-                false,
-                true
-            )
-        }
+        val intent = createDetailsActivityIntent(
+            context = requireContext(),
+            appId = appId,
+            label = title,
+            moderation = false,
+            finishOnly = true
+        )
         startActivity(intent)
     }
 

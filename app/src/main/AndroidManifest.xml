@@ -59,26 +59,6 @@
             android:name=".main.upload.UploadActivity"
             android:label="@string/upload" />
         <activity
-            android:name=".main.download.DownloadActivity"
-            android:label="@string/download"
-            android:windowSoftInputMode="stateAlwaysHidden">
-            <!--intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data android:scheme="http" />
-                <data android:scheme="https" />
-                <data
-                    android:host="appsend.store"
-                    android:pathPrefix="/app" />
-                <data
-                    android:host="appteka.store"
-                    android:pathPrefix="/app" />
-            </intent-filter-->
-        </activity>
-        <activity
             android:name=".main.permissions.PermissionsActivity_"
             android:label="@string/required_permissions" />
         <activity

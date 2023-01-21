@@ -9,7 +9,6 @@ import android.content.Intent.ACTION_VIEW
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.text.TextUtils
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AppCompatActivity
 import com.avito.konveyor.ItemBinder
@@ -22,7 +21,6 @@ import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.download.createDownloadIntent
 import com.tomclaw.appsend.main.abuse.AbuseActivity.createAbuseActivityIntent
-import com.tomclaw.appsend.main.download.DownloadActivity
 import com.tomclaw.appsend.main.home.HomeActivity.createStoreActivityIntent
 import com.tomclaw.appsend.main.meta.MetaActivity.createEditMetaActivityIntent
 import com.tomclaw.appsend.main.permissions.PermissionsActivity_

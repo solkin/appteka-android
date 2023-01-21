@@ -3,7 +3,6 @@ package com.tomclaw.appsend.main.home;
 import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
 import static com.tomclaw.appsend.Appteka.getLastRunBuildNumber;
 import static com.tomclaw.appsend.Appteka.wasRegistered;
-import static com.tomclaw.appsend.main.download.DownloadActivity.createAppActivityIntent;
 import static com.tomclaw.appsend.screen.details.DetailsActivityKt.createDetailsActivityIntent;
 
 import android.app.Application;
@@ -14,14 +13,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.view.SupportMenuInflater;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -34,11 +31,9 @@ import com.microsoft.appcenter.AppCenter;
 import com.microsoft.appcenter.analytics.Analytics;
 import com.microsoft.appcenter.crashes.Crashes;
 import com.tomclaw.appsend.R;
-import com.tomclaw.appsend.core.Config;
 import com.tomclaw.appsend.core.TaskExecutor;
 import com.tomclaw.appsend.main.about.AboutActivity;
 import com.tomclaw.appsend.main.controller.UpdateController;
-import com.tomclaw.appsend.main.download.DownloadActivity;
 import com.tomclaw.appsend.main.item.CommonItem;
 import com.tomclaw.appsend.main.item.StoreItem;
 import com.tomclaw.appsend.main.local.DialogData;
@@ -393,23 +388,14 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
         if (item != null) {
             String appId = item.getAppId();
             String label = LocaleHelper.getLocalizedLabel(item);
-            Intent intent = Config.NEW_DETAILS_SCREEN ?
-                    createDetailsActivityIntent(
-                            this,
-                            appId,
-                            null,
-                            label,
-                            false,
-                            true
-                    )
-                    :
-                    createAppActivityIntent(
-                            this,
-                            appId,
-                            label,
-                            false,
-                            true
-                    );
+            Intent intent = createDetailsActivityIntent(
+                    this,
+                    appId,
+                    null,
+                    label,
+                    false,
+                    true
+            );
 
             startActivity(intent);
         }
