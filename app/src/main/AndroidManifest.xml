@@ -162,6 +162,11 @@
             android:label="@string/rate_app" />
 
         <service android:name=".download.DownloadService" />
+
+        <provider
+            android:name="androidx.startup.InitializationProvider"
+            android:authorities="${applicationId}.androidx-startup"
+            tools:node="remove" />
     </application>
 
 </manifest>
