@@ -73,7 +73,7 @@ public class UploadActivity extends AppCompatActivity implements UploadControlle
             isMetaActivityShown = savedInstanceState.getBoolean(META_ACTIVITY_SHOWN);
         }
 
-        setContentView(R.layout.upload_activity);
+        setContentView(R.layout.legacy_upload_activity);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

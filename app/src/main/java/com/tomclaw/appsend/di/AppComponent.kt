@@ -14,6 +14,8 @@ import com.tomclaw.appsend.screen.store.di.StoreComponent
 import com.tomclaw.appsend.screen.store.di.StoreModule
 import com.tomclaw.appsend.screen.topics.di.TopicsComponent
 import com.tomclaw.appsend.screen.topics.di.TopicsModule
+import com.tomclaw.appsend.screen.upload.di.UploadComponent
+import com.tomclaw.appsend.screen.upload.di.UploadModule
 import dagger.Component
 import javax.inject.Singleton
 
@@ -34,5 +36,7 @@ interface AppComponent {
     fun rateComponent(module: RateModule): RateComponent
 
     fun downloadComponent(module: DownloadModule): DownloadComponent
+
+    fun uploadComponent(module: UploadModule): UploadComponent
 
 }
