@@ -4,6 +4,7 @@ import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
 import static com.tomclaw.appsend.Appteka.getLastRunBuildNumber;
 import static com.tomclaw.appsend.Appteka.wasRegistered;
 import static com.tomclaw.appsend.screen.details.DetailsActivityKt.createDetailsActivityIntent;
+import static com.tomclaw.appsend.screen.upload.UploadActivityKt.createUploadActivityIntent;
 
 import android.app.Application;
 import android.content.Context;
@@ -145,9 +146,11 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
         };
 
         fab.setOnClickListener(view -> {
-            DialogData dialogData = new DialogData(getString(R.string.upload_app_title), getString(R.string.upload_app_message));
-            SelectLocalAppActivity_.intent(HomeActivity.this).dialogData(dialogData).startForResult(REQUEST_UPLOAD);
-            trackEvent("click-fab-upload");
+            Intent intent = createUploadActivityIntent(HomeActivity.this, null);
+            startActivity(intent);
+//            DialogData dialogData = new DialogData(getString(R.string.upload_app_title), getString(R.string.upload_app_message));
+//            SelectLocalAppActivity_.intent(HomeActivity.this).dialogData(dialogData).startForResult(REQUEST_UPLOAD);
+//            trackEvent("click-fab-upload");
         });
 
         setToolbarTitle();

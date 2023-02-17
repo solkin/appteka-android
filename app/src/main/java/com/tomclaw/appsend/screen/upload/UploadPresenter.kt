@@ -28,7 +28,7 @@ interface UploadPresenter {
 }
 
 class UploadPresenterImpl(
-    private val info: PackageInfo,
+    private val info: PackageInfo?,
     private val interactor: UploadInteractor,
     private val schedulers: SchedulersFactory,
     state: Bundle?

@@ -204,6 +204,7 @@
     <string name="search_app">البحث في المتجر</string>
     <string name="select_abuse_reason">حدد سبب إزالة التطبيق من المتجر</string>
     <string name="select_app">حدد التطبيق</string>
+    <string name="select_app_description">Installed one or apk file</string>
     <string name="send_abuse">إرسال إساءة الاستخدام</string>
     <string name="send_email">إرسال البريد الإلكتروني</string>
     <string name="send_to">شارك مع</string>

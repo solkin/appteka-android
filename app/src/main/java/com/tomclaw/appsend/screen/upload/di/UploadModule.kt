@@ -15,7 +15,7 @@ import dagger.Provides
 @Module
 class UploadModule(
     private val context: Context,
-    private val info: PackageInfo,
+    private val info: PackageInfo?,
     private val state: Bundle?
 ) {
 

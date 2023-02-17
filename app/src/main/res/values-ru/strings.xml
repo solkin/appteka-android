@@ -210,6 +210,7 @@
     <string name="nav_info">Информация</string>
     <string name="new_app">New</string>
     <string name="select_app">Выберите приложение</string>
+    <string name="select_app_description">Установленное или apk файл</string>
     <string name="search_app">Поиск в обменнике</string>
     <string name="empty_list">Нет приложений…</string>
     <string name="upload_app_title">Загрузка приложения</string>

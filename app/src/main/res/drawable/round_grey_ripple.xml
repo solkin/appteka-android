@@ -7,5 +7,5 @@
             <corners android:radius="1000dp" />
         </shape>
     </item>
-    <item android:drawable="@drawable/rounded_grey_back" />
+    <item android:drawable="@drawable/round_grey_back" />
 </ripple>

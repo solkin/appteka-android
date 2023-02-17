@@ -14,102 +14,142 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="?actionBarSize"
             android:orientation="vertical"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp">
+            android:padding="12dp">
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/icon_back"
-                android:layout_width="72dp"
-                android:layout_height="72dp"
-                android:layout_gravity="center"
-                android:layout_marginTop="24dp"
-                android:layout_marginBottom="16dp"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="6dp">
-
-                <ImageView
-                    android:id="@+id/app_icon"
-                    android:layout_width="72dp"
-                    android:layout_height="72dp"
-                    android:layout_gravity="center_vertical"
-                    android:contentDescription="@string/app_icon"
-                    android:scaleType="centerCrop"
-                    tools:src="@mipmap/ic_launcher" />
-
-            </androidx.cardview.widget.CardView>
-
-            <TextView
-                android:id="@+id/app_label"
+            <ViewFlipper
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="center"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                tools:text="AppSend" />
+                android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/app_package"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="center"
-                android:textSize="14sp"
-                android:textStyle="normal"
-                android:typeface="monospace"
-                tools:text="com.tomclaw.appsend" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_ripple"
+                    android:backgroundTint="#E9DEDEDE"
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical"
+                    android:paddingStart="12dp"
+                    android:paddingTop="20dp"
+                    android:paddingEnd="20dp"
+                    android:paddingBottom="18dp">
 
-            <TextView
-                android:id="@+id/app_version"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:fontFamily="sans-serif-light"
-                android:gravity="center"
-                android:textSize="12sp"
-                android:textStyle="normal"
-                tools:text="Версия 1.2 (41)" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:text="@string/select_app"
+                        android:textColor="?text_primary_color"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif"
+                        android:paddingTop="2dp"
+                        android:textSize="14sp"
+                        android:textStyle="normal"
+                        android:text="@string/select_app_description" />
 
-            <TextView
-                android:id="@+id/app_size"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:fontFamily="sans-serif-thin"
-                android:gravity="center"
-                android:textSize="14sp"
-                android:textStyle="normal"
-                tools:text="Отправка 1.2 Мб" />
+                </LinearLayout>
 
-            <ProgressBar
-                android:id="@+id/progress"
-                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:max="100"
-                tools:progress="74" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/rounded_ripple"
+                    android:backgroundTint="#E9DEDEDE"
+                    android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/percent"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:gravity="center"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                tools:text="74%" />
+                    <ImageView
+                        android:id="@+id/app_icon"
+                        android:layout_width="64dp"
+                        android:layout_height="64dp"
+                        android:layout_margin="8dp"
+                        android:contentDescription="@string/app_icon"
+                        android:padding="6dp"
+                        android:scaleType="centerCrop"
+                        tools:src="@mipmap/ic_launcher" />
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/button_cancel"
-                style="@style/MaterialButtonSecondary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="8dp"
-                android:text="@string/cancel"
-                app:cornerRadius="99dp" />
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="1"
+                        android:orientation="vertical"
+                        android:paddingStart="4dp"
+                        android:paddingTop="6dp"
+                        android:paddingEnd="12dp"
+                        android:paddingBottom="6dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:id="@+id/app_name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="start|center_vertical"
+                                android:singleLine="true"
+                                android:textColor="?text_primary_color"
+                                android:textSize="15sp"
+                                android:textStyle="bold"
+                                tools:text="AppSend" />
+
+                            <TextView
+                                android:id="@+id/app_version"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="start|center_vertical"
+                                android:fontFamily="sans-serif-light"
+                                android:paddingStart="4dp"
+                                android:paddingLeft="4dp"
+                                android:paddingEnd="4dp"
+                                android:paddingRight="4dp"
+                                android:singleLine="true"
+                                android:textColor="?text_secondary_color"
+                                android:textSize="15sp"
+                                tools:text="3.4 (490)" />
+
+                        </LinearLayout>
+
+                        <TextView
+                            android:id="@+id/app_package"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingTop="2dp"
+                            android:textSize="11sp"
+                            android:textStyle="normal"
+                            android:typeface="monospace"
+                            tools:text="com.tomclaw.appsend" />
+
+                        <TextView
+                            android:id="@+id/app_size"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif"
+                            android:paddingTop="2dp"
+                            android:textSize="14sp"
+                            android:textStyle="normal"
+                            tools:text="3.1 MB" />
+
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/send_button"
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:layout_gravity="top"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginEnd="6dp"
+                        android:background="?selectableItemBackgroundBorderless"
+                        android:scaleType="center"
+                        android:src="@drawable/ic_close"
+                        app:tint="@android:color/black" />
+
+                </LinearLayout>
+
+            </ViewFlipper>
 
         </LinearLayout>
 

@@ -17,8 +17,7 @@ class UploadActivity : AppCompatActivity(), UploadPresenter.UploadRouter {
     lateinit var presenter: UploadPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val info = intent.getParcelableExtra<PackageInfo>(EXTRA_PACKAGE_INFO)
-            ?: throw IllegalArgumentException("PackageInfo must be provided")
+        val info = intent.getParcelableExtra<PackageInfo?>(EXTRA_PACKAGE_INFO)
 
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
         Appteka.getComponent()
@@ -65,8 +64,8 @@ class UploadActivity : AppCompatActivity(), UploadPresenter.UploadRouter {
 
 fun createUploadActivityIntent(
     context: Context,
-    info: PackageInfo,
-): Intent = Intent(context, RateActivity::class.java)
+    info: PackageInfo?,
+): Intent = Intent(context, UploadActivity::class.java)
     .putExtra(EXTRA_PACKAGE_INFO, info)
 
 private const val EXTRA_PACKAGE_INFO = "package_info"
