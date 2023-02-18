@@ -4,12 +4,16 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageInfo
 import android.os.Bundle
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.avito.konveyor.ItemBinder
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.main.item.CommonItem
+import com.tomclaw.appsend.main.local.SelectLocalAppActivity.SELECTED_ITEM
+import com.tomclaw.appsend.main.local.SelectLocalAppActivity.createSelectAppActivity
 import com.tomclaw.appsend.screen.upload.di.UploadModule
 import javax.inject.Inject
 
@@ -23,6 +27,15 @@ class UploadActivity : AppCompatActivity(), UploadPresenter.UploadRouter {
 
     @Inject
     lateinit var binder: ItemBinder
+
+    private val selectAppResultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK) {
+                val item: CommonItem = result.data?.getParcelableExtra(SELECTED_ITEM)
+                    ?: return@registerForActivityResult
+                presenter.onAppSelected(item.packageInfo)
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val info = intent.getParcelableExtra<PackageInfo?>(EXTRA_PACKAGE_INFO)
@@ -63,6 +76,11 @@ class UploadActivity : AppCompatActivity(), UploadPresenter.UploadRouter {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putBundle(KEY_PRESENTER_STATE, presenter.saveState())
+    }
+
+    override fun openSelectAppScreen() {
+        val intent = createSelectAppActivity(this, null)
+        selectAppResultLauncher.launch(intent)
     }
 
     override fun leaveScreen() {

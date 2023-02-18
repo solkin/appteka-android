@@ -198,4 +198,8 @@ public class SelectLocalAppActivity extends PermisoActivity implements CommonIte
         }
     }
 
+    public static Intent createSelectAppActivity(Context context, DialogData dialogData) {
+        return SelectLocalAppActivity_.intent(context).dialogData(dialogData).get();
+    }
+
 }

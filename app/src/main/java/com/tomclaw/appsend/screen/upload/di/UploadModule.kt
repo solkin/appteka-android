@@ -37,7 +37,7 @@ class UploadModule(
         interactor: UploadInteractor,
         adapterPresenter: Lazy<AdapterPresenter>,
         schedulers: SchedulersFactory
-    ): UploadPresenter = UploadPresenterImpl(info, interactor, schedulers, state)
+    ): UploadPresenter = UploadPresenterImpl(info, interactor, adapterPresenter, schedulers, state)
 
     @Provides
     @PerActivity
