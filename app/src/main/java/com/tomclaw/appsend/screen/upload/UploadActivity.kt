@@ -31,14 +31,14 @@ class UploadActivity : AppCompatActivity(), UploadPresenter.UploadRouter {
     private val selectAppResultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
-                val item: CommonItem = result.data?.getParcelableExtra(SELECTED_ITEM)
+                val info: CommonItem = result.data?.getParcelableExtra(SELECTED_ITEM)
                     ?: return@registerForActivityResult
-                presenter.onAppSelected(item.packageInfo)
+                presenter.onAppSelected(info)
             }
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val info = intent.getParcelableExtra<PackageInfo?>(EXTRA_PACKAGE_INFO)
+        val info = intent.getParcelableExtra<CommonItem?>(EXTRA_PACKAGE_INFO)
 
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
         Appteka.getComponent()
@@ -91,9 +91,9 @@ class UploadActivity : AppCompatActivity(), UploadPresenter.UploadRouter {
 
 fun createUploadActivityIntent(
     context: Context,
-    info: PackageInfo?,
+    item: CommonItem?,
 ): Intent = Intent(context, UploadActivity::class.java)
-    .putExtra(EXTRA_PACKAGE_INFO, info)
+    .putExtra(EXTRA_PACKAGE_INFO, item)
 
 private const val EXTRA_PACKAGE_INFO = "package_info"
 private const val KEY_PRESENTER_STATE = "presenter_state"

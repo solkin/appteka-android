@@ -5,6 +5,7 @@ import android.os.Bundle
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.blueprint.Item
 import com.avito.konveyor.data_source.ListDataSource
+import com.tomclaw.appsend.main.item.CommonItem
 import com.tomclaw.appsend.screen.upload.adapter.ItemListener
 import com.tomclaw.appsend.screen.upload.adapter.select_app.SelectAppItem
 import com.tomclaw.appsend.screen.upload.adapter.selected_app.SelectedAppItem
@@ -25,7 +26,7 @@ interface UploadPresenter : ItemListener {
 
     fun saveState(): Bundle
 
-    fun onAppSelected(packageInfo: PackageInfo)
+    fun onAppSelected(info: CommonItem)
 
     fun onBackPressed()
 
@@ -40,7 +41,7 @@ interface UploadPresenter : ItemListener {
 }
 
 class UploadPresenterImpl(
-    private val startInfo: PackageInfo?,
+    private val startInfo: CommonItem?,
     private val interactor: UploadInteractor,
     private val adapterPresenter: Lazy<AdapterPresenter>,
     private val schedulers: SchedulersFactory,
@@ -50,7 +51,7 @@ class UploadPresenterImpl(
     private var view: UploadView? = null
     private var router: UploadPresenter.UploadRouter? = null
 
-    private var packageInfo: PackageInfo? = state?.getParcelable(KEY_PACKAGE_INFO) ?: startInfo
+    private var packageInfo: CommonItem? = state?.getParcelable(KEY_PACKAGE_INFO) ?: startInfo
 
     private val items = ArrayList<Item>()
 
@@ -82,8 +83,8 @@ class UploadPresenterImpl(
         putParcelable(KEY_PACKAGE_INFO, packageInfo)
     }
 
-    override fun onAppSelected(packageInfo: PackageInfo) {
-        this.packageInfo = packageInfo
+    override fun onAppSelected(info: CommonItem) {
+        this.packageInfo = info
         checkAppUploaded()
     }
 
@@ -123,6 +124,11 @@ class UploadPresenterImpl(
 
     override fun onSelectAppClick() {
         router?.openSelectAppScreen()
+    }
+
+    override fun onDiscardClick() {
+        this.packageInfo = null
+        checkAppUploaded()
     }
 
 }

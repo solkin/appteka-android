@@ -4,4 +4,6 @@ interface ItemListener {
 
     fun onSelectAppClick()
 
+    fun onDiscardClick()
+
 }

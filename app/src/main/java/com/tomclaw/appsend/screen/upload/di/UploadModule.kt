@@ -7,6 +7,7 @@ import com.avito.konveyor.ItemBinder
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.adapter.SimpleAdapterPresenter
 import com.avito.konveyor.blueprint.ItemBlueprint
+import com.tomclaw.appsend.main.item.CommonItem
 import com.tomclaw.appsend.screen.upload.UploadInteractor
 import com.tomclaw.appsend.screen.upload.UploadInteractorImpl
 import com.tomclaw.appsend.screen.upload.UploadPresenter
@@ -15,6 +16,8 @@ import com.tomclaw.appsend.screen.upload.adapter.select_app.SelectAppItemBluepri
 import com.tomclaw.appsend.screen.upload.adapter.select_app.SelectAppItemPresenter
 import com.tomclaw.appsend.screen.upload.adapter.selected_app.SelectedAppItemBlueprint
 import com.tomclaw.appsend.screen.upload.adapter.selected_app.SelectedAppItemPresenter
+import com.tomclaw.appsend.screen.upload.adapter.selected_app.SelectedAppResourceProvider
+import com.tomclaw.appsend.screen.upload.adapter.selected_app.SelectedAppResourceProviderImpl
 import com.tomclaw.appsend.util.PerActivity
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
@@ -26,7 +29,7 @@ import java.util.Locale
 @Module
 class UploadModule(
     private val context: Context,
-    private val info: PackageInfo?,
+    private val info: CommonItem?,
     private val state: Bundle?
 ) {
 
@@ -83,7 +86,13 @@ class UploadModule(
     @Provides
     @PerActivity
     internal fun provideSelectedAppItemPresenter(
-        presenter: UploadPresenter
-    ) = SelectedAppItemPresenter(presenter)
+        presenter: UploadPresenter,
+        resourceProvider: SelectedAppResourceProvider
+    ) = SelectedAppItemPresenter(presenter, resourceProvider)
+
+    @Provides
+    @PerActivity
+    internal fun provideSelectedAppResourceProvider(): SelectedAppResourceProvider =
+        SelectedAppResourceProviderImpl(context.resources)
 
 }
