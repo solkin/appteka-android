@@ -7,6 +7,7 @@ import com.avito.konveyor.blueprint.Item
 import com.avito.konveyor.data_source.ListDataSource
 import com.tomclaw.appsend.screen.upload.adapter.ItemListener
 import com.tomclaw.appsend.screen.upload.adapter.select_app.SelectAppItem
+import com.tomclaw.appsend.screen.upload.adapter.selected_app.SelectedAppItem
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -99,7 +100,10 @@ class UploadPresenterImpl(
         var id: Long = 1
 
         items.clear()
-        if (packageInfo == null) {
+        val packageInfo = this.packageInfo
+        if (packageInfo != null) {
+            items += SelectedAppItem(id++, packageInfo)
+        } else {
             items += SelectAppItem(id++)
         }
 

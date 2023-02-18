@@ -7,15 +7,14 @@ import com.avito.konveyor.ItemBinder
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.adapter.SimpleAdapterPresenter
 import com.avito.konveyor.blueprint.ItemBlueprint
-import com.tomclaw.appsend.screen.details.DetailsPresenter
-import com.tomclaw.appsend.screen.details.adapter.header.HeaderItemBlueprint
-import com.tomclaw.appsend.screen.details.adapter.header.HeaderItemPresenter
 import com.tomclaw.appsend.screen.upload.UploadInteractor
 import com.tomclaw.appsend.screen.upload.UploadInteractorImpl
 import com.tomclaw.appsend.screen.upload.UploadPresenter
 import com.tomclaw.appsend.screen.upload.UploadPresenterImpl
 import com.tomclaw.appsend.screen.upload.adapter.select_app.SelectAppItemBlueprint
 import com.tomclaw.appsend.screen.upload.adapter.select_app.SelectAppItemPresenter
+import com.tomclaw.appsend.screen.upload.adapter.selected_app.SelectedAppItemBlueprint
+import com.tomclaw.appsend.screen.upload.adapter.selected_app.SelectedAppItemPresenter
 import com.tomclaw.appsend.util.PerActivity
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
@@ -71,8 +70,20 @@ class UploadModule(
     @Provides
     @PerActivity
     internal fun provideSelectAppItemPresenter(
-        locale: Locale,
         presenter: UploadPresenter
     ) = SelectAppItemPresenter(presenter)
+
+    @Provides
+    @IntoSet
+    @PerActivity
+    internal fun provideSelectedAppItemBlueprint(
+        presenter: SelectedAppItemPresenter
+    ): ItemBlueprint<*, *> = SelectedAppItemBlueprint(presenter)
+
+    @Provides
+    @PerActivity
+    internal fun provideSelectedAppItemPresenter(
+        presenter: UploadPresenter
+    ) = SelectedAppItemPresenter(presenter)
 
 }
