@@ -2,10 +2,11 @@ package com.tomclaw.appsend.screen.upload
 
 import android.content.pm.PackageInfo
 import android.os.Bundle
+import com.tomclaw.appsend.screen.upload.adapter.ItemListener
 import com.tomclaw.appsend.util.SchedulersFactory
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
-interface UploadPresenter {
+interface UploadPresenter : ItemListener {
 
     fun attachView(view: UploadView)
 
@@ -60,6 +61,9 @@ class UploadPresenterImpl(
     }
 
     override fun onBackPressed() {
+    }
+
+    override fun onSelectAppClick() {
     }
 
 }

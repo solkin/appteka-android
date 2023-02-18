@@ -5,6 +5,9 @@ import android.content.Intent
 import android.content.pm.PackageInfo
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.avito.konveyor.ItemBinder
+import com.avito.konveyor.adapter.AdapterPresenter
+import com.avito.konveyor.adapter.SimpleRecyclerAdapter
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.upload.di.UploadModule
@@ -14,6 +17,12 @@ class UploadActivity : AppCompatActivity(), UploadPresenter.UploadRouter {
 
     @Inject
     lateinit var presenter: UploadPresenter
+
+    @Inject
+    lateinit var adapterPresenter: AdapterPresenter
+
+    @Inject
+    lateinit var binder: ItemBinder
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val info = intent.getParcelableExtra<PackageInfo?>(EXTRA_PACKAGE_INFO)
@@ -26,7 +35,8 @@ class UploadActivity : AppCompatActivity(), UploadPresenter.UploadRouter {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.upload_activity)
 
-        val view = UploadViewImpl(window.decorView)
+        val adapter = SimpleRecyclerAdapter(adapterPresenter, binder)
+        val view = UploadViewImpl(window.decorView, adapter)
 
         presenter.attachView(view)
     }
