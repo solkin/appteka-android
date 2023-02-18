@@ -7,7 +7,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
-import com.tomclaw.appsend.screen.rate.RateActivity
 import com.tomclaw.appsend.screen.upload.di.UploadModule
 import javax.inject.Inject
 
