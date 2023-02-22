@@ -17,6 +17,7 @@ import com.tomclaw.appsend.screen.rate.api.SubmitReviewResponse
 import com.tomclaw.appsend.screen.store.api.AppsListResponse
 import com.tomclaw.appsend.screen.topics.api.PinTopicResponse
 import com.tomclaw.appsend.screen.topics.api.TopicsResponse
+import com.tomclaw.appsend.screen.upload.api.CheckExistResponse
 import com.tomclaw.appsend.user.api.UserDataResponse
 import io.reactivex.rxjava3.core.Single
 import retrofit2.http.DELETE
@@ -151,5 +152,12 @@ interface StoreApi {
         @Query("guid") guid: String,
         @Query("package") packageName: String
     ): Single<StoreResponse<CreateTopicResponse>>
+
+    @GET("1/app/check_exist")
+    fun checkExist(
+        @Query("guid") guid: String,
+        @Query("sha1") sha1: String,
+        @Query("locale") locale: String
+    ): Single<StoreResponse<CheckExistResponse>>
 
 }

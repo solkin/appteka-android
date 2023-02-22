@@ -7,6 +7,7 @@ import com.avito.konveyor.ItemBinder
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.adapter.SimpleAdapterPresenter
 import com.avito.konveyor.blueprint.ItemBlueprint
+import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.main.item.CommonItem
 import com.tomclaw.appsend.screen.upload.UploadInteractor
 import com.tomclaw.appsend.screen.upload.UploadInteractorImpl
@@ -18,6 +19,7 @@ import com.tomclaw.appsend.screen.upload.adapter.selected_app.SelectedAppItemBlu
 import com.tomclaw.appsend.screen.upload.adapter.selected_app.SelectedAppItemPresenter
 import com.tomclaw.appsend.screen.upload.adapter.selected_app.SelectedAppResourceProvider
 import com.tomclaw.appsend.screen.upload.adapter.selected_app.SelectedAppResourceProviderImpl
+import com.tomclaw.appsend.user.UserDataInteractor
 import com.tomclaw.appsend.util.PerActivity
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
@@ -44,8 +46,11 @@ class UploadModule(
     @Provides
     @PerActivity
     internal fun provideInteractor(
+        api: StoreApi,
+        locale: Locale,
+        userDataInteractor: UserDataInteractor,
         schedulers: SchedulersFactory
-    ): UploadInteractor = UploadInteractorImpl(schedulers)
+    ): UploadInteractor = UploadInteractorImpl(api, locale, userDataInteractor, schedulers)
 
     @Provides
     @PerActivity
