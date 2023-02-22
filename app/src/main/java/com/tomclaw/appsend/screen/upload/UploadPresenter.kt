@@ -67,11 +67,7 @@ class UploadPresenterImpl(
         subscriptions += view.navigationClicks().subscribe { onBackPressed() }
         subscriptions += view.retryClicks().subscribe { onInvalidate() }
 
-        if (checkExist == null && packageInfo != null) {
-            checkAppUploaded()
-        } else {
-            bindUploadInfo()
-        }
+        onInvalidate()
     }
 
     override fun detachView() {
@@ -159,7 +155,11 @@ class UploadPresenterImpl(
     }
 
     private fun onInvalidate() {
-
+        if (checkExist == null && packageInfo != null) {
+            checkAppUploaded()
+        } else {
+            bindUploadInfo()
+        }
     }
 
     override fun onSelectAppClick() {
@@ -168,7 +168,7 @@ class UploadPresenterImpl(
 
     override fun onDiscardClick() {
         this.packageInfo = null
-        checkAppUploaded()
+        onInvalidate()
     }
 
 }
