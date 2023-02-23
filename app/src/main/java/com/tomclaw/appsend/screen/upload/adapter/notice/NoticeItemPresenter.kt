@@ -15,7 +15,12 @@ class NoticeItemPresenter(
                 NoticeType.ERROR -> setNoticeTypeError()
             }
             setNoticeText(item.text)
-            setOnClickListener { listener.onNoticeClick() }
+            val listener = if (item.clickable) {
+                { listener.onNoticeClick() }
+            } else {
+                null
+            }
+            setOnClickListener(listener)
         }
     }
 

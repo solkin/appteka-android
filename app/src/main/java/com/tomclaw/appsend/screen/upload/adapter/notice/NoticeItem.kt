@@ -8,7 +8,8 @@ import kotlinx.parcelize.Parcelize
 data class NoticeItem(
     override val id: Long,
     val type: NoticeType,
-    val text: String
+    val text: String,
+    val clickable: Boolean,
 ) : Item, Parcelable
 
 enum class NoticeType {

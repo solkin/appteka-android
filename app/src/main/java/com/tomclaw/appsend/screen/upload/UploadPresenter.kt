@@ -150,14 +150,15 @@ class UploadPresenterImpl(
         }
 
         checkExist?.let { checkExist ->
+            val clickable = checkExist.file != null
             if (checkExist.info?.isEmpty() == false) {
-                items += NoticeItem(id++, NoticeType.INFO, checkExist.info)
+                items += NoticeItem(id++, NoticeType.INFO, checkExist.info, clickable)
             }
             if (checkExist.warning?.isEmpty() == false) {
-                items += NoticeItem(id++, NoticeType.WARNING, checkExist.warning)
+                items += NoticeItem(id++, NoticeType.WARNING, checkExist.warning, clickable)
             }
             if (checkExist.error?.isEmpty() == false) {
-                items += NoticeItem(id++, NoticeType.ERROR, checkExist.error)
+                items += NoticeItem(id++, NoticeType.ERROR, checkExist.error, clickable)
             }
         }
 
