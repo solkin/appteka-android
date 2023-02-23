@@ -65,9 +65,9 @@ class UploadPresenterImpl(
         this.view = view
 
         subscriptions += view.navigationClicks().subscribe { onBackPressed() }
-        subscriptions += view.retryClicks().subscribe { onInvalidate() }
+        subscriptions += view.retryClicks().subscribe { invalidate() }
 
-        onInvalidate()
+        invalidate()
     }
 
     override fun detachView() {
@@ -125,7 +125,7 @@ class UploadPresenterImpl(
     private fun onCheckExistLoaded(response: CheckExistResponse) {
         this.checkExist = response
         view?.showContent()
-        bindUploadInfo()
+        bindForm()
     }
 
     private fun onCheckExistError() {
@@ -133,7 +133,7 @@ class UploadPresenterImpl(
         view?.showError()
     }
 
-    private fun bindUploadInfo() {
+    private fun bindForm() {
         var id: Long = 1
 
         items.clear()
@@ -154,11 +154,11 @@ class UploadPresenterImpl(
         adapterPresenter.get().onDataSourceChanged(dataSource)
     }
 
-    private fun onInvalidate() {
+    private fun invalidate() {
         if (checkExist == null && packageInfo != null) {
             checkAppUploaded()
         } else {
-            bindUploadInfo()
+            bindForm()
         }
     }
 
@@ -168,7 +168,7 @@ class UploadPresenterImpl(
 
     override fun onDiscardClick() {
         this.packageInfo = null
-        onInvalidate()
+        invalidate()
     }
 
 }

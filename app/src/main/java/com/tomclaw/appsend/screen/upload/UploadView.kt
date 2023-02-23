@@ -42,7 +42,7 @@ class UploadViewImpl(
     private val toolbar: Toolbar = view.findViewById(R.id.toolbar)
     private val recycler: RecyclerView = view.findViewById(R.id.recycler)
     private val error: View = view.findViewById(R.id.error)
-    private val blockingProgress: View = view.findViewById(R.id.blocking_progress)
+    private val progress: View = view.findViewById(R.id.overlay_progress)
     private val retryButton: View = view.findViewById(R.id.retry_button)
 
     private val navigationRelay = PublishRelay.create<Unit>()
@@ -64,11 +64,11 @@ class UploadViewImpl(
     }
 
     override fun showProgress() {
-        blockingProgress.showWithAlphaAnimation(animateFully = true)
+        progress.showWithAlphaAnimation(animateFully = true)
     }
 
     override fun showContent() {
-        blockingProgress.hideWithAlphaAnimation(animateFully = false)
+        progress.hideWithAlphaAnimation(animateFully = false)
     }
 
     @SuppressLint("NotifyDataSetChanged")

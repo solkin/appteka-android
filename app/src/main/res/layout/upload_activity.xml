@@ -54,19 +54,9 @@
 
     </LinearLayout>
 
-    <FrameLayout
-        android:id="@+id/blocking_progress"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="?actionBarSize"
-        android:background="?android:windowBackground"
-        android:visibility="gone">
-
-        <include
-            layout="@layout/progress_overlay"
-            android:visibility="visible" />
-
-    </FrameLayout>
+    <include
+        layout="@layout/progress_overlay"
+        android:visibility="gone" />
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/toolbar_container"
