@@ -14,6 +14,7 @@ import com.tomclaw.appsend.R
 import com.tomclaw.appsend.main.item.CommonItem
 import com.tomclaw.appsend.main.local.SelectLocalAppActivity.SELECTED_ITEM
 import com.tomclaw.appsend.main.local.SelectLocalAppActivity.createSelectAppActivity
+import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.screen.upload.di.UploadModule
 import javax.inject.Inject
 
@@ -81,6 +82,16 @@ class UploadActivity : AppCompatActivity(), UploadPresenter.UploadRouter {
     override fun openSelectAppScreen() {
         val intent = createSelectAppActivity(this, null)
         selectAppResultLauncher.launch(intent)
+    }
+
+    override fun openDetailsScreen(appId: String, label: String?) {
+        val intent = createDetailsActivityIntent(
+            context = this,
+            appId = appId,
+            label = label.orEmpty(),
+            finishOnly = true
+        )
+        startActivity(intent)
     }
 
     override fun leaveScreen() {

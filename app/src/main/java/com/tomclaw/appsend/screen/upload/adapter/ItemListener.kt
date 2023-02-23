@@ -6,4 +6,6 @@ interface ItemListener {
 
     fun onDiscardClick()
 
+    fun onNoticeClick()
+
 }

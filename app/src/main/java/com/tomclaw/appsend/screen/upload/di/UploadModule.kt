@@ -13,6 +13,8 @@ import com.tomclaw.appsend.screen.upload.UploadInteractor
 import com.tomclaw.appsend.screen.upload.UploadInteractorImpl
 import com.tomclaw.appsend.screen.upload.UploadPresenter
 import com.tomclaw.appsend.screen.upload.UploadPresenterImpl
+import com.tomclaw.appsend.screen.upload.adapter.notice.NoticeItemBlueprint
+import com.tomclaw.appsend.screen.upload.adapter.notice.NoticeItemPresenter
 import com.tomclaw.appsend.screen.upload.adapter.select_app.SelectAppItemBlueprint
 import com.tomclaw.appsend.screen.upload.adapter.select_app.SelectAppItemPresenter
 import com.tomclaw.appsend.screen.upload.adapter.selected_app.SelectedAppItemBlueprint
@@ -99,5 +101,18 @@ class UploadModule(
     @PerActivity
     internal fun provideSelectedAppResourceProvider(): SelectedAppResourceProvider =
         SelectedAppResourceProviderImpl(context.resources)
+
+    @Provides
+    @IntoSet
+    @PerActivity
+    internal fun provideNoticeItemBlueprint(
+        presenter: NoticeItemPresenter
+    ): ItemBlueprint<*, *> = NoticeItemBlueprint(presenter)
+
+    @Provides
+    @PerActivity
+    internal fun provideNoticeItemPresenter(
+        presenter: UploadPresenter
+    ) = NoticeItemPresenter(presenter)
 
 }

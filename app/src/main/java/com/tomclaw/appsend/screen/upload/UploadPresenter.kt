@@ -1,11 +1,14 @@
 package com.tomclaw.appsend.screen.upload
 
 import android.os.Bundle
+import android.text.TextUtils
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.blueprint.Item
 import com.avito.konveyor.data_source.ListDataSource
 import com.tomclaw.appsend.main.item.CommonItem
 import com.tomclaw.appsend.screen.upload.adapter.ItemListener
+import com.tomclaw.appsend.screen.upload.adapter.notice.NoticeItem
+import com.tomclaw.appsend.screen.upload.adapter.notice.NoticeType
 import com.tomclaw.appsend.screen.upload.adapter.select_app.SelectAppItem
 import com.tomclaw.appsend.screen.upload.adapter.selected_app.SelectedAppItem
 import com.tomclaw.appsend.screen.upload.api.CheckExistResponse
@@ -36,6 +39,8 @@ interface UploadPresenter : ItemListener {
     interface UploadRouter {
 
         fun openSelectAppScreen()
+
+        fun openDetailsScreen(appId: String, label: String?)
 
         fun leaveScreen()
 
@@ -144,6 +149,18 @@ class UploadPresenterImpl(
             items += SelectAppItem(id++)
         }
 
+        checkExist?.let { checkExist ->
+            if (checkExist.info?.isEmpty() == false) {
+                items += NoticeItem(id++, NoticeType.INFO, checkExist.info)
+            }
+            if (checkExist.warning?.isEmpty() == false) {
+                items += NoticeItem(id++, NoticeType.WARNING, checkExist.warning)
+            }
+            if (checkExist.error?.isEmpty() == false) {
+                items += NoticeItem(id++, NoticeType.ERROR, checkExist.error)
+            }
+        }
+
         bindItems()
 
         view?.contentUpdated()
@@ -168,7 +185,13 @@ class UploadPresenterImpl(
 
     override fun onDiscardClick() {
         this.packageInfo = null
+        this.checkExist = null
         invalidate()
+    }
+
+    override fun onNoticeClick() {
+        val file = checkExist?.file ?: return
+        router?.openDetailsScreen(appId = file.appId, label = file.title)
     }
 
 }
