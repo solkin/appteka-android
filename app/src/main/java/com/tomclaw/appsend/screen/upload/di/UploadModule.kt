@@ -13,6 +13,8 @@ import com.tomclaw.appsend.screen.upload.UploadInteractor
 import com.tomclaw.appsend.screen.upload.UploadInteractorImpl
 import com.tomclaw.appsend.screen.upload.UploadPresenter
 import com.tomclaw.appsend.screen.upload.UploadPresenterImpl
+import com.tomclaw.appsend.screen.upload.adapter.category.SelectCategoryItemBlueprint
+import com.tomclaw.appsend.screen.upload.adapter.category.SelectCategoryItemPresenter
 import com.tomclaw.appsend.screen.upload.adapter.notice.NoticeItemBlueprint
 import com.tomclaw.appsend.screen.upload.adapter.notice.NoticeItemPresenter
 import com.tomclaw.appsend.screen.upload.adapter.select_app.SelectAppItemBlueprint
@@ -114,5 +116,18 @@ class UploadModule(
     internal fun provideNoticeItemPresenter(
         presenter: UploadPresenter
     ) = NoticeItemPresenter(presenter)
+
+    @Provides
+    @IntoSet
+    @PerActivity
+    internal fun provideSelectCategoryItemBlueprint(
+        presenter: SelectCategoryItemPresenter
+    ): ItemBlueprint<*, *> = SelectCategoryItemBlueprint(presenter)
+
+    @Provides
+    @PerActivity
+    internal fun provideSelectCategoryItemPresenter(
+        presenter: UploadPresenter
+    ) = SelectCategoryItemPresenter(presenter)
 
 }

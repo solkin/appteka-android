@@ -8,4 +8,6 @@ interface ItemListener {
 
     fun onNoticeClick()
 
+    fun onCategoryClick()
+
 }

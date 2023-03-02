@@ -7,6 +7,7 @@ import com.avito.konveyor.blueprint.Item
 import com.avito.konveyor.data_source.ListDataSource
 import com.tomclaw.appsend.main.item.CommonItem
 import com.tomclaw.appsend.screen.upload.adapter.ItemListener
+import com.tomclaw.appsend.screen.upload.adapter.category.SelectCategoryItem
 import com.tomclaw.appsend.screen.upload.adapter.notice.NoticeItem
 import com.tomclaw.appsend.screen.upload.adapter.notice.NoticeType
 import com.tomclaw.appsend.screen.upload.adapter.select_app.SelectAppItem
@@ -162,6 +163,8 @@ class UploadPresenterImpl(
             }
         }
 
+        items += SelectCategoryItem(id++, category = null)
+
         bindItems()
 
         view?.contentUpdated()
@@ -193,6 +196,10 @@ class UploadPresenterImpl(
     override fun onNoticeClick() {
         val file = checkExist?.file ?: return
         router?.openDetailsScreen(appId = file.appId, label = file.title)
+    }
+
+    override fun onCategoryClick() {
+
     }
 
 }
