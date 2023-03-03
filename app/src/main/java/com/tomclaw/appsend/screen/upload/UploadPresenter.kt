@@ -1,7 +1,6 @@
 package com.tomclaw.appsend.screen.upload
 
 import android.os.Bundle
-import android.text.TextUtils
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.blueprint.Item
 import com.avito.konveyor.data_source.ListDataSource
@@ -12,6 +11,7 @@ import com.tomclaw.appsend.screen.upload.adapter.notice.NoticeItem
 import com.tomclaw.appsend.screen.upload.adapter.notice.NoticeType
 import com.tomclaw.appsend.screen.upload.adapter.select_app.SelectAppItem
 import com.tomclaw.appsend.screen.upload.adapter.selected_app.SelectedAppItem
+import com.tomclaw.appsend.screen.upload.adapter.whats_new.WhatsNewItem
 import com.tomclaw.appsend.screen.upload.api.CheckExistResponse
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
@@ -165,6 +165,8 @@ class UploadPresenterImpl(
 
         items += SelectCategoryItem(id++, category = null)
 
+        items += WhatsNewItem(id++, text = "")
+
         bindItems()
 
         view?.contentUpdated()
@@ -199,6 +201,10 @@ class UploadPresenterImpl(
     }
 
     override fun onCategoryClick() {
+
+    }
+
+    override fun onWhatsNewChanged(text: String) {
 
     }
 

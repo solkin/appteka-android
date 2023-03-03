@@ -309,6 +309,7 @@
     <string name="install_channel_description">Готовые к установке приложения</string>
     <string name="discuss_description">Обсудите приложение с\u00A0другими пользователями во\u00A0встроенном мессенджере</string>
     <string name="select_category">Выберите категорию</string>
+    <string name="whats_new">Что нового</string>
     <plurals name="other_versions_count">
         <item quantity="one">%d версия</item>
         <item quantity="few">%d версии</item>

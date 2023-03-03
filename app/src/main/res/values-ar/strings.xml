@@ -346,6 +346,7 @@
     <string name="install_channel_description">Ready for install apps</string>
     <string name="discuss_description">Discuss application with other users in embedded messenger</string>
     <string name="select_category">Select category</string>
+    <string name="whats_new">What\'s new</string>
     <plurals name="other_versions_count">
         <item quantity="zero">%d version</item>
         <item quantity="one">%d version</item>

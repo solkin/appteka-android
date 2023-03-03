@@ -10,4 +10,6 @@ interface ItemListener {
 
     fun onCategoryClick()
 
+    fun onWhatsNewChanged(text: String)
+
 }
