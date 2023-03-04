@@ -12,4 +12,6 @@ interface ItemListener {
 
     fun onWhatsNewChanged(text: String)
 
+    fun onDescriptionChanged(text: String)
+
 }

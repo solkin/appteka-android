@@ -34,11 +34,10 @@ interface UploadView {
 }
 
 class UploadViewImpl(
-    private val view: View,
+    view: View,
     private val adapter: SimpleRecyclerAdapter
 ) : UploadView {
 
-    private val context = view.context
     private val toolbar: Toolbar = view.findViewById(R.id.toolbar)
     private val recycler: RecyclerView = view.findViewById(R.id.recycler)
     private val error: View = view.findViewById(R.id.error)

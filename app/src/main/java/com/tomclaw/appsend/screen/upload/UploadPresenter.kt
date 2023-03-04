@@ -7,6 +7,7 @@ import com.avito.konveyor.data_source.ListDataSource
 import com.tomclaw.appsend.main.item.CommonItem
 import com.tomclaw.appsend.screen.upload.adapter.ItemListener
 import com.tomclaw.appsend.screen.upload.adapter.category.SelectCategoryItem
+import com.tomclaw.appsend.screen.upload.adapter.description.DescriptionItem
 import com.tomclaw.appsend.screen.upload.adapter.notice.NoticeItem
 import com.tomclaw.appsend.screen.upload.adapter.notice.NoticeType
 import com.tomclaw.appsend.screen.upload.adapter.select_app.SelectAppItem
@@ -167,6 +168,8 @@ class UploadPresenterImpl(
 
         items += WhatsNewItem(id++, text = "")
 
+        items += DescriptionItem(id++, text = "")
+
         bindItems()
 
         view?.contentUpdated()
@@ -205,6 +208,10 @@ class UploadPresenterImpl(
     }
 
     override fun onWhatsNewChanged(text: String) {
+
+    }
+
+    override fun onDescriptionChanged(text: String) {
 
     }
 
