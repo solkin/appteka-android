@@ -1,5 +1,6 @@
 package com.tomclaw.appsend.screen.upload
 
+import android.os.Build
 import android.os.Bundle
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.blueprint.Item
@@ -15,6 +16,7 @@ import com.tomclaw.appsend.screen.upload.adapter.selected_app.SelectedAppItem
 import com.tomclaw.appsend.screen.upload.adapter.whats_new.WhatsNewItem
 import com.tomclaw.appsend.screen.upload.api.CheckExistResponse
 import com.tomclaw.appsend.util.SchedulersFactory
+import com.tomclaw.appsend.util.getParcelableCompat
 import dagger.Lazy
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -61,8 +63,10 @@ class UploadPresenterImpl(
     private var view: UploadView? = null
     private var router: UploadPresenter.UploadRouter? = null
 
-    private var packageInfo: CommonItem? = state?.getParcelable(KEY_PACKAGE_INFO) ?: startInfo
-    private var checkExist: CheckExistResponse? = state?.getParcelable(KEY_CHECK_EXIST)
+    private var packageInfo: CommonItem? = state?.getParcelableCompat(KEY_PACKAGE_INFO, CommonItem::class.java) ?: startInfo
+    private var checkExist: CheckExistResponse? = state?.getParcelableCompat(KEY_CHECK_EXIST, CheckExistResponse::class.java)
+    private var whatsNew: String = state?.getString(KEY_WHATS_NEW).orEmpty()
+    private var description: String = state?.getString(KEY_DESCRIPTION).orEmpty()
 
     private val items = ArrayList<Item>()
 
@@ -93,6 +97,8 @@ class UploadPresenterImpl(
     override fun saveState() = Bundle().apply {
         putParcelable(KEY_PACKAGE_INFO, packageInfo)
         putParcelable(KEY_CHECK_EXIST, checkExist)
+        putString(KEY_WHATS_NEW, whatsNew)
+        putString(KEY_DESCRIPTION, description)
     }
 
     override fun onAppSelected(info: CommonItem) {
@@ -166,9 +172,9 @@ class UploadPresenterImpl(
 
         items += SelectCategoryItem(id++, category = null)
 
-        items += WhatsNewItem(id++, text = "")
+        items += WhatsNewItem(id++, text = whatsNew)
 
-        items += DescriptionItem(id++, text = "")
+        items += DescriptionItem(id++, text = description)
 
         bindItems()
 
@@ -208,14 +214,16 @@ class UploadPresenterImpl(
     }
 
     override fun onWhatsNewChanged(text: String) {
-
+        whatsNew = text
     }
 
     override fun onDescriptionChanged(text: String) {
-
+        description = text
     }
 
 }
 
 private const val KEY_PACKAGE_INFO = "package_info"
 private const val KEY_CHECK_EXIST = "check_exist"
+private const val KEY_WHATS_NEW = "whats_new"
+private const val KEY_DESCRIPTION = "description"

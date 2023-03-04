@@ -11,8 +11,9 @@ import com.tomclaw.appsend.categories.CategoryItem
 import com.tomclaw.appsend.dto.AppEntity
 import com.tomclaw.appsend.screen.store.adapter.ItemListener
 import com.tomclaw.appsend.screen.store.adapter.app.AppItem
-import com.tomclaw.appsend.util.PackageObserver
 import com.tomclaw.appsend.util.SchedulersFactory
+import com.tomclaw.appsend.util.getParcelableArrayListCompat
+import com.tomclaw.appsend.util.getParcelableCompat
 import dagger.Lazy
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -58,9 +59,9 @@ class StorePresenterImpl(
 
     private val subscriptions = CompositeDisposable()
 
-    private var items: List<AppItem>? = state?.getParcelableArrayList(KEY_APPS)
+    private var items: List<AppItem>? = state?.getParcelableArrayListCompat(KEY_APPS, AppItem::class.java)
     private var isError: Boolean = state?.getBoolean(KEY_ERROR) ?: false
-    private var category: CategoryItem? = state?.getParcelable(KEY_CATEGORY_ID)
+    private var category: CategoryItem? = state?.getParcelableCompat(KEY_CATEGORY_ID, CategoryItem::class.java)
 
     override fun attachView(view: StoreView) {
         this.view = view

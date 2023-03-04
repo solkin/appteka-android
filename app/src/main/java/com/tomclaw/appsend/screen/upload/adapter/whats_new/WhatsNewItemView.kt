@@ -7,7 +7,6 @@ import android.widget.EditText
 import com.avito.konveyor.adapter.BaseViewHolder
 import com.avito.konveyor.blueprint.ItemView
 import com.tomclaw.appsend.R
-import com.tomclaw.appsend.util.bind
 
 interface WhatsNewItemView : ItemView {
 
@@ -20,7 +19,6 @@ interface WhatsNewItemView : ItemView {
 @Suppress("DEPRECATION")
 class WhatsNewItemViewHolder(view: View) : BaseViewHolder(view), WhatsNewItemView {
 
-    private val context = view.context
     private val whatsNewEdit: EditText = view.findViewById(R.id.whats_new)
 
     private var textChangedListener: ((String) -> Unit)? = null

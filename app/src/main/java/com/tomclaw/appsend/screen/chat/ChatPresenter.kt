@@ -11,6 +11,8 @@ import com.tomclaw.appsend.screen.chat.adapter.ItemListener
 import com.tomclaw.appsend.screen.topics.COMMON_QNA_TOPIC_ICON
 import com.tomclaw.appsend.util.RoleHelper.ROLE_ADMIN
 import com.tomclaw.appsend.util.SchedulersFactory
+import com.tomclaw.appsend.util.getParcelableArrayListCompat
+import com.tomclaw.appsend.util.getParcelableCompat
 import dagger.Lazy
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
@@ -56,10 +58,10 @@ class ChatPresenterImpl(
     private var view: ChatView? = null
     private var router: ChatPresenter.ChatRouter? = null
 
-    private var topic: TopicEntity? = state?.getParcelable(KEY_TOPIC) ?: topicEntity
+    private var topic: TopicEntity? = state?.getParcelableCompat(KEY_TOPIC, TopicEntity::class.java) ?: topicEntity
     private var isError: Boolean = state?.getBoolean(KEY_ERROR) ?: false
     private var messageText: String = state?.getString(KEY_MESSAGE) ?: ""
-    private var history: List<MessageEntity>? = state?.getParcelableArrayList(KEY_HISTORY)
+    private var history: List<MessageEntity>? = state?.getParcelableArrayListCompat(KEY_HISTORY, MessageEntity::class.java)
 
     private val journal = HashSet<Int>()
 

@@ -8,6 +8,7 @@ import com.tomclaw.appsend.dto.AppEntity
 import com.tomclaw.appsend.screen.moderation.adapter.app.AppItem
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.screen.moderation.adapter.ItemListener
+import com.tomclaw.appsend.util.getParcelableArrayListCompat
 import dagger.Lazy
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -56,7 +57,7 @@ class ModerationPresenterImpl(
 
     private val subscriptions = CompositeDisposable()
 
-    private var items: List<AppItem>? = state?.getParcelableArrayList(KEY_APPS)
+    private var items: List<AppItem>? = state?.getParcelableArrayListCompat(KEY_APPS, AppItem::class.java)
     private var isError: Boolean = state?.getBoolean(KEY_ERROR) ?: false
 
     override fun attachView(view: ModerationView) {

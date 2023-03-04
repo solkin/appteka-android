@@ -8,6 +8,7 @@ import com.tomclaw.appsend.dto.TopicEntity
 import com.tomclaw.appsend.events.EventsInteractor
 import com.tomclaw.appsend.screen.topics.adapter.ItemListener
 import com.tomclaw.appsend.util.SchedulersFactory
+import com.tomclaw.appsend.util.getParcelableArrayListCompat
 import dagger.Lazy
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -49,7 +50,7 @@ class TopicsPresenterImpl(
 
     private val subscriptions = CompositeDisposable()
 
-    private var entities: List<TopicEntity>? = state?.getParcelableArrayList(KEY_TOPICS)
+    private var entities: List<TopicEntity>? = state?.getParcelableArrayListCompat(KEY_TOPICS, TopicEntity::class.java)
     private var isError: Boolean = state?.getBoolean(KEY_ERROR) ?: false
     private var hasMore: Boolean = state?.getBoolean(KEY_HAS_MORE) ?: false
 

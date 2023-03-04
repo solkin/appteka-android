@@ -19,7 +19,6 @@ interface DescriptionItemView : ItemView {
 @Suppress("DEPRECATION")
 class DescriptionItemViewHolder(view: View) : BaseViewHolder(view), DescriptionItemView {
 
-    private val context = view.context
     private val descriptionEdit: EditText = view.findViewById(R.id.description)
 
     private var textChangedListener: ((String) -> Unit)? = null

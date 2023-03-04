@@ -13,6 +13,7 @@ import com.tomclaw.appsend.screen.details.api.Details
 import com.tomclaw.appsend.util.NOT_INSTALLED
 import com.tomclaw.appsend.util.PackageObserver
 import com.tomclaw.appsend.util.SchedulersFactory
+import com.tomclaw.appsend.util.getParcelableCompat
 import dagger.Lazy
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -109,7 +110,7 @@ class DetailsPresenterImpl(
     private var view: DetailsView? = null
     private var router: DetailsPresenter.DetailsRouter? = null
 
-    private var details: Details? = state?.getParcelable(KEY_DETAILS)
+    private var details: Details? = state?.getParcelableCompat(KEY_DETAILS, Details::class.java)
     private var installedVersionCode: Int = state?.getInt(KEY_INSTALLED_VERSION) ?: NOT_INSTALLED
     private var downloadState: Int = state?.getInt(KEY_DOWNLOAD_STATE) ?: IDLE
     private var targetFile: File? = state?.getString(KEY_TARGET_FILE)?.let { File(it) }
