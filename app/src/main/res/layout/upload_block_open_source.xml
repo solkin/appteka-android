@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/notice_back"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="12dp"
+    android:layout_marginTop="12dp"
+    android:layout_marginEnd="12dp"
+    android:orientation="vertical">
+
+    <androidx.appcompat.widget.AppCompatCheckBox
+        android:id="@+id/open_source"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        android:paddingStart="4dp"
+        android:paddingEnd="4dp"
+        android:text="@string/open_source" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/source_code_url">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/source_url"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textUri"/>
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+</LinearLayout>

@@ -12,6 +12,7 @@ import com.tomclaw.appsend.screen.upload.adapter.description.DescriptionItem
 import com.tomclaw.appsend.screen.upload.adapter.exclusive.ExclusiveItem
 import com.tomclaw.appsend.screen.upload.adapter.notice.NoticeItem
 import com.tomclaw.appsend.screen.upload.adapter.notice.NoticeType
+import com.tomclaw.appsend.screen.upload.adapter.open_source.OpenSourceItem
 import com.tomclaw.appsend.screen.upload.adapter.select_app.SelectAppItem
 import com.tomclaw.appsend.screen.upload.adapter.selected_app.SelectedAppItem
 import com.tomclaw.appsend.screen.upload.adapter.whats_new.WhatsNewItem
@@ -179,6 +180,8 @@ class UploadPresenterImpl(
 
         items += ExclusiveItem(id++, value = false)
 
+        items += OpenSourceItem(id++, value = false, url = "")
+
         bindItems()
 
         view?.contentUpdated()
@@ -225,6 +228,10 @@ class UploadPresenterImpl(
     }
 
     override fun onExclusiveChanged(value: Boolean) {
+
+    }
+
+    override fun onOpenSourceChanged(value: Boolean, url: String) {
 
     }
 

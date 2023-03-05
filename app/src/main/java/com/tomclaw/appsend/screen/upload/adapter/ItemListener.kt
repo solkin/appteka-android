@@ -16,4 +16,6 @@ interface ItemListener {
 
     fun onExclusiveChanged(value: Boolean)
 
+    fun onOpenSourceChanged(value: Boolean, url: String)
+
 }

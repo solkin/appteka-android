@@ -21,6 +21,8 @@ import com.tomclaw.appsend.screen.upload.adapter.exclusive.ExclusiveItemBlueprin
 import com.tomclaw.appsend.screen.upload.adapter.exclusive.ExclusiveItemPresenter
 import com.tomclaw.appsend.screen.upload.adapter.notice.NoticeItemBlueprint
 import com.tomclaw.appsend.screen.upload.adapter.notice.NoticeItemPresenter
+import com.tomclaw.appsend.screen.upload.adapter.open_source.OpenSourceItemBlueprint
+import com.tomclaw.appsend.screen.upload.adapter.open_source.OpenSourceItemPresenter
 import com.tomclaw.appsend.screen.upload.adapter.select_app.SelectAppItemBlueprint
 import com.tomclaw.appsend.screen.upload.adapter.select_app.SelectAppItemPresenter
 import com.tomclaw.appsend.screen.upload.adapter.selected_app.SelectedAppItemBlueprint
@@ -174,5 +176,18 @@ class UploadModule(
     internal fun provideExclusiveItemPresenter(
         presenter: UploadPresenter
     ) = ExclusiveItemPresenter(presenter)
+
+    @Provides
+    @IntoSet
+    @PerActivity
+    internal fun provideOpenSourceItemBlueprint(
+        presenter: OpenSourceItemPresenter
+    ): ItemBlueprint<*, *> = OpenSourceItemBlueprint(presenter)
+
+    @Provides
+    @PerActivity
+    internal fun provideOpenSourceItemPresenter(
+        presenter: UploadPresenter
+    ) = OpenSourceItemPresenter(presenter)
 
 }
