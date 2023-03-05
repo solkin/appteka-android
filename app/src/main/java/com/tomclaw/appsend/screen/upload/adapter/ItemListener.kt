@@ -14,4 +14,6 @@ interface ItemListener {
 
     fun onDescriptionChanged(text: String)
 
+    fun onExclusiveChanged(value: Boolean)
+
 }

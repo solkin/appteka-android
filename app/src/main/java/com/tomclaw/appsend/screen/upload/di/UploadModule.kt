@@ -17,6 +17,8 @@ import com.tomclaw.appsend.screen.upload.adapter.category.SelectCategoryItemBlue
 import com.tomclaw.appsend.screen.upload.adapter.category.SelectCategoryItemPresenter
 import com.tomclaw.appsend.screen.upload.adapter.description.DescriptionItemBlueprint
 import com.tomclaw.appsend.screen.upload.adapter.description.DescriptionItemPresenter
+import com.tomclaw.appsend.screen.upload.adapter.exclusive.ExclusiveItemBlueprint
+import com.tomclaw.appsend.screen.upload.adapter.exclusive.ExclusiveItemPresenter
 import com.tomclaw.appsend.screen.upload.adapter.notice.NoticeItemBlueprint
 import com.tomclaw.appsend.screen.upload.adapter.notice.NoticeItemPresenter
 import com.tomclaw.appsend.screen.upload.adapter.select_app.SelectAppItemBlueprint
@@ -159,5 +161,18 @@ class UploadModule(
     internal fun provideDescriptionItemPresenter(
         presenter: UploadPresenter
     ) = DescriptionItemPresenter(presenter)
+
+    @Provides
+    @IntoSet
+    @PerActivity
+    internal fun provideExclusiveItemBlueprint(
+        presenter: ExclusiveItemPresenter
+    ): ItemBlueprint<*, *> = ExclusiveItemBlueprint(presenter)
+
+    @Provides
+    @PerActivity
+    internal fun provideExclusiveItemPresenter(
+        presenter: UploadPresenter
+    ) = ExclusiveItemPresenter(presenter)
 
 }

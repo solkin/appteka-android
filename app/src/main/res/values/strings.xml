@@ -317,6 +317,8 @@
     <string name="discuss_description">Discuss application with other users in\u00A0embedded messenger</string>
     <string name="select_category">Select category</string>
     <string name="whats_new">What\'s new</string>
+    <string name="open_source">Open Source software</string>
+    <string name="source_code_url">Source code URL</string>
     <plurals name="other_versions_count">
         <item quantity="one">%d version</item>
         <item quantity="few">%d versions</item>

@@ -9,6 +9,7 @@ import com.tomclaw.appsend.main.item.CommonItem
 import com.tomclaw.appsend.screen.upload.adapter.ItemListener
 import com.tomclaw.appsend.screen.upload.adapter.category.SelectCategoryItem
 import com.tomclaw.appsend.screen.upload.adapter.description.DescriptionItem
+import com.tomclaw.appsend.screen.upload.adapter.exclusive.ExclusiveItem
 import com.tomclaw.appsend.screen.upload.adapter.notice.NoticeItem
 import com.tomclaw.appsend.screen.upload.adapter.notice.NoticeType
 import com.tomclaw.appsend.screen.upload.adapter.select_app.SelectAppItem
@@ -176,6 +177,8 @@ class UploadPresenterImpl(
 
         items += DescriptionItem(id++, text = description)
 
+        items += ExclusiveItem(id++, value = false)
+
         bindItems()
 
         view?.contentUpdated()
@@ -219,6 +222,10 @@ class UploadPresenterImpl(
 
     override fun onDescriptionChanged(text: String) {
         description = text
+    }
+
+    override fun onExclusiveChanged(value: Boolean) {
+
     }
 
 }
