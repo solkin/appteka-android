@@ -11,8 +11,10 @@ class OpenSourceItemPresenter(
         with(view) {
             setOpenSource(item.value)
             setUrl(item.url)
+            setUrlVisible(item.value)
             setOnOpenSourceChangedListener { value, url ->
                 listener.onOpenSourceChanged(value, url)
+                setUrlVisible(value)
             }
         }
     }

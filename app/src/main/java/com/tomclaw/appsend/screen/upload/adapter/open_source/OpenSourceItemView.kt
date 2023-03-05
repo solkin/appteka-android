@@ -5,6 +5,7 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.CheckBox
 import android.widget.EditText
+import androidx.core.view.isVisible
 import com.avito.konveyor.adapter.BaseViewHolder
 import com.avito.konveyor.blueprint.ItemView
 import com.tomclaw.appsend.R
@@ -14,6 +15,8 @@ interface OpenSourceItemView : ItemView {
     fun setOpenSource(value: Boolean)
 
     fun setUrl(uri: String)
+
+    fun setUrlVisible(visible: Boolean)
 
     fun setOnOpenSourceChangedListener(listener: ((Boolean, String) -> Unit)?)
 
@@ -50,6 +53,10 @@ class OpenSourceItemViewHolder(view: View) : BaseViewHolder(view), OpenSourceIte
 
     override fun setUrl(uri: String) {
         sourceUrlEdit.setText(uri)
+    }
+
+    override fun setUrlVisible(visible: Boolean) {
+        sourceUrlEdit.isVisible = visible
     }
 
     override fun setOnOpenSourceChangedListener(listener: ((Boolean, String) -> Unit)?) {
