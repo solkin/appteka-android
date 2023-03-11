@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="donate_url" translatable="false">http://yasobe.ru/na/appsend_store</string>
-    <string name="forum_url" translatable="false">http://4pda.ru/forum/index.php?showtopic=636163</string>
+    <string name="forum_url" translatable="false">http://4pda.to/forum/index.php?showtopic=636163</string>
     <string name="telegram_group_url" translatable="false">https://t.me/appsend_store</string>
 </resources>

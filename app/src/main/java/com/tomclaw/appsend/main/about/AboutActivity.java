@@ -49,12 +49,6 @@ public class AboutActivity extends AppCompatActivity {
         } catch (PackageManager.NameNotFoundException ignored) {
         }
 
-        findViewById(R.id.present_chocolate).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onChocolateClicked();
-            }
-        });
         findViewById(R.id.feedback_email).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,15 +80,6 @@ public class AboutActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void onChocolateClicked() {
-        String donateUrl = getString(R.string.donate_url);
-        try {
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(donateUrl)));
-        } catch (Throwable ignored) {
-        }
-        trackEvent("click-donate");
     }
 
     private void onFeedbackClicked() {

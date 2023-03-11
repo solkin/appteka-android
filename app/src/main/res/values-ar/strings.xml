@@ -48,7 +48,6 @@
     <string name="chat_loading_error">Failed to open chat</string>
     <string name="does_not_works">التطبيق لا يعمل</string>
     <string name="donate_button">Present chocolate</string>
-    <string name="donate_url">http://yasobe.ru/na/appsend_store</string>
     <string name="download">التحميل</string>
     <string name="downloading_error">فشل تنزيل التطبيق. تحقق من الشبكة ويمكن أن تجرب مرة أخرى.</string>
     <string name="downloads">التنزيلات</string>
@@ -75,7 +74,6 @@
     <string name="find_on_gp">البحث في Google Play</string>
     <string name="find_on_store">البحث في متجر Appteka</string>
     <string name="forum_4pda">مناقشة على 4PDA</string>
-    <string name="forum_url">http://4pda.ru/forum/index.php?showtopic=636163</string>
     <string name="get_started">ابدأ</string>
     <string name="gigibytes">%.1f GB</string>
     <string name="google_play">Google Play</string>
