@@ -49,24 +49,9 @@ public class AboutActivity extends AppCompatActivity {
         } catch (PackageManager.NameNotFoundException ignored) {
         }
 
-        findViewById(R.id.feedback_email).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onFeedbackClicked();
-            }
-        });
-        findViewById(R.id.forum_discuss).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onForumDiscussClicked();
-            }
-        });
-        findViewById(R.id.telegram_group).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onTelegramGroupClicked();
-            }
-        });
+        findViewById(R.id.feedback_email).setOnClickListener(v -> onFeedbackClicked());
+        findViewById(R.id.forum_discuss).setOnClickListener(v -> onForumDiscussClicked());
+        findViewById(R.id.telegram_group).setOnClickListener(v -> onTelegramGroupClicked());
 
         if (savedInstanceState == null) {
             trackEvent("open-about-screen");
