@@ -69,6 +69,9 @@ class UploadPresenterImpl(
     private var checkExist: CheckExistResponse? = state?.getParcelableCompat(KEY_CHECK_EXIST, CheckExistResponse::class.java)
     private var whatsNew: String = state?.getString(KEY_WHATS_NEW).orEmpty()
     private var description: String = state?.getString(KEY_DESCRIPTION).orEmpty()
+    private var exclusive: Boolean = state?.getBoolean(KEY_EXCLUSIVE) ?: false
+    private var openSource: Boolean = state?.getBoolean(KEY_OPEN_SOURCE) ?: false
+    private var sourceUrl: String = state?.getString(KEY_SOURCE_URL).orEmpty()
 
     private val items = ArrayList<Item>()
 
@@ -101,6 +104,9 @@ class UploadPresenterImpl(
         putParcelable(KEY_CHECK_EXIST, checkExist)
         putString(KEY_WHATS_NEW, whatsNew)
         putString(KEY_DESCRIPTION, description)
+        putBoolean(KEY_EXCLUSIVE, exclusive)
+        putBoolean(KEY_OPEN_SOURCE, openSource)
+        putString(KEY_SOURCE_URL, sourceUrl)
     }
 
     override fun onAppSelected(info: CommonItem) {
@@ -178,9 +184,9 @@ class UploadPresenterImpl(
 
         items += DescriptionItem(id++, text = description)
 
-        items += ExclusiveItem(id++, value = false)
+        items += ExclusiveItem(id++, value = exclusive)
 
-        items += OpenSourceItem(id++, value = false, url = "")
+        items += OpenSourceItem(id++, value = openSource, url = sourceUrl)
 
         bindItems()
 
@@ -228,11 +234,12 @@ class UploadPresenterImpl(
     }
 
     override fun onExclusiveChanged(value: Boolean) {
-
+        exclusive = value
     }
 
     override fun onOpenSourceChanged(value: Boolean, url: String) {
-
+        openSource = value
+        sourceUrl = url
     }
 
 }
@@ -241,3 +248,6 @@ private const val KEY_PACKAGE_INFO = "package_info"
 private const val KEY_CHECK_EXIST = "check_exist"
 private const val KEY_WHATS_NEW = "whats_new"
 private const val KEY_DESCRIPTION = "description"
+private const val KEY_EXCLUSIVE = "exclusive"
+private const val KEY_OPEN_SOURCE = "open_source"
+private const val KEY_SOURCE_URL = "source_url"
