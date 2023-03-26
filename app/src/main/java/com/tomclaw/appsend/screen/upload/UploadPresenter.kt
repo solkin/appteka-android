@@ -15,6 +15,7 @@ import com.tomclaw.appsend.screen.upload.adapter.notice.NoticeType
 import com.tomclaw.appsend.screen.upload.adapter.open_source.OpenSourceItem
 import com.tomclaw.appsend.screen.upload.adapter.select_app.SelectAppItem
 import com.tomclaw.appsend.screen.upload.adapter.selected_app.SelectedAppItem
+import com.tomclaw.appsend.screen.upload.adapter.submit.SubmitItem
 import com.tomclaw.appsend.screen.upload.adapter.whats_new.WhatsNewItem
 import com.tomclaw.appsend.screen.upload.api.CheckExistResponse
 import com.tomclaw.appsend.util.SchedulersFactory
@@ -188,6 +189,8 @@ class UploadPresenterImpl(
 
         items += OpenSourceItem(id++, value = openSource, url = sourceUrl)
 
+        items += SubmitItem(id++)
+
         bindItems()
 
         view?.contentUpdated()
@@ -240,6 +243,10 @@ class UploadPresenterImpl(
     override fun onOpenSourceChanged(value: Boolean, url: String) {
         openSource = value
         sourceUrl = url
+    }
+
+    override fun onSubmitClick() {
+
     }
 
 }

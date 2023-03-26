@@ -1,7 +1,5 @@
 package com.tomclaw.appsend.screen.upload.adapter.category
 
-import android.content.res.ColorStateList
-import android.graphics.PorterDuff
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView

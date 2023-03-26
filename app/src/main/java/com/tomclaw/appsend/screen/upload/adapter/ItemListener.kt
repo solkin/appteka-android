@@ -18,4 +18,6 @@ interface ItemListener {
 
     fun onOpenSourceChanged(value: Boolean, url: String)
 
+    fun onSubmitClick()
+
 }
