@@ -29,6 +29,9 @@ class UploadActivity : AppCompatActivity(), UploadPresenter.UploadRouter {
     @Inject
     lateinit var binder: ItemBinder
 
+    @Inject
+    lateinit var preferences: UploadPreferencesProvider
+
     private val selectAppResultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
@@ -50,7 +53,7 @@ class UploadActivity : AppCompatActivity(), UploadPresenter.UploadRouter {
         setContentView(R.layout.upload_activity)
 
         val adapter = SimpleRecyclerAdapter(adapterPresenter, binder)
-        val view = UploadViewImpl(window.decorView, adapter)
+        val view = UploadViewImpl(window.decorView, preferences, adapter)
 
         presenter.attachView(view)
     }

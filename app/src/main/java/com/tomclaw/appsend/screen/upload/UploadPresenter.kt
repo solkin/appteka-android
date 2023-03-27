@@ -5,6 +5,9 @@ import android.os.Bundle
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.blueprint.Item
 import com.avito.konveyor.data_source.ListDataSource
+import com.tomclaw.appsend.categories.CategoriesInteractor
+import com.tomclaw.appsend.categories.Category
+import com.tomclaw.appsend.categories.CategoryConverter
 import com.tomclaw.appsend.main.item.CommonItem
 import com.tomclaw.appsend.screen.upload.adapter.ItemListener
 import com.tomclaw.appsend.screen.upload.adapter.category.SelectCategoryItem
@@ -58,6 +61,8 @@ interface UploadPresenter : ItemListener {
 class UploadPresenterImpl(
     private val startInfo: CommonItem?,
     private val interactor: UploadInteractor,
+    private val categoriesInteractor: CategoriesInteractor,
+    private val categoryConverter: CategoryConverter,
     private val adapterPresenter: Lazy<AdapterPresenter>,
     private val schedulers: SchedulersFactory,
     state: Bundle?
@@ -66,8 +71,10 @@ class UploadPresenterImpl(
     private var view: UploadView? = null
     private var router: UploadPresenter.UploadRouter? = null
 
-    private var packageInfo: CommonItem? = state?.getParcelableCompat(KEY_PACKAGE_INFO, CommonItem::class.java) ?: startInfo
-    private var checkExist: CheckExistResponse? = state?.getParcelableCompat(KEY_CHECK_EXIST, CheckExistResponse::class.java)
+    private var packageInfo: CommonItem? =
+        state?.getParcelableCompat(KEY_PACKAGE_INFO, CommonItem::class.java) ?: startInfo
+    private var checkExist: CheckExistResponse? =
+        state?.getParcelableCompat(KEY_CHECK_EXIST, CheckExistResponse::class.java)
     private var whatsNew: String = state?.getString(KEY_WHATS_NEW).orEmpty()
     private var description: String = state?.getString(KEY_DESCRIPTION).orEmpty()
     private var exclusive: Boolean = state?.getBoolean(KEY_EXCLUSIVE) ?: false
@@ -225,7 +232,7 @@ class UploadPresenterImpl(
     }
 
     override fun onCategoryClick() {
-
+        loadCategories()
     }
 
     override fun onWhatsNewChanged(text: String) {
@@ -247,6 +254,31 @@ class UploadPresenterImpl(
 
     override fun onSubmitClick() {
 
+    }
+
+    private fun loadCategories() {
+        subscriptions += categoriesInteractor.getCategories()
+            .toObservable()
+            .observeOn(schedulers.mainThread())
+            .retryWhen { errors ->
+                errors.flatMap {
+                    println("[upload categories] Retry after exception: " + it.message)
+                    Observable.timer(3, TimeUnit.SECONDS)
+                }
+            }
+            .subscribe(
+                { onCategoriesLoaded(it) },
+                { onCategoriesLoadingError() }
+            )
+    }
+
+    private fun onCategoriesLoadingError() {
+
+    }
+
+    private fun onCategoriesLoaded(categories: List<Category>) {
+        val items = categories.map { categoryConverter.convert(it) }.sortedBy { it.title }
+        view?.showCategories(items)
     }
 
 }
