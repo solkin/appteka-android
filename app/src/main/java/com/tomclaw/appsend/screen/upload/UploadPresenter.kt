@@ -8,6 +8,7 @@ import com.avito.konveyor.data_source.ListDataSource
 import com.tomclaw.appsend.categories.CategoriesInteractor
 import com.tomclaw.appsend.categories.Category
 import com.tomclaw.appsend.categories.CategoryConverter
+import com.tomclaw.appsend.categories.CategoryItem
 import com.tomclaw.appsend.main.item.CommonItem
 import com.tomclaw.appsend.screen.upload.adapter.ItemListener
 import com.tomclaw.appsend.screen.upload.adapter.category.SelectCategoryItem
@@ -75,6 +76,7 @@ class UploadPresenterImpl(
         state?.getParcelableCompat(KEY_PACKAGE_INFO, CommonItem::class.java) ?: startInfo
     private var checkExist: CheckExistResponse? =
         state?.getParcelableCompat(KEY_CHECK_EXIST, CheckExistResponse::class.java)
+    private var category: CategoryItem? = state?.getParcelableCompat(KEY_CATEGORY_ID, CategoryItem::class.java)
     private var whatsNew: String = state?.getString(KEY_WHATS_NEW).orEmpty()
     private var description: String = state?.getString(KEY_DESCRIPTION).orEmpty()
     private var exclusive: Boolean = state?.getBoolean(KEY_EXCLUSIVE) ?: false
@@ -90,6 +92,12 @@ class UploadPresenterImpl(
 
         subscriptions += view.navigationClicks().subscribe { onBackPressed() }
         subscriptions += view.retryClicks().subscribe { invalidate() }
+        subscriptions += view.categorySelectedClicks().subscribe { categoryItem ->
+            onCategorySelected(categoryItem)
+        }
+        subscriptions += view.categoryClearedClicks().subscribe {
+            onCategorySelected()
+        }
 
         invalidate()
     }
@@ -110,6 +118,7 @@ class UploadPresenterImpl(
     override fun saveState() = Bundle().apply {
         putParcelable(KEY_PACKAGE_INFO, packageInfo)
         putParcelable(KEY_CHECK_EXIST, checkExist)
+        putParcelable(KEY_CATEGORY_ID, category)
         putString(KEY_WHATS_NEW, whatsNew)
         putString(KEY_DESCRIPTION, description)
         putBoolean(KEY_EXCLUSIVE, exclusive)
@@ -186,7 +195,7 @@ class UploadPresenterImpl(
             }
         }
 
-        items += SelectCategoryItem(id++, category = null)
+        items += SelectCategoryItem(id++, category = category)
 
         items += WhatsNewItem(id++, text = whatsNew)
 
@@ -281,10 +290,16 @@ class UploadPresenterImpl(
         view?.showCategories(items)
     }
 
+    private fun onCategorySelected(categoryItem: CategoryItem? = null) {
+        category = categoryItem
+        invalidate()
+    }
+
 }
 
 private const val KEY_PACKAGE_INFO = "package_info"
 private const val KEY_CHECK_EXIST = "check_exist"
+private const val KEY_CATEGORY_ID = "category"
 private const val KEY_WHATS_NEW = "whats_new"
 private const val KEY_DESCRIPTION = "description"
 private const val KEY_EXCLUSIVE = "exclusive"
