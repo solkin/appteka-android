@@ -1,6 +1,5 @@
 package com.tomclaw.appsend.screen.upload
 
-import android.os.Build
 import android.os.Bundle
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.blueprint.Item

@@ -105,7 +105,7 @@ class UploadViewImpl(
             .setIconTintColor(getAttributedColor(context, R.attr.menu_icons_tint))
             .setItemTextColor(getAttributedColor(context, R.attr.text_primary_color))
             .apply {
-                addItem(0, R.string.all_categories, R.drawable.ic_category)
+                addItem(0, R.string.category_not_defined, R.drawable.ic_category)
             }
             .apply {
                 for (item in items) {
