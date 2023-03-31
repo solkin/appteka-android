@@ -20,4 +20,6 @@ interface ItemListener {
 
     fun onSubmitClick()
 
+    fun onOtherVersionsClick()
+
 }

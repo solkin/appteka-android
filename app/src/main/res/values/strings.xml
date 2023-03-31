@@ -319,6 +319,14 @@
     <string name="whats_new">What\'s new</string>
     <string name="open_source">Open Source software</string>
     <string name="source_code_url">Source code URL</string>
+    <string name="other_versions_title">Other versions</string>
+    <string name="check_other_versions">Check other versions</string>
+    <plurals name="other_versions_text">
+        <item quantity="one">This app already has %d uploaded version</item>
+        <item quantity="few">This app already has %d uploaded versions</item>
+        <item quantity="many">This app already has %d uploaded versions</item>
+        <item quantity="other">This app already has %d uploaded versions</item>
+    </plurals>
     <plurals name="other_versions_count">
         <item quantity="one">%d version</item>
         <item quantity="few">%d versions</item>

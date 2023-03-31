@@ -13,7 +13,6 @@
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-black"
         android:paddingStart="8dp"
-        android:paddingTop="8dp"
         android:paddingEnd="8dp"
         android:text="@string/select_category"
         android:textColor="?attr/text_primary_color"

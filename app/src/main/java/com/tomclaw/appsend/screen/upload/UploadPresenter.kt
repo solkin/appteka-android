@@ -16,6 +16,8 @@ import com.tomclaw.appsend.screen.upload.adapter.exclusive.ExclusiveItem
 import com.tomclaw.appsend.screen.upload.adapter.notice.NoticeItem
 import com.tomclaw.appsend.screen.upload.adapter.notice.NoticeType
 import com.tomclaw.appsend.screen.upload.adapter.open_source.OpenSourceItem
+import com.tomclaw.appsend.screen.upload.adapter.other_versions.OtherVersionsItem
+import com.tomclaw.appsend.screen.upload.adapter.other_versions.VersionItem
 import com.tomclaw.appsend.screen.upload.adapter.select_app.SelectAppItem
 import com.tomclaw.appsend.screen.upload.adapter.selected_app.SelectedAppItem
 import com.tomclaw.appsend.screen.upload.adapter.submit.SubmitItem
@@ -194,6 +196,8 @@ class UploadPresenterImpl(
             }
         }
 
+        items += OtherVersionsItem(id++, listOf(VersionItem(10, "appId", "Title", true, false)))
+
         items += SelectCategoryItem(id++, category = category)
 
         items += WhatsNewItem(id++, text = whatsNew)
@@ -261,6 +265,10 @@ class UploadPresenterImpl(
     }
 
     override fun onSubmitClick() {
+
+    }
+
+    override fun onOtherVersionsClick() {
 
     }
 

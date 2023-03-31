@@ -27,6 +27,8 @@ import com.tomclaw.appsend.screen.upload.adapter.notice.NoticeItemBlueprint
 import com.tomclaw.appsend.screen.upload.adapter.notice.NoticeItemPresenter
 import com.tomclaw.appsend.screen.upload.adapter.open_source.OpenSourceItemBlueprint
 import com.tomclaw.appsend.screen.upload.adapter.open_source.OpenSourceItemPresenter
+import com.tomclaw.appsend.screen.upload.adapter.other_versions.OtherVersionsItemBlueprint
+import com.tomclaw.appsend.screen.upload.adapter.other_versions.OtherVersionsItemPresenter
 import com.tomclaw.appsend.screen.upload.adapter.select_app.SelectAppItemBlueprint
 import com.tomclaw.appsend.screen.upload.adapter.select_app.SelectAppItemPresenter
 import com.tomclaw.appsend.screen.upload.adapter.selected_app.SelectedAppItemBlueprint
@@ -230,5 +232,18 @@ class UploadModule(
     internal fun provideSubmitItemPresenter(
         presenter: UploadPresenter
     ) = SubmitItemPresenter(presenter)
+
+    @Provides
+    @IntoSet
+    @PerActivity
+    internal fun provideOtherVersionsItemBlueprint(
+        presenter: OtherVersionsItemPresenter
+    ): ItemBlueprint<*, *> = OtherVersionsItemBlueprint(presenter)
+
+    @Provides
+    @PerActivity
+    internal fun provideOtherVersionsItemPresenter(
+        presenter: UploadPresenter
+    ) = OtherVersionsItemPresenter(presenter)
 
 }

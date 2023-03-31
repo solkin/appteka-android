@@ -312,6 +312,14 @@
     <string name="whats_new">Что нового</string>
     <string name="open_source">Открытый исходный код приложения</string>
     <string name="source_code_url">Ссылка на исходный код</string>
+    <string name="other_versions_title">Другие версии</string>
+    <string name="check_other_versions">Посмотреть другие версии</string>
+    <plurals name="other_versions_text">
+        <item quantity="one">Это приложение уже имеет %d загруженную версию</item>
+        <item quantity="few">Это приложение уже имеет %d загруженные версии</item>
+        <item quantity="many">Это приложение уже имеет %d загруженных версий</item>
+        <item quantity="other">Это приложение уже имеет %d загруженных версий</item>
+    </plurals>
     <plurals name="other_versions_count">
         <item quantity="one">%d версия</item>
         <item quantity="few">%d версии</item>
