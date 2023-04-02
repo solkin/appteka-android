@@ -5,8 +5,8 @@ import com.tomclaw.appsend.util.PerService
 import dagger.Subcomponent
 
 @PerService
-@Subcomponent(modules = [DownloadModule::class])
-interface DownloadComponent {
+@Subcomponent(modules = [DownloadServiceModule::class])
+interface DownloadServiceComponent {
 
     fun inject(service: DownloadService)
 

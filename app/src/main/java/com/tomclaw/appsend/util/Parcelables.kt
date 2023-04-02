@@ -1,5 +1,6 @@
 package com.tomclaw.appsend.util
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.os.Parcel
@@ -28,5 +29,14 @@ fun <T : Parcelable> Bundle.getParcelableArrayListCompat(key: String, clazz: Cla
     } else {
         @Suppress("DEPRECATION")
         getParcelableArrayList(key)
+    }
+}
+
+fun <T : Parcelable> Intent.getParcelableExtraCompat(key: String, clazz: Class<T>): T? {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        getParcelableExtra(key, clazz)
+    } else {
+        @Suppress("DEPRECATION")
+        getParcelableExtra(key)
     }
 }

@@ -7,7 +7,7 @@ import android.os.Binder
 import android.os.Build
 import android.os.IBinder
 import com.tomclaw.appsend.Appteka
-import com.tomclaw.appsend.download.di.DownloadModule
+import com.tomclaw.appsend.download.di.DownloadServiceModule
 import javax.inject.Inject
 
 class DownloadService : Service() {
@@ -20,9 +20,9 @@ class DownloadService : Service() {
 
     override fun onCreate() {
         super.onCreate()
-        println("[service] onCreate")
+        println("[download service] onCreate")
         Appteka.getComponent()
-            .downloadComponent(DownloadModule(this))
+            .downloadServiceComponent(DownloadServiceModule(this))
             .inject(service = this)
     }
 
@@ -39,7 +39,7 @@ class DownloadService : Service() {
         val appId = intent.getStringExtra(EXTRA_APP_ID) ?: return false
         val url = intent.getStringExtra(EXTRA_URL) ?: return false
 
-        println("[service] onStartCommand(label = $label, version = $version, appId = $appId, url = $url)")
+        println("[download service] onStartCommand(label = $label, version = $version, appId = $appId, url = $url)")
 
         val relay = downloadManager.status(appId)
 
@@ -71,12 +71,12 @@ class DownloadService : Service() {
     }
 
     override fun onDestroy() {
-        println("[service] onDestroy")
+        println("[download service] onDestroy")
         stopForeground()
     }
 
     override fun onBind(intent: Intent): IBinder {
-        println("[service] onBind")
+        println("[download service] onBind")
         return Binder()
     }
 }

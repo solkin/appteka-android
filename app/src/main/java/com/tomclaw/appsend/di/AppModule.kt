@@ -24,6 +24,10 @@ import com.tomclaw.appsend.util.Logger
 import com.tomclaw.appsend.util.LoggerImpl
 import com.tomclaw.appsend.download.DownloadNotifications
 import com.tomclaw.appsend.download.DownloadNotificationsImpl
+import com.tomclaw.appsend.upload.UploadManager
+import com.tomclaw.appsend.upload.UploadManagerImpl
+import com.tomclaw.appsend.upload.UploadNotifications
+import com.tomclaw.appsend.upload.UploadNotificationsImpl
 import com.tomclaw.appsend.util.PackageObserver
 import com.tomclaw.appsend.util.PackageObserverImpl
 import com.tomclaw.appsend.util.SchedulersFactory
@@ -79,7 +83,13 @@ class AppModule(private val app: Application) {
 
     @Provides
     @Singleton
-    internal fun provideNotifications(): DownloadNotifications = DownloadNotificationsImpl(app)
+    internal fun provideDownloadNotifications(): DownloadNotifications =
+        DownloadNotificationsImpl(app)
+
+    @Provides
+    @Singleton
+    internal fun provideUploadNotifications(): UploadNotifications =
+        UploadNotificationsImpl(app)
 
     @Provides
     @Singleton
@@ -126,6 +136,10 @@ class AppModule(private val app: Application) {
     internal fun provideDownloadManager(): DownloadManager = DownloadManagerImpl(
         File(Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS), APPS_DIR),
     )
+
+    @Provides
+    @Singleton
+    internal fun provideUploadManager(): UploadManager = UploadManagerImpl()
 
     @Provides
     @Singleton

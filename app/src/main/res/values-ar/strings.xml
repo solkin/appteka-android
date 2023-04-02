@@ -348,7 +348,7 @@
     <string name="open_source">Open Source software</string>
     <string name="source_code_url">Source code URL</string>
     <string name="other_versions_title">Other versions</string>
-    <string name="check_other_versions">Check other versions</string>
+    <string name="check_uploaded_versions">Check uploaded versions</string>
     <plurals name="other_versions_text">
         <item quantity="zero">This app already has %d uploaded versions</item>
         <item quantity="one">This app already has %d uploaded version</item>

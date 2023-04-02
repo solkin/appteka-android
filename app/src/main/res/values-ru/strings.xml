@@ -313,7 +313,7 @@
     <string name="open_source">Открытый исходный код приложения</string>
     <string name="source_code_url">Ссылка на исходный код</string>
     <string name="other_versions_title">Другие версии</string>
-    <string name="check_other_versions">Посмотреть другие версии</string>
+    <string name="check_uploaded_versions">Посмотреть загруженные версии</string>
     <plurals name="other_versions_text">
         <item quantity="one">Это приложение уже имеет %d загруженную версию</item>
         <item quantity="few">Это приложение уже имеет %d загруженные версии</item>

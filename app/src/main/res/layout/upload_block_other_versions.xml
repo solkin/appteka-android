@@ -39,7 +39,7 @@
         android:drawableEnd="@drawable/ic_pill"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
-        android:text="@string/check_other_versions"
+        android:text="@string/check_uploaded_versions"
         app:cornerRadius="99dp"
         app:drawableTint="?attr/colorPrimary" />
 

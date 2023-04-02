@@ -41,7 +41,6 @@ import com.tomclaw.appsend.screen.upload.adapter.whats_new.WhatsNewItemBlueprint
 import com.tomclaw.appsend.screen.upload.adapter.whats_new.WhatsNewItemPresenter
 import com.tomclaw.appsend.user.UserDataInteractor
 import com.tomclaw.appsend.util.PerActivity
-import com.tomclaw.appsend.util.PerFragment
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
 import dagger.Module
