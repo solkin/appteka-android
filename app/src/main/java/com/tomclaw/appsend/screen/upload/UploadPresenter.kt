@@ -1,5 +1,6 @@
 package com.tomclaw.appsend.screen.upload
 
+import android.os.Build
 import android.os.Bundle
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.blueprint.Item
@@ -65,6 +66,7 @@ class UploadPresenterImpl(
     private val interactor: UploadInteractor,
     private val categoriesInteractor: CategoriesInteractor,
     private val categoryConverter: CategoryConverter,
+    private val resourceProvider: UploadResourceProvider,
     private val adapterPresenter: Lazy<AdapterPresenter>,
     private val schedulers: SchedulersFactory,
     state: Bundle?
@@ -140,7 +142,7 @@ class UploadPresenterImpl(
         val packageInfo = packageInfo ?: return
         subscriptions += interactor
             .calculateSha1(packageInfo.path)
-            .flatMap { interactor.checkExist(it) }
+            .flatMap { interactor.checkExist(it, packageInfo.packageName) }
             .observeOn(schedulers.mainThread())
             .retryWhen { errors ->
                 errors.flatMap {
@@ -194,9 +196,25 @@ class UploadPresenterImpl(
             if (checkExist.error?.isEmpty() == false) {
                 items += NoticeItem(id++, NoticeType.ERROR, checkExist.error, clickable)
             }
-        }
 
-        items += OtherVersionsItem(id++, listOf(VersionItem(10, "appId", "Title", true, false)))
+            checkExist.versions?.takeIf { it.isNotEmpty() }?.run {
+                val versions = this
+                    .sortedBy { it.verCode }
+                    .reversed()
+                    .map { version ->
+                        VersionItem(
+                            versionId = version.appId.hashCode(),
+                            appId = version.appId,
+                            title = resourceProvider.formatVersion(version),
+                            compatible = version.sdkVersion <= Build.VERSION.SDK_INT,
+                            newer = checkExist.file?.verCode?.let { version.verCode > it } ?: false,
+                        )
+                    }
+                if (versions.isNotEmpty()) {
+                    items += OtherVersionsItem(id++, versions)
+                }
+            }
+        }
 
         items += SelectCategoryItem(id++, category = category)
 

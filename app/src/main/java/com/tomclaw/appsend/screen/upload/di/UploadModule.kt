@@ -17,6 +17,8 @@ import com.tomclaw.appsend.screen.upload.UploadPreferencesProvider
 import com.tomclaw.appsend.screen.upload.UploadPreferencesProviderImpl
 import com.tomclaw.appsend.screen.upload.UploadPresenter
 import com.tomclaw.appsend.screen.upload.UploadPresenterImpl
+import com.tomclaw.appsend.screen.upload.UploadResourceProvider
+import com.tomclaw.appsend.screen.upload.UploadResourceProviderImpl
 import com.tomclaw.appsend.screen.upload.adapter.category.SelectCategoryItemBlueprint
 import com.tomclaw.appsend.screen.upload.adapter.category.SelectCategoryItemPresenter
 import com.tomclaw.appsend.screen.upload.adapter.description.DescriptionItemBlueprint
@@ -61,6 +63,7 @@ class UploadModule(
         interactor: UploadInteractor,
         categoriesInteractor: CategoriesInteractor,
         categoryConverter: CategoryConverter,
+        resourceProvider: UploadResourceProvider,
         adapterPresenter: Lazy<AdapterPresenter>,
         schedulers: SchedulersFactory
     ): UploadPresenter = UploadPresenterImpl(
@@ -68,6 +71,7 @@ class UploadModule(
         interactor,
         categoriesInteractor,
         categoryConverter,
+        resourceProvider,
         adapterPresenter,
         schedulers,
         state
@@ -91,6 +95,14 @@ class UploadModule(
     @PerActivity
     internal fun provideUploadPreferencesProvider(): UploadPreferencesProvider {
         return UploadPreferencesProviderImpl(context)
+    }
+
+    @Provides
+    @PerActivity
+    internal fun provideUploadResourceProvider(
+        locale: Locale
+    ): UploadResourceProvider {
+        return UploadResourceProviderImpl(context.resources, locale)
     }
 
     @Provides

@@ -157,6 +157,7 @@ interface StoreApi {
     fun checkExist(
         @Query("guid") guid: String,
         @Query("sha1") sha1: String,
+        @Query("package") packageName: String,
         @Query("locale") locale: String
     ): Single<StoreResponse<CheckExistResponse>>
 
