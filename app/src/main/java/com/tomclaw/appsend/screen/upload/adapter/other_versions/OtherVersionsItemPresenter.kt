@@ -10,7 +10,7 @@ class OtherVersionsItemPresenter(
     override fun bindView(view: OtherVersionsItemView, item: OtherVersionsItem, position: Int) {
         with(view) {
             setVersionsCount(item.versions.size)
-            setOnClickListener { listener.onOtherVersionsClick() }
+            setOnClickListener { listener.onOtherVersionsClick(item.versions) }
         }
     }
 

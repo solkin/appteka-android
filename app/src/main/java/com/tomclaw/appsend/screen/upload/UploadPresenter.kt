@@ -26,6 +26,7 @@ import com.tomclaw.appsend.screen.upload.adapter.whats_new.WhatsNewItem
 import com.tomclaw.appsend.screen.upload.api.CheckExistResponse
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.getParcelableCompat
+import com.tomclaw.appsend.util.versionCodeCompat
 import dagger.Lazy
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -62,7 +63,7 @@ interface UploadPresenter : ItemListener {
 }
 
 class UploadPresenterImpl(
-    private val startInfo: CommonItem?,
+    startInfo: CommonItem?,
     private val interactor: UploadInteractor,
     private val categoriesInteractor: CategoriesInteractor,
     private val categoryConverter: CategoryConverter,
@@ -207,7 +208,7 @@ class UploadPresenterImpl(
                             appId = version.appId,
                             title = resourceProvider.formatVersion(version),
                             compatible = version.sdkVersion <= Build.VERSION.SDK_INT,
-                            newer = checkExist.file?.verCode?.let { version.verCode > it } ?: false,
+                            newer = packageInfo?.packageInfo?.versionCodeCompat()?.let { version.verCode > it } ?: false,
                         )
                     }
                 if (versions.isNotEmpty()) {
@@ -286,8 +287,8 @@ class UploadPresenterImpl(
 
     }
 
-    override fun onOtherVersionsClick() {
-
+    override fun onOtherVersionsClick(items: List<VersionItem>) {
+        view?.showVersionsDialog(items)
     }
 
     private fun loadCategories() {

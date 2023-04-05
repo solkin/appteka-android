@@ -1,5 +1,7 @@
 package com.tomclaw.appsend.screen.upload.adapter
 
+import com.tomclaw.appsend.screen.upload.adapter.other_versions.VersionItem
+
 interface ItemListener {
 
     fun onSelectAppClick()
@@ -20,6 +22,6 @@ interface ItemListener {
 
     fun onSubmitClick()
 
-    fun onOtherVersionsClick()
+    fun onOtherVersionsClick(items: List<VersionItem>)
 
 }

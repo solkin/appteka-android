@@ -1,6 +1,7 @@
 package com.tomclaw.appsend.screen.upload
 
 import android.annotation.SuppressLint
+import android.app.Dialog
 import android.view.View
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -11,6 +12,7 @@ import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.categories.CategoryItem
+import com.tomclaw.appsend.screen.upload.adapter.other_versions.VersionItem
 import com.tomclaw.appsend.util.getAttributedColor
 import com.tomclaw.appsend.util.hide
 import com.tomclaw.appsend.util.hideWithAlphaAnimation
@@ -33,6 +35,8 @@ interface UploadView {
 
     fun showCategories(items: List<CategoryItem>)
 
+    fun showVersionsDialog(items: List<VersionItem>)
+
     fun navigationClicks(): Observable<Unit>
 
     fun retryClicks(): Observable<Unit>
@@ -40,6 +44,8 @@ interface UploadView {
     fun categorySelectedClicks(): Observable<CategoryItem>
 
     fun categoryClearedClicks(): Observable<Unit>
+
+    fun versionClicks(): Observable<VersionItem>
 
 }
 
@@ -60,6 +66,7 @@ class UploadViewImpl(
     private val retryRelay = PublishRelay.create<Unit>()
     private val categorySelectedRelay = PublishRelay.create<CategoryItem>()
     private val categoryClearedRelay = PublishRelay.create<Unit>()
+    private val versionRelay = PublishRelay.create<VersionItem>()
 
     private val layoutManager: LinearLayoutManager
 
@@ -127,6 +134,44 @@ class UploadViewImpl(
             .show()
     }
 
+    override fun showVersionsDialog(items: List<VersionItem>) {
+        val theme = R.style.BottomSheetDialogDark.takeIf { preferences.isDarkTheme() }
+            ?: R.style.BottomSheetDialogLight
+        var bottomSheet: Dialog? = null
+        bottomSheet = BottomSheetBuilder(context, theme)
+            .setMode(BottomSheetBuilder.MODE_LIST)
+            .apply {
+                for (item in items) {
+                    val icon = if (item.compatible) {
+                        if (item.newer) {
+                            setIconTintColorResource(R.color.newer_color)
+                            setItemTextColorResource(R.color.newer_text_color)
+                            R.drawable.ic_new
+                        } else {
+                            setIconTintColor(getAttributedColor(context, R.attr.menu_icons_tint))
+                            setItemTextColor(getAttributedColor(context, R.attr.text_primary_color))
+                            R.drawable.ic_download_circle
+                        }
+                    } else {
+                        setIconTintColorResource(R.color.incompatible_color)
+                        setItemTextColorResource(R.color.incompatible_text_color)
+                        R.drawable.ic_alert_circle
+                    }
+                    addItem(item.versionId, item.title, icon)
+                }
+            }
+            .setItemClickListener { item ->
+                items.find {
+                    it.versionId == item.itemId
+                }?.let {
+                    bottomSheet?.hide()
+                    versionRelay.accept(it)
+                }
+            }
+            .createDialog()
+            .apply { show() }
+    }
+
     override fun navigationClicks(): Observable<Unit> = navigationRelay
 
     override fun retryClicks(): Observable<Unit> = retryRelay
@@ -134,6 +179,8 @@ class UploadViewImpl(
     override fun categorySelectedClicks(): Observable<CategoryItem> = categorySelectedRelay
 
     override fun categoryClearedClicks(): Observable<Unit> = categoryClearedRelay
+
+    override fun versionClicks(): Observable<VersionItem> = versionRelay
 
 }
 
