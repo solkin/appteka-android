@@ -2,7 +2,6 @@ package com.tomclaw.appsend.screen.upload
 
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageInfo
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -16,6 +15,7 @@ import com.tomclaw.appsend.main.local.SelectLocalAppActivity.SELECTED_ITEM
 import com.tomclaw.appsend.main.local.SelectLocalAppActivity.createSelectAppActivity
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.screen.upload.di.UploadModule
+import com.tomclaw.appsend.util.getParcelableExtraCompat
 import javax.inject.Inject
 
 class UploadActivity : AppCompatActivity(), UploadPresenter.UploadRouter {
@@ -35,8 +35,10 @@ class UploadActivity : AppCompatActivity(), UploadPresenter.UploadRouter {
     private val selectAppResultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
-                val info: CommonItem = result.data?.getParcelableExtra(SELECTED_ITEM)
-                    ?: return@registerForActivityResult
+                val info: CommonItem = result.data?.getParcelableExtraCompat(
+                    SELECTED_ITEM,
+                    CommonItem::class.java
+                ) ?: return@registerForActivityResult
                 presenter.onAppSelected(info)
             }
         }

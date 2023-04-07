@@ -102,6 +102,9 @@ class UploadPresenterImpl(
         subscriptions += view.categoryClearedClicks().subscribe {
             onCategorySelected()
         }
+        subscriptions += view.versionClicks().subscribe { versionItem ->
+            router?.openDetailsScreen(appId = versionItem.appId, label = versionItem.title)
+        }
 
         invalidate()
     }
