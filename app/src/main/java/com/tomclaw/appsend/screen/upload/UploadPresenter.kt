@@ -80,7 +80,8 @@ class UploadPresenterImpl(
         state?.getParcelableCompat(KEY_PACKAGE_INFO, CommonItem::class.java) ?: startInfo
     private var checkExist: CheckExistResponse? =
         state?.getParcelableCompat(KEY_CHECK_EXIST, CheckExistResponse::class.java)
-    private var category: CategoryItem? = state?.getParcelableCompat(KEY_CATEGORY_ID, CategoryItem::class.java)
+    private var category: CategoryItem? =
+        state?.getParcelableCompat(KEY_CATEGORY_ID, CategoryItem::class.java)
     private var whatsNew: String = state?.getString(KEY_WHATS_NEW).orEmpty()
     private var description: String = state?.getString(KEY_DESCRIPTION).orEmpty()
     private var exclusive: Boolean = state?.getBoolean(KEY_EXCLUSIVE) ?: false
@@ -189,6 +190,8 @@ class UploadPresenterImpl(
             items += SelectAppItem(id++)
         }
 
+        var isUploadAvailable = true
+
         checkExist?.let { checkExist ->
             val clickable = checkExist.file != null
             if (checkExist.info?.isEmpty() == false) {
@@ -199,38 +202,42 @@ class UploadPresenterImpl(
             }
             if (checkExist.error?.isEmpty() == false) {
                 items += NoticeItem(id++, NoticeType.ERROR, checkExist.error, clickable)
+                isUploadAvailable = false
             }
 
-            checkExist.versions?.takeIf { it.isNotEmpty() }?.run {
-                val versions = this
-                    .sortedBy { it.verCode }
-                    .reversed()
-                    .map { version ->
-                        VersionItem(
-                            versionId = version.appId.hashCode(),
-                            appId = version.appId,
-                            title = resourceProvider.formatVersion(version),
-                            compatible = version.sdkVersion <= Build.VERSION.SDK_INT,
-                            newer = packageInfo?.packageInfo?.versionCodeCompat()?.let { version.verCode > it } ?: false,
-                        )
-                    }
-                if (versions.isNotEmpty()) {
+            checkExist.versions
+                ?.takeIf { it.isNotEmpty() }
+                ?.run {
+                    val versions = this
+                        .sortedBy { it.verCode }
+                        .reversed()
+                        .map { version ->
+                            VersionItem(
+                                versionId = version.appId.hashCode(),
+                                appId = version.appId,
+                                title = resourceProvider.formatVersion(version),
+                                compatible = version.sdkVersion <= Build.VERSION.SDK_INT,
+                                newer = packageInfo?.packageInfo?.versionCodeCompat()
+                                    ?.let { version.verCode > it } ?: false,
+                            )
+                        }
                     items += OtherVersionsItem(id++, versions)
                 }
-            }
         }
 
-        items += SelectCategoryItem(id++, category = category)
+        if (isUploadAvailable) {
+            items += SelectCategoryItem(id++, category = category)
 
-        items += WhatsNewItem(id++, text = whatsNew)
+            items += WhatsNewItem(id++, text = whatsNew)
 
-        items += DescriptionItem(id++, text = description)
+            items += DescriptionItem(id++, text = description)
 
-        items += ExclusiveItem(id++, value = exclusive)
+            items += ExclusiveItem(id++, value = exclusive)
 
-        items += OpenSourceItem(id++, value = openSource, url = sourceUrl)
+            items += OpenSourceItem(id++, value = openSource, url = sourceUrl)
 
-        items += SubmitItem(id++)
+            items += SubmitItem(id++)
+        }
 
         bindItems()
 
