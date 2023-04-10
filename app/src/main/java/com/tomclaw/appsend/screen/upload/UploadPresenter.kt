@@ -1,6 +1,5 @@
 package com.tomclaw.appsend.screen.upload
 
-import android.os.Build
 import android.os.Bundle
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.blueprint.Item
@@ -11,22 +10,10 @@ import com.tomclaw.appsend.categories.CategoryConverter
 import com.tomclaw.appsend.categories.CategoryItem
 import com.tomclaw.appsend.main.item.CommonItem
 import com.tomclaw.appsend.screen.upload.adapter.ItemListener
-import com.tomclaw.appsend.screen.upload.adapter.category.SelectCategoryItem
-import com.tomclaw.appsend.screen.upload.adapter.description.DescriptionItem
-import com.tomclaw.appsend.screen.upload.adapter.exclusive.ExclusiveItem
-import com.tomclaw.appsend.screen.upload.adapter.notice.NoticeItem
-import com.tomclaw.appsend.screen.upload.adapter.notice.NoticeType
-import com.tomclaw.appsend.screen.upload.adapter.open_source.OpenSourceItem
-import com.tomclaw.appsend.screen.upload.adapter.other_versions.OtherVersionsItem
 import com.tomclaw.appsend.screen.upload.adapter.other_versions.VersionItem
-import com.tomclaw.appsend.screen.upload.adapter.select_app.SelectAppItem
-import com.tomclaw.appsend.screen.upload.adapter.selected_app.SelectedAppItem
-import com.tomclaw.appsend.screen.upload.adapter.submit.SubmitItem
-import com.tomclaw.appsend.screen.upload.adapter.whats_new.WhatsNewItem
 import com.tomclaw.appsend.screen.upload.api.CheckExistResponse
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.getParcelableCompat
-import com.tomclaw.appsend.util.versionCodeCompat
 import dagger.Lazy
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -67,7 +54,7 @@ class UploadPresenterImpl(
     private val interactor: UploadInteractor,
     private val categoriesInteractor: CategoriesInteractor,
     private val categoryConverter: CategoryConverter,
-    private val resourceProvider: UploadResourceProvider,
+    private val uploadConverter: UploadConverter,
     private val adapterPresenter: Lazy<AdapterPresenter>,
     private val schedulers: SchedulersFactory,
     state: Bundle?
@@ -180,64 +167,17 @@ class UploadPresenterImpl(
     }
 
     private fun bindForm() {
-        var id: Long = 1
-
         items.clear()
-        val packageInfo = this.packageInfo
-        if (packageInfo != null) {
-            items += SelectedAppItem(id++, packageInfo)
-        } else {
-            items += SelectAppItem(id++)
-        }
-
-        var isUploadAvailable = true
-
-        checkExist?.let { checkExist ->
-            val clickable = checkExist.file != null
-            if (checkExist.info?.isEmpty() == false) {
-                items += NoticeItem(id++, NoticeType.INFO, checkExist.info, clickable)
-            }
-            if (checkExist.warning?.isEmpty() == false) {
-                items += NoticeItem(id++, NoticeType.WARNING, checkExist.warning, clickable)
-            }
-            if (checkExist.error?.isEmpty() == false) {
-                items += NoticeItem(id++, NoticeType.ERROR, checkExist.error, clickable)
-                isUploadAvailable = false
-            }
-
-            checkExist.versions
-                ?.takeIf { it.isNotEmpty() }
-                ?.run {
-                    val versions = this
-                        .sortedBy { it.verCode }
-                        .reversed()
-                        .map { version ->
-                            VersionItem(
-                                versionId = version.appId.hashCode(),
-                                appId = version.appId,
-                                title = resourceProvider.formatVersion(version),
-                                compatible = version.sdkVersion <= Build.VERSION.SDK_INT,
-                                newer = packageInfo?.packageInfo?.versionCodeCompat()
-                                    ?.let { version.verCode > it } ?: false,
-                            )
-                        }
-                    items += OtherVersionsItem(id++, versions)
-                }
-        }
-
-        if (isUploadAvailable) {
-            items += SelectCategoryItem(id++, category = category)
-
-            items += WhatsNewItem(id++, text = whatsNew)
-
-            items += DescriptionItem(id++, text = description)
-
-            items += ExclusiveItem(id++, value = exclusive)
-
-            items += OpenSourceItem(id++, value = openSource, url = sourceUrl)
-
-            items += SubmitItem(id++)
-        }
+        items += uploadConverter.convert(
+            packageInfo,
+            checkExist,
+            category,
+            whatsNew,
+            description,
+            exclusive,
+            openSource,
+            sourceUrl
+        )
 
         bindItems()
 

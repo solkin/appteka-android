@@ -11,6 +11,8 @@ import com.tomclaw.appsend.categories.CategoryConverter
 import com.tomclaw.appsend.categories.CategoryConverterImpl
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.main.item.CommonItem
+import com.tomclaw.appsend.screen.upload.UploadConverter
+import com.tomclaw.appsend.screen.upload.UploadConverterImpl
 import com.tomclaw.appsend.screen.upload.UploadInteractor
 import com.tomclaw.appsend.screen.upload.UploadInteractorImpl
 import com.tomclaw.appsend.screen.upload.UploadPreferencesProvider
@@ -63,7 +65,7 @@ class UploadModule(
         interactor: UploadInteractor,
         categoriesInteractor: CategoriesInteractor,
         categoryConverter: CategoryConverter,
-        resourceProvider: UploadResourceProvider,
+        uploadConverter: UploadConverter,
         adapterPresenter: Lazy<AdapterPresenter>,
         schedulers: SchedulersFactory
     ): UploadPresenter = UploadPresenterImpl(
@@ -71,7 +73,7 @@ class UploadModule(
         interactor,
         categoriesInteractor,
         categoryConverter,
-        resourceProvider,
+        uploadConverter,
         adapterPresenter,
         schedulers,
         state
@@ -103,6 +105,14 @@ class UploadModule(
         locale: Locale
     ): UploadResourceProvider {
         return UploadResourceProviderImpl(context.resources, locale)
+    }
+
+    @Provides
+    @PerActivity
+    internal fun provideUploadConverterProvider(
+        resourceProvider: UploadResourceProvider
+    ): UploadConverter {
+        return UploadConverterImpl(resourceProvider)
     }
 
     @Provides
