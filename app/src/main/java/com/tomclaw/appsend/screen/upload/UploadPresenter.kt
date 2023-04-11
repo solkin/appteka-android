@@ -237,7 +237,19 @@ class UploadPresenterImpl(
     }
 
     override fun onSubmitClick() {
+        val packageInfo = packageInfo ?: return
+        val category = category ?: return
 
+        val meta = MetaInfo(
+            file = packageInfo.path,
+            categoryId = category.id,
+            description,
+            whatsNew,
+            exclusive,
+            openSource,
+            sourceUrl
+        )
+        router?.startUpload(meta)
     }
 
     override fun onOtherVersionsClick(items: List<VersionItem>) {
