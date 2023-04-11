@@ -166,6 +166,8 @@
 
         <service android:name=".download.DownloadService" />
 
+        <service android:name=".upload.UploadService" />
+
         <provider
             android:name="androidx.startup.InitializationProvider"
             android:authorities="${applicationId}.androidx-startup"
