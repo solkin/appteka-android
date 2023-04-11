@@ -258,7 +258,7 @@ class UploadPresenterImpl(
     }
 
     private fun onCategoriesLoadingError() {
-
+        view?.showError()
     }
 
     private fun onCategoriesLoaded(categories: List<Category>) {
