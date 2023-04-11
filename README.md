@@ -1,4 +1,4 @@
-# Appteka [![Build Status](https://travis-ci.org/solkin/appteka-android.svg?branch=master)](https://travis-ci.org/solkin/appteka-android)
+# Appteka [![Build Status](https://semaphoreci.com/api/v1/solkin/appsend/branches/master/badge.svg)](https://semaphoreci.com/solkin/appsend)
 Appteka is an alternative store for Android. It also can extracts APKs, are installed on your Android device and cope them into your SD card.
 
 * Fast and easy to use.
