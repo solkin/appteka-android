@@ -81,7 +81,7 @@ class UploadService : Service() {
 fun createUploadIntent(
     context: Context,
     meta: MetaInfo
-): Intent = Intent(context, DownloadService::class.java)
+): Intent = Intent(context, UploadService::class.java)
     .putExtra(EXTRA_META, meta)
 
 private const val EXTRA_META = "meta"

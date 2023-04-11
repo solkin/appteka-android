@@ -8,7 +8,6 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,9 +23,6 @@ import com.tomclaw.appsend.util.ThemeHelper;
  */
 public class AboutActivity extends AppCompatActivity {
 
-    private Toolbar toolbar;
-    private TextView appVersion;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         ThemeHelper.updateTheme(this);
@@ -34,8 +30,8 @@ public class AboutActivity extends AppCompatActivity {
 
         setContentView(R.layout.about_activity);
 
-        toolbar = findViewById(R.id.toolbar);
-        appVersion = findViewById(R.id.app_version);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        TextView appVersion = findViewById(R.id.app_version);
 
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();

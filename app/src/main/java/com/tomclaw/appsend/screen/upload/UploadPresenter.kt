@@ -12,6 +12,7 @@ import com.tomclaw.appsend.main.item.CommonItem
 import com.tomclaw.appsend.screen.upload.adapter.ItemListener
 import com.tomclaw.appsend.screen.upload.adapter.other_versions.VersionItem
 import com.tomclaw.appsend.screen.upload.api.CheckExistResponse
+import com.tomclaw.appsend.upload.MetaInfo
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.getParcelableCompat
 import dagger.Lazy
@@ -42,6 +43,8 @@ interface UploadPresenter : ItemListener {
         fun openSelectAppScreen()
 
         fun openDetailsScreen(appId: String, label: String?)
+
+        fun startUpload(meta: MetaInfo)
 
         fun leaveScreen()
 
