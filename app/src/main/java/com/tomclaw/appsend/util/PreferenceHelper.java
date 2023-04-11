@@ -40,44 +40,12 @@ public class PreferenceHelper {
         }
     }
 
-    public static boolean isShowResponsibilityDenial(Context context) {
-        return getBooleanPreference(context, R.string.pref_responsibility_denial, R.bool.pref_responsibility_denial_default);
-    }
-
     public static boolean isShowUploadNotice(Context context) {
         return getBooleanPreference(context, R.string.pref_upload_notice, R.bool.pref_upload_notice_default);
     }
 
-    public static void setShowResponsibilityDenial(Context context, boolean value) {
-        setBooleanPreference(context, R.string.pref_responsibility_denial, value);
-    }
-
     public static void setShowUploadNotice(Context context, boolean value) {
         setBooleanPreference(context, R.string.pref_upload_notice, value);
-    }
-
-    public static long getCountTime(Context context) {
-        return Long.parseLong(getStringPreference(context, R.string.pref_count_time, R.string.pref_count_time_default));
-    }
-
-    public static void setCountTime(Context context, long value) {
-        setStringPreference(context, R.string.pref_count_time, String.valueOf(value));
-    }
-
-    public static int getUnreadCount(Context context) {
-        return Integer.parseInt(getStringPreference(context, R.string.pref_unread_count, R.string.pref_unread_count_default));
-    }
-
-    public static void setUnreadCount(Context context, int value) {
-        setStringPreference(context, R.string.pref_unread_count, String.valueOf(value));
-    }
-
-    public static boolean isShowDiscussIntro(Context context) {
-        return getBooleanPreference(context, R.string.pref_discuss_intro, R.bool.pref_discuss_intro_default);
-    }
-
-    public static void setShowDiscussIntro(Context context, boolean value) {
-        setBooleanPreference(context, R.string.pref_discuss_intro, value);
     }
 
     private static boolean getBooleanPreference(Context context, int preferenceKey, int defaultValueKey) {
@@ -103,11 +71,6 @@ public class PreferenceHelper {
     private static String getStringPreference(Context context, int preferenceKey, int defaultValueKey) {
         return getSharedPreferences(context).getString(context.getResources().getString(preferenceKey),
                 context.getResources().getString(defaultValueKey));
-    }
-
-    private static void setStringPreference(Context context, int preferenceKey, String value) {
-        getSharedPreferences(context).edit().putString(context.getResources().getString(preferenceKey),
-                value).apply();
     }
 
     private static SharedPreferences getSharedPreferences(Context context) {

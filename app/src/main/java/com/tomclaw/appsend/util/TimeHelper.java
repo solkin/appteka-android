@@ -4,7 +4,6 @@ import android.content.Context;
 import android.text.format.DateFormat;
 
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Locale;
 
 /**
@@ -18,7 +17,6 @@ public class TimeHelper {
     private static final SimpleDateFormat simpleDateFormat;
     private static final SimpleDateFormat simpleTimeFormat12;
     private static final SimpleDateFormat simpleTimeFormat24;
-    private static final SimpleDateFormat simpleTimeFormatSeconds;
 
     private final SimpleDateFormat timeFormat;
 
@@ -29,7 +27,6 @@ public class TimeHelper {
         simpleDateFormat = new SimpleDateFormat("dd.MM.yy", locale);
         simpleTimeFormat12 = new SimpleDateFormat("h:mm a", locale);
         simpleTimeFormat24 = new SimpleDateFormat("HH:mm", locale);
-        simpleTimeFormatSeconds = new SimpleDateFormat("mm:ss", locale);
     }
 
     public static TimeHelper timeHelper() {
@@ -57,23 +54,5 @@ public class TimeHelper {
 
     public String getFormattedTime(long timestamp) {
         return getTimeFormat().format(timestamp);
-    }
-
-    public static int getYears(long timeStamp) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis() - timeStamp);
-        return calendar.get(Calendar.YEAR) - 1970;
-    }
-
-    public static Calendar clearTimes(Calendar calendar) {
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 0);
-        calendar.set(Calendar.SECOND, 0);
-        calendar.set(Calendar.MILLISECOND, 0);
-        return calendar;
-    }
-
-    public String getTime(long timestamp) {
-        return simpleTimeFormatSeconds.format(timestamp);
     }
 }

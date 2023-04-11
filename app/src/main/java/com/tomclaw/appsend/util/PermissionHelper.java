@@ -34,8 +34,8 @@ public class PermissionHelper {
 
     public static class PermissionSmallInfo {
 
-        private String description;
-        private boolean isDangerous;
+        private final String description;
+        private final boolean isDangerous;
 
         PermissionSmallInfo(String description, boolean isDangerous) {
             this.description = description;
