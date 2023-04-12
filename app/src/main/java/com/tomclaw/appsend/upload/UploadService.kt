@@ -38,12 +38,14 @@ class UploadService : Service() {
 
         println("[upload service] onStartCommand(file = $file)")
 
-        val relay = uploadManager.status(file)
+        val id = file.hashCode().toString()
 
-        uploadManager.upload(file, file)
+        val relay = uploadManager.status(id)
+
+        uploadManager.upload(id, file)
 
         notifications.subscribe(
-            id = file,
+            id = id,
             file = file,
             start = { notificationId, notification ->
                 startForeground(notificationId, notification)
