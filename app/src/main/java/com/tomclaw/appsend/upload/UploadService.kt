@@ -7,7 +7,6 @@ import android.os.Binder
 import android.os.Build
 import android.os.IBinder
 import com.tomclaw.appsend.Appteka
-import com.tomclaw.appsend.download.DownloadService
 import com.tomclaw.appsend.upload.di.UploadServiceModule
 import com.tomclaw.appsend.util.getParcelableExtraCompat
 import javax.inject.Inject
@@ -35,17 +34,17 @@ class UploadService : Service() {
     }
 
     private fun onIntentReceived(intent: Intent): Boolean {
-        val meta = intent.getParcelableExtraCompat(EXTRA_META, MetaInfo::class.java) ?: return false
+        val file = intent.getStringExtra(EXTRA_FILE) ?: return false
 
-        println("[upload service] onStartCommand(meta = $meta)")
+        println("[upload service] onStartCommand(file = $file)")
 
-        val relay = uploadManager.status(meta.file)
+        val relay = uploadManager.status(file)
 
-        uploadManager.upload(meta.file, meta)
+        uploadManager.upload(file, file)
 
         notifications.subscribe(
-            id = meta.file,
-            meta = meta,
+            id = file,
+            file = file,
             start = { notificationId, notification ->
                 startForeground(notificationId, notification)
             },
@@ -80,8 +79,8 @@ class UploadService : Service() {
 
 fun createUploadIntent(
     context: Context,
-    meta: MetaInfo
+    file: String
 ): Intent = Intent(context, UploadService::class.java)
-    .putExtra(EXTRA_META, meta)
+    .putExtra(EXTRA_FILE, file)
 
-private const val EXTRA_META = "meta"
+private const val EXTRA_FILE = "file"

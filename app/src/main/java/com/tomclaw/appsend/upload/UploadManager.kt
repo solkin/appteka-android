@@ -6,7 +6,7 @@ interface UploadManager {
 
     fun status(id: String): Observable<Int>
 
-    fun upload(id: String, meta: MetaInfo)
+    fun upload(id: String, file: String)
 
 }
 
@@ -16,7 +16,7 @@ class UploadManagerImpl : UploadManager {
         TODO("Not yet implemented")
     }
 
-    override fun upload(id: String, meta: MetaInfo) {
+    override fun upload(id: String, file: String) {
         TODO("Not yet implemented")
     }
 

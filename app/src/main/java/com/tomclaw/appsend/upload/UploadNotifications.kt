@@ -8,7 +8,7 @@ interface UploadNotifications {
 
     fun subscribe(
         id: String,
-        meta: MetaInfo,
+        file: String,
         start: (Int, Notification) -> Unit,
         stop: () -> Unit,
         observable: Observable<Int>
@@ -20,7 +20,7 @@ class UploadNotificationsImpl(context: Context) : UploadNotifications {
 
     override fun subscribe(
         id: String,
-        meta: MetaInfo,
+        file: String,
         start: (Int, Notification) -> Unit,
         stop: () -> Unit,
         observable: Observable<Int>

@@ -12,7 +12,6 @@ import com.tomclaw.appsend.main.item.CommonItem
 import com.tomclaw.appsend.screen.upload.adapter.ItemListener
 import com.tomclaw.appsend.screen.upload.adapter.other_versions.VersionItem
 import com.tomclaw.appsend.screen.upload.api.CheckExistResponse
-import com.tomclaw.appsend.upload.MetaInfo
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.getParcelableCompat
 import dagger.Lazy
@@ -44,7 +43,7 @@ interface UploadPresenter : ItemListener {
 
         fun openDetailsScreen(appId: String, label: String?)
 
-        fun startUpload(meta: MetaInfo)
+        fun startUpload(file: String)
 
         fun leaveScreen()
 
@@ -240,16 +239,7 @@ class UploadPresenterImpl(
         val packageInfo = packageInfo ?: return
         val category = category ?: return
 
-        val meta = MetaInfo(
-            file = packageInfo.path,
-            categoryId = category.id,
-            description,
-            whatsNew,
-            exclusive,
-            openSource,
-            sourceUrl
-        )
-        router?.startUpload(meta)
+        router?.startUpload(packageInfo.path)
     }
 
     override fun onOtherVersionsClick(items: List<VersionItem>) {
