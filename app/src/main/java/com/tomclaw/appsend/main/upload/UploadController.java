@@ -155,7 +155,7 @@ public class UploadController extends AbstractController<UploadController.Upload
             }
 
             @Override
-            public void onError() {
+            public void onError(Throwable e) {
             }
         };
         MultipartStream.ProgressHandler handler = new MultipartStream.ProgressHandler() {
@@ -166,7 +166,7 @@ public class UploadController extends AbstractController<UploadController.Upload
             }
 
             @Override
-            public void onError() {
+            public void onError(Throwable e) {
                 UploadController.this.onError();
                 trackEvent("upload-failed");
             }

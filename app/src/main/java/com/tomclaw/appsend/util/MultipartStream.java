@@ -13,8 +13,8 @@ public class MultipartStream extends OutputStream {
 
     private static final String TAG = "multipart";
 
-    private String boundary;
-    private OutputStream outputStream;
+    private final String boundary;
+    private final OutputStream outputStream;
 
     private boolean isSetLast = false;
     private boolean isSetFirst = false;
@@ -83,7 +83,7 @@ public class MultipartStream extends OutputStream {
             outputStream.write(("\r\n--" + boundary + "\r\n").getBytes());
         } catch (final Throwable e) {
             Log.e(TAG, e.getMessage(), e);
-            callback.onError();
+            callback.onError(e);
         } finally {
             try {
                 inputStream.close();
@@ -105,7 +105,6 @@ public class MultipartStream extends OutputStream {
 
     public interface ProgressHandler {
         void onProgress(long sent);
-
-        void onError();
+        void onError(Throwable e);
     }
 }

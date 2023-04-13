@@ -100,8 +100,8 @@ class UploadActivity : AppCompatActivity(), UploadPresenter.UploadRouter {
         startActivity(intent)
     }
 
-    override fun startUpload(file: String) {
-        val intent = createUploadIntent(context = this, file)
+    override fun startUpload(item: CommonItem) {
+        val intent = createUploadIntent(context = this, item)
         startService(intent)
     }
 

@@ -139,7 +139,7 @@ class AppModule(private val app: Application) {
 
     @Provides
     @Singleton
-    internal fun provideUploadManager(): UploadManager = UploadManagerImpl()
+    internal fun provideUploadManager(gson: Gson): UploadManager = UploadManagerImpl(gson)
 
     @Provides
     @Singleton

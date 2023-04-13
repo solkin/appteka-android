@@ -161,7 +161,7 @@ class DownloadManagerImpl(
                     progressCallback(percent)
                     percent = p
                 }
-                Thread.sleep(5) // TODO: remove this slowing down
+                Thread.sleep(2) // TODO: remove this slowing down
             }
             progressCallback(100)
             return true

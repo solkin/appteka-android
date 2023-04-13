@@ -43,7 +43,7 @@ interface UploadPresenter : ItemListener {
 
         fun openDetailsScreen(appId: String, label: String?)
 
-        fun startUpload(file: String)
+        fun startUpload(item: CommonItem)
 
         fun leaveScreen()
 
@@ -239,7 +239,7 @@ class UploadPresenterImpl(
         val packageInfo = packageInfo ?: return
         val category = category ?: return
 
-        router?.startUpload(packageInfo.path)
+        router?.startUpload(packageInfo)
     }
 
     override fun onOtherVersionsClick(items: List<VersionItem>) {

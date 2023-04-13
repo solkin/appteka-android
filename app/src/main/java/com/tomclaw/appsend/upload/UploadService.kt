@@ -7,6 +7,7 @@ import android.os.Binder
 import android.os.Build
 import android.os.IBinder
 import com.tomclaw.appsend.Appteka
+import com.tomclaw.appsend.main.item.CommonItem
 import com.tomclaw.appsend.upload.di.UploadServiceModule
 import com.tomclaw.appsend.util.getParcelableExtraCompat
 import javax.inject.Inject
@@ -34,19 +35,19 @@ class UploadService : Service() {
     }
 
     private fun onIntentReceived(intent: Intent): Boolean {
-        val file = intent.getStringExtra(EXTRA_FILE) ?: return false
+        val item = intent.getParcelableExtraCompat(EXTRA_ITEM, CommonItem::class.java) ?: return false
 
-        println("[upload service] onStartCommand(file = $file)")
+        println("[upload service] onStartCommand(item = $item)")
 
-        val id = file.hashCode().toString()
+        val id = item.path.hashCode().toString()
 
         val relay = uploadManager.status(id)
 
-        uploadManager.upload(id, file)
+        uploadManager.upload(id, item)
 
         notifications.subscribe(
             id = id,
-            file = file,
+            item = item,
             start = { notificationId, notification ->
                 startForeground(notificationId, notification)
             },
@@ -81,8 +82,8 @@ class UploadService : Service() {
 
 fun createUploadIntent(
     context: Context,
-    file: String
+    item: CommonItem
 ): Intent = Intent(context, UploadService::class.java)
-    .putExtra(EXTRA_FILE, file)
+    .putExtra(EXTRA_ITEM, item)
 
-private const val EXTRA_FILE = "file"
+private const val EXTRA_ITEM = "item"
