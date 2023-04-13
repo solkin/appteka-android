@@ -1,6 +1,5 @@
 package com.tomclaw.appsend.upload
 
-import android.text.TextUtils
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.jakewharton.rxrelay3.BehaviorRelay
@@ -9,7 +8,7 @@ import com.tomclaw.appsend.core.Config
 import com.tomclaw.appsend.dto.StoreResponse
 import com.tomclaw.appsend.main.item.CommonItem
 import com.tomclaw.appsend.main.task.ExportApkTask
-import com.tomclaw.appsend.net.Session
+import com.tomclaw.appsend.user.UserDataInteractor
 import com.tomclaw.appsend.util.HttpUtil
 import com.tomclaw.appsend.util.LegacyLogger
 import com.tomclaw.appsend.util.MultipartStream
@@ -39,6 +38,7 @@ interface UploadManager {
 }
 
 class UploadManagerImpl(
+    private val userDataInteractor: UserDataInteractor,
     private val gson: Gson
 ) : UploadManager {
 
@@ -114,10 +114,6 @@ class UploadManagerImpl(
         val apkName = ExportApkTask.getApkName(item)
         val iconName = ExportApkTask.getIconName(item)
         val label: String = item.label
-        var guid: String? = null
-        if (Session.getInstance().userData.isRegistered) {
-            guid = Session.getInstance().userData.guid
-        }
         var connection: HttpURLConnection? = null
         try {
             val url = URL(HOST_UPLOAD_URL)
@@ -143,9 +139,8 @@ class UploadManagerImpl(
 
             connection.outputStream.use { outputStream ->
                 val multipart = MultipartStream(outputStream, boundary)
-                if (!TextUtils.isEmpty(guid)) {
-                    multipart.writePart("guid", guid)
-                }
+                val userData = userDataInteractor.getUserData().blockingGet()
+                multipart.writePart("guid", userData.guid)
                 multipart.writePart("label", label)
                 ByteArrayInputStream(icon).use { iconStream ->
                     multipart.writePart(
