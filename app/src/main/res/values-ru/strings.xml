@@ -332,4 +332,8 @@
         <item quantity="many">%d других разрешений</item>
         <item quantity="other">%d других разрешений</item>
     </plurals>
+    <string name="uploading_progress">Отправка: %d%%</string>
+    <string name="waiting_for_upload">Ожидание отправки…</string>
+    <string name="uploading_channel_name">Отправка приложения</string>
+    <string name="uploading_channel_description">Отображение прогресса отправки приложений</string>
 </resources>

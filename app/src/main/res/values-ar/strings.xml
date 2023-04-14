@@ -373,4 +373,8 @@
         <item quantity="many">%d other permissions</item>
         <item quantity="other">%d other permissions</item>
     </plurals>
+    <string name="uploading_progress">Uploading: %d%%</string>
+    <string name="waiting_for_upload">Waiting for upload…</string>
+    <string name="uploading_channel_name">Uploading apps</string>
+    <string name="uploading_channel_description">Uploading apps in progress</string>
 </resources>
