@@ -50,13 +50,13 @@ class UploadManagerImpl(
 
     override fun status(id: String): Observable<Int> {
         val relay = relays[id] ?: let {
+            println("[upload] New status relay for $id")
             val relay = BehaviorRelay.createDefault(IDLE)
             relay.accept(IDLE)
             relays[id] = relay
             relay
         }
         return relay.doFinally {
-            println("[upload] Finally status relay")
             if (relay.hasObservers()) {
                 println("[upload] Relay $id has observers")
                 return@doFinally

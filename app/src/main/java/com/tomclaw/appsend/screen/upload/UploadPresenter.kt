@@ -135,6 +135,10 @@ class UploadPresenterImpl(
         onPackageChanged(info)
     }
 
+    override fun onDiscardClick() {
+        onPackageChanged(info = null)
+    }
+
     override fun onBackPressed() {
         router?.leaveScreen()
     }
@@ -198,45 +202,40 @@ class UploadPresenterImpl(
         adapterPresenter.get().onDataSourceChanged(dataSource)
     }
 
+    private fun onPackageChanged(info: CommonItem?) {
+        this.packageInfo = info
+        this.checkExist = null
+        invalidate()
+    }
+
     private fun invalidate() {
         if (checkExist == null && packageInfo != null) {
             checkAppUploaded()
         } else {
             bindForm()
         }
-    }
-
-    private fun onPackageChanged(info: CommonItem?) {
-        this.packageInfo = info
-        this.checkExist = null
-        checkAppUploaded()
-        subscribeStatusChange(info)
+        subscribeStatusChange(packageInfo)
     }
 
     private fun subscribeStatusChange(info: CommonItem?) {
         statusSubscription.clear()
         info ?: return
-//        statusSubscription += uploadManager.status(id = info.path)
-//            .subscribeOn(schedulers.io())
-//            .observeOn(schedulers.mainThread())
-//            .subscribe({ state ->
-//                when (state) {
-//                    IDLE,
-//                    AWAIT,
-//                    COMPLETED -> view?.showContent()
-//                    ERROR -> view?.showError()
-//                    else -> view?.showProgress()
-//                }
-//            }, {})
+        statusSubscription += uploadManager.status(id = info.path)
+            .subscribeOn(schedulers.io())
+            .observeOn(schedulers.mainThread())
+            .subscribe({ state ->
+                when (state) {
+                    IDLE,
+                    AWAIT,
+                    COMPLETED -> view?.showContent()
+                    ERROR -> view?.showError()
+                    else -> view?.showProgress()
+                }
+            }, {})
     }
 
     override fun onSelectAppClick() {
         router?.openSelectAppScreen()
-    }
-
-    override fun onDiscardClick() {
-        onPackageChanged(info = null)
-        invalidate()
     }
 
     override fun onNoticeClick() {

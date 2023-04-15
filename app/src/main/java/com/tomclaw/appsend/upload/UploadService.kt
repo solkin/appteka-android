@@ -43,8 +43,6 @@ class UploadService : Service() {
 
         val relay = uploadManager.status(id)
 
-        uploadManager.upload(id, item)
-
         notifications.subscribe(
             id = id,
             item = item,
@@ -56,6 +54,8 @@ class UploadService : Service() {
             },
             observable = relay,
         )
+
+        uploadManager.upload(id, item)
         return true
     }
 
