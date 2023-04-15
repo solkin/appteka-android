@@ -377,4 +377,8 @@
     <string name="waiting_for_upload">Waiting for upload…</string>
     <string name="uploading_channel_name">Uploading apps</string>
     <string name="uploading_channel_description">Uploading apps in progress</string>
+    <string name="uploaded_channel_name">Uploaded apps</string>
+    <string name="uploaded_channel_description">Notifications for uploaded apps</string>
+    <string name="upload_failed">Upload failed</string>
+    <string name="upload_done">Upload done</string>
 </resources>

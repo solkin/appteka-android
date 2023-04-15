@@ -336,4 +336,8 @@
     <string name="waiting_for_upload">Ожидание отправки…</string>
     <string name="uploading_channel_name">Отправка приложения</string>
     <string name="uploading_channel_description">Отображение прогресса отправки приложений</string>
+    <string name="uploaded_channel_name">Приложения отправлены</string>
+    <string name="uploaded_channel_description">Уведомления о завершении отправки приложений</string>
+    <string name="upload_failed">Ошибка отправки</string>
+    <string name="upload_done">Отправка завершена</string>
 </resources>

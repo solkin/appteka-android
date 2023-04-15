@@ -39,7 +39,7 @@ class UploadService : Service() {
 
         println("[upload service] onStartCommand(item = $item)")
 
-        val id = item.path.hashCode().toString()
+        val id = item.path
 
         val relay = uploadManager.status(id)
 

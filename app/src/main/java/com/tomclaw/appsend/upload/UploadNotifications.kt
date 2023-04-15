@@ -42,6 +42,11 @@ class UploadNotificationsImpl(private val context: Context) : UploadNotification
                 channelName = getString(R.string.uploading_channel_name),
                 channelDescription = getString(R.string.uploading_channel_description)
             )
+            createNotificationChannel(
+                channelId = CHANNEL_UPLOADED,
+                channelName = getString(R.string.uploaded_channel_name),
+                channelDescription = getString(R.string.uploaded_channel_description)
+            )
         }
     }
 
@@ -52,13 +57,18 @@ class UploadNotificationsImpl(private val context: Context) : UploadNotification
         stop: () -> Unit,
         observable: Observable<Int>
     ) {
-        val notificationBuilder = NotificationCompat.Builder(context, CHANNEL_UPLOADING)
+        val notificationId = id.hashCode() // TODO: replace with stable ID
+
+//        val uploadingIntent = getOpenDetailsIntent(appId, label)
+
+        val notificationBuilder = NotificationCompat.Builder(context, CHANNEL_UPLOADED)
             .setContentTitle(item.label)
             .setSmallIcon(android.R.drawable.stat_sys_upload)
             .setLargeIcon(null)
             .setSilent(true)
             .setOngoing(true)
             .setColor(getColor(R.color.primary_color, context))
+//            .setContentIntent(uploadingIntent)
             .setGroup(GROUP_NOTIFICATIONS)
 
         val iconHolder = NotificationIconHolder(context.resources, notificationBuilder)
@@ -75,8 +85,54 @@ class UploadNotificationsImpl(private val context: Context) : UploadNotification
             uri?.run { context.imageLoader().load(iconHolder, uri, handlers) }
             when (status) {
                 AWAIT -> {
+                    val notification = notificationBuilder
+                        .setContentText(context.getString(R.string.waiting_for_upload))
+                        .setSmallIcon(android.R.drawable.stat_sys_upload)
+                        .setProgress(100, 0, true)
+                        .setOngoing(true)
+                        .build()
+                    notificationManager.notify(notificationId, notification)
                 }
-
+                ERROR -> {
+                    val notification = notificationBuilder
+                        .setContentText(context.getString(R.string.upload_failed))
+                        .setSmallIcon(android.R.drawable.stat_sys_warning)
+                        .setProgress(0, 0, false)
+                        .setOngoing(false)
+                        .setAutoCancel(true)
+                        .build()
+                    notificationManager.notify(notificationId, notification)
+                    stop()
+                    disposable?.dispose()
+                }
+                COMPLETED -> {
+                    notificationManager.cancel(notificationId)
+//                    val uploadedIntent = getInstallIntent(file)
+                    val uploadedNotificationBuilder =
+                        NotificationCompat.Builder(context, CHANNEL_UPLOADED)
+                            .setContentTitle(item.label)
+                            .setContentText(context.getString(R.string.upload_done))
+                            .setSmallIcon(android.R.drawable.stat_sys_upload_done)
+                            .setGroup(GROUP_NOTIFICATIONS)
+                            .setOngoing(false)
+                            .setAutoCancel(true)
+                            .setColor(getColor(R.color.primary_color, context))
+//                            .setContentIntent(uploadedIntent)
+                    val uploadedIconHolder = NotificationIconHolder(
+                        resources = context.resources,
+                        notificationBuilder = uploadedNotificationBuilder
+                    )
+                    uri?.run { context.imageLoader().load(uploadedIconHolder, uri, handlers) }
+                    val notification = uploadedNotificationBuilder.build()
+                    notificationManager.notify(notificationId, notification)
+                    stop()
+                    disposable?.dispose()
+                }
+                IDLE -> {
+                    notificationManager.cancel(notificationId)
+                    stop()
+                    disposable?.dispose()
+                }
                 STARTED -> {
                     val notification = notificationBuilder
                         .setContentText(context.getString(R.string.waiting_for_upload))
@@ -90,19 +146,12 @@ class UploadNotificationsImpl(private val context: Context) : UploadNotification
                         notification
                     )
                 }
-
-                COMPLETED,
-                ERROR,
-                IDLE -> {
-                    stop()
-                    disposable?.dispose()
-                }
-
                 else -> {
                     val notification = notificationBuilder
                         .setContentText(context.getString(R.string.uploading_progress, status))
                         .setProgress(100, status, false)
                         .build()
+                    notificationManager.cancel(notificationId)
                     notificationManager.notify(UPLOAD_NOTIFICATION_ID, notification)
                 }
             }
@@ -128,3 +177,4 @@ class UploadNotificationsImpl(private val context: Context) : UploadNotification
 const val UPLOAD_NOTIFICATION_ID = 2
 const val GROUP_NOTIFICATIONS = BuildConfig.APPLICATION_ID + ".NOTIFICATIONS"
 const val CHANNEL_UPLOADING = "uploading_channel_id"
+const val CHANNEL_UPLOADED = "uploaded_channel_id"

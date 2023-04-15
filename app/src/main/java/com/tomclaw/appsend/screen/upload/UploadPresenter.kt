@@ -12,6 +12,11 @@ import com.tomclaw.appsend.main.item.CommonItem
 import com.tomclaw.appsend.screen.upload.adapter.ItemListener
 import com.tomclaw.appsend.screen.upload.adapter.other_versions.VersionItem
 import com.tomclaw.appsend.screen.upload.api.CheckExistResponse
+import com.tomclaw.appsend.upload.AWAIT
+import com.tomclaw.appsend.upload.COMPLETED
+import com.tomclaw.appsend.upload.ERROR
+import com.tomclaw.appsend.upload.IDLE
+import com.tomclaw.appsend.upload.UploadManager
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.getParcelableCompat
 import dagger.Lazy
@@ -58,6 +63,7 @@ class UploadPresenterImpl(
     private val categoryConverter: CategoryConverter,
     private val uploadConverter: UploadConverter,
     private val adapterPresenter: Lazy<AdapterPresenter>,
+    private val uploadManager: UploadManager,
     private val schedulers: SchedulersFactory,
     state: Bundle?
 ) : UploadPresenter {
@@ -80,6 +86,7 @@ class UploadPresenterImpl(
     private val items = ArrayList<Item>()
 
     private val subscriptions = CompositeDisposable()
+    private val statusSubscription = CompositeDisposable()
 
     override fun attachView(view: UploadView) {
         this.view = view
@@ -101,6 +108,7 @@ class UploadPresenterImpl(
 
     override fun detachView() {
         subscriptions.clear()
+        statusSubscription.clear()
         this.view = null
     }
 
@@ -124,8 +132,7 @@ class UploadPresenterImpl(
     }
 
     override fun onAppSelected(info: CommonItem) {
-        this.packageInfo = info
-        checkAppUploaded()
+        onPackageChanged(info)
     }
 
     override fun onBackPressed() {
@@ -199,13 +206,36 @@ class UploadPresenterImpl(
         }
     }
 
+    private fun onPackageChanged(info: CommonItem?) {
+        this.packageInfo = info
+        this.checkExist = null
+        checkAppUploaded()
+        subscribeStatusChange(info)
+    }
+
+    private fun subscribeStatusChange(info: CommonItem?) {
+        statusSubscription.clear()
+        info ?: return
+//        statusSubscription += uploadManager.status(id = info.path)
+//            .subscribeOn(schedulers.io())
+//            .observeOn(schedulers.mainThread())
+//            .subscribe({ state ->
+//                when (state) {
+//                    IDLE,
+//                    AWAIT,
+//                    COMPLETED -> view?.showContent()
+//                    ERROR -> view?.showError()
+//                    else -> view?.showProgress()
+//                }
+//            }, {})
+    }
+
     override fun onSelectAppClick() {
         router?.openSelectAppScreen()
     }
 
     override fun onDiscardClick() {
-        this.packageInfo = null
-        this.checkExist = null
+        onPackageChanged(info = null)
         invalidate()
     }
 
@@ -237,7 +267,7 @@ class UploadPresenterImpl(
 
     override fun onSubmitClick() {
         val packageInfo = packageInfo ?: return
-        val category = category ?: return
+//        val category = category ?: return
 
         router?.startUpload(packageInfo)
     }
@@ -273,7 +303,7 @@ class UploadPresenterImpl(
 
     private fun onCategorySelected(categoryItem: CategoryItem? = null) {
         category = categoryItem
-        invalidate()
+        bindForm()
     }
 
 }

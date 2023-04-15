@@ -43,6 +43,7 @@ import com.tomclaw.appsend.screen.upload.adapter.submit.SubmitItemBlueprint
 import com.tomclaw.appsend.screen.upload.adapter.submit.SubmitItemPresenter
 import com.tomclaw.appsend.screen.upload.adapter.whats_new.WhatsNewItemBlueprint
 import com.tomclaw.appsend.screen.upload.adapter.whats_new.WhatsNewItemPresenter
+import com.tomclaw.appsend.upload.UploadManager
 import com.tomclaw.appsend.user.UserDataInteractor
 import com.tomclaw.appsend.util.PerActivity
 import com.tomclaw.appsend.util.SchedulersFactory
@@ -67,6 +68,7 @@ class UploadModule(
         categoryConverter: CategoryConverter,
         uploadConverter: UploadConverter,
         adapterPresenter: Lazy<AdapterPresenter>,
+        uploadManager: UploadManager,
         schedulers: SchedulersFactory
     ): UploadPresenter = UploadPresenterImpl(
         info,
@@ -75,6 +77,7 @@ class UploadModule(
         categoryConverter,
         uploadConverter,
         adapterPresenter,
+        uploadManager,
         schedulers,
         state
     )
