@@ -25,7 +25,7 @@ interface UploadNotifications {
         item: CommonItem,
         start: (Int, Notification) -> Unit,
         stop: () -> Unit,
-        observable: Observable<Int>
+        observable: Observable<UploadState>
     )
 
 }
@@ -55,7 +55,7 @@ class UploadNotificationsImpl(private val context: Context) : UploadNotification
         item: CommonItem,
         start: (Int, Notification) -> Unit,
         stop: () -> Unit,
-        observable: Observable<Int>
+        observable: Observable<UploadState>
     ) {
         val notificationId = id.hashCode() // TODO: replace with stable ID
 
@@ -80,11 +80,11 @@ class UploadNotificationsImpl(private val context: Context) : UploadNotification
             }
 
         var disposable: Disposable? = null
-        disposable = observable.subscribe { status ->
+        disposable = observable.subscribe { state ->
             val uri = PackageIconLoader.getUri(item.packageInfo)
             uri?.run { context.imageLoader().load(iconHolder, uri, handlers) }
-            when (status) {
-                AWAIT -> {
+            when (state.status) {
+                UploadStatus.AWAIT -> {
                     val notification = notificationBuilder
                         .setContentText(context.getString(R.string.waiting_for_upload))
                         .setSmallIcon(android.R.drawable.stat_sys_upload)
@@ -93,7 +93,7 @@ class UploadNotificationsImpl(private val context: Context) : UploadNotification
                         .build()
                     notificationManager.notify(notificationId, notification)
                 }
-                ERROR -> {
+                UploadStatus.ERROR -> {
                     val notification = notificationBuilder
                         .setContentText(context.getString(R.string.upload_failed))
                         .setSmallIcon(android.R.drawable.stat_sys_warning)
@@ -105,7 +105,7 @@ class UploadNotificationsImpl(private val context: Context) : UploadNotification
                     stop()
                     disposable?.dispose()
                 }
-                COMPLETED -> {
+                UploadStatus.COMPLETED -> {
                     notificationManager.cancel(notificationId)
 //                    val uploadedIntent = getInstallIntent(file)
                     val uploadedNotificationBuilder =
@@ -128,12 +128,12 @@ class UploadNotificationsImpl(private val context: Context) : UploadNotification
                     stop()
                     disposable?.dispose()
                 }
-                IDLE -> {
+                UploadStatus.IDLE -> {
                     notificationManager.cancel(notificationId)
                     stop()
                     disposable?.dispose()
                 }
-                STARTED -> {
+                UploadStatus.STARTED -> {
                     val notification = notificationBuilder
                         .setContentText(context.getString(R.string.waiting_for_upload))
                         .setSmallIcon(android.R.drawable.stat_sys_upload)
@@ -148,8 +148,8 @@ class UploadNotificationsImpl(private val context: Context) : UploadNotification
                 }
                 else -> {
                     val notification = notificationBuilder
-                        .setContentText(context.getString(R.string.uploading_progress, status))
-                        .setProgress(100, status, false)
+                        .setContentText(context.getString(R.string.uploading_progress, state.percent))
+                        .setProgress(100, state.percent, false)
                         .build()
                     notificationManager.cancel(notificationId)
                     notificationManager.notify(UPLOAD_NOTIFICATION_ID, notification)

@@ -17,6 +17,7 @@ import com.tomclaw.appsend.upload.COMPLETED
 import com.tomclaw.appsend.upload.ERROR
 import com.tomclaw.appsend.upload.IDLE
 import com.tomclaw.appsend.upload.UploadManager
+import com.tomclaw.appsend.upload.UploadStatus
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.getParcelableCompat
 import dagger.Lazy
@@ -224,11 +225,11 @@ class UploadPresenterImpl(
             .subscribeOn(schedulers.io())
             .observeOn(schedulers.mainThread())
             .subscribe({ state ->
-                when (state) {
-                    IDLE,
-                    AWAIT,
-                    COMPLETED -> view?.showContent()
-                    ERROR -> view?.showError()
+                when (state.status) {
+                    UploadStatus.IDLE,
+                    UploadStatus.AWAIT,
+                    UploadStatus.COMPLETED -> view?.showContent()
+                    UploadStatus.ERROR -> view?.showError()
                     else -> view?.showProgress()
                 }
             }, {})

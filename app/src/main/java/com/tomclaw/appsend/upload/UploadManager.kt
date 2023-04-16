@@ -31,7 +31,7 @@ import java.util.concurrent.TimeUnit
 
 interface UploadManager {
 
-    fun status(id: String): Observable<Int>
+    fun status(id: String): Observable<UploadState>
 
     fun upload(id: String, item: CommonItem)
 
@@ -44,15 +44,15 @@ class UploadManagerImpl(
 
     private val executor = Executors.newSingleThreadExecutor()
 
-    private val relays = HashMap<String, BehaviorRelay<Int>>()
+    private val relays = HashMap<String, BehaviorRelay<UploadState>>()
     private val uploads = HashMap<String, Future<*>>()
     private val results = HashMap<String, UploadResponse>()
 
-    override fun status(id: String): Observable<Int> {
+    override fun status(id: String): Observable<UploadState> {
         val relay = relays[id] ?: let {
             println("[upload] New status relay for $id")
-            val relay = BehaviorRelay.createDefault(IDLE)
-            relay.accept(IDLE)
+            val relay = BehaviorRelay.createDefault(UploadState(status = UploadStatus.IDLE))
+            relay.accept(UploadState(status = UploadStatus.IDLE))
             relays[id] = relay
             relay
         }
@@ -62,7 +62,9 @@ class UploadManagerImpl(
                 return@doFinally
             }
             val inactiveState = relay.hasValue() &&
-                    (relay.value == IDLE || relay.value == COMPLETED || relay.value == ERROR)
+                    (relay.value?.status == UploadStatus.IDLE
+                            || relay.value?.status == UploadStatus.COMPLETED
+                            || relay.value?.status == UploadStatus.ERROR)
             println("[upload] Relay $id is inactive: $inactiveState")
             if (!relay.hasValue() || inactiveState) {
                 relays.remove(id)
@@ -75,24 +77,24 @@ class UploadManagerImpl(
     override fun upload(id: String, item: CommonItem) {
         val relay = relays[id] ?: BehaviorRelay.create()
         if (results.containsKey(id)) {
-            relay.accept(COMPLETED)
+            relay.accept(UploadState(status = UploadStatus.COMPLETED, result = results[id]))
             return
         }
-        relay.accept(AWAIT)
+        relay.accept(UploadState(status = UploadStatus.AWAIT))
         uploads[id] = executor.submit {
-            relay.accept(STARTED)
+            relay.accept(UploadState(status = UploadStatus.STARTED))
             val result = uploadBlocking(
                 item = item,
                 progressCallback = { percent ->
-                    relay.accept(percent)
+                    relay.accept(UploadState(status = UploadStatus.PROGRESS, percent))
                 },
                 errorCallback = {
-                    relay.accept(ERROR)
+                    relay.accept(UploadState(status = UploadStatus.ERROR))
                 },
             )
             if (result != null) {
                 results[id] = result
-                relay.accept(COMPLETED)
+                relay.accept(UploadState(status = UploadStatus.COMPLETED, result = result))
             }
             uploads.remove(id)
         }
@@ -186,6 +188,7 @@ class UploadManagerImpl(
                         response.result
                     }
                 }
+
                 else -> {
                     InputStreamReader(connection.errorStream).use { reader ->
                         println(reader.readText())
@@ -207,9 +210,3 @@ class UploadManagerImpl(
 }
 
 const val HOST_UPLOAD_URL = Config.HOST_URL + "/api/1/app/upload"
-
-const val IDLE: Int = -30
-const val AWAIT: Int = -10
-const val STARTED: Int = -20
-const val COMPLETED: Int = 101
-const val ERROR: Int = -40
