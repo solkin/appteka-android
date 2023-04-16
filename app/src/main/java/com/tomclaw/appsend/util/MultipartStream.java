@@ -12,6 +12,7 @@ import java.io.OutputStream;
 public class MultipartStream extends OutputStream {
 
     private static final String TAG = "multipart";
+    private static final int BUFFER_SIZE = 128 * 1024;
 
     private final String boundary;
     private final OutputStream outputStream;
@@ -69,14 +70,12 @@ public class MultipartStream extends OutputStream {
             outputStream.write(type.getBytes());
             outputStream.write("Content-Transfer-Encoding: binary\r\n\r\n".getBytes());
 
-            VariableBuffer buffer = new VariableBuffer();
             int cache;
             long sent = 0;
-            while ((cache = inputStream.read(buffer.getBuffer(), 0, buffer.getNextBufferSize())) != -1) {
-                buffer.onExecuteStart();
-                outputStream.write(buffer.getBuffer(), 0, cache);
+            byte[] buffer = new byte[BUFFER_SIZE];
+            while ((cache = inputStream.read(buffer, 0, BUFFER_SIZE)) != -1) {
+                outputStream.write(buffer, 0, cache);
                 outputStream.flush();
-                buffer.onExecuteCompleted(cache);
                 sent += cache;
                 callback.onProgress(sent);
             }
