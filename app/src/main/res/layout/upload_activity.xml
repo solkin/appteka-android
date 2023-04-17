@@ -12,6 +12,27 @@
         android:layout_alignParentBottom="true"
         android:layout_marginTop="?actionBarSize" />
 
+    <FrameLayout
+        android:id="@+id/upload_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?actionBarSize"
+        android:background="@color/color_semitransparent"
+        android:clickable="true"
+        android:focusable="true"
+        android:visibility="gone">
+
+        <com.tomclaw.appsend.view.CircleProgressView
+            android:id="@+id/upload_progress"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_gravity="center"
+            app:max="1"
+            app:progressBarThickness="4dp"
+            app:progressbarColor="@color/accent_color" />
+
+    </FrameLayout>
+
     <LinearLayout
         android:id="@+id/error"
         android:layout_width="match_parent"

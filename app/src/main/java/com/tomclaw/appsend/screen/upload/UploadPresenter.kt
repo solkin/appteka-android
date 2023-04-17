@@ -12,10 +12,6 @@ import com.tomclaw.appsend.main.item.CommonItem
 import com.tomclaw.appsend.screen.upload.adapter.ItemListener
 import com.tomclaw.appsend.screen.upload.adapter.other_versions.VersionItem
 import com.tomclaw.appsend.screen.upload.api.CheckExistResponse
-import com.tomclaw.appsend.upload.AWAIT
-import com.tomclaw.appsend.upload.COMPLETED
-import com.tomclaw.appsend.upload.ERROR
-import com.tomclaw.appsend.upload.IDLE
 import com.tomclaw.appsend.upload.UploadManager
 import com.tomclaw.appsend.upload.UploadStatus
 import com.tomclaw.appsend.util.SchedulersFactory
@@ -227,10 +223,16 @@ class UploadPresenterImpl(
             .subscribe({ state ->
                 when (state.status) {
                     UploadStatus.IDLE,
-                    UploadStatus.AWAIT,
                     UploadStatus.COMPLETED -> view?.showContent()
+
+                    UploadStatus.AWAIT -> {
+                        view?.resetUploadProgress()
+                        view?.showUploadProgress()
+                    }
+
                     UploadStatus.ERROR -> view?.showError()
-                    else -> view?.showProgress()
+                    UploadStatus.STARTED -> view?.showUploadProgress()
+                    else -> view?.setUploadProgress(state.percent / 100f)
                 }
             }, {})
     }
