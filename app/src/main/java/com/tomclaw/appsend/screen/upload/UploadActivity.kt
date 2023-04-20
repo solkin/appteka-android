@@ -15,6 +15,7 @@ import com.tomclaw.appsend.main.local.SelectLocalAppActivity.SELECTED_ITEM
 import com.tomclaw.appsend.main.local.SelectLocalAppActivity.createSelectAppActivity
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.screen.upload.di.UploadModule
+import com.tomclaw.appsend.upload.MetaInfo
 import com.tomclaw.appsend.upload.createUploadIntent
 import com.tomclaw.appsend.util.getParcelableExtraCompat
 import javax.inject.Inject
@@ -100,8 +101,8 @@ class UploadActivity : AppCompatActivity(), UploadPresenter.UploadRouter {
         startActivity(intent)
     }
 
-    override fun startUpload(item: CommonItem) {
-        val intent = createUploadIntent(context = this, item)
+    override fun startUpload(item: CommonItem, meta: MetaInfo) {
+        val intent = createUploadIntent(context = this, item, meta)
         startService(intent)
     }
 

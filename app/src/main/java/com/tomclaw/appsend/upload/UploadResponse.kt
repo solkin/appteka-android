@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class UploadResponse(
     @SerializedName("app_id")
-    val app_id: String,
+    val appId: String,
     @SerializedName("url")
     val url: String,
     @SerializedName("user_id")

@@ -1,4 +1,4 @@
-package com.tomclaw.appsend.screen.upload
+package com.tomclaw.appsend.upload
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize

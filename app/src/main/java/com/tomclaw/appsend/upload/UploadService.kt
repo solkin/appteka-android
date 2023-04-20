@@ -36,8 +36,9 @@ class UploadService : Service() {
 
     private fun onIntentReceived(intent: Intent): Boolean {
         val item = intent.getParcelableExtraCompat(EXTRA_ITEM, CommonItem::class.java) ?: return false
+        val meta = intent.getParcelableExtraCompat(EXTRA_META, MetaInfo::class.java) ?: return false
 
-        println("[upload service] onStartCommand(item = $item)")
+        println("[upload service] onStartCommand(item = $item, meta = $meta)")
 
         val id = item.path
 
@@ -55,7 +56,7 @@ class UploadService : Service() {
             observable = relay,
         )
 
-        uploadManager.upload(id, item)
+        uploadManager.upload(id, item, meta)
         return true
     }
 
@@ -82,8 +83,11 @@ class UploadService : Service() {
 
 fun createUploadIntent(
     context: Context,
-    item: CommonItem
+    item: CommonItem,
+    meta: MetaInfo,
 ): Intent = Intent(context, UploadService::class.java)
     .putExtra(EXTRA_ITEM, item)
+    .putExtra(EXTRA_META, meta)
 
 private const val EXTRA_ITEM = "item"
+private const val EXTRA_META = "meta"

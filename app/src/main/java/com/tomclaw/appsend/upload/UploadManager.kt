@@ -33,7 +33,7 @@ interface UploadManager {
 
     fun status(id: String): Observable<UploadState>
 
-    fun upload(id: String, item: CommonItem)
+    fun upload(id: String, item: CommonItem, meta: MetaInfo)
 
 }
 
@@ -74,27 +74,29 @@ class UploadManagerImpl(
         }
     }
 
-    override fun upload(id: String, item: CommonItem) {
+    override fun upload(id: String, item: CommonItem, meta: MetaInfo) {
         val relay = relays[id] ?: BehaviorRelay.create()
         if (results.containsKey(id)) {
             relay.accept(UploadState(status = UploadStatus.COMPLETED, result = results[id]))
             return
         }
-        relay.accept(UploadState(status = UploadStatus.AWAIT))
+        relay.accept(UploadState(status = UploadStatus.AWAIT, meta = meta))
         uploads[id] = executor.submit {
-            relay.accept(UploadState(status = UploadStatus.STARTED))
+            relay.accept(UploadState(status = UploadStatus.STARTED, meta = meta))
             val result = uploadBlocking(
                 item = item,
                 progressCallback = { percent ->
-                    relay.accept(UploadState(status = UploadStatus.PROGRESS, percent))
+                    relay.accept(UploadState(status = UploadStatus.PROGRESS, percent, meta))
                 },
                 errorCallback = {
-                    relay.accept(UploadState(status = UploadStatus.ERROR))
+                    relay.accept(UploadState(status = UploadStatus.ERROR, meta = meta))
                 },
             )
             if (result != null) {
                 results[id] = result
                 relay.accept(UploadState(status = UploadStatus.COMPLETED, result = result))
+            } else {
+                relay.accept(UploadState(status = UploadStatus.ERROR, meta = meta))
             }
             uploads.remove(id)
         }

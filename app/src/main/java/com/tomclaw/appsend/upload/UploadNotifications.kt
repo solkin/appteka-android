@@ -1,15 +1,19 @@
 package com.tomclaw.appsend.upload
 
+import android.annotation.SuppressLint
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
+import android.content.Intent
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.graphics.drawable.toBitmap
 import com.tomclaw.appsend.BuildConfig
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.main.item.CommonItem
+import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.util.NotificationIconHolder
 import com.tomclaw.appsend.util.PackageIconLoader
 import com.tomclaw.appsend.util.getColor
@@ -107,7 +111,7 @@ class UploadNotificationsImpl(private val context: Context) : UploadNotification
                 }
                 UploadStatus.COMPLETED -> {
                     notificationManager.cancel(notificationId)
-//                    val uploadedIntent = getInstallIntent(file)
+                    val uploadedIntent = state.result?.let { getOpenDetailsIntent(it.appId, item.label) }
                     val uploadedNotificationBuilder =
                         NotificationCompat.Builder(context, CHANNEL_UPLOADED)
                             .setContentTitle(item.label)
@@ -117,7 +121,7 @@ class UploadNotificationsImpl(private val context: Context) : UploadNotification
                             .setOngoing(false)
                             .setAutoCancel(true)
                             .setColor(getColor(R.color.primary_color, context))
-//                            .setContentIntent(uploadedIntent)
+                            .setContentIntent(uploadedIntent)
                     val uploadedIconHolder = NotificationIconHolder(
                         resources = context.resources,
                         notificationBuilder = uploadedNotificationBuilder
@@ -170,6 +174,22 @@ class UploadNotificationsImpl(private val context: Context) : UploadNotification
         val mChannel = NotificationChannel(channelId, channelName, importance)
         mChannel.description = channelDescription
         notificationManager.createNotificationChannel(mChannel)
+    }
+
+    @SuppressLint("UnspecifiedImmutableFlag")
+    private fun getOpenDetailsIntent(appId: String, label: String): PendingIntent {
+        return PendingIntent.getActivity(
+            context, 0,
+            createDetailsActivityIntent(
+                context = context,
+                appId = appId,
+                packageName = null,
+                label = label,
+                moderation = false,
+                finishOnly = false
+            ).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP),
+            PendingIntent.FLAG_CANCEL_CURRENT
+        )
     }
 
 }
