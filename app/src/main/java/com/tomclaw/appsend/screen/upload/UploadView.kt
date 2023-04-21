@@ -193,7 +193,9 @@ class UploadViewImpl(
     }
 
     override fun resetUploadProgress() {
-        setUploadProgress(0)
+        showUploadProgress()
+        uploadProgress.progress = 0
+        uploadPercent.bind(context.getString(R.string.percent, 0))
     }
 
     override fun setUploadProgress(value: Int) {
