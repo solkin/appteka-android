@@ -3,7 +3,6 @@ package com.tomclaw.appsend.upload
 data class UploadState(
     val status: UploadStatus,
     val percent: Int = 0,
-    val meta: MetaInfo? = null,
     val result: UploadResponse? = null,
 )
 

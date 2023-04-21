@@ -56,6 +56,7 @@ interface UploadPresenter : ItemListener {
 
 class UploadPresenterImpl(
     startInfo: CommonItem?,
+    startMeta: MetaInfo?,
     private val interactor: UploadInteractor,
     private val categoriesInteractor: CategoriesInteractor,
     private val categoryConverter: CategoryConverter,
@@ -74,12 +75,16 @@ class UploadPresenterImpl(
     private var checkExist: CheckExistResponse? =
         state?.getParcelableCompat(KEY_CHECK_EXIST, CheckExistResponse::class.java)
     private var category: CategoryItem? =
-        state?.getParcelableCompat(KEY_CATEGORY_ID, CategoryItem::class.java)
-    private var whatsNew: String = state?.getString(KEY_WHATS_NEW).orEmpty()
-    private var description: String = state?.getString(KEY_DESCRIPTION).orEmpty()
-    private var exclusive: Boolean = state?.getBoolean(KEY_EXCLUSIVE) ?: false
-    private var openSource: Boolean = state?.getBoolean(KEY_OPEN_SOURCE) ?: false
-    private var sourceUrl: String = state?.getString(KEY_SOURCE_URL).orEmpty()
+        state?.getParcelableCompat(KEY_CATEGORY_ID, CategoryItem::class.java) ?: startMeta?.category
+    private var whatsNew: String = state?.getString(KEY_WHATS_NEW) ?: startMeta?.whatsNew.orEmpty()
+    private var description: String =
+        state?.getString(KEY_DESCRIPTION) ?: startMeta?.description.orEmpty()
+    private var exclusive: Boolean =
+        state?.getBoolean(KEY_EXCLUSIVE) ?: startMeta?.exclusive ?: false
+    private var openSource: Boolean =
+        state?.getBoolean(KEY_OPEN_SOURCE) ?: startMeta?.openSource ?: false
+    private var sourceUrl: String =
+        state?.getString(KEY_SOURCE_URL) ?: startMeta?.sourceUrl.orEmpty()
 
     private val items = ArrayList<Item>()
 
@@ -270,9 +275,9 @@ class UploadPresenterImpl(
 
     override fun onSubmitClick() {
         val packageInfo = packageInfo ?: return
-//        val category = category ?: return
+        val category = category ?: return
         val meta = MetaInfo(
-            categoryId = 1,//category.id,
+            category,
             description,
             whatsNew,
             exclusive,

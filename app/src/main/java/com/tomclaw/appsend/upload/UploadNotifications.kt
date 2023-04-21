@@ -14,6 +14,7 @@ import com.tomclaw.appsend.BuildConfig
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.main.item.CommonItem
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
+import com.tomclaw.appsend.screen.upload.createUploadActivityIntent
 import com.tomclaw.appsend.util.NotificationIconHolder
 import com.tomclaw.appsend.util.PackageIconLoader
 import com.tomclaw.appsend.util.getColor
@@ -27,6 +28,7 @@ interface UploadNotifications {
     fun subscribe(
         id: String,
         item: CommonItem,
+        meta: MetaInfo,
         start: (Int, Notification) -> Unit,
         stop: () -> Unit,
         observable: Observable<UploadState>
@@ -57,13 +59,14 @@ class UploadNotificationsImpl(private val context: Context) : UploadNotification
     override fun subscribe(
         id: String,
         item: CommonItem,
+        meta: MetaInfo,
         start: (Int, Notification) -> Unit,
         stop: () -> Unit,
         observable: Observable<UploadState>
     ) {
         val notificationId = id.hashCode() // TODO: replace with stable ID
 
-//        val uploadingIntent = getOpenDetailsIntent(appId, label)
+        val uploadingIntent = getOpenUploadIntent(item, meta)
 
         val notificationBuilder = NotificationCompat.Builder(context, CHANNEL_UPLOADED)
             .setContentTitle(item.label)
@@ -72,7 +75,7 @@ class UploadNotificationsImpl(private val context: Context) : UploadNotification
             .setSilent(true)
             .setOngoing(true)
             .setColor(getColor(R.color.primary_color, context))
-//            .setContentIntent(uploadingIntent)
+            .setContentIntent(uploadingIntent)
             .setGroup(GROUP_NOTIFICATIONS)
 
         val iconHolder = NotificationIconHolder(context.resources, notificationBuilder)
@@ -187,6 +190,19 @@ class UploadNotificationsImpl(private val context: Context) : UploadNotification
                 label = label,
                 moderation = false,
                 finishOnly = false
+            ).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP),
+            PendingIntent.FLAG_CANCEL_CURRENT
+        )
+    }
+
+    @SuppressLint("UnspecifiedImmutableFlag")
+    private fun getOpenUploadIntent(item: CommonItem, meta: MetaInfo): PendingIntent {
+        return PendingIntent.getActivity(
+            context, 0,
+            createUploadActivityIntent(
+                context = context,
+                item = item,
+                meta = meta
             ).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP),
             PendingIntent.FLAG_CANCEL_CURRENT
         )

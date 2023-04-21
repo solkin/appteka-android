@@ -47,10 +47,11 @@ class UploadActivity : AppCompatActivity(), UploadPresenter.UploadRouter {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val info = intent.getParcelableExtra<CommonItem?>(EXTRA_PACKAGE_INFO)
+        val meta = intent.getParcelableExtra<MetaInfo?>(EXTRA_META_INFO)
 
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
         Appteka.getComponent()
-            .uploadComponent(UploadModule(this, info, presenterState))
+            .uploadComponent(UploadModule(this, info, meta, presenterState))
             .inject(activity = this)
 
         super.onCreate(savedInstanceState)
@@ -115,8 +116,11 @@ class UploadActivity : AppCompatActivity(), UploadPresenter.UploadRouter {
 fun createUploadActivityIntent(
     context: Context,
     item: CommonItem?,
+    meta: MetaInfo?,
 ): Intent = Intent(context, UploadActivity::class.java)
     .putExtra(EXTRA_PACKAGE_INFO, item)
+    .putExtra(EXTRA_META_INFO, meta)
 
 private const val EXTRA_PACKAGE_INFO = "package_info"
+private const val EXTRA_META_INFO = "meta_info"
 private const val KEY_PRESENTER_STATE = "presenter_state"

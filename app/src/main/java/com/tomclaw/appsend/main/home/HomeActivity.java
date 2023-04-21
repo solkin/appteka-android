@@ -146,7 +146,7 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
         };
 
         fab.setOnClickListener(view -> {
-            Intent intent = createUploadActivityIntent(HomeActivity.this, null);
+            Intent intent = createUploadActivityIntent(HomeActivity.this, null, null);
             startActivity(intent);
 //            DialogData dialogData = new DialogData(getString(R.string.upload_app_title), getString(R.string.upload_app_message));
 //            SelectLocalAppActivity_.intent(HomeActivity.this).dialogData(dialogData).startForResult(REQUEST_UPLOAD);

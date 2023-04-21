@@ -47,6 +47,7 @@ class UploadService : Service() {
         notifications.subscribe(
             id = id,
             item = item,
+            meta = meta,
             start = { notificationId, notification ->
                 startForeground(notificationId, notification)
             },
@@ -56,7 +57,7 @@ class UploadService : Service() {
             observable = relay,
         )
 
-        uploadManager.upload(id, item, meta)
+        uploadManager.upload(id, item)
         return true
     }
 
