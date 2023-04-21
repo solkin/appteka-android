@@ -28,7 +28,7 @@ interface UploadNotifications {
     fun subscribe(
         id: String,
         item: CommonItem,
-        meta: MetaInfo,
+        info: UploadInfo,
         start: (Int, Notification) -> Unit,
         stop: () -> Unit,
         observable: Observable<UploadState>
@@ -59,14 +59,14 @@ class UploadNotificationsImpl(private val context: Context) : UploadNotification
     override fun subscribe(
         id: String,
         item: CommonItem,
-        meta: MetaInfo,
+        info: UploadInfo,
         start: (Int, Notification) -> Unit,
         stop: () -> Unit,
         observable: Observable<UploadState>
     ) {
         val notificationId = id.hashCode() // TODO: replace with stable ID
 
-        val uploadingIntent = getOpenUploadIntent(item, meta)
+        val uploadingIntent = getOpenUploadIntent(item, info)
 
         val notificationBuilder = NotificationCompat.Builder(context, CHANNEL_UPLOADED)
             .setContentTitle(item.label)
@@ -196,13 +196,13 @@ class UploadNotificationsImpl(private val context: Context) : UploadNotification
     }
 
     @SuppressLint("UnspecifiedImmutableFlag")
-    private fun getOpenUploadIntent(item: CommonItem, meta: MetaInfo): PendingIntent {
+    private fun getOpenUploadIntent(item: CommonItem, info: UploadInfo): PendingIntent {
         return PendingIntent.getActivity(
             context, 0,
             createUploadActivityIntent(
                 context = context,
                 item = item,
-                meta = meta
+                info = info
             ).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP),
             PendingIntent.FLAG_CANCEL_CURRENT
         )

@@ -1,37 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler"
+    <ViewFlipper
+        android:id="@+id/flipper"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignTop="@id/toolbar_container"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="?actionBarSize" />
+        android:layout_marginTop="?actionBarSize">
 
-    <FrameLayout
-        android:id="@+id/upload_overlay"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="?actionBarSize"
-        android:background="@color/color_semitransparent"
-        android:clickable="true"
-        android:focusable="true"
-        android:visibility="gone">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
-        <com.tomclaw.appsend.view.CircleProgressView
-            android:id="@+id/upload_progress"
-            android:layout_width="42dp"
-            android:layout_height="42dp"
-            android:layout_gravity="center"
-            app:max="1"
-            app:progressBarThickness="4dp"
-            app:progressbarColor="@color/accent_color" />
+        <LinearLayout
+            android:id="@+id/upload"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
 
-    </FrameLayout>
+            <ProgressBar
+                android:id="@+id/upload_progress"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="12dp"
+                android:max="100"
+                tools:progress="74" />
+
+            <TextView
+                android:id="@+id/upload_percent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center"
+                android:textSize="12sp"
+                android:textStyle="bold"
+                tools:text="74%" />
+
+        </LinearLayout>
+
+    </ViewFlipper>
 
     <LinearLayout
         android:id="@+id/error"

@@ -1,11 +1,13 @@
 package com.tomclaw.appsend.screen.upload
 
+import android.animation.ObjectAnimator
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.view.View
-import android.view.animation.Animation
 import android.view.animation.LinearInterpolator
-import android.view.animation.RotateAnimation
+import android.widget.ProgressBar
+import android.widget.TextView
+import android.widget.ViewFlipper
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,15 +18,14 @@ import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.categories.CategoryItem
 import com.tomclaw.appsend.screen.upload.adapter.other_versions.VersionItem
+import com.tomclaw.appsend.util.bind
 import com.tomclaw.appsend.util.getAttributedColor
 import com.tomclaw.appsend.util.hide
 import com.tomclaw.appsend.util.hideWithAlphaAnimation
 import com.tomclaw.appsend.util.show
 import com.tomclaw.appsend.util.showWithAlphaAnimation
 import com.tomclaw.appsend.util.svgToDrawable
-import com.tomclaw.appsend.view.CircleProgressView
 import io.reactivex.rxjava3.core.Observable
-import java.util.concurrent.TimeUnit
 
 interface UploadView {
 
@@ -56,7 +57,7 @@ interface UploadView {
 
     fun resetUploadProgress()
 
-    fun setUploadProgress(value: Float)
+    fun setUploadProgress(value: Int)
 
 }
 
@@ -68,12 +69,13 @@ class UploadViewImpl(
 
     private val context = view.context
     private val toolbar: Toolbar = view.findViewById(R.id.toolbar)
+    private val flipper: ViewFlipper = view.findViewById(R.id.flipper)
     private val recycler: RecyclerView = view.findViewById(R.id.recycler)
     private val error: View = view.findViewById(R.id.error)
     private val progress: View = view.findViewById(R.id.overlay_progress)
     private val retryButton: View = view.findViewById(R.id.retry_button)
-    private val uploadOverlay: View = view.findViewById(R.id.upload_overlay)
-    private val uploadProgress: CircleProgressView = view.findViewById(R.id.upload_progress)
+    private val uploadProgress: ProgressBar = view.findViewById(R.id.upload_progress)
+    private val uploadPercent: TextView = view.findViewById(R.id.upload_percent)
 
     private val navigationRelay = PublishRelay.create<Unit>()
     private val retryRelay = PublishRelay.create<Unit>()
@@ -101,11 +103,8 @@ class UploadViewImpl(
     }
 
     override fun showContent() {
+        flipper.displayedChild = CHILD_CONTENT
         progress.hideWithAlphaAnimation(animateFully = false)
-        uploadOverlay.hideWithAlphaAnimation(
-            animateFully = false,
-            endCallback = { uploadProgress.clearAnimation() }
-        )
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -190,29 +189,17 @@ class UploadViewImpl(
     }
 
     override fun showUploadProgress() {
-        uploadOverlay.showWithAlphaAnimation(animateFully = true)
-        uploadProgress.animation = RotateAnimation(
-            0.0f,
-            360.0f,
-            Animation.RELATIVE_TO_SELF,
-            0.5f,
-            Animation.RELATIVE_TO_SELF,
-            0.5f
-        ).apply {
-            duration = TimeUnit.SECONDS.toMillis(1)
-            repeatCount = Animation.INFINITE
-            repeatMode = Animation.RESTART
-            fillAfter = true
-            interpolator = LinearInterpolator()
-        }
+        flipper.displayedChild = CHILD_UPLOAD
     }
 
     override fun resetUploadProgress() {
-        uploadProgress.progress = 0f
+        setUploadProgress(0)
     }
 
-    override fun setUploadProgress(value: Float) {
+    override fun setUploadProgress(value: Int) {
+        showUploadProgress()
         uploadProgress.setProgressWithAnimation(value, 500)
+        uploadPercent.bind(context.getString(R.string.percent, value))
     }
 
     override fun navigationClicks(): Observable<Unit> = navigationRelay
@@ -225,6 +212,16 @@ class UploadViewImpl(
 
     override fun versionClicks(): Observable<VersionItem> = versionRelay
 
+    @SuppressLint("AnimatorKeep")
+    fun ProgressBar.setProgressWithAnimation(progress: Int, duration: Long = 1500) {
+        val objectAnimator = ObjectAnimator.ofInt(this, "progress", progress)
+        objectAnimator.duration = duration
+        objectAnimator.interpolator = LinearInterpolator()
+        objectAnimator.start()
+    }
+
 }
 
 private const val DURATION_MEDIUM = 300L
+private const val CHILD_CONTENT = 0
+private const val CHILD_UPLOAD = 1

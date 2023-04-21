@@ -43,7 +43,7 @@ import com.tomclaw.appsend.screen.upload.adapter.submit.SubmitItemBlueprint
 import com.tomclaw.appsend.screen.upload.adapter.submit.SubmitItemPresenter
 import com.tomclaw.appsend.screen.upload.adapter.whats_new.WhatsNewItemBlueprint
 import com.tomclaw.appsend.screen.upload.adapter.whats_new.WhatsNewItemPresenter
-import com.tomclaw.appsend.upload.MetaInfo
+import com.tomclaw.appsend.upload.UploadInfo
 import com.tomclaw.appsend.upload.UploadManager
 import com.tomclaw.appsend.user.UserDataInteractor
 import com.tomclaw.appsend.util.PerActivity
@@ -58,7 +58,7 @@ import java.util.Locale
 class UploadModule(
     private val context: Context,
     private val info: CommonItem?,
-    private val meta: MetaInfo?,
+    private val meta: UploadInfo?,
     private val state: Bundle?
 ) {
 

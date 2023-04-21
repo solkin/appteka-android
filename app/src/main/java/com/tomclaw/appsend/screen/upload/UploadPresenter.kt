@@ -12,7 +12,7 @@ import com.tomclaw.appsend.main.item.CommonItem
 import com.tomclaw.appsend.screen.upload.adapter.ItemListener
 import com.tomclaw.appsend.screen.upload.adapter.other_versions.VersionItem
 import com.tomclaw.appsend.screen.upload.api.CheckExistResponse
-import com.tomclaw.appsend.upload.MetaInfo
+import com.tomclaw.appsend.upload.UploadInfo
 import com.tomclaw.appsend.upload.UploadManager
 import com.tomclaw.appsend.upload.UploadStatus
 import com.tomclaw.appsend.util.SchedulersFactory
@@ -46,7 +46,7 @@ interface UploadPresenter : ItemListener {
 
         fun openDetailsScreen(appId: String, label: String?)
 
-        fun startUpload(item: CommonItem, meta: MetaInfo)
+        fun startUpload(item: CommonItem, info: UploadInfo)
 
         fun leaveScreen()
 
@@ -55,8 +55,8 @@ interface UploadPresenter : ItemListener {
 }
 
 class UploadPresenterImpl(
-    startInfo: CommonItem?,
-    startMeta: MetaInfo?,
+    startItem: CommonItem?,
+    startInfo: UploadInfo?,
     private val interactor: UploadInteractor,
     private val categoriesInteractor: CategoriesInteractor,
     private val categoryConverter: CategoryConverter,
@@ -71,20 +71,22 @@ class UploadPresenterImpl(
     private var router: UploadPresenter.UploadRouter? = null
 
     private var packageInfo: CommonItem? =
-        state?.getParcelableCompat(KEY_PACKAGE_INFO, CommonItem::class.java) ?: startInfo
+        state?.getParcelableCompat(KEY_PACKAGE_INFO, CommonItem::class.java)
+            ?: startItem
     private var checkExist: CheckExistResponse? =
         state?.getParcelableCompat(KEY_CHECK_EXIST, CheckExistResponse::class.java)
+            ?: startInfo?.checkExist
     private var category: CategoryItem? =
-        state?.getParcelableCompat(KEY_CATEGORY_ID, CategoryItem::class.java) ?: startMeta?.category
-    private var whatsNew: String = state?.getString(KEY_WHATS_NEW) ?: startMeta?.whatsNew.orEmpty()
+        state?.getParcelableCompat(KEY_CATEGORY_ID, CategoryItem::class.java) ?: startInfo?.category
+    private var whatsNew: String = state?.getString(KEY_WHATS_NEW) ?: startInfo?.whatsNew.orEmpty()
     private var description: String =
-        state?.getString(KEY_DESCRIPTION) ?: startMeta?.description.orEmpty()
+        state?.getString(KEY_DESCRIPTION) ?: startInfo?.description.orEmpty()
     private var exclusive: Boolean =
-        state?.getBoolean(KEY_EXCLUSIVE) ?: startMeta?.exclusive ?: false
+        state?.getBoolean(KEY_EXCLUSIVE) ?: startInfo?.exclusive ?: false
     private var openSource: Boolean =
-        state?.getBoolean(KEY_OPEN_SOURCE) ?: startMeta?.openSource ?: false
+        state?.getBoolean(KEY_OPEN_SOURCE) ?: startInfo?.openSource ?: false
     private var sourceUrl: String =
-        state?.getString(KEY_SOURCE_URL) ?: startMeta?.sourceUrl.orEmpty()
+        state?.getString(KEY_SOURCE_URL) ?: startInfo?.sourceUrl.orEmpty()
 
     private val items = ArrayList<Item>()
 
@@ -238,7 +240,7 @@ class UploadPresenterImpl(
 
                     UploadStatus.ERROR -> view?.showError()
                     UploadStatus.STARTED -> view?.showUploadProgress()
-                    else -> view?.setUploadProgress(state.percent / 100f)
+                    else -> view?.setUploadProgress(state.percent)
                 }
             }, {})
     }
@@ -276,7 +278,10 @@ class UploadPresenterImpl(
     override fun onSubmitClick() {
         val packageInfo = packageInfo ?: return
         val category = category ?: return
-        val meta = MetaInfo(
+        val checkExist = checkExist ?: return
+
+        val info = UploadInfo(
+            checkExist,
             category,
             description,
             whatsNew,
@@ -285,7 +290,7 @@ class UploadPresenterImpl(
             sourceUrl
         )
 
-        router?.startUpload(packageInfo, meta)
+        router?.startUpload(packageInfo, info)
     }
 
     override fun onOtherVersionsClick(items: List<VersionItem>) {

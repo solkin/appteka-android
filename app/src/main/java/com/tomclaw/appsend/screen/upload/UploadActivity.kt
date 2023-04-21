@@ -15,7 +15,7 @@ import com.tomclaw.appsend.main.local.SelectLocalAppActivity.SELECTED_ITEM
 import com.tomclaw.appsend.main.local.SelectLocalAppActivity.createSelectAppActivity
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.screen.upload.di.UploadModule
-import com.tomclaw.appsend.upload.MetaInfo
+import com.tomclaw.appsend.upload.UploadInfo
 import com.tomclaw.appsend.upload.createUploadIntent
 import com.tomclaw.appsend.util.getParcelableExtraCompat
 import javax.inject.Inject
@@ -46,12 +46,12 @@ class UploadActivity : AppCompatActivity(), UploadPresenter.UploadRouter {
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val info = intent.getParcelableExtra<CommonItem?>(EXTRA_PACKAGE_INFO)
-        val meta = intent.getParcelableExtra<MetaInfo?>(EXTRA_META_INFO)
+        val item = intent.getParcelableExtra<CommonItem?>(EXTRA_PACKAGE_INFO)
+        val info = intent.getParcelableExtra<UploadInfo?>(EXTRA_UPLOAD_INFO)
 
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
         Appteka.getComponent()
-            .uploadComponent(UploadModule(this, info, meta, presenterState))
+            .uploadComponent(UploadModule(this, item, info, presenterState))
             .inject(activity = this)
 
         super.onCreate(savedInstanceState)
@@ -102,8 +102,8 @@ class UploadActivity : AppCompatActivity(), UploadPresenter.UploadRouter {
         startActivity(intent)
     }
 
-    override fun startUpload(item: CommonItem, meta: MetaInfo) {
-        val intent = createUploadIntent(context = this, item, meta)
+    override fun startUpload(item: CommonItem, info: UploadInfo) {
+        val intent = createUploadIntent(context = this, item, info)
         startService(intent)
     }
 
@@ -116,11 +116,11 @@ class UploadActivity : AppCompatActivity(), UploadPresenter.UploadRouter {
 fun createUploadActivityIntent(
     context: Context,
     item: CommonItem?,
-    meta: MetaInfo?,
+    info: UploadInfo?,
 ): Intent = Intent(context, UploadActivity::class.java)
     .putExtra(EXTRA_PACKAGE_INFO, item)
-    .putExtra(EXTRA_META_INFO, meta)
+    .putExtra(EXTRA_UPLOAD_INFO, info)
 
 private const val EXTRA_PACKAGE_INFO = "package_info"
-private const val EXTRA_META_INFO = "meta_info"
+private const val EXTRA_UPLOAD_INFO = "upload_info"
 private const val KEY_PRESENTER_STATE = "presenter_state"
