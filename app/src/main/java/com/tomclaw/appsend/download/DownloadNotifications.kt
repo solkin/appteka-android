@@ -17,6 +17,7 @@ import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.util.IntentHelper
 import com.tomclaw.appsend.util.NotificationIconHolder
+import com.tomclaw.appsend.util.crc32
 import com.tomclaw.appsend.util.getColor
 import com.tomclaw.imageloader.SimpleImageLoader.imageLoader
 import com.tomclaw.imageloader.core.Handlers
@@ -69,7 +70,7 @@ class DownloadNotificationsImpl(
         stop: () -> Unit,
         observable: Observable<Int>
     ) {
-        val notificationId = appId.hashCode() // TODO: replace with stable ID
+        val notificationId = appId.crc32()
 
         val openDetailsIntent = getOpenDetailsIntent(appId, label)
 

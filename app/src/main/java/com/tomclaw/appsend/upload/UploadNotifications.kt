@@ -17,6 +17,7 @@ import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.screen.upload.createUploadActivityIntent
 import com.tomclaw.appsend.util.NotificationIconHolder
 import com.tomclaw.appsend.util.PackageIconLoader
+import com.tomclaw.appsend.util.crc32
 import com.tomclaw.appsend.util.getColor
 import com.tomclaw.imageloader.SimpleImageLoader.imageLoader
 import com.tomclaw.imageloader.core.Handlers
@@ -64,7 +65,7 @@ class UploadNotificationsImpl(private val context: Context) : UploadNotification
         stop: () -> Unit,
         observable: Observable<UploadState>
     ) {
-        val notificationId = id.hashCode() // TODO: replace with stable ID
+        val notificationId = id.crc32()
 
         val uploadingIntent = getOpenUploadIntent(item, info)
 
