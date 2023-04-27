@@ -5,10 +5,6 @@ import com.google.gson.annotations.SerializedName
 data class UploadResponse(
     @SerializedName("app_id")
     val appId: String,
-    @SerializedName("url")
-    val url: String,
-    @SerializedName("user_id")
-    val userId: Int,
     @SerializedName("file_status")
     val fileStatus: Int,
 )

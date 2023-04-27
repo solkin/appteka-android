@@ -1,8 +1,11 @@
 package com.tomclaw.appsend.core
 
 import com.tomclaw.appsend.categories.CategoriesResponse
+import com.tomclaw.appsend.categories.CategoryItem
 import com.tomclaw.appsend.dto.StoreResponse
 import com.tomclaw.appsend.events.EventsResponse
+import com.tomclaw.appsend.main.dto.ApiResponse
+import com.tomclaw.appsend.main.meta.MetaResponse
 import com.tomclaw.appsend.screen.chat.api.HistoryResponse
 import com.tomclaw.appsend.screen.chat.api.ReadTopicResponse
 import com.tomclaw.appsend.screen.chat.api.ReportMessageResponse
@@ -18,8 +21,10 @@ import com.tomclaw.appsend.screen.store.api.AppsListResponse
 import com.tomclaw.appsend.screen.topics.api.PinTopicResponse
 import com.tomclaw.appsend.screen.topics.api.TopicsResponse
 import com.tomclaw.appsend.screen.upload.api.CheckExistResponse
+import com.tomclaw.appsend.upload.SetMetaResponse
 import com.tomclaw.appsend.user.api.UserDataResponse
 import io.reactivex.rxjava3.core.Single
+import retrofit2.Call
 import retrofit2.http.DELETE
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
@@ -160,5 +165,18 @@ interface StoreApi {
         @Query("package") packageName: String,
         @Query("locale") locale: String
     ): Single<StoreResponse<CheckExistResponse>>
+
+    @FormUrlEncoded
+    @POST("1/app/meta")
+    fun setMeta(
+        @Field("app_id") appId: String,
+        @Field("guid") guid: String,
+        @Field("category") category: Int,
+        @Field("description") description: String,
+        @Field("whats_new") whatsNew: String,
+        @Field("exclusive") exclusive: Boolean,
+        @Field("open_source") openSource: Boolean,
+        @Field("source_url") sourceUrl: String?,
+    ): Single<StoreResponse<SetMetaResponse>>
 
 }

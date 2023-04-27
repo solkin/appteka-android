@@ -57,7 +57,7 @@ class UploadService : Service() {
             observable = relay,
         )
 
-        uploadManager.upload(id, item)
+        uploadManager.upload(id, item, info)
         return true
     }
 

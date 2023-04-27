@@ -5,6 +5,7 @@ import com.google.gson.reflect.TypeToken
 import com.jakewharton.rxrelay3.BehaviorRelay
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.core.Config
+import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.dto.StoreResponse
 import com.tomclaw.appsend.main.item.CommonItem
 import com.tomclaw.appsend.main.task.ExportApkTask
@@ -33,12 +34,13 @@ interface UploadManager {
 
     fun status(id: String): Observable<UploadState>
 
-    fun upload(id: String, item: CommonItem)
+    fun upload(id: String, item: CommonItem, info: UploadInfo)
 
 }
 
 class UploadManagerImpl(
     private val userDataInteractor: UserDataInteractor,
+    private val api: StoreApi,
     private val gson: Gson
 ) : UploadManager {
 
@@ -74,16 +76,25 @@ class UploadManagerImpl(
         }
     }
 
-    override fun upload(id: String, item: CommonItem) {
+    override fun upload(id: String, item: CommonItem, info: UploadInfo) {
         val relay = relays[id] ?: BehaviorRelay.create()
-        if (results.containsKey(id)) {
-            relay.accept(UploadState(status = UploadStatus.COMPLETED, result = results[id]))
+        if (info.checkExist.file != null && !results.containsKey(id)) {
+            val file = info.checkExist.file
+            results[id] = UploadResponse(
+                appId = file.appId,
+                fileStatus = file.status,
+            )
+        }
+        val result = results[id]
+        if (result != null) {
+            setMetaInfoBlocking(result.appId, info)
+            relay.accept(UploadState(status = UploadStatus.COMPLETED, result = result))
             return
         }
         relay.accept(UploadState(status = UploadStatus.AWAIT))
         uploads[id] = executor.submit {
             relay.accept(UploadState(status = UploadStatus.STARTED))
-            val result = uploadBlocking(
+            val uploadResult = uploadBlocking(
                 item = item,
                 progressCallback = { percent ->
                     relay.accept(UploadState(status = UploadStatus.PROGRESS, percent))
@@ -92,9 +103,10 @@ class UploadManagerImpl(
                     relay.accept(UploadState(status = UploadStatus.ERROR))
                 },
             )
-            if (result != null) {
-                results[id] = result
-                relay.accept(UploadState(status = UploadStatus.COMPLETED, result = result))
+            if (uploadResult != null) {
+                results[id] = uploadResult
+                setMetaInfoBlocking(uploadResult.appId, info)
+                relay.accept(UploadState(status = UploadStatus.COMPLETED, result = uploadResult))
             } else {
                 relay.accept(UploadState(status = UploadStatus.ERROR))
             }
@@ -102,6 +114,23 @@ class UploadManagerImpl(
         }
         relays[id] = relay
         return
+    }
+
+    private fun setMetaInfoBlocking(
+        appId: String,
+        info: UploadInfo
+    ): StoreResponse<SetMetaResponse> {
+        val userData = userDataInteractor.getUserData().blockingGet()
+        return api.setMeta(
+            appId,
+            guid = userData.guid,
+            category = info.category.id,
+            description = info.description,
+            whatsNew = info.whatsNew,
+            exclusive = info.exclusive,
+            openSource = info.openSource,
+            sourceUrl = info.sourceUrl,
+        ).blockingGet()
     }
 
     private fun uploadBlocking(
