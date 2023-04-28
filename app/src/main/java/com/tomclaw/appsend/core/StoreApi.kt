@@ -1,11 +1,8 @@
 package com.tomclaw.appsend.core
 
 import com.tomclaw.appsend.categories.CategoriesResponse
-import com.tomclaw.appsend.categories.CategoryItem
 import com.tomclaw.appsend.dto.StoreResponse
 import com.tomclaw.appsend.events.EventsResponse
-import com.tomclaw.appsend.main.dto.ApiResponse
-import com.tomclaw.appsend.main.meta.MetaResponse
 import com.tomclaw.appsend.screen.chat.api.HistoryResponse
 import com.tomclaw.appsend.screen.chat.api.ReadTopicResponse
 import com.tomclaw.appsend.screen.chat.api.ReportMessageResponse
@@ -24,7 +21,6 @@ import com.tomclaw.appsend.screen.upload.api.CheckExistResponse
 import com.tomclaw.appsend.upload.SetMetaResponse
 import com.tomclaw.appsend.user.api.UserDataResponse
 import io.reactivex.rxjava3.core.Single
-import retrofit2.Call
 import retrofit2.http.DELETE
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
