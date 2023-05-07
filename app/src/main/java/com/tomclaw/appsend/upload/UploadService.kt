@@ -44,18 +44,20 @@ class UploadService : Service() {
 
         val relay = uploadManager.status(id)
 
-        notifications.subscribe(
-            id = id,
-            item = item,
-            info = info,
-            start = { notificationId, notification ->
-                startForeground(notificationId, notification)
-            },
-            stop = {
-                stopForeground()
-            },
-            observable = relay,
-        )
+        if (info.checkExist.file == null) {
+            notifications.subscribe(
+                id = id,
+                item = item,
+                info = info,
+                start = { notificationId, notification ->
+                    startForeground(notificationId, notification)
+                },
+                stop = {
+                    stopForeground()
+                },
+                observable = relay,
+            )
+        }
 
         uploadManager.upload(id, item, info)
         return true
