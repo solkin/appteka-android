@@ -3,6 +3,7 @@ package com.tomclaw.appsend.screen.upload
 import android.os.Build
 import com.avito.konveyor.blueprint.Item
 import com.tomclaw.appsend.categories.CategoryItem
+import com.tomclaw.appsend.dto.LocalAppEntity
 import com.tomclaw.appsend.main.item.CommonItem
 import com.tomclaw.appsend.screen.upload.adapter.category.SelectCategoryItem
 import com.tomclaw.appsend.screen.upload.adapter.description.DescriptionItem
@@ -22,7 +23,7 @@ import com.tomclaw.appsend.util.versionCodeCompat
 interface UploadConverter {
 
     fun convert(
-        packageInfo: CommonItem?,
+        appEntity: LocalAppEntity?,
         checkExist: CheckExistResponse?,
         category: CategoryItem?,
         whatsNew: String,
@@ -39,7 +40,7 @@ class UploadConverterImpl(
 ) : UploadConverter {
 
     override fun convert(
-        packageInfo: CommonItem?,
+        appEntity: LocalAppEntity?,
         checkExist: CheckExistResponse?,
         category: CategoryItem?,
         whatsNew: String,
@@ -51,8 +52,8 @@ class UploadConverterImpl(
         var id: Long = 1
         val items = ArrayList<Item>()
 
-        if (packageInfo != null) {
-            items += SelectedAppItem(id++, packageInfo)
+        if (appEntity != null) {
+            items += SelectedAppItem(id++, appEntity)
         } else {
             items += SelectAppItem(id++)
         }
@@ -84,7 +85,7 @@ class UploadConverterImpl(
                                 appId = version.appId,
                                 title = resourceProvider.formatVersion(version),
                                 compatible = version.sdkVersion <= Build.VERSION.SDK_INT,
-                                newer = packageInfo?.packageInfo?.versionCodeCompat()
+                                newer = appEntity?.packageInfo?.versionCodeCompat()
                                     ?.let { version.verCode > it } ?: false,
                             )
                         }

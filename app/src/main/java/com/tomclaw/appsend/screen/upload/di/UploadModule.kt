@@ -10,6 +10,7 @@ import com.tomclaw.appsend.categories.CategoriesInteractor
 import com.tomclaw.appsend.categories.CategoryConverter
 import com.tomclaw.appsend.categories.CategoryConverterImpl
 import com.tomclaw.appsend.core.StoreApi
+import com.tomclaw.appsend.dto.LocalAppEntity
 import com.tomclaw.appsend.main.item.CommonItem
 import com.tomclaw.appsend.screen.upload.UploadConverter
 import com.tomclaw.appsend.screen.upload.UploadConverterImpl
@@ -57,7 +58,7 @@ import java.util.Locale
 @Module
 class UploadModule(
     private val context: Context,
-    private val info: CommonItem?,
+    private val entity: LocalAppEntity?,
     private val meta: UploadInfo?,
     private val state: Bundle?
 ) {
@@ -73,7 +74,7 @@ class UploadModule(
         uploadManager: UploadManager,
         schedulers: SchedulersFactory
     ): UploadPresenter = UploadPresenterImpl(
-        info,
+        entity,
         meta,
         interactor,
         categoriesInteractor,

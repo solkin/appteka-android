@@ -8,7 +8,7 @@ import com.tomclaw.appsend.categories.CategoriesInteractor
 import com.tomclaw.appsend.categories.Category
 import com.tomclaw.appsend.categories.CategoryConverter
 import com.tomclaw.appsend.categories.CategoryItem
-import com.tomclaw.appsend.main.item.CommonItem
+import com.tomclaw.appsend.dto.LocalAppEntity
 import com.tomclaw.appsend.screen.upload.adapter.ItemListener
 import com.tomclaw.appsend.screen.upload.adapter.other_versions.VersionItem
 import com.tomclaw.appsend.screen.upload.api.CheckExistResponse
@@ -36,7 +36,7 @@ interface UploadPresenter : ItemListener {
 
     fun saveState(): Bundle
 
-    fun onAppSelected(info: CommonItem)
+    fun onAppSelected(entity: LocalAppEntity)
 
     fun onBackPressed()
 
@@ -46,7 +46,7 @@ interface UploadPresenter : ItemListener {
 
         fun openDetailsScreen(appId: String, label: String?)
 
-        fun startUpload(item: CommonItem, info: UploadInfo)
+        fun startUpload(entity: LocalAppEntity, info: UploadInfo)
 
         fun leaveScreen()
 
@@ -55,7 +55,7 @@ interface UploadPresenter : ItemListener {
 }
 
 class UploadPresenterImpl(
-    startItem: CommonItem?,
+    startEntity: LocalAppEntity?,
     startInfo: UploadInfo?,
     private val interactor: UploadInteractor,
     private val categoriesInteractor: CategoriesInteractor,
@@ -70,9 +70,9 @@ class UploadPresenterImpl(
     private var view: UploadView? = null
     private var router: UploadPresenter.UploadRouter? = null
 
-    private var packageInfo: CommonItem? =
-        state?.getParcelableCompat(KEY_PACKAGE_INFO, CommonItem::class.java)
-            ?: startItem
+    private var appEntity: LocalAppEntity? =
+        state?.getParcelableCompat(KEY_PACKAGE_INFO, LocalAppEntity::class.java)
+            ?: startEntity
     private var checkExist: CheckExistResponse? =
         state?.getParcelableCompat(KEY_CHECK_EXIST, CheckExistResponse::class.java)
             ?: startInfo?.checkExist
@@ -126,7 +126,7 @@ class UploadPresenterImpl(
     }
 
     override fun saveState() = Bundle().apply {
-        putParcelable(KEY_PACKAGE_INFO, packageInfo)
+        putParcelable(KEY_PACKAGE_INFO, appEntity)
         putParcelable(KEY_CHECK_EXIST, checkExist)
         putParcelable(KEY_CATEGORY_ID, category)
         putString(KEY_WHATS_NEW, whatsNew)
@@ -136,12 +136,12 @@ class UploadPresenterImpl(
         putString(KEY_SOURCE_URL, sourceUrl)
     }
 
-    override fun onAppSelected(info: CommonItem) {
-        onPackageChanged(info)
+    override fun onAppSelected(entity: LocalAppEntity) {
+        onPackageChanged(entity)
     }
 
     override fun onDiscardClick() {
-        onPackageChanged(info = null)
+        onPackageChanged(entity = null)
     }
 
     override fun onBackPressed() {
@@ -149,10 +149,10 @@ class UploadPresenterImpl(
     }
 
     private fun checkAppUploaded() {
-        val packageInfo = packageInfo ?: return
+        val appEntity = appEntity ?: return
         subscriptions += interactor
-            .calculateSha1(packageInfo.path)
-            .flatMap { interactor.checkExist(it, packageInfo.packageName) }
+            .calculateSha1(appEntity.path)
+            .flatMap { interactor.checkExist(it, appEntity.packageName) }
             .observeOn(schedulers.mainThread())
             .retryWhen { errors ->
                 errors.flatMap {
@@ -187,7 +187,7 @@ class UploadPresenterImpl(
     private fun bindForm() {
         items.clear()
         items += uploadConverter.convert(
-            packageInfo,
+            appEntity,
             checkExist,
             category,
             whatsNew,
@@ -207,25 +207,25 @@ class UploadPresenterImpl(
         adapterPresenter.get().onDataSourceChanged(dataSource)
     }
 
-    private fun onPackageChanged(info: CommonItem?) {
-        this.packageInfo = info
+    private fun onPackageChanged(entity: LocalAppEntity?) {
+        this.appEntity = entity
         this.checkExist = null
         invalidate()
     }
 
     private fun invalidate() {
-        if (checkExist == null && packageInfo != null) {
+        if (checkExist == null && appEntity != null) {
             checkAppUploaded()
         } else {
             bindForm()
         }
-        subscribeStatusChange(packageInfo)
+        subscribeStatusChange(appEntity)
     }
 
-    private fun subscribeStatusChange(info: CommonItem?) {
+    private fun subscribeStatusChange(entity: LocalAppEntity?) {
         statusSubscription.clear()
-        info ?: return
-        statusSubscription += uploadManager.status(id = info.path)
+        entity ?: return
+        statusSubscription += uploadManager.status(id = entity.path)
             .subscribeOn(schedulers.io())
             .observeOn(schedulers.mainThread())
             .subscribe({ state ->
@@ -276,7 +276,7 @@ class UploadPresenterImpl(
     }
 
     override fun onSubmitClick() {
-        val packageInfo = packageInfo ?: return
+        val appEntity = appEntity ?: return
         val category = category ?: return
         val checkExist = checkExist ?: return
 
@@ -290,7 +290,7 @@ class UploadPresenterImpl(
             sourceUrl
         )
 
-        router?.startUpload(packageInfo, info)
+        router?.startUpload(appEntity, info)
     }
 
     override fun onOtherVersionsClick(items: List<VersionItem>) {

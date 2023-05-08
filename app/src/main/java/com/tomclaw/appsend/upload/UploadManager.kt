@@ -6,9 +6,10 @@ import com.jakewharton.rxrelay3.BehaviorRelay
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.core.Config
 import com.tomclaw.appsend.core.StoreApi
+import com.tomclaw.appsend.dto.LocalAppEntity
 import com.tomclaw.appsend.dto.StoreResponse
-import com.tomclaw.appsend.main.item.CommonItem
-import com.tomclaw.appsend.main.task.ExportApkTask
+import com.tomclaw.appsend.dto.getApkName
+import com.tomclaw.appsend.dto.getIconName
 import com.tomclaw.appsend.user.UserDataInteractor
 import com.tomclaw.appsend.util.HttpUtil
 import com.tomclaw.appsend.util.LegacyLogger
@@ -34,7 +35,7 @@ interface UploadManager {
 
     fun status(id: String): Observable<UploadState>
 
-    fun upload(id: String, item: CommonItem, info: UploadInfo)
+    fun upload(id: String, entity: LocalAppEntity, info: UploadInfo)
 
 }
 
@@ -76,7 +77,7 @@ class UploadManagerImpl(
         }
     }
 
-    override fun upload(id: String, item: CommonItem, info: UploadInfo) {
+    override fun upload(id: String, entity: LocalAppEntity, info: UploadInfo) {
         val relay = relays[id] ?: BehaviorRelay.create()
         if (info.checkExist.file != null && !results.containsKey(id)) {
             val file = info.checkExist.file
@@ -95,7 +96,7 @@ class UploadManagerImpl(
         uploads[id] = executor.submit {
             relay.accept(UploadState(status = UploadStatus.STARTED))
             val uploadResult = uploadBlocking(
-                item = item,
+                entity = entity,
                 progressCallback = { percent ->
                     relay.accept(UploadState(status = UploadStatus.PROGRESS, percent))
                 },
@@ -134,19 +135,19 @@ class UploadManagerImpl(
     }
 
     private fun uploadBlocking(
-        item: CommonItem,
+        entity: LocalAppEntity,
         progressCallback: (Int) -> Unit,
         errorCallback: (Throwable) -> Unit
     ): UploadResponse? {
-        val apk = File(item.path)
+        val apk = File(entity.path)
         val icon = PackageHelper.getPackageIconPng(
-            item.packageInfo.applicationInfo,
+            entity.packageInfo.applicationInfo,
             Appteka.app().packageManager
         )
         val size = apk.length() + icon.size
-        val apkName = ExportApkTask.getApkName(item)
-        val iconName = ExportApkTask.getIconName(item)
-        val label: String = item.label
+        val apkName = entity.getApkName()
+        val iconName = entity.getIconName()
+        val label: String = entity.label
         var connection: HttpURLConnection? = null
         try {
             val url = URL(HOST_UPLOAD_URL)

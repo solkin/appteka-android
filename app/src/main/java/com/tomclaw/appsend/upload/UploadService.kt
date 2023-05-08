@@ -7,6 +7,7 @@ import android.os.Binder
 import android.os.Build
 import android.os.IBinder
 import com.tomclaw.appsend.Appteka
+import com.tomclaw.appsend.dto.LocalAppEntity
 import com.tomclaw.appsend.main.item.CommonItem
 import com.tomclaw.appsend.upload.di.UploadServiceModule
 import com.tomclaw.appsend.util.getParcelableExtraCompat
@@ -35,19 +36,19 @@ class UploadService : Service() {
     }
 
     private fun onIntentReceived(intent: Intent): Boolean {
-        val item = intent.getParcelableExtraCompat(EXTRA_ITEM, CommonItem::class.java) ?: return false
+        val entity = intent.getParcelableExtraCompat(EXTRA_APP_ENTITY, LocalAppEntity::class.java) ?: return false
         val info = intent.getParcelableExtraCompat(EXTRA_INFO, UploadInfo::class.java) ?: return false
 
-        println("[upload service] onStartCommand(item = $item, info = $info)")
+        println("[upload service] onStartCommand(entity = $entity, info = $info)")
 
-        val id = item.path
+        val id = entity.path
 
         val relay = uploadManager.status(id)
 
         if (info.checkExist.file == null) {
             notifications.subscribe(
                 id = id,
-                item = item,
+                entity = entity,
                 info = info,
                 start = { notificationId, notification ->
                     startForeground(notificationId, notification)
@@ -59,7 +60,7 @@ class UploadService : Service() {
             )
         }
 
-        uploadManager.upload(id, item, info)
+        uploadManager.upload(id, entity, info)
         return true
     }
 
@@ -86,11 +87,11 @@ class UploadService : Service() {
 
 fun createUploadIntent(
     context: Context,
-    item: CommonItem,
+    entity: LocalAppEntity,
     info: UploadInfo,
 ): Intent = Intent(context, UploadService::class.java)
-    .putExtra(EXTRA_ITEM, item)
+    .putExtra(EXTRA_APP_ENTITY, entity)
     .putExtra(EXTRA_INFO, info)
 
-private const val EXTRA_ITEM = "item"
+private const val EXTRA_APP_ENTITY = "app_entity"
 private const val EXTRA_INFO = "info"

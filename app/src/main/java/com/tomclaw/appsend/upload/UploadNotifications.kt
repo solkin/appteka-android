@@ -12,6 +12,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.graphics.drawable.toBitmap
 import com.tomclaw.appsend.BuildConfig
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.dto.LocalAppEntity
 import com.tomclaw.appsend.main.item.CommonItem
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.screen.upload.createUploadActivityIntent
@@ -28,7 +29,7 @@ interface UploadNotifications {
 
     fun subscribe(
         id: String,
-        item: CommonItem,
+        entity: LocalAppEntity,
         info: UploadInfo,
         start: (Int, Notification) -> Unit,
         stop: () -> Unit,
@@ -59,7 +60,7 @@ class UploadNotificationsImpl(private val context: Context) : UploadNotification
 
     override fun subscribe(
         id: String,
-        item: CommonItem,
+        entity: LocalAppEntity,
         info: UploadInfo,
         start: (Int, Notification) -> Unit,
         stop: () -> Unit,
@@ -67,10 +68,10 @@ class UploadNotificationsImpl(private val context: Context) : UploadNotification
     ) {
         val notificationId = id.crc32()
 
-        val uploadingIntent = getOpenUploadIntent(item, info)
+        val uploadingIntent = getOpenUploadIntent(entity, info)
 
         val notificationBuilder = NotificationCompat.Builder(context, CHANNEL_UPLOADED)
-            .setContentTitle(item.label)
+            .setContentTitle(entity.label)
             .setSmallIcon(android.R.drawable.stat_sys_upload)
             .setLargeIcon(null)
             .setSilent(true)
@@ -89,7 +90,7 @@ class UploadNotificationsImpl(private val context: Context) : UploadNotification
 
         var disposable: Disposable? = null
         disposable = observable.subscribe { state ->
-            val uri = PackageIconLoader.getUri(item.packageInfo)
+            val uri = PackageIconLoader.getUri(entity.packageInfo)
             uri?.run { context.imageLoader().load(iconHolder, uri, handlers) }
             when (state.status) {
                 UploadStatus.AWAIT -> {
@@ -115,10 +116,10 @@ class UploadNotificationsImpl(private val context: Context) : UploadNotification
                 }
                 UploadStatus.COMPLETED -> {
                     notificationManager.cancel(notificationId)
-                    val uploadedIntent = state.result?.let { getOpenDetailsIntent(it.appId, item.label) }
+                    val uploadedIntent = state.result?.let { getOpenDetailsIntent(it.appId, entity.label) }
                     val uploadedNotificationBuilder =
                         NotificationCompat.Builder(context, CHANNEL_UPLOADED)
-                            .setContentTitle(item.label)
+                            .setContentTitle(entity.label)
                             .setContentText(context.getString(R.string.upload_done))
                             .setSmallIcon(android.R.drawable.stat_sys_upload_done)
                             .setGroup(GROUP_NOTIFICATIONS)
@@ -197,12 +198,12 @@ class UploadNotificationsImpl(private val context: Context) : UploadNotification
     }
 
     @SuppressLint("UnspecifiedImmutableFlag")
-    private fun getOpenUploadIntent(item: CommonItem, info: UploadInfo): PendingIntent {
+    private fun getOpenUploadIntent(entity: LocalAppEntity, info: UploadInfo): PendingIntent {
         return PendingIntent.getActivity(
             context, 0,
             createUploadActivityIntent(
                 context = context,
-                item = item,
+                entity = entity,
                 info = info
             ).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP),
             PendingIntent.FLAG_CANCEL_CURRENT
