@@ -4,6 +4,7 @@ import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import com.tomclaw.appsend.dto.AppEntity
 import com.tomclaw.appsend.screen.details.api.AppVersion
+import com.tomclaw.appsend.screen.details.api.Meta
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -18,6 +19,8 @@ data class CheckExistResponse(
     val error: String?,
     @SerializedName("file")
     val file: AppEntity?,
+    @SerializedName("meta")
+    val meta: Meta?,
     @SerializedName("versions")
     val versions: List<AppVersion>?,
 ) : Parcelable

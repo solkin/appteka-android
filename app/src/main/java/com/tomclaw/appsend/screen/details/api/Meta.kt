@@ -10,10 +10,16 @@ import kotlinx.parcelize.Parcelize
 data class Meta(
     @SerializedName("category")
     val category: Category?,
+    @SerializedName("whats_new")
+    val whatsNew: String?,
     @SerializedName("description")
     val description: String?,
     @SerializedName("exclusive")
     val exclusive: Boolean?,
+    @SerializedName("open_source")
+    val openSource: Boolean?,
+    @SerializedName("source_url")
+    val sourceUrl: String?,
     @SerializedName("similar")
     val similar: Boolean?,
     @SerializedName("time")

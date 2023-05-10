@@ -175,6 +175,14 @@ class UploadPresenterImpl(
 
     private fun onCheckExistLoaded(response: CheckExistResponse) {
         this.checkExist = response
+        response.meta?.let { meta ->
+            this.category = meta.category?.let { categoryConverter.convert(it) } ?: this.category
+            this.whatsNew = meta.whatsNew.orEmpty()
+            this.description = meta.description.orEmpty()
+            this.exclusive = meta.exclusive ?: false
+            this.openSource = meta.openSource ?: false
+            this.sourceUrl = meta.sourceUrl.orEmpty()
+        }
         view?.showContent()
         bindForm()
     }
