@@ -120,7 +120,7 @@ class UploadManagerImpl(
     private fun setMetaInfoBlocking(
         appId: String,
         info: UploadInfo
-    ): StoreResponse<SetMetaResponse> {
+    ) {
         val userData = userDataInteractor.getUserData().blockingGet()
         return api.setMeta(
             appId,
@@ -131,7 +131,9 @@ class UploadManagerImpl(
             exclusive = info.exclusive,
             openSource = info.openSource,
             sourceUrl = info.sourceUrl,
-        ).blockingGet()
+        ).blockingSubscribe(
+            {}, {}
+        )
     }
 
     private fun uploadBlocking(
