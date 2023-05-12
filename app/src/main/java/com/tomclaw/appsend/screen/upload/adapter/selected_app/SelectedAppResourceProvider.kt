@@ -9,7 +9,9 @@ interface SelectedAppResourceProvider {
 
 }
 
-class SelectedAppResourceProviderImpl(val resources: Resources) : SelectedAppResourceProvider {
+class SelectedAppResourceProviderImpl(
+    val resources: Resources,
+) : SelectedAppResourceProvider {
 
     override fun formatFileSize(size: Long): String {
         return FileHelper.formatBytes(resources, size)

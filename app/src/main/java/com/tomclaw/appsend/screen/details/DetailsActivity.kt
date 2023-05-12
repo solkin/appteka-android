@@ -32,6 +32,8 @@ import com.tomclaw.appsend.main.unpublish.UnpublishActivity.createUnpublishActiv
 import com.tomclaw.appsend.screen.chat.createChatActivityIntent
 import com.tomclaw.appsend.screen.details.di.DetailsModule
 import com.tomclaw.appsend.screen.rate.createRateActivityIntent
+import com.tomclaw.appsend.screen.upload.createUploadActivityIntent
+import com.tomclaw.appsend.upload.UploadPackage
 import com.tomclaw.appsend.util.IntentHelper
 import com.tomclaw.appsend.util.ThemeHelper
 import java.io.File
@@ -266,7 +268,13 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
         icon: String?,
         packageName: String
     ) {
-        val intent = createEditMetaActivityIntent(this, appId, label, icon, packageName)
+//        val intent = createEditMetaActivityIntent(this, appId, label, icon, packageName)
+
+        val pkg = UploadPackage(
+            uniqueId = appId,
+            packageName = packageName,
+        )
+        val intent = createUploadActivityIntent(this, pkg, null, null)
         invalidateDetailsResultLauncher.launch(intent)
     }
 

@@ -10,15 +10,17 @@ import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
-import com.tomclaw.appsend.dto.LocalAppEntity
+import com.tomclaw.appsend.upload.UploadPackage
 import com.tomclaw.appsend.main.item.CommonItem
 import com.tomclaw.appsend.main.local.SelectLocalAppActivity.SELECTED_ITEM
 import com.tomclaw.appsend.main.local.SelectLocalAppActivity.createSelectAppActivity
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.screen.upload.di.UploadModule
+import com.tomclaw.appsend.upload.UploadApk
 import com.tomclaw.appsend.upload.UploadInfo
 import com.tomclaw.appsend.upload.createUploadIntent
 import com.tomclaw.appsend.util.getParcelableExtraCompat
+import com.tomclaw.appsend.util.md5
 import javax.inject.Inject
 
 class UploadActivity : AppCompatActivity(), UploadPresenter.UploadRouter {
@@ -42,25 +44,28 @@ class UploadActivity : AppCompatActivity(), UploadPresenter.UploadRouter {
                     SELECTED_ITEM,
                     CommonItem::class.java
                 ) ?: return@registerForActivityResult
-                val entity = LocalAppEntity(
-                    label = info.label,
+                val pkg = UploadPackage(
+                    uniqueId = info.path.md5(),
                     packageName = info.packageName,
-                    version = info.version,
-                    path = info.path,
-                    size = info.size,
-                    packageInfo = info.packageInfo
                 )
-                presenter.onAppSelected(entity)
+                val apk = UploadApk(
+                    path = info.path,
+                    packageInfo = info.packageInfo,
+                    version = info.version,
+                    size = info.size,
+                )
+                presenter.onAppSelected(pkg, apk)
             }
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val entity = intent.getParcelableExtra<LocalAppEntity?>(EXTRA_APP_ENTITY)
+        val pkg = intent.getParcelableExtra<UploadPackage?>(EXTRA_PACKAGE_INFO)
+        val apk = intent.getParcelableExtra<UploadApk?>(EXTRA_APK_INFO)
         val info = intent.getParcelableExtra<UploadInfo?>(EXTRA_UPLOAD_INFO)
 
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
         Appteka.getComponent()
-            .uploadComponent(UploadModule(this, entity, info, presenterState))
+            .uploadComponent(UploadModule(this, pkg, apk, info, presenterState))
             .inject(activity = this)
 
         super.onCreate(savedInstanceState)
@@ -111,8 +116,8 @@ class UploadActivity : AppCompatActivity(), UploadPresenter.UploadRouter {
         startActivity(intent)
     }
 
-    override fun startUpload(entity: LocalAppEntity, info: UploadInfo) {
-        val intent = createUploadIntent(context = this, entity, info)
+    override fun startUpload(pkg: UploadPackage, apk: UploadApk, info: UploadInfo) {
+        val intent = createUploadIntent(context = this, pkg, apk, info)
         startService(intent)
     }
 
@@ -124,12 +129,15 @@ class UploadActivity : AppCompatActivity(), UploadPresenter.UploadRouter {
 
 fun createUploadActivityIntent(
     context: Context,
-    entity: LocalAppEntity?,
+    pkg: UploadPackage?,
+    apk: UploadApk?,
     info: UploadInfo?,
 ): Intent = Intent(context, UploadActivity::class.java)
-    .putExtra(EXTRA_APP_ENTITY, entity)
+    .putExtra(EXTRA_PACKAGE_INFO, pkg)
+    .putExtra(EXTRA_APK_INFO, apk)
     .putExtra(EXTRA_UPLOAD_INFO, info)
 
-private const val EXTRA_APP_ENTITY = "app_entity"
+private const val EXTRA_PACKAGE_INFO = "pkg_info"
+private const val EXTRA_APK_INFO = "apk_info"
 private const val EXTRA_UPLOAD_INFO = "upload_info"
 private const val KEY_PRESENTER_STATE = "presenter_state"

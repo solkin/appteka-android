@@ -12,14 +12,13 @@ import androidx.core.app.NotificationCompat
 import androidx.core.graphics.drawable.toBitmap
 import com.tomclaw.appsend.BuildConfig
 import com.tomclaw.appsend.R
-import com.tomclaw.appsend.dto.LocalAppEntity
-import com.tomclaw.appsend.main.item.CommonItem
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.screen.upload.createUploadActivityIntent
 import com.tomclaw.appsend.util.NotificationIconHolder
 import com.tomclaw.appsend.util.PackageIconLoader
 import com.tomclaw.appsend.util.crc32
 import com.tomclaw.appsend.util.getColor
+import com.tomclaw.appsend.util.getLabel
 import com.tomclaw.imageloader.SimpleImageLoader.imageLoader
 import com.tomclaw.imageloader.core.Handlers
 import io.reactivex.rxjava3.core.Observable
@@ -29,7 +28,8 @@ interface UploadNotifications {
 
     fun subscribe(
         id: String,
-        entity: LocalAppEntity,
+        pkg: UploadPackage,
+        apk: UploadApk,
         info: UploadInfo,
         start: (Int, Notification) -> Unit,
         stop: () -> Unit,
@@ -60,7 +60,8 @@ class UploadNotificationsImpl(private val context: Context) : UploadNotification
 
     override fun subscribe(
         id: String,
-        entity: LocalAppEntity,
+        pkg: UploadPackage,
+        apk: UploadApk,
         info: UploadInfo,
         start: (Int, Notification) -> Unit,
         stop: () -> Unit,
@@ -68,10 +69,12 @@ class UploadNotificationsImpl(private val context: Context) : UploadNotification
     ) {
         val notificationId = id.crc32()
 
-        val uploadingIntent = getOpenUploadIntent(entity, info)
+        val label = apk.packageInfo.getLabel()
+
+        val uploadingIntent = getOpenUploadIntent(pkg, apk, info)
 
         val notificationBuilder = NotificationCompat.Builder(context, CHANNEL_UPLOADED)
-            .setContentTitle(entity.label)
+            .setContentTitle(label)
             .setSmallIcon(android.R.drawable.stat_sys_upload)
             .setLargeIcon(null)
             .setSilent(true)
@@ -90,7 +93,7 @@ class UploadNotificationsImpl(private val context: Context) : UploadNotification
 
         var disposable: Disposable? = null
         disposable = observable.subscribe { state ->
-            val uri = PackageIconLoader.getUri(entity.packageInfo)
+            val uri = PackageIconLoader.getUri(apk.packageInfo)
             uri?.run { context.imageLoader().load(iconHolder, uri, handlers) }
             when (state.status) {
                 UploadStatus.AWAIT -> {
@@ -116,10 +119,10 @@ class UploadNotificationsImpl(private val context: Context) : UploadNotification
                 }
                 UploadStatus.COMPLETED -> {
                     notificationManager.cancel(notificationId)
-                    val uploadedIntent = state.result?.let { getOpenDetailsIntent(it.appId, entity.label) }
+                    val uploadedIntent = state.result?.let { getOpenDetailsIntent(it.appId, label) }
                     val uploadedNotificationBuilder =
                         NotificationCompat.Builder(context, CHANNEL_UPLOADED)
-                            .setContentTitle(entity.label)
+                            .setContentTitle(label)
                             .setContentText(context.getString(R.string.upload_done))
                             .setSmallIcon(android.R.drawable.stat_sys_upload_done)
                             .setGroup(GROUP_NOTIFICATIONS)
@@ -198,12 +201,13 @@ class UploadNotificationsImpl(private val context: Context) : UploadNotification
     }
 
     @SuppressLint("UnspecifiedImmutableFlag")
-    private fun getOpenUploadIntent(entity: LocalAppEntity, info: UploadInfo): PendingIntent {
+    private fun getOpenUploadIntent(pkg: UploadPackage, apk: UploadApk, info: UploadInfo): PendingIntent {
         return PendingIntent.getActivity(
             context, 0,
             createUploadActivityIntent(
                 context = context,
-                entity = entity,
+                pkg = pkg,
+                apk = apk,
                 info = info
             ).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP),
             PendingIntent.FLAG_CANCEL_CURRENT

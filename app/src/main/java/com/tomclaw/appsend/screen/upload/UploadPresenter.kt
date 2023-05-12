@@ -8,10 +8,11 @@ import com.tomclaw.appsend.categories.CategoriesInteractor
 import com.tomclaw.appsend.categories.Category
 import com.tomclaw.appsend.categories.CategoryConverter
 import com.tomclaw.appsend.categories.CategoryItem
-import com.tomclaw.appsend.dto.LocalAppEntity
+import com.tomclaw.appsend.upload.UploadPackage
 import com.tomclaw.appsend.screen.upload.adapter.ItemListener
 import com.tomclaw.appsend.screen.upload.adapter.other_versions.VersionItem
 import com.tomclaw.appsend.screen.upload.api.CheckExistResponse
+import com.tomclaw.appsend.upload.UploadApk
 import com.tomclaw.appsend.upload.UploadInfo
 import com.tomclaw.appsend.upload.UploadManager
 import com.tomclaw.appsend.upload.UploadStatus
@@ -36,7 +37,7 @@ interface UploadPresenter : ItemListener {
 
     fun saveState(): Bundle
 
-    fun onAppSelected(entity: LocalAppEntity)
+    fun onAppSelected(pkg: UploadPackage, apk: UploadApk)
 
     fun onBackPressed()
 
@@ -46,7 +47,7 @@ interface UploadPresenter : ItemListener {
 
         fun openDetailsScreen(appId: String, label: String?)
 
-        fun startUpload(entity: LocalAppEntity, info: UploadInfo)
+        fun startUpload(pkg: UploadPackage, apk: UploadApk, info: UploadInfo)
 
         fun leaveScreen()
 
@@ -55,7 +56,8 @@ interface UploadPresenter : ItemListener {
 }
 
 class UploadPresenterImpl(
-    startEntity: LocalAppEntity?,
+    startPackage: UploadPackage?,
+    startApkInfo: UploadApk?,
     startInfo: UploadInfo?,
     private val interactor: UploadInteractor,
     private val categoriesInteractor: CategoriesInteractor,
@@ -70,9 +72,12 @@ class UploadPresenterImpl(
     private var view: UploadView? = null
     private var router: UploadPresenter.UploadRouter? = null
 
-    private var appEntity: LocalAppEntity? =
-        state?.getParcelableCompat(KEY_PACKAGE_INFO, LocalAppEntity::class.java)
-            ?: startEntity
+    private var pkg: UploadPackage? =
+        state?.getParcelableCompat(KEY_PACKAGE_INFO, UploadPackage::class.java)
+            ?: startPackage
+    private var apk: UploadApk? =
+        state?.getParcelableCompat(KEY_APK_INFO, UploadApk::class.java)
+            ?: startApkInfo
     private var checkExist: CheckExistResponse? =
         state?.getParcelableCompat(KEY_CHECK_EXIST, CheckExistResponse::class.java)
             ?: startInfo?.checkExist
@@ -126,7 +131,8 @@ class UploadPresenterImpl(
     }
 
     override fun saveState() = Bundle().apply {
-        putParcelable(KEY_PACKAGE_INFO, appEntity)
+        putParcelable(KEY_PACKAGE_INFO, pkg)
+        putParcelable(KEY_APK_INFO, apk)
         putParcelable(KEY_CHECK_EXIST, checkExist)
         putParcelable(KEY_CATEGORY_ID, category)
         putString(KEY_WHATS_NEW, whatsNew)
@@ -136,12 +142,12 @@ class UploadPresenterImpl(
         putString(KEY_SOURCE_URL, sourceUrl)
     }
 
-    override fun onAppSelected(entity: LocalAppEntity) {
-        onPackageChanged(entity)
+    override fun onAppSelected(pkg: UploadPackage, apk: UploadApk) {
+        onPackageChanged(pkg, apk)
     }
 
     override fun onDiscardClick() {
-        onPackageChanged(entity = null)
+        onPackageChanged(pkg = null, apk = null)
     }
 
     override fun onBackPressed() {
@@ -149,10 +155,12 @@ class UploadPresenterImpl(
     }
 
     private fun checkAppUploaded() {
-        val appEntity = appEntity ?: return
+        val pkg = pkg ?: return
+        val apk = apk ?: return
+
         subscriptions += interactor
-            .calculateSha1(appEntity.path)
-            .flatMap { interactor.checkExist(it, appEntity.packageName) }
+            .calculateSha1(apk.path)
+            .flatMap { interactor.checkExist(it, pkg.packageName) }
             .observeOn(schedulers.mainThread())
             .retryWhen { errors ->
                 errors.flatMap {
@@ -195,7 +203,8 @@ class UploadPresenterImpl(
     private fun bindForm() {
         items.clear()
         items += uploadConverter.convert(
-            appEntity,
+            pkg,
+            apk,
             checkExist,
             category,
             whatsNew,
@@ -215,25 +224,26 @@ class UploadPresenterImpl(
         adapterPresenter.get().onDataSourceChanged(dataSource)
     }
 
-    private fun onPackageChanged(entity: LocalAppEntity?) {
-        this.appEntity = entity
+    private fun onPackageChanged(pkg: UploadPackage?, apk: UploadApk?) {
+        this.pkg = pkg
+        this.apk = apk
         this.checkExist = null
         invalidate()
     }
 
     private fun invalidate() {
-        if (checkExist == null && appEntity != null) {
+        if (checkExist == null && pkg != null) {
             checkAppUploaded()
         } else {
             bindForm()
         }
-        subscribeStatusChange(appEntity)
+        subscribeStatusChange(pkg)
     }
 
-    private fun subscribeStatusChange(entity: LocalAppEntity?) {
+    private fun subscribeStatusChange(pkg: UploadPackage?) {
         statusSubscription.clear()
-        entity ?: return
-        statusSubscription += uploadManager.status(id = entity.path)
+        pkg ?: return
+        statusSubscription += uploadManager.status(id = pkg.uniqueId)
             .subscribeOn(schedulers.io())
             .observeOn(schedulers.mainThread())
             .subscribe({ state ->
@@ -284,7 +294,8 @@ class UploadPresenterImpl(
     }
 
     override fun onSubmitClick() {
-        val appEntity = appEntity ?: return
+        val pkg = pkg ?: return
+        val apk = apk ?: return
         val category = category ?: return
         val checkExist = checkExist ?: return
 
@@ -298,7 +309,7 @@ class UploadPresenterImpl(
             sourceUrl
         )
 
-        router?.startUpload(appEntity, info)
+        router?.startUpload(pkg, apk, info)
     }
 
     override fun onOtherVersionsClick(items: List<VersionItem>) {
@@ -338,6 +349,7 @@ class UploadPresenterImpl(
 }
 
 private const val KEY_PACKAGE_INFO = "package_info"
+private const val KEY_APK_INFO = "apk_info"
 private const val KEY_CHECK_EXIST = "check_exist"
 private const val KEY_CATEGORY_ID = "category"
 private const val KEY_WHATS_NEW = "whats_new"

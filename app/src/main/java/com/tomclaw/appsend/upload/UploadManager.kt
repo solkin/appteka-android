@@ -1,21 +1,21 @@
 package com.tomclaw.appsend.upload
 
+import android.content.pm.PackageInfo
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.jakewharton.rxrelay3.BehaviorRelay
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.core.Config
 import com.tomclaw.appsend.core.StoreApi
-import com.tomclaw.appsend.dto.LocalAppEntity
 import com.tomclaw.appsend.dto.StoreResponse
-import com.tomclaw.appsend.dto.getApkName
-import com.tomclaw.appsend.dto.getIconName
 import com.tomclaw.appsend.user.UserDataInteractor
 import com.tomclaw.appsend.util.HttpUtil
 import com.tomclaw.appsend.util.LegacyLogger
 import com.tomclaw.appsend.util.MultipartStream
 import com.tomclaw.appsend.util.MultipartStream.ProgressHandler
 import com.tomclaw.appsend.util.PackageHelper
+import com.tomclaw.appsend.util.getLabel
+import com.tomclaw.appsend.util.md5
 import io.reactivex.rxjava3.core.Observable
 import java.io.ByteArrayInputStream
 import java.io.File
@@ -35,7 +35,7 @@ interface UploadManager {
 
     fun status(id: String): Observable<UploadState>
 
-    fun upload(id: String, entity: LocalAppEntity, info: UploadInfo)
+    fun upload(id: String, pkg: UploadPackage, apk: UploadApk?, info: UploadInfo)
 
 }
 
@@ -77,7 +77,7 @@ class UploadManagerImpl(
         }
     }
 
-    override fun upload(id: String, entity: LocalAppEntity, info: UploadInfo) {
+    override fun upload(id: String, pkg: UploadPackage, apk: UploadApk?, info: UploadInfo) {
         val relay = relays[id] ?: BehaviorRelay.create()
         if (info.checkExist.file != null && !results.containsKey(id)) {
             val file = info.checkExist.file
@@ -95,15 +95,20 @@ class UploadManagerImpl(
         relay.accept(UploadState(status = UploadStatus.AWAIT))
         uploads[id] = executor.submit {
             relay.accept(UploadState(status = UploadStatus.STARTED))
-            val uploadResult = uploadBlocking(
-                entity = entity,
-                progressCallback = { percent ->
-                    relay.accept(UploadState(status = UploadStatus.PROGRESS, percent))
-                },
-                errorCallback = {
-                    relay.accept(UploadState(status = UploadStatus.ERROR))
-                },
-            )
+            val uploadResult = if (apk != null) {
+                uploadBlocking(
+                    path = apk.path,
+                    packageInfo = apk.packageInfo,
+                    progressCallback = { percent ->
+                        relay.accept(UploadState(status = UploadStatus.PROGRESS, percent))
+                    },
+                    errorCallback = {
+                        relay.accept(UploadState(status = UploadStatus.ERROR))
+                    },
+                )
+            } else {
+                null
+            }
             if (uploadResult != null) {
                 results[id] = uploadResult
                 setMetaInfoBlocking(uploadResult.appId, info)
@@ -137,19 +142,21 @@ class UploadManagerImpl(
     }
 
     private fun uploadBlocking(
-        entity: LocalAppEntity,
+        path: String,
+        packageInfo: PackageInfo,
         progressCallback: (Int) -> Unit,
         errorCallback: (Throwable) -> Unit
     ): UploadResponse? {
-        val apk = File(entity.path)
+        val packageManager = Appteka.app().packageManager
+        val apk = File(path)
+        val label = packageInfo.getLabel()
         val icon = PackageHelper.getPackageIconPng(
-            entity.packageInfo.applicationInfo,
-            Appteka.app().packageManager
+            packageInfo.applicationInfo,
+            packageManager
         )
         val size = apk.length() + icon.size
-        val apkName = entity.getApkName()
-        val iconName = entity.getIconName()
-        val label: String = entity.label
+        val apkName = packageInfo.packageName.md5() + ".apk"
+        val iconName = packageInfo.packageName.md5() + ".png"
         var connection: HttpURLConnection? = null
         try {
             val url = URL(HOST_UPLOAD_URL)

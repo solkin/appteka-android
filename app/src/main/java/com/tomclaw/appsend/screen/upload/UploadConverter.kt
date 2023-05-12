@@ -3,8 +3,7 @@ package com.tomclaw.appsend.screen.upload
 import android.os.Build
 import com.avito.konveyor.blueprint.Item
 import com.tomclaw.appsend.categories.CategoryItem
-import com.tomclaw.appsend.dto.LocalAppEntity
-import com.tomclaw.appsend.main.item.CommonItem
+import com.tomclaw.appsend.upload.UploadPackage
 import com.tomclaw.appsend.screen.upload.adapter.category.SelectCategoryItem
 import com.tomclaw.appsend.screen.upload.adapter.description.DescriptionItem
 import com.tomclaw.appsend.screen.upload.adapter.exclusive.ExclusiveItem
@@ -18,12 +17,14 @@ import com.tomclaw.appsend.screen.upload.adapter.selected_app.SelectedAppItem
 import com.tomclaw.appsend.screen.upload.adapter.submit.SubmitItem
 import com.tomclaw.appsend.screen.upload.adapter.whats_new.WhatsNewItem
 import com.tomclaw.appsend.screen.upload.api.CheckExistResponse
+import com.tomclaw.appsend.upload.UploadApk
 import com.tomclaw.appsend.util.versionCodeCompat
 
 interface UploadConverter {
 
     fun convert(
-        appEntity: LocalAppEntity?,
+        pkg: UploadPackage?,
+        apk: UploadApk?,
         checkExist: CheckExistResponse?,
         category: CategoryItem?,
         whatsNew: String,
@@ -40,7 +41,8 @@ class UploadConverterImpl(
 ) : UploadConverter {
 
     override fun convert(
-        appEntity: LocalAppEntity?,
+        pkg: UploadPackage?,
+        apk: UploadApk?,
         checkExist: CheckExistResponse?,
         category: CategoryItem?,
         whatsNew: String,
@@ -52,9 +54,9 @@ class UploadConverterImpl(
         var id: Long = 1
         val items = ArrayList<Item>()
 
-        if (appEntity != null) {
-            items += SelectedAppItem(id++, appEntity)
-        } else {
+        if (pkg != null && apk != null) {
+            items += SelectedAppItem(id++, pkg, apk)
+        } else if (pkg == null && apk == null) {
             items += SelectAppItem(id++)
         }
 
@@ -85,7 +87,7 @@ class UploadConverterImpl(
                                 appId = version.appId,
                                 title = resourceProvider.formatVersion(version),
                                 compatible = version.sdkVersion <= Build.VERSION.SDK_INT,
-                                newer = appEntity?.packageInfo?.versionCodeCompat()
+                                newer = apk?.packageInfo?.versionCodeCompat()
                                     ?.let { version.verCode > it } ?: false,
                             )
                         }

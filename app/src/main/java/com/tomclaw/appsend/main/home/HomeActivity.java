@@ -37,11 +37,9 @@ import com.tomclaw.appsend.main.about.AboutActivity;
 import com.tomclaw.appsend.main.controller.UpdateController;
 import com.tomclaw.appsend.main.item.CommonItem;
 import com.tomclaw.appsend.main.item.StoreItem;
-import com.tomclaw.appsend.main.local.DialogData;
 import com.tomclaw.appsend.main.local.DistroActivity_;
 import com.tomclaw.appsend.main.local.InstalledActivity_;
 import com.tomclaw.appsend.main.local.SelectLocalAppActivity;
-import com.tomclaw.appsend.main.local.SelectLocalAppActivity_;
 import com.tomclaw.appsend.main.migrate.MigrateActivity_;
 import com.tomclaw.appsend.main.profile.ProfileFragment_;
 import com.tomclaw.appsend.main.settings.SettingsActivity_;
@@ -146,7 +144,7 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
         };
 
         fab.setOnClickListener(view -> {
-            Intent intent = createUploadActivityIntent(HomeActivity.this, null, null);
+            Intent intent = createUploadActivityIntent(HomeActivity.this, null, null, null);
             startActivity(intent);
 //            DialogData dialogData = new DialogData(getString(R.string.upload_app_title), getString(R.string.upload_app_message));
 //            SelectLocalAppActivity_.intent(HomeActivity.this).dialogData(dialogData).startForResult(REQUEST_UPLOAD);

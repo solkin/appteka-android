@@ -7,8 +7,6 @@ import android.os.Binder
 import android.os.Build
 import android.os.IBinder
 import com.tomclaw.appsend.Appteka
-import com.tomclaw.appsend.dto.LocalAppEntity
-import com.tomclaw.appsend.main.item.CommonItem
 import com.tomclaw.appsend.upload.di.UploadServiceModule
 import com.tomclaw.appsend.util.getParcelableExtraCompat
 import javax.inject.Inject
@@ -36,19 +34,21 @@ class UploadService : Service() {
     }
 
     private fun onIntentReceived(intent: Intent): Boolean {
-        val entity = intent.getParcelableExtraCompat(EXTRA_APP_ENTITY, LocalAppEntity::class.java) ?: return false
+        val pkg = intent.getParcelableExtraCompat(EXTRA_PACKAGE_INFO, UploadPackage::class.java) ?: return false
+        val apk = intent.getParcelableExtraCompat(EXTRA_APK_INFO, UploadApk::class.java)
         val info = intent.getParcelableExtraCompat(EXTRA_INFO, UploadInfo::class.java) ?: return false
 
-        println("[upload service] onStartCommand(entity = $entity, info = $info)")
+        println("[upload service] onStartCommand(pkg = $pkg, apk = $apk, info = $info)")
 
-        val id = entity.path
+        val id = pkg.uniqueId
 
         val relay = uploadManager.status(id)
 
-        if (info.checkExist.file == null) {
+        if (info.checkExist.file == null && apk != null) {
             notifications.subscribe(
                 id = id,
-                entity = entity,
+                pkg = pkg,
+                apk = apk,
                 info = info,
                 start = { notificationId, notification ->
                     startForeground(notificationId, notification)
@@ -60,7 +60,7 @@ class UploadService : Service() {
             )
         }
 
-        uploadManager.upload(id, entity, info)
+        uploadManager.upload(id, pkg, apk, info)
         return true
     }
 
@@ -87,11 +87,14 @@ class UploadService : Service() {
 
 fun createUploadIntent(
     context: Context,
-    entity: LocalAppEntity,
+    pkg: UploadPackage,
+    apk: UploadApk,
     info: UploadInfo,
 ): Intent = Intent(context, UploadService::class.java)
-    .putExtra(EXTRA_APP_ENTITY, entity)
+    .putExtra(EXTRA_PACKAGE_INFO, pkg)
+    .putExtra(EXTRA_APK_INFO, apk)
     .putExtra(EXTRA_INFO, info)
 
-private const val EXTRA_APP_ENTITY = "app_entity"
+private const val EXTRA_PACKAGE_INFO = "pkg"
+private const val EXTRA_APK_INFO = "apk"
 private const val EXTRA_INFO = "info"

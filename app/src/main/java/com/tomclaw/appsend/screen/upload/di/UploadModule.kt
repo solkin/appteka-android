@@ -10,8 +10,7 @@ import com.tomclaw.appsend.categories.CategoriesInteractor
 import com.tomclaw.appsend.categories.CategoryConverter
 import com.tomclaw.appsend.categories.CategoryConverterImpl
 import com.tomclaw.appsend.core.StoreApi
-import com.tomclaw.appsend.dto.LocalAppEntity
-import com.tomclaw.appsend.main.item.CommonItem
+import com.tomclaw.appsend.upload.UploadPackage
 import com.tomclaw.appsend.screen.upload.UploadConverter
 import com.tomclaw.appsend.screen.upload.UploadConverterImpl
 import com.tomclaw.appsend.screen.upload.UploadInteractor
@@ -44,6 +43,7 @@ import com.tomclaw.appsend.screen.upload.adapter.submit.SubmitItemBlueprint
 import com.tomclaw.appsend.screen.upload.adapter.submit.SubmitItemPresenter
 import com.tomclaw.appsend.screen.upload.adapter.whats_new.WhatsNewItemBlueprint
 import com.tomclaw.appsend.screen.upload.adapter.whats_new.WhatsNewItemPresenter
+import com.tomclaw.appsend.upload.UploadApk
 import com.tomclaw.appsend.upload.UploadInfo
 import com.tomclaw.appsend.upload.UploadManager
 import com.tomclaw.appsend.user.UserDataInteractor
@@ -58,7 +58,8 @@ import java.util.Locale
 @Module
 class UploadModule(
     private val context: Context,
-    private val entity: LocalAppEntity?,
+    private val pkg: UploadPackage?,
+    private val apk: UploadApk?,
     private val meta: UploadInfo?,
     private val state: Bundle?
 ) {
@@ -74,7 +75,8 @@ class UploadModule(
         uploadManager: UploadManager,
         schedulers: SchedulersFactory
     ): UploadPresenter = UploadPresenterImpl(
-        entity,
+        pkg,
+        apk,
         meta,
         interactor,
         categoriesInteractor,
