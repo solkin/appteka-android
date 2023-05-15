@@ -88,7 +88,7 @@ class UploadService : Service() {
 fun createUploadIntent(
     context: Context,
     pkg: UploadPackage,
-    apk: UploadApk,
+    apk: UploadApk?,
     info: UploadInfo,
 ): Intent = Intent(context, UploadService::class.java)
     .putExtra(EXTRA_PACKAGE_INFO, pkg)

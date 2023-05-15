@@ -7,6 +7,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class UploadPackage(
     val uniqueId: String,
+    val sha1: String?,
     val packageName: String,
 ) : Parcelable
 

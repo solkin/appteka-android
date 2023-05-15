@@ -68,7 +68,7 @@ interface DetailsPresenter : ItemListener {
             icon: String?
         )
 
-        fun openEditMetaScreen(appId: String, label: String?, icon: String?, packageName: String)
+        fun openEditMetaScreen(appId: String, label: String?, icon: String?, packageName: String, sha1: String)
 
         fun openUnpublishScreen(appId: String, label: String?)
 
@@ -141,7 +141,7 @@ class DetailsPresenterImpl(
         subscriptions += view.editClicks().subscribe {
             appId?.let { appId ->
                 val info = details?.info ?: return@subscribe
-                router?.openEditMetaScreen(appId, info.label, info.icon, info.packageName)
+                router?.openEditMetaScreen(appId, info.label, info.icon, info.packageName, info.sha1)
             }
         }
         subscriptions += view.unpublishClicks().subscribe {

@@ -46,6 +46,7 @@ class UploadActivity : AppCompatActivity(), UploadPresenter.UploadRouter {
                 ) ?: return@registerForActivityResult
                 val pkg = UploadPackage(
                     uniqueId = info.path.md5(),
+                    sha1 = null,
                     packageName = info.packageName,
                 )
                 val apk = UploadApk(
@@ -116,7 +117,7 @@ class UploadActivity : AppCompatActivity(), UploadPresenter.UploadRouter {
         startActivity(intent)
     }
 
-    override fun startUpload(pkg: UploadPackage, apk: UploadApk, info: UploadInfo) {
+    override fun startUpload(pkg: UploadPackage, apk: UploadApk?, info: UploadInfo) {
         val intent = createUploadIntent(context = this, pkg, apk, info)
         startService(intent)
     }

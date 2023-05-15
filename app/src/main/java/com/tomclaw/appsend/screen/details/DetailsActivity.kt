@@ -22,7 +22,6 @@ import com.tomclaw.appsend.R
 import com.tomclaw.appsend.download.createDownloadIntent
 import com.tomclaw.appsend.main.abuse.AbuseActivity.createAbuseActivityIntent
 import com.tomclaw.appsend.main.home.HomeActivity.createStoreActivityIntent
-import com.tomclaw.appsend.main.meta.MetaActivity.createEditMetaActivityIntent
 import com.tomclaw.appsend.main.permissions.PermissionsActivity_
 import com.tomclaw.appsend.main.permissions.PermissionsList
 import com.tomclaw.appsend.main.profile.ProfileActivity_
@@ -266,12 +265,14 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
         appId: String,
         label: String?,
         icon: String?,
-        packageName: String
+        packageName: String,
+        sha1: String
     ) {
 //        val intent = createEditMetaActivityIntent(this, appId, label, icon, packageName)
 
         val pkg = UploadPackage(
             uniqueId = appId,
+            sha1 = sha1,
             packageName = packageName,
         )
         val intent = createUploadActivityIntent(this, pkg, null, null)

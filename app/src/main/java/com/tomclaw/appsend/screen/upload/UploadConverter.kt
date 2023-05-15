@@ -54,9 +54,9 @@ class UploadConverterImpl(
         var id: Long = 1
         val items = ArrayList<Item>()
 
-        if (pkg != null && apk != null) {
-            items += SelectedAppItem(id++, pkg, apk)
-        } else if (pkg == null && apk == null) {
+        if (apk != null) {
+            items += SelectedAppItem(id++, apk)
+        } else if (pkg == null) {
             items += SelectAppItem(id++)
         }
 

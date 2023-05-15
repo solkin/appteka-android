@@ -20,6 +20,7 @@ import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.getParcelableCompat
 import dagger.Lazy
 import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
 import retrofit2.HttpException
@@ -47,7 +48,7 @@ interface UploadPresenter : ItemListener {
 
         fun openDetailsScreen(appId: String, label: String?)
 
-        fun startUpload(pkg: UploadPackage, apk: UploadApk, info: UploadInfo)
+        fun startUpload(pkg: UploadPackage, apk: UploadApk?, info: UploadInfo)
 
         fun leaveScreen()
 
@@ -156,10 +157,17 @@ class UploadPresenterImpl(
 
     private fun checkAppUploaded() {
         val pkg = pkg ?: return
-        val apk = apk ?: return
+        val apk = apk
 
-        subscriptions += interactor
-            .calculateSha1(apk.path)
+        val sha1Observer = if (pkg.sha1 != null) {
+            Single.create { it.onSuccess(pkg.sha1) }.toObservable()
+        } else if (apk != null) {
+            interactor.calculateSha1(apk.path)
+        } else {
+            return
+        }
+
+        subscriptions += sha1Observer
             .flatMap { interactor.checkExist(it, pkg.packageName) }
             .observeOn(schedulers.mainThread())
             .retryWhen { errors ->
@@ -295,7 +303,6 @@ class UploadPresenterImpl(
 
     override fun onSubmitClick() {
         val pkg = pkg ?: return
-        val apk = apk ?: return
         val category = category ?: return
         val checkExist = checkExist ?: return
 
