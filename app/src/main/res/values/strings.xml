@@ -347,4 +347,5 @@
     <string name="uploaded_channel_description">Notifications for uploaded apps</string>
     <string name="upload_failed">Upload failed</string>
     <string name="upload_done">Upload done</string>
+    <string name="close">Close</string>
 </resources>

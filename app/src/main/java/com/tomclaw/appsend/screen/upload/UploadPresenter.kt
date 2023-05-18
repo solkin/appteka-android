@@ -256,8 +256,8 @@ class UploadPresenterImpl(
             .observeOn(schedulers.mainThread())
             .subscribe({ state ->
                 when (state.status) {
-                    UploadStatus.IDLE,
-                    UploadStatus.COMPLETED -> view?.showContent()
+                    UploadStatus.IDLE -> view?.showContent()
+                    UploadStatus.COMPLETED -> view?.showDone()
 
                     UploadStatus.AWAIT -> {
                         view?.resetUploadProgress()

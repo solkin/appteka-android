@@ -33,6 +33,8 @@ interface UploadView {
 
     fun showContent()
 
+    fun showDone()
+
     fun contentUpdated()
 
     fun showError()
@@ -104,6 +106,11 @@ class UploadViewImpl(
 
     override fun showContent() {
         flipper.displayedChild = CHILD_CONTENT
+        progress.hideWithAlphaAnimation(animateFully = false)
+    }
+
+    override fun showDone() {
+        flipper.displayedChild = CHILD_DONE
         progress.hideWithAlphaAnimation(animateFully = false)
     }
 
@@ -227,3 +234,4 @@ class UploadViewImpl(
 private const val DURATION_MEDIUM = 300L
 private const val CHILD_CONTENT = 0
 private const val CHILD_UPLOAD = 1
+private const val CHILD_DONE = 2

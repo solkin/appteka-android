@@ -340,4 +340,5 @@
     <string name="uploaded_channel_description">Уведомления о завершении отправки приложений</string>
     <string name="upload_failed">Ошибка отправки</string>
     <string name="upload_done">Отправка завершена</string>
+    <string name="close">Закрыть</string>
 </resources>
