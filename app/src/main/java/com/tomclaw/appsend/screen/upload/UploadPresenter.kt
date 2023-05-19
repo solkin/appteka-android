@@ -8,13 +8,13 @@ import com.tomclaw.appsend.categories.CategoriesInteractor
 import com.tomclaw.appsend.categories.Category
 import com.tomclaw.appsend.categories.CategoryConverter
 import com.tomclaw.appsend.categories.CategoryItem
-import com.tomclaw.appsend.upload.UploadPackage
 import com.tomclaw.appsend.screen.upload.adapter.ItemListener
 import com.tomclaw.appsend.screen.upload.adapter.other_versions.VersionItem
 import com.tomclaw.appsend.screen.upload.api.CheckExistResponse
 import com.tomclaw.appsend.upload.UploadApk
 import com.tomclaw.appsend.upload.UploadInfo
 import com.tomclaw.appsend.upload.UploadManager
+import com.tomclaw.appsend.upload.UploadPackage
 import com.tomclaw.appsend.upload.UploadStatus
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.getParcelableCompat
@@ -257,7 +257,17 @@ class UploadPresenterImpl(
             .subscribe({ state ->
                 when (state.status) {
                     UploadStatus.IDLE -> view?.showContent()
-                    UploadStatus.COMPLETED -> view?.showDone()
+                    UploadStatus.COMPLETED -> {
+                        if (state.result?.appId != null) {
+                            router?.openDetailsScreen(
+                                appId = state.result.appId,
+                                label = checkExist?.file?.title.orEmpty()
+                            )
+                            router?.leaveScreen()
+                        } else {
+                            view?.showError()
+                        }
+                    }
 
                     UploadStatus.AWAIT -> {
                         view?.resetUploadProgress()

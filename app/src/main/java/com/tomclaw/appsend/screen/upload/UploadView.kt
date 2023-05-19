@@ -33,8 +33,6 @@ interface UploadView {
 
     fun showContent()
 
-    fun showDone()
-
     fun contentUpdated()
 
     fun showError()
@@ -45,6 +43,12 @@ interface UploadView {
 
     fun showVersionsDialog(items: List<VersionItem>)
 
+    fun showUploadProgress()
+
+    fun resetUploadProgress()
+
+    fun setUploadProgress(value: Int)
+
     fun navigationClicks(): Observable<Unit>
 
     fun retryClicks(): Observable<Unit>
@@ -54,12 +58,6 @@ interface UploadView {
     fun categoryClearedClicks(): Observable<Unit>
 
     fun versionClicks(): Observable<VersionItem>
-
-    fun showUploadProgress()
-
-    fun resetUploadProgress()
-
-    fun setUploadProgress(value: Int)
 
 }
 
@@ -106,11 +104,6 @@ class UploadViewImpl(
 
     override fun showContent() {
         flipper.displayedChild = CHILD_CONTENT
-        progress.hideWithAlphaAnimation(animateFully = false)
-    }
-
-    override fun showDone() {
-        flipper.displayedChild = CHILD_DONE
         progress.hideWithAlphaAnimation(animateFully = false)
     }
 
@@ -234,4 +227,3 @@ class UploadViewImpl(
 private const val DURATION_MEDIUM = 300L
 private const val CHILD_CONTENT = 0
 private const val CHILD_UPLOAD = 1
-private const val CHILD_DONE = 2
