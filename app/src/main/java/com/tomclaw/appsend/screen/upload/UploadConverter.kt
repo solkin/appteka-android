@@ -53,6 +53,7 @@ class UploadConverterImpl(
     ): List<Item> {
         var id: Long = 1
         val items = ArrayList<Item>()
+        val isEditMode = checkExist?.file?.appId != null
 
         if (apk != null) {
             items += SelectedAppItem(id++, apk)
@@ -101,7 +102,7 @@ class UploadConverterImpl(
             items += DescriptionItem(id++, text = description)
             items += ExclusiveItem(id++, value = exclusive)
             items += OpenSourceItem(id++, value = openSource, url = sourceUrl)
-            items += SubmitItem(id++)
+            items += SubmitItem(id++, isEditMode)
         }
 
         return items
