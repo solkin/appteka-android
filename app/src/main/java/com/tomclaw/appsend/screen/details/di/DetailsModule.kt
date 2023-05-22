@@ -42,6 +42,8 @@ import com.tomclaw.appsend.screen.details.DetailsResourceProvider
 import com.tomclaw.appsend.screen.details.DetailsResourceProviderImpl
 import com.tomclaw.appsend.screen.details.adapter.discuss.DiscussItemBlueprint
 import com.tomclaw.appsend.screen.details.adapter.discuss.DiscussItemPresenter
+import com.tomclaw.appsend.screen.details.adapter.status.StatusItemBlueprint
+import com.tomclaw.appsend.screen.details.adapter.status.StatusItemPresenter
 import com.tomclaw.appsend.screen.details.adapter.user_rate.UserRateItemBlueprint
 import com.tomclaw.appsend.screen.details.adapter.user_rate.UserRateItemPresenter
 import com.tomclaw.appsend.screen.details.adapter.user_review.UserReviewItemBlueprint
@@ -286,5 +288,16 @@ class DetailsModule(
     internal fun provideDiscussItemPresenter(
         presenter: DetailsPresenter,
     ) = DiscussItemPresenter(presenter)
+
+    @Provides
+    @IntoSet
+    @PerActivity
+    internal fun provideStatusItemBlueprint(
+        presenter: StatusItemPresenter
+    ): ItemBlueprint<*, *> = StatusItemBlueprint(presenter)
+
+    @Provides
+    @PerActivity
+    internal fun provideStatusItemPresenter() = StatusItemPresenter()
 
 }

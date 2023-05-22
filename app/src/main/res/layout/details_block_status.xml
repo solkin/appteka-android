@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/status_back"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="12dp"
+    android:layout_marginTop="12dp"
+    android:layout_marginEnd="12dp"
+    android:background="@drawable/rounded_ripple"
+    android:gravity="start"
+    android:orientation="horizontal"
+    android:paddingStart="12dp"
+    android:paddingTop="20dp"
+    android:paddingEnd="20dp"
+    android:paddingBottom="18dp"
+    tools:backgroundTint="@color/notice_info_back_color">
+
+    <ImageView
+        android:id="@+id/status_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="0dp"
+        android:paddingEnd="8dp"
+        tools:src="@drawable/ic_info"
+        tools:tint="@color/notice_info_color" />
+
+    <TextView
+        android:id="@+id/status_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif"
+        android:includeFontPadding="false"
+        android:paddingTop="2dp"
+        android:textSize="16sp"
+        android:textStyle="normal"
+        tools:text="Application is uploaded, but not yet published."
+        tools:textColor="@color/notice_info_text_color" />
+
+</LinearLayout>
