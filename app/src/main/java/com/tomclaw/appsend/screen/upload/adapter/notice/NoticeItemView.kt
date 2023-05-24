@@ -40,24 +40,24 @@ class NoticeItemViewHolder(view: View) : BaseViewHolder(view), NoticeItemView {
     }
 
     override fun setNoticeTypeInfo() {
-        setBackgroundColor(R.color.notice_info_back_color)
+        setBackgroundColor(R.color.block_info_back_color)
         icon.setImageResource(R.drawable.ic_info)
-        icon.setColorFilter(resources.getColor(R.color.notice_info_color))
-        text.setTextColor(resources.getColor(R.color.notice_info_text_color))
+        icon.setColorFilter(resources.getColor(R.color.block_info_color))
+        text.setTextColor(resources.getColor(R.color.block_info_text_color))
     }
 
     override fun setNoticeTypeWarning() {
-        setBackgroundColor(R.color.notice_warning_back_color)
+        setBackgroundColor(R.color.block_warning_back_color)
         icon.setImageResource(R.drawable.ic_warning)
-        icon.setColorFilter(resources.getColor(R.color.notice_warning_color))
-        text.setTextColor(resources.getColor(R.color.notice_warning_text_color))
+        icon.setColorFilter(resources.getColor(R.color.block_warning_color))
+        text.setTextColor(resources.getColor(R.color.block_warning_text_color))
     }
 
     override fun setNoticeTypeError() {
-        setBackgroundColor(R.color.notice_error_back_color)
+        setBackgroundColor(R.color.block_error_back_color)
         icon.setImageResource(R.drawable.ic_error)
-        icon.setColorFilter(resources.getColor(R.color.notice_error_color))
-        text.setTextColor(resources.getColor(R.color.notice_error_text_color))
+        icon.setColorFilter(resources.getColor(R.color.block_error_color))
+        text.setTextColor(resources.getColor(R.color.block_error_text_color))
     }
 
     override fun setNoticeText(text: String) {

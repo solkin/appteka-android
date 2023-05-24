@@ -14,7 +14,7 @@
     android:paddingTop="20dp"
     android:paddingEnd="20dp"
     android:paddingBottom="18dp"
-    tools:backgroundTint="@color/notice_info_back_color">
+    tools:backgroundTint="@color/block_info_back_color">
 
     <ImageView
         android:id="@+id/status_icon"
@@ -23,7 +23,7 @@
         android:paddingStart="0dp"
         android:paddingEnd="8dp"
         tools:src="@drawable/ic_info"
-        tools:tint="@color/notice_info_color" />
+        tools:tint="@color/block_info_color" />
 
     <TextView
         android:id="@+id/status_text"
@@ -35,6 +35,6 @@
         android:textSize="16sp"
         android:textStyle="normal"
         tools:text="Application is uploaded, but not yet published."
-        tools:textColor="@color/notice_info_text_color" />
+        tools:textColor="@color/block_info_text_color" />
 
 </LinearLayout>

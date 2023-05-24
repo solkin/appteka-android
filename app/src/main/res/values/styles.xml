@@ -73,17 +73,17 @@
 
     <color name="sdk_incompatible_tint">#d63205</color>
 
-    <color name="notice_error_color">#d63205</color>
-    <color name="notice_error_text_color">#a42604</color>
-    <color name="notice_error_back_color">#22d63205</color>
+    <color name="block_error_color">#d63205</color>
+    <color name="block_error_text_color">#a42604</color>
+    <color name="block_error_back_color">#22d63205</color>
 
-    <color name="notice_info_color">#05a9d6</color>
-    <color name="notice_info_text_color">#0482a4</color>
-    <color name="notice_info_back_color">#2205a9d6</color>
+    <color name="block_info_color">#05a9d6</color>
+    <color name="block_info_text_color">#0482a4</color>
+    <color name="block_info_back_color">#2205a9d6</color>
 
-    <color name="notice_warning_color">#ebbc00</color>
-    <color name="notice_warning_text_color">#c49d00</color>
-    <color name="notice_warning_back_color">#22ffcc00</color>
+    <color name="block_warning_color">#ebbc00</color>
+    <color name="block_warning_text_color">#c49d00</color>
+    <color name="block_warning_back_color">#22ffcc00</color>
 
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/primary_color</item>

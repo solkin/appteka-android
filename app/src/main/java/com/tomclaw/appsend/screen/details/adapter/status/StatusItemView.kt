@@ -12,13 +12,13 @@ import com.tomclaw.appsend.util.bind
 
 interface StatusItemView : ItemView {
 
-    fun setNoticeTypeInfo()
+    fun setStatusTypeInfo()
 
-    fun setNoticeTypeWarning()
+    fun setStatusTypeWarning()
 
-    fun setNoticeTypeError()
+    fun setStatusTypeError()
 
-    fun setNoticeText(text: String)
+    fun setStatusText(text: String)
 
 }
 
@@ -27,32 +27,32 @@ class StatusItemViewHolder(view: View) : BaseViewHolder(view), StatusItemView {
 
     private val context = view.context
     private val resources = view.resources
-    private val background: View = view.findViewById(R.id.notice_back)
-    private val icon: ImageView = view.findViewById(R.id.notice_icon)
-    private val text: TextView = view.findViewById(R.id.notice_text)
+    private val background: View = view.findViewById(R.id.status_back)
+    private val icon: ImageView = view.findViewById(R.id.status_icon)
+    private val text: TextView = view.findViewById(R.id.status_text)
 
-    override fun setNoticeTypeInfo() {
-        setBackgroundColor(R.color.notice_info_back_color)
+    override fun setStatusTypeInfo() {
+        setBackgroundColor(R.color.block_info_back_color)
         icon.setImageResource(R.drawable.ic_info)
-        icon.setColorFilter(resources.getColor(R.color.notice_info_color))
-        text.setTextColor(resources.getColor(R.color.notice_info_text_color))
+        icon.setColorFilter(resources.getColor(R.color.block_info_color))
+        text.setTextColor(resources.getColor(R.color.block_info_text_color))
     }
 
-    override fun setNoticeTypeWarning() {
-        setBackgroundColor(R.color.notice_warning_back_color)
+    override fun setStatusTypeWarning() {
+        setBackgroundColor(R.color.block_warning_back_color)
         icon.setImageResource(R.drawable.ic_warning)
-        icon.setColorFilter(resources.getColor(R.color.notice_warning_color))
-        text.setTextColor(resources.getColor(R.color.notice_warning_text_color))
+        icon.setColorFilter(resources.getColor(R.color.block_warning_color))
+        text.setTextColor(resources.getColor(R.color.block_warning_text_color))
     }
 
-    override fun setNoticeTypeError() {
-        setBackgroundColor(R.color.notice_error_back_color)
+    override fun setStatusTypeError() {
+        setBackgroundColor(R.color.block_error_back_color)
         icon.setImageResource(R.drawable.ic_error)
-        icon.setColorFilter(resources.getColor(R.color.notice_error_color))
-        text.setTextColor(resources.getColor(R.color.notice_error_text_color))
+        icon.setColorFilter(resources.getColor(R.color.block_error_color))
+        text.setTextColor(resources.getColor(R.color.block_error_text_color))
     }
 
-    override fun setNoticeText(text: String) {
+    override fun setStatusText(text: String) {
         this.text.bind(text)
     }
 

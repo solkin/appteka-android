@@ -7,11 +7,11 @@ class StatusItemPresenter : ItemPresenter<StatusItemView, StatusItem> {
     override fun bindView(view: StatusItemView, item: StatusItem, position: Int) {
         with(view) {
             when (item.type) {
-                StatusType.INFO -> setNoticeTypeInfo()
-                StatusType.WARNING -> setNoticeTypeWarning()
-                StatusType.ERROR -> setNoticeTypeError()
+                StatusType.INFO -> setStatusTypeInfo()
+                StatusType.WARNING -> setStatusTypeWarning()
+                StatusType.ERROR -> setStatusTypeError()
             }
-            setNoticeText("")
+            setStatusText("")
         }
     }
 
