@@ -46,3 +46,8 @@ data class AppInfo(
     @SerializedName("user_icon")
     val userIcon: UserIcon?,
 ) : Parcelable
+
+const val STATUS_NORMAL = 0
+const val STATUS_UNLINKED = -1
+const val STATUS_PRIVATE = -2
+const val STATUS_MODERATION = -3

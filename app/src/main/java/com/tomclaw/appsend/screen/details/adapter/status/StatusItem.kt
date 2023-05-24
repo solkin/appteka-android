@@ -8,6 +8,7 @@ import kotlinx.parcelize.Parcelize
 data class StatusItem(
     override val id: Long,
     val type: StatusType,
+    val text: String,
 ) : Item, Parcelable
 
 enum class StatusType {

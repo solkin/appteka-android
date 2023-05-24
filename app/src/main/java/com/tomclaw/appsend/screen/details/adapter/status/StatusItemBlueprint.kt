@@ -10,7 +10,7 @@ class StatusItemBlueprint(override val presenter: ItemPresenter<StatusItemView, 
     ItemBlueprint<StatusItemView, StatusItem> {
 
     override val viewHolderProvider = ViewHolderBuilder.ViewHolderProvider(
-        layoutId = R.layout.upload_block_notice,
+        layoutId = R.layout.details_block_status,
         creator = { _, view -> StatusItemViewHolder(view) }
     )
 

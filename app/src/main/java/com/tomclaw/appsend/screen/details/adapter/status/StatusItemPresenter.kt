@@ -11,7 +11,7 @@ class StatusItemPresenter : ItemPresenter<StatusItemView, StatusItem> {
                 StatusType.WARNING -> setStatusTypeWarning()
                 StatusType.ERROR -> setStatusTypeError()
             }
-            setStatusText("")
+            setStatusText(item.text)
         }
     }
 

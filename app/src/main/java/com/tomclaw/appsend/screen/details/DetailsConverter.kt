@@ -9,9 +9,14 @@ import com.tomclaw.appsend.screen.details.adapter.permissions.PermissionsItem
 import com.tomclaw.appsend.screen.details.adapter.play.PlayItem
 import com.tomclaw.appsend.screen.details.adapter.rating.RatingItem
 import com.tomclaw.appsend.screen.details.adapter.scores.ScoresItem
+import com.tomclaw.appsend.screen.details.adapter.status.StatusItem
+import com.tomclaw.appsend.screen.details.adapter.status.StatusType
 import com.tomclaw.appsend.screen.details.adapter.user_rate.UserRateItem
 import com.tomclaw.appsend.screen.details.adapter.user_review.UserReviewItem
 import com.tomclaw.appsend.screen.details.api.Details
+import com.tomclaw.appsend.screen.details.api.STATUS_MODERATION
+import com.tomclaw.appsend.screen.details.api.STATUS_PRIVATE
+import com.tomclaw.appsend.screen.details.api.STATUS_UNLINKED
 import com.tomclaw.appsend.util.NOT_INSTALLED
 
 interface DetailsConverter {
@@ -30,6 +35,17 @@ class DetailsConverterImpl : DetailsConverter {
         var id: Long = 1
         val items = ArrayList<Item>()
 
+        when (details.info.fileStatus) {
+            STATUS_UNLINKED -> items += StatusItem(id = id++, type = StatusType.ERROR, text = "")
+            STATUS_PRIVATE -> items += StatusItem(id = id++, type = StatusType.INFO, text = "")
+            STATUS_MODERATION -> items += StatusItem(
+                id = id++,
+                type = StatusType.WARNING,
+                text = ""
+            )
+
+            else -> Unit
+        }
         items += HeaderItem(
             id = id++,
             icon = details.info.icon,
