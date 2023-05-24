@@ -41,6 +41,7 @@ import com.tomclaw.appsend.net.UserData;
 import com.tomclaw.appsend.net.UserDataListener;
 import com.tomclaw.appsend.screen.moderation.ModerationActivityKt;
 import com.tomclaw.appsend.util.Listeners;
+import com.tomclaw.appsend.util.LocaleHelper;
 import com.tomclaw.appsend.util.RoleHelper;
 import com.tomclaw.appsend.view.UserIconView;
 import com.tomclaw.appsend.view.UserIconViewImpl;
@@ -326,7 +327,12 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
         UserIconView userIcon = new UserIconViewImpl(memberAvatar);
         userIcon.bind(profile.getUserIcon());
         if (TextUtils.isEmpty(profile.getName())) {
-            memberName.setText(profile.getUserIcon().getLabel().get("en"));
+            Map<String, String> labels = profile.getUserIcon().getLabel();
+            String label = labels.get(LocaleHelper.getLocaleLanguage());
+            if (label == null) {
+                label = labels.get("en");
+            }
+            memberName.setText(label);
         } else {
             memberName.setText(profile.getName());
         }
