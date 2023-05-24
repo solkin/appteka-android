@@ -25,7 +25,9 @@ interface DetailsConverter {
 
 }
 
-class DetailsConverterImpl : DetailsConverter {
+class DetailsConverterImpl(
+    private val resourceProvider: DetailsResourceProvider
+) : DetailsConverter {
 
     override fun convert(
         details: Details,
@@ -36,12 +38,22 @@ class DetailsConverterImpl : DetailsConverter {
         val items = ArrayList<Item>()
 
         when (details.info.fileStatus) {
-            STATUS_UNLINKED -> items += StatusItem(id = id++, type = StatusType.ERROR, text = "")
-            STATUS_PRIVATE -> items += StatusItem(id = id++, type = StatusType.INFO, text = "")
+            STATUS_UNLINKED -> items += StatusItem(
+                id = id++,
+                type = StatusType.ERROR,
+                text = resourceProvider.unlinkedStatusText()
+            )
+
+            STATUS_PRIVATE -> items += StatusItem(
+                id = id++,
+                type = StatusType.INFO,
+                text = resourceProvider.privateStatusText()
+            )
+
             STATUS_MODERATION -> items += StatusItem(
                 id = id++,
                 type = StatusType.WARNING,
-                text = ""
+                text = resourceProvider.moderationStatusText()
             )
 
             else -> Unit

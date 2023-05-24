@@ -341,4 +341,7 @@
     <string name="upload_failed">Ошибка отправки</string>
     <string name="upload_done">Отправка завершена</string>
     <string name="close">Закрыть</string>
+    <string name="unlinked_status_text">Приложение заблокировано и больше недоступно</string>
+    <string name="private_status_text">Приложение находится в приватном доступе и доступно только по ссылке</string>
+    <string name="moderation_status_text">Приложение находится на модерации и после проверки станет доступно пользователям Апптека или останется в приватном доступе. Для попытки публикации отредактируйте описание.</string>
 </resources>

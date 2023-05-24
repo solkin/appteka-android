@@ -110,7 +110,9 @@ class DetailsModule(
 
     @Provides
     @PerActivity
-    internal fun provideDetailsConverterProvider(): DetailsConverter = DetailsConverterImpl()
+    internal fun provideDetailsConverterProvider(
+        resourceProvider: DetailsResourceProvider
+    ): DetailsConverter = DetailsConverterImpl(resourceProvider)
 
     @Provides
     @PerActivity

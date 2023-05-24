@@ -348,4 +348,7 @@
     <string name="upload_failed">Upload failed</string>
     <string name="upload_done">Upload done</string>
     <string name="close">Close</string>
+    <string name="unlinked_status_text">The app has been blocked and is no longer available</string>
+    <string name="private_status_text">The application is in private access and is available only through the link. To attempt a publication, edit the description.</string>
+    <string name="moderation_status_text">The application is under moderation and after verification it will become available to users of Appteka or will remain in private access</string>
 </resources>

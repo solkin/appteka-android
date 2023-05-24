@@ -22,6 +22,12 @@ interface DetailsResourceProvider {
 
     fun createTopicError(): String
 
+    fun unlinkedStatusText(): String
+
+    fun privateStatusText(): String
+
+    fun moderationStatusText(): String
+
 }
 
 class DetailsResourceProviderImpl(
@@ -54,6 +60,18 @@ class DetailsResourceProviderImpl(
 
     override fun createTopicError(): String {
         return resources.getString(R.string.error_app_topic_creation)
+    }
+
+    override fun unlinkedStatusText(): String {
+        return resources.getString(R.string.unlinked_status_text)
+    }
+
+    override fun privateStatusText(): String {
+        return resources.getString(R.string.private_status_text)
+    }
+
+    override fun moderationStatusText(): String {
+        return resources.getString(R.string.moderation_status_text)
     }
 
 }
