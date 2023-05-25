@@ -171,7 +171,6 @@ interface StoreApi {
         @Field("description") description: String,
         @Field("whats_new") whatsNew: String,
         @Field("exclusive") exclusive: Boolean,
-        @Field("open_source") openSource: Boolean,
         @Field("source_url") sourceUrl: String?,
     ): Single<StoreResponse<SetMetaResponse>>
 

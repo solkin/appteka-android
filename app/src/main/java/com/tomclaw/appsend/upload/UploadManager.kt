@@ -134,7 +134,6 @@ class UploadManagerImpl(
             description = info.description,
             whatsNew = info.whatsNew,
             exclusive = info.exclusive,
-            openSource = info.openSource,
             sourceUrl = info.sourceUrl,
         ).blockingSubscribe(
             {}, {}
