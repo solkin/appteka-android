@@ -48,6 +48,8 @@ import com.tomclaw.appsend.screen.details.adapter.user_rate.UserRateItemBlueprin
 import com.tomclaw.appsend.screen.details.adapter.user_rate.UserRateItemPresenter
 import com.tomclaw.appsend.screen.details.adapter.user_review.UserReviewItemBlueprint
 import com.tomclaw.appsend.screen.details.adapter.user_review.UserReviewItemPresenter
+import com.tomclaw.appsend.screen.details.adapter.whats_new.WhatsNewItemBlueprint
+import com.tomclaw.appsend.screen.details.adapter.whats_new.WhatsNewItemPresenter
 import com.tomclaw.appsend.util.PackageObserver
 import com.tomclaw.appsend.util.PerActivity
 import com.tomclaw.appsend.util.SchedulersFactory
@@ -181,6 +183,19 @@ class DetailsModule(
         locale: Locale,
         resourceProvider: PlayResourceProvider
     ) = PlayItemPresenter(locale, resourceProvider)
+
+    @Provides
+    @IntoSet
+    @PerActivity
+    internal fun provideWhatsNewItemBlueprint(
+        presenter: WhatsNewItemPresenter
+    ): ItemBlueprint<*, *> = WhatsNewItemBlueprint(presenter)
+
+    @Provides
+    @PerActivity
+    internal fun provideWhatsNewItemPresenter(
+        presenter: DetailsPresenter,
+    ) = WhatsNewItemPresenter(presenter)
 
     @Provides
     @IntoSet

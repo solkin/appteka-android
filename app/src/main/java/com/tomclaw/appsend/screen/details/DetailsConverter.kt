@@ -13,6 +13,7 @@ import com.tomclaw.appsend.screen.details.adapter.status.StatusItem
 import com.tomclaw.appsend.screen.details.adapter.status.StatusType
 import com.tomclaw.appsend.screen.details.adapter.user_rate.UserRateItem
 import com.tomclaw.appsend.screen.details.adapter.user_review.UserReviewItem
+import com.tomclaw.appsend.screen.details.adapter.whats_new.WhatsNewItem
 import com.tomclaw.appsend.screen.details.api.Details
 import com.tomclaw.appsend.screen.details.api.STATUS_MODERATION
 import com.tomclaw.appsend.screen.details.api.STATUS_PRIVATE
@@ -111,6 +112,12 @@ class DetailsConverterImpl(
             id = id++,
             msgCount = details.msgCount,
         )
+        if (!details.meta?.whatsNew.isNullOrBlank()) {
+            items += WhatsNewItem(
+                id = id++,
+                text = details.meta?.whatsNew.orEmpty().trim(),
+            )
+        }
         if (!details.meta?.description.isNullOrBlank()) {
             items += DescriptionItem(
                 id = id++,

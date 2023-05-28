@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipToPadding="false"
+    android:orientation="vertical"
+    android:paddingStart="20dp"
+    android:paddingTop="16dp"
+    android:paddingEnd="20dp"
+    android:paddingBottom="16dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-black"
+        android:paddingBottom="13dp"
+        android:text="@string/whats_new"
+        android:textColor="?text_primary_color"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/whats_new"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:autoLink="web|email"
+        android:gravity="fill"
+        android:textColor="?text_primary_color"
+        android:textIsSelectable="true"
+        android:textSize="16sp"
+        tools:text="This version what's new text here" />
+
+</LinearLayout>
