@@ -5,8 +5,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.avito.konveyor.adapter.BaseViewHolder
 import com.avito.konveyor.blueprint.ItemView
-import com.caverock.androidsvg.SVG
-import com.caverock.androidsvg.SVGImageView
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.util.bind
 import com.tomclaw.appsend.util.getAttributedColor
@@ -28,6 +26,10 @@ interface PlayItemView : ItemView {
 
     fun hideExclusive()
 
+    fun showOpenSource()
+
+    fun hideOpenSource()
+
     fun showCategory(icon: String, title: String)
 
     fun hideCategory()
@@ -48,6 +50,7 @@ class PlayItemViewHolder(view: View) : BaseViewHolder(view), PlayItemView {
     private val downloadsView: TextView = view.findViewById(R.id.downloads_view)
     private val sizeView: TextView = view.findViewById(R.id.size_view)
     private val exclusiveContainer: View = view.findViewById(R.id.exclusive_container)
+    private val openSourceContainer: View = view.findViewById(R.id.open_source_container)
     private val categoryContainer: View = view.findViewById(R.id.category_container)
     private val categorySvg: ImageView = view.findViewById(R.id.category_svg)
     private val categoryTitle: TextView = view.findViewById(R.id.category_title)
@@ -78,6 +81,14 @@ class PlayItemViewHolder(view: View) : BaseViewHolder(view), PlayItemView {
 
     override fun hideExclusive() {
         exclusiveContainer.hide()
+    }
+
+    override fun showOpenSource() {
+        openSourceContainer.show()
+    }
+
+    override fun hideOpenSource() {
+        openSourceContainer.hide()
     }
 
     override fun showCategory(icon: String, title: String) {

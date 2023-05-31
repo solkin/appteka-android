@@ -75,6 +75,7 @@ class DetailsConverterImpl(
             downloads = details.info.downloads ?: 0,
             size = details.info.size,
             exclusive = details.meta?.exclusive ?: false,
+            openSource = details.meta?.sourceUrl?.isNotEmpty() ?: false,
             category = details.meta?.category,
             osVersion = details.info.androidVersion,
             minSdk = details.info.sdkVersion,

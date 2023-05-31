@@ -224,6 +224,45 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/open_source_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingTop="4dp"
+                android:paddingBottom="8dp"
+                tools:ignore="UseCompoundDrawables">
+
+                <ImageView
+                    android:layout_width="26sp"
+                    android:layout_height="26sp"
+                    android:contentDescription="@string/open_source"
+                    android:src="@drawable/ic_open_source"
+                    app:tint="?text_primary_color" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-condensed-light"
+                    android:includeFontPadding="false"
+                    android:paddingTop="5sp"
+                    android:text="@string/open_source_short"
+                    android:textColor="?text_secondary_color"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+            <include layout="@layout/details_play_item_divider" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:id="@+id/category_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
