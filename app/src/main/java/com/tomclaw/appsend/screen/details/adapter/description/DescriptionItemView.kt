@@ -1,5 +1,6 @@
 package com.tomclaw.appsend.screen.details.adapter.description
 
+import android.text.method.LinkMovementMethod
 import android.view.View
 import android.widget.TextView
 import androidx.core.view.isVisible
@@ -7,6 +8,7 @@ import com.avito.konveyor.adapter.BaseViewHolder
 import com.avito.konveyor.blueprint.ItemView
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.util.bind
+
 
 interface DescriptionItemView : ItemView {
 
@@ -19,6 +21,8 @@ interface DescriptionItemView : ItemView {
     fun setUploadDate(value: String)
 
     fun setChecksum(value: String)
+
+    fun setSourceUrl(value: String?)
 
     fun setOnGooglePlayClickListener(listener: (() -> Unit)?)
 
@@ -36,6 +40,8 @@ class DescriptionItemViewHolder(view: View) : BaseViewHolder(view), DescriptionI
     private val versionsButtonText: TextView = view.findViewById(R.id.versions_button_text)
     private val uploadDate: TextView = view.findViewById(R.id.upload_date)
     private val checksum: TextView = view.findViewById(R.id.app_checksum)
+    private val sourceUrlTitle: View = view.findViewById(R.id.app_source_url_title)
+    private val sourceUrl: TextView = view.findViewById(R.id.app_source_url)
 
     private var googlePlayClickListener: (() -> Unit)? = null
     private var versionsClickListener: (() -> Unit)? = null
@@ -43,6 +49,7 @@ class DescriptionItemViewHolder(view: View) : BaseViewHolder(view), DescriptionI
     init {
         googlePlayButton.setOnClickListener { googlePlayClickListener?.invoke() }
         versionsButton.setOnClickListener { versionsClickListener?.invoke() }
+        sourceUrl.movementMethod = LinkMovementMethod.getInstance()
     }
 
     override fun setText(value: String) {
@@ -68,6 +75,11 @@ class DescriptionItemViewHolder(view: View) : BaseViewHolder(view), DescriptionI
 
     override fun setChecksum(value: String) {
         checksum.bind(value)
+    }
+
+    override fun setSourceUrl(value: String?) {
+        sourceUrl.bind(value)
+        sourceUrlTitle.visibility = sourceUrl.visibility
     }
 
     override fun setOnGooglePlayClickListener(listener: (() -> Unit)?) {

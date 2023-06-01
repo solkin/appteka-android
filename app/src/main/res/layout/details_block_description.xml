@@ -154,4 +154,24 @@
         android:typeface="monospace"
         tools:text="d3cdd8d14a376b8309ee1c06a78cb01142427e59" />
 
+    <TextView
+        android:id="@+id/app_source_url_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-black"
+        android:paddingTop="4dp"
+        android:text="@string/source_code_url"
+        android:textColor="?attr/text_primary_color"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/app_source_url"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:autoLink="web"
+        android:paddingBottom="4dp"
+        android:textColor="?attr/text_secondary_color"
+        android:textSize="13sp"
+        tools:text="https://github.com/solkin/appteka-android" />
+
 </LinearLayout>

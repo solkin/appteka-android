@@ -13,4 +13,5 @@ data class DescriptionItem(
     val versionsCount: Int,
     val uploadDate: Long,
     val checksum: String,
+    val sourceUrl: String?,
 ) : Item, Parcelable

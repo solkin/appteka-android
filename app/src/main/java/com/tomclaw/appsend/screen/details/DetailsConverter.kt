@@ -128,6 +128,7 @@ class DetailsConverterImpl(
                 versionsCount = details.versions?.size ?: 0,
                 uploadDate = details.info.time * 1000,
                 checksum = details.info.sha1,
+                sourceUrl = details.meta?.sourceUrl,
             )
         }
         if (!details.info.permissions.isNullOrEmpty()) {

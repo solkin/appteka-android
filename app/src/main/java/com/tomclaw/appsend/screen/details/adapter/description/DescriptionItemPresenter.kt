@@ -14,6 +14,7 @@ class DescriptionItemPresenter(
         view.setVersionsCount(item.versionsCount)
         view.setUploadDate(resourceProvider.formatDate(item.uploadDate))
         view.setChecksum(item.checksum)
+        view.setSourceUrl(item.sourceUrl)
 
         view.setOnGooglePlayClickListener { listener.onGooglePlayClick() }
         view.setOnVersionsClickListener { listener.onVersionsClick() }
