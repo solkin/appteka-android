@@ -21,6 +21,7 @@ import com.tomclaw.imageloader.util.centerCrop
 import com.tomclaw.imageloader.util.fetch
 import com.tomclaw.imageloader.util.withPlaceholder
 
+
 interface HeaderItemView : ItemView {
 
     fun setIndeterminate()
