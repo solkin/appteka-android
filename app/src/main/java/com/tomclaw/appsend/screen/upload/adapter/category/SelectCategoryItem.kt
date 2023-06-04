@@ -9,4 +9,5 @@ import kotlinx.parcelize.Parcelize
 data class SelectCategoryItem(
     override val id: Long,
     val category: CategoryItem?,
+    val errorRequiredField: Boolean,
 ) : Item, Parcelable

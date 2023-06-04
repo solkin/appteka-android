@@ -345,4 +345,5 @@
     <string name="private_status_text">Приложение находится в приватном доступе и доступно только по ссылке</string>
     <string name="moderation_status_text">Приложение находится на модерации и после проверки станет доступно пользователям Апптека или останется в приватном доступе. Для попытки публикации отредактируйте описание.</string>
     <string name="open_source_short">Open Source</string>
+    <string name="required_field">Обязательное поле</string>
 </resources>

@@ -93,6 +93,7 @@ class UploadPresenterImpl(
         state?.getBoolean(KEY_OPEN_SOURCE) ?: startInfo?.openSource ?: false
     private var sourceUrl: String =
         state?.getString(KEY_SOURCE_URL) ?: startInfo?.sourceUrl.orEmpty()
+    private var highlightErrors: Boolean = state?.getBoolean(KEY_HIGHLIGHT_ERRORS) ?: false
 
     private val items = ArrayList<Item>()
 
@@ -141,6 +142,7 @@ class UploadPresenterImpl(
         putBoolean(KEY_EXCLUSIVE, exclusive)
         putBoolean(KEY_OPEN_SOURCE, openSource)
         putString(KEY_SOURCE_URL, sourceUrl)
+        putBoolean(KEY_HIGHLIGHT_ERRORS, highlightErrors)
     }
 
     override fun onAppSelected(pkg: UploadPackage, apk: UploadApk) {
@@ -219,7 +221,8 @@ class UploadPresenterImpl(
             description,
             exclusive,
             openSource,
-            sourceUrl
+            sourceUrl,
+            highlightErrors,
         )
 
         bindItems()
@@ -312,9 +315,17 @@ class UploadPresenterImpl(
     }
 
     override fun onSubmitClick() {
-        val pkg = pkg ?: return
-        val category = category ?: return
-        val checkExist = checkExist ?: return
+        highlightErrors = true
+        val uploadStarted = startUpload()
+        if (!uploadStarted) {
+            bindForm()
+        }
+    }
+
+    private fun startUpload(): Boolean {
+        val pkg = pkg ?: return false
+        val category = category ?: return false
+        val checkExist = checkExist ?: return false
 
         val info = UploadInfo(
             checkExist,
@@ -327,6 +338,7 @@ class UploadPresenterImpl(
         )
 
         router?.startUpload(pkg, apk, info)
+        return true
     }
 
     override fun onOtherVersionsClick(items: List<VersionItem>) {
@@ -374,3 +386,4 @@ private const val KEY_DESCRIPTION = "description"
 private const val KEY_EXCLUSIVE = "exclusive"
 private const val KEY_OPEN_SOURCE = "open_source"
 private const val KEY_SOURCE_URL = "source_url"
+private const val KEY_HIGHLIGHT_ERRORS = "highlight_errors"

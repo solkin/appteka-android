@@ -10,6 +10,11 @@ class SelectCategoryItemPresenter(
     override fun bindView(view: SelectCategoryItemView, item: SelectCategoryItem, position: Int) {
         with(view) {
             setSelectedCategory(item.category)
+            if (item.errorRequiredField) {
+                showRequiredFieldError()
+            } else {
+                hideRequiredFieldError()
+            }
             setOnClickListener { listener.onCategoryClick() }
         }
     }

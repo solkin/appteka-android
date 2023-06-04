@@ -65,6 +65,8 @@
     <color name="color_semitransparent">#baffffff</color>
     <color name="color_semitransparent_black">#cc000000</color>
 
+    <color name="error_text_color">#d63205</color>
+
     <color name="icons_grey_light">#6a6a6a</color>
     <color name="icons_grey_dark">#E1E1E1</color>
 

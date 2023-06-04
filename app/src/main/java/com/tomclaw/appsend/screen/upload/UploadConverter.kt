@@ -31,7 +31,8 @@ interface UploadConverter {
         description: String,
         exclusive: Boolean,
         openSource: Boolean,
-        sourceUrl: String
+        sourceUrl: String,
+        highlightErrors: Boolean,
     ): List<Item>
 
 }
@@ -50,6 +51,7 @@ class UploadConverterImpl(
         exclusive: Boolean,
         openSource: Boolean,
         sourceUrl: String,
+        highlightErrors: Boolean,
     ): List<Item> {
         var id: Long = 1
         val items = ArrayList<Item>()
@@ -97,7 +99,11 @@ class UploadConverterImpl(
         }
 
         if (isUploadAvailable) {
-            items += SelectCategoryItem(id++, category = category)
+            items += SelectCategoryItem(
+                id++,
+                category = category,
+                errorRequiredField = highlightErrors && category == null
+            )
             items += WhatsNewItem(id++, text = whatsNew)
             items += DescriptionItem(id++, text = description)
             items += ExclusiveItem(id++, value = exclusive)

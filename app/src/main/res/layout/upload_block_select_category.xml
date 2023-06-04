@@ -50,4 +50,16 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/required_field_error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:paddingBottom="8dp"
+        android:text="@string/required_field"
+        android:textColor="@color/error_text_color"
+        android:textSize="15sp" />
+
 </LinearLayout>
