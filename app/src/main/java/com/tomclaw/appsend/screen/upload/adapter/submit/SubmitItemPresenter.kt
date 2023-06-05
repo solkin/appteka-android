@@ -9,10 +9,11 @@ class SubmitItemPresenter(
 
     override fun bindView(view: SubmitItemView, item: SubmitItem, position: Int) {
         with(view) {
-            when (item.isEditMode) {
+            when (item.editMode) {
                 true -> setEditMode()
                 false -> setUploadMode()
             }
+            if (item.enabled) setEnabled() else setDisabled()
             setOnClickListener { listener.onSubmitClick() }
         }
     }

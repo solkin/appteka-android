@@ -112,7 +112,7 @@ class UploadConverterImpl(
             )
             items += ExclusiveItem(id++, value = exclusive)
             items += OpenSourceItem(id++, value = openSource, url = sourceUrl)
-            items += SubmitItem(id++, isEditMode)
+            items += SubmitItem(id++, editMode = isEditMode, enabled = (isEditMode || apk != null))
         }
 
         return items

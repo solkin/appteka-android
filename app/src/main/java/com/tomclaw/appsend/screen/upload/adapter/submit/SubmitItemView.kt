@@ -5,12 +5,18 @@ import android.widget.Button
 import com.avito.konveyor.adapter.BaseViewHolder
 import com.avito.konveyor.blueprint.ItemView
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.util.disable
+import com.tomclaw.appsend.util.enable
 
 interface SubmitItemView : ItemView {
 
     fun setEditMode()
 
     fun setUploadMode()
+
+    fun setEnabled()
+
+    fun setDisabled()
 
     fun setOnClickListener(listener: (() -> Unit)?)
 
@@ -33,6 +39,14 @@ class SubmitItemViewHolder(view: View) : BaseViewHolder(view), SubmitItemView {
 
     override fun setUploadMode() {
         uploadButton.text = context.getText(R.string.upload_app)
+    }
+
+    override fun setEnabled() {
+        uploadButton.enable()
+    }
+
+    override fun setDisabled() {
+        uploadButton.disable()
     }
 
     override fun setOnClickListener(listener: (() -> Unit)?) {

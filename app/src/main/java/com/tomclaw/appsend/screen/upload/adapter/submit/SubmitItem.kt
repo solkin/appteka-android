@@ -7,5 +7,6 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class SubmitItem(
     override val id: Long,
-    val isEditMode: Boolean
+    val editMode: Boolean,
+    val enabled: Boolean,
 ) : Item, Parcelable

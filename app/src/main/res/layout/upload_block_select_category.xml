@@ -60,6 +60,6 @@
         android:paddingBottom="8dp"
         android:text="@string/required_field"
         android:textColor="@color/error_text_color"
-        android:textSize="15sp" />
+        android:textSize="14sp" />
 
 </LinearLayout>
