@@ -25,6 +25,7 @@
     <attr name="service_background" format="reference" />
     <attr name="menu_icons_tint" format="reference" />
     <attr name="semitransparent_color" format="reference" />
+    <attr name="block_grey_color" format="reference" />
     <declare-styleable name="PlayView">
         <attr name="play_count" format="string" />
         <attr name="play_description" format="string" />

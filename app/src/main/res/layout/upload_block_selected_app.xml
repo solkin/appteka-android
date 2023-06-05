@@ -12,8 +12,8 @@
         android:id="@+id/app_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/rounded_ripple"
-        android:backgroundTint="#E9DEDEDE"
+        android:background="@drawable/rounded_white_ripple"
+        android:backgroundTint="?attr/block_grey_color"
         android:orientation="horizontal">
 
         <ImageView
@@ -105,9 +105,9 @@
         android:layout_gravity="end|top"
         android:layout_marginTop="6dp"
         android:layout_marginEnd="6dp"
-        android:background="?selectableItemBackgroundBorderless"
+        android:background="@drawable/rounded_transparent_ripple"
         android:scaleType="center"
         android:src="@drawable/ic_close"
-        app:tint="@android:color/black" />
+        app:tint="?text_primary_color" />
 
 </FrameLayout>

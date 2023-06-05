@@ -77,15 +77,18 @@
 
     <color name="block_error_color">#d63205</color>
     <color name="block_error_text_color">#a42604</color>
-    <color name="block_error_back_color">#22d63205</color>
+    <color name="block_error_back_color">#33d63205</color>
 
     <color name="block_info_color">#05a9d6</color>
     <color name="block_info_text_color">#0482a4</color>
-    <color name="block_info_back_color">#2205a9d6</color>
+    <color name="block_info_back_color">#3305a9d6</color>
 
     <color name="block_warning_color">#ebbc00</color>
     <color name="block_warning_text_color">#c49d00</color>
-    <color name="block_warning_back_color">#22ffcc00</color>
+    <color name="block_warning_back_color">#33ffcc00</color>
+
+    <color name="block_grey_color_light">#E9DEDEDE</color>
+    <color name="block_grey_color_dark">#2E2E2E</color>
 
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/primary_color</item>
@@ -140,6 +143,8 @@
         <item name="permissions_container_background">
             @color/permissions_container_light_background
         </item>
+
+        <item name="block_grey_color">@color/block_grey_color_light</item>
     </style>
 
     <style name="AppThemeBlack" parent="Theme.MaterialComponents.NoActionBar">
@@ -194,6 +199,8 @@
 
         <item name="permissions_container_background">@color/permissions_container_dark_background
         </item>
+
+        <item name="block_grey_color">@color/block_grey_color_dark</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.ActionBar" />

@@ -4,8 +4,8 @@
     <item android:id="@android:id/mask">
         <shape android:shape="rectangle">
             <solid android:color="#000000" />
-            <corners android:radius="8dp" />
+            <corners android:radius="1000dp" />
         </shape>
     </item>
-    <item android:drawable="@drawable/rounded_back" />
+    <item android:drawable="@drawable/round_white_back" />
 </ripple>
