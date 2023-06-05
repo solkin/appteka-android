@@ -105,7 +105,11 @@ class UploadConverterImpl(
                 errorRequiredField = highlightErrors && category == null
             )
             items += WhatsNewItem(id++, text = whatsNew)
-            items += DescriptionItem(id++, text = description)
+            items += DescriptionItem(
+                id++,
+                text = description,
+                errorRequiredField = highlightErrors && description.isEmpty()
+            )
             items += ExclusiveItem(id++, value = exclusive)
             items += OpenSourceItem(id++, value = openSource, url = sourceUrl)
             items += SubmitItem(id++, isEditMode)

@@ -12,13 +12,17 @@ interface DescriptionItemView : ItemView {
 
     fun setText(text: String)
 
+    fun showRequiredFieldError()
+
+    fun hideRequiredFieldError()
+
     fun setOnTextChangedListener(listener: ((String) -> Unit)?)
 
 }
 
-@Suppress("DEPRECATION")
 class DescriptionItemViewHolder(view: View) : BaseViewHolder(view), DescriptionItemView {
 
+    private val resources = view.resources
     private val descriptionEdit: EditText = view.findViewById(R.id.description)
 
     private var textChangedListener: ((String) -> Unit)? = null
@@ -39,6 +43,14 @@ class DescriptionItemViewHolder(view: View) : BaseViewHolder(view), DescriptionI
 
     override fun setText(text: String) {
         descriptionEdit.setText(text)
+    }
+
+    override fun showRequiredFieldError() {
+        descriptionEdit.error = resources.getString(R.string.required_field)
+    }
+
+    override fun hideRequiredFieldError() {
+        descriptionEdit.error = null
     }
 
     override fun setOnTextChangedListener(listener: ((String) -> Unit)?) {

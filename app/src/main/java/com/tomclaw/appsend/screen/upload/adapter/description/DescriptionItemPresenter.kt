@@ -10,6 +10,11 @@ class DescriptionItemPresenter(
     override fun bindView(view: DescriptionItemView, item: DescriptionItem, position: Int) {
         with(view) {
             setText(item.text)
+            if (item.errorRequiredField) {
+                showRequiredFieldError()
+            } else {
+                hideRequiredFieldError()
+            }
             setOnTextChangedListener { listener.onDescriptionChanged(it) }
         }
     }
