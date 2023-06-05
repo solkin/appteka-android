@@ -104,7 +104,11 @@ class UploadPresenterImpl(
         this.view = view
 
         subscriptions += view.navigationClicks().subscribe { onBackPressed() }
-        subscriptions += view.retryClicks().subscribe { invalidate() }
+        subscriptions += view.retryClicks().subscribe {
+            view.showContent()
+            view.hideError()
+            invalidate()
+        }
         subscriptions += view.categorySelectedClicks().subscribe { categoryItem ->
             onCategorySelected(categoryItem)
         }
