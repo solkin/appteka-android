@@ -244,6 +244,7 @@ class UploadPresenterImpl(
         this.apk = apk
         this.checkExist = null
         invalidate()
+        clearForm()
     }
 
     private fun invalidate() {
@@ -253,6 +254,17 @@ class UploadPresenterImpl(
             bindForm()
         }
         subscribeStatusChange(pkg)
+    }
+
+    private fun clearForm() {
+        category = null
+        whatsNew = ""
+        description = ""
+        exclusive = false
+        openSource = false
+        sourceUrl = ""
+        highlightErrors = false
+        bindForm()
     }
 
     private fun subscribeStatusChange(pkg: UploadPackage?) {
