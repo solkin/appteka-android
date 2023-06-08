@@ -240,11 +240,15 @@ class UploadPresenterImpl(
     }
 
     private fun onPackageChanged(pkg: UploadPackage?, apk: UploadApk?) {
+        val thisPkg = this.pkg
+        val nextPkg = pkg
+        if (nextPkg == null || (thisPkg != null && thisPkg.packageName != nextPkg.packageName)) {
+            clearForm()
+        }
         this.pkg = pkg
         this.apk = apk
         this.checkExist = null
         invalidate()
-        clearForm()
     }
 
     private fun invalidate() {
