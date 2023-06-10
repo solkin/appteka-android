@@ -268,8 +268,6 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
         packageName: String,
         sha1: String
     ) {
-//        val intent = createEditMetaActivityIntent(this, appId, label, icon, packageName)
-
         val pkg = UploadPackage(
             uniqueId = appId,
             sha1 = sha1,

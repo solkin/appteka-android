@@ -2,6 +2,7 @@ package com.tomclaw.appsend.main.local;
 
 import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
 import static com.tomclaw.appsend.screen.details.DetailsActivityKt.createDetailsActivityIntent;
+import static com.tomclaw.appsend.screen.upload.UploadActivityKt.createUploadActivityIntent;
 import static com.tomclaw.appsend.util.IntentHelper.openGooglePlay;
 
 import android.Manifest;
@@ -24,6 +25,8 @@ import com.tomclaw.appsend.main.permissions.PermissionsActivity_;
 import com.tomclaw.appsend.main.permissions.PermissionsList;
 import com.tomclaw.appsend.main.task.ExportApkTask;
 import com.tomclaw.appsend.main.upload.UploadActivity;
+import com.tomclaw.appsend.upload.UploadApk;
+import com.tomclaw.appsend.upload.UploadPackage;
 
 import org.androidannotations.annotations.EFragment;
 
@@ -86,8 +89,9 @@ public class HomeInstalledFragment extends InstalledFragment {
                             break;
                         }
                         case 3: {
-                            Intent intent = new Intent(getContext(), UploadActivity.class);
-                            intent.putExtra(UploadActivity.UPLOAD_ITEM, item);
+                            UploadPackage pkg = new UploadPackage(item.getPath(), null, item.getPackageName());
+                            UploadApk apk = new UploadApk(item.getPath(), item.getVersion(), item.getSize(), item.getPackageInfo());
+                            Intent intent = createUploadActivityIntent(getContext(), pkg, apk, null);
                             startActivity(intent);
                             trackEvent("click-upload-apk");
                             break;
