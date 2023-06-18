@@ -69,8 +69,6 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
     private static final int NAV_DISCUSS = 1;
     private static final int NAV_PROFILE = 2;
 
-    private static final int REQUEST_UPLOAD = 4;
-
     private View updateBlock;
     private FloatingActionButton fab;
     private boolean isDarkTheme;
@@ -201,20 +199,6 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
             Intent intent = getIntent().addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             finish();
             startActivity(intent);
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_UPLOAD) {
-            if (resultCode == RESULT_OK) {
-                CommonItem item = data.getParcelableExtra(SelectLocalAppActivity.SELECTED_ITEM);
-                Intent intent = new Intent(this, UploadActivity.class);
-                intent.putExtra(UploadActivity.UPLOAD_ITEM, item);
-                startActivity(intent);
-            }
-        } else {
-            super.onActivityResult(requestCode, resultCode, data);
         }
     }
 
