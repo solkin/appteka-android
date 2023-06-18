@@ -56,9 +56,6 @@
             android:name=".main.settings.SettingsActivity_"
             android:label="@string/settings" />
         <activity
-            android:name=".main.upload.UploadActivity"
-            android:label="@string/upload" />
-        <activity
             android:name=".screen.upload.UploadActivity"
             android:label="@string/upload" />
         <activity

@@ -21,7 +21,6 @@ import com.tomclaw.appsend.main.adapter.MenuAdapter;
 import com.tomclaw.appsend.main.item.ApkItem;
 import com.tomclaw.appsend.main.permissions.PermissionsActivity_;
 import com.tomclaw.appsend.main.permissions.PermissionsList;
-import com.tomclaw.appsend.main.upload.UploadActivity;
 import com.tomclaw.appsend.upload.UploadApk;
 import com.tomclaw.appsend.upload.UploadPackage;
 import com.tomclaw.appsend.util.IntentHelper;

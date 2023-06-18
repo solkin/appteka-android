@@ -24,7 +24,6 @@ import com.tomclaw.appsend.main.item.AppItem;
 import com.tomclaw.appsend.main.permissions.PermissionsActivity_;
 import com.tomclaw.appsend.main.permissions.PermissionsList;
 import com.tomclaw.appsend.main.task.ExportApkTask;
-import com.tomclaw.appsend.main.upload.UploadActivity;
 import com.tomclaw.appsend.upload.UploadApk;
 import com.tomclaw.appsend.upload.UploadPackage;
 
