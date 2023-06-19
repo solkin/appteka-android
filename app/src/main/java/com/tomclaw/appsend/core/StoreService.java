@@ -6,8 +6,6 @@ import com.tomclaw.appsend.main.auth.AuthResponse;
 import com.tomclaw.appsend.screen.details.api.CreateTopicResponse;
 import com.tomclaw.appsend.main.dto.AbuseResult;
 import com.tomclaw.appsend.main.dto.ApiResponse;
-import com.tomclaw.appsend.main.dto.StoreInfo;
-import com.tomclaw.appsend.main.meta.MetaResponse;
 import com.tomclaw.appsend.main.profile.EliminateUserResponse;
 import com.tomclaw.appsend.main.profile.EmpowerResponse;
 import com.tomclaw.appsend.main.profile.ProfileResponse;
@@ -33,32 +31,6 @@ import retrofit2.http.Query;
  * Created by solkin on 23.09.17.
  */
 public interface StoreService {
-
-    @GET("api/1/app/info")
-    Call<ApiResponse<StoreInfo>> getInfo(
-            @Query("v") int apiVer,
-            @Query("guid") String guid,
-            @Query("app_id") String appId,
-            @Query("package") String packageName
-    );
-
-    @GET("api/1/app/meta")
-    Call<ApiResponse<MetaResponse>> getMeta(
-            @Query("v") int apiVer,
-            @Query("app_id") String appId,
-            @Query("categories") boolean categories
-    );
-
-    @FormUrlEncoded
-    @POST("api/1/app/meta")
-    Call<ApiResponse<MetaResponse>> setMeta(
-            @Field("v") int apiVer,
-            @Field("app_id") String appId,
-            @Field("guid") String guid,
-            @Field("category") int category,
-            @Field("exclusive") int exclusive,
-            @Field("description") String description
-    );
 
     @GET("api/1/app/rating")
     Call<ApiResponse<RatingsResponse>> getRatings(
