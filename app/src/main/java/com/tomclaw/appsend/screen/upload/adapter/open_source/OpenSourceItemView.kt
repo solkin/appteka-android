@@ -22,7 +22,6 @@ interface OpenSourceItemView : ItemView {
 
 }
 
-@Suppress("DEPRECATION")
 class OpenSourceItemViewHolder(view: View) : BaseViewHolder(view), OpenSourceItemView {
 
     private val openSourceCheckBox: CheckBox = view.findViewById(R.id.open_source)
