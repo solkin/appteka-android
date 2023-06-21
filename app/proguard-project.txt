@@ -25,23 +25,11 @@
 -keep class android.support.design.widget.** { *; }
 -keep interface android.support.design.widget.** { *; }
 -dontwarn android.support.design.**
--keep public class * extends android.support.design.widget.CoordinatorLayout$Behavior {
-    public <init>(android.content.Context, android.util.AttributeSet);
-}
 
 # Glide
--keep public class * implements com.bumptech.glide.module.GlideModule
 -keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
   **[] $VALUES;
   public *;
-}
-
-# Flurry
--keep class com.flurry.** { *; }
--dontwarn com.flurry.**
--keepattributes *Annotation*,EnclosingMethod
--keepclasseswithmembers class * {
-	public <init>(android.content.Context, android.util.AttributeSet, int); 
 }
 
 # Unobfuscatable
@@ -59,31 +47,22 @@
 
 # Retrofit
 -dontnote retrofit2.Platform
--dontwarn retrofit2.Platform$Java8
 -keepattributes Signature
 -keepattributes Exceptions
 -dontwarn javax.annotation.**
 -dontwarn org.xmlpull.v1.**
 -dontwarn okhttp3.**
 -dontwarn okio.**
--dontwarn javax.annotation.Nullable
--dontwarn javax.annotation.ParametersAreNonnullByDefault
 
-# Kryo
--dontwarn sun.reflect.**
--dontwarn java.beans.**
--dontwarn sun.nio.ch.**
--dontwarn sun.misc.**
--dontwarn com.sun.misc.**
--dontwarn java.lang.invoke.SerializedLambda
--keep,allowshrinking class com.esotericsoftware.** {
-   <fields>;
-   <methods>;
-}
--keep,allowshrinking class java.beans.** { *; }
--keep,allowshrinking class sun.reflect.** { *; }
--keep,allowshrinking class com.esotericsoftware.kryo.** { *; }
--keep,allowshrinking class com.esotericsoftware.kryo.io.** { *; }
--keep,allowshrinking class sun.nio.ch.** { *; }
--keep class net.rehacktive.waspdb.** { *; }
--keep class com.esotericsoftware.kryo.** { *; }
+# R8 full mode strips signatures from non-kept items.
+#-keepclassmembers,allowobfuscation class * {
+#  @com.google.gson.annotations.SerializedName <fields>;
+#}
+#-keep,allowobfuscation class * {
+#  @com.google.gson.annotations.SerializedName <fields>;
+#}
+
+# TODO: Waiting for new retrofit release to remove these rules
+#-keep,allowobfuscation,allowshrinking interface retrofit2.Call
+#-keep,allowobfuscation,allowshrinking class retrofit2.Response
+#-keep,allowobfuscation,allowshrinking class kotlin.coroutines.Continuation
