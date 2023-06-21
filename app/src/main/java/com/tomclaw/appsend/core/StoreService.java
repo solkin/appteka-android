@@ -1,9 +1,6 @@
 package com.tomclaw.appsend.core;
 
-import com.tomclaw.appsend.dto.StoreResponse;
-import com.tomclaw.appsend.events.EventsResponse;
 import com.tomclaw.appsend.main.auth.AuthResponse;
-import com.tomclaw.appsend.screen.details.api.CreateTopicResponse;
 import com.tomclaw.appsend.main.dto.AbuseResult;
 import com.tomclaw.appsend.main.dto.ApiResponse;
 import com.tomclaw.appsend.main.profile.EliminateUserResponse;
@@ -16,7 +13,6 @@ import com.tomclaw.appsend.main.unlink.UnlinkResponse;
 import com.tomclaw.appsend.main.unpublish.UnpublishResponse;
 import com.tomclaw.appsend.net.CheckUpdatesRequest;
 import com.tomclaw.appsend.net.CheckUpdatesResponse;
-import com.tomclaw.appsend.screen.moderation.api.ModerationResponse;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -99,13 +95,6 @@ public interface StoreService {
             @Field("reason") String reason
     );
 
-    @GET("api/1/app/top/list")
-    Call<ApiResponse<ListResponse>> listTopFiles(
-            @Query("guid") String guid,
-            @Query("app_id") String appId,
-            @Query("locale") String locale
-    );
-
     @GET("api/1/user/app/list")
     Call<ApiResponse<ListResponse>> listUserFiles(
             @Query("user_id") Long userId,
@@ -147,37 +136,10 @@ public interface StoreService {
             @Body CheckUpdatesRequest request
     );
 
-    @POST("api/1/app/moderation/submit")
-    Call<StoreResponse<ModerationResponse>> setModerationDecision(
-            @Query("guid") String guid,
-            @Query("app_id") String appId,
-            @Query("decision") Integer decision
-    );
-
-    @DELETE("api/1/app/delete")
-    Call<ApiResponse<VoidResponse>> deleteApp(
-            @Query("v") int apiVer,
-            @Query("guid") String guid,
-            @Query("app_id") String appId
-    );
-
     @DELETE("api/1/user/eliminate")
     Call<ApiResponse<EliminateUserResponse>> eliminateUser(
             @Query("guid") String guid,
             @Query("user_id") Long userId
-    );
-
-    @POST("api/1/chat/topic/create")
-    Call<ApiResponse<CreateTopicResponse>> createTopic(
-            @Query("guid") String guid,
-            @Query("package") String packageName
-    );
-
-    @GET("api/1/chat/fetch")
-    Call<StoreResponse<EventsResponse>> getEvents(
-            @Query("guid") String guid,
-            @Query("time") Long time,
-            @Query("nodelay") Boolean noDelay
     );
 
 }
