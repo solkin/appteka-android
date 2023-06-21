@@ -130,7 +130,6 @@
     <string name="nav_uploads">عمليات التحميل الخاصة بي</string>
     <string name="new_app">جديد</string>
     <string name="newer">أحدث</string>
-    <string name="next_button_label">التالي</string>
     <string name="no_email_clients">لا يوجد عملاء بريد إلكتروني مثبت</string>
     <string name="non_launchable_package">هذه الحزمة غير قابلة للتشغيل.</string>
     <string name="obtaining_link_message">الحصول على رابط الملف ...</string>
@@ -211,7 +210,6 @@
     <string name="share_apk">مشاركة APK عبر التطبيقات</string>
     <string name="share_url">مشاركة</string>
     <string name="size_comment">حجم التطبيق</string>
-    <string name="skip_button_label">تخطي</string>
     <string name="sort_order_app_size">حسب حجم التطبيق</string>
     <string name="sort_order_ascending">A - Z</string>
     <string name="sort_order_ascending_value">sort_order_ascending</string>
