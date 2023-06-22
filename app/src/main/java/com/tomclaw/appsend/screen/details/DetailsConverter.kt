@@ -16,6 +16,7 @@ import com.tomclaw.appsend.screen.details.adapter.user_review.UserReviewItem
 import com.tomclaw.appsend.screen.details.adapter.whats_new.WhatsNewItem
 import com.tomclaw.appsend.screen.details.api.Details
 import com.tomclaw.appsend.screen.details.api.STATUS_MODERATION
+import com.tomclaw.appsend.screen.details.api.STATUS_NORMAL
 import com.tomclaw.appsend.screen.details.api.STATUS_PRIVATE
 import com.tomclaw.appsend.screen.details.api.STATUS_UNLINKED
 import com.tomclaw.appsend.util.NOT_INSTALLED
@@ -103,7 +104,7 @@ class DetailsConverterImpl(
                 userIcon = details.userRating.userIcon,
                 userName = details.userRating.userName,
             )
-        } else if (installedVersionCode != NOT_INSTALLED) {
+        } else if (installedVersionCode != NOT_INSTALLED && details.info.fileStatus == STATUS_NORMAL) {
             items += UserRateItem(
                 id = id++,
                 appId = details.info.appId,
