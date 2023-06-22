@@ -29,3 +29,8 @@ data class Details(
     @SerializedName("info")
     val info: AppInfo,
 ) : Parcelable
+
+const val ACTION_UNLINK = "unlink"
+const val ACTION_UNPUBLISH = "unpublish"
+const val ACTION_DELETE = "delete"
+const val ACTION_EDIT_META = "edit_meta"

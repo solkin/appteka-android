@@ -315,6 +315,8 @@ class DetailsModule(
 
     @Provides
     @PerActivity
-    internal fun provideStatusItemPresenter() = StatusItemPresenter()
+    internal fun provideStatusItemPresenter(
+        presenter: DetailsPresenter,
+    ) = StatusItemPresenter(presenter)
 
 }

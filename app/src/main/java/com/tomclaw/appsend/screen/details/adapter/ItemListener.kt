@@ -1,5 +1,7 @@
 package com.tomclaw.appsend.screen.details.adapter
 
+import com.tomclaw.appsend.screen.details.adapter.status.StatusAction
+
 interface ItemListener {
 
     fun onProfileClick(userId: Int)
@@ -23,5 +25,7 @@ interface ItemListener {
     fun onRateClick(rating: Float, review: String?)
 
     fun onVersionsClick()
+
+    fun onStatusAction(type: StatusAction)
 
 }

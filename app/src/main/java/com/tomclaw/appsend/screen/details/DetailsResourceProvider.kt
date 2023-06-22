@@ -28,6 +28,10 @@ interface DetailsResourceProvider {
 
     fun moderationStatusText(): String
 
+    fun editMetaAction(): String
+
+    fun unpublishAction(): String
+
 }
 
 class DetailsResourceProviderImpl(
@@ -72,6 +76,14 @@ class DetailsResourceProviderImpl(
 
     override fun moderationStatusText(): String {
         return resources.getString(R.string.moderation_status_text)
+    }
+
+    override fun editMetaAction(): String {
+        return resources.getString(R.string.edit_meta)
+    }
+
+    override fun unpublishAction(): String {
+        return resources.getString(R.string.unpublish_file)
     }
 
 }

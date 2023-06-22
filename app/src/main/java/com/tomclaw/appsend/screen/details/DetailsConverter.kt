@@ -9,11 +9,14 @@ import com.tomclaw.appsend.screen.details.adapter.permissions.PermissionsItem
 import com.tomclaw.appsend.screen.details.adapter.play.PlayItem
 import com.tomclaw.appsend.screen.details.adapter.rating.RatingItem
 import com.tomclaw.appsend.screen.details.adapter.scores.ScoresItem
+import com.tomclaw.appsend.screen.details.adapter.status.StatusAction
 import com.tomclaw.appsend.screen.details.adapter.status.StatusItem
 import com.tomclaw.appsend.screen.details.adapter.status.StatusType
 import com.tomclaw.appsend.screen.details.adapter.user_rate.UserRateItem
 import com.tomclaw.appsend.screen.details.adapter.user_review.UserReviewItem
 import com.tomclaw.appsend.screen.details.adapter.whats_new.WhatsNewItem
+import com.tomclaw.appsend.screen.details.api.ACTION_EDIT_META
+import com.tomclaw.appsend.screen.details.api.ACTION_UNPUBLISH
 import com.tomclaw.appsend.screen.details.api.Details
 import com.tomclaw.appsend.screen.details.api.STATUS_MODERATION
 import com.tomclaw.appsend.screen.details.api.STATUS_NORMAL
@@ -43,20 +46,32 @@ class DetailsConverterImpl(
             STATUS_UNLINKED -> items += StatusItem(
                 id = id++,
                 type = StatusType.ERROR,
-                text = resourceProvider.unlinkedStatusText()
+                text = resourceProvider.unlinkedStatusText(),
+                actionType = StatusAction.NONE,
+                actionLabel = null,
             )
 
-            STATUS_PRIVATE -> items += StatusItem(
-                id = id++,
-                type = StatusType.INFO,
-                text = resourceProvider.privateStatusText()
-            )
+            STATUS_PRIVATE -> {
+                val canEdit = details.actions?.contains(ACTION_EDIT_META) ?: false
+                items += StatusItem(
+                    id = id++,
+                    type = StatusType.INFO,
+                    text = resourceProvider.privateStatusText(),
+                    actionType = if (canEdit) StatusAction.EDIT_META else StatusAction.NONE,
+                    actionLabel = resourceProvider.editMetaAction(),
+                )
+            }
 
-            STATUS_MODERATION -> items += StatusItem(
-                id = id++,
-                type = StatusType.WARNING,
-                text = resourceProvider.moderationStatusText()
-            )
+            STATUS_MODERATION -> {
+                val canUnpublish = details.actions?.contains(ACTION_UNPUBLISH) ?: false
+                items += StatusItem(
+                    id = id++,
+                    type = StatusType.WARNING,
+                    text = resourceProvider.moderationStatusText(),
+                    actionType = if (canUnpublish) StatusAction.UNPUBLISH else StatusAction.NONE,
+                    actionLabel = resourceProvider.unpublishAction(),
+                )
+            }
 
             else -> Unit
         }

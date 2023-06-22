@@ -9,6 +9,11 @@ import com.tomclaw.appsend.download.COMPLETED
 import com.tomclaw.appsend.download.DownloadManager
 import com.tomclaw.appsend.download.IDLE
 import com.tomclaw.appsend.screen.details.adapter.ItemListener
+import com.tomclaw.appsend.screen.details.adapter.status.StatusAction
+import com.tomclaw.appsend.screen.details.api.ACTION_DELETE
+import com.tomclaw.appsend.screen.details.api.ACTION_EDIT_META
+import com.tomclaw.appsend.screen.details.api.ACTION_UNLINK
+import com.tomclaw.appsend.screen.details.api.ACTION_UNPUBLISH
 import com.tomclaw.appsend.screen.details.api.Details
 import com.tomclaw.appsend.util.NOT_INSTALLED
 import com.tomclaw.appsend.util.PackageObserver
@@ -68,7 +73,13 @@ interface DetailsPresenter : ItemListener {
             icon: String?
         )
 
-        fun openEditMetaScreen(appId: String, label: String?, icon: String?, packageName: String, sha1: String)
+        fun openEditMetaScreen(
+            appId: String,
+            label: String?,
+            icon: String?,
+            packageName: String,
+            sha1: String
+        )
 
         fun openUnpublishScreen(appId: String, label: String?)
 
@@ -141,7 +152,13 @@ class DetailsPresenterImpl(
         subscriptions += view.editClicks().subscribe {
             appId?.let { appId ->
                 val info = details?.info ?: return@subscribe
-                router?.openEditMetaScreen(appId, info.label, info.icon, info.packageName, info.sha1)
+                router?.openEditMetaScreen(
+                    appId,
+                    info.label,
+                    info.icon,
+                    info.packageName,
+                    info.sha1
+                )
             }
         }
         subscriptions += view.unpublishClicks().subscribe {
@@ -472,6 +489,26 @@ class DetailsPresenterImpl(
         view?.showVersionsDialog(items)
     }
 
+    override fun onStatusAction(type: StatusAction) {
+        val info = details?.info ?: return
+        val appId = appId ?: return
+        when (type) {
+            StatusAction.EDIT_META -> router?.openEditMetaScreen(
+                appId,
+                info.label,
+                info.icon,
+                info.packageName,
+                info.sha1
+            )
+
+            StatusAction.UNPUBLISH -> router?.openUnpublishScreen(
+                appId, details?.info?.label
+            )
+
+            else -> Unit
+        }
+    }
+
 }
 
 private const val KEY_DETAILS = "details"
@@ -479,8 +516,3 @@ private const val KEY_INSTALLED_VERSION = "versionCode"
 private const val KEY_DOWNLOAD_STATE = "downloadState"
 private const val KEY_TARGET_FILE = "targetFile"
 private const val KEY_NEED_INSTALL = "needInstall"
-
-private const val ACTION_UNLINK = "unlink"
-private const val ACTION_UNPUBLISH = "unpublish"
-private const val ACTION_DELETE = "delete"
-private const val ACTION_EDIT_META = "edit_meta"
