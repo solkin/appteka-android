@@ -342,7 +342,7 @@
     <string name="install_channel_description">Ready for install apps</string>
     <string name="discuss_description">Discuss application with other users in embedded messenger</string>
     <string name="select_category">Select category</string>
-    <string name="whats_new">What\'s new</string>
+    <string name="whats_new">What\'s new in this version</string>
     <string name="open_source">Open Source software</string>
     <string name="source_code_url">Source code URL</string>
     <string name="other_versions_title">Other versions</string>
