@@ -119,18 +119,16 @@ class DetailsConverterImpl(
                 text = details.meta?.whatsNew.orEmpty().trim(),
             )
         }
-        if (!details.meta?.description.isNullOrBlank()) {
-            items += DescriptionItem(
-                id = id++,
-                text = details.meta?.description.orEmpty().trim(),
-                versionName = details.info.version,
-                versionCode = details.info.versionCode,
-                versionsCount = details.versions?.size ?: 0,
-                uploadDate = details.info.time * 1000,
-                checksum = details.info.sha1,
-                sourceUrl = details.meta?.sourceUrl,
-            )
-        }
+        items += DescriptionItem(
+            id = id++,
+            text = details.meta?.description.orEmpty().trim(),
+            versionName = details.info.version,
+            versionCode = details.info.versionCode,
+            versionsCount = details.versions?.size ?: 0,
+            uploadDate = details.info.time * 1000,
+            checksum = details.info.sha1,
+            sourceUrl = details.meta?.sourceUrl,
+        )
         if (!details.info.permissions.isNullOrEmpty()) {
             items += PermissionsItem(
                 id = id++,

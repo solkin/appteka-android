@@ -33,6 +33,7 @@ interface DescriptionItemView : ItemView {
 class DescriptionItemViewHolder(view: View) : BaseViewHolder(view), DescriptionItemView {
 
     private val context = view.context
+    private val descriptionTitle: View = view.findViewById(R.id.description_title)
     private val description: TextView = view.findViewById(R.id.description)
     private val googlePlayButton: View = view.findViewById(R.id.google_play_button)
     private val appVersion: TextView = view.findViewById(R.id.app_version)
@@ -54,6 +55,7 @@ class DescriptionItemViewHolder(view: View) : BaseViewHolder(view), DescriptionI
 
     override fun setText(value: String) {
         description.bind(value)
+        descriptionTitle.visibility = description.visibility
     }
 
     override fun setAppVersion(value: String) {
