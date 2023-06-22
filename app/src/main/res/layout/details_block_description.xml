@@ -171,7 +171,7 @@
         android:autoLink="web"
         android:paddingBottom="4dp"
         android:textColor="?attr/text_secondary_color"
-        android:textSize="13sp"
+        android:textSize="16sp"
         tools:text="https://github.com/solkin/appteka-android" />
 
 </LinearLayout>
