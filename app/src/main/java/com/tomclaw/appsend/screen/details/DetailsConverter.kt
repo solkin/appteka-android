@@ -125,10 +125,12 @@ class DetailsConverterImpl(
                 appId = details.info.appId,
             )
         }
-        items += DiscussItem(
-            id = id++,
-            msgCount = details.msgCount,
-        )
+        if (details.info.fileStatus == STATUS_NORMAL || !details.versions.isNullOrEmpty()) {
+            items += DiscussItem(
+                id = id++,
+                msgCount = details.msgCount,
+            )
+        }
         if (!details.meta?.whatsNew.isNullOrBlank()) {
             items += WhatsNewItem(
                 id = id++,
