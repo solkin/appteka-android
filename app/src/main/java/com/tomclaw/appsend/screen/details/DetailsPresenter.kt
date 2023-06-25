@@ -277,7 +277,7 @@ class DetailsPresenterImpl(
         val details = this.details ?: return
 
         items.clear()
-        items += detailsConverter.convert(details, downloadState, installedVersionCode)
+        items += detailsConverter.convert(details, downloadState, installedVersionCode, moderation)
 
         bindItems()
 

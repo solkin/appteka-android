@@ -26,7 +26,12 @@ import com.tomclaw.appsend.util.NOT_INSTALLED
 
 interface DetailsConverter {
 
-    fun convert(details: Details, downloadState: Int, installedVersionCode: Int): List<Item>
+    fun convert(
+        details: Details,
+        downloadState: Int,
+        installedVersionCode: Int,
+        moderation: Boolean
+    ): List<Item>
 
 }
 
@@ -37,7 +42,8 @@ class DetailsConverterImpl(
     override fun convert(
         details: Details,
         downloadState: Int,
-        installedVersionCode: Int
+        installedVersionCode: Int,
+        moderation: Boolean
     ): List<Item> {
         var id: Long = 1
         val items = ArrayList<Item>()
@@ -63,14 +69,16 @@ class DetailsConverterImpl(
             }
 
             STATUS_MODERATION -> {
-                val canUnpublish = details.actions?.contains(ACTION_UNPUBLISH) ?: false
-                items += StatusItem(
-                    id = id++,
-                    type = StatusType.WARNING,
-                    text = resourceProvider.moderationStatusText(),
-                    actionType = if (canUnpublish) StatusAction.UNPUBLISH else StatusAction.NONE,
-                    actionLabel = resourceProvider.unpublishAction(),
-                )
+                if (!moderation) {
+                    val canUnpublish = details.actions?.contains(ACTION_UNPUBLISH) ?: false
+                    items += StatusItem(
+                        id = id++,
+                        type = StatusType.WARNING,
+                        text = resourceProvider.moderationStatusText(),
+                        actionType = if (canUnpublish) StatusAction.UNPUBLISH else StatusAction.NONE,
+                        actionLabel = resourceProvider.unpublishAction(),
+                    )
+                }
             }
 
             else -> Unit
