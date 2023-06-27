@@ -10,7 +10,6 @@ import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.dto.StoreResponse
 import com.tomclaw.appsend.user.UserDataInteractor
 import com.tomclaw.appsend.util.HttpUtil
-import com.tomclaw.appsend.util.LegacyLogger
 import com.tomclaw.appsend.util.MultipartStream
 import com.tomclaw.appsend.util.MultipartStream.ProgressHandler
 import com.tomclaw.appsend.util.PackageHelper
@@ -36,6 +35,8 @@ interface UploadManager {
     fun status(id: String): Observable<UploadState>
 
     fun upload(id: String, pkg: UploadPackage, apk: UploadApk?, info: UploadInfo)
+
+    fun cancel(id: String)
 
 }
 
@@ -105,6 +106,7 @@ class UploadManagerImpl(
                     errorCallback = {
                         relay.accept(UploadState(status = UploadStatus.ERROR))
                     },
+                    cancelCallback = {},
                 )
             } else {
                 null
@@ -113,13 +115,16 @@ class UploadManagerImpl(
                 results[id] = uploadResult
                 setMetaInfoBlocking(uploadResult.appId, info)
                 relay.accept(UploadState(status = UploadStatus.COMPLETED, result = uploadResult))
-            } else {
-                relay.accept(UploadState(status = UploadStatus.ERROR))
             }
             uploads.remove(id)
         }
         relays[id] = relay
         return
+    }
+
+    override fun cancel(id: String) {
+        uploads.remove(id)?.cancel(true)
+        relays[id]?.accept(UploadState(status = UploadStatus.IDLE))
     }
 
     private fun setMetaInfoBlocking(
@@ -144,7 +149,8 @@ class UploadManagerImpl(
         path: String,
         packageInfo: PackageInfo,
         progressCallback: (Int) -> Unit,
-        errorCallback: (Throwable) -> Unit
+        errorCallback: (Throwable) -> Unit,
+        cancelCallback: () -> Unit
     ): UploadResponse? {
         val packageManager = Appteka.app().packageManager
         val apk = File(path)
@@ -193,6 +199,9 @@ class UploadManagerImpl(
                         object : ProgressHandler {
                             override fun onProgress(sent: Long) {}
                             override fun onError(ex: Throwable) {}
+                            override fun onCancelled(ex: Throwable) {
+                                throw ex
+                            }
                         }
                     )
                 }
@@ -210,6 +219,10 @@ class UploadManagerImpl(
 
                             override fun onError(ex: Throwable) {
                                 errorCallback.invoke(ex)
+                            }
+
+                            override fun onCancelled(ex: Throwable) {
+                                throw ex
                             }
                         }
                     )
@@ -236,8 +249,14 @@ class UploadManagerImpl(
                     throw IOException("Error upload response code is $responseCode")
                 }
             }
+        } catch (ex: InterruptedException) {
+            println("[upload] IO interruption while application uploading\n$ex")
+            cancelCallback.invoke()
+        } catch (ex: InterruptedException) {
+            println("[upload] Interruption while application uploading\n$ex")
+            cancelCallback.invoke()
         } catch (ex: Throwable) {
-            LegacyLogger.log("Exception while application uploading", ex)
+            println("[upload] Exception while application uploading\n$ex")
             errorCallback.invoke(ex)
         } finally {
             connection?.disconnect()

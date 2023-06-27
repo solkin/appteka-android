@@ -1,10 +1,15 @@
 package com.tomclaw.appsend.screen.upload
 
 import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
+import android.animation.ValueAnimator.INFINITE
+import android.animation.ValueAnimator.REVERSE
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.view.View
+import android.view.animation.DecelerateInterpolator
 import android.view.animation.LinearInterpolator
+import android.widget.ImageView
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.ViewFlipper
@@ -25,7 +30,11 @@ import com.tomclaw.appsend.util.hideWithAlphaAnimation
 import com.tomclaw.appsend.util.show
 import com.tomclaw.appsend.util.showWithAlphaAnimation
 import com.tomclaw.appsend.util.svgToDrawable
+import com.tomclaw.imageloader.util.centerCrop
+import com.tomclaw.imageloader.util.fetch
+import com.tomclaw.imageloader.util.withPlaceholder
 import io.reactivex.rxjava3.core.Observable
+
 
 interface UploadView {
 
@@ -47,6 +56,8 @@ interface UploadView {
 
     fun resetUploadProgress()
 
+    fun setAppIcon(url: String?)
+
     fun setUploadProgress(value: Int)
 
     fun navigationClicks(): Observable<Unit>
@@ -58,6 +69,8 @@ interface UploadView {
     fun categoryClearedClicks(): Observable<Unit>
 
     fun versionClicks(): Observable<VersionItem>
+
+    fun cancelClicks(): Observable<Unit>
 
 }
 
@@ -76,18 +89,26 @@ class UploadViewImpl(
     private val retryButton: View = view.findViewById(R.id.retry_button)
     private val uploadProgress: ProgressBar = view.findViewById(R.id.upload_progress)
     private val uploadPercent: TextView = view.findViewById(R.id.upload_percent)
+    private val appIcon: ImageView = view.findViewById(R.id.app_icon)
+    private val appIconContainer: View = view.findViewById(R.id.app_icon_container)
+    private val cancelButton: View = view.findViewById(R.id.cancel_button)
 
     private val navigationRelay = PublishRelay.create<Unit>()
     private val retryRelay = PublishRelay.create<Unit>()
     private val categorySelectedRelay = PublishRelay.create<CategoryItem>()
     private val categoryClearedRelay = PublishRelay.create<Unit>()
     private val versionRelay = PublishRelay.create<VersionItem>()
+    private val cancelRelay = PublishRelay.create<Unit>()
+
+    private var bounceAnimator: ValueAnimator? = null
+    private var rotationAnimator: ValueAnimator? = null
 
     private val layoutManager: LinearLayoutManager
 
     init {
         toolbar.setNavigationOnClickListener { navigationRelay.accept(Unit) }
         retryButton.setOnClickListener { retryRelay.accept(Unit) }
+        cancelButton.setOnClickListener { cancelRelay.accept(Unit) }
 
         val orientation = RecyclerView.VERTICAL
         layoutManager = LinearLayoutManager(view.context, orientation, false)
@@ -105,6 +126,8 @@ class UploadViewImpl(
     override fun showContent() {
         flipper.displayedChild = CHILD_CONTENT
         progress.hideWithAlphaAnimation(animateFully = false)
+        bounceAnimator?.cancel()
+        rotationAnimator?.cancel()
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -190,6 +213,39 @@ class UploadViewImpl(
 
     override fun showUploadProgress() {
         flipper.displayedChild = CHILD_UPLOAD
+
+        appIconContainer.post {
+            val delta = appIconContainer.measuredHeight - appIcon.measuredHeight
+
+            bounceAnimator?.cancel()
+            bounceAnimator = ObjectAnimator.ofInt(0, delta).apply {
+                addUpdateListener { valueAnimator ->
+                    appIconContainer.setPadding(
+                        0,
+                        0,
+                        0,
+                        valueAnimator.animatedValue as Int
+                    )
+                }
+                duration = 750
+                interpolator = DecelerateInterpolator()
+                repeatMode = REVERSE
+                repeatCount = INFINITE
+                start()
+            }
+
+            rotationAnimator?.cancel()
+            rotationAnimator = ObjectAnimator.ofInt(-360, 360).apply {
+                addUpdateListener { valueAnimator ->
+                    appIcon.rotation = (valueAnimator.animatedValue as Int).toFloat()
+                }
+                duration = 1500
+                interpolator = LinearInterpolator()
+                repeatMode = REVERSE
+                repeatCount = INFINITE
+                start()
+            }
+        }
     }
 
     override fun resetUploadProgress() {
@@ -198,8 +254,21 @@ class UploadViewImpl(
         uploadPercent.bind(context.getString(R.string.percent, 0))
     }
 
+    override fun setAppIcon(url: String?) {
+        appIcon.fetch(url.orEmpty()) {
+            centerCrop()
+            withPlaceholder(R.drawable.app_placeholder)
+            placeholder = {
+                with(it.get()) {
+                    scaleType = ImageView.ScaleType.CENTER_CROP
+                    setImageResource(R.drawable.app_placeholder)
+                }
+            }
+        }
+    }
+
     override fun setUploadProgress(value: Int) {
-        showUploadProgress()
+        if (flipper.displayedChild != CHILD_UPLOAD) showUploadProgress()
         uploadProgress.setProgressWithAnimation(value, 500)
         uploadPercent.bind(context.getString(R.string.percent, value))
     }
@@ -213,6 +282,8 @@ class UploadViewImpl(
     override fun categoryClearedClicks(): Observable<Unit> = categoryClearedRelay
 
     override fun versionClicks(): Observable<VersionItem> = versionRelay
+
+    override fun cancelClicks(): Observable<Unit> = cancelRelay
 
     @SuppressLint("AnimatorKeep")
     fun ProgressBar.setProgressWithAnimation(progress: Int, duration: Long = 1500) {

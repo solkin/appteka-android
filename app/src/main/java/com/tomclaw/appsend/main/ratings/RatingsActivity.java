@@ -1,7 +1,6 @@
 package com.tomclaw.appsend.main.ratings;
 
 import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
-import static com.tomclaw.appsend.util.KeyboardHelper.hideKeyboard;
 
 import android.os.Bundle;
 import android.view.View;

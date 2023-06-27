@@ -16,6 +16,7 @@ import com.tomclaw.appsend.upload.UploadInfo
 import com.tomclaw.appsend.upload.UploadManager
 import com.tomclaw.appsend.upload.UploadPackage
 import com.tomclaw.appsend.upload.UploadStatus
+import com.tomclaw.appsend.util.PackageIconLoader
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.getParcelableCompat
 import dagger.Lazy
@@ -51,6 +52,8 @@ interface UploadPresenter : ItemListener {
         fun startUpload(pkg: UploadPackage, apk: UploadApk?, info: UploadInfo)
 
         fun leaveScreen()
+
+        fun hideKeyboard()
 
     }
 
@@ -117,6 +120,11 @@ class UploadPresenterImpl(
         }
         subscriptions += view.versionClicks().subscribe { versionItem ->
             router?.openDetailsScreen(appId = versionItem.appId, label = versionItem.title)
+        }
+        subscriptions += view.cancelClicks().subscribe {
+            pkg?.uniqueId?.let { uniqueId ->
+                uploadManager.cancel(uniqueId)
+            }
         }
 
         invalidate()
@@ -239,6 +247,13 @@ class UploadPresenterImpl(
         adapterPresenter.get().onDataSourceChanged(dataSource)
     }
 
+    private fun bindUploadAppIcon() {
+        apk?.packageInfo?.let { packageInfo ->
+            val uri = PackageIconLoader.getUri(packageInfo)
+            view?.setAppIcon(uri)
+        }
+    }
+
     private fun onPackageChanged(pkg: UploadPackage?, apk: UploadApk?) {
         val thisPkg = this.pkg
         val nextPkg = pkg
@@ -274,6 +289,7 @@ class UploadPresenterImpl(
     private fun subscribeStatusChange(pkg: UploadPackage?) {
         statusSubscription.clear()
         pkg ?: return
+        bindUploadAppIcon()
         statusSubscription += uploadManager.status(id = pkg.uniqueId)
             .subscribeOn(schedulers.io())
             .observeOn(schedulers.mainThread())
@@ -298,7 +314,9 @@ class UploadPresenterImpl(
                     }
 
                     UploadStatus.ERROR -> view?.showError()
-                    UploadStatus.STARTED -> view?.showUploadProgress()
+                    UploadStatus.STARTED -> {
+                        view?.showUploadProgress()
+                    }
                     else -> view?.setUploadProgress(state.percent)
                 }
             }, {})
@@ -357,6 +375,7 @@ class UploadPresenterImpl(
             sourceUrl
         )
 
+        router?.hideKeyboard()
         router?.startUpload(pkg, apk, info)
         return true
     }

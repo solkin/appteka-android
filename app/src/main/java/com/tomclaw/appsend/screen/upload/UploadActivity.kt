@@ -19,6 +19,7 @@ import com.tomclaw.appsend.screen.upload.di.UploadModule
 import com.tomclaw.appsend.upload.UploadApk
 import com.tomclaw.appsend.upload.UploadInfo
 import com.tomclaw.appsend.upload.createUploadIntent
+import com.tomclaw.appsend.util.KeyboardHelper
 import com.tomclaw.appsend.util.ThemeHelper
 import com.tomclaw.appsend.util.getParcelableExtraCompat
 import com.tomclaw.appsend.util.md5
@@ -126,6 +127,10 @@ class UploadActivity : AppCompatActivity(), UploadPresenter.UploadRouter {
 
     override fun leaveScreen() {
         finish()
+    }
+
+    override fun hideKeyboard() {
+        KeyboardHelper.hideKeyboard(this)
     }
 
 }

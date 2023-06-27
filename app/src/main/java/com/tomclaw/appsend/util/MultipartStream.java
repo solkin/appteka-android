@@ -4,6 +4,7 @@ import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InterruptedIOException;
 import java.io.OutputStream;
 
 /**
@@ -78,8 +79,17 @@ public class MultipartStream extends OutputStream {
                 outputStream.flush();
                 sent += cache;
                 callback.onProgress(sent);
+                if (Thread.interrupted()) {
+                    throw new InterruptedException();
+                }
             }
             outputStream.write(("\r\n--" + boundary + "\r\n").getBytes());
+        } catch (InterruptedIOException ex) {
+            Log.e(TAG, "[upload] IO interruption while application downloading", ex);
+            callback.onCancelled(ex);
+        } catch (InterruptedException ex) {
+            Log.e(TAG, "[upload] Interruption while application downloading", ex);
+            callback.onCancelled(ex);
         } catch (final Throwable e) {
             Log.e(TAG, e.getMessage(), e);
             callback.onError(e);
@@ -104,6 +114,9 @@ public class MultipartStream extends OutputStream {
 
     public interface ProgressHandler {
         void onProgress(long sent);
+
         void onError(Throwable e);
+
+        void onCancelled(Throwable e);
     }
 }
