@@ -21,6 +21,7 @@ import java.io.File
 import java.io.FileInputStream
 import java.io.IOException
 import java.io.InputStreamReader
+import java.io.InterruptedIOException
 import java.lang.reflect.Type
 import java.net.HttpURLConnection
 import java.net.URL
@@ -249,7 +250,7 @@ class UploadManagerImpl(
                     throw IOException("Error upload response code is $responseCode")
                 }
             }
-        } catch (ex: InterruptedException) {
+        } catch (ex: InterruptedIOException) {
             println("[upload] IO interruption while application uploading\n$ex")
             cancelCallback.invoke()
         } catch (ex: InterruptedException) {
