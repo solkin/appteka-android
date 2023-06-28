@@ -8,6 +8,7 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.io.InputStream
+import java.io.InterruptedIOException
 import java.io.OutputStream
 import java.net.HttpURLConnection
 import java.net.URL
@@ -165,6 +166,8 @@ class DownloadManagerImpl(
             }
             progressCallback(100)
             return true
+        } catch (ex: InterruptedIOException) {
+            println("[download] IO interruption while application downloading\n$ex")
         } catch (ex: InterruptedException) {
             println("[download] Interruption while application downloading\n$ex")
         } catch (ex: Throwable) {
