@@ -82,9 +82,10 @@ class StoreModule(
     @PerFragment
     internal fun provideAppsConverter(
         resourceProvider: AppsResourceProvider,
+        categoryConverter: CategoryConverter,
         packageObserver: PackageObserver,
     ): AppConverter {
-        return AppConverterImpl(resourceProvider, packageObserver)
+        return AppConverterImpl(resourceProvider, categoryConverter, packageObserver)
     }
 
     @Provides

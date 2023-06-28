@@ -353,4 +353,5 @@
     <string name="moderation_status_text">The application is under moderation and after verification it will become available to users of Appteka or will remain in private access</string>
     <string name="open_source_short">Open Source</string>
     <string name="required_field">Required field</string>
+    <string name="category_not_set">Category not set</string>
 </resources>

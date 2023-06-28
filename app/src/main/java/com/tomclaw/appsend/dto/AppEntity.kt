@@ -2,6 +2,7 @@ package com.tomclaw.appsend.dto
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import com.tomclaw.appsend.categories.Category
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -28,4 +29,10 @@ data class AppEntity(
     val downloads: Int,
     @SerializedName("file_status")
     val status: Int,
+    @SerializedName("category")
+    val category: Category?,
+    @SerializedName("exclusive")
+    val exclusive: Boolean,
+    @SerializedName("source_url")
+    val sourceUrl: String?,
 ) : Parcelable
