@@ -1,5 +1,6 @@
 package com.tomclaw.appsend.screen.moderation
 
+import com.tomclaw.appsend.categories.CategoryConverter
 import com.tomclaw.appsend.dto.AppEntity
 import com.tomclaw.appsend.screen.moderation.adapter.app.AppItem
 
@@ -10,7 +11,8 @@ interface AppConverter {
 }
 
 class AppConverterImpl(
-    private val resourceProvider: AppsResourceProvider
+    private val resourceProvider: AppsResourceProvider,
+    private val categoryConverter: CategoryConverter
 ) : AppConverter {
 
     private var id: Long = 1
@@ -25,6 +27,8 @@ class AppConverterImpl(
             size = resourceProvider.formatFileSize(appEntity.size),
             rating = appEntity.rating,
             downloads = appEntity.downloads,
+            category = appEntity.category?.let { categoryConverter.convert(it) },
+            openSource = !appEntity.sourceUrl.isNullOrEmpty(),
         )
     }
 

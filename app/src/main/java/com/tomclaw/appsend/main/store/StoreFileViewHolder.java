@@ -48,6 +48,7 @@ public class StoreFileViewHolder extends FileViewHolder<StoreItem> {
     private final View ratingIcon;
     private final TextView appDownloads;
     private final View downloadsIcon;
+    private final View openSourceIcon;
     private final View appBadge;
     private final TextView appBadgeText;
     private final View badgeNew;
@@ -69,6 +70,7 @@ public class StoreFileViewHolder extends FileViewHolder<StoreItem> {
         ratingIcon = itemView.findViewById(R.id.rating_icon);
         appDownloads = itemView.findViewById(R.id.app_downloads);
         downloadsIcon = itemView.findViewById(R.id.downloads_icon);
+        openSourceIcon = itemView.findViewById(R.id.open_source);
         appBadge = itemView.findViewById(R.id.app_badge);
         appBadgeText = itemView.findViewById(R.id.app_badge_text);
         badgeNew = itemView.findViewById(R.id.badge_new);
@@ -109,7 +111,7 @@ public class StoreFileViewHolder extends FileViewHolder<StoreItem> {
             }
             appCategoryTitle.setText(title);
         } else {
-            appCategoryIcon.setImageResource(R.drawable.ic_category);
+            appCategoryIcon.setImageDrawable(null);
             appCategoryTitle.setText(R.string.category_not_set);
         }
 
@@ -117,6 +119,7 @@ public class StoreFileViewHolder extends FileViewHolder<StoreItem> {
         boolean isInstalled = (item.getInstalledVersionCode() != NOT_INSTALLED);
         boolean isMayBeUpdated = (item.getVersionCode() > item.getInstalledVersionCode());
         boolean isShowDownloads = item.getDownloads() > 0;
+        boolean isOpenSource = !TextUtils.isEmpty(item.getSourceURL());
         boolean hasRating = item.getRating() > 0;
         if (isShowDownloads) {
             appDownloads.setText(String.valueOf(item.getDownloads()));
@@ -147,6 +150,7 @@ public class StoreFileViewHolder extends FileViewHolder<StoreItem> {
         ratingIcon.setVisibility(hasRating ? VISIBLE : GONE);
         appDownloads.setVisibility(isShowDownloads ? VISIBLE : GONE);
         downloadsIcon.setVisibility(isShowDownloads ? VISIBLE : GONE);
+        openSourceIcon.setVisibility(isOpenSource ? VISIBLE : GONE);
         if (badgeTextRes > 0) {
             appBadgeText.setText(badgeTextRes);
             appBadge.setVisibility(VISIBLE);

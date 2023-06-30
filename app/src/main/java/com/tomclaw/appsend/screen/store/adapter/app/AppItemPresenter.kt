@@ -44,6 +44,7 @@ class AppItemPresenter(
         if (item.isNew) view.showBadge() else view.hideBadge()
         if (item.hasProgress) view.showProgress() else view.hideProgress()
         view.setCategory(item.category)
+        if (item.openSource) view.showOpenSourceBadge() else view.hideOpenSourceBadge()
         if (clickable) {
             view.setOnClickListener { listener.onItemClick(item) }
         } else {

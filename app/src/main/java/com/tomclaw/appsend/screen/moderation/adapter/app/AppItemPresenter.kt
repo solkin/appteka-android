@@ -23,6 +23,8 @@ class AppItemPresenter(
         view.setSize(item.size)
         view.setRating(item.rating.takeIf { it > 0 })
         view.setDownloads(item.downloads)
+        view.setCategory(item.category)
+        if (item.openSource) view.showOpenSourceBadge() else view.hideOpenSourceBadge()
         if (item.hasProgress) view.showProgress() else view.hideProgress()
         if (item.hasError) view.showError() else view.hideError()
         view.setOnClickListener { listener.onItemClick(item) }

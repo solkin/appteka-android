@@ -58,6 +58,8 @@ public class StoreItem extends BaseItem implements Parcelable {
     private int installedVersionCode;
     @SerializedName("category")
     private Category category;
+    @SerializedName("source_url")
+    private String sourceUrl;
 
     public StoreItem() {
     }
@@ -216,6 +218,10 @@ public class StoreItem extends BaseItem implements Parcelable {
 
     public int getDownloads() {
         return downloads;
+    }
+
+    public String getSourceURL() {
+        return sourceUrl;
     }
 
     public float getRating() {

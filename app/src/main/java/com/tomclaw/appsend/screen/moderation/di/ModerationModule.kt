@@ -6,6 +6,8 @@ import com.avito.konveyor.ItemBinder
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.adapter.SimpleAdapterPresenter
 import com.avito.konveyor.blueprint.ItemBlueprint
+import com.tomclaw.appsend.categories.CategoryConverter
+import com.tomclaw.appsend.categories.CategoryConverterImpl
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.screen.moderation.AppConverter
 import com.tomclaw.appsend.screen.moderation.AppConverterImpl
@@ -64,9 +66,17 @@ class ModerationModule(
 
     @Provides
     @PerActivity
-    internal fun provideAppsConverter(resourceProvider: AppsResourceProvider): AppConverter {
-        return AppConverterImpl(resourceProvider)
+    internal fun provideAppsConverter(
+        resourceProvider: AppsResourceProvider,
+        categoryConverter: CategoryConverter
+    ): AppConverter {
+        return AppConverterImpl(resourceProvider, categoryConverter)
     }
+
+    @Provides
+    @PerActivity
+    internal fun provideCategoryConverter(locale: Locale): CategoryConverter =
+        CategoryConverterImpl(locale)
 
     @Provides
     @PerActivity

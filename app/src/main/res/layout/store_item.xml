@@ -93,6 +93,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
+                android:gravity="center_vertical"
                 android:paddingTop="4dp"
                 android:paddingBottom="2dp">
 
@@ -102,7 +103,6 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="start|center_vertical"
                     android:ellipsize="marquee"
-                    android:gravity="center_vertical"
                     android:includeFontPadding="false"
                     android:marqueeRepeatLimit="marquee_forever"
                     android:scrollHorizontally="true"
@@ -115,10 +115,18 @@
                     android:id="@+id/app_category_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="16dp"
-                    android:layout_gravity="center_vertical"
                     android:contentDescription="@string/ratings"
                     android:src="@drawable/ic_user_messages"
-                    android:visibility="visible"
+                    app:tint="?text_secondary_color" />
+
+                <ImageView
+                    android:id="@+id/open_source"
+                    android:layout_width="wrap_content"
+                    android:layout_height="16dp"
+                    android:contentDescription="@string/open_source"
+                    android:paddingStart="-4dp"
+                    android:paddingLeft="-4dp"
+                    android:src="@drawable/ic_open_source"
                     app:tint="?text_secondary_color" />
 
             </LinearLayout>
@@ -198,7 +206,9 @@
                     android:id="@+id/app_badge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical">
+                    android:gravity="center_vertical"
+                    android:visibility="gone"
+                    tools:visibility="visible">
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -219,8 +229,8 @@
                         android:includeFontPadding="true"
                         android:paddingStart="4dp"
                         android:paddingLeft="4dp"
-                        android:paddingEnd="6dp"
-                        android:paddingRight="6dp"
+                        android:paddingEnd="8dp"
+                        android:paddingRight="8dp"
                         android:textColor="?text_secondary_color"
                         android:textSize="14sp"
                         tools:text="@string/store_app_installed" />

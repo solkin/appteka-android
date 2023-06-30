@@ -42,6 +42,10 @@ interface AppItemView : ItemView {
 
     fun setStatus(status: String?)
 
+    fun showOpenSourceBadge()
+
+    fun hideOpenSourceBadge()
+
     fun setCategory(category: CategoryItem?)
 
     fun setOnClickListener(listener: (() -> Unit)?)
@@ -60,6 +64,7 @@ class AppItemViewHolder(view: View) : BaseViewHolder(view), AppItemView {
     private val rating: TextView = view.findViewById(R.id.app_rating)
     private val ratingIcon: View = view.findViewById(R.id.rating_icon)
     private val downloads: TextView = view.findViewById(R.id.app_downloads)
+    private val openSource: View = view.findViewById(R.id.open_source)
     private val badge: View = view.findViewById(R.id.badge_new)
     private val progress: View = view.findViewById(R.id.item_progress)
     private val statusContainer: View = view.findViewById(R.id.app_badge)
@@ -126,6 +131,14 @@ class AppItemViewHolder(view: View) : BaseViewHolder(view), AppItemView {
     override fun setStatus(status: String?) {
         this.statusText.bind(status)
         this.statusContainer.visibility = statusText.visibility
+    }
+
+    override fun showOpenSourceBadge() {
+        this.openSource.show()
+    }
+
+    override fun hideOpenSourceBadge() {
+        this.openSource.hide()
     }
 
     override fun setCategory(category: CategoryItem?) {
