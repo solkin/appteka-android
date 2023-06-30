@@ -185,27 +185,47 @@
                     android:paddingLeft="0dp"
                     android:paddingEnd="2dp"
                     android:paddingRight="2dp"
-                    android:textAllCaps="true"
                     android:textColor="?text_secondary_color"
                     android:textSize="14sp"
                     tools:text="15" />
 
-                <TextView
-                    android:id="@+id/app_badge"
+                <View
                     android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="1" />
+
+                <LinearLayout
+                    android:id="@+id/app_badge"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="end"
-                    android:includeFontPadding="true"
-                    android:paddingStart="4dp"
-                    android:paddingLeft="4dp"
-                    android:paddingEnd="6dp"
-                    android:paddingRight="6dp"
-                    android:textAllCaps="true"
-                    android:textColor="?text_secondary_color"
-                    android:textSize="12sp"
-                    android:textStyle="bold"
-                    tools:text="@string/store_app_installed" />
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="16dp"
+                        android:importantForAccessibility="no"
+                        android:paddingStart="4dp"
+                        android:paddingLeft="4dp"
+                        android:paddingEnd="-4dp"
+                        android:paddingRight="-4dp"
+                        android:src="@drawable/ic_pill_ok"
+                        app:tint="?text_secondary_color" />
+
+                    <TextView
+                        android:id="@+id/app_badge_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="end"
+                        android:includeFontPadding="true"
+                        android:paddingStart="4dp"
+                        android:paddingLeft="4dp"
+                        android:paddingEnd="6dp"
+                        android:paddingRight="6dp"
+                        android:textColor="?text_secondary_color"
+                        android:textSize="14sp"
+                        tools:text="@string/store_app_installed" />
+
+                </LinearLayout>
 
             </LinearLayout>
 

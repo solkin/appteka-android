@@ -2,6 +2,7 @@ package com.tomclaw.appsend.main.store;
 
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
+import static com.tomclaw.appsend.categories.CategoryConverterKt.DEFAULT_LOCALE;
 import static com.tomclaw.appsend.main.item.StoreItem.FILE_STATUS_MODERATION;
 import static com.tomclaw.appsend.main.item.StoreItem.FILE_STATUS_PRIVATE;
 import static com.tomclaw.appsend.main.item.StoreItem.FILE_STATUS_UNLINKED;
@@ -9,22 +10,28 @@ import static com.tomclaw.appsend.main.item.StoreItem.NOT_INSTALLED;
 import static com.tomclaw.appsend.main.ratings.RatingsListener.STATE_FAILED;
 import static com.tomclaw.appsend.main.ratings.RatingsListener.STATE_LOADED;
 import static com.tomclaw.appsend.main.ratings.RatingsListener.STATE_LOADING;
+import static com.tomclaw.appsend.util.DrawablesKt.svgToDrawable;
 import static com.tomclaw.imageloader.util.ImageViewHandlersKt.centerCrop;
 import static com.tomclaw.imageloader.util.ImageViewHandlersKt.withPlaceholder;
 import static com.tomclaw.imageloader.util.ImageViewsKt.fetch;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.tomclaw.appsend.R;
+import com.tomclaw.appsend.categories.Category;
+import com.tomclaw.appsend.categories.CategoryConverter;
+import com.tomclaw.appsend.categories.CategoryConverterImpl;
 import com.tomclaw.appsend.main.adapter.files.FileViewHolder;
 import com.tomclaw.appsend.main.adapter.files.FilesListener;
 import com.tomclaw.appsend.main.item.StoreItem;
 import com.tomclaw.appsend.util.FileHelper;
 import com.tomclaw.appsend.util.LocaleHelper;
 
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 public class StoreFileViewHolder extends FileViewHolder<StoreItem> {
@@ -34,12 +41,15 @@ public class StoreFileViewHolder extends FileViewHolder<StoreItem> {
     private final ImageView appIcon;
     private final TextView appName;
     private final TextView appVersion;
+    private final TextView appCategoryTitle;
+    private final ImageView appCategoryIcon;
     private final TextView appSize;
     private final TextView appRating;
     private final View ratingIcon;
     private final TextView appDownloads;
     private final View downloadsIcon;
-    private final TextView appBadge;
+    private final View appBadge;
+    private final TextView appBadgeText;
     private final View badgeNew;
     private final View viewProgress;
     private final View errorView;
@@ -52,12 +62,15 @@ public class StoreFileViewHolder extends FileViewHolder<StoreItem> {
         appIcon = itemView.findViewById(R.id.app_icon);
         appName = itemView.findViewById(R.id.app_name);
         appVersion = itemView.findViewById(R.id.app_version);
+        appCategoryTitle = itemView.findViewById(R.id.app_category);
+        appCategoryIcon = itemView.findViewById(R.id.app_category_icon);
         appSize = itemView.findViewById(R.id.app_size);
         appRating = itemView.findViewById(R.id.app_rating);
         ratingIcon = itemView.findViewById(R.id.rating_icon);
         appDownloads = itemView.findViewById(R.id.app_downloads);
         downloadsIcon = itemView.findViewById(R.id.downloads_icon);
         appBadge = itemView.findViewById(R.id.app_badge);
+        appBadgeText = itemView.findViewById(R.id.app_badge_text);
         badgeNew = itemView.findViewById(R.id.badge_new);
         viewProgress = itemView.findViewById(R.id.item_progress);
         errorView = itemView.findViewById(R.id.error_view);
@@ -86,6 +99,20 @@ public class StoreFileViewHolder extends FileViewHolder<StoreItem> {
 
         appName.setText(LocaleHelper.getLocalizedLabel(item));
         appVersion.setText(item.getVersion());
+
+        Category category = item.getCategory();
+        if (category != null) {
+            appCategoryIcon.setImageDrawable(svgToDrawable(category.getIcon(), itemView.getResources()));
+            String title = category.getName().get(Locale.getDefault().getLanguage());
+            if (TextUtils.isEmpty(title)) {
+                title = category.getName().get(DEFAULT_LOCALE);
+            }
+            appCategoryTitle.setText(title);
+        } else {
+            appCategoryIcon.setImageResource(R.drawable.ic_category);
+            appCategoryTitle.setText(R.string.category_not_set);
+        }
+
         appSize.setText(FileHelper.formatBytes(itemView.getResources(), item.getSize()));
         boolean isInstalled = (item.getInstalledVersionCode() != NOT_INSTALLED);
         boolean isMayBeUpdated = (item.getVersionCode() > item.getInstalledVersionCode());
@@ -121,7 +148,7 @@ public class StoreFileViewHolder extends FileViewHolder<StoreItem> {
         appDownloads.setVisibility(isShowDownloads ? VISIBLE : GONE);
         downloadsIcon.setVisibility(isShowDownloads ? VISIBLE : GONE);
         if (badgeTextRes > 0) {
-            appBadge.setText(badgeTextRes);
+            appBadgeText.setText(badgeTextRes);
             appBadge.setVisibility(VISIBLE);
         } else {
             appBadge.setVisibility(GONE);

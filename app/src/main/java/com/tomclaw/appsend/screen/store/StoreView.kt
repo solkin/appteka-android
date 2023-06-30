@@ -148,7 +148,7 @@ class StoreViewImpl(
             categoryTitle.text = it.title
         } ?: run {
             categoryIcon.setImageResource(R.drawable.ic_category)
-            categoryTitle.setText(R.string.all_categories)
+            categoryTitle.setText(R.string.category_not_set)
         }
     }
 

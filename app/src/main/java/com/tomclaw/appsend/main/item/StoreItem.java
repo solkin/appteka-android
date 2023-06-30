@@ -3,7 +3,10 @@ package com.tomclaw.appsend.main.item;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import androidx.annotation.Nullable;
+
 import com.google.gson.annotations.SerializedName;
+import com.tomclaw.appsend.categories.Category;
 import com.tomclaw.appsend.dto.UserIcon;
 
 import java.util.HashMap;
@@ -53,6 +56,8 @@ public class StoreItem extends BaseItem implements Parcelable {
     private UserIcon userIcon;
     private String filter;
     private int installedVersionCode;
+    @SerializedName("category")
+    private Category category;
 
     public StoreItem() {
     }
@@ -219,6 +224,10 @@ public class StoreItem extends BaseItem implements Parcelable {
 
     public long getDownloadTime() {
         return downloadTime;
+    }
+
+    public Category getCategory() {
+        return category;
     }
 
     public long getTime() {

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="?android:attr/selectableItemBackground"
     android:foreground="?android:attr/selectableItemBackground"
     android:orientation="vertical"
@@ -37,7 +38,19 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <include layout="@layout/badge_view" />
+                <ImageView
+                    android:id="@+id/badge_new"
+                    android:layout_width="wrap_content"
+                    android:layout_height="18dp"
+                    android:layout_gravity="center_vertical"
+                    android:contentDescription="@string/ratings"
+                    android:paddingStart="-1dp"
+                    android:paddingLeft="-1dp"
+                    android:paddingEnd="2dp"
+                    android:paddingRight="2dp"
+                    android:src="@drawable/ic_new_box"
+                    android:visibility="visible"
+                    app:tint="@color/badge_color" />
 
                 <TextView
                     android:id="@+id/app_name"

@@ -62,7 +62,8 @@ class AppItemViewHolder(view: View) : BaseViewHolder(view), AppItemView {
     private val downloads: TextView = view.findViewById(R.id.app_downloads)
     private val badge: View = view.findViewById(R.id.badge_new)
     private val progress: View = view.findViewById(R.id.item_progress)
-    private val status: TextView = view.findViewById(R.id.app_badge)
+    private val statusContainer: View = view.findViewById(R.id.app_badge)
+    private val statusText: TextView = view.findViewById(R.id.app_badge_text)
     private val categoryTitle: TextView = view.findViewById(R.id.app_category)
     private val categoryIcon: ImageView = view.findViewById(R.id.app_category_icon)
 
@@ -123,7 +124,8 @@ class AppItemViewHolder(view: View) : BaseViewHolder(view), AppItemView {
     }
 
     override fun setStatus(status: String?) {
-        this.status.bind(status)
+        this.statusText.bind(status)
+        this.statusContainer.visibility = statusText.visibility
     }
 
     override fun setCategory(category: CategoryItem?) {
