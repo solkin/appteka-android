@@ -12,8 +12,7 @@
     <uses-permission
         android:name="android.permission.REQUEST_DELETE_PACKAGES"
         tools:remove="android:maxSdkVersion" />
-    <uses-permission
-        android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
 
     <application
         android:name=".Appteka_"
@@ -136,7 +135,8 @@
             android:label="@string/chat_activity" />
         <activity
             android:name=".screen.details.DetailsActivity"
-            android:label="@string/details_activity">
+            android:label="@string/details_activity"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
