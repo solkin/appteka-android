@@ -60,6 +60,8 @@ interface UploadView {
 
     fun setUploadProgress(value: Int)
 
+    fun scrollToTop()
+
     fun navigationClicks(): Observable<Unit>
 
     fun retryClicks(): Observable<Unit>
@@ -271,6 +273,10 @@ class UploadViewImpl(
         if (flipper.displayedChild != CHILD_UPLOAD) showUploadProgress()
         uploadProgress.setProgressWithAnimation(value, 500)
         uploadPercent.bind(context.getString(R.string.percent, value))
+    }
+
+    override fun scrollToTop() {
+        recycler.scrollToPosition(0)
     }
 
     override fun navigationClicks(): Observable<Unit> = navigationRelay

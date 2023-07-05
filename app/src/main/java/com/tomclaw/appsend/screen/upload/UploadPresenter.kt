@@ -357,6 +357,7 @@ class UploadPresenterImpl(
         val uploadStarted = startUpload()
         if (!uploadStarted) {
             bindForm()
+            view?.scrollToTop()
         }
     }
 
