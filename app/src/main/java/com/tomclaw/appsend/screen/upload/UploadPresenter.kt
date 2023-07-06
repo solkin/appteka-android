@@ -47,7 +47,7 @@ interface UploadPresenter : ItemListener {
 
         fun openSelectAppScreen()
 
-        fun openDetailsScreen(appId: String, label: String?)
+        fun openDetailsScreen(appId: String, label: String?, isFinish: Boolean)
 
         fun startUpload(pkg: UploadPackage, apk: UploadApk?, info: UploadInfo)
 
@@ -119,7 +119,11 @@ class UploadPresenterImpl(
             onCategorySelected()
         }
         subscriptions += view.versionClicks().subscribe { versionItem ->
-            router?.openDetailsScreen(appId = versionItem.appId, label = versionItem.title)
+            router?.openDetailsScreen(
+                appId = versionItem.appId,
+                label = versionItem.title,
+                isFinish = false
+            )
         }
         subscriptions += view.cancelClicks().subscribe {
             pkg?.uniqueId?.let { uniqueId ->
@@ -300,9 +304,9 @@ class UploadPresenterImpl(
                         if (state.result?.appId != null) {
                             router?.openDetailsScreen(
                                 appId = state.result.appId,
-                                label = checkExist?.file?.title.orEmpty()
+                                label = checkExist?.file?.title.orEmpty(),
+                                isFinish = true
                             )
-                            router?.leaveScreen()
                         } else {
                             view?.showError()
                         }
@@ -317,6 +321,7 @@ class UploadPresenterImpl(
                     UploadStatus.STARTED -> {
                         view?.showUploadProgress()
                     }
+
                     else -> view?.setUploadProgress(state.percent)
                 }
             }, {})
@@ -328,7 +333,7 @@ class UploadPresenterImpl(
 
     override fun onNoticeClick() {
         val file = checkExist?.file ?: return
-        router?.openDetailsScreen(appId = file.appId, label = file.title)
+        router?.openDetailsScreen(appId = file.appId, label = file.title, isFinish = false)
     }
 
     override fun onCategoryClick() {
@@ -365,6 +370,13 @@ class UploadPresenterImpl(
         val pkg = pkg ?: return false
         val category = category ?: return false
         val checkExist = checkExist ?: return false
+
+        router?.openDetailsScreen(
+            appId = checkExist.file?.appId.orEmpty(),
+            label = checkExist.file?.title.orEmpty(),
+            isFinish = true
+        )
+        return true
 
         val info = UploadInfo(
             checkExist,

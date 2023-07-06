@@ -135,8 +135,7 @@
             android:label="@string/chat_activity" />
         <activity
             android:name=".screen.details.DetailsActivity"
-            android:label="@string/details_activity"
-            android:launchMode="singleTask">
+            android:label="@string/details_activity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 

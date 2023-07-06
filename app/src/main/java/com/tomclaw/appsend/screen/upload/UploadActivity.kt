@@ -2,6 +2,7 @@ package com.tomclaw.appsend.screen.upload
 
 import android.content.Context
 import android.content.Intent
+import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -110,13 +111,17 @@ class UploadActivity : AppCompatActivity(), UploadPresenter.UploadRouter {
         selectAppResultLauncher.launch(intent)
     }
 
-    override fun openDetailsScreen(appId: String, label: String?) {
+    override fun openDetailsScreen(appId: String, label: String?, isFinish: Boolean) {
         val intent = createDetailsActivityIntent(
             context = this,
             appId = appId,
             label = label.orEmpty(),
             finishOnly = true
         )
+        if (isFinish) {
+            intent.flags = FLAG_ACTIVITY_CLEAR_TOP
+            finish()
+        }
         startActivity(intent)
     }
 
