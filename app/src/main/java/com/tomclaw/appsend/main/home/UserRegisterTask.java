@@ -2,12 +2,8 @@ package com.tomclaw.appsend.main.home;
 
 import static com.tomclaw.appsend.core.Config.HOST_URL;
 
-import android.content.Context;
 import android.text.TextUtils;
 
-import androidx.appcompat.app.AlertDialog;
-
-import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.HttpTask;
 import com.tomclaw.appsend.dto.UserIcon;
 import com.tomclaw.appsend.net.Session;
@@ -16,7 +12,6 @@ import com.tomclaw.appsend.util.HttpParamsBuilder;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;

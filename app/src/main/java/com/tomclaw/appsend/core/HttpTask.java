@@ -1,7 +1,5 @@
 package com.tomclaw.appsend.core;
 
-import android.util.Log;
-
 import com.tomclaw.appsend.util.HttpParamsBuilder;
 import com.tomclaw.appsend.util.HttpUtil;
 import com.tomclaw.appsend.util.LegacyLogger;
