@@ -1,5 +1,10 @@
 package com.tomclaw.appsend.main.local;
 
+import static com.tomclaw.appsend.util.TimeHelper.timeHelper;
+import static com.tomclaw.imageloader.util.ImageViewHandlersKt.centerCrop;
+import static com.tomclaw.imageloader.util.ImageViewHandlersKt.withPlaceholder;
+import static com.tomclaw.imageloader.util.ImageViewsKt.fetch;
+
 import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
@@ -9,15 +14,10 @@ import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.main.adapter.files.FileViewHolder;
 import com.tomclaw.appsend.main.adapter.files.FilesListener;
 import com.tomclaw.appsend.main.item.ApkItem;
-import com.tomclaw.appsend.util.PackageIconLoader;
 import com.tomclaw.appsend.util.FileHelper;
+import com.tomclaw.appsend.util.PackageIconLoader;
 
 import java.util.concurrent.TimeUnit;
-
-import static com.tomclaw.appsend.util.TimeHelper.timeHelper;
-import static com.tomclaw.imageloader.util.ImageViewHandlersKt.centerCrop;
-import static com.tomclaw.imageloader.util.ImageViewHandlersKt.withPlaceholder;
-import static com.tomclaw.imageloader.util.ImageViewsKt.fetch;
 
 public class ApkItemViewHolder extends FileViewHolder<ApkItem> {
 

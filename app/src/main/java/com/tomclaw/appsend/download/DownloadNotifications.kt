@@ -105,6 +105,7 @@ class DownloadNotificationsImpl(
                         .build()
                     notificationManager.notify(notificationId, notification)
                 }
+
                 ERROR -> {
                     val notification = notificationBuilder
                         .setContentText(context.getString(R.string.download_failed))
@@ -117,6 +118,7 @@ class DownloadNotificationsImpl(
                     stop()
                     disposable?.dispose()
                 }
+
                 COMPLETED -> {
                     notificationManager.cancel(notificationId)
                     val installIntent = getInstallIntent(file)
@@ -140,11 +142,13 @@ class DownloadNotificationsImpl(
                     stop()
                     disposable?.dispose()
                 }
+
                 IDLE -> {
                     notificationManager.cancel(notificationId)
                     stop()
                     disposable?.dispose()
                 }
+
                 STARTED -> {
                     val notification = notificationBuilder
                         .setContentText(context.getString(R.string.waiting_for_download))
@@ -158,6 +162,7 @@ class DownloadNotificationsImpl(
                         notification
                     )
                 }
+
                 else -> {
                     val notification = notificationBuilder
                         .setContentText(context.getString(R.string.downloading_progress, status))

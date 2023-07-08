@@ -1,5 +1,7 @@
 package com.tomclaw.appsend.main.local;
 
+import static com.tomclaw.appsend.util.PackageHelper.getInstalledVersionCode;
+
 import android.content.pm.PackageManager;
 import android.view.View;
 import android.widget.Button;
@@ -27,8 +29,6 @@ import org.androidannotations.annotations.InstanceState;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.List;
-
-import static com.tomclaw.appsend.util.PackageHelper.getInstalledVersionCode;
 
 @EFragment
 abstract class CommonItemFragment<T extends CommonItem>

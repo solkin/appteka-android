@@ -3,8 +3,6 @@ package com.tomclaw.appsend.main.item;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import androidx.annotation.Nullable;
-
 import com.google.gson.annotations.SerializedName;
 import com.tomclaw.appsend.categories.Category;
 import com.tomclaw.appsend.dto.UserIcon;
