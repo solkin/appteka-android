@@ -1,10 +1,9 @@
 package com.tomclaw.appsend.net;
 
-import com.google.gson.annotations.SerializedName;
-
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.google.gson.annotations.SerializedName;
 import com.tomclaw.appsend.util.Unobfuscatable;
 
 import java.util.List;

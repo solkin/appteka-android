@@ -5,9 +5,7 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
-import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.core.StoreServiceHolder;
-import com.tomclaw.appsend.core.StoreServiceHolder_;
 import com.tomclaw.appsend.dto.UserIcon;
 import com.tomclaw.appsend.main.dto.ApiResponse;
 import com.tomclaw.appsend.main.profile.Profile;
