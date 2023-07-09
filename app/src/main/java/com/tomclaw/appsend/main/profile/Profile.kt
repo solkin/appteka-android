@@ -2,8 +2,8 @@ package com.tomclaw.appsend.main.profile
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
-import kotlinx.parcelize.Parcelize
 import com.tomclaw.appsend.dto.UserIcon
+import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Profile(

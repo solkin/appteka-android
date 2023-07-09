@@ -1,5 +1,8 @@
 package com.tomclaw.appsend.main.permissions;
 
+import static com.tomclaw.appsend.util.ColorsKt.getAttributedColor;
+import static com.tomclaw.appsend.util.PermissionHelper.getPermissionSmallInfo;
+
 import android.content.Context;
 import android.os.Build;
 import android.view.LayoutInflater;
@@ -14,9 +17,6 @@ import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.util.PermissionHelper;
 
 import java.util.List;
-
-import static com.tomclaw.appsend.util.ColorsKt.getAttributedColor;
-import static com.tomclaw.appsend.util.PermissionHelper.getPermissionSmallInfo;
 
 /**
  * Created by ivsolkin on 27.01.17.

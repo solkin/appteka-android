@@ -21,7 +21,6 @@ import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.core.StoreServiceHolder;
 import com.tomclaw.appsend.main.dto.AbuseResult;
 import com.tomclaw.appsend.main.dto.ApiResponse;
-import com.tomclaw.appsend.main.unlink.UnlinkActivity_;
 import com.tomclaw.appsend.util.ThemeHelper;
 
 import org.androidannotations.annotations.AfterViews;

@@ -1,5 +1,8 @@
 package com.tomclaw.appsend.main.auth;
 
+import static com.tomclaw.appsend.util.KeyboardHelper.hideKeyboard;
+import static com.tomclaw.appsend.util.LocaleHelper.getLocaleLanguage;
+
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -35,9 +38,6 @@ import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-
-import static com.tomclaw.appsend.util.KeyboardHelper.hideKeyboard;
-import static com.tomclaw.appsend.util.LocaleHelper.getLocaleLanguage;
 
 @SuppressLint("Registered")
 @EActivity(R.layout.register_activity)

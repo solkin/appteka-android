@@ -1,5 +1,8 @@
 package com.tomclaw.appsend.main.local;
 
+import static android.content.pm.PackageManager.GET_PERMISSIONS;
+import static com.tomclaw.appsend.util.states.StateHolder.stateHolder;
+
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -18,9 +21,6 @@ import org.androidannotations.annotations.EFragment;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
-
-import static android.content.pm.PackageManager.GET_PERMISSIONS;
-import static com.tomclaw.appsend.util.states.StateHolder.stateHolder;
 
 @EFragment
 abstract class DistroFragment extends CommonItemFragment<ApkItem> {

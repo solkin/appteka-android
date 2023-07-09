@@ -1,13 +1,13 @@
 package com.tomclaw.appsend.main.ratings;
 
+import static com.tomclaw.appsend.util.ColorsKt.getAttributedColor;
+
 import android.content.Context;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.LayerDrawable;
 import android.widget.RatingBar;
 
 import com.tomclaw.appsend.R;
-
-import static com.tomclaw.appsend.util.ColorsKt.getAttributedColor;
 
 /**
  * Created by Igor on 23.10.2017.

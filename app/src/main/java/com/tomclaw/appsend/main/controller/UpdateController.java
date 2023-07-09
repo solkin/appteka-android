@@ -1,5 +1,8 @@
 package com.tomclaw.appsend.main.controller;
 
+import static com.tomclaw.appsend.core.Config.HOST_URL;
+import static com.tomclaw.appsend.util.StoreHelper.parseStoreItem;
+
 import android.content.Context;
 
 import com.tomclaw.appsend.core.MainExecutor;
@@ -19,9 +22,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
-
-import static com.tomclaw.appsend.core.Config.HOST_URL;
-import static com.tomclaw.appsend.util.StoreHelper.parseStoreItem;
 
 /**
  * Created by solkin on 19.02.17.
