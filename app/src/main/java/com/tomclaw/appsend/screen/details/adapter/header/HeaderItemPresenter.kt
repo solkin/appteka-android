@@ -2,12 +2,12 @@ package com.tomclaw.appsend.screen.details.adapter.header
 
 import com.avito.konveyor.blueprint.ItemPresenter
 import com.tomclaw.appsend.categories.DEFAULT_LOCALE
-import com.tomclaw.appsend.screen.details.adapter.ItemListener
 import com.tomclaw.appsend.download.AWAIT
 import com.tomclaw.appsend.download.COMPLETED
 import com.tomclaw.appsend.download.ERROR
 import com.tomclaw.appsend.download.IDLE
 import com.tomclaw.appsend.download.STARTED
+import com.tomclaw.appsend.screen.details.adapter.ItemListener
 import java.util.Locale
 
 class HeaderItemPresenter(

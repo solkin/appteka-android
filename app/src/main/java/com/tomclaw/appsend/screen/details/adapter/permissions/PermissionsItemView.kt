@@ -1,21 +1,12 @@
 package com.tomclaw.appsend.screen.details.adapter.permissions
 
 import android.view.View
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.isVisible
 import com.avito.konveyor.adapter.BaseViewHolder
 import com.avito.konveyor.blueprint.ItemView
 import com.tomclaw.appsend.R
-import com.tomclaw.appsend.dto.UserIcon
 import com.tomclaw.appsend.util.bind
-import com.tomclaw.appsend.util.hide
-import com.tomclaw.appsend.util.show
-import com.tomclaw.appsend.view.UserIconView
-import com.tomclaw.appsend.view.UserIconViewImpl
-import com.tomclaw.imageloader.util.centerCrop
-import com.tomclaw.imageloader.util.fetch
-import com.tomclaw.imageloader.util.withPlaceholder
 
 interface PermissionsItemView : ItemView {
 

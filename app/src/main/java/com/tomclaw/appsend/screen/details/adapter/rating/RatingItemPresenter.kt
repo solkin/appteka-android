@@ -1,8 +1,8 @@
 package com.tomclaw.appsend.screen.details.adapter.rating
 
-import java.text.DateFormat
 import com.avito.konveyor.blueprint.ItemPresenter
 import com.tomclaw.appsend.screen.details.adapter.ItemListener
+import java.text.DateFormat
 
 class RatingItemPresenter(
     private val dateFormatter: DateFormat,
