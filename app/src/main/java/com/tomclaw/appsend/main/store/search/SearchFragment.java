@@ -1,5 +1,7 @@
 package com.tomclaw.appsend.main.store.search;
 
+import static com.tomclaw.appsend.util.LocaleHelper.getLocaleLanguage;
+
 import android.text.TextUtils;
 
 import com.tomclaw.appsend.R;
@@ -15,8 +17,6 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.InstanceState;
 
 import retrofit2.Call;
-
-import static com.tomclaw.appsend.util.LocaleHelper.getLocaleLanguage;
 
 @EFragment(R.layout.search_fragment)
 public class SearchFragment extends BaseStoreFragment implements Debouncer.Callback<String> {

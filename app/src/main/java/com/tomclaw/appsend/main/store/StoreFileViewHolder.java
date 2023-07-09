@@ -23,8 +23,6 @@ import android.widget.TextView;
 
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.categories.Category;
-import com.tomclaw.appsend.categories.CategoryConverter;
-import com.tomclaw.appsend.categories.CategoryConverterImpl;
 import com.tomclaw.appsend.main.adapter.files.FileViewHolder;
 import com.tomclaw.appsend.main.adapter.files.FilesListener;
 import com.tomclaw.appsend.main.item.StoreItem;

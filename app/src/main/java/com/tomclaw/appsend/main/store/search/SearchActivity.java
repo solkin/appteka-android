@@ -1,7 +1,6 @@
 package com.tomclaw.appsend.main.store.search;
 
 import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
-import static com.tomclaw.appsend.util.ColorsKt.getAttributedColor;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;

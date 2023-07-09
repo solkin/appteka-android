@@ -1,5 +1,7 @@
 package com.tomclaw.appsend.main.store;
 
+import static com.tomclaw.appsend.util.LocaleHelper.getLocaleLanguage;
+
 import androidx.annotation.NonNull;
 
 import com.tomclaw.appsend.R;
@@ -16,8 +18,6 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.InstanceState;
 
 import retrofit2.Call;
-
-import static com.tomclaw.appsend.util.LocaleHelper.getLocaleLanguage;
 
 @EFragment(R.layout.uploads_fragment)
 public class UserUploadsFragment extends BaseStoreFragment implements UserDataListener {

@@ -1,5 +1,7 @@
 package com.tomclaw.appsend.main.settings;
 
+import static com.tomclaw.appsend.util.FileHelper.getExternalDirectory;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.preference.Preference;
@@ -12,8 +14,6 @@ import com.tomclaw.appsend.core.TaskExecutor;
 
 import java.io.File;
 import java.io.FileFilter;
-
-import static com.tomclaw.appsend.util.FileHelper.getExternalDirectory;
 
 /**
  * Created by Solkin on 12.01.2015.

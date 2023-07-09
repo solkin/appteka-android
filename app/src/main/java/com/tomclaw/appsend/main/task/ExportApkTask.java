@@ -1,5 +1,9 @@
 package com.tomclaw.appsend.main.task;
 
+import static com.tomclaw.appsend.util.FileHelper.getExternalDirectory;
+import static com.tomclaw.appsend.util.IntentHelper.bluetoothApk;
+import static com.tomclaw.appsend.util.IntentHelper.shareApk;
+
 import android.content.Context;
 import android.content.DialogInterface;
 import android.text.Html;
@@ -18,10 +22,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
-
-import static com.tomclaw.appsend.util.FileHelper.getExternalDirectory;
-import static com.tomclaw.appsend.util.IntentHelper.bluetoothApk;
-import static com.tomclaw.appsend.util.IntentHelper.shareApk;
 
 /**
  * Created by Solkin on 11.12.2014.
