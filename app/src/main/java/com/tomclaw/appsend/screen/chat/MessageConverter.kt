@@ -78,6 +78,7 @@ class MessageConverterImpl(
                     )
                 }
             }
+
             else -> {
                 IncomingMsgItem(
                     id = message.msgId.toLong(),

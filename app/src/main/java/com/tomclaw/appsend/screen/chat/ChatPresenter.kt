@@ -58,10 +58,12 @@ class ChatPresenterImpl(
     private var view: ChatView? = null
     private var router: ChatPresenter.ChatRouter? = null
 
-    private var topic: TopicEntity? = state?.getParcelableCompat(KEY_TOPIC, TopicEntity::class.java) ?: topicEntity
+    private var topic: TopicEntity? =
+        state?.getParcelableCompat(KEY_TOPIC, TopicEntity::class.java) ?: topicEntity
     private var isError: Boolean = state?.getBoolean(KEY_ERROR) ?: false
     private var messageText: String = state?.getString(KEY_MESSAGE) ?: ""
-    private var history: List<MessageEntity>? = state?.getParcelableArrayListCompat(KEY_HISTORY, MessageEntity::class.java)
+    private var history: List<MessageEntity>? =
+        state?.getParcelableArrayListCompat(KEY_HISTORY, MessageEntity::class.java)
 
     private val journal = HashSet<Int>()
 
@@ -108,6 +110,7 @@ class ChatPresenterImpl(
             isError -> {
                 onTopicError()
             }
+
             topic != null -> {
                 onTopicLoaded()
                 if (history != null) {
@@ -116,6 +119,7 @@ class ChatPresenterImpl(
                     loadHistory()
                 }
             }
+
             else -> {
                 loadTopic()
             }

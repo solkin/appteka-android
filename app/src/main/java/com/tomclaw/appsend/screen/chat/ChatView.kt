@@ -144,10 +144,12 @@ class ChatViewImpl(
                     pinChatRelay.accept(Unit)
                     true
                 }
+
                 R.id.pin_off -> {
                     pinChatRelay.accept(Unit)
                     true
                 }
+
                 else -> false
             }
         }
