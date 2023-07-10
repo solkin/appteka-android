@@ -5,15 +5,14 @@ import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.blueprint.Item
 import com.avito.konveyor.data_source.ListDataSource
 import com.tomclaw.appsend.dto.AppEntity
+import com.tomclaw.appsend.screen.moderation.adapter.ItemListener
 import com.tomclaw.appsend.screen.moderation.adapter.app.AppItem
 import com.tomclaw.appsend.util.SchedulersFactory
-import com.tomclaw.appsend.screen.moderation.adapter.ItemListener
 import com.tomclaw.appsend.util.getParcelableArrayListCompat
 import dagger.Lazy
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
-import java.util.ArrayList
 import java.util.concurrent.TimeUnit
 
 interface ModerationPresenter : ItemListener {
@@ -57,7 +56,8 @@ class ModerationPresenterImpl(
 
     private val subscriptions = CompositeDisposable()
 
-    private var items: List<AppItem>? = state?.getParcelableArrayListCompat(KEY_APPS, AppItem::class.java)
+    private var items: List<AppItem>? =
+        state?.getParcelableArrayListCompat(KEY_APPS, AppItem::class.java)
     private var isError: Boolean = state?.getBoolean(KEY_ERROR) ?: false
 
     override fun attachView(view: ModerationView) {
@@ -148,9 +148,11 @@ class ModerationPresenterImpl(
             isError -> {
                 view?.showError()
             }
+
             items.isNullOrEmpty() -> {
                 view?.showPlaceholder()
             }
+
             else -> {
                 val dataSource = ListDataSource(items)
                 adapterPresenter.get().onDataSourceChanged(dataSource)

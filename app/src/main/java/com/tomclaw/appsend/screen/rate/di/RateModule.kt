@@ -10,7 +10,6 @@ import com.tomclaw.appsend.screen.rate.RatePresenterImpl
 import com.tomclaw.appsend.user.UserDataInteractor
 import com.tomclaw.appsend.util.PerActivity
 import com.tomclaw.appsend.util.SchedulersFactory
-import dagger.Lazy
 import dagger.Module
 import dagger.Provides
 import java.util.Locale
