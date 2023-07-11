@@ -17,4 +17,4 @@ data class VersionItem(
     val title: String,
     val compatible: Boolean,
     val newer: Boolean,
-): Parcelable
+) : Parcelable

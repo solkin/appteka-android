@@ -11,7 +11,6 @@ import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
-import com.tomclaw.appsend.upload.UploadPackage
 import com.tomclaw.appsend.main.item.CommonItem
 import com.tomclaw.appsend.main.local.SelectLocalAppActivity.SELECTED_ITEM
 import com.tomclaw.appsend.main.local.SelectLocalAppActivity.createSelectAppActivity
@@ -19,6 +18,7 @@ import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.screen.upload.di.UploadModule
 import com.tomclaw.appsend.upload.UploadApk
 import com.tomclaw.appsend.upload.UploadInfo
+import com.tomclaw.appsend.upload.UploadPackage
 import com.tomclaw.appsend.upload.createUploadIntent
 import com.tomclaw.appsend.util.KeyboardHelper
 import com.tomclaw.appsend.util.ThemeHelper

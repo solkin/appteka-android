@@ -10,4 +10,4 @@ data class UploadResponse(
     val appId: String,
     @SerializedName("file_status")
     val fileStatus: Int,
-): Parcelable
+) : Parcelable

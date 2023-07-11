@@ -3,7 +3,6 @@ package com.tomclaw.appsend.screen.upload
 import android.os.Build
 import com.avito.konveyor.blueprint.Item
 import com.tomclaw.appsend.categories.CategoryItem
-import com.tomclaw.appsend.upload.UploadPackage
 import com.tomclaw.appsend.screen.upload.adapter.category.SelectCategoryItem
 import com.tomclaw.appsend.screen.upload.adapter.description.DescriptionItem
 import com.tomclaw.appsend.screen.upload.adapter.exclusive.ExclusiveItem
@@ -18,6 +17,7 @@ import com.tomclaw.appsend.screen.upload.adapter.submit.SubmitItem
 import com.tomclaw.appsend.screen.upload.adapter.whats_new.WhatsNewItem
 import com.tomclaw.appsend.screen.upload.api.CheckExistResponse
 import com.tomclaw.appsend.upload.UploadApk
+import com.tomclaw.appsend.upload.UploadPackage
 import com.tomclaw.appsend.util.versionCodeCompat
 
 interface UploadConverter {

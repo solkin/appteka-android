@@ -28,7 +28,8 @@ class OtherVersionsItemViewHolder(view: View) : BaseViewHolder(view), OtherVersi
     }
 
     override fun setVersionsCount(value: Int) {
-        otherVersionsText.text = resources.getQuantityString(R.plurals.other_versions_text, value, value)
+        otherVersionsText.text =
+            resources.getQuantityString(R.plurals.other_versions_text, value, value)
     }
 
     override fun setOnClickListener(listener: (() -> Unit)?) {

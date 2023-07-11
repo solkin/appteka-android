@@ -105,6 +105,7 @@ class UploadNotificationsImpl(private val context: Context) : UploadNotification
                         .build()
                     notificationManager.notify(notificationId, notification)
                 }
+
                 UploadStatus.ERROR -> {
                     val notification = notificationBuilder
                         .setContentText(context.getString(R.string.upload_failed))
@@ -117,6 +118,7 @@ class UploadNotificationsImpl(private val context: Context) : UploadNotification
                     stop()
                     disposable?.dispose()
                 }
+
                 UploadStatus.COMPLETED -> {
                     notificationManager.cancel(notificationId)
                     val uploadedIntent = state.result?.let { getOpenDetailsIntent(it.appId, label) }
@@ -140,11 +142,13 @@ class UploadNotificationsImpl(private val context: Context) : UploadNotification
                     stop()
                     disposable?.dispose()
                 }
+
                 UploadStatus.IDLE -> {
                     notificationManager.cancel(notificationId)
                     stop()
                     disposable?.dispose()
                 }
+
                 UploadStatus.STARTED -> {
                     val notification = notificationBuilder
                         .setContentText(context.getString(R.string.waiting_for_upload))
@@ -158,9 +162,15 @@ class UploadNotificationsImpl(private val context: Context) : UploadNotification
                         notification
                     )
                 }
+
                 else -> {
                     val notification = notificationBuilder
-                        .setContentText(context.getString(R.string.uploading_progress, state.percent))
+                        .setContentText(
+                            context.getString(
+                                R.string.uploading_progress,
+                                state.percent
+                            )
+                        )
                         .setProgress(100, state.percent, false)
                         .build()
                     notificationManager.cancel(notificationId)
@@ -201,7 +211,11 @@ class UploadNotificationsImpl(private val context: Context) : UploadNotification
     }
 
     @SuppressLint("UnspecifiedImmutableFlag")
-    private fun getOpenUploadIntent(pkg: UploadPackage, apk: UploadApk, info: UploadInfo): PendingIntent {
+    private fun getOpenUploadIntent(
+        pkg: UploadPackage,
+        apk: UploadApk,
+        info: UploadInfo
+    ): PendingIntent {
         return PendingIntent.getActivity(
             context, 0,
             createUploadActivityIntent(

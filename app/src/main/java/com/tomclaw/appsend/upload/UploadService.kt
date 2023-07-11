@@ -34,9 +34,11 @@ class UploadService : Service() {
     }
 
     private fun onIntentReceived(intent: Intent): Boolean {
-        val pkg = intent.getParcelableExtraCompat(EXTRA_PACKAGE_INFO, UploadPackage::class.java) ?: return false
+        val pkg = intent.getParcelableExtraCompat(EXTRA_PACKAGE_INFO, UploadPackage::class.java)
+            ?: return false
         val apk = intent.getParcelableExtraCompat(EXTRA_APK_INFO, UploadApk::class.java)
-        val info = intent.getParcelableExtraCompat(EXTRA_INFO, UploadInfo::class.java) ?: return false
+        val info =
+            intent.getParcelableExtraCompat(EXTRA_INFO, UploadInfo::class.java) ?: return false
 
         println("[upload service] onStartCommand(pkg = $pkg, apk = $apk, info = $info)")
 

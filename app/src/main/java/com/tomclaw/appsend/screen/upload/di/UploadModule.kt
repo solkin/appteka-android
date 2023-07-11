@@ -10,7 +10,6 @@ import com.tomclaw.appsend.categories.CategoriesInteractor
 import com.tomclaw.appsend.categories.CategoryConverter
 import com.tomclaw.appsend.categories.CategoryConverterImpl
 import com.tomclaw.appsend.core.StoreApi
-import com.tomclaw.appsend.upload.UploadPackage
 import com.tomclaw.appsend.screen.upload.UploadConverter
 import com.tomclaw.appsend.screen.upload.UploadConverterImpl
 import com.tomclaw.appsend.screen.upload.UploadInteractor
@@ -46,6 +45,7 @@ import com.tomclaw.appsend.screen.upload.adapter.whats_new.WhatsNewItemPresenter
 import com.tomclaw.appsend.upload.UploadApk
 import com.tomclaw.appsend.upload.UploadInfo
 import com.tomclaw.appsend.upload.UploadManager
+import com.tomclaw.appsend.upload.UploadPackage
 import com.tomclaw.appsend.user.UserDataInteractor
 import com.tomclaw.appsend.util.PerActivity
 import com.tomclaw.appsend.util.SchedulersFactory
