@@ -8,6 +8,8 @@ import com.avito.konveyor.adapter.SimpleAdapterPresenter
 import com.avito.konveyor.blueprint.ItemBlueprint
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.events.EventsInteractor
+import com.tomclaw.appsend.screen.topics.TopicConverter
+import com.tomclaw.appsend.screen.topics.TopicConverterImpl
 import com.tomclaw.appsend.screen.topics.TopicsInteractor
 import com.tomclaw.appsend.screen.topics.TopicsInteractorImpl
 import com.tomclaw.appsend.screen.topics.TopicsPreferencesProvider
@@ -16,8 +18,6 @@ import com.tomclaw.appsend.screen.topics.TopicsPresenter
 import com.tomclaw.appsend.screen.topics.TopicsPresenterImpl
 import com.tomclaw.appsend.screen.topics.TopicsResourceProvider
 import com.tomclaw.appsend.screen.topics.TopicsResourceProviderImpl
-import com.tomclaw.appsend.screen.topics.TopicConverter
-import com.tomclaw.appsend.screen.topics.TopicConverterImpl
 import com.tomclaw.appsend.screen.topics.adapter.topic.TopicItemBlueprint
 import com.tomclaw.appsend.screen.topics.adapter.topic.TopicItemPresenter
 import com.tomclaw.appsend.user.UserDataInteractor
