@@ -37,8 +37,10 @@ class AppItemPresenter(
                 statusText = resourceProvider.getStatusBlockedString()
                 clickable = false
             }
+
             StoreItem.FILE_STATUS_PRIVATE -> statusText = resourceProvider.getStatusPrivateString()
-            StoreItem.FILE_STATUS_MODERATION -> statusText = resourceProvider.getStatusModerationString()
+            StoreItem.FILE_STATUS_MODERATION -> statusText =
+                resourceProvider.getStatusModerationString()
         }
         view.setStatus(statusText)
         if (item.isNew) view.showBadge() else view.hideBadge()

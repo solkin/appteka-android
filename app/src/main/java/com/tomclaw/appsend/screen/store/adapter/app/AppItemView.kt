@@ -1,6 +1,5 @@
 package com.tomclaw.appsend.screen.store.adapter.app
 
-import android.media.Image
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE

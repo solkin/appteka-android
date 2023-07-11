@@ -59,9 +59,11 @@ class StorePresenterImpl(
 
     private val subscriptions = CompositeDisposable()
 
-    private var items: List<AppItem>? = state?.getParcelableArrayListCompat(KEY_APPS, AppItem::class.java)
+    private var items: List<AppItem>? =
+        state?.getParcelableArrayListCompat(KEY_APPS, AppItem::class.java)
     private var isError: Boolean = state?.getBoolean(KEY_ERROR) ?: false
-    private var category: CategoryItem? = state?.getParcelableCompat(KEY_CATEGORY_ID, CategoryItem::class.java)
+    private var category: CategoryItem? =
+        state?.getParcelableCompat(KEY_CATEGORY_ID, CategoryItem::class.java)
 
     override fun attachView(view: StoreView) {
         this.view = view
@@ -158,6 +160,7 @@ class StorePresenterImpl(
             items.isNullOrEmpty() -> {
                 view?.showPlaceholder()
             }
+
             else -> {
                 val dataSource = ListDataSource(items)
                 adapterPresenter.get().onDataSourceChanged(dataSource)
