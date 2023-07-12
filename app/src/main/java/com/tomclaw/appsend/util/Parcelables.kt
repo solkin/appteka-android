@@ -23,7 +23,10 @@ fun <T : Parcelable> Bundle.getParcelableCompat(key: String, clazz: Class<T>): T
     }
 }
 
-fun <T : Parcelable> Bundle.getParcelableArrayListCompat(key: String, clazz: Class<T>): ArrayList<T>? {
+fun <T : Parcelable> Bundle.getParcelableArrayListCompat(
+    key: String,
+    clazz: Class<T>
+): ArrayList<T>? {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         getParcelableArrayList(key, clazz)
     } else {

@@ -1,5 +1,7 @@
 package com.tomclaw.appsend.util;
 
+import static android.content.pm.PermissionInfo.PROTECTION_DANGEROUS;
+
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.content.pm.PermissionInfo;
@@ -7,8 +9,6 @@ import android.content.pm.PermissionInfo;
 import androidx.annotation.NonNull;
 
 import com.tomclaw.appsend.R;
-
-import static android.content.pm.PermissionInfo.PROTECTION_DANGEROUS;
 
 /**
  * Created by ivsolkin on 27.01.17.

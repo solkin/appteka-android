@@ -76,6 +76,7 @@ class BubbleColorDrawable(
                 )
                 path.lineTo(offset, offset)
             }
+
             Corner.RIGHT -> {
                 path.moveTo(bubbleRadius, 0f)
                 path.lineTo(r.width(), 0f)
@@ -112,6 +113,7 @@ class BubbleColorDrawable(
                     90f
                 )
             }
+
             Corner.NONE -> {
                 rect.inset(-offset, -offset)
                 path.addRoundRect(

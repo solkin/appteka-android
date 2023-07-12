@@ -11,7 +11,6 @@ import android.os.Build;
 import androidx.core.content.FileProvider;
 
 import com.tomclaw.appsend.R;
-import com.tomclaw.appsend.main.item.CommonItem;
 
 import java.io.File;
 import java.util.List;
