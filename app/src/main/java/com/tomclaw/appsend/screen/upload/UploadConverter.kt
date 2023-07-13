@@ -108,7 +108,7 @@ class UploadConverterImpl(
             items += DescriptionItem(
                 id++,
                 text = description,
-                errorRequiredField = highlightErrors && description.isEmpty()
+                errorRequiredField = highlightErrors && description.isBlank()
             )
             items += ExclusiveItem(id++, value = exclusive)
             items += OpenSourceItem(id++, value = openSource, url = sourceUrl)

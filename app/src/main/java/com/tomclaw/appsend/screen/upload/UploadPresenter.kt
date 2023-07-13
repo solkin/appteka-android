@@ -370,6 +370,7 @@ class UploadPresenterImpl(
         val pkg = pkg ?: return false
         val category = category ?: return false
         val checkExist = checkExist ?: return false
+        description.ifBlank { null } ?: return false
 
         val info = UploadInfo(
             checkExist,
