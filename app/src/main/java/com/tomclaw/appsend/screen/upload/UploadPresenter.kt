@@ -371,13 +371,6 @@ class UploadPresenterImpl(
         val category = category ?: return false
         val checkExist = checkExist ?: return false
 
-        router?.openDetailsScreen(
-            appId = checkExist.file?.appId.orEmpty(),
-            label = checkExist.file?.title.orEmpty(),
-            isFinish = true
-        )
-        return true
-
         val info = UploadInfo(
             checkExist,
             category,
