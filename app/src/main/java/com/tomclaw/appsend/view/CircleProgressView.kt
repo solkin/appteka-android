@@ -34,6 +34,7 @@ class CircleProgressView(context: Context, attrs: AttributeSet) : View(context, 
             invalidate()
             requestLayout() //Because it should recalculate its bounds
         }
+
     @SuppressLint("AnimatorKeep")
     var progress = 0f
         set(value) {
@@ -73,12 +74,16 @@ class CircleProgressView(context: Context, attrs: AttributeSet) : View(context, 
 
     private fun init(context: Context, attrs: AttributeSet) {
         val typedArray = context.theme.obtainStyledAttributes(
-                attrs,
-                R.styleable.CircleProgressView,
-                0, 0)
+            attrs,
+            R.styleable.CircleProgressView,
+            0, 0
+        )
         //Reading values from the XML layout
         try {
-            strokeWidth = typedArray.getDimension(R.styleable.CircleProgressView_progressBarThickness, strokeWidth)
+            strokeWidth = typedArray.getDimension(
+                R.styleable.CircleProgressView_progressBarThickness,
+                strokeWidth
+            )
             progress = typedArray.getFloat(R.styleable.CircleProgressView_progress, progress)
             color = typedArray.getInt(R.styleable.CircleProgressView_progressbarColor, color)
             min = typedArray.getInt(R.styleable.CircleProgressView_min, min)
@@ -111,10 +116,10 @@ class CircleProgressView(context: Context, attrs: AttributeSet) : View(context, 
         val min = min(width, height)
         setMeasuredDimension(min, min)
         rectF.set(
-                0 + strokeWidth / 2,
-                0 + strokeWidth / 2,
-                min - strokeWidth / 2,
-                min - strokeWidth / 2
+            0 + strokeWidth / 2,
+            0 + strokeWidth / 2,
+            min - strokeWidth / 2,
+            min - strokeWidth / 2
         )
     }
 
