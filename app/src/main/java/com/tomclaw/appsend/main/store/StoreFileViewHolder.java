@@ -48,6 +48,7 @@ public class StoreFileViewHolder extends FileViewHolder<StoreItem> {
     private final View downloadsIcon;
     private final View openSourceIcon;
     private final View appBadge;
+    private final ImageView appBadgeIcon;
     private final TextView appBadgeText;
     private final View badgeNew;
     private final View viewProgress;
@@ -70,6 +71,7 @@ public class StoreFileViewHolder extends FileViewHolder<StoreItem> {
         downloadsIcon = itemView.findViewById(R.id.downloads_icon);
         openSourceIcon = itemView.findViewById(R.id.open_source);
         appBadge = itemView.findViewById(R.id.app_badge);
+        appBadgeIcon = itemView.findViewById(R.id.app_badge_icon);
         appBadgeText = itemView.findViewById(R.id.app_badge_text);
         badgeNew = itemView.findViewById(R.id.badge_new);
         viewProgress = itemView.findViewById(R.id.item_progress);
@@ -123,22 +125,28 @@ public class StoreFileViewHolder extends FileViewHolder<StoreItem> {
             appDownloads.setText(String.valueOf(item.getDownloads()));
         }
         int badgeTextRes = 0;
+        boolean isPublished = false;
         if (isInstalled && isMayBeUpdated) {
             badgeTextRes = R.string.store_app_update;
+            isPublished = true;
         } else if (isInstalled) {
             badgeTextRes = R.string.store_app_installed;
+            isPublished = true;
         }
         switch (item.getFileStatus()) {
             case FILE_STATUS_UNLINKED:
                 badgeTextRes = R.string.status_unlinked;
+                isPublished = false;
                 appCard.setOnClickListener(null);
                 appCard.setClickable(false);
                 break;
             case FILE_STATUS_PRIVATE:
                 badgeTextRes = R.string.status_private;
+                isPublished = false;
                 break;
             case FILE_STATUS_MODERATION:
                 badgeTextRes = R.string.status_on_moderation;
+                isPublished = false;
                 break;
         }
         if (hasRating) {
@@ -152,6 +160,9 @@ public class StoreFileViewHolder extends FileViewHolder<StoreItem> {
         if (badgeTextRes > 0) {
             appBadgeText.setText(badgeTextRes);
             appBadge.setVisibility(VISIBLE);
+            appBadgeIcon.setImageResource(
+                    isPublished ? R.drawable.ic_pill_ok : R.drawable.ic_pill_fail
+            );
         } else {
             appBadge.setVisibility(GONE);
         }

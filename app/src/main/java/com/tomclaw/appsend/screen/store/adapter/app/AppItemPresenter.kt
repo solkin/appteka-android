@@ -26,23 +26,32 @@ class AppItemPresenter(
         view.setRating(item.rating.takeIf { it > 0 })
         view.setDownloads(item.downloads)
         var statusText = ""
+        var isPublished = false
         if (item.isInstalled && item.isUpdatable) {
             statusText = resourceProvider.getStatusUpdatableString()
+            isPublished = true
         } else if (item.isInstalled) {
             statusText = resourceProvider.getStatusInstalledString()
+            isPublished = true
         }
         var clickable = true
         when (item.status) {
             StoreItem.FILE_STATUS_UNLINKED -> {
                 statusText = resourceProvider.getStatusBlockedString()
+                isPublished = false
                 clickable = false
             }
 
-            StoreItem.FILE_STATUS_PRIVATE -> statusText = resourceProvider.getStatusPrivateString()
-            StoreItem.FILE_STATUS_MODERATION -> statusText =
-                resourceProvider.getStatusModerationString()
+            StoreItem.FILE_STATUS_PRIVATE -> {
+                statusText = resourceProvider.getStatusPrivateString()
+                isPublished = false
+            }
+            StoreItem.FILE_STATUS_MODERATION -> {
+                statusText = resourceProvider.getStatusModerationString()
+                isPublished = false
+            }
         }
-        view.setStatus(statusText)
+        view.setStatus(statusText, isPublished)
         if (item.isNew) view.showBadge() else view.hideBadge()
         if (item.hasProgress) view.showProgress() else view.hideProgress()
         view.setCategory(item.category)

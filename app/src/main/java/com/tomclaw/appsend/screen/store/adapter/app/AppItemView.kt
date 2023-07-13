@@ -39,7 +39,7 @@ interface AppItemView : ItemView {
 
     fun hideProgress()
 
-    fun setStatus(status: String?)
+    fun setStatus(status: String?, success: Boolean)
 
     fun showOpenSourceBadge()
 
@@ -67,6 +67,7 @@ class AppItemViewHolder(view: View) : BaseViewHolder(view), AppItemView {
     private val badge: View = view.findViewById(R.id.badge_new)
     private val progress: View = view.findViewById(R.id.item_progress)
     private val statusContainer: View = view.findViewById(R.id.app_badge)
+    private val statusIcon: ImageView = view.findViewById(R.id.app_badge_icon)
     private val statusText: TextView = view.findViewById(R.id.app_badge_text)
     private val categoryTitle: TextView = view.findViewById(R.id.app_category)
     private val categoryIcon: ImageView = view.findViewById(R.id.app_category_icon)
@@ -127,8 +128,11 @@ class AppItemViewHolder(view: View) : BaseViewHolder(view), AppItemView {
         badge.hide()
     }
 
-    override fun setStatus(status: String?) {
+    override fun setStatus(status: String?, isPublished: Boolean) {
         this.statusText.bind(status)
+        this.statusIcon.setImageResource(
+            if (isPublished) R.drawable.ic_pill_ok else R.drawable.ic_pill_fail
+        )
         this.statusContainer.visibility = statusText.visibility
     }
 
