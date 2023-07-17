@@ -33,7 +33,13 @@ interface DetailsView {
 
     fun showSnackbar(text: String)
 
-    fun showMenu(canEdit: Boolean, canUnlink: Boolean, canUnpublish: Boolean, canDelete: Boolean)
+    fun showMenu(
+        isFavorite: Boolean,
+        canEdit: Boolean,
+        canUnlink: Boolean,
+        canUnpublish: Boolean,
+        canDelete: Boolean
+    )
 
     fun hideMenu()
 
@@ -205,6 +211,7 @@ class DetailsViewImpl(
     }
 
     override fun showMenu(
+        isFavorite: Boolean,
         canEdit: Boolean,
         canUnlink: Boolean,
         canUnpublish: Boolean,
@@ -212,6 +219,11 @@ class DetailsViewImpl(
     ) {
         toolbar.menu.clear()
         toolbar.inflateMenu(R.menu.details_menu)
+        if (isFavorite) {
+            toolbar.menu.removeItem(R.id.mark_favorite)
+        } else {
+            toolbar.menu.removeItem(R.id.unmark_favorite)
+        }
         if (!canEdit) {
             toolbar.menu.removeItem(R.id.edit_meta)
         }

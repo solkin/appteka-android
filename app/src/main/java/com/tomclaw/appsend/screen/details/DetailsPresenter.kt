@@ -282,6 +282,7 @@ class DetailsPresenterImpl(
         bindItems()
 
         view?.showMenu(
+            isFavorite = details.isFavorite ?: false,
             canEdit = checkAction(ACTION_EDIT_META),
             canUnlink = checkAction(ACTION_UNLINK),
             canUnpublish = checkAction(ACTION_UNPUBLISH),

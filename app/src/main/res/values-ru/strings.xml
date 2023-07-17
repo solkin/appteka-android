@@ -347,4 +347,6 @@
     <string name="open_source_short">Open Source</string>
     <string name="required_field">Обязательное поле</string>
     <string name="category_not_set">Категория не указана</string>
+    <string name="mark_favorite">В избранное</string>
+    <string name="unmark_favorite">Убрать из избранного</string>
 </resources>

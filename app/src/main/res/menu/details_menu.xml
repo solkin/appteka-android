@@ -2,6 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/mark_favorite"
+        android:icon="@drawable/ic_favorite_outline"
+        android:title="@string/mark_favorite"
+        app:iconTint="?android:textColorPrimary"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/unmark_favorite"
+        android:icon="@drawable/ic_favorite"
+        android:title="@string/unmark_favorite"
+        app:iconTint="?android:textColorPrimary"
+        app:showAsAction="ifRoom" />
+    <item
         android:id="@+id/share"
         android:icon="@drawable/ic_share_variant"
         android:title="@string/share_url"
