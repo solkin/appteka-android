@@ -73,6 +73,8 @@ interface DetailsView {
 
     fun moderationClicks(): Observable<Boolean>
 
+    fun favoriteClicks(): Observable<Boolean>
+
     fun onDismiss()
 
 }
@@ -113,6 +115,7 @@ class DetailsViewImpl(
     private val retryRelay = PublishRelay.create<Unit>()
     private val versionRelay = PublishRelay.create<VersionItem>()
     private val moderationRelay = PublishRelay.create<Boolean>()
+    private val favoriteRelay = PublishRelay.create<Boolean>()
 
     private val layoutManager: LinearLayoutManager
 
@@ -128,6 +131,8 @@ class DetailsViewImpl(
                 R.id.unlink -> unlinkRelay.accept(Unit)
                 R.id.delete -> deleteRelay.accept(false)
                 R.id.abuse -> abuseRelay.accept(Unit)
+                R.id.mark_favorite -> favoriteRelay.accept(true)
+                R.id.unmark_favorite -> favoriteRelay.accept(false)
             }
             true
         }
@@ -292,6 +297,8 @@ class DetailsViewImpl(
     override fun versionClicks(): Observable<VersionItem> = versionRelay
 
     override fun moderationClicks(): Observable<Boolean> = moderationRelay
+
+    override fun favoriteClicks(): Observable<Boolean> = favoriteRelay
 
     override fun onDismiss() {
         dialog?.dismiss()

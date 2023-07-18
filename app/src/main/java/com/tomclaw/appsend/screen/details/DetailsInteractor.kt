@@ -4,6 +4,7 @@ import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.screen.details.api.CreateTopicResponse
 import com.tomclaw.appsend.screen.details.api.DeletionResponse
 import com.tomclaw.appsend.screen.details.api.Details
+import com.tomclaw.appsend.screen.details.api.MarkFavoriteResponse
 import com.tomclaw.appsend.screen.details.api.ModerationDecisionResponse
 import com.tomclaw.appsend.user.UserDataInteractor
 import com.tomclaw.appsend.util.SchedulersFactory
@@ -22,6 +23,8 @@ interface DetailsInteractor {
     fun deleteApplication(appId: String): Single<DeletionResponse>
 
     fun createTopic(packageName: String): Single<CreateTopicResponse>
+
+    fun markFavorite(appId: String, isFavorite: Boolean): Single<MarkFavoriteResponse>
 
 }
 
@@ -84,6 +87,20 @@ class DetailsInteractorImpl(
                 api.createTopic(
                     guid = it.guid,
                     packageName = packageName,
+                )
+            }
+            .map { it.result }
+            .subscribeOn(schedulers.io())
+    }
+
+    override fun markFavorite(appId: String, isFavorite: Boolean): Single<MarkFavoriteResponse> {
+        return userDataInteractor
+            .getUserData()
+            .flatMap {
+                api.markFavorite(
+                    guid = it.guid,
+                    appId = appId,
+                    isFavorite = isFavorite,
                 )
             }
             .map { it.result }

@@ -11,6 +11,7 @@ import com.tomclaw.appsend.screen.chat.api.TopicInfoResponse
 import com.tomclaw.appsend.screen.details.api.CreateTopicResponse
 import com.tomclaw.appsend.screen.details.api.DeletionResponse
 import com.tomclaw.appsend.screen.details.api.Details
+import com.tomclaw.appsend.screen.details.api.MarkFavoriteResponse
 import com.tomclaw.appsend.screen.details.api.ModerationDecisionResponse
 import com.tomclaw.appsend.screen.moderation.api.ModerationResponse
 import com.tomclaw.appsend.screen.rate.api.SubmitReviewResponse
@@ -173,5 +174,12 @@ interface StoreApi {
         @Field("exclusive") exclusive: Boolean,
         @Field("source_url") sourceUrl: String?,
     ): Single<StoreResponse<SetMetaResponse>>
+
+    @POST("1/app/favorite/mark")
+    fun markFavorite(
+        @Query("guid") guid: String,
+        @Query("app_id") appId: String,
+        @Query("is_favorite") isFavorite: Boolean
+    ): Single<StoreResponse<MarkFavoriteResponse>>
 
 }

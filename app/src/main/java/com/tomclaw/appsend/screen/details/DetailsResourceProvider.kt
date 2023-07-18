@@ -32,6 +32,14 @@ interface DetailsResourceProvider {
 
     fun unpublishAction(): String
 
+    fun markedFavorite(): String
+
+    fun unmarkedFavorite(): String
+
+    fun markFavoriteError(): String
+
+    fun unmarkFavoriteError(): String
+
 }
 
 class DetailsResourceProviderImpl(
@@ -84,6 +92,22 @@ class DetailsResourceProviderImpl(
 
     override fun unpublishAction(): String {
         return resources.getString(R.string.unpublish_file)
+    }
+
+    override fun markedFavorite(): String {
+        return resources.getString(R.string.marked_favorite)
+    }
+
+    override fun unmarkedFavorite(): String {
+        return resources.getString(R.string.unmarked_favorite)
+    }
+
+    override fun markFavoriteError(): String {
+        return resources.getString(R.string.mark_favorite_error)
+    }
+
+    override fun unmarkFavoriteError(): String {
+        return resources.getString(R.string.unmark_favorite_error)
     }
 
 }

@@ -126,6 +126,7 @@ class DetailsPresenterImpl(
     private var downloadState: Int = state?.getInt(KEY_DOWNLOAD_STATE) ?: IDLE
     private var targetFile: File? = state?.getString(KEY_TARGET_FILE)?.let { File(it) }
     private var needInstall: Boolean = state?.getBoolean(KEY_NEED_INSTALL) ?: false
+    private var isFavorite: Boolean = state?.getBoolean(KEY_IS_FAVORITE) ?: false
 
     private val items = ArrayList<Item>()
 
@@ -187,6 +188,9 @@ class DetailsPresenterImpl(
             sendModerationDecision(isApprove)
         }
         subscriptions += view.retryClicks().subscribe { invalidateDetails() }
+        subscriptions += view.favoriteClicks().subscribe { isFavorite ->
+            markFavorite(isFavorite)
+        }
 
         if (moderation) {
             view.showModeration()
@@ -220,6 +224,7 @@ class DetailsPresenterImpl(
         putInt(KEY_DOWNLOAD_STATE, downloadState)
         putString(KEY_TARGET_FILE, targetFile?.absolutePath)
         putBoolean(KEY_NEED_INSTALL, needInstall)
+        putBoolean(KEY_IS_FAVORITE, isFavorite)
     }
 
     private fun loadDetails() {
@@ -247,6 +252,7 @@ class DetailsPresenterImpl(
 
     private fun onDetailsLoaded(details: Details) {
         this.details = details
+        this.isFavorite = details.isFavorite ?: false
         dispatchPackageStatus()
     }
 
@@ -281,15 +287,19 @@ class DetailsPresenterImpl(
 
         bindItems()
 
+        bindMenu()
+
+        view?.contentUpdated()
+    }
+
+    private fun bindMenu() {
         view?.showMenu(
-            isFavorite = details.isFavorite ?: false,
+            isFavorite = isFavorite,
             canEdit = checkAction(ACTION_EDIT_META),
             canUnlink = checkAction(ACTION_UNLINK),
             canUnpublish = checkAction(ACTION_UNPUBLISH),
             canDelete = checkAction(ACTION_DELETE)
         )
-
-        view?.contentUpdated()
     }
 
     private fun bindItems() {
@@ -334,6 +344,46 @@ class DetailsPresenterImpl(
 
     private fun onModerationDecisionSent() {
         router?.leaveModeration()
+    }
+
+    private fun markFavorite(isFavorite: Boolean) {
+        val details = details ?: return
+        subscriptions += interactor.markFavorite(details.info.appId, isFavorite)
+            .toObservable()
+            .observeOn(schedulers.mainThread())
+            .retryWhen { errors ->
+                errors.flatMap {
+                    println("[mark favorite] Retry after exception: " + it.message)
+                    Observable.timer(3, TimeUnit.SECONDS)
+                }
+            }
+            .doOnSubscribe {
+                this.isFavorite = isFavorite
+                bindMenu()
+            }
+            .subscribe(
+                { onFavoriteMarked(isFavorite) },
+                { onFavoriteError(isFavorite) }
+            )
+    }
+
+    private fun onFavoriteMarked(isFavorite: Boolean) {
+        val text = if (isFavorite) {
+            resourceProvider.markedFavorite()
+        } else {
+            resourceProvider.unmarkedFavorite()
+        }
+        view?.showSnackbar(text)
+    }
+
+    private fun onFavoriteError(isFavorite: Boolean) {
+        this.isFavorite = !isFavorite
+        val text = if (isFavorite) {
+            resourceProvider.markFavoriteError()
+        } else {
+            resourceProvider.unmarkFavoriteError()
+        }
+        view?.showSnackbar(text)
     }
 
     private fun deleteFromStore() {
@@ -517,3 +567,4 @@ private const val KEY_INSTALLED_VERSION = "versionCode"
 private const val KEY_DOWNLOAD_STATE = "downloadState"
 private const val KEY_TARGET_FILE = "targetFile"
 private const val KEY_NEED_INSTALL = "needInstall"
+private const val KEY_IS_FAVORITE = "isFavorite"
