@@ -351,16 +351,6 @@ class DetailsPresenterImpl(
         subscriptions += interactor.markFavorite(details.info.appId, isFavorite)
             .toObservable()
             .observeOn(schedulers.mainThread())
-            .retryWhen { errors ->
-                errors.flatMap {
-                    println("[mark favorite] Retry after exception: " + it.message)
-                    Observable.timer(3, TimeUnit.SECONDS)
-                }
-            }
-            .doOnSubscribe {
-                this.isFavorite = isFavorite
-                bindMenu()
-            }
             .subscribe(
                 { onFavoriteMarked(isFavorite) },
                 { onFavoriteError(isFavorite) }
@@ -368,11 +358,13 @@ class DetailsPresenterImpl(
     }
 
     private fun onFavoriteMarked(isFavorite: Boolean) {
+        this.isFavorite = isFavorite
         val text = if (isFavorite) {
             resourceProvider.markedFavorite()
         } else {
             resourceProvider.unmarkedFavorite()
         }
+        bindMenu()
         view?.showSnackbar(text)
     }
 
@@ -383,6 +375,7 @@ class DetailsPresenterImpl(
         } else {
             resourceProvider.unmarkFavoriteError()
         }
+        bindMenu()
         view?.showSnackbar(text)
     }
 
