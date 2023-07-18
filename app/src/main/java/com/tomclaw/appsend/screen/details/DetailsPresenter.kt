@@ -369,13 +369,11 @@ class DetailsPresenterImpl(
     }
 
     private fun onFavoriteError(isFavorite: Boolean) {
-        this.isFavorite = !isFavorite
         val text = if (isFavorite) {
             resourceProvider.markFavoriteError()
         } else {
             resourceProvider.unmarkFavoriteError()
         }
-        bindMenu()
         view?.showSnackbar(text)
     }
 
