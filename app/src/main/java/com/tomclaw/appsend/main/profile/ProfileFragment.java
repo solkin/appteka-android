@@ -39,6 +39,7 @@ import com.tomclaw.appsend.net.Session;
 import com.tomclaw.appsend.net.UpdatesCheckInteractor;
 import com.tomclaw.appsend.net.UserData;
 import com.tomclaw.appsend.net.UserDataListener;
+import com.tomclaw.appsend.screen.favorite.FavoriteActivityKt;
 import com.tomclaw.appsend.screen.moderation.ModerationActivityKt;
 import com.tomclaw.appsend.util.Listeners;
 import com.tomclaw.appsend.util.LocaleHelper;
@@ -371,6 +372,16 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
         );
         detailsContainer.addView(DetailsItem_.build(context)
                 .setDetails(
+                        R.drawable.ic_favorite,
+                        R.color.favorite_color,
+                        getString(R.string.favorite_apps),
+                        String.valueOf(profile.getFilesCount()),
+                        "",
+                        false
+                )
+                .setClickListener(v -> showFavorite()));
+        detailsContainer.addView(DetailsItem_.build(context)
+                .setDetails(
                         R.drawable.ic_user_messages,
                         R.color.user_messages_color,
                         getString(R.string.messages_wrote),
@@ -467,6 +478,12 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
     private void showUserFiles() {
         FilesActivity_.intent(this).userId((long) profile.getUserId()).start();
         trackEvent("click-user-files");
+    }
+
+    private void showFavorite() {
+        Intent intent = FavoriteActivityKt.createFavoriteActivityIntent(getActivity(), profile.getUserId());
+        startActivity(intent);
+        trackEvent("click-favorite");
     }
 
     private void showAppsOnModeration() {

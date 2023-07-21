@@ -360,4 +360,6 @@
     <string name="unmarked_favorite">App removed from favorites</string>
     <string name="mark_favorite_error">Error adding to favorites</string>
     <string name="unmark_favorite_error">Error deleting from favorites</string>
+    <string name="favorite_activity">Favorite</string>
+    <string name="favorite_apps">Favorite apps</string>
 </resources>

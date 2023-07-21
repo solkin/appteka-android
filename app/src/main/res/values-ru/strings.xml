@@ -353,4 +353,6 @@
     <string name="unmarked_favorite">Приложение удалено из избранного</string>
     <string name="mark_favorite_error">Ошибка добавления в избранное</string>
     <string name="unmark_favorite_error">Ошибка удаления из избранного</string>
+    <string name="favorite_activity">Избранное</string>
+    <string name="favorite_apps">Избранные приложения</string>
 </resources>

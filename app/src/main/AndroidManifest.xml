@@ -155,6 +155,9 @@
         <activity
             android:name=".screen.rate.RateActivity"
             android:label="@string/rate_app" />
+        <activity
+            android:name=".screen.favorite.FavoriteActivity"
+            android:label="@string/favorite_activity" />
 
         <service android:name=".download.DownloadService" />
 

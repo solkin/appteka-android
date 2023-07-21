@@ -21,6 +21,8 @@ data class Profile(
     val mentorId: Int = 0,
     @SerializedName("files_count")
     val filesCount: Int = 0,
+    @SerializedName("favorite_count")
+    val favoriteCount: Int = 0,
     @SerializedName("total_downloads")
     val totalDownloads: Int = 0,
     @SerializedName("msg_count")

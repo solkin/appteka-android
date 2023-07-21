@@ -6,6 +6,8 @@ import com.tomclaw.appsend.screen.chat.di.ChatComponent
 import com.tomclaw.appsend.screen.chat.di.ChatModule
 import com.tomclaw.appsend.screen.details.di.DetailsComponent
 import com.tomclaw.appsend.screen.details.di.DetailsModule
+import com.tomclaw.appsend.screen.favorite.di.FavoriteComponent
+import com.tomclaw.appsend.screen.favorite.di.FavoriteModule
 import com.tomclaw.appsend.screen.moderation.di.ModerationComponent
 import com.tomclaw.appsend.screen.moderation.di.ModerationModule
 import com.tomclaw.appsend.screen.rate.di.RateComponent
@@ -42,5 +44,7 @@ interface AppComponent {
     fun downloadServiceComponent(module: DownloadServiceModule): DownloadServiceComponent
 
     fun uploadServiceComponent(module: UploadServiceModule): UploadServiceComponent
+
+    fun favoriteComponent(module: FavoriteModule): FavoriteComponent
 
 }

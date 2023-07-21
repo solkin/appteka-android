@@ -13,6 +13,7 @@ import com.tomclaw.appsend.screen.details.api.DeletionResponse
 import com.tomclaw.appsend.screen.details.api.Details
 import com.tomclaw.appsend.screen.details.api.MarkFavoriteResponse
 import com.tomclaw.appsend.screen.details.api.ModerationDecisionResponse
+import com.tomclaw.appsend.screen.favorite.api.FavoriteResponse
 import com.tomclaw.appsend.screen.moderation.api.ModerationResponse
 import com.tomclaw.appsend.screen.rate.api.SubmitReviewResponse
 import com.tomclaw.appsend.screen.store.api.AppsListResponse
@@ -181,5 +182,12 @@ interface StoreApi {
         @Query("app_id") appId: String,
         @Query("is_favorite") isFavorite: Boolean
     ): Single<StoreResponse<MarkFavoriteResponse>>
+
+    @GET("1/app/favorite/list")
+    fun getFavoriteList(
+        @Query("guid") guid: String,
+        @Query("app_id") appId: String?,
+        @Query("locale") locale: String
+    ): Single<StoreResponse<FavoriteResponse>>
 
 }
