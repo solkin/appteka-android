@@ -375,7 +375,7 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
                         R.drawable.ic_favorite,
                         R.color.favorite_color,
                         getString(R.string.favorite_apps),
-                        String.valueOf(profile.getFilesCount()),
+                        String.valueOf(profile.getFavoriteCount()),
                         "",
                         false
                 )
