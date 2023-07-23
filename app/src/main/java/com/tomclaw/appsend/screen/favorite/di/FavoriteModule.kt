@@ -32,6 +32,7 @@ import java.util.Locale
 @Module
 class FavoriteModule(
     private val context: Context,
+    private val userId: Int,
     private val state: Bundle?
 ) {
 
@@ -43,6 +44,7 @@ class FavoriteModule(
         appConverter: AppConverter,
         schedulers: SchedulersFactory
     ): FavoritePresenter = FavoritePresenterImpl(
+        userId,
         interactor,
         adapterPresenter,
         appConverter,

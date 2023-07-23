@@ -186,6 +186,7 @@ interface StoreApi {
     @GET("1/app/favorite/list")
     fun getFavoriteList(
         @Query("guid") guid: String,
+        @Field("user_id") userId: Int,
         @Query("app_id") appId: String?,
         @Query("locale") locale: String
     ): Single<StoreResponse<FavoriteResponse>>

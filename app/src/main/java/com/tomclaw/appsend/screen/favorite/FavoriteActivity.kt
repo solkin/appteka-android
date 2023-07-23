@@ -34,9 +34,10 @@ class FavoriteActivity : AppCompatActivity(), FavoritePresenter.FavoriteRouter {
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val userId = intent.getIntExtra(EXTRA_USER_ID, 0)
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
         Appteka.getComponent()
-            .favoriteComponent(FavoriteModule(this, presenterState))
+            .favoriteComponent(FavoriteModule(this, userId, presenterState))
             .inject(activity = this)
         ThemeHelper.updateTheme(this)
 

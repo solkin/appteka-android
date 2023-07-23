@@ -44,6 +44,7 @@ interface FavoritePresenter : ItemListener {
 }
 
 class FavoritePresenterImpl(
+    private val userId: Int,
     private val interactor: FavoriteInteractor,
     private val adapterPresenter: Lazy<AdapterPresenter>,
     private val appConverter: AppConverter,
@@ -105,7 +106,7 @@ class FavoritePresenterImpl(
     }
 
     private fun loadApps() {
-        subscriptions += interactor.listApps()
+        subscriptions += interactor.listApps(userId)
             .observeOn(schedulers.mainThread())
             .doOnSubscribe { if (view?.isPullRefreshing() == false) view?.showProgress() }
             .doAfterTerminate { onReady() }
@@ -116,7 +117,7 @@ class FavoritePresenterImpl(
     }
 
     private fun loadApps(offsetAppId: String) {
-        subscriptions += interactor.listApps(offsetAppId)
+        subscriptions += interactor.listApps(userId, offsetAppId)
             .observeOn(schedulers.mainThread())
             .retryWhen { errors ->
                 errors.flatMap {
