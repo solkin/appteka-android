@@ -44,7 +44,6 @@ class FavoriteModule(
         appConverter: AppConverter,
         schedulers: SchedulersFactory
     ): FavoritePresenter = FavoritePresenterImpl(
-        userId,
         interactor,
         adapterPresenter,
         appConverter,
@@ -59,7 +58,13 @@ class FavoriteModule(
         locale: Locale,
         userDataInteractor: UserDataInteractor,
         schedulers: SchedulersFactory
-    ): FavoriteInteractor = FavoriteInteractorImpl(api, locale, userDataInteractor, schedulers)
+    ): FavoriteInteractor = FavoriteInteractorImpl(
+        api,
+        userId,
+        locale,
+        userDataInteractor,
+        schedulers
+    )
 
     @Provides
     @PerActivity

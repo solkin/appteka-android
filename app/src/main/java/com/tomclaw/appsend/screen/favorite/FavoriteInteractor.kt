@@ -9,18 +9,19 @@ import java.util.Locale
 
 interface FavoriteInteractor {
 
-    fun listApps(userId: Int, offsetAppId: String? = null): Observable<List<AppEntity>>
+    fun listApps(offsetAppId: String? = null): Observable<List<AppEntity>>
 
 }
 
 class FavoriteInteractorImpl(
     private val api: StoreApi,
+    private val userId: Int,
     private val locale: Locale,
     private val userDataInteractor: UserDataInteractor,
     private val schedulers: SchedulersFactory
 ) : FavoriteInteractor {
 
-    override fun listApps(userId: Int, offsetAppId: String?): Observable<List<AppEntity>> {
+    override fun listApps(offsetAppId: String?): Observable<List<AppEntity>> {
         return userDataInteractor
             .getUserData()
             .flatMap {
