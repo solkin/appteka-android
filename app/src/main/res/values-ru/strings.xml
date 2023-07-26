@@ -347,9 +347,9 @@
     <string name="open_source_short">Open Source</string>
     <string name="required_field">Обязательное поле</string>
     <string name="category_not_set">Категория не указана</string>
-    <string name="mark_favorite">В избранное</string>
+    <string name="mark_favorite">Добавить в избранное</string>
     <string name="unmark_favorite">Убрать из избранного</string>
-    <string name="marked_favorite">Приложение помечено как избранное</string>
+    <string name="marked_favorite">Приложение добавлено избранное</string>
     <string name="unmarked_favorite">Приложение удалено из избранного</string>
     <string name="mark_favorite_error">Ошибка добавления в избранное</string>
     <string name="unmark_favorite_error">Ошибка удаления из избранного</string>
