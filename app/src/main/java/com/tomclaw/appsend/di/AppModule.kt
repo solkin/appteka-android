@@ -11,6 +11,7 @@ import com.google.gson.GsonBuilder
 import com.tomclaw.appsend.categories.CategoriesInteractor
 import com.tomclaw.appsend.categories.CategoriesInteractorImpl
 import com.tomclaw.appsend.core.Config
+import com.tomclaw.appsend.core.PersistentCookieJar
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.download.DownloadManager
 import com.tomclaw.appsend.download.DownloadManagerImpl
@@ -33,6 +34,7 @@ import com.tomclaw.appsend.util.PackageObserverImpl
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Module
 import dagger.Provides
+import okhttp3.CookieJar
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
@@ -147,10 +149,19 @@ class AppModule(private val app: Application) {
 
     @Provides
     @Singleton
-    internal fun provideHttClient(): OkHttpClient = OkHttpClient.Builder()
+    internal fun provideCookieJar(
+        filesDir: File,
+    ): CookieJar = PersistentCookieJar(filesDir)
+
+    @Provides
+    @Singleton
+    internal fun provideHttClient(
+        cookieJar: CookieJar
+    ): OkHttpClient = OkHttpClient.Builder()
         .readTimeout(2, TimeUnit.MINUTES)
         .connectTimeout(20, TimeUnit.SECONDS)
         .addInterceptor(ChuckerInterceptor.Builder(app).build())
+        .cookieJar(cookieJar)
         .build()
 
     @Provides
