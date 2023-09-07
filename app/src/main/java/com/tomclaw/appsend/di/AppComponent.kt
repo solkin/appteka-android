@@ -2,6 +2,10 @@ package com.tomclaw.appsend.di
 
 import com.tomclaw.appsend.download.di.DownloadServiceComponent
 import com.tomclaw.appsend.download.di.DownloadServiceModule
+import com.tomclaw.appsend.screen.auth.request_code.di.RequestCodeComponent
+import com.tomclaw.appsend.screen.auth.request_code.di.RequestCodeModule
+import com.tomclaw.appsend.screen.auth.verify_code.di.VerifyCodeComponent
+import com.tomclaw.appsend.screen.auth.verify_code.di.VerifyCodeModule
 import com.tomclaw.appsend.screen.chat.di.ChatComponent
 import com.tomclaw.appsend.screen.chat.di.ChatModule
 import com.tomclaw.appsend.screen.details.di.DetailsComponent
@@ -46,5 +50,9 @@ interface AppComponent {
     fun uploadServiceComponent(module: UploadServiceModule): UploadServiceComponent
 
     fun favoriteComponent(module: FavoriteModule): FavoriteComponent
+
+    fun requestCodeComponent(module: RequestCodeModule): RequestCodeComponent
+
+    fun verifyCodeComponent(module: VerifyCodeModule): VerifyCodeComponent
 
 }
