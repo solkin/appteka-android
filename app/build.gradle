@@ -14,7 +14,7 @@ android {
             if (project.hasProperty("keyPassword")) keyPassword project.keyPassword
         }
     }
-    compileSdkVersion 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.tomclaw.appsend"

@@ -76,7 +76,6 @@ class UploadNotificationsImpl(private val context: Context) : UploadNotification
         val notificationBuilder = NotificationCompat.Builder(context, CHANNEL_UPLOADED)
             .setContentTitle(label)
             .setSmallIcon(android.R.drawable.stat_sys_upload)
-            .setLargeIcon(null)
             .setSilent(true)
             .setOngoing(true)
             .setColor(getColor(R.color.primary_color, context))

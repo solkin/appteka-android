@@ -77,7 +77,6 @@ class DownloadNotificationsImpl(
         val notificationBuilder = NotificationCompat.Builder(context, CHANNEL_INSTALL)
             .setContentTitle(label)
             .setSmallIcon(android.R.drawable.stat_sys_download)
-            .setLargeIcon(null)
             .setSilent(true)
             .setOngoing(true)
             .setColor(getColor(R.color.primary_color, context))
