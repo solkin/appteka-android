@@ -119,7 +119,7 @@
     <string name="select_abuse_reason">Select reason for removing the application from store</string>
     <string name="enter_your_email">To remove this application, we will need to contact you. Enter your e-mail:</string>
     <string name="send_abuse">Send abuse</string>
-    <string name="your_email">Your e-mail</string>
+    <string name="your_email">Your E-mail</string>
     <string name="unable_to_send_abuse">Unable to send abuse</string>
     <string name="thanks_for_attention">Thank you for your assistance in store moderation!</string>
     <string name="fill_all_fields">Fill in all the fields</string>

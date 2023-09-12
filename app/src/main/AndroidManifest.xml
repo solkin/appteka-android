@@ -158,6 +158,9 @@
         <activity
             android:name=".screen.favorite.FavoriteActivity"
             android:label="@string/favorite_activity" />
+        <activity
+            android:name=".screen.auth.request_code.RequestCodeActivity"
+            android:label="@string/your_email" />
 
         <service android:name=".download.DownloadService" />
 

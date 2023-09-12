@@ -114,7 +114,7 @@
     <string name="select_abuse_reason">Выберите причину для удаления приложения из обменника</string>
     <string name="enter_your_email">Для удаления приложения с Вами необходимо будет связаться. Укажите Ваш e-mail:</string>
     <string name="send_abuse">Отправить жалобу</string>
-    <string name="your_email">Ваш e-mail</string>
+    <string name="your_email">Ваш E-mail</string>
     <string name="unable_to_send_abuse">Не удалось отправить жалобу</string>
     <string name="thanks_for_attention">Спасибо за помощь в модерации обменника!</string>
     <string name="fill_all_fields">Заполните все поля</string>
