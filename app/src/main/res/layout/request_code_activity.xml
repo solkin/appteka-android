@@ -6,11 +6,71 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="?actionBarSize">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:clipToPadding="false"
+            android:orientation="vertical"
+            android:paddingStart="20dp"
+            android:paddingTop="3dp"
+            android:paddingEnd="20dp"
+            android:paddingBottom="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-black"
+                android:paddingTop="13dp"
+                android:paddingBottom="13dp"
+                android:text="Please input your E-mail"
+                android:textColor="?text_primary_color"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:autoLink="web|email"
+                android:gravity="fill"
+                android:paddingBottom="8dp"
+                android:text="We will send you verification code"
+                android:textColor="?text_primary_color"
+                android:textIsSelectable="true"
+                android:textSize="16sp" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="8dp">
+
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/email_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/email_input"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1"
+                    android:nextFocusLeft="@+id/password_input"
+                    android:nextFocusUp="@+id/password_input" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/google_play_button"
+                style="@style/MaterialButtonPrimary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginTop="8dp"
+                android:drawableEnd="@drawable/ic_arrow_forward"
+                android:paddingLeft="12dp"
+                android:paddingRight="10dp"
+                android:text="Send code"
+                app:cornerRadius="99dp" />
 
         </LinearLayout>
 

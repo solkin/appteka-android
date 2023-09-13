@@ -32,6 +32,7 @@ class RequestCodeViewImpl(view: View) : RequestCodeView {
     private val retryRelay = PublishRelay.create<Unit>()
 
     init {
+        toolbar.setTitle(R.string.your_email)
         toolbar.setNavigationOnClickListener { navigationRelay.accept(Unit) }
     }
 
@@ -51,5 +52,3 @@ class RequestCodeViewImpl(view: View) : RequestCodeView {
     override fun retryClicks(): Observable<Unit> = retryRelay
 
 }
-
-private const val DURATION_MEDIUM = 300L
