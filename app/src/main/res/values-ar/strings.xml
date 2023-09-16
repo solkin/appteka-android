@@ -394,4 +394,7 @@
     <string name="unmark_favorite_error">Error deleting from favorites</string>
     <string name="favorite_activity">Favorite</string>
     <string name="favorite_apps">Favorite apps</string>
+    <string name="send_verification_code">Send verification code</string>
+    <string name="send_verification_code_description">We will send you verification code</string>
+    <string name="input_your_email">Please input your E-mail</string>
 </resources>

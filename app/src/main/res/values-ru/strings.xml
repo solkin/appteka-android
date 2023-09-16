@@ -355,4 +355,7 @@
     <string name="unmark_favorite_error">Ошибка удаления из избранного</string>
     <string name="favorite_activity">Избранное</string>
     <string name="favorite_apps">Избранные приложения</string>
+    <string name="send_verification_code">Отправить код подтверждения</string>
+    <string name="send_verification_code_description">Мы отправим вам код подтверждения</string>
+    <string name="input_your_email">Пожалуйста, введите ваш E-mail</string>
 </resources>

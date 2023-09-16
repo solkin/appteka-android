@@ -25,7 +25,7 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="8dp"
-                android:src="@drawable/email" />
+                android:src="@drawable/ic_email" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -33,7 +33,7 @@
                 android:fontFamily="sans-serif-black"
                 android:paddingTop="12dp"
                 android:paddingBottom="12dp"
-                android:text="Please input your E-mail"
+                android:text="@string/input_your_email"
                 android:textColor="?text_primary_color"
                 android:textSize="16sp" />
 
@@ -44,7 +44,7 @@
                 android:autoLink="web|email"
                 android:gravity="fill"
                 android:paddingBottom="8dp"
-                android:text="We will send you verification code"
+                android:text="@string/send_verification_code_description"
                 android:textColor="?text_primary_color"
                 android:textIsSelectable="true"
                 android:textSize="16sp" />
@@ -73,7 +73,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="Send verification code"
+                android:text="@string/send_verification_code"
                 app:cornerRadius="99dp" />
 
         </LinearLayout>
