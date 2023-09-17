@@ -38,6 +38,6 @@ class RequestCodeModule(
         locale: Locale,
         userDataInteractor: UserDataInteractor,
         schedulers: SchedulersFactory
-    ): RequestCodeInteractor = RequestCodeInteractorImpl(api, userDataInteractor, schedulers)
+    ): RequestCodeInteractor = RequestCodeInteractorImpl(api, schedulers)
 
 }

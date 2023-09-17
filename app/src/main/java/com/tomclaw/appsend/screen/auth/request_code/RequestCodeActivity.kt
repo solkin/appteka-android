@@ -4,10 +4,12 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.auth.request_code.di.RequestCodeModule
+import com.tomclaw.appsend.screen.auth.verify_code.createVerifyCodeActivityIntent
 import com.tomclaw.appsend.util.ThemeHelper
 import javax.inject.Inject
 
@@ -15,6 +17,13 @@ class RequestCodeActivity : AppCompatActivity(), RequestCodePresenter.RequestCod
 
     @Inject
     lateinit var presenter: RequestCodePresenter
+
+    private val verifyCodeResultLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK) {
+                leaveScreen(true)
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
@@ -55,11 +64,16 @@ class RequestCodeActivity : AppCompatActivity(), RequestCodePresenter.RequestCod
         outState.putBundle(KEY_PRESENTER_STATE, presenter.saveState())
     }
 
+    override fun showVerifyCodeScreen(email: String) {
+        val intent = createVerifyCodeActivityIntent(context = this, email)
+        verifyCodeResultLauncher.launch(intent)
+    }
+
     override fun leaveScreen(success: Boolean) {
         if (success) {
-            setResult(Activity.RESULT_OK)
+            setResult(RESULT_OK)
         } else {
-            setResult(Activity.RESULT_CANCELED)
+            setResult(RESULT_CANCELED)
         }
         finish()
     }

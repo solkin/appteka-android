@@ -46,6 +46,7 @@ import com.tomclaw.appsend.net.Session;
 import com.tomclaw.appsend.net.Session_;
 import com.tomclaw.appsend.net.UserData;
 import com.tomclaw.appsend.net.UserDataListener;
+import com.tomclaw.appsend.screen.auth.request_code.RequestCodeActivityKt;
 import com.tomclaw.appsend.screen.store.StoreFragment;
 import com.tomclaw.appsend.screen.topics.TopicsFragment;
 import com.tomclaw.appsend.util.LocaleHelper;
@@ -165,6 +166,9 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
         register(getApplication());
 
         checkMigration();
+
+        Intent intent = RequestCodeActivityKt.createRequestCodeActivityIntent(this);
+        startActivity(intent);
     }
 
     @Override

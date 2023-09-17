@@ -397,4 +397,6 @@
     <string name="send_verification_code">Send verification code</string>
     <string name="send_verification_code_description">We will send you verification code</string>
     <string name="input_your_email">Please input your E-mail</string>
+    <string name="error_sending_request_code">Error sending verification code. Check network connection and try again.</string>
+    <string name="verify_email">E-mail verification</string>
 </resources>

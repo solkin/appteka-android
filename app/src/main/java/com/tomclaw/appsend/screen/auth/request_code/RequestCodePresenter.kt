@@ -1,6 +1,8 @@
 package com.tomclaw.appsend.screen.auth.request_code
 
 import android.os.Bundle
+import android.provider.SyncStateContract.Helpers
+import android.util.Patterns
 import com.tomclaw.appsend.util.SchedulersFactory
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
@@ -20,6 +22,8 @@ interface RequestCodePresenter {
     fun onBackPressed()
 
     interface RequestCodeRouter {
+
+        fun showVerifyCodeScreen(email: String)
 
         fun leaveScreen(success: Boolean)
 
@@ -43,12 +47,33 @@ class RequestCodePresenterImpl(
     override fun attachView(view: RequestCodeView) {
         this.view = view
 
+        view.setEmail(email)
+        bindButtonState()
+
         subscriptions += view.navigationClicks().subscribe { onBackPressed() }
-        subscriptions += view.retryClicks().subscribe { invalidate() }
+        subscriptions += view.emailChanged().subscribe {
+            email = it
+            bindButtonState()
+        }
+        subscriptions += view.submitClicks().subscribe { onSubmitClicked() }
     }
 
-    private fun invalidate() {
+    private fun onSubmitClicked() {
+        subscriptions += interactor.requestCode(email)
+            .observeOn(schedulers.mainThread())
+            .subscribe({
+                router?.showVerifyCodeScreen(email)
+            }, {
+                view?.showError()
+            })
+    }
 
+    private fun bindButtonState() {
+        if (email.isValidEmail()) {
+            view?.enableSubmitButton()
+        } else {
+            view?.disableSubmitButton()
+        }
     }
 
     override fun detachView() {
@@ -64,11 +89,15 @@ class RequestCodePresenterImpl(
     }
 
     override fun saveState(): Bundle = Bundle().apply {
+        putString(KEY_EMAIL, email)
     }
 
     override fun onBackPressed() {
         router?.leaveScreen(success = false)
     }
+
+    private fun String?.isValidEmail() =
+        !isNullOrEmpty() && Patterns.EMAIL_ADDRESS.matcher(this).matches()
 
 }
 

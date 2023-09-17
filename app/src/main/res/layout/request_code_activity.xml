@@ -68,7 +68,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/google_play_button"
+                android:id="@+id/submit_button"
                 style="@style/MaterialButtonPrimary"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -17,6 +17,9 @@ class VerifyCodeActivity : AppCompatActivity(), VerifyCodePresenter.VerifyCodeRo
     lateinit var presenter: VerifyCodePresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val email = intent.getStringExtra(EXTRA_EMAIL)
+            ?: throw IllegalArgumentException("Email must be provided")
+
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
         Appteka.getComponent()
             .verifyCodeComponent(VerifyCodeModule(this, presenterState))
@@ -57,9 +60,9 @@ class VerifyCodeActivity : AppCompatActivity(), VerifyCodePresenter.VerifyCodeRo
 
     override fun leaveScreen(success: Boolean) {
         if (success) {
-            setResult(Activity.RESULT_OK)
+            setResult(RESULT_OK)
         } else {
-            setResult(Activity.RESULT_CANCELED)
+            setResult(RESULT_CANCELED)
         }
         finish()
     }
@@ -68,6 +71,9 @@ class VerifyCodeActivity : AppCompatActivity(), VerifyCodePresenter.VerifyCodeRo
 
 fun createVerifyCodeActivityIntent(
     context: Context,
+    email: String
 ): Intent = Intent(context, VerifyCodeActivity::class.java)
+    .putExtra(EXTRA_EMAIL, email)
 
+private const val EXTRA_EMAIL = "email"
 private const val KEY_PRESENTER_STATE = "presenter_state"

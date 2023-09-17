@@ -358,4 +358,6 @@
     <string name="send_verification_code">Отправить код подтверждения</string>
     <string name="send_verification_code_description">Мы отправим вам код подтверждения</string>
     <string name="input_your_email">Пожалуйста, введите ваш E-mail</string>
+    <string name="error_sending_request_code">Ошибка отправки кода подтверждения. Проверьте сетевое соединение и повторите попытку.</string>
+    <string name="verify_email">Подтверждение E-mail</string>
 </resources>

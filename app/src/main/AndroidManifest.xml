@@ -161,6 +161,9 @@
         <activity
             android:name=".screen.auth.request_code.RequestCodeActivity"
             android:label="@string/your_email" />
+        <activity
+            android:name=".screen.auth.verify_code.VerifyCodeActivity"
+            android:label="@string/verify_email" />
 
         <service android:name=".download.DownloadService" />
 
