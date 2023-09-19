@@ -2,13 +2,9 @@ package com.tomclaw.appsend.screen.auth.verify_code
 
 import android.os.Bundle
 import com.avito.konveyor.blueprint.Item
-import com.tomclaw.appsend.categories.DEFAULT_LOCALE
-import com.tomclaw.appsend.dto.UserData
-import com.tomclaw.appsend.user.UserDataInteractor
 import com.tomclaw.appsend.util.SchedulersFactory
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
-import java.util.Locale
 
 interface VerifyCodePresenter {
 
@@ -53,7 +49,6 @@ class VerifyCodePresenterImpl(
         this.view = view
 
         subscriptions += view.navigationClicks().subscribe { onBackPressed() }
-        subscriptions += view.retryClicks().subscribe {}
     }
 
     override fun detachView() {

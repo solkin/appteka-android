@@ -1,6 +1,5 @@
 package com.tomclaw.appsend.screen.auth.verify_code
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
