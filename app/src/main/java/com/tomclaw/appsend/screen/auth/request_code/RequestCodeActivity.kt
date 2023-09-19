@@ -64,8 +64,8 @@ class RequestCodeActivity : AppCompatActivity(), RequestCodePresenter.RequestCod
         outState.putBundle(KEY_PRESENTER_STATE, presenter.saveState())
     }
 
-    override fun showVerifyCodeScreen(email: String) {
-        val intent = createVerifyCodeActivityIntent(context = this, email)
+    override fun showVerifyCodeScreen(email: String, registered: Boolean) {
+        val intent = createVerifyCodeActivityIntent(context = this, email, registered)
         verifyCodeResultLauncher.launch(intent)
     }
 

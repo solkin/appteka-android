@@ -23,7 +23,7 @@ interface RequestCodePresenter {
 
     interface RequestCodeRouter {
 
-        fun showVerifyCodeScreen(email: String)
+        fun showVerifyCodeScreen(email: String, registered: Boolean)
 
         fun leaveScreen(success: Boolean)
 
@@ -62,7 +62,7 @@ class RequestCodePresenterImpl(
         subscriptions += interactor.requestCode(email)
             .observeOn(schedulers.mainThread())
             .subscribe({
-                router?.showVerifyCodeScreen(email)
+                router?.showVerifyCodeScreen(email, it.registered)
             }, {
                 view?.showError()
             })
