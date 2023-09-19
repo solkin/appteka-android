@@ -59,11 +59,14 @@ class RequestCodePresenterImpl(
     }
 
     private fun onSubmitClicked() {
+        view?.showProgress()
         subscriptions += interactor.requestCode(email)
             .observeOn(schedulers.mainThread())
             .subscribe({
+                view?.showContent()
                 router?.showVerifyCodeScreen(email, it.registered)
             }, {
+                view?.showContent()
                 view?.showError()
             })
     }
