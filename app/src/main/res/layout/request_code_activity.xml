@@ -38,7 +38,6 @@
                 android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:autoLink="web|email"
@@ -61,9 +60,7 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/email_input"
                     android:inputType="textEmailAddress"
-                    android:maxLines="1"
-                    android:nextFocusLeft="@+id/password_input"
-                    android:nextFocusUp="@+id/password_input" />
+                    android:maxLines="1" />
 
             </com.google.android.material.textfield.TextInputLayout>
 

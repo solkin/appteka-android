@@ -360,4 +360,8 @@
     <string name="input_your_email">Пожалуйста, введите ваш E-mail</string>
     <string name="error_sending_request_code">Ошибка отправки кода подтверждения. Проверьте сетевое соединение и повторите попытку.</string>
     <string name="verify_email">Подтверждение E-mail</string>
+    <string name="input_verification_code">Пожалуйста, введите код подтверждения</string>
+    <string name="verification_code_sent">Мы отправим вам код подтверждения на %s. Пожалуйста, проверьте папку «Входящие» или папку «Спам» и введите код подтверждения из письма.</string>
+    <string name="verification_code_input">Код подтверждения</string>
+    <string name="input_your_name">Также мы заметили что вы впервые авторизуетесь в Appteka, поэтому введите ваше имя или ник: он будет отображаться в вашем профиле.</string>
 </resources>
