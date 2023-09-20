@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content"
                 android:autoLink="web|email"
                 android:gravity="fill"
-                android:paddingBottom="8dp"
+                android:paddingBottom="12dp"
                 android:text="@string/verification_code_sent"
                 android:textColor="?text_primary_color"
                 android:textIsSelectable="true"
@@ -45,14 +45,17 @@
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="8dp">
+                android:paddingBottom="12dp">
 
                 <androidx.appcompat.widget.AppCompatEditText
                     android:id="@+id/code_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/verification_code_input"
-                    android:inputType="textEmailAddress"
+                    android:inputType="textVisiblePassword"
+                    android:drawableStart="@drawable/numeric"
+                    app:drawableTint="@color/grey_dark"
+                    android:drawablePadding="12dp"
                     android:maxLines="1" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -67,7 +70,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="fill"
-                    android:paddingBottom="8dp"
+                    android:paddingBottom="12dp"
                     android:text="@string/input_your_name"
                     android:textColor="?text_primary_color"
                     android:textIsSelectable="true"
@@ -77,14 +80,17 @@
                     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="8dp">
+                    android:paddingBottom="12dp">
 
                     <androidx.appcompat.widget.AppCompatEditText
                         android:id="@+id/name_input"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/name_input"
-                        android:inputType="textEmailAddress"
+                        android:inputType="textPersonName"
+                        android:drawableStart="@drawable/account"
+                        app:drawableTint="@color/grey_dark"
+                        android:drawablePadding="12dp"
                         android:maxLines="1" />
 
                 </com.google.android.material.textfield.TextInputLayout>

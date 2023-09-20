@@ -33,10 +33,9 @@ interface VerifyCodeView {
 
 class VerifyCodeViewImpl(private val view: View) : VerifyCodeView {
 
-    private val context = view.context
     private val toolbar: Toolbar = view.findViewById(R.id.toolbar)
-    private val codeInput: EditText = view.findViewById(R.id.name_block)
-    private val nameBlock: View = view.findViewById(R.id.code_input)
+    private val codeInput: EditText = view.findViewById(R.id.code_input)
+    private val nameBlock: View = view.findViewById(R.id.name_block)
     private val nameInput: EditText = view.findViewById(R.id.name_input)
     private val submitButton: Button = view.findViewById(R.id.submit_button)
     private val overlayProgress: View = view.findViewById(R.id.overlay_progress)
