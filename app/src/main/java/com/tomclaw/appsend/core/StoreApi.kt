@@ -4,6 +4,7 @@ import com.tomclaw.appsend.categories.CategoriesResponse
 import com.tomclaw.appsend.dto.StoreResponse
 import com.tomclaw.appsend.events.EventsResponse
 import com.tomclaw.appsend.screen.auth.request_code.api.RequestCodeResponse
+import com.tomclaw.appsend.screen.auth.verify_code.api.VerifyCodeResponse
 import com.tomclaw.appsend.screen.chat.api.HistoryResponse
 import com.tomclaw.appsend.screen.chat.api.ReadTopicResponse
 import com.tomclaw.appsend.screen.chat.api.ReportMessageResponse
@@ -196,5 +197,12 @@ interface StoreApi {
     fun requestCode(
         @Query("email") email: String,
     ): Single<StoreResponse<RequestCodeResponse>>
+
+    @GET("1/auth/verify")
+    fun verifyCode(
+        @Query("email") email: String,
+        @Query("code") code: String,
+        @Query("name") name: String?,
+    ): Single<StoreResponse<VerifyCodeResponse>>
 
 }

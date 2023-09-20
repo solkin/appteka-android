@@ -41,22 +41,22 @@ class VerifyCodePresenterImpl(
     private var router: VerifyCodePresenter.VerifyCodeRouter? = null
 
     private var code: String = state?.getString(KEY_CODE).orEmpty()
-    private var name: String = state?.getString(KEY_NAME).orEmpty()
+    private var name: String? = state?.getString(KEY_NAME)
 
     private val subscriptions = CompositeDisposable()
 
     override fun attachView(view: VerifyCodeView) {
         this.view = view
 
-        view.setSubmitButtonText(
-            if (registered) {
-                resourceProvider.getLoginButtonText()
-            } else {
-                resourceProvider.getRegisterButtonText()
-            }
-        )
+        if (registered) {
+            view.hideNameInput()
+            view.setSubmitButtonText(resourceProvider.getLoginButtonText())
+        } else {
+            view.showNameInput()
+            view.setSubmitButtonText(resourceProvider.getRegisterButtonText())
+        }
         view.setCode(code)
-        view.setName(name)
+        view.setName(name.orEmpty())
         bindButtonState()
         view.setCodeSentDescription(resourceProvider.formatCodeSentDescription(email))
         subscriptions += view.codeChanged().subscribe {
@@ -69,6 +69,7 @@ class VerifyCodePresenterImpl(
         }
 
         subscriptions += view.navigationClicks().subscribe { onBackPressed() }
+        subscriptions += view.submitClicks().subscribe { onSubmitClicked() }
     }
 
     override fun detachView() {
@@ -89,7 +90,7 @@ class VerifyCodePresenterImpl(
     }
 
     private fun bindButtonState() {
-        if (code.isNotBlank() && (registered || name.isNotBlank())) {
+        if (code.isNotBlank() && (registered || name.isNullOrBlank())) {
             view?.enableSubmitButton()
         } else {
             view?.disableSubmitButton()
@@ -98,6 +99,19 @@ class VerifyCodePresenterImpl(
 
     override fun onBackPressed() {
         router?.leaveScreen(success = false)
+    }
+
+    private fun onSubmitClicked() {
+        view?.showProgress()
+        subscriptions += interactor.verifyCode(email, code, name)
+            .observeOn(schedulers.mainThread())
+            .subscribe({
+                view?.showContent()
+                router?.leaveScreen(true)
+            }, {
+                view?.showContent()
+                view?.showError()
+            })
     }
 
 }
