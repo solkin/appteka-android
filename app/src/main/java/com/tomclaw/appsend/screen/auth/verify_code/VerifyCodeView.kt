@@ -5,10 +5,12 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.util.bind
 import com.tomclaw.appsend.util.hide
 import com.tomclaw.appsend.util.hideWithAlphaAnimation
 import com.tomclaw.appsend.util.show
@@ -16,6 +18,8 @@ import com.tomclaw.appsend.util.showWithAlphaAnimation
 import io.reactivex.rxjava3.core.Observable
 
 interface VerifyCodeView {
+
+    fun setCodeSentDescription(value: String)
 
     fun showProgress()
 
@@ -34,6 +38,7 @@ interface VerifyCodeView {
 class VerifyCodeViewImpl(private val view: View) : VerifyCodeView {
 
     private val toolbar: Toolbar = view.findViewById(R.id.toolbar)
+    private val codeSentDescription: TextView = view.findViewById(R.id.code_sent_description)
     private val codeInput: EditText = view.findViewById(R.id.code_input)
     private val nameBlock: View = view.findViewById(R.id.name_block)
     private val nameInput: EditText = view.findViewById(R.id.name_input)
@@ -64,6 +69,10 @@ class VerifyCodeViewImpl(private val view: View) : VerifyCodeView {
             }
         })
         submitButton.setOnClickListener { submitRelay.accept(Unit) }
+    }
+
+    override fun setCodeSentDescription(value: String) {
+        codeSentDescription.bind(value)
     }
 
     override fun showProgress() {

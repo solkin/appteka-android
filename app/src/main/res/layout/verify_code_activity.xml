@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools">
+    android:layout_height="match_parent">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -31,6 +31,7 @@
                 android:textSize="16sp" />
 
             <TextView
+                android:id="@+id/code_sent_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:autoLink="web|email"
@@ -51,12 +52,12 @@
                     android:id="@+id/code_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/numeric"
+                    android:drawablePadding="12dp"
                     android:hint="@string/verification_code_input"
                     android:inputType="textVisiblePassword"
-                    android:drawableStart="@drawable/numeric"
-                    app:drawableTint="@color/grey_dark"
-                    android:drawablePadding="12dp"
-                    android:maxLines="1" />
+                    android:maxLines="1"
+                    app:drawableTint="@color/grey_dark" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -86,12 +87,12 @@
                         android:id="@+id/name_input"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:drawableStart="@drawable/account"
+                        android:drawablePadding="12dp"
                         android:hint="@string/name_input"
                         android:inputType="textPersonName"
-                        android:drawableStart="@drawable/account"
-                        app:drawableTint="@color/grey_dark"
-                        android:drawablePadding="12dp"
-                        android:maxLines="1" />
+                        android:maxLines="1"
+                        app:drawableTint="@color/grey_dark" />
 
                 </com.google.android.material.textfield.TextInputLayout>
 

@@ -22,7 +22,7 @@ class VerifyCodeActivity : AppCompatActivity(), VerifyCodePresenter.VerifyCodeRo
 
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
         Appteka.getComponent()
-            .verifyCodeComponent(VerifyCodeModule(this, presenterState))
+            .verifyCodeComponent(VerifyCodeModule(this, email, registered, presenterState))
             .inject(activity = this)
         ThemeHelper.updateTheme(this)
 

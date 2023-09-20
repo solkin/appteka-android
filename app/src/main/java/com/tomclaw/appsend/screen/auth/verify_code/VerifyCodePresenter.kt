@@ -29,6 +29,9 @@ interface VerifyCodePresenter {
 }
 
 class VerifyCodePresenterImpl(
+    private val email: String,
+    private val registered: Boolean,
+    private val resourceProvider: VerifyCodeResourceProvider,
     private val interactor: VerifyCodeInteractor,
     private val schedulers: SchedulersFactory,
     state: Bundle?
@@ -37,16 +40,15 @@ class VerifyCodePresenterImpl(
     private var view: VerifyCodeView? = null
     private var router: VerifyCodePresenter.VerifyCodeRouter? = null
 
-    private var registered: Boolean = state?.getBoolean(KEY_REGISTERED) ?: false
     private var code: String = state?.getString(KEY_CODE).orEmpty()
     private var name: String = state?.getString(KEY_NAME).orEmpty()
-
-    private val items = ArrayList<Item>()
 
     private val subscriptions = CompositeDisposable()
 
     override fun attachView(view: VerifyCodeView) {
         this.view = view
+
+        view.setCodeSentDescription(resourceProvider.formatCodeSentDescription(email))
 
         subscriptions += view.navigationClicks().subscribe { onBackPressed() }
     }
@@ -64,6 +66,8 @@ class VerifyCodePresenterImpl(
     }
 
     override fun saveState(): Bundle = Bundle().apply {
+        putString(KEY_CODE, code)
+        putString(KEY_NAME, name)
     }
 
     override fun onBackPressed() {
@@ -72,6 +76,5 @@ class VerifyCodePresenterImpl(
 
 }
 
-private const val KEY_REGISTERED = "registered"
 private const val KEY_CODE = "code"
 private const val KEY_NAME = "name"

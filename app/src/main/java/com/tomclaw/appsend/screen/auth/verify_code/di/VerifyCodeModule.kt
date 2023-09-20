@@ -7,25 +7,32 @@ import com.tomclaw.appsend.screen.auth.verify_code.VerifyCodeInteractor
 import com.tomclaw.appsend.screen.auth.verify_code.VerifyCodeInteractorImpl
 import com.tomclaw.appsend.screen.auth.verify_code.VerifyCodePresenter
 import com.tomclaw.appsend.screen.auth.verify_code.VerifyCodePresenterImpl
+import com.tomclaw.appsend.screen.auth.verify_code.VerifyCodeResourceProvider
+import com.tomclaw.appsend.screen.auth.verify_code.VerifyCodeResourceProviderImpl
 import com.tomclaw.appsend.user.UserDataInteractor
 import com.tomclaw.appsend.util.PerActivity
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Module
 import dagger.Provides
-import java.util.Locale
 
 @Module
 class VerifyCodeModule(
     private val context: Context,
+    private val email: String,
+    private val registered: Boolean,
     private val state: Bundle?
 ) {
 
     @Provides
     @PerActivity
     internal fun providePresenter(
+        resourceProvider: VerifyCodeResourceProvider,
         interactor: VerifyCodeInteractor,
         schedulers: SchedulersFactory
     ): VerifyCodePresenter = VerifyCodePresenterImpl(
+        email,
+        registered,
+        resourceProvider,
         interactor,
         schedulers,
         state
@@ -38,5 +45,10 @@ class VerifyCodeModule(
         userDataInteractor: UserDataInteractor,
         schedulers: SchedulersFactory
     ): VerifyCodeInteractor = VerifyCodeInteractorImpl(api, userDataInteractor, schedulers)
+
+    @Provides
+    @PerActivity
+    internal fun provideVerifyCodeResourceProvider(): VerifyCodeResourceProvider =
+        VerifyCodeResourceProviderImpl(resources = context.resources)
 
 }
