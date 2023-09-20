@@ -48,7 +48,25 @@ class VerifyCodePresenterImpl(
     override fun attachView(view: VerifyCodeView) {
         this.view = view
 
+        view.setSubmitButtonText(
+            if (registered) {
+                resourceProvider.getLoginButtonText()
+            } else {
+                resourceProvider.getRegisterButtonText()
+            }
+        )
+        view.setCode(code)
+        view.setName(name)
+        bindButtonState()
         view.setCodeSentDescription(resourceProvider.formatCodeSentDescription(email))
+        subscriptions += view.codeChanged().subscribe {
+            code = it
+            bindButtonState()
+        }
+        subscriptions += view.nameChanged().subscribe {
+            name = it
+            bindButtonState()
+        }
 
         subscriptions += view.navigationClicks().subscribe { onBackPressed() }
     }
@@ -68,6 +86,14 @@ class VerifyCodePresenterImpl(
     override fun saveState(): Bundle = Bundle().apply {
         putString(KEY_CODE, code)
         putString(KEY_NAME, name)
+    }
+
+    private fun bindButtonState() {
+        if (code.isNotBlank() && (registered || name.isNotBlank())) {
+            view?.enableSubmitButton()
+        } else {
+            view?.disableSubmitButton()
+        }
     }
 
     override fun onBackPressed() {

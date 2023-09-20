@@ -11,6 +11,8 @@ import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.util.bind
+import com.tomclaw.appsend.util.disable
+import com.tomclaw.appsend.util.enable
 import com.tomclaw.appsend.util.hide
 import com.tomclaw.appsend.util.hideWithAlphaAnimation
 import com.tomclaw.appsend.util.show
@@ -20,6 +22,10 @@ import io.reactivex.rxjava3.core.Observable
 interface VerifyCodeView {
 
     fun setCodeSentDescription(value: String)
+
+    fun setCode(value: String)
+
+    fun setName(value: String)
 
     fun showProgress()
 
@@ -31,7 +37,19 @@ interface VerifyCodeView {
 
     fun showError()
 
+    fun setSubmitButtonText(value: String)
+
+    fun enableSubmitButton()
+
+    fun disableSubmitButton()
+
     fun navigationClicks(): Observable<Unit>
+
+    fun codeChanged(): Observable<String>
+
+    fun nameChanged(): Observable<String>
+
+    fun submitClicks(): Observable<Unit>
 
 }
 
@@ -75,6 +93,14 @@ class VerifyCodeViewImpl(private val view: View) : VerifyCodeView {
         codeSentDescription.bind(value)
     }
 
+    override fun setCode(value: String) {
+        codeInput.setText(value)
+    }
+
+    override fun setName(value: String) {
+        nameInput.setText(value)
+    }
+
     override fun showProgress() {
         overlayProgress.showWithAlphaAnimation(animateFully = true)
     }
@@ -95,6 +121,24 @@ class VerifyCodeViewImpl(private val view: View) : VerifyCodeView {
         Snackbar.make(view, R.string.error_verifying_code, Snackbar.LENGTH_LONG).show()
     }
 
+    override fun setSubmitButtonText(value: String) {
+        submitButton.text = value
+    }
+
+    override fun enableSubmitButton() {
+        submitButton.enable()
+    }
+
+    override fun disableSubmitButton() {
+        submitButton.disable()
+    }
+
     override fun navigationClicks(): Observable<Unit> = navigationRelay
+
+    override fun codeChanged(): Observable<String> = codeChangedRelay
+
+    override fun nameChanged(): Observable<String> = nameChangedRelay
+
+    override fun submitClicks(): Observable<Unit> = submitRelay
 
 }

@@ -58,19 +58,6 @@ class RequestCodePresenterImpl(
         subscriptions += view.submitClicks().subscribe { onSubmitClicked() }
     }
 
-    private fun onSubmitClicked() {
-        view?.showProgress()
-        subscriptions += interactor.requestCode(email)
-            .observeOn(schedulers.mainThread())
-            .subscribe({
-                view?.showContent()
-                router?.showVerifyCodeScreen(email, it.registered)
-            }, {
-                view?.showContent()
-                view?.showError()
-            })
-    }
-
     private fun bindButtonState() {
         if (email.isValidEmail()) {
             view?.enableSubmitButton()
@@ -97,6 +84,19 @@ class RequestCodePresenterImpl(
 
     override fun onBackPressed() {
         router?.leaveScreen(success = false)
+    }
+
+    private fun onSubmitClicked() {
+        view?.showProgress()
+        subscriptions += interactor.requestCode(email)
+            .observeOn(schedulers.mainThread())
+            .subscribe({
+                view?.showContent()
+                router?.showVerifyCodeScreen(email, it.registered)
+            }, {
+                view?.showContent()
+                view?.showError()
+            })
     }
 
     private fun String?.isValidEmail() =

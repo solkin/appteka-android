@@ -25,13 +25,13 @@ interface RequestCodeView {
 
     fun disableSubmitButton()
 
+    fun showError()
+
     fun navigationClicks(): Observable<Unit>
 
     fun emailChanged(): Observable<String>
 
     fun submitClicks(): Observable<Unit>
-
-    fun showError()
 
 }
 
