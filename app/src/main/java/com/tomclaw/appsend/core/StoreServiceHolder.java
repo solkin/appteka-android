@@ -2,7 +2,10 @@ package com.tomclaw.appsend.core;
 
 import static com.tomclaw.appsend.core.Config.HOST_URL;
 
-import org.androidannotations.annotations.AfterInject;
+import com.tomclaw.appsend.Appteka;
+import com.tomclaw.appsend.di.legacy.LegacyInjector;
+import com.tomclaw.appsend.di.legacy.LegacyModule;
+
 import org.androidannotations.annotations.EBean;
 
 import retrofit2.Retrofit;
@@ -14,19 +17,25 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @EBean(scope = EBean.Scope.Singleton)
 public class StoreServiceHolder {
 
-    private StoreService service;
+    private final LegacyInjector injector = new LegacyInjector();
 
-    @AfterInject
-    void init() {
+    private StoreService service = null;
+
+    private StoreService lazyInit() {
+        if (service != null) return service;
+        Appteka.getComponent().legacyComponent(new LegacyModule()).inject(injector);
+
         Retrofit retrofit = new Retrofit.Builder()
+                .client(injector.httpClient)
                 .baseUrl(HOST_URL + "/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
 
         service = retrofit.create(StoreService.class);
+        return service;
     }
 
     public StoreService getService() {
-        return service;
+        return lazyInit();
     }
 }

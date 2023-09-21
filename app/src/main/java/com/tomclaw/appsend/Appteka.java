@@ -24,7 +24,6 @@ import com.tomclaw.imageloader.util.loader.ContentLoader;
 import com.tomclaw.imageloader.util.loader.FileLoader;
 import com.tomclaw.imageloader.util.loader.UrlLoader;
 
-import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EApplication;
 
@@ -50,7 +49,13 @@ public class Appteka extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        app = this;
         component = buildComponent();
+        session.init();
+        initImageLoader();
+        actuateFlags();
+        TimeHelper.init(this);
+        StateHolder.init();
     }
 
     public static AppComponent getComponent() {
@@ -61,16 +66,6 @@ public class Appteka extends Application {
         return DaggerAppComponent.builder()
                 .appModule(new AppModule(this))
                 .build();
-    }
-
-    @AfterInject
-    void init() {
-        app = this;
-        session.init();
-        initImageLoader();
-        actuateFlags();
-        TimeHelper.init(this);
-        StateHolder.init();
     }
 
     private void initImageLoader() {

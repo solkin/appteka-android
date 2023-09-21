@@ -38,8 +38,7 @@ public class Session {
             if (getUserData().isRegistered()) {
                 userHolder.reloadProfile(serviceHolder);
             } else {
-                LegacyLogger.log("user needs to be registered");
-                TaskExecutor.getInstance().execute(new UserRegisterTask());
+                LegacyLogger.log("user not registered");
             }
         });
     }

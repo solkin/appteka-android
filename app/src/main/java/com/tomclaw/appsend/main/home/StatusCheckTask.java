@@ -1,8 +1,11 @@
 package com.tomclaw.appsend.main.home;
 
+import static com.tomclaw.appsend.Appteka.app;
 import static com.tomclaw.appsend.core.Config.STATUS_HOST_URL;
 
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.text.TextUtils;
 
 import androidx.appcompat.app.AlertDialog;
@@ -24,8 +27,27 @@ public class StatusCheckTask extends HttpTask {
     private String message;
 
     public StatusCheckTask(Context context) {
-        super(STATUS_HOST_URL, new HttpParamsBuilder().appendParam("locale", LocaleHelper.getLocaleLanguage()));
+        super(
+                STATUS_HOST_URL,
+                new HttpParamsBuilder()
+                        .appendParam("locale", LocaleHelper.getLocaleLanguage())
+                        .appendParam("build", String.valueOf(getVersionCode()))
+        );
         this.weakContext = new WeakReference<>(context);
+    }
+
+    private static int getVersionCode() {
+        PackageInfo info = getPackageInfo();
+        return info != null ? info.versionCode : 0;
+    }
+
+    private static PackageInfo getPackageInfo() {
+        PackageManager manager = app().getPackageManager();
+        try {
+            return manager.getPackageInfo(app().getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException ignored) {
+        }
+        return null;
     }
 
     @Override

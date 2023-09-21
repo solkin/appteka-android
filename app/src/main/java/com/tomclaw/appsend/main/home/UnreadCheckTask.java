@@ -15,10 +15,9 @@ import org.json.JSONObject;
 
 public class UnreadCheckTask extends HttpTask {
 
-    private @Nullable
-    UnreadListener listener;
+    @Nullable
+    private UnreadListener listener;
     private int count = 0;
-    private String guid;
 
     public UnreadCheckTask(String guid) {
         super(HOST_URL + "/api/1/chat/topics", new HttpParamsBuilder().appendParam("guid", guid));

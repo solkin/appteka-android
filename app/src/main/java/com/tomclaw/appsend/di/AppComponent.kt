@@ -1,5 +1,7 @@
 package com.tomclaw.appsend.di
 
+import com.tomclaw.appsend.di.legacy.LegacyComponent
+import com.tomclaw.appsend.di.legacy.LegacyModule
 import com.tomclaw.appsend.download.di.DownloadServiceComponent
 import com.tomclaw.appsend.download.di.DownloadServiceModule
 import com.tomclaw.appsend.screen.auth.request_code.di.RequestCodeComponent
@@ -54,5 +56,7 @@ interface AppComponent {
     fun requestCodeComponent(module: RequestCodeModule): RequestCodeComponent
 
     fun verifyCodeComponent(module: VerifyCodeModule): VerifyCodeComponent
+
+    fun legacyComponent(module: LegacyModule): LegacyComponent
 
 }
