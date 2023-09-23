@@ -131,8 +131,7 @@ public class ProfileActivity extends AppCompatActivity {
                         .setMessage(getString(R.string.eliminate_user_message))
                         .setNegativeButton(R.string.yes, (dialog, which) -> {
                             profileFragment.showProgress();
-                            String guid = Session.getInstance().getUserData().getGuid();
-                            Call<ApiResponse<EliminateUserResponse>> call = serviceHolder.getService().eliminateUser(guid, userId);
+                            Call<ApiResponse<EliminateUserResponse>> call = serviceHolder.getService().eliminateUser(userId);
                             call.enqueue(new Callback<ApiResponse<EliminateUserResponse>>() {
                                 @Override
                                 public void onResponse(Call<ApiResponse<EliminateUserResponse>> call, final Response<ApiResponse<EliminateUserResponse>> response) {

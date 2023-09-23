@@ -30,7 +30,6 @@ public interface StoreService {
 
     @GET("api/1/app/rating")
     Call<ApiResponse<RatingsResponse>> getRatings(
-            @Query("v") int apiVer,
             @Query("app_id") String appId,
             @Query("rate_id") int rateId,
             @Query("count") int count
@@ -39,23 +38,18 @@ public interface StoreService {
     @FormUrlEncoded
     @POST("api/1/app/rate")
     Call<ApiResponse<VoidResponse>> setRating(
-            @Field("v") int apiVer,
             @Field("app_id") String appId,
-            @Field("guid") String guid,
             @Field("score") int score,
             @Field("text") String text
     );
 
     @DELETE("api/1/app/rate/delete")
     Call<ApiResponse<VoidResponse>> deleteRating(
-            @Query("v") int apiVer,
-            @Query("guid") String guid,
             @Query("rate_id") int rateId
     );
 
     @GET("api/1/app/abuse")
     Call<ApiResponse<AbuseResult>> reportAbuse(
-            @Query("v") int apiVer,
             @Query("app_id") String appId,
             @Query("reason") String reason,
             @Query("email") String email
@@ -63,16 +57,12 @@ public interface StoreService {
 
     @GET("api/1/user/profile")
     Call<ApiResponse<ProfileResponse>> getProfile(
-            @Query("v") int apiVer,
-            @Query("guid") String guid,
             @Query("user_id") String userId
     );
 
     @FormUrlEncoded
     @POST("api/1/user/empower")
     Call<ApiResponse<EmpowerResponse>> empower(
-            @Field("v") int apiVer,
-            @Field("guid") String guid,
             @Field("role") int role,
             @Field("user_id") String userId
     );
@@ -80,8 +70,6 @@ public interface StoreService {
     @FormUrlEncoded
     @POST("api/1/app/unlink")
     Call<ApiResponse<UnlinkResponse>> unlink(
-            @Field("v") int apiVer,
-            @Field("guid") String guid,
             @Field("app_id") String fileId,
             @Field("reason") String reason
     );
@@ -89,8 +77,6 @@ public interface StoreService {
     @FormUrlEncoded
     @POST("api/1/app/unpublish")
     Call<ApiResponse<UnpublishResponse>> unpublish(
-            @Field("v") int apiVer,
-            @Field("guid") String guid,
             @Field("app_id") String fileId,
             @Field("reason") String reason
     );
@@ -98,7 +84,6 @@ public interface StoreService {
     @GET("api/1/user/app/list")
     Call<ApiResponse<ListResponse>> listUserFiles(
             @Query("user_id") Long userId,
-            @Query("guid") String guid,
             @Query("app_id") String appId,
             @Query("locale") String locale
     );
@@ -113,8 +98,6 @@ public interface StoreService {
     @FormUrlEncoded
     @POST("api/1/user/register")
     Call<ApiResponse<AuthResponse>> register(
-            @Field("v") int apiVer,
-            @Field("guid") String guid,
             @Field("locale") String locale,
             @Field("email") String email,
             @Field("password") String password,
@@ -124,7 +107,6 @@ public interface StoreService {
     @FormUrlEncoded
     @POST("api/1/user/login")
     Call<ApiResponse<AuthResponse>> login(
-            @Field("v") int apiVer,
             @Field("locale") String locale,
             @Field("email") String email,
             @Field("password") String password
@@ -138,7 +120,6 @@ public interface StoreService {
 
     @DELETE("api/1/user/eliminate")
     Call<ApiResponse<EliminateUserResponse>> eliminateUser(
-            @Query("guid") String guid,
             @Query("user_id") Long userId
     );
 

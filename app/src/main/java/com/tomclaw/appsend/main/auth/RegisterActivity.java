@@ -106,18 +106,17 @@ public class RegisterActivity extends AppCompatActivity {
 
     @Click(R.id.register_button)
     void onRegisterClicked() {
-        String guid = session.getUserData().getGuid();
         String locale = getLocaleLanguage();
         String email = emailInput.getText().toString();
         String password = passwordInput.getText().toString();
         String name = nameInput.getText().toString();
-        register(guid, locale, email, password, name);
+        register(locale, email, password, name);
     }
 
-    private void register(String guid, String locale, String email, String password, String name) {
+    private void register(String locale, String email, String password, String name) {
         showProgress();
         Call<ApiResponse<AuthResponse>> call = serviceHolder.getService()
-                .register(1, guid, locale, email, password, name);
+                .register(locale, email, password, name);
         call.enqueue(new Callback<ApiResponse<AuthResponse>>() {
             @Override
             public void onResponse(Call<ApiResponse<AuthResponse>> call, final Response<ApiResponse<AuthResponse>> response) {

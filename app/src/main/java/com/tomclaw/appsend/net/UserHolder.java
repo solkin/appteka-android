@@ -166,7 +166,7 @@ public class UserHolder {
         String guid = userData.getGuid();
         long userId = userData.getUserId();
         if (!TextUtils.isEmpty(guid)) {
-            Call<ApiResponse<ProfileResponse>> call = serviceHolder.getService().getProfile(1, guid, Long.toString(userId));
+            Call<ApiResponse<ProfileResponse>> call = serviceHolder.getService().getProfile(Long.toString(userId));
             call.enqueue(new Callback<ApiResponse<ProfileResponse>>() {
                 @Override
                 public void onResponse(@NonNull Call<ApiResponse<ProfileResponse>> call, @NonNull final Response<ApiResponse<ProfileResponse>> response) {

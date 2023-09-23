@@ -54,9 +54,8 @@ class ModerationModule(
     internal fun provideInteractor(
         api: StoreApi,
         locale: Locale,
-        userDataInteractor: UserDataInteractor,
         schedulers: SchedulersFactory
-    ): ModerationInteractor = ModerationInteractorImpl(api, locale, userDataInteractor, schedulers)
+    ): ModerationInteractor = ModerationInteractorImpl(api, locale, schedulers)
 
     @Provides
     @PerActivity

@@ -29,21 +29,16 @@ interface DetailsInteractor {
 }
 
 class DetailsInteractorImpl(
-    private val userDataInteractor: UserDataInteractor,
     private val api: StoreApi,
     private val schedulers: SchedulersFactory
 ) : DetailsInteractor {
 
     override fun loadDetails(appId: String?, packageName: String?): Observable<Details> {
-        return userDataInteractor
-            .getUserData()
-            .flatMap {
-                api.getInfo(
-                    guid = it.guid,
-                    appId = appId,
-                    packageName = packageName,
-                )
-            }
+        return api
+            .getInfo(
+                appId = appId,
+                packageName = packageName,
+            )
             .map { it.result }
             .toObservable()
             .subscribeOn(schedulers.io())
@@ -54,55 +49,33 @@ class DetailsInteractorImpl(
         isApprove: Boolean
     ): Single<ModerationDecisionResponse> {
         val decision = if (isApprove) MODERATION_APPROVE else MODERATION_DENY
-        return userDataInteractor
-            .getUserData()
-            .flatMap {
-                api.sendModerationDecision(
-                    guid = it.guid,
-                    appId = appId,
-                    decision = decision,
-                )
-            }
+        return api
+            .sendModerationDecision(
+                appId = appId,
+                decision = decision,
+            )
             .map { it.result }
             .subscribeOn(schedulers.io())
     }
 
     override fun deleteApplication(appId: String): Single<DeletionResponse> {
-        return userDataInteractor
-            .getUserData()
-            .flatMap {
-                api.deleteApplication(
-                    guid = it.guid,
-                    appId = appId,
-                )
-            }
+        return api.deleteApplication(appId = appId)
             .map { it.result }
             .subscribeOn(schedulers.io())
     }
 
     override fun createTopic(packageName: String): Single<CreateTopicResponse> {
-        return userDataInteractor
-            .getUserData()
-            .flatMap {
-                api.createTopic(
-                    guid = it.guid,
-                    packageName = packageName,
-                )
-            }
+        return api.createTopic(packageName = packageName)
             .map { it.result }
             .subscribeOn(schedulers.io())
     }
 
     override fun markFavorite(appId: String, isFavorite: Boolean): Single<MarkFavoriteResponse> {
-        return userDataInteractor
-            .getUserData()
-            .flatMap {
-                api.markFavorite(
-                    guid = it.guid,
-                    appId = appId,
-                    isFavorite = isFavorite,
-                )
-            }
+        return api
+            .markFavorite(
+                appId = appId,
+                isFavorite = isFavorite,
+            )
             .map { it.result }
             .subscribeOn(schedulers.io())
     }

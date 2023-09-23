@@ -56,10 +56,9 @@ class TopicsModule(
     @Provides
     @PerFragment
     internal fun provideInteractor(
-        userDataInteractor: UserDataInteractor,
         api: StoreApi,
         schedulers: SchedulersFactory
-    ): TopicsInteractor = TopicsInteractorImpl(userDataInteractor, api, schedulers)
+    ): TopicsInteractor = TopicsInteractorImpl(api, schedulers)
 
     @Provides
     @PerFragment

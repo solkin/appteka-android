@@ -62,9 +62,6 @@ public class UnlinkActivity extends AppCompatActivity {
     @Bean
     StoreServiceHolder serviceHolder;
 
-    @Bean
-    Session session;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         ThemeHelper.updateTheme(this);
@@ -110,8 +107,7 @@ public class UnlinkActivity extends AppCompatActivity {
 
             String reason = reasonInput.getText().toString();
             if (!TextUtils.isEmpty(reason)) {
-                String guid = session.getUserData().getGuid();
-                Call<ApiResponse<UnlinkResponse>> call = serviceHolder.getService().unlink(1, guid, appId, reason);
+                Call<ApiResponse<UnlinkResponse>> call = serviceHolder.getService().unlink(appId, reason);
                 call.enqueue(new Callback<ApiResponse<UnlinkResponse>>() {
                     @Override
                     public void onResponse(Call<ApiResponse<UnlinkResponse>> call, final Response<ApiResponse<UnlinkResponse>> response) {

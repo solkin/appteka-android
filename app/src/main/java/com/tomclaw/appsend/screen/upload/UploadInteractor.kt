@@ -22,7 +22,6 @@ interface UploadInteractor {
 class UploadInteractorImpl(
     private val api: StoreApi,
     private val locale: Locale,
-    private val userDataInteractor: UserDataInteractor,
     private val schedulers: SchedulersFactory
 ) : UploadInteractor {
 
@@ -50,16 +49,12 @@ class UploadInteractorImpl(
     }
 
     override fun checkExist(sha1: String, packageName: String): Observable<CheckExistResponse> {
-        return userDataInteractor
-            .getUserData()
-            .flatMap {
-                api.checkExist(
-                    guid = it.guid,
-                    sha1 = sha1,
-                    packageName = packageName,
-                    locale = locale.language,
-                )
-            }
+        return api
+            .checkExist(
+                sha1 = sha1,
+                packageName = packageName,
+                locale = locale.language,
+            )
             .map { it.result }
             .toObservable()
             .subscribeOn(schedulers.io())

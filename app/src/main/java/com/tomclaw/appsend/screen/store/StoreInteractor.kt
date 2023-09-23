@@ -16,29 +16,22 @@ interface StoreInteractor {
 class StoreInteractorImpl(
     private val api: StoreApi,
     private val locale: Locale,
-    private val userDataInteractor: UserDataInteractor,
     private val schedulers: SchedulersFactory
 ) : StoreInteractor {
 
     override fun listApps(offsetAppId: String?, categoryId: Int?): Observable<List<AppEntity>> {
-        return userDataInteractor
-            .getUserData()
-            .flatMap {
-                if (categoryId != null) {
-                    api.getTopListByCategory(
-                        guid = it.guid,
-                        appId = offsetAppId,
-                        categoryId = categoryId,
-                        locale = locale.language
-                    )
-                } else {
-                    api.getTopList(
-                        guid = it.guid,
-                        appId = offsetAppId,
-                        locale = locale.language
-                    )
-                }
-            }
+        return if (categoryId != null) {
+            api.getTopListByCategory(
+                appId = offsetAppId,
+                categoryId = categoryId,
+                locale = locale.language
+            )
+        } else {
+            api.getTopList(
+                appId = offsetAppId,
+                locale = locale.language
+            )
+        }
             .map { list ->
                 list.result.files
             }

@@ -56,13 +56,11 @@ class FavoriteModule(
     internal fun provideInteractor(
         api: StoreApi,
         locale: Locale,
-        userDataInteractor: UserDataInteractor,
         schedulers: SchedulersFactory
     ): FavoriteInteractor = FavoriteInteractorImpl(
         api,
         userId,
         locale,
-        userDataInteractor,
         schedulers
     )
 

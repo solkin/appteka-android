@@ -17,21 +17,16 @@ class FavoriteInteractorImpl(
     private val api: StoreApi,
     private val userId: Int,
     private val locale: Locale,
-    private val userDataInteractor: UserDataInteractor,
     private val schedulers: SchedulersFactory
 ) : FavoriteInteractor {
 
     override fun listApps(offsetAppId: String?): Observable<List<AppEntity>> {
-        return userDataInteractor
-            .getUserData()
-            .flatMap {
-                api.getFavoriteList(
-                    guid = it.guid,
-                    userId = userId,
-                    appId = offsetAppId,
-                    locale = locale.language
-                )
-            }
+        return api
+            .getFavoriteList(
+                userId = userId,
+                appId = offsetAppId,
+                locale = locale.language
+            )
             .map { list ->
                 list.result.files
             }

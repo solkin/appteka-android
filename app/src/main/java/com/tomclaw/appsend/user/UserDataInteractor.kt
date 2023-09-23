@@ -55,7 +55,7 @@ class UserDataInteractorImpl(
 
     private fun loadUserData(guid: String): Single<UserData> {
         return api
-            .getUserData(guid)
+            .getUserData()
             .map {
                 with(it.result.profile) {
                     UserData(

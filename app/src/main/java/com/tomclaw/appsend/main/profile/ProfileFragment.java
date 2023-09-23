@@ -242,9 +242,8 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
 
     private void loadProfile() {
         if (userId == null) return;
-        String guid = session.getUserData().getGuid();
         String stringUserId = userId == 0 ? null : String.valueOf(userId);
-        Call<ApiResponse<ProfileResponse>> call = serviceHolder.getService().getProfile(1, guid, stringUserId);
+        Call<ApiResponse<ProfileResponse>> call = serviceHolder.getService().getProfile(stringUserId);
         call.enqueue(new Callback<ApiResponse<ProfileResponse>>() {
             @Override
             public void onResponse(Call<ApiResponse<ProfileResponse>> call, final Response<ApiResponse<ProfileResponse>> response) {
@@ -271,9 +270,8 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
     }
 
     private void changeRole(int role) {
-        String guid = session.getUserData().getGuid();
         String stringUserId = userId == 0 ? null : String.valueOf(userId);
-        Call<ApiResponse<EmpowerResponse>> call = serviceHolder.getService().empower(1, guid, role, stringUserId);
+        Call<ApiResponse<EmpowerResponse>> call = serviceHolder.getService().empower(role, stringUserId);
         call.enqueue(new Callback<ApiResponse<EmpowerResponse>>() {
             @Override
             public void onResponse(Call<ApiResponse<EmpowerResponse>> call, final Response<ApiResponse<EmpowerResponse>> response) {

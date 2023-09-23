@@ -14,7 +14,6 @@ interface RateInteractor {
 
 class RateInteractorImpl(
     private val api: StoreApi,
-    private val userDataInteractor: UserDataInteractor,
     private val schedulers: SchedulersFactory
 ) : RateInteractor {
 
@@ -23,16 +22,12 @@ class RateInteractorImpl(
         rating: Float,
         review: String
     ): Observable<SubmitReviewResponse> {
-        return userDataInteractor
-            .getUserData()
-            .flatMap {
-                api.submitReview(
-                    guid = it.guid,
-                    appId = appId,
-                    score = rating.toInt(),
-                    text = review,
-                )
-            }
+        return api
+            .submitReview(
+                appId = appId,
+                score = rating.toInt(),
+                text = review,
+            )
             .map { it.result }
             .toObservable()
             .subscribeOn(schedulers.io())

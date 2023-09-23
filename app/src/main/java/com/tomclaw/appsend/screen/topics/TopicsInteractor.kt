@@ -16,34 +16,19 @@ interface TopicsInteractor {
 }
 
 class TopicsInteractorImpl(
-    private val userDataInteractor: UserDataInteractor,
     private val api: StoreApi,
     private val schedulers: SchedulersFactory
 ) : TopicsInteractor {
 
     override fun listTopics(offset: Int): Observable<TopicsResponse> {
-        return userDataInteractor
-            .getUserData()
-            .flatMap {
-                api.getTopicsList(
-                    guid = it.guid,
-                    offset = offset
-                )
-            }
+        return api.getTopicsList(offset = offset)
             .map { it.result }
             .toObservable()
             .subscribeOn(schedulers.io())
     }
 
     override fun pinTopic(topicId: Int): Observable<PinTopicResponse> {
-        return userDataInteractor
-            .getUserData()
-            .flatMap {
-                api.pinTopic(
-                    guid = it.guid,
-                    topicId = topicId,
-                )
-            }
+        return api.pinTopic(topicId = topicId)
             .map { it.result }
             .toObservable()
             .subscribeOn(schedulers.io())

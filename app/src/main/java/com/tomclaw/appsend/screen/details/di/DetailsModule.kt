@@ -99,10 +99,9 @@ class DetailsModule(
     @Provides
     @PerActivity
     internal fun provideInteractor(
-        userDataInteractor: UserDataInteractor,
         api: StoreApi,
         schedulers: SchedulersFactory
-    ): DetailsInteractor = DetailsInteractorImpl(userDataInteractor, api, schedulers)
+    ): DetailsInteractor = DetailsInteractorImpl(api, schedulers)
 
     @Provides
     @PerActivity

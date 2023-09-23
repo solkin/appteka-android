@@ -115,7 +115,7 @@ public class LoginActivity extends AppCompatActivity {
     private void login(String locale, String email, String password) {
         showProgress();
         Call<ApiResponse<AuthResponse>> call = serviceHolder.getService()
-                .login(1, locale, email, password);
+                .login(locale, email, password);
         call.enqueue(new Callback<ApiResponse<AuthResponse>>() {
             @Override
             public void onResponse(Call<ApiResponse<AuthResponse>> call, final Response<ApiResponse<AuthResponse>> response) {

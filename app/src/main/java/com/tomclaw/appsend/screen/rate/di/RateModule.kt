@@ -45,9 +45,7 @@ class RateModule(
     @PerActivity
     internal fun provideInteractor(
         api: StoreApi,
-        locale: Locale,
-        userDataInteractor: UserDataInteractor,
         schedulers: SchedulersFactory
-    ): RateInteractor = RateInteractorImpl(api, userDataInteractor, schedulers)
+    ): RateInteractor = RateInteractorImpl(api, schedulers)
 
 }

@@ -62,9 +62,6 @@ public class UnpublishActivity extends AppCompatActivity {
     @Bean
     StoreServiceHolder serviceHolder;
 
-    @Bean
-    Session session;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         ThemeHelper.updateTheme(this);
@@ -110,8 +107,7 @@ public class UnpublishActivity extends AppCompatActivity {
 
             String reason = reasonInput.getText().toString();
             if (!TextUtils.isEmpty(reason)) {
-                String guid = session.getUserData().getGuid();
-                Call<ApiResponse<UnpublishResponse>> call = serviceHolder.getService().unpublish(1, guid, appId, reason);
+                Call<ApiResponse<UnpublishResponse>> call = serviceHolder.getService().unpublish(appId, reason);
                 call.enqueue(new Callback<ApiResponse<UnpublishResponse>>() {
                     @Override
                     public void onResponse(Call<ApiResponse<UnpublishResponse>> call, final Response<ApiResponse<UnpublishResponse>> response) {

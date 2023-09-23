@@ -122,7 +122,7 @@ public class AbuseActivity extends AppCompatActivity {
                         showError(getString(R.string.unable_to_send_abuse));
                         return;
                 }
-                Call<ApiResponse<AbuseResult>> call = serviceHolder.getService().reportAbuse(1, appId, reason, email);
+                Call<ApiResponse<AbuseResult>> call = serviceHolder.getService().reportAbuse(appId, reason, email);
                 call.enqueue(new Callback<ApiResponse<AbuseResult>>() {
                     @Override
                     public void onResponse(Call<ApiResponse<AbuseResult>> call, final Response<ApiResponse<AbuseResult>> response) {

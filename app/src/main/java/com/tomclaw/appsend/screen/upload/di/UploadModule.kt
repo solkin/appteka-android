@@ -93,9 +93,8 @@ class UploadModule(
     internal fun provideInteractor(
         api: StoreApi,
         locale: Locale,
-        userDataInteractor: UserDataInteractor,
         schedulers: SchedulersFactory
-    ): UploadInteractor = UploadInteractorImpl(api, locale, userDataInteractor, schedulers)
+    ): UploadInteractor = UploadInteractorImpl(api, locale, schedulers)
 
     @Provides
     @PerActivity

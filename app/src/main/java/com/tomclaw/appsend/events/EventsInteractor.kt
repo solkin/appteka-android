@@ -31,13 +31,10 @@ class EventsInteractorImpl(
     private val disposables = CompositeDisposable()
 
     private fun eventsLoop() {
-        disposables += userDataInteractor.getUserData().toObservable()
-            .flatMap {
-                println("[polling] started with time " + fetchTime.get())
-                api.getEvents(guid = it.guid, time = fetchTime.get(), noDelay = false)
-                    .toObservable()
-                    .takeUntil(Observable.timer(1, MINUTES))
-            }
+        println("[polling] started with time " + fetchTime.get())
+        disposables += api.getEvents(time = fetchTime.get(), noDelay = false)
+            .toObservable()
+            .takeUntil(Observable.timer(1, MINUTES))
             .observeOn(schedulers.io())
             .subscribeOn(schedulers.mainThread())
             .retryWhen { errors ->

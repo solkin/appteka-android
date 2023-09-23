@@ -132,10 +132,8 @@ class UploadManagerImpl(
         appId: String,
         info: UploadInfo
     ) {
-        val userData = userDataInteractor.getUserData().blockingGet()
         return api.setMeta(
             appId,
-            guid = userData.guid,
             category = info.category.id,
             description = info.description,
             whatsNew = info.whatsNew,

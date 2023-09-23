@@ -139,7 +139,7 @@ public class RatingsActivity extends AppCompatActivity implements RatingsListene
             RatingItem lastRatingItem = ratingItems.get(ratingItems.size() - 1);
             rateId = lastRatingItem.getRateId();
         }
-        Call<ApiResponse<RatingsResponse>> call = serviceHolder.getService().getRatings(1, appId, rateId, 7);
+        Call<ApiResponse<RatingsResponse>> call = serviceHolder.getService().getRatings(appId, rateId, 7);
         call.enqueue(new Callback<ApiResponse<RatingsResponse>>() {
             @Override
             public void onResponse(Call<ApiResponse<RatingsResponse>> call, final Response<ApiResponse<RatingsResponse>> response) {
@@ -242,7 +242,7 @@ public class RatingsActivity extends AppCompatActivity implements RatingsListene
                                 break;
                             }
                             case 1: {
-                                Call<ApiResponse<VoidResponse>> call = serviceHolder.getService().deleteRating(1, session.getUserData().getGuid(), item.getRateId());
+                                Call<ApiResponse<VoidResponse>> call = serviceHolder.getService().deleteRating(item.getRateId());
                                 call.enqueue(new Callback<ApiResponse<VoidResponse>>() {
                                     @Override
                                     public void onResponse(Call<ApiResponse<VoidResponse>> call, final Response<ApiResponse<VoidResponse>> response) {

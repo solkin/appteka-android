@@ -36,14 +36,12 @@ interface StoreApi {
 
     @GET("1/app/top/list")
     fun getTopList(
-        @Query("guid") guid: String,
         @Query("app_id") appId: String?,
         @Query("locale") locale: String
     ): Single<StoreResponse<AppsListResponse>>
 
     @GET("1/app/category/list")
     fun getTopListByCategory(
-        @Query("guid") guid: String,
         @Query("app_id") appId: String?,
         @Query("category_id") categoryId: Int,
         @Query("locale") locale: String
@@ -51,33 +49,28 @@ interface StoreApi {
 
     @GET("1/app/moderation/list")
     fun getModerationList(
-        @Query("guid") guid: String,
         @Query("app_id") appId: String?,
         @Query("locale") locale: String
     ): Single<StoreResponse<ModerationResponse>>
 
     @GET("1/chat/topics")
     fun getTopicsList(
-        @Query("guid") guid: String,
         @Query("offset") offset: Int
     ): Single<StoreResponse<TopicsResponse>>
 
     @GET("1/chat/topic")
     fun getTopicInfo(
-        @Query("guid") guid: String,
         @Query("topic_id") topicId: Int
     ): Single<StoreResponse<TopicInfoResponse>>
 
     @FormUrlEncoded
     @POST("1/chat/topic/pin")
     fun pinTopic(
-        @Field("guid") guid: String,
         @Field("topic_id") topicId: Int
     ): Single<StoreResponse<PinTopicResponse>>
 
     @GET("1/chat/history")
     fun getChatHistory(
-        @Query("guid") guid: String,
         @Query("topic_id") topicId: Int,
         @Query("from") from: Int,
         @Query("till") till: Int
@@ -85,20 +78,16 @@ interface StoreApi {
 
     @GET("2/chat/fetch")
     fun getEvents(
-        @Query("guid") guid: String,
         @Query("time") time: Long,
         @Query("nodelay") noDelay: Boolean
     ): Single<StoreResponse<EventsResponse>>
 
     @GET("1/user/profile")
-    fun getUserData(
-        @Query("guid") guid: String
-    ): Single<StoreResponse<UserDataResponse>>
+    fun getUserData(): Single<StoreResponse<UserDataResponse>>
 
     @FormUrlEncoded
     @POST("1/chat/push")
     fun sendMessage(
-        @Field("guid") guid: String,
         @Field("topic_id") topicId: Int,
         @Field("text") text: String?,
         @Field("attachment") attachment: String?,
@@ -108,14 +97,12 @@ interface StoreApi {
     @FormUrlEncoded
     @POST("1/chat/report")
     fun reportMessage(
-        @Field("guid") guid: String,
         @Field("msg_id") msgId: Int
     ): Single<StoreResponse<ReportMessageResponse>>
 
     @FormUrlEncoded
     @POST("1/chat/topic/read")
     fun readTopic(
-        @Field("guid") guid: String,
         @Field("topic_id") topicId: Int,
         @Field("msg_id") msgId: Int
     ): Single<StoreResponse<ReadTopicResponse>>
@@ -125,7 +112,6 @@ interface StoreApi {
 
     @GET("1/app/info")
     fun getInfo(
-        @Query("guid") guid: String,
         @Query("app_id") appId: String?,
         @Query("package") packageName: String?
     ): Single<StoreResponse<Details>>
@@ -133,7 +119,6 @@ interface StoreApi {
     @FormUrlEncoded
     @POST("1/app/rate")
     fun submitReview(
-        @Field("guid") guid: String,
         @Field("app_id") appId: String,
         @Field("score") score: Int,
         @Field("text") text: String?
@@ -141,26 +126,22 @@ interface StoreApi {
 
     @POST("1/app/moderation/submit")
     fun sendModerationDecision(
-        @Query("guid") guid: String,
         @Query("app_id") appId: String,
         @Query("decision") decision: Int
     ): Single<StoreResponse<ModerationDecisionResponse>>
 
     @DELETE("1/app/delete")
     fun deleteApplication(
-        @Query("guid") guid: String,
         @Query("app_id") appId: String
     ): Single<StoreResponse<DeletionResponse>>
 
     @POST("1/chat/topic/create")
     fun createTopic(
-        @Query("guid") guid: String,
         @Query("package") packageName: String
     ): Single<StoreResponse<CreateTopicResponse>>
 
     @GET("1/app/check_exist")
     fun checkExist(
-        @Query("guid") guid: String,
         @Query("sha1") sha1: String,
         @Query("package") packageName: String,
         @Query("locale") locale: String
@@ -170,7 +151,6 @@ interface StoreApi {
     @POST("1/app/meta")
     fun setMeta(
         @Field("app_id") appId: String,
-        @Field("guid") guid: String,
         @Field("category") category: Int,
         @Field("description") description: String,
         @Field("whats_new") whatsNew: String,
@@ -180,14 +160,12 @@ interface StoreApi {
 
     @POST("1/app/favorite/mark")
     fun markFavorite(
-        @Query("guid") guid: String,
         @Query("app_id") appId: String,
         @Query("is_favorite") isFavorite: Boolean
     ): Single<StoreResponse<MarkFavoriteResponse>>
 
     @GET("1/app/favorite/list")
     fun getFavoriteList(
-        @Query("guid") guid: String,
         @Query("user_id") userId: Int,
         @Query("app_id") appId: String?,
         @Query("locale") locale: String

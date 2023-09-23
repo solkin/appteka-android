@@ -62,9 +62,8 @@ class StoreModule(
     internal fun provideInteractor(
         api: StoreApi,
         locale: Locale,
-        userDataInteractor: UserDataInteractor,
         schedulers: SchedulersFactory
-    ): StoreInteractor = StoreInteractorImpl(api, locale, userDataInteractor, schedulers)
+    ): StoreInteractor = StoreInteractorImpl(api, locale, schedulers)
 
     @Provides
     @PerFragment

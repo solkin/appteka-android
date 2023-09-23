@@ -16,20 +16,15 @@ interface ModerationInteractor {
 class ModerationInteractorImpl(
     private val api: StoreApi,
     private val locale: Locale,
-    private val userDataInteractor: UserDataInteractor,
     private val schedulers: SchedulersFactory
 ) : ModerationInteractor {
 
     override fun listApps(offsetAppId: String?): Observable<List<AppEntity>> {
-        return userDataInteractor
-            .getUserData()
-            .flatMap {
-                api.getModerationList(
-                    guid = it.guid,
-                    appId = offsetAppId,
-                    locale = locale.language
-                )
-            }
+        return api
+            .getModerationList(
+                appId = offsetAppId,
+                locale = locale.language
+            )
             .map { list ->
                 list.result.files
             }
