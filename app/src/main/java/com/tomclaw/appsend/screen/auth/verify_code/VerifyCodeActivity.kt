@@ -18,11 +18,13 @@ class VerifyCodeActivity : AppCompatActivity(), VerifyCodePresenter.VerifyCodeRo
     override fun onCreate(savedInstanceState: Bundle?) {
         val email = intent.getStringExtra(EXTRA_EMAIL)
             ?: throw IllegalArgumentException("Email must be provided")
+        val requestId = intent.getStringExtra(EXTRA_REQUEST_ID)
+            ?: throw IllegalArgumentException("RequestID must be provided")
         val registered = intent.getBooleanExtra(EXTRA_REGISTERED, false)
 
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
         Appteka.getComponent()
-            .verifyCodeComponent(VerifyCodeModule(this, email, registered, presenterState))
+            .verifyCodeComponent(VerifyCodeModule(this, email, requestId, registered, presenterState))
             .inject(activity = this)
         ThemeHelper.updateTheme(this)
 
@@ -72,11 +74,14 @@ class VerifyCodeActivity : AppCompatActivity(), VerifyCodePresenter.VerifyCodeRo
 fun createVerifyCodeActivityIntent(
     context: Context,
     email: String,
+    requestId: String,
     registered: Boolean,
 ): Intent = Intent(context, VerifyCodeActivity::class.java)
     .putExtra(EXTRA_EMAIL, email)
+    .putExtra(EXTRA_REQUEST_ID, requestId)
     .putExtra(EXTRA_REGISTERED, registered)
 
 private const val EXTRA_EMAIL = "email"
+private const val EXTRA_REQUEST_ID = "request_id"
 private const val EXTRA_REGISTERED = "registered"
 private const val KEY_PRESENTER_STATE = "presenter_state"

@@ -4,5 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 class RequestCodeResponse(
     @SerializedName("registered")
-    val registered: Boolean
+    val registered: Boolean,
+    @SerializedName("request_id")
+    val requestId: String
 )

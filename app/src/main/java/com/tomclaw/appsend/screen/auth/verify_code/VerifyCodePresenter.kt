@@ -30,6 +30,7 @@ interface VerifyCodePresenter {
 
 class VerifyCodePresenterImpl(
     private val email: String,
+    private val requestId: String,
     private val registered: Boolean,
     private val resourceProvider: VerifyCodeResourceProvider,
     private val interactor: VerifyCodeInteractor,
@@ -103,7 +104,7 @@ class VerifyCodePresenterImpl(
 
     private fun onSubmitClicked() {
         view?.showProgress()
-        subscriptions += interactor.verifyCode(email, code, name)
+        subscriptions += interactor.verifyCode(requestId, code, name)
             .observeOn(schedulers.mainThread())
             .subscribe({
                 view?.showContent()

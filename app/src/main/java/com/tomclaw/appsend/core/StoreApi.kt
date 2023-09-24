@@ -178,7 +178,7 @@ interface StoreApi {
 
     @GET("1/auth/verify")
     fun verifyCode(
-        @Query("email") email: String,
+        @Query("request_id") requestId: String,
         @Query("code") code: String,
         @Query("name") name: String?,
     ): Single<StoreResponse<VerifyCodeResponse>>

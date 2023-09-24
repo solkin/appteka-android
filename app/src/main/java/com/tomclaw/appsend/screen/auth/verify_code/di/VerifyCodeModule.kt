@@ -19,6 +19,7 @@ import dagger.Provides
 class VerifyCodeModule(
     private val context: Context,
     private val email: String,
+    private val requestId: String,
     private val registered: Boolean,
     private val state: Bundle?
 ) {
@@ -31,6 +32,7 @@ class VerifyCodeModule(
         schedulers: SchedulersFactory
     ): VerifyCodePresenter = VerifyCodePresenterImpl(
         email,
+        requestId,
         registered,
         resourceProvider,
         interactor,
@@ -42,9 +44,8 @@ class VerifyCodeModule(
     @PerActivity
     internal fun provideInteractor(
         api: StoreApi,
-        userDataInteractor: UserDataInteractor,
         schedulers: SchedulersFactory
-    ): VerifyCodeInteractor = VerifyCodeInteractorImpl(api, userDataInteractor, schedulers)
+    ): VerifyCodeInteractor = VerifyCodeInteractorImpl(api, schedulers)
 
     @Provides
     @PerActivity
