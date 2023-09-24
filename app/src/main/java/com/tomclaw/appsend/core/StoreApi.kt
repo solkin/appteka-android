@@ -181,6 +181,7 @@ interface StoreApi {
         @Query("request_id") requestId: String,
         @Query("code") code: String,
         @Query("name") name: String?,
+        @Query("guid") guid: String?,
     ): Single<StoreResponse<VerifyCodeResponse>>
 
 }
