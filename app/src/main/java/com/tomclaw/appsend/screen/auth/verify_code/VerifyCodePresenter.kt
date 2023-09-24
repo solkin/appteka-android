@@ -91,7 +91,7 @@ class VerifyCodePresenterImpl(
     }
 
     private fun bindButtonState() {
-        if (code.isNotBlank() && (registered || name.isNullOrBlank())) {
+        if (code.isNotBlank() && (registered || !name.isNullOrBlank())) {
             view?.enableSubmitButton()
         } else {
             view?.disableSubmitButton()
