@@ -55,6 +55,7 @@ interface VerifyCodeView {
 
 class VerifyCodeViewImpl(private val view: View) : VerifyCodeView {
 
+    private val rootView: View = view.findViewById(R.id.root_view)
     private val toolbar: Toolbar = view.findViewById(R.id.toolbar)
     private val codeSentDescription: TextView = view.findViewById(R.id.code_sent_description)
     private val codeInput: EditText = view.findViewById(R.id.code_input)
@@ -118,7 +119,7 @@ class VerifyCodeViewImpl(private val view: View) : VerifyCodeView {
     }
 
     override fun showError() {
-        Snackbar.make(view, R.string.error_verifying_code, Snackbar.LENGTH_LONG).show()
+        Snackbar.make(rootView, R.string.error_verifying_code, Snackbar.LENGTH_LONG).show()
     }
 
     override fun setSubmitButtonText(value: String) {
