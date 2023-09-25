@@ -111,10 +111,9 @@ class AppModule(private val app: Application) {
     @Provides
     @Singleton
     internal fun provideEventsInteractor(
-        userDataInteractor: UserDataInteractor,
         api: StoreApi,
         schedulers: SchedulersFactory
-    ): EventsInteractor = EventsInteractorImpl(userDataInteractor, api, schedulers)
+    ): EventsInteractor = EventsInteractorImpl(api, schedulers)
 
     @Provides
     @Singleton

@@ -1,9 +1,9 @@
 package com.tomclaw.appsend.events
 
 import com.tomclaw.appsend.core.StoreApi
-import com.tomclaw.appsend.user.UserDataInteractor
 import com.tomclaw.appsend.util.SchedulersFactory
 import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
 import io.reactivex.rxjava3.subjects.PublishSubject
@@ -19,7 +19,6 @@ interface EventsInteractor {
 }
 
 class EventsInteractorImpl(
-    private val userDataInteractor: UserDataInteractor,
     private val api: StoreApi,
     private val schedulers: SchedulersFactory
 ) : EventsInteractor {
@@ -31,8 +30,11 @@ class EventsInteractorImpl(
     private val disposables = CompositeDisposable()
 
     private fun eventsLoop() {
-        println("[polling] started with time " + fetchTime.get())
-        disposables += api.getEvents(time = fetchTime.get(), noDelay = false)
+        disposables += Single.create { it.onSuccess(fetchTime.get()) }
+            .flatMap { time ->
+                println("[polling] started with time $time")
+                api.getEvents(time = time, noDelay = false)
+            }
             .toObservable()
             .takeUntil(Observable.timer(1, MINUTES))
             .observeOn(schedulers.io())
