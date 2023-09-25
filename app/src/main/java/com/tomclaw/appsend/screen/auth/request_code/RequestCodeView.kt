@@ -37,6 +37,7 @@ interface RequestCodeView {
 
 class RequestCodeViewImpl(private val view: View) : RequestCodeView {
 
+    private val rootView: View = view.findViewById(R.id.root_view)
     private val toolbar: Toolbar = view.findViewById(R.id.toolbar)
     private val email: EditText = view.findViewById(R.id.email_input)
     private val submitButton: Button = view.findViewById(R.id.submit_button)
@@ -87,7 +88,7 @@ class RequestCodeViewImpl(private val view: View) : RequestCodeView {
     override fun submitClicks(): Observable<Unit> = submitRelay
 
     override fun showError() {
-        Snackbar.make(view, R.string.error_sending_request_code, Snackbar.LENGTH_LONG).show()
+        Snackbar.make(rootView, R.string.error_sending_request_code, Snackbar.LENGTH_LONG).show()
     }
 
 }
