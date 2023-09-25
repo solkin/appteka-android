@@ -7,7 +7,7 @@ interface RequestCodeResourceProvider {
 
     fun getRateLimitError(): String
 
-    fun getCommonRequestCodeError(): String
+    fun getServiceError(): String
 
     fun getNetworkError(): String
 
@@ -19,7 +19,7 @@ class RequestCodeResourceProviderImpl(val resources: Resources) : RequestCodeRes
         return resources.getString(R.string.error_rate_limit)
     }
 
-    override fun getCommonRequestCodeError(): String {
+    override fun getServiceError(): String {
         return resources.getString(R.string.error_sending_request_code)
     }
 

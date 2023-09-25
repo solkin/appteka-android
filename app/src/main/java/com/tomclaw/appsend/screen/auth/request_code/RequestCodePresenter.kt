@@ -1,13 +1,11 @@
 package com.tomclaw.appsend.screen.auth.request_code
 
 import android.os.Bundle
-import android.provider.SyncStateContract.Helpers
 import android.util.Patterns
 import com.tomclaw.appsend.util.SchedulersFactory
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
 import retrofit2.HttpException
-import java.io.IOException
 
 interface RequestCodePresenter {
 
@@ -25,7 +23,13 @@ interface RequestCodePresenter {
 
     interface RequestCodeRouter {
 
-        fun showVerifyCodeScreen(email: String, requestId: String, registered: Boolean)
+        fun showVerifyCodeScreen(
+            email: String,
+            requestId: String,
+            registered: Boolean,
+            codeRegex: String,
+            nameRegex: String
+        )
 
         fun leaveScreen(success: Boolean)
 
@@ -95,7 +99,7 @@ class RequestCodePresenterImpl(
             .observeOn(schedulers.mainThread())
             .subscribe({
                 view?.showContent()
-                router?.showVerifyCodeScreen(email, it.requestId, it.registered)
+                router?.showVerifyCodeScreen(email, it.requestId, it.registered, it.codeRegex, it.nameRegex)
             }, {
                 view?.showContent()
                 when (it) {
@@ -103,12 +107,11 @@ class RequestCodePresenterImpl(
                         if (it.code() == 429) {
                             view?.showError(resourceProvider.getRateLimitError())
                         } else {
-                            view?.showError(resourceProvider.getCommonRequestCodeError())
+                            view?.showError(resourceProvider.getServiceError())
                         }
                     }
                     else -> view?.showError(resourceProvider.getNetworkError())
                 }
-
             })
     }
 

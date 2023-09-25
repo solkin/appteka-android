@@ -10,7 +10,6 @@ import com.tomclaw.appsend.screen.auth.verify_code.VerifyCodePresenterImpl
 import com.tomclaw.appsend.screen.auth.verify_code.VerifyCodeResourceProvider
 import com.tomclaw.appsend.screen.auth.verify_code.VerifyCodeResourceProviderImpl
 import com.tomclaw.appsend.user.SessionStorage
-import com.tomclaw.appsend.user.UserDataInteractor
 import com.tomclaw.appsend.util.PerActivity
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Module
@@ -22,6 +21,8 @@ class VerifyCodeModule(
     private val email: String,
     private val requestId: String,
     private val registered: Boolean,
+    private val codeRegex: Regex,
+    private val nameRegex: Regex,
     private val state: Bundle?
 ) {
 
@@ -35,6 +36,8 @@ class VerifyCodeModule(
         email,
         requestId,
         registered,
+        codeRegex,
+        nameRegex,
         resourceProvider,
         interactor,
         schedulers,

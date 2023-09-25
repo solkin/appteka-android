@@ -17,14 +17,28 @@ class VerifyCodeActivity : AppCompatActivity(), VerifyCodePresenter.VerifyCodeRo
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val email = intent.getStringExtra(EXTRA_EMAIL)
-            ?: throw IllegalArgumentException("Email must be provided")
+            ?: throw IllegalArgumentException("email must be provided")
         val requestId = intent.getStringExtra(EXTRA_REQUEST_ID)
-            ?: throw IllegalArgumentException("RequestID must be provided")
+            ?: throw IllegalArgumentException("requestId must be provided")
         val registered = intent.getBooleanExtra(EXTRA_REGISTERED, false)
+        val codeRegex = intent.getStringExtra(EXTRA_CODE_REGEX)?.toRegex()
+            ?: throw IllegalArgumentException("codeRegex must be provided")
+        val nameRegex = intent.getStringExtra(EXTRA_NAME_REGEX)?.toRegex()
+            ?: throw IllegalArgumentException("nameRegex must be provided")
 
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
         Appteka.getComponent()
-            .verifyCodeComponent(VerifyCodeModule(this, email, requestId, registered, presenterState))
+            .verifyCodeComponent(
+                VerifyCodeModule(
+                    this,
+                    email,
+                    requestId,
+                    registered,
+                    codeRegex,
+                    nameRegex,
+                    presenterState
+                )
+            )
             .inject(activity = this)
         ThemeHelper.updateTheme(this)
 
@@ -76,12 +90,18 @@ fun createVerifyCodeActivityIntent(
     email: String,
     requestId: String,
     registered: Boolean,
+    codeRegex: String,
+    nameRegex: String,
 ): Intent = Intent(context, VerifyCodeActivity::class.java)
     .putExtra(EXTRA_EMAIL, email)
     .putExtra(EXTRA_REQUEST_ID, requestId)
     .putExtra(EXTRA_REGISTERED, registered)
+    .putExtra(EXTRA_CODE_REGEX, codeRegex)
+    .putExtra(EXTRA_NAME_REGEX, nameRegex)
 
 private const val EXTRA_EMAIL = "email"
 private const val EXTRA_REQUEST_ID = "request_id"
 private const val EXTRA_REGISTERED = "registered"
+private const val EXTRA_CODE_REGEX = "code_regex"
+private const val EXTRA_NAME_REGEX = "name_regex"
 private const val KEY_PRESENTER_STATE = "presenter_state"

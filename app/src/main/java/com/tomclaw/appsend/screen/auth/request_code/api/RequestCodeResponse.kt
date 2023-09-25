@@ -6,5 +6,9 @@ class RequestCodeResponse(
     @SerializedName("registered")
     val registered: Boolean,
     @SerializedName("request_id")
-    val requestId: String
+    val requestId: String,
+    @SerializedName("code_regex")
+    val codeRegex: String,
+    @SerializedName("name_regex")
+    val nameRegex: String,
 )

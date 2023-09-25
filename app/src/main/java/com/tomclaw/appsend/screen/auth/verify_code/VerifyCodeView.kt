@@ -35,7 +35,7 @@ interface VerifyCodeView {
 
     fun hideNameInput()
 
-    fun showError()
+    fun showError(text: String)
 
     fun setSubmitButtonText(value: String)
 
@@ -118,8 +118,8 @@ class VerifyCodeViewImpl(private val view: View) : VerifyCodeView {
         nameBlock.hide()
     }
 
-    override fun showError() {
-        Snackbar.make(rootView, R.string.error_verifying_code, Snackbar.LENGTH_LONG).show()
+    override fun showError(text: String) {
+        Snackbar.make(rootView, text, Snackbar.LENGTH_LONG).show()
     }
 
     override fun setSubmitButtonText(value: String) {

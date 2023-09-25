@@ -5,6 +5,7 @@ import com.avito.konveyor.blueprint.Item
 import com.tomclaw.appsend.util.SchedulersFactory
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
+import retrofit2.HttpException
 
 interface VerifyCodePresenter {
 
@@ -32,6 +33,8 @@ class VerifyCodePresenterImpl(
     private val email: String,
     private val requestId: String,
     private val registered: Boolean,
+    private val codeRegex: Regex,
+    private val nameRegex: Regex,
     private val resourceProvider: VerifyCodeResourceProvider,
     private val interactor: VerifyCodeInteractor,
     private val schedulers: SchedulersFactory,
@@ -91,11 +94,19 @@ class VerifyCodePresenterImpl(
     }
 
     private fun bindButtonState() {
-        if (code.isNotBlank() && (registered || !name.isNullOrBlank())) {
+        if (isCodeOk() && isNameOk()) {
             view?.enableSubmitButton()
         } else {
             view?.disableSubmitButton()
         }
+    }
+
+    private fun isCodeOk(): Boolean {
+        return code.isNotBlank() && code.matches(codeRegex)
+    }
+
+    private fun isNameOk(): Boolean {
+        return registered || (!name.isNullOrBlank() && name?.matches(nameRegex).orNot())
     }
 
     override fun onBackPressed() {
@@ -111,10 +122,24 @@ class VerifyCodePresenterImpl(
                 router?.leaveScreen(true)
             }, {
                 view?.showContent()
-                view?.showError()
+                when (it) {
+                    is HttpException -> {
+                        if (it.code() == 429) {
+                            view?.showError(resourceProvider.getRateLimitError())
+                        } else {
+                            view?.showError(resourceProvider.getServiceError())
+                        }
+                    }
+
+                    else -> view?.showError(resourceProvider.getNetworkError())
+                }
             })
     }
 
+}
+
+private fun Boolean?.orNot(): Boolean {
+    return this ?: false
 }
 
 private const val KEY_CODE = "code"

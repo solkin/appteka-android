@@ -11,6 +11,12 @@ interface VerifyCodeResourceProvider {
 
     fun getRegisterButtonText(): String
 
+    fun getRateLimitError(): String
+
+    fun getServiceError(): String
+
+    fun getNetworkError(): String
+
 }
 
 class VerifyCodeResourceProviderImpl(val resources: Resources) : VerifyCodeResourceProvider {
@@ -25,6 +31,18 @@ class VerifyCodeResourceProviderImpl(val resources: Resources) : VerifyCodeResou
 
     override fun getRegisterButtonText(): String {
         return resources.getString(R.string.register_button)
+    }
+
+    override fun getRateLimitError(): String {
+        return resources.getString(R.string.error_rate_limit)
+    }
+
+    override fun getServiceError(): String {
+        return resources.getString(R.string.error_verifying_code)
+    }
+
+    override fun getNetworkError(): String {
+        return resources.getString(R.string.network_error)
     }
 
 }
