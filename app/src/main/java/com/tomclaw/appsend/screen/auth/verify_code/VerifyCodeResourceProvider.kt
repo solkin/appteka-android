@@ -7,15 +7,19 @@ interface VerifyCodeResourceProvider {
 
     fun formatCodeSentDescription(email: String): String
 
-    fun getLoginButtonText(): String
+    fun loginButtonText(): String
 
-    fun getRegisterButtonText(): String
+    fun registerButtonText(): String
 
-    fun getRateLimitError(): String
+    fun rateLimitError(): String
 
-    fun getServiceError(): String
+    fun serviceError(): String
 
-    fun getNetworkError(): String
+    fun networkError(): String
+
+    fun codeFormatInvalid(): String
+
+    fun nameFormatInvalid(): String
 
 }
 
@@ -25,24 +29,32 @@ class VerifyCodeResourceProviderImpl(val resources: Resources) : VerifyCodeResou
         return resources.getString(R.string.verification_code_sent, email)
     }
 
-    override fun getLoginButtonText(): String {
+    override fun loginButtonText(): String {
         return resources.getString(R.string.login_button)
     }
 
-    override fun getRegisterButtonText(): String {
+    override fun registerButtonText(): String {
         return resources.getString(R.string.register_button)
     }
 
-    override fun getRateLimitError(): String {
+    override fun rateLimitError(): String {
         return resources.getString(R.string.error_rate_limit)
     }
 
-    override fun getServiceError(): String {
+    override fun serviceError(): String {
         return resources.getString(R.string.error_verifying_code)
     }
 
-    override fun getNetworkError(): String {
+    override fun networkError(): String {
         return resources.getString(R.string.network_error)
+    }
+
+    override fun codeFormatInvalid(): String {
+        return resources.getString(R.string.code_format_invalid)
+    }
+
+    override fun nameFormatInvalid(): String {
+        return resources.getString(R.string.name_format_invalid)
     }
 
 }

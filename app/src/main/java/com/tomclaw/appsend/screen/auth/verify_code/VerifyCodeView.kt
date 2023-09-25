@@ -6,8 +6,11 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import androidx.appcompat.widget.AppCompatEditText
 import androidx.appcompat.widget.Toolbar
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.util.bind
@@ -27,6 +30,10 @@ interface VerifyCodeView {
 
     fun setName(value: String)
 
+    fun setCodeError(value: String)
+
+    fun setNameError(value: String)
+
     fun showProgress()
 
     fun showContent()
@@ -39,10 +46,6 @@ interface VerifyCodeView {
 
     fun setSubmitButtonText(value: String)
 
-    fun enableSubmitButton()
-
-    fun disableSubmitButton()
-
     fun navigationClicks(): Observable<Unit>
 
     fun codeChanged(): Observable<String>
@@ -50,7 +53,6 @@ interface VerifyCodeView {
     fun nameChanged(): Observable<String>
 
     fun submitClicks(): Observable<Unit>
-
 }
 
 class VerifyCodeViewImpl(private val view: View) : VerifyCodeView {
@@ -58,9 +60,11 @@ class VerifyCodeViewImpl(private val view: View) : VerifyCodeView {
     private val rootView: View = view.findViewById(R.id.root_view)
     private val toolbar: Toolbar = view.findViewById(R.id.toolbar)
     private val codeSentDescription: TextView = view.findViewById(R.id.code_sent_description)
-    private val codeInput: EditText = view.findViewById(R.id.code_input)
+    private val codeInput: AppCompatEditText = view.findViewById(R.id.code_input)
+    private val codeInputLayout: TextInputLayout = view.findViewById(R.id.code_input_layout)
     private val nameBlock: View = view.findViewById(R.id.name_block)
-    private val nameInput: EditText = view.findViewById(R.id.name_input)
+    private val nameInput: AppCompatEditText = view.findViewById(R.id.name_input)
+    private val nameInputLayout: TextInputLayout = view.findViewById(R.id.name_input_layout)
     private val submitButton: Button = view.findViewById(R.id.submit_button)
     private val overlayProgress: View = view.findViewById(R.id.overlay_progress)
 
@@ -98,8 +102,18 @@ class VerifyCodeViewImpl(private val view: View) : VerifyCodeView {
         codeInput.setText(value)
     }
 
+    override fun setCodeError(value: String) {
+        codeInputLayout.isErrorEnabled = value.isNotBlank()
+        codeInputLayout.error = value
+    }
+
     override fun setName(value: String) {
         nameInput.setText(value)
+    }
+
+    override fun setNameError(value: String) {
+        nameInputLayout.isErrorEnabled = value.isNotBlank()
+        nameInputLayout.error = value
     }
 
     override fun showProgress() {
@@ -124,14 +138,6 @@ class VerifyCodeViewImpl(private val view: View) : VerifyCodeView {
 
     override fun setSubmitButtonText(value: String) {
         submitButton.text = value
-    }
-
-    override fun enableSubmitButton() {
-        submitButton.enable()
-    }
-
-    override fun disableSubmitButton() {
-        submitButton.disable()
     }
 
     override fun navigationClicks(): Observable<Unit> = navigationRelay

@@ -374,4 +374,6 @@
     <string name="error_verifying_code">Code verification error. Try again later.</string>
     <string name="error_rate_limit">Too many requests. Try again later.</string>
     <string name="network_error">Check your internet connection and try again.</string>
+    <string name="code_format_invalid">Invalid verification code format</string>
+    <string name="name_format_invalid">Invalid name format</string>
 </resources>

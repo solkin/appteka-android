@@ -21,9 +21,9 @@ class VerifyCodeActivity : AppCompatActivity(), VerifyCodePresenter.VerifyCodeRo
         val requestId = intent.getStringExtra(EXTRA_REQUEST_ID)
             ?: throw IllegalArgumentException("requestId must be provided")
         val registered = intent.getBooleanExtra(EXTRA_REGISTERED, false)
-        val codeRegex = intent.getStringExtra(EXTRA_CODE_REGEX)?.toRegex()
+        val codeRegex = intent.getStringExtra(EXTRA_CODE_REGEX)
             ?: throw IllegalArgumentException("codeRegex must be provided")
-        val nameRegex = intent.getStringExtra(EXTRA_NAME_REGEX)?.toRegex()
+        val nameRegex = intent.getStringExtra(EXTRA_NAME_REGEX)
             ?: throw IllegalArgumentException("nameRegex must be provided")
 
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)

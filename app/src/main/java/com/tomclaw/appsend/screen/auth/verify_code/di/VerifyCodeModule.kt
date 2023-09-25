@@ -21,8 +21,8 @@ class VerifyCodeModule(
     private val email: String,
     private val requestId: String,
     private val registered: Boolean,
-    private val codeRegex: Regex,
-    private val nameRegex: Regex,
+    private val codeRegex: String,
+    private val nameRegex: String,
     private val state: Bundle?
 ) {
 

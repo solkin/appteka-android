@@ -1,7 +1,6 @@
 package com.tomclaw.appsend.screen.auth.verify_code
 
 import android.os.Bundle
-import com.avito.konveyor.blueprint.Item
 import com.tomclaw.appsend.util.SchedulersFactory
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
@@ -33,8 +32,8 @@ class VerifyCodePresenterImpl(
     private val email: String,
     private val requestId: String,
     private val registered: Boolean,
-    private val codeRegex: Regex,
-    private val nameRegex: Regex,
+    private val codeRegex: String,
+    private val nameRegex: String,
     private val resourceProvider: VerifyCodeResourceProvider,
     private val interactor: VerifyCodeInteractor,
     private val schedulers: SchedulersFactory,
@@ -46,6 +45,8 @@ class VerifyCodePresenterImpl(
 
     private var code: String = state?.getString(KEY_CODE).orEmpty()
     private var name: String? = state?.getString(KEY_NAME)
+    private var actCodeRegex: String = state?.getString(KEY_CODE_REGEX) ?: NON_EMPTY_REGEX
+    private var actNameRegex: String = state?.getString(KEY_NAME_REGEX) ?: NON_EMPTY_REGEX
 
     private val subscriptions = CompositeDisposable()
 
@@ -54,22 +55,22 @@ class VerifyCodePresenterImpl(
 
         if (registered) {
             view.hideNameInput()
-            view.setSubmitButtonText(resourceProvider.getLoginButtonText())
+            view.setSubmitButtonText(resourceProvider.loginButtonText())
         } else {
             view.showNameInput()
-            view.setSubmitButtonText(resourceProvider.getRegisterButtonText())
+            view.setSubmitButtonText(resourceProvider.registerButtonText())
         }
         view.setCode(code)
         view.setName(name.orEmpty())
-        bindButtonState()
+        highlightErrors()
         view.setCodeSentDescription(resourceProvider.formatCodeSentDescription(email))
         subscriptions += view.codeChanged().subscribe {
             code = it
-            bindButtonState()
+            highlightCodeError()
         }
         subscriptions += view.nameChanged().subscribe {
             name = it
-            bindButtonState()
+            highlightNameError()
         }
 
         subscriptions += view.navigationClicks().subscribe { onBackPressed() }
@@ -91,22 +92,34 @@ class VerifyCodePresenterImpl(
     override fun saveState(): Bundle = Bundle().apply {
         putString(KEY_CODE, code)
         putString(KEY_NAME, name)
+        putString(KEY_CODE_REGEX, actCodeRegex)
+        putString(KEY_NAME_REGEX, actNameRegex)
     }
 
-    private fun bindButtonState() {
-        if (isCodeOk() && isNameOk()) {
-            view?.enableSubmitButton()
-        } else {
-            view?.disableSubmitButton()
-        }
+    private fun setStrictRegex() {
+        actCodeRegex = codeRegex
+        actNameRegex = nameRegex
+    }
+
+    private fun highlightErrors() {
+        highlightCodeError()
+        highlightNameError()
+    }
+
+    private fun highlightCodeError() {
+        view?.setCodeError(if (isCodeOk()) "" else resourceProvider.codeFormatInvalid())
+    }
+
+    private fun highlightNameError() {
+        view?.setNameError(if (isNameOk()) "" else resourceProvider.nameFormatInvalid())
     }
 
     private fun isCodeOk(): Boolean {
-        return code.isNotBlank() && code.matches(codeRegex)
+        return code.matches(actCodeRegex.toRegex())
     }
 
     private fun isNameOk(): Boolean {
-        return registered || (!name.isNullOrBlank() && name?.matches(nameRegex).orNot())
+        return registered || name.orEmpty().matches(actNameRegex.toRegex())
     }
 
     override fun onBackPressed() {
@@ -114,6 +127,12 @@ class VerifyCodePresenterImpl(
     }
 
     private fun onSubmitClicked() {
+        setStrictRegex()
+        highlightErrors()
+        if (!isCodeOk() || !isNameOk()) {
+            return
+        }
+
         view?.showProgress()
         subscriptions += interactor.verifyCode(requestId, code, name)
             .observeOn(schedulers.mainThread())
@@ -125,22 +144,22 @@ class VerifyCodePresenterImpl(
                 when (it) {
                     is HttpException -> {
                         if (it.code() == 429) {
-                            view?.showError(resourceProvider.getRateLimitError())
+                            view?.showError(resourceProvider.rateLimitError())
                         } else {
-                            view?.showError(resourceProvider.getServiceError())
+                            view?.showError(resourceProvider.serviceError())
                         }
                     }
 
-                    else -> view?.showError(resourceProvider.getNetworkError())
+                    else -> view?.showError(resourceProvider.networkError())
                 }
             })
     }
 
 }
 
-private fun Boolean?.orNot(): Boolean {
-    return this ?: false
-}
-
 private const val KEY_CODE = "code"
 private const val KEY_NAME = "name"
+private const val KEY_CODE_REGEX = "code_regex"
+private const val KEY_NAME_REGEX = "name_regex"
+
+private const val NON_EMPTY_REGEX = "(.*?)|^$"

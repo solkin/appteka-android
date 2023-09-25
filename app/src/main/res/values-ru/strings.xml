@@ -367,4 +367,6 @@
     <string name="error_verifying_code">Ошибка проверки кода. Повторите попытку позднее.</string>
     <string name="error_rate_limit">Превышено количество запросов. Повторите запрос позже.</string>
     <string name="network_error">Проверьте интернет-соединение и повторите запрос.</string>
+    <string name="code_format_invalid">Неверный формат кода подтверждения</string>
+    <string name="name_format_invalid">Неверный формат имени</string>
 </resources>
