@@ -6,6 +6,8 @@ import android.util.Patterns
 import com.tomclaw.appsend.util.SchedulersFactory
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
+import retrofit2.HttpException
+import java.io.IOException
 
 interface RequestCodePresenter {
 
@@ -32,6 +34,7 @@ interface RequestCodePresenter {
 }
 
 class RequestCodePresenterImpl(
+    private val resourceProvider: RequestCodeResourceProvider,
     private val interactor: RequestCodeInteractor,
     private val schedulers: SchedulersFactory,
     state: Bundle?
@@ -95,7 +98,17 @@ class RequestCodePresenterImpl(
                 router?.showVerifyCodeScreen(email, it.requestId, it.registered)
             }, {
                 view?.showContent()
-                view?.showError()
+                when (it) {
+                    is HttpException -> {
+                        if (it.code() == 429) {
+                            view?.showError(resourceProvider.getRateLimitError())
+                        } else {
+                            view?.showError(resourceProvider.getCommonRequestCodeError())
+                        }
+                    }
+                    else -> view?.showError(resourceProvider.getNetworkError())
+                }
+
             })
     }
 

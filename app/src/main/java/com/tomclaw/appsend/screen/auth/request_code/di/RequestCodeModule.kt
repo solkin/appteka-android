@@ -7,6 +7,8 @@ import com.tomclaw.appsend.screen.auth.request_code.RequestCodeInteractor
 import com.tomclaw.appsend.screen.auth.request_code.RequestCodeInteractorImpl
 import com.tomclaw.appsend.screen.auth.request_code.RequestCodePresenter
 import com.tomclaw.appsend.screen.auth.request_code.RequestCodePresenterImpl
+import com.tomclaw.appsend.screen.auth.request_code.RequestCodeResourceProvider
+import com.tomclaw.appsend.screen.auth.request_code.RequestCodeResourceProviderImpl
 import com.tomclaw.appsend.user.UserDataInteractor
 import com.tomclaw.appsend.util.PerActivity
 import com.tomclaw.appsend.util.SchedulersFactory
@@ -23,9 +25,11 @@ class RequestCodeModule(
     @Provides
     @PerActivity
     internal fun providePresenter(
+        resourceProvider: RequestCodeResourceProvider,
         interactor: RequestCodeInteractor,
         schedulers: SchedulersFactory
     ): RequestCodePresenter = RequestCodePresenterImpl(
+        resourceProvider,
         interactor,
         schedulers,
         state
@@ -35,9 +39,11 @@ class RequestCodeModule(
     @PerActivity
     internal fun provideInteractor(
         api: StoreApi,
-        locale: Locale,
-        userDataInteractor: UserDataInteractor,
         schedulers: SchedulersFactory
     ): RequestCodeInteractor = RequestCodeInteractorImpl(api, schedulers)
+
+    @Provides
+    @PerActivity
+    internal fun provideResourceProvider(): RequestCodeResourceProvider = RequestCodeResourceProviderImpl(context.resources)
 
 }

@@ -358,11 +358,13 @@
     <string name="send_verification_code">Отправить код подтверждения</string>
     <string name="send_verification_code_description">Мы отправим вам код подтверждения</string>
     <string name="input_your_email">Пожалуйста, введите ваш E-mail</string>
-    <string name="error_sending_request_code">Ошибка отправки кода подтверждения. Проверьте сетевое соединение и повторите попытку.</string>
+    <string name="error_sending_request_code">Ошибка отправки кода подтверждения. Повторите попытку позднее.</string>
     <string name="verify_email">Подтверждение E-mail</string>
     <string name="input_verification_code">Пожалуйста, введите код подтверждения</string>
     <string name="verification_code_sent">Код подтверждения отправлен на %s. Пожалуйста, проверьте папку «Входящие» или папку «Спам» и введите код подтверждения из письма.</string>
     <string name="verification_code_input">Код подтверждения</string>
     <string name="input_your_name">Поскольку вы впервые авторизуетесь в Appteka, введите ваше имя или ник: он будет отображаться в вашем профиле.</string>
-    <string name="error_verifying_code">Ошибка проверки кода. Проверьте сетевое соединение и повторите попытку.</string>
+    <string name="error_verifying_code">Ошибка проверки кода. Повторите попытку позднее.</string>
+    <string name="error_rate_limit">Превышено количество запросов. Повторите запрос позже.</string>
+    <string name="network_error">Проверьте интернет-соединение и повторите запрос.</string>
 </resources>

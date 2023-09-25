@@ -25,7 +25,7 @@ interface RequestCodeView {
 
     fun disableSubmitButton()
 
-    fun showError()
+    fun showError(text: String)
 
     fun navigationClicks(): Observable<Unit>
 
@@ -87,8 +87,8 @@ class RequestCodeViewImpl(private val view: View) : RequestCodeView {
 
     override fun submitClicks(): Observable<Unit> = submitRelay
 
-    override fun showError() {
-        Snackbar.make(rootView, R.string.error_sending_request_code, Snackbar.LENGTH_LONG).show()
+    override fun showError(text: String) {
+        Snackbar.make(rootView, text, Snackbar.LENGTH_LONG).show()
     }
 
 }

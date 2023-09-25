@@ -365,11 +365,13 @@
     <string name="send_verification_code">Send verification code</string>
     <string name="send_verification_code_description">We will send you verification code</string>
     <string name="input_your_email">Please input your E-mail</string>
-    <string name="error_sending_request_code">Error sending verification code. Check network connection and try again.</string>
+    <string name="error_sending_request_code">Error sending verification code. Try again later.</string>
     <string name="verify_email">E-mail verification</string>
     <string name="input_verification_code">Please input verification code</string>
     <string name="verification_code_sent">Verification code has been sent to %s. Please, check your inbox or spam folder and input verification code from email.</string>
     <string name="verification_code_input">Verification code</string>
     <string name="input_your_name">This is your first time logging into Appteka, so enter your name or nickname: it will be displayed in your profile.</string>
-    <string name="error_verifying_code">Code verification error. Check network connection and try again.</string>
+    <string name="error_verifying_code">Code verification error. Try again later.</string>
+    <string name="error_rate_limit">Too many requests. Try again later.</string>
+    <string name="network_error">Check your internet connection and try again.</string>
 </resources>
