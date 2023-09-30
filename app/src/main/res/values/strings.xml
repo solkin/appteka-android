@@ -203,7 +203,6 @@
     <string name="fill_reason_field">Reason field is required</string>
     <string name="unable_to_unlink_file">Failed to complete request</string>
     <string name="unlink_of">Block of %s</string>
-    <string name="login">Login</string>
     <string name="member_id">User ID: %d</string>
     <string name="profile_apps">User apps</string>
     <string name="nav_store">Store</string>
@@ -224,11 +223,7 @@
     <string name="enter_email">Email:</string>
     <string name="email">Email</string>
     <string name="login_button">Login</string>
-    <string name="register_button">Register</string>
     <string name="email_input">E-mail</string>
-    <string name="password_input">Password</string>
-    <string name="register">Register</string>
-    <string name="register_error">Network error. Check your internet connection and try again.</string>
     <string name="error">Error</string>
     <string name="name_input">Name (nickname)</string>
     <string name="ok">OK</string>

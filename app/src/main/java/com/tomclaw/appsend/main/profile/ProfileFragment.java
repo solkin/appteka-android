@@ -39,6 +39,7 @@ import com.tomclaw.appsend.net.Session;
 import com.tomclaw.appsend.net.UpdatesCheckInteractor;
 import com.tomclaw.appsend.net.UserData;
 import com.tomclaw.appsend.net.UserDataListener;
+import com.tomclaw.appsend.screen.auth.request_code.RequestCodeActivityKt;
 import com.tomclaw.appsend.screen.favorite.FavoriteActivityKt;
 import com.tomclaw.appsend.screen.moderation.ModerationActivityKt;
 import com.tomclaw.appsend.util.Listeners;
@@ -224,7 +225,8 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
 
     @Click(R.id.auth_button)
     void onAuthenticateClicked() {
-        LoginActivity_.intent(this).startForResult(REQUEST_LOGIN);
+        Intent intent = RequestCodeActivityKt.createRequestCodeActivityIntent(getContext());
+        startActivityForResult(intent, REQUEST_LOGIN);
     }
 
     @OnActivityResult(REQUEST_LOGIN)

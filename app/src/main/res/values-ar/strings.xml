@@ -105,7 +105,6 @@
         <item quantity="many">%d updates available</item>
         <item quantity="other">%d updates available</item>
     </plurals>
-    <string name="login">تسجيل الدخول</string>
     <string name="login_button">تسجيل الدخول</string>
     <string name="login_error">خطأه في الشبكة. تحقق من اتصالك بالإنترنت وحاول مرة أخرى.</string>
     <string name="malicious_app">التطبيق الضار</string>
@@ -137,7 +136,6 @@
     <string name="online">على الانترنت</string>
     <string name="open">فتح</string>
     <string name="other_versions">نسخة أخرى</string>
-    <string name="password_input">كلمه المرور</string>
     <string name="percent">%d %%</string>
     <string name="permission_denied_message">لا يمكن أن تستمر دون الإذن المطلوب</string>
     <string name="permissions">الأذونات</string>
@@ -176,9 +174,6 @@
     <string name="ratings">التقييمات</string>
     <string name="read_more">اقرأ أكثر</string>
     <string name="refresh">ينعش</string>
-    <string name="register">يسجل</string>
-    <string name="register_button">يسجل</string>
-    <string name="register_error">خطأ في الشبكة. تحقق من اتصالك بالإنترنت وحاول مرة أخرى.</string>
     <string name="remove">إزالة</string>
     <string name="remove_app">إزالة التطبيق</string>
     <string name="reply">الرد</string>

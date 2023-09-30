@@ -95,24 +95,6 @@ public interface StoreService {
             @Query("locale") String locale
     );
 
-    @FormUrlEncoded
-    @POST("api/1/user/register")
-    Call<ApiResponse<AuthResponse>> register(
-            @Field("locale") String locale,
-            @Field("email") String email,
-            @Field("password") String password,
-            @Field("name") String name
-    );
-
-    @FormUrlEncoded
-    @POST("api/1/user/login")
-    Call<ApiResponse<AuthResponse>> login(
-            @Field("locale") String locale,
-            @Field("email") String email,
-            @Field("password") String password
-    );
-
-
     @POST("api/1/app/updates")
     Call<ApiResponse<CheckUpdatesResponse>> checkUpdates(
             @Body CheckUpdatesRequest request
