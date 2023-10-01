@@ -217,6 +217,7 @@
     <string name="enter_email">Электронная почта:</string>
     <string name="email">Email</string>
     <string name="login_button">Войти</string>
+    <string name="register_button">Зарегистрироваться</string>
     <string name="email_input">Электронная почта</string>
     <string name="error">Ошибка</string>
     <string name="name_input">Имя (никнейм)</string>

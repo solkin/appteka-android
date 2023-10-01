@@ -1,6 +1,5 @@
 package com.tomclaw.appsend.core;
 
-import com.tomclaw.appsend.main.auth.AuthResponse;
 import com.tomclaw.appsend.main.dto.AbuseResult;
 import com.tomclaw.appsend.main.dto.ApiResponse;
 import com.tomclaw.appsend.main.profile.EliminateUserResponse;

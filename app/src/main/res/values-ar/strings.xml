@@ -106,6 +106,7 @@
         <item quantity="other">%d updates available</item>
     </plurals>
     <string name="login_button">تسجيل الدخول</string>
+    <string name="register_button">يسجل</string>
     <string name="login_error">خطأه في الشبكة. تحقق من اتصالك بالإنترنت وحاول مرة أخرى.</string>
     <string name="malicious_app">التطبيق الضار</string>
     <string name="megabytes">ميجا بايت</string>

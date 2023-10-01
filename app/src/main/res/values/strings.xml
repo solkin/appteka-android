@@ -223,6 +223,7 @@
     <string name="enter_email">Email:</string>
     <string name="email">Email</string>
     <string name="login_button">Login</string>
+    <string name="register_button">Register</string>
     <string name="email_input">E-mail</string>
     <string name="error">Error</string>
     <string name="name_input">Name (nickname)</string>
