@@ -163,9 +163,6 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
         register(getApplication());
 
         checkMigration();
-
-        Intent intent = RequestCodeActivityKt.createRequestCodeActivityIntent(this);
-        startActivity(intent);
     }
 
     @Override
