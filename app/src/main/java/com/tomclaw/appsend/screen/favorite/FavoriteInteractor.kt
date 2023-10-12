@@ -2,7 +2,6 @@ package com.tomclaw.appsend.screen.favorite
 
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.dto.AppEntity
-import com.tomclaw.appsend.user.UserDataInteractor
 import com.tomclaw.appsend.util.SchedulersFactory
 import io.reactivex.rxjava3.core.Observable
 import java.util.Locale

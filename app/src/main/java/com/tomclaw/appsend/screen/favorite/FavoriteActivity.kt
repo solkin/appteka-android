@@ -51,6 +51,7 @@ class FavoriteActivity : AppCompatActivity(), FavoritePresenter.FavoriteRouter {
     }
 
     override fun onBackPressed() {
+        super.onBackPressed()
         presenter.onBackPressed()
     }
 
