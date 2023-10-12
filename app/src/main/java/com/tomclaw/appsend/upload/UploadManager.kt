@@ -174,7 +174,7 @@ class UploadManagerImpl(
             val boundary = generateBoundary()
 
             val cookies = cookieJar.loadForRequest(httpUrl)
-                .map { it.value() }
+                .map { it.toString() }
                 .reduce { acc, cookie -> "$acc;$cookie" }
 
             with(connection) {
