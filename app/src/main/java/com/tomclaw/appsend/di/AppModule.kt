@@ -13,6 +13,7 @@ import com.tomclaw.appsend.categories.CategoriesInteractorImpl
 import com.tomclaw.appsend.core.Config
 import com.tomclaw.appsend.core.PersistentCookieJar
 import com.tomclaw.appsend.core.StoreApi
+import com.tomclaw.appsend.core.UnauthorizedInterceptor
 import com.tomclaw.appsend.download.DownloadManager
 import com.tomclaw.appsend.download.DownloadManagerImpl
 import com.tomclaw.appsend.download.DownloadNotifications
@@ -154,12 +155,18 @@ class AppModule(private val app: Application) {
 
     @Provides
     @Singleton
+    internal fun provideUnauthorizedInterceptor() = UnauthorizedInterceptor(app)
+
+    @Provides
+    @Singleton
     internal fun provideHttClient(
-        cookieJar: CookieJar
+        unauthorizedInterceptor: UnauthorizedInterceptor,
+        cookieJar: CookieJar,
     ): OkHttpClient = OkHttpClient.Builder()
         .readTimeout(2, TimeUnit.MINUTES)
         .connectTimeout(20, TimeUnit.SECONDS)
         .addInterceptor(ChuckerInterceptor.Builder(app).build())
+        .addInterceptor(unauthorizedInterceptor)
         .cookieJar(cookieJar)
         .build()
 
