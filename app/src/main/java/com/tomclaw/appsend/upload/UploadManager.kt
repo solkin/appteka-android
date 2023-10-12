@@ -8,7 +8,6 @@ import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.core.Config
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.dto.StoreResponse
-import com.tomclaw.appsend.user.UserDataInteractor
 import com.tomclaw.appsend.util.HttpUtil
 import com.tomclaw.appsend.util.MultipartStream
 import com.tomclaw.appsend.util.MultipartStream.ProgressHandler
@@ -16,6 +15,8 @@ import com.tomclaw.appsend.util.PackageHelper
 import com.tomclaw.appsend.util.getLabel
 import com.tomclaw.appsend.util.md5
 import io.reactivex.rxjava3.core.Observable
+import okhttp3.CookieJar
+import okhttp3.HttpUrl
 import java.io.ByteArrayInputStream
 import java.io.File
 import java.io.FileInputStream
@@ -42,7 +43,7 @@ interface UploadManager {
 }
 
 class UploadManagerImpl(
-    private val userDataInteractor: UserDataInteractor,
+    private val cookieJar: CookieJar,
     private val api: StoreApi,
     private val gson: Gson
 ) : UploadManager {
@@ -161,18 +162,24 @@ class UploadManagerImpl(
         val size = apk.length() + icon.size
         val apkName = packageInfo.packageName.md5() + ".apk"
         val iconName = packageInfo.packageName.md5() + ".png"
+
         var connection: HttpURLConnection? = null
         try {
             val url = URL(HOST_UPLOAD_URL)
+            val httpUrl = HttpUrl.parse(HOST_UPLOAD_URL)
+                ?: throw IllegalArgumentException("Invalid upload URL")
+
             connection = url.openConnection() as HttpURLConnection
 
             val boundary = generateBoundary()
 
+            val cookies = cookieJar.loadForRequest(httpUrl)
+                .map { it.value() }
+                .reduce { acc, cookie -> "$acc;$cookie" }
+
             with(connection) {
-                setRequestProperty(
-                    "Content-Type",
-                    "multipart/form-data;boundary=$boundary"
-                )
+                setRequestProperty("Content-Type", "multipart/form-data;boundary=$boundary")
+                setRequestProperty("Cookie", cookies)
                 readTimeout = TimeUnit.MINUTES.toMillis(2).toInt()
                 connectTimeout = TimeUnit.SECONDS.toMillis(30).toInt()
                 requestMethod = HttpUtil.POST
@@ -186,8 +193,6 @@ class UploadManagerImpl(
 
             connection.outputStream.use { outputStream ->
                 val multipart = MultipartStream(outputStream, boundary)
-                val userData = userDataInteractor.getUserData().blockingGet()
-                multipart.writePart("guid", userData.guid)
                 multipart.writePart("label", label)
                 ByteArrayInputStream(icon).use { iconStream ->
                     multipart.writePart(

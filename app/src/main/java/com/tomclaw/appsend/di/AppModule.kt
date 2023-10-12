@@ -141,10 +141,10 @@ class AppModule(private val app: Application) {
     @Provides
     @Singleton
     internal fun provideUploadManager(
-        userDataInteractor: UserDataInteractor,
+        cookieJar: CookieJar,
         api: StoreApi,
         gson: Gson
-    ): UploadManager = UploadManagerImpl(userDataInteractor, api, gson)
+    ): UploadManager = UploadManagerImpl(cookieJar, api, gson)
 
     @Provides
     @Singleton
