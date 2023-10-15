@@ -2,8 +2,7 @@ package com.tomclaw.appsend.screen.rate
 
 import android.os.Bundle
 import com.tomclaw.appsend.categories.DEFAULT_LOCALE
-import com.tomclaw.appsend.dto.UserData
-import com.tomclaw.appsend.user.UserDataInteractor
+import com.tomclaw.appsend.user.api.UserBrief
 import com.tomclaw.appsend.util.SchedulersFactory
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
@@ -36,7 +35,6 @@ class RatePresenterImpl(
     startRating: Float,
     startReview: String,
     private val interactor: RateInteractor,
-    private val userDataInteractor: UserDataInteractor,
     private val locale: Locale,
     private val schedulers: SchedulersFactory,
     state: Bundle?
@@ -62,12 +60,12 @@ class RatePresenterImpl(
         }
         subscriptions += view.reviewEditChanged().subscribe { review = it }
         subscriptions += view.submitClicks().subscribe { onSubmitReview() }
-        subscriptions += userDataInteractor
-            .getUserData()
+        subscriptions += interactor
+            .getUserBrief()
             .subscribeOn(schedulers.io())
             .observeOn(schedulers.mainThread())
-            .subscribe({ userData ->
-                bindMemberInfo(userData)
+            .subscribe({ userBrief ->
+                bindMemberInfo(userBrief)
             }, {})
     }
 
@@ -102,11 +100,11 @@ class RatePresenterImpl(
         view?.showError()
     }
 
-    private fun bindMemberInfo(userData: UserData) {
-        view?.setMemberIcon(userData.userIcon)
-        val name = userData.name.takeIf { !it.isNullOrBlank() }
-            ?: userData.userIcon.label[locale.language]
-            ?: userData.userIcon.label[DEFAULT_LOCALE].orEmpty()
+    private fun bindMemberInfo(userBrief: UserBrief) {
+        view?.setMemberIcon(userBrief.userIcon)
+        val name = userBrief.name.takeIf { !it.isNullOrBlank() }
+            ?: userBrief.userIcon.label[locale.language]
+            ?: userBrief.userIcon.label[DEFAULT_LOCALE].orEmpty()
         view?.setMemberName(name)
     }
 

@@ -26,8 +26,6 @@ import com.tomclaw.appsend.upload.UploadNotifications
 import com.tomclaw.appsend.upload.UploadNotificationsImpl
 import com.tomclaw.appsend.user.SessionStorage
 import com.tomclaw.appsend.user.SessionStorageImpl
-import com.tomclaw.appsend.user.UserDataInteractor
-import com.tomclaw.appsend.user.UserDataInteractorImpl
 import com.tomclaw.appsend.util.Logger
 import com.tomclaw.appsend.util.LoggerImpl
 import com.tomclaw.appsend.util.PackageObserver
@@ -93,14 +91,6 @@ class AppModule(private val app: Application) {
     @Singleton
     internal fun provideUploadNotifications(): UploadNotifications =
         UploadNotificationsImpl(app)
-
-    @Provides
-    @Singleton
-    internal fun provideUserDataInteractor(
-        sessionStorage: SessionStorage,
-        api: StoreApi,
-        schedulers: SchedulersFactory
-    ): UserDataInteractor = UserDataInteractorImpl(sessionStorage, api, schedulers)
 
     @Provides
     @Singleton

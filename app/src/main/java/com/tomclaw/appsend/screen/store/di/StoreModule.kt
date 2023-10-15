@@ -22,7 +22,6 @@ import com.tomclaw.appsend.screen.store.StorePresenter
 import com.tomclaw.appsend.screen.store.StorePresenterImpl
 import com.tomclaw.appsend.screen.store.adapter.app.AppItemBlueprint
 import com.tomclaw.appsend.screen.store.adapter.app.AppItemPresenter
-import com.tomclaw.appsend.user.UserDataInteractor
 import com.tomclaw.appsend.util.PackageObserver
 import com.tomclaw.appsend.util.PerFragment
 import com.tomclaw.appsend.util.SchedulersFactory

@@ -3,7 +3,6 @@ package com.tomclaw.appsend.screen.auth.verify_code
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.screen.auth.verify_code.api.VerifyCodeResponse
 import com.tomclaw.appsend.user.SessionStorage
-import com.tomclaw.appsend.user.UserDataInteractor
 import com.tomclaw.appsend.util.SchedulersFactory
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single

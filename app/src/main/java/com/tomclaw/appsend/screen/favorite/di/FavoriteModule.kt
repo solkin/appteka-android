@@ -19,7 +19,6 @@ import com.tomclaw.appsend.screen.favorite.FavoritePresenter
 import com.tomclaw.appsend.screen.favorite.FavoritePresenterImpl
 import com.tomclaw.appsend.screen.favorite.adapter.app.AppItemBlueprint
 import com.tomclaw.appsend.screen.favorite.adapter.app.AppItemPresenter
-import com.tomclaw.appsend.user.UserDataInteractor
 import com.tomclaw.appsend.util.PackageObserver
 import com.tomclaw.appsend.util.PerActivity
 import com.tomclaw.appsend.util.SchedulersFactory

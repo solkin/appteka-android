@@ -25,7 +25,6 @@ import com.tomclaw.appsend.screen.chat.adapter.incoming.IncomingMsgItemBlueprint
 import com.tomclaw.appsend.screen.chat.adapter.incoming.IncomingMsgItemPresenter
 import com.tomclaw.appsend.screen.chat.adapter.outgoing.OutgoingMsgItemBlueprint
 import com.tomclaw.appsend.screen.chat.adapter.outgoing.OutgoingMsgItemPresenter
-import com.tomclaw.appsend.user.UserDataInteractor
 import com.tomclaw.appsend.util.PerActivity
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
@@ -67,10 +66,9 @@ class ChatModule(
     @Provides
     @PerActivity
     internal fun provideInteractor(
-        userDataInteractor: UserDataInteractor,
         api: StoreApi,
         schedulers: SchedulersFactory
-    ): ChatInteractor = ChatInteractorImpl(userDataInteractor, api, schedulers)
+    ): ChatInteractor = ChatInteractorImpl(api, schedulers)
 
     @Provides
     @PerActivity

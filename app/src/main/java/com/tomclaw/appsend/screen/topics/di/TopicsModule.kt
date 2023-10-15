@@ -20,7 +20,6 @@ import com.tomclaw.appsend.screen.topics.TopicsResourceProvider
 import com.tomclaw.appsend.screen.topics.TopicsResourceProviderImpl
 import com.tomclaw.appsend.screen.topics.adapter.topic.TopicItemBlueprint
 import com.tomclaw.appsend.screen.topics.adapter.topic.TopicItemPresenter
-import com.tomclaw.appsend.user.UserDataInteractor
 import com.tomclaw.appsend.util.PerFragment
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy

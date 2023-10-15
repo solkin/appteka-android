@@ -3,19 +3,18 @@ package com.tomclaw.appsend.screen.chat
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.dto.MessageEntity
 import com.tomclaw.appsend.dto.TopicEntity
-import com.tomclaw.appsend.dto.UserData
 import com.tomclaw.appsend.screen.chat.api.ReadTopicResponse
 import com.tomclaw.appsend.screen.chat.api.ReportMessageResponse
 import com.tomclaw.appsend.screen.chat.api.SendMessageResponse
 import com.tomclaw.appsend.screen.topics.api.PinTopicResponse
-import com.tomclaw.appsend.user.UserDataInteractor
+import com.tomclaw.appsend.user.api.UserBrief
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.StringUtil
 import io.reactivex.rxjava3.core.Observable
 
 interface ChatInteractor {
 
-    fun getUserData(): Observable<UserData>
+    fun getUserBrief(): Observable<UserBrief>
 
     fun getTopic(topicId: Int): Observable<TopicEntity>
 
@@ -36,14 +35,14 @@ interface ChatInteractor {
 }
 
 class ChatInteractorImpl(
-    private val userDataInteractor: UserDataInteractor,
     private val api: StoreApi,
     private val schedulers: SchedulersFactory
 ) : ChatInteractor {
 
-    override fun getUserData(): Observable<UserData> {
-        return userDataInteractor
-            .getUserData()
+    override fun getUserBrief(): Observable<UserBrief> {
+        return api
+            .getUserBrief(userId = null)
+            .map { it.result }
             .toObservable()
             .subscribeOn(schedulers.io())
     }

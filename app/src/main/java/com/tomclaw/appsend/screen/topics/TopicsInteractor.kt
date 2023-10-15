@@ -3,7 +3,6 @@ package com.tomclaw.appsend.screen.topics
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.screen.topics.api.PinTopicResponse
 import com.tomclaw.appsend.screen.topics.api.TopicsResponse
-import com.tomclaw.appsend.user.UserDataInteractor
 import com.tomclaw.appsend.util.SchedulersFactory
 import io.reactivex.rxjava3.core.Observable
 

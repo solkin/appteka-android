@@ -23,7 +23,7 @@ import com.tomclaw.appsend.screen.topics.api.PinTopicResponse
 import com.tomclaw.appsend.screen.topics.api.TopicsResponse
 import com.tomclaw.appsend.screen.upload.api.CheckExistResponse
 import com.tomclaw.appsend.upload.SetMetaResponse
-import com.tomclaw.appsend.user.api.UserDataResponse
+import com.tomclaw.appsend.user.api.UserBrief
 import io.reactivex.rxjava3.core.Single
 import retrofit2.http.DELETE
 import retrofit2.http.Field
@@ -82,8 +82,10 @@ interface StoreApi {
         @Query("nodelay") noDelay: Boolean
     ): Single<StoreResponse<EventsResponse>>
 
-    @GET("1/user/profile")
-    fun getUserData(): Single<StoreResponse<UserDataResponse>>
+    @GET("1/user/brief")
+    fun getUserBrief(
+        @Query("user_id") userId: Int?
+    ): Single<StoreResponse<UserBrief>>
 
     @FormUrlEncoded
     @POST("1/chat/push")

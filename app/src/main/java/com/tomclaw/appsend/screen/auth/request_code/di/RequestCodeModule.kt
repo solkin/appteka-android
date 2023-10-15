@@ -9,12 +9,10 @@ import com.tomclaw.appsend.screen.auth.request_code.RequestCodePresenter
 import com.tomclaw.appsend.screen.auth.request_code.RequestCodePresenterImpl
 import com.tomclaw.appsend.screen.auth.request_code.RequestCodeResourceProvider
 import com.tomclaw.appsend.screen.auth.request_code.RequestCodeResourceProviderImpl
-import com.tomclaw.appsend.user.UserDataInteractor
 import com.tomclaw.appsend.util.PerActivity
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Module
 import dagger.Provides
-import java.util.Locale
 
 @Module
 class RequestCodeModule(

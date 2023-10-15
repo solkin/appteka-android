@@ -333,7 +333,7 @@ class ChatPresenterImpl(
     }
 
     override fun onItemClick(item: Item) {
-        subscriptions += chatInteractor.getUserData()
+        subscriptions += chatInteractor.getUserBrief()
             .observeOn(schedulers.mainThread())
             .subscribe(
                 { userData ->

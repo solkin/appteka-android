@@ -2,7 +2,6 @@ package com.tomclaw.appsend.screen.upload
 
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.screen.upload.api.CheckExistResponse
-import com.tomclaw.appsend.user.UserDataInteractor
 import com.tomclaw.appsend.util.SchedulersFactory
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single

@@ -19,7 +19,6 @@ import com.tomclaw.appsend.screen.moderation.ModerationPresenter
 import com.tomclaw.appsend.screen.moderation.ModerationPresenterImpl
 import com.tomclaw.appsend.screen.moderation.adapter.app.AppItemBlueprint
 import com.tomclaw.appsend.screen.moderation.adapter.app.AppItemPresenter
-import com.tomclaw.appsend.user.UserDataInteractor
 import com.tomclaw.appsend.util.PerActivity
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy

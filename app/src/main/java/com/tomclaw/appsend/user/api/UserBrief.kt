@@ -6,7 +6,7 @@ import com.tomclaw.appsend.dto.UserIcon
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class UserProfile(
+data class UserBrief(
     @SerializedName("user_id")
     val userId: Int,
     @SerializedName("user_icon")
@@ -23,6 +23,8 @@ data class UserProfile(
     val name: String?,
     @SerializedName("is_registered")
     val isRegistered: Boolean,
+    @SerializedName("is_verified")
+    val isVerified: Boolean,
     @SerializedName("url")
-    val url: String?
+    val url: String?,
 ) : Parcelable

@@ -7,7 +7,6 @@ import com.tomclaw.appsend.screen.rate.RateInteractor
 import com.tomclaw.appsend.screen.rate.RateInteractorImpl
 import com.tomclaw.appsend.screen.rate.RatePresenter
 import com.tomclaw.appsend.screen.rate.RatePresenterImpl
-import com.tomclaw.appsend.user.UserDataInteractor
 import com.tomclaw.appsend.util.PerActivity
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Module
@@ -27,7 +26,6 @@ class RateModule(
     @PerActivity
     internal fun providePresenter(
         interactor: RateInteractor,
-        userDataInteractor: UserDataInteractor,
         locale: Locale,
         schedulers: SchedulersFactory
     ): RatePresenter = RatePresenterImpl(
@@ -35,7 +33,6 @@ class RateModule(
         startRating,
         startReview,
         interactor,
-        userDataInteractor,
         locale,
         schedulers,
         state

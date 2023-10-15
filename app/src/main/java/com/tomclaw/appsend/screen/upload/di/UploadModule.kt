@@ -46,7 +46,6 @@ import com.tomclaw.appsend.upload.UploadApk
 import com.tomclaw.appsend.upload.UploadInfo
 import com.tomclaw.appsend.upload.UploadManager
 import com.tomclaw.appsend.upload.UploadPackage
-import com.tomclaw.appsend.user.UserDataInteractor
 import com.tomclaw.appsend.util.PerActivity
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
