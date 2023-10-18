@@ -404,4 +404,5 @@
     <string name="network_error">Check your internet connection and try again.</string>
     <string name="code_format_invalid">Invalid verification code format</string>
     <string name="name_format_invalid">Invalid name format</string>
+    <string name="authorization_required_message">Log in to continue</string>
 </resources>

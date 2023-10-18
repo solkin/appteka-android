@@ -11,6 +11,7 @@ import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.dto.TopicEntity
 import com.tomclaw.appsend.main.profile.ProfileActivity.createProfileActivityIntent
+import com.tomclaw.appsend.screen.auth.request_code.createRequestCodeActivityIntent
 import com.tomclaw.appsend.screen.chat.di.ChatModule
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.util.ThemeHelper
@@ -54,6 +55,7 @@ class ChatActivity : AppCompatActivity(), ChatPresenter.ChatRouter {
     }
 
     override fun onBackPressed() {
+        super.onBackPressed()
         presenter.onBackPressed()
     }
 
@@ -90,6 +92,11 @@ class ChatActivity : AppCompatActivity(), ChatPresenter.ChatRouter {
             moderation = false,
             finishOnly = true
         )
+        startActivity(intent)
+    }
+
+    override fun openLoginScreen() {
+        val intent = createRequestCodeActivityIntent(context = this)
         startActivity(intent)
     }
 

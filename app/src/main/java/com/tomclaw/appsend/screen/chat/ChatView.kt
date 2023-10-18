@@ -65,6 +65,8 @@ interface ChatView {
 
     fun showSendError()
 
+    fun showUnauthorizedError()
+
     fun copyToClipboard(text: String)
 
     fun showBaseMessageDialog(message: MessageEntity)
@@ -98,6 +100,8 @@ interface ChatView {
     fun msgReportClicks(): Observable<MessageEntity>
 
     fun pinChatClicks(): Observable<Unit>
+
+    fun loginClicks(): Observable<Unit>
 
 }
 
@@ -133,6 +137,7 @@ class ChatViewImpl(
     private val openProfileRelay = PublishRelay.create<MessageEntity>()
     private val msgReportRelay = PublishRelay.create<MessageEntity>()
     private val pinChatRelay = PublishRelay.create<Unit>()
+    private val loginRelay = PublishRelay.create<Unit>()
 
     private val layoutManager: LinearLayoutManager
 
@@ -226,6 +231,15 @@ class ChatViewImpl(
 
     override fun showSendError() {
         Snackbar.make(recycler, R.string.error_sending_message, Snackbar.LENGTH_LONG).show()
+    }
+
+    override fun showUnauthorizedError() {
+        Snackbar
+            .make(recycler, R.string.authorization_required_message, Snackbar.LENGTH_INDEFINITE)
+            .setAction(R.string.login_button) {
+                loginRelay.accept(Unit)
+            }
+            .show()
     }
 
     override fun copyToClipboard(text: String) {
@@ -329,6 +343,8 @@ class ChatViewImpl(
     override fun msgReportClicks(): Observable<MessageEntity> = msgReportRelay
 
     override fun pinChatClicks(): Observable<Unit> = pinChatRelay
+
+    override fun loginClicks(): Observable<Unit> = loginRelay
 
 }
 

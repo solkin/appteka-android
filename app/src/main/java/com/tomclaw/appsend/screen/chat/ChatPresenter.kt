@@ -16,6 +16,7 @@ import com.tomclaw.appsend.util.getParcelableCompat
 import dagger.Lazy
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
+import retrofit2.HttpException
 
 interface ChatPresenter : ItemListener {
 
@@ -36,6 +37,8 @@ interface ChatPresenter : ItemListener {
         fun openProfileScreen(userId: Int)
 
         fun openAppScreen(packageName: String, title: String)
+
+        fun openLoginScreen()
 
         fun leaveScreen()
 
@@ -104,6 +107,9 @@ class ChatPresenterImpl(
             if (!packageName.isNullOrEmpty()) {
                 router?.openAppScreen(packageName, topic?.title.orEmpty())
             }
+        }
+        subscriptions += view.loginClicks().subscribe {
+            router?.openLoginScreen()
         }
 
         when {
@@ -211,7 +217,7 @@ class ChatPresenterImpl(
             .doAfterTerminate { view?.showSendButton() }
             .subscribe(
                 { onMessageSent() },
-                { onMessageSendingError() }
+                { onMessageSendingError(it) }
             )
     }
 
@@ -223,8 +229,18 @@ class ChatPresenterImpl(
         invalidateMenu()
     }
 
-    private fun onMessageSendingError() {
-        view?.showSendError()
+    private fun filterUnauthorizedErrors(ex: Throwable, handler: (ex: Throwable) -> Unit) {
+        if (ex is HttpException && ex.code() == 401) {
+            view?.showUnauthorizedError()
+            return
+        }
+        handler(ex)
+    }
+
+    private fun onMessageSendingError(ex: Throwable) {
+        filterUnauthorizedErrors(ex) {
+            view?.showSendError()
+        }
     }
 
     private fun loadTopic() {
@@ -295,7 +311,7 @@ class ChatPresenterImpl(
             .observeOn(schedulers.mainThread())
             .subscribe(
                 { view?.showReportSuccess() },
-                { view?.showReportFailed() }
+                { filterUnauthorizedErrors(it) { view?.showReportFailed() } }
             )
     }
 
@@ -315,7 +331,7 @@ class ChatPresenterImpl(
         subscriptions += chatInteractor.pinTopic(topicId)
             .observeOn(schedulers.mainThread())
             .subscribe(
-                { }, { }
+                { }, { filterUnauthorizedErrors(it) {} }
             )
     }
 
@@ -333,20 +349,20 @@ class ChatPresenterImpl(
     }
 
     override fun onItemClick(item: Item) {
+        val message = history?.findLast {
+            it.msgId == item.id.toInt()
+        } ?: return
         subscriptions += chatInteractor.getUserBrief()
             .observeOn(schedulers.mainThread())
             .subscribe(
                 { userData ->
-                    val message = history?.findLast {
-                        it.msgId == item.id.toInt()
-                    } ?: return@subscribe
                     if (userData.role >= ROLE_ADMIN || userData.userId == message.userId) {
                         view?.showExtendedMessageDialog(message)
                     } else {
                         view?.showBaseMessageDialog(message)
                     }
                 },
-                {}
+                { view?.showBaseMessageDialog(message) }
             )
     }
 
