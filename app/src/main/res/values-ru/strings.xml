@@ -366,4 +366,5 @@
     <string name="code_format_invalid">Неверный формат кода подтверждения</string>
     <string name="name_format_invalid">Неверный формат имени</string>
     <string name="authorization_required_message">Войдите, чтобы продолжить</string>
+    <string name="authorization_description">Авторизуйтесь и воспользуйтесь персональными возможностями Appteka</string>
 </resources>

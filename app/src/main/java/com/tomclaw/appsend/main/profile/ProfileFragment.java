@@ -93,6 +93,9 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
     @ViewById
     Button buttonRetry;
 
+    @ViewById
+    Button buttonAuthenticate;
+
     @ViewById(R.id.icon_back)
     View memberAvatar;
 
@@ -248,6 +251,10 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
         call.enqueue(new Callback<ApiResponse<ProfileResponse>>() {
             @Override
             public void onResponse(Call<ApiResponse<ProfileResponse>> call, final Response<ApiResponse<ProfileResponse>> response) {
+                if (response.code() == 401) {
+                    showUnauthorized();
+                    return;
+                }
                 ApiResponse<ProfileResponse> body = response.body();
                 if (body != null) {
                     final ProfileResponse profileResponse = body.getResult();
@@ -509,6 +516,13 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
         if (!isVisible()) return;
         errorText.setText(R.string.profile_error);
         buttonRetry.setOnClickListener(v -> reloadProfile());
+        viewFlipper.setDisplayedChild(3);
+        swipeRefresh.setRefreshing(false);
+    }
+
+    private void showUnauthorized() {
+        if (!isVisible()) return;
+        buttonAuthenticate.setOnClickListener(v -> onAuthenticateClicked());
         viewFlipper.setDisplayedChild(2);
         swipeRefresh.setRefreshing(false);
     }

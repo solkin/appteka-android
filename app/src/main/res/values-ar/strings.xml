@@ -405,4 +405,5 @@
     <string name="code_format_invalid">Invalid verification code format</string>
     <string name="name_format_invalid">Invalid name format</string>
     <string name="authorization_required_message">Log in to continue</string>
+    <string name="authorization_description">Log in and take advantage of Appteka\'s personal capabilities</string>
 </resources>
