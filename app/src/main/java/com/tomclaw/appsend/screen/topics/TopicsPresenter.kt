@@ -13,6 +13,7 @@ import dagger.Lazy
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
+import retrofit2.HttpException
 import java.util.concurrent.TimeUnit
 
 interface TopicsPresenter : ItemListener {
@@ -30,6 +31,8 @@ interface TopicsPresenter : ItemListener {
     interface TopicsRouter {
 
         fun showChatScreen(entity: TopicEntity)
+
+        fun openLoginScreen()
 
     }
 
@@ -69,6 +72,10 @@ class TopicsPresenterImpl(
 
         subscriptions += view.pinTopicClicks().subscribe { topicId ->
             pinTopic(topicId)
+        }
+
+        subscriptions += view.loginClicks().subscribe {
+            router?.openLoginScreen()
         }
 
         if (preferences.isShowIntro()) {
@@ -157,6 +164,14 @@ class TopicsPresenterImpl(
         bindEntities()
     }
 
+    private fun filterUnauthorizedErrors(ex: Throwable, handler: (ex: Throwable) -> Unit) {
+        if (ex is HttpException && ex.code() == 401) {
+            view?.showUnauthorizedError()
+            return
+        }
+        handler(ex)
+    }
+
     private fun bindEntities() {
         val entities = this.entities ?: emptyList()
 
@@ -180,7 +195,11 @@ class TopicsPresenterImpl(
     private fun pinTopic(topicId: Int) {
         subscriptions += topicsInteractor.pinTopic(topicId)
             .observeOn(schedulers.mainThread())
-            .subscribe({ }, { view?.showPinFailed() })
+            .subscribe({ }, { ex ->
+                filterUnauthorizedErrors(ex) {
+                    view?.showPinFailed()
+                }
+            })
     }
 
     override fun onItemClick(item: Item) {

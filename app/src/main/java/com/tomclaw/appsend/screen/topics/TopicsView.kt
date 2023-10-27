@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.view.View
 import android.widget.TextView
 import android.widget.ViewFlipper
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -29,11 +30,15 @@ interface TopicsView {
 
     fun showPinFailed()
 
+    fun showUnauthorizedError()
+
     fun getStartedClicks(): Observable<Unit>
 
     fun retryButtonClicks(): Observable<Unit>
 
     fun pinTopicClicks(): Observable<Int>
+
+    fun loginClicks(): Observable<Unit>
 
     fun contentUpdated()
 
@@ -48,6 +53,7 @@ class TopicsViewImpl(
 ) : TopicsView {
 
     private val context = view.context
+    private val coordinator: CoordinatorLayout = view.findViewById(R.id.coordinator)
     private val viewFlipper: ViewFlipper = view.findViewById(R.id.view_flipper)
     private val getStartedButton: View = view.findViewById(R.id.get_started_button)
     private val retryButton: View = view.findViewById(R.id.button_retry)
@@ -57,6 +63,7 @@ class TopicsViewImpl(
     private val getStartedRelay = PublishRelay.create<Unit>()
     private val retryButtonRelay = PublishRelay.create<Unit>()
     private val pinTopicRelay = PublishRelay.create<Int>()
+    private val loginRelay = PublishRelay.create<Unit>()
 
     init {
         val orientation = RecyclerView.VERTICAL
@@ -115,7 +122,16 @@ class TopicsViewImpl(
     }
 
     override fun showPinFailed() {
-        Snackbar.make(recycler, R.string.error_topic_pin, Snackbar.LENGTH_LONG).show()
+        Snackbar.make(coordinator, R.string.error_topic_pin, Snackbar.LENGTH_LONG).show()
+    }
+
+    override fun showUnauthorizedError() {
+        Snackbar
+            .make(coordinator, R.string.authorization_required_message, Snackbar.LENGTH_INDEFINITE)
+            .setAction(R.string.login_button) {
+                loginRelay.accept(Unit)
+            }
+            .show()
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -132,6 +148,8 @@ class TopicsViewImpl(
     override fun retryButtonClicks(): Observable<Unit> = retryButtonRelay
 
     override fun pinTopicClicks(): Observable<Int> = pinTopicRelay
+
+    override fun loginClicks(): Observable<Unit> = loginRelay
 
 }
 
