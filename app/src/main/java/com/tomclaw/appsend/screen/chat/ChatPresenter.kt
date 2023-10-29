@@ -11,6 +11,7 @@ import com.tomclaw.appsend.screen.chat.adapter.ItemListener
 import com.tomclaw.appsend.screen.topics.COMMON_QNA_TOPIC_ICON
 import com.tomclaw.appsend.util.RoleHelper.ROLE_ADMIN
 import com.tomclaw.appsend.util.SchedulersFactory
+import com.tomclaw.appsend.util.filterUnauthorizedErrors
 import com.tomclaw.appsend.util.getParcelableArrayListCompat
 import com.tomclaw.appsend.util.getParcelableCompat
 import dagger.Lazy
@@ -229,18 +230,11 @@ class ChatPresenterImpl(
         invalidateMenu()
     }
 
-    private fun filterUnauthorizedErrors(ex: Throwable, handler: (ex: Throwable) -> Unit) {
-        if (ex is HttpException && ex.code() == 401) {
-            view?.showUnauthorizedError()
-            return
-        }
-        handler(ex)
-    }
-
     private fun onMessageSendingError(ex: Throwable) {
-        filterUnauthorizedErrors(ex) {
-            view?.showSendError()
-        }
+        ex.filterUnauthorizedErrors(
+            authError = { view?.showUnauthorizedError() },
+            other = { view?.showSendError() }
+        )
     }
 
     private fun loadTopic() {
@@ -311,7 +305,12 @@ class ChatPresenterImpl(
             .observeOn(schedulers.mainThread())
             .subscribe(
                 { view?.showReportSuccess() },
-                { filterUnauthorizedErrors(it) { view?.showReportFailed() } }
+                {
+                    it.filterUnauthorizedErrors(
+                        authError = { view?.showUnauthorizedError() },
+                        other = { view?.showReportFailed() }
+                    )
+                }
             )
     }
 
@@ -331,7 +330,7 @@ class ChatPresenterImpl(
         subscriptions += chatInteractor.pinTopic(topicId)
             .observeOn(schedulers.mainThread())
             .subscribe(
-                { }, { filterUnauthorizedErrors(it) {} }
+                { }, { it.filterUnauthorizedErrors({ view?.showUnauthorizedError() }, {}) }
             )
     }
 

@@ -49,6 +49,8 @@ interface DetailsView {
 
     fun hideError()
 
+    fun showUnauthorizedError()
+
     fun showDeletionDialog()
 
     fun navigationClicks(): Observable<Unit>
@@ -74,6 +76,8 @@ interface DetailsView {
     fun moderationClicks(): Observable<Boolean>
 
     fun favoriteClicks(): Observable<Boolean>
+
+    fun loginClicks(): Observable<Unit>
 
     fun onDismiss()
 
@@ -116,6 +120,7 @@ class DetailsViewImpl(
     private val versionRelay = PublishRelay.create<VersionItem>()
     private val moderationRelay = PublishRelay.create<Boolean>()
     private val favoriteRelay = PublishRelay.create<Boolean>()
+    private val loginRelay = PublishRelay.create<Unit>()
 
     private val layoutManager: LinearLayoutManager
 
@@ -263,6 +268,15 @@ class DetailsViewImpl(
         error.hide()
     }
 
+    override fun showUnauthorizedError() {
+        Snackbar
+            .make(recycler, R.string.authorization_required_message, Snackbar.LENGTH_INDEFINITE)
+            .setAction(R.string.login_button) {
+                loginRelay.accept(Unit)
+            }
+            .show()
+    }
+
     override fun showDeletionDialog() {
         dialog?.dismiss()
         dialog = AlertDialog.Builder(context)
@@ -299,6 +313,8 @@ class DetailsViewImpl(
     override fun moderationClicks(): Observable<Boolean> = moderationRelay
 
     override fun favoriteClicks(): Observable<Boolean> = favoriteRelay
+
+    override fun loginClicks(): Observable<Unit> = loginRelay
 
     override fun onDismiss() {
         dialog?.dismiss()

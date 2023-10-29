@@ -8,7 +8,9 @@ import com.tomclaw.appsend.dto.TopicEntity
 import com.tomclaw.appsend.events.EventsInteractor
 import com.tomclaw.appsend.screen.topics.adapter.ItemListener
 import com.tomclaw.appsend.util.SchedulersFactory
+import com.tomclaw.appsend.util.filterUnauthorizedErrors
 import com.tomclaw.appsend.util.getParcelableArrayListCompat
+import com.tomclaw.appsend.util.retryWhenNonAuthErrors
 import dagger.Lazy
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -145,12 +147,7 @@ class TopicsPresenterImpl(
     private fun loadTopics(offset: Int) {
         subscriptions += topicsInteractor.listTopics(offset)
             .observeOn(schedulers.mainThread())
-            .retryWhen { errors ->
-                errors.flatMap {
-                    println("[topics] Retry after exception: " + it.message)
-                    Observable.timer(3, TimeUnit.SECONDS)
-                }
-            }
+            .retryWhenNonAuthErrors()
             .subscribe(
                 { onLoaded(it.topics, it.hasMore) },
                 { onError() }
@@ -162,14 +159,6 @@ class TopicsPresenterImpl(
         this.entities = (this.entities ?: emptyList()).plus(entities)
         this.hasMore = hasMore
         bindEntities()
-    }
-
-    private fun filterUnauthorizedErrors(ex: Throwable, handler: (ex: Throwable) -> Unit) {
-        if (ex is HttpException && ex.code() == 401) {
-            view?.showUnauthorizedError()
-            return
-        }
-        handler(ex)
     }
 
     private fun bindEntities() {
@@ -196,9 +185,10 @@ class TopicsPresenterImpl(
         subscriptions += topicsInteractor.pinTopic(topicId)
             .observeOn(schedulers.mainThread())
             .subscribe({ }, { ex ->
-                filterUnauthorizedErrors(ex) {
-                    view?.showPinFailed()
-                }
+                ex.filterUnauthorizedErrors(
+                    authError = { view?.showUnauthorizedError() },
+                    other = { view?.showPinFailed() }
+                )
             })
     }
 

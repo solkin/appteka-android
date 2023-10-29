@@ -18,7 +18,9 @@ import com.tomclaw.appsend.screen.details.api.Details
 import com.tomclaw.appsend.util.NOT_INSTALLED
 import com.tomclaw.appsend.util.PackageObserver
 import com.tomclaw.appsend.util.SchedulersFactory
+import com.tomclaw.appsend.util.filterUnauthorizedErrors
 import com.tomclaw.appsend.util.getParcelableCompat
+import com.tomclaw.appsend.util.retryWhenNonAuthErrors
 import dagger.Lazy
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -230,15 +232,7 @@ class DetailsPresenterImpl(
     private fun loadDetails() {
         subscriptions += interactor.loadDetails(appId, packageName)
             .observeOn(schedulers.mainThread())
-            .retryWhen { errors ->
-                errors.flatMap {
-                    if (it is HttpException) {
-                        throw it
-                    }
-                    println("[details] Retry after exception: " + it.message)
-                    Observable.timer(3, TimeUnit.SECONDS)
-                }
-            }
+            .retryWhenNonAuthErrors()
             .doOnSubscribe {
                 view?.hideMenu()
                 view?.hideError()
@@ -246,7 +240,7 @@ class DetailsPresenterImpl(
             }
             .subscribe(
                 { onDetailsLoaded(it) },
-                { onLoadingError() }
+                { onLoadingError(it) }
             )
     }
 
@@ -326,19 +320,14 @@ class DetailsPresenterImpl(
         subscriptions += interactor.sendModerationDecision(details.info.appId, isApprove)
             .toObservable()
             .observeOn(schedulers.mainThread())
-            .retryWhen { errors ->
-                errors.flatMap {
-                    println("[moderation decision] Retry after exception: " + it.message)
-                    Observable.timer(3, TimeUnit.SECONDS)
-                }
-            }
+            .retryWhenNonAuthErrors()
             .doOnSubscribe {
                 view?.hideMenu()
                 view?.showProgress()
             }
             .subscribe(
                 { onModerationDecisionSent() },
-                { onLoadingError() }
+                { onLoadingError(it) }
             )
     }
 
@@ -353,7 +342,7 @@ class DetailsPresenterImpl(
             .observeOn(schedulers.mainThread())
             .subscribe(
                 { onFavoriteMarked(isFavorite) },
-                { onFavoriteError(isFavorite) }
+                { onFavoriteError(it, isFavorite) }
             )
     }
 
@@ -368,13 +357,15 @@ class DetailsPresenterImpl(
         view?.showSnackbar(text)
     }
 
-    private fun onFavoriteError(isFavorite: Boolean) {
-        val text = if (isFavorite) {
-            resourceProvider.markFavoriteError()
-        } else {
-            resourceProvider.unmarkFavoriteError()
+    private fun onFavoriteError(ex: Throwable, isFavorite: Boolean) {
+        ex.filterUnauthorizedErrors({ view?.showUnauthorizedError() }) {
+            val text = if (isFavorite) {
+                resourceProvider.markFavoriteError()
+            } else {
+                resourceProvider.unmarkFavoriteError()
+            }
+            view?.showSnackbar(text)
         }
-        view?.showSnackbar(text)
     }
 
     private fun deleteFromStore() {
@@ -382,19 +373,14 @@ class DetailsPresenterImpl(
         subscriptions += interactor.deleteApplication(details.info.appId)
             .toObservable()
             .observeOn(schedulers.mainThread())
-            .retryWhen { errors ->
-                errors.flatMap {
-                    println("[delete from store] Retry after exception: " + it.message)
-                    Observable.timer(3, TimeUnit.SECONDS)
-                }
-            }
+            .retryWhenNonAuthErrors()
             .doOnSubscribe {
                 view?.hideMenu()
                 view?.showProgress()
             }
             .subscribe(
                 { onApplicationDeletedFromStore() },
-                { onLoadingError() }
+                { onLoadingError(it) }
             )
     }
 
@@ -402,10 +388,12 @@ class DetailsPresenterImpl(
         router?.leaveScreen()
     }
 
-    private fun onLoadingError() {
-        view?.hideMenu()
-        view?.showContent()
-        view?.showError()
+    private fun onLoadingError(ex: Throwable) {
+        ex.filterUnauthorizedErrors({ view?.showUnauthorizedError() }) {
+            view?.hideMenu()
+            view?.showContent()
+            view?.showError()
+        }
     }
 
     override fun onBackPressed() {
@@ -484,15 +472,14 @@ class DetailsPresenterImpl(
             subscriptions += interactor.createTopic(details.info.packageName)
                 .toObservable()
                 .observeOn(schedulers.mainThread())
-                .retryWhen { errors ->
-                    errors.flatMap {
-                        println("[discuss create] Retry after exception: " + it.message)
-                        Observable.timer(3, TimeUnit.SECONDS)
-                    }
-                }
+                .retryWhenNonAuthErrors()
                 .subscribe(
                     { router?.openChatScreen(topicId = it.topic.topicId, label = it.topic.title) },
-                    { showSnackbar(resourceProvider.createTopicError()) }
+                    {
+                        it.filterUnauthorizedErrors({ view?.showUnauthorizedError() }) {
+                            showSnackbar(resourceProvider.createTopicError())
+                        }
+                    }
                 )
         }
     }

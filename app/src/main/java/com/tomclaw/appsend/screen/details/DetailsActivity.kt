@@ -128,6 +128,7 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
     }
 
     override fun onBackPressed() {
+        super.onBackPressed()
         presenter.onBackPressed()
     }
 
