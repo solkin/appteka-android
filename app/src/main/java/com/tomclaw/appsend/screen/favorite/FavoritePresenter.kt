@@ -9,6 +9,7 @@ import com.tomclaw.appsend.screen.favorite.adapter.ItemListener
 import com.tomclaw.appsend.screen.favorite.adapter.app.AppItem
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.getParcelableArrayListCompat
+import com.tomclaw.appsend.util.retryWhenNonAuthErrors
 import dagger.Lazy
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -121,12 +122,7 @@ class FavoritePresenterImpl(
     private fun loadApps(offsetAppId: String) {
         subscriptions += interactor.listApps(offsetAppId)
             .observeOn(schedulers.mainThread())
-            .retryWhen { errors ->
-                errors.flatMap {
-                    println("[favorite] Retry after exception: " + it.message)
-                    Observable.timer(3, TimeUnit.SECONDS)
-                }
-            }
+            .retryWhenNonAuthErrors()
             .doAfterTerminate { onReady() }
             .subscribe(
                 { onLoaded(it) },
