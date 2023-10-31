@@ -14,6 +14,7 @@ import com.tomclaw.appsend.screen.store.adapter.app.AppItem
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.getParcelableArrayListCompat
 import com.tomclaw.appsend.util.getParcelableCompat
+import com.tomclaw.appsend.util.retryWhenNonAuthErrors
 import dagger.Lazy
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -130,12 +131,7 @@ class StorePresenterImpl(
     private fun loadApps(offsetAppId: String) {
         subscriptions += storeInteractor.listApps(offsetAppId, category?.id)
             .observeOn(schedulers.mainThread())
-            .retryWhen { errors ->
-                errors.flatMap {
-                    println("[store] Retry after exception: " + it.message)
-                    Observable.timer(3, TimeUnit.SECONDS)
-                }
-            }
+            .retryWhenNonAuthErrors()
             .subscribe(
                 { onLoaded(it) },
                 { onError() }
@@ -199,12 +195,7 @@ class StorePresenterImpl(
         subscriptions += categoriesInteractor.getCategories()
             .toObservable()
             .observeOn(schedulers.mainThread())
-            .retryWhen { errors ->
-                errors.flatMap {
-                    println("[categories] Retry after exception: " + it.message)
-                    Observable.timer(3, TimeUnit.SECONDS)
-                }
-            }
+            .retryWhenNonAuthErrors()
             .subscribe(
                 { onCategoriesLoaded(it) },
                 { onError() }
