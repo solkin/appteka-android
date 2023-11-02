@@ -19,6 +19,7 @@ import com.tomclaw.appsend.upload.UploadStatus
 import com.tomclaw.appsend.util.PackageIconLoader
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.getParcelableCompat
+import com.tomclaw.appsend.util.retryWhenNonAuthErrors
 import dagger.Lazy
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
@@ -188,15 +189,7 @@ class UploadPresenterImpl(
         subscriptions += sha1Observer
             .flatMap { interactor.checkExist(it, pkg.packageName) }
             .observeOn(schedulers.mainThread())
-            .retryWhen { errors ->
-                errors.flatMap {
-                    if (it is HttpException) {
-                        throw it
-                    }
-                    println("[upload] Retry after exception: " + it.message)
-                    Observable.timer(3, TimeUnit.SECONDS)
-                }
-            }
+            .retryWhenNonAuthErrors()
             .doOnSubscribe {
                 view?.hideError()
                 view?.showProgress()
@@ -395,12 +388,7 @@ class UploadPresenterImpl(
         subscriptions += categoriesInteractor.getCategories()
             .toObservable()
             .observeOn(schedulers.mainThread())
-            .retryWhen { errors ->
-                errors.flatMap {
-                    println("[upload categories] Retry after exception: " + it.message)
-                    Observable.timer(3, TimeUnit.SECONDS)
-                }
-            }
+            .retryWhenNonAuthErrors()
             .subscribe(
                 { onCategoriesLoaded(it) },
                 { onCategoriesLoadingError() }
