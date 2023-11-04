@@ -32,6 +32,7 @@ interface RatePresenter {
 
 class RatePresenterImpl(
     private val appId: String,
+    private val userBrief: UserBrief,
     startRating: Float,
     startReview: String,
     private val interactor: RateInteractor,
@@ -60,13 +61,8 @@ class RatePresenterImpl(
         }
         subscriptions += view.reviewEditChanged().subscribe { review = it }
         subscriptions += view.submitClicks().subscribe { onSubmitReview() }
-        subscriptions += interactor
-            .getUserBrief()
-            .subscribeOn(schedulers.io())
-            .observeOn(schedulers.mainThread())
-            .subscribe({ userBrief ->
-                bindMemberInfo(userBrief)
-            }, {})
+
+        bindMemberInfo(userBrief)
     }
 
     private fun bindData() {

@@ -40,6 +40,8 @@ interface DetailsResourceProvider {
 
     fun unmarkFavoriteError(): String
 
+    fun rateAppError(): String
+
 }
 
 class DetailsResourceProviderImpl(
@@ -108,6 +110,10 @@ class DetailsResourceProviderImpl(
 
     override fun unmarkFavoriteError(): String {
         return resources.getString(R.string.unmark_favorite_error)
+    }
+
+    override fun rateAppError(): String {
+        return resources.getString(R.string.error_rate_app)
     }
 
 }

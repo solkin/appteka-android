@@ -28,11 +28,13 @@ import com.tomclaw.appsend.main.profile.ProfileActivity_
 import com.tomclaw.appsend.main.ratings.RatingsActivity_
 import com.tomclaw.appsend.main.unlink.UnlinkActivity.createUnlinkActivityIntent
 import com.tomclaw.appsend.main.unpublish.UnpublishActivity.createUnpublishActivityIntent
+import com.tomclaw.appsend.screen.auth.request_code.createRequestCodeActivityIntent
 import com.tomclaw.appsend.screen.chat.createChatActivityIntent
 import com.tomclaw.appsend.screen.details.di.DetailsModule
 import com.tomclaw.appsend.screen.rate.createRateActivityIntent
 import com.tomclaw.appsend.screen.upload.createUploadActivityIntent
 import com.tomclaw.appsend.upload.UploadPackage
+import com.tomclaw.appsend.user.api.UserBrief
 import com.tomclaw.appsend.util.IntentHelper
 import com.tomclaw.appsend.util.ThemeHelper
 import java.io.File
@@ -255,6 +257,7 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
 
     override fun openRateScreen(
         appId: String,
+        userBrief: UserBrief,
         rating: Float,
         review: String?,
         label: String?,
@@ -263,6 +266,7 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
         val intent = createRateActivityIntent(
             context = this,
             appId = appId,
+            userBrief = userBrief,
             rating = rating,
             review = review,
             label = label,
@@ -348,6 +352,11 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
             .putExtra(Intent.EXTRA_TEXT, text)
             .setType("text/plain")
         startActivity(Intent.createChooser(intent, title))
+    }
+
+    override fun openLoginScreen() {
+        val intent = createRequestCodeActivityIntent(context = this)
+        startActivity(intent)
     }
 
     private fun onRemoveAppPermitted(packageName: String) {

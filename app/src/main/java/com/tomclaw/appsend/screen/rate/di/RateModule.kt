@@ -7,6 +7,7 @@ import com.tomclaw.appsend.screen.rate.RateInteractor
 import com.tomclaw.appsend.screen.rate.RateInteractorImpl
 import com.tomclaw.appsend.screen.rate.RatePresenter
 import com.tomclaw.appsend.screen.rate.RatePresenterImpl
+import com.tomclaw.appsend.user.api.UserBrief
 import com.tomclaw.appsend.util.PerActivity
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Module
@@ -17,6 +18,7 @@ import java.util.Locale
 class RateModule(
     private val context: Context,
     private val appId: String,
+    private val userBrief: UserBrief,
     private val startRating: Float,
     private val startReview: String,
     private val state: Bundle?
@@ -30,6 +32,7 @@ class RateModule(
         schedulers: SchedulersFactory
     ): RatePresenter = RatePresenterImpl(
         appId,
+        userBrief,
         startRating,
         startReview,
         interactor,

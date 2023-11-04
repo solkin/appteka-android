@@ -15,6 +15,7 @@ import com.tomclaw.appsend.screen.details.api.ACTION_EDIT_META
 import com.tomclaw.appsend.screen.details.api.ACTION_UNLINK
 import com.tomclaw.appsend.screen.details.api.ACTION_UNPUBLISH
 import com.tomclaw.appsend.screen.details.api.Details
+import com.tomclaw.appsend.user.api.UserBrief
 import com.tomclaw.appsend.util.NOT_INSTALLED
 import com.tomclaw.appsend.util.PackageObserver
 import com.tomclaw.appsend.util.SchedulersFactory
@@ -69,6 +70,7 @@ interface DetailsPresenter : ItemListener {
 
         fun openRateScreen(
             appId: String,
+            userBrief: UserBrief,
             rating: Float,
             review: String?,
             label: String?,
@@ -100,6 +102,8 @@ interface DetailsPresenter : ItemListener {
         fun startDownload(label: String, version: String, icon: String?, appId: String, url: String)
 
         fun openShare(title: String, text: String)
+
+        fun openLoginScreen()
 
     }
 
@@ -192,6 +196,9 @@ class DetailsPresenterImpl(
         subscriptions += view.retryClicks().subscribe { invalidateDetails() }
         subscriptions += view.favoriteClicks().subscribe { isFavorite ->
             markFavorite(isFavorite)
+        }
+        subscriptions += view.loginClicks().subscribe {
+            router?.openLoginScreen()
         }
 
         if (moderation) {
@@ -491,13 +498,27 @@ class DetailsPresenterImpl(
 
     override fun onRateClick(rating: Float, review: String?) {
         val details = details ?: return
-        router?.openRateScreen(
-            details.info.appId,
-            rating,
-            review,
-            details.info.label,
-            details.info.icon
-        )
+        subscriptions += interactor.getUserBrief()
+            .toObservable()
+            .observeOn(schedulers.mainThread())
+            .retryWhenNonAuthErrors()
+            .subscribe(
+                { userBrief ->
+                    router?.openRateScreen(
+                        details.info.appId,
+                        userBrief,
+                        rating,
+                        review,
+                        details.info.label,
+                        details.info.icon
+                    )
+                },
+                {
+                    it.filterUnauthorizedErrors({ view?.showUnauthorizedError() }) {
+                        showSnackbar(resourceProvider.rateAppError())
+                    }
+                }
+            )
     }
 
     override fun onVersionsClick() {

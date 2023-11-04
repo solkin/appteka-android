@@ -6,6 +6,7 @@ import com.tomclaw.appsend.screen.details.api.DeletionResponse
 import com.tomclaw.appsend.screen.details.api.Details
 import com.tomclaw.appsend.screen.details.api.MarkFavoriteResponse
 import com.tomclaw.appsend.screen.details.api.ModerationDecisionResponse
+import com.tomclaw.appsend.user.api.UserBrief
 import com.tomclaw.appsend.util.SchedulersFactory
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
@@ -24,6 +25,8 @@ interface DetailsInteractor {
     fun createTopic(packageName: String): Single<CreateTopicResponse>
 
     fun markFavorite(appId: String, isFavorite: Boolean): Single<MarkFavoriteResponse>
+
+    fun getUserBrief(): Single<UserBrief>
 
 }
 
@@ -75,6 +78,13 @@ class DetailsInteractorImpl(
                 appId = appId,
                 isFavorite = isFavorite,
             )
+            .map { it.result }
+            .subscribeOn(schedulers.io())
+    }
+
+    override fun getUserBrief(): Single<UserBrief> {
+        return api
+            .getUserBrief(userId = null)
             .map { it.result }
             .subscribeOn(schedulers.io())
     }
