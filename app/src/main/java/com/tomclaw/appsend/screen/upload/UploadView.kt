@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
 import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder
+import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.categories.CategoryItem
@@ -48,6 +49,8 @@ interface UploadView {
 
     fun hideError()
 
+    fun showUnauthorizedError()
+
     fun showCategories(items: List<CategoryItem>)
 
     fun showVersionsDialog(items: List<VersionItem>)
@@ -73,6 +76,8 @@ interface UploadView {
     fun versionClicks(): Observable<VersionItem>
 
     fun cancelClicks(): Observable<Unit>
+
+    fun loginClicks(): Observable<Unit>
 
 }
 
@@ -101,6 +106,7 @@ class UploadViewImpl(
     private val categoryClearedRelay = PublishRelay.create<Unit>()
     private val versionRelay = PublishRelay.create<VersionItem>()
     private val cancelRelay = PublishRelay.create<Unit>()
+    private val loginRelay = PublishRelay.create<Unit>()
 
     private var bounceAnimator: ValueAnimator? = null
     private var rotationAnimator: ValueAnimator? = null
@@ -143,6 +149,15 @@ class UploadViewImpl(
 
     override fun hideError() {
         error.hide()
+    }
+
+    override fun showUnauthorizedError() {
+        Snackbar
+            .make(recycler, R.string.authorization_required_message, Snackbar.LENGTH_INDEFINITE)
+            .setAction(R.string.login_button) {
+                loginRelay.accept(Unit)
+            }
+            .show()
     }
 
     override fun showCategories(items: List<CategoryItem>) {
@@ -290,6 +305,8 @@ class UploadViewImpl(
     override fun versionClicks(): Observable<VersionItem> = versionRelay
 
     override fun cancelClicks(): Observable<Unit> = cancelRelay
+
+    override fun loginClicks(): Observable<Unit> = loginRelay
 
     @SuppressLint("AnimatorKeep")
     fun ProgressBar.setProgressWithAnimation(progress: Int, duration: Long = 1500) {

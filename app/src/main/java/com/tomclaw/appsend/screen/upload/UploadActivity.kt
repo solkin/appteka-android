@@ -14,6 +14,7 @@ import com.tomclaw.appsend.R
 import com.tomclaw.appsend.main.item.CommonItem
 import com.tomclaw.appsend.main.local.SelectLocalAppActivity.SELECTED_ITEM
 import com.tomclaw.appsend.main.local.SelectLocalAppActivity.createSelectAppActivity
+import com.tomclaw.appsend.screen.auth.request_code.createRequestCodeActivityIntent
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.screen.upload.di.UploadModule
 import com.tomclaw.appsend.upload.UploadApk
@@ -62,6 +63,13 @@ class UploadActivity : AppCompatActivity(), UploadPresenter.UploadRouter {
             }
         }
 
+    private val authLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK) {
+                presenter.onAuthorized()
+            }
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         val pkg = intent.getParcelableExtra<UploadPackage?>(EXTRA_PACKAGE_INFO)
         val apk = intent.getParcelableExtra<UploadApk?>(EXTRA_APK_INFO)
@@ -83,6 +91,7 @@ class UploadActivity : AppCompatActivity(), UploadPresenter.UploadRouter {
     }
 
     override fun onBackPressed() {
+        super.onBackPressed()
         presenter.onBackPressed()
     }
 
@@ -128,6 +137,11 @@ class UploadActivity : AppCompatActivity(), UploadPresenter.UploadRouter {
     override fun startUpload(pkg: UploadPackage, apk: UploadApk?, info: UploadInfo) {
         val intent = createUploadIntent(context = this, pkg, apk, info)
         startService(intent)
+    }
+
+    override fun openLoginScreen() {
+        val intent = createRequestCodeActivityIntent(context = this)
+        authLauncher.launch(intent)
     }
 
     override fun leaveScreen() {

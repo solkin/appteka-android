@@ -18,6 +18,7 @@ import com.tomclaw.appsend.upload.UploadPackage
 import com.tomclaw.appsend.upload.UploadStatus
 import com.tomclaw.appsend.util.PackageIconLoader
 import com.tomclaw.appsend.util.SchedulersFactory
+import com.tomclaw.appsend.util.filterUnauthorizedErrors
 import com.tomclaw.appsend.util.getParcelableCompat
 import com.tomclaw.appsend.util.retryWhenNonAuthErrors
 import dagger.Lazy
@@ -42,6 +43,8 @@ interface UploadPresenter : ItemListener {
 
     fun onAppSelected(pkg: UploadPackage, apk: UploadApk)
 
+    fun onAuthorized()
+
     fun onBackPressed()
 
     interface UploadRouter {
@@ -51,6 +54,8 @@ interface UploadPresenter : ItemListener {
         fun openDetailsScreen(appId: String, label: String?, isFinish: Boolean)
 
         fun startUpload(pkg: UploadPackage, apk: UploadApk?, info: UploadInfo)
+
+        fun openLoginScreen()
 
         fun leaveScreen()
 
@@ -131,6 +136,9 @@ class UploadPresenterImpl(
                 uploadManager.cancel(uniqueId)
             }
         }
+        subscriptions += view.loginClicks().subscribe {
+            router?.openLoginScreen()
+        }
 
         invalidate()
     }
@@ -166,6 +174,10 @@ class UploadPresenterImpl(
         onPackageChanged(pkg, apk)
     }
 
+    override fun onAuthorized() {
+        invalidate()
+    }
+
     override fun onDiscardClick() {
         onPackageChanged(pkg = null, apk = null)
     }
@@ -196,7 +208,11 @@ class UploadPresenterImpl(
             }
             .subscribe(
                 { onCheckExistLoaded(it) },
-                { onCheckExistError() }
+                {
+                    it.filterUnauthorizedErrors({ view?.showUnauthorizedError() }) {
+                        onCheckExistError()
+                    }
+                }
             )
     }
 
