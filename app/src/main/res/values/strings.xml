@@ -374,4 +374,6 @@
     <string name="name_format_invalid">Invalid name format</string>
     <string name="authorization_required_message">Log in to continue</string>
     <string name="authorization_description">Log in and take advantage of Appteka\'s personal capabilities</string>
+    <string name="login_is_needed_warning">Please sign in to continue using all Appteka features</string>
+    <string name="relogin_is_needed_warning">Please sign again in to continue using all Appteka features</string>
 </resources>

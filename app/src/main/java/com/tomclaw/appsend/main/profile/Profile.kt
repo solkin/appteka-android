@@ -35,6 +35,8 @@ data class Profile(
     val name: String? = null,
     @SerializedName("is_registered")
     val isRegistered: Boolean = false,
+    @SerializedName("is_verified")
+    val isVerified: Boolean = false,
     @SerializedName("url")
     val url: String? = null,
 ) : Parcelable

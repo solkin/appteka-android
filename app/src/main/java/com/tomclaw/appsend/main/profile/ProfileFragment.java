@@ -121,6 +121,12 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
     Button authButton;
 
     @ViewById
+    TextView statusText;
+
+    @ViewById
+    View loginWarning;
+
+    @ViewById
     LinearLayout detailsContainer;
 
     private DetailsItem installedItem;
@@ -229,6 +235,11 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
     void onAuthenticateClicked() {
         Intent intent = RequestCodeActivityKt.createRequestCodeActivityIntent(getContext());
         startActivityForResult(intent, REQUEST_LOGIN);
+    }
+
+    @Click(R.id.warning_login_button)
+    void onWarningLoginClicked() {
+        onAuthenticateClicked();
     }
 
     @OnActivityResult(REQUEST_LOGIN)
@@ -476,6 +487,8 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
         }
         changeRoleButton.setVisibility(canChangeRole ? View.VISIBLE : View.GONE);
         authButton.setVisibility(isPublicProfile || profile.isRegistered() ? View.GONE : View.VISIBLE);
+        statusText.setText(profile.isRegistered() ? R.string.relogin_is_needed_warning : R.string.login_is_needed_warning);
+        loginWarning.setVisibility(profile.isVerified() ? View.GONE : View.VISIBLE);
         showContent();
         swipeRefresh.setRefreshing(false);
         getActivity().invalidateOptionsMenu();
