@@ -26,9 +26,6 @@ import org.androidannotations.annotations.ViewById;
 @EActivity(R.layout.installed_activity)
 public class InstalledActivity extends AppCompatActivity {
 
-    @Bean
-    StoreServiceHolder serviceHolder;
-
     @ViewById
     Toolbar toolbar;
 

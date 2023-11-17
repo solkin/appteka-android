@@ -28,9 +28,6 @@ import org.androidannotations.annotations.ViewById;
 @EActivity(R.layout.user_files_activity)
 public class FilesActivity extends AppCompatActivity {
 
-    @Bean
-    StoreServiceHolder serviceHolder;
-
     @ViewById
     Toolbar toolbar;
 

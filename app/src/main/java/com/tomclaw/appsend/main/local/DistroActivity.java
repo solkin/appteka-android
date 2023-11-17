@@ -26,9 +26,6 @@ import org.androidannotations.annotations.ViewById;
 @EActivity(R.layout.distro_activity)
 public class DistroActivity extends AppCompatActivity {
 
-    @Bean
-    StoreServiceHolder serviceHolder;
-
     @ViewById
     Toolbar toolbar;
 
