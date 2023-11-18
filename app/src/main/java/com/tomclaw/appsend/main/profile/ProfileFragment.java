@@ -489,7 +489,7 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
         changeRoleButton.setVisibility(canChangeRole ? View.VISIBLE : View.GONE);
         authButton.setVisibility(isPublicProfile || profile.isRegistered() ? View.GONE : View.VISIBLE);
         statusText.setText(profile.isRegistered() ? R.string.relogin_is_needed_warning : R.string.login_is_needed_warning);
-        loginWarning.setVisibility(profile.isVerified() ? View.GONE : View.VISIBLE);
+        loginWarning.setVisibility(profile.getUserId() == session.getUserData().getUserId() ? View.VISIBLE : View.GONE);
         showContent();
         swipeRefresh.setRefreshing(false);
         getActivity().invalidateOptionsMenu();
