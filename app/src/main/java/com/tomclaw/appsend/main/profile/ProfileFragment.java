@@ -38,6 +38,7 @@ import com.tomclaw.appsend.net.Session;
 import com.tomclaw.appsend.net.UpdatesCheckInteractor;
 import com.tomclaw.appsend.net.UserData;
 import com.tomclaw.appsend.net.UserDataListener;
+import com.tomclaw.appsend.net.UserHolder;
 import com.tomclaw.appsend.screen.auth.request_code.RequestCodeActivityKt;
 import com.tomclaw.appsend.screen.favorite.FavoriteActivityKt;
 import com.tomclaw.appsend.screen.moderation.ModerationActivityKt;
@@ -161,7 +162,6 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
     @Override
     public void onStart() {
         super.onStart();
-        session.getUserHolder().attachListener(this);
         updatesListener = new Listeners.Listener<Map<String, AppEntry>>() {
             @Override
             public void onDataChanged(Map<String, AppEntry> data) {
@@ -190,7 +190,6 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
 
     @Override
     public void onStop() {
-        session.getUserHolder().removeListener(this);
         updatesCheck.getListeners().removeListener(updatesListener);
         super.onStop();
     }
@@ -245,7 +244,8 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
     @OnActivityResult(REQUEST_LOGIN)
     void onLoginResult(int resultCode) {
         if (resultCode == RESULT_OK) {
-            setUserId(session.getUserData().getUserId());
+            userId = null;
+            session.getUserHolder().reset();
             reloadProfile();
         }
     }
@@ -256,8 +256,13 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
     }
 
     private void loadProfile() {
-        if (userId == null) return;
-        String stringUserId = userId == 0 ? null : String.valueOf(userId);
+        if (userId == null) {
+            UserData userData = session.getUserData();
+            if (userData != null && userData.getUserId() != 0) {
+                this.userId = userData.getUserId();
+            }
+        }
+        String stringUserId = userId == null || userId == 0 ? null : String.valueOf(userId);
         Call<ApiResponse<ProfileResponse>> call = serviceHolder.getService().getProfile(stringUserId);
         call.enqueue(new Callback<ApiResponse<ProfileResponse>>() {
             @Override
@@ -325,10 +330,6 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
         isError = false;
         profile = body.getProfile();
         grantRoles = body.getGrantRoles();
-        if (session.getUserData().getUserId() == profile.getUserId()) {
-            session.getUserHolder().updateUserInfo(body.getProfile().getUserIcon(), body.getProfile().getName(), body.getProfile().getRole());
-            session.getUserHolder().store();
-        }
         bindProfile();
     }
 

@@ -107,6 +107,11 @@ public class UserHolder {
         }
     }
 
+    public void reset() {
+        userFile.delete();
+        userData = new UserData();
+    }
+
     public void onUserRegistered(String guid, long userId, UserIcon userIcon, int role) {
         onUserRegistered(guid, userId, userIcon, null, null, role);
     }
