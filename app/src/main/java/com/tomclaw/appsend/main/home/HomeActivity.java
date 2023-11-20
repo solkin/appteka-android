@@ -264,7 +264,7 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
                 return new TopicsFragment();
             case NAV_PROFILE:
                 bottomNavigation.setSelectedItemId(R.id.nav_profile);
-                return new ProfileFragment_();
+                return ProfileFragment_.builder().userId(0L).build();
             default:
                 throw new IllegalStateException("Invalid navigation item index");
         }

@@ -257,9 +257,12 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
 
     private void loadProfile() {
         if (userId == null) {
+            return;
+        }
+        if (userId == 0) {
             UserData userData = session.getUserData();
             if (userData != null && userData.getUserId() != 0) {
-                this.userId = userData.getUserId();
+                userId = userData.getUserId();
             }
         }
         String stringUserId = userId == null || userId == 0 ? null : String.valueOf(userId);
