@@ -44,7 +44,7 @@ public class Appteka extends Application {
     private static AppComponent component;
 
     @Bean
-    Session session;
+    public Session session;
 
     @Override
     public void onCreate() {

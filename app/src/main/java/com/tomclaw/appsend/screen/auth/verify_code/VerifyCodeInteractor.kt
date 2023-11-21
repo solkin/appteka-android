@@ -32,6 +32,9 @@ class VerifyCodeInteractorImpl(
                 api.verifyCode(requestId, code, name, guid)
             }
             .map { it.result }
+            .flatMap { response ->
+                sessionStorage.deleteSessionCredentials().map { response }
+            }
             .toObservable()
             .subscribeOn(schedulers.io())
     }
