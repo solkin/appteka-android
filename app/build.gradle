@@ -66,7 +66,7 @@ dependencies {
     implementation 'androidx.startup:startup-runtime:1.1.1'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
     kapt 'androidx.annotation:annotation:1.7.0'
-    implementation 'com.google.android.material:material:1.11.0-alpha03'
+    implementation 'com.google.android.material:material:1.11.0'
     implementation 'com.google.code.gson:gson:2.10.1'
     implementation 'com.google.dagger:dagger:2.42'
     kapt 'com.google.dagger:dagger-compiler:2.42'
