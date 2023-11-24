@@ -45,6 +45,7 @@ class RateActivity : AppCompatActivity(), RatePresenter.RateRouter {
         presenter.attachView(view)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         super.onBackPressed()
         presenter.onBackPressed()

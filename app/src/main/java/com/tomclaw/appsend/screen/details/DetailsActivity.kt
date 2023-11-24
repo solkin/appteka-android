@@ -129,6 +129,7 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
         startActivity(intent)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
         super.onBackPressed()
         presenter.onBackPressed()
