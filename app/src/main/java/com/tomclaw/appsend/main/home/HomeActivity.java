@@ -86,6 +86,8 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
     private @Nullable
     UnreadCheckTask unreadCheckTask;
 
+    private final HomeFragment[] homeFragments = new HomeFragment[3];
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         boolean isCreateInstance = savedInstanceState == null;
@@ -256,18 +258,27 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
 
     private HomeFragment createHomeFragment() {
         switch (navItemIndex) {
-            case NAV_STORE:
+            case NAV_STORE -> {
                 bottomNavigation.setSelectedItemId(R.id.nav_store);
-                return new StoreFragment();
-            case NAV_DISCUSS:
+                if (homeFragments[navItemIndex] == null) {
+                    homeFragments[navItemIndex] = new StoreFragment();
+                }
+            }
+            case NAV_DISCUSS -> {
                 bottomNavigation.setSelectedItemId(R.id.nav_discuss);
-                return new TopicsFragment();
-            case NAV_PROFILE:
+                if (homeFragments[navItemIndex] == null) {
+                    homeFragments[navItemIndex] = new TopicsFragment();
+                }
+            }
+            case NAV_PROFILE -> {
                 bottomNavigation.setSelectedItemId(R.id.nav_profile);
-                return ProfileFragment_.builder().userId(0L).build();
-            default:
-                throw new IllegalStateException("Invalid navigation item index");
+                if (homeFragments[navItemIndex] == null) {
+                    homeFragments[navItemIndex] = ProfileFragment_.builder().userId(0L).build();
+                }
+            }
+            default -> throw new IllegalStateException("Invalid navigation item index");
         }
+        return homeFragments[navItemIndex];
     }
 
     private boolean setNavByAction(String action) {
