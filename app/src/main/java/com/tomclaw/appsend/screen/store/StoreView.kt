@@ -16,6 +16,8 @@ import com.tomclaw.appsend.R
 import com.tomclaw.appsend.categories.CategoryItem
 import com.tomclaw.appsend.util.clicks
 import com.tomclaw.appsend.util.getAttributedColor
+import com.tomclaw.appsend.util.hideWithAlphaAnimation
+import com.tomclaw.appsend.util.showWithAlphaAnimation
 import com.tomclaw.appsend.util.svgToDrawable
 import io.reactivex.rxjava3.core.Observable
 
@@ -62,6 +64,7 @@ class StoreViewImpl(
     private val context = view.context
     private val refresher: SwipeRefreshLayout = view.findViewById(R.id.swipe_refresh)
     private val flipper: ViewFlipper = view.findViewById(R.id.view_flipper)
+    private val overlayProgress: View = view.findViewById(R.id.overlay_progress)
     private val recycler: RecyclerView = view.findViewById(R.id.recycler)
     private val error: TextView = view.findViewById(R.id.error_text)
     private val retryButton: View = view.findViewById(R.id.button_retry)
@@ -91,22 +94,24 @@ class StoreViewImpl(
     override fun showProgress() {
         refresher.isEnabled = false
         flipper.displayedChild = 0
+        overlayProgress.showWithAlphaAnimation(animateFully = true)
     }
 
     override fun showContent() {
         refresher.isEnabled = true
-        flipper.displayedChild = 1
+        flipper.displayedChild = 0
+        overlayProgress.hideWithAlphaAnimation(animateFully = false)
     }
 
     override fun showPlaceholder() {
         refresher.isRefreshing = false
         refresher.isEnabled = true
-        flipper.displayedChild = 2
+        flipper.displayedChild = 1
     }
 
     override fun showError() {
         refresher.isEnabled = true
-        flipper.displayedChild = 3
+        flipper.displayedChild = 2
 
         error.setText(R.string.load_files_error)
         retryButton.clicks(retryRelay)
