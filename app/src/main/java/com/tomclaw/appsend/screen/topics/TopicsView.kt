@@ -14,6 +14,8 @@ import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.util.getAttributedColor
+import com.tomclaw.appsend.util.hideWithAlphaAnimation
+import com.tomclaw.appsend.util.showWithAlphaAnimation
 import io.reactivex.rxjava3.core.Observable
 
 interface TopicsView {
@@ -22,9 +24,9 @@ interface TopicsView {
 
     fun showProgress()
 
-    fun showError()
-
     fun showContent()
+
+    fun showError()
 
     fun showMessageDialog(topicId: Int, isPinned: Boolean)
 
@@ -55,6 +57,7 @@ class TopicsViewImpl(
     private val context = view.context
     private val coordinator: CoordinatorLayout = view.findViewById(R.id.coordinator)
     private val viewFlipper: ViewFlipper = view.findViewById(R.id.view_flipper)
+    private val overlayProgress: View = view.findViewById(R.id.overlay_progress)
     private val getStartedButton: View = view.findViewById(R.id.get_started_button)
     private val retryButton: View = view.findViewById(R.id.button_retry)
     private val errorText: TextView = view.findViewById(R.id.error_text)
@@ -85,14 +88,16 @@ class TopicsViewImpl(
 
     override fun showProgress() {
         viewFlipper.displayedChild = 1
+        overlayProgress.showWithAlphaAnimation(animateFully = true)
+    }
+
+    override fun showContent() {
+        viewFlipper.displayedChild = 1
+        overlayProgress.hideWithAlphaAnimation(animateFully = false)
     }
 
     override fun showError() {
         viewFlipper.displayedChild = 2
-    }
-
-    override fun showContent() {
-        viewFlipper.displayedChild = 3
     }
 
     override fun showMessageDialog(topicId: Int, isPinned: Boolean) {

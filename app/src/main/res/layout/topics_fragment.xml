@@ -59,19 +59,18 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="@string/get_started" />
+                    android:text="@string/get_started"
+                    app:cornerRadius="99dp" />
 
             </LinearLayout>
 
         </ScrollView>
 
-        <include layout="@layout/progress_view" />
-
-        <include layout="@layout/error_view" />
-
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+            <include layout="@layout/progress_overlay" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler"
@@ -102,5 +101,8 @@
 
         </FrameLayout>
 
+        <include layout="@layout/error_view" />
+
     </ViewFlipper>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
