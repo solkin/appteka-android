@@ -19,7 +19,7 @@
             android:layout_height="52dp"
             android:layout_gravity="top"
             android:contentDescription="@string/app_icon"
-            android:src="@drawable/rocket" />
+            android:src="@drawable/ic_rocket" />
 
         <LinearLayout
             android:layout_width="match_parent"
