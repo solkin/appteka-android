@@ -69,7 +69,7 @@
     <array name="app_actions_icons">
         <item>@drawable/ic_run</item>
         <item>@drawable/ic_share</item>
-        <item>@drawable/floppy</item>
+        <item>@drawable/ic_floppy</item>
         <item>@drawable/ic_cloud_upload</item>
         <item>@drawable/ic_bluetooth</item>
         <item>@drawable/ic_google_play</item>
@@ -98,7 +98,7 @@
 
     <array name="message_actions_icons">
         <item>@drawable/ic_reply</item>
-        <item>@drawable/content_copy</item>
+        <item>@drawable/ic_content_copy</item>
         <item>@drawable/ic_account</item>
         <item>@drawable/ic_delete_forever</item>
     </array>

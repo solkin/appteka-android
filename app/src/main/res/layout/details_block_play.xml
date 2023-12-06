@@ -204,7 +204,7 @@
                     android:layout_width="26sp"
                     android:layout_height="26sp"
                     android:contentDescription="@string/exclusive_short"
-                    android:src="@drawable/creation"
+                    android:src="@drawable/ic_creation"
                     app:tint="?text_primary_color" />
 
                 <TextView

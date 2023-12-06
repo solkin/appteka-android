@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            tools:src="@drawable/crown"
+            tools:src="@drawable/ic_crown"
             tools:tint="@android:color/white" />
 
     </FrameLayout>

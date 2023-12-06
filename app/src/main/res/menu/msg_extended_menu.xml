@@ -6,7 +6,7 @@
         android:title="@string/reply" />
     <item
         android:id="@+id/menu_copy"
-        android:icon="@drawable/content_copy"
+        android:icon="@drawable/ic_content_copy"
         android:title="@string/copy" />
     <item
         android:id="@+id/menu_profile"
