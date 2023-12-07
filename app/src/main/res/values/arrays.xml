@@ -52,20 +52,6 @@
         <item>@string/find_on_store</item>
     </string-array>
 
-    <string-array name="message_actions_titles">
-        <item>@string/reply</item>
-        <item>@string/copy</item>
-        <item>@string/profile</item>
-        <item>@string/report</item>
-    </string-array>
-
-    <string-array name="self_message_actions_titles">
-        <item>@string/reply</item>
-        <item>@string/copy</item>
-        <item>@string/profile</item>
-        <item>@string/delete</item>
-    </string-array>
-
     <array name="app_actions_icons">
         <item>@drawable/ic_run</item>
         <item>@drawable/ic_share</item>
@@ -94,13 +80,6 @@
         <item>@drawable/ic_cloud_upload</item>
         <item>@drawable/ic_google_play</item>
         <item>@drawable/ic_store</item>
-    </array>
-
-    <array name="message_actions_icons">
-        <item>@drawable/ic_reply</item>
-        <item>@drawable/ic_content_copy</item>
-        <item>@drawable/ic_account</item>
-        <item>@drawable/ic_delete_forever</item>
     </array>
 
     <string-array name="rating_actions_titles">

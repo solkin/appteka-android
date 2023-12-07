@@ -4,9 +4,5 @@
     <bool name="pref_show_system_default">false</bool>
     <string name="pref_sort_order_default" translatable="false">@string/sort_order_ascending_value</string>
     <integer name="pref_last_run_build_number_default">0</integer>
-    <bool name="pref_responsibility_denial_default">true</bool>
     <bool name="pref_upload_notice_default">true</bool>
-    <string name="pref_count_time_default" translatable="false">0</string>
-    <string name="pref_unread_count_default" translatable="false">0</string>
-    <bool name="pref_discuss_intro_default">true</bool>
 </resources>

@@ -6,10 +6,7 @@
     <color name="primary_color">#32A304</color>
     <color name="primary_dark_color">#2A8A03</color>
 
-    <color name="chocolate_color">#894121</color>
-
     <color name="badge_color">#f79406</color>
-    <color name="badge_corner_color">#de8505</color>
 
     <color name="unread_color">#ff0010</color>
     <color name="unread_corner_color">#e6000e</color>
@@ -37,13 +34,10 @@
     <color name="chat_time_color">#666666</color>
     <color name="inc_text_color">#FFFFFF</color>
     <color name="out_text_color">#454545</color>
-    <color name="chat_service_color">#454545</color>
     <color name="compose_background_color_light">#f4ffffff</color>
     <color name="compose_background_color_dark">#f4000000</color>
     <color name="discuss_bubble_color_light">@android:color/white</color>
     <color name="discuss_bubble_color_dark">#222222</color>
-
-    <color name="rating_box_background">#07000000</color>
 
     <color name="user_uploads_color">#228acb</color>
     <color name="user_downloads_color">#6bb294</color>
@@ -234,10 +228,6 @@
     </style>
 
     <style name="MaterialButtonSecondaryOutline" parent="@style/Widget.MaterialComponents.Button.OutlinedButton">
-        <item name="textAllCaps">false</item>
-    </style>
-
-    <style name="MaterialButtonSecondaryText" parent="@style/Widget.MaterialComponents.Button.TextButton">
         <item name="textAllCaps">false</item>
     </style>
 
