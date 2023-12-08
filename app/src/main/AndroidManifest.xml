@@ -152,6 +152,9 @@
         <activity
             android:name=".screen.auth.verify_code.VerifyCodeActivity"
             android:label="@string/verify_email" />
+        <activity
+            android:name=".screen.permissions.PermissionsActivity"
+            android:label="@string/required_permissions" />
 
         <service android:name=".download.DownloadService" />
 

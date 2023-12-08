@@ -22,8 +22,6 @@ import com.tomclaw.appsend.R
 import com.tomclaw.appsend.download.createDownloadIntent
 import com.tomclaw.appsend.main.abuse.AbuseActivity.createAbuseActivityIntent
 import com.tomclaw.appsend.main.home.HomeActivity.createStoreActivityIntent
-import com.tomclaw.appsend.main.permissions.PermissionsActivity_
-import com.tomclaw.appsend.main.permissions.PermissionsList
 import com.tomclaw.appsend.main.profile.ProfileActivity_
 import com.tomclaw.appsend.main.ratings.RatingsActivity_
 import com.tomclaw.appsend.main.unlink.UnlinkActivity.createUnlinkActivityIntent
@@ -31,6 +29,7 @@ import com.tomclaw.appsend.main.unpublish.UnpublishActivity.createUnpublishActiv
 import com.tomclaw.appsend.screen.auth.request_code.createRequestCodeActivityIntent
 import com.tomclaw.appsend.screen.chat.createChatActivityIntent
 import com.tomclaw.appsend.screen.details.di.DetailsModule
+import com.tomclaw.appsend.screen.permissions.createPermissionsActivityIntent
 import com.tomclaw.appsend.screen.rate.createRateActivityIntent
 import com.tomclaw.appsend.screen.upload.createUploadActivityIntent
 import com.tomclaw.appsend.upload.UploadPackage
@@ -200,9 +199,8 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
     }
 
     override fun openPermissionsScreen(permissions: List<String>) {
-        PermissionsActivity_.intent(this)
-            .permissions(PermissionsList(ArrayList(permissions)))
-            .start()
+        val intent = createPermissionsActivityIntent(context = this, permissions)
+        startActivity(intent)
     }
 
     override fun openRatingsScreen(appId: String) {

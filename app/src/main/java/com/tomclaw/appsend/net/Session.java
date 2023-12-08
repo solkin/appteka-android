@@ -4,8 +4,6 @@ import android.content.Context;
 
 import com.tomclaw.appsend.Appteka;
 import com.tomclaw.appsend.core.StoreServiceHolder;
-import com.tomclaw.appsend.core.TaskExecutor;
-import com.tomclaw.appsend.main.home.UserRegisterTask;
 import com.tomclaw.appsend.util.LegacyLogger;
 
 import org.androidannotations.annotations.Bean;

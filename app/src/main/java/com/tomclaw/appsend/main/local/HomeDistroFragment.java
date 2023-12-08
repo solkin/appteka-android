@@ -2,6 +2,7 @@ package com.tomclaw.appsend.main.local;
 
 import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
 import static com.tomclaw.appsend.screen.details.DetailsActivityKt.createDetailsActivityIntent;
+import static com.tomclaw.appsend.screen.permissions.PermissionsActivityKt.createPermissionsActivityIntent;
 import static com.tomclaw.appsend.screen.upload.UploadActivityKt.createUploadActivityIntent;
 import static com.tomclaw.appsend.util.IntentHelper.bluetoothApk;
 import static com.tomclaw.appsend.util.IntentHelper.openGooglePlay;
@@ -19,8 +20,6 @@ import com.greysonparrelli.permiso.Permiso;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.main.adapter.MenuAdapter;
 import com.tomclaw.appsend.main.item.ApkItem;
-import com.tomclaw.appsend.main.permissions.PermissionsActivity_;
-import com.tomclaw.appsend.main.permissions.PermissionsList;
 import com.tomclaw.appsend.upload.UploadApk;
 import com.tomclaw.appsend.upload.UploadPackage;
 import com.tomclaw.appsend.util.IntentHelper;
@@ -113,9 +112,8 @@ public class HomeDistroFragment extends DistroFragment {
                             try {
                                 PackageInfo packageInfo = item.getPackageInfo();
                                 List<String> permissions = Arrays.asList(packageInfo.requestedPermissions);
-                                PermissionsActivity_.intent(getContext())
-                                        .permissions(new PermissionsList(new ArrayList<>(permissions)))
-                                        .start();
+                                Intent intent = createPermissionsActivityIntent(getContext(), permissions);
+                                startActivity(intent);
                             } catch (Throwable ex) {
                                 Snackbar.make(recycler, R.string.unable_to_get_permissions, Snackbar.LENGTH_LONG).show();
                             }

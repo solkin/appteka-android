@@ -3,6 +3,7 @@ package com.tomclaw.appsend.di
 import android.app.Application
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
+import android.content.pm.PackageManager
 import android.os.Environment
 import android.os.Environment.DIRECTORY_DOWNLOADS
 import com.chuckerteam.chucker.api.ChuckerInterceptor
@@ -121,6 +122,12 @@ class AppModule(private val app: Application) {
     internal fun providePackageObserver(
         context: Context
     ): PackageObserver = PackageObserverImpl(context, context.packageManager)
+
+    @Provides
+    @Singleton
+    internal fun provideManager(
+        context: Context
+    ): PackageManager = context.packageManager
 
     @Provides
     @Singleton
