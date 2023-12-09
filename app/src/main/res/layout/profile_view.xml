@@ -34,7 +34,6 @@
                 android:gravity="center_horizontal"
                 android:paddingTop="16dp"
                 android:textSize="16sp"
-                tools:targetApi="jelly_bean"
                 tools:text="Guitar" />
 
             <TextView
@@ -46,7 +45,6 @@
                 android:paddingTop="6dp"
                 android:textSize="12sp"
                 android:textStyle="bold"
-                tools:targetApi="jelly_bean"
                 tools:text="Moderator" />
 
             <TextView
@@ -59,7 +57,6 @@
                 android:textSize="12sp"
                 android:textStyle="normal"
                 android:typeface="monospace"
-                tools:targetApi="jelly_bean"
                 tools:text="User ID: 427" />
 
             <TextView
@@ -70,7 +67,6 @@
                 android:gravity="center_horizontal"
                 android:paddingTop="6dp"
                 android:textSize="12sp"
-                tools:targetApi="jelly_bean"
                 tools:text="Joined 17.10.2017" />
 
             <TextView
@@ -81,7 +77,6 @@
                 android:gravity="center_horizontal"
                 android:paddingTop="6dp"
                 android:textSize="12sp"
-                tools:targetApi="jelly_bean"
                 tools:text="Last seen yesterday" />
 
             <com.google.android.material.button.MaterialButton
