@@ -5,7 +5,9 @@ import android.content.pm.PackageManager.GET_META_DATA
 import android.content.pm.PermissionInfo
 import android.os.Build
 import android.os.Parcelable
+import com.tomclaw.appsend.util.capitalize
 import kotlinx.parcelize.Parcelize
+import java.util.Locale
 
 interface PermissionInfoProvider {
 
@@ -14,7 +16,8 @@ interface PermissionInfoProvider {
 }
 
 class PermissionInfoProviderImpl(
-    private val packageManager: PackageManager
+    private val packageManager: PackageManager,
+    private val locale: Locale
 ) : PermissionInfoProvider {
 
     override fun getPermissionBrief(permission: String): PermissionBrief {
@@ -22,7 +25,7 @@ class PermissionInfoProviderImpl(
         var dangerous: Boolean
         try {
             val permissionInfo = packageManager.getPermissionInfo(permission, GET_META_DATA)
-            description = permissionInfo.loadLabel(packageManager).toString()
+            description = permissionInfo.loadLabel(packageManager).toString().capitalize(locale)
             dangerous = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 permissionInfo.protection == PermissionInfo.PROTECTION_DANGEROUS
             } else {

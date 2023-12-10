@@ -13,6 +13,8 @@ import com.tomclaw.appsend.screen.permissions.PermissionsConverter
 import com.tomclaw.appsend.screen.permissions.PermissionsConverterImpl
 import com.tomclaw.appsend.screen.permissions.PermissionsPresenter
 import com.tomclaw.appsend.screen.permissions.PermissionsPresenterImpl
+import com.tomclaw.appsend.screen.permissions.PermissionsResourceProvider
+import com.tomclaw.appsend.screen.permissions.PermissionsResourceProviderImpl
 import com.tomclaw.appsend.screen.permissions.adapter.safe.SafePermissionItemBlueprint
 import com.tomclaw.appsend.screen.permissions.adapter.safe.SafePermissionItemPresenter
 import com.tomclaw.appsend.screen.permissions.adapter.unsafe.UnsafePermissionItemBlueprint
@@ -23,6 +25,7 @@ import dagger.Lazy
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoSet
+import java.util.Locale
 
 @Module
 class PermissionsModule(
@@ -42,8 +45,17 @@ class PermissionsModule(
 
     @Provides
     @PerActivity
-    internal fun providePermissionInfoProvider(packageManager: PackageManager): PermissionInfoProvider {
-        return PermissionInfoProviderImpl(packageManager)
+    internal fun providePermissionInfoProvider(
+        packageManager: PackageManager,
+        locale: Locale
+    ): PermissionInfoProvider {
+        return PermissionInfoProviderImpl(packageManager, locale)
+    }
+
+    @Provides
+    @PerActivity
+    internal fun providePermissionsResourceProvider(): PermissionsResourceProvider {
+        return PermissionsResourceProviderImpl(context.resources)
     }
 
     @Provides
@@ -79,7 +91,9 @@ class PermissionsModule(
 
     @Provides
     @PerActivity
-    internal fun provideSafePermissionItemPresenter() = SafePermissionItemPresenter()
+    internal fun provideSafePermissionItemPresenter(
+        resourceProvider: PermissionsResourceProvider
+    ) = SafePermissionItemPresenter(resourceProvider)
 
     @Provides
     @IntoSet
@@ -90,6 +104,8 @@ class PermissionsModule(
 
     @Provides
     @PerActivity
-    internal fun provideUnsafePermissionItemPresenter() = UnsafePermissionItemPresenter()
+    internal fun provideUnsafePermissionItemPresenter(
+        resourceProvider: PermissionsResourceProvider
+    ) = UnsafePermissionItemPresenter(resourceProvider)
 
 }
