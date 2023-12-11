@@ -28,7 +28,6 @@ import com.tomclaw.appsend.upload.UploadPackage;
 
 import org.androidannotations.annotations.EFragment;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 

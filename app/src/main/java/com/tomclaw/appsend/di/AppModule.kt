@@ -4,6 +4,8 @@ import android.app.Application
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.pm.PackageManager
+import android.content.res.Resources
+import android.os.Build
 import android.os.Environment
 import android.os.Environment.DIRECTORY_DOWNLOADS
 import com.chuckerteam.chucker.api.ChuckerInterceptor
@@ -14,6 +16,9 @@ import com.tomclaw.appsend.categories.CategoriesInteractorImpl
 import com.tomclaw.appsend.core.Config
 import com.tomclaw.appsend.core.PersistentCookieJar
 import com.tomclaw.appsend.core.StoreApi
+import com.tomclaw.appsend.core.UserAgentInterceptor
+import com.tomclaw.appsend.core.UserAgentProvider
+import com.tomclaw.appsend.core.UserAgentProviderImpl
 import com.tomclaw.appsend.download.DownloadManager
 import com.tomclaw.appsend.download.DownloadManagerImpl
 import com.tomclaw.appsend.download.DownloadNotifications
@@ -81,6 +86,13 @@ class AppModule(private val app: Application) {
     @Named(DATE_FORMATTER)
     internal fun provideDateFormatter(locale: Locale): DateFormat =
         SimpleDateFormat("dd.MM.yy", locale)
+
+    @Provides
+    @Singleton
+    internal fun provideUserAgentProvider(
+        packageManager: PackageManager,
+        locale: Locale
+    ): UserAgentProvider = UserAgentProviderImpl(app, packageManager, locale)
 
     @Provides
     @Singleton
@@ -153,9 +165,11 @@ class AppModule(private val app: Application) {
     @Singleton
     internal fun provideHttClient(
         cookieJar: CookieJar,
+        userAgentProvider: UserAgentProvider,
     ): OkHttpClient = OkHttpClient.Builder()
         .readTimeout(2, TimeUnit.MINUTES)
         .connectTimeout(20, TimeUnit.SECONDS)
+        .addInterceptor(UserAgentInterceptor(userAgentProvider.getUserAgent()))
         .addInterceptor(ChuckerInterceptor.Builder(app).build())
         .cookieJar(cookieJar)
         .build()
