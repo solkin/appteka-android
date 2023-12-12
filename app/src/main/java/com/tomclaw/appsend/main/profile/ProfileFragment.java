@@ -149,14 +149,7 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
     @AfterViews
     void init() {
         swipeRefresh.setOnRefreshListener(this::loadProfile);
-
-        if (profile != null) {
-            bindProfile();
-        } else if (isError) {
-            showError();
-        } else {
-            reloadProfile();
-        }
+        bindData();
     }
 
     @Override
@@ -219,6 +212,16 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
         showProgress();
         changeRole(item.getItemId());
         return super.onContextItemSelected(item);
+    }
+
+    private void bindData() {
+        if (profile != null) {
+            bindProfile();
+        } else if (isError) {
+            showError();
+        } else {
+            reloadProfile();
+        }
     }
 
     @Click(R.id.change_role_button)
@@ -341,7 +344,7 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
     }
 
     private void bindProfile() {
-        if (!isVisible()) return;
+        if (!isAdded()) return;
         Context context = getContext();
         boolean isModerator = profile.getRole() >= ROLE_MODERATOR;
         boolean isPublicProfile = userId != null && userId != 0;
@@ -522,10 +525,6 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
     private void showDistroApks() {
         DistroActivity_.intent(this).start();
         trackEvent("click-distro-apks");
-    }
-
-    private boolean isThreadOwner() {
-        return profile.getUserId() == 1;
     }
 
     private void showError() {
