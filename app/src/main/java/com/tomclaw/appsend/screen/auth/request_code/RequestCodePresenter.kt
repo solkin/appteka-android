@@ -106,6 +106,8 @@ class RequestCodePresenterImpl(
                     is HttpException -> {
                         if (it.code() == 429) {
                             view?.showError(resourceProvider.getRateLimitError())
+                        } else if (it.code() == 423) {
+                            view?.showError(resourceProvider.getDomainBlockedError())
                         } else {
                             view?.showError(resourceProvider.getServiceError())
                         }

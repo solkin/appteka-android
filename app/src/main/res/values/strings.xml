@@ -302,4 +302,5 @@
     <string name="authorization_description">Log in and take advantage of Appteka\'s personal capabilities</string>
     <string name="login_is_needed_warning">Please sign in to continue using all Appteka features</string>
     <string name="relogin_is_needed_warning">Please sign in again in to continue using all Appteka features</string>
+    <string name="error_domain_blocked">Temporary emails are prohibited</string>
 </resources>
