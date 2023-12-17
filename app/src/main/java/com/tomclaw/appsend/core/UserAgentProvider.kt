@@ -20,7 +20,7 @@ class UserAgentProviderImpl(
 
     override fun getUserAgent(): String {
         val info = packageManager.getPackageInfo(context.packageName, 0)
-        return String.format("Appteka/%s.%d (%s; %s; sdk:%d; %s; %s-%s)", info.versionName, info.versionCodeCompat(), Build.MANUFACTURER, Build.MODEL, Build.VERSION.SDK_INT, info.packageName, locale.language, locale.country)
+        return String.format(Locale.ENGLISH, "Appteka/%s.%d (%s; %s; sdk:%d; %s; %s-%s)", info.versionName, info.versionCodeCompat(), Build.MANUFACTURER, Build.MODEL, Build.VERSION.SDK_INT, info.packageName, locale.language, locale.country)
     }
 
 }
