@@ -559,6 +559,10 @@ class DetailsPresenterImpl(
         }
     }
 
+    override fun onScreenshotClick(url: String) {
+
+    }
+
 }
 
 private const val KEY_DETAILS = "details"

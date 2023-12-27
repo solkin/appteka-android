@@ -28,4 +28,6 @@ interface ItemListener {
 
     fun onStatusAction(type: StatusAction)
 
+    fun onScreenshotClick(url: String)
+
 }

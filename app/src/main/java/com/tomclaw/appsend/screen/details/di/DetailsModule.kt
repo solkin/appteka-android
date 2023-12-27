@@ -41,6 +41,9 @@ import com.tomclaw.appsend.screen.details.adapter.rating.RatingItemBlueprint
 import com.tomclaw.appsend.screen.details.adapter.rating.RatingItemPresenter
 import com.tomclaw.appsend.screen.details.adapter.scores.ScoresItemBlueprint
 import com.tomclaw.appsend.screen.details.adapter.scores.ScoresItemPresenter
+import com.tomclaw.appsend.screen.details.adapter.screenshots.ScreenshotsAdapter
+import com.tomclaw.appsend.screen.details.adapter.screenshots.ScreenshotsItemBlueprint
+import com.tomclaw.appsend.screen.details.adapter.screenshots.ScreenshotsItemPresenter
 import com.tomclaw.appsend.screen.details.adapter.status.StatusItemBlueprint
 import com.tomclaw.appsend.screen.details.adapter.status.StatusItemPresenter
 import com.tomclaw.appsend.screen.details.adapter.user_rate.UserRateItemBlueprint
@@ -316,5 +319,25 @@ class DetailsModule(
     internal fun provideStatusItemPresenter(
         presenter: DetailsPresenter,
     ) = StatusItemPresenter(presenter)
+
+    @Provides
+    @IntoSet
+    @PerActivity
+    internal fun provideScreenshotsItemBlueprint(
+        presenter: ScreenshotsItemPresenter,
+        adapter: ScreenshotsAdapter,
+    ): ItemBlueprint<*, *> = ScreenshotsItemBlueprint(presenter, adapter)
+
+    @Provides
+    @PerActivity
+    internal fun provideScreenshotsItemPresenter(
+        presenter: DetailsPresenter,
+    ) = ScreenshotsItemPresenter(presenter)
+
+    @Provides
+    @PerActivity
+    internal fun provideScreenshotsItemAdapter(
+        presenter: DetailsPresenter,
+    ) = ScreenshotsAdapter()
 
 }
