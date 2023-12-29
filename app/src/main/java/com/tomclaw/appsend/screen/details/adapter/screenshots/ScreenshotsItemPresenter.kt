@@ -8,8 +8,8 @@ class ScreenshotsItemPresenter(
 ) : ItemPresenter<ScreenshotsItemView, ScreenshotsItem> {
 
     override fun bindView(view: ScreenshotsItemView, item: ScreenshotsItem, position: Int) {
-        view.setScreenshots(item.urls)
-        view.setOnClickListener { url -> listener.onScreenshotClick(url) }
+        view.setScreenshots(item.items)
+        view.setOnClickListener { s -> listener.onScreenshotClick(s) }
     }
 
 }

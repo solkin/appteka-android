@@ -7,5 +7,5 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class ScreenshotsItem(
     override val id: Long,
-    val urls: List<String>,
+    val items: List<Screenshot>,
 ) : Item, Parcelable

@@ -10,22 +10,22 @@ import com.tomclaw.appsend.R
 
 interface ScreenshotsItemView : ItemView {
 
-    fun setScreenshots(urls: List<String>)
+    fun setScreenshots(items: List<Screenshot>)
 
-    fun setOnClickListener(listener: ((String) -> Unit)?)
+    fun setOnClickListener(listener: ((Screenshot) -> Unit)?)
 
 }
 
 class ScreenshotsItemViewHolder(
     view: View,
-    adapter: ScreenshotsAdapter,
+    private val adapter: ScreenshotsAdapter,
 ) : BaseViewHolder(view), ScreenshotsItemView {
 
     private val recycler: RecyclerView = view.findViewById(R.id.recycler)
 
     private val layoutManager: LinearLayoutManager
 
-    private var clickListener: ((String) -> Unit)? = null
+    private var clickListener: ((Screenshot) -> Unit)? = null
 
     init {
         val orientation = RecyclerView.HORIZONTAL
@@ -38,11 +38,11 @@ class ScreenshotsItemViewHolder(
         recycler.itemAnimator?.changeDuration = DURATION_MEDIUM
     }
 
-    override fun setScreenshots(urls: List<String>) {
-
+    override fun setScreenshots(items: List<Screenshot>) {
+        adapter.setItems(items)
     }
 
-    override fun setOnClickListener(listener: ((String) -> Unit)?) {
+    override fun setOnClickListener(listener: ((Screenshot) -> Unit)?) {
         this.clickListener = listener
     }
 

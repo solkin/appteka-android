@@ -15,7 +15,7 @@
 
         <ImageView
             android:id="@+id/screenshot"
-            android:layout_width="wrap_content"
+            android:layout_width="75dp"
             android:layout_height="156dp"
             android:layout_gravity="center_vertical"
             android:contentDescription="@string/app_icon"

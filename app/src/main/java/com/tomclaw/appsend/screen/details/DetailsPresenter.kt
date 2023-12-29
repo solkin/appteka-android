@@ -9,6 +9,7 @@ import com.tomclaw.appsend.download.COMPLETED
 import com.tomclaw.appsend.download.DownloadManager
 import com.tomclaw.appsend.download.IDLE
 import com.tomclaw.appsend.screen.details.adapter.ItemListener
+import com.tomclaw.appsend.screen.details.adapter.screenshots.Screenshot
 import com.tomclaw.appsend.screen.details.adapter.status.StatusAction
 import com.tomclaw.appsend.screen.details.api.ACTION_DELETE
 import com.tomclaw.appsend.screen.details.api.ACTION_EDIT_META
@@ -559,7 +560,7 @@ class DetailsPresenterImpl(
         }
     }
 
-    override fun onScreenshotClick(url: String) {
+    override fun onScreenshotClick(s: Screenshot) {
 
     }
 

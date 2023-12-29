@@ -1,5 +1,6 @@
 package com.tomclaw.appsend.screen.details.adapter
 
+import com.tomclaw.appsend.screen.details.adapter.screenshots.Screenshot
 import com.tomclaw.appsend.screen.details.adapter.status.StatusAction
 
 interface ItemListener {
@@ -28,6 +29,6 @@ interface ItemListener {
 
     fun onStatusAction(type: StatusAction)
 
-    fun onScreenshotClick(url: String)
+    fun onScreenshotClick(s: Screenshot)
 
 }

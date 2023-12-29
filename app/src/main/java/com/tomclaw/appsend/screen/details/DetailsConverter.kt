@@ -9,6 +9,8 @@ import com.tomclaw.appsend.screen.details.adapter.permissions.PermissionsItem
 import com.tomclaw.appsend.screen.details.adapter.play.PlayItem
 import com.tomclaw.appsend.screen.details.adapter.rating.RatingItem
 import com.tomclaw.appsend.screen.details.adapter.scores.ScoresItem
+import com.tomclaw.appsend.screen.details.adapter.screenshots.Screenshot
+import com.tomclaw.appsend.screen.details.adapter.screenshots.ScreenshotsItem
 import com.tomclaw.appsend.screen.details.adapter.status.StatusAction
 import com.tomclaw.appsend.screen.details.adapter.status.StatusItem
 import com.tomclaw.appsend.screen.details.adapter.status.StatusType
@@ -116,6 +118,36 @@ class DetailsConverterImpl(
             expiresIn = details.expiresIn,
             installedVersionCode = installedVersionCode,
             downloadState = downloadState,
+        )
+        items += ScreenshotsItem(
+            id = id++,
+            items = listOf(
+                Screenshot(
+                    "https://f-droid.org/repo/com.github.cvzi.screenshottile/en-US/phoneScreenshots/1_en-US.png",
+                    1080,
+                    2220
+                ),
+                Screenshot(
+                    "https://cdn.digitbin.com/wp-content/uploads/Display_options.jpg",
+                    1080,
+                    2412
+                ),
+                Screenshot(
+                    "https://cdn.afterdawn.fi/storage/pictures/1920/guide-force-landscape-android-landscape.jpg",
+                    1920,
+                    1080
+                ),
+                Screenshot(
+                    "https://images.wondershare.com/images/mobile/mobilego/android-screenshot2.jpg",
+                    281,
+                    500
+                ),
+                Screenshot(
+                    "https://www.guidingtech.com/wp-content/uploads/Take-Screenshot-With-Google-Assistant.jpg",
+                    782,
+                    1602
+                )
+            )
         )
         if (details.userRating != null) {
             items += UserReviewItem(
