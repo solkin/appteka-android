@@ -43,3 +43,15 @@ fun <T : Parcelable> Intent.getParcelableExtraCompat(key: String, clazz: Class<T
         getParcelableExtra(key)
     }
 }
+
+fun <T : Parcelable> Intent.getParcelableArrayListCompat(
+    key: String,
+    clazz: Class<T>
+): ArrayList<T>? {
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+        getParcelableArrayListExtra(key, clazz)
+    } else {
+        @Suppress("DEPRECATION")
+        getParcelableArrayListExtra(key)
+    }
+}

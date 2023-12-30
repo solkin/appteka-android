@@ -14,6 +14,8 @@ import com.tomclaw.appsend.screen.details.di.DetailsComponent
 import com.tomclaw.appsend.screen.details.di.DetailsModule
 import com.tomclaw.appsend.screen.favorite.di.FavoriteComponent
 import com.tomclaw.appsend.screen.favorite.di.FavoriteModule
+import com.tomclaw.appsend.screen.gallery.di.GalleryComponent
+import com.tomclaw.appsend.screen.gallery.di.GalleryModule
 import com.tomclaw.appsend.screen.moderation.di.ModerationComponent
 import com.tomclaw.appsend.screen.moderation.di.ModerationModule
 import com.tomclaw.appsend.screen.permissions.di.PermissionsComponent
@@ -60,6 +62,8 @@ interface AppComponent {
     fun verifyCodeComponent(module: VerifyCodeModule): VerifyCodeComponent
 
     fun permissionsComponent(module: PermissionsModule): PermissionsComponent
+
+    fun galleryComponent(module: GalleryModule): GalleryComponent
 
     fun legacyComponent(module: LegacyModule): LegacyComponent
 

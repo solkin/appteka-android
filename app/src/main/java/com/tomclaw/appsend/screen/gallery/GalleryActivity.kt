@@ -1,0 +1,82 @@
+package com.tomclaw.appsend.screen.gallery
+
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import com.tomclaw.appsend.Appteka
+import com.tomclaw.appsend.R
+import com.tomclaw.appsend.screen.gallery.di.GalleryModule
+import com.tomclaw.appsend.util.ThemeHelper
+import com.tomclaw.appsend.util.getParcelableArrayListCompat
+import javax.inject.Inject
+
+class GalleryActivity : AppCompatActivity(), GalleryPresenter.GalleryRouter {
+
+    @Inject
+    lateinit var presenter: GalleryPresenter
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        val items = intent.getParcelableArrayListCompat(EXTRA_ITEMS, GalleryItem::class.java)
+            ?: throw IllegalArgumentException("Extra items must be provided")
+
+        val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
+        Appteka.getComponent()
+            .galleryComponent(GalleryModule(this, items, presenterState))
+            .inject(activity = this)
+        ThemeHelper.updateTheme(this)
+
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.gallery_activity)
+
+        val view = GalleryViewImpl(window.decorView)
+
+        presenter.attachView(view)
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onBackPressed() {
+        super.onBackPressed()
+        presenter.onBackPressed()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        presenter.attachRouter(this)
+    }
+
+    override fun onStop() {
+        presenter.detachRouter()
+        super.onStop()
+    }
+
+    override fun onDestroy() {
+        presenter.detachView()
+        super.onDestroy()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putBundle(KEY_PRESENTER_STATE, presenter.saveState())
+    }
+
+    override fun leaveScreen(success: Boolean) {
+        if (success) {
+            setResult(Activity.RESULT_OK)
+        } else {
+            setResult(Activity.RESULT_CANCELED)
+        }
+        finish()
+    }
+
+}
+
+fun createGalleryActivityIntent(
+    context: Context,
+    items: List<GalleryItem>,
+): Intent = Intent(context, GalleryActivity::class.java)
+    .putParcelableArrayListExtra(EXTRA_ITEMS, ArrayList(items))
+
+private const val EXTRA_ITEMS = "items"
+private const val KEY_PRESENTER_STATE = "presenter_state"
