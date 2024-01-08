@@ -9,7 +9,7 @@ class ScreenshotsItemPresenter(
 
     override fun bindView(view: ScreenshotsItemView, item: ScreenshotsItem, position: Int) {
         view.setScreenshots(item.items)
-        view.setOnClickListener { s -> listener.onScreenshotClick(s) }
+        view.setOnClickListener { clicked -> listener.onScreenshotClick(item.items, item.items.indexOf(clicked)) }
     }
 
 }

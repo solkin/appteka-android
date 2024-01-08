@@ -155,6 +155,7 @@
         <activity
             android:name=".screen.permissions.PermissionsActivity"
             android:label="@string/required_permissions" />
+        <activity android:name=".screen.gallery.GalleryActivity" />
 
         <service android:name=".download.DownloadService" />
 

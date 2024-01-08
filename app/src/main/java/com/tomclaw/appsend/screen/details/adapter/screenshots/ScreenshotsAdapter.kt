@@ -64,7 +64,7 @@ class ScreenshotViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val width = image.layoutParams.height * aspectRatio
         image.layoutParams.width = width.toInt()
 
-        image.fetch(screenshot.url) {
+        image.fetch(screenshot.uri.toString()) {
             centerCrop()
             placeholder = {
                 with(it.get()) {

@@ -1,5 +1,6 @@
 package com.tomclaw.appsend.screen.details
 
+import android.net.Uri
 import com.avito.konveyor.blueprint.Item
 import com.tomclaw.appsend.screen.details.adapter.controls.ControlsItem
 import com.tomclaw.appsend.screen.details.adapter.description.DescriptionItem
@@ -123,27 +124,27 @@ class DetailsConverterImpl(
             id = id++,
             items = listOf(
                 Screenshot(
-                    "https://f-droid.org/repo/com.github.cvzi.screenshottile/en-US/phoneScreenshots/1_en-US.png",
+                    Uri.parse("https://f-droid.org/repo/com.github.cvzi.screenshottile/en-US/phoneScreenshots/1_en-US.png"),
                     1080,
                     2220
                 ),
                 Screenshot(
-                    "https://cdn.digitbin.com/wp-content/uploads/Display_options.jpg",
+                    Uri.parse("https://cdn.digitbin.com/wp-content/uploads/Display_options.jpg"),
                     1080,
                     2412
                 ),
                 Screenshot(
-                    "https://cdn.afterdawn.fi/storage/pictures/1920/guide-force-landscape-android-landscape.jpg",
+                    Uri.parse("https://cdn.afterdawn.fi/storage/pictures/1920/guide-force-landscape-android-landscape.jpg"),
                     1920,
                     1080
                 ),
                 Screenshot(
-                    "https://images.wondershare.com/images/mobile/mobilego/android-screenshot2.jpg",
+                    Uri.parse("https://images.wondershare.com/images/mobile/mobilego/android-screenshot2.jpg"),
                     281,
                     500
                 ),
                 Screenshot(
-                    "https://www.guidingtech.com/wp-content/uploads/Take-Screenshot-With-Google-Assistant.jpg",
+                    Uri.parse("https://www.guidingtech.com/wp-content/uploads/Take-Screenshot-With-Google-Assistant.jpg"),
                     782,
                     1602
                 )

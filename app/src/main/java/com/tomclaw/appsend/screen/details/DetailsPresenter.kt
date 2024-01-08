@@ -16,6 +16,7 @@ import com.tomclaw.appsend.screen.details.api.ACTION_EDIT_META
 import com.tomclaw.appsend.screen.details.api.ACTION_UNLINK
 import com.tomclaw.appsend.screen.details.api.ACTION_UNPUBLISH
 import com.tomclaw.appsend.screen.details.api.Details
+import com.tomclaw.appsend.screen.gallery.GalleryItem
 import com.tomclaw.appsend.user.api.UserBrief
 import com.tomclaw.appsend.util.NOT_INSTALLED
 import com.tomclaw.appsend.util.PackageObserver
@@ -24,12 +25,9 @@ import com.tomclaw.appsend.util.filterUnauthorizedErrors
 import com.tomclaw.appsend.util.getParcelableCompat
 import com.tomclaw.appsend.util.retryWhenNonAuthErrors
 import dagger.Lazy
-import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
-import retrofit2.HttpException
 import java.io.File
-import java.util.concurrent.TimeUnit
 
 interface DetailsPresenter : ItemListener {
 
@@ -105,6 +103,8 @@ interface DetailsPresenter : ItemListener {
         fun openShare(title: String, text: String)
 
         fun openLoginScreen()
+
+        fun openGallery(items: List<GalleryItem>, current: Int)
 
     }
 
@@ -560,8 +560,11 @@ class DetailsPresenterImpl(
         }
     }
 
-    override fun onScreenshotClick(s: Screenshot) {
-
+    override fun onScreenshotClick(items: List<Screenshot>, clicked: Int) {
+        router?.openGallery(
+            items = items.map { GalleryItem(it.uri, it.width, it.height) },
+            current = clicked,
+        )
     }
 
 }

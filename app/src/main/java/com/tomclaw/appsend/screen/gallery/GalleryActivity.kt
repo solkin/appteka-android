@@ -5,6 +5,9 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.avito.konveyor.ItemBinder
+import com.avito.konveyor.adapter.AdapterPresenter
+import com.avito.konveyor.adapter.SimpleRecyclerAdapter
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.gallery.di.GalleryModule
@@ -17,20 +20,28 @@ class GalleryActivity : AppCompatActivity(), GalleryPresenter.GalleryRouter {
     @Inject
     lateinit var presenter: GalleryPresenter
 
+    @Inject
+    lateinit var adapterPresenter: AdapterPresenter
+
+    @Inject
+    lateinit var binder: ItemBinder
+
     override fun onCreate(savedInstanceState: Bundle?) {
         val items = intent.getParcelableArrayListCompat(EXTRA_ITEMS, GalleryItem::class.java)
             ?: throw IllegalArgumentException("Extra items must be provided")
+        val startIndex = intent.getIntExtra(EXTRA_START_INDEX, 0)
 
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
         Appteka.getComponent()
-            .galleryComponent(GalleryModule(this, items, presenterState))
+            .galleryComponent(GalleryModule(this, items, startIndex, presenterState))
             .inject(activity = this)
         ThemeHelper.updateTheme(this)
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.gallery_activity)
 
-        val view = GalleryViewImpl(window.decorView)
+        val adapter = SimpleRecyclerAdapter(adapterPresenter, binder)
+        val view = GalleryViewImpl(window.decorView, adapter)
 
         presenter.attachView(view)
     }
@@ -75,8 +86,11 @@ class GalleryActivity : AppCompatActivity(), GalleryPresenter.GalleryRouter {
 fun createGalleryActivityIntent(
     context: Context,
     items: List<GalleryItem>,
+    startIndex: Int,
 ): Intent = Intent(context, GalleryActivity::class.java)
     .putParcelableArrayListExtra(EXTRA_ITEMS, ArrayList(items))
+    .putExtra(EXTRA_START_INDEX, startIndex)
 
 private const val EXTRA_ITEMS = "items"
+private const val EXTRA_START_INDEX = "start_index"
 private const val KEY_PRESENTER_STATE = "presenter_state"

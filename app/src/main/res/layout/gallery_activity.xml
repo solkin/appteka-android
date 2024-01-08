@@ -24,19 +24,8 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/toolbar_background"
-            android:contentInsetStart="0dp"
-            android:contentInsetLeft="0dp"
-            android:contentInsetEnd="0dp"
-            android:contentInsetRight="0dp"
-            app:contentInsetEnd="0dp"
-            app:contentInsetLeft="0dp"
-            app:contentInsetRight="0dp"
-            app:contentInsetStart="0dp"
-            app:popupTheme="@style/AppTheme.PopupOverlay">
-
-            <include layout="@layout/icon_toolbar" />
-
-        </androidx.appcompat.widget.Toolbar>
+            app:navigationIcon="?attr/homeAsUpIndicator"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

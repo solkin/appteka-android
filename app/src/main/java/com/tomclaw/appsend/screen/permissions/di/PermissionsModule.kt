@@ -98,7 +98,7 @@ class PermissionsModule(
     @Provides
     @IntoSet
     @PerActivity
-    internal fun provideUnsafeItemBlueprint(
+    internal fun provideUnsafePermissionItemBlueprint(
         presenter: UnsafePermissionItemPresenter
     ): ItemBlueprint<*, *> = UnsafePermissionItemBlueprint(presenter)
 

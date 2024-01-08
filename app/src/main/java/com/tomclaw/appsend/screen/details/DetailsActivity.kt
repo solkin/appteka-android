@@ -29,6 +29,8 @@ import com.tomclaw.appsend.main.unpublish.UnpublishActivity.createUnpublishActiv
 import com.tomclaw.appsend.screen.auth.request_code.createRequestCodeActivityIntent
 import com.tomclaw.appsend.screen.chat.createChatActivityIntent
 import com.tomclaw.appsend.screen.details.di.DetailsModule
+import com.tomclaw.appsend.screen.gallery.GalleryItem
+import com.tomclaw.appsend.screen.gallery.createGalleryActivityIntent
 import com.tomclaw.appsend.screen.permissions.createPermissionsActivityIntent
 import com.tomclaw.appsend.screen.rate.createRateActivityIntent
 import com.tomclaw.appsend.screen.upload.createUploadActivityIntent
@@ -355,6 +357,11 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
 
     override fun openLoginScreen() {
         val intent = createRequestCodeActivityIntent(context = this)
+        startActivity(intent)
+    }
+
+    override fun openGallery(items: List<GalleryItem>, current: Int) {
+        val intent = createGalleryActivityIntent(context = this, items, current)
         startActivity(intent)
     }
 

@@ -29,6 +29,6 @@ interface ItemListener {
 
     fun onStatusAction(type: StatusAction)
 
-    fun onScreenshotClick(s: Screenshot)
+    fun onScreenshotClick(items: List<Screenshot>, clicked: Int)
 
 }
