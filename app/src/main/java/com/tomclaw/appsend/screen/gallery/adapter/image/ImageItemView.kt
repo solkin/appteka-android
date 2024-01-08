@@ -6,8 +6,8 @@ import android.widget.ImageView
 import com.avito.konveyor.adapter.BaseViewHolder
 import com.avito.konveyor.blueprint.ItemView
 import com.tomclaw.appsend.R
-import com.tomclaw.appsend.util.fetch
 import com.tomclaw.imageloader.util.centerInside
+import com.tomclaw.imageloader.util.fetch
 
 interface ImageItemView : ItemView {
 
