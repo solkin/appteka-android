@@ -9,6 +9,8 @@ import com.avito.konveyor.blueprint.ItemBlueprint
 import com.tomclaw.appsend.screen.gallery.GalleryItem
 import com.tomclaw.appsend.screen.gallery.GalleryPresenter
 import com.tomclaw.appsend.screen.gallery.GalleryPresenterImpl
+import com.tomclaw.appsend.screen.gallery.GalleryResourceProvider
+import com.tomclaw.appsend.screen.gallery.GalleryResourceProviderImpl
 import com.tomclaw.appsend.screen.gallery.adapter.image.ImageItemBlueprint
 import com.tomclaw.appsend.screen.gallery.adapter.image.ImageItemPresenter
 import com.tomclaw.appsend.util.PerActivity
@@ -17,6 +19,7 @@ import dagger.Lazy
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoSet
+import java.util.Locale
 
 @Module
 class GalleryModule(
@@ -29,11 +32,13 @@ class GalleryModule(
     @Provides
     @PerActivity
     internal fun providePresenter(
+        resourceProvider: GalleryResourceProvider,
         adapterPresenter: Lazy<AdapterPresenter>,
         schedulers: SchedulersFactory
     ): GalleryPresenter = GalleryPresenterImpl(
         items,
         startIndex,
+        resourceProvider,
         adapterPresenter,
         schedulers,
         state
@@ -65,5 +70,10 @@ class GalleryModule(
     @Provides
     @PerActivity
     internal fun provideImageItemPresenter() = ImageItemPresenter()
+
+    @Provides
+    @PerActivity
+    internal fun provideGalleryResourceProvider(locale: Locale): GalleryResourceProvider =
+        GalleryResourceProviderImpl(context.resources, locale)
 
 }

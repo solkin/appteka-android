@@ -34,6 +34,7 @@ interface GalleryPresenter {
 class GalleryPresenterImpl(
     private val items: List<GalleryItem>,
     startIndex: Int,
+    private val resourceProvider: GalleryResourceProvider,
     private val adapterPresenter: Lazy<AdapterPresenter>,
     private val schedulers: SchedulersFactory,
     state: Bundle?
@@ -42,7 +43,7 @@ class GalleryPresenterImpl(
     private var view: GalleryView? = null
     private var router: GalleryPresenter.GalleryRouter? = null
 
-    private var index: Int = state?.getInt(KEY_CURRENT_INDEX) ?: startIndex
+    private var pageIndex: Int = state?.getInt(KEY_PAGE_INDEX) ?: startIndex
 
     private val subscriptions = CompositeDisposable()
 
@@ -50,9 +51,16 @@ class GalleryPresenterImpl(
         this.view = view
 
         subscriptions += view.navigationClicks().subscribe { onBackPressed() }
-        subscriptions += view.activeChanged().subscribe { index = it }
+        subscriptions += view.pageChanged().subscribe { index ->
+            this.pageIndex = index
+            bindPageIndex()
+        }
 
         bindItems()
+    }
+
+    private fun bindPageIndex() {
+        view?.setTitle(resourceProvider.formatTitle(pageIndex + 1, items.size))
     }
 
     override fun detachView() {
@@ -68,7 +76,7 @@ class GalleryPresenterImpl(
     }
 
     override fun saveState(): Bundle = Bundle().apply {
-        putInt(KEY_CURRENT_INDEX, index)
+        putInt(KEY_PAGE_INDEX, pageIndex)
     }
 
     override fun onBackPressed() {
@@ -83,9 +91,10 @@ class GalleryPresenterImpl(
         )
         adapterPresenter.get().onDataSourceChanged(dataSource)
 
-        view?.setCurrentIndex(index)
+        view?.setCurrentIndex(pageIndex)
+        bindPageIndex()
     }
 
 }
 
-private const val KEY_CURRENT_INDEX = "index"
+private const val KEY_PAGE_INDEX = "page_index"

@@ -19,7 +19,7 @@ interface GalleryView {
 
     fun navigationClicks(): Observable<Unit>
 
-    fun activeChanged(): Observable<Int>
+    fun pageChanged(): Observable<Int>
 
 }
 
@@ -32,11 +32,11 @@ class GalleryViewImpl(
     private val toolbar: Toolbar = view.findViewById(R.id.toolbar)
 
     private val navigationRelay = PublishRelay.create<Unit>()
-    private val activeRelay = PublishRelay.create<Int>()
+    private val pageRelay = PublishRelay.create<Int>()
 
     private val callback = object : ViewPager2.OnPageChangeCallback() {
         override fun onPageSelected(position: Int) {
-            activeRelay.accept(position)
+            pageRelay.accept(position)
         }
     }
 
@@ -62,14 +62,14 @@ class GalleryViewImpl(
 
     override fun navigationClicks(): Observable<Unit> = navigationRelay
 
-    override fun activeChanged(): Observable<Int> = activeRelay
+    override fun pageChanged(): Observable<Int> = pageRelay
         .doOnSubscribe {
-            if (!activeRelay.hasObservers()) {
+            if (!pageRelay.hasObservers()) {
                 pager.registerOnPageChangeCallback(callback)
             }
         }
         .doFinally {
-            if (!activeRelay.hasObservers()) {
+            if (!pageRelay.hasObservers()) {
                 pager.unregisterOnPageChangeCallback(callback)
             }
         }

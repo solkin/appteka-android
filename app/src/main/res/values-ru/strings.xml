@@ -296,4 +296,5 @@
     <string name="login_is_needed_warning">Чтобы продолжить пользоваться всеми возможностями Appteka необходимо авторизоваться</string>
     <string name="relogin_is_needed_warning">Пожалуйста, войдите ещё раз, чтобы продолжить использовать все функции Appteka</string>
     <string name="error_domain_blocked">Временные адреса электронной почты запрещены</string>
+    <string name="gallery_title">%d / %d</string>
 </resources>
