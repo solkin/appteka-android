@@ -11,7 +11,6 @@ import com.avito.konveyor.adapter.SimpleRecyclerAdapter
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.gallery.di.GalleryModule
-import com.tomclaw.appsend.util.ThemeHelper
 import com.tomclaw.appsend.util.getParcelableArrayListCompat
 import javax.inject.Inject
 
@@ -35,7 +34,7 @@ class GalleryActivity : AppCompatActivity(), GalleryPresenter.GalleryRouter {
         Appteka.getComponent()
             .galleryComponent(GalleryModule(this, items, startIndex, presenterState))
             .inject(activity = this)
-        ThemeHelper.updateTheme(this)
+        setTheme(R.style.AppThemeSemitransparent)
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.gallery_activity)

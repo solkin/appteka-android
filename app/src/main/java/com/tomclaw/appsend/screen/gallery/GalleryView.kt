@@ -7,19 +7,11 @@ import androidx.viewpager2.widget.ViewPager2
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
-import com.tomclaw.appsend.util.hideWithAlphaAnimation
-import com.tomclaw.appsend.util.showWithAlphaAnimation
 import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.disposables.Disposable
-import java.util.WeakHashMap
 
 interface GalleryView {
 
     fun setTitle(title: String)
-
-    fun showProgress()
-
-    fun showContent()
 
     fun contentUpdated()
 
@@ -36,7 +28,6 @@ class GalleryViewImpl(
     private val adapter: SimpleRecyclerAdapter
 ) : GalleryView {
 
-    private val overlayProgress: View = view.findViewById(R.id.overlay_progress)
     private val pager: ViewPager2 = view.findViewById(R.id.pager)
     private val toolbar: Toolbar = view.findViewById(R.id.toolbar)
 
@@ -58,14 +49,6 @@ class GalleryViewImpl(
 
     override fun setTitle(title: String) {
         toolbar.title = title
-    }
-
-    override fun showProgress() {
-        overlayProgress.showWithAlphaAnimation(animateFully = true)
-    }
-
-    override fun showContent() {
-        overlayProgress.hideWithAlphaAnimation(animateFully = false)
     }
 
     @SuppressLint("NotifyDataSetChanged")

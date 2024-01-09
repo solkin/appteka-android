@@ -198,6 +198,13 @@
         <item name="block_grey_color">@color/block_grey_color_dark</item>
     </style>
 
+    <style name="AppThemeSemitransparent" parent="AppThemeBlack">
+        <item name="android:statusBarColor">#cc000000</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+        <item name="android:windowBackground">@android:color/black</item>
+        <item name="toolbar_background">@android:color/black</item>
+    </style>
+
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents" />
