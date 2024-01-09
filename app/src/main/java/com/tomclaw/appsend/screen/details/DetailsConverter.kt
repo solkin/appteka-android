@@ -134,6 +134,11 @@ class DetailsConverterImpl(
                     2412
                 ),
                 Screenshot(
+                    Uri.parse("https://i.stack.imgur.com/fNbz0.png"),
+                    252,
+                    448
+                ),
+                Screenshot(
                     Uri.parse("https://cdn.afterdawn.fi/storage/pictures/1920/guide-force-landscape-android-landscape.jpg"),
                     1920,
                     1080
