@@ -304,4 +304,5 @@
     <string name="relogin_is_needed_warning">Please sign in again in to continue using all Appteka features</string>
     <string name="error_domain_blocked">Temporary emails are prohibited</string>
     <string name="gallery_title">%d / %d</string>
+    <string name="add_screenshot">Add screenshot</string>
 </resources>

@@ -10,6 +10,7 @@ import com.tomclaw.appsend.categories.CategoryConverter
 import com.tomclaw.appsend.categories.CategoryItem
 import com.tomclaw.appsend.screen.upload.adapter.ItemListener
 import com.tomclaw.appsend.screen.upload.adapter.other_versions.VersionItem
+import com.tomclaw.appsend.screen.upload.adapter.screenshots.adapter.ScreenshotImage
 import com.tomclaw.appsend.screen.upload.api.CheckExistResponse
 import com.tomclaw.appsend.upload.UploadApk
 import com.tomclaw.appsend.upload.UploadInfo
@@ -395,6 +396,10 @@ class UploadPresenterImpl(
 
     override fun onOtherVersionsClick(items: List<VersionItem>) {
         view?.showVersionsDialog(items)
+    }
+
+    override fun onScreenshotClick(items: List<ScreenshotImage>, clicked: Int) {
+        TODO("Not yet implemented")
     }
 
     private fun loadCategories() {
