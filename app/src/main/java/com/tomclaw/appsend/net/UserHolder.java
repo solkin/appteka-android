@@ -37,7 +37,7 @@ public class UserHolder {
 
     private UserData userData;
 
-    private File userFile;
+    private final File userFile;
 
     private final List<UserDataListener> listeners;
 

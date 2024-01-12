@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 /**
@@ -20,9 +21,7 @@ public class HttpUtil {
 
     public static final String GET = "GET";
     public static final String POST = "POST";
-
-    public static final String UTF8_ENCODING = "UTF-8";
-
+    
     public static final int SC_BAD_REQUEST = 400;
 
     /**
@@ -48,11 +47,11 @@ public class HttpUtil {
     }
 
     public static String urlEncode(String string) throws UnsupportedEncodingException {
-        return URLEncoder.encode(string, UTF8_ENCODING).replace("+", "%20");
+        return URLEncoder.encode(string, StandardCharsets.UTF_8).replace("+", "%20");
     }
 
     public static String streamToString(InputStream inputStream) throws IOException {
-        return new String(streamToArray(inputStream), HttpUtil.UTF8_ENCODING);
+        return new String(streamToArray(inputStream), StandardCharsets.UTF_8);
     }
 
     public static byte[] streamToArray(InputStream inputStream) throws IOException {

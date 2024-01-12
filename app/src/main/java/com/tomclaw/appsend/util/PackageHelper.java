@@ -42,8 +42,7 @@ public class PackageHelper {
     private static Bitmap drawableToBitmap(Drawable drawable) {
         Bitmap bitmap;
 
-        if (drawable instanceof BitmapDrawable) {
-            BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
+        if (drawable instanceof BitmapDrawable bitmapDrawable) {
             if (bitmapDrawable.getBitmap() != null) {
                 return bitmapDrawable.getBitmap();
             }

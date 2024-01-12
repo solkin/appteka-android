@@ -21,7 +21,7 @@ import retrofit2.Call;
 @EFragment(R.layout.search_fragment)
 public class SearchFragment extends BaseStoreFragment implements Debouncer.Callback<String> {
 
-    private Debouncer<String> filterDebouncer = new Debouncer<>(this, 1000);
+    private final Debouncer<String> filterDebouncer = new Debouncer<>(this, 1000);
 
     @Bean
     StoreServiceHolder serviceHolder;

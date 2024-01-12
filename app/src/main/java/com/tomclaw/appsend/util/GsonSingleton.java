@@ -18,7 +18,7 @@ public class GsonSingleton {
         return Holder.instance;
     }
 
-    private Gson gson;
+    private final Gson gson;
 
     public GsonSingleton() {
         gson = new Gson();

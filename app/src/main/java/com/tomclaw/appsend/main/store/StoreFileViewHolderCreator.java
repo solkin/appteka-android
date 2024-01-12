@@ -14,7 +14,7 @@ import com.tomclaw.appsend.main.item.StoreItem;
 
 public class StoreFileViewHolderCreator implements FileViewHolderCreator<StoreItem> {
 
-    private LayoutInflater inflater;
+    private final LayoutInflater inflater;
 
     public StoreFileViewHolderCreator(Context context) {
         this.inflater = LayoutInflater.from(context);

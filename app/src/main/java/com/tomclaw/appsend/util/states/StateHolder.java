@@ -22,7 +22,7 @@ public class StateHolder {
         return instance;
     }
 
-    private Map<String, State> states = new HashMap<>();
+    private final Map<String, State> states = new HashMap<>();
 
     public String putState(State state) {
         String key = UUID.randomUUID().toString();

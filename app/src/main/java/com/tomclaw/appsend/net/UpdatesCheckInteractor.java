@@ -36,7 +36,7 @@ public class UpdatesCheckInteractor {
 
     private Map<String, AppEntry> updates = Collections.emptyMap();
 
-    private Listeners<Map<String, AppEntry>> listeners = new Listeners<>();
+    private final Listeners<Map<String, AppEntry>> listeners = new Listeners<>();
 
     public void checkUpdates() {
         String guid = session.getUserData().getGuid();
