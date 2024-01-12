@@ -14,7 +14,7 @@ import com.tomclaw.appsend.main.item.AppItem;
 
 public class AppItemViewHolderCreator implements FileViewHolderCreator<AppItem> {
 
-    private LayoutInflater inflater;
+    private final LayoutInflater inflater;
 
     public AppItemViewHolderCreator(Context context) {
         this.inflater = LayoutInflater.from(context);

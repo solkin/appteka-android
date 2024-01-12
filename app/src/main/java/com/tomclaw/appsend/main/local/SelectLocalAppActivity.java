@@ -172,7 +172,7 @@ public class SelectLocalAppActivity extends PermisoActivity implements CommonIte
 
     public static class LocalAppsPagerAdapter extends FragmentStatePagerAdapter {
 
-        private List<Pair<String, Fragment>> fragments;
+        private final List<Pair<String, Fragment>> fragments;
 
         LocalAppsPagerAdapter(FragmentManager fm, List<Pair<String, Fragment>> fragments) {
             super(fm);

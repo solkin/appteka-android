@@ -21,14 +21,14 @@ import java.util.concurrent.TimeUnit;
 
 public class ApkItemViewHolder extends FileViewHolder<ApkItem> {
 
-    private View itemView;
-    private ImageView appIcon;
-    private TextView appName;
-    private TextView appVersion;
-    private TextView apkCreateTime;
-    private TextView appSize;
-    private View badgeNew;
-    private TextView apkLocation;
+    private final View itemView;
+    private final ImageView appIcon;
+    private final TextView appName;
+    private final TextView appVersion;
+    private final TextView apkCreateTime;
+    private final TextView appSize;
+    private final View badgeNew;
+    private final TextView apkLocation;
 
     public ApkItemViewHolder(View itemView) {
         super(itemView);
