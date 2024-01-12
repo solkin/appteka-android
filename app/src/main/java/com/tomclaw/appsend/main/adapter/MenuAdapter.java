@@ -16,9 +16,9 @@ import com.tomclaw.appsend.R;
  */
 public class MenuAdapter extends BaseAdapter {
 
-    private Context context;
-    private String[] titles;
-    private TypedArray icons;
+    private final Context context;
+    private final String[] titles;
+    private final TypedArray icons;
 
     public MenuAdapter(Context context, int menuTitles, int menuIcons) {
         this.context = context;

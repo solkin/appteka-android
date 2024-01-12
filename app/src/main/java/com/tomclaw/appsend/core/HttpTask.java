@@ -52,14 +52,10 @@ public abstract class HttpTask extends Task {
             LegacyLogger.log(result);
             JSONObject jsonObject = new JSONObject(result);
             int status = jsonObject.getInt("status");
-            switch (status) {
-                case 200: {
-                    onLoaded(jsonObject);
-                    break;
-                }
-                default: {
-                    throw new IOException("Store count loading error: " + status);
-                }
+            if (status == 200) {
+                onLoaded(jsonObject);
+            } else {
+                throw new IOException("Store count loading error: " + status);
             }
         } catch (Throwable ex) {
             LegacyLogger.log("Exception while count loading", ex);

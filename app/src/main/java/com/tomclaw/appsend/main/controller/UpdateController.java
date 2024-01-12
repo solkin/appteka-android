@@ -147,18 +147,14 @@ public class UpdateController extends AbstractController<UpdateController.Update
             LegacyLogger.log(result);
             JSONObject jsonObject = new JSONObject(result);
             int status = jsonObject.getInt("status");
-            switch (status) {
-                case 200: {
-                    if (jsonObject.has("newer")) {
-                        JSONObject newer = jsonObject.getJSONObject("newer");
-                        StoreItem storeItem = parseStoreItem(newer);
-                        onLoaded(storeItem);
-                    }
-                    break;
+            if (status == 200) {
+                if (jsonObject.has("newer")) {
+                    JSONObject newer = jsonObject.getJSONObject("newer");
+                    StoreItem storeItem = parseStoreItem(newer);
+                    onLoaded(storeItem);
                 }
-                default: {
-                    throw new IOException("Store count loading error: " + status);
-                }
+            } else {
+                throw new IOException("Store count loading error: " + status);
             }
         } catch (Throwable ex) {
             LegacyLogger.log("Exception while count loading", ex);

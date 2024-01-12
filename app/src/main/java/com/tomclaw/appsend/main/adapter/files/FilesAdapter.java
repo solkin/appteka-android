@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class FilesAdapter<T extends BaseItem> extends RecyclerView.Adapter<FileViewHolder<T>> {
 
-    private FileViewHolderCreator<T> viewHolderCreator;
+    private final FileViewHolderCreator<T> viewHolderCreator;
     private final List<T> list;
 
     private FilesListener<T> listener;

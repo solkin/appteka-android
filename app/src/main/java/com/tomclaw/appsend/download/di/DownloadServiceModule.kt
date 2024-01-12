@@ -4,5 +4,4 @@ import android.content.Context
 import dagger.Module
 
 @Module
-class DownloadServiceModule(context: Context) {
-}
+class DownloadServiceModule(context: Context)

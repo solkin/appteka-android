@@ -9,7 +9,7 @@ import java.util.WeakHashMap;
  */
 public abstract class AbstractController<C extends AbstractController.ControllerCallback> {
 
-    private Set<C> weakCallbacks = Collections.newSetFromMap(
+    private final Set<C> weakCallbacks = Collections.newSetFromMap(
             new WeakHashMap<C, Boolean>());
 
     public final void onAttach(C callback) {
