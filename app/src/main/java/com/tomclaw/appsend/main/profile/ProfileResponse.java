@@ -10,8 +10,8 @@ import com.tomclaw.appsend.util.Unobfuscatable;
  */
 public class ProfileResponse implements Parcelable, Unobfuscatable {
 
-    private Profile profile;
-    private int[] grant_roles;
+    private final Profile profile;
+    private final int[] grant_roles;
 
     protected ProfileResponse(Parcel in) {
         profile = in.readParcelable(Profile.class.getClassLoader());

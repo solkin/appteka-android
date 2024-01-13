@@ -13,14 +13,14 @@ import com.tomclaw.appsend.util.Unobfuscatable;
 public class StoreVersion implements Parcelable, Unobfuscatable {
 
     @SerializedName("app_id")
-    private String appId;
-    private int downloads;
+    private final String appId;
+    private final int downloads;
     @SerializedName("ver_code")
-    private int verCode;
+    private final int verCode;
     @SerializedName("ver_name")
-    private String verName;
+    private final String verName;
     @SerializedName("sdk_version")
-    private int sdkVersion;
+    private final int sdkVersion;
 
     public StoreVersion(String appId, int downloads, int verCode, String verName, int sdkVersion) {
         this.appId = appId;

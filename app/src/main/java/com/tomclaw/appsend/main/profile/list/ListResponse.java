@@ -15,7 +15,7 @@ import java.util.List;
 public class ListResponse implements Parcelable, Unobfuscatable {
 
     @SerializedName("entries")
-    private List<StoreItem> files;
+    private final List<StoreItem> files;
 
     protected ListResponse(Parcel in) {
         files = in.createTypedArrayList(StoreItem.CREATOR);

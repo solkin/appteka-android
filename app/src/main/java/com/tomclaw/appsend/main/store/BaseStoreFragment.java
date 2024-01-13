@@ -285,8 +285,8 @@ public abstract class BaseStoreFragment extends HomeFragment implements FilesLis
 
     private static class LoadCallback implements Callback<ApiResponse<ListResponse>> {
 
-        private WeakReference<BaseStoreFragment> weakFragment;
-        private boolean isInvalidate;
+        private final WeakReference<BaseStoreFragment> weakFragment;
+        private final boolean isInvalidate;
 
         private LoadCallback(BaseStoreFragment fragment, boolean isInvalidate) {
             this.weakFragment = new WeakReference<>(fragment);

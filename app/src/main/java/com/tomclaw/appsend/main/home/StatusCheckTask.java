@@ -21,7 +21,7 @@ import java.lang.ref.WeakReference;
 
 public class StatusCheckTask extends HttpTask {
 
-    private WeakReference<Context> weakContext;
+    private final WeakReference<Context> weakContext;
     private boolean isBlock;
     private String title;
     private String message;

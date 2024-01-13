@@ -24,14 +24,14 @@ import com.tomclaw.appsend.view.UserIconViewImpl;
  */
 class RatingViewHolder extends RecyclerView.ViewHolder {
 
-    private View itemView;
-    private UserIconView memberImageView;
-    private AppCompatRatingBar ratingView;
-    private TextView dateView;
-    private TextView commentView;
-    private View progressView;
-    private View errorView;
-    private View retryButtonView;
+    private final View itemView;
+    private final UserIconView memberImageView;
+    private final AppCompatRatingBar ratingView;
+    private final TextView dateView;
+    private final TextView commentView;
+    private final View progressView;
+    private final View errorView;
+    private final View retryButtonView;
 
     RatingViewHolder(View itemView) {
         super(itemView);

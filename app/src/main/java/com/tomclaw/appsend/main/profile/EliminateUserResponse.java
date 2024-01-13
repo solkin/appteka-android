@@ -9,11 +9,11 @@ import com.tomclaw.appsend.util.Unobfuscatable;
 public class EliminateUserResponse implements Parcelable, Unobfuscatable {
 
     @SerializedName("files_count")
-    private int filesCount;
+    private final int filesCount;
     @SerializedName("msgs_count")
-    private int msgsCount;
+    private final int msgsCount;
     @SerializedName("ratings_count")
-    private int ratingsCount;
+    private final int ratingsCount;
 
     protected EliminateUserResponse(Parcel in) {
         filesCount = in.readInt();
