@@ -483,7 +483,7 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
             );
         }
         boolean canChangeRole = false;
-        if (isPublicProfile && grantRoles.length > 0) {
+        if (isPublicProfile) {
             for (int role : grantRoles) {
                 if (role != profile.getRole()) {
                     canChangeRole = true;

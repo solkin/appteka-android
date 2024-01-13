@@ -49,13 +49,11 @@ public abstract class PreferenceFragment extends Fragment implements
     private static final int FIRST_REQUEST_CODE = 100;
 
     private static final int MSG_BIND_PREFERENCES = 1;
-    private Handler mHandler = new Handler() {
+    private final Handler mHandler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case MSG_BIND_PREFERENCES:
-                    bindPreferences();
-                    break;
+            if (msg.what == MSG_BIND_PREFERENCES) {
+                bindPreferences();
             }
         }
     };
@@ -294,7 +292,7 @@ public abstract class PreferenceFragment extends Fragment implements
         mHandler.post(mRequestFocus);
     }
 
-    private OnKeyListener mListOnKeyListener = new OnKeyListener() {
+    private final OnKeyListener mListOnKeyListener = new OnKeyListener() {
 
         @Override
         public boolean onKey(View v, int keyCode, KeyEvent event) {
