@@ -35,7 +35,7 @@ class ScreenshotsAdapter(
         return SCREENSHOT
     }
 
-    public fun setItems(list: List<Screenshot>) {
+    fun setItems(list: List<Screenshot>) {
         with(items) {
             clear()
             addAll(list)

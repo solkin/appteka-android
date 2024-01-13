@@ -52,7 +52,7 @@ class ScreenshotsAdapter(
         return items[position].getType()
     }
 
-    public fun setItems(list: List<Item>) {
+    fun setItems(list: List<Item>) {
         with(items) {
             clear()
             addAll(list)
