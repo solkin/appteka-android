@@ -16,6 +16,7 @@ import com.tomclaw.appsend.main.local.SelectLocalAppActivity.SELECTED_ITEM
 import com.tomclaw.appsend.main.local.SelectLocalAppActivity.createSelectAppActivity
 import com.tomclaw.appsend.screen.auth.request_code.createRequestCodeActivityIntent
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
+import com.tomclaw.appsend.screen.upload.di.UPLOAD_ADAPTER_PRESENTER
 import com.tomclaw.appsend.screen.upload.di.UploadModule
 import com.tomclaw.appsend.upload.UploadApk
 import com.tomclaw.appsend.upload.UploadInfo
@@ -26,6 +27,7 @@ import com.tomclaw.appsend.util.ThemeHelper
 import com.tomclaw.appsend.util.getParcelableExtraCompat
 import com.tomclaw.appsend.util.md5
 import javax.inject.Inject
+import javax.inject.Named
 
 class UploadActivity : AppCompatActivity(), UploadPresenter.UploadRouter {
 
@@ -33,6 +35,7 @@ class UploadActivity : AppCompatActivity(), UploadPresenter.UploadRouter {
     lateinit var presenter: UploadPresenter
 
     @Inject
+    @Named(UPLOAD_ADAPTER_PRESENTER)
     lateinit var adapterPresenter: AdapterPresenter
 
     @Inject

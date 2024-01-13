@@ -1,7 +1,7 @@
 package com.tomclaw.appsend.screen.upload.adapter
 
 import com.tomclaw.appsend.screen.upload.adapter.other_versions.VersionItem
-import com.tomclaw.appsend.screen.upload.adapter.screenshots.adapter.ScreenshotImage
+import com.tomclaw.appsend.screen.upload.adapter.screen_image.ScreenImageItem
 
 interface ItemListener {
 
@@ -25,6 +25,8 @@ interface ItemListener {
 
     fun onOtherVersionsClick(items: List<VersionItem>)
 
-    fun onScreenshotClick(items: List<ScreenshotImage>, clicked: Int)
+    fun onScreenAppendClick()
+
+    fun onScreenshotClick(item: ScreenImageItem)
 
 }

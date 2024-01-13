@@ -297,5 +297,6 @@
     <string name="relogin_is_needed_warning">Пожалуйста, войдите ещё раз, чтобы продолжить использовать все функции Appteka</string>
     <string name="error_domain_blocked">Временные адреса электронной почты запрещены</string>
     <string name="gallery_title">%d / %d</string>
-    <string name="add_screenshot">Добавить скриншот</string>
+    <string name="add_screenshot">Добавить снимок экрана</string>
+    <string name="screenshots_title">Снимки экрана</string>
 </resources>

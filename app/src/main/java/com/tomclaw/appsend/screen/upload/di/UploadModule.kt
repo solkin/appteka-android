@@ -32,6 +32,12 @@ import com.tomclaw.appsend.screen.upload.adapter.open_source.OpenSourceItemBluep
 import com.tomclaw.appsend.screen.upload.adapter.open_source.OpenSourceItemPresenter
 import com.tomclaw.appsend.screen.upload.adapter.other_versions.OtherVersionsItemBlueprint
 import com.tomclaw.appsend.screen.upload.adapter.other_versions.OtherVersionsItemPresenter
+import com.tomclaw.appsend.screen.upload.adapter.screen_append.ScreenAppendItemBlueprint
+import com.tomclaw.appsend.screen.upload.adapter.screen_append.ScreenAppendItemPresenter
+import com.tomclaw.appsend.screen.upload.adapter.screen_image.ScreenImageItemBlueprint
+import com.tomclaw.appsend.screen.upload.adapter.screen_image.ScreenImageItemPresenter
+import com.tomclaw.appsend.screen.upload.adapter.screenshots.ScreenshotsItemBlueprint
+import com.tomclaw.appsend.screen.upload.adapter.screenshots.ScreenshotsItemPresenter
 import com.tomclaw.appsend.screen.upload.adapter.select_app.SelectAppItemBlueprint
 import com.tomclaw.appsend.screen.upload.adapter.select_app.SelectAppItemPresenter
 import com.tomclaw.appsend.screen.upload.adapter.selected_app.SelectedAppItemBlueprint
@@ -53,6 +59,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoSet
 import java.util.Locale
+import javax.inject.Named
 
 @Module
 class UploadModule(
@@ -70,7 +77,7 @@ class UploadModule(
         categoriesInteractor: CategoriesInteractor,
         categoryConverter: CategoryConverter,
         uploadConverter: UploadConverter,
-        adapterPresenter: Lazy<AdapterPresenter>,
+        @Named(UPLOAD_ADAPTER_PRESENTER) adapterPresenter: Lazy<AdapterPresenter>,
         uploadManager: UploadManager,
         schedulers: SchedulersFactory
     ): UploadPresenter = UploadPresenterImpl(
@@ -124,7 +131,15 @@ class UploadModule(
 
     @Provides
     @PerActivity
-    internal fun provideAdapterPresenter(binder: ItemBinder): AdapterPresenter {
+    @Named(UPLOAD_ADAPTER_PRESENTER)
+    internal fun provideUploadAdapterPresenter(binder: ItemBinder): AdapterPresenter {
+        return SimpleAdapterPresenter(binder, binder)
+    }
+
+    @Provides
+    @PerActivity
+    @Named(SCREENSHOT_ADAPTER_PRESENTER)
+    internal fun provideScreenshotAdapterPresenter(binder: ItemBinder): AdapterPresenter {
         return SimpleAdapterPresenter(binder, binder)
     }
 
@@ -274,4 +289,49 @@ class UploadModule(
         presenter: UploadPresenter
     ) = OtherVersionsItemPresenter(presenter)
 
+    @Provides
+    @IntoSet
+    @PerActivity
+    internal fun provideScreenshotsItemBlueprint(
+        presenter: ScreenshotsItemPresenter,
+        @Named(SCREENSHOT_ADAPTER_PRESENTER) adapterPresenter: Lazy<AdapterPresenter>,
+        binder: Lazy<ItemBinder>,
+    ): ItemBlueprint<*, *> = ScreenshotsItemBlueprint(presenter, adapterPresenter, binder)
+
+    @Provides
+    @PerActivity
+    internal fun provideScreenshotsItemPresenter(
+        presenter: UploadPresenter,
+        @Named(SCREENSHOT_ADAPTER_PRESENTER) adapterPresenter: Lazy<AdapterPresenter>,
+    ) = ScreenshotsItemPresenter(presenter, adapterPresenter)
+
+    @Provides
+    @IntoSet
+    @PerActivity
+    internal fun provideScreenAppendItemBlueprint(
+        presenter: ScreenAppendItemPresenter
+    ): ItemBlueprint<*, *> = ScreenAppendItemBlueprint(presenter)
+
+    @Provides
+    @PerActivity
+    internal fun provideScreenAppendItemPresenter(
+        presenter: UploadPresenter
+    ) = ScreenAppendItemPresenter(presenter)
+
+    @Provides
+    @IntoSet
+    @PerActivity
+    internal fun provideScreenImageItemBlueprint(
+        presenter: ScreenImageItemPresenter
+    ): ItemBlueprint<*, *> = ScreenImageItemBlueprint(presenter)
+
+    @Provides
+    @PerActivity
+    internal fun provideScreenImageItemPresenter(
+        presenter: UploadPresenter
+    ) = ScreenImageItemPresenter(presenter)
+
 }
+
+const val UPLOAD_ADAPTER_PRESENTER = "UploadAdapterPresenter"
+const val SCREENSHOT_ADAPTER_PRESENTER = "ScreenshotAdapterPresenter"
