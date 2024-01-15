@@ -38,7 +38,6 @@ import com.tomclaw.appsend.net.Session;
 import com.tomclaw.appsend.net.UpdatesCheckInteractor;
 import com.tomclaw.appsend.net.UserData;
 import com.tomclaw.appsend.net.UserDataListener;
-import com.tomclaw.appsend.net.UserHolder;
 import com.tomclaw.appsend.screen.auth.request_code.RequestCodeActivityKt;
 import com.tomclaw.appsend.screen.favorite.FavoriteActivityKt;
 import com.tomclaw.appsend.screen.moderation.ModerationActivityKt;

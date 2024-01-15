@@ -6,7 +6,6 @@ import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.StoreServiceHolder;
 import com.tomclaw.appsend.main.dto.ApiResponse;
 import com.tomclaw.appsend.main.profile.list.ListResponse;
-import com.tomclaw.appsend.net.Session;
 
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EFragment;
