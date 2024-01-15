@@ -1,6 +1,5 @@
 package com.tomclaw.appsend.screen.upload.adapter.screen_image
 
-import android.net.Uri
 import android.view.View
 import android.widget.ImageView
 import com.avito.konveyor.adapter.BaseViewHolder
