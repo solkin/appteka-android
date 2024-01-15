@@ -27,7 +27,6 @@ import com.tomclaw.appsend.util.IntentHelper;
 import org.androidannotations.annotations.EFragment;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 

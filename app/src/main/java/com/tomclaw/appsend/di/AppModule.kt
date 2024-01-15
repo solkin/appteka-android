@@ -4,8 +4,6 @@ import android.app.Application
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.pm.PackageManager
-import android.content.res.Resources
-import android.os.Build
 import android.os.Environment
 import android.os.Environment.DIRECTORY_DOWNLOADS
 import com.chuckerteam.chucker.api.ChuckerInterceptor
