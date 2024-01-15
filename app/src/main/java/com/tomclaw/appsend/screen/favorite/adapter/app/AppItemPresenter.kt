@@ -2,8 +2,8 @@ package com.tomclaw.appsend.screen.favorite.adapter.app
 
 import com.avito.konveyor.blueprint.ItemPresenter
 import com.tomclaw.appsend.main.item.StoreItem
-import com.tomclaw.appsend.screen.favorite.adapter.ItemListener
 import com.tomclaw.appsend.screen.favorite.AppsResourceProvider
+import com.tomclaw.appsend.screen.favorite.adapter.ItemListener
 
 class AppItemPresenter(
     private val listener: ItemListener,

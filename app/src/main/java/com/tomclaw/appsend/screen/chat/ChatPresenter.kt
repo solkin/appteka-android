@@ -17,7 +17,6 @@ import com.tomclaw.appsend.util.getParcelableCompat
 import dagger.Lazy
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
-import retrofit2.HttpException
 
 interface ChatPresenter : ItemListener {
 

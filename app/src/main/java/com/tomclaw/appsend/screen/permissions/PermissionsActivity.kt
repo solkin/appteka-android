@@ -10,7 +10,6 @@ import com.avito.konveyor.adapter.SimpleRecyclerAdapter
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.permissions.di.PermissionsModule
-import java.lang.IllegalArgumentException
 import javax.inject.Inject
 
 class PermissionsActivity : AppCompatActivity(), PermissionsPresenter.PermissionsRouter {
