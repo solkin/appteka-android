@@ -2,7 +2,6 @@ package com.tomclaw.appsend.events
 
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.util.SchedulersFactory
-import com.tomclaw.appsend.util.retryWhenNonAuthErrors
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
