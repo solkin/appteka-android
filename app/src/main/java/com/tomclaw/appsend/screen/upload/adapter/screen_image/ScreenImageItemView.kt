@@ -18,9 +18,14 @@ interface ScreenImageItemView : ItemView {
 
 class ScreenImageItemViewHolder(view: View) : BaseViewHolder(view), ScreenImageItemView {
 
+    private val card: View = view.findViewById(R.id.screenshot_card)
     private val image: ImageView = view.findViewById(R.id.screenshot)
 
     private var clickListener: (() -> Unit)? = null
+
+    init {
+        card.setOnClickListener { clickListener?.invoke() }
+    }
 
     override fun setImage(item: ScreenImageItem) {
         image.fetch(item.uri.toString()) {
