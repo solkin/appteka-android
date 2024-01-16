@@ -121,8 +121,6 @@
         <item name="discuss_bubble_color">@color/discuss_bubble_color_light</item>
         <item name="service_background">@drawable/service_background_light</item>
 
-        <item name="nav_header_back_repeat">@drawable/nav_header_back_light_repeat</item>
-
         <item name="rating_empty">#ffcbcbcb</item>
         <item name="rating_fill">#ff6b6b6b</item>
 
@@ -177,8 +175,6 @@
         <item name="compose_gradient">@drawable/compose_gradient_dark</item>
         <item name="discuss_bubble_color">@color/discuss_bubble_color_dark</item>
         <item name="service_background">@drawable/service_background_dark</item>
-
-        <item name="nav_header_back_repeat">@drawable/nav_header_back_dark_repeat</item>
 
         <item name="rating_empty">#ff343434</item>
         <item name="rating_fill">#ffa1a1a1</item>
