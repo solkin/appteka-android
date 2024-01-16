@@ -50,10 +50,12 @@ class ScreenshotsAdapter(
 
 class ScreenshotViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
+    private var card: View
     private var image: ImageView
     private var screenshot: Screenshot? = null
 
     init {
+        card = view.findViewById(R.id.screenshot_card)
         image = view.findViewById(R.id.screenshot)
     }
 
@@ -76,7 +78,7 @@ class ScreenshotViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
     fun setClickListener(listener: (Screenshot) -> Unit) {
         val screenshot = screenshot ?: return
-        image.setOnClickListener { listener.invoke(screenshot) }
+        card.setOnClickListener { listener.invoke(screenshot) }
     }
 
 }

@@ -10,7 +10,7 @@
         android:layout_height="156dp"
         android:layout_gravity="center_vertical"
         android:layout_margin="8dp"
-        android:background="?android:attr/selectableItemBackground"
+        android:foreground="?android:attr/selectableItemBackground"
         app:cardCornerRadius="8dp"
         app:cardElevation="4dp">
 
