@@ -3,6 +3,7 @@ package com.tomclaw.appsend.screen.upload
 import android.content.Context
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
@@ -67,6 +68,13 @@ class UploadActivity : AppCompatActivity(), UploadPresenter.UploadRouter {
         }
 
     private val authLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK) {
+                presenter.onAuthorized()
+            }
+        }
+
+    private val imagePickerLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
                 presenter.onAuthorized()
@@ -146,6 +154,15 @@ class UploadActivity : AppCompatActivity(), UploadPresenter.UploadRouter {
     override fun openLoginScreen() {
         val intent = createRequestCodeActivityIntent(context = this)
         authLauncher.launch(intent)
+    }
+
+    override fun openImagePicker() {
+        val intent = Intent(Intent.ACTION_PICK).apply {
+            putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+            action = Intent.ACTION_GET_CONTENT
+            type = "image/*"
+        }
+        imagePickerLauncher.launch(intent)
     }
 
     override fun leaveScreen() {

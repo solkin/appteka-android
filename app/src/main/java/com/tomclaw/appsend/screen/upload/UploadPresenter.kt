@@ -55,6 +55,8 @@ interface UploadPresenter : ItemListener {
 
         fun openLoginScreen()
 
+        fun openImagePicker()
+
         fun leaveScreen()
 
         fun hideKeyboard()
@@ -399,7 +401,7 @@ class UploadPresenterImpl(
     }
 
     override fun onScreenAppendClick() {
-        TODO("Not yet implemented")
+        router?.openImagePicker()
     }
 
     override fun onScreenshotClick(item: ScreenImageItem) {
