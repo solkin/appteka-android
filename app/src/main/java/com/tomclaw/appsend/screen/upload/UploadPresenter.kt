@@ -1,5 +1,6 @@
 package com.tomclaw.appsend.screen.upload
 
+import android.net.Uri
 import android.os.Bundle
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.blueprint.Item
@@ -8,6 +9,7 @@ import com.tomclaw.appsend.categories.CategoriesInteractor
 import com.tomclaw.appsend.categories.Category
 import com.tomclaw.appsend.categories.CategoryConverter
 import com.tomclaw.appsend.categories.CategoryItem
+import com.tomclaw.appsend.screen.gallery.GalleryItem
 import com.tomclaw.appsend.screen.upload.adapter.ItemListener
 import com.tomclaw.appsend.screen.upload.adapter.other_versions.VersionItem
 import com.tomclaw.appsend.screen.upload.adapter.screen_image.ScreenImageItem
@@ -20,6 +22,7 @@ import com.tomclaw.appsend.upload.UploadStatus
 import com.tomclaw.appsend.util.PackageIconLoader
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.filterUnauthorizedErrors
+import com.tomclaw.appsend.util.getParcelableArrayListCompat
 import com.tomclaw.appsend.util.getParcelableCompat
 import com.tomclaw.appsend.util.retryWhenNonAuthErrors
 import dagger.Lazy
@@ -43,6 +46,8 @@ interface UploadPresenter : ItemListener {
 
     fun onAuthorized()
 
+    fun onImagesSelected(images: List<GalleryItem>)
+
     fun onBackPressed()
 
     interface UploadRouter {
@@ -56,6 +61,8 @@ interface UploadPresenter : ItemListener {
         fun openLoginScreen()
 
         fun openImagePicker()
+
+        fun openGallery(items: List<GalleryItem>, current: Int)
 
         fun leaveScreen()
 
@@ -82,15 +89,18 @@ class UploadPresenterImpl(
     private var view: UploadView? = null
     private var router: UploadPresenter.UploadRouter? = null
 
-    private var pkg: UploadPackage? =
-        state?.getParcelableCompat(KEY_PACKAGE_INFO, UploadPackage::class.java)
-            ?: startPackage
-    private var apk: UploadApk? =
-        state?.getParcelableCompat(KEY_APK_INFO, UploadApk::class.java)
-            ?: startApkInfo
-    private var checkExist: CheckExistResponse? =
-        state?.getParcelableCompat(KEY_CHECK_EXIST, CheckExistResponse::class.java)
-            ?: startInfo?.checkExist
+    private var pkg: UploadPackage? = state
+        ?.getParcelableCompat(KEY_PACKAGE_INFO, UploadPackage::class.java)
+        ?: startPackage
+    private var apk: UploadApk? = state
+        ?.getParcelableCompat(KEY_APK_INFO, UploadApk::class.java)
+        ?: startApkInfo
+    private var checkExist: CheckExistResponse? = state
+        ?.getParcelableCompat(KEY_CHECK_EXIST, CheckExistResponse::class.java)
+        ?: startInfo?.checkExist
+    private var screenshots: ArrayList<GalleryItem> = state
+        ?.getParcelableArrayListCompat(KEY_SCREENSHOTS, GalleryItem::class.java)
+        ?: ArrayList(startInfo?.screenshots ?: emptyList())
     private var category: CategoryItem? =
         state?.getParcelableCompat(KEY_CATEGORY_ID, CategoryItem::class.java) ?: startInfo?.category
     private var whatsNew: String = state?.getString(KEY_WHATS_NEW) ?: startInfo?.whatsNew.orEmpty()
@@ -161,6 +171,7 @@ class UploadPresenterImpl(
         putParcelable(KEY_PACKAGE_INFO, pkg)
         putParcelable(KEY_APK_INFO, apk)
         putParcelable(KEY_CHECK_EXIST, checkExist)
+        putParcelableArrayList(KEY_SCREENSHOTS, screenshots)
         putParcelable(KEY_CATEGORY_ID, category)
         putString(KEY_WHATS_NEW, whatsNew)
         putString(KEY_DESCRIPTION, description)
@@ -176,6 +187,11 @@ class UploadPresenterImpl(
 
     override fun onAuthorized() {
         invalidate()
+    }
+
+    override fun onImagesSelected(images: List<GalleryItem>) {
+        screenshots.addAll(images)
+        bindForm()
     }
 
     override fun onDiscardClick() {
@@ -241,6 +257,7 @@ class UploadPresenterImpl(
             pkg,
             apk,
             checkExist,
+            screenshots,
             category,
             whatsNew,
             description,
@@ -383,6 +400,7 @@ class UploadPresenterImpl(
 
         val info = UploadInfo(
             checkExist,
+            screenshots,
             category,
             description,
             whatsNew,
@@ -405,7 +423,10 @@ class UploadPresenterImpl(
     }
 
     override fun onScreenshotClick(item: ScreenImageItem) {
-        TODO("Not yet implemented")
+        router?.openGallery(
+            items = screenshots,
+            current = screenshots.indexOfFirst { it.uri == item.uri },
+        )
     }
 
     private fun loadCategories() {
@@ -438,6 +459,7 @@ class UploadPresenterImpl(
 private const val KEY_PACKAGE_INFO = "package_info"
 private const val KEY_APK_INFO = "apk_info"
 private const val KEY_CHECK_EXIST = "check_exist"
+private const val KEY_SCREENSHOTS = "screenshots"
 private const val KEY_CATEGORY_ID = "category"
 private const val KEY_WHATS_NEW = "whats_new"
 private const val KEY_DESCRIPTION = "description"

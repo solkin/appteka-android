@@ -3,6 +3,8 @@ package com.tomclaw.appsend.screen.upload
 import android.content.Context
 import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts
@@ -17,6 +19,8 @@ import com.tomclaw.appsend.main.local.SelectLocalAppActivity.SELECTED_ITEM
 import com.tomclaw.appsend.main.local.SelectLocalAppActivity.createSelectAppActivity
 import com.tomclaw.appsend.screen.auth.request_code.createRequestCodeActivityIntent
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
+import com.tomclaw.appsend.screen.gallery.GalleryItem
+import com.tomclaw.appsend.screen.gallery.createGalleryActivityIntent
 import com.tomclaw.appsend.screen.upload.di.UPLOAD_ADAPTER_PRESENTER
 import com.tomclaw.appsend.screen.upload.di.UploadModule
 import com.tomclaw.appsend.upload.UploadApk
@@ -27,6 +31,7 @@ import com.tomclaw.appsend.util.KeyboardHelper
 import com.tomclaw.appsend.util.ThemeHelper
 import com.tomclaw.appsend.util.getParcelableExtraCompat
 import com.tomclaw.appsend.util.md5
+import java.io.InputStream
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -77,14 +82,29 @@ class UploadActivity : AppCompatActivity(), UploadPresenter.UploadRouter {
     private val imagePickerLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
-                presenter.onAuthorized()
+                val uris: MutableList<Uri> = ArrayList()
+                val clipData = result.data?.clipData
+                if (clipData != null) {
+                    val count = clipData.itemCount
+                    for (i in 0 until count) {
+                        val item = clipData.getItemAt(i)
+                        uris.add(item.uri)
+                    }
+                } else {
+                    val intentData = result.data?.data
+                    if (intentData != null) {
+                        uris.add(intentData)
+                    }
+                }
+                val items: List<GalleryItem> = uris.map { convertUri(it) }
+                presenter.onImagesSelected(items)
             }
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val pkg = intent.getParcelableExtra<UploadPackage?>(EXTRA_PACKAGE_INFO)
-        val apk = intent.getParcelableExtra<UploadApk?>(EXTRA_APK_INFO)
-        val info = intent.getParcelableExtra<UploadInfo?>(EXTRA_UPLOAD_INFO)
+        val pkg = intent.getParcelableExtraCompat(EXTRA_PACKAGE_INFO, UploadPackage::class.java)
+        val apk = intent.getParcelableExtraCompat(EXTRA_APK_INFO, UploadApk::class.java)
+        val info = intent.getParcelableExtraCompat(EXTRA_UPLOAD_INFO, UploadInfo::class.java)
 
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
         Appteka.getComponent()
@@ -165,12 +185,25 @@ class UploadActivity : AppCompatActivity(), UploadPresenter.UploadRouter {
         imagePickerLauncher.launch(intent)
     }
 
+    override fun openGallery(items: List<GalleryItem>, current: Int) {
+        val intent = createGalleryActivityIntent(context = this, items, current)
+        startActivity(intent)
+    }
+
     override fun leaveScreen() {
         finish()
     }
 
     override fun hideKeyboard() {
         KeyboardHelper.hideKeyboard(this)
+    }
+
+    private fun convertUri(uri: Uri): GalleryItem {
+        val input = contentResolver.openInputStream(uri)
+        val options = BitmapFactory.Options()
+        options.inJustDecodeBounds = true
+        BitmapFactory.decodeStream(input, null, options)
+        return GalleryItem(uri, width = options.outWidth, height = options.outHeight)
     }
 
 }

@@ -4,6 +4,7 @@ import android.net.Uri
 import android.os.Build
 import com.avito.konveyor.blueprint.Item
 import com.tomclaw.appsend.categories.CategoryItem
+import com.tomclaw.appsend.screen.gallery.GalleryItem
 import com.tomclaw.appsend.screen.upload.adapter.category.SelectCategoryItem
 import com.tomclaw.appsend.screen.upload.adapter.description.DescriptionItem
 import com.tomclaw.appsend.screen.upload.adapter.exclusive.ExclusiveItem
@@ -30,6 +31,7 @@ interface UploadConverter {
         pkg: UploadPackage?,
         apk: UploadApk?,
         checkExist: CheckExistResponse?,
+        screenshots: List<GalleryItem>,
         category: CategoryItem?,
         whatsNew: String,
         description: String,
@@ -49,6 +51,7 @@ class UploadConverterImpl(
         pkg: UploadPackage?,
         apk: UploadApk?,
         checkExist: CheckExistResponse?,
+        screenshots: List<GalleryItem>,
         category: CategoryItem?,
         whatsNew: String,
         description: String,
@@ -103,45 +106,14 @@ class UploadConverterImpl(
         }
         items += ScreenshotsItem(
             id = id++,
-            items = listOf(
-                ScreenAppendItem(id++),
+            items = screenshots.map {
                 ScreenImageItem(
-                    id++,
-                    Uri.parse("https://f-droid.org/repo/com.github.cvzi.screenshottile/en-US/phoneScreenshots/1_en-US.png"),
-                    1080,
-                    2220
-                ),
-                ScreenImageItem(
-                    id++,
-                    Uri.parse("https://cdn.digitbin.com/wp-content/uploads/Display_options.jpg"),
-                    1080,
-                    2412
-                ),
-                ScreenImageItem(
-                    id++,
-                    Uri.parse("https://i.stack.imgur.com/fNbz0.png"),
-                    252,
-                    448
-                ),
-                ScreenImageItem(
-                    id++,
-                    Uri.parse("https://cdn.afterdawn.fi/storage/pictures/1920/guide-force-landscape-android-landscape.jpg"),
-                    1920,
-                    1080
-                ),
-                ScreenImageItem(
-                    id++,
-                    Uri.parse("https://images.wondershare.com/images/mobile/mobilego/android-screenshot2.jpg"),
-                    281,
-                    500
-                ),
-                ScreenImageItem(
-                    id++,
-                    Uri.parse("https://www.guidingtech.com/wp-content/uploads/Take-Screenshot-With-Google-Assistant.jpg"),
-                    782,
-                    1602
+                    id = id++,
+                    uri = it.uri,
+                    width = it.width,
+                    height = it.height
                 )
-            )
+            } + ScreenAppendItem(id++)
         )
 
         if (isUploadAvailable) {

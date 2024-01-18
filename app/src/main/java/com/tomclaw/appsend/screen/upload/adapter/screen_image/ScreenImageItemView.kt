@@ -28,6 +28,10 @@ class ScreenImageItemViewHolder(view: View) : BaseViewHolder(view), ScreenImageI
     }
 
     override fun setImage(item: ScreenImageItem) {
+        val aspectRatio = item.width.toFloat() / item.height.toFloat()
+        val width = image.layoutParams.height * aspectRatio
+        image.layoutParams.width = width.toInt()
+
         image.fetch(item.uri.toString()) {
             centerCrop()
             placeholder = {
