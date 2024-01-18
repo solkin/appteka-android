@@ -9,7 +9,7 @@ import com.tomclaw.appsend.download.COMPLETED
 import com.tomclaw.appsend.download.DownloadManager
 import com.tomclaw.appsend.download.IDLE
 import com.tomclaw.appsend.screen.details.adapter.ItemListener
-import com.tomclaw.appsend.screen.details.adapter.screenshots.Screenshot
+import com.tomclaw.appsend.screen.details.adapter.screenshot.ScreenshotItem
 import com.tomclaw.appsend.screen.details.adapter.status.StatusAction
 import com.tomclaw.appsend.screen.details.api.ACTION_DELETE
 import com.tomclaw.appsend.screen.details.api.ACTION_EDIT_META
@@ -560,7 +560,7 @@ class DetailsPresenterImpl(
         }
     }
 
-    override fun onScreenshotClick(items: List<Screenshot>, clicked: Int) {
+    override fun onScreenshotClick(items: List<ScreenshotItem>, clicked: Int) {
         router?.openGallery(
             items = items.map { GalleryItem(it.uri, it.width, it.height) },
             current = clicked,

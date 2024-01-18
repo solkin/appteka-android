@@ -41,7 +41,8 @@ import com.tomclaw.appsend.screen.details.adapter.rating.RatingItemBlueprint
 import com.tomclaw.appsend.screen.details.adapter.rating.RatingItemPresenter
 import com.tomclaw.appsend.screen.details.adapter.scores.ScoresItemBlueprint
 import com.tomclaw.appsend.screen.details.adapter.scores.ScoresItemPresenter
-import com.tomclaw.appsend.screen.details.adapter.screenshots.ScreenshotsAdapter
+import com.tomclaw.appsend.screen.details.adapter.screenshot.ScreenshotItemBlueprint
+import com.tomclaw.appsend.screen.details.adapter.screenshot.ScreenshotItemPresenter
 import com.tomclaw.appsend.screen.details.adapter.screenshots.ScreenshotsItemBlueprint
 import com.tomclaw.appsend.screen.details.adapter.screenshots.ScreenshotsItemPresenter
 import com.tomclaw.appsend.screen.details.adapter.status.StatusItemBlueprint
@@ -52,6 +53,7 @@ import com.tomclaw.appsend.screen.details.adapter.user_review.UserReviewItemBlue
 import com.tomclaw.appsend.screen.details.adapter.user_review.UserReviewItemPresenter
 import com.tomclaw.appsend.screen.details.adapter.whats_new.WhatsNewItemBlueprint
 import com.tomclaw.appsend.screen.details.adapter.whats_new.WhatsNewItemPresenter
+import com.tomclaw.appsend.screen.upload.UploadPresenter
 import com.tomclaw.appsend.util.PackageObserver
 import com.tomclaw.appsend.util.PerActivity
 import com.tomclaw.appsend.util.SchedulersFactory
@@ -78,7 +80,7 @@ class DetailsModule(
     internal fun providePresenter(
         interactor: DetailsInteractor,
         resourceProvider: DetailsResourceProvider,
-        adapterPresenter: Lazy<AdapterPresenter>,
+        @Named(DETAILS_ADAPTER_PRESENTER) adapterPresenter: Lazy<AdapterPresenter>,
         detailsConverter: DetailsConverter,
         packageObserver: PackageObserver,
         downloadManager: DownloadManager,
@@ -118,8 +120,16 @@ class DetailsModule(
     ): DetailsConverter = DetailsConverterImpl(resourceProvider)
 
     @Provides
+    @Named(DETAILS_ADAPTER_PRESENTER)
     @PerActivity
-    internal fun provideAdapterPresenter(binder: ItemBinder): AdapterPresenter {
+    internal fun provideDetailsAdapterPresenter(binder: ItemBinder): AdapterPresenter {
+        return SimpleAdapterPresenter(binder, binder)
+    }
+
+    @Provides
+    @Named(SCREENSHOT_ADAPTER_PRESENTER)
+    @PerActivity
+    internal fun provideScreenshotAdapterPresenter(binder: ItemBinder): AdapterPresenter {
         return SimpleAdapterPresenter(binder, binder)
     }
 
@@ -323,21 +333,40 @@ class DetailsModule(
     @Provides
     @IntoSet
     @PerActivity
+    internal fun provideScreenshotItemBlueprint(
+        presenter: ScreenshotItemPresenter
+    ): ItemBlueprint<*, *> = ScreenshotItemBlueprint(presenter)
+
+    @Provides
+    @PerActivity
+    internal fun provideScreenshotItemPresenter(
+        presenter: ScreenshotsItemPresenter,
+    ) = ScreenshotItemPresenter(presenter)
+
+    @Provides
+    @IntoSet
+    @PerActivity
     internal fun provideScreenshotsItemBlueprint(
         presenter: ScreenshotsItemPresenter,
-        adapter: ScreenshotsAdapter,
-    ): ItemBlueprint<*, *> = ScreenshotsItemBlueprint(presenter, adapter)
+        @Named(SCREENSHOT_ADAPTER_PRESENTER) adapterPresenter: Lazy<AdapterPresenter>,
+        binder: Lazy<ItemBinder>,
+    ): ItemBlueprint<*, *> = ScreenshotsItemBlueprint(
+        presenter,
+        adapterPresenter,
+        binder
+    )
 
     @Provides
     @PerActivity
     internal fun provideScreenshotsItemPresenter(
         presenter: DetailsPresenter,
-    ) = ScreenshotsItemPresenter(presenter)
-
-    @Provides
-    @PerActivity
-    internal fun provideScreenshotsItemAdapter(
-        presenter: DetailsPresenter,
-    ) = ScreenshotsAdapter()
+        @Named(SCREENSHOT_ADAPTER_PRESENTER) adapterPresenter: Lazy<AdapterPresenter>,
+    ) = ScreenshotsItemPresenter(
+        presenter,
+        adapterPresenter
+    )
 
 }
+
+const val DETAILS_ADAPTER_PRESENTER = "DetailsAdapterPresenter"
+const val SCREENSHOT_ADAPTER_PRESENTER = "ScreenshotAdapterPresenter"
