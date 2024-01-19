@@ -20,6 +20,8 @@ data class Meta(
     val openSource: Boolean?,
     @SerializedName("source_url")
     val sourceUrl: String?,
+    @SerializedName("screenshots")
+    val screenshots: List<Screenshot>?,
     @SerializedName("similar")
     val similar: Boolean?,
     @SerializedName("time")

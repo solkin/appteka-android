@@ -8,7 +8,8 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class ScreenshotItem(
     override val id: Long,
-    val uri: Uri,
+    val original: Uri,
+    val preview: Uri,
     val width: Int,
     val height: Int,
 ) : Item, Parcelable

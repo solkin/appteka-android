@@ -120,47 +120,20 @@ class DetailsConverterImpl(
             installedVersionCode = installedVersionCode,
             downloadState = downloadState,
         )
-        items += ScreenshotsItem(
-            id = id++,
-            items = listOf(
-                ScreenshotItem(
-                    id++,
-                    Uri.parse("https://f-droid.org/repo/com.github.cvzi.screenshottile/en-US/phoneScreenshots/1_en-US.png"),
-                    1080,
-                    2220
-                ),
-                ScreenshotItem(
-                    id++,
-                    Uri.parse("https://cdn.digitbin.com/wp-content/uploads/Display_options.jpg"),
-                    1080,
-                    2412
-                ),
-                ScreenshotItem(
-                    id++,
-                    Uri.parse("https://i.stack.imgur.com/fNbz0.png"),
-                    252,
-                    448
-                ),
-                ScreenshotItem(
-                    id++,
-                    Uri.parse("https://cdn.afterdawn.fi/storage/pictures/1920/guide-force-landscape-android-landscape.jpg"),
-                    1920,
-                    1080
-                ),
-                ScreenshotItem(
-                    id++,
-                    Uri.parse("https://images.wondershare.com/images/mobile/mobilego/android-screenshot2.jpg"),
-                    281,
-                    500
-                ),
-                ScreenshotItem(
-                    id++,
-                    Uri.parse("https://www.guidingtech.com/wp-content/uploads/Take-Screenshot-With-Google-Assistant.jpg"),
-                    782,
-                    1602
-                )
+        if (details.meta?.screenshots != null && details.meta.screenshots.isNotEmpty()) {
+            items += ScreenshotsItem(
+                id = id++,
+                items = details.meta.screenshots.map {
+                    ScreenshotItem(
+                        id = it.scrId.hashCode().toLong(),
+                        original = Uri.parse(it.original),
+                        preview = Uri.parse(it.preview),
+                        width = it.width,
+                        height = it.height,
+                    )
+                }
             )
-        )
+        }
         if (details.userRating != null) {
             items += UserReviewItem(
                 id = id++,

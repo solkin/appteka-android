@@ -140,6 +140,7 @@ class UploadManagerImpl(
             whatsNew = info.whatsNew,
             exclusive = info.exclusive,
             sourceUrl = info.sourceUrl,
+            scrIds = null
         ).blockingSubscribe(
             {}, {}
         )

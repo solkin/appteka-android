@@ -32,7 +32,7 @@ class ScreenshotItemViewHolder(view: View) : BaseViewHolder(view), ScreenshotIte
         val width = image.layoutParams.height * aspectRatio
         image.layoutParams.width = width.toInt()
 
-        image.fetch(item.uri.toString()) {
+        image.fetch(item.preview.toString()) {
             centerCrop()
             placeholder = {
                 with(it.get()) {

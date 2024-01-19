@@ -158,6 +158,7 @@ interface StoreApi {
         @Field("whats_new") whatsNew: String,
         @Field("exclusive") exclusive: Boolean,
         @Field("source_url") sourceUrl: String?,
+        @Field("scr_ids") scrIds: List<String>?,
     ): Single<StoreResponse<SetMetaResponse>>
 
     @POST("1/app/favorite/mark")
