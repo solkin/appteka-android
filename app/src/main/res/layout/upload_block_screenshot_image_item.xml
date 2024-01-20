@@ -7,7 +7,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/screenshot_card"
         android:layout_width="wrap_content"
-        android:layout_height="156dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_margin="8dp"
         android:foreground="?android:attr/selectableItemBackground"
@@ -16,11 +16,11 @@
 
         <ImageView
             android:id="@+id/screenshot"
-            android:layout_width="75dp"
-            android:layout_height="156dp"
+            android:layout_width="120dp"
+            android:layout_height="180dp"
             android:layout_gravity="center_vertical"
             android:contentDescription="@string/app_icon"
-            android:minWidth="50dp"
+            android:minWidth="85dp"
             android:scaleType="centerCrop"
             android:src="@color/grey" />
 

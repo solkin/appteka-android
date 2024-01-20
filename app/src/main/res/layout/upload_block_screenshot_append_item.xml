@@ -7,7 +7,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/screen_append"
         android:layout_width="wrap_content"
-        android:layout_height="156dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_margin="8dp"
         android:foreground="?android:attr/selectableItemBackground"
@@ -16,8 +16,8 @@
 
         <LinearLayout
             android:id="@+id/screenshot"
-            android:layout_width="100dp"
-            android:layout_height="156dp"
+            android:layout_width="120dp"
+            android:layout_height="180dp"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -31,7 +31,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:padding="8dp"
+                android:paddingTop="8dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
                 android:text="@string/add_screenshot"
                 android:textColor="?text_primary_color"
                 android:textSize="14sp" />
