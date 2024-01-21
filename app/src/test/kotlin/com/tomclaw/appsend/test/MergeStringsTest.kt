@@ -7,7 +7,7 @@ import org.junit.runner.RunWith
 import org.junit.runners.Parameterized
 
 @RunWith(Parameterized::class)
-class UploadManagerImplTest(
+class MergeStringsTest(
     private val valueA: List<String?>,
     private val valueB: List<String>?,
     private val expected: List<String>

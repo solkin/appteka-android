@@ -93,13 +93,25 @@ class UploadManagerImpl(
         }
         relay.accept(UploadState(status = UploadStatus.AWAIT))
         uploads[id] = executor.submit {
+            val scrUri = info.screenshots
+                .filter { it.scrId.isNullOrEmpty() }
+                .map { it.original }
+            val scrCount = scrUri.size
+            var apkCount = 0
+
             relay.accept(UploadState(status = UploadStatus.STARTED))
             val uploadResult = results[id] ?: if (apk != null) {
+                apkCount = 1
                 uploadBlocking(
                     path = apk.path,
                     packageInfo = apk.packageInfo,
                     progressCallback = { percent ->
-                        relay.accept(UploadState(status = UploadStatus.PROGRESS, percent))
+                        relay.accept(
+                            UploadState(
+                                status = UploadStatus.PROGRESS,
+                                totalPercent(apkCount, percent, scrCount, 0)
+                            )
+                        )
                     },
                     errorCallback = {
                         relay.accept(UploadState(status = UploadStatus.ERROR))
@@ -112,17 +124,20 @@ class UploadManagerImpl(
             if (uploadResult != null) {
                 results[id] = uploadResult
 
-                val scrIds = info.screenshots
+                val scrIds = scrUri
                     .takeIf { it.isNotEmpty() }
-                    ?.let { screenshots ->
-                        val uploadedIds = uploadScreenshotsBlocking(
-                            screenshots
-                                .filter { it.scrId.isNullOrEmpty() }
-                                .map { it.original }
-                        )
-                        mergeEmptyStrings(info.screenshots.map { it.scrId }, uploadedIds)
+                    ?.let { uris ->
+                        uploadScreenshotsBlocking(uris, progressCallback = { percent ->
+                            relay.accept(
+                                UploadState(
+                                    status = UploadStatus.PROGRESS,
+                                    totalPercent(apkCount, 100, scrCount, percent)
+                                )
+                            )
+                        })
                     }
-                    ?: emptyList()
+                    ?.let { ids -> mergeEmptyStrings(info.screenshots.map { it.scrId }, ids) }
+                    .orEmpty()
 
                 setMetaInfoBlocking(
                     appId = uploadResult.appId,
@@ -154,6 +169,7 @@ class UploadManagerImpl(
 
     private fun uploadScreenshotsBlocking(
         uris: List<Uri>,
+        progressCallback: (Int) -> (Unit),
     ): List<String>? {
         var connection: HttpURLConnection? = null
         try {
@@ -163,7 +179,7 @@ class UploadManagerImpl(
 
             connection.outputStream.use { outputStream ->
                 val multipart = MultipartStream(outputStream, boundary)
-                uris.forEach { uri ->
+                uris.forEachIndexed { index, uri ->
                     val name = String.format("src%d.jpg", uri.hashCode())
                     multipart.writePart(
                         "images",
@@ -179,6 +195,7 @@ class UploadManagerImpl(
                             }
                         }
                     )
+                    progressCallback((index + 1) * 100 / uris.size)
                 }
                 multipart.writeLastBoundaryIfNeeds()
                 multipart.flush()
@@ -378,6 +395,12 @@ fun mergeEmptyStrings(left: List<String?>, right: List<String>?): List<String> {
             }
         }
         .filter { it.isNotEmpty() }
+}
+
+fun totalPercent(apkCount: Int, apkPercent: Int, scrCount: Int, scrPercent: Int, apkWeight: Int = 80, scrWeight: Int = 20): Int {
+    val apk = if (scrCount > 0) apkPercent * apkWeight / 100 else apkPercent
+    val scr = if (apkCount > 0) scrPercent * scrWeight / 100 else scrPercent
+    return apk + scr
 }
 
 const val HOST_UPLOAD_APP_URL = Config.HOST_URL + "/api/1/app/upload"
