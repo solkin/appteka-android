@@ -10,6 +10,7 @@ class ScreenImageItemPresenter(
     override fun bindView(view: ScreenImageItemView, item: ScreenImageItem, position: Int) {
         with(view) {
             setImage(item)
+            setRemote(item.remote)
             setOnClickListener { listener.onScreenshotClick(item) }
         }
     }

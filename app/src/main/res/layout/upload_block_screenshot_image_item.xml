@@ -24,6 +24,16 @@
             android:scaleType="centerCrop"
             android:src="@color/grey" />
 
+        <ImageView
+            android:id="@+id/upload"
+            android:layout_width="34dp"
+            android:layout_height="34dp"
+            android:layout_gravity="end|bottom"
+            android:background="@drawable/radial_gradient"
+            android:contentDescription="@string/upload"
+            android:padding="8dp"
+            android:src="@drawable/ic_cloud_upload" />
+
     </androidx.cardview.widget.CardView>
 
 </FrameLayout>

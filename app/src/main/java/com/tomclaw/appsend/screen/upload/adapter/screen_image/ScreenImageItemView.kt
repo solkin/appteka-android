@@ -2,6 +2,7 @@ package com.tomclaw.appsend.screen.upload.adapter.screen_image
 
 import android.view.View
 import android.widget.ImageView
+import androidx.core.view.isVisible
 import com.avito.konveyor.adapter.BaseViewHolder
 import com.avito.konveyor.blueprint.ItemView
 import com.tomclaw.appsend.R
@@ -12,6 +13,8 @@ interface ScreenImageItemView : ItemView {
 
     fun setImage(item: ScreenImageItem)
 
+    fun setRemote(remote: Boolean)
+
     fun setOnClickListener(listener: (() -> Unit)?)
 
 }
@@ -20,6 +23,7 @@ class ScreenImageItemViewHolder(view: View) : BaseViewHolder(view), ScreenImageI
 
     private val card: View = view.findViewById(R.id.screenshot_card)
     private val image: ImageView = view.findViewById(R.id.screenshot)
+    private val upload: View = view.findViewById(R.id.upload)
 
     private var clickListener: (() -> Unit)? = null
 
@@ -40,6 +44,10 @@ class ScreenImageItemViewHolder(view: View) : BaseViewHolder(view), ScreenImageI
                 }
             }
         }
+    }
+
+    override fun setRemote(remote: Boolean) {
+        upload.isVisible = !remote
     }
 
     override fun setOnClickListener(listener: (() -> Unit)?) {
