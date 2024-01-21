@@ -9,11 +9,13 @@ import com.tomclaw.appsend.categories.CategoriesInteractor
 import com.tomclaw.appsend.categories.Category
 import com.tomclaw.appsend.categories.CategoryConverter
 import com.tomclaw.appsend.categories.CategoryItem
+import com.tomclaw.appsend.dto.Screenshot
 import com.tomclaw.appsend.screen.gallery.GalleryItem
 import com.tomclaw.appsend.screen.upload.adapter.ItemListener
 import com.tomclaw.appsend.screen.upload.adapter.other_versions.VersionItem
 import com.tomclaw.appsend.screen.upload.adapter.screen_image.ScreenImageItem
 import com.tomclaw.appsend.screen.upload.api.CheckExistResponse
+import com.tomclaw.appsend.screen.upload.dto.UploadScreenshot
 import com.tomclaw.appsend.upload.UploadApk
 import com.tomclaw.appsend.upload.UploadInfo
 import com.tomclaw.appsend.upload.UploadManager
@@ -46,7 +48,7 @@ interface UploadPresenter : ItemListener {
 
     fun onAuthorized()
 
-    fun onImagesSelected(images: List<GalleryItem>)
+    fun onImagesSelected(images: List<UploadScreenshot>)
 
     fun onBackPressed()
 
@@ -98,8 +100,8 @@ class UploadPresenterImpl(
     private var checkExist: CheckExistResponse? = state
         ?.getParcelableCompat(KEY_CHECK_EXIST, CheckExistResponse::class.java)
         ?: startInfo?.checkExist
-    private var screenshots: ArrayList<GalleryItem> = state
-        ?.getParcelableArrayListCompat(KEY_SCREENSHOTS, GalleryItem::class.java)
+    private var screenshots: ArrayList<UploadScreenshot> = state
+        ?.getParcelableArrayListCompat(KEY_SCREENSHOTS, UploadScreenshot::class.java)
         ?: ArrayList(startInfo?.screenshots ?: emptyList())
     private var category: CategoryItem? =
         state?.getParcelableCompat(KEY_CATEGORY_ID, CategoryItem::class.java) ?: startInfo?.category
@@ -189,7 +191,7 @@ class UploadPresenterImpl(
         invalidate()
     }
 
-    override fun onImagesSelected(images: List<GalleryItem>) {
+    override fun onImagesSelected(images: List<UploadScreenshot>) {
         screenshots.addAll(images)
         bindForm()
     }
@@ -235,6 +237,15 @@ class UploadPresenterImpl(
     private fun onCheckExistLoaded(response: CheckExistResponse) {
         this.checkExist = response
         response.meta?.let { meta ->
+            this.screenshots = meta.screenshots?.map {
+                UploadScreenshot(
+                    it.scrId,
+                    Uri.parse(it.original),
+                    Uri.parse(it.preview),
+                    it.width,
+                    it.height
+                )
+            }?.let { ArrayList(it) } ?: ArrayList()
             this.category = meta.category?.let { categoryConverter.convert(it) } ?: this.category
             this.whatsNew = meta.whatsNew.orEmpty()
             this.description = meta.description.orEmpty()
@@ -424,8 +435,8 @@ class UploadPresenterImpl(
 
     override fun onScreenshotClick(item: ScreenImageItem) {
         router?.openGallery(
-            items = screenshots,
-            current = screenshots.indexOfFirst { it.uri == item.uri },
+            items = screenshots.map { GalleryItem(it.original, it.width, it.height) },
+            current = screenshots.indexOfFirst { it.original == item.original },
         )
     }
 

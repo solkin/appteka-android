@@ -23,6 +23,7 @@ import com.tomclaw.appsend.screen.gallery.GalleryItem
 import com.tomclaw.appsend.screen.gallery.createGalleryActivityIntent
 import com.tomclaw.appsend.screen.upload.di.UPLOAD_ADAPTER_PRESENTER
 import com.tomclaw.appsend.screen.upload.di.UploadModule
+import com.tomclaw.appsend.screen.upload.dto.UploadScreenshot
 import com.tomclaw.appsend.upload.UploadApk
 import com.tomclaw.appsend.upload.UploadInfo
 import com.tomclaw.appsend.upload.UploadPackage
@@ -96,7 +97,7 @@ class UploadActivity : AppCompatActivity(), UploadPresenter.UploadRouter {
                         uris.add(intentData)
                     }
                 }
-                val items: List<GalleryItem> = uris.map { convertUri(it) }
+                val items: List<UploadScreenshot> = uris.map { convertUri(it) }
                 presenter.onImagesSelected(items)
             }
         }
@@ -198,12 +199,18 @@ class UploadActivity : AppCompatActivity(), UploadPresenter.UploadRouter {
         KeyboardHelper.hideKeyboard(this)
     }
 
-    private fun convertUri(uri: Uri): GalleryItem {
+    private fun convertUri(uri: Uri): UploadScreenshot {
         val input = contentResolver.openInputStream(uri)
         val options = BitmapFactory.Options()
         options.inJustDecodeBounds = true
         BitmapFactory.decodeStream(input, null, options)
-        return GalleryItem(uri, width = options.outWidth, height = options.outHeight)
+        return UploadScreenshot(
+            scrId = null,
+            original = uri,
+            preview = uri,
+            width = options.outWidth,
+            height = options.outHeight
+        )
     }
 
 }

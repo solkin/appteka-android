@@ -4,6 +4,7 @@ import android.net.Uri
 import android.os.Build
 import com.avito.konveyor.blueprint.Item
 import com.tomclaw.appsend.categories.CategoryItem
+import com.tomclaw.appsend.dto.Screenshot
 import com.tomclaw.appsend.screen.gallery.GalleryItem
 import com.tomclaw.appsend.screen.upload.adapter.category.SelectCategoryItem
 import com.tomclaw.appsend.screen.upload.adapter.description.DescriptionItem
@@ -21,6 +22,7 @@ import com.tomclaw.appsend.screen.upload.adapter.selected_app.SelectedAppItem
 import com.tomclaw.appsend.screen.upload.adapter.submit.SubmitItem
 import com.tomclaw.appsend.screen.upload.adapter.whats_new.WhatsNewItem
 import com.tomclaw.appsend.screen.upload.api.CheckExistResponse
+import com.tomclaw.appsend.screen.upload.dto.UploadScreenshot
 import com.tomclaw.appsend.upload.UploadApk
 import com.tomclaw.appsend.upload.UploadPackage
 import com.tomclaw.appsend.util.versionCodeCompat
@@ -31,7 +33,7 @@ interface UploadConverter {
         pkg: UploadPackage?,
         apk: UploadApk?,
         checkExist: CheckExistResponse?,
-        screenshots: List<GalleryItem>,
+        screenshots: List<UploadScreenshot>,
         category: CategoryItem?,
         whatsNew: String,
         description: String,
@@ -51,7 +53,7 @@ class UploadConverterImpl(
         pkg: UploadPackage?,
         apk: UploadApk?,
         checkExist: CheckExistResponse?,
-        screenshots: List<GalleryItem>,
+        screenshots: List<UploadScreenshot>,
         category: CategoryItem?,
         whatsNew: String,
         description: String,
@@ -108,10 +110,12 @@ class UploadConverterImpl(
             id = id++,
             items = screenshots.map {
                 ScreenImageItem(
-                    id = id++,
-                    uri = it.uri,
+                    id = it.longId(),
+                    original = it.original,
+                    preview = it.preview,
                     width = it.width,
-                    height = it.height
+                    height = it.height,
+                    remote = it.remote()
                 )
             } + ScreenAppendItem(id++)
         )
@@ -135,5 +139,10 @@ class UploadConverterImpl(
 
         return items
     }
+
+    private fun UploadScreenshot.longId(): Long =
+        (scrId?.hashCode() ?: original.toString().hashCode()).toLong()
+
+    private fun UploadScreenshot.remote(): Boolean = scrId != null
 
 }
