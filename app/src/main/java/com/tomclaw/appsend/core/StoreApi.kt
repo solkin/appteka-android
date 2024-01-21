@@ -159,6 +159,7 @@ interface StoreApi {
         @Field("exclusive") exclusive: Boolean,
         @Field("source_url") sourceUrl: String?,
         @Field("scr_ids") scrIds: List<String>?,
+        @Field("private") private: Boolean,
     ): Single<StoreResponse<SetMetaResponse>>
 
     @POST("1/app/favorite/mark")

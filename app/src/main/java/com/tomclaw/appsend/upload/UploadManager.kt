@@ -1,10 +1,11 @@
 package com.tomclaw.appsend.upload
 
+import android.content.Context
 import android.content.pm.PackageInfo
+import android.net.Uri
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.jakewharton.rxrelay3.BehaviorRelay
-import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.core.Config
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.dto.StoreResponse
@@ -43,6 +44,7 @@ interface UploadManager {
 }
 
 class UploadManagerImpl(
+    private val context: Context,
     private val cookieJar: CookieJar,
     private val api: StoreApi,
     private val gson: Gson
@@ -89,16 +91,10 @@ class UploadManagerImpl(
                 fileStatus = file.status,
             )
         }
-        val result = results[id]
-        if (result != null) {
-            setMetaInfoBlocking(result.appId, info)
-            relay.accept(UploadState(status = UploadStatus.COMPLETED, result = result))
-            return
-        }
         relay.accept(UploadState(status = UploadStatus.AWAIT))
         uploads[id] = executor.submit {
             relay.accept(UploadState(status = UploadStatus.STARTED))
-            val uploadResult = if (apk != null) {
+            val uploadResult = results[id] ?: if (apk != null) {
                 uploadBlocking(
                     path = apk.path,
                     packageInfo = apk.packageInfo,
@@ -115,8 +111,35 @@ class UploadManagerImpl(
             }
             if (uploadResult != null) {
                 results[id] = uploadResult
-                setMetaInfoBlocking(uploadResult.appId, info)
-                relay.accept(UploadState(status = UploadStatus.COMPLETED, result = uploadResult))
+
+                val scrIds = info.screenshots
+                    .takeIf { it.isNotEmpty() }
+                    ?.let { screenshots ->
+                        val uploadedIds = uploadScreenshotsBlocking(
+                            screenshots
+                                .filter { it.scrId.isNullOrEmpty() }
+                                .map { it.original }
+                        )
+                        mergeEmptyStrings(info.screenshots.map { it.scrId }, uploadedIds)
+                    }
+                    ?: emptyList()
+
+                setMetaInfoBlocking(
+                    appId = uploadResult.appId,
+                    info = info,
+                    scrIds = scrIds,
+                    successCallback = {
+                        relay.accept(
+                            UploadState(
+                                status = UploadStatus.COMPLETED,
+                                result = uploadResult
+                            )
+                        )
+                    },
+                    errorCallback = {
+                        relay.accept(UploadState(status = UploadStatus.ERROR))
+                    },
+                )
             }
             uploads.remove(id)
         }
@@ -129,9 +152,74 @@ class UploadManagerImpl(
         relays[id]?.accept(UploadState(status = UploadStatus.IDLE))
     }
 
+    private fun uploadScreenshotsBlocking(
+        uris: List<Uri>,
+    ): List<String>? {
+        var connection: HttpURLConnection? = null
+        try {
+            val boundary = generateBoundary()
+
+            connection = openMultipartConnection(HOST_UPLOAD_SCREENSHOT_URL, boundary)
+
+            connection.outputStream.use { outputStream ->
+                val multipart = MultipartStream(outputStream, boundary)
+                uris.forEach { uri ->
+                    val name = String.format("src%d.jpg", uri.hashCode())
+                    multipart.writePart(
+                        "images",
+                        name,
+                        inputStream = context.contentResolver.openInputStream(uri)
+                            ?: throw IOException("unable to read file"),
+                        "image/jpeg",
+                        object : ProgressHandler {
+                            override fun onProgress(sent: Long) {}
+                            override fun onError(ex: Throwable) {}
+                            override fun onCancelled(ex: Throwable) {
+                                throw ex
+                            }
+                        }
+                    )
+                }
+                multipart.writeLastBoundaryIfNeeds()
+                multipart.flush()
+            }
+
+            when (val responseCode = connection.responseCode) {
+                200 -> {
+                    return InputStreamReader(connection.inputStream).use { reader ->
+                        val responseType: Type =
+                            object : TypeToken<StoreResponse<UploadScreenshotsResponse>>() {}.type
+                        val response: StoreResponse<UploadScreenshotsResponse> =
+                            gson.fromJson(reader, responseType)
+                        response.result.scrIds
+                    }
+                }
+
+                else -> {
+                    InputStreamReader(connection.errorStream).use { reader ->
+                        println(reader.readText())
+                    }
+                    throw IOException("Error upload response code is $responseCode")
+                }
+            }
+        } catch (ex: InterruptedIOException) {
+            println("[upload] IO interruption while application uploading\n$ex")
+        } catch (ex: InterruptedException) {
+            println("[upload] Interruption while application uploading\n$ex")
+        } catch (ex: Throwable) {
+            println("[upload] Exception while application uploading\n$ex")
+        } finally {
+            connection?.disconnect()
+        }
+        return null
+    }
+
     private fun setMetaInfoBlocking(
         appId: String,
-        info: UploadInfo
+        info: UploadInfo,
+        scrIds: List<String>,
+        successCallback: (SetMetaResponse) -> Unit,
+        errorCallback: (Throwable) -> Unit,
     ) {
         return api.setMeta(
             appId,
@@ -140,9 +228,11 @@ class UploadManagerImpl(
             whatsNew = info.whatsNew,
             exclusive = info.exclusive,
             sourceUrl = info.sourceUrl,
-            scrIds = null
+            scrIds = scrIds,
+            private = false,
         ).blockingSubscribe(
-            {}, {}
+            { successCallback.invoke(it.result) },
+            { errorCallback.invoke(it) }
         )
     }
 
@@ -153,7 +243,7 @@ class UploadManagerImpl(
         errorCallback: (Throwable) -> Unit,
         cancelCallback: () -> Unit
     ): UploadResponse? {
-        val packageManager = Appteka.app().packageManager
+        val packageManager = context.packageManager
         val apk = File(path)
         val label = packageInfo.getLabel()
         val icon = PackageHelper.getPackageIconPng(
@@ -166,31 +256,9 @@ class UploadManagerImpl(
 
         var connection: HttpURLConnection? = null
         try {
-            val url = URL(HOST_UPLOAD_URL)
-            val httpUrl = HttpUrl.parse(HOST_UPLOAD_URL)
-                ?: throw IllegalArgumentException("Invalid upload URL")
-
-            connection = url.openConnection() as HttpURLConnection
-
             val boundary = generateBoundary()
 
-            val cookies = cookieJar.loadForRequest(httpUrl)
-                .map { it.toString() }
-                .reduce { acc, cookie -> "$acc;$cookie" }
-
-            with(connection) {
-                setRequestProperty("Content-Type", "multipart/form-data;boundary=$boundary")
-                setRequestProperty("Cookie", cookies)
-                readTimeout = TimeUnit.MINUTES.toMillis(2).toInt()
-                connectTimeout = TimeUnit.SECONDS.toMillis(30).toInt()
-                requestMethod = HttpUtil.POST
-                useCaches = false
-                doInput = true
-                doOutput = true
-                instanceFollowRedirects = false
-                setChunkedStreamingMode(128000)
-                connect()
-            }
+            connection = openMultipartConnection(HOST_UPLOAD_APP_URL, boundary)
 
             connection.outputStream.use { outputStream ->
                 val multipart = MultipartStream(outputStream, boundary)
@@ -269,8 +337,48 @@ class UploadManagerImpl(
         return null
     }
 
+    private fun openMultipartConnection(url: String, boundary: String): HttpURLConnection {
+        val connection: HttpURLConnection = URL(url).openConnection() as HttpURLConnection
+
+        val httpUrl = HttpUrl.parse(url)
+            ?: throw IllegalArgumentException("Invalid upload screenshot URL")
+
+        val cookies = cookieJar.loadForRequest(httpUrl)
+            .map { it.toString() }
+            .reduce { acc, cookie -> "$acc;$cookie" }
+
+        with(connection) {
+            setRequestProperty("Content-Type", "multipart/form-data;boundary=$boundary")
+            setRequestProperty("Cookie", cookies)
+            readTimeout = TimeUnit.MINUTES.toMillis(2).toInt()
+            connectTimeout = TimeUnit.SECONDS.toMillis(30).toInt()
+            requestMethod = HttpUtil.POST
+            useCaches = false
+            doInput = true
+            doOutput = true
+            instanceFollowRedirects = false
+            setChunkedStreamingMode(128000)
+            connect()
+        }
+        return connection
+    }
+
     private fun generateBoundary(): String = UUID.randomUUID().toString().filter { it == '-' }
 
 }
 
-const val HOST_UPLOAD_URL = Config.HOST_URL + "/api/1/app/upload"
+fun mergeEmptyStrings(left: List<String?>, right: List<String>?): List<String> {
+    val iterator = right.orEmpty().iterator()
+    return left
+        .map { v ->
+            v ?: if (iterator.hasNext()) {
+                iterator.next()
+            } else {
+                ""
+            }
+        }
+        .filter { it.isNotEmpty() }
+}
+
+const val HOST_UPLOAD_APP_URL = Config.HOST_URL + "/api/1/app/upload"
+const val HOST_UPLOAD_SCREENSHOT_URL = Config.HOST_URL + "/api/1/screenshot/upload"
