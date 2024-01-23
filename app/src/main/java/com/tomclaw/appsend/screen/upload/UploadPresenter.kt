@@ -442,7 +442,7 @@ class UploadPresenterImpl(
     }
 
     override fun onScreenshotDelete(item: ScreenImageItem) {
-        screenshots.removeAll { it.original == item.original }
+        screenshots.remove(screenshots.first { it.original == item.original })
         bindForm()
     }
 
