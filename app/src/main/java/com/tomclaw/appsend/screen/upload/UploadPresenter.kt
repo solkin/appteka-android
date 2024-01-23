@@ -441,6 +441,11 @@ class UploadPresenterImpl(
         )
     }
 
+    override fun onScreenshotDelete(item: ScreenImageItem) {
+        screenshots.removeAll { it.original == item.original }
+        bindForm()
+    }
+
     private fun loadCategories() {
         subscriptions += categoriesInteractor.getCategories()
             .toObservable()

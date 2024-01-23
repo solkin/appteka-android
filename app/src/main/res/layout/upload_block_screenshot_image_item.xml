@@ -25,6 +25,19 @@
             android:src="@color/grey" />
 
         <ImageView
+            android:id="@+id/delete_button"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="end|top"
+            android:layout_marginTop="6dp"
+            android:layout_marginEnd="6dp"
+            android:padding="4dp"
+            android:background="@drawable/round_white_ripple"
+            android:backgroundTint="@android:color/black"
+            android:src="@drawable/ic_close"
+            app:tint="@android:color/white" />
+
+        <ImageView
             android:id="@+id/upload"
             android:layout_width="34dp"
             android:layout_height="34dp"

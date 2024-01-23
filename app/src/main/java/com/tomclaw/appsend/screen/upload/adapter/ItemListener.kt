@@ -29,4 +29,6 @@ interface ItemListener {
 
     fun onScreenshotClick(item: ScreenImageItem)
 
+    fun onScreenshotDelete(item: ScreenImageItem)
+
 }

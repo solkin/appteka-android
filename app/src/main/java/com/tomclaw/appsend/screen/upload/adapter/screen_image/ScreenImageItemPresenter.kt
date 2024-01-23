@@ -12,6 +12,7 @@ class ScreenImageItemPresenter(
             setImage(item)
             setRemote(item.remote)
             setOnClickListener { listener.onScreenshotClick(item) }
+            setOnDeleteListener { listener.onScreenshotDelete(item) }
         }
     }
 

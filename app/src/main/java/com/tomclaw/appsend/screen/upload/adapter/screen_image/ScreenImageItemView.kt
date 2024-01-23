@@ -17,6 +17,8 @@ interface ScreenImageItemView : ItemView {
 
     fun setOnClickListener(listener: (() -> Unit)?)
 
+    fun setOnDeleteListener(listener: (() -> Unit)?)
+
 }
 
 class ScreenImageItemViewHolder(view: View) : BaseViewHolder(view), ScreenImageItemView {
@@ -24,11 +26,14 @@ class ScreenImageItemViewHolder(view: View) : BaseViewHolder(view), ScreenImageI
     private val card: View = view.findViewById(R.id.screenshot_card)
     private val image: ImageView = view.findViewById(R.id.screenshot)
     private val upload: View = view.findViewById(R.id.upload)
+    private val deleteButton: View = view.findViewById(R.id.delete_button)
 
     private var clickListener: (() -> Unit)? = null
+    private var deleteListener: (() -> Unit)? = null
 
     init {
         card.setOnClickListener { clickListener?.invoke() }
+        deleteButton.setOnClickListener { deleteListener?.invoke() }
     }
 
     override fun setImage(item: ScreenImageItem) {
@@ -54,8 +59,13 @@ class ScreenImageItemViewHolder(view: View) : BaseViewHolder(view), ScreenImageI
         this.clickListener = listener
     }
 
+    override fun setOnDeleteListener(listener: (() -> Unit)?) {
+        this.deleteListener = listener
+    }
+
     override fun onUnbind() {
         this.clickListener = null
+        this.deleteListener = null
     }
 
 }
