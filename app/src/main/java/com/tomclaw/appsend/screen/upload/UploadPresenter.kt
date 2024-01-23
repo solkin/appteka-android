@@ -192,7 +192,7 @@ class UploadPresenterImpl(
     }
 
     override fun onImagesSelected(images: List<UploadScreenshot>) {
-        screenshots.addAll(images)
+        screenshots = ArrayList((screenshots + images).distinctBy { it.original })
         bindForm()
     }
 
