@@ -28,6 +28,7 @@ class TotalPercentTest(
         fun data(): Collection<Array<Any>> {
             return listOf(
                 arrayOf(0, 0, 0, 0, 0),
+                arrayOf(0, 100, 1, 100, 100),
                 arrayOf(0, 0, 2, 0, 0),
                 arrayOf(0, 0, 2, 50, 50),
                 arrayOf(1, 0, 2, 0, 0),

@@ -397,10 +397,17 @@ fun mergeEmptyStrings(left: List<String?>, right: List<String>?): List<String> {
         .filter { it.isNotEmpty() }
 }
 
-fun totalPercent(apkCount: Int, apkPercent: Int, scrCount: Int, scrPercent: Int, apkWeight: Int = 80, scrWeight: Int = 20): Int {
+fun totalPercent(
+    apkCount: Int,
+    apkPercent: Int,
+    scrCount: Int,
+    scrPercent: Int,
+    apkWeight: Int = 80,
+    scrWeight: Int = 20
+): Int {
     val apk = if (scrCount > 0) apkPercent * apkWeight / 100 else apkPercent
     val scr = if (apkCount > 0) scrPercent * scrWeight / 100 else scrPercent
-    return apk + scr
+    return (if (apkCount > 0) apk else 0) + (if (scrCount > 0) scr else 0)
 }
 
 const val HOST_UPLOAD_APP_URL = Config.HOST_URL + "/api/1/app/upload"
