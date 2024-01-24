@@ -19,9 +19,6 @@
     <color name="permissions_container_light_background">#DBF0E8</color>
     <color name="permissions_container_dark_background">#051C13</color>
 
-    <color name="play_view_light_color">#DA5100</color>
-    <color name="play_view_dark_color">#B84400</color>
-
     <color name="divider_light">#dadada</color>
     <color name="divider_dark">#424242</color>
 
@@ -111,8 +108,6 @@
         <item name="toolbar_background">@android:color/white</item>
         <item name="search_toolbar_background">@android:color/white</item>
 
-        <item name="play_view_color">@color/play_view_light_color</item>
-
         <item name="divider_color">@color/divider_light</item>
 
         <item name="compose_background">@drawable/compose_background_light</item>
@@ -165,8 +160,6 @@
 
         <item name="toolbar_background">#202022</item>
         <item name="search_toolbar_background">#202022</item>
-
-        <item name="play_view_color">@color/play_view_dark_color</item>
 
         <item name="divider_color">@color/divider_dark</item>
 
