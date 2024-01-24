@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.avito.konveyor.ItemBinder
 import com.avito.konveyor.adapter.AdapterPresenter
@@ -13,6 +14,7 @@ import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.gallery.di.GalleryModule
 import com.tomclaw.appsend.util.getParcelableArrayListCompat
 import javax.inject.Inject
+
 
 class GalleryActivity : AppCompatActivity(), GalleryPresenter.GalleryRouter {
 
@@ -24,6 +26,15 @@ class GalleryActivity : AppCompatActivity(), GalleryPresenter.GalleryRouter {
 
     @Inject
     lateinit var binder: ItemBinder
+
+    private val saveFileLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK) {
+                result.data?.data?.let { uri ->
+                    presenter.onSaveCurrentScreenshot(uri)
+                }
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val items = intent.getParcelableArrayListCompat(EXTRA_ITEMS, GalleryItem::class.java)
@@ -69,6 +80,16 @@ class GalleryActivity : AppCompatActivity(), GalleryPresenter.GalleryRouter {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putBundle(KEY_PRESENTER_STATE, presenter.saveState())
+    }
+
+    override fun openSaveScreenshotDialog(fileName: String, fileType: String) {
+        val intent = Intent(Intent.ACTION_CREATE_DOCUMENT)
+            .apply {
+                addCategory(Intent.CATEGORY_OPENABLE)
+                type = fileType
+                putExtra(Intent.EXTRA_TITLE, fileName)
+            }
+        saveFileLauncher.launch(intent)
     }
 
     override fun leaveScreen(success: Boolean) {

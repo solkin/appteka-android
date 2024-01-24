@@ -332,4 +332,5 @@
     <string name="gallery_title">%d / %d</string>
     <string name="add_screenshot">Add screenshot</string>
     <string name="screenshots_title">Screenshots</string>
+    <string name="download_screenshot">Download screenshot</string>
 </resources>

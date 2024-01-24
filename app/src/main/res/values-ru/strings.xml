@@ -299,4 +299,5 @@
     <string name="gallery_title">%d / %d</string>
     <string name="add_screenshot">Добавить снимок экрана</string>
     <string name="screenshots_title">Снимки экрана</string>
+    <string name="download_screenshot">Скачать снимок экрана</string>
 </resources>

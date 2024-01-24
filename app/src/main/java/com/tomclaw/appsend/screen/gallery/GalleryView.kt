@@ -21,6 +21,8 @@ interface GalleryView {
 
     fun pageChanged(): Observable<Int>
 
+    fun downloadClicks(): Observable<Unit>
+
 }
 
 class GalleryViewImpl(
@@ -33,6 +35,7 @@ class GalleryViewImpl(
 
     private val navigationRelay = PublishRelay.create<Unit>()
     private val pageRelay = PublishRelay.create<Int>()
+    private val downloadRelay = PublishRelay.create<Unit>()
 
     private val callback = object : ViewPager2.OnPageChangeCallback() {
         override fun onPageSelected(position: Int) {
@@ -42,6 +45,17 @@ class GalleryViewImpl(
 
     init {
         toolbar.setNavigationOnClickListener { navigationRelay.accept(Unit) }
+        toolbar.inflateMenu(R.menu.gallery_menu)
+        toolbar.setOnMenuItemClickListener { item ->
+            when (item.itemId) {
+                R.id.download -> {
+                    downloadRelay.accept(Unit)
+                    true
+                }
+
+                else -> false
+            }
+        }
 
         pager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
         pager.adapter = adapter
@@ -73,5 +87,7 @@ class GalleryViewImpl(
                 pager.unregisterOnPageChangeCallback(callback)
             }
         }
+
+    override fun downloadClicks(): Observable<Unit> = downloadRelay
 
 }

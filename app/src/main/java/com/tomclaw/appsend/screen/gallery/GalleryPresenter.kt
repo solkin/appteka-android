@@ -1,10 +1,14 @@
 package com.tomclaw.appsend.screen.gallery
 
+import android.net.Uri
 import android.os.Bundle
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.data_source.ListDataSource
 import com.tomclaw.appsend.screen.gallery.adapter.image.ImageItem
+import com.tomclaw.appsend.util.FileHelper
 import com.tomclaw.appsend.util.SchedulersFactory
+import com.tomclaw.appsend.util.md5
+import com.tomclaw.appsend.util.retryWhenNonAuthErrors
 import dagger.Lazy
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
@@ -23,7 +27,11 @@ interface GalleryPresenter {
 
     fun onBackPressed()
 
+    fun onSaveCurrentScreenshot(uri: Uri)
+
     interface GalleryRouter {
+
+        fun openSaveScreenshotDialog(fileName: String, fileType: String)
 
         fun leaveScreen(success: Boolean)
 
@@ -36,6 +44,7 @@ class GalleryPresenterImpl(
     startIndex: Int,
     private val resourceProvider: GalleryResourceProvider,
     private val adapterPresenter: Lazy<AdapterPresenter>,
+    private val interactor: GalleryInteractor,
     private val schedulers: SchedulersFactory,
     state: Bundle?
 ) : GalleryPresenter {
@@ -55,8 +64,18 @@ class GalleryPresenterImpl(
             this.pageIndex = index
             bindPageIndex()
         }
+        subscriptions += view.downloadClicks().subscribe {
+            val item = items[pageIndex]
+            router?.openSaveScreenshotDialog(getSimpleFileName(item.uri), "image/jpeg")
+        }
 
         bindItems()
+    }
+
+    private fun getSimpleFileName(uri: Uri): String {
+        val url = uri.toString()
+        val ext = FileHelper.getFileExtensionFromPath(url)
+        return url.md5() + "." + ext
     }
 
     private fun bindPageIndex() {
@@ -81,6 +100,17 @@ class GalleryPresenterImpl(
 
     override fun onBackPressed() {
         router?.leaveScreen(success = false)
+    }
+
+    override fun onSaveCurrentScreenshot(uri: Uri) {
+        val source = items[pageIndex].uri
+        subscriptions += interactor.downloadFile(source, destination = uri)
+            .toObservable()
+            .observeOn(schedulers.mainThread())
+            .retryWhenNonAuthErrors()
+            .subscribe(
+                { }, { }
+            )
     }
 
     private fun bindItems() {
