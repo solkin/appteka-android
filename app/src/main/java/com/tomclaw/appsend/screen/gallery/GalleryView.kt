@@ -57,7 +57,7 @@ class GalleryViewImpl(
     }
 
     override fun setCurrentIndex(index: Int) {
-        pager.currentItem = index
+        pager.setCurrentItem(index, false)
     }
 
     override fun navigationClicks(): Observable<Unit> = navigationRelay
