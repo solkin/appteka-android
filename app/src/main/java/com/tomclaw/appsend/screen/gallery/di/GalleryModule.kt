@@ -54,14 +54,14 @@ class GalleryModule(
     @Provides
     @PerActivity
     internal fun provideGalleryInteractor(
-        client: OkHttpClient,
         streamsProvider: StreamsProvider,
         schedulers: SchedulersFactory,
-    ): GalleryInteractor = GalleryInteractorImpl(client, streamsProvider, schedulers)
+    ): GalleryInteractor = GalleryInteractorImpl(streamsProvider, schedulers)
 
     @Provides
     @PerActivity
-    internal fun provideStreamsProvider(): StreamsProvider = StreamsProviderImpl(context)
+    internal fun provideStreamsProvider(client: OkHttpClient): StreamsProvider =
+        StreamsProviderImpl(context, client)
 
     @Provides
     @PerActivity
