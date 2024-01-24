@@ -93,10 +93,10 @@ class UploadManagerImpl(
         }
         relay.accept(UploadState(status = UploadStatus.AWAIT))
         uploads[id] = executor.submit {
-            val scrUri = info.screenshots
+            val scrUploadUri = info.screenshots
                 .filter { it.scrId.isNullOrEmpty() }
                 .map { it.original }
-            val scrCount = scrUri.size
+            val scrUploadCount = scrUploadUri.size
             var apkCount = 0
 
             relay.accept(UploadState(status = UploadStatus.STARTED))
@@ -109,7 +109,7 @@ class UploadManagerImpl(
                         relay.accept(
                             UploadState(
                                 status = UploadStatus.PROGRESS,
-                                totalPercent(apkCount, percent, scrCount, 0)
+                                totalPercent(apkCount, percent, scrUploadCount, 0)
                             )
                         )
                     },
@@ -124,20 +124,21 @@ class UploadManagerImpl(
             if (uploadResult != null) {
                 results[id] = uploadResult
 
-                val scrIds = scrUri
+                val scrIds = scrUploadUri
                     .takeIf { it.isNotEmpty() }
                     ?.let { uris ->
                         uploadScreenshotsBlocking(uris, progressCallback = { percent ->
                             relay.accept(
                                 UploadState(
                                     status = UploadStatus.PROGRESS,
-                                    totalPercent(apkCount, 100, scrCount, percent)
+                                    totalPercent(apkCount, 100, scrUploadCount, percent)
                                 )
                             )
                         })
                     }
-                    ?.let { ids -> mergeEmptyStrings(info.screenshots.map { it.scrId }, ids) }
                     .orEmpty()
+                    .let { ids -> mergeEmptyStrings(info.screenshots.map { it.scrId }, ids) }
+
 
                 setMetaInfoBlocking(
                     appId = uploadResult.appId,
