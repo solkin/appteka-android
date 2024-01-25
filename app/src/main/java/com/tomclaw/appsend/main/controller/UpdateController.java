@@ -1,5 +1,6 @@
 package com.tomclaw.appsend.main.controller;
 
+import static com.tomclaw.appsend.Appteka.app;
 import static com.tomclaw.appsend.core.Config.HOST_URL;
 import static com.tomclaw.appsend.util.StoreHelper.parseStoreItem;
 
@@ -120,8 +121,8 @@ public class UpdateController extends AbstractController<UpdateController.Update
         InputStream in = null;
         try {
             HttpParamsBuilder builder = new HttpParamsBuilder()
-                    .appendParam("v", "1")
-                    .appendParam("build", String.valueOf(build));
+                    .appendParam("build", String.valueOf(build))
+                    .appendParam("inst_id", app().getInstallationID());
             String storeUrl = HOST_UPDATE_URL + "?" + builder.build();
             LegacyLogger.log(String.format("Store url: %s", storeUrl));
             URL url = new URL(storeUrl);
