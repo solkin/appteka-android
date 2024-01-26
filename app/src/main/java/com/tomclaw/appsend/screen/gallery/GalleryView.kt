@@ -5,6 +5,7 @@ import android.view.View
 import androidx.appcompat.widget.Toolbar
 import androidx.viewpager2.widget.ViewPager2
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
+import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
 import io.reactivex.rxjava3.core.Observable
@@ -16,6 +17,8 @@ interface GalleryView {
     fun contentUpdated()
 
     fun setCurrentIndex(index: Int)
+
+    fun showError(text: String)
 
     fun navigationClicks(): Observable<Unit>
 
@@ -72,6 +75,10 @@ class GalleryViewImpl(
 
     override fun setCurrentIndex(index: Int) {
         pager.setCurrentItem(index, false)
+    }
+
+    override fun showError(text: String) {
+        Snackbar.make(pager, text, Snackbar.LENGTH_LONG).show()
     }
 
     override fun navigationClicks(): Observable<Unit> = navigationRelay

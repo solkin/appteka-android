@@ -307,4 +307,5 @@
     <string name="add_screenshot">Add screenshot</string>
     <string name="screenshots_title">Screenshots</string>
     <string name="download_screenshot">Download screenshot</string>
+    <string name="error_saving_screenshot">Failed to save screenshot</string>
 </resources>

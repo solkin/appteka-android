@@ -8,6 +8,8 @@ interface GalleryResourceProvider {
 
     fun formatTitle(current: Int, total: Int): String
 
+    fun errorSavingScreenshot(): String
+
 }
 
 class GalleryResourceProviderImpl(
@@ -17,6 +19,10 @@ class GalleryResourceProviderImpl(
 
     override fun formatTitle(current: Int, total: Int): String {
         return resources.getString(R.string.gallery_title, current, total)
+    }
+
+    override fun errorSavingScreenshot(): String {
+        return resources.getString(R.string.error_saving_screenshot)
     }
 
 }

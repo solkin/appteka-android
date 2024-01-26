@@ -300,4 +300,5 @@
     <string name="add_screenshot">Добавить снимок экрана</string>
     <string name="screenshots_title">Снимки экрана</string>
     <string name="download_screenshot">Скачать снимок экрана</string>
+    <string name="error_saving_screenshot">Не удалось сохранить скриншот</string>
 </resources>

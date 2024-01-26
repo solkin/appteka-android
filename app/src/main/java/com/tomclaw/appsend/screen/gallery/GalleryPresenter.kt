@@ -105,9 +105,8 @@ class GalleryPresenterImpl(
         subscriptions += interactor.downloadFile(source, destination = uri)
             .toObservable()
             .observeOn(schedulers.mainThread())
-            .retryWhenNonAuthErrors()
             .subscribe(
-                { }, { }
+                { }, { view?.showError(resourceProvider.errorSavingScreenshot()) }
             )
     }
 
