@@ -255,6 +255,7 @@ class UploadPresenterImpl(
         }
         view?.showContent()
         bindForm()
+        bindUploadAppIcon()
     }
 
     private fun onCheckExistError() {
