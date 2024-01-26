@@ -5,9 +5,8 @@ import android.os.Bundle
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.data_source.ListDataSource
 import com.tomclaw.appsend.screen.gallery.adapter.image.ImageItem
-import com.tomclaw.appsend.util.FileHelper
 import com.tomclaw.appsend.util.SchedulersFactory
-import com.tomclaw.appsend.util.md5
+import com.tomclaw.appsend.util.crc32
 import com.tomclaw.appsend.util.retryWhenNonAuthErrors
 import dagger.Lazy
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -74,8 +73,7 @@ class GalleryPresenterImpl(
 
     private fun getSimpleFileName(uri: Uri): String {
         val url = uri.toString()
-        val ext = FileHelper.getFileExtensionFromPath(url)
-        return url.md5() + "." + ext
+        return String.format("%08x", url.crc32()) + ".jpg"
     }
 
     private fun bindPageIndex() {
