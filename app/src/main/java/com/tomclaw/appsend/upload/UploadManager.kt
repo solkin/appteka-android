@@ -2,6 +2,7 @@ package com.tomclaw.appsend.upload
 
 import android.content.Context
 import android.content.pm.PackageInfo
+import android.graphics.Bitmap
 import android.net.Uri
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -13,6 +14,7 @@ import com.tomclaw.appsend.util.HttpUtil
 import com.tomclaw.appsend.util.MultipartStream
 import com.tomclaw.appsend.util.MultipartStream.ProgressHandler
 import com.tomclaw.appsend.util.PackageHelper
+import com.tomclaw.appsend.util.decodeSampledBitmapFromStream
 import com.tomclaw.appsend.util.getLabel
 import com.tomclaw.appsend.util.md5
 import io.reactivex.rxjava3.core.Observable
@@ -185,8 +187,20 @@ class UploadManagerImpl(
                     multipart.writePart(
                         "images",
                         name,
-                        inputStream = context.contentResolver.openInputStream(uri)
-                            ?: throw IOException("unable to read file"),
+                        writer = { outputStream ->
+                            context.contentResolver.openInputStream(uri)?.use { inputStream ->
+                                val bitmap = decodeSampledBitmapFromStream(
+                                    inputStream,
+                                    SCREENSHOT_MAX_PIXELS
+                                ) ?: throw IOException("unable to decode file")
+                                bitmap.compress(
+                                    Bitmap.CompressFormat.JPEG,
+                                    SCREENSHOT_JPEG_QUALITY,
+                                    outputStream
+                                )
+                                outputStream.flush()
+                            } ?: throw IOException("unable to read file")
+                        },
                         "image/jpeg",
                         object : ProgressHandler {
                             override fun onProgress(sent: Long) {}
@@ -411,5 +425,7 @@ fun totalPercent(
     return (if (apkCount > 0) apk else 0) + (if (scrCount > 0) scr else 0)
 }
 
+const val SCREENSHOT_MAX_PIXELS = 2000000
+const val SCREENSHOT_JPEG_QUALITY = 90
 const val HOST_UPLOAD_APP_URL = Config.HOST_URL + "/api/1/app/upload"
 const val HOST_UPLOAD_SCREENSHOT_URL = Config.HOST_URL + "/api/1/screenshot/upload"
