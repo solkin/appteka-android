@@ -250,7 +250,7 @@ class UploadPresenterImpl(
             this.whatsNew = meta.whatsNew.orEmpty()
             this.description = meta.description.orEmpty()
             this.exclusive = meta.exclusive ?: false
-            this.openSource = meta.openSource ?: false
+            this.openSource = meta.openSource ?: !meta.sourceUrl.isNullOrEmpty()
             this.sourceUrl = meta.sourceUrl.orEmpty()
         }
         view?.showContent()
