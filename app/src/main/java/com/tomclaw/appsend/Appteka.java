@@ -3,7 +3,6 @@ package com.tomclaw.appsend;
 import static java.util.Collections.singletonList;
 
 import android.app.Application;
-import android.provider.Settings;
 
 import com.tomclaw.appsend.di.AppComponent;
 import com.tomclaw.appsend.di.AppModule;
@@ -103,10 +102,6 @@ public class Appteka extends Application {
 
     public static int getLastRunBuildNumber() {
         return lastRunBuildNumber;
-    }
-
-    public String getInstallationID() {
-        return Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
     }
 
 }

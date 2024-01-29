@@ -12,6 +12,9 @@ import com.google.gson.GsonBuilder
 import com.tomclaw.appsend.categories.CategoriesInteractor
 import com.tomclaw.appsend.categories.CategoriesInteractorImpl
 import com.tomclaw.appsend.core.Config
+import com.tomclaw.appsend.core.DeviceIdInterceptor
+import com.tomclaw.appsend.core.DeviceIdProvider
+import com.tomclaw.appsend.core.DeviceIdProviderImpl
 import com.tomclaw.appsend.core.PersistentCookieJar
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.core.UserAgentInterceptor
@@ -94,6 +97,10 @@ class AppModule(private val app: Application) {
 
     @Provides
     @Singleton
+    internal fun provideDeviceIdProvider(): DeviceIdProvider = DeviceIdProviderImpl(app)
+
+    @Provides
+    @Singleton
     internal fun provideDownloadNotifications(): DownloadNotifications =
         DownloadNotificationsImpl(app)
 
@@ -165,10 +172,12 @@ class AppModule(private val app: Application) {
     internal fun provideHttClient(
         cookieJar: CookieJar,
         userAgentProvider: UserAgentProvider,
+        deviceIdProvider: DeviceIdProvider,
     ): OkHttpClient = OkHttpClient.Builder()
         .readTimeout(2, TimeUnit.MINUTES)
         .connectTimeout(20, TimeUnit.SECONDS)
         .addInterceptor(UserAgentInterceptor(userAgentProvider.getUserAgent()))
+        .addInterceptor(DeviceIdInterceptor(deviceIdProvider.getDeviceId()))
         .addInterceptor(ChuckerInterceptor.Builder(app).build())
         .cookieJar(cookieJar)
         .build()

@@ -6,6 +6,8 @@ import static com.tomclaw.appsend.util.StoreHelper.parseStoreItem;
 
 import android.content.Context;
 
+import com.tomclaw.appsend.core.DeviceIdProvider;
+import com.tomclaw.appsend.core.DeviceIdProviderImpl;
 import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.main.item.StoreItem;
 import com.tomclaw.appsend.util.HttpParamsBuilder;
@@ -120,9 +122,9 @@ public class UpdateController extends AbstractController<UpdateController.Update
         HttpURLConnection connection = null;
         InputStream in = null;
         try {
+            DeviceIdProvider devIdProvider = new DeviceIdProviderImpl(app());
             HttpParamsBuilder builder = new HttpParamsBuilder()
-                    .appendParam("build", String.valueOf(build))
-                    .appendParam("inst_id", app().getInstallationID());
+                    .appendParam("build", String.valueOf(build));
             String storeUrl = HOST_UPDATE_URL + "?" + builder.build();
             LegacyLogger.log(String.format("Store url: %s", storeUrl));
             URL url = new URL(storeUrl);
@@ -135,6 +137,7 @@ public class UpdateController extends AbstractController<UpdateController.Update
             connection.setDoInput(true);
             connection.setDoOutput(true);
             connection.setInstanceFollowRedirects(false);
+            connection.setRequestProperty("X-Device-ID", devIdProvider.getDeviceId());
             connection.connect();
             // Open connection to response.
             int responseCode = connection.getResponseCode();
