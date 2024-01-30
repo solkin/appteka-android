@@ -5,6 +5,7 @@ android {
 
     defaultConfig {
         minSdkVersion 15
+        //noinspection ExpiredTargetSdkVersion
         targetSdkVersion 28
     }
 
