@@ -1,7 +1,7 @@
 image: theimpulson/gitlab-ci-android:android-33
 
 cache:
-  - /sdk
+  - ~/.android
   - ~/.gradle
 
 branches:
@@ -12,4 +12,4 @@ before_install:
   - chmod +x gradlew
 
 script:
-  - ./gradlew build dependencies || true
+  - ./gradlew assembleRelease --no-daemon -PstoreFile=$STORE_FILE -PstorePassword=$STORE_PASSWORD -PkeyAlias=$KEY_ALIAS -PkeyPassword=$KEY_PASSWORD "-Dorg.gradle.jvmargs=-Xmx1g -XX:MaxMetaspaceSize=1024m -XX:+HeapDumpOnOutOfMemoryError"
