@@ -1,0 +1,15 @@
+image: theimpulson/gitlab-ci-android:android-33
+
+cache:
+  - /sdk
+  - ~/.gradle
+
+branches:
+  test:
+    - master
+
+before_install:
+  - chmod +x gradlew
+
+script:
+  - ./gradlew build dependencies || true
