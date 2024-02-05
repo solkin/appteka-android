@@ -301,6 +301,7 @@
     <string name="error_domain_blocked">ایمیل های موقت ممنوع است</string>
     <string name="gallery_title">%d / %d</string>
     <string name="add_screenshot">افزودن امکان گرفتن عکس از صفحه</string>
+    <string name="screenshots_title">اسکرین شات ها</string>
     <string name="download_screenshot">دانلود اسکرین شات</string>
     <string name="error_saving_screenshot">اسکرین شات ذخیره نشد</string>
 </resources>
