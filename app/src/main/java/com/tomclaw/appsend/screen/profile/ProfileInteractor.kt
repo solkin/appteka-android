@@ -1,4 +1,14 @@
 package com.tomclaw.appsend.screen.profile
 
-class ProfileInteractor {
+import com.tomclaw.appsend.core.StoreApi
+import com.tomclaw.appsend.util.SchedulersFactory
+
+interface ProfileInteractor {
+}
+
+class ProfileInteractorImpl(
+    api: StoreApi,
+    schedulers: SchedulersFactory
+) : ProfileInteractor {
+
 }
