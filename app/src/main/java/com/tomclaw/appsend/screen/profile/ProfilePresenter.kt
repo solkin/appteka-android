@@ -5,6 +5,7 @@ import com.avito.konveyor.adapter.AdapterPresenter
 import com.tomclaw.appsend.screen.profile.adapter.ItemListener
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
+import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 interface ProfilePresenter : ItemListener {
 
@@ -29,24 +30,29 @@ class ProfilePresenterImpl(
     state: Bundle?
 ) : ProfilePresenter {
 
+    private var view: ProfileView? = null
+    private var router: ProfilePresenter.ProfileRouter? = null
+
+    private val subscriptions = CompositeDisposable()
+
     override fun attachView(view: ProfileView) {
-        TODO("Not yet implemented")
+        this.view = view
     }
 
     override fun detachView() {
-        TODO("Not yet implemented")
+        subscriptions.clear()
+        this.view = null
     }
 
     override fun attachRouter(router: ProfilePresenter.ProfileRouter) {
-        TODO("Not yet implemented")
+        this.router = router
     }
 
     override fun detachRouter() {
-        TODO("Not yet implemented")
+        this.router = null
     }
 
-    override fun saveState(): Bundle {
-        TODO("Not yet implemented")
+    override fun saveState() = Bundle().apply {
     }
 
 }

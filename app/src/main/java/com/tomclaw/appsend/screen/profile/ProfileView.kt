@@ -1,5 +1,6 @@
 package com.tomclaw.appsend.screen.profile
 
+import android.annotation.SuppressLint
 import android.view.View
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
 
@@ -23,23 +24,21 @@ class ProfileViewImpl(
 ) : ProfileView {
 
     override fun showProgress() {
-        TODO("Not yet implemented")
     }
 
     override fun showContent() {
-        TODO("Not yet implemented")
     }
 
     override fun showError() {
-        TODO("Not yet implemented")
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun contentUpdated() {
-        TODO("Not yet implemented")
+        adapter.notifyDataSetChanged()
     }
 
     override fun contentUpdated(position: Int) {
-        TODO("Not yet implemented")
+        adapter.notifyItemChanged(position)
     }
 
 }
