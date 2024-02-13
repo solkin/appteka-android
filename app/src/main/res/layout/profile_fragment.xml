@@ -1,35 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <ViewFlipper
-        android:id="@+id/view_flipper"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_refresh"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_alignTop="@id/toolbar_container"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="?actionBarSize">
 
-        <include layout="@layout/progress_view" />
-
-        <FrameLayout
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent" />
 
-            <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-                android:id="@+id/swipe_refresh"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-                <include layout="@layout/profile_view" />
+    <LinearLayout
+        android:id="@+id/error"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?actionBarSize"
+        android:background="?android:windowBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone">
 
-            </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        <TextView
+            android:id="@+id/error_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/details_error_title"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-        </FrameLayout>
+        <TextView
+            android:id="@+id/error_subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingTop="2dp"
+            android:text="@string/details_error_subtitle"
+            android:textSize="14sp" />
 
-        <include layout="@layout/profile_unauthorized" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/retry_button"
+            style="@style/MaterialButtonPrimary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="16dp"
+            android:text="@string/retry"
+            app:cornerRadius="99dp" />
 
-        <include layout="@layout/error_view" />
+    </LinearLayout>
 
-    </ViewFlipper>
+    <FrameLayout
+        android:id="@+id/blocking_progress"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?actionBarSize"
+        android:background="?android:windowBackground"
+        android:visibility="gone">
 
-</LinearLayout>
+        <include
+            layout="@layout/progress_overlay"
+            android:visibility="visible" />
+
+    </FrameLayout>
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/toolbar_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/toolbar_background"
+            app:navigationIcon="?attr/homeAsUpIndicator"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+</RelativeLayout>

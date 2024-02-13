@@ -64,7 +64,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-@EFragment(R.layout.profile_fragment)
+@EFragment(R.layout.profile_fragment_legacy)
 public class ProfileFragment extends HomeFragment implements UserDataListener {
 
     private static final int REQUEST_LOGIN = 1;
