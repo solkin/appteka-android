@@ -38,7 +38,7 @@ class ProfileFragment : HomeFragment(), ProfilePresenter.ProfileRouter {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.profile_fragment_legacy, container, false)
+        return inflater.inflate(R.layout.profile_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
