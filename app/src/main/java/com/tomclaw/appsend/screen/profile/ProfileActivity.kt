@@ -1,4 +1,6 @@
 package com.tomclaw.appsend.screen.profile
 
-class ProfileActivity {
+import androidx.appcompat.app.AppCompatActivity
+
+class ProfileActivity : AppCompatActivity() {
 }

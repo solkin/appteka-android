@@ -7,15 +7,14 @@ import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.adapter.SimpleAdapterPresenter
 import com.avito.konveyor.blueprint.ItemBlueprint
 import com.tomclaw.appsend.core.StoreApi
+import com.tomclaw.appsend.screen.profile.ProfileConverter
+import com.tomclaw.appsend.screen.profile.ProfileConverterImpl
 import com.tomclaw.appsend.screen.profile.ProfileInteractor
 import com.tomclaw.appsend.screen.profile.ProfileInteractorImpl
 import com.tomclaw.appsend.screen.profile.ProfilePresenter
 import com.tomclaw.appsend.screen.profile.ProfilePresenterImpl
 import com.tomclaw.appsend.screen.profile.adapter.header.HeaderItemBlueprint
 import com.tomclaw.appsend.screen.profile.adapter.header.HeaderItemPresenter
-import com.tomclaw.appsend.screen.topics.TopicsPresenter
-import com.tomclaw.appsend.screen.topics.adapter.topic.TopicItemBlueprint
-import com.tomclaw.appsend.screen.topics.adapter.topic.TopicItemPresenter
 import com.tomclaw.appsend.util.PerFragment
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
@@ -25,6 +24,7 @@ import dagger.multibindings.IntoSet
 
 @Module
 class ProfileModule(
+    private val userId: Int,
     private val context: Context,
     private val state: Bundle?
 ) {
@@ -33,10 +33,13 @@ class ProfileModule(
     @PerFragment
     internal fun providePresenter(
         interactor: ProfileInteractor,
+        converter: ProfileConverter,
         adapterPresenter: Lazy<AdapterPresenter>,
         schedulers: SchedulersFactory
     ): ProfilePresenter = ProfilePresenterImpl(
+        userId,
         interactor,
+        converter,
         adapterPresenter,
         schedulers,
         state
@@ -48,6 +51,10 @@ class ProfileModule(
         api: StoreApi,
         schedulers: SchedulersFactory
     ): ProfileInteractor = ProfileInteractorImpl(api, schedulers)
+
+    @Provides
+    @PerFragment
+    internal fun provideConverter(): ProfileConverter = ProfileConverterImpl()
 
     @Provides
     @PerFragment

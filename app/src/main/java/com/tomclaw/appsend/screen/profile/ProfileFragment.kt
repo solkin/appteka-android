@@ -10,6 +10,7 @@ import com.avito.konveyor.adapter.SimpleRecyclerAdapter
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.main.home.HomeFragment
+import com.tomclaw.appsend.screen.auth.request_code.createRequestCodeActivityIntent
 import com.tomclaw.appsend.screen.profile.di.ProfileModule
 import javax.inject.Inject
 
@@ -25,9 +26,12 @@ class ProfileFragment : HomeFragment(), ProfilePresenter.ProfileRouter {
     lateinit var binder: ItemBinder
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val userId = arguments?.getInt(ARG_USER_ID) ?: 0
+        if (userId == 0) throw IllegalArgumentException("User ID must be specified")
+
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
         Appteka.getComponent()
-            .profileComponent(ProfileModule(requireContext(), presenterState))
+            .profileComponent(ProfileModule(userId, requireContext(), presenterState))
             .inject(fragment = this)
 
         super.onCreate(savedInstanceState)
@@ -68,6 +72,17 @@ class ProfileFragment : HomeFragment(), ProfilePresenter.ProfileRouter {
         outState.putBundle(KEY_PRESENTER_STATE, presenter.saveState())
     }
 
+    override fun openLoginScreen() {
+        val context = context ?: return
+        val intent = createRequestCodeActivityIntent(context)
+        startActivity(intent)
+    }
+
+    override fun leaveScreen() {
+        activity?.finish()
+    }
+
 }
 
 private const val KEY_PRESENTER_STATE = "presenter_state"
+private const val ARG_USER_ID = "user_id"

@@ -53,7 +53,6 @@ import com.tomclaw.appsend.screen.details.adapter.user_review.UserReviewItemBlue
 import com.tomclaw.appsend.screen.details.adapter.user_review.UserReviewItemPresenter
 import com.tomclaw.appsend.screen.details.adapter.whats_new.WhatsNewItemBlueprint
 import com.tomclaw.appsend.screen.details.adapter.whats_new.WhatsNewItemPresenter
-import com.tomclaw.appsend.screen.upload.UploadPresenter
 import com.tomclaw.appsend.util.PackageObserver
 import com.tomclaw.appsend.util.PerActivity
 import com.tomclaw.appsend.util.SchedulersFactory

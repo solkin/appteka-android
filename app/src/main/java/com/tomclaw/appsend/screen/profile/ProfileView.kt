@@ -8,12 +8,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
+import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.util.hide
 import com.tomclaw.appsend.util.hideWithAlphaAnimation
 import com.tomclaw.appsend.util.show
 import com.tomclaw.appsend.util.showWithAlphaAnimation
+import io.reactivex.rxjava3.core.Observable
 
 interface ProfileView {
 
@@ -29,9 +31,21 @@ interface ProfileView {
 
     fun hideError()
 
+    fun showUnauthorizedError()
+
     fun contentUpdated()
 
     fun contentUpdated(position: Int)
+
+    fun navigationClicks(): Observable<Unit>
+
+    fun swipeRefresh(): Observable<Unit>
+
+    fun shareClicks(): Observable<Unit>
+
+    fun retryClicks(): Observable<Unit>
+
+    fun loginClicks(): Observable<Unit>
 
 }
 
@@ -53,6 +67,7 @@ class ProfileViewImpl(
     private val shareRelay = PublishRelay.create<Unit>()
     private val eliminateRelay = PublishRelay.create<Unit>()
     private val retryRelay = PublishRelay.create<Unit>()
+    private val loginRelay = PublishRelay.create<Unit>()
 
     private val layoutManager: LinearLayoutManager
 
@@ -114,6 +129,15 @@ class ProfileViewImpl(
         error.hide()
     }
 
+    override fun showUnauthorizedError() {
+        Snackbar
+            .make(recycler, R.string.authorization_required_message, Snackbar.LENGTH_INDEFINITE)
+            .setAction(R.string.login_button) {
+                loginRelay.accept(Unit)
+            }
+            .show()
+    }
+
     @SuppressLint("NotifyDataSetChanged")
     override fun contentUpdated() {
         adapter.notifyDataSetChanged()
@@ -122,6 +146,16 @@ class ProfileViewImpl(
     override fun contentUpdated(position: Int) {
         adapter.notifyItemChanged(position)
     }
+
+    override fun navigationClicks(): Observable<Unit> = navigationRelay
+
+    override fun swipeRefresh(): Observable<Unit> = refreshRelay
+
+    override fun shareClicks(): Observable<Unit> = shareRelay
+
+    override fun retryClicks(): Observable<Unit> = retryRelay
+
+    override fun loginClicks(): Observable<Unit> = loginRelay
 
 }
 

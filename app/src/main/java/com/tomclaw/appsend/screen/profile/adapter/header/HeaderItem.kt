@@ -7,5 +7,5 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class HeaderItem(
     override val id: Long,
-    val name: String,
+    val name: String?,
 ) : Item, Parcelable
