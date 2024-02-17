@@ -84,5 +84,11 @@ class ProfileFragment : HomeFragment(), ProfilePresenter.ProfileRouter {
 
 }
 
+fun createProfileFragment(
+    userId: Int,
+): ProfileFragment = ProfileFragment().apply {
+    arguments = Bundle().apply { putInt(ARG_USER_ID, userId) }
+}
+
 private const val KEY_PRESENTER_STATE = "presenter_state"
 private const val ARG_USER_ID = "user_id"

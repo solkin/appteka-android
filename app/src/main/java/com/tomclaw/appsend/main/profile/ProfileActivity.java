@@ -44,7 +44,7 @@ import retrofit2.Response;
  * Created by solkin on 16/03/2018.
  */
 @SuppressLint("Registered")
-@EActivity(R.layout.profile_activity)
+@EActivity(R.layout.profile_activity_legacy)
 public class ProfileActivity extends AppCompatActivity {
 
     @ViewById

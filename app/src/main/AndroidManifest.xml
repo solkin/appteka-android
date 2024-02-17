@@ -57,9 +57,6 @@
             android:name=".screen.upload.UploadActivity"
             android:label="@string/upload" />
         <activity
-            android:name=".main.permissions.PermissionsActivity_"
-            android:label="@string/required_permissions" />
-        <activity
             android:name=".main.abuse.AbuseActivity_"
             android:label="@string/abuse" />
         <activity
@@ -155,6 +152,7 @@
             android:name=".screen.permissions.PermissionsActivity"
             android:label="@string/required_permissions" />
         <activity android:name=".screen.gallery.GalleryActivity" />
+        <activity android:name=".screen.profile.ProfileActivity" />
 
         <service android:name=".download.DownloadService" />
 

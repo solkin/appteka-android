@@ -4,6 +4,7 @@ import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
 import static com.tomclaw.appsend.Appteka.getLastRunBuildNumber;
 import static com.tomclaw.appsend.Appteka.wasRegistered;
 import static com.tomclaw.appsend.screen.details.DetailsActivityKt.createDetailsActivityIntent;
+import static com.tomclaw.appsend.screen.profile.ProfileActivityKt.createProfileActivityIntent;
 import static com.tomclaw.appsend.screen.upload.UploadActivityKt.createUploadActivityIntent;
 
 import android.app.Application;
@@ -164,6 +165,8 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
         register(getApplication());
 
         checkMigration();
+
+        startActivity(createProfileActivityIntent(this, 1));
     }
 
     @Override
