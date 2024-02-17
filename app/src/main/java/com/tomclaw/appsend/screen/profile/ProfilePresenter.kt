@@ -65,7 +65,9 @@ class ProfilePresenterImpl(
             router?.openLoginScreen()
         }
 
-        if (profile == null) {
+        if (profile != null) {
+            bindProfile()
+        } else {
             loadProfile()
         }
     }
@@ -84,6 +86,7 @@ class ProfilePresenterImpl(
     }
 
     override fun saveState() = Bundle().apply {
+        putParcelable(KEY_PROFILE, profile)
     }
 
     private fun onBackPressed() {
@@ -125,10 +128,10 @@ class ProfilePresenterImpl(
         items += converter.convert(profile.profile, profile.grantRoles)
 
         bindItems()
-
         bindMenu()
 
         view?.contentUpdated()
+        view?.showContent()
     }
 
     private fun bindMenu() {
