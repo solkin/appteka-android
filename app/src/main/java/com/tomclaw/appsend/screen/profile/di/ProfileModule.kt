@@ -15,12 +15,15 @@ import com.tomclaw.appsend.screen.profile.ProfilePresenter
 import com.tomclaw.appsend.screen.profile.ProfilePresenterImpl
 import com.tomclaw.appsend.screen.profile.adapter.header.HeaderItemBlueprint
 import com.tomclaw.appsend.screen.profile.adapter.header.HeaderItemPresenter
+import com.tomclaw.appsend.screen.profile.adapter.header.HeaderResourceProvider
+import com.tomclaw.appsend.screen.profile.adapter.header.HeaderResourceProviderImpl
 import com.tomclaw.appsend.util.PerFragment
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoSet
+import java.util.Locale
 
 @Module
 class ProfileModule(
@@ -81,7 +84,15 @@ class ProfileModule(
 
     @Provides
     @PerFragment
-    internal fun provideHeaderItemPresenter(presenter: ProfilePresenter) =
-        HeaderItemPresenter(presenter)
+    internal fun provideHeaderResourceProvider(context: Context): HeaderResourceProvider =
+        HeaderResourceProviderImpl(context)
+
+    @Provides
+    @PerFragment
+    internal fun provideHeaderItemPresenter(
+        presenter: ProfilePresenter,
+        resourceProvider: HeaderResourceProvider,
+        locale: Locale,
+    ) = HeaderItemPresenter(presenter, resourceProvider, locale)
 
 }

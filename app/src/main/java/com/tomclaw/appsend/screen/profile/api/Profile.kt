@@ -9,6 +9,8 @@ import kotlinx.parcelize.Parcelize
 data class Profile(
     @SerializedName("user_id")
     val userId: Int = 0,
+    @SerializedName("name")
+    val name: String? = null,
     @SerializedName("user_icon")
     val userIcon: UserIcon? = null,
     @SerializedName("join_time")
@@ -31,8 +33,6 @@ data class Profile(
     val ratingsCount: Int = 0,
     @SerializedName("mentor_of_count")
     val moderatorsCount: Int = 0,
-    @SerializedName("name")
-    val name: String? = null,
     @SerializedName("is_registered")
     val isRegistered: Boolean = false,
     @SerializedName("is_verified")

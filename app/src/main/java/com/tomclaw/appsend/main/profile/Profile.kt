@@ -10,7 +10,7 @@ data class Profile(
     @SerializedName("user_id")
     val userId: Int = 0,
     @SerializedName("user_icon")
-    val userIcon: UserIcon? = null,
+    val userIcon: UserIcon,
     @SerializedName("join_time")
     val joinTime: Long = 0,
     @SerializedName("last_seen")

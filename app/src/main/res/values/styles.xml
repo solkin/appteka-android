@@ -82,6 +82,8 @@
     <color name="block_grey_color_light">#E9DEDEDE</color>
     <color name="block_grey_color_dark">#2E2E2E</color>
 
+    <color name="online_color">#32A304</color>
+
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
         <item name="colorPrimary">@color/primary_color</item>
         <item name="colorPrimaryVariant">@color/primary_dark_color</item>

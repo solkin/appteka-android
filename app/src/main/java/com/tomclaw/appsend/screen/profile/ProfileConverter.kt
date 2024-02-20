@@ -15,7 +15,18 @@ class ProfileConverterImpl() : ProfileConverter {
     override fun convert(profile: Profile, grantRoles: List<Int>?): List<Item> {
         var id: Long = 1
         val items = mutableListOf<Item>()
-        items.add(HeaderItem(id++, profile.name))
+        items.add(
+            HeaderItem(
+                id = id++,
+                userName = profile.name,
+                userIcon = profile.userIcon,
+                joinTime = profile.joinTime,
+                lastSeen = profile.lastSeen,
+                role = profile.role,
+                isRegistered = profile.isRegistered,
+                isVerified = profile.isVerified,
+            )
+        )
         return items
     }
 

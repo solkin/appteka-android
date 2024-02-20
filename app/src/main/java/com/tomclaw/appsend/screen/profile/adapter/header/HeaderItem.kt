@@ -2,10 +2,17 @@ package com.tomclaw.appsend.screen.profile.adapter.header
 
 import android.os.Parcelable
 import com.avito.konveyor.blueprint.Item
+import com.tomclaw.appsend.dto.UserIcon
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class HeaderItem(
     override val id: Long,
-    val name: String?,
+    val userName: String?,
+    val userIcon: UserIcon,
+    val joinTime: Long,
+    val lastSeen: Long,
+    val role: Int,
+    val isRegistered: Boolean,
+    val isVerified: Boolean,
 ) : Item, Parcelable
