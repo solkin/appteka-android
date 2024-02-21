@@ -135,7 +135,8 @@
     <string name="moderators_assigned">Модераторов назначено</string>
     <string name="change_role">Назначить роль</string>
     <string name="last_seen">Был(а) %s</string>
-    <string name="online">Онлайн</string>
+    <string name="online">В сети</string>
+    <string name="offline">Не в сети</string>
     <string name="today">Был(а) сегодня в %s</string>
     <string name="yesterday">Был(а) вчера</string>
     <string name="unable_to_change_role">Не удалось сменить роль пользователя</string>

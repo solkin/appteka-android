@@ -7,6 +7,8 @@ import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.adapter.SimpleAdapterPresenter
 import com.avito.konveyor.blueprint.ItemBlueprint
 import com.tomclaw.appsend.core.StoreApi
+import com.tomclaw.appsend.di.DATE_FORMATTER
+import com.tomclaw.appsend.di.TIME_FORMATTER
 import com.tomclaw.appsend.screen.profile.ProfileConverter
 import com.tomclaw.appsend.screen.profile.ProfileConverterImpl
 import com.tomclaw.appsend.screen.profile.ProfileInteractor
@@ -23,7 +25,9 @@ import dagger.Lazy
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoSet
+import java.text.DateFormat
 import java.util.Locale
+import javax.inject.Named
 
 @Module
 class ProfileModule(
@@ -84,8 +88,15 @@ class ProfileModule(
 
     @Provides
     @PerFragment
-    internal fun provideHeaderResourceProvider(context: Context): HeaderResourceProvider =
-        HeaderResourceProviderImpl(context)
+    internal fun provideHeaderResourceProvider(
+        context: Context,
+        @Named(TIME_FORMATTER) timeFormatter: DateFormat,
+        @Named(DATE_FORMATTER) dateFormatter: DateFormat,
+    ): HeaderResourceProvider = HeaderResourceProviderImpl(
+        context,
+        timeFormatter,
+        dateFormatter
+    )
 
     @Provides
     @PerFragment

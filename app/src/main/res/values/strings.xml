@@ -142,6 +142,7 @@
     <string name="change_role">Change role</string>
     <string name="last_seen">Last seen %s</string>
     <string name="online">Online</string>
+    <string name="offline">Offline</string>
     <string name="today">Last seen today at %s</string>
     <string name="yesterday">Last seen yesterday</string>
     <string name="unable_to_change_role">Failed to change user role</string>

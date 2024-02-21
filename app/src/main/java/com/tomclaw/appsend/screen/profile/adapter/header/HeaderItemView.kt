@@ -22,7 +22,7 @@ interface HeaderItemView : ItemView {
 
     fun setUserName(name: String)
 
-    fun setOnlineIndicator(online: Boolean)
+    fun setOnline(online: Boolean)
 
     fun setLastSeen(lastSeen: String)
 
@@ -51,7 +51,7 @@ class HeaderItemViewHolder(view: View) : BaseViewHolder(view), HeaderItemView {
         userName.bind(name)
     }
 
-    override fun setOnlineIndicator(online: Boolean) {
+    override fun setOnline(online: Boolean) {
         if (online) {
             userOnline.setTextColor(getColor(R.color.online_color, context))
         } else {

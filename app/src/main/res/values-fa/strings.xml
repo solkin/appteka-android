@@ -143,6 +143,7 @@
     <string name="change_role">تغییر دسته</string>
     <string name="last_seen"> آخرین بازدید : %s</string>
     <string name="online">فعال</string>
+    <string name="offline">آفلاین</string>
     <string name="today">آخرین بازدید امروز %s</string>
     <string name="yesterday">آخرین بازدید دیروز</string>
     <string name="unable_to_change_role">تغییر نقش کاربر انجام نشد</string>

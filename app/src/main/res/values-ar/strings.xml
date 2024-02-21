@@ -142,6 +142,7 @@
     <string name="change_role">تغيير الدور</string>
     <string name="last_seen">اخر اتصال %s</string>
     <string name="online">متصل</string>
+    <string name="offline">غير متصل</string>
     <string name="today"> اخر اتصال اليوم %s</string>
     <string name="yesterday">آخر اتصل أمس</string>
     <string name="unable_to_change_role">فشل في تغيير دور المستخدم</string>

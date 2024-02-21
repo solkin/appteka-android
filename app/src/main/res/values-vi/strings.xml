@@ -135,7 +135,8 @@
     <string name="moderators_assigned">Người điều hành được bổ nhiệm</string>
     <string name="change_role">Gán vai trò</string>
     <string name="last_seen">Đã có %s</string>
-    <string name="online">truyền trực tiếp</string>
+    <string name="online">Trực tuyến</string>
+    <string name="offline">Ngoại tuyến</string>
     <string name="today">Có hôm nay %s</string>
     <string name="yesterday">Có hôm qua</string>
     <string name="unable_to_change_role">Không thể thay đổi vai trò người dùng</string>
