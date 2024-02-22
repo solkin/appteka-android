@@ -3,6 +3,7 @@ package com.tomclaw.appsend.screen.profile
 import com.avito.konveyor.blueprint.Item
 import com.tomclaw.appsend.main.profile.Profile
 import com.tomclaw.appsend.screen.profile.adapter.header.HeaderItem
+import java.util.concurrent.TimeUnit
 
 interface ProfileConverter {
 
@@ -20,8 +21,8 @@ class ProfileConverterImpl() : ProfileConverter {
                 id = id++,
                 userName = profile.name,
                 userIcon = profile.userIcon,
-                joinTime = profile.joinTime,
-                lastSeen = profile.lastSeen,
+                joinTime = TimeUnit.SECONDS.toMillis(profile.joinTime),
+                lastSeen = TimeUnit.SECONDS.toMillis(profile.lastSeen),
                 role = profile.role,
                 isRegistered = profile.isRegistered,
                 isVerified = profile.isVerified,

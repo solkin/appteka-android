@@ -22,20 +22,17 @@ class HeaderItemPresenter(
             ?: item.userIcon.label[DEFAULT_LOCALE].orEmpty()
         view.setUserName(name)
 
+        val onlineGap = TimeUnit.MINUTES.toMillis(15)
         val currentTime = System.currentTimeMillis()
-        val lastSeenMillis = TimeUnit.SECONDS.toMillis(item.lastSeen)
-        val lastSeenMinutesDiff = TimeUnit.MILLISECONDS.toMinutes(currentTime - lastSeenMillis)
-        val isOnline = lastSeenMinutesDiff < ONLINE_GAP_MINUTES
+
+        val isOnline = currentTime - item.lastSeen < onlineGap
         view.setOnline(isOnline)
 
-        val lastSeenString = resourceProvider.formatLastSeen(lastSeenMillis, ONLINE_GAP_MINUTES)
+        val lastSeenString = resourceProvider.formatLastSeen(item.lastSeen, onlineGap)
         view.setLastSeen(lastSeenString)
 
-        val joinedMillis = TimeUnit.SECONDS.toMillis(item.joinTime)
-        val joinedString = resourceProvider.formatJoinedTime(joinedMillis)
+        val joinedString = resourceProvider.formatJoinedTime(item.joinTime)
         view.setJoined(joinedString)
     }
 
 }
-
-private const val ONLINE_GAP_MINUTES = 15

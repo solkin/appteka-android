@@ -3,16 +3,14 @@ package com.tomclaw.appsend.screen.profile.adapter.header
 import android.content.Context
 import android.text.format.DateUtils
 import com.tomclaw.appsend.R
-import com.tomclaw.appsend.util.TimeHelper
 import java.text.DateFormat
 import java.util.Calendar
-import java.util.concurrent.TimeUnit
 
 interface HeaderResourceProvider {
 
     fun getRoleName(role: Int): String
 
-    fun formatLastSeen(lastSeen: Long, onlineGapMinutes: Int): String
+    fun formatLastSeen(lastSeen: Long, onlineGap: Long): String
 
     fun formatJoinedTime(joined: Long): String
 
@@ -35,13 +33,12 @@ class HeaderResourceProviderImpl(
         )
     }
 
-    override fun formatLastSeen(lastSeen: Long, onlineGapMinutes: Int): String {
+    override fun formatLastSeen(lastSeen: Long, onlineGap: Long): String {
         val lastSeenTime = Calendar.getInstance()
         lastSeenTime.setTimeInMillis(lastSeen)
         val now = Calendar.getInstance()
         val currentTime = System.currentTimeMillis()
-        val lastSeenMinutesDiff = TimeUnit.MILLISECONDS.toMinutes(currentTime - lastSeen)
-        val isOnline = lastSeenMinutesDiff < onlineGapMinutes
+        val isOnline = currentTime - lastSeen < onlineGap
         val isToday = DateUtils.isToday(lastSeen)
         val isYesterday = now[Calendar.DATE] - lastSeenTime[Calendar.DATE] == 1
         val lastSeenString = when {
