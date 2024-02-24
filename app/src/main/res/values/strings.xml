@@ -133,7 +133,7 @@
     <string name="role_admin">Admin</string>
     <string name="role_moderator">Moderator</string>
     <string name="role_default">User</string>
-    <string name="joined_date">In Appteka since %s</string>
+    <string name="joined_date">joined %s</string>
     <string name="apps_uploaded">Apps uploaded</string>
     <string name="total_downloads">They were downloaded</string>
     <string name="messages_wrote">Messages wrote</string>

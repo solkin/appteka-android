@@ -2,6 +2,7 @@ package com.tomclaw.appsend.screen.profile.adapter.header
 
 import android.view.View
 import android.widget.TextView
+import androidx.core.view.isVisible
 import com.avito.konveyor.adapter.BaseViewHolder
 import com.avito.konveyor.blueprint.ItemView
 import com.tomclaw.appsend.R
@@ -15,53 +16,35 @@ interface HeaderItemView : ItemView {
 
     fun setUserIcon(userIcon: UserIcon)
 
-    fun setUserRole(role: String)
-
     fun setUserName(name: String)
 
-    fun setOnline(online: Boolean)
+    fun setUserDescription(value: String)
 
-    fun setLastSeen(lastSeen: String)
-
-    fun setJoined(joined: String)
+    fun setUserOnline(online: Boolean)
 
 }
 
 class HeaderItemViewHolder(view: View) : BaseViewHolder(view), HeaderItemView {
 
-    private val context = view.context
     private val userIcon: UserIconView = UserIconViewImpl(view.findViewById(R.id.user_icon))
-    private val userRole: TextView = view.findViewById(R.id.user_role)
     private val userName: TextView = view.findViewById(R.id.user_name)
-    private val userOnline: TextView = view.findViewById(R.id.user_online)
-    private val userJoined: TextView = view.findViewById(R.id.user_joined)
+    private val userDescription: TextView = view.findViewById(R.id.user_description)
+    private val userOnline: View = view.findViewById(R.id.user_online)
 
     override fun setUserIcon(userIcon: UserIcon) {
         this.userIcon.bind(userIcon)
     }
 
-    override fun setUserRole(role: String) {
-        userRole.bind(role)
+    override fun setUserDescription(value: String) {
+        userDescription.bind(value)
     }
 
     override fun setUserName(name: String) {
         userName.bind(name)
     }
 
-    override fun setOnline(online: Boolean) {
-        if (online) {
-            userOnline.setTextColor(getColor(R.color.online_color, context))
-        } else {
-            userOnline.setTextColor(R.attr.text_secondary_color)
-        }
-    }
-
-    override fun setLastSeen(lastSeen: String) {
-        userOnline.bind(lastSeen)
-    }
-
-    override fun setJoined(joined: String) {
-        userJoined.bind(joined)
+    override fun setUserOnline(online: Boolean) {
+        userOnline.isVisible = online
     }
 
     override fun onUnbind() {

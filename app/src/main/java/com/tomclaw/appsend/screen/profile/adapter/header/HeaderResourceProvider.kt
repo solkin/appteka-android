@@ -48,7 +48,7 @@ class HeaderResourceProviderImpl(
             lastSeen != 0L -> context.getString(R.string.last_seen, dateFormatter.format(lastSeen))
             else -> context.getString(R.string.offline)
         }
-        return lastSeenString
+        return lastSeenString.lowercase()
     }
 
     override fun formatJoinedTime(joined: Long): String {

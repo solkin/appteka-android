@@ -13,7 +13,6 @@ class HeaderItemPresenter(
 ) : ItemPresenter<HeaderItemView, HeaderItem> {
 
     override fun bindView(view: HeaderItemView, item: HeaderItem, position: Int) {
-        view.setUserRole(resourceProvider.getRoleName(item.role) + ",")
 
         view.setUserIcon(item.userIcon)
 
@@ -24,15 +23,14 @@ class HeaderItemPresenter(
 
         val onlineGap = TimeUnit.MINUTES.toMillis(15)
         val currentTime = System.currentTimeMillis()
-
         val isOnline = currentTime - item.lastSeen < onlineGap
-        view.setOnline(isOnline)
-
         val lastSeenString = resourceProvider.formatLastSeen(item.lastSeen, onlineGap)
-        view.setLastSeen(lastSeenString)
-
         val joinedString = resourceProvider.formatJoinedTime(item.joinTime)
-        view.setJoined(joinedString)
+        val roleString = resourceProvider.getRoleName(item.role)
+        val description = "$roleString, $joinedString, $lastSeenString"
+
+        view.setUserOnline(isOnline)
+        view.setUserDescription(description)
     }
 
 }
