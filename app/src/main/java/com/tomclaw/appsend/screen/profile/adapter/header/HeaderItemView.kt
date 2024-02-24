@@ -1,7 +1,5 @@
 package com.tomclaw.appsend.screen.profile.adapter.header
 
-import android.content.res.ColorStateList
-import android.graphics.Color
 import android.view.View
 import android.widget.TextView
 import com.avito.konveyor.adapter.BaseViewHolder
@@ -12,7 +10,6 @@ import com.tomclaw.appsend.util.bind
 import com.tomclaw.appsend.util.getColor
 import com.tomclaw.appsend.view.UserIconView
 import com.tomclaw.appsend.view.UserIconViewImpl
-
 
 interface HeaderItemView : ItemView {
 

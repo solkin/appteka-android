@@ -19,6 +19,8 @@ import com.tomclaw.appsend.screen.profile.adapter.header.HeaderItemBlueprint
 import com.tomclaw.appsend.screen.profile.adapter.header.HeaderItemPresenter
 import com.tomclaw.appsend.screen.profile.adapter.header.HeaderResourceProvider
 import com.tomclaw.appsend.screen.profile.adapter.header.HeaderResourceProviderImpl
+import com.tomclaw.appsend.screen.profile.adapter.uploads.UploadsItemBlueprint
+import com.tomclaw.appsend.screen.profile.adapter.uploads.UploadsItemPresenter
 import com.tomclaw.appsend.util.PerFragment
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
@@ -105,5 +107,18 @@ class ProfileModule(
         resourceProvider: HeaderResourceProvider,
         locale: Locale,
     ) = HeaderItemPresenter(presenter, resourceProvider, locale)
+
+    @Provides
+    @IntoSet
+    @PerFragment
+    internal fun provideUploadsItemBlueprint(
+        presenter: UploadsItemPresenter
+    ): ItemBlueprint<*, *> = UploadsItemBlueprint(presenter)
+
+    @Provides
+    @PerFragment
+    internal fun provideUploadsItemPresenter(
+        presenter: ProfilePresenter,
+    ) = UploadsItemPresenter(presenter)
 
 }

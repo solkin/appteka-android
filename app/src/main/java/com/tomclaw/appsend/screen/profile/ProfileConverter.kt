@@ -3,6 +3,7 @@ package com.tomclaw.appsend.screen.profile
 import com.avito.konveyor.blueprint.Item
 import com.tomclaw.appsend.main.profile.Profile
 import com.tomclaw.appsend.screen.profile.adapter.header.HeaderItem
+import com.tomclaw.appsend.screen.profile.adapter.uploads.UploadsItem
 import java.util.concurrent.TimeUnit
 
 interface ProfileConverter {
@@ -26,6 +27,12 @@ class ProfileConverterImpl() : ProfileConverter {
                 role = profile.role,
                 isRegistered = profile.isRegistered,
                 isVerified = profile.isVerified,
+            )
+        )
+        items.add(
+            UploadsItem(
+                id = id++,
+                count = profile.filesCount,
             )
         )
         return items
