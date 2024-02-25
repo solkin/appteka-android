@@ -34,28 +34,42 @@ class HeaderResourceProviderImpl(
     }
 
     override fun formatLastSeen(lastSeen: Long, onlineGap: Long): String {
-        val lastSeenTime = Calendar.getInstance()
-        lastSeenTime.setTimeInMillis(lastSeen)
-        val now = Calendar.getInstance()
         val currentTime = System.currentTimeMillis()
+        val isOffline = lastSeen == 0L
         val isOnline = currentTime - lastSeen < onlineGap
-        val isToday = DateUtils.isToday(lastSeen)
-        val isYesterday = now[Calendar.DATE] - lastSeenTime[Calendar.DATE] == 1
         val lastSeenString = when {
+            isOffline -> context.getString(R.string.offline)
             isOnline -> context.getString(R.string.online)
-            isToday -> context.getString(R.string.today, timeFormatter.format(lastSeen))
-            isYesterday -> context.getString(R.string.yesterday)
-            lastSeen != 0L -> context.getString(R.string.last_seen, dateFormatter.format(lastSeen))
-            else -> context.getString(R.string.offline)
+            else -> context.getString(R.string.last_seen, timeDiff(lastSeen))
         }
-        return lastSeenString.lowercase()
+        return lastSeenString.replace(' ', '\u00A0')
     }
 
     override fun formatJoinedTime(joined: Long): String {
         return context.getString(
             R.string.joined_date,
-            dateFormatter.format(joined)
-        )
+            timeDiff(joined)
+        ).replace(' ', '\u00A0')
+    }
+
+    private fun timeDiff(time: Long): String {
+        val calendar = Calendar.getInstance()
+        calendar.setTimeInMillis(time)
+        val now = Calendar.getInstance()
+        val days = now[Calendar.DATE] - calendar[Calendar.DATE]
+        val months = now[Calendar.MONTH] - calendar[Calendar.MONTH]
+        val years = now[Calendar.YEAR] - calendar[Calendar.YEAR]
+        val isToday = DateUtils.isToday(time)
+        val isYesterday = days == 1
+        val isMonth = months == 1
+        val isYear = years == 1
+        return when {
+            isToday -> context.getString(R.string.today)
+            isYesterday -> context.getString(R.string.yesterday)
+            isMonth -> context.getString(R.string.days_ago, days)
+            isYear -> context.getString(R.string.months_ago, days)
+            else -> context.getString(R.string.years_ago, years)
+        }
     }
 
 }

@@ -133,7 +133,7 @@
     <string name="role_admin">مسئؤل</string>
     <string name="role_moderator">مشرف</string>
     <string name="role_default">مستخدم</string>
-    <string name="joined_date">في Appteka منذ %s</string>
+    <string name="joined_date">انضم في %s</string>
     <string name="apps_uploaded">تم تحميل التطبيقات</string>
     <string name="total_downloads">تم تنزيلها</string>
     <string name="messages_wrote">كتبت الرسائل</string>
@@ -143,8 +143,8 @@
     <string name="last_seen">اخر اتصال %s</string>
     <string name="online">متصل</string>
     <string name="offline">غير متصل</string>
-    <string name="today"> اخر اتصال اليوم %s</string>
-    <string name="yesterday">آخر اتصل أمس</string>
+    <string name="last_seen_today"> اخر اتصال اليوم %s</string>
+    <string name="last_seen_yesterday">آخر اتصل أمس</string>
     <string name="unable_to_change_role">فشل في تغيير دور المستخدم</string>
     <string name="unlink_file">حظر</string>
     <string name="unlink_reason">سبب…</string>

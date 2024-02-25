@@ -140,11 +140,11 @@
     <string name="apps_rated">Apps rated</string>
     <string name="moderators_assigned">Moderators assigned</string>
     <string name="change_role">Change role</string>
-    <string name="last_seen">Last seen %s</string>
-    <string name="online">Online</string>
-    <string name="offline">Offline</string>
-    <string name="today">Last seen today at %s</string>
-    <string name="yesterday">Last seen yesterday</string>
+    <string name="last_seen">last seen %s</string>
+    <string name="online">online</string>
+    <string name="offline">offline</string>
+    <string name="last_seen_today">Last seen today at %s</string>
+    <string name="last_seen_yesterday">Last seen yesterday</string>
     <string name="unable_to_change_role">Failed to change user role</string>
     <string name="unlink_file">Block</string>
     <string name="unlink_reason">Reason…</string>
@@ -309,4 +309,9 @@
     <string name="screenshots_title">Screenshots</string>
     <string name="download_screenshot">Download screenshot</string>
     <string name="error_saving_screenshot">Failed to save screenshot</string>
+    <string name="days_ago">%d days ago</string>
+    <string name="months_ago">%d months ago</string>
+    <string name="years_ago">%d years ago</string>
+    <string name="today">today</string>
+    <string name="yesterday">yesterday</string>
 </resources>

@@ -560,9 +560,9 @@ public class ProfileFragment extends HomeFragment implements UserDataListener {
         if (isOnline) {
             lastSeenString = getString(R.string.online);
         } else if (isToday) {
-            lastSeenString = getString(R.string.today, timeHelper().getFormattedTime(lastSeen));
+            lastSeenString = getString(R.string.last_seen_today, timeHelper().getFormattedTime(lastSeen));
         } else if (isYesterday) {
-            lastSeenString = getString(R.string.yesterday);
+            lastSeenString = getString(R.string.last_seen_yesterday);
         } else if (lastSeen != 0) {
             lastSeenString = getString(R.string.last_seen, timeHelper().getFormattedDate(lastSeen));
         }
