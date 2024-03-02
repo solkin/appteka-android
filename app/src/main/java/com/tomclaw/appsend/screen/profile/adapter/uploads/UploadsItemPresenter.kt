@@ -8,7 +8,7 @@ class UploadsItemPresenter(
 ) : ItemPresenter<UploadsItemView, UploadsItem> {
 
     override fun bindView(view: UploadsItemView, item: UploadsItem, position: Int) {
-        view.setUploadsCount(item.count.toString())
+        view.setUploadsCount(item.uploads.toString())
     }
 
 }

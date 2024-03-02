@@ -5,6 +5,7 @@ import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.blueprint.Item
 import com.avito.konveyor.data_source.ListDataSource
 import com.tomclaw.appsend.screen.profile.adapter.ItemListener
+import com.tomclaw.appsend.screen.profile.adapter.app.AppItem
 import com.tomclaw.appsend.screen.profile.api.ProfileResponse
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.filterUnauthorizedErrors
@@ -87,6 +88,10 @@ class ProfilePresenterImpl(
 
     override fun saveState() = Bundle().apply {
         putParcelable(KEY_PROFILE, profile)
+    }
+
+    override fun onItemClick(item: AppItem) {
+        TODO("Not yet implemented")
     }
 
     private fun onBackPressed() {

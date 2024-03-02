@@ -1,3 +1,9 @@
 package com.tomclaw.appsend.screen.profile.adapter
 
-interface ItemListener
+import com.tomclaw.appsend.screen.profile.adapter.app.AppItem
+
+interface ItemListener {
+
+    fun onItemClick(item: AppItem)
+
+}

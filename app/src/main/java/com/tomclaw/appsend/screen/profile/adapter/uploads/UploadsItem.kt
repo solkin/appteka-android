@@ -2,10 +2,13 @@ package com.tomclaw.appsend.screen.profile.adapter.uploads
 
 import android.os.Parcelable
 import com.avito.konveyor.blueprint.Item
+import com.tomclaw.appsend.screen.profile.adapter.app.AppItem
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class UploadsItem(
     override val id: Long,
-    val count: Int
+    val uploads: Int,
+    val downloads: Int,
+    val items: List<AppItem>,
 ) : Item, Parcelable
