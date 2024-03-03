@@ -6,9 +6,9 @@
     android:orientation="vertical">
 
     <LinearLayout
-        android:baselineAligned="false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:baselineAligned="false"
         android:orientation="horizontal"
         android:padding="20dp">
 
@@ -25,9 +25,10 @@
                 android:id="@+id/user_online"
                 android:layout_width="22dp"
                 android:layout_height="22dp"
-                android:layout_marginBottom="-3dp"
-                android:layout_marginEnd="-3dp"
                 android:layout_gravity="end|bottom"
+                android:layout_marginEnd="-3dp"
+                android:layout_marginBottom="-3dp"
+                android:importantForAccessibility="no"
                 android:src="@drawable/online_indicator" />
 
         </FrameLayout>
@@ -35,9 +36,9 @@
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:layout_gravity="center_vertical"
             android:paddingStart="18dp"
             android:paddingEnd="0dp">
 
@@ -46,14 +47,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start|center_vertical"
+                android:ellipsize="end"
                 android:fontFamily="sans-serif"
                 android:includeFontPadding="false"
                 android:maxLines="2"
-                android:ellipsize="end"
+                android:paddingBottom="6dp"
                 android:singleLine="false"
                 android:textColor="?text_primary_color"
                 android:textSize="22sp"
-                android:paddingBottom="6dp"
                 tools:text="Zibuhoker" />
 
             <TextView

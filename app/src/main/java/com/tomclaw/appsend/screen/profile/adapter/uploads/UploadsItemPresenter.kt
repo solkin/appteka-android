@@ -15,6 +15,8 @@ class UploadsItemPresenter(
 
     override fun bindView(view: UploadsItemView, item: UploadsItem, position: Int) {
         view.setUploadsCount(item.uploads.toString())
+        view.setDownloadsCount(item.downloads.toString())
+
         uploads = item.items
         val dataSource = ListDataSource(item.items)
         adapterPresenter.get().onDataSourceChanged(dataSource)
