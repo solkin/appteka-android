@@ -90,8 +90,8 @@ class ProfilePresenterImpl(
         putParcelable(KEY_PROFILE, profile)
     }
 
-    override fun onItemClick(item: AppItem) {
-        TODO("Not yet implemented")
+    override fun onAppClick(item: AppItem) {
+
     }
 
     private fun onBackPressed() {

@@ -15,6 +15,8 @@ import com.tomclaw.appsend.screen.profile.ProfileInteractor
 import com.tomclaw.appsend.screen.profile.ProfileInteractorImpl
 import com.tomclaw.appsend.screen.profile.ProfilePresenter
 import com.tomclaw.appsend.screen.profile.ProfilePresenterImpl
+import com.tomclaw.appsend.screen.profile.adapter.app.AppItemBlueprint
+import com.tomclaw.appsend.screen.profile.adapter.app.AppItemPresenter
 import com.tomclaw.appsend.screen.profile.adapter.header.HeaderItemBlueprint
 import com.tomclaw.appsend.screen.profile.adapter.header.HeaderItemPresenter
 import com.tomclaw.appsend.screen.profile.adapter.header.HeaderResourceProvider
@@ -43,7 +45,7 @@ class ProfileModule(
     internal fun providePresenter(
         interactor: ProfileInteractor,
         converter: ProfileConverter,
-        adapterPresenter: Lazy<AdapterPresenter>,
+        @Named(PROFILE_ADAPTER_PRESENTER) adapterPresenter: Lazy<AdapterPresenter>,
         schedulers: SchedulersFactory
     ): ProfilePresenter = ProfilePresenterImpl(
         userId,
@@ -66,8 +68,16 @@ class ProfileModule(
     internal fun provideConverter(): ProfileConverter = ProfileConverterImpl()
 
     @Provides
+    @Named(PROFILE_ADAPTER_PRESENTER)
     @PerFragment
-    internal fun provideAdapterPresenter(binder: ItemBinder): AdapterPresenter {
+    internal fun provideProfileAdapterPresenter(binder: ItemBinder): AdapterPresenter {
+        return SimpleAdapterPresenter(binder, binder)
+    }
+
+    @Provides
+    @Named(UPLOADS_ADAPTER_PRESENTER)
+    @PerFragment
+    internal fun provideUploadsAdapterPresenter(binder: ItemBinder): AdapterPresenter {
         return SimpleAdapterPresenter(binder, binder)
     }
 
@@ -111,14 +121,40 @@ class ProfileModule(
     @Provides
     @IntoSet
     @PerFragment
+    internal fun provideAppItemBlueprint(
+        presenter: AppItemPresenter
+    ): ItemBlueprint<*, *> = AppItemBlueprint(presenter)
+
+    @Provides
+    @PerFragment
+    internal fun provideAppItemPresenter(
+        presenter: UploadsItemPresenter,
+    ) = AppItemPresenter(presenter)
+
+    @Provides
+    @IntoSet
+    @PerFragment
     internal fun provideUploadsItemBlueprint(
-        presenter: UploadsItemPresenter
-    ): ItemBlueprint<*, *> = UploadsItemBlueprint(presenter)
+        presenter: UploadsItemPresenter,
+        @Named(UPLOADS_ADAPTER_PRESENTER) adapterPresenter: Lazy<AdapterPresenter>,
+        binder: Lazy<ItemBinder>,
+    ): ItemBlueprint<*, *> = UploadsItemBlueprint(
+        presenter,
+        adapterPresenter,
+        binder
+    )
 
     @Provides
     @PerFragment
     internal fun provideUploadsItemPresenter(
         presenter: ProfilePresenter,
-    ) = UploadsItemPresenter(presenter)
+        @Named(UPLOADS_ADAPTER_PRESENTER) adapterPresenter: Lazy<AdapterPresenter>,
+    ) = UploadsItemPresenter(
+        presenter,
+        adapterPresenter
+    )
 
 }
+
+const val PROFILE_ADAPTER_PRESENTER = "ProfileAdapterPresenter"
+const val UPLOADS_ADAPTER_PRESENTER = "UploadsAdapterPresenter"

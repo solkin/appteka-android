@@ -11,8 +11,10 @@ import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.main.home.HomeFragment
 import com.tomclaw.appsend.screen.auth.request_code.createRequestCodeActivityIntent
+import com.tomclaw.appsend.screen.profile.di.PROFILE_ADAPTER_PRESENTER
 import com.tomclaw.appsend.screen.profile.di.ProfileModule
 import javax.inject.Inject
+import javax.inject.Named
 
 class ProfileFragment : HomeFragment(), ProfilePresenter.ProfileRouter {
 
@@ -20,6 +22,7 @@ class ProfileFragment : HomeFragment(), ProfilePresenter.ProfileRouter {
     lateinit var presenter: ProfilePresenter
 
     @Inject
+    @Named(PROFILE_ADAPTER_PRESENTER)
     lateinit var adapterPresenter: AdapterPresenter
 
     @Inject

@@ -24,8 +24,8 @@
 
             <ImageView
                 android:id="@+id/app_icon"
-                android:layout_width="72dp"
-                android:layout_height="72dp"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
                 android:layout_gravity="center_vertical"
                 android:contentDescription="@string/app_icon"
                 android:scaleType="centerCrop"
@@ -37,6 +37,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:layout_marginTop="-6dp"
             android:gravity="center_vertical"
             android:orientation="vertical"
             android:paddingStart="12dp"
@@ -50,8 +51,8 @@
                 android:layout_gravity="start|center_vertical"
                 android:fontFamily="sans-serif"
                 android:includeFontPadding="false"
-                android:singleLine="false"
                 android:maxLines="2"
+                android:singleLine="false"
                 android:textColor="?text_primary_color"
                 android:textSize="12sp"
                 tools:text="AppSend" />
@@ -78,8 +79,8 @@
                     android:id="@+id/rating_icon"
                     android:layout_width="12dp"
                     android:layout_height="12dp"
-                    android:contentDescription="@string/ratings"
                     android:layout_marginStart="2dp"
+                    android:contentDescription="@string/ratings"
                     android:src="@drawable/ic_star_smooth"
                     android:visibility="visible"
                     app:tint="?text_secondary_color" />

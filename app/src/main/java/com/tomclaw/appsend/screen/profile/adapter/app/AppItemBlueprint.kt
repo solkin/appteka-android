@@ -10,7 +10,7 @@ class AppItemBlueprint(override val presenter: ItemPresenter<AppItemView, AppIte
     ItemBlueprint<AppItemView, AppItem> {
 
     override val viewHolderProvider = ViewHolderBuilder.ViewHolderProvider(
-        layoutId = R.layout.rect_store_item,
+        layoutId = R.layout.profile_app_item,
         creator = { _, view -> AppItemViewHolder(view) }
     )
 

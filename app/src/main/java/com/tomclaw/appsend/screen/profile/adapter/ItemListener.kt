@@ -4,6 +4,6 @@ import com.tomclaw.appsend.screen.profile.adapter.app.AppItem
 
 interface ItemListener {
 
-    fun onItemClick(item: AppItem)
+    fun onAppClick(item: AppItem)
 
 }

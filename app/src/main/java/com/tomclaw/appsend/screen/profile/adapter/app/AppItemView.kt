@@ -23,8 +23,6 @@ interface AppItemView : ItemView {
 
     fun setOnClickListener(listener: (() -> Unit)?)
 
-    fun setClickable(clickable: Boolean)
-
 }
 
 class AppItemViewHolder(view: View) : BaseViewHolder(view), AppItemView {
@@ -65,10 +63,6 @@ class AppItemViewHolder(view: View) : BaseViewHolder(view), AppItemView {
 
     override fun setOnClickListener(listener: (() -> Unit)?) {
         this.clickListener = listener
-    }
-
-    override fun setClickable(clickable: Boolean) {
-        itemView.isClickable = clickable
     }
 
     override fun onUnbind() {
