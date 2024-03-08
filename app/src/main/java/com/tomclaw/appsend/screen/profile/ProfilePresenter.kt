@@ -6,6 +6,7 @@ import com.avito.konveyor.blueprint.Item
 import com.avito.konveyor.data_source.ListDataSource
 import com.tomclaw.appsend.screen.profile.adapter.ItemListener
 import com.tomclaw.appsend.screen.profile.adapter.app.AppItem
+import com.tomclaw.appsend.screen.profile.adapter.rating.RatingItem
 import com.tomclaw.appsend.screen.profile.api.ProfileResponse
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.filterUnauthorizedErrors
@@ -91,6 +92,10 @@ class ProfilePresenterImpl(
     }
 
     override fun onAppClick(item: AppItem) {
+
+    }
+
+    override fun onRatingClick(item: RatingItem) {
 
     }
 

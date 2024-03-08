@@ -13,7 +13,7 @@ interface ProfileConverter {
 
 }
 
-class ProfileConverterImpl() : ProfileConverter {
+class ProfileConverterImpl : ProfileConverter {
 
     override fun convert(profile: Profile, grantRoles: List<Int>?): List<Item> {
         var id: Long = 1
