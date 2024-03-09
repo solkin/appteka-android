@@ -21,6 +21,10 @@ import com.tomclaw.appsend.screen.profile.adapter.header.HeaderItemBlueprint
 import com.tomclaw.appsend.screen.profile.adapter.header.HeaderItemPresenter
 import com.tomclaw.appsend.screen.profile.adapter.header.HeaderResourceProvider
 import com.tomclaw.appsend.screen.profile.adapter.header.HeaderResourceProviderImpl
+import com.tomclaw.appsend.screen.profile.adapter.rating.RatingItemBlueprint
+import com.tomclaw.appsend.screen.profile.adapter.rating.RatingItemPresenter
+import com.tomclaw.appsend.screen.profile.adapter.ratings.RatingsItemBlueprint
+import com.tomclaw.appsend.screen.profile.adapter.ratings.RatingsItemPresenter
 import com.tomclaw.appsend.screen.profile.adapter.uploads.UploadsItemBlueprint
 import com.tomclaw.appsend.screen.profile.adapter.uploads.UploadsItemPresenter
 import com.tomclaw.appsend.util.PerFragment
@@ -78,6 +82,13 @@ class ProfileModule(
     @Named(UPLOADS_ADAPTER_PRESENTER)
     @PerFragment
     internal fun provideUploadsAdapterPresenter(binder: ItemBinder): AdapterPresenter {
+        return SimpleAdapterPresenter(binder, binder)
+    }
+
+    @Provides
+    @Named(RATINGS_ADAPTER_PRESENTER)
+    @PerFragment
+    internal fun provideRatingsAdapterPresenter(binder: ItemBinder): AdapterPresenter {
         return SimpleAdapterPresenter(binder, binder)
     }
 
@@ -154,7 +165,45 @@ class ProfileModule(
         adapterPresenter
     )
 
+    @Provides
+    @IntoSet
+    @PerFragment
+    internal fun provideRatingItemBlueprint(
+        presenter: RatingItemPresenter
+    ): ItemBlueprint<*, *> = RatingItemBlueprint(presenter)
+
+    @Provides
+    @PerFragment
+    internal fun provideRatingItemPresenter(
+        @Named(DATE_FORMATTER) dateFormatter: DateFormat,
+        presenter: RatingsItemPresenter,
+    ) = RatingItemPresenter(dateFormatter, presenter)
+
+    @Provides
+    @IntoSet
+    @PerFragment
+    internal fun provideRatingsItemBlueprint(
+        presenter: RatingsItemPresenter,
+        @Named(RATINGS_ADAPTER_PRESENTER) adapterPresenter: Lazy<AdapterPresenter>,
+        binder: Lazy<ItemBinder>,
+    ): ItemBlueprint<*, *> = RatingsItemBlueprint(
+        presenter,
+        adapterPresenter,
+        binder
+    )
+
+    @Provides
+    @PerFragment
+    internal fun provideRatingsItemPresenter(
+        presenter: ProfilePresenter,
+        @Named(RATINGS_ADAPTER_PRESENTER) adapterPresenter: Lazy<AdapterPresenter>,
+    ) = RatingsItemPresenter(
+        presenter,
+        adapterPresenter
+    )
+
 }
 
 const val PROFILE_ADAPTER_PRESENTER = "ProfileAdapterPresenter"
 const val UPLOADS_ADAPTER_PRESENTER = "UploadsAdapterPresenter"
+const val RATINGS_ADAPTER_PRESENTER = "RatingsAdapterPresenter"
