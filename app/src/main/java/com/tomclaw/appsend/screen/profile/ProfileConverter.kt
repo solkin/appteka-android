@@ -4,6 +4,8 @@ import com.avito.konveyor.blueprint.Item
 import com.tomclaw.appsend.main.profile.Profile
 import com.tomclaw.appsend.screen.profile.adapter.app.AppItem
 import com.tomclaw.appsend.screen.profile.adapter.header.HeaderItem
+import com.tomclaw.appsend.screen.profile.adapter.rating.RatingItem
+import com.tomclaw.appsend.screen.profile.adapter.ratings.RatingsItem
 import com.tomclaw.appsend.screen.profile.adapter.uploads.UploadsItem
 import java.util.concurrent.TimeUnit
 
@@ -71,6 +73,44 @@ class ProfileConverterImpl : ProfileConverter {
                         title = "Textra",
                         rating = 4.0f
                     )
+                )
+            )
+        )
+        items.add(
+            RatingsItem(
+                id = id++,
+                count = profile.ratingsCount,
+                items = listOf(
+                    RatingItem(
+                        id = id++,
+                        appId = "appId_1",
+                        icon = "https://appteka.store/api/1/icon/get?hash=SOfk6EnCliqzlJTxKFB1Jfd8fWnxO6X4EoXYUOLctIp2kOZl4g8KhN1wblWcTAAG",
+                        title = "AirBrush",
+                        version = "6.3.1",
+                        rating = 4.0f,
+                        text = "Lorem ipsum dolor sit amet",
+                        time = System.currentTimeMillis(),
+                    ),
+                    RatingItem(
+                        id = id++,
+                        appId = "appId_2",
+                        icon = "https://appteka.store/api/1/icon/get?hash=ipykd8%2BOc%2Bfg7R6XEAWlnmN%2FT2H8QcBFrtpTROGNODo7gLWSRttCA4EeKSrEEiQx",
+                        title = "Yaps",
+                        version = "24.4",
+                        rating = 3.5f,
+                        text = null,
+                        time = System.currentTimeMillis(),
+                    ),
+                    RatingItem(
+                        id = id++,
+                        appId = "appId_3",
+                        icon = "https://appteka.store/api/1/icon/get?hash=AyE4A0N3UeRpBYSBcEH9Ajnr4wsHwKo7A7hWTvsWHwgwffJF7kHw8z9UstYDiqO0",
+                        title = "Transparent clock & weather",
+                        version = "6.79.4",
+                        rating = 5.0f,
+                        text = "Прекрасный погодный виджет!",
+                        time = System.currentTimeMillis(),
+                    ),
                 )
             )
         )

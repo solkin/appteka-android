@@ -75,8 +75,6 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="-6dp"
         android:clipToPadding="false"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
         android:paddingBottom="12dp"
         tools:listitem="@layout/profile_rating_item" />
 

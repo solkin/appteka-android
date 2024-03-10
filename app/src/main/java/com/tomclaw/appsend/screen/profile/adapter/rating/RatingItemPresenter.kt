@@ -12,7 +12,7 @@ class RatingItemPresenter(
     override fun bindView(view: RatingItemView, item: RatingItem, position: Int) {
         view.setIcon(item.icon)
         view.setTitle(item.title)
-        view.setTitle(item.version)
+        view.setVersion(item.version)
         view.setRating(item.rating)
         val date: String = dateFormatter.format(item.time)
         view.setDate(date)

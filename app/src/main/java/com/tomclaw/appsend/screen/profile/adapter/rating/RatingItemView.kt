@@ -32,7 +32,6 @@ interface RatingItemView : ItemView {
 
 class RatingItemViewHolder(view: View) : BaseViewHolder(view), RatingItemView {
 
-    private val context = view.context
     private val icon: ImageView = view.findViewById(R.id.app_icon)
     private val title: TextView = view.findViewById(R.id.app_name)
     private val version: TextView = view.findViewById(R.id.app_version)
