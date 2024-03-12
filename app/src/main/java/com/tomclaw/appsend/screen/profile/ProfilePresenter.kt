@@ -99,6 +99,10 @@ class ProfilePresenterImpl(
 
     }
 
+    override fun onFavoritesClick() {
+        
+    }
+
     private fun onBackPressed() {
         router?.leaveScreen()
     }

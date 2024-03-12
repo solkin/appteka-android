@@ -9,4 +9,6 @@ interface ItemListener {
 
     fun onRatingClick(item: RatingItem)
 
+    fun onFavoritesClick()
+
 }

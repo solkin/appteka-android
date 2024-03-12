@@ -315,4 +315,5 @@
     <string name="today">today</string>
     <string name="yesterday">yesterday</string>
     <string name="total_downloads_count">They were downloaded %s times</string>
+    <string name="favorite_apps_count">%d apps in user favorite list</string>
 </resources>
