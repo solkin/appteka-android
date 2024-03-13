@@ -100,7 +100,7 @@ class ProfilePresenterImpl(
     }
 
     override fun onFavoritesClick() {
-        
+
     }
 
     private fun onBackPressed() {
