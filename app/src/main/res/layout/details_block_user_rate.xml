@@ -45,8 +45,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/write_feedback"
-        android:paddingLeft="0dp"
-        android:paddingRight="0dp"
+        android:layout_marginLeft="-8dp"
+        android:layout_marginRight="-8dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
         app:cornerRadius="99dp" />
 
 </LinearLayout>

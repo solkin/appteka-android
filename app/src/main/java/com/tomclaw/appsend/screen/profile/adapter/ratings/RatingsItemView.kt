@@ -27,10 +27,10 @@ class RatingsItemViewHolder(
     private val adapter: SimpleRecyclerAdapter,
 ) : BaseViewHolder(view), RatingsItemView {
 
-    private val context = view.context
     private val ratingsBlock: View = view.findViewById(R.id.ratings_block)
     private val ratingsCountText: TextView = view.findViewById(R.id.ratings_count)
     private val recycler: RecyclerView = view.findViewById(R.id.recycler)
+    private val ratingsButton: View = view.findViewById(R.id.show_ratings_button)
 
     private val layoutManager: LinearLayoutManager
 
@@ -46,6 +46,7 @@ class RatingsItemViewHolder(
         recycler.itemAnimator?.changeDuration = DURATION_MEDIUM
 
         ratingsBlock.setOnClickListener { clickListener?.invoke() }
+        ratingsButton.setOnClickListener { clickListener?.invoke() }
     }
 
     override fun setRatingsCount(count: String) {

@@ -75,7 +75,20 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="-6dp"
         android:clipToPadding="false"
-        android:paddingBottom="12dp"
         tools:listitem="@layout/profile_rating_item" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/show_ratings_button"
+        style="@style/MaterialButtonSecondary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="-2dp"
+        android:text="@string/show_all_ratings"
+        app:cornerRadius="99dp" />
 
 </LinearLayout>
