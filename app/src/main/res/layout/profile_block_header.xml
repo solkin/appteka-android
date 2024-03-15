@@ -48,7 +48,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="start|center_vertical"
                 android:ellipsize="end"
-                android:fontFamily="sans-serif"
+                android:fontFamily="sans-serif-medium"
                 android:includeFontPadding="false"
                 android:maxLines="2"
                 android:paddingBottom="6dp"

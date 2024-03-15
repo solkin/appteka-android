@@ -30,6 +30,10 @@ interface ProfilePresenter : ItemListener {
 
     interface ProfileRouter {
 
+        fun openUserFilesScreen(userId: Int)
+
+        fun openDetailsScreen(appId: String, label: String?)
+
         fun openLoginScreen()
 
         fun leaveScreen()
@@ -92,7 +96,7 @@ class ProfilePresenterImpl(
     }
 
     override fun onAppClick(item: AppItem) {
-
+        router?.openDetailsScreen(item.appId, item.title)
     }
 
     override fun onRatingClick(item: RatingItem) {
@@ -100,6 +104,14 @@ class ProfilePresenterImpl(
     }
 
     override fun onFavoritesClick() {
+
+    }
+
+    override fun onUploadsClick(userId: Int) {
+        router?.openUserFilesScreen(userId)
+    }
+
+    override fun onNextPage(last: AppItem) {
 
     }
 

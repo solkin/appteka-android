@@ -10,7 +10,9 @@ import com.avito.konveyor.adapter.SimpleRecyclerAdapter
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.main.home.HomeFragment
+import com.tomclaw.appsend.main.profile.list.FilesActivity.createUserAppsActivityIntent
 import com.tomclaw.appsend.screen.auth.request_code.createRequestCodeActivityIntent
+import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.screen.profile.di.PROFILE_ADAPTER_PRESENTER
 import com.tomclaw.appsend.screen.profile.di.ProfileModule
 import javax.inject.Inject
@@ -73,6 +75,18 @@ class ProfileFragment : HomeFragment(), ProfilePresenter.ProfileRouter {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putBundle(KEY_PRESENTER_STATE, presenter.saveState())
+    }
+
+    override fun openUserFilesScreen(userId: Int) {
+        val context = context ?: return
+        val intent = createUserAppsActivityIntent(context, userId)
+        startActivity(intent)
+    }
+
+    override fun openDetailsScreen(appId: String, label: String?) {
+        val context = context ?: return
+        val intent = createDetailsActivityIntent(context, appId, label = label.orEmpty())
+        startActivity(intent)
     }
 
     override fun openLoginScreen() {

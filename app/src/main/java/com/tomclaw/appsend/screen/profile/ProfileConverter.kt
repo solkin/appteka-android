@@ -37,6 +37,7 @@ class ProfileConverterImpl : ProfileConverter {
             items.add(
                 UploadsItem(
                     id = id++,
+                    userId = profile.userId,
                     uploads = profile.filesCount,
                     downloads = profile.totalDownloads,
                     items = listOf(

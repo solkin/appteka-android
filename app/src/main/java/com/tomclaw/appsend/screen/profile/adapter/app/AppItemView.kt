@@ -27,7 +27,6 @@ interface AppItemView : ItemView {
 
 class AppItemViewHolder(view: View) : BaseViewHolder(view), AppItemView {
 
-    private val context = view.context
     private val icon: ImageView = view.findViewById(R.id.app_icon)
     private val title: TextView = view.findViewById(R.id.app_name)
     private val rating: TextView = view.findViewById(R.id.app_rating)

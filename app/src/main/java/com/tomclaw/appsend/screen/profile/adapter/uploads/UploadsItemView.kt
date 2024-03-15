@@ -6,6 +6,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE
 import com.avito.konveyor.adapter.BaseViewHolder
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
 import com.avito.konveyor.blueprint.ItemView
@@ -19,6 +20,8 @@ interface UploadsItemView : ItemView {
     fun setDownloadsCount(count: String)
 
     fun setOnClickListener(listener: (() -> Unit)?)
+
+    fun setOnNextPageListener(listener: (() -> Unit)?)
 
     fun notifyChanged()
 
@@ -38,6 +41,7 @@ class UploadsItemViewHolder(
     private val layoutManager: LinearLayoutManager
 
     private var clickListener: (() -> Unit)? = null
+    private var nextPageListener: (() -> Unit)? = null
 
     init {
         val orientation = RecyclerView.HORIZONTAL
@@ -47,6 +51,18 @@ class UploadsItemViewHolder(
         recycler.layoutManager = layoutManager
         recycler.itemAnimator = DefaultItemAnimator()
         recycler.itemAnimator?.changeDuration = DURATION_MEDIUM
+        recycler.addRecyclerListener { holder ->
+            holder.itemId
+        }
+        val scrollListener = object : RecyclerView.OnScrollListener() {
+            override fun onScrollStateChanged(recycler: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recycler, newState)
+                if (!recycler.canScrollHorizontally(1) && newState == SCROLL_STATE_IDLE) {
+                    nextPageListener?.invoke()
+                }
+            }
+        }
+        recycler.addOnScrollListener(scrollListener)
 
         uploadsBlock.setOnClickListener { clickListener?.invoke() }
     }
@@ -63,6 +79,10 @@ class UploadsItemViewHolder(
         this.clickListener = listener
     }
 
+    override fun setOnNextPageListener(listener: (() -> Unit)?) {
+        this.nextPageListener = listener
+    }
+
     @SuppressLint("NotifyDataSetChanged")
     override fun notifyChanged() {
         adapter.notifyDataSetChanged()
@@ -70,6 +90,7 @@ class UploadsItemViewHolder(
 
     override fun onUnbind() {
         this.clickListener = null
+        this.nextPageListener = null
     }
 
 }

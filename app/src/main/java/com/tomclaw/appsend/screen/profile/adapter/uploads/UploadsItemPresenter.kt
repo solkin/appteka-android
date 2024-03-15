@@ -16,6 +16,8 @@ class UploadsItemPresenter(
     override fun bindView(view: UploadsItemView, item: UploadsItem, position: Int) {
         view.setUploadsCount(item.uploads.toString())
         view.setDownloadsCount(item.downloads.toString())
+        view.setOnClickListener { listener.onUploadsClick(item.userId) }
+        view.setOnNextPageListener { listener.onNextPage(uploads.last()) }
 
         uploads = item.items
         val dataSource = ListDataSource(item.items)

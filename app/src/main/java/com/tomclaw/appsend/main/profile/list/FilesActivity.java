@@ -1,6 +1,8 @@
 package com.tomclaw.appsend.main.profile.list;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -59,4 +61,9 @@ public class FilesActivity extends AppCompatActivity {
         onBackPressed();
         return true;
     }
+
+    public static Intent createUserAppsActivityIntent(Context context, int userId) {
+        return FilesActivity_.intent(context).userId((long) userId).get();
+    }
+
 }

@@ -11,4 +11,8 @@ interface ItemListener {
 
     fun onFavoritesClick()
 
+    fun onUploadsClick(userId: Int)
+
+    fun onNextPage(last: AppItem)
+
 }
