@@ -18,6 +18,7 @@ import com.tomclaw.appsend.screen.details.api.ModerationDecisionResponse
 import com.tomclaw.appsend.screen.favorite.api.FavoriteResponse
 import com.tomclaw.appsend.screen.moderation.api.ModerationResponse
 import com.tomclaw.appsend.screen.profile.api.ProfileResponse
+import com.tomclaw.appsend.screen.profile.api.UserAppsResponse
 import com.tomclaw.appsend.screen.rate.api.SubmitReviewResponse
 import com.tomclaw.appsend.screen.store.api.AppsListResponse
 import com.tomclaw.appsend.screen.topics.api.PinTopicResponse
@@ -193,5 +194,11 @@ interface StoreApi {
     fun getProfile(
         @Query("user_id") userId: Int,
     ): Single<StoreResponse<ProfileResponse>>
+
+    @GET("1/user/app/list")
+    fun getUserApps(
+        @Query("user_id") userId: Int,
+        @Query("app_id") appId: String?,
+    ): Single<StoreResponse<UserAppsResponse>>
 
 }

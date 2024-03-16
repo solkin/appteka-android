@@ -4,16 +4,20 @@ import android.os.Bundle
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.blueprint.Item
 import com.avito.konveyor.data_source.ListDataSource
+import com.tomclaw.appsend.dto.AppEntity
 import com.tomclaw.appsend.screen.profile.adapter.ItemListener
 import com.tomclaw.appsend.screen.profile.adapter.app.AppItem
 import com.tomclaw.appsend.screen.profile.adapter.rating.RatingItem
 import com.tomclaw.appsend.screen.profile.api.ProfileResponse
+import com.tomclaw.appsend.screen.profile.api.UserAppsResponse
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.filterUnauthorizedErrors
+import com.tomclaw.appsend.util.getParcelableArrayListCompat
 import com.tomclaw.appsend.util.getParcelableCompat
 import com.tomclaw.appsend.util.retryWhenNonAuthErrors
 import dagger.Lazy
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.kotlin.Observables
 import io.reactivex.rxjava3.kotlin.plusAssign
 
 interface ProfilePresenter : ItemListener {
@@ -56,6 +60,8 @@ class ProfilePresenterImpl(
 
     private var profile: ProfileResponse? =
         state?.getParcelableCompat(KEY_PROFILE, ProfileResponse::class.java)
+    private var uploads: ArrayList<AppEntity>? =
+        state?.getParcelableArrayListCompat(KEY_UPLOADS, AppEntity::class.java)
 
     private val items = ArrayList<Item>()
 
@@ -93,6 +99,7 @@ class ProfilePresenterImpl(
 
     override fun saveState() = Bundle().apply {
         putParcelable(KEY_PROFILE, profile)
+        putParcelableArrayList(KEY_UPLOADS, uploads)
     }
 
     override fun onAppClick(item: AppItem) {
@@ -112,7 +119,13 @@ class ProfilePresenterImpl(
     }
 
     override fun onNextPage(last: AppItem) {
-
+        subscriptions += interactor.loadUserApps(userId, last.appId)
+            .observeOn(schedulers.mainThread())
+            .retryWhenNonAuthErrors()
+            .subscribe(
+                { onProfileLoaded(profile, uploads.orEmpty() + it.files) },
+                { }
+            )
     }
 
     private fun onBackPressed() {
@@ -120,7 +133,10 @@ class ProfilePresenterImpl(
     }
 
     private fun loadProfile() {
-        subscriptions += interactor.loadProfile(userId)
+        subscriptions += Observables.zip(
+            interactor.loadProfile(userId),
+            interactor.loadUserApps(userId, offsetAppId = null)
+        )
             .observeOn(schedulers.mainThread())
             .retryWhenNonAuthErrors()
             .doOnSubscribe {
@@ -129,13 +145,14 @@ class ProfilePresenterImpl(
                 view?.showProgress()
             }
             .subscribe(
-                { onProfileLoaded(it) },
+                { onProfileLoaded(it.first, it.second.files) },
                 { onLoadingError(it) }
             )
     }
 
-    private fun onProfileLoaded(profile: ProfileResponse) {
+    private fun onProfileLoaded(profile: ProfileResponse?, uploads: List<AppEntity>) {
         this.profile = profile
+        this.uploads = ArrayList(uploads)
         bindProfile()
     }
 
@@ -151,7 +168,7 @@ class ProfilePresenterImpl(
         val profile = this.profile ?: return
 
         items.clear()
-        items += converter.convert(profile.profile, profile.grantRoles)
+        items += converter.convert(profile.profile, profile.grantRoles, uploads)
 
         bindItems()
         bindMenu()
@@ -174,3 +191,4 @@ class ProfilePresenterImpl(
 }
 
 private const val KEY_PROFILE = "profile"
+private const val KEY_UPLOADS = "uploads"
