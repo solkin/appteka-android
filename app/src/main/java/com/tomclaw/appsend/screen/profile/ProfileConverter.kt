@@ -10,21 +10,25 @@ import com.tomclaw.appsend.screen.profile.adapter.rating.RatingItem
 import com.tomclaw.appsend.screen.profile.adapter.ratings.RatingsItem
 import com.tomclaw.appsend.screen.profile.adapter.uploads.UploadsItem
 import java.util.concurrent.TimeUnit
+import java.util.concurrent.atomic.AtomicLong
 
 interface ProfileConverter {
 
-    fun convert(profile: Profile, grantRoles: List<Int>?, uploads: List<AppEntity>?): List<Item>
+    fun convertProfile(profile: Profile, grantRoles: List<Int>?, uploads: List<AppEntity>?): List<Item>
+
+    fun convertApps(uploads: List<AppEntity>?): List<AppItem>
 
 }
 
 class ProfileConverterImpl : ProfileConverter {
 
-    override fun convert(profile: Profile, grantRoles: List<Int>?, uploads: List<AppEntity>?): List<Item> {
-        var id: Long = 1
+    private val id = AtomicLong()
+
+    override fun convertProfile(profile: Profile, grantRoles: List<Int>?, uploads: List<AppEntity>?): List<Item> {
         val items = mutableListOf<Item>()
         items.add(
             HeaderItem(
-                id = id++,
+                id = id.incrementAndGet(),
                 userName = profile.name,
                 userIcon = profile.userIcon,
                 joinTime = TimeUnit.SECONDS.toMillis(profile.joinTime),
@@ -35,19 +39,11 @@ class ProfileConverterImpl : ProfileConverter {
             )
         )
         if (profile.filesCount > 0) {
-            val appItems = uploads.orEmpty().map { entity ->
-                AppItem(
-                    id = id++,
-                    appId = entity.appId,
-                    icon = entity.icon,
-                    title = entity.title,
-                    rating = entity.rating
-                )
-            }
+            val appItems = convertApps(uploads)
 
             items.add(
                 UploadsItem(
-                    id = id++,
+                    id = id.incrementAndGet(),
                     userId = profile.userId,
                     uploads = profile.filesCount,
                     downloads = profile.totalDownloads,
@@ -58,11 +54,11 @@ class ProfileConverterImpl : ProfileConverter {
         if (profile.ratingsCount > 0) {
             items.add(
                 RatingsItem(
-                    id = id++,
+                    id = id.incrementAndGet(),
                     count = profile.ratingsCount,
                     items = listOf(
                         RatingItem(
-                            id = id++,
+                            id = id.incrementAndGet(),
                             appId = "appId_1",
                             icon = "https://appteka.store/api/1/icon/get?hash=SOfk6EnCliqzlJTxKFB1Jfd8fWnxO6X4EoXYUOLctIp2kOZl4g8KhN1wblWcTAAG",
                             title = "AirBrush",
@@ -72,7 +68,7 @@ class ProfileConverterImpl : ProfileConverter {
                             time = System.currentTimeMillis(),
                         ),
                         RatingItem(
-                            id = id++,
+                            id = id.incrementAndGet(),
                             appId = "appId_2",
                             icon = "https://appteka.store/api/1/icon/get?hash=ipykd8%2BOc%2Bfg7R6XEAWlnmN%2FT2H8QcBFrtpTROGNODo7gLWSRttCA4EeKSrEEiQx",
                             title = "Yaps",
@@ -82,7 +78,7 @@ class ProfileConverterImpl : ProfileConverter {
                             time = System.currentTimeMillis(),
                         ),
                         RatingItem(
-                            id = id++,
+                            id = id.incrementAndGet(),
                             appId = "appId_3",
                             icon = "https://appteka.store/api/1/icon/get?hash=AyE4A0N3UeRpBYSBcEH9Ajnr4wsHwKo7A7hWTvsWHwgwffJF7kHw8z9UstYDiqO0",
                             title = "Transparent clock & weather",
@@ -98,12 +94,24 @@ class ProfileConverterImpl : ProfileConverter {
         if (profile.favoritesCount > 0) {
             items.add(
                 FavoritesItem(
-                    id = id++,
+                    id = id.incrementAndGet(),
                     count = profile.favoritesCount,
                 )
             )
         }
         return items
+    }
+
+    override fun convertApps(uploads: List<AppEntity>?): List<AppItem> {
+        return uploads.orEmpty().map { entity ->
+            AppItem(
+                id = id.incrementAndGet(),
+                appId = entity.appId,
+                icon = entity.icon,
+                title = entity.title,
+                rating = entity.rating
+            )
+        }
     }
 
 }

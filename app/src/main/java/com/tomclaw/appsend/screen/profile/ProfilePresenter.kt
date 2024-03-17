@@ -9,7 +9,6 @@ import com.tomclaw.appsend.screen.profile.adapter.ItemListener
 import com.tomclaw.appsend.screen.profile.adapter.app.AppItem
 import com.tomclaw.appsend.screen.profile.adapter.rating.RatingItem
 import com.tomclaw.appsend.screen.profile.api.ProfileResponse
-import com.tomclaw.appsend.screen.profile.api.UserAppsResponse
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.filterUnauthorizedErrors
 import com.tomclaw.appsend.util.getParcelableArrayListCompat
@@ -118,12 +117,15 @@ class ProfilePresenterImpl(
         router?.openUserFilesScreen(userId)
     }
 
-    override fun onNextPage(last: AppItem) {
+    override fun onNextPage(last: AppItem, param: (List<AppItem>) -> Unit) {
         subscriptions += interactor.loadUserApps(userId, last.appId)
             .observeOn(schedulers.mainThread())
             .retryWhenNonAuthErrors()
             .subscribe(
-                { onProfileLoaded(profile, uploads.orEmpty() + it.files) },
+                { response ->
+                    val appItems = converter.convertApps(response.files)
+                    param.invoke(appItems)
+                },
                 { }
             )
     }
@@ -168,7 +170,7 @@ class ProfilePresenterImpl(
         val profile = this.profile ?: return
 
         items.clear()
-        items += converter.convert(profile.profile, profile.grantRoles, uploads)
+        items += converter.convertProfile(profile.profile, profile.grantRoles, uploads)
 
         bindItems()
         bindMenu()

@@ -13,6 +13,6 @@ interface ItemListener {
 
     fun onUploadsClick(userId: Int)
 
-    fun onNextPage(last: AppItem)
+    fun onNextPage(last: AppItem, param: (List<AppItem>) -> Unit)
 
 }

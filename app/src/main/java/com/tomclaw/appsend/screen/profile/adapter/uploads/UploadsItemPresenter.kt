@@ -17,7 +17,14 @@ class UploadsItemPresenter(
         view.setUploadsCount(item.uploads.toString())
         view.setDownloadsCount(item.downloads.toString())
         view.setOnClickListener { listener.onUploadsClick(item.userId) }
-        view.setOnNextPageListener { listener.onNextPage(uploads.last()) }
+        view.setOnNextPageListener {
+            listener.onNextPage(uploads.last()) { items ->
+                uploads = uploads + items
+                val dataSource = ListDataSource(uploads)
+                adapterPresenter.get().onDataSourceChanged(dataSource)
+                view.notifyChanged()
+            }
+        }
 
         uploads = item.items
         val dataSource = ListDataSource(item.items)
