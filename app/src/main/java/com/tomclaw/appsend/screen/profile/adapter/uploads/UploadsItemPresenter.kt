@@ -20,14 +20,16 @@ class UploadsItemPresenter(
         view.setOnNextPageListener {
             listener.onNextPage(uploads.last()) { items ->
                 uploads = uploads + items
-                val dataSource = ListDataSource(uploads)
-                adapterPresenter.get().onDataSourceChanged(dataSource)
-                view.notifyChanged()
+                onUploadsChanged(view)
             }
         }
 
         uploads = item.items
-        val dataSource = ListDataSource(item.items)
+        onUploadsChanged(view)
+    }
+
+    private fun onUploadsChanged(view: UploadsItemView) {
+        val dataSource = ListDataSource(uploads)
         adapterPresenter.get().onDataSourceChanged(dataSource)
         view.notifyChanged()
     }
