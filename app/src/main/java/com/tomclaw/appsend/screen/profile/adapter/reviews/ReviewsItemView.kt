@@ -1,4 +1,4 @@
-package com.tomclaw.appsend.screen.profile.adapter.ratings
+package com.tomclaw.appsend.screen.profile.adapter.reviews
 
 import android.annotation.SuppressLint
 import android.view.View
@@ -12,7 +12,7 @@ import com.avito.konveyor.blueprint.ItemView
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.util.bind
 
-interface RatingsItemView : ItemView {
+interface ReviewsItemView : ItemView {
 
     fun setRatingsCount(count: String)
 
@@ -22,10 +22,10 @@ interface RatingsItemView : ItemView {
 
 }
 
-class RatingsItemViewHolder(
+class ReviewsItemViewHolder(
     view: View,
     private val adapter: SimpleRecyclerAdapter,
-) : BaseViewHolder(view), RatingsItemView {
+) : BaseViewHolder(view), ReviewsItemView {
 
     private val ratingsBlock: View = view.findViewById(R.id.ratings_block)
     private val ratingsCountText: TextView = view.findViewById(R.id.ratings_count)

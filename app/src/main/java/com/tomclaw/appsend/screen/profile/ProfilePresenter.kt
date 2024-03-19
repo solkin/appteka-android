@@ -7,7 +7,7 @@ import com.avito.konveyor.data_source.ListDataSource
 import com.tomclaw.appsend.dto.AppEntity
 import com.tomclaw.appsend.screen.profile.adapter.ItemListener
 import com.tomclaw.appsend.screen.profile.adapter.app.AppItem
-import com.tomclaw.appsend.screen.profile.adapter.rating.RatingItem
+import com.tomclaw.appsend.screen.profile.adapter.review.ReviewItem
 import com.tomclaw.appsend.screen.profile.api.ProfileResponse
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.filterUnauthorizedErrors
@@ -36,6 +36,10 @@ interface ProfilePresenter : ItemListener {
         fun openUserFilesScreen(userId: Int)
 
         fun openDetailsScreen(appId: String, label: String?)
+
+        fun openFavoriteScreen(userId: Int)
+
+        fun openReviewsScreen(userId: Int)
 
         fun openLoginScreen()
 
@@ -105,12 +109,14 @@ class ProfilePresenterImpl(
         router?.openDetailsScreen(item.appId, item.title)
     }
 
-    override fun onRatingClick(item: RatingItem) {
-
+    override fun onRatingClick(item: ReviewItem) {
+        val profile = profile?.profile ?: return
+        router?.openReviewsScreen(profile.userId)
     }
 
     override fun onFavoritesClick() {
-
+        val profile = profile?.profile ?: return
+        router?.openFavoriteScreen(profile.userId)
     }
 
     override fun onUploadsClick(userId: Int) {

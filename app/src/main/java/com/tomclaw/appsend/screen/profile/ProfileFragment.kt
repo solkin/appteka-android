@@ -13,8 +13,10 @@ import com.tomclaw.appsend.main.home.HomeFragment
 import com.tomclaw.appsend.main.profile.list.FilesActivity.createUserAppsActivityIntent
 import com.tomclaw.appsend.screen.auth.request_code.createRequestCodeActivityIntent
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
+import com.tomclaw.appsend.screen.favorite.createFavoriteActivityIntent
 import com.tomclaw.appsend.screen.profile.di.PROFILE_ADAPTER_PRESENTER
 import com.tomclaw.appsend.screen.profile.di.ProfileModule
+import com.tomclaw.appsend.screen.reviews.createReviewsActivityIntent
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -86,6 +88,18 @@ class ProfileFragment : HomeFragment(), ProfilePresenter.ProfileRouter {
     override fun openDetailsScreen(appId: String, label: String?) {
         val context = context ?: return
         val intent = createDetailsActivityIntent(context, appId, label = label.orEmpty())
+        startActivity(intent)
+    }
+
+    override fun openFavoriteScreen(userId: Int) {
+        val context = context ?: return
+        val intent = createFavoriteActivityIntent(context, userId)
+        startActivity(intent)
+    }
+
+    override fun openReviewsScreen(userId: Int) {
+        val context = context ?: return
+        val intent = createReviewsActivityIntent(context, userId)
         startActivity(intent)
     }
 

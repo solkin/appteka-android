@@ -153,6 +153,7 @@
             android:label="@string/required_permissions" />
         <activity android:name=".screen.gallery.GalleryActivity" />
         <activity android:name=".screen.profile.ProfileActivity" />
+        <activity android:name=".screen.reviews.ReviewsActivity" />
 
         <service android:name=".download.DownloadService" />
 

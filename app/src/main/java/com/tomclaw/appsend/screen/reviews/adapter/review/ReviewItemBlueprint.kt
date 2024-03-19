@@ -1,4 +1,4 @@
-package com.tomclaw.appsend.screen.profile.adapter.rating
+package com.tomclaw.appsend.screen.reviews.adapter.review
 
 import com.avito.konveyor.blueprint.Item
 import com.avito.konveyor.blueprint.ItemBlueprint
@@ -6,14 +6,14 @@ import com.avito.konveyor.blueprint.ItemPresenter
 import com.avito.konveyor.blueprint.ViewHolderBuilder
 import com.tomclaw.appsend.R
 
-class RatingItemBlueprint(override val presenter: ItemPresenter<RatingItemView, RatingItem>) :
-    ItemBlueprint<RatingItemView, RatingItem> {
+class ReviewItemBlueprint(override val presenter: ItemPresenter<ReviewItemView, ReviewItem>) :
+    ItemBlueprint<ReviewItemView, ReviewItem> {
 
     override val viewHolderProvider = ViewHolderBuilder.ViewHolderProvider(
         layoutId = R.layout.profile_rating_item,
-        creator = { _, view -> RatingItemViewHolder(view) }
+        creator = { _, view -> ReviewItemViewHolder(view) }
     )
 
-    override fun isRelevantItem(item: Item) = item is RatingItem
+    override fun isRelevantItem(item: Item) = item is ReviewItem
 
 }

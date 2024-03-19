@@ -20,6 +20,7 @@ import com.tomclaw.appsend.screen.moderation.api.ModerationResponse
 import com.tomclaw.appsend.screen.profile.api.ProfileResponse
 import com.tomclaw.appsend.screen.profile.api.UserAppsResponse
 import com.tomclaw.appsend.screen.rate.api.SubmitReviewResponse
+import com.tomclaw.appsend.screen.reviews.api.ReviewsResponse
 import com.tomclaw.appsend.screen.store.api.AppsListResponse
 import com.tomclaw.appsend.screen.topics.api.PinTopicResponse
 import com.tomclaw.appsend.screen.topics.api.TopicsResponse
@@ -190,7 +191,7 @@ interface StoreApi {
         @Query("guid") guid: String?,
     ): Single<StoreResponse<VerifyCodeResponse>>
 
-    @GET("1/user/profile")
+    @GET("2/user/profile")
     fun getProfile(
         @Query("user_id") userId: Int,
     ): Single<StoreResponse<ProfileResponse>>
@@ -200,5 +201,12 @@ interface StoreApi {
         @Query("user_id") userId: Int,
         @Query("app_id") appId: String?,
     ): Single<StoreResponse<UserAppsResponse>>
+
+    @GET("1/user/reviews")
+    fun getUserReviews(
+        @Query("user_id") userId: Int,
+        @Query("rate_id") rateId: Int?,
+        @Query("locale") locale: String,
+    ): Single<StoreResponse<ReviewsResponse>>
 
 }

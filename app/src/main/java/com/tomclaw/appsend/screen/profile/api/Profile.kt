@@ -3,6 +3,7 @@ package com.tomclaw.appsend.screen.profile.api
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import com.tomclaw.appsend.dto.UserIcon
+import com.tomclaw.appsend.screen.reviews.api.ReviewEntity
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
@@ -12,7 +13,7 @@ data class Profile(
     @SerializedName("name")
     val name: String? = null,
     @SerializedName("user_icon")
-    val userIcon: UserIcon? = null,
+    val userIcon: UserIcon,
     @SerializedName("join_time")
     val joinTime: Long = 0,
     @SerializedName("last_seen")
@@ -29,10 +30,10 @@ data class Profile(
     val totalDownloads: Int = 0,
     @SerializedName("msg_count")
     val msgCount: Int = 0,
-    @SerializedName("ratings_count")
-    val ratingsCount: Int = 0,
-    @SerializedName("mentor_of_count")
-    val moderatorsCount: Int = 0,
+    @SerializedName("reviews_count")
+    val reviewsCount: Int = 0,
+    @SerializedName("last_reviews")
+    val lastReviews: List<ReviewEntity>? = null,
     @SerializedName("is_registered")
     val isRegistered: Boolean = false,
     @SerializedName("is_verified")

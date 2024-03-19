@@ -23,10 +23,10 @@ import com.tomclaw.appsend.screen.profile.adapter.header.HeaderItemBlueprint
 import com.tomclaw.appsend.screen.profile.adapter.header.HeaderItemPresenter
 import com.tomclaw.appsend.screen.profile.adapter.header.HeaderResourceProvider
 import com.tomclaw.appsend.screen.profile.adapter.header.HeaderResourceProviderImpl
-import com.tomclaw.appsend.screen.profile.adapter.rating.RatingItemBlueprint
-import com.tomclaw.appsend.screen.profile.adapter.rating.RatingItemPresenter
-import com.tomclaw.appsend.screen.profile.adapter.ratings.RatingsItemBlueprint
-import com.tomclaw.appsend.screen.profile.adapter.ratings.RatingsItemPresenter
+import com.tomclaw.appsend.screen.profile.adapter.review.ReviewItemBlueprint
+import com.tomclaw.appsend.screen.profile.adapter.review.ReviewItemPresenter
+import com.tomclaw.appsend.screen.profile.adapter.reviews.ReviewsItemBlueprint
+import com.tomclaw.appsend.screen.profile.adapter.reviews.ReviewsItemPresenter
 import com.tomclaw.appsend.screen.profile.adapter.uploads.UploadsItemBlueprint
 import com.tomclaw.appsend.screen.profile.adapter.uploads.UploadsItemPresenter
 import com.tomclaw.appsend.util.PerFragment
@@ -171,24 +171,24 @@ class ProfileModule(
     @IntoSet
     @PerFragment
     internal fun provideRatingItemBlueprint(
-        presenter: RatingItemPresenter
-    ): ItemBlueprint<*, *> = RatingItemBlueprint(presenter)
+        presenter: ReviewItemPresenter
+    ): ItemBlueprint<*, *> = ReviewItemBlueprint(presenter)
 
     @Provides
     @PerFragment
     internal fun provideRatingItemPresenter(
         @Named(DATE_FORMATTER) dateFormatter: DateFormat,
-        presenter: RatingsItemPresenter,
-    ) = RatingItemPresenter(dateFormatter, presenter)
+        presenter: ReviewsItemPresenter,
+    ) = ReviewItemPresenter(dateFormatter, presenter)
 
     @Provides
     @IntoSet
     @PerFragment
     internal fun provideRatingsItemBlueprint(
-        presenter: RatingsItemPresenter,
+        presenter: ReviewsItemPresenter,
         @Named(RATINGS_ADAPTER_PRESENTER) adapterPresenter: Lazy<AdapterPresenter>,
         binder: Lazy<ItemBinder>,
-    ): ItemBlueprint<*, *> = RatingsItemBlueprint(
+    ): ItemBlueprint<*, *> = ReviewsItemBlueprint(
         presenter,
         adapterPresenter,
         binder
@@ -199,7 +199,7 @@ class ProfileModule(
     internal fun provideRatingsItemPresenter(
         presenter: ProfilePresenter,
         @Named(RATINGS_ADAPTER_PRESENTER) adapterPresenter: Lazy<AdapterPresenter>,
-    ) = RatingsItemPresenter(
+    ) = ReviewsItemPresenter(
         presenter,
         adapterPresenter
     )

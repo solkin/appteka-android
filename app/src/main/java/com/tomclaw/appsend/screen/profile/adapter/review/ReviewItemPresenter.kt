@@ -1,15 +1,15 @@
-package com.tomclaw.appsend.screen.profile.adapter.rating
+package com.tomclaw.appsend.screen.profile.adapter.review
 
 import com.avito.konveyor.blueprint.ItemPresenter
-import com.tomclaw.appsend.screen.profile.adapter.ratings.RatingItemListener
+import com.tomclaw.appsend.screen.profile.adapter.reviews.ReviewItemListener
 import java.text.DateFormat
 
-class RatingItemPresenter(
+class ReviewItemPresenter(
     private val dateFormatter: DateFormat,
-    private val listener: RatingItemListener,
-) : ItemPresenter<RatingItemView, RatingItem> {
+    private val listener: ReviewItemListener,
+) : ItemPresenter<ReviewItemView, ReviewItem> {
 
-    override fun bindView(view: RatingItemView, item: RatingItem, position: Int) {
+    override fun bindView(view: ReviewItemView, item: ReviewItem, position: Int) {
         view.setIcon(item.icon)
         view.setTitle(item.title)
         view.setVersion(item.version)

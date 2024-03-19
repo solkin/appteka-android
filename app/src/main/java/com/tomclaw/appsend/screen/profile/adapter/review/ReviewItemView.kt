@@ -1,4 +1,4 @@
-package com.tomclaw.appsend.screen.profile.adapter.rating
+package com.tomclaw.appsend.screen.profile.adapter.review
 
 import android.view.View
 import android.widget.ImageView
@@ -12,7 +12,7 @@ import com.tomclaw.imageloader.util.centerCrop
 import com.tomclaw.imageloader.util.fetch
 import com.tomclaw.imageloader.util.withPlaceholder
 
-interface RatingItemView : ItemView {
+interface ReviewItemView : ItemView {
 
     fun setIcon(url: String?)
 
@@ -30,7 +30,7 @@ interface RatingItemView : ItemView {
 
 }
 
-class RatingItemViewHolder(view: View) : BaseViewHolder(view), RatingItemView {
+class ReviewItemViewHolder(view: View) : BaseViewHolder(view), ReviewItemView {
 
     private val icon: ImageView = view.findViewById(R.id.app_icon)
     private val title: TextView = view.findViewById(R.id.app_name)
