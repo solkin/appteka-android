@@ -87,7 +87,13 @@ class ProfileFragment : HomeFragment(), ProfilePresenter.ProfileRouter {
 
     override fun openDetailsScreen(appId: String, label: String?) {
         val context = context ?: return
-        val intent = createDetailsActivityIntent(context, appId, label = label.orEmpty())
+        val intent = createDetailsActivityIntent(
+            context,
+            appId,
+            label = label.orEmpty(),
+            moderation = false,
+            finishOnly = true
+        )
         startActivity(intent)
     }
 
