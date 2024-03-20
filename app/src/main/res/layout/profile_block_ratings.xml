@@ -75,7 +75,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="-6dp"
         android:clipToPadding="false"
-        tools:listitem="@layout/profile_rating_item" />
+        tools:listitem="@layout/profile_review_item" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/show_ratings_button"
