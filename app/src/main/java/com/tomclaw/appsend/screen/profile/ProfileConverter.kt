@@ -64,7 +64,7 @@ class ProfileConverterImpl : ProfileConverter {
                             icon = entity.file.icon,
                             title = entity.file.title,
                             version = entity.file.verName,
-                            rating = entity.file.rating,
+                            rating = entity.rating.score.toFloat(),
                             text = entity.rating.text,
                             time = TimeUnit.SECONDS.toMillis(entity.rating.time),
                         )
