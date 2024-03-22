@@ -15,6 +15,7 @@ class ReviewsItemPresenter(
 
     override fun bindView(view: ReviewsItemView, item: ReviewsItem, position: Int) {
         view.setRatingsCount(item.count.toString())
+        view.setOnClickListener { listener.onRatingsClick() }
 
         ratings = item.items
         val dataSource = ListDataSource(item.items)
@@ -23,7 +24,7 @@ class ReviewsItemPresenter(
     }
 
     override fun onRatingClick(item: ReviewItem) {
-        listener.onRatingClick(item)
+        listener.onAppClick(item.appId, item.title)
     }
 
 }

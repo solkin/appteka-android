@@ -1,13 +1,12 @@
 package com.tomclaw.appsend.screen.profile.adapter
 
 import com.tomclaw.appsend.screen.profile.adapter.app.AppItem
-import com.tomclaw.appsend.screen.profile.adapter.review.ReviewItem
 
 interface ItemListener {
 
-    fun onAppClick(item: AppItem)
+    fun onAppClick(appId: String, title: String?)
 
-    fun onRatingClick(item: ReviewItem)
+    fun onRatingsClick()
 
     fun onFavoritesClick()
 

@@ -105,11 +105,11 @@ class ProfilePresenterImpl(
         putParcelableArrayList(KEY_UPLOADS, uploads)
     }
 
-    override fun onAppClick(item: AppItem) {
-        router?.openDetailsScreen(item.appId, item.title)
+    override fun onAppClick(appId: String, title: String?) {
+        router?.openDetailsScreen(appId, title)
     }
 
-    override fun onRatingClick(item: ReviewItem) {
+    override fun onRatingsClick() {
         val profile = profile?.profile ?: return
         router?.openReviewsScreen(profile.userId)
     }
