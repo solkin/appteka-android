@@ -10,6 +10,15 @@ class ReviewItemPresenter(
 ) : ItemPresenter<ReviewItemView, ReviewItem> {
 
     override fun bindView(view: ReviewItemView, item: ReviewItem, position: Int) {
+        with(item) {
+            if (hasMore) {
+                hasMore = false
+                hasProgress = true
+                hasError = false
+                listener.onLoadMore(this)
+            }
+        }
+
         view.setIcon(item.icon)
         view.setTitle(item.title)
         view.setVersion(item.version)
