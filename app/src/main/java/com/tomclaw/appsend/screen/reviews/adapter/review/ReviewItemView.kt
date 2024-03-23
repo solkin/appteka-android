@@ -26,6 +26,10 @@ interface ReviewItemView : ItemView {
 
     fun setReview(text: String?)
 
+    fun showProgress()
+
+    fun hideProgress()
+
     fun setOnClickListener(listener: (() -> Unit)?)
 
 }
@@ -38,6 +42,7 @@ class ReviewItemViewHolder(view: View) : BaseViewHolder(view), ReviewItemView {
     private val rating: RatingBar = view.findViewById(R.id.rating_view)
     private val dateView: TextView = view.findViewById(R.id.date_view)
     private val reviewView: TextView = view.findViewById(R.id.review_view)
+    private val progress: View = view.findViewById(R.id.item_progress)
 
     private var clickListener: (() -> Unit)? = null
 
@@ -76,6 +81,14 @@ class ReviewItemViewHolder(view: View) : BaseViewHolder(view), ReviewItemView {
 
     override fun setReview(text: String?) {
         reviewView.bind(text)
+    }
+
+    override fun showProgress() {
+        progress.visibility = View.VISIBLE
+    }
+
+    override fun hideProgress() {
+        progress.visibility = View.GONE
     }
 
     override fun setOnClickListener(listener: (() -> Unit)?) {

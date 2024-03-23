@@ -10,7 +10,7 @@ class ReviewItemBlueprint(override val presenter: ItemPresenter<ReviewItemView, 
     ItemBlueprint<ReviewItemView, ReviewItem> {
 
     override val viewHolderProvider = ViewHolderBuilder.ViewHolderProvider(
-        layoutId = R.layout.profile_review_item,
+        layoutId = R.layout.review_item,
         creator = { _, view -> ReviewItemViewHolder(view) }
     )
 

@@ -26,6 +26,7 @@ class ReviewItemPresenter(
         val date: String = dateFormatter.format(item.time)
         view.setDate(date)
         view.setReview(item.text)
+        if (item.hasProgress) view.showProgress() else view.hideProgress()
         view.setOnClickListener { listener.onItemClick(item) }
     }
 

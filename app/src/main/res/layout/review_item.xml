@@ -13,9 +13,7 @@
         android:id="@+id/review_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp">
+        android:orientation="horizontal">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/icon_back"
@@ -112,11 +110,21 @@
         android:id="@+id/review_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
         android:paddingBottom="6dp"
         android:textColor="?text_primary_color"
         android:textSize="16sp"
         tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam lobortis accumsan molestie. Maecenas purus sapien, aliquet sed vehicula quis, egestas id lectus. Fusce commodo neque augue, sit amet vehicula odio maximus eu. Cras tristique semper vulputate. Etiam vehicula diam non justo sodales vestibulum. Nam sagittis elit sit amet arcu cursus, at dapibus lacus venenatis." />
+
+    <ProgressBar
+        android:id="@+id/item_progress"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_gravity="center_horizontal"
+        android:paddingTop="8dp"
+        android:paddingBottom="12dp"
+        android:visibility="gone"
+        tools:visibility="visible" />
 
 </LinearLayout>
