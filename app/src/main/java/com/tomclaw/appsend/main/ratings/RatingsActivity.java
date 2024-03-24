@@ -1,7 +1,9 @@
 package com.tomclaw.appsend.main.ratings;
 
 import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
+import static com.tomclaw.appsend.screen.profile.ProfileActivityKt.createProfileActivityIntent;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -237,7 +239,8 @@ public class RatingsActivity extends AppCompatActivity implements RatingsListene
                     .setAdapter(menuAdapter, (dialog, which) -> {
                         switch (which) {
                             case 0: {
-                                ProfileActivity_.intent(this).userId(item.getUserId()).start();
+                                Intent intent = createProfileActivityIntent(this, (int) item.getUserId());
+                                startActivity(intent);
                                 trackEvent("rating-profile");
                                 break;
                             }
@@ -267,7 +270,8 @@ public class RatingsActivity extends AppCompatActivity implements RatingsListene
                         }
                     }).show();
         } else {
-            ProfileActivity_.intent(this).userId(item.getUserId()).start();
+            Intent intent = createProfileActivityIntent(this, (int) item.getUserId());
+            startActivity(intent);
         }
     }
 

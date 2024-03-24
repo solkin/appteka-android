@@ -33,6 +33,7 @@ import com.tomclaw.appsend.screen.details.di.DetailsModule
 import com.tomclaw.appsend.screen.gallery.GalleryItem
 import com.tomclaw.appsend.screen.gallery.createGalleryActivityIntent
 import com.tomclaw.appsend.screen.permissions.createPermissionsActivityIntent
+import com.tomclaw.appsend.screen.profile.createProfileActivityIntent
 import com.tomclaw.appsend.screen.rate.createRateActivityIntent
 import com.tomclaw.appsend.screen.upload.createUploadActivityIntent
 import com.tomclaw.appsend.upload.UploadPackage
@@ -215,9 +216,8 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
     }
 
     override fun openProfile(userId: Int) {
-        ProfileActivity_.intent(this)
-            .userId(userId.toLong())
-            .start()
+        val intent = createProfileActivityIntent(context = this, userId)
+        startActivity(intent)
     }
 
     override fun launchApp(packageName: String) {

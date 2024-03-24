@@ -10,10 +10,10 @@ import com.avito.konveyor.adapter.SimpleRecyclerAdapter
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.dto.TopicEntity
-import com.tomclaw.appsend.main.profile.ProfileActivity.createProfileActivityIntent
 import com.tomclaw.appsend.screen.auth.request_code.createRequestCodeActivityIntent
 import com.tomclaw.appsend.screen.chat.di.ChatModule
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
+import com.tomclaw.appsend.screen.profile.createProfileActivityIntent
 import com.tomclaw.appsend.util.ThemeHelper
 import javax.inject.Inject
 
