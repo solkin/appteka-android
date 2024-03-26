@@ -56,7 +56,7 @@ class HeaderResourceProviderImpl(
         val years = days / 365
 
         val isToday = DateUtils.isToday(time)
-        val isYesterday = days == 1
+        val isYesterday = days <= 1 && !isToday
         val isMonth = months == 0
         val isYear = years == 0
 
