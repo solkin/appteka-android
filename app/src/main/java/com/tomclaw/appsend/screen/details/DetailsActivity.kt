@@ -22,7 +22,6 @@ import com.tomclaw.appsend.R
 import com.tomclaw.appsend.download.createDownloadIntent
 import com.tomclaw.appsend.main.abuse.AbuseActivity.createAbuseActivityIntent
 import com.tomclaw.appsend.main.home.HomeActivity.createStoreActivityIntent
-import com.tomclaw.appsend.main.profile.ProfileActivity_
 import com.tomclaw.appsend.main.ratings.RatingsActivity_
 import com.tomclaw.appsend.main.unlink.UnlinkActivity.createUnlinkActivityIntent
 import com.tomclaw.appsend.main.unpublish.UnpublishActivity.createUnpublishActivityIntent
