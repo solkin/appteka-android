@@ -309,9 +309,24 @@
     <string name="screenshots_title">Screenshots</string>
     <string name="download_screenshot">Download screenshot</string>
     <string name="error_saving_screenshot">Failed to save screenshot</string>
-    <string name="days_ago">%d days ago</string>
-    <string name="months_ago">%d months ago</string>
-    <string name="years_ago">%d years ago</string>
+    <plurals name="days_ago">
+        <item quantity="one">one day ago</item>
+        <item quantity="few">%d days ago</item>
+        <item quantity="many">%d days ago</item>
+        <item quantity="other">%d days ago</item>
+    </plurals>
+    <plurals name="months_ago">
+        <item quantity="one">one month ago</item>
+        <item quantity="few">%d months ago</item>
+        <item quantity="many">%d months ago</item>
+        <item quantity="other">%d months ago</item>
+    </plurals>
+    <plurals name="years_ago">
+        <item quantity="one">one year ago</item>
+        <item quantity="few">%d years ago</item>
+        <item quantity="many">%d years ago</item>
+        <item quantity="other">%d years ago</item>
+    </plurals>
     <string name="today">today</string>
     <string name="yesterday">yesterday</string>
     <string name="total_downloads_count">They were downloaded %s times</string>

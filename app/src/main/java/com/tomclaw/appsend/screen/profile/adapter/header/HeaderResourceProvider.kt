@@ -3,8 +3,7 @@ package com.tomclaw.appsend.screen.profile.adapter.header
 import android.content.Context
 import android.text.format.DateUtils
 import com.tomclaw.appsend.R
-import java.text.DateFormat
-import java.util.Calendar
+import java.util.concurrent.TimeUnit
 
 interface HeaderResourceProvider {
 
@@ -18,8 +17,6 @@ interface HeaderResourceProvider {
 
 class HeaderResourceProviderImpl(
     private val context: Context,
-    private val timeFormatter: DateFormat,
-    private val dateFormatter: DateFormat,
 ) : HeaderResourceProvider {
 
     override fun getRoleName(role: Int): String {
@@ -53,22 +50,22 @@ class HeaderResourceProviderImpl(
     }
 
     private fun timeDiff(time: Long): String {
-        val calendar = Calendar.getInstance()
-        calendar.setTimeInMillis(time)
-        val now = Calendar.getInstance()
-        val days = now[Calendar.DATE] - calendar[Calendar.DATE]
-        val months = now[Calendar.MONTH] - calendar[Calendar.MONTH]
-        val years = now[Calendar.YEAR] - calendar[Calendar.YEAR]
+        val current = System.currentTimeMillis()
+        val days = TimeUnit.MILLISECONDS.toDays(current - time).toInt()
+        val months = days * 12 / 365
+        val years = days / 365
+
         val isToday = DateUtils.isToday(time)
         val isYesterday = days == 1
-        val isMonth = months == 1
-        val isYear = years == 1
+        val isMonth = months == 0
+        val isYear = years == 0
+
         return when {
             isToday -> context.getString(R.string.today)
             isYesterday -> context.getString(R.string.yesterday)
-            isMonth -> context.getString(R.string.days_ago, days)
-            isYear -> context.getString(R.string.months_ago, days)
-            else -> context.getString(R.string.years_ago, years)
+            isMonth -> context.resources.getQuantityString(R.plurals.days_ago, days, days)
+            isYear -> context.resources.getQuantityString(R.plurals.months_ago, months, months)
+            else -> context.resources.getQuantityString(R.plurals.years_ago, years, years)
         }
     }
 

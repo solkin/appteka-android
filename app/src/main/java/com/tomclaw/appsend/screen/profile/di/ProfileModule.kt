@@ -115,13 +115,7 @@ class ProfileModule(
     @PerFragment
     internal fun provideHeaderResourceProvider(
         context: Context,
-        @Named(TIME_FORMATTER) timeFormatter: DateFormat,
-        @Named(DATE_FORMATTER) dateFormatter: DateFormat,
-    ): HeaderResourceProvider = HeaderResourceProviderImpl(
-        context,
-        timeFormatter,
-        dateFormatter
-    )
+    ): HeaderResourceProvider = HeaderResourceProviderImpl(context)
 
     @Provides
     @PerFragment
