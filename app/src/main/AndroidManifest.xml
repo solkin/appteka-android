@@ -64,24 +64,6 @@
             android:label="@string/ratings"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".main.profile.ProfileActivity_"
-            android:exported="true"
-            android:label="@string/profile"
-            android:windowSoftInputMode="stateHidden">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data android:scheme="http" />
-                <data android:scheme="https" />
-                <data android:host="appsend.store" />
-                <data android:host="appteka.store" />
-                <data android:pathPrefix="/profile" />
-            </intent-filter>
-        </activity>
-        <activity
             android:name=".main.unlink.UnlinkActivity_"
             android:label="@string/unlink_file"
             android:windowSoftInputMode="stateHidden" />
@@ -152,7 +134,25 @@
             android:name=".screen.permissions.PermissionsActivity"
             android:label="@string/required_permissions" />
         <activity android:name=".screen.gallery.GalleryActivity" />
-        <activity android:name=".screen.profile.ProfileActivity" />
+        <activity
+            android:name=".screen.profile.ProfileActivity"
+            android:exported="true"
+            android:label="@string/profile"
+            android:windowSoftInputMode="stateHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="http" />
+                <data android:scheme="https" />
+                <data android:host="appsend.store" />
+                <data android:host="appteka.store" />
+                <data android:host="appteka.org" />
+                <data android:pathPrefix="/profile" />
+            </intent-filter>
+        </activity>
         <activity android:name=".screen.reviews.ReviewsActivity" />
 
         <service android:name=".download.DownloadService" />

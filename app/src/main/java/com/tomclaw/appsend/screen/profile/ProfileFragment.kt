@@ -116,7 +116,7 @@ class ProfileFragment : HomeFragment(), ProfilePresenter.ProfileRouter {
     }
 
     override fun leaveScreen() {
-        activity?.finish()
+        activity?.onBackPressed()
     }
 
 }
