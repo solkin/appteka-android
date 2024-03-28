@@ -41,6 +41,8 @@ interface ProfilePresenter : ItemListener {
 
         fun openReviewsScreen(userId: Int)
 
+        fun openShareUrlDialog(text: String)
+
         fun openLoginScreen()
 
         fun leaveScreen()
@@ -75,7 +77,7 @@ class ProfilePresenterImpl(
 
         subscriptions += view.navigationClicks().subscribe { onBackPressed() }
         subscriptions += view.swipeRefresh().subscribe { loadProfile() }
-        subscriptions += view.shareClicks().subscribe {}
+        subscriptions += view.shareClicks().subscribe { onShareProfile() }
         subscriptions += view.loginClicks().subscribe {
             router?.openLoginScreen()
         }
@@ -138,6 +140,11 @@ class ProfilePresenterImpl(
 
     private fun onBackPressed() {
         router?.leaveScreen()
+    }
+
+    private fun onShareProfile() {
+        val url = profile?.profile?.url ?: return
+        router?.openShareUrlDialog(url)
     }
 
     private fun loadProfile() {

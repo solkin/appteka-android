@@ -1,5 +1,6 @@
 package com.tomclaw.appsend.screen.profile
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -107,6 +108,16 @@ class ProfileFragment : HomeFragment(), ProfilePresenter.ProfileRouter {
         val context = context ?: return
         val intent = createReviewsActivityIntent(context, userId)
         startActivity(intent)
+    }
+
+    override fun openShareUrlDialog(text: String) {
+        val intent = Intent().apply {
+            setAction(Intent.ACTION_SEND)
+            putExtra(Intent.EXTRA_TEXT, text)
+            setType("text/plain")
+        }
+        val chooser = Intent.createChooser(intent, resources.getText(R.string.send_url_to))
+        startActivity(chooser)
     }
 
     override fun openLoginScreen() {
