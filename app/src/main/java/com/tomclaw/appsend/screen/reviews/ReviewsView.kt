@@ -59,7 +59,7 @@ class ReviewsViewImpl(
     private val refreshRelay = PublishRelay.create<Unit>()
 
     init {
-        toolbar.setTitle(R.string.favorite_activity)
+        toolbar.setTitle(R.string.reviews_activity)
         toolbar.setNavigationOnClickListener { navigationRelay.accept(Unit) }
 
         val orientation = RecyclerView.VERTICAL

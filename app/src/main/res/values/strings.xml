@@ -332,4 +332,5 @@
     <string name="total_downloads_count">They were downloaded %s times</string>
     <string name="favorite_apps_count">%d apps in user favorite list</string>
     <string name="show_all_ratings">Show all ratings</string>
+    <string name="reviews_activity">User reviews</string>
 </resources>
