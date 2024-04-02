@@ -8,7 +8,6 @@ import com.avito.konveyor.adapter.SimpleAdapterPresenter
 import com.avito.konveyor.blueprint.ItemBlueprint
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.di.DATE_FORMATTER
-import com.tomclaw.appsend.di.TIME_FORMATTER
 import com.tomclaw.appsend.screen.profile.ProfileConverter
 import com.tomclaw.appsend.screen.profile.ProfileConverterImpl
 import com.tomclaw.appsend.screen.profile.ProfileInteractor
@@ -23,6 +22,8 @@ import com.tomclaw.appsend.screen.profile.adapter.header.HeaderItemBlueprint
 import com.tomclaw.appsend.screen.profile.adapter.header.HeaderItemPresenter
 import com.tomclaw.appsend.screen.profile.adapter.header.HeaderResourceProvider
 import com.tomclaw.appsend.screen.profile.adapter.header.HeaderResourceProviderImpl
+import com.tomclaw.appsend.screen.profile.adapter.placeholder.PlaceholderItemBlueprint
+import com.tomclaw.appsend.screen.profile.adapter.placeholder.PlaceholderItemPresenter
 import com.tomclaw.appsend.screen.profile.adapter.review.ReviewItemBlueprint
 import com.tomclaw.appsend.screen.profile.adapter.review.ReviewItemPresenter
 import com.tomclaw.appsend.screen.profile.adapter.reviews.ReviewsItemBlueprint
@@ -210,6 +211,17 @@ class ProfileModule(
     internal fun provideFavoritesItemPresenter(
         presenter: ProfilePresenter,
     ) = FavoritesItemPresenter(presenter)
+
+    @Provides
+    @IntoSet
+    @PerFragment
+    internal fun providePlaceholderItemBlueprint(
+        presenter: PlaceholderItemPresenter
+    ): ItemBlueprint<*, *> = PlaceholderItemBlueprint(presenter)
+
+    @Provides
+    @PerFragment
+    internal fun providePlaceholderItemPresenter() = PlaceholderItemPresenter()
 
 }
 

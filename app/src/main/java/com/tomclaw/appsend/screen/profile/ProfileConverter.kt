@@ -5,6 +5,7 @@ import com.tomclaw.appsend.dto.AppEntity
 import com.tomclaw.appsend.screen.profile.adapter.app.AppItem
 import com.tomclaw.appsend.screen.profile.adapter.favorites.FavoritesItem
 import com.tomclaw.appsend.screen.profile.adapter.header.HeaderItem
+import com.tomclaw.appsend.screen.profile.adapter.placeholder.PlaceholderItem
 import com.tomclaw.appsend.screen.profile.adapter.review.ReviewItem
 import com.tomclaw.appsend.screen.profile.adapter.reviews.ReviewsItem
 import com.tomclaw.appsend.screen.profile.adapter.uploads.UploadsItem
@@ -14,7 +15,11 @@ import java.util.concurrent.atomic.AtomicLong
 
 interface ProfileConverter {
 
-    fun convertProfile(profile: Profile, grantRoles: List<Int>?, uploads: List<AppEntity>?): List<Item>
+    fun convertProfile(
+        profile: Profile,
+        grantRoles: List<Int>?,
+        uploads: List<AppEntity>?
+    ): List<Item>
 
     fun convertApps(uploads: List<AppEntity>?): List<AppItem>
 
@@ -24,8 +29,13 @@ class ProfileConverterImpl : ProfileConverter {
 
     private val id = AtomicLong(1)
 
-    override fun convertProfile(profile: Profile, grantRoles: List<Int>?, uploads: List<AppEntity>?): List<Item> {
+    override fun convertProfile(
+        profile: Profile,
+        grantRoles: List<Int>?,
+        uploads: List<AppEntity>?
+    ): List<Item> {
         val items = mutableListOf<Item>()
+        var isInactive = true
         items.add(
             HeaderItem(
                 id = id.incrementAndGet(),
@@ -50,6 +60,7 @@ class ProfileConverterImpl : ProfileConverter {
                     items = appItems
                 )
             )
+            isInactive = false
         }
         if (profile.reviewsCount > 0 && profile.lastReviews != null) {
             items.add(
@@ -71,6 +82,7 @@ class ProfileConverterImpl : ProfileConverter {
                     }
                 )
             )
+            isInactive = false
         }
         if (profile.favoritesCount > 0) {
             items.add(
@@ -78,6 +90,12 @@ class ProfileConverterImpl : ProfileConverter {
                     id = id.incrementAndGet(),
                     count = profile.favoritesCount,
                 )
+            )
+            isInactive = false
+        }
+        if (isInactive) {
+            items.add(
+                PlaceholderItem(id = id.incrementAndGet())
             )
         }
         return items
