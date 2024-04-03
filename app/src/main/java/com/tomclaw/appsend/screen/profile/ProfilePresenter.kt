@@ -7,7 +7,6 @@ import com.avito.konveyor.data_source.ListDataSource
 import com.tomclaw.appsend.dto.AppEntity
 import com.tomclaw.appsend.screen.profile.adapter.ItemListener
 import com.tomclaw.appsend.screen.profile.adapter.app.AppItem
-import com.tomclaw.appsend.screen.profile.adapter.review.ReviewItem
 import com.tomclaw.appsend.screen.profile.api.ProfileResponse
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.filterUnauthorizedErrors
@@ -52,7 +51,7 @@ interface ProfilePresenter : ItemListener {
 }
 
 class ProfilePresenterImpl(
-    private val userId: Int,
+    private val userId: Int?,
     private val interactor: ProfileInteractor,
     private val converter: ProfileConverter,
     private val adapterPresenter: Lazy<AdapterPresenter>,

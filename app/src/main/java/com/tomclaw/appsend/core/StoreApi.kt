@@ -193,12 +193,12 @@ interface StoreApi {
 
     @GET("2/user/profile")
     fun getProfile(
-        @Query("user_id") userId: Int,
+        @Query("user_id") userId: Int?,
     ): Single<StoreResponse<ProfileResponse>>
 
     @GET("1/user/app/list")
     fun getUserApps(
-        @Query("user_id") userId: Int,
+        @Query("user_id") userId: Int?,
         @Query("app_id") appId: String?,
     ): Single<StoreResponse<UserAppsResponse>>
 

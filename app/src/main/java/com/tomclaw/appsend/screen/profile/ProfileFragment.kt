@@ -34,12 +34,11 @@ class ProfileFragment : HomeFragment(), ProfilePresenter.ProfileRouter {
     lateinit var binder: ItemBinder
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val userId = arguments?.getInt(ARG_USER_ID) ?: 0
-        if (userId == 0) throw IllegalArgumentException("User ID must be specified")
+        val userId = arguments?.getInt(ARG_USER_ID)
 
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
         Appteka.getComponent()
-            .profileComponent(ProfileModule(userId, requireContext(), presenterState))
+            .profileComponent(ProfileModule(userId, presenterState))
             .inject(fragment = this)
 
         super.onCreate(savedInstanceState)

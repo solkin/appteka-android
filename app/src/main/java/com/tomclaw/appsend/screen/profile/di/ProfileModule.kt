@@ -30,6 +30,7 @@ import com.tomclaw.appsend.screen.profile.adapter.reviews.ReviewsItemBlueprint
 import com.tomclaw.appsend.screen.profile.adapter.reviews.ReviewsItemPresenter
 import com.tomclaw.appsend.screen.profile.adapter.uploads.UploadsItemBlueprint
 import com.tomclaw.appsend.screen.profile.adapter.uploads.UploadsItemPresenter
+import com.tomclaw.appsend.user.SessionStorage
 import com.tomclaw.appsend.util.PerFragment
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
@@ -42,8 +43,7 @@ import javax.inject.Named
 
 @Module
 class ProfileModule(
-    private val userId: Int,
-    private val context: Context,
+    private val userId: Int?,
     private val state: Bundle?
 ) {
 

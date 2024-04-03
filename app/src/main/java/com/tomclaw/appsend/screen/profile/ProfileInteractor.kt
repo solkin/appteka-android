@@ -8,9 +8,9 @@ import io.reactivex.rxjava3.core.Observable
 
 interface ProfileInteractor {
 
-    fun loadProfile(userId: Int): Observable<ProfileResponse>
+    fun loadProfile(userId: Int?): Observable<ProfileResponse>
 
-    fun loadUserApps(userId: Int, offsetAppId: String?): Observable<UserAppsResponse>
+    fun loadUserApps(userId: Int?, offsetAppId: String?): Observable<UserAppsResponse>
 
 }
 
@@ -19,14 +19,15 @@ class ProfileInteractorImpl(
     private val schedulers: SchedulersFactory
 ) : ProfileInteractor {
 
-    override fun loadProfile(userId: Int): Observable<ProfileResponse> {
-        return api.getProfile(userId)
+    override fun loadProfile(userId: Int?): Observable<ProfileResponse> {
+        return api
+            .getProfile(userId)
             .map { it.result }
             .toObservable()
             .subscribeOn(schedulers.io())
     }
 
-    override fun loadUserApps(userId: Int, offsetAppId: String?): Observable<UserAppsResponse> {
+    override fun loadUserApps(userId: Int?, offsetAppId: String?): Observable<UserAppsResponse> {
         return api
             .getUserApps(
                 userId = userId,

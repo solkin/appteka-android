@@ -4,6 +4,7 @@ import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
 import static com.tomclaw.appsend.Appteka.getLastRunBuildNumber;
 import static com.tomclaw.appsend.Appteka.wasRegistered;
 import static com.tomclaw.appsend.screen.details.DetailsActivityKt.createDetailsActivityIntent;
+import static com.tomclaw.appsend.screen.profile.ProfileFragmentKt.createProfileFragment;
 import static com.tomclaw.appsend.screen.upload.UploadActivityKt.createUploadActivityIntent;
 
 import android.app.Application;
@@ -39,13 +40,13 @@ import com.tomclaw.appsend.main.item.StoreItem;
 import com.tomclaw.appsend.main.local.DistroActivity_;
 import com.tomclaw.appsend.main.local.InstalledActivity_;
 import com.tomclaw.appsend.main.migrate.MigrateActivity_;
-import com.tomclaw.appsend.main.profile.ProfileFragment_;
 import com.tomclaw.appsend.main.settings.SettingsActivity_;
 import com.tomclaw.appsend.main.store.search.SearchActivity_;
 import com.tomclaw.appsend.net.Session;
 import com.tomclaw.appsend.net.Session_;
 import com.tomclaw.appsend.net.UserData;
 import com.tomclaw.appsend.net.UserDataListener;
+import com.tomclaw.appsend.screen.profile.ProfileFragment;
 import com.tomclaw.appsend.screen.store.StoreFragment;
 import com.tomclaw.appsend.screen.topics.TopicsFragment;
 import com.tomclaw.appsend.util.LocaleHelper;
@@ -273,7 +274,7 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
             case NAV_PROFILE -> {
                 bottomNavigation.setSelectedItemId(R.id.nav_profile);
                 if (homeFragments[navItemIndex] == null) {
-                    homeFragments[navItemIndex] = ProfileFragment_.builder().userId(0L).build();
+                    homeFragments[navItemIndex] = new ProfileFragment();
                 }
             }
             default -> throw new IllegalStateException("Invalid navigation item index");
