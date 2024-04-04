@@ -8,6 +8,7 @@ import com.tomclaw.appsend.screen.profile.adapter.header.HeaderItem
 import com.tomclaw.appsend.screen.profile.adapter.placeholder.PlaceholderItem
 import com.tomclaw.appsend.screen.profile.adapter.review.ReviewItem
 import com.tomclaw.appsend.screen.profile.adapter.reviews.ReviewsItem
+import com.tomclaw.appsend.screen.profile.adapter.unauthorized.UnauthorizedItem
 import com.tomclaw.appsend.screen.profile.adapter.uploads.UploadsItem
 import com.tomclaw.appsend.screen.profile.api.Profile
 import java.util.concurrent.TimeUnit
@@ -20,6 +21,8 @@ interface ProfileConverter {
         grantRoles: List<Int>?,
         uploads: List<AppEntity>?
     ): List<Item>
+
+    fun unauthorizedProfile(): List<Item>
 
     fun convertApps(uploads: List<AppEntity>?): List<AppItem>
 
@@ -99,6 +102,12 @@ class ProfileConverterImpl : ProfileConverter {
             )
         }
         return items
+    }
+
+    override fun unauthorizedProfile(): List<Item> {
+        return listOf(
+            UnauthorizedItem(id = 1)
+        )
     }
 
     override fun convertApps(uploads: List<AppEntity>?): List<AppItem> {

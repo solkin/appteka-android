@@ -124,6 +124,10 @@ class ProfilePresenterImpl(
         router?.openUserFilesScreen(userId)
     }
 
+    override fun onLoginClick() {
+        router?.openLoginScreen()
+    }
+
     override fun onNextPage(last: AppItem, param: (List<AppItem>) -> Unit) {
         subscriptions += interactor.loadUserApps(userId, last.appId)
             .observeOn(schedulers.mainThread())
@@ -171,7 +175,11 @@ class ProfilePresenterImpl(
     }
 
     private fun onLoadingError(ex: Throwable) {
-        ex.filterUnauthorizedErrors({ view?.showUnauthorizedError() }) {
+        ex.filterUnauthorizedErrors({
+            this.profile = null
+            this.uploads = null
+            bindUnauthorized()
+        }) {
             view?.hideMenu()
             view?.showContent()
             view?.showError()
@@ -183,6 +191,17 @@ class ProfilePresenterImpl(
 
         items.clear()
         items += converter.convertProfile(profile.profile, profile.grantRoles, uploads)
+
+        bindItems()
+        view?.hideMenu()
+
+        view?.contentUpdated()
+        view?.showContent()
+    }
+
+    private fun bindUnauthorized() {
+        items.clear()
+        items += converter.unauthorizedProfile()
 
         bindItems()
         bindMenu()

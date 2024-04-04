@@ -28,6 +28,8 @@ import com.tomclaw.appsend.screen.profile.adapter.review.ReviewItemBlueprint
 import com.tomclaw.appsend.screen.profile.adapter.review.ReviewItemPresenter
 import com.tomclaw.appsend.screen.profile.adapter.reviews.ReviewsItemBlueprint
 import com.tomclaw.appsend.screen.profile.adapter.reviews.ReviewsItemPresenter
+import com.tomclaw.appsend.screen.profile.adapter.unauthorized.UnauthorizedItemBlueprint
+import com.tomclaw.appsend.screen.profile.adapter.unauthorized.UnauthorizedItemPresenter
 import com.tomclaw.appsend.screen.profile.adapter.uploads.UploadsItemBlueprint
 import com.tomclaw.appsend.screen.profile.adapter.uploads.UploadsItemPresenter
 import com.tomclaw.appsend.user.SessionStorage
@@ -222,6 +224,19 @@ class ProfileModule(
     @Provides
     @PerFragment
     internal fun providePlaceholderItemPresenter() = PlaceholderItemPresenter()
+
+    @Provides
+    @IntoSet
+    @PerFragment
+    internal fun provideUnauthorizedItemBlueprint(
+        presenter: UnauthorizedItemPresenter
+    ): ItemBlueprint<*, *> = UnauthorizedItemBlueprint(presenter)
+
+    @Provides
+    @PerFragment
+    internal fun provideUnauthorizedItemPresenter(
+        presenter: ProfilePresenter,
+    ) = UnauthorizedItemPresenter(presenter)
 
 }
 

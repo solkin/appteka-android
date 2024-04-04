@@ -26,7 +26,7 @@
 
         </FrameLayout>
 
-        <include layout="@layout/profile_unauthorized" />
+        <include layout="@layout/profile_unauthorized_legacy" />
 
         <include layout="@layout/error_view" />
 

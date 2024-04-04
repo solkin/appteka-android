@@ -31,8 +31,6 @@ interface ProfileView {
 
     fun hideError()
 
-    fun showUnauthorizedError()
-
     fun contentUpdated()
 
     fun contentUpdated(position: Int)
@@ -54,7 +52,6 @@ class ProfileViewImpl(
     private val adapter: SimpleRecyclerAdapter
 ) : ProfileView {
 
-    private val context = view.context
     private val toolbar: Toolbar = view.findViewById(R.id.toolbar)
     private val swipeRefresh: SwipeRefreshLayout = view.findViewById(R.id.swipe_refresh)
     private val recycler: RecyclerView = view.findViewById(R.id.recycler)
@@ -127,15 +124,6 @@ class ProfileViewImpl(
 
     override fun hideError() {
         error.hide()
-    }
-
-    override fun showUnauthorizedError() {
-        Snackbar
-            .make(recycler, R.string.authorization_required_message, Snackbar.LENGTH_INDEFINITE)
-            .setAction(R.string.login_button) {
-                loginRelay.accept(Unit)
-            }
-            .show()
     }
 
     @SuppressLint("NotifyDataSetChanged")
