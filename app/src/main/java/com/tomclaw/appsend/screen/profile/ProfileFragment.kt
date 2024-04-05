@@ -35,10 +35,11 @@ class ProfileFragment : HomeFragment(), ProfilePresenter.ProfileRouter {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val userId = arguments?.getInt(ARG_USER_ID)
+        val withToolbar = arguments?.getBoolean(ARG_WITH_TOOLBAR, true)
 
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
         Appteka.getComponent()
-            .profileComponent(ProfileModule(userId, presenterState))
+            .profileComponent(ProfileModule(userId, withToolbar, presenterState))
             .inject(fragment = this)
 
         super.onCreate(savedInstanceState)
@@ -133,9 +134,14 @@ class ProfileFragment : HomeFragment(), ProfilePresenter.ProfileRouter {
 
 fun createProfileFragment(
     userId: Int,
+    withToolbar: Boolean = true,
 ): ProfileFragment = ProfileFragment().apply {
-    arguments = Bundle().apply { putInt(ARG_USER_ID, userId) }
+    arguments = Bundle().apply {
+        putInt(ARG_USER_ID, userId)
+        putBoolean(ARG_WITH_TOOLBAR, withToolbar)
+    }
 }
 
 private const val KEY_PRESENTER_STATE = "presenter_state"
 private const val ARG_USER_ID = "user_id"
+private const val ARG_WITH_TOOLBAR = "with_toolbar"

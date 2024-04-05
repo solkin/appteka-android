@@ -52,6 +52,7 @@ interface ProfilePresenter : ItemListener {
 
 class ProfilePresenterImpl(
     private val userId: Int?,
+    private val withToolbar: Boolean?,
     private val interactor: ProfileInteractor,
     private val converter: ProfileConverter,
     private val adapterPresenter: Lazy<AdapterPresenter>,
@@ -79,6 +80,12 @@ class ProfilePresenterImpl(
         subscriptions += view.shareClicks().subscribe { onShareProfile() }
         subscriptions += view.loginClicks().subscribe {
             router?.openLoginScreen()
+        }
+
+        if (withToolbar == true) {
+            view.showToolbar()
+        } else {
+            view.hideToolbar()
         }
 
         if (profile != null) {

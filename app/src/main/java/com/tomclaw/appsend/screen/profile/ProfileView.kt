@@ -27,6 +27,10 @@ interface ProfileView {
 
     fun hideMenu()
 
+    fun showToolbar()
+
+    fun hideToolbar()
+
     fun showError()
 
     fun hideError()
@@ -116,6 +120,14 @@ class ProfileViewImpl(
     override fun hideMenu() {
         toolbar.menu.clear()
         toolbar.invalidateMenu()
+    }
+
+    override fun showToolbar() {
+        toolbar.show()
+    }
+
+    override fun hideToolbar() {
+        toolbar.hide()
     }
 
     override fun showError() {

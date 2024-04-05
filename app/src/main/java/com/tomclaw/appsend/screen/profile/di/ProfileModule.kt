@@ -46,6 +46,7 @@ import javax.inject.Named
 @Module
 class ProfileModule(
     private val userId: Int?,
+    private val withToolbar: Boolean?,
     private val state: Bundle?
 ) {
 
@@ -58,6 +59,7 @@ class ProfileModule(
         schedulers: SchedulersFactory
     ): ProfilePresenter = ProfilePresenterImpl(
         userId,
+        withToolbar,
         interactor,
         converter,
         adapterPresenter,
