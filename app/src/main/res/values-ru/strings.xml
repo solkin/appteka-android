@@ -302,4 +302,30 @@
     <string name="screenshots_title">Снимки экрана</string>
     <string name="download_screenshot">Скачать снимок экрана</string>
     <string name="error_saving_screenshot">Не удалось сохранить скриншот</string>
+    <plurals name="days_ago">
+        <item quantity="one">%d день назад</item>
+        <item quantity="few">%d дня назад</item>
+        <item quantity="many">%d дней назад</item>
+    </plurals>
+    <plurals name="months_ago">
+        <item quantity="one">%d месяц назад</item>
+        <item quantity="few">%d месяца назад</item>
+        <item quantity="many">%d месяцев назад</item>
+    </plurals>
+    <plurals name="years_ago">
+        <item quantity="one">%d год назад</item>
+        <item quantity="few">%d года назад</item>
+        <item quantity="many">%d лет назад</item>
+    </plurals>
+    <string name="today">сегодня</string>
+    <string name="yesterday">вчера</string>
+    <string name="total_downloads_count">Их суммарно скачали %s раз</string>
+    <plurals name="favorite_apps_count">
+        <item quantity="one">%d приложение в избранном</item>
+        <item quantity="few">%d приложения в избранном</item>
+        <item quantity="many">%d приложений в избранном</item>
+    </plurals>
+    <string name="show_all_ratings">Показать все оценки</string>
+    <string name="reviews_activity">Отзывы пользователя</string>
+    <string name="no_user_activity_yet">Пользователь пока не проявил активность</string>
 </resources>

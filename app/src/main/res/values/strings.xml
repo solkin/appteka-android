@@ -330,7 +330,11 @@
     <string name="today">today</string>
     <string name="yesterday">yesterday</string>
     <string name="total_downloads_count">They were downloaded %s times</string>
-    <string name="favorite_apps_count">%d apps in user favorite list</string>
+    <plurals name="favorite_apps_count">
+        <item quantity="one">%d app in user favorite list</item>
+        <item quantity="few">%d apps in user favorite list</item>
+        <item quantity="many">%d apps in user favorite list</item>
+    </plurals>
     <string name="show_all_ratings">Show all ratings</string>
     <string name="reviews_activity">User reviews</string>
     <string name="no_user_activity_yet">There is no user activity yet</string>

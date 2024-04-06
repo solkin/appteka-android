@@ -27,7 +27,13 @@ class FavoritesItemViewHolder(view: View) : BaseViewHolder(view), FavoritesItemV
     }
 
     override fun setCount(count: Int) {
-        this.subtitle.bind(context.getString(R.string.favorite_apps_count, count))
+        this.subtitle.bind(
+            context.resources.getQuantityString(
+                R.plurals.favorite_apps_count,
+                count,
+                count
+            )
+        )
     }
 
     override fun setOnClickListener(listener: (() -> Unit)?) {
