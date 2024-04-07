@@ -306,16 +306,19 @@
         <item quantity="one">%d день назад</item>
         <item quantity="few">%d дня назад</item>
         <item quantity="many">%d дней назад</item>
+        <item quantity="other">%d дней назад</item>
     </plurals>
     <plurals name="months_ago">
         <item quantity="one">%d месяц назад</item>
         <item quantity="few">%d месяца назад</item>
         <item quantity="many">%d месяцев назад</item>
+        <item quantity="other">%d месяцев назад</item>
     </plurals>
     <plurals name="years_ago">
         <item quantity="one">%d год назад</item>
         <item quantity="few">%d года назад</item>
         <item quantity="many">%d лет назад</item>
+        <item quantity="other">%d лет назад</item>
     </plurals>
     <string name="today">сегодня</string>
     <string name="yesterday">вчера</string>
@@ -324,8 +327,9 @@
         <item quantity="one">%d приложение в избранном</item>
         <item quantity="few">%d приложения в избранном</item>
         <item quantity="many">%d приложений в избранном</item>
+        <item quantity="other">%d приложений в избранном</item>
     </plurals>
-    <string name="show_all_ratings">Показать все оценки</string>
+    <string name="show_all_ratings">Показать все отзывы</string>
     <string name="reviews_activity">Отзывы пользователя</string>
     <string name="no_user_activity_yet">Пользователь пока не проявил активность</string>
 </resources>

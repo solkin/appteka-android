@@ -334,6 +334,7 @@
         <item quantity="one">%d app in user favorite list</item>
         <item quantity="few">%d apps in user favorite list</item>
         <item quantity="many">%d apps in user favorite list</item>
+        <item quantity="other">%d apps in user favorite list</item>
     </plurals>
     <string name="show_all_ratings">Show all ratings</string>
     <string name="reviews_activity">User reviews</string>
