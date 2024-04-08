@@ -200,7 +200,7 @@ class ProfilePresenterImpl(
         items += converter.convertProfile(profile.profile, profile.grantRoles, uploads)
 
         bindItems()
-        view?.hideMenu()
+        bindMenu()
 
         view?.contentUpdated()
         view?.showContent()
@@ -211,7 +211,7 @@ class ProfilePresenterImpl(
         items += converter.unauthorizedProfile()
 
         bindItems()
-        bindMenu()
+        view?.hideMenu()
 
         view?.contentUpdated()
         view?.showContent()
