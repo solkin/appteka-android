@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import com.avito.konveyor.ItemBinder
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
@@ -32,6 +34,13 @@ class ProfileFragment : HomeFragment(), ProfilePresenter.ProfileRouter {
 
     @Inject
     lateinit var binder: ItemBinder
+
+    private val authLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == AppCompatActivity.RESULT_OK) {
+                presenter.onAuthorized()
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val userId = arguments?.getInt(ARG_USER_ID)
@@ -123,7 +132,7 @@ class ProfileFragment : HomeFragment(), ProfilePresenter.ProfileRouter {
     override fun openLoginScreen() {
         val context = context ?: return
         val intent = createRequestCodeActivityIntent(context)
-        startActivity(intent)
+        authLauncher.launch(intent)
     }
 
     override fun leaveScreen() {

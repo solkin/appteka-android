@@ -30,6 +30,8 @@ interface ProfilePresenter : ItemListener {
 
     fun saveState(): Bundle
 
+    fun onAuthorized()
+
     interface ProfileRouter {
 
         fun openUserFilesScreen(userId: Int)
@@ -111,6 +113,10 @@ class ProfilePresenterImpl(
     override fun saveState() = Bundle().apply {
         putParcelable(KEY_PROFILE, profile)
         putParcelableArrayList(KEY_UPLOADS, uploads)
+    }
+
+    override fun onAuthorized() {
+        loadProfile()
     }
 
     override fun onAppClick(appId: String, title: String?) {
