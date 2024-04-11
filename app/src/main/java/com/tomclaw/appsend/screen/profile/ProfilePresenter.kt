@@ -234,7 +234,7 @@ class ProfilePresenterImpl(
         items += converter.convertProfile(profile.profile, profile.grantRoles, uploads)
 
         bindItems()
-        bindMenu()
+        bindMenu(canEliminate = profile.grantRoles.orEmpty().contains(300))
 
         view?.contentUpdated()
         view?.showContent()
@@ -251,10 +251,8 @@ class ProfilePresenterImpl(
         view?.showContent()
     }
 
-    private fun bindMenu() {
-        view?.showMenu(
-            canEliminate = true
-        )
+    private fun bindMenu(canEliminate: Boolean) {
+        view?.showMenu(canEliminate)
     }
 
     private fun bindItems() {
