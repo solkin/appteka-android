@@ -200,7 +200,7 @@
     <string name="eliminate_user">Eliminate</string>
     <string name="eliminate_user_title">Eliminate user</string>
     <string name="eliminate_user_message">Are you sure want to eliminate user?</string>
-    <string name="eliminate_user_success">User is eliminated:\n%d files\n%d messages\n%d ratings</string>
+    <string name="eliminate_user_success">User deleted: %d files, %d messages, %d ratings</string>
     <string name="eliminate_user_failed">Failed to eliminate user</string>
     <string name="topics_loading_failed">Failed to load topics</string>
     <string name="topic_common_qna_title">Common questions</string>

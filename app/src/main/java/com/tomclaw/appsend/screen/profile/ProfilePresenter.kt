@@ -80,6 +80,13 @@ class ProfilePresenterImpl(
         subscriptions += view.navigationClicks().subscribe { onBackPressed() }
         subscriptions += view.swipeRefresh().subscribe { loadProfile() }
         subscriptions += view.shareClicks().subscribe { onShareProfile() }
+        subscriptions += view.eliminateClicks().subscribe { ready ->
+            if (ready) {
+                onEliminateUser()
+            } else {
+                view.showEliminationDialog()
+            }
+        }
         subscriptions += view.loginClicks().subscribe {
             router?.openLoginScreen()
         }
@@ -197,6 +204,27 @@ class ProfilePresenterImpl(
             view?.showContent()
             view?.showError()
         }
+    }
+
+    private fun onEliminateUser() {
+        val userId = userId ?: return
+        subscriptions += interactor.eliminateUser(userId)
+            .observeOn(schedulers.mainThread())
+            .doOnSubscribe {
+                view?.hideError()
+                view?.showProgress()
+            }
+            .subscribe(
+                { response ->
+                    view?.showContent()
+                    view?.showEliminationDone(
+                        filesCount = response.filesCount,
+                        messagesCount = response.msgsCount,
+                        ratingsCount = response.ratingsCount,
+                    )
+                },
+                { view?.showEliminationFailed() }
+            )
     }
 
     private fun bindProfile() {

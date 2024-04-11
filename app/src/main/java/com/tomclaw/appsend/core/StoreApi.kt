@@ -17,6 +17,7 @@ import com.tomclaw.appsend.screen.details.api.MarkFavoriteResponse
 import com.tomclaw.appsend.screen.details.api.ModerationDecisionResponse
 import com.tomclaw.appsend.screen.favorite.api.FavoriteResponse
 import com.tomclaw.appsend.screen.moderation.api.ModerationResponse
+import com.tomclaw.appsend.screen.profile.api.EliminateUserResponse
 import com.tomclaw.appsend.screen.profile.api.ProfileResponse
 import com.tomclaw.appsend.screen.profile.api.UserAppsResponse
 import com.tomclaw.appsend.screen.rate.api.SubmitReviewResponse
@@ -208,5 +209,10 @@ interface StoreApi {
         @Query("rate_id") rateId: Int?,
         @Query("locale") locale: String,
     ): Single<StoreResponse<ReviewsResponse>>
+
+    @DELETE("1/user/eliminate")
+    fun eliminateUser(
+        @Query("user_id") userId: Int
+    ): Single<StoreResponse<EliminateUserResponse>>
 
 }

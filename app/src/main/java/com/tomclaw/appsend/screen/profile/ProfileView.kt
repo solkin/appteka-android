@@ -2,6 +2,7 @@ package com.tomclaw.appsend.screen.profile
 
 import android.annotation.SuppressLint
 import android.view.View
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -35,6 +36,12 @@ interface ProfileView {
 
     fun hideError()
 
+    fun showEliminationDialog()
+
+    fun showEliminationDone(filesCount: Int, messagesCount: Int, ratingsCount: Int)
+
+    fun showEliminationFailed()
+
     fun contentUpdated()
 
     fun contentUpdated(position: Int)
@@ -44,6 +51,8 @@ interface ProfileView {
     fun swipeRefresh(): Observable<Unit>
 
     fun shareClicks(): Observable<Unit>
+
+    fun eliminateClicks(): Observable<Boolean>
 
     fun retryClicks(): Observable<Unit>
 
@@ -56,6 +65,7 @@ class ProfileViewImpl(
     private val adapter: SimpleRecyclerAdapter
 ) : ProfileView {
 
+    private val context = view.context
     private val toolbar: Toolbar = view.findViewById(R.id.toolbar)
     private val swipeRefresh: SwipeRefreshLayout = view.findViewById(R.id.swipe_refresh)
     private val recycler: RecyclerView = view.findViewById(R.id.recycler)
@@ -66,7 +76,7 @@ class ProfileViewImpl(
     private val navigationRelay = PublishRelay.create<Unit>()
     private val refreshRelay = PublishRelay.create<Unit>()
     private val shareRelay = PublishRelay.create<Unit>()
-    private val eliminateRelay = PublishRelay.create<Unit>()
+    private val eliminateRelay = PublishRelay.create<Boolean>()
     private val retryRelay = PublishRelay.create<Unit>()
     private val loginRelay = PublishRelay.create<Unit>()
 
@@ -77,7 +87,7 @@ class ProfileViewImpl(
         toolbar.setOnMenuItemClickListener { item ->
             when (item.itemId) {
                 R.id.share -> shareRelay.accept(Unit)
-                R.id.eliminate -> eliminateRelay.accept(Unit)
+                R.id.eliminate -> eliminateRelay.accept(false)
             }
             true
         }
@@ -138,6 +148,31 @@ class ProfileViewImpl(
         error.hide()
     }
 
+    override fun showEliminationDialog() {
+        AlertDialog.Builder(context)
+            .setTitle(context.getString(R.string.eliminate_user_title))
+            .setMessage(context.getString(R.string.eliminate_user_message))
+            .setNegativeButton(R.string.yes) { _, _ ->
+                eliminateRelay.accept(true)
+            }
+            .setPositiveButton(R.string.no, null)
+            .show()
+    }
+
+    override fun showEliminationDone(filesCount: Int, messagesCount: Int, ratingsCount: Int) {
+        val message: String = context.getString(
+            R.string.eliminate_user_success,
+            filesCount,
+            messagesCount,
+            ratingsCount
+        )
+        Snackbar.make(recycler, message, Snackbar.LENGTH_LONG).show()
+    }
+
+    override fun showEliminationFailed() {
+        Snackbar.make(recycler, R.string.eliminate_user_failed, Snackbar.LENGTH_LONG).show()
+    }
+
     @SuppressLint("NotifyDataSetChanged")
     override fun contentUpdated() {
         adapter.notifyDataSetChanged()
@@ -152,6 +187,8 @@ class ProfileViewImpl(
     override fun swipeRefresh(): Observable<Unit> = refreshRelay
 
     override fun shareClicks(): Observable<Unit> = shareRelay
+
+    override fun eliminateClicks(): Observable<Boolean> = eliminateRelay
 
     override fun retryClicks(): Observable<Unit> = retryRelay
 

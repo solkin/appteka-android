@@ -1,6 +1,7 @@
 package com.tomclaw.appsend.screen.profile
 
 import com.tomclaw.appsend.core.StoreApi
+import com.tomclaw.appsend.screen.profile.api.EliminateUserResponse
 import com.tomclaw.appsend.screen.profile.api.ProfileResponse
 import com.tomclaw.appsend.screen.profile.api.UserAppsResponse
 import com.tomclaw.appsend.util.SchedulersFactory
@@ -11,6 +12,8 @@ interface ProfileInteractor {
     fun loadProfile(userId: Int?): Observable<ProfileResponse>
 
     fun loadUserApps(userId: Int?, offsetAppId: String?): Observable<UserAppsResponse>
+
+    fun eliminateUser(userId: Int): Observable<EliminateUserResponse>
 
 }
 
@@ -36,6 +39,14 @@ class ProfileInteractorImpl(
             .map { list ->
                 list.result
             }
+            .toObservable()
+            .subscribeOn(schedulers.io())
+    }
+
+    override fun eliminateUser(userId: Int): Observable<EliminateUserResponse> {
+        return api
+            .eliminateUser(userId)
+            .map { it.result }
             .toObservable()
             .subscribeOn(schedulers.io())
     }

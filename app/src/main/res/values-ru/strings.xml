@@ -193,7 +193,7 @@
     <string name="eliminate_user">Уничтожить</string>
     <string name="eliminate_user_title">Уничтожить пользователя</string>
     <string name="eliminate_user_message">Вы уверены, что хотите уничтожить пользователя?</string>
-    <string name="eliminate_user_success">Пользователь успешно уничтожен\n%d files\n%d messages\n%d ratings</string>
+    <string name="eliminate_user_success">Пользователь удалён: %d files, %d messages, %d ratings</string>
     <string name="eliminate_user_failed">Не удалось уничтожить пользователя</string>
     <string name="topics_loading_failed">Не удалось загрузить темы</string>
     <string name="topic_common_qna_title">Общие вопросы</string>
