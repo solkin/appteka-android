@@ -315,7 +315,15 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
         if (id == R.id.menu_search) {
             SearchActivity_.intent(this).start();
             return true;
-        } else if (id == R.id.nav_settings) {
+        } else if (id == R.id.nav_installed) {
+            InstalledActivity_.intent(this).start();
+            trackEvent("click-installed-apps");
+            return true;
+        }  else if (id == R.id.nav_distro) {
+            DistroActivity_.intent(this).start();
+            trackEvent("click-distro-apks");
+            return true;
+        }  else if (id == R.id.nav_settings) {
             SettingsActivity_.intent(HomeActivity.this).start();
             return true;
         } else if (id == R.id.nav_info) {
