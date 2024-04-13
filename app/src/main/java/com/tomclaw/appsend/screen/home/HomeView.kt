@@ -19,6 +19,12 @@ interface HomeView {
 
     fun showProfileToolbar()
 
+    fun selectStoreTab()
+
+    fun selectDiscussTab()
+
+    fun selectProfileTab()
+
     fun showUploadButton()
 
     fun hideUploadButton()
@@ -126,6 +132,18 @@ class HomeViewImpl(view: View) : HomeView {
             inflateMenu(R.menu.home_menu)
             invalidateMenu()
         }
+    }
+
+    override fun selectStoreTab() {
+        bottomNavigation.selectedItemId = R.id.nav_store
+    }
+
+    override fun selectDiscussTab() {
+        bottomNavigation.selectedItemId = R.id.nav_discuss
+    }
+
+    override fun selectProfileTab() {
+        bottomNavigation.selectedItemId = R.id.nav_profile
     }
 
     override fun showUploadButton() {

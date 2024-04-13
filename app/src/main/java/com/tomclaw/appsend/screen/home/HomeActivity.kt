@@ -45,7 +45,7 @@ class HomeActivity : AppCompatActivity(), HomePresenter.HomeRouter {
 
         onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                leaveScreen()
+                presenter.onBackPressed()
             }
         })
 

@@ -134,7 +134,11 @@ class HomePresenterImpl(
     }
 
     override fun onBackPressed() {
-        router?.leaveScreen()
+        if (tabIndex != INDEX_STORE) {
+            view?.selectStoreTab()
+        } else {
+            router?.leaveScreen()
+        }
     }
 
 }
