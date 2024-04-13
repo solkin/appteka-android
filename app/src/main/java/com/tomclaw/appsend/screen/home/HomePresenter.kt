@@ -3,6 +3,7 @@ package com.tomclaw.appsend.screen.home
 import android.os.Bundle
 import com.tomclaw.appsend.screen.home.api.StartupResponse
 import com.tomclaw.appsend.util.SchedulersFactory
+import com.tomclaw.appsend.util.getParcelableCompat
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
 
@@ -58,6 +59,8 @@ class HomePresenterImpl(
     private var router: HomePresenter.HomeRouter? = null
 
     private var tabIndex: Int = state?.getInt(KEY_TAB_INDEX) ?: INDEX_STORE
+    private var startup: StartupResponse? =
+        state?.getParcelableCompat(KEY_STARTUP, StartupResponse::class.java)
 
     private val subscriptions = CompositeDisposable()
 
@@ -69,7 +72,7 @@ class HomePresenterImpl(
         subscriptions += view.profileClicks().subscribe { bindTab(index = INDEX_PROFILE) }
         subscriptions += view.uploadClicks().subscribe { router?.openUploadScreen() }
         subscriptions += view.updateClicks().subscribe { }
-        subscriptions += view.laterClicks().subscribe { }
+        subscriptions += view.laterClicks().subscribe {  }
         subscriptions += view.searchClicks().subscribe { router?.openSearchScreen() }
         subscriptions += view.moderationClicks().subscribe { router?.openModerationScreen() }
         subscriptions += view.installedClicks().subscribe { router?.openInstalledScreen() }
@@ -77,7 +80,11 @@ class HomePresenterImpl(
         subscriptions += view.settingsClicks().subscribe { router?.openSettingsScreen() }
         subscriptions += view.aboutClicks().subscribe { router?.openAboutScreen() }
 
-        onStartup()
+        if (startup != null) {
+            bindStartup()
+        } else {
+            loadStartup()
+        }
     }
 
     private fun bindTab(index: Int = tabIndex) {
@@ -85,7 +92,7 @@ class HomePresenterImpl(
         when (index) {
             INDEX_STORE -> {
                 router?.showStoreFragment()
-                view?.showStoreToolbar(false)
+                view?.showStoreToolbar(canModerate = startup?.moderation?.moderator ?: false)
                 view?.showUploadButton()
             }
 
@@ -93,6 +100,7 @@ class HomePresenterImpl(
                 router?.showTopicsFragment()
                 view?.showDiscussToolbar()
                 view?.hideUploadButton()
+                view?.hideUnreadBadge()
             }
 
             INDEX_PROFILE -> {
@@ -103,7 +111,7 @@ class HomePresenterImpl(
         }
     }
 
-    private fun onStartup() {
+    private fun loadStartup() {
         subscriptions += interactor.loadStartup()
             .observeOn(schedulers.mainThread())
             .subscribe(
@@ -113,7 +121,17 @@ class HomePresenterImpl(
     }
 
     private fun onStartupLoaded(response: StartupResponse) {
-        println(response)
+        startup = response
+        bindStartup()
+    }
+
+    private fun bindStartup() {
+        val startup = startup ?: return
+        if (startup.unread > 0) {
+            view?.showUnreadBadge(count = startup.unread)
+        } else {
+            view?.hideUnreadBadge()
+        }
     }
 
     override fun detachView() {
@@ -131,6 +149,7 @@ class HomePresenterImpl(
 
     override fun saveState(): Bundle = Bundle().apply {
         putInt(KEY_TAB_INDEX, tabIndex)
+        putParcelable(KEY_STARTUP, startup)
     }
 
     override fun onBackPressed() {
@@ -144,6 +163,7 @@ class HomePresenterImpl(
 }
 
 private const val KEY_TAB_INDEX = "current_tab"
+private const val KEY_STARTUP = "startup"
 private const val INDEX_STORE = 0
 private const val INDEX_DISCUSS = 1
 private const val INDEX_PROFILE = 2

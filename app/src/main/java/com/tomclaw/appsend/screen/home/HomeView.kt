@@ -9,6 +9,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.util.clicks
+import com.tomclaw.appsend.util.hide
+import com.tomclaw.appsend.util.show
 import io.reactivex.rxjava3.core.Observable
 
 interface HomeView {
@@ -24,6 +26,14 @@ interface HomeView {
     fun selectDiscussTab()
 
     fun selectProfileTab()
+
+    fun showUnreadBadge(count: Int)
+
+    fun hideUnreadBadge()
+
+    fun showUpdateBlock()
+
+    fun hideUpdateBlock()
 
     fun showUploadButton()
 
@@ -144,6 +154,28 @@ class HomeViewImpl(view: View) : HomeView {
 
     override fun selectProfileTab() {
         bottomNavigation.selectedItemId = R.id.nav_profile
+    }
+
+    override fun showUnreadBadge(count: Int) {
+        bottomNavigation.getOrCreateBadge(R.id.nav_discuss).apply {
+            number = count
+            isVisible = true
+        }
+    }
+
+    override fun hideUnreadBadge() {
+        bottomNavigation.getBadge(R.id.nav_discuss)?.apply {
+            clearNumber()
+            isVisible = false
+        }
+    }
+
+    override fun showUpdateBlock() {
+        updateBlock.show()
+    }
+
+    override fun hideUpdateBlock() {
+        updateBlock.hide()
     }
 
     override fun showUploadButton() {
