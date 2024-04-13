@@ -11,11 +11,11 @@ import com.tomclaw.appsend.util.PerActivity
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Module
 import dagger.Provides
-import java.util.Locale
 
 @Module
 class HomeModule(
     private val context: Context,
+    private val startAction: String?,
     private val state: Bundle?
 ) {
 
@@ -23,9 +23,9 @@ class HomeModule(
     @PerActivity
     internal fun providePresenter(
         interactor: HomeInteractor,
-        locale: Locale,
         schedulers: SchedulersFactory
     ): HomePresenter = HomePresenterImpl(
+        startAction,
         interactor,
         schedulers,
         state

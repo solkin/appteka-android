@@ -9,7 +9,7 @@
         <intent
             android:action="com.tomclaw.appsend.cloud"
             android:targetPackage="com.tomclaw.appsend"
-            android:targetClass="com.tomclaw.appsend.main.home.HomeActivity" />
+            android:targetClass="com.tomclaw.appsend.screen.home.HomeActivity" />
         <categories android:name="android.shortcut.conversation" />
     </shortcut>
     <shortcut
@@ -22,7 +22,7 @@
         <intent
             android:action="com.tomclaw.appsend.discuss"
             android:targetPackage="com.tomclaw.appsend"
-            android:targetClass="com.tomclaw.appsend.main.home.HomeActivity" />
+            android:targetClass="com.tomclaw.appsend.screen.home.HomeActivity" />
         <categories android:name="android.shortcut.conversation" />
     </shortcut>
     <shortcut
@@ -35,7 +35,7 @@
         <intent
             android:action="com.tomclaw.appsend.apps"
             android:targetPackage="com.tomclaw.appsend"
-            android:targetClass="com.tomclaw.appsend.main.home.HomeActivity" />
+            android:targetClass="com.tomclaw.appsend.screen.home.HomeActivity" />
         <categories android:name="android.shortcut.conversation" />
     </shortcut>
     <shortcut
@@ -48,7 +48,7 @@
         <intent
             android:action="com.tomclaw.appsend.install"
             android:targetPackage="com.tomclaw.appsend"
-            android:targetClass="com.tomclaw.appsend.main.home.HomeActivity" />
+            android:targetClass="com.tomclaw.appsend.screen.home.HomeActivity" />
         <categories android:name="android.shortcut.conversation" />
     </shortcut>
 </shortcuts>

@@ -54,6 +54,7 @@ interface HomePresenter {
 }
 
 class HomePresenterImpl(
+    startAction: String?,
     private val interactor: HomeInteractor,
     private val schedulers: SchedulersFactory,
     state: Bundle?
@@ -62,11 +63,13 @@ class HomePresenterImpl(
     private var view: HomeView? = null
     private var router: HomePresenter.HomeRouter? = null
 
+    private var action: String? = state?.getString(KEY_ACTION) ?: startAction
     private var tabIndex: Int = state?.getInt(KEY_TAB_INDEX) ?: INDEX_STORE
     private var startupLoaded: Boolean = state?.getBoolean(KEY_STARTUP_LOADED) ?: false
     private var unread: Int = state?.getInt(KEY_UNREAD) ?: 0
     private var update: AppEntity? = state?.getParcelableCompat(KEY_UPDATE, AppEntity::class.java)
-    private var moderation: ModerationData? = state?.getParcelableCompat(KEY_MODERATION, ModerationData::class.java)
+    private var moderation: ModerationData? =
+        state?.getParcelableCompat(KEY_MODERATION, ModerationData::class.java)
 
     private val subscriptions = CompositeDisposable()
 
@@ -174,6 +177,7 @@ class HomePresenterImpl(
 
     override fun attachRouter(router: HomePresenter.HomeRouter) {
         this.router = router
+        handleAction()
         bindTab()
     }
 
@@ -182,6 +186,7 @@ class HomePresenterImpl(
     }
 
     override fun saveState(): Bundle = Bundle().apply {
+        putString(KEY_ACTION, action)
         putInt(KEY_TAB_INDEX, tabIndex)
         putBoolean(KEY_STARTUP_LOADED, startupLoaded)
         putInt(KEY_UNREAD, unread)
@@ -197,8 +202,19 @@ class HomePresenterImpl(
         }
     }
 
+    private fun handleAction() {
+        when (action) {
+            ACTION_STORE -> view?.selectStoreTab()
+            ACTION_DISCUSS -> view?.selectDiscussTab()
+            ACTION_APPS -> router?.openInstalledScreen()
+            ACTION_INSTALL -> router?.openDistroScreen()
+        }
+        action = ""
+    }
+
 }
 
+private const val KEY_ACTION = "action"
 private const val KEY_TAB_INDEX = "current_tab"
 private const val KEY_STARTUP_LOADED = "startup_loaded"
 private const val KEY_UNREAD = "unread"
@@ -207,3 +223,8 @@ private const val KEY_MODERATION = "moderation"
 private const val INDEX_STORE = 0
 private const val INDEX_DISCUSS = 1
 private const val INDEX_PROFILE = 2
+
+const val ACTION_STORE = "com.tomclaw.appsend.cloud"
+const val ACTION_DISCUSS = "com.tomclaw.appsend.discuss"
+const val ACTION_APPS = "com.tomclaw.appsend.apps"
+const val ACTION_INSTALL = "com.tomclaw.appsend.install"

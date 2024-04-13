@@ -37,7 +37,7 @@ class HomeActivity : AppCompatActivity(), HomePresenter.HomeRouter {
     override fun onCreate(savedInstanceState: Bundle?) {
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
         Appteka.getComponent()
-            .homeComponent(HomeModule(this, presenterState))
+            .homeComponent(HomeModule(context = this, startAction = intent.action, presenterState))
             .inject(activity = this)
         isDarkTheme = ThemeHelper.updateTheme(this)
 
