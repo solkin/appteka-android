@@ -141,6 +141,8 @@ class ProfileFragment : HomeFragment(), ProfilePresenter.ProfileRouter {
 
 }
 
+fun createProfileFragment(): ProfileFragment = ProfileFragment()
+
 fun createProfileFragment(
     userId: Int,
     withToolbar: Boolean = true,

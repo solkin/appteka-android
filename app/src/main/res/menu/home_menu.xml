@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/nav_installed"
+        android:id="@+id/menu_installed"
         android:enabled="true"
         android:icon="@drawable/ic_apps"
         android:title="@string/nav_installed" />
     <item
-        android:id="@+id/nav_distro"
+        android:id="@+id/menu_distro"
         android:enabled="true"
         android:icon="@drawable/ic_install"
         android:title="@string/nav_distro" />
     <item
-        android:id="@+id/nav_settings"
+        android:id="@+id/menu_settings"
         android:title="@string/nav_settings" />
     <item
-        android:id="@+id/nav_info"
+        android:id="@+id/menu_about"
         android:title="@string/nav_info" />
 </menu>

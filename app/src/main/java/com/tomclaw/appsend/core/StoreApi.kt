@@ -16,6 +16,7 @@ import com.tomclaw.appsend.screen.details.api.Details
 import com.tomclaw.appsend.screen.details.api.MarkFavoriteResponse
 import com.tomclaw.appsend.screen.details.api.ModerationDecisionResponse
 import com.tomclaw.appsend.screen.favorite.api.FavoriteResponse
+import com.tomclaw.appsend.screen.home.api.StartupResponse
 import com.tomclaw.appsend.screen.moderation.api.ModerationResponse
 import com.tomclaw.appsend.screen.profile.api.EliminateUserResponse
 import com.tomclaw.appsend.screen.profile.api.ProfileResponse
@@ -214,5 +215,8 @@ interface StoreApi {
     fun eliminateUser(
         @Query("user_id") userId: Int
     ): Single<StoreResponse<EliminateUserResponse>>
+
+    @GET("1/startup")
+    fun getStartup(): Single<StoreResponse<StartupResponse>>
 
 }

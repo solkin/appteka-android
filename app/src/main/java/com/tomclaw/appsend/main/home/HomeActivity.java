@@ -4,7 +4,7 @@ import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
 import static com.tomclaw.appsend.Appteka.getLastRunBuildNumber;
 import static com.tomclaw.appsend.Appteka.wasRegistered;
 import static com.tomclaw.appsend.screen.details.DetailsActivityKt.createDetailsActivityIntent;
-import static com.tomclaw.appsend.screen.profile.ProfileFragmentKt.createProfileFragment;
+import static com.tomclaw.appsend.screen.home.HomeActivityKt.createHomeActivityIntent;
 import static com.tomclaw.appsend.screen.upload.UploadActivityKt.createUploadActivityIntent;
 
 import android.app.Application;
@@ -18,7 +18,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.widget.Toolbar;
@@ -42,10 +41,8 @@ import com.tomclaw.appsend.main.local.InstalledActivity_;
 import com.tomclaw.appsend.main.migrate.MigrateActivity_;
 import com.tomclaw.appsend.main.settings.SettingsActivity_;
 import com.tomclaw.appsend.main.store.search.SearchActivity_;
-import com.tomclaw.appsend.net.Session;
 import com.tomclaw.appsend.net.Session_;
-import com.tomclaw.appsend.net.UserData;
-import com.tomclaw.appsend.net.UserDataListener;
+import com.tomclaw.appsend.screen.moderation.ModerationActivityKt;
 import com.tomclaw.appsend.screen.profile.ProfileFragment;
 import com.tomclaw.appsend.screen.store.StoreFragment;
 import com.tomclaw.appsend.screen.topics.TopicsFragment;
@@ -53,8 +50,8 @@ import com.tomclaw.appsend.util.LocaleHelper;
 import com.tomclaw.appsend.util.PreferenceHelper;
 import com.tomclaw.appsend.util.ThemeHelper;
 
-public class HomeActivity extends PermisoActivity implements UserDataListener,
-        UpdateController.UpdateCallback, UnreadCheckTask.UnreadListener {
+public class HomeActivity extends PermisoActivity implements UpdateController.UpdateCallback,
+        UnreadCheckTask.UnreadListener {
 
     public static final String APP_IDENTIFIER_KEY = "appcenter.app_identifier";
 
@@ -96,7 +93,7 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
         isDarkTheme = ThemeHelper.updateTheme(this);
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.home_activity);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -165,12 +162,14 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
         register(getApplication());
 
         checkMigration();
+
+        Intent intent = createHomeActivityIntent(this);
+        startActivity(intent);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        Session.getInstance().getUserHolder().attachListener(this);
         UpdateController.getInstance().onAttach(this);
         TaskExecutor.getInstance().execute(new StatusCheckTask(this));
         UnreadCheckTask unreadCheckTask = new UnreadCheckTask(Session_.getInstance().getUserData().getGuid());
@@ -181,7 +180,6 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
 
     @Override
     protected void onStop() {
-        Session.getInstance().getUserHolder().removeListener(this);
         UpdateController.getInstance().onDetach(this);
         if (unreadCheckTask != null) {
             unreadCheckTask.detachListener();
@@ -197,10 +195,6 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
             finish();
             startActivity(intent);
         }
-    }
-
-    @Override
-    public void onUserDataChanged(@NonNull final UserData userData) {
     }
 
     private void updateUnreadIndicator(int count) {
@@ -315,18 +309,23 @@ public class HomeActivity extends PermisoActivity implements UserDataListener,
         if (id == R.id.menu_search) {
             SearchActivity_.intent(this).start();
             return true;
-        } else if (id == R.id.nav_installed) {
+        } else if (id == R.id.menu_moderation) {
+            Intent intent = ModerationActivityKt.createModerationActivityIntent(this);
+            startActivity(intent);
+            trackEvent("click-on-moderation");
+            return true;
+        } else if (id == R.id.menu_installed) {
             InstalledActivity_.intent(this).start();
             trackEvent("click-installed-apps");
             return true;
-        }  else if (id == R.id.nav_distro) {
+        } else if (id == R.id.menu_distro) {
             DistroActivity_.intent(this).start();
             trackEvent("click-distro-apks");
             return true;
-        }  else if (id == R.id.nav_settings) {
+        } else if (id == R.id.menu_settings) {
             SettingsActivity_.intent(HomeActivity.this).start();
             return true;
-        } else if (id == R.id.nav_info) {
+        } else if (id == R.id.menu_about) {
             Intent intent = new Intent(HomeActivity.this, AboutActivity.class);
             startActivity(intent);
             return true;

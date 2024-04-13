@@ -85,4 +85,6 @@ class StoreFragment : HomeFragment(), StorePresenter.StoreRouter {
 
 }
 
+fun createStoreFragment(): StoreFragment = StoreFragment()
+
 private const val KEY_PRESENTER_STATE = "presenter_state"

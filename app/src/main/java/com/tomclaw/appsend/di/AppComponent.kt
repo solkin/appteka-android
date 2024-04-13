@@ -16,6 +16,8 @@ import com.tomclaw.appsend.screen.favorite.di.FavoriteComponent
 import com.tomclaw.appsend.screen.favorite.di.FavoriteModule
 import com.tomclaw.appsend.screen.gallery.di.GalleryComponent
 import com.tomclaw.appsend.screen.gallery.di.GalleryModule
+import com.tomclaw.appsend.screen.home.di.HomeComponent
+import com.tomclaw.appsend.screen.home.di.HomeModule
 import com.tomclaw.appsend.screen.moderation.di.ModerationComponent
 import com.tomclaw.appsend.screen.moderation.di.ModerationModule
 import com.tomclaw.appsend.screen.permissions.di.PermissionsComponent
@@ -72,6 +74,8 @@ interface AppComponent {
     fun profileComponent(module: ProfileModule): ProfileComponent
 
     fun reviewsComponent(module: ReviewsModule): ReviewsComponent
+
+    fun homeComponent(module: HomeModule): HomeComponent
 
     fun legacyComponent(module: LegacyModule): LegacyComponent
 

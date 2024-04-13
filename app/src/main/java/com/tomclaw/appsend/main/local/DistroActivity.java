@@ -1,6 +1,8 @@
 package com.tomclaw.appsend.main.local;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -52,4 +54,9 @@ public class DistroActivity extends AppCompatActivity {
         onBackPressed();
         return true;
     }
+
+    public static Intent createDistroActivityIntent(Context context) {
+        return DistroActivity_.intent(context).get();
+    }
+
 }

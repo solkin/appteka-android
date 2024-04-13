@@ -103,4 +103,8 @@ public class SettingsActivity extends AppCompatActivity {
 
     }
 
+    public static Intent createSettingsActivityIntent(Context context) {
+        return SettingsActivity_.intent(context).get();
+    }
+
 }

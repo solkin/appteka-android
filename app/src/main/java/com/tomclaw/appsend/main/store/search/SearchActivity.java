@@ -3,6 +3,8 @@ package com.tomclaw.appsend.main.store.search;
 import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -14,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.tomclaw.appsend.R;
+import com.tomclaw.appsend.main.profile.ProfileActivity_;
 import com.tomclaw.appsend.util.ThemeHelper;
 
 import org.androidannotations.annotations.AfterViews;
@@ -84,6 +87,10 @@ public class SearchActivity extends AppCompatActivity {
     boolean actionHome() {
         onBackPressed();
         return true;
+    }
+
+    public static Intent createSearchActivityIntent(Context context) {
+        return SearchActivity_.intent(context).get();
     }
 
 }

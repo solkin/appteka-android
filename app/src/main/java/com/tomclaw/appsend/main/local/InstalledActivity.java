@@ -1,6 +1,8 @@
 package com.tomclaw.appsend.main.local;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -52,4 +54,9 @@ public class InstalledActivity extends AppCompatActivity {
         onBackPressed();
         return true;
     }
+
+    public static Intent createInstalledActivityIntent(Context context) {
+        return InstalledActivity_.intent(context).get();
+    }
+
 }

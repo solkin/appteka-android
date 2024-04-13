@@ -2,6 +2,7 @@ package com.tomclaw.appsend.main.about;
 
 import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -93,4 +94,9 @@ public class AboutActivity extends AppCompatActivity {
         }
         trackEvent("click-telegram-group");
     }
+
+    public static Intent createAboutActivityIntent(Context context) {
+        return new Intent(context, AboutActivity.class);
+    }
+
 }

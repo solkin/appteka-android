@@ -8,19 +8,26 @@
         app:iconTint="?android:textColorPrimary"
         app:showAsAction="ifRoom|collapseActionView" />
     <item
-        android:id="@+id/nav_installed"
+        android:id="@+id/menu_moderation"
+        android:enabled="true"
+        android:icon="@drawable/ic_moderators"
+        android:title="@string/apps_on_moderation"
+        app:iconTint="?android:textColorPrimary"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/menu_installed"
         android:enabled="true"
         android:icon="@drawable/ic_apps"
         android:title="@string/nav_installed" />
     <item
-        android:id="@+id/nav_distro"
+        android:id="@+id/menu_distro"
         android:enabled="true"
         android:icon="@drawable/ic_install"
         android:title="@string/nav_distro" />
     <item
-        android:id="@+id/nav_settings"
+        android:id="@+id/menu_settings"
         android:title="@string/nav_settings" />
     <item
-        android:id="@+id/nav_info"
+        android:id="@+id/menu_about"
         android:title="@string/nav_info" />
 </menu>

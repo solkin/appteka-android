@@ -86,4 +86,6 @@ class TopicsFragment : HomeFragment(), TopicsPresenter.TopicsRouter {
 
 }
 
+fun createTopicsFragment(): TopicsFragment = TopicsFragment()
+
 private const val KEY_PRESENTER_STATE = "presenter_state"
