@@ -21,7 +21,6 @@ import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.download.createDownloadIntent
 import com.tomclaw.appsend.main.abuse.AbuseActivity.createAbuseActivityIntent
-import com.tomclaw.appsend.main.home.HomeActivity.createStoreActivityIntent
 import com.tomclaw.appsend.main.ratings.RatingsActivity_
 import com.tomclaw.appsend.main.unlink.UnlinkActivity.createUnlinkActivityIntent
 import com.tomclaw.appsend.main.unpublish.UnpublishActivity.createUnpublishActivityIntent
@@ -31,6 +30,7 @@ import com.tomclaw.appsend.screen.details.di.DETAILS_ADAPTER_PRESENTER
 import com.tomclaw.appsend.screen.details.di.DetailsModule
 import com.tomclaw.appsend.screen.gallery.GalleryItem
 import com.tomclaw.appsend.screen.gallery.createGalleryActivityIntent
+import com.tomclaw.appsend.screen.home.createHomeActivityIntent
 import com.tomclaw.appsend.screen.permissions.createPermissionsActivityIntent
 import com.tomclaw.appsend.screen.profile.createProfileActivityIntent
 import com.tomclaw.appsend.screen.rate.createRateActivityIntent
@@ -321,7 +321,8 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
     }
 
     override fun openStoreScreen() {
-        val intent = createStoreActivityIntent(this)
+        val intent = createHomeActivityIntent(context = this)
+            .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         startActivity(intent)
     }
 
