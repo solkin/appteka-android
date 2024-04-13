@@ -10,6 +10,7 @@ import com.avito.konveyor.adapter.SimpleRecyclerAdapter
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.permissions.di.PermissionsModule
+import com.tomclaw.appsend.util.ThemeHelper
 import javax.inject.Inject
 
 class PermissionsActivity : AppCompatActivity(), PermissionsPresenter.PermissionsRouter {
@@ -30,6 +31,7 @@ class PermissionsActivity : AppCompatActivity(), PermissionsPresenter.Permission
         Appteka.getComponent()
             .permissionsComponent(PermissionsModule(this, permissions, presenterState))
             .inject(activity = this)
+        ThemeHelper.updateTheme(this)
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.permissions_activity)
