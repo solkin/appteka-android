@@ -32,6 +32,8 @@ import com.tomclaw.appsend.upload.UploadNotifications
 import com.tomclaw.appsend.upload.UploadNotificationsImpl
 import com.tomclaw.appsend.user.SessionStorage
 import com.tomclaw.appsend.user.SessionStorageImpl
+import com.tomclaw.appsend.util.Analytics
+import com.tomclaw.appsend.util.AnalyticsImpl
 import com.tomclaw.appsend.util.Logger
 import com.tomclaw.appsend.util.LoggerImpl
 import com.tomclaw.appsend.util.PackageObserver
@@ -133,6 +135,10 @@ class AppModule(private val app: Application) {
     @Provides
     @Singleton
     internal fun provideGson(): Gson = GsonBuilder().create()
+
+    @Provides
+    @Singleton
+    internal fun provideAnalytics(): Analytics = AnalyticsImpl(app)
 
     @Provides
     @Singleton

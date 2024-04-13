@@ -7,7 +7,10 @@ import android.app.Application;
 import com.tomclaw.appsend.di.AppComponent;
 import com.tomclaw.appsend.di.AppModule;
 import com.tomclaw.appsend.di.DaggerAppComponent;
+import com.tomclaw.appsend.di.legacy.LegacyInjector;
+import com.tomclaw.appsend.di.legacy.LegacyModule;
 import com.tomclaw.appsend.net.Session;
+import com.tomclaw.appsend.util.AnalyticsImpl;
 import com.tomclaw.appsend.util.PackageIconLoader;
 import com.tomclaw.appsend.util.PreferenceHelper;
 import com.tomclaw.appsend.util.TimeHelper;
@@ -46,6 +49,8 @@ public class Appteka extends Application {
     @Bean
     public Session session;
 
+    private final LegacyInjector injector = new LegacyInjector();
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -56,6 +61,10 @@ public class Appteka extends Application {
         actuateFlags();
         TimeHelper.init(this);
         StateHolder.init();
+
+        component.legacyComponent(new LegacyModule()).inject(injector);
+
+        injector.analytics.register();
     }
 
     public static AppComponent getComponent() {
