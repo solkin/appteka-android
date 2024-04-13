@@ -86,16 +86,19 @@ class HomePresenterImpl(
             INDEX_STORE -> {
                 router?.showStoreFragment()
                 view?.showStoreToolbar(false)
+                view?.showUploadButton()
             }
 
             INDEX_DISCUSS -> {
                 router?.showTopicsFragment()
                 view?.showDiscussToolbar()
+                view?.hideUploadButton()
             }
 
             INDEX_PROFILE -> {
                 router?.showProfileFragment()
                 view?.showProfileToolbar()
+                view?.hideUploadButton()
             }
         }
     }

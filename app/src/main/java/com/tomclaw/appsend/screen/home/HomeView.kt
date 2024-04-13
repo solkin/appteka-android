@@ -19,6 +19,10 @@ interface HomeView {
 
     fun showProfileToolbar()
 
+    fun showUploadButton()
+
+    fun hideUploadButton()
+
     fun storeClicks(): Observable<Unit>
 
     fun discussClicks(): Observable<Unit>
@@ -122,6 +126,14 @@ class HomeViewImpl(view: View) : HomeView {
             inflateMenu(R.menu.home_menu)
             invalidateMenu()
         }
+    }
+
+    override fun showUploadButton() {
+        uploadButton.show()
+    }
+
+    override fun hideUploadButton() {
+        uploadButton.hide()
     }
 
     override fun storeClicks(): Observable<Unit> = storeRelay
