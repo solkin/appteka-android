@@ -1,6 +1,8 @@
 package com.tomclaw.appsend.screen.home
 
 import android.os.Bundle
+import com.tomclaw.appsend.dto.AppEntity
+import com.tomclaw.appsend.screen.home.api.ModerationData
 import com.tomclaw.appsend.screen.home.api.StartupResponse
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.getParcelableCompat
@@ -43,6 +45,8 @@ interface HomePresenter {
 
         fun openAboutScreen()
 
+        fun openAppScreen(appId: String, title: String)
+
         fun leaveScreen()
 
     }
@@ -59,8 +63,10 @@ class HomePresenterImpl(
     private var router: HomePresenter.HomeRouter? = null
 
     private var tabIndex: Int = state?.getInt(KEY_TAB_INDEX) ?: INDEX_STORE
-    private var startup: StartupResponse? =
-        state?.getParcelableCompat(KEY_STARTUP, StartupResponse::class.java)
+    private var startupLoaded: Boolean = state?.getBoolean(KEY_STARTUP_LOADED) ?: false
+    private var unread: Int = state?.getInt(KEY_UNREAD) ?: 0
+    private var update: AppEntity? = state?.getParcelableCompat(KEY_UPDATE, AppEntity::class.java)
+    private var moderation: ModerationData? = state?.getParcelableCompat(KEY_MODERATION, ModerationData::class.java)
 
     private val subscriptions = CompositeDisposable()
 
@@ -71,8 +77,8 @@ class HomePresenterImpl(
         subscriptions += view.discussClicks().subscribe { bindTab(index = INDEX_DISCUSS) }
         subscriptions += view.profileClicks().subscribe { bindTab(index = INDEX_PROFILE) }
         subscriptions += view.uploadClicks().subscribe { router?.openUploadScreen() }
-        subscriptions += view.updateClicks().subscribe { }
-        subscriptions += view.laterClicks().subscribe {  }
+        subscriptions += view.updateClicks().subscribe { onUpdateClicks() }
+        subscriptions += view.laterClicks().subscribe { onLaterClicks() }
         subscriptions += view.searchClicks().subscribe { router?.openSearchScreen() }
         subscriptions += view.moderationClicks().subscribe { router?.openModerationScreen() }
         subscriptions += view.installedClicks().subscribe { router?.openInstalledScreen() }
@@ -80,8 +86,10 @@ class HomePresenterImpl(
         subscriptions += view.settingsClicks().subscribe { router?.openSettingsScreen() }
         subscriptions += view.aboutClicks().subscribe { router?.openAboutScreen() }
 
-        if (startup != null) {
-            bindStartup()
+        if (startupLoaded) {
+            bindUnread()
+            bindUpdate()
+            bindTab()
         } else {
             loadStartup()
         }
@@ -92,7 +100,7 @@ class HomePresenterImpl(
         when (index) {
             INDEX_STORE -> {
                 router?.showStoreFragment()
-                view?.showStoreToolbar(canModerate = startup?.moderation?.moderator ?: false)
+                view?.showStoreToolbar(canModerate())
                 view?.showUploadButton()
             }
 
@@ -100,7 +108,7 @@ class HomePresenterImpl(
                 router?.showTopicsFragment()
                 view?.showDiscussToolbar()
                 view?.hideUploadButton()
-                view?.hideUnreadBadge()
+                bindUnread(count = 0)
             }
 
             INDEX_PROFILE -> {
@@ -110,6 +118,8 @@ class HomePresenterImpl(
             }
         }
     }
+
+    private fun canModerate(): Boolean = moderation?.moderator ?: false
 
     private fun loadStartup() {
         subscriptions += interactor.loadStartup()
@@ -121,17 +131,41 @@ class HomePresenterImpl(
     }
 
     private fun onStartupLoaded(response: StartupResponse) {
-        startup = response
-        bindStartup()
+        startupLoaded = true
+        unread = response.unread
+        update = response.update
+        moderation = response.moderation
+
+        bindUnread()
+        bindUpdate()
+        bindTab()
     }
 
-    private fun bindStartup() {
-        val startup = startup ?: return
-        if (startup.unread > 0) {
-            view?.showUnreadBadge(count = startup.unread)
+    private fun bindUnread(count: Int = unread) {
+        unread = count
+        if (unread > 0) {
+            view?.showUnreadBadge(count)
         } else {
             view?.hideUnreadBadge()
         }
+    }
+
+    private fun bindUpdate() {
+        if (update != null) {
+            view?.showUpdateBlock()
+        } else {
+            view?.hideUpdateBlock()
+        }
+    }
+
+    private fun onUpdateClicks() {
+        val update = update ?: return
+        router?.openAppScreen(appId = update.appId, title = update.title)
+    }
+
+    private fun onLaterClicks() {
+        update = null
+        view?.hideUpdateBlock()
     }
 
     override fun detachView() {
@@ -149,7 +183,10 @@ class HomePresenterImpl(
 
     override fun saveState(): Bundle = Bundle().apply {
         putInt(KEY_TAB_INDEX, tabIndex)
-        putParcelable(KEY_STARTUP, startup)
+        putBoolean(KEY_STARTUP_LOADED, startupLoaded)
+        putInt(KEY_UNREAD, unread)
+        putParcelable(KEY_UPDATE, update)
+        putParcelable(KEY_MODERATION, moderation)
     }
 
     override fun onBackPressed() {
@@ -163,7 +200,10 @@ class HomePresenterImpl(
 }
 
 private const val KEY_TAB_INDEX = "current_tab"
-private const val KEY_STARTUP = "startup"
+private const val KEY_STARTUP_LOADED = "startup_loaded"
+private const val KEY_UNREAD = "unread"
+private const val KEY_UPDATE = "update"
+private const val KEY_MODERATION = "moderation"
 private const val INDEX_STORE = 0
 private const val INDEX_DISCUSS = 1
 private const val INDEX_PROFILE = 2

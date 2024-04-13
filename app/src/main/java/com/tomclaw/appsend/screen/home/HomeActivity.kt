@@ -15,6 +15,7 @@ import com.tomclaw.appsend.main.local.DistroActivity.createDistroActivityIntent
 import com.tomclaw.appsend.main.local.InstalledActivity.createInstalledActivityIntent
 import com.tomclaw.appsend.main.settings.SettingsActivity.createSettingsActivityIntent
 import com.tomclaw.appsend.main.store.search.SearchActivity.createSearchActivityIntent
+import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.screen.home.di.HomeModule
 import com.tomclaw.appsend.screen.moderation.createModerationActivityIntent
 import com.tomclaw.appsend.screen.profile.createProfileFragment
@@ -146,6 +147,17 @@ class HomeActivity : AppCompatActivity(), HomePresenter.HomeRouter {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putBundle(KEY_PRESENTER_STATE, presenter.saveState())
+    }
+
+    override fun openAppScreen(appId: String, title: String) {
+        val intent = createDetailsActivityIntent(
+            context = this,
+            appId = appId,
+            label = title,
+            moderation = false,
+            finishOnly = true
+        )
+        startActivity(intent)
     }
 
     override fun leaveScreen() {

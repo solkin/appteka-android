@@ -12,5 +12,5 @@ data class StartupResponse(
     @SerializedName("unread")
     val unread: Int,
     @SerializedName("moderation")
-    val moderation: ModerationData,
+    val moderation: ModerationData?,
 ) : Parcelable
