@@ -29,6 +29,7 @@ class HomeActivity : AppCompatActivity(), HomePresenter.HomeRouter {
     @Inject
     lateinit var presenter: HomePresenter
 
+    private var isDarkTheme: Boolean = false
     private val handler: Handler = Handler(Looper.getMainLooper())
     private val fragments = Array<Fragment?>(size = 3) { null }
 
@@ -37,7 +38,7 @@ class HomeActivity : AppCompatActivity(), HomePresenter.HomeRouter {
         Appteka.getComponent()
             .homeComponent(HomeModule(this, presenterState))
             .inject(activity = this)
-        ThemeHelper.updateTheme(this)
+        isDarkTheme = ThemeHelper.updateTheme(this)
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.home_activity)
@@ -130,6 +131,11 @@ class HomeActivity : AppCompatActivity(), HomePresenter.HomeRouter {
     override fun onStop() {
         presenter.detachRouter()
         super.onStop()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        ThemeHelper.restartIfThemeChanged(isDarkTheme, this)
     }
 
     override fun onDestroy() {
