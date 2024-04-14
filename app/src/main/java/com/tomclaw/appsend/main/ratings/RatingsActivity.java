@@ -27,6 +27,7 @@ import com.tomclaw.appsend.main.adapter.MenuAdapter;
 import com.tomclaw.appsend.main.dto.ApiResponse;
 import com.tomclaw.appsend.main.dto.RatingItem;
 import com.tomclaw.appsend.net.Session;
+import com.tomclaw.appsend.user.api.UserBrief;
 import com.tomclaw.appsend.util.ThemeHelper;
 
 import org.androidannotations.annotations.AfterViews;
@@ -232,7 +233,30 @@ public class RatingsActivity extends AppCompatActivity implements RatingsListene
 
     @Override
     public void onClick(RatingItem item) {
-        if (item.getUserId() == session.getUserData().getUserId() || session.getUserData().getRole() >= 200) {
+        Call<ApiResponse<UserBrief>> call = serviceHolder.getService().getUserBrief(null);
+        call.enqueue(new Callback<>() {
+            @Override
+            public void onResponse(Call<ApiResponse<UserBrief>> call, final Response<ApiResponse<UserBrief>> response) {
+                MainExecutor.execute(() -> {
+                    if (response.isSuccessful()) {
+                        onReviewClicks(item, response.body().getResult());
+                    } else {
+                        onReviewClicks(item, null);
+                    }
+                });
+            }
+
+            @Override
+            public void onFailure(Call<ApiResponse<UserBrief>> call, Throwable t) {
+                onReviewClicks(item, null);
+            }
+        });
+
+
+    }
+
+    private void onReviewClicks(RatingItem item, UserBrief brief) {
+        if (brief != null && (item.getUserId() == brief.getUserId() || brief.getRole() >= 200)) {
             ListAdapter menuAdapter = new MenuAdapter(this, R.array.rating_actions_titles, R.array.rating_actions_icons);
             new AlertDialog.Builder(this)
                     .setAdapter(menuAdapter, (dialog, which) -> {
