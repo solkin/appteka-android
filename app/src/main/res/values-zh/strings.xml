@@ -130,8 +130,6 @@
     <string name="last_seen">最后一次露面%s</string>
     <string name="online">在线的</string>
     <string name="offline">离线</string>
-    <string name="today">今天在%s</string>
-    <string name="yesterday">昨天在线</string>
     <string name="unlink_file">堵塞</string>
     <string name="unlink_reason">原因…</string>
     <string name="enter_unlink_reason">请描述原因:</string>
@@ -281,6 +279,8 @@
     <plurals name="years_ago">
         <item quantity="other">%d 年前</item>
     </plurals>
+    <string name="today">今天</string>
+    <string name="yesterday">昨天在线</string>
     <string name="total_downloads_count">它们被下载了 %s 次</string>
     <plurals name="favorite_apps_count">
         <item quantity="other">用户最喜欢的列表中有 %d 个应用程序</item>
