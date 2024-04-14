@@ -16,7 +16,7 @@
     <string name="pref_title_show_system">Ứng dụng hệ thống</string>
     <string name="got_it">Rõ ràng</string>
     <string name="system_apps_warning_title">Chú ý</string>
-    <string name="system_apps_warning_message">Системные приложения хранятся в несколько ином виде и их экспорт и последующая работоспособность не гарантированы!</string>Các ứng dụng hệ thống được lưu trữ ở dạng hơi khác và việc xuất cũng như hiệu suất tiếp theo của chúng không được đảm bảo
+    <string name="system_apps_warning_message">Các ứng dụng hệ thống được lưu trữ ở dạng hơi khác và việc xuất cũng như hiệu suất tiếp theo của chúng không được đảm bảo</string>
     <string name="settings">Cài đặt</string>
     <string name="success">Thành công</string>
     <string name="yes">Có</string>
@@ -290,5 +290,23 @@
     <string name="screenshots_title">Chụp ảnh màn hình</string>
     <string name="download_screenshot">Tải xuống ảnh chụp màn hình</string>
     <string name="error_saving_screenshot">Không lưu được ảnh chụp màn hình</string>
+    <plurals name="days_ago">
+        <item quantity="other">%d ngày trước</item>
+    </plurals>
+    <plurals name="months_ago">
+        <item quantity="other">%d tháng trước</item>
+    </plurals>
+    <plurals name="years_ago">
+        <item quantity="other">%d năm trước</item>
+    </plurals>
+    <string name="today">hôm nay</string>
+    <string name="yesterday">hôm qua</string>
+    <string name="total_downloads_count">chúng đã được tải xuống tổng cộng %s lần</string>
+    <plurals name="favorite_apps_count">
+        <item quantity="other">%d ứng dụng trong mục yêu thích</item>
+    </plurals>
+    <string name="show_all_ratings">Hiển thị tất cả các đánh giá</string>
+    <string name="reviews_activity">Đánh Giá Của Người Dùng</string>
+    <string name="no_user_activity_yet">Người dùng chưa làm gì cả</string>
     <string name="legal_info">Thông tin pháp lý</string>
 </resources>

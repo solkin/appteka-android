@@ -305,5 +305,27 @@
     <string name="screenshots_title">اسکرین شات ها</string>
     <string name="download_screenshot">دانلود اسکرین شات</string>
     <string name="error_saving_screenshot">اسکرین شات ذخیره نشد</string>
+    <plurals name="days_ago">
+        <item quantity="one">روز پیش%d</item>
+        <item quantity="other">روز پیش%d</item>
+    </plurals>
+    <plurals name="months_ago">
+        <item quantity="one">ماه قبل %d</item>
+        <item quantity="other">ماه پیش %d</item>
+    </plurals>
+    <plurals name="years_ago">
+        <item quantity="one">سال پیش %d</item>
+        <item quantity="other">سال پیش %d</item>
+    </plurals>
+    <string name="today">امروز</string>
+    <string name="yesterday">دیروز</string>
+    <string name="total_downloads_count">دانلود %s</string>
+    <plurals name="favorite_apps_count">
+        <item quantity="one">برنامه مورد علاقه %d</item>
+        <item quantity="other">برنامه مورد علاقه %d</item>
+    </plurals>
+    <string name="show_all_ratings">نمایش همه نظرات</string>
+    <string name="reviews_activity">نظرات کاربران</string>
+    <string name="no_user_activity_yet">کاربر هنوز فعال نیست</string>
     <string name="legal_info">اطلاعات حقوقی</string>
 </resources>

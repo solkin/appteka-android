@@ -313,5 +313,43 @@
     <string name="screenshots_title">لقطة شاشة</string>
     <string name="download_screenshot">تحميل لقطة الشاشة</string>
     <string name="error_saving_screenshot">فشل حفظ لقطة الشاشة</string>
+    <plurals name="days_ago">
+        <item quantity="zero"> منذ يوم %d</item>
+        <item quantity="one"> منذ يوم %d</item>
+        <item quantity="two"> منذ يوم %d</item>
+        <item quantity="few">منذ يوم %d</item>
+        <item quantity="many">منذ يوم %d</item>
+        <item quantity="other">منذ يوم %d</item>
+    </plurals>
+    <plurals name="months_ago">
+        <item quantity="zero">منذ شهر %d</item>
+        <item quantity="one">منذ شهر %d</item>
+        <item quantity="two">منذ شهر %d</item>
+        <item quantity="few">منذ شهر %d</item>
+        <item quantity="many">منذ شهر %d</item>
+        <item quantity="other">منذ شهر %d</item>
+    </plurals>
+    <plurals name="years_ago">
+        <item quantity="zero">منذ عام %d</item>
+        <item quantity="one">منذ عام %d</item>
+        <item quantity="two">منذ عام %d</item>
+        <item quantity="few">منذ سنوات %d</item>
+        <item quantity="many">منذ سنوات %d</item>
+        <item quantity="other">منذ سنوات %d</item>
+    </plurals>
+    <string name="today">اليوم</string>
+    <string name="yesterday">أمس</string>
+    <string name="total_downloads_count">التنزيلات %s</string>
+    <plurals name="favorite_apps_count">
+        <item quantity="zero">التطبيق في المفضلة %d</item>
+        <item quantity="one">التطبيق في المفضلة %d</item>
+        <item quantity="two">التطبيق في المفضلة %d</item>
+        <item quantity="few">التطبيق في المفضلة %d</item>
+        <item quantity="many">التطبيق في المفضلة %d</item>
+        <item quantity="other">التطبيق في المفضلة %d</item>
+    </plurals>
+    <string name="show_all_ratings">عرض جميع التقييمات</string>
+    <string name="reviews_activity">مراجعات المستخدم</string>
+    <string name="no_user_activity_yet">لم يكن المستخدم نشطا بعد</string>
     <string name="legal_info">معلومات قانونية</string>
 </resources>
