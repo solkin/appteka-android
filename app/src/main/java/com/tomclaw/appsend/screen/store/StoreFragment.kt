@@ -4,17 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import com.avito.konveyor.ItemBinder
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
-import com.tomclaw.appsend.main.home.HomeFragment
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.screen.store.di.StoreModule
 import javax.inject.Inject
 
-class StoreFragment : HomeFragment(), StorePresenter.StoreRouter {
+class StoreFragment : Fragment(), StorePresenter.StoreRouter {
 
     @Inject
     lateinit var presenter: StorePresenter

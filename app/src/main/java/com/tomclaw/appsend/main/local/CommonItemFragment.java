@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,7 +20,6 @@ import com.tomclaw.appsend.core.WeakObjectTask;
 import com.tomclaw.appsend.main.adapter.files.FileViewHolderCreator;
 import com.tomclaw.appsend.main.adapter.files.FilesAdapter;
 import com.tomclaw.appsend.main.adapter.files.FilesListener;
-import com.tomclaw.appsend.main.home.HomeFragment;
 import com.tomclaw.appsend.main.item.CommonItem;
 import com.tomclaw.appsend.main.item.StoreItem;
 
@@ -31,9 +31,7 @@ import org.androidannotations.annotations.ViewById;
 import java.util.List;
 
 @EFragment
-abstract class CommonItemFragment<T extends CommonItem>
-        extends HomeFragment
-        implements FilesListener<T> {
+abstract class CommonItemFragment<T extends CommonItem> extends Fragment implements FilesListener<T> {
 
     @ViewById
     ViewFlipper viewFlipper;

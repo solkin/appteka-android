@@ -84,7 +84,7 @@ public class HomeActivity extends PermisoActivity implements UpdateController.Up
     private @Nullable
     UnreadCheckTask unreadCheckTask;
 
-    private final HomeFragment[] homeFragments = new HomeFragment[3];
+    private final Fragment[] homeFragments = new Fragment[3];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -221,7 +221,7 @@ public class HomeActivity extends PermisoActivity implements UpdateController.Up
     private void loadHomeFragment() {
         setToolbarTitle();
 
-        HomeFragment currentFragment = getHomeFragment();
+        Fragment currentFragment = getHomeFragment();
         if (currentFragment != null) {
             toggleFab();
             return;
@@ -244,11 +244,11 @@ public class HomeActivity extends PermisoActivity implements UpdateController.Up
     }
 
     @Nullable
-    private HomeFragment getHomeFragment() {
-        return (HomeFragment) getSupportFragmentManager().findFragmentByTag(CURRENT_TAG);
+    private Fragment getHomeFragment() {
+        return getSupportFragmentManager().findFragmentByTag(CURRENT_TAG);
     }
 
-    private HomeFragment createHomeFragment() {
+    private Fragment createHomeFragment() {
         switch (navItemIndex) {
             case NAV_STORE -> {
                 bottomNavigation.setSelectedItemId(R.id.nav_store);

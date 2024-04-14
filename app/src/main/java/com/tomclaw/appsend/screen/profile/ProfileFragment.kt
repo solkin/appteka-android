@@ -7,12 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.avito.konveyor.ItemBinder
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
-import com.tomclaw.appsend.main.home.HomeFragment
 import com.tomclaw.appsend.main.profile.list.FilesActivity.createUserAppsActivityIntent
 import com.tomclaw.appsend.screen.auth.request_code.createRequestCodeActivityIntent
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
@@ -23,7 +23,7 @@ import com.tomclaw.appsend.screen.reviews.createReviewsActivityIntent
 import javax.inject.Inject
 import javax.inject.Named
 
-class ProfileFragment : HomeFragment(), ProfilePresenter.ProfileRouter {
+class ProfileFragment : Fragment(), ProfilePresenter.ProfileRouter {
 
     @Inject
     lateinit var presenter: ProfilePresenter

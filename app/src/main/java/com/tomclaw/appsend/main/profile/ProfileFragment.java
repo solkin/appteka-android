@@ -22,6 +22,7 @@ import android.widget.ViewFlipper;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.snackbar.Snackbar;
@@ -29,7 +30,6 @@ import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.core.StoreServiceHolder;
 import com.tomclaw.appsend.main.dto.ApiResponse;
-import com.tomclaw.appsend.main.home.HomeFragment;
 import com.tomclaw.appsend.main.local.DistroActivity_;
 import com.tomclaw.appsend.main.local.InstalledActivity_;
 import com.tomclaw.appsend.main.profile.list.FilesActivity_;
@@ -65,7 +65,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 @EFragment(R.layout.profile_fragment_legacy)
-public class ProfileFragment extends HomeFragment implements UserDataListener {
+public class ProfileFragment extends Fragment implements UserDataListener {
 
     private static final int REQUEST_LOGIN = 1;
 

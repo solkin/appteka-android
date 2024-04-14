@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,7 +26,6 @@ import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.main.adapter.files.FilesAdapter;
 import com.tomclaw.appsend.main.adapter.files.FilesListener;
 import com.tomclaw.appsend.main.dto.ApiResponse;
-import com.tomclaw.appsend.main.home.HomeFragment;
 import com.tomclaw.appsend.main.item.StoreItem;
 import com.tomclaw.appsend.main.profile.list.ListResponse;
 import com.tomclaw.appsend.util.LocaleHelper;
@@ -43,7 +43,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 @EFragment
-public abstract class BaseStoreFragment extends HomeFragment implements FilesListener<StoreItem> {
+public abstract class BaseStoreFragment extends Fragment implements FilesListener<StoreItem> {
 
     private static final String KEY_FILES = "files";
 
