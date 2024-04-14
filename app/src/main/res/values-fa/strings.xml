@@ -129,31 +129,20 @@
     <string name="delivery">تحویل</string>
     <string name="rates_count">تعداد رتبه بندی ها</string>
     <string name="profile">نمایه</string>
-    <string name="profile_error">نمایه بازیابی نشد لطفا دوباره درخواست کنید</string>
     <string name="role_owner">سرپرست</string>
     <string name="role_admin">مدیر</string>
     <string name="role_moderator">ناظر</string>
     <string name="role_default">کاربر</string>
     <string name="joined_date">پیوست %s</string>
-    <string name="apps_uploaded">برنامه های بارگذاری شده</string>
-    <string name="total_downloads">برنامه های دانلود شده</string>
-    <string name="messages_wrote">دیدگاه ها</string>
-    <string name="apps_rated">امتیاز های داده شده</string>
-    <string name="moderators_assigned">برنامه های تایید شده توسط ناظر</string>
-    <string name="change_role">تغییر دسته</string>
     <string name="last_seen">آخرین بازدید %s</string>
     <string name="online">فعال</string>
     <string name="offline">آفلاین</string>
-    <string name="last_seen_today">آخرین بازدید امروز %s</string>
-    <string name="last_seen_yesterday">آخرین بازدید دیروز</string>
-    <string name="unable_to_change_role">تغییر نقش کاربر انجام نشد</string>
     <string name="unlink_file">مسدود کردن</string>
     <string name="unlink_reason">دلیل…</string>
     <string name="enter_unlink_reason">لطفا علت را توضیح دهید:</string>
     <string name="fill_reason_field">پر کردن جایگاه دلیل الزامی است</string>
     <string name="unable_to_unlink_file">درخواست تکمیل نشد</string>
     <string name="unlink_of">مسدود کردن از %s</string>
-    <string name="member_id">شناسه کاربر: %d</string>
     <string name="profile_apps">برنامه های کاربر</string>
     <string name="nav_store">فروشگاه</string>
     <string name="nav_discuss">گفتگو</string>
@@ -173,15 +162,6 @@
     <string name="upload_notice_title">توافقنامه حقوق توزیع</string>
     <string name="upload_notice_text">لطفا توجه داشته باشید که با انتخاب دکمه \"بله\" تایید می کنید که:  1 شما مجوزهای برنامه های بارگذاری شده در فروشگاه Appteka را نقض نمی کنید  2 این نرم افزار حق تکثیر و قوانین قابل اجرا را نقض نمی کند  3 مالک appsendstore مسئولیتی در قبال نرم افزار بارگذاری شده ندارد</string>
     <string name="agree_with_upload_notice">برای بارگذاری برنامه در فروشگاه Appteka باید با این شرط موافقت کنید</string>
-    <string name="migrate_title">نام AppSend اکنون Appteka است</string>
-    <string name="migrate_description">همه چیز در یک مکان است اما سریع تر و پایدارتر</string>
-    <string name="yeah">آره</string>
-    <string name="local_apps">برنامه های محلی</string>
-    <plurals name="updates_available">
-        <item quantity="one">%d به روز رسانی در دسترس است</item>
-        <item quantity="other">%d به روز رسانی در دسترس است</item>
-    </plurals>
-    <string name="user_url" translatable="false">%1$s (ID: %2$d)\n%3$s</string>
     <string name="apps_on_moderation">برنامه های در حال بررسی</string>
     <string name="moderation_approve">تایید</string>
     <string name="moderation_decline">رد</string>
@@ -297,8 +277,6 @@
     <string name="name_format_invalid">قالب نام نامعتبر است</string>
     <string name="authorization_required_message">برای ادامه به حساب خود وارد شوید</string>
     <string name="authorization_description">به حساب خود وارد شوید و از قابلیت های شخصی Appteka استفاده کنید</string>
-    <string name="login_is_needed_warning">لطفا برای ادامه استفاده از همه ویژگی‌های Appteka به حساب خود وارد شوید</string>
-    <string name="relogin_is_needed_warning">لطفا برای ادامه استفاده از همه ویژگی‌های Appteka دوباره وارد شوید</string>
     <string name="error_domain_blocked">ایمیل های موقت ممنوع است</string>
     <string name="gallery_title">%d / %d</string>
     <string name="add_screenshot">افزودن امکان گرفتن عکس از صفحه</string>
