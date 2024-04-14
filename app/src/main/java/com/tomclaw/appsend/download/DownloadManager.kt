@@ -152,6 +152,7 @@ class DownloadManagerImpl(
             var cache: Int
             var read: Long = 0
             var percent = 0
+            var progressUpdateTime = 0L
             val buffer = ByteArray(BUFFER_SIZE)
             while (input.read(buffer).also { cache = it } != -1) {
                 output.write(buffer, 0, cache)
@@ -159,10 +160,15 @@ class DownloadManagerImpl(
                 read += cache.toLong()
                 val p = (100 * read / total).toInt()
                 if (p > percent) {
-                    progressCallback(percent)
+                    if (System.currentTimeMillis() > progressUpdateTime + 300) {
+                        progressCallback(percent)
+                        progressUpdateTime = System.currentTimeMillis()
+                    }
                     percent = p
                 }
-                Thread.sleep(2) // TODO: remove this slowing down
+                if (percent % 5 == 0) {
+                    Thread.sleep(1)
+                }
             }
             progressCallback(100)
             return true
@@ -200,6 +206,6 @@ const val STARTED: Int = -20
 const val COMPLETED: Int = 101
 const val ERROR: Int = -40
 
-private const val BUFFER_SIZE = 128 * 1024
+private const val BUFFER_SIZE = 1 * 1024 * 1024
 
 private val RESERVED_CHARS = arrayOf("|", "\\", "/", "?", "*", "<", "\"", ":", ">")

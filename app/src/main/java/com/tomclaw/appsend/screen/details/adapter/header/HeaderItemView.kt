@@ -78,8 +78,9 @@ class HeaderItemViewHolder(view: View) : BaseViewHolder(view), HeaderItemView {
             progressBar.show()
             iconBack.scaleWithAnimation(0.6f)
         }
+        val animated = !progressBar.isIndeterminate
         progressBar.isIndeterminate = false
-        progressBar.progress = progress
+        progressBar.setProgressCompat(progress, animated)
     }
 
     override fun hideProgress() {
