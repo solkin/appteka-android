@@ -229,6 +229,7 @@
         <item quantity="two">يحتوي هذا التطبيق بالفعل على %d من الإصدارات التي تم تحميلها</item>
         <item quantity="few">يحتوي هذا التطبيق بالفعل على %d من الإصدارات التي تم تحميلها</item>
         <item quantity="many">يحتوي هذا التطبيق بالفعل على %d من الإصدارات التي تم تحميلها</item>
+        <item quantity="other">يحتوي هذا التطبيق بالفعل على %d من الإصدارات التي تم تحميلها</item>
     </plurals>
     <plurals name="other_versions_count">
         <item quantity="zero">%d الاصدار</item>
@@ -236,6 +237,7 @@
         <item quantity="two">%d الاصدار</item>
         <item quantity="few">%d الاصدار</item>
         <item quantity="many">%d الاصدار</item>
+        <item quantity="other">%d الاصدار</item>
     </plurals>
     <plurals name="other_access">
         <item quantity="zero">%d أذونات أخرى</item>
@@ -243,6 +245,7 @@
         <item quantity="two">%d أذونات أخرى</item>
         <item quantity="few">%d أذونات أخرى</item>
         <item quantity="many">%d أذونات أخرى</item>
+        <item quantity="other">%d أذونات أخرى</item>
     </plurals>
     <string name="uploading_progress">تحميل: %d%%</string>
     <string name="waiting_for_upload">في انتظار التحميل…</string>
