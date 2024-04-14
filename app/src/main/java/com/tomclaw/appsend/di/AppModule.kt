@@ -11,11 +11,14 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.tomclaw.appsend.categories.CategoriesInteractor
 import com.tomclaw.appsend.categories.CategoriesInteractorImpl
+import com.tomclaw.appsend.core.AppInfoProvider
+import com.tomclaw.appsend.core.AppInfoProviderImpl
 import com.tomclaw.appsend.core.Config
 import com.tomclaw.appsend.core.DeviceIdInterceptor
 import com.tomclaw.appsend.core.DeviceIdProvider
 import com.tomclaw.appsend.core.DeviceIdProviderImpl
 import com.tomclaw.appsend.core.PersistentCookieJar
+import com.tomclaw.appsend.core.StandByApi
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.core.UserAgentInterceptor
 import com.tomclaw.appsend.core.UserAgentProvider
@@ -93,13 +96,18 @@ class AppModule(private val app: Application) {
     @Provides
     @Singleton
     internal fun provideUserAgentProvider(
-        packageManager: PackageManager,
+        appInfoProvider: AppInfoProvider,
         locale: Locale
-    ): UserAgentProvider = UserAgentProviderImpl(app, packageManager, locale)
+    ): UserAgentProvider = UserAgentProviderImpl(appInfoProvider, locale)
 
     @Provides
     @Singleton
     internal fun provideDeviceIdProvider(): DeviceIdProvider = DeviceIdProviderImpl(app)
+
+    @Provides
+    @Singleton
+    internal fun provideAppInfoProvider(packageManager: PackageManager): AppInfoProvider =
+        AppInfoProviderImpl(app, packageManager)
 
     @Provides
     @Singleton
@@ -197,6 +205,16 @@ class AppModule(private val app: Application) {
         .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
         .build()
         .create(StoreApi::class.java)
+
+    @Provides
+    @Singleton
+    internal fun provideStandByApi(client: OkHttpClient): StandByApi = Retrofit.Builder()
+        .client(client)
+        .baseUrl(Config.STAND_BY_HOST_URL + "/api/appteka/")
+        .addConverterFactory(GsonConverterFactory.create())
+        .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
+        .build()
+        .create(StandByApi::class.java)
 
 }
 

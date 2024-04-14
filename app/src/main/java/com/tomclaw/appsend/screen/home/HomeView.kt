@@ -3,6 +3,7 @@ package com.tomclaw.appsend.screen.home
 import android.view.MenuItem
 import android.view.View
 import android.widget.Button
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -39,6 +40,8 @@ interface HomeView {
 
     fun hideUploadButton()
 
+    fun showStatusDialog(block: Boolean, title: String?, message: String)
+
     fun storeClicks(): Observable<Unit>
 
     fun discussClicks(): Observable<Unit>
@@ -63,10 +66,13 @@ interface HomeView {
 
     fun aboutClicks(): Observable<Unit>
 
+    fun exitAppClicks(): Observable<Unit>
+
 }
 
 class HomeViewImpl(view: View) : HomeView {
 
+    private val context = view.context
     private val toolbar: Toolbar = view.findViewById(R.id.toolbar)
     private val updateBlock: View = view.findViewById(R.id.update_block)
     private val bottomNavigation: BottomNavigationView = view.findViewById(R.id.bottom_navigation)
@@ -86,6 +92,7 @@ class HomeViewImpl(view: View) : HomeView {
     private val distroRelay = PublishRelay.create<Unit>()
     private val settingsRelay = PublishRelay.create<Unit>()
     private val aboutRelay = PublishRelay.create<Unit>()
+    private val exitAppRelay = PublishRelay.create<Unit>()
 
     init {
         toolbar.setOnMenuItemClickListener { item ->
@@ -186,6 +193,20 @@ class HomeViewImpl(view: View) : HomeView {
         uploadButton.hide()
     }
 
+    override fun showStatusDialog(block: Boolean, title: String?, message: String) {
+        AlertDialog.Builder(context)
+            .setTitle(title)
+            .setMessage(message)
+            .setCancelable(!block)
+            .setPositiveButton(R.string.ok) { dialog, which ->
+                if (block) {
+                    exitAppRelay.accept(Unit)
+                }
+            }
+            .create()
+            .show()
+    }
+
     override fun storeClicks(): Observable<Unit> = storeRelay
 
     override fun discussClicks(): Observable<Unit> = discussRelay
@@ -209,5 +230,7 @@ class HomeViewImpl(view: View) : HomeView {
     override fun settingsClicks(): Observable<Unit> = settingsRelay
 
     override fun aboutClicks(): Observable<Unit> = aboutRelay
+
+    override fun exitAppClicks(): Observable<Unit> = exitAppRelay
 
 }

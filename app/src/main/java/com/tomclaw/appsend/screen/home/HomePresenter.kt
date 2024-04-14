@@ -4,9 +4,11 @@ import android.os.Bundle
 import com.tomclaw.appsend.dto.AppEntity
 import com.tomclaw.appsend.screen.home.api.ModerationData
 import com.tomclaw.appsend.screen.home.api.StartupResponse
+import com.tomclaw.appsend.screen.home.api.StatusResponse
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.getParcelableCompat
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.kotlin.Observables
 import io.reactivex.rxjava3.kotlin.plusAssign
 
 interface HomePresenter {
@@ -49,6 +51,8 @@ interface HomePresenter {
 
         fun leaveScreen()
 
+        fun exitApp()
+
     }
 
 }
@@ -70,6 +74,8 @@ class HomePresenterImpl(
     private var update: AppEntity? = state?.getParcelableCompat(KEY_UPDATE, AppEntity::class.java)
     private var moderation: ModerationData? =
         state?.getParcelableCompat(KEY_MODERATION, ModerationData::class.java)
+    private var status: StatusResponse? =
+        state?.getParcelableCompat(KEY_STATUS, StatusResponse::class.java)
 
     private val subscriptions = CompositeDisposable()
 
@@ -88,6 +94,7 @@ class HomePresenterImpl(
         subscriptions += view.distroClicks().subscribe { router?.openDistroScreen() }
         subscriptions += view.settingsClicks().subscribe { router?.openSettingsScreen() }
         subscriptions += view.aboutClicks().subscribe { router?.openAboutScreen() }
+        subscriptions += view.exitAppClicks().subscribe { router?.exitApp() }
 
         if (startupLoaded) {
             bindUnread()
@@ -95,6 +102,13 @@ class HomePresenterImpl(
             bindTab()
         } else {
             loadStartup()
+        }
+
+        val status = status
+        if (status != null) {
+            onStatusLoaded(status)
+        } else {
+            loadStatus()
         }
     }
 
@@ -133,6 +147,15 @@ class HomePresenterImpl(
             )
     }
 
+    private fun loadStatus() {
+        subscriptions += interactor.loadStatus()
+            .observeOn(schedulers.mainThread())
+            .subscribe(
+                { onStatusLoaded(response = it) },
+                { }
+            )
+    }
+
     private fun onStartupLoaded(response: StartupResponse) {
         startupLoaded = true
         unread = response.unread
@@ -142,6 +165,17 @@ class HomePresenterImpl(
         bindUnread()
         bindUpdate()
         bindTab()
+    }
+
+    private fun onStatusLoaded(response: StatusResponse) {
+        status = response
+        if (!response.message.isNullOrBlank()) {
+            view?.showStatusDialog(
+                block = response.block ?: false,
+                title = response.title,
+                message = response.message,
+            )
+        }
     }
 
     private fun bindUnread(count: Int = unread) {
@@ -192,6 +226,7 @@ class HomePresenterImpl(
         putInt(KEY_UNREAD, unread)
         putParcelable(KEY_UPDATE, update)
         putParcelable(KEY_MODERATION, moderation)
+        putParcelable(KEY_STATUS, status)
     }
 
     override fun onBackPressed() {
@@ -220,6 +255,7 @@ private const val KEY_STARTUP_LOADED = "startup_loaded"
 private const val KEY_UNREAD = "unread"
 private const val KEY_UPDATE = "update"
 private const val KEY_MODERATION = "moderation"
+private const val KEY_STATUS = "status"
 private const val INDEX_STORE = 0
 private const val INDEX_DISCUSS = 1
 private const val INDEX_PROFILE = 2

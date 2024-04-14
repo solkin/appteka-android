@@ -7,6 +7,6 @@ public class Config {
 
     public static String LOG_TAG = "Appteka";
     public static final String HOST_URL = "https://appteka.store";
-    public static final String STATUS_HOST_URL = "https://tomclaw.com/api/appteka/status.php";
+    public static final String STAND_BY_HOST_URL = "https://tomclaw.com";
 
 }

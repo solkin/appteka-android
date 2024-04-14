@@ -1,7 +1,7 @@
 package com.tomclaw.appsend.main.home;
 
 import static com.tomclaw.appsend.Appteka.app;
-import static com.tomclaw.appsend.core.Config.STATUS_HOST_URL;
+import static com.tomclaw.appsend.core.Config.STAND_BY_HOST_URL;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;
@@ -28,7 +28,7 @@ public class StatusCheckTask extends HttpTask {
 
     public StatusCheckTask(Context context) {
         super(
-                STATUS_HOST_URL,
+                STAND_BY_HOST_URL + "/api/appteka/status.php",
                 new HttpParamsBuilder()
                         .appendParam("locale", LocaleHelper.getLocaleLanguage())
                         .appendParam("build", String.valueOf(getVersionCode()))

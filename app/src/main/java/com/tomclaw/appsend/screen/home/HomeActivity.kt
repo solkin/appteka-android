@@ -24,6 +24,7 @@ import com.tomclaw.appsend.screen.topics.createTopicsFragment
 import com.tomclaw.appsend.screen.upload.createUploadActivityIntent
 import com.tomclaw.appsend.util.ThemeHelper
 import javax.inject.Inject
+import kotlin.system.exitProcess
 
 class HomeActivity : AppCompatActivity(), HomePresenter.HomeRouter {
 
@@ -162,6 +163,10 @@ class HomeActivity : AppCompatActivity(), HomePresenter.HomeRouter {
 
     override fun leaveScreen() {
         finish()
+    }
+
+    override fun exitApp() {
+        exitProcess(0)
     }
 
 }
