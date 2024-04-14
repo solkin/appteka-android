@@ -45,7 +45,6 @@ class SessionStorageImpl(
                     emitter.onError(FileNotFoundException())
                     return@create
                 }
-                Appteka.app().session.userHolder.reset()
                 emitter.onSuccess(Unit)
             }
             .subscribeOn(schedulers.io())

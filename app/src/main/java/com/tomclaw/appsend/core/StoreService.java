@@ -2,9 +2,6 @@ package com.tomclaw.appsend.core;
 
 import com.tomclaw.appsend.main.dto.AbuseResult;
 import com.tomclaw.appsend.main.dto.ApiResponse;
-import com.tomclaw.appsend.main.profile.EliminateUserResponse;
-import com.tomclaw.appsend.main.profile.EmpowerResponse;
-import com.tomclaw.appsend.main.profile.ProfileResponse;
 import com.tomclaw.appsend.main.profile.list.ListResponse;
 import com.tomclaw.appsend.main.ratings.RatingsResponse;
 import com.tomclaw.appsend.main.ratings.VoidResponse;
@@ -55,21 +52,9 @@ public interface StoreService {
             @Query("email") String email
     );
 
-    @GET("api/1/user/profile")
-    Call<ApiResponse<ProfileResponse>> getProfile(
-            @Query("user_id") String userId
-    );
-
     @GET("api/1/user/brief")
     Call<ApiResponse<UserBrief>> getUserBrief(
             @Query("user_id") Integer userId
-    );
-
-    @FormUrlEncoded
-    @POST("api/1/user/empower")
-    Call<ApiResponse<EmpowerResponse>> empower(
-            @Field("role") int role,
-            @Field("user_id") String userId
     );
 
     @FormUrlEncoded
@@ -103,11 +88,6 @@ public interface StoreService {
     @POST("api/1/app/updates")
     Call<ApiResponse<CheckUpdatesResponse>> checkUpdates(
             @Body CheckUpdatesRequest request
-    );
-
-    @DELETE("api/1/user/eliminate")
-    Call<ApiResponse<EliminateUserResponse>> eliminateUser(
-            @Query("user_id") Long userId
     );
 
 }

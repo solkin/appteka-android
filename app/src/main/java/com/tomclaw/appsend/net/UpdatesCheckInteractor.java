@@ -9,7 +9,7 @@ import android.content.pm.PackageManager;
 import androidx.annotation.NonNull;
 
 import com.tomclaw.appsend.Appteka;
-import com.tomclaw.appsend.core.StoreServiceHolder_;
+import com.tomclaw.appsend.core.StoreServiceHolder;
 import com.tomclaw.appsend.main.dto.ApiResponse;
 import com.tomclaw.appsend.util.Listeners;
 
@@ -32,14 +32,37 @@ public class UpdatesCheckInteractor {
     Appteka app;
 
     @Bean
-    Session session;
+    StoreServiceHolder serviceHolder;
 
     private Map<String, AppEntry> updates = Collections.emptyMap();
 
     private final Listeners<Map<String, AppEntry>> listeners = new Listeners<>();
 
     public void checkUpdates() {
-        String guid = session.getUserData().getGuid();
+        CheckUpdatesRequest request = getCheckUpdatesRequest();
+        Call<ApiResponse<CheckUpdatesResponse>> call = serviceHolder.getService().checkUpdates(request);
+        call.enqueue(new Callback<>() {
+            @Override
+            public void onResponse(@NonNull Call<ApiResponse<CheckUpdatesResponse>> call, @NonNull retrofit2.Response<ApiResponse<CheckUpdatesResponse>> response) {
+                if (response.isSuccessful() && response.body() != null && response.body().getResult() != null && response.body().getResult().getEntries() != null) {
+                    Map<String, AppEntry> updatesNew = new HashMap<>();
+                    for (AppEntry entry : response.body().getResult().getEntries()) {
+                        updatesNew.put(entry.getPackageName(), entry);
+                    }
+                    updates = updatesNew;
+                    listeners.notifyListeners(updates);
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<ApiResponse<CheckUpdatesResponse>> call, @NonNull Throwable t) {
+                listeners.notifyListeners(t);
+            }
+        });
+    }
+
+    @NonNull
+    private CheckUpdatesRequest getCheckUpdatesRequest() {
         String locale = getLocaleLanguage();
         Map<String, Integer> apps = new HashMap<>();
 
@@ -58,26 +81,7 @@ public class UpdatesCheckInteractor {
             }
         }
 
-        CheckUpdatesRequest request = new CheckUpdatesRequest(guid, locale, apps);
-        Call<ApiResponse<CheckUpdatesResponse>> call = StoreServiceHolder_.getInstance_(null).getService().checkUpdates(request);
-        call.enqueue(new Callback<ApiResponse<CheckUpdatesResponse>>() {
-            @Override
-            public void onResponse(@NonNull Call<ApiResponse<CheckUpdatesResponse>> call, @NonNull retrofit2.Response<ApiResponse<CheckUpdatesResponse>> response) {
-                if (response.isSuccessful() && response.body() != null && response.body().getResult() != null && response.body().getResult().getEntries() != null) {
-                    Map<String, AppEntry> updatesNew = new HashMap<>();
-                    for (AppEntry entry : response.body().getResult().getEntries()) {
-                        updatesNew.put(entry.getPackageName(), entry);
-                    }
-                    updates = updatesNew;
-                    listeners.notifyListeners(updates);
-                }
-            }
-
-            @Override
-            public void onFailure(@NonNull Call<ApiResponse<CheckUpdatesResponse>> call, @NonNull Throwable t) {
-                listeners.notifyListeners(t);
-            }
-        });
+        return new CheckUpdatesRequest(locale, apps);
     }
 
     public Listeners<Map<String, AppEntry>> getListeners() {

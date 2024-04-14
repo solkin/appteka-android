@@ -11,8 +11,6 @@ import java.util.Map;
 
 public class CheckUpdatesRequest implements Parcelable, Unobfuscatable {
 
-    @SerializedName(value = "guid")
-    private String guid;
     @SerializedName(value = "locale")
     private String locale;
     @SerializedName(value = "apps")
@@ -21,14 +19,12 @@ public class CheckUpdatesRequest implements Parcelable, Unobfuscatable {
     public CheckUpdatesRequest() {
     }
 
-    public CheckUpdatesRequest(String guid, String locale, Map<String, Integer> apps) {
-        this.guid = guid;
+    public CheckUpdatesRequest(String locale, Map<String, Integer> apps) {
         this.locale = locale;
         this.apps = apps;
     }
 
     protected CheckUpdatesRequest(Parcel in) {
-        guid = in.readString();
         locale = in.readString();
         apps = new HashMap<>();
         int size = in.readInt();
@@ -41,7 +37,6 @@ public class CheckUpdatesRequest implements Parcelable, Unobfuscatable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(guid);
         dest.writeString(locale);
         dest.writeInt(apps.size());
         for (Map.Entry<String, Integer> entry : apps.entrySet()) {

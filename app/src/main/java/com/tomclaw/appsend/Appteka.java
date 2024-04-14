@@ -9,8 +9,6 @@ import com.tomclaw.appsend.di.AppModule;
 import com.tomclaw.appsend.di.DaggerAppComponent;
 import com.tomclaw.appsend.di.legacy.LegacyInjector;
 import com.tomclaw.appsend.di.legacy.LegacyModule;
-import com.tomclaw.appsend.net.Session;
-import com.tomclaw.appsend.util.AnalyticsImpl;
 import com.tomclaw.appsend.util.PackageIconLoader;
 import com.tomclaw.appsend.util.PreferenceHelper;
 import com.tomclaw.appsend.util.TimeHelper;
@@ -27,7 +25,6 @@ import com.tomclaw.imageloader.util.loader.ContentLoader;
 import com.tomclaw.imageloader.util.loader.FileLoader;
 import com.tomclaw.imageloader.util.loader.UrlLoader;
 
-import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EApplication;
 
 import java.io.IOException;
@@ -45,9 +42,6 @@ public class Appteka extends Application {
 
     private static AppComponent component;
 
-    @Bean
-    public Session session;
-
     private final LegacyInjector injector = new LegacyInjector();
 
     @Override
@@ -55,7 +49,6 @@ public class Appteka extends Application {
         super.onCreate();
         app = this;
         component = buildComponent();
-        session.init();
         initImageLoader();
         actuateFlags();
         TimeHelper.init(this);

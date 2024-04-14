@@ -26,7 +26,6 @@ import com.tomclaw.appsend.core.StoreServiceHolder;
 import com.tomclaw.appsend.main.adapter.MenuAdapter;
 import com.tomclaw.appsend.main.dto.ApiResponse;
 import com.tomclaw.appsend.main.dto.RatingItem;
-import com.tomclaw.appsend.net.Session;
 import com.tomclaw.appsend.user.api.UserBrief;
 import com.tomclaw.appsend.util.ThemeHelper;
 
@@ -52,9 +51,6 @@ public class RatingsActivity extends AppCompatActivity implements RatingsListene
 
     @Bean
     StoreServiceHolder serviceHolder;
-
-    @Bean
-    Session session;
 
     @ViewById
     Toolbar toolbar;
