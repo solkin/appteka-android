@@ -15,6 +15,9 @@
         app:iconTint="?android:textColorPrimary"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/menu_settings"
+        android:title="@string/nav_settings" />
+    <item
         android:id="@+id/menu_installed"
         android:enabled="true"
         android:icon="@drawable/ic_apps"
@@ -24,9 +27,6 @@
         android:enabled="true"
         android:icon="@drawable/ic_install"
         android:title="@string/nav_distro" />
-    <item
-        android:id="@+id/menu_settings"
-        android:title="@string/nav_settings" />
     <item
         android:id="@+id/menu_about"
         android:title="@string/nav_info" />
