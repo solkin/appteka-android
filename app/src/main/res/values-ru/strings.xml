@@ -332,4 +332,5 @@
     <string name="show_all_ratings">Показать все отзывы</string>
     <string name="reviews_activity">Отзывы пользователя</string>
     <string name="no_user_activity_yet">Пользователь пока не проявил активность</string>
+    <string name="legal_info">Правовая информация</string>
 </resources>

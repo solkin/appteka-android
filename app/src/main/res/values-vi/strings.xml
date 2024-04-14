@@ -290,4 +290,5 @@
     <string name="screenshots_title">Chụp ảnh màn hình</string>
     <string name="download_screenshot">Tải xuống ảnh chụp màn hình</string>
     <string name="error_saving_screenshot">Không lưu được ảnh chụp màn hình</string>
+    <string name="legal_info">Thông tin pháp lý</string>
 </resources>

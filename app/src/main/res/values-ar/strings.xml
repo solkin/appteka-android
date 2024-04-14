@@ -313,4 +313,5 @@
     <string name="screenshots_title">لقطة شاشة</string>
     <string name="download_screenshot">تحميل لقطة الشاشة</string>
     <string name="error_saving_screenshot">فشل حفظ لقطة الشاشة</string>
+    <string name="legal_info">معلومات قانونية</string>
 </resources>

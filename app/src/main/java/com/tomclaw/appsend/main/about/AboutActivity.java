@@ -49,6 +49,7 @@ public class AboutActivity extends AppCompatActivity {
         findViewById(R.id.feedback_email).setOnClickListener(v -> onFeedbackClicked());
         findViewById(R.id.forum_discuss).setOnClickListener(v -> onForumDiscussClicked());
         findViewById(R.id.telegram_group).setOnClickListener(v -> onTelegramGroupClicked());
+        findViewById(R.id.legal_info).setOnClickListener(v -> onLegalInfoClicked());
 
         if (savedInstanceState == null) {
             trackEvent("open-about-screen");
@@ -78,21 +79,30 @@ public class AboutActivity extends AppCompatActivity {
     }
 
     private void onForumDiscussClicked() {
-        String forumUrl = getString(R.string.forum_url);
+        String url = getString(R.string.forum_url);
         try {
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(forumUrl)));
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
         } catch (Throwable ignored) {
         }
         trackEvent("click-4pda-forum");
     }
 
     private void onTelegramGroupClicked() {
-        String forumUrl = getString(R.string.telegram_group_url);
+        String url = getString(R.string.telegram_group_url);
         try {
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(forumUrl)));
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
         } catch (Throwable ignored) {
         }
         trackEvent("click-telegram-group");
+    }
+
+    private void onLegalInfoClicked() {
+        String url = getString(R.string.legal_info_url);
+        try {
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+        } catch (Throwable ignored) {
+        }
+        trackEvent("click-legal-info");
     }
 
     public static Intent createAboutActivityIntent(Context context) {
