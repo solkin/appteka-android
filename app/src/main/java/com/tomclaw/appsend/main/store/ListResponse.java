@@ -1,4 +1,4 @@
-package com.tomclaw.appsend.main.profile.list;
+package com.tomclaw.appsend.main.store;
 
 import android.os.Parcel;
 import android.os.Parcelable;

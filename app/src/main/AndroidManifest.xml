@@ -60,7 +60,7 @@
             android:label="@string/unpublish_file"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".main.profile.list.FilesActivity_"
+            android:name=".main.store.FilesActivity_"
             android:label="@string/profile_apps"
             android:windowSoftInputMode="stateHidden" />
         <activity

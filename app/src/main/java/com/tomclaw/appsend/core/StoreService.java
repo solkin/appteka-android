@@ -2,7 +2,7 @@ package com.tomclaw.appsend.core;
 
 import com.tomclaw.appsend.main.dto.AbuseResult;
 import com.tomclaw.appsend.main.dto.ApiResponse;
-import com.tomclaw.appsend.main.profile.list.ListResponse;
+import com.tomclaw.appsend.main.store.ListResponse;
 import com.tomclaw.appsend.main.ratings.RatingsResponse;
 import com.tomclaw.appsend.main.ratings.VoidResponse;
 import com.tomclaw.appsend.main.unlink.UnlinkResponse;

@@ -8,7 +8,7 @@ import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.core.StoreServiceHolder;
 import com.tomclaw.appsend.main.dto.ApiResponse;
-import com.tomclaw.appsend.main.profile.list.ListResponse;
+import com.tomclaw.appsend.main.store.ListResponse;
 import com.tomclaw.appsend.main.store.BaseStoreFragment;
 import com.tomclaw.appsend.util.Debouncer;
 

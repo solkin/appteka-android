@@ -27,7 +27,6 @@ import com.tomclaw.appsend.main.adapter.files.FilesAdapter;
 import com.tomclaw.appsend.main.adapter.files.FilesListener;
 import com.tomclaw.appsend.main.dto.ApiResponse;
 import com.tomclaw.appsend.main.item.StoreItem;
-import com.tomclaw.appsend.main.profile.list.ListResponse;
 import com.tomclaw.appsend.util.LocaleHelper;
 
 import org.androidannotations.annotations.AfterViews;
