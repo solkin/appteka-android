@@ -10,6 +10,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.greysonparrelli.permiso.PermisoActivity;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.util.ThemeHelper;
 
@@ -24,7 +25,7 @@ import org.androidannotations.annotations.ViewById;
  */
 @SuppressLint("Registered")
 @EActivity(R.layout.distro_activity)
-public class DistroActivity extends AppCompatActivity {
+public class DistroActivity extends PermisoActivity {
 
     @ViewById
     Toolbar toolbar;
