@@ -11,19 +11,18 @@ import androidx.annotation.NonNull;
 import com.tomclaw.appsend.Appteka;
 import com.tomclaw.appsend.core.StoreServiceHolder;
 import com.tomclaw.appsend.main.dto.ApiResponse;
-import com.tomclaw.appsend.util.Listeners;
 
 import org.androidannotations.annotations.App;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import retrofit2.Call;
-import retrofit2.Callback;
 
 @EBean(scope = EBean.Scope.Singleton)
 public class UpdatesCheckInteractor {
@@ -34,31 +33,21 @@ public class UpdatesCheckInteractor {
     @Bean
     StoreServiceHolder serviceHolder;
 
-    private Map<String, AppEntry> updates = Collections.emptyMap();
-
-    private final Listeners<Map<String, AppEntry>> listeners = new Listeners<>();
-
-    public void checkUpdates() {
+    public Map<String, AppEntry> checkUpdatesSync() {
         CheckUpdatesRequest request = getCheckUpdatesRequest();
         Call<ApiResponse<CheckUpdatesResponse>> call = serviceHolder.getService().checkUpdates(request);
-        call.enqueue(new Callback<>() {
-            @Override
-            public void onResponse(@NonNull Call<ApiResponse<CheckUpdatesResponse>> call, @NonNull retrofit2.Response<ApiResponse<CheckUpdatesResponse>> response) {
-                if (response.isSuccessful() && response.body() != null && response.body().getResult() != null && response.body().getResult().getEntries() != null) {
-                    Map<String, AppEntry> updatesNew = new HashMap<>();
-                    for (AppEntry entry : response.body().getResult().getEntries()) {
-                        updatesNew.put(entry.getPackageName(), entry);
-                    }
-                    updates = updatesNew;
-                    listeners.notifyListeners(updates);
+        try {
+            retrofit2.Response<ApiResponse<CheckUpdatesResponse>> response = call.execute();
+            if (response.isSuccessful() && response.body() != null && response.body().getResult() != null && response.body().getResult().getEntries() != null) {
+                Map<String, AppEntry> updatesNew = new HashMap<>();
+                for (AppEntry entry : response.body().getResult().getEntries()) {
+                    updatesNew.put(entry.getPackageName(), entry);
                 }
+                return updatesNew;
             }
-
-            @Override
-            public void onFailure(@NonNull Call<ApiResponse<CheckUpdatesResponse>> call, @NonNull Throwable t) {
-                listeners.notifyListeners(t);
-            }
-        });
+        } catch (IOException ignored) {
+        }
+        return Collections.emptyMap();
     }
 
     @NonNull
@@ -84,11 +73,4 @@ public class UpdatesCheckInteractor {
         return new CheckUpdatesRequest(locale, apps);
     }
 
-    public Listeners<Map<String, AppEntry>> getListeners() {
-        return listeners;
-    }
-
-    public Map<String, AppEntry> getUpdates() {
-        return Collections.unmodifiableMap(updates);
-    }
 }

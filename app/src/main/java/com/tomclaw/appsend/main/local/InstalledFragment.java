@@ -92,7 +92,7 @@ abstract class InstalledFragment extends CommonItemFragment<AppItem> {
         PackageManager packageManager = context.getPackageManager();
         ArrayList<AppItem> appItemList = new ArrayList<>();
 
-        Map<String, AppEntry> updates = updatesCheck.getUpdates();
+        Map<String, AppEntry> updates = updatesCheck.checkUpdatesSync();
         List<ApplicationInfo> packages = packageManager.getInstalledApplications(PackageManager.GET_META_DATA);
         for (ApplicationInfo info : packages) {
             try {
