@@ -80,10 +80,6 @@
             android:label="@string/search_app"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
-            android:name=".main.migrate.MigrateActivity_"
-            android:label="@string/migrate_title"
-            android:windowSoftInputMode="stateVisible|adjustResize" />
-        <activity
             android:name=".screen.moderation.ModerationActivity"
             android:label="@string/apps_on_moderation" />
         <activity

@@ -22,8 +22,8 @@ import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.core.StoreServiceHolder;
 import com.tomclaw.appsend.main.dto.ApiResponse;
-import com.tomclaw.appsend.main.home.HomeActivity;
 import com.tomclaw.appsend.net.Session;
+import com.tomclaw.appsend.screen.home.HomeActivityKt;
 import com.tomclaw.appsend.util.ThemeHelper;
 
 import org.androidannotations.annotations.AfterViews;
@@ -167,8 +167,7 @@ public class ProfileActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         if (isShowHomeOnFinish != null && isShowHomeOnFinish) {
-            Intent intent = new Intent(ProfileActivity.this, HomeActivity.class)
-                    .setAction(HomeActivity.ACTION_STORE)
+            Intent intent = HomeActivityKt.createHomeActivityIntent(this)
                     .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
         }

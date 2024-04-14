@@ -6,7 +6,7 @@ import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import com.tomclaw.appsend.R
-import com.tomclaw.appsend.main.home.HomeActivity
+import com.tomclaw.appsend.screen.home.createHomeActivityIntent
 import com.tomclaw.appsend.util.ThemeHelper
 
 class ProfileActivity : AppCompatActivity() {
@@ -55,9 +55,9 @@ class ProfileActivity : AppCompatActivity() {
 
     private fun leaveScreen(isShowHomeOnFinish: Boolean) {
         if (isShowHomeOnFinish) {
-            val intent = Intent(this, HomeActivity::class.java)
-                .setAction(HomeActivity.ACTION_STORE)
-                .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            val intent = createHomeActivityIntent(context = this).apply {
+                setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            }
             startActivity(intent)
         }
         finish()
