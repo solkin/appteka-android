@@ -41,7 +41,6 @@ public class Appteka extends Application {
 
     private static Appteka app;
 
-    private static boolean wasRegistered = false;
     private static int lastRunBuildNumber = 0;
 
     private static AppComponent component;
@@ -100,13 +99,8 @@ public class Appteka extends Application {
     }
 
     private void actuateFlags() {
-        wasRegistered = session.getUserData().isRegistered();
         lastRunBuildNumber = PreferenceHelper.getLastRunBuildNumber(this);
         PreferenceHelper.updateLastRunBuildNumber(this);
-    }
-
-    public static boolean wasRegistered() {
-        return wasRegistered;
     }
 
     public static int getLastRunBuildNumber() {
