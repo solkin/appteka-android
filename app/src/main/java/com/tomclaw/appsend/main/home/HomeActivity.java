@@ -162,9 +162,6 @@ public class HomeActivity extends PermisoActivity implements UpdateController.Up
         register(getApplication());
 
         checkMigration();
-
-        Intent intent = createHomeActivityIntent(this);
-        startActivity(intent);
     }
 
     @Override
