@@ -147,7 +147,7 @@ class UploadActivity : AppCompatActivity(), UploadPresenter.UploadRouter {
     }
 
     override fun openSelectAppScreen() {
-        val intent = createSelectAppActivity(this, null)
+        val intent = createSelectAppActivity(this)
         selectAppResultLauncher.launch(intent)
     }
 

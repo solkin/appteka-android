@@ -1,14 +1,9 @@
 package com.tomclaw.appsend.main.local;
 
-import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
-import static com.tomclaw.appsend.screen.details.DetailsActivityKt.createDetailsActivityIntent;
-import static com.tomclaw.appsend.util.IntentHelper.openGooglePlay;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.ListAdapter;
 import android.widget.Toast;
 
 import androidx.annotation.StringRes;
@@ -24,14 +19,12 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 import com.greysonparrelli.permiso.PermisoActivity;
 import com.tomclaw.appsend.R;
-import com.tomclaw.appsend.main.adapter.MenuAdapter;
 import com.tomclaw.appsend.main.item.CommonItem;
 import com.tomclaw.appsend.util.PreferenceHelper;
 import com.tomclaw.appsend.util.ThemeHelper;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
 
@@ -52,9 +45,6 @@ public class SelectLocalAppActivity extends PermisoActivity implements CommonIte
 
     @ViewById
     TabLayout tabs;
-
-    @Extra
-    DialogData dialogData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,48 +86,13 @@ public class SelectLocalAppActivity extends PermisoActivity implements CommonIte
 
     @Override
     public void onBackPressed() {
+        super.onBackPressed();
         leaveScreen();
     }
 
     @Override
     public void onClick(final CommonItem item) {
-        if (dialogData != null) {
-            final Context context = this;
-            ListAdapter menuAdapter = new MenuAdapter(this, R.array.upload_actions_titles, R.array.upload_actions_icons);
-            new AlertDialog.Builder(this)
-                    .setAdapter(menuAdapter, (dialog, which) -> {
-                        switch (which) {
-                            case 0: {
-                                leaveScreen(item);
-                                trackEvent("click-upload-apk");
-                                break;
-                            }
-                            case 1: {
-                                String packageName = item.getPackageName();
-                                openGooglePlay(context, packageName);
-                                trackEvent("click-search-google-play");
-                                break;
-                            }
-                            case 2: {
-                                String packageName = item.getPackageName();
-                                String label = item.getLabel();
-                                Intent intent = createDetailsActivityIntent(
-                                        context,
-                                        null,
-                                        packageName,
-                                        label,
-                                        false,
-                                        true
-                                );
-                                startActivity(intent);
-                                trackEvent("click-search-appteka");
-                                break;
-                            }
-                        }
-                    }).show();
-        } else {
-            leaveScreen(item);
-        }
+        leaveScreen(item);
     }
 
     private void uploadNotice() {
@@ -198,8 +153,8 @@ public class SelectLocalAppActivity extends PermisoActivity implements CommonIte
         }
     }
 
-    public static Intent createSelectAppActivity(Context context, DialogData dialogData) {
-        return SelectLocalAppActivity_.intent(context).dialogData(dialogData).get();
+    public static Intent createSelectAppActivity(Context context) {
+        return SelectLocalAppActivity_.intent(context).get();
     }
 
 }
