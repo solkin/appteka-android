@@ -159,7 +159,7 @@
     <string name="name_input">Name (nickname)</string>
     <string name="ok">OK</string>
     <string name="upload_notice_title">Distribution rights agreement</string>
-    <string name="upload_notice_text">Important! By clicking \"Yes\" you confirm that:\n1. You do not violate the licenses of applications uploaded to the Appteka store.\n2. This software does not violate copyright and applicable laws.\n3. The owner of the appsend.store is not responsible for the uploaded software.</string>
+    <string name="upload_notice_text">Important! By clicking \"Yes\" you confirm that:\n1. You do not violate the licenses of applications uploaded to the Appteka store.\n2. This software does not violate copyright and applicable laws.\n3. The owner of the appteka.store is not responsible for the uploaded software.</string>
     <string name="agree_with_upload_notice">To upload applications to Appteka store you must agree with this condition</string>
     <string name="apps_on_moderation">Apps on moderation</string>
     <string name="moderation_approve">Approve</string>

@@ -159,7 +159,7 @@
     <string name="name_input">الاسم (اللقب)</string>
     <string name="ok">موافق</string>
     <string name="upload_notice_title">اتفاقية حقوق التوزيع</string>
-    <string name="upload_notice_text">مهم!  بالنقر على \"نعم\" فإنك تؤكد ذلك:\n1. لا تنتهك تراخيص التطبيقات التي تم تحميلها على متجر Appteka.\n2. هذا البرنامج لا ينتهك حقوق الطبع والنشر والقوانين المعمول بها.\n3. مالك appsend.store ليس مسؤولاً عن البرامج التي تم تحميلها.</string>
+    <string name="upload_notice_text">مهم!  بالنقر على \"نعم\" فإنك تؤكد ذلك:\n1. لا تنتهك تراخيص التطبيقات التي تم تحميلها على متجر Appteka.\n2. هذا البرنامج لا ينتهك حقوق الطبع والنشر والقوانين المعمول بها.\n3. مالك appteka.store ليس مسؤولاً عن البرامج التي تم تحميلها.</string>
     <string name="agree_with_upload_notice">لتحميل التطبيقات إلى متجر Appteka يجب عليك الموافقة على هذا الشرط</string>
     <string name="apps_on_moderation">تطبيقات بانتظار المراجعة</string>
     <string name="moderation_approve">يعتمد</string>

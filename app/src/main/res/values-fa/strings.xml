@@ -30,12 +30,12 @@
     <string name="sort_order_install_time">زمان نصب</string>
     <string name="sort_order_update_time">زمان به روز رسانی</string>
     <string name="pref_summary_sort_order">مرتب سازی فهرست برنامه ها</string>
-    <string name="extract_apk">استخراج APK در دانلود ها</string>
+    <string name="extract_apk">استخراج فایل apk در حافظه داخلی / پوشه دانلود</string>
     <string name="share_apk">اشتراک گذاری</string>
     <string name="upload_apk">بارگذاری APK و دریافت لینک آن</string>
     <string name="upload_app">بارگذاری برنامه</string>
     <string name="bluetooth_apk">ارسال از طریق بلوتوث</string>
-    <string name="find_on_gp">پیدا کردن در فروشگاه گوگل پلی</string>
+    <string name="find_on_gp">مشاهده در فروشگاه گوگل پلی</string>
     <string name="find_on_store">پیدا کردن در فروشگاه Appteka</string>
     <string name="remove_app">حذف برنامه</string>
     <string name="send_url_to">اشتراک گذاری URL</string>
@@ -64,7 +64,7 @@
     <string name="tab_store">فروشگاه</string>
     <string name="retry">دوباره امتحان کنید</string>
     <string name="store_loading_error">فهرست برنامه ها بازیابی نشد</string>
-    <string name="downloads">دانلود ها</string>
+    <string name="downloads">تعداد دانلود</string>
     <string name="android">اندروید</string>
     <string name="size_comment">برنامه\n اندازه</string>
     <string name="open">باز کردن</string>
@@ -72,7 +72,7 @@
     <string name="unknown_permission_description">مجوز نامعلوم</string>
     <string name="required_permissions">مجوزهای مورد نیاز</string>
     <string name="app_version_title">نسخه</string>
-    <string name="uploaded_title">بارگذاری شد</string>
+    <string name="uploaded_title">بارگذاری شده</string>
     <string name="checksum_title">درستی سنجی (SHA1)</string>
     <string name="app_version_format" translatable="false">%1$s (%2$d)</string>
     <string name="update">به روز رسانی</string>
@@ -133,10 +133,10 @@
     <string name="role_admin">مدیر</string>
     <string name="role_moderator">ناظر</string>
     <string name="role_default">کاربر</string>
-    <string name="joined_date">پیوست %s</string>
-    <string name="last_seen">آخرین بازدید %s</string>
-    <string name="online">فعال</string>
-    <string name="offline">آفلاین</string>
+    <string name="joined_date">تاریخ عضویت در فروشگاه : %s</string>
+    <string name="last_seen">آخرین بازدید : %s</string>
+    <string name="online">کاربر اکنون آنلاین است</string>
+    <string name="offline">کاربر اکنون آفلاین است</string>
     <string name="unlink_file">مسدود کردن</string>
     <string name="unlink_reason">دلیل…</string>
     <string name="enter_unlink_reason">لطفا علت را توضیح دهید:</string>
@@ -146,8 +146,8 @@
     <string name="profile_apps">برنامه های کاربر</string>
     <string name="nav_store">فروشگاه</string>
     <string name="nav_discuss">گفتگو</string>
-    <string name="nav_installed">نصب شده</string>
-    <string name="nav_distro">توزیع</string>
+    <string name="nav_installed">برنامه های نصب شده</string>
+    <string name="nav_distro">فایل apk موجود در حافظه داخلی</string>
     <string name="nav_settings">تنظیمات</string>
     <string name="nav_info">درباره</string>
     <string name="select_app">انتخاب برنامه</string>
@@ -160,7 +160,10 @@
     <string name="name_input">نام (نام مستعار)</string>
     <string name="ok">تایید</string>
     <string name="upload_notice_title">توافقنامه حقوق توزیع</string>
-    <string name="upload_notice_text">لطفا توجه داشته باشید که با انتخاب دکمه \"بله\" تایید می کنید که:  1 شما مجوزهای برنامه های بارگذاری شده در فروشگاه Appteka را نقض نمی کنید  2 این نرم افزار حق تکثیر و قوانین قابل اجرا را نقض نمی کند  3 مالک appsendstore مسئولیتی در قبال نرم افزار بارگذاری شده ندارد</string>
+    <string name="upload_notice_text">لطفا توجه داشته باشید که با انتخاب دکمه \"بله\" تایید می کنید که :
+    ۱. برنامه های بارگذاری شده توسط شما قوانین فروشگاه Appteka را نقض نمی کنند
+    ۲. برنامه مورد نظر قوانین قابل اجرا و حق تکثیر را نقض نمی کند
+    ۳. مالک appteka.store هیچ مسئولیتی در برابر برنامه بارگذاری شده ندارد</string>
     <string name="agree_with_upload_notice">برای بارگذاری برنامه در فروشگاه Appteka باید با این شرط موافقت کنید</string>
     <string name="apps_on_moderation">برنامه های در حال بررسی</string>
     <string name="moderation_approve">تایید</string>
@@ -180,8 +183,8 @@
     <string name="eliminate_user_title">حذف کاربر</string>
     <string name="eliminate_user_message">آیا مطمئن هستید که می خواهید کاربر را حذف کنید؟</string>
     <string name="eliminate_user_success">اطلاعاتی که از حساب کاربر حذف خواهد شد:
-%d فایل  
-%d پیام  
+%d فایل
+%d پیام
 %d رتبه بندی</string>
     <string name="eliminate_user_failed">کاربر حذف نشد</string>
     <string name="topics_loading_failed">موضوعات بارگذاری نشد</string>
@@ -251,7 +254,7 @@
     <string name="private_status_text">برنامه در دسترسی خصوصی است و فقط از طریق لینک در دسترس است برای انتشار آن توضیحات را ویرایش کنید</string>
     <string name="moderation_status_text">برنامه تحت بررسی است و پس از تایید در دسترس کاربران Appteka قرار می گیرد یا در دسترسی خصوصی باقی می ماند</string>
     <string name="open_source_short">متن باز</string>
-    <string name="required_field">جایگاه الزامی</string>
+    <string name="required_field">جایگاه لازم</string>
     <string name="category_not_set">دسته بندی نشده</string>
     <string name="mark_favorite">علامت گذاری به عنوان مورد دلخواه</string>
     <string name="unmark_favorite">حذف از موارد دلخواه</string>
@@ -279,21 +282,21 @@
     <string name="authorization_description">به حساب خود وارد شوید و از قابلیت های شخصی Appteka استفاده کنید</string>
     <string name="error_domain_blocked">ایمیل های موقت ممنوع است</string>
     <string name="gallery_title">%d / %d</string>
-    <string name="add_screenshot">افزودن امکان گرفتن عکس از صفحه</string>
-    <string name="screenshots_title">اسکرین شات ها</string>
-    <string name="download_screenshot">دانلود اسکرین شات</string>
-    <string name="error_saving_screenshot">اسکرین شات ذخیره نشد</string>
+    <string name="add_screenshot">افزودن عکس های گرفته شده از صفحه برنامه</string>
+    <string name="screenshots_title">عکس های گرفته شده از صفحه برنامه </string>
+    <string name="download_screenshot">دانلود عکس های گرفته شده از صفحه برنامه</string>
+    <string name="error_saving_screenshot">عکس گرفته شده از صفحه برنامه ذخیره نشد</string>
     <plurals name="days_ago">
-        <item quantity="one">روز پیش%d</item>
-        <item quantity="other">روز پیش%d</item>
+        <item quantity="one">روز قبل%d</item>
+        <item quantity="other">روز قبل%d</item>
     </plurals>
     <plurals name="months_ago">
         <item quantity="one">ماه قبل %d</item>
-        <item quantity="other">ماه پیش %d</item>
+        <item quantity="other">ماه قبل %d</item>
     </plurals>
     <plurals name="years_ago">
-        <item quantity="one">سال پیش %d</item>
-        <item quantity="other">سال پیش %d</item>
+        <item quantity="one">سال قبل %d</item>
+        <item quantity="other">سال قبل %d</item>
     </plurals>
     <string name="today">امروز</string>
     <string name="yesterday">دیروز</string>
@@ -304,6 +307,6 @@
     </plurals>
     <string name="show_all_ratings">نمایش همه نظرات</string>
     <string name="reviews_activity">نظرات کاربران</string>
-    <string name="no_user_activity_yet">کاربر هنوز فعال نیست</string>
+    <string name="no_user_activity_yet">کاربر هنوز آنلاین نیست</string>
     <string name="legal_info">اطلاعات حقوقی</string>
 </resources>
