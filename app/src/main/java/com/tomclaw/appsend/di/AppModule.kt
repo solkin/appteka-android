@@ -102,7 +102,8 @@ class AppModule(private val app: Application) {
 
     @Provides
     @Singleton
-    internal fun provideDeviceIdProvider(): DeviceIdProvider = DeviceIdProviderImpl(app)
+    internal fun provideDeviceIdProvider(filesDir: File): DeviceIdProvider =
+        DeviceIdProviderImpl(app, filesDir)
 
     @Provides
     @Singleton
