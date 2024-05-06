@@ -1,4 +1,4 @@
-package com.tomclaw.appsend.screen.reviews.di
+package com.tomclaw.appsend.screen.ratings.di
 
 import android.content.Context
 import android.os.Bundle
@@ -10,14 +10,14 @@ import com.tomclaw.appsend.categories.CategoryConverter
 import com.tomclaw.appsend.categories.CategoryConverterImpl
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.di.DATE_FORMATTER
-import com.tomclaw.appsend.screen.reviews.ReviewConverter
-import com.tomclaw.appsend.screen.reviews.ReviewConverterImpl
-import com.tomclaw.appsend.screen.reviews.ReviewsInteractor
-import com.tomclaw.appsend.screen.reviews.ReviewsInteractorImpl
-import com.tomclaw.appsend.screen.reviews.ReviewsPresenter
-import com.tomclaw.appsend.screen.reviews.ReviewsPresenterImpl
-import com.tomclaw.appsend.screen.reviews.adapter.review.ReviewItemBlueprint
-import com.tomclaw.appsend.screen.reviews.adapter.review.ReviewItemPresenter
+import com.tomclaw.appsend.screen.ratings.RatingConverter
+import com.tomclaw.appsend.screen.ratings.RatingConverterImpl
+import com.tomclaw.appsend.screen.ratings.RatingsInteractor
+import com.tomclaw.appsend.screen.ratings.RatingsInteractorImpl
+import com.tomclaw.appsend.screen.ratings.RatingsPresenter
+import com.tomclaw.appsend.screen.ratings.RatingsPresenterImpl
+import com.tomclaw.appsend.screen.ratings.adapter.rating.RatingItemBlueprint
+import com.tomclaw.appsend.screen.ratings.adapter.rating.RatingItemPresenter
 import com.tomclaw.appsend.util.PerActivity
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
@@ -29,20 +29,20 @@ import java.util.Locale
 import javax.inject.Named
 
 @Module
-class ReviewsModule(
+class RatingsModule(
     private val context: Context,
-    private val userId: Int,
+    private val appId: String,
     private val state: Bundle?
 ) {
 
     @Provides
     @PerActivity
     internal fun providePresenter(
-        interactor: ReviewsInteractor,
+        interactor: RatingsInteractor,
         adapterPresenter: Lazy<AdapterPresenter>,
-        converter: ReviewConverter,
+        converter: RatingConverter,
         schedulers: SchedulersFactory
-    ): ReviewsPresenter = ReviewsPresenterImpl(
+    ): RatingsPresenter = RatingsPresenterImpl(
         interactor,
         adapterPresenter,
         converter,
@@ -54,19 +54,17 @@ class ReviewsModule(
     @PerActivity
     internal fun provideInteractor(
         api: StoreApi,
-        locale: Locale,
         schedulers: SchedulersFactory
-    ): ReviewsInteractor = ReviewsInteractorImpl(
+    ): RatingsInteractor = RatingsInteractorImpl(
         api,
-        userId,
-        locale,
+        appId,
         schedulers
     )
 
     @Provides
     @PerActivity
-    internal fun provideReviewConverter(): ReviewConverter {
-        return ReviewConverterImpl()
+    internal fun provideRatingConverter(): RatingConverter {
+        return RatingConverterImpl()
     }
 
     @Provides
@@ -93,15 +91,15 @@ class ReviewsModule(
     @Provides
     @IntoSet
     @PerActivity
-    internal fun provideReviewItemBlueprint(
-        presenter: ReviewItemPresenter
-    ): ItemBlueprint<*, *> = ReviewItemBlueprint(presenter)
+    internal fun provideRatingItemBlueprint(
+        presenter: RatingItemPresenter
+    ): ItemBlueprint<*, *> = RatingItemBlueprint(presenter)
 
     @Provides
     @PerActivity
-    internal fun provideReviewItemPresenter(
+    internal fun provideRatingItemPresenter(
         @Named(DATE_FORMATTER) dateFormatter: DateFormat,
-        presenter: ReviewsPresenter,
-    ) = ReviewItemPresenter(dateFormatter, presenter)
+        presenter: RatingsPresenter,
+    ) = RatingItemPresenter(dateFormatter, presenter)
 
 }

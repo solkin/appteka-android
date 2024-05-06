@@ -1,4 +1,4 @@
-package com.tomclaw.appsend.screen.reviews.adapter
+package com.tomclaw.appsend.screen.ratings.adapter
 
 import com.avito.konveyor.blueprint.Item
 

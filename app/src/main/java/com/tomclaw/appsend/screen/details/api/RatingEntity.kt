@@ -16,7 +16,7 @@ data class RatingEntity(
     @SerializedName("time")
     val time: Long,
     @SerializedName("user_id")
-    val userId: Long,
+    val userId: Int,
     @SerializedName("user_icon")
     val userIcon: UserIcon,
     @SerializedName("user_name")

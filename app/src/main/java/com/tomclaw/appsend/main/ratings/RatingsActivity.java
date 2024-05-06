@@ -46,7 +46,7 @@ import retrofit2.Response;
 /**
  * Created by Igor on 22.10.2017.
  */
-@EActivity(R.layout.ratings_activity)
+@EActivity(R.layout.ratings_activity_legacy)
 public class RatingsActivity extends AppCompatActivity implements RatingsListener {
 
     @Bean

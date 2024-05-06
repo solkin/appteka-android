@@ -11,7 +11,7 @@ data class UserReviewItem(
     val score: Int,
     val text: String?,
     val time: Long,
-    val userId: Long,
+    val userId: Int,
     val userIcon: UserIcon,
     val userName: String?,
 ) : Item, Parcelable

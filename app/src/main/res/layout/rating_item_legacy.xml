@@ -3,15 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:paddingTop="4dp"
-    android:paddingBottom="4dp">
+    android:paddingLeft="20dp"
+    android:paddingTop="12dp"
+    android:paddingRight="20dp"
+    android:paddingBottom="12dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="12dp"
         android:orientation="horizontal">
 
         <include
@@ -31,25 +31,20 @@
             android:paddingEnd="8dp"
             android:paddingRight="8dp">
 
-            <me.zhanghai.android.materialratingbar.MaterialRatingBar
+            <androidx.appcompat.widget.AppCompatRatingBar
                 android:id="@+id/rating_view"
-                style="@style/Widget.MaterialRatingBar.RatingBar"
+                style="@style/RatingDetailElementSmall"
                 android:layout_width="wrap_content"
-                android:layout_height="18dp"
+                android:layout_height="20dp"
                 android:isIndicator="true"
                 android:numStars="5"
-                android:progressBackgroundTint="?rating_empty"
                 android:progressDrawable="@drawable/rating_bar_small"
-                android:progressTint="?rating_fill"
-                android:rating="0"
-                android:secondaryProgressTint="?rating_empty"
-                android:stepSize="0.5"
-                app:mrb_fillBackgroundStars="true"
-                tools:rating="3.5" />
+                android:rating="3.5"
+                android:stepSize="0.5" />
 
             <TextView
                 android:id="@+id/date_view"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="?text_secondary_color"
                 android:textSize="14sp"
@@ -64,9 +59,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:autoLink="web|email"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp"
-        android:paddingBottom="6dp"
+        android:paddingTop="12dp"
         android:textColor="?text_primary_color"
         android:textSize="16sp"
         tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam lobortis accumsan molestie. Maecenas purus sapien, aliquet sed vehicula quis, egestas id lectus. Fusce commodo neque augue, sit amet vehicula odio maximus eu. Cras tristique semper vulputate. Etiam vehicula diam non justo sodales vestibulum. Nam sagittis elit sit amet arcu cursus, at dapibus lacus venenatis." />
@@ -76,9 +69,42 @@
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_gravity="center_horizontal"
-        android:paddingTop="8dp"
-        android:paddingBottom="12dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
         android:visibility="gone"
         tools:visibility="visible" />
+
+    <LinearLayout
+        android:id="@+id/error_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginLeft="4dp"
+            android:layout_marginEnd="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_weight="1"
+            android:text="@string/load_ratings_error"
+            android:textSize="14sp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_retry"
+            style="@style/MaterialButtonSecondary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/retry" />
+
+    </LinearLayout>
 
 </LinearLayout>

@@ -1,12 +1,12 @@
-package com.tomclaw.appsend.screen.reviews
+package com.tomclaw.appsend.screen.ratings
 
 import android.os.Bundle
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.blueprint.Item
 import com.avito.konveyor.data_source.ListDataSource
-import com.tomclaw.appsend.screen.reviews.adapter.ItemListener
-import com.tomclaw.appsend.screen.reviews.adapter.review.ReviewItem
-import com.tomclaw.appsend.screen.reviews.api.ReviewEntity
+import com.tomclaw.appsend.screen.details.api.RatingEntity
+import com.tomclaw.appsend.screen.ratings.adapter.ItemListener
+import com.tomclaw.appsend.screen.ratings.adapter.rating.RatingItem
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.getParcelableArrayListCompat
 import com.tomclaw.appsend.util.retryWhenNonAuthErrors
@@ -14,13 +14,13 @@ import dagger.Lazy
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
 
-interface ReviewsPresenter : ItemListener {
+interface RatingsPresenter : ItemListener {
 
-    fun attachView(view: ReviewsView)
+    fun attachView(view: RatingsView)
 
     fun detachView()
 
-    fun attachRouter(router: ReviewsRouter)
+    fun attachRouter(router: RatingsRouter)
 
     fun detachRouter()
 
@@ -32,9 +32,9 @@ interface ReviewsPresenter : ItemListener {
 
     fun invalidateApps()
 
-    interface ReviewsRouter {
+    interface RatingsRouter {
 
-        fun openAppScreen(appId: String, title: String)
+        fun openUserProfile(userId: Int)
 
         fun leaveScreen()
 
@@ -42,31 +42,31 @@ interface ReviewsPresenter : ItemListener {
 
 }
 
-class ReviewsPresenterImpl(
-    private val interactor: ReviewsInteractor,
+class RatingsPresenterImpl(
+    private val interactor: RatingsInteractor,
     private val adapterPresenter: Lazy<AdapterPresenter>,
-    private val converter: ReviewConverter,
+    private val converter: RatingConverter,
     private val schedulers: SchedulersFactory,
     state: Bundle?
-) : ReviewsPresenter {
+) : RatingsPresenter {
 
-    private var view: ReviewsView? = null
-    private var router: ReviewsPresenter.ReviewsRouter? = null
+    private var view: RatingsView? = null
+    private var router: RatingsPresenter.RatingsRouter? = null
 
     private val subscriptions = CompositeDisposable()
 
-    private var items: List<ReviewItem>? =
-        state?.getParcelableArrayListCompat(KEY_APPS, ReviewItem::class.java)
+    private var items: List<RatingItem>? =
+        state?.getParcelableArrayListCompat(KEY_APPS, RatingItem::class.java)
     private var isError: Boolean = state?.getBoolean(KEY_ERROR) ?: false
 
-    override fun attachView(view: ReviewsView) {
+    override fun attachView(view: RatingsView) {
         this.view = view
 
         subscriptions += view.navigationClicks().subscribe {
             onBackPressed()
         }
         subscriptions += view.retryClicks().subscribe {
-            loadReviews()
+            loadRatings()
         }
         subscriptions += view.refreshClicks().subscribe {
             invalidateApps()
@@ -76,7 +76,7 @@ class ReviewsPresenterImpl(
             onError()
             onReady()
         } else {
-            items?.let { onReady() } ?: loadReviews()
+            items?.let { onReady() } ?: loadRatings()
         }
     }
 
@@ -85,7 +85,7 @@ class ReviewsPresenterImpl(
         this.view = null
     }
 
-    override fun attachRouter(router: ReviewsPresenter.ReviewsRouter) {
+    override fun attachRouter(router: RatingsPresenter.RatingsRouter) {
         this.router = router
     }
 
@@ -100,11 +100,11 @@ class ReviewsPresenterImpl(
 
     override fun invalidateApps() {
         items = null
-        loadReviews()
+        loadRatings()
     }
 
-    private fun loadReviews() {
-        subscriptions += interactor.listReviews(offsetRateId = null)
+    private fun loadRatings() {
+        subscriptions += interactor.listRatings(offsetRateId = null)
             .observeOn(schedulers.mainThread())
             .doOnSubscribe { if (view?.isPullRefreshing() == false) view?.showProgress() }
             .doAfterTerminate { onReady() }
@@ -117,8 +117,8 @@ class ReviewsPresenterImpl(
             )
     }
 
-    private fun loadReviews(offsetRateId: Int) {
-        subscriptions += interactor.listReviews(offsetRateId)
+    private fun loadRatings(offsetRateId: Int) {
+        subscriptions += interactor.listRatings(offsetRateId)
             .observeOn(schedulers.mainThread())
             .retryWhenNonAuthErrors()
             .doAfterTerminate { onReady() }
@@ -128,7 +128,7 @@ class ReviewsPresenterImpl(
             )
     }
 
-    private fun onLoaded(entities: List<ReviewEntity>) {
+    private fun onLoaded(entities: List<RatingEntity>) {
         isError = false
         val newItems = entities
             .map { converter.convert(it) }
@@ -188,7 +188,7 @@ class ReviewsPresenterImpl(
 
     override fun onItemClick(item: Item) {
         val review = items?.find { it.id == item.id } ?: return
-        router?.openAppScreen(review.appId, review.title)
+        router?.openUserProfile(review.userId)
     }
 
     override fun onRetryClick(item: Item) {
@@ -202,12 +202,12 @@ class ReviewsPresenterImpl(
                 view?.contentUpdated(it)
             }
         }
-        loadReviews(review.rateId)
+        loadRatings(review.rateId)
     }
 
     override fun onLoadMore(item: Item) {
         val app = items?.find { it.id == item.id } ?: return
-        loadReviews(app.rateId)
+        loadRatings(app.rateId)
     }
 
 }

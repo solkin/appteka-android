@@ -34,6 +34,7 @@ import com.tomclaw.appsend.screen.home.createHomeActivityIntent
 import com.tomclaw.appsend.screen.permissions.createPermissionsActivityIntent
 import com.tomclaw.appsend.screen.profile.createProfileActivityIntent
 import com.tomclaw.appsend.screen.rate.createRateActivityIntent
+import com.tomclaw.appsend.screen.ratings.createRatingsActivityIntent
 import com.tomclaw.appsend.screen.upload.createUploadActivityIntent
 import com.tomclaw.appsend.upload.UploadPackage
 import com.tomclaw.appsend.user.api.UserBrief
@@ -209,9 +210,8 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
     }
 
     override fun openRatingsScreen(appId: String) {
-        RatingsActivity_.intent(this)
-            .appId(appId)
-            .start()
+        val intent = createRatingsActivityIntent(context = this, appId)
+        startActivity(intent)
     }
 
     override fun openProfile(userId: Int) {

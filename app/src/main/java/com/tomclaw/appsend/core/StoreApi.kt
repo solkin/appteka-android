@@ -22,6 +22,7 @@ import com.tomclaw.appsend.screen.profile.api.EliminateUserResponse
 import com.tomclaw.appsend.screen.profile.api.ProfileResponse
 import com.tomclaw.appsend.screen.profile.api.UserAppsResponse
 import com.tomclaw.appsend.screen.rate.api.SubmitReviewResponse
+import com.tomclaw.appsend.screen.ratings.api.RatingsResponse
 import com.tomclaw.appsend.screen.reviews.api.ReviewsResponse
 import com.tomclaw.appsend.screen.store.api.AppsListResponse
 import com.tomclaw.appsend.screen.topics.api.PinTopicResponse
@@ -218,5 +219,12 @@ interface StoreApi {
 
     @GET("1/startup")
     fun getStartup(): Single<StoreResponse<StartupResponse>>
+
+    @GET("1/app/rating")
+    fun getRatings(
+        @Query("app_id") appId: String,
+        @Query("rate_id") rateId: Int?,
+        @Query("count") count: Int?
+    ): Single<StoreResponse<RatingsResponse>>
 
 }

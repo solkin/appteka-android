@@ -150,6 +150,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".screen.ratings.RatingsActivity" />
 
         <service android:name=".download.DownloadService" />
 
