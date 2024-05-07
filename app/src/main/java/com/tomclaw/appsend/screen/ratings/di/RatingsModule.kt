@@ -63,8 +63,8 @@ class RatingsModule(
 
     @Provides
     @PerActivity
-    internal fun provideRatingConverter(): RatingConverter {
-        return RatingConverterImpl()
+    internal fun provideRatingConverter(locale: Locale): RatingConverter {
+        return RatingConverterImpl(locale)
     }
 
     @Provides

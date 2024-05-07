@@ -15,6 +15,8 @@ interface RatingItemView : ItemView {
 
     fun setUserIcon(userIcon: UserIcon)
 
+    fun setUserName(name: String)
+
     fun setRating(value: Float)
 
     fun setDate(date: String)
@@ -28,6 +30,7 @@ interface RatingItemView : ItemView {
 class RatingItemViewHolder(view: View) : BaseViewHolder(view), RatingItemView {
 
     private val userIconView: UserIconView = UserIconViewImpl(view.findViewById(R.id.member_icon))
+    private val userNameView: TextView = view.findViewById(R.id.user_name)
     private val ratingView: RatingBar = view.findViewById(R.id.rating_view)
     private val dateView: TextView = view.findViewById(R.id.date_view)
     private val commentView: TextView = view.findViewById(R.id.comment_view)
@@ -40,6 +43,10 @@ class RatingItemViewHolder(view: View) : BaseViewHolder(view), RatingItemView {
 
     override fun setUserIcon(userIcon: UserIcon) {
         userIconView.bind(userIcon)
+    }
+
+    override fun setUserName(name: String) {
+        userNameView.bind(name)
     }
 
     override fun setRating(value: Float) {

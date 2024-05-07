@@ -11,7 +11,7 @@ class RatingItemBlueprint(override val presenter: ItemPresenter<RatingItemView, 
 
     override val viewHolderProvider =
         ViewHolderBuilder.ViewHolderProvider(
-            layoutId = R.layout.rating_item_legacy,
+            layoutId = R.layout.rating_item,
             creator = { _, view -> RatingItemViewHolder(view) }
         )
 
