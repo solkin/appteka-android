@@ -10,6 +10,15 @@ class RatingItemPresenter(
 ) : ItemPresenter<RatingItemView, RatingItem> {
 
     override fun bindView(view: RatingItemView, item: RatingItem, position: Int) {
+        with(item) {
+            if (hasMore) {
+                hasMore = false
+                hasProgress = true
+                hasError = false
+                listener.onLoadMore(this)
+            }
+        }
+
         view.setUserIcon(item.userIcon)
         view.setUserName(item.userName)
         view.setRating(item.score.toFloat())
