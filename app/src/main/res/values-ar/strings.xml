@@ -152,7 +152,7 @@
     <string name="select_app">تحديد تطبيق</string>
     <string name="select_app_description">تم تثبيت ملف واحد أو APK</string>
     <string name="search_app">بحث في المتجر</string>
-    <string name="empty_list">لا توجد تطبيقات هنا…</string>
+    <string name="empty_list">لا يوجد شيء هنا…</string>
     <string name="login_button">تسجيل الدخول</string>
     <string name="register_button">تسجيل</string>
     <string name="email_input">بريد الالكتروني</string>

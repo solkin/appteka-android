@@ -146,7 +146,7 @@
     <string name="select_app">选择一个应用程序</string>
     <string name="select_app_description">安装或apk文件</string>
     <string name="search_app">在交换器中搜索</string>
-    <string name="empty_list">没有应用程序…</string>
+    <string name="empty_list">这里什么都没有…</string>
     <string name="login_button">进来</string>
     <string name="register_button">登记</string>
     <string name="email_input">电子邮件</string>

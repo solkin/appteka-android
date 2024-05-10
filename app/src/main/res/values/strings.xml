@@ -152,7 +152,7 @@
     <string name="select_app">Select application</string>
     <string name="select_app_description">Installed one or apk file</string>
     <string name="search_app">Search in store</string>
-    <string name="empty_list">There is no apps here…</string>
+    <string name="empty_list">There is nothing here…</string>
     <string name="login_button">Login</string>
     <string name="register_button">Register</string>
     <string name="email_input">E-mail</string>

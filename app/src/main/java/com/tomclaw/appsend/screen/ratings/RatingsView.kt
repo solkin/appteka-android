@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
+import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.util.clicks
@@ -28,6 +29,8 @@ interface RatingsView {
     fun showPlaceholder()
 
     fun showError()
+
+    fun showRatingRemovalFailed()
 
     fun stopPullRefreshing()
 
@@ -53,6 +56,7 @@ class RatingsViewImpl(
     private val recycler: RecyclerView = view.findViewById(R.id.recycler)
     private val error: TextView = view.findViewById(R.id.error_text)
     private val retryButton: View = view.findViewById(R.id.button_retry)
+    private val emptyText: TextView = view.findViewById(R.id.empty_text)
 
     private val navigationRelay = PublishRelay.create<Unit>()
     private val retryRelay = PublishRelay.create<Unit>()
@@ -71,6 +75,8 @@ class RatingsViewImpl(
         recycler.itemAnimator?.changeDuration = DURATION_MEDIUM
 
         refresher.setOnRefreshListener { refreshRelay.accept(Unit) }
+
+        emptyText.text = context.getString(R.string.empty_list)
     }
 
     override fun showProgress() {
@@ -95,6 +101,10 @@ class RatingsViewImpl(
 
         error.setText(R.string.load_files_error)
         retryButton.clicks(retryRelay)
+    }
+
+    override fun showRatingRemovalFailed() {
+        Snackbar.make(recycler, R.string.error_rating_deletion, Snackbar.LENGTH_LONG).show()
     }
 
     @SuppressLint("NotifyDataSetChanged")

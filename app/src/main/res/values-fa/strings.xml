@@ -153,7 +153,7 @@
     <string name="select_app">انتخاب برنامه</string>
     <string name="select_app_description">انتخاب فایل apk یا برنامه نصب شده</string>
     <string name="search_app">جستجو در فروشگاه</string>
-    <string name="empty_list">اینجا هیچ برنامه ای وجود ندارد…</string>
+    <string name="empty_list">اینجا چیزی نیست…</string>
     <string name="login_button">ورود به حساب کاربری</string>
     <string name="register_button">ثبت نام</string>
     <string name="email_input">ایمیل</string>

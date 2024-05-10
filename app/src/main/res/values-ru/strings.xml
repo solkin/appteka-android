@@ -146,7 +146,7 @@
     <string name="select_app">Выберите приложение</string>
     <string name="select_app_description">Установленное или apk файл</string>
     <string name="search_app">Поиск в обменнике</string>
-    <string name="empty_list">Нет приложений…</string>
+    <string name="empty_list">Здесь пока ничего нет…</string>
     <string name="login_button">Войти</string>
     <string name="register_button">Зарегистрироваться</string>
     <string name="email_input">Электронная почта</string>

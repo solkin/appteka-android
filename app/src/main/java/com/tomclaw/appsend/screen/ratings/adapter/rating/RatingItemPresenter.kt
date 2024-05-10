@@ -25,7 +25,8 @@ class RatingItemPresenter(
         val date: String = dateFormatter.format(item.time)
         view.setDate(date)
         view.setComment(item.text)
-        view.setOnClickListener { listener.onItemClick(item) }
+        view.setOnRatingClickListener { listener.onItemClick(item) }
+        view.setOnDeleteClickListener { listener.onDeleteClick(item) }
     }
 
 }

@@ -191,6 +191,23 @@ class RatingsPresenterImpl(
         router?.openUserProfile(review.userId)
     }
 
+    override fun onDeleteClick(item: Item) {
+        val review = items?.find { it.id == item.id } ?: return
+        subscriptions += interactor.deleteRating(review.rateId)
+            .observeOn(schedulers.mainThread())
+            .retryWhenNonAuthErrors()
+            .doAfterTerminate { onReady() }
+            .subscribe(
+                { onRatingDeleted(item) },
+                { view?.showRatingRemovalFailed() }
+            )
+    }
+
+    private fun onRatingDeleted(item: Item) {
+        this.items = items?.filter { it.id != item.id }
+        onReady()
+    }
+
     override fun onRetryClick(item: Item) {
         val review = items?.find { it.id == item.id } ?: return
         if (items?.isNotEmpty() == true) {

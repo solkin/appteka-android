@@ -146,7 +146,7 @@
     <string name="select_app">Chọn ứng dụng</string>
     <string name="select_app_description">Đã cài đặt hoặc tập tin apk</string>
     <string name="search_app">Tìm ở phần trao đổi</string>
-    <string name="empty_list">Không có ứng dụng…</string>
+    <string name="empty_list">Không có cái gì ở đây cả…</string>
     <string name="login_button">Vào</string>
     <string name="register_button">Đăng nhập</string>
     <string name="email_input">Thư điện tử</string>

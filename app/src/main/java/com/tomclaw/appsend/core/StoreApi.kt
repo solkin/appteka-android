@@ -22,6 +22,7 @@ import com.tomclaw.appsend.screen.profile.api.EliminateUserResponse
 import com.tomclaw.appsend.screen.profile.api.ProfileResponse
 import com.tomclaw.appsend.screen.profile.api.UserAppsResponse
 import com.tomclaw.appsend.screen.rate.api.SubmitReviewResponse
+import com.tomclaw.appsend.screen.ratings.api.DeleteRatingResponse
 import com.tomclaw.appsend.screen.ratings.api.RatingsResponse
 import com.tomclaw.appsend.screen.reviews.api.ReviewsResponse
 import com.tomclaw.appsend.screen.store.api.AppsListResponse
@@ -226,5 +227,10 @@ interface StoreApi {
         @Query("rate_id") rateId: Int?,
         @Query("count") count: Int?
     ): Single<StoreResponse<RatingsResponse>>
+
+    @DELETE("1/app/rate/delete")
+    fun deleteRating(
+        @Query("rate_id") rateId: Int
+    ): Single<StoreResponse<DeleteRatingResponse>>
 
 }

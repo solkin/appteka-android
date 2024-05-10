@@ -1,13 +1,19 @@
 package com.tomclaw.appsend.screen.ratings.adapter.rating
 
 import android.view.View
+import android.widget.ListAdapter
 import android.widget.RatingBar
 import android.widget.TextView
+import androidx.annotation.MenuRes
 import com.avito.konveyor.adapter.BaseViewHolder
 import com.avito.konveyor.blueprint.ItemView
+import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.dto.UserIcon
+import com.tomclaw.appsend.main.adapter.MenuAdapter
+import com.tomclaw.appsend.screen.ratings.RatingsPreferencesProvider
 import com.tomclaw.appsend.util.bind
+import com.tomclaw.appsend.util.getAttributedColor
 import com.tomclaw.appsend.view.UserIconView
 import com.tomclaw.appsend.view.UserIconViewImpl
 
@@ -23,22 +29,32 @@ interface RatingItemView : ItemView {
 
     fun setComment(text: String?)
 
-    fun setOnClickListener(listener: (() -> Unit)?)
+    fun setOnRatingClickListener(listener: (() -> Unit)?)
+
+    fun setOnDeleteClickListener(listener: (() -> Unit)?)
 
 }
 
-class RatingItemViewHolder(view: View) : BaseViewHolder(view), RatingItemView {
+class RatingItemViewHolder(
+    private val view: View,
+    private val preferences: RatingsPreferencesProvider,
+) : BaseViewHolder(view), RatingItemView {
 
     private val userIconView: UserIconView = UserIconViewImpl(view.findViewById(R.id.member_icon))
     private val userNameView: TextView = view.findViewById(R.id.user_name)
     private val ratingView: RatingBar = view.findViewById(R.id.rating_view)
     private val dateView: TextView = view.findViewById(R.id.date_view)
     private val commentView: TextView = view.findViewById(R.id.comment_view)
+    private val menuView: View = view.findViewById(R.id.rating_menu)
 
-    private var clickListener: (() -> Unit)? = null
+    private var ratingClickListener: (() -> Unit)? = null
+    private var deleteClickListener: (() -> Unit)? = null
 
     init {
-        view.setOnClickListener { clickListener?.invoke() }
+        view.setOnClickListener { ratingClickListener?.invoke() }
+        menuView.setOnClickListener {
+            showRatingDialog()
+        }
     }
 
     override fun setUserIcon(userIcon: UserIcon) {
@@ -61,12 +77,39 @@ class RatingItemViewHolder(view: View) : BaseViewHolder(view), RatingItemView {
         commentView.bind(text)
     }
 
-    override fun setOnClickListener(listener: (() -> Unit)?) {
-        this.clickListener = listener
+    private fun showRatingDialog() {
+        showRatingDialog(R.menu.rating_menu)
+    }
+
+    private fun showRatingDialog(@MenuRes menuId: Int) {
+        val theme = R.style.BottomSheetDialogDark.takeIf { preferences.isDarkTheme() }
+            ?: R.style.BottomSheetDialogLight
+        BottomSheetBuilder(view.context, theme)
+            .setMode(BottomSheetBuilder.MODE_LIST)
+            .setIconTintColor(getAttributedColor(view.context, R.attr.menu_icons_tint))
+            .setItemTextColor(getAttributedColor(view.context, R.attr.text_primary_color))
+            .setMenu(menuId)
+            .setItemClickListener {
+                when (it.itemId) {
+                    R.id.menu_profile -> ratingClickListener?.invoke()
+                    R.id.menu_delete -> deleteClickListener?.invoke()
+                }
+            }
+            .createDialog()
+            .show()
+    }
+
+    override fun setOnRatingClickListener(listener: (() -> Unit)?) {
+        this.ratingClickListener = listener
+    }
+
+    override fun setOnDeleteClickListener(listener: (() -> Unit)?) {
+        this.deleteClickListener = listener
     }
 
     override fun onUnbind() {
-        this.clickListener = null
+        this.ratingClickListener = null
+        this.deleteClickListener = null
     }
 
 }

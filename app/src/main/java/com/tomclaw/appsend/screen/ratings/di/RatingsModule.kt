@@ -14,6 +14,8 @@ import com.tomclaw.appsend.screen.ratings.RatingConverter
 import com.tomclaw.appsend.screen.ratings.RatingConverterImpl
 import com.tomclaw.appsend.screen.ratings.RatingsInteractor
 import com.tomclaw.appsend.screen.ratings.RatingsInteractorImpl
+import com.tomclaw.appsend.screen.ratings.RatingsPreferencesProvider
+import com.tomclaw.appsend.screen.ratings.RatingsPreferencesProviderImpl
 import com.tomclaw.appsend.screen.ratings.RatingsPresenter
 import com.tomclaw.appsend.screen.ratings.RatingsPresenterImpl
 import com.tomclaw.appsend.screen.ratings.adapter.rating.RatingItemBlueprint
@@ -74,6 +76,11 @@ class RatingsModule(
 
     @Provides
     @PerActivity
+    internal fun provideRatingsPreferencesProvider(): RatingsPreferencesProvider =
+        RatingsPreferencesProviderImpl(context)
+
+    @Provides
+    @PerActivity
     internal fun provideAdapterPresenter(binder: ItemBinder): AdapterPresenter {
         return SimpleAdapterPresenter(binder, binder)
     }
@@ -92,8 +99,9 @@ class RatingsModule(
     @IntoSet
     @PerActivity
     internal fun provideRatingItemBlueprint(
-        presenter: RatingItemPresenter
-    ): ItemBlueprint<*, *> = RatingItemBlueprint(presenter)
+        presenter: RatingItemPresenter,
+        preferences: RatingsPreferencesProvider,
+    ): ItemBlueprint<*, *> = RatingItemBlueprint(presenter, preferences)
 
     @Provides
     @PerActivity
