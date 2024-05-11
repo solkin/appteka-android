@@ -1,7 +1,6 @@
 package com.tomclaw.appsend.screen.ratings.adapter.rating
 
 import android.view.View
-import android.widget.ListAdapter
 import android.widget.RatingBar
 import android.widget.TextView
 import androidx.annotation.MenuRes
@@ -10,10 +9,11 @@ import com.avito.konveyor.blueprint.ItemView
 import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.dto.UserIcon
-import com.tomclaw.appsend.main.adapter.MenuAdapter
 import com.tomclaw.appsend.screen.ratings.RatingsPreferencesProvider
 import com.tomclaw.appsend.util.bind
 import com.tomclaw.appsend.util.getAttributedColor
+import com.tomclaw.appsend.util.hide
+import com.tomclaw.appsend.util.show
 import com.tomclaw.appsend.view.UserIconView
 import com.tomclaw.appsend.view.UserIconViewImpl
 
@@ -28,6 +28,10 @@ interface RatingItemView : ItemView {
     fun setDate(date: String)
 
     fun setComment(text: String?)
+
+    fun showRatingMenu()
+
+    fun hideRatingMenu()
 
     fun setOnRatingClickListener(listener: (() -> Unit)?)
 
@@ -75,6 +79,14 @@ class RatingItemViewHolder(
 
     override fun setComment(text: String?) {
         commentView.bind(text)
+    }
+
+    override fun showRatingMenu() {
+        menuView.show()
+    }
+
+    override fun hideRatingMenu() {
+        menuView.hide()
     }
 
     private fun showRatingDialog() {

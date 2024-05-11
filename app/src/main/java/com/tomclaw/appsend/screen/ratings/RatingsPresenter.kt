@@ -7,11 +7,15 @@ import com.avito.konveyor.data_source.ListDataSource
 import com.tomclaw.appsend.screen.details.api.RatingEntity
 import com.tomclaw.appsend.screen.ratings.adapter.ItemListener
 import com.tomclaw.appsend.screen.ratings.adapter.rating.RatingItem
+import com.tomclaw.appsend.user.api.UserBrief
+import com.tomclaw.appsend.util.RoleHelper
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.getParcelableArrayListCompat
+import com.tomclaw.appsend.util.getParcelableCompat
 import com.tomclaw.appsend.util.retryWhenNonAuthErrors
 import dagger.Lazy
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.kotlin.Observables
 import io.reactivex.rxjava3.kotlin.plusAssign
 
 interface RatingsPresenter : ItemListener {
@@ -58,6 +62,7 @@ class RatingsPresenterImpl(
     private var items: List<RatingItem>? =
         state?.getParcelableArrayListCompat(KEY_APPS, RatingItem::class.java)
     private var isError: Boolean = state?.getBoolean(KEY_ERROR) ?: false
+    private var brief: UserBrief? = state?.getParcelableCompat(KEY_BRIEF, UserBrief::class.java)
 
     override fun attachView(view: RatingsView) {
         this.view = view
@@ -96,6 +101,7 @@ class RatingsPresenterImpl(
     override fun saveState() = Bundle().apply {
         putParcelableArrayList(KEY_APPS, items?.let { ArrayList(items.orEmpty()) })
         putBoolean(KEY_ERROR, isError)
+        putParcelable(KEY_BRIEF, brief)
     }
 
     override fun invalidateApps() {
@@ -104,12 +110,20 @@ class RatingsPresenterImpl(
     }
 
     private fun loadRatings() {
-        subscriptions += interactor.listRatings(offsetRateId = null)
+        subscriptions += Observables
+            .zip(
+                interactor.listRatings(offsetRateId = null),
+                interactor.getUserBrief()
+            )
             .observeOn(schedulers.mainThread())
             .doOnSubscribe { if (view?.isPullRefreshing() == false) view?.showProgress() }
+            .retryWhenNonAuthErrors()
             .doAfterTerminate { onReady() }
             .subscribe(
-                { onLoaded(it) },
+                {
+                    onBriefLoaded(it.second.userBrief)
+                    onLoaded(it.first)
+                },
                 {
                     it.printStackTrace()
                     onError()
@@ -128,10 +142,14 @@ class RatingsPresenterImpl(
             )
     }
 
+    private fun onBriefLoaded(brief: UserBrief?) {
+        this.brief = brief
+    }
+
     private fun onLoaded(entities: List<RatingEntity>) {
         isError = false
         val newItems = entities
-            .map { converter.convert(it) }
+            .map { converter.convert(it, brief) }
             .toList()
             .apply { if (isNotEmpty()) last().hasMore = true }
         this.items = this.items
@@ -231,3 +249,4 @@ class RatingsPresenterImpl(
 
 private const val KEY_APPS = "apps"
 private const val KEY_ERROR = "error"
+private const val KEY_BRIEF = "brief"

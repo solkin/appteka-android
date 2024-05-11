@@ -15,6 +15,7 @@ data class RatingItem(
     val userId: Int,
     val userName: String,
     val userIcon: UserIcon,
+    val showRatingMenu: Boolean,
     var hasMore: Boolean = false,
     var hasError: Boolean = false,
     var hasProgress: Boolean = false,
