@@ -2,6 +2,7 @@ package com.tomclaw.appsend.screen.details
 
 import android.net.Uri
 import com.avito.konveyor.blueprint.Item
+import com.tomclaw.appsend.categories.DEFAULT_LOCALE
 import com.tomclaw.appsend.screen.details.adapter.controls.ControlsItem
 import com.tomclaw.appsend.screen.details.adapter.description.DescriptionItem
 import com.tomclaw.appsend.screen.details.adapter.discuss.DiscussItem
@@ -26,6 +27,7 @@ import com.tomclaw.appsend.screen.details.api.STATUS_NORMAL
 import com.tomclaw.appsend.screen.details.api.STATUS_PRIVATE
 import com.tomclaw.appsend.screen.details.api.STATUS_UNLINKED
 import com.tomclaw.appsend.util.NOT_INSTALLED
+import java.util.Locale
 
 interface DetailsConverter {
 
@@ -39,7 +41,8 @@ interface DetailsConverter {
 }
 
 class DetailsConverterImpl(
-    private val resourceProvider: DetailsResourceProvider
+    private val resourceProvider: DetailsResourceProvider,
+    private val locale: Locale
 ) : DetailsConverter {
 
     override fun convert(
@@ -195,12 +198,15 @@ class DetailsConverterImpl(
         if (!details.ratingsList.isNullOrEmpty()) {
             items += details.ratingsList.map { rating ->
                 RatingItem(
-                    id++,
-                    rating.score,
-                    rating.text,
-                    rating.time * 1000,
-                    rating.userId,
-                    rating.userIcon
+                    id = id++,
+                    score = rating.score,
+                    text = rating.text,
+                    time = rating.time * 1000,
+                    userId = rating.userId,
+                    userName = rating.userName.takeIf { !it.isNullOrBlank() }
+                        ?: rating.userIcon.label[locale.language]
+                        ?: rating.userIcon.label[DEFAULT_LOCALE].orEmpty(),
+                    userIcon = rating.userIcon
                 )
             }
         }

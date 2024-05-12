@@ -115,8 +115,9 @@ class DetailsModule(
     @Provides
     @PerActivity
     internal fun provideDetailsConverterProvider(
-        resourceProvider: DetailsResourceProvider
-    ): DetailsConverter = DetailsConverterImpl(resourceProvider)
+        resourceProvider: DetailsResourceProvider,
+        locale: Locale,
+    ): DetailsConverter = DetailsConverterImpl(resourceProvider, locale)
 
     @Provides
     @Named(DETAILS_ADAPTER_PRESENTER)
