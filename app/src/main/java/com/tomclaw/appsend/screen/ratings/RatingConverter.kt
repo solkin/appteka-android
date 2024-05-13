@@ -23,7 +23,7 @@ class RatingConverterImpl(
             rateId = entity.rateId,
             score = entity.score,
             text = entity.text,
-            time = entity.time,
+            time = entity.time * 1000,
             userId = entity.userId,
             userName = entity.userName.takeIf { !it.isNullOrBlank() }
                 ?: entity.userIcon.label[locale.language]
