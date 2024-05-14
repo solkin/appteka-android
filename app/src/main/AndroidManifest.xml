@@ -48,10 +48,6 @@
             android:name=".main.abuse.AbuseActivity_"
             android:label="@string/abuse" />
         <activity
-            android:name=".main.ratings.RatingsActivity_"
-            android:label="@string/ratings"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
             android:name=".main.unlink.UnlinkActivity_"
             android:label="@string/unlink_file"
             android:windowSoftInputMode="stateHidden" />

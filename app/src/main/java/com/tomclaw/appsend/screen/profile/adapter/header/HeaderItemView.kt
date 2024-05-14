@@ -8,7 +8,6 @@ import com.avito.konveyor.blueprint.ItemView
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.dto.UserIcon
 import com.tomclaw.appsend.util.bind
-import com.tomclaw.appsend.util.getColor
 import com.tomclaw.appsend.view.UserIconView
 import com.tomclaw.appsend.view.UserIconViewImpl
 

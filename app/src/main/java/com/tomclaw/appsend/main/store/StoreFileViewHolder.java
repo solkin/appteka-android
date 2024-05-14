@@ -7,9 +7,6 @@ import static com.tomclaw.appsend.main.item.StoreItem.FILE_STATUS_MODERATION;
 import static com.tomclaw.appsend.main.item.StoreItem.FILE_STATUS_PRIVATE;
 import static com.tomclaw.appsend.main.item.StoreItem.FILE_STATUS_UNLINKED;
 import static com.tomclaw.appsend.main.item.StoreItem.NOT_INSTALLED;
-import static com.tomclaw.appsend.main.ratings.RatingsListener.STATE_FAILED;
-import static com.tomclaw.appsend.main.ratings.RatingsListener.STATE_LOADED;
-import static com.tomclaw.appsend.main.ratings.RatingsListener.STATE_LOADING;
 import static com.tomclaw.appsend.util.DrawablesKt.svgToDrawable;
 import static com.tomclaw.imageloader.util.ImageViewHandlersKt.centerCrop;
 import static com.tomclaw.imageloader.util.ImageViewHandlersKt.withPlaceholder;
@@ -54,6 +51,10 @@ public class StoreFileViewHolder extends FileViewHolder<StoreItem> {
     private final View viewProgress;
     private final View errorView;
     private final View buttonRetry;
+
+    public static final int STATE_LOADED = 0x01;
+    public static final int STATE_LOADING = 0x02;
+    public static final int STATE_FAILED = 0x03;
 
     public StoreFileViewHolder(View itemView) {
         super(itemView);

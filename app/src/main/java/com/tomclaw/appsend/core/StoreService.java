@@ -3,8 +3,6 @@ package com.tomclaw.appsend.core;
 import com.tomclaw.appsend.main.dto.AbuseResult;
 import com.tomclaw.appsend.main.dto.ApiResponse;
 import com.tomclaw.appsend.main.store.ListResponse;
-import com.tomclaw.appsend.main.ratings.RatingsResponse;
-import com.tomclaw.appsend.main.ratings.VoidResponse;
 import com.tomclaw.appsend.main.unlink.UnlinkResponse;
 import com.tomclaw.appsend.main.unpublish.UnpublishResponse;
 import com.tomclaw.appsend.net.CheckUpdatesRequest;
@@ -13,7 +11,6 @@ import com.tomclaw.appsend.user.api.UserBrief;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -24,26 +21,6 @@ import retrofit2.http.Query;
  * Created by solkin on 23.09.17.
  */
 public interface StoreService {
-
-    @GET("api/1/app/rating")
-    Call<ApiResponse<RatingsResponse>> getRatings(
-            @Query("app_id") String appId,
-            @Query("rate_id") int rateId,
-            @Query("count") int count
-    );
-
-    @FormUrlEncoded
-    @POST("api/1/app/rate")
-    Call<ApiResponse<VoidResponse>> setRating(
-            @Field("app_id") String appId,
-            @Field("score") int score,
-            @Field("text") String text
-    );
-
-    @DELETE("api/1/app/rate/delete")
-    Call<ApiResponse<VoidResponse>> deleteRating(
-            @Query("rate_id") int rateId
-    );
 
     @GET("api/1/app/abuse")
     Call<ApiResponse<AbuseResult>> reportAbuse(
