@@ -4,7 +4,6 @@ import com.tomclaw.appsend.categories.DEFAULT_LOCALE
 import com.tomclaw.appsend.screen.details.api.RatingEntity
 import com.tomclaw.appsend.screen.ratings.adapter.rating.RatingItem
 import com.tomclaw.appsend.user.api.UserBrief
-import com.tomclaw.appsend.util.RoleHelper
 import java.util.Locale
 
 interface RatingConverter {
@@ -29,8 +28,10 @@ class RatingConverterImpl(
                 ?: entity.userIcon.label[locale.language]
                 ?: entity.userIcon.label[DEFAULT_LOCALE].orEmpty(),
             userIcon = entity.userIcon,
-            showRatingMenu = brief?.let { it.role >= RoleHelper.ROLE_ADMIN } ?: false,
+            showRatingMenu = brief?.let { it.role >= ROLE_ADMIN } ?: false,
         )
     }
 
 }
+
+private const val ROLE_ADMIN = 200

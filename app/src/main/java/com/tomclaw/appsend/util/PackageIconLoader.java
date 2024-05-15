@@ -1,7 +1,5 @@
 package com.tomclaw.appsend.util;
 
-import static com.tomclaw.appsend.util.StreamHelper.safeClose;
-
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Parcel;
@@ -11,8 +9,10 @@ import androidx.annotation.NonNull;
 
 import com.tomclaw.imageloader.core.Loader;
 
+import java.io.Closeable;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URI;
 import java.util.Collections;
@@ -65,6 +65,18 @@ public class PackageIconLoader implements Loader {
         byte[] data = Base64.decode(path.substring(1), Base64.NO_WRAP | Base64.URL_SAFE);
         Parcel parcel = ParcelableUtil.unmarshall(data);
         return PackageInfo.CREATOR.createFromParcel(parcel);
+    }
+
+    public static void safeClose(Closeable... streams) {
+        for (Closeable stream : streams) {
+            try {
+                if (stream != null) {
+                    stream.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 }

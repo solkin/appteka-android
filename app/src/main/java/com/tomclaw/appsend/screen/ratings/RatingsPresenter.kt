@@ -8,7 +8,6 @@ import com.tomclaw.appsend.screen.details.api.RatingEntity
 import com.tomclaw.appsend.screen.ratings.adapter.ItemListener
 import com.tomclaw.appsend.screen.ratings.adapter.rating.RatingItem
 import com.tomclaw.appsend.user.api.UserBrief
-import com.tomclaw.appsend.util.RoleHelper
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.getParcelableArrayListCompat
 import com.tomclaw.appsend.util.getParcelableCompat

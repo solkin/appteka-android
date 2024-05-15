@@ -1,13 +1,9 @@
 package com.tomclaw.appsend.util;
 
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
 import android.graphics.Typeface;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.StyleSpan;
-import android.widget.Toast;
 
 import java.util.Random;
 
@@ -25,25 +21,8 @@ public class StringUtil {
         random = new Random(System.currentTimeMillis());
     }
 
-    public static void copyStringToClipboard(Context context, String string) {
-        copyStringToClipboard(context, string, 0);
-    }
-
-    public static void copyStringToClipboard(Context context, String string, int toastText) {
-        ClipboardManager clipboardManager = (ClipboardManager)
-                context.getSystemService(Context.CLIPBOARD_SERVICE);
-        clipboardManager.setPrimaryClip(ClipData.newPlainText("", string));
-        if (toastText > 0) {
-            Toast.makeText(context, toastText, Toast.LENGTH_SHORT).show();
-        }
-    }
-
     public static String generateCookie() {
         return Long.toHexString(System.currentTimeMillis()) + "-" + generateRandomString(random, 16, 16);
-    }
-
-    public static String generateBoundary() {
-        return Long.toHexString(System.currentTimeMillis()) + generateRandomString(random, 16, 16);
     }
 
     public static String generateRandomString(Random r, int minChars, int maxChars) {

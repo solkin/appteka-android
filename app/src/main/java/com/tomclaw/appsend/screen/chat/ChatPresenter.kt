@@ -9,7 +9,6 @@ import com.tomclaw.appsend.dto.TopicEntity
 import com.tomclaw.appsend.events.EventsInteractor
 import com.tomclaw.appsend.screen.chat.adapter.ItemListener
 import com.tomclaw.appsend.screen.topics.COMMON_QNA_TOPIC_ICON
-import com.tomclaw.appsend.util.RoleHelper.ROLE_ADMIN
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.filterUnauthorizedErrors
 import com.tomclaw.appsend.util.getParcelableArrayListCompat
@@ -419,3 +418,5 @@ private const val KEY_TOPIC = "topic"
 private const val KEY_ERROR = "error"
 private const val KEY_MESSAGE = "message"
 private const val KEY_HISTORY = "history"
+
+private const val ROLE_ADMIN = 200
