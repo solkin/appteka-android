@@ -58,6 +58,8 @@ interface HomeView {
 
     fun moderationClicks(): Observable<Unit>
 
+    fun profileShareClicks(): Observable<Unit>
+
     fun installedClicks(): Observable<Unit>
 
     fun distroClicks(): Observable<Unit>
@@ -88,6 +90,7 @@ class HomeViewImpl(view: View) : HomeView {
     private val laterRelay = PublishRelay.create<Unit>()
     private val searchRelay = PublishRelay.create<Unit>()
     private val moderationRelay = PublishRelay.create<Unit>()
+    private val profileShareRelay = PublishRelay.create<Unit>()
     private val installedRelay = PublishRelay.create<Unit>()
     private val distroRelay = PublishRelay.create<Unit>()
     private val settingsRelay = PublishRelay.create<Unit>()
@@ -99,6 +102,7 @@ class HomeViewImpl(view: View) : HomeView {
             when (item.itemId) {
                 R.id.menu_search -> searchRelay.accept(Unit)
                 R.id.menu_moderation -> moderationRelay.accept(Unit)
+                R.id.menu_share -> profileShareRelay.accept(Unit)
                 R.id.menu_installed -> installedRelay.accept(Unit)
                 R.id.menu_distro -> distroRelay.accept(Unit)
                 R.id.menu_settings -> settingsRelay.accept(Unit)
@@ -146,7 +150,7 @@ class HomeViewImpl(view: View) : HomeView {
         with(toolbar) {
             setTitle(R.string.tab_profile)
             menu.clear()
-            inflateMenu(R.menu.home_menu)
+            inflateMenu(R.menu.user_menu)
             invalidateMenu()
         }
     }
@@ -222,6 +226,8 @@ class HomeViewImpl(view: View) : HomeView {
     override fun searchClicks(): Observable<Unit> = searchRelay
 
     override fun moderationClicks(): Observable<Unit> = moderationRelay
+
+    override fun profileShareClicks(): Observable<Unit> = profileShareRelay
 
     override fun installedClicks(): Observable<Unit> = installedRelay
 

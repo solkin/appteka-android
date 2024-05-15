@@ -161,6 +161,16 @@ class HomeActivity : AppCompatActivity(), HomePresenter.HomeRouter {
         startActivity(intent)
     }
 
+    override fun openShareUrlDialog(text: String) {
+        val intent = Intent().apply {
+            setAction(Intent.ACTION_SEND)
+            putExtra(Intent.EXTRA_TEXT, text)
+            setType("text/plain")
+        }
+        val chooser = Intent.createChooser(intent, resources.getText(R.string.send_url_to))
+        startActivity(chooser)
+    }
+
     override fun leaveScreen() {
         finish()
     }

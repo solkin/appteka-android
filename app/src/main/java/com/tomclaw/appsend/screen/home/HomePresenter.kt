@@ -49,6 +49,8 @@ interface HomePresenter {
 
         fun openAppScreen(appId: String, title: String)
 
+        fun openShareUrlDialog(text: String)
+
         fun leaveScreen()
 
         fun exitApp()
@@ -90,6 +92,7 @@ class HomePresenterImpl(
         subscriptions += view.laterClicks().subscribe { onLaterClicks() }
         subscriptions += view.searchClicks().subscribe { router?.openSearchScreen() }
         subscriptions += view.moderationClicks().subscribe { router?.openModerationScreen() }
+        subscriptions += view.profileShareClicks().subscribe { onShareClicks() }
         subscriptions += view.installedClicks().subscribe { router?.openInstalledScreen() }
         subscriptions += view.distroClicks().subscribe { router?.openDistroScreen() }
         subscriptions += view.settingsClicks().subscribe { router?.openSettingsScreen() }
@@ -203,6 +206,15 @@ class HomePresenterImpl(
     private fun onLaterClicks() {
         update = null
         view?.hideUpdateBlock()
+    }
+
+    private fun onShareClicks() {
+        subscriptions += interactor.getUserBrief()
+            .observeOn(schedulers.mainThread())
+            .subscribe(
+                { it.url?.let { url -> router?.openShareUrlDialog(url) } },
+                { }
+            )
     }
 
     override fun detachView() {

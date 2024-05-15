@@ -5,6 +5,7 @@ import com.tomclaw.appsend.core.StandByApi
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.screen.home.api.StartupResponse
 import com.tomclaw.appsend.screen.home.api.StatusResponse
+import com.tomclaw.appsend.user.api.UserBrief
 import com.tomclaw.appsend.util.SchedulersFactory
 import io.reactivex.rxjava3.core.Observable
 import java.util.Locale
@@ -14,6 +15,8 @@ interface HomeInteractor {
     fun loadStartup(): Observable<StartupResponse>
 
     fun loadStatus(): Observable<StatusResponse>
+
+    fun getUserBrief(): Observable<UserBrief>
 
 }
 
@@ -36,6 +39,14 @@ class HomeInteractorImpl(
     override fun loadStatus(): Observable<StatusResponse> {
         return standByApi
             .getStatus(locale.language, appInfoProvider.getVersionCode())
+            .map { it.result }
+            .toObservable()
+            .subscribeOn(schedulers.io())
+    }
+
+    override fun getUserBrief(): Observable<UserBrief> {
+        return storeApi
+            .getUserBrief(userId = null)
             .map { it.result }
             .toObservable()
             .subscribeOn(schedulers.io())
