@@ -24,6 +24,8 @@ interface DescriptionItemView : ItemView {
 
     fun setSourceUrl(value: String?)
 
+    fun setOnTranslateClickListener(listener: (() -> Unit)?)
+
     fun setOnGooglePlayClickListener(listener: (() -> Unit)?)
 
     fun setOnVersionsClickListener(listener: (() -> Unit)?)
@@ -35,6 +37,7 @@ class DescriptionItemViewHolder(view: View) : BaseViewHolder(view), DescriptionI
     private val context = view.context
     private val descriptionTitle: View = view.findViewById(R.id.description_title)
     private val description: TextView = view.findViewById(R.id.description)
+    private val translateButton: View = view.findViewById(R.id.translate_button)
     private val googlePlayButton: View = view.findViewById(R.id.google_play_button)
     private val appVersion: TextView = view.findViewById(R.id.app_version)
     private val versionsButton: View = view.findViewById(R.id.versions_button)
@@ -44,10 +47,12 @@ class DescriptionItemViewHolder(view: View) : BaseViewHolder(view), DescriptionI
     private val sourceUrlTitle: View = view.findViewById(R.id.app_source_url_title)
     private val sourceUrl: TextView = view.findViewById(R.id.app_source_url)
 
+    private var translateClickListener: (() -> Unit)? = null
     private var googlePlayClickListener: (() -> Unit)? = null
     private var versionsClickListener: (() -> Unit)? = null
 
     init {
+        translateButton.setOnClickListener { translateClickListener?.invoke() }
         googlePlayButton.setOnClickListener { googlePlayClickListener?.invoke() }
         versionsButton.setOnClickListener { versionsClickListener?.invoke() }
         sourceUrl.movementMethod = LinkMovementMethod.getInstance()
@@ -84,6 +89,10 @@ class DescriptionItemViewHolder(view: View) : BaseViewHolder(view), DescriptionI
         sourceUrlTitle.visibility = sourceUrl.visibility
     }
 
+    override fun setOnTranslateClickListener(listener: (() -> Unit)?) {
+        this.translateClickListener = listener
+    }
+
     override fun setOnGooglePlayClickListener(listener: (() -> Unit)?) {
         this.googlePlayClickListener = listener
     }
@@ -93,6 +102,7 @@ class DescriptionItemViewHolder(view: View) : BaseViewHolder(view), DescriptionI
     }
 
     override fun onUnbind() {
+        this.translateClickListener = null
         this.googlePlayClickListener = null
         this.versionsClickListener = null
     }

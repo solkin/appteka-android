@@ -15,6 +15,7 @@ import com.tomclaw.appsend.screen.details.api.DeletionResponse
 import com.tomclaw.appsend.screen.details.api.Details
 import com.tomclaw.appsend.screen.details.api.MarkFavoriteResponse
 import com.tomclaw.appsend.screen.details.api.ModerationDecisionResponse
+import com.tomclaw.appsend.screen.details.api.TranslationResponse
 import com.tomclaw.appsend.screen.favorite.api.FavoriteResponse
 import com.tomclaw.appsend.screen.home.api.StartupResponse
 import com.tomclaw.appsend.screen.moderation.api.ModerationResponse
@@ -124,6 +125,12 @@ interface StoreApi {
         @Query("app_id") appId: String?,
         @Query("package") packageName: String?
     ): Single<StoreResponse<Details>>
+
+    @GET("1/app/info/translate")
+    fun getInfoTranslation(
+        @Query("app_id") appId: String,
+        @Query("locale") locale: String
+    ): Single<StoreResponse<TranslationResponse>>
 
     @FormUrlEncoded
     @POST("1/app/rate")

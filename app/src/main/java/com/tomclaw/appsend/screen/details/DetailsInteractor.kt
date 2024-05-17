@@ -6,10 +6,12 @@ import com.tomclaw.appsend.screen.details.api.DeletionResponse
 import com.tomclaw.appsend.screen.details.api.Details
 import com.tomclaw.appsend.screen.details.api.MarkFavoriteResponse
 import com.tomclaw.appsend.screen.details.api.ModerationDecisionResponse
+import com.tomclaw.appsend.screen.details.api.TranslationResponse
 import com.tomclaw.appsend.user.api.UserBrief
 import com.tomclaw.appsend.util.SchedulersFactory
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
+import java.util.Locale
 
 interface DetailsInteractor {
 
@@ -28,10 +30,13 @@ interface DetailsInteractor {
 
     fun getUserBrief(): Single<UserBrief>
 
+    fun translate(appId: String): Single<TranslationResponse>
+
 }
 
 class DetailsInteractorImpl(
     private val api: StoreApi,
+    private val locale: Locale,
     private val schedulers: SchedulersFactory
 ) : DetailsInteractor {
 
@@ -85,6 +90,13 @@ class DetailsInteractorImpl(
     override fun getUserBrief(): Single<UserBrief> {
         return api
             .getUserBrief(userId = null)
+            .map { it.result }
+            .subscribeOn(schedulers.io())
+    }
+
+    override fun translate(appId: String): Single<TranslationResponse> {
+        return api
+            .getInfoTranslation(appId, locale.language)
             .map { it.result }
             .subscribeOn(schedulers.io())
     }

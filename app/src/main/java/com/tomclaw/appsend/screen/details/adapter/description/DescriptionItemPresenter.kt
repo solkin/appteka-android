@@ -16,6 +16,7 @@ class DescriptionItemPresenter(
         view.setChecksum(item.checksum)
         view.setSourceUrl(item.sourceUrl)
 
+        view.setOnTranslateClickListener { listener.onTranslateClick() }
         view.setOnGooglePlayClickListener { listener.onGooglePlayClick() }
         view.setOnVersionsClickListener { listener.onVersionsClick() }
     }

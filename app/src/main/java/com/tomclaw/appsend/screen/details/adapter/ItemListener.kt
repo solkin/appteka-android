@@ -21,6 +21,8 @@ interface ItemListener {
 
     fun onDiscussClick()
 
+    fun onTranslateClick()
+
     fun onGooglePlayClick()
 
     fun onRateClick(rating: Float, review: String?)

@@ -103,8 +103,9 @@ class DetailsModule(
     @PerActivity
     internal fun provideInteractor(
         api: StoreApi,
+        locale: Locale,
         schedulers: SchedulersFactory
-    ): DetailsInteractor = DetailsInteractorImpl(api, schedulers)
+    ): DetailsInteractor = DetailsInteractorImpl(api, locale, schedulers)
 
     @Provides
     @PerActivity

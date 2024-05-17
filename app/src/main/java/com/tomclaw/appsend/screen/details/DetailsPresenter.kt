@@ -492,6 +492,18 @@ class DetailsPresenterImpl(
         }
     }
 
+    override fun onTranslateClick() {
+        val appId = appId ?: details?.info?.appId ?: return
+        subscriptions += interactor.translate(appId)
+            .toObservable()
+            .observeOn(schedulers.mainThread())
+            .retryWhenNonAuthErrors()
+            .subscribe(
+                {  },
+                {  }
+            )
+    }
+
     override fun onGooglePlayClick() {
         val info = details?.info ?: return
         router?.openGooglePlay(info.packageName)
