@@ -42,6 +42,8 @@ interface DetailsResourceProvider {
 
     fun rateAppError(): String
 
+    fun translationError(): String
+
 }
 
 class DetailsResourceProviderImpl(
@@ -114,6 +116,10 @@ class DetailsResourceProviderImpl(
 
     override fun rateAppError(): String {
         return resources.getString(R.string.error_rate_app)
+    }
+
+    override fun translationError(): String {
+        return resources.getString(R.string.translation_error)
     }
 
 }

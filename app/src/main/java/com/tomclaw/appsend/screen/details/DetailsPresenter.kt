@@ -16,6 +16,7 @@ import com.tomclaw.appsend.screen.details.api.ACTION_EDIT_META
 import com.tomclaw.appsend.screen.details.api.ACTION_UNLINK
 import com.tomclaw.appsend.screen.details.api.ACTION_UNPUBLISH
 import com.tomclaw.appsend.screen.details.api.Details
+import com.tomclaw.appsend.screen.details.api.TranslationResponse
 import com.tomclaw.appsend.screen.gallery.GalleryItem
 import com.tomclaw.appsend.user.api.UserBrief
 import com.tomclaw.appsend.util.NOT_INSTALLED
@@ -134,6 +135,9 @@ class DetailsPresenterImpl(
     private var targetFile: File? = state?.getString(KEY_TARGET_FILE)?.let { File(it) }
     private var needInstall: Boolean = state?.getBoolean(KEY_NEED_INSTALL) ?: false
     private var isFavorite: Boolean = state?.getBoolean(KEY_IS_FAVORITE) ?: false
+    private var translationData: TranslationResponse? =
+        state?.getParcelableCompat(KEY_TRANSLATION_DATA, TranslationResponse::class.java)
+    private var translationState: Int = state?.getInt(KEY_TRANSLATION_STATE) ?: TRANSLATION_ORIGINAL
 
     private val items = ArrayList<Item>()
 
@@ -235,6 +239,8 @@ class DetailsPresenterImpl(
         putString(KEY_TARGET_FILE, targetFile?.absolutePath)
         putBoolean(KEY_NEED_INSTALL, needInstall)
         putBoolean(KEY_IS_FAVORITE, isFavorite)
+        putParcelable(KEY_TRANSLATION_DATA, translationData)
+        putInt(KEY_TRANSLATION_STATE, translationState)
     }
 
     private fun loadDetails() {
@@ -285,7 +291,7 @@ class DetailsPresenterImpl(
         val details = this.details ?: return
 
         items.clear()
-        items += detailsConverter.convert(details, downloadState, installedVersionCode, moderation)
+        items += detailsConverter.convert(details, downloadState, installedVersionCode, moderation, translationData, translationState)
 
         bindItems()
 
@@ -493,15 +499,43 @@ class DetailsPresenterImpl(
     }
 
     override fun onTranslateClick() {
+        if (translationData != null) {
+            translationState = when (translationState) {
+                TRANSLATION_ORIGINAL -> TRANSLATION_TRANSLATED
+                TRANSLATION_TRANSLATED -> TRANSLATION_ORIGINAL
+                else -> translationState
+            }
+            bindDetails()
+            view?.showContent()
+            return
+        }
         val appId = appId ?: details?.info?.appId ?: return
         subscriptions += interactor.translate(appId)
             .toObservable()
+            .doOnSubscribe { onTranslationStarted() }
             .observeOn(schedulers.mainThread())
-            .retryWhenNonAuthErrors()
             .subscribe(
-                {  },
-                {  }
+                { onTranslationLoaded(it) },
+                { onTranslationError() }
             )
+    }
+
+    private fun onTranslationStarted() {
+        translationState = TRANSLATION_PROGRESS
+        bindDetails()
+        view?.showContent()
+    }
+
+    private fun onTranslationLoaded(response: TranslationResponse) {
+        translationData = response
+        translationState = TRANSLATION_TRANSLATED
+        bindDetails()
+        view?.showContent()
+    }
+
+    private fun onTranslationError() {
+        translationState = TRANSLATION_ORIGINAL
+        view?.showSnackbar(resourceProvider.translationError())
     }
 
     override fun onGooglePlayClick() {
@@ -587,3 +621,5 @@ private const val KEY_DOWNLOAD_STATE = "downloadState"
 private const val KEY_TARGET_FILE = "targetFile"
 private const val KEY_NEED_INSTALL = "needInstall"
 private const val KEY_IS_FAVORITE = "isFavorite"
+private const val KEY_TRANSLATION_DATA = "translation"
+private const val KEY_TRANSLATION_STATE = "translationState"

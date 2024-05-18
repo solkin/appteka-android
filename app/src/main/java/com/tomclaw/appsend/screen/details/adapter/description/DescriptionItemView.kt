@@ -1,13 +1,23 @@
 package com.tomclaw.appsend.screen.details.adapter.description
 
+import android.content.res.ColorStateList
+import android.graphics.PorterDuff
 import android.text.method.LinkMovementMethod
 import android.view.View
 import android.widget.TextView
 import androidx.core.view.isVisible
 import com.avito.konveyor.adapter.BaseViewHolder
 import com.avito.konveyor.blueprint.ItemView
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.progressindicator.CircularProgressIndicatorSpec
+import com.google.android.material.progressindicator.IndeterminateDrawable
+import com.google.android.material.R.style.Widget_Material3_CircularProgressIndicator_ExtraSmall
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.util.bind
+import com.tomclaw.appsend.util.disable
+import com.tomclaw.appsend.util.enable
+import com.tomclaw.appsend.util.getAttributedColor
+import com.tomclaw.appsend.util.getColor
 
 
 interface DescriptionItemView : ItemView {
@@ -24,6 +34,14 @@ interface DescriptionItemView : ItemView {
 
     fun setSourceUrl(value: String?)
 
+    fun disableTranslateButton()
+
+    fun enableTranslateButton()
+
+    fun showTranslateButton()
+
+    fun showOriginalButton()
+
     fun setOnTranslateClickListener(listener: (() -> Unit)?)
 
     fun setOnGooglePlayClickListener(listener: (() -> Unit)?)
@@ -37,7 +55,7 @@ class DescriptionItemViewHolder(view: View) : BaseViewHolder(view), DescriptionI
     private val context = view.context
     private val descriptionTitle: View = view.findViewById(R.id.description_title)
     private val description: TextView = view.findViewById(R.id.description)
-    private val translateButton: View = view.findViewById(R.id.translate_button)
+    private val translateButton: MaterialButton = view.findViewById(R.id.translate_button)
     private val googlePlayButton: View = view.findViewById(R.id.google_play_button)
     private val appVersion: TextView = view.findViewById(R.id.app_version)
     private val versionsButton: View = view.findViewById(R.id.versions_button)
@@ -50,6 +68,15 @@ class DescriptionItemViewHolder(view: View) : BaseViewHolder(view), DescriptionI
     private var translateClickListener: (() -> Unit)? = null
     private var googlePlayClickListener: (() -> Unit)? = null
     private var versionsClickListener: (() -> Unit)? = null
+
+    private val progressIndicatorDrawable = IndeterminateDrawable
+        .createCircularDrawable(
+            context,
+            CircularProgressIndicatorSpec(
+                context, null, 0,
+                Widget_Material3_CircularProgressIndicator_ExtraSmall
+            )
+        )
 
     init {
         translateButton.setOnClickListener { translateClickListener?.invoke() }
@@ -87,6 +114,27 @@ class DescriptionItemViewHolder(view: View) : BaseViewHolder(view), DescriptionI
     override fun setSourceUrl(value: String?) {
         sourceUrl.bind(value)
         sourceUrlTitle.visibility = sourceUrl.visibility
+    }
+
+    override fun disableTranslateButton() {
+        translateButton.icon = progressIndicatorDrawable
+
+        translateButton.setText(R.string.please_wait)
+        translateButton.isClickable = false
+    }
+
+    override fun enableTranslateButton() {
+        translateButton.isClickable = true
+    }
+
+    override fun showTranslateButton() {
+        translateButton.setIconResource(R.drawable.ic_translate)
+        translateButton.setText(R.string.translate)
+    }
+
+    override fun showOriginalButton() {
+        translateButton.setIconResource(R.drawable.ic_translate_off)
+        translateButton.setText(R.string.original)
     }
 
     override fun setOnTranslateClickListener(listener: (() -> Unit)?) {

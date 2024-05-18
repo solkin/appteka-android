@@ -26,6 +26,7 @@ import com.tomclaw.appsend.screen.details.api.STATUS_MODERATION
 import com.tomclaw.appsend.screen.details.api.STATUS_NORMAL
 import com.tomclaw.appsend.screen.details.api.STATUS_PRIVATE
 import com.tomclaw.appsend.screen.details.api.STATUS_UNLINKED
+import com.tomclaw.appsend.screen.details.api.TranslationResponse
 import com.tomclaw.appsend.util.NOT_INSTALLED
 import java.util.Locale
 
@@ -35,7 +36,9 @@ interface DetailsConverter {
         details: Details,
         downloadState: Int,
         installedVersionCode: Int,
-        moderation: Boolean
+        moderation: Boolean,
+        translationData: TranslationResponse?,
+        translationState: Int
     ): List<Item>
 
 }
@@ -49,7 +52,9 @@ class DetailsConverterImpl(
         details: Details,
         downloadState: Int,
         installedVersionCode: Int,
-        moderation: Boolean
+        moderation: Boolean,
+        translationData: TranslationResponse?,
+        translationState: Int
     ): List<Item> {
         var id: Long = 1
         val items = ArrayList<Item>()
@@ -160,20 +165,29 @@ class DetailsConverterImpl(
             )
         }
         if (!details.meta?.whatsNew.isNullOrBlank()) {
+            val whatsNewText = when (translationState) {
+                TRANSLATION_TRANSLATED -> translationData?.whatsNew
+                else -> details.meta?.whatsNew
+            }
             items += WhatsNewItem(
                 id = id++,
-                text = details.meta?.whatsNew.orEmpty().trim(),
+                text = whatsNewText.orEmpty().trim(),
             )
+        }
+        val descriptionText = when (translationState) {
+            TRANSLATION_TRANSLATED -> translationData?.description
+            else -> details.meta?.description
         }
         items += DescriptionItem(
             id = id++,
-            text = details.meta?.description.orEmpty().trim(),
+            text = descriptionText.orEmpty().trim(),
             versionName = details.info.version,
             versionCode = details.info.versionCode,
             versionsCount = details.versions?.size ?: 0,
             uploadDate = details.info.time * 1000,
             checksum = details.info.sha1,
             sourceUrl = details.meta?.sourceUrl,
+            translationState = translationState,
         )
         if (!details.info.permissions.isNullOrEmpty()) {
             items += PermissionsItem(
@@ -215,3 +229,7 @@ class DetailsConverterImpl(
     }
 
 }
+
+const val TRANSLATION_ORIGINAL: Int = 0
+const val TRANSLATION_PROGRESS: Int = 1
+const val TRANSLATION_TRANSLATED: Int = 2

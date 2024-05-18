@@ -317,4 +317,6 @@
     <string name="no_user_activity_yet">There is no user activity yet</string>
     <string name="legal_info">Legal Info</string>
     <string name="translate">Translate</string>
+    <string name="translation_error">Unable to translate</string>
+    <string name="original">Original</string>
 </resources>

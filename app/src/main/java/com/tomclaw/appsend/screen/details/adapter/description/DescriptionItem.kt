@@ -14,4 +14,5 @@ data class DescriptionItem(
     val uploadDate: Long,
     val checksum: String,
     val sourceUrl: String?,
+    val translationState: Int,
 ) : Item, Parcelable
