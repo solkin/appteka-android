@@ -535,6 +535,8 @@ class DetailsPresenterImpl(
 
     private fun onTranslationError() {
         translationState = TRANSLATION_ORIGINAL
+        bindDetails()
+        view?.showContent()
         view?.showSnackbar(resourceProvider.translationError())
     }
 

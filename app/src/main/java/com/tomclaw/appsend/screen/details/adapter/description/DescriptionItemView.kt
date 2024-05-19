@@ -1,23 +1,17 @@
 package com.tomclaw.appsend.screen.details.adapter.description
 
-import android.content.res.ColorStateList
-import android.graphics.PorterDuff
 import android.text.method.LinkMovementMethod
 import android.view.View
 import android.widget.TextView
 import androidx.core.view.isVisible
 import com.avito.konveyor.adapter.BaseViewHolder
 import com.avito.konveyor.blueprint.ItemView
+import com.google.android.material.R.style.Widget_Material3_CircularProgressIndicator_ExtraSmall
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.progressindicator.CircularProgressIndicatorSpec
 import com.google.android.material.progressindicator.IndeterminateDrawable
-import com.google.android.material.R.style.Widget_Material3_CircularProgressIndicator_ExtraSmall
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.util.bind
-import com.tomclaw.appsend.util.disable
-import com.tomclaw.appsend.util.enable
-import com.tomclaw.appsend.util.getAttributedColor
-import com.tomclaw.appsend.util.getColor
 
 
 interface DescriptionItemView : ItemView {
@@ -119,7 +113,7 @@ class DescriptionItemViewHolder(view: View) : BaseViewHolder(view), DescriptionI
     override fun disableTranslateButton() {
         translateButton.icon = progressIndicatorDrawable
 
-        translateButton.setText(R.string.please_wait)
+        translateButton.setText(R.string.wait)
         translateButton.isClickable = false
     }
 

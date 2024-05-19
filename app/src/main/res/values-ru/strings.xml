@@ -310,4 +310,8 @@
     <string name="reviews_activity">Отзывы пользователя</string>
     <string name="no_user_activity_yet">Пользователь пока не проявил активность</string>
     <string name="legal_info">Правовая информация</string>
+    <string name="translate">Перевести</string>
+    <string name="original">Оригинал</string>
+    <string name="wait">Подождите…</string>
+    <string name="translation_error">Не удалось перевести</string>
 </resources>
