@@ -10,7 +10,6 @@ import com.jakewharton.rxrelay3.BehaviorRelay
 import com.tomclaw.appsend.core.Config
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.dto.StoreResponse
-import com.tomclaw.appsend.util.HttpUtil
 import com.tomclaw.appsend.util.MultipartStream
 import com.tomclaw.appsend.util.MultipartStream.ProgressHandler
 import com.tomclaw.appsend.util.PackageHelper
@@ -384,7 +383,7 @@ class UploadManagerImpl(
             setRequestProperty("Cookie", cookies)
             readTimeout = TimeUnit.MINUTES.toMillis(2).toInt()
             connectTimeout = TimeUnit.SECONDS.toMillis(30).toInt()
-            requestMethod = HttpUtil.POST
+            requestMethod = POST
             useCaches = false
             doInput = true
             doOutput = true
@@ -425,6 +424,7 @@ fun totalPercent(
     return (if (apkCount > 0) apk else 0) + (if (scrCount > 0) scr else 0)
 }
 
+const val POST = "POST"
 const val SCREENSHOT_MAX_PIXELS = 2000000
 const val SCREENSHOT_JPEG_QUALITY = 90
 const val HOST_UPLOAD_APP_URL = Config.HOST_URL + "/api/1/app/upload"
