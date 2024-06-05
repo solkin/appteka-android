@@ -29,14 +29,6 @@ public class IntentHelper {
         }
     }
 
-    public static void shareUrl(Context context, String text) {
-        Intent sendIntent = new Intent();
-        sendIntent.setAction(Intent.ACTION_SEND);
-        sendIntent.putExtra(Intent.EXTRA_TEXT, text);
-        sendIntent.setType("text/plain");
-        context.startActivity(Intent.createChooser(sendIntent, context.getResources().getText(R.string.send_url_to)));
-    }
-
     private static void grantUriPermission(Context context, Uri uri, Intent intent) {
         if (isFileProviderUri()) {
             List<ResolveInfo> resInfoList = context.getPackageManager().queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
@@ -113,11 +105,6 @@ public class IntentHelper {
         sendIntent.setType("application/zip");
         sendIntent.setPackage("com.android.bluetooth");
         context.startActivity(Intent.createChooser(sendIntent, context.getResources().getText(R.string.send_to)));
-    }
-
-    public static String formatText(Resources resources, String url, String label, long size) {
-        String sizeString = FileHelper.formatBytes(resources, size);
-        return resources.getString(R.string.uploaded_url, label, sizeString, url);
     }
 
     private static boolean isFileProviderUri() {
