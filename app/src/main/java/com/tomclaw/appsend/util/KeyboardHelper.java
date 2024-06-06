@@ -4,26 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.EditText;
 
 /**
  * Created by ivsolkin on 30.06.17.
  */
 public class KeyboardHelper {
-
-    public static void showKeyboard(Context context) {
-        InputMethodManager imm = getInputMethodManager(context);
-        if (imm != null) {
-            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
-        }
-    }
-
-    public static void hideKeyboard(EditText editText) {
-        InputMethodManager imm = getInputMethodManager(editText.getContext());
-        if (imm != null) {
-            imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
-        }
-    }
 
     public static void hideKeyboard(Activity activity) {
         try {
