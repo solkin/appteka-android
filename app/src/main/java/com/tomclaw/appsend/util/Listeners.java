@@ -1,5 +1,9 @@
 package com.tomclaw.appsend.util;
 
+import android.util.Log;
+
+import com.tomclaw.appsend.core.Config;
+
 import java.util.LinkedList;
 import java.util.List;
 
@@ -22,7 +26,7 @@ public class Listeners<D> {
                 listener.notify(data);
             }
         } catch (Throwable e) {
-            LegacyLogger.log("Error while notifying listeners", e);
+            log("Error while notifying listeners", e);
         }
     }
 
@@ -32,8 +36,12 @@ public class Listeners<D> {
                 listener.notify(ex);
             }
         } catch (Throwable e) {
-            LegacyLogger.log("Error while notifying listeners", e);
+            log("Error while notifying listeners", e);
         }
+    }
+
+    private static void log(String message, Throwable ex) {
+        Log.d(Config.LOG_TAG, message, ex);
     }
 
     public static abstract class Listener<D> {
