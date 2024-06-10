@@ -11,7 +11,7 @@ import com.tomclaw.appsend.di.legacy.LegacyInjector;
 import com.tomclaw.appsend.di.legacy.LegacyModule;
 import com.tomclaw.appsend.util.PackageIconLoader;
 import com.tomclaw.appsend.util.PreferenceHelper;
-import com.tomclaw.appsend.util.TimeHelper;
+import com.tomclaw.appsend.main.local.TimeHelper;
 import com.tomclaw.appsend.util.states.StateHolder;
 import com.tomclaw.cache.DiskLruCache;
 import com.tomclaw.imageloader.SimpleImageLoader;
@@ -51,7 +51,7 @@ public class Appteka extends Application {
         component = buildComponent();
         initImageLoader();
         actuateFlags();
-        TimeHelper.init(this);
+        TimeHelper.init();
         StateHolder.init();
 
         component.legacyComponent(new LegacyModule()).inject(injector);

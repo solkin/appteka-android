@@ -1,6 +1,6 @@
 package com.tomclaw.appsend.main.local;
 
-import static com.tomclaw.appsend.util.TimeHelper.timeHelper;
+import static com.tomclaw.appsend.main.local.TimeHelper.timeHelper;
 import static com.tomclaw.imageloader.util.ImageViewHandlersKt.centerCrop;
 import static com.tomclaw.imageloader.util.ImageViewHandlersKt.withPlaceholder;
 import static com.tomclaw.imageloader.util.ImageViewsKt.fetch;
