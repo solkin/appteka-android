@@ -6,6 +6,7 @@ import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
+import android.view.inputmethod.InputMethodManager
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.avito.konveyor.ItemBinder
@@ -27,7 +28,6 @@ import com.tomclaw.appsend.upload.UploadApk
 import com.tomclaw.appsend.upload.UploadInfo
 import com.tomclaw.appsend.upload.UploadPackage
 import com.tomclaw.appsend.upload.createUploadIntent
-import com.tomclaw.appsend.util.KeyboardHelper
 import com.tomclaw.appsend.util.ThemeHelper
 import com.tomclaw.appsend.util.getParcelableExtraCompat
 import com.tomclaw.appsend.util.md5
@@ -194,7 +194,13 @@ class UploadActivity : AppCompatActivity(), UploadPresenter.UploadRouter {
     }
 
     override fun hideKeyboard() {
-        KeyboardHelper.hideKeyboard(this)
+        try {
+            currentFocus?.let { view ->
+                val imm = getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(view.windowToken, 0)
+            }
+        } catch (ignored: Throwable) {
+        }
     }
 
     private fun convertUri(uri: Uri): UploadScreenshot {
