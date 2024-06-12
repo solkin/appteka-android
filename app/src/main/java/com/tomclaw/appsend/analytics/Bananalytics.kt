@@ -1,6 +1,7 @@
 package com.tomclaw.appsend.analytics
 
 import com.tomclaw.appsend.analytics.api.AnalyticsEvent
+import com.tomclaw.appsend.analytics.api.SubmitEventsRequest
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.util.Logger
 import java.io.DataInputStream
@@ -15,19 +16,11 @@ import java.util.concurrent.Executors
 
 interface Bananalytics {
 
-    fun trackEvent(
-        name: String,
-        key: String,
-        value: String,
-        isImmediate: Boolean
-    )
+    fun trackEvent(name: String)
 
-    fun trackEvent(
-        name: String,
-        key: String,
-        value: Double,
-        isImmediate: Boolean
-    )
+    fun trackEvent(name: String, key: String, value: String, isImmediate: Boolean)
+
+    fun trackEvent(name: String, key: String, value: Double, isImmediate: Boolean)
 
     fun trackEvent(
         name: String,
@@ -50,34 +43,16 @@ class BananalyticsImpl(
     private val executor: Executor = Executors.newSingleThreadExecutor()
 
     @Suppress("unused")
-    override fun trackEvent(
-        name: String,
-        key: String,
-        value: String,
-        isImmediate: Boolean
-    ) {
-        trackEvent(
-            name,
-            tags = mapOf(Pair(key, value)),
-            fields = emptyMap(),
-            isImmediate
-        )
-    }
+    override fun trackEvent(name: String) =
+        trackEvent(name, tags = emptyMap(), fields = emptyMap(), isImmediate = false)
 
     @Suppress("unused")
-    override fun trackEvent(
-        name: String,
-        key: String,
-        value: Double,
-        isImmediate: Boolean
-    ) {
-        trackEvent(
-            name,
-            tags = emptyMap(),
-            fields = mapOf(Pair(key, value)),
-            isImmediate
-        )
-    }
+    override fun trackEvent(name: String, key: String, value: String, isImmediate: Boolean) =
+        trackEvent(name, tags = mapOf(Pair(key, value)), fields = emptyMap(), isImmediate)
+
+    @Suppress("unused")
+    override fun trackEvent(name: String, key: String, value: Double, isImmediate: Boolean) =
+        trackEvent(name, tags = emptyMap(), fields = mapOf(Pair(key, value)), isImmediate)
 
     @Suppress("unused")
     override fun trackEvent(
@@ -87,7 +62,7 @@ class BananalyticsImpl(
         isImmediate: Boolean
     ) {
         executor.execute {
-            val file = writeEvent(createEvent(name, tags, fields))
+            val file = writeEvent(createEvent(name.replace("-", "_"), tags, fields))
             if (isImmediate) {
                 sendEventImmediate(file)
             } else {
@@ -191,14 +166,22 @@ class BananalyticsImpl(
                 if (events.size >= batchSize) {
                     log("events data: $events")
                     try {
-                        val result = api.submitEvents(
-                            environmentProvider.environment(),
-                            events
-                        ).blockingGet()
+                        val request = SubmitEventsRequest(
+                            environment = environmentProvider.environment(),
+                            events = events
+                        )
+                        val result = api.submitEvents(request).blockingGet()
                         log("batch result: $result")
-                    } catch (ex: IOException) {
-                        log("error sending analytics track")
-                        return
+                    } catch (ex: Throwable) {
+                        val cause = ex.cause ?: ex
+                        try {
+                            throw (cause)
+                        } catch (ex: IOException) {
+                            log("network error while sending analytics track")
+                            return
+                        } catch (ex: Throwable) {
+                            log("failed to send analytics event - skipping")
+                        }
                     }
                     for (f in filesToRemove) {
                         f.delete()
@@ -235,5 +218,5 @@ class BananalyticsImpl(
 
 }
 
-private const val BATCH_SIZE = 20
+private const val BATCH_SIZE = 2
 private const val EVENTS_DIR = "bananalytics"

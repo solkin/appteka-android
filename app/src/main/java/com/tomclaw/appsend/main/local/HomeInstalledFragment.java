@@ -1,6 +1,5 @@
 package com.tomclaw.appsend.main.local;
 
-import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
 import static com.tomclaw.appsend.screen.details.DetailsActivityKt.createDetailsActivityIntent;
 import static com.tomclaw.appsend.screen.permissions.PermissionsActivityKt.createPermissionsActivityIntent;
 import static com.tomclaw.appsend.screen.upload.UploadActivityKt.createUploadActivityIntent;
@@ -86,17 +85,17 @@ public class HomeInstalledFragment extends InstalledFragment {
                             } else {
                                 startActivity(launchIntent);
                             }
-                            trackEvent("click-run-app");
+                            injector.analytics.trackEvent("click-run-app");
                             break;
                         }
                         case 1: {
                             TaskExecutor.getInstance().execute(new ExportApkTask(getContext(), item, ExportApkTask.ACTION_SHARE));
-                            trackEvent("click-share-apk");
+                            injector.analytics.trackEvent("click-share-apk");
                             break;
                         }
                         case 2: {
                             TaskExecutor.getInstance().execute(new ExportApkTask(getContext(), item, ExportApkTask.ACTION_EXTRACT));
-                            trackEvent("click-extract-apk");
+                            injector.analytics.trackEvent("click-extract-apk");
                             break;
                         }
                         case 3: {
@@ -104,18 +103,18 @@ public class HomeInstalledFragment extends InstalledFragment {
                             UploadApk apk = new UploadApk(item.getPath(), item.getVersion(), item.getSize(), item.getPackageInfo());
                             Intent intent = createUploadActivityIntent(getContext(), pkg, apk, null);
                             startActivity(intent);
-                            trackEvent("click-upload-apk");
+                            injector.analytics.trackEvent("click-upload-apk");
                             break;
                         }
                         case 4: {
                             TaskExecutor.getInstance().execute(new ExportApkTask(getContext(), item, ExportApkTask.ACTION_BLUETOOTH));
-                            trackEvent("click-bluetooth-share");
+                            injector.analytics.trackEvent("click-bluetooth-share");
                             break;
                         }
                         case 5: {
                             String packageName = item.getPackageName();
                             openGooglePlay(getContext(), packageName);
-                            trackEvent("click-search-google-play");
+                            injector.analytics.trackEvent("click-search-google-play");
                             break;
                         }
                         case 6: {
@@ -130,7 +129,7 @@ public class HomeInstalledFragment extends InstalledFragment {
                                     true
                             );
                             startActivity(intent);
-                            trackEvent("click-search-appteka");
+                            injector.analytics.trackEvent("click-search-appteka");
                             break;
                         }
                         case 7: {
@@ -152,7 +151,7 @@ public class HomeInstalledFragment extends InstalledFragment {
                                     .setData(Uri.parse("package:" + item.getPackageName()))
                                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             startActivity(intent);
-                            trackEvent("click-app-details");
+                            injector.analytics.trackEvent("click-app-details");
                             break;
                         }
                         case 9: {
@@ -160,7 +159,7 @@ public class HomeInstalledFragment extends InstalledFragment {
                             Uri packageUri = Uri.parse("package:" + item.getPackageName());
                             Intent uninstallIntent = new Intent(Intent.ACTION_DELETE, packageUri);
                             startActivity(uninstallIntent);
-                            trackEvent("click-uninstall-app");
+                            injector.analytics.trackEvent("click-uninstall-app");
                             break;
                         }
                     }

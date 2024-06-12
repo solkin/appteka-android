@@ -1,7 +1,5 @@
 package com.tomclaw.appsend.main.about;
 
-import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -17,12 +15,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.tomclaw.appsend.R;
+import com.tomclaw.appsend.di.legacy.LegacyInjector;
 import com.tomclaw.appsend.util.ThemeHelper;
+
+import org.androidannotations.annotations.Bean;
+import org.androidannotations.annotations.EActivity;
 
 /**
  * Created by Solkin on 17.12.2014.
  */
+@EActivity
 public class AboutActivity extends AppCompatActivity {
+
+    @Bean
+    LegacyInjector injector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +58,7 @@ public class AboutActivity extends AppCompatActivity {
         findViewById(R.id.legal_info).setOnClickListener(v -> onLegalInfoClicked());
 
         if (savedInstanceState == null) {
-            trackEvent("open-about-screen");
+            injector.analytics.trackEvent("open-about-screen");
         }
     }
 
@@ -75,7 +81,7 @@ public class AboutActivity extends AppCompatActivity {
         } catch (Throwable ex) {
             Toast.makeText(this, getString(R.string.no_email_clients), Toast.LENGTH_SHORT).show();
         }
-        trackEvent("click-email-feedback");
+        injector.analytics.trackEvent("click-email-feedback");
     }
 
     private void onForumDiscussClicked() {
@@ -84,7 +90,7 @@ public class AboutActivity extends AppCompatActivity {
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
         } catch (Throwable ignored) {
         }
-        trackEvent("click-4pda-forum");
+        injector.analytics.trackEvent("click-4pda-forum");
     }
 
     private void onTelegramGroupClicked() {
@@ -93,7 +99,7 @@ public class AboutActivity extends AppCompatActivity {
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
         } catch (Throwable ignored) {
         }
-        trackEvent("click-telegram-group");
+        injector.analytics.trackEvent("click-telegram-group");
     }
 
     private void onLegalInfoClicked() {
@@ -102,11 +108,11 @@ public class AboutActivity extends AppCompatActivity {
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
         } catch (Throwable ignored) {
         }
-        trackEvent("click-legal-info");
+        injector.analytics.trackEvent("click-legal-info");
     }
 
     public static Intent createAboutActivityIntent(Context context) {
-        return new Intent(context, AboutActivity.class);
+        return AboutActivity_.intent(context).get();
     }
 
 }

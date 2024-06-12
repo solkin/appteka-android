@@ -11,7 +11,10 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
+import com.tomclaw.appsend.Appteka;
 import com.tomclaw.appsend.R;
+import com.tomclaw.appsend.di.legacy.LegacyInjector;
+import com.tomclaw.appsend.di.legacy.LegacyModule;
 import com.tomclaw.appsend.main.adapter.files.FileViewHolderCreator;
 import com.tomclaw.appsend.main.item.AppItem;
 import com.tomclaw.appsend.net.AppEntry;
@@ -39,9 +42,13 @@ abstract class InstalledFragment extends CommonItemFragment<AppItem> {
     @Bean
     UpdatesCheckInteractor updatesCheck;
 
+    @Bean
+    LegacyInjector injector;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (savedInstanceState != null) {
             String stateKey = savedInstanceState.getString(KEY_FILES);
             if (stateKey != null) {

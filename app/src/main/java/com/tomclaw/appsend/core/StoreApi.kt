@@ -2,6 +2,7 @@ package com.tomclaw.appsend.core
 
 import com.tomclaw.appsend.analytics.api.AnalyticsEvent
 import com.tomclaw.appsend.analytics.api.Environment
+import com.tomclaw.appsend.analytics.api.SubmitEventsRequest
 import com.tomclaw.appsend.analytics.api.SubmitEventsResponse
 import com.tomclaw.appsend.categories.CategoriesResponse
 import com.tomclaw.appsend.dto.StoreResponse
@@ -36,10 +37,12 @@ import com.tomclaw.appsend.screen.upload.api.CheckExistResponse
 import com.tomclaw.appsend.upload.SetMetaResponse
 import com.tomclaw.appsend.user.api.UserBrief
 import io.reactivex.rxjava3.core.Single
+import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
+import retrofit2.http.Headers
 import retrofit2.http.POST
 import retrofit2.http.Query
 
@@ -243,10 +246,10 @@ interface StoreApi {
         @Query("rate_id") rateId: Int
     ): Single<StoreResponse<DeleteRatingResponse>>
 
+    @Headers("Content-Type: application/json")
     @POST("1/events/submit")
     fun submitEvents(
-        @Field("environment") environment: Environment,
-        @Field("events") events: List<AnalyticsEvent>,
+        @Body body: SubmitEventsRequest,
     ): Single<StoreResponse<SubmitEventsResponse>>
 
 }

@@ -1,7 +1,5 @@
 package com.tomclaw.appsend.main.settings;
 
-import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -15,9 +13,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.tomclaw.appsend.R;
+import com.tomclaw.appsend.di.legacy.LegacyInjector;
 import com.tomclaw.appsend.util.ThemeHelper;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
@@ -38,12 +38,15 @@ public class SettingsActivity extends AppCompatActivity {
     @ViewById
     Toolbar toolbar;
 
+    @Bean
+    LegacyInjector legacyInjector;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         ThemeHelper.updateTheme(this);
         super.onCreate(savedInstanceState);
         if (savedInstanceState == null) {
-            trackEvent("open-settings-screen");
+            legacyInjector.analytics.trackEvent("open-settings-screen");
         }
     }
 

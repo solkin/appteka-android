@@ -1,6 +1,5 @@
 package com.tomclaw.appsend.main.local;
 
-import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
 import static com.tomclaw.appsend.screen.details.DetailsActivityKt.createDetailsActivityIntent;
 import static com.tomclaw.appsend.screen.permissions.PermissionsActivityKt.createPermissionsActivityIntent;
 import static com.tomclaw.appsend.screen.upload.UploadActivityKt.createUploadActivityIntent;
@@ -65,12 +64,12 @@ public class HomeDistroFragment extends DistroFragment {
                         case 0: {
                             setRefreshOnResume();
                             installApp(item);
-                            trackEvent("click-install-apk");
+                            injector.analytics.trackEvent("click-install-apk");
                             break;
                         }
                         case 1: {
                             shareApk(getContext(), new File(item.getPath()));
-                            trackEvent("click-share-apk");
+                            injector.analytics.trackEvent("click-share-apk");
                             break;
                         }
                         case 2: {
@@ -78,18 +77,18 @@ public class HomeDistroFragment extends DistroFragment {
                             UploadApk apk = new UploadApk(item.getPath(), item.getVersion(), item.getSize(), item.getPackageInfo());
                             Intent intent = createUploadActivityIntent(getContext(), pkg, apk, null);
                             startActivity(intent);
-                            trackEvent("click-upload-apk");
+                            injector.analytics.trackEvent("click-upload-apk");
                             break;
                         }
                         case 3: {
                             bluetoothApk(getContext(), new File(item.getPath()));
-                            trackEvent("click-bluetooth-share");
+                            injector.analytics.trackEvent("click-bluetooth-share");
                             break;
                         }
                         case 4: {
                             final String packageName = item.getPackageName();
                             openGooglePlay(getContext(), packageName);
-                            trackEvent("click-search-google-play");
+                            injector.analytics.trackEvent("click-search-google-play");
                             break;
                         }
                         case 5: {
@@ -104,7 +103,7 @@ public class HomeDistroFragment extends DistroFragment {
                                     true
                             );
                             startActivity(intent);
-                            trackEvent("click-search-appteka");
+                            injector.analytics.trackEvent("click-search-appteka");
                             break;
                         }
                         case 6: {
@@ -123,7 +122,7 @@ public class HomeDistroFragment extends DistroFragment {
                             if (file.delete()) {
                                 reloadFiles();
                             }
-                            trackEvent("click-delete-app");
+                            injector.analytics.trackEvent("click-delete-app");
                             break;
                         }
                     }

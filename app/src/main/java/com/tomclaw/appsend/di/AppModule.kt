@@ -168,7 +168,9 @@ class AppModule(private val app: Application) {
 
     @Provides
     @Singleton
-    internal fun provideAnalytics(): Analytics = AnalyticsImpl(app)
+    internal fun provideAnalytics(
+        bananalytics: Bananalytics
+    ): Analytics = AnalyticsImpl(app, bananalytics)
 
     @Provides
     @Singleton

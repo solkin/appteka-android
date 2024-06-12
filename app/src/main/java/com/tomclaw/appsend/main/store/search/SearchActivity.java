@@ -1,7 +1,5 @@
 package com.tomclaw.appsend.main.store.search;
 
-import static com.microsoft.appcenter.analytics.Analytics.trackEvent;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -16,9 +14,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.tomclaw.appsend.R;
+import com.tomclaw.appsend.di.legacy.LegacyInjector;
 import com.tomclaw.appsend.util.ThemeHelper;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.FragmentById;
 import org.androidannotations.annotations.OptionsItem;
@@ -37,12 +37,15 @@ public class SearchActivity extends AppCompatActivity {
     @FragmentById
     SearchFragment searchFragment;
 
+    @Bean
+    LegacyInjector legacyInjector;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         ThemeHelper.updateTheme(this);
         super.onCreate(savedInstanceState);
         if (savedInstanceState == null) {
-            trackEvent("open-search-screen");
+            legacyInjector.analytics.trackEvent("open-search-screen");
         }
     }
 

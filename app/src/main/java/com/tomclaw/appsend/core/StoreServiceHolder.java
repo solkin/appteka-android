@@ -6,6 +6,7 @@ import com.tomclaw.appsend.Appteka;
 import com.tomclaw.appsend.di.legacy.LegacyInjector;
 import com.tomclaw.appsend.di.legacy.LegacyModule;
 
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
 
 import retrofit2.Retrofit;
@@ -17,13 +18,13 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @EBean(scope = EBean.Scope.Singleton)
 public class StoreServiceHolder {
 
-    private final LegacyInjector injector = new LegacyInjector();
+    @Bean
+    LegacyInjector injector;
 
     private StoreService service = null;
 
     private StoreService lazyInit() {
         if (service != null) return service;
-        Appteka.getComponent().legacyComponent(new LegacyModule()).inject(injector);
 
         Retrofit retrofit = new Retrofit.Builder()
                 .client(injector.httpClient)

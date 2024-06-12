@@ -12,10 +12,14 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
+import com.tomclaw.appsend.Appteka;
+import com.tomclaw.appsend.di.legacy.LegacyInjector;
+import com.tomclaw.appsend.di.legacy.LegacyModule;
 import com.tomclaw.appsend.main.adapter.files.FileViewHolderCreator;
 import com.tomclaw.appsend.main.item.ApkItem;
 import com.tomclaw.appsend.util.FileHelper;
 
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EFragment;
 
 import java.io.File;
@@ -30,9 +34,13 @@ abstract class DistroFragment extends CommonItemFragment<ApkItem> {
 
     private ArrayList<ApkItem> files;
 
+    @Bean
+    LegacyInjector injector;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (savedInstanceState != null) {
             String stateKey = savedInstanceState.getString(KEY_FILES);
             if (stateKey != null) {
