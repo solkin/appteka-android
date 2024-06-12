@@ -147,6 +147,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".screen.ratings.RatingsActivity" />
+        <activity android:name=".screen.agreement.AgreementActivity" />
 
         <service android:name=".download.DownloadService" />
 

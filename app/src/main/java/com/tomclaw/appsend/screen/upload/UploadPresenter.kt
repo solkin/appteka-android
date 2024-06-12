@@ -50,6 +50,10 @@ interface UploadPresenter : ItemListener {
 
     fun onImagesSelected(images: List<UploadScreenshot>)
 
+    fun onAgreementAccepted()
+
+    fun onAgreementDeclined()
+
     fun onBackPressed()
 
     interface UploadRouter {
@@ -65,6 +69,8 @@ interface UploadPresenter : ItemListener {
         fun openImagePicker()
 
         fun openGallery(items: List<GalleryItem>, current: Int)
+
+        fun openAgreementScreen()
 
         fun leaveScreen()
 
@@ -84,6 +90,7 @@ class UploadPresenterImpl(
     private val uploadConverter: UploadConverter,
     private val adapterPresenter: Lazy<AdapterPresenter>,
     private val uploadManager: UploadManager,
+    private val preferences: UploadPreferencesProvider,
     private val schedulers: SchedulersFactory,
     state: Bundle?
 ) : UploadPresenter {
@@ -194,6 +201,16 @@ class UploadPresenterImpl(
     override fun onImagesSelected(images: List<UploadScreenshot>) {
         screenshots = ArrayList((screenshots + images).distinctBy { it.original })
         bindForm()
+    }
+
+    override fun onAgreementAccepted() {
+        preferences.setAgreementAccepted(value = true)
+        startUpload()
+    }
+
+    override fun onAgreementDeclined() {
+        preferences.setAgreementAccepted(value = false)
+        view?.showAgreementError()
     }
 
     override fun onDiscardClick() {
@@ -406,6 +423,11 @@ class UploadPresenterImpl(
     }
 
     private fun startUpload(): Boolean {
+        if (!preferences.isAgreementAccepted()) {
+            router?.openAgreementScreen()
+            return false
+        }
+
         val pkg = pkg ?: return false
         val category = category ?: return false
         val checkExist = checkExist ?: return false

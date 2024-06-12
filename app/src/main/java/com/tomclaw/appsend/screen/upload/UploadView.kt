@@ -51,6 +51,8 @@ interface UploadView {
 
     fun showUnauthorizedError()
 
+    fun showAgreementError()
+
     fun showCategories(items: List<CategoryItem>)
 
     fun showVersionsDialog(items: List<VersionItem>)
@@ -157,6 +159,12 @@ class UploadViewImpl(
             .setAction(R.string.login_button) {
                 loginRelay.accept(Unit)
             }
+            .show()
+    }
+
+    override fun showAgreementError() {
+        Snackbar
+            .make(recycler, R.string.agree_with_upload_notice, Snackbar.LENGTH_LONG)
             .show()
     }
 

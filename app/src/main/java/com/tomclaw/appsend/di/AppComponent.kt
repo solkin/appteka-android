@@ -4,6 +4,8 @@ import com.tomclaw.appsend.di.legacy.LegacyComponent
 import com.tomclaw.appsend.di.legacy.LegacyModule
 import com.tomclaw.appsend.download.di.DownloadServiceComponent
 import com.tomclaw.appsend.download.di.DownloadServiceModule
+import com.tomclaw.appsend.screen.agreement.di.AgreementComponent
+import com.tomclaw.appsend.screen.agreement.di.AgreementModule
 import com.tomclaw.appsend.screen.auth.request_code.di.RequestCodeComponent
 import com.tomclaw.appsend.screen.auth.request_code.di.RequestCodeModule
 import com.tomclaw.appsend.screen.auth.verify_code.di.VerifyCodeComponent
@@ -80,6 +82,8 @@ interface AppComponent {
     fun homeComponent(module: HomeModule): HomeComponent
 
     fun ratingsComponent(module: RatingsModule): RatingsComponent
+
+    fun agreementComponent(module: AgreementModule): AgreementComponent
 
     fun legacyComponent(module: LegacyModule): LegacyComponent
 

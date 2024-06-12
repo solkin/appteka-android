@@ -17,6 +17,7 @@ import com.tomclaw.appsend.R
 import com.tomclaw.appsend.main.item.CommonItem
 import com.tomclaw.appsend.main.local.SelectLocalAppActivity.SELECTED_ITEM
 import com.tomclaw.appsend.main.local.SelectLocalAppActivity.createSelectAppActivity
+import com.tomclaw.appsend.screen.agreement.createAgreementActivityIntent
 import com.tomclaw.appsend.screen.auth.request_code.createRequestCodeActivityIntent
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.screen.gallery.GalleryItem
@@ -79,6 +80,14 @@ class UploadActivity : AppCompatActivity(), UploadPresenter.UploadRouter {
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
                 presenter.onAuthorized()
+            }
+        }
+
+    private val agreementLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            when (result.resultCode) {
+                RESULT_OK -> presenter.onAgreementAccepted()
+                else -> presenter.onAgreementDeclined()
             }
         }
 
@@ -196,6 +205,11 @@ class UploadActivity : AppCompatActivity(), UploadPresenter.UploadRouter {
     override fun openGallery(items: List<GalleryItem>, current: Int) {
         val intent = createGalleryActivityIntent(context = this, items, current)
         startActivity(intent)
+    }
+
+    override fun openAgreementScreen() {
+        val intent = createAgreementActivityIntent(context = this)
+        agreementLauncher.launch(intent)
     }
 
     override fun leaveScreen() {

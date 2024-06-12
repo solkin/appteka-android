@@ -114,7 +114,6 @@
     <string name="description">Thông tin</string>
     <string name="edit_meta">Thay đổi thông tin</string>
     <string name="ratings">Đánh giá</string>
-    <string name="load_ratings_error">Bị lỗi trong quá trình tải đánh giá</string>
     <string name="load_files_error">Bị lỗi trong quá trình tải tệp tin</string>
     <string name="error_rate_app">Không thể gửi xếp hạng. Vui lòng thử lại</string>
     <string name="category_not_defined">Không xác định</string>
@@ -153,7 +152,6 @@
     <string name="name_input">Tên</string>
     <string name="ok">OK</string>
     <string name="upload_notice_title">Thỏa thuận giao lưu</string>
-    <string name="upload_notice_text">Quan trọng!  Bằng cách nhấp vào "Có", bạn xác nhận rằng:\n1.  Không vi phạm bản quyền của các ứng dụng được tải lên bộ trao đổi.\n2.  Phần mềm đã tải xuống không vi phạm bản quyền hoặc luật hiện hành.\n3.  Chủ sở hữu appteka.store không chịu trách nhiệm về phần mềm được tải vào bộ trao đổi</string>
     <string name="agree_with_upload_notice">Để tải ứng dụng vào phần trao đổi Appteka, bạn cần chấp nhận thỏa thuận</string>
     <string name="apps_on_moderation">Kiểm duyệt</string>
     <string name="moderation_approve">Chấp thuận</string>
@@ -162,7 +160,6 @@
     <string name="status_private">Chưa phát hành</string>
     <string name="status_on_moderation">Kiểm duyệt</string>
     <string name="delete">Xóa</string>
-    <string name="rating_deleted">Bình luận đã xóa</string>
     <string name="error_rating_deletion">Không thể xóa bình luận</string>
     <string name="unpublish_file">Dỡ khỏi mục đã đăng</string>
     <string name="unpublish_of">Dỡ khỏi mục đã đăng %s</string>
@@ -289,4 +286,11 @@
     <string name="reviews_activity">Đánh Giá Của Người Dùng</string>
     <string name="no_user_activity_yet">Người dùng chưa làm gì cả</string>
     <string name="legal_info">Thông tin pháp lý</string>
+    <string name="translate">Dịch</string>
+    <string name="original">Nguyên bản</string>
+    <string name="wait">Chờ đợi…</string>
+    <string name="translation_error">Không thể dịch được</string>
+    <string name="submit">Nộp</string>
+    <string name="agree_with_terms">Tôi đồng ý với các điều khoản này cho các nội dung tải lên hiện tại và tương lai</string>
+    <string name="uploads_agreement">1. Khi sử dụng dịch vụ Appteka.Store, bao gồm ứng dụng di động Appteka và trang web có tại appteka.store (sau đây gọi là Dịch vụ), người dùng phải tuân thủ nghiêm ngặt các yêu cầu của pháp luật Liên bang Nga và các quốc gia khác về sở hữu trí tuệ, không vi phạm quyền tác giả/quyền liên quan của bên thứ ba và không thực hiện các hành động có thể cố ý hoặc vô ý dưới bất kỳ hình thức nào ảnh hưởng và/hoặc vi phạm quyền tác giả/quyền liên quan của bất kỳ bên thứ ba nào. \n\n 2. Khi sử dụng Dịch vụ, Người dùng cam kết không đăng nội dung, bao gồm phần mềm và hình ảnh (sau đây gọi là Nội dung), nếu quyền đăng Nội dung đó không thuộc về Người dùng theo luật bản quyền quốc tế và của Nga, theo hợp đồng hoặc trên cơ sở pháp lý khác. Bằng cách đăng Nội dung lên Dịch vụ, người dùng tự động xác nhận rằng mình có tất cả các quyền cần thiết đối với việc đặt Nội dung có liên quan đó hoặc xác nhận rằng mình có độc quyền đối với Nội dung đó và quyền xuất bản Nội dung hoặc rằng mình có các quyền pháp lý khác căn cứ để sử dụng Nội dung này. \n\n 3. Người dùng chịu hoàn toàn trách nhiệm không giới hạn về mọi hành động của mình thực hiện khi sử dụng dịch vụ, phù hợp với luật pháp quốc tế và pháp luật của Liên bang Nga, bao gồm cả theo Phần IV của Bộ luật Dân sự Liên bang Nga. \n\n 4. Người dùng có quyền đăng Nội dung lên Dịch vụ nếu Người dùng có quyền đặt Nội dung đó và nếu những hành động này không ảnh hưởng đến quyền và lợi ích hợp pháp của bên thứ ba, bao gồm cả tác giả của Nội dung.  5. Trước khi đăng thông tin và Nội dung, Người dùng có nghĩa vụ phải đánh giá tính hợp pháp của vị trí của họ. Nếu có nghi ngờ về tính hợp pháp của một số hành động nhất định, bao gồm đăng thông tin và/hoặc Nội dung, Cơ quan quản lý khuyến nghị không nên thực hiện các hành động đó. \n\n 6. Đối với mọi hành vi vi phạm bản quyền có thể xảy ra, Người dùng phải chịu trách nhiệm độc lập trước các bên thứ ba. Các chức năng của Cơ quan quản lý dịch vụ chỉ bao gồm việc cung cấp các khả năng kỹ thuật để cung cấp Nội dung người dùng cho công chúng trực tuyến (trên Internet). Việc đưa tác phẩm thực sự đến với công chúng ở chế độ tương tác được thực hiện bởi Người dùng và chịu hoàn toàn trách nhiệm về nội dung của chúng. \n\n 7. Chính sách của Dịch vụ là phản hồi mọi thông báo vi phạm bản quyền, quyền liên quan và thực hiện hành động thích hợp. Trong trường hợp chủ sở hữu bản quyền kháng cáo khi phát hiện Nội dung vi phạm bản quyền của họ, ban quản trị có quyền xóa nội dung đó mà không cần cảnh báo.</string>
 </resources>

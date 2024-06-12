@@ -79,6 +79,7 @@ class UploadModule(
         uploadConverter: UploadConverter,
         @Named(UPLOAD_ADAPTER_PRESENTER) adapterPresenter: Lazy<AdapterPresenter>,
         uploadManager: UploadManager,
+        preferences: UploadPreferencesProvider,
         schedulers: SchedulersFactory
     ): UploadPresenter = UploadPresenterImpl(
         pkg,
@@ -90,6 +91,7 @@ class UploadModule(
         uploadConverter,
         adapterPresenter,
         uploadManager,
+        preferences,
         schedulers,
         state
     )

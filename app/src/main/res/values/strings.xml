@@ -120,7 +120,6 @@
     <string name="description">Description</string>
     <string name="edit_meta">Edit Description</string>
     <string name="ratings">Ratings</string>
-    <string name="load_ratings_error">An error occurred while loading ratings</string>
     <string name="load_files_error">An error occurred while loading files</string>
     <string name="error_rate_app">Failed to submit ratings, please try again</string>
     <string name="category_not_defined">Not defined</string>
@@ -159,7 +158,6 @@
     <string name="name_input">Name (nickname)</string>
     <string name="ok">OK</string>
     <string name="upload_notice_title">Distribution rights agreement</string>
-    <string name="upload_notice_text">Important! By clicking \"Yes\" you confirm that:\n1. You do not violate the licenses of applications uploaded to the Appteka store.\n2. This software does not violate copyright and applicable laws.\n3. The owner of the appteka.store is not responsible for the uploaded software.</string>
     <string name="agree_with_upload_notice">To upload applications to Appteka store you must agree with this condition</string>
     <string name="apps_on_moderation">Apps on moderation</string>
     <string name="moderation_approve">Approve</string>
@@ -168,7 +166,6 @@
     <string name="status_private">Not published</string>
     <string name="status_on_moderation">On Moderation</string>
     <string name="delete">Delete</string>
-    <string name="rating_deleted">Rating is deleted</string>
     <string name="error_rating_deletion">Unable to delete rating</string>
     <string name="unpublish_file">Remove from publication</string>
     <string name="unpublish_of">Remove from publication of %s</string>
@@ -320,4 +317,7 @@
     <string name="original">Original</string>
     <string name="wait">Wait…</string>
     <string name="translation_error">Failed to translate</string>
+    <string name="submit">Submit</string>
+    <string name="agree_with_terms">I agree with this terms for current and future uploads</string>
+    <string name="uploads_agreement">1. When using the Appteka.Store service, including the Appteka mobile application and the website available at appteka.store (hereinafter referred to as the Service), the user must strictly comply with the requirements of the legislation of the Russian Federation and other countries on intellectual property, not violate the copyright/related rights of third parties and not to perform actions that may in any way, intentionally or unintentionally, affect and/or violate the copyright/related rights of any third parties. \n\n2. When using the Service, the User undertakes not to post content, including software and images (hereinafter referred to as the Content), if the right to post such Content does not belong to the User in accordance with international and Russian copyright law, in accordance with a contract, or on other legal grounds. By posting Content on the Service, the user automatically confirms that he has all the necessary rights to such placement of the relevant Content, or confirms that he has exclusive rights to such Content and the right to publish the Content, or that he has other legal grounds to use this Content. \n\n3. The user bears full responsibility without limitation for all his actions that he carries out when using the service, in accordance with international law and the legislation of the Russian Federation, including in accordance with Part IV of the Civil Code of the Russian Federation. \n\n4. The User has the right to post Content on the Service if the User has the right to such placement of Content and if these actions do not in any way affect the rights and legitimate interests of third parties, including the authors of the Content. \n\n5. Before posting information and Content, the User is obliged to first evaluate the legality of their placement. If there are doubts regarding the legality of certain actions, including posting information and/or Content, the Administration recommends refraining from carrying out such actions. \n\n6. For all possible violations of copyright, the User bears independent responsibility to third parties. The functions of the Service Administration include only providing the technical capabilities to make the User Content available to the public online (on the Internet). The actual bringing of works to the public\'s attention in an interactive mode is carried out by the User, and he bears full responsibility for their content. \n\n7. The Service\'s policy is to respond to any notices of violation of copyright and related rights and take appropriate action. In the event of an appeal from copyright holders upon detection of Content that violates their copyright, the administration reserves the right to delete such content without warning.</string>
 </resources>

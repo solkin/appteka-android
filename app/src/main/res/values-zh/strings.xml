@@ -114,7 +114,6 @@
     <string name="description">描述</string>
     <string name="edit_meta">更改说明</string>
     <string name="ratings">评论</string>
-    <string name="load_ratings_error">加载评论时出错</string>
     <string name="load_files_error">下载文件时发生错误</string>
     <string name="error_rate_app">无法提交评级。请再试一次。</string>
     <string name="category_not_defined">没决定</string>
@@ -153,7 +152,6 @@
     <string name="name_input">姓名（昵称）</string>
     <string name="ok">好的</string>
     <string name="upload_notice_title">分销协议</string>
-    <string name="upload_notice_text">重要的！单击“是”即表示您确认：\n1.请勿违反上传到交换器的应用程序的许可证。\n2.下载的软件不违反版权或适用法律。\n3. appteka.store 的所有者不对加载到交换器中的软件负责。</string>
     <string name="agree_with_upload_notice">要将应用程序上传到 Appteka 交换器，您需要接受协议</string>
     <string name="apps_on_moderation">审核中</string>
     <string name="moderation_approve">跳过</string>
@@ -162,7 +160,6 @@
     <string name="status_private">未发表</string>
     <string name="status_on_moderation">审核中</string>
     <string name="delete">删除</string>
-    <string name="rating_deleted">评论已删除</string>
     <string name="error_rating_deletion">删除评论失败</string>
     <string name="unpublish_file">从出版物中删除</string>
     <string name="unpublish_of">从出版物 %s 中删除</string>
@@ -289,4 +286,11 @@
     <string name="reviews_activity">用户评论</string>
     <string name="no_user_activity_yet">还没有用户活动</string>
     <string name="legal_info">法律信息</string>
+    <string name="translate">翻译</string>
+    <string name="original">原来的</string>
+    <string name="wait">等待…</string>
+    <string name="translation_error">翻译失败</string>
+    <string name="submit">提交</string>
+    <string name="agree_with_terms">我同意当前和未来上传的条款</string>
+    <string name="uploads_agreement">1. 在使用 Appteka.Store 服务时，包括 Appteka 移动应用程序和 appteka.store 上提供的网站（以下简称“服务”），用户必须严格遵守俄罗斯联邦和其他国家关于知识产权的立法要求，不得侵犯第三方的版权/相关权利，不得采取任何可能有意或无意地影响和/或侵犯任何第三方版权/相关权利的行为。 \n\n 2. 在使用服务时，如果根据国际和俄罗斯版权法、根据合同或其他法律依据，发布此类内容的权利不属于用户，则用户承诺不发布内容，包括软件和图像（以下简称“内容”）。通过在服务上发布内容，用户自动确认他拥有放置相关内容的所有必要权利，或确认他对此类内容拥有专有权利和发布内容的权利，或他拥有使用此内容的其他法律依据。 \n\n 3. 用户根据国际法和俄罗斯联邦法律，包括《俄罗斯联邦民法典》第四部分，对使用服务时进行的所有行为承担全部责任，不受限制。 \n\n 4. 用户有权在服务上发布内容，前提是用户有权发布内容，并且这些行为不会以任何方式影响第三方（包括内容作者）的权利和合法利益。  5. 在发布信息和内容之前，用户有义务首先评估其发布的合法性。如果对某些行为（包括发布信息和/或内容）的合法性存在疑问，管理部门建议不要执行此类操作。 \n\n 6. 对于所有可能的版权侵权行为，用户对第三方承担独立责任。服务管理部门的职能仅包括提供技术能力，使用户内容在线（在互联网上）向公众提供。以互动方式将作品真正地呈现给公众是由用户进行的，用户对其内容负全部责任。 \n\n 7. 服务的政策是响应任何侵犯版权和相关权利的通知并采取适当行动。如果版权所有者在发现侵犯其版权的内容后提出申诉，管理部门保留在未经警告的情况下删除此类内容的权利。</string>
 </resources>

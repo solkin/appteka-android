@@ -82,8 +82,6 @@ public class SelectLocalAppActivity extends PermisoActivity implements CommonIte
 
         pager.setAdapter(adapter);
         tabs.setupWithViewPager(pager);
-
-        uploadNotice();
     }
 
     @OptionsItem(android.R.id.home)
@@ -101,20 +99,6 @@ public class SelectLocalAppActivity extends PermisoActivity implements CommonIte
     @Override
     public void onClick(final CommonItem item) {
         leaveScreen(item);
-    }
-
-    private void uploadNotice() {
-        if (PreferenceHelper.isShowUploadNotice(this)) {
-            new AlertDialog.Builder(this)
-                    .setTitle(getString(R.string.upload_notice_title))
-                    .setMessage(getString(R.string.upload_notice_text))
-                    .setNegativeButton(R.string.yes, (dialog, which) -> PreferenceHelper.setShowUploadNotice(SelectLocalAppActivity.this, false))
-                    .setPositiveButton(R.string.no, (dialog, which) -> {
-                        showError(R.string.agree_with_upload_notice);
-                        leaveScreen();
-                    })
-                    .show();
-        }
     }
 
     private void showError(@StringRes int message) {
