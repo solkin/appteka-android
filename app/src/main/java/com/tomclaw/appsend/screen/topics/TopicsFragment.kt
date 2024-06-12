@@ -14,6 +14,7 @@ import com.tomclaw.appsend.dto.TopicEntity
 import com.tomclaw.appsend.screen.auth.request_code.createRequestCodeActivityIntent
 import com.tomclaw.appsend.screen.chat.createChatActivityIntent
 import com.tomclaw.appsend.screen.topics.di.TopicsModule
+import com.tomclaw.appsend.util.Analytics
 import javax.inject.Inject
 
 class TopicsFragment : Fragment(), TopicsPresenter.TopicsRouter {
@@ -30,6 +31,9 @@ class TopicsFragment : Fragment(), TopicsPresenter.TopicsRouter {
     @Inject
     lateinit var binder: ItemBinder
 
+    @Inject
+    lateinit var analytics: Analytics
+
     override fun onCreate(savedInstanceState: Bundle?) {
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
         Appteka.getComponent()
@@ -37,6 +41,10 @@ class TopicsFragment : Fragment(), TopicsPresenter.TopicsRouter {
             .inject(fragment = this)
 
         super.onCreate(savedInstanceState)
+
+        if (savedInstanceState == null) {
+            analytics.trackEvent("open-topics-fragment")
+        }
     }
 
     override fun onCreateView(

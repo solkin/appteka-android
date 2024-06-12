@@ -9,6 +9,7 @@ import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.rate.di.RateModule
 import com.tomclaw.appsend.user.api.UserBrief
+import com.tomclaw.appsend.util.Analytics
 import com.tomclaw.appsend.util.ThemeHelper
 import com.tomclaw.appsend.util.getParcelableExtraCompat
 import javax.inject.Inject
@@ -17,6 +18,9 @@ class RateActivity : AppCompatActivity(), RatePresenter.RateRouter {
 
     @Inject
     lateinit var presenter: RatePresenter
+
+    @Inject
+    lateinit var analytics: Analytics
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val appId = intent.getStringExtra(EXTRA_APP_ID)
@@ -43,6 +47,10 @@ class RateActivity : AppCompatActivity(), RatePresenter.RateRouter {
         }
 
         presenter.attachView(view)
+
+        if (savedInstanceState == null) {
+            analytics.trackEvent("open-rate-screen")
+        }
     }
 
     @Deprecated("Deprecated in Java")

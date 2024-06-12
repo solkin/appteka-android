@@ -28,6 +28,7 @@ import com.tomclaw.appsend.upload.UploadApk
 import com.tomclaw.appsend.upload.UploadInfo
 import com.tomclaw.appsend.upload.UploadPackage
 import com.tomclaw.appsend.upload.createUploadIntent
+import com.tomclaw.appsend.util.Analytics
 import com.tomclaw.appsend.util.ThemeHelper
 import com.tomclaw.appsend.util.getParcelableExtraCompat
 import com.tomclaw.appsend.util.md5
@@ -48,6 +49,9 @@ class UploadActivity : AppCompatActivity(), UploadPresenter.UploadRouter {
 
     @Inject
     lateinit var preferences: UploadPreferencesProvider
+
+    @Inject
+    lateinit var analytics: Analytics
 
     private val selectAppResultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -118,6 +122,10 @@ class UploadActivity : AppCompatActivity(), UploadPresenter.UploadRouter {
         val view = UploadViewImpl(window.decorView, preferences, adapter)
 
         presenter.attachView(view)
+
+        if (savedInstanceState == null) {
+            analytics.trackEvent("open-upload-screen")
+        }
     }
 
     @Deprecated("Deprecated in Java")
@@ -168,6 +176,7 @@ class UploadActivity : AppCompatActivity(), UploadPresenter.UploadRouter {
     override fun startUpload(pkg: UploadPackage, apk: UploadApk?, info: UploadInfo) {
         val intent = createUploadIntent(context = this, pkg, apk, info)
         startService(intent)
+        analytics.trackEvent("upload-start")
     }
 
     override fun openLoginScreen() {

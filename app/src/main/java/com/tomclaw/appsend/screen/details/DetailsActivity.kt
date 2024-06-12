@@ -37,6 +37,7 @@ import com.tomclaw.appsend.screen.ratings.createRatingsActivityIntent
 import com.tomclaw.appsend.screen.upload.createUploadActivityIntent
 import com.tomclaw.appsend.upload.UploadPackage
 import com.tomclaw.appsend.user.api.UserBrief
+import com.tomclaw.appsend.util.Analytics
 import com.tomclaw.appsend.util.IntentHelper
 import com.tomclaw.appsend.util.ThemeHelper
 import java.io.File
@@ -57,6 +58,9 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
 
     @Inject
     lateinit var preferences: DetailsPreferencesProvider
+
+    @Inject
+    lateinit var analytics: Analytics
 
     private val invalidateDetailsResultLauncher =
         registerForActivityResult(StartActivityForResult()) { result ->
@@ -122,6 +126,10 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
         val view = DetailsViewImpl(window.decorView, preferences, adapter)
 
         presenter.attachView(view)
+
+        if (savedInstanceState == null) {
+            analytics.trackEvent("open-details-screen")
+        }
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -221,6 +229,7 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
     override fun launchApp(packageName: String) {
         val intent = packageManager.getLaunchIntentForPackage(packageName)
         startActivity(intent)
+        analytics.trackEvent("details-launch-app")
     }
 
     override fun installApp(file: File) {
@@ -230,6 +239,7 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
             "application/vnd.android.package-archive"
         )
         startActivity(intent)
+        analytics.trackEvent("details-install-app")
     }
 
     override fun removeApp(packageName: String) {
@@ -317,6 +327,7 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
     override fun openChatScreen(topicId: Int, label: String?) {
         val intent = createChatActivityIntent(this, topicId, label)
         startActivity(intent)
+        analytics.trackEvent("details-open-chat")
     }
 
     override fun openStoreScreen() {
@@ -336,6 +347,7 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
             )
             startActivity(intent)
         }
+        analytics.trackEvent("details-open-google-play")
     }
 
     override fun startDownload(
@@ -347,6 +359,7 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
     ) {
         val intent = createDownloadIntent(context = this, label, version, icon, appId, url)
         startService(intent)
+        analytics.trackEvent("details-download-app")
     }
 
     override fun openShare(title: String, text: String) {
@@ -355,6 +368,7 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
             .putExtra(Intent.EXTRA_TEXT, text)
             .setType("text/plain")
         startActivity(Intent.createChooser(intent, title))
+        analytics.trackEvent("details-share")
     }
 
     override fun openLoginScreen() {
@@ -371,6 +385,7 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
         val packageUri = Uri.parse("package:$packageName")
         val uninstallIntent = Intent(Intent.ACTION_DELETE, packageUri)
         startActivity(uninstallIntent)
+        analytics.trackEvent("details-delete-app")
     }
 
 }

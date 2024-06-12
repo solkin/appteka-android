@@ -20,6 +20,7 @@ import com.tomclaw.appsend.screen.favorite.createFavoriteActivityIntent
 import com.tomclaw.appsend.screen.profile.di.PROFILE_ADAPTER_PRESENTER
 import com.tomclaw.appsend.screen.profile.di.ProfileModule
 import com.tomclaw.appsend.screen.reviews.createReviewsActivityIntent
+import com.tomclaw.appsend.util.Analytics
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -34,6 +35,9 @@ class ProfileFragment : Fragment(), ProfilePresenter.ProfileRouter {
 
     @Inject
     lateinit var binder: ItemBinder
+
+    @Inject
+    lateinit var analytics: Analytics
 
     private val authLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -52,6 +56,10 @@ class ProfileFragment : Fragment(), ProfilePresenter.ProfileRouter {
             .inject(fragment = this)
 
         super.onCreate(savedInstanceState)
+
+        if (savedInstanceState == null) {
+            analytics.trackEvent("open-profile-fragment")
+        }
     }
 
     override fun onCreateView(

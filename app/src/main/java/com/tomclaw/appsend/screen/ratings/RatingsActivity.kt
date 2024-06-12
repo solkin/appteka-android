@@ -11,6 +11,7 @@ import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.profile.createProfileActivityIntent
 import com.tomclaw.appsend.screen.ratings.di.RatingsModule
+import com.tomclaw.appsend.util.Analytics
 import com.tomclaw.appsend.util.ThemeHelper
 import javax.inject.Inject
 
@@ -24,6 +25,9 @@ class RatingsActivity : AppCompatActivity(), RatingsPresenter.RatingsRouter {
 
     @Inject
     lateinit var binder: ItemBinder
+
+    @Inject
+    lateinit var analytics: Analytics
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val appId = intent.getStringExtra(EXTRA_APP_ID)
@@ -41,6 +45,10 @@ class RatingsActivity : AppCompatActivity(), RatingsPresenter.RatingsRouter {
         val view = RatingsViewImpl(window.decorView, adapter)
 
         presenter.attachView(view)
+
+        if (savedInstanceState == null) {
+            analytics.trackEvent("open-ratings-screen")
+        }
     }
 
     @Deprecated("Deprecated in Java")

@@ -12,6 +12,7 @@ import com.avito.konveyor.adapter.SimpleRecyclerAdapter
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.gallery.di.GalleryModule
+import com.tomclaw.appsend.util.Analytics
 import com.tomclaw.appsend.util.getParcelableArrayListCompat
 import javax.inject.Inject
 
@@ -26,6 +27,9 @@ class GalleryActivity : AppCompatActivity(), GalleryPresenter.GalleryRouter {
 
     @Inject
     lateinit var binder: ItemBinder
+
+    @Inject
+    lateinit var analytics: Analytics
 
     private val saveFileLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -54,6 +58,10 @@ class GalleryActivity : AppCompatActivity(), GalleryPresenter.GalleryRouter {
         val view = GalleryViewImpl(window.decorView, adapter)
 
         presenter.attachView(view)
+
+        if (savedInstanceState == null) {
+            analytics.trackEvent("open-gallery-screen")
+        }
     }
 
     @Deprecated("Deprecated in Java")

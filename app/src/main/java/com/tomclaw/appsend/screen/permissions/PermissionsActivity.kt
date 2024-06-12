@@ -10,6 +10,7 @@ import com.avito.konveyor.adapter.SimpleRecyclerAdapter
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.permissions.di.PermissionsModule
+import com.tomclaw.appsend.util.Analytics
 import com.tomclaw.appsend.util.ThemeHelper
 import javax.inject.Inject
 
@@ -23,6 +24,9 @@ class PermissionsActivity : AppCompatActivity(), PermissionsPresenter.Permission
 
     @Inject
     lateinit var binder: ItemBinder
+
+    @Inject
+    lateinit var analytics: Analytics
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val permissions = intent?.getStringArrayListExtra(EXTRA_PERMISSIONS)
@@ -40,6 +44,10 @@ class PermissionsActivity : AppCompatActivity(), PermissionsPresenter.Permission
         val view = PermissionsViewImpl(window.decorView, adapter)
 
         presenter.attachView(view)
+
+        if (savedInstanceState == null) {
+            analytics.trackEvent("open-permissions-screen")
+        }
     }
 
     @Deprecated("Deprecated in Java")

@@ -12,6 +12,7 @@ import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.screen.favorite.di.FavoriteModule
+import com.tomclaw.appsend.util.Analytics
 import com.tomclaw.appsend.util.ThemeHelper
 import javax.inject.Inject
 
@@ -25,6 +26,9 @@ class FavoriteActivity : AppCompatActivity(), FavoritePresenter.FavoriteRouter {
 
     @Inject
     lateinit var binder: ItemBinder
+
+    @Inject
+    lateinit var analytics: Analytics
 
     private val invalidateDetailsResultLauncher =
         registerForActivityResult(StartActivityForResult()) { result ->
@@ -48,6 +52,10 @@ class FavoriteActivity : AppCompatActivity(), FavoritePresenter.FavoriteRouter {
         val view = FavoriteViewImpl(window.decorView, adapter)
 
         presenter.attachView(view)
+
+        if (savedInstanceState == null) {
+            analytics.trackEvent("open-favorite-screen")
+        }
     }
 
     @Deprecated("Deprecated in Java")

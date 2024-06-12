@@ -22,6 +22,7 @@ import com.tomclaw.appsend.screen.profile.createProfileFragment
 import com.tomclaw.appsend.screen.store.createStoreFragment
 import com.tomclaw.appsend.screen.topics.createTopicsFragment
 import com.tomclaw.appsend.screen.upload.createUploadActivityIntent
+import com.tomclaw.appsend.util.Analytics
 import com.tomclaw.appsend.util.ThemeHelper
 import javax.inject.Inject
 import kotlin.system.exitProcess
@@ -30,6 +31,9 @@ class HomeActivity : AppCompatActivity(), HomePresenter.HomeRouter {
 
     @Inject
     lateinit var presenter: HomePresenter
+
+    @Inject
+    lateinit var analytics: Analytics
 
     private var isDarkTheme: Boolean = false
     private val handler: Handler = Handler(Looper.getMainLooper())
@@ -54,6 +58,10 @@ class HomeActivity : AppCompatActivity(), HomePresenter.HomeRouter {
         val view = HomeViewImpl(window.decorView)
 
         presenter.attachView(view)
+
+        if (savedInstanceState == null) {
+            analytics.trackEvent("open-home-screen")
+        }
     }
 
     override fun showStoreFragment() {

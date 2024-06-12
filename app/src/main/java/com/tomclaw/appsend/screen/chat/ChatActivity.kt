@@ -14,6 +14,7 @@ import com.tomclaw.appsend.screen.auth.request_code.createRequestCodeActivityInt
 import com.tomclaw.appsend.screen.chat.di.ChatModule
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.screen.profile.createProfileActivityIntent
+import com.tomclaw.appsend.util.Analytics
 import com.tomclaw.appsend.util.ThemeHelper
 import javax.inject.Inject
 
@@ -30,6 +31,9 @@ class ChatActivity : AppCompatActivity(), ChatPresenter.ChatRouter {
 
     @Inject
     lateinit var preferences: ChatPreferencesProvider
+
+    @Inject
+    lateinit var analytics: Analytics
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val topicEntity = intent.getParcelableExtra<TopicEntity>(EXTRA_TOPIC_ENTITY)
@@ -52,6 +56,10 @@ class ChatActivity : AppCompatActivity(), ChatPresenter.ChatRouter {
             ChatViewImpl(window.decorView, preferences, adapter).apply { setTitle(viewTitle) }
 
         presenter.attachView(view)
+
+        if (savedInstanceState == null) {
+            analytics.trackEvent("open-chat-screen")
+        }
     }
 
     @Deprecated("Deprecated in Java")

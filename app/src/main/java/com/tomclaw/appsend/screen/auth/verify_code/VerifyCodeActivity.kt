@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.auth.verify_code.di.VerifyCodeModule
+import com.tomclaw.appsend.util.Analytics
 import com.tomclaw.appsend.util.ThemeHelper
 import javax.inject.Inject
 
@@ -14,6 +15,9 @@ class VerifyCodeActivity : AppCompatActivity(), VerifyCodePresenter.VerifyCodeRo
 
     @Inject
     lateinit var presenter: VerifyCodePresenter
+
+    @Inject
+    lateinit var analytics: Analytics
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val email = intent.getStringExtra(EXTRA_EMAIL)
@@ -48,6 +52,10 @@ class VerifyCodeActivity : AppCompatActivity(), VerifyCodePresenter.VerifyCodeRo
         val view = VerifyCodeViewImpl(window.decorView)
 
         presenter.attachView(view)
+
+        if (savedInstanceState == null) {
+            analytics.trackEvent("open-verify-code-screen")
+        }
     }
 
     @Deprecated("Deprecated in Java")

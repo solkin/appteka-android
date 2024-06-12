@@ -9,6 +9,7 @@ import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.auth.request_code.di.RequestCodeModule
 import com.tomclaw.appsend.screen.auth.verify_code.createVerifyCodeActivityIntent
+import com.tomclaw.appsend.util.Analytics
 import com.tomclaw.appsend.util.ThemeHelper
 import javax.inject.Inject
 
@@ -16,6 +17,9 @@ class RequestCodeActivity : AppCompatActivity(), RequestCodePresenter.RequestCod
 
     @Inject
     lateinit var presenter: RequestCodePresenter
+
+    @Inject
+    lateinit var analytics: Analytics
 
     private val verifyCodeResultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -37,6 +41,10 @@ class RequestCodeActivity : AppCompatActivity(), RequestCodePresenter.RequestCod
         val view = RequestCodeViewImpl(window.decorView)
 
         presenter.attachView(view)
+
+        if (savedInstanceState == null) {
+            analytics.trackEvent("open-request-code-screen")
+        }
     }
 
     @Deprecated("Deprecated in Java")

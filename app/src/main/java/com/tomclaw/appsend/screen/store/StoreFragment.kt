@@ -12,6 +12,7 @@ import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.screen.store.di.StoreModule
+import com.tomclaw.appsend.util.Analytics
 import javax.inject.Inject
 
 class StoreFragment : Fragment(), StorePresenter.StoreRouter {
@@ -28,6 +29,9 @@ class StoreFragment : Fragment(), StorePresenter.StoreRouter {
     @Inject
     lateinit var preferences: StorePreferencesProvider
 
+    @Inject
+    lateinit var analytics: Analytics
+
     override fun onCreate(savedInstanceState: Bundle?) {
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
         Appteka.getComponent()
@@ -35,6 +39,10 @@ class StoreFragment : Fragment(), StorePresenter.StoreRouter {
             .inject(fragment = this)
 
         super.onCreate(savedInstanceState)
+
+        if (savedInstanceState == null) {
+            analytics.trackEvent("open-store-fragment")
+        }
     }
 
     override fun onCreateView(
