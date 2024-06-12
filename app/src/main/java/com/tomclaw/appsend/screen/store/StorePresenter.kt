@@ -11,6 +11,7 @@ import com.tomclaw.appsend.categories.CategoryItem
 import com.tomclaw.appsend.dto.AppEntity
 import com.tomclaw.appsend.screen.store.adapter.ItemListener
 import com.tomclaw.appsend.screen.store.adapter.app.AppItem
+import com.tomclaw.appsend.util.Analytics
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.getParcelableArrayListCompat
 import com.tomclaw.appsend.util.getParcelableCompat
@@ -49,6 +50,7 @@ class StorePresenterImpl(
     private val categoryConverter: CategoryConverter,
     private val adapterPresenter: Lazy<AdapterPresenter>,
     private val appConverter: AppConverter,
+    private val analytics: Analytics,
     private val schedulers: SchedulersFactory,
     state: Bundle?
 ) : StorePresenter {
@@ -72,15 +74,19 @@ class StorePresenterImpl(
         }
         subscriptions += view.refreshClicks().subscribe {
             invalidateApps()
+            analytics.trackEvent("store-refresh")
         }
         subscriptions += view.categoriesButtonClicks().subscribe {
             loadCategories()
+            analytics.trackEvent("store-category-list")
         }
         subscriptions += view.categorySelectedClicks().subscribe { categoryItem ->
             onCategorySelected(categoryItem)
+            analytics.trackEvent("store-category-selected")
         }
         subscriptions += view.categoryClearedClicks().subscribe {
             onCategorySelected()
+            analytics.trackEvent("store-category-cleared")
         }
 
         if (isError) {
