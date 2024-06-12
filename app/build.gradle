@@ -22,7 +22,7 @@ android {
         //noinspection ExpiredTargetSdkVersion
         targetSdkVersion 28
         versionCode = project.hasProperty("versionCode") ? Integer.parseInt(project.versionCode) : 1000
-        versionName = "14.0"
+        versionName = "15.0"
         manifestPlaceholders = [
                 APPCENTER_APP_ID: "c8564e90-1f35-4fcc-9858-e6ad5b1594f9"
         ]
