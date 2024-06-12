@@ -1,5 +1,8 @@
 package com.tomclaw.appsend.core
 
+import com.tomclaw.appsend.analytics.api.AnalyticsEvent
+import com.tomclaw.appsend.analytics.api.Environment
+import com.tomclaw.appsend.analytics.api.SubmitEventsResponse
 import com.tomclaw.appsend.categories.CategoriesResponse
 import com.tomclaw.appsend.dto.StoreResponse
 import com.tomclaw.appsend.events.EventsResponse
@@ -239,5 +242,11 @@ interface StoreApi {
     fun deleteRating(
         @Query("rate_id") rateId: Int
     ): Single<StoreResponse<DeleteRatingResponse>>
+
+    @POST("1/events/submit")
+    fun submitEvents(
+        @Field("environment") environment: Environment,
+        @Field("events") events: List<AnalyticsEvent>,
+    ): Single<StoreResponse<SubmitEventsResponse>>
 
 }

@@ -9,6 +9,10 @@ import android.os.Environment.DIRECTORY_DOWNLOADS
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
+import com.tomclaw.appsend.analytics.Bananalytics
+import com.tomclaw.appsend.analytics.BananalyticsImpl
+import com.tomclaw.appsend.analytics.EnvironmentProvider
+import com.tomclaw.appsend.analytics.EnvironmentProviderImpl
 import com.tomclaw.appsend.categories.CategoriesInteractor
 import com.tomclaw.appsend.categories.CategoriesInteractorImpl
 import com.tomclaw.appsend.core.AppInfoProvider
@@ -109,6 +113,23 @@ class AppModule(private val app: Application) {
     @Singleton
     internal fun provideAppInfoProvider(packageManager: PackageManager): AppInfoProvider =
         AppInfoProviderImpl(app, packageManager)
+
+    @Provides
+    @Singleton
+    internal fun provideEnvironmentProvider(
+        locale: Locale,
+        appInfoProvider: AppInfoProvider,
+        deviceIdProvider: DeviceIdProvider,
+    ): EnvironmentProvider = EnvironmentProviderImpl(locale, appInfoProvider, deviceIdProvider)
+
+    @Provides
+    @Singleton
+    internal fun provideBananalytics(
+        filesDir: File,
+        environmentProvider: EnvironmentProvider,
+        api: StoreApi,
+        logger: Logger,
+    ): Bananalytics = BananalyticsImpl(filesDir, environmentProvider, api, logger)
 
     @Provides
     @Singleton
