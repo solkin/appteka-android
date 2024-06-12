@@ -19,11 +19,13 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.tabs.TabLayout;
 import com.greysonparrelli.permiso.PermisoActivity;
 import com.tomclaw.appsend.R;
+import com.tomclaw.appsend.di.legacy.LegacyInjector;
 import com.tomclaw.appsend.main.item.CommonItem;
 import com.tomclaw.appsend.util.PreferenceHelper;
 import com.tomclaw.appsend.util.ThemeHelper;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.ViewById;
@@ -46,10 +48,16 @@ public class SelectLocalAppActivity extends PermisoActivity implements CommonIte
     @ViewById
     TabLayout tabs;
 
+    @Bean
+    LegacyInjector legacyInjector;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         ThemeHelper.updateTheme(this);
         super.onCreate(savedInstanceState);
+        if (savedInstanceState == null) {
+            legacyInjector.analytics.trackEvent("open-select-app-screen");
+        }
     }
 
     @AfterViews

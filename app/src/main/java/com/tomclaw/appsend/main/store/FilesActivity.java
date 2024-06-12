@@ -11,10 +11,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.tomclaw.appsend.R;
+import com.tomclaw.appsend.di.legacy.LegacyInjector;
 import com.tomclaw.appsend.main.store.UploadsFragment;
 import com.tomclaw.appsend.util.ThemeHelper;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.FragmentById;
@@ -37,10 +39,16 @@ public class FilesActivity extends AppCompatActivity {
     @Extra
     Long userId;
 
+    @Bean
+    LegacyInjector legacyInjector;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         ThemeHelper.updateTheme(this);
         super.onCreate(savedInstanceState);
+        if (savedInstanceState == null) {
+            legacyInjector.analytics.trackEvent("open-files-screen");
+        }
     }
 
     @AfterViews

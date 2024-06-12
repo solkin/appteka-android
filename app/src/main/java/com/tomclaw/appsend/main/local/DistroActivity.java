@@ -12,9 +12,11 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.greysonparrelli.permiso.PermisoActivity;
 import com.tomclaw.appsend.R;
+import com.tomclaw.appsend.di.legacy.LegacyInjector;
 import com.tomclaw.appsend.util.ThemeHelper;
 
 import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.FragmentById;
 import org.androidannotations.annotations.OptionsItem;
@@ -33,10 +35,16 @@ public class DistroActivity extends PermisoActivity {
     @FragmentById
     DistroFragment fragment;
 
+    @Bean
+    LegacyInjector legacyInjector;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         ThemeHelper.updateTheme(this);
         super.onCreate(savedInstanceState);
+        if (savedInstanceState == null) {
+            legacyInjector.analytics.trackEvent("open-distro-screen");
+        }
     }
 
     @AfterViews

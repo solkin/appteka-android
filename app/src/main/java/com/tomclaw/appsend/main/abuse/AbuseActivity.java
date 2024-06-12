@@ -19,6 +19,7 @@ import com.jaeger.library.StatusBarUtil;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.MainExecutor;
 import com.tomclaw.appsend.core.StoreServiceHolder;
+import com.tomclaw.appsend.di.legacy.LegacyInjector;
 import com.tomclaw.appsend.main.dto.AbuseResult;
 import com.tomclaw.appsend.main.dto.ApiResponse;
 import com.tomclaw.appsend.util.ThemeHelper;
@@ -63,10 +64,16 @@ public class AbuseActivity extends AppCompatActivity {
     @Bean
     StoreServiceHolder serviceHolder;
 
+    @Bean
+    LegacyInjector legacyInjector;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         ThemeHelper.updateTheme(this);
         super.onCreate(savedInstanceState);
+        if (savedInstanceState == null) {
+            legacyInjector.analytics.trackEvent("open-abuse-screen");
+        }
     }
 
     @AfterViews
