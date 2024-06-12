@@ -37,4 +37,4 @@ class UploadPreferencesProviderImpl(
 }
 
 const val DARK_THEME_PREF_KEY = "pref_dark_theme"
-const val UPLOAD_AGREEMENT_KEY = "pref_upload_notice"
+const val UPLOAD_AGREEMENT_KEY = "pref_upload_agreement"
