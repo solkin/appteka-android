@@ -218,5 +218,5 @@ class BananalyticsImpl(
 
 }
 
-private const val BATCH_SIZE = 2
+private const val BATCH_SIZE = 20
 private const val EVENTS_DIR = "bananalytics"
