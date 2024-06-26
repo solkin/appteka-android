@@ -70,7 +70,7 @@
     <string name="open">باز کردن</string>
     <string name="remove">حذف</string>
     <string name="unknown_permission_description">مجوز نامعلوم</string>
-    <string name="required_permissions">مجوزهای مورد نیاز</string>
+    <string name="required_permissions">مجوز های مورد نیاز</string>
     <string name="app_version_title">نسخه</string>
     <string name="uploaded_title">بارگذاری شده</string>
     <string name="checksum_title">درستی سنجی (SHA1)</string>
@@ -106,7 +106,7 @@
 گفتگو ها برای این کار ساخته شده است</string>
     <string name="tab_discuss">گفتگو</string>
     <string name="tab_profile">نمایه</string>
-    <string name="discuss_intro_title">خودش آمدید</string>
+    <string name="discuss_intro_title">خوش آمدید</string>
     <string name="chat_loading_error">گپ بارگذاری نشد</string>
     <string name="enter_your_message">پیام شما…</string>
     <string name="error_sending_message">پیام ارسال نشد</string>
@@ -139,16 +139,16 @@
     <string name="unlink_file">مسدود کردن</string>
     <string name="unlink_reason">دلیل…</string>
     <string name="enter_unlink_reason">لطفا علت را توضیح دهید:</string>
-    <string name="fill_reason_field">پر کردن جایگاه دلیل الزامی است</string>
+    <string name="fill_reason_field">پر کردن جایگاه ضروری است</string>
     <string name="unable_to_unlink_file">درخواست تکمیل نشد</string>
     <string name="unlink_of">مسدود کردن از %s</string>
     <string name="profile_apps">برنامه های کاربر</string>
     <string name="nav_store">فروشگاه</string>
     <string name="nav_discuss">گفتگو</string>
     <string name="nav_installed">برنامه های نصب شده</string>
-    <string name="nav_distro">فایل apk موجود در حافظه داخلی</string>
+    <string name="nav_distro">فایل های apk موجود در حافظه داخلی</string>
     <string name="nav_settings">تنظیمات</string>
-    <string name="nav_info">درباره</string>
+    <string name="nav_info">درباره فروشگاه appteka</string>
     <string name="select_app">انتخاب برنامه</string>
     <string name="select_app_description">انتخاب فایل apk یا برنامه نصب شده</string>
     <string name="search_app">جستجو در فروشگاه</string>
