@@ -36,9 +36,6 @@
             android:value="${APPCENTER_APP_ID}" />
 
         <activity
-            android:name=".main.about.AboutActivity_"
-            android:label="@string/info" />
-        <activity
             android:name=".main.settings.SettingsActivity_"
             android:label="@string/settings" />
         <activity
@@ -148,6 +145,7 @@
         </activity>
         <activity android:name=".screen.ratings.RatingsActivity" />
         <activity android:name=".screen.agreement.AgreementActivity" />
+        <activity android:name=".screen.about.AboutActivity" />
 
         <service android:name=".download.DownloadService" />
 
