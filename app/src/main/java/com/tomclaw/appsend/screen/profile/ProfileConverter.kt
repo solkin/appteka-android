@@ -19,7 +19,8 @@ interface ProfileConverter {
     fun convertProfile(
         profile: Profile,
         grantRoles: List<Int>?,
-        uploads: List<AppEntity>?
+        uploads: List<AppEntity>?,
+        isSelf: Boolean,
     ): List<Item>
 
     fun unauthorizedProfile(): List<Item>
@@ -35,7 +36,8 @@ class ProfileConverterImpl : ProfileConverter {
     override fun convertProfile(
         profile: Profile,
         grantRoles: List<Int>?,
-        uploads: List<AppEntity>?
+        uploads: List<AppEntity>?,
+        isSelf: Boolean,
     ): List<Item> {
         val items = mutableListOf<Item>()
         var isInactive = true
@@ -49,6 +51,7 @@ class ProfileConverterImpl : ProfileConverter {
                 role = profile.role,
                 isRegistered = profile.isRegistered,
                 isVerified = profile.isVerified,
+                isSelf = isSelf,
             )
         )
         if (profile.filesCount > 0) {

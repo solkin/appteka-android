@@ -148,6 +148,10 @@ class ProfilePresenterImpl(
         router?.openLoginScreen()
     }
 
+    override fun onEditName(name: String?) {
+        TODO("Not yet implemented")
+    }
+
     override fun onNextPage(last: AppItem, param: (List<AppItem>) -> Unit) {
         subscriptions += interactor.loadUserApps(userId, last.appId)
             .observeOn(schedulers.mainThread())
@@ -231,7 +235,12 @@ class ProfilePresenterImpl(
         val profile = this.profile ?: return
 
         items.clear()
-        items += converter.convertProfile(profile.profile, profile.grantRoles, uploads)
+        items += converter.convertProfile(
+            profile.profile,
+            profile.grantRoles,
+            uploads,
+            isSelf = userId == null,
+        )
 
         bindItems()
         bindMenu(canEliminate = profile.grantRoles.orEmpty().contains(300))

@@ -15,4 +15,5 @@ data class HeaderItem(
     val role: Int,
     val isRegistered: Boolean,
     val isVerified: Boolean,
+    val isSelf: Boolean,
 ) : Item, Parcelable

@@ -31,6 +31,10 @@ class HeaderItemPresenter(
 
         view.setUserOnline(isOnline)
         view.setUserDescription(description)
+        if (item.isSelf) {
+            view.showUserNameEditIcon()
+            view.setOnNameClickListener { listener.onEditName(name = item.userName) }
+        }
     }
 
 }

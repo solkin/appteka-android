@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -39,22 +40,27 @@
             android:layout_gravity="center_vertical"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:paddingStart="18dp"
+            android:paddingStart="16dp"
             android:paddingEnd="0dp">
 
             <TextView
                 android:id="@+id/user_name"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start|center_vertical"
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/rounded_transparent_ripple"
+                android:drawablePadding="6dp"
                 android:ellipsize="end"
                 android:fontFamily="sans-serif-medium"
+                android:gravity="center_vertical"
                 android:includeFontPadding="false"
                 android:maxLines="2"
-                android:paddingBottom="6dp"
+                android:padding="2dp"
                 android:singleLine="false"
                 android:textColor="?text_primary_color"
                 android:textSize="22sp"
+                app:drawableTint="?android:textColorPrimary"
                 tools:text="Zibuhoker" />
 
             <TextView
@@ -64,6 +70,8 @@
                 android:layout_gravity="start|center_vertical"
                 android:fontFamily="sans-serif"
                 android:includeFontPadding="false"
+                android:paddingStart="2dp"
+                android:paddingEnd="2dp"
                 android:textColor="?text_secondary_color"
                 android:textSize="15sp"
                 tools:text="Moderator, joined 2 years ago,\nlast seen yesterday" />
