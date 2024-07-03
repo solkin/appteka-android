@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputEditText
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.util.hide
@@ -36,6 +37,8 @@ interface ProfileView {
 
     fun hideError()
 
+    fun showEditNameDialog(name: String)
+
     fun showEliminationDialog()
 
     fun showEliminationDone(filesCount: Int, messagesCount: Int, ratingsCount: Int)
@@ -58,6 +61,8 @@ interface ProfileView {
 
     fun loginClicks(): Observable<Unit>
 
+    fun nameEditedClicks(): Observable<String>
+
 }
 
 class ProfileViewImpl(
@@ -79,6 +84,7 @@ class ProfileViewImpl(
     private val eliminateRelay = PublishRelay.create<Boolean>()
     private val retryRelay = PublishRelay.create<Unit>()
     private val loginRelay = PublishRelay.create<Unit>()
+    private val nameEditedRelay = PublishRelay.create<String>()
 
     private val layoutManager: LinearLayoutManager
 
@@ -148,6 +154,23 @@ class ProfileViewImpl(
         error.hide()
     }
 
+    override fun showEditNameDialog(name: String) {
+        var editUserName: TextInputEditText? = null
+        editUserName = AlertDialog.Builder(context)
+            .setTitle(context.getString(R.string.edit_name_title))
+            .setView(R.layout.profile_edit_name_dialog)
+            .setNegativeButton(R.string.ok) { _, _ ->
+                val editedName = editUserName?.text?.toString() ?: ""
+                nameEditedRelay.accept(editedName)
+            }
+            .setPositiveButton(R.string.cancel, null)
+            .show()
+            .findViewById<TextInputEditText>(R.id.user_name)
+            ?.apply {
+                this.setText(name)
+            }
+    }
+
     override fun showEliminationDialog() {
         AlertDialog.Builder(context)
             .setTitle(context.getString(R.string.eliminate_user_title))
@@ -193,6 +216,8 @@ class ProfileViewImpl(
     override fun retryClicks(): Observable<Unit> = retryRelay
 
     override fun loginClicks(): Observable<Unit> = loginRelay
+
+    override fun nameEditedClicks(): Observable<String> = nameEditedRelay
 
 }
 

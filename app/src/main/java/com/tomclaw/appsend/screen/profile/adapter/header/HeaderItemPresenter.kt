@@ -33,7 +33,7 @@ class HeaderItemPresenter(
         view.setUserDescription(description)
         if (item.isSelf) {
             view.showUserNameEditIcon()
-            view.setOnNameClickListener { listener.onEditName(name = item.userName) }
+            view.setOnNameClickListener { listener.onEditName(name) }
         }
     }
 

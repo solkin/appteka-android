@@ -90,6 +90,9 @@ class ProfilePresenterImpl(
         subscriptions += view.loginClicks().subscribe {
             router?.openLoginScreen()
         }
+        subscriptions += view.nameEditedClicks().subscribe { name ->
+            TODO("edited name is: $name")
+        }
 
         if (withToolbar == true) {
             view.showToolbar()
@@ -149,7 +152,7 @@ class ProfilePresenterImpl(
     }
 
     override fun onEditName(name: String?) {
-        TODO("Not yet implemented")
+        view?.showEditNameDialog(name ?: "")
     }
 
     override fun onNextPage(last: AppItem, param: (List<AppItem>) -> Unit) {
