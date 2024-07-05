@@ -91,7 +91,7 @@ class ProfilePresenterImpl(
             router?.openLoginScreen()
         }
         subscriptions += view.nameEditedClicks().subscribe { name ->
-            TODO("edited name is: $name")
+            onSetUserName(name)
         }
 
         if (withToolbar == true) {
@@ -211,6 +211,19 @@ class ProfilePresenterImpl(
             view?.showContent()
             view?.showError()
         }
+    }
+
+    private fun onSetUserName(name: String) {
+        subscriptions += interactor.setUserName(name)
+            .observeOn(schedulers.mainThread())
+            .doOnSubscribe {
+                view?.hideError()
+                view?.showProgress()
+            }
+            .subscribe(
+                { loadProfile() },
+                { onEditName(name) }
+            )
     }
 
     private fun onEliminateUser() {

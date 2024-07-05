@@ -25,6 +25,7 @@ import com.tomclaw.appsend.screen.home.api.StartupResponse
 import com.tomclaw.appsend.screen.moderation.api.ModerationResponse
 import com.tomclaw.appsend.screen.profile.api.EliminateUserResponse
 import com.tomclaw.appsend.screen.profile.api.ProfileResponse
+import com.tomclaw.appsend.screen.profile.api.SetUserNameResponse
 import com.tomclaw.appsend.screen.profile.api.UserAppsResponse
 import com.tomclaw.appsend.screen.rate.api.SubmitReviewResponse
 import com.tomclaw.appsend.screen.ratings.api.DeleteRatingResponse
@@ -245,6 +246,11 @@ interface StoreApi {
     fun deleteRating(
         @Query("rate_id") rateId: Int
     ): Single<StoreResponse<DeleteRatingResponse>>
+
+    @POST("1/user/set_name")
+    fun setUserName(
+        @Query("name") name: String,
+    ): Single<StoreResponse<SetUserNameResponse>>
 
     @Headers("Content-Type: application/json")
     @POST("1/events/submit")

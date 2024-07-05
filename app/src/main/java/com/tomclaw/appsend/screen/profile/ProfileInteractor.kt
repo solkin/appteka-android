@@ -3,6 +3,7 @@ package com.tomclaw.appsend.screen.profile
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.screen.profile.api.EliminateUserResponse
 import com.tomclaw.appsend.screen.profile.api.ProfileResponse
+import com.tomclaw.appsend.screen.profile.api.SetUserNameResponse
 import com.tomclaw.appsend.screen.profile.api.UserAppsResponse
 import com.tomclaw.appsend.util.SchedulersFactory
 import io.reactivex.rxjava3.core.Observable
@@ -12,6 +13,8 @@ interface ProfileInteractor {
     fun loadProfile(userId: Int?): Observable<ProfileResponse>
 
     fun loadUserApps(userId: Int?, offsetAppId: String?): Observable<UserAppsResponse>
+
+    fun setUserName(name: String): Observable<SetUserNameResponse>
 
     fun eliminateUser(userId: Int): Observable<EliminateUserResponse>
 
@@ -39,6 +42,14 @@ class ProfileInteractorImpl(
             .map { list ->
                 list.result
             }
+            .toObservable()
+            .subscribeOn(schedulers.io())
+    }
+
+    override fun setUserName(name: String): Observable<SetUserNameResponse> {
+        return api
+            .setUserName(name)
+            .map { it.result }
             .toObservable()
             .subscribeOn(schedulers.io())
     }
