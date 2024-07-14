@@ -151,8 +151,8 @@ class ProfilePresenterImpl(
         router?.openLoginScreen()
     }
 
-    override fun onEditName(name: String?) {
-        view?.showEditNameDialog(name ?: "")
+    override fun onEditName(name: String?, nameRegex: String?) {
+        view?.showEditNameDialog(name ?: "", nameRegex)
     }
 
     override fun onNextPage(last: AppItem, param: (List<AppItem>) -> Unit) {
@@ -216,13 +216,9 @@ class ProfilePresenterImpl(
     private fun onSetUserName(name: String) {
         subscriptions += interactor.setUserName(name)
             .observeOn(schedulers.mainThread())
-            .doOnSubscribe {
-                view?.hideError()
-                view?.showProgress()
-            }
             .subscribe(
                 { loadProfile() },
-                { onEditName(name) }
+                { view?.showEditNameError() }
             )
     }
 
@@ -233,6 +229,9 @@ class ProfilePresenterImpl(
             .doOnSubscribe {
                 view?.hideError()
                 view?.showProgress()
+            }
+            .doOnTerminate {
+                view?.showContent()
             }
             .subscribe(
                 { response ->

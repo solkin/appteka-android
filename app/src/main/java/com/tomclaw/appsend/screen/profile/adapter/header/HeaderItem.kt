@@ -16,4 +16,5 @@ data class HeaderItem(
     val isRegistered: Boolean,
     val isVerified: Boolean,
     val isSelf: Boolean,
+    val nameRegex: String?,
 ) : Item, Parcelable

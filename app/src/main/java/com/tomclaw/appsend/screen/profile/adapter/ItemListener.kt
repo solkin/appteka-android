@@ -14,7 +14,7 @@ interface ItemListener {
 
     fun onLoginClick()
 
-    fun onEditName(name: String?)
+    fun onEditName(name: String?, nameRegex: String?)
 
     fun onNextPage(last: AppItem, param: (List<AppItem>) -> Unit)
 

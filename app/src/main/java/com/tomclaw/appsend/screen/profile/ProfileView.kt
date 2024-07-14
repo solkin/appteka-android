@@ -1,7 +1,10 @@
 package com.tomclaw.appsend.screen.profile
 
 import android.annotation.SuppressLint
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -37,7 +40,7 @@ interface ProfileView {
 
     fun hideError()
 
-    fun showEditNameDialog(name: String)
+    fun showEditNameDialog(name: String, nameRegex: String?)
 
     fun showEliminationDialog()
 
@@ -48,6 +51,8 @@ interface ProfileView {
     fun contentUpdated()
 
     fun contentUpdated(position: Int)
+
+    fun showEditNameError()
 
     fun navigationClicks(): Observable<Unit>
 
@@ -154,21 +159,35 @@ class ProfileViewImpl(
         error.hide()
     }
 
-    override fun showEditNameDialog(name: String) {
+    override fun showEditNameDialog(name: String, nameRegex: String?) {
         var editUserName: TextInputEditText? = null
-        editUserName = AlertDialog.Builder(context)
+        val dialog = AlertDialog.Builder(context)
             .setTitle(context.getString(R.string.edit_name_title))
             .setView(R.layout.profile_edit_name_dialog)
-            .setNegativeButton(R.string.ok) { _, _ ->
+            .setPositiveButton(R.string.ok) { _, _ ->
                 val editedName = editUserName?.text?.toString() ?: ""
                 nameEditedRelay.accept(editedName)
             }
-            .setPositiveButton(R.string.cancel, null)
+            .setNegativeButton(R.string.cancel, null)
             .show()
+
+        editUserName = dialog
             .findViewById<TextInputEditText>(R.id.user_name)
             ?.apply {
                 this.setText(name)
             }
+
+        if (nameRegex != null) {
+            editUserName?.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, st: Int, cn: Int, af: Int) {}
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+                override fun afterTextChanged(s: Editable?) {
+                    dialog
+                        .getButton(AlertDialog.BUTTON_POSITIVE)
+                        .setEnabled(s.toString().matches(nameRegex.toRegex()))
+                }
+            })
+        }
     }
 
     override fun showEliminationDialog() {
@@ -193,7 +212,7 @@ class ProfileViewImpl(
     }
 
     override fun showEliminationFailed() {
-        Snackbar.make(recycler, R.string.eliminate_user_failed, Snackbar.LENGTH_LONG).show()
+        Toast.makeText(context, R.string.eliminate_user_failed, Toast.LENGTH_LONG).show()
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -203,6 +222,10 @@ class ProfileViewImpl(
 
     override fun contentUpdated(position: Int) {
         adapter.notifyItemChanged(position)
+    }
+
+    override fun showEditNameError() {
+        Toast.makeText(context, R.string.unable_to_change_name, Toast.LENGTH_LONG).show()
     }
 
     override fun navigationClicks(): Observable<Unit> = navigationRelay

@@ -52,6 +52,7 @@ class ProfileConverterImpl : ProfileConverter {
                 isRegistered = profile.isRegistered,
                 isVerified = profile.isVerified,
                 isSelf = isSelf,
+                nameRegex = profile.nameRegex,
             )
         )
         if (profile.filesCount > 0) {
