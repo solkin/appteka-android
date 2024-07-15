@@ -22,6 +22,8 @@ import com.tomclaw.appsend.screen.gallery.di.GalleryComponent
 import com.tomclaw.appsend.screen.gallery.di.GalleryModule
 import com.tomclaw.appsend.screen.home.di.HomeComponent
 import com.tomclaw.appsend.screen.home.di.HomeModule
+import com.tomclaw.appsend.screen.installed.di.InstalledComponent
+import com.tomclaw.appsend.screen.installed.di.InstalledModule
 import com.tomclaw.appsend.screen.moderation.di.ModerationComponent
 import com.tomclaw.appsend.screen.moderation.di.ModerationModule
 import com.tomclaw.appsend.screen.permissions.di.PermissionsComponent
@@ -88,6 +90,8 @@ interface AppComponent {
     fun agreementComponent(module: AgreementModule): AgreementComponent
 
     fun aboutComponent(module: AboutModule): AboutComponent
+
+    fun installedComponent(module: InstalledModule): InstalledComponent
 
     fun legacyComponent(module: LegacyModule): LegacyComponent
 

@@ -7,7 +7,6 @@ import com.tomclaw.appsend.main.unlink.UnlinkResponse;
 import com.tomclaw.appsend.main.unpublish.UnpublishResponse;
 import com.tomclaw.appsend.net.CheckUpdatesRequest;
 import com.tomclaw.appsend.net.CheckUpdatesResponse;
-import com.tomclaw.appsend.user.api.UserBrief;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -27,11 +26,6 @@ public interface StoreService {
             @Query("app_id") String appId,
             @Query("reason") String reason,
             @Query("email") String email
-    );
-
-    @GET("api/1/user/brief")
-    Call<ApiResponse<UserBrief>> getUserBrief(
-            @Query("user_id") Integer userId
     );
 
     @FormUrlEncoded
