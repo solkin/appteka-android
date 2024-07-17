@@ -17,6 +17,7 @@ class InstalledInteractorImpl(
     private val api: StoreApi,
     private val userId: Int,
     private val locale: Locale,
+    private val infoProvider: InstalledInfoProvider,
     private val schedulers: SchedulersFactory
 ) : InstalledInteractor {
 
