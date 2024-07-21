@@ -13,6 +13,8 @@ import com.tomclaw.appsend.screen.installed.AppConverter
 import com.tomclaw.appsend.screen.installed.AppConverterImpl
 import com.tomclaw.appsend.screen.installed.AppsResourceProvider
 import com.tomclaw.appsend.screen.installed.AppsResourceProviderImpl
+import com.tomclaw.appsend.screen.installed.InstalledInfoProvider
+import com.tomclaw.appsend.screen.installed.InstalledInfoProviderImpl
 import com.tomclaw.appsend.screen.installed.InstalledInteractor
 import com.tomclaw.appsend.screen.installed.InstalledInteractorImpl
 import com.tomclaw.appsend.screen.installed.InstalledPresenter
@@ -55,11 +57,13 @@ class InstalledModule(
     internal fun provideInteractor(
         api: StoreApi,
         locale: Locale,
+        infoProvider: InstalledInfoProvider,
         schedulers: SchedulersFactory
     ): InstalledInteractor = InstalledInteractorImpl(
         api,
         userId,
         locale,
+        infoProvider,
         schedulers
     )
 
@@ -67,6 +71,12 @@ class InstalledModule(
     @PerActivity
     internal fun provideResourceProvider(): AppsResourceProvider {
         return AppsResourceProviderImpl(context.resources)
+    }
+
+    @Provides
+    @PerActivity
+    internal fun provideInstalledInfoProvider(): InstalledInfoProvider {
+        return InstalledInfoProviderImpl(context.packageManager)
     }
 
     @Provides
