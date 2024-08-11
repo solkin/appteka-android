@@ -22,7 +22,7 @@ public class AppItemViewHolderCreator implements FileViewHolderCreator<AppItem> 
 
     @Override
     public FileViewHolder<AppItem> create(@NonNull ViewGroup parent) {
-        View view = inflater.inflate(R.layout.app_item, parent, false);
+        View view = inflater.inflate(R.layout.installed_item, parent, false);
         return new AppItemViewHolder(view);
     }
 

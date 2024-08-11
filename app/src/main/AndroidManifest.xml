@@ -146,6 +146,7 @@
         <activity android:name=".screen.ratings.RatingsActivity" />
         <activity android:name=".screen.agreement.AgreementActivity" />
         <activity android:name=".screen.about.AboutActivity" />
+        <activity android:name=".screen.installed.InstalledActivity" />
 
         <service android:name=".download.DownloadService" />
 

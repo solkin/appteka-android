@@ -21,7 +21,6 @@ import com.tomclaw.appsend.screen.installed.InstalledPresenter
 import com.tomclaw.appsend.screen.installed.InstalledPresenterImpl
 import com.tomclaw.appsend.screen.installed.adapter.app.AppItemBlueprint
 import com.tomclaw.appsend.screen.installed.adapter.app.AppItemPresenter
-import com.tomclaw.appsend.util.PackageObserver
 import com.tomclaw.appsend.util.PerActivity
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
@@ -33,7 +32,6 @@ import java.util.Locale
 @Module
 class InstalledModule(
     private val context: Context,
-    private val userId: Int,
     private val state: Bundle?
 ) {
 
@@ -61,7 +59,6 @@ class InstalledModule(
         schedulers: SchedulersFactory
     ): InstalledInteractor = InstalledInteractorImpl(
         api,
-        userId,
         locale,
         infoProvider,
         schedulers
@@ -69,8 +66,8 @@ class InstalledModule(
 
     @Provides
     @PerActivity
-    internal fun provideResourceProvider(): AppsResourceProvider {
-        return AppsResourceProviderImpl(context.resources)
+    internal fun provideResourceProvider(locale: Locale): AppsResourceProvider {
+        return AppsResourceProviderImpl(context.resources, locale)
     }
 
     @Provides
@@ -83,10 +80,8 @@ class InstalledModule(
     @PerActivity
     internal fun provideAppsConverter(
         resourceProvider: AppsResourceProvider,
-        categoryConverter: CategoryConverter,
-        packageObserver: PackageObserver
     ): AppConverter {
-        return AppConverterImpl(resourceProvider, categoryConverter, packageObserver)
+        return AppConverterImpl(resourceProvider)
     }
 
     @Provides

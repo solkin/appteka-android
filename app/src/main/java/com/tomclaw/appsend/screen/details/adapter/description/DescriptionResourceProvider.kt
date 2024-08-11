@@ -19,11 +19,7 @@ class DescriptionResourceProviderImpl(
     val locale: Locale,
 ) : DescriptionResourceProvider {
 
-    private val dateFormat: DateFormat
-
-    init {
-        dateFormat = SimpleDateFormat("dd.MM.yy", locale)
-    }
+    private val dateFormat: DateFormat = SimpleDateFormat("dd.MM.yy", locale)
 
     override fun formatFileVersion(versionName: String, versionCode: Int): String {
         return resources.getString(R.string.app_version_format, versionName, versionCode)

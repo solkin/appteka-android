@@ -3,6 +3,9 @@ package com.tomclaw.appsend.screen.installed
 import android.content.res.Resources
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.util.FileHelper
+import java.text.DateFormat
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 interface AppsResourceProvider {
 
@@ -10,19 +13,16 @@ interface AppsResourceProvider {
 
     fun formatFileSize(size: Long): String
 
-    fun getStatusUpdatableString(): String
-
-    fun getStatusInstalledString(): String
-
-    fun getStatusBlockedString(): String
-
-    fun getStatusPrivateString(): String
-
-    fun getStatusModerationString(): String
+    fun formatDate(value: Long): String
 
 }
 
-class AppsResourceProviderImpl(val resources: Resources) : AppsResourceProvider {
+class AppsResourceProviderImpl(
+    val resources: Resources,
+    val locale: Locale,
+) : AppsResourceProvider {
+
+    private val dateFormat: DateFormat = SimpleDateFormat("dd.MM.yy", locale)
 
     override fun formatAppVersion(verName: String, verCode: Int): String {
         return resources.getString(R.string.app_version_format, verName, verCode)
@@ -32,24 +32,8 @@ class AppsResourceProviderImpl(val resources: Resources) : AppsResourceProvider 
         return FileHelper.formatBytes(resources, size)
     }
 
-    override fun getStatusUpdatableString(): String {
-        return resources.getString(R.string.store_app_update)
-    }
-
-    override fun getStatusInstalledString(): String {
-        return resources.getString(R.string.store_app_installed)
-    }
-
-    override fun getStatusBlockedString(): String {
-        return resources.getString(R.string.status_unlinked)
-    }
-
-    override fun getStatusPrivateString(): String {
-        return resources.getString(R.string.status_private)
-    }
-
-    override fun getStatusModerationString(): String {
-        return resources.getString(R.string.status_on_moderation)
+    override fun formatDate(value: Long): String {
+        return dateFormat.format(value)
     }
 
 }

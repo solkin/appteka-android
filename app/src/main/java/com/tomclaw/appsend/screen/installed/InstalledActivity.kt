@@ -38,10 +38,9 @@ class InstalledActivity : AppCompatActivity(), InstalledPresenter.InstalledRoute
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val userId = intent.getIntExtra(EXTRA_USER_ID, 0)
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
         Appteka.getComponent()
-            .installedComponent(InstalledModule(this, userId, presenterState))
+            .installedComponent(InstalledModule(this, presenterState))
             .inject(activity = this)
         ThemeHelper.updateTheme(this)
 
@@ -103,9 +102,6 @@ class InstalledActivity : AppCompatActivity(), InstalledPresenter.InstalledRoute
 
 fun createInstalledActivityIntent(
     context: Context,
-    userId: Int
 ): Intent = Intent(context, InstalledActivity::class.java)
-    .putExtra(EXTRA_USER_ID, userId)
 
-private const val EXTRA_USER_ID = "user_id"
 private const val KEY_PRESENTER_STATE = "presenter_state"

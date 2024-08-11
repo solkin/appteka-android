@@ -5,6 +5,7 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.view.isVisible
 import com.avito.konveyor.adapter.BaseViewHolder
 import com.avito.konveyor.blueprint.ItemView
 import com.tomclaw.appsend.R
@@ -27,65 +28,36 @@ interface AppItemView : ItemView {
 
     fun setSize(size: String)
 
-    fun setRating(rating: Float?)
-
-    fun setDownloads(downloads: Int)
-
     fun showBadge()
 
     fun hideBadge()
 
-    fun showProgress()
+    fun setUpdateTime(time: String)
 
-    fun hideProgress()
-
-    fun showError()
-
-    fun hideError()
-
-    fun setStatus(status: String?, success: Boolean)
-
-    fun showOpenSourceBadge()
-
-    fun hideOpenSourceBadge()
-
-    fun setCategory(category: CategoryItem?)
+    fun setUpdatable(value: Boolean)
 
     fun setOnClickListener(listener: (() -> Unit)?)
 
-    fun setOnRetryListener(listener: (() -> Unit)?)
-
-    fun setClickable(clickable: Boolean)
+    fun setOnUpdateClickListener(listener: (() -> Unit)?)
 
 }
 
 class AppItemViewHolder(view: View) : BaseViewHolder(view), AppItemView {
 
-    private val context = view.context
     private val icon: ImageView = view.findViewById(R.id.app_icon)
     private val title: TextView = view.findViewById(R.id.app_name)
     private val version: TextView = view.findViewById(R.id.app_version)
     private val size: TextView = view.findViewById(R.id.app_size)
-    private val rating: TextView = view.findViewById(R.id.app_rating)
-    private val ratingIcon: View = view.findViewById(R.id.rating_icon)
-    private val downloads: TextView = view.findViewById(R.id.app_downloads)
-    private val openSource: View = view.findViewById(R.id.open_source)
     private val badge: View = view.findViewById(R.id.badge_new)
-    private val progress: View = view.findViewById(R.id.item_progress)
-    private val statusContainer: View = view.findViewById(R.id.app_badge)
-    private val statusIcon: ImageView = view.findViewById(R.id.app_badge_icon)
-    private val statusText: TextView = view.findViewById(R.id.app_badge_text)
-    private val categoryTitle: TextView = view.findViewById(R.id.app_category)
-    private val categoryIcon: ImageView = view.findViewById(R.id.app_category_icon)
-    private val error: View = view.findViewById(R.id.error_view)
-    private val retryButton: View = view.findViewById(R.id.button_retry)
+    private val updateTime: TextView = view.findViewById(R.id.app_update_time)
+    private val updateButton: View = view.findViewById(R.id.update_button)
 
     private var clickListener: (() -> Unit)? = null
-    private var retryListener: (() -> Unit)? = null
+    private var updateClickListener: (() -> Unit)? = null
 
     init {
         view.setOnClickListener { clickListener?.invoke() }
-        retryButton.setOnClickListener { retryListener?.invoke() }
+        updateButton.setOnClickListener { updateClickListener?.invoke() }
     }
 
     override fun setIcon(url: String?) {
@@ -101,22 +73,6 @@ class AppItemViewHolder(view: View) : BaseViewHolder(view), AppItemView {
         }
     }
 
-    override fun showProgress() {
-        progress.visibility = VISIBLE
-    }
-
-    override fun hideProgress() {
-        progress.visibility = GONE
-    }
-
-    override fun showError() {
-        error.visibility = VISIBLE
-    }
-
-    override fun hideError() {
-        error.visibility = GONE
-    }
-
     override fun setTitle(title: String) {
         this.title.bind(title)
     }
@@ -129,15 +85,6 @@ class AppItemViewHolder(view: View) : BaseViewHolder(view), AppItemView {
         this.size.bind(size)
     }
 
-    override fun setRating(rating: Float?) {
-        this.rating.bind(rating?.toString())
-        rating?.let { this.ratingIcon.show() } ?: this.ratingIcon.hide()
-    }
-
-    override fun setDownloads(downloads: Int) {
-        this.downloads.bind(downloads.toString())
-    }
-
     override fun showBadge() {
         badge.show()
     }
@@ -146,47 +93,25 @@ class AppItemViewHolder(view: View) : BaseViewHolder(view), AppItemView {
         badge.hide()
     }
 
-    override fun setStatus(status: String?, isPublished: Boolean) {
-        this.statusText.bind(status)
-        this.statusIcon.setImageResource(
-            if (isPublished) R.drawable.ic_pill_ok else R.drawable.ic_pill_fail
-        )
-        this.statusContainer.visibility = statusText.visibility
+    override fun setUpdateTime(time: String) {
+        this.updateTime.bind(time)
     }
 
-    override fun showOpenSourceBadge() {
-        this.openSource.show()
-    }
-
-    override fun hideOpenSourceBadge() {
-        this.openSource.hide()
-    }
-
-    override fun setCategory(category: CategoryItem?) {
-        category?.let {
-            categoryIcon.setImageDrawable(svgToDrawable(it.icon, context.resources))
-            categoryTitle.text = it.title
-        } ?: run {
-            categoryIcon.setImageDrawable(null)
-            categoryTitle.setText(R.string.category_not_set)
-        }
+    override fun setUpdatable(value: Boolean) {
+        this.updateButton.isVisible = value
     }
 
     override fun setOnClickListener(listener: (() -> Unit)?) {
         this.clickListener = listener
     }
 
-    override fun setClickable(clickable: Boolean) {
-        itemView.isClickable = clickable
-    }
-
-    override fun setOnRetryListener(listener: (() -> Unit)?) {
-        this.retryListener = listener
+    override fun setOnUpdateClickListener(listener: (() -> Unit)?) {
+        this.updateClickListener = listener
     }
 
     override fun onUnbind() {
         this.clickListener = null
-        this.retryListener = null
+        this.updateClickListener = null
     }
 
 }

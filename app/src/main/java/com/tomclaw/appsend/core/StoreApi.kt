@@ -1,7 +1,5 @@
 package com.tomclaw.appsend.core
 
-import com.tomclaw.appsend.analytics.api.AnalyticsEvent
-import com.tomclaw.appsend.analytics.api.Environment
 import com.tomclaw.appsend.analytics.api.SubmitEventsRequest
 import com.tomclaw.appsend.analytics.api.SubmitEventsResponse
 import com.tomclaw.appsend.categories.CategoriesResponse
@@ -22,6 +20,8 @@ import com.tomclaw.appsend.screen.details.api.ModerationDecisionResponse
 import com.tomclaw.appsend.screen.details.api.TranslationResponse
 import com.tomclaw.appsend.screen.favorite.api.FavoriteResponse
 import com.tomclaw.appsend.screen.home.api.StartupResponse
+import com.tomclaw.appsend.screen.installed.api.CheckUpdatesRequest
+import com.tomclaw.appsend.screen.installed.api.CheckUpdatesResponse
 import com.tomclaw.appsend.screen.moderation.api.ModerationResponse
 import com.tomclaw.appsend.screen.profile.api.EliminateUserResponse
 import com.tomclaw.appsend.screen.profile.api.ProfileResponse
@@ -257,5 +257,10 @@ interface StoreApi {
     fun submitEvents(
         @Body body: SubmitEventsRequest,
     ): Single<StoreResponse<SubmitEventsResponse>>
+
+    @POST("1/app/updates")
+    fun checkUpdates(
+        @Body request: CheckUpdatesRequest
+    ): Single<StoreResponse<CheckUpdatesResponse>>
 
 }

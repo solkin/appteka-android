@@ -6,8 +6,6 @@ interface ItemListener {
 
     fun onItemClick(item: Item)
 
-    fun onRetryClick(item: Item)
-
-    fun onLoadMore(item: Item)
+    fun onUpdateClick(title: String, appId: String)
 
 }

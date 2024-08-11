@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.main.local.DistroActivity.createDistroActivityIntent
-import com.tomclaw.appsend.main.local.InstalledActivity.createInstalledActivityIntent
+import com.tomclaw.appsend.screen.installed.createInstalledActivityIntent
 import com.tomclaw.appsend.main.settings.SettingsActivity.createSettingsActivityIntent
 import com.tomclaw.appsend.main.store.search.SearchActivity.createSearchActivityIntent
 import com.tomclaw.appsend.screen.about.createAboutActivityIntent

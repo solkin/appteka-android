@@ -4,15 +4,17 @@ import android.os.Bundle
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.blueprint.Item
 import com.avito.konveyor.data_source.ListDataSource
-import com.tomclaw.appsend.dto.AppEntity
+import com.tomclaw.appsend.net.AppEntry
 import com.tomclaw.appsend.screen.installed.adapter.ItemListener
 import com.tomclaw.appsend.screen.installed.adapter.app.AppItem
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.getParcelableArrayListCompat
-import com.tomclaw.appsend.util.retryWhenNonAuthErrors
 import dagger.Lazy
+import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.kotlin.Observables
 import io.reactivex.rxjava3.kotlin.plusAssign
+import io.reactivex.rxjava3.kotlin.zipWith
 
 interface InstalledPresenter : ItemListener {
 
@@ -104,12 +106,19 @@ class InstalledPresenterImpl(
     }
 
     private fun loadApps() {
-        subscriptions += interactor.listApps()
+        subscriptions += interactor.listInstalledApps()
+            .flatMap { installed ->
+                val installedMap = installed.associate { it.packageName to it.verCode }
+                Observables.zip(
+                    Single.just(installed).toObservable(),
+                    interactor.getUpdates(installedMap)
+                )
+            }
             .observeOn(schedulers.mainThread())
             .doOnSubscribe { if (view?.isPullRefreshing() == false) view?.showProgress() }
             .doAfterTerminate { onReady() }
             .subscribe(
-                { onLoaded(it) },
+                { onLoaded(it.first, it.second) },
                 {
                     it.printStackTrace()
                     onError()
@@ -117,25 +126,13 @@ class InstalledPresenterImpl(
             )
     }
 
-    private fun loadApps(offsetAppId: String) {
-        subscriptions += interactor.listApps(offsetAppId)
-            .observeOn(schedulers.mainThread())
-            .retryWhenNonAuthErrors()
-            .doAfterTerminate { onReady() }
-            .subscribe(
-                { onLoaded(it) },
-                { onLoadMoreError() }
-            )
-    }
-
-    private fun onLoaded(entities: List<AppEntity>) {
+    private fun onLoaded(entities: List<InstalledAppEntity>, updates: List<AppEntry>) {
         isError = false
+        val updatesMap = updates.associateBy { it.packageName }
         val newItems = entities
-            .map { appConverter.convert(it) }
+            .map { appConverter.convert(it, updatesMap.get(it.packageName)) }
             .toList()
-            .apply { if (isNotEmpty()) last().hasMore = true }
         this.items = this.items
-            ?.apply { if (isNotEmpty()) last().hasProgress = false }
             ?.plus(newItems) ?: newItems
     }
 
@@ -169,15 +166,6 @@ class InstalledPresenterImpl(
         this.isError = true
     }
 
-    private fun onLoadMoreError() {
-        items?.last()
-            ?.apply {
-                hasProgress = false
-                hasMore = false
-                hasError = true
-            }
-    }
-
     override fun onBackPressed() {
         router?.leaveScreen()
     }
@@ -188,26 +176,11 @@ class InstalledPresenterImpl(
 
     override fun onItemClick(item: Item) {
         val app = items?.find { it.id == item.id } ?: return
-        router?.openAppScreen(app.appId, app.title)
+//        router?.openAppScreen(app.appId, app.title)
     }
 
-    override fun onRetryClick(item: Item) {
-        val app = items?.find { it.id == item.id } ?: return
-        if (items?.isNotEmpty() == true) {
-            items?.last()?.let {
-                it.hasProgress = true
-                it.hasError = false
-            }
-            items?.indexOf(app)?.let {
-                view?.contentUpdated(it)
-            }
-        }
-        loadApps(app.appId)
-    }
-
-    override fun onLoadMore(item: Item) {
-        val app = items?.find { it.id == item.id } ?: return
-        loadApps(app.appId)
+    override fun onUpdateClick(title: String, appId: String) {
+        router?.openAppScreen(appId, title)
     }
 
 }

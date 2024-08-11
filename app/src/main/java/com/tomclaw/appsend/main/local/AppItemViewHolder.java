@@ -41,7 +41,7 @@ public class AppItemViewHolder extends FileViewHolder<AppItem> {
         appUpdateTime = itemView.findViewById(R.id.app_update_time);
         appSize = itemView.findViewById(R.id.app_size);
         badgeNew = itemView.findViewById(R.id.badge_new);
-        updateButton = itemView.findViewById(R.id.button_update);
+        updateButton = itemView.findViewById(R.id.update_button);
     }
 
     @Override
