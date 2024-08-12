@@ -17,6 +17,8 @@ import com.tomclaw.appsend.screen.installed.InstalledInfoProvider
 import com.tomclaw.appsend.screen.installed.InstalledInfoProviderImpl
 import com.tomclaw.appsend.screen.installed.InstalledInteractor
 import com.tomclaw.appsend.screen.installed.InstalledInteractorImpl
+import com.tomclaw.appsend.screen.installed.InstalledPreferencesProvider
+import com.tomclaw.appsend.screen.installed.InstalledPreferencesProviderImpl
 import com.tomclaw.appsend.screen.installed.InstalledPresenter
 import com.tomclaw.appsend.screen.installed.InstalledPresenterImpl
 import com.tomclaw.appsend.screen.installed.adapter.app.AppItemBlueprint
@@ -74,6 +76,12 @@ class InstalledModule(
     @PerActivity
     internal fun provideInstalledInfoProvider(): InstalledInfoProvider {
         return InstalledInfoProviderImpl(context.packageManager)
+    }
+
+    @Provides
+    @PerActivity
+    internal fun provideInstalledPreferencesProvider(): InstalledPreferencesProvider {
+        return InstalledPreferencesProviderImpl(context)
     }
 
     @Provides
