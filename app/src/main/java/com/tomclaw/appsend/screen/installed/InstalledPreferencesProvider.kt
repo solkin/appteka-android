@@ -32,7 +32,7 @@ class InstalledPreferencesProviderImpl(
     }
 
     override fun getSortOrder(): SortOrder {
-        val order = preferences.getString(SORT_ORDER_PREF_KEY, "sort_order_ascending")
+        val order = preferences.getString(SORT_ORDER_PREF_KEY, SORT_ORDER_ASCENDING)
         return when (order) {
             SORT_ORDER_ASCENDING -> SortOrder.ASCENDING
             SORT_ORDER_DESCENDING -> SortOrder.DESCENDING
