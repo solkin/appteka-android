@@ -14,7 +14,6 @@ import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.Observables
 import io.reactivex.rxjava3.kotlin.plusAssign
-import io.reactivex.rxjava3.kotlin.zipWith
 
 interface InstalledPresenter : ItemListener {
 
@@ -45,6 +44,7 @@ interface InstalledPresenter : ItemListener {
 }
 
 class InstalledPresenterImpl(
+    private val preferencesProvider: InstalledPreferencesProvider,
     private val interactor: InstalledInteractor,
     private val adapterPresenter: Lazy<AdapterPresenter>,
     private val appConverter: AppConverter,
@@ -106,7 +106,7 @@ class InstalledPresenterImpl(
     }
 
     private fun loadApps() {
-        subscriptions += interactor.listInstalledApps()
+        subscriptions += interactor.listInstalledApps(preferencesProvider.isShowSystemApps())
             .flatMap { installed ->
                 val installedMap = installed.associate { it.packageName to it.verCode }
                 Observables.zip(

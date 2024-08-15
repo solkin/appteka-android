@@ -3,7 +3,6 @@ package com.tomclaw.appsend.screen.installed
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.net.AppEntry
 import com.tomclaw.appsend.screen.installed.api.CheckUpdatesRequest
-import com.tomclaw.appsend.screen.installed.api.CheckUpdatesResponse
 import com.tomclaw.appsend.util.SchedulersFactory
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
@@ -11,7 +10,7 @@ import java.util.Locale
 
 interface InstalledInteractor {
 
-    fun listInstalledApps(offsetAppId: String? = null): Observable<List<InstalledAppEntity>>
+    fun listInstalledApps(systemApps: Boolean): Observable<List<InstalledAppEntity>>
 
     fun getUpdates(apps: Map<String, Long>): Observable<List<AppEntry>>
 
@@ -24,9 +23,14 @@ class InstalledInteractorImpl(
     private val schedulers: SchedulersFactory
 ) : InstalledInteractor {
 
-    override fun listInstalledApps(offsetAppId: String?): Observable<List<InstalledAppEntity>> {
+    override fun listInstalledApps(systemApps: Boolean): Observable<List<InstalledAppEntity>> {
         return Single
-            .create { it.onSuccess(infoProvider.getInstalledApps()) }
+            .create {
+                it.onSuccess(
+                    infoProvider
+                        .getInstalledApps()
+                        .filter { app -> app.isUserApp || systemApps })
+            }
             .toObservable()
             .subscribeOn(schedulers.io())
     }

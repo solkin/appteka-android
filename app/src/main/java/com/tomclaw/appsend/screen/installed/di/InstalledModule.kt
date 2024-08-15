@@ -40,11 +40,13 @@ class InstalledModule(
     @Provides
     @PerActivity
     internal fun providePresenter(
+        preferencesProvider: InstalledPreferencesProvider,
         interactor: InstalledInteractor,
         adapterPresenter: Lazy<AdapterPresenter>,
         appConverter: AppConverter,
         schedulers: SchedulersFactory
     ): InstalledPresenter = InstalledPresenterImpl(
+        preferencesProvider,
         interactor,
         adapterPresenter,
         appConverter,
