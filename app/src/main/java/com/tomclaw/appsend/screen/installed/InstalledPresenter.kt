@@ -119,10 +119,7 @@ class InstalledPresenterImpl(
             .doAfterTerminate { onReady() }
             .subscribe(
                 { onLoaded(it.first, it.second) },
-                {
-                    it.printStackTrace()
-                    onError()
-                }
+                { onError(it) }
             )
     }
 
@@ -162,8 +159,9 @@ class InstalledPresenterImpl(
         }
     }
 
-    private fun onError() {
+    private fun onError(throwable: Throwable?) {
         this.isError = true
+        throwable?.printStackTrace()
     }
 
     override fun onBackPressed() {
