@@ -75,7 +75,7 @@ class InstalledPresenterImpl(
         }
 
         if (isError) {
-            onError()
+            onError(throwable = null)
             onReady()
         } else {
             items?.let { onReady() } ?: loadApps()
