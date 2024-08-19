@@ -127,7 +127,7 @@ class InstalledPresenterImpl(
         isError = false
         val updatesMap = updates.associateBy { it.packageName }
         val newItems = entities
-            .map { appConverter.convert(it, updatesMap.get(it.packageName)) }
+            .map { appConverter.convert(it, updatesMap[it.packageName]) }
             .toList()
         this.items = this.items
             ?.plus(newItems) ?: newItems
