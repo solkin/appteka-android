@@ -128,7 +128,18 @@ class InstalledPresenterImpl(
         val updatesMap = updates.associateBy { it.packageName }
         val newItems = entities
             .map { appConverter.convert(it, updatesMap[it.packageName]) }
+            .sortedWith { lhs, rhs ->
+                when (preferencesProvider.getSortOrder()) {
+                    SortOrder.ASCENDING -> lhs.title.uppercase().compareTo(rhs.title.uppercase())
+                    SortOrder.DESCENDING -> rhs.title.uppercase().compareTo(lhs.title.uppercase())
+                    SortOrder.APP_SIZE -> rhs.size.compareTo(lhs.size)
+                    SortOrder.INSTALL_TIME -> rhs.installTime.compareTo(lhs.installTime)
+                    SortOrder.UPDATE_TIME -> rhs.updateTime.compareTo(lhs.updateTime)
+                }
+            }
+            .sortedBy { it.updateAppId == null }
             .toList()
+
         this.items = this.items
             ?.plus(newItems) ?: newItems
     }

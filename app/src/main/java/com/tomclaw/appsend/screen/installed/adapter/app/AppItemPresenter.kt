@@ -13,7 +13,7 @@ class AppItemPresenter(
         view.setIcon(item.icon)
         view.setTitle(item.title)
         view.setVersion(item.version)
-        view.setSize(item.size)
+        view.setSize(resourceProvider.formatFileSize(item.size))
         view.setUpdateTime(resourceProvider.formatDate(item.updateTime))
         view.setUpdatable(item.updateAppId != null)
         if (item.isNew) view.showBadge() else view.hideBadge()

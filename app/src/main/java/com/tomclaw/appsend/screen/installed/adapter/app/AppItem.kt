@@ -10,7 +10,7 @@ class AppItem(
     val icon: String?,
     val title: String,
     val version: String,
-    val size: String,
+    val size: Long,
     val installTime: Long,
     val updateTime: Long,
     val path: String?,

@@ -3,7 +3,6 @@ package com.tomclaw.appsend.screen.installed
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
-import com.tomclaw.appsend.screen.installed.InstalledPreferencesProviderImpl.SortOrder
 
 interface InstalledPreferencesProvider {
 
@@ -43,15 +42,16 @@ class InstalledPreferencesProviderImpl(
         }
     }
 
-    enum class SortOrder {
-        ASCENDING,
-        DESCENDING,
-        APP_SIZE,
-        INSTALL_TIME,
-        UPDATE_TIME,
-    }
-
 }
+
+enum class SortOrder {
+    ASCENDING,
+    DESCENDING,
+    APP_SIZE,
+    INSTALL_TIME,
+    UPDATE_TIME,
+}
+
 const val DARK_THEME_PREF_KEY = "pref_dark_theme"
 const val SHOW_SYSTEM_APPS_PREF_KEY = "pref_show_system"
 const val SORT_ORDER_PREF_KEY = "pref_sort_order"
