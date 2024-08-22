@@ -10,9 +10,7 @@ interface AppConverter {
 
 }
 
-class AppConverterImpl(
-    private val resourceProvider: AppsResourceProvider,
-) : AppConverter {
+class AppConverterImpl : AppConverter {
 
     private var id: Long = 1
 

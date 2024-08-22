@@ -88,11 +88,8 @@ class InstalledModule(
 
     @Provides
     @PerActivity
-    internal fun provideAppsConverter(
-        resourceProvider: AppsResourceProvider,
-    ): AppConverter {
-        return AppConverterImpl(resourceProvider)
-    }
+    internal fun provideAppsConverter(): AppConverter = AppConverterImpl()
+    
 
     @Provides
     @PerActivity
