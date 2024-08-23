@@ -7,7 +7,6 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.greysonparrelli.permiso.PermisoActivity;
@@ -26,7 +25,7 @@ import org.androidannotations.annotations.ViewById;
  * Created by Igor on 22.10.2017.
  */
 @SuppressLint("Registered")
-@EActivity(R.layout.installed_activity)
+@EActivity(R.layout.installed_activity_legacy)
 public class InstalledActivity extends PermisoActivity {
 
     @ViewById
