@@ -9,7 +9,6 @@ import com.tomclaw.appsend.categories.CategoriesInteractor
 import com.tomclaw.appsend.categories.Category
 import com.tomclaw.appsend.categories.CategoryConverter
 import com.tomclaw.appsend.categories.CategoryItem
-import com.tomclaw.appsend.dto.Screenshot
 import com.tomclaw.appsend.screen.gallery.GalleryItem
 import com.tomclaw.appsend.screen.upload.adapter.ItemListener
 import com.tomclaw.appsend.screen.upload.adapter.other_versions.VersionItem
@@ -21,7 +20,8 @@ import com.tomclaw.appsend.upload.UploadInfo
 import com.tomclaw.appsend.upload.UploadManager
 import com.tomclaw.appsend.upload.UploadPackage
 import com.tomclaw.appsend.upload.UploadStatus
-import com.tomclaw.appsend.util.PackageIconLoader
+import com.tomclaw.appsend.util.ApkIconLoader
+import com.tomclaw.appsend.util.AppIconLoader
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.filterUnauthorizedErrors
 import com.tomclaw.appsend.util.getParcelableArrayListCompat
@@ -308,7 +308,7 @@ class UploadPresenterImpl(
 
     private fun bindUploadAppIcon() {
         when {
-            apk?.packageInfo != null -> PackageIconLoader.getUri(apk?.packageInfo)
+            apk?.packageInfo != null -> ApkIconLoader.getUri(apk?.path)
             checkExist?.file?.icon != null -> checkExist?.file?.icon
             else -> null
         }?.let { view?.setAppIcon(it) }

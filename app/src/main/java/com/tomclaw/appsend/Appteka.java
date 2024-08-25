@@ -9,7 +9,8 @@ import com.tomclaw.appsend.di.AppModule;
 import com.tomclaw.appsend.di.DaggerAppComponent;
 import com.tomclaw.appsend.di.legacy.LegacyInjector;
 import com.tomclaw.appsend.di.legacy.LegacyModule;
-import com.tomclaw.appsend.util.PackageIconLoader;
+import com.tomclaw.appsend.util.ApkIconLoader;
+import com.tomclaw.appsend.util.AppIconLoader;
 import com.tomclaw.appsend.util.PreferenceHelper;
 import com.tomclaw.appsend.main.local.TimeHelper;
 import com.tomclaw.appsend.util.states.StateHolder;
@@ -77,7 +78,8 @@ public class Appteka extends Application {
                     new UrlLoader(),
                     new FileLoader(getAssets()),
                     new ContentLoader(getContentResolver()),
-                    new PackageIconLoader(getPackageManager())
+                    new AppIconLoader(getPackageManager()),
+                    new ApkIconLoader(getPackageManager())
             );
             SimpleImageLoader.INSTANCE.initImageLoader(this, singletonList(new BitmapDecoder()),
                     fileProvider, new MemoryCacheImpl(), new MainExecutorImpl(),

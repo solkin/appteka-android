@@ -2,7 +2,7 @@ package com.tomclaw.appsend.screen.installed
 
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
-import com.tomclaw.appsend.util.PackageIconLoader
+import com.tomclaw.appsend.util.AppIconLoader
 import com.tomclaw.appsend.util.versionCodeCompat
 import java.io.File
 
@@ -27,7 +27,7 @@ class InstalledInfoProviderImpl(
                     val app = InstalledAppEntity(
                         packageName = info.packageName,
                         label = packageInfo.applicationInfo.loadLabel(packageManager).toString(),
-                        icon = PackageIconLoader.getUri(packageInfo),
+                        icon = AppIconLoader.getUri(packageInfo.packageName),
                         verName = packageInfo.versionName,
                         verCode = packageInfo.versionCodeCompat(),
                         firstInstallTime = packageInfo.firstInstallTime,

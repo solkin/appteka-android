@@ -15,7 +15,7 @@ import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.screen.upload.createUploadActivityIntent
 import com.tomclaw.appsend.util.NotificationIconHolder
-import com.tomclaw.appsend.util.PackageIconLoader
+import com.tomclaw.appsend.util.AppIconLoader
 import com.tomclaw.appsend.util.crc32
 import com.tomclaw.appsend.util.getColor
 import com.tomclaw.appsend.util.getLabel
@@ -92,7 +92,7 @@ class UploadNotificationsImpl(private val context: Context) : UploadNotification
 
         var disposable: Disposable? = null
         disposable = observable.subscribe { state ->
-            val uri = PackageIconLoader.getUri(apk.packageInfo)
+            val uri = AppIconLoader.getUri(apk.path)
             uri?.run { context.imageLoader().load(iconHolder, uri, handlers) }
             when (state.status) {
                 UploadStatus.AWAIT -> {

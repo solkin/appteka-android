@@ -17,7 +17,7 @@ import com.tomclaw.appsend.main.adapter.files.FileViewHolder;
 import com.tomclaw.appsend.main.adapter.files.FilesListener;
 import com.tomclaw.appsend.main.item.AppItem;
 import com.tomclaw.appsend.util.FileHelper;
-import com.tomclaw.appsend.util.PackageIconLoader;
+import com.tomclaw.appsend.util.AppIconLoader;
 
 import java.util.concurrent.TimeUnit;
 
@@ -51,7 +51,7 @@ public class AppItemViewHolder extends FileViewHolder<AppItem> {
             itemView.setOnClickListener(v -> listener.onClick(item));
         }
 
-        String uri = PackageIconLoader.getUri(item.getPackageInfo());
+        String uri = AppIconLoader.getUri(item.getPackageName());
         fetch(appIcon, uri, imageViewHandlers -> {
             centerCrop(imageViewHandlers);
             withPlaceholder(imageViewHandlers, R.drawable.app_placeholder);

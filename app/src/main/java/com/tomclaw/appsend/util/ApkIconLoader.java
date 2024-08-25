@@ -1,9 +1,9 @@
 package com.tomclaw.appsend.util;
 
+import static android.content.pm.PackageManager.GET_PERMISSIONS;
+
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.os.Parcel;
-import android.util.Base64;
 
 import androidx.annotation.NonNull;
 
@@ -15,27 +15,32 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URI;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.Collections;
 import java.util.List;
 
-public class PackageIconLoader implements Loader {
+public class ApkIconLoader implements Loader {
 
     private final PackageManager packageManager;
 
-    public PackageIconLoader(PackageManager packageManager) {
+    public ApkIconLoader(PackageManager packageManager) {
         this.packageManager = packageManager;
     }
 
     @NonNull
     @Override
     public List<String> getSchemes() {
-        return Collections.singletonList("package");
+        return Collections.singletonList("apk");
     }
 
     @Override
     public boolean load(@NonNull String s, @NonNull File file) {
         try {
-            PackageInfo packageInfo = parseUri(s);
+            String path = parseUri(s);
+
+            PackageInfo packageInfo = packageManager.getPackageArchiveInfo(
+                    path, GET_PERMISSIONS);
             byte[] data = PackageHelper.getPackageIconPng(
                     packageInfo.applicationInfo, packageManager
             );
@@ -53,18 +58,15 @@ public class PackageIconLoader implements Loader {
         return false;
     }
 
-    public static String getUri(PackageInfo packageInfo) {
-        byte[] bytes = ParcelableUtil.marshall(packageInfo);
-        String data = Base64.encodeToString(bytes, Base64.NO_WRAP | Base64.URL_SAFE);
-        return "package://" + packageInfo.packageName + "/" + data;
+    public static String getUri(String path) {
+        String encodedPath = URLEncoder.encode(path);
+        return "apk://path/" + encodedPath;
     }
 
-    public static PackageInfo parseUri(String s) {
+    public static String parseUri(String s) {
         URI uri = URI.create(s);
-        String path = uri.getPath();
-        byte[] data = Base64.decode(path.substring(1), Base64.NO_WRAP | Base64.URL_SAFE);
-        Parcel parcel = ParcelableUtil.unmarshall(data);
-        return PackageInfo.CREATOR.createFromParcel(parcel);
+        String encodedPath = uri.getPath();
+        return URLDecoder.decode(encodedPath);
     }
 
     public static void safeClose(Closeable... streams) {
