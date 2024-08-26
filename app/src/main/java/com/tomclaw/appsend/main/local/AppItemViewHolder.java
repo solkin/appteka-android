@@ -2,6 +2,7 @@ package com.tomclaw.appsend.main.local;
 
 import static com.tomclaw.appsend.screen.details.DetailsActivityKt.createDetailsActivityIntent;
 import static com.tomclaw.appsend.main.local.TimeHelper.timeHelper;
+import static com.tomclaw.appsend.util.AppIconLoaderKt.createAppIconURI;
 import static com.tomclaw.imageloader.util.ImageViewHandlersKt.centerCrop;
 import static com.tomclaw.imageloader.util.ImageViewHandlersKt.withPlaceholder;
 import static com.tomclaw.imageloader.util.ImageViewsKt.fetch;
@@ -17,7 +18,6 @@ import com.tomclaw.appsend.main.adapter.files.FileViewHolder;
 import com.tomclaw.appsend.main.adapter.files.FilesListener;
 import com.tomclaw.appsend.main.item.AppItem;
 import com.tomclaw.appsend.util.FileHelper;
-import com.tomclaw.appsend.util.AppIconLoader;
 
 import java.util.concurrent.TimeUnit;
 
@@ -51,7 +51,7 @@ public class AppItemViewHolder extends FileViewHolder<AppItem> {
             itemView.setOnClickListener(v -> listener.onClick(item));
         }
 
-        String uri = AppIconLoader.getUri(item.getPackageName());
+        String uri = createAppIconURI(item.getPackageName());
         fetch(appIcon, uri, imageViewHandlers -> {
             centerCrop(imageViewHandlers);
             withPlaceholder(imageViewHandlers, R.drawable.app_placeholder);

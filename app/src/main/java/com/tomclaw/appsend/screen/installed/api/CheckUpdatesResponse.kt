@@ -5,5 +5,5 @@ import com.tomclaw.appsend.net.AppEntry
 
 data class CheckUpdatesResponse(
     @SerializedName(value = "entries")
-    val entries: List<AppEntry>,
+    val entries: List<AppEntry>?,
 )

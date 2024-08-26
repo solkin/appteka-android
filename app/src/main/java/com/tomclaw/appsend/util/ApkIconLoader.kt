@@ -1,13 +1,13 @@
 package com.tomclaw.appsend.util
 
 import android.content.pm.PackageManager
+import android.content.pm.PackageManager.GET_PERMISSIONS
 import com.tomclaw.imageloader.core.Loader
 import java.io.File
 import java.io.FileOutputStream
 import java.net.URI
 import java.net.URLDecoder
 import java.net.URLEncoder
-import java.util.Base64
 
 class ApkIconLoader(private val packageManager: PackageManager) : Loader {
 
@@ -17,12 +17,8 @@ class ApkIconLoader(private val packageManager: PackageManager) : Loader {
     override fun load(uriString: String, file: File): Boolean {
         try {
             val path = parseUri(uriString)
-            val packageInfo = packageManager.getPackageArchiveInfo(
-                path, PackageManager.GET_PERMISSIONS
-            )
-            val data = PackageHelper.getPackageIconPng(
-                packageInfo!!.applicationInfo, packageManager
-            )
+            val info = packageManager.getPackageArchiveInfo(path, GET_PERMISSIONS) ?: return false
+            val data = PackageHelper.getPackageIconPng(info.applicationInfo, packageManager)
             FileOutputStream(file).use { output ->
                 output.write(data)
                 output.flush()

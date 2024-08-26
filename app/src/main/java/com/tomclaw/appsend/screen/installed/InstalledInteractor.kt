@@ -42,7 +42,7 @@ class InstalledInteractorImpl(
         )
         return api.checkUpdates(request)
             .map { response ->
-                response.result.entries
+                response.result.entries ?: emptyList()
             }
             .toObservable()
             .subscribeOn(schedulers.io())
