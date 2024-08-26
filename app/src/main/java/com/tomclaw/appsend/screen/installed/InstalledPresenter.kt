@@ -4,6 +4,7 @@ import android.os.Bundle
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.blueprint.Item
 import com.avito.konveyor.data_source.ListDataSource
+import com.tomclaw.appsend.R
 import com.tomclaw.appsend.net.AppEntry
 import com.tomclaw.appsend.screen.installed.adapter.ItemListener
 import com.tomclaw.appsend.screen.installed.adapter.app.AppItem
@@ -66,6 +67,20 @@ class InstalledPresenterImpl(
 
         subscriptions += view.navigationClicks().subscribe {
             onBackPressed()
+        }
+        subscriptions += view.itemMenuClicks().subscribe { pair ->
+            when(pair.first) {
+                MENU_RUN -> {}
+                MENU_SHARE -> {}
+                MENU_EXTRACT -> {}
+                MENU_UPLOAD -> {}
+                MENU_BLUETOOTH -> {}
+                MENU_FIND_ON_GP -> {}
+                MENU_FIND_ON_STORE -> {}
+                MENU_PERMISSIONS -> {}
+                MENU_DETAILS -> {}
+                MENU_REMOVE -> {}
+            }
         }
         subscriptions += view.retryClicks().subscribe {
             loadApps()
@@ -185,7 +200,7 @@ class InstalledPresenterImpl(
 
     override fun onItemClick(item: Item) {
         val app = items?.find { it.id == item.id } ?: return
-//        router?.openAppScreen(app.appId, app.title)
+        view?.showItemDialog(app)
     }
 
     override fun onUpdateClick(title: String, appId: String) {

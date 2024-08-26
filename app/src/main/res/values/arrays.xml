@@ -55,7 +55,7 @@
         <item>@drawable/ic_google_play</item>
         <item>@drawable/ic_store</item>
         <item>@drawable/ic_lock_open</item>
-        <item>@drawable/settings_box</item>
+        <item>@drawable/ic_settings</item>
         <item>@drawable/ic_delete</item>
     </array>
 

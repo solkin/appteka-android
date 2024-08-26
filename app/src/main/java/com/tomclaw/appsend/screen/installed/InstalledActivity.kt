@@ -30,6 +30,9 @@ class InstalledActivity : AppCompatActivity(), InstalledPresenter.InstalledRoute
     @Inject
     lateinit var analytics: Analytics
 
+    @Inject
+    lateinit var preferences: InstalledPreferencesProvider
+
     private val invalidateDetailsResultLauncher =
         registerForActivityResult(StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
@@ -48,7 +51,7 @@ class InstalledActivity : AppCompatActivity(), InstalledPresenter.InstalledRoute
         setContentView(R.layout.installed_activity)
 
         val adapter = SimpleRecyclerAdapter(adapterPresenter, binder)
-        val view = InstalledViewImpl(window.decorView, adapter)
+        val view = InstalledViewImpl(window.decorView, preferences, adapter)
 
         presenter.attachView(view)
 
