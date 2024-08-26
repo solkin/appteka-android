@@ -1,6 +1,7 @@
 package com.tomclaw.appsend.main.local;
 
 import static com.tomclaw.appsend.main.local.TimeHelper.timeHelper;
+import static com.tomclaw.appsend.util.ApkIconLoaderKt.createApkIconURI;
 import static com.tomclaw.imageloader.util.ImageViewHandlersKt.centerCrop;
 import static com.tomclaw.imageloader.util.ImageViewHandlersKt.withPlaceholder;
 import static com.tomclaw.imageloader.util.ImageViewsKt.fetch;
@@ -55,7 +56,7 @@ public class ApkItemViewHolder extends FileViewHolder<ApkItem> {
             });
         }
 
-        String uri = ApkIconLoader.getUri(item.getPath());
+        String uri = createApkIconURI(item.getPath());
         fetch(appIcon, uri, imageViewHandlers -> {
             centerCrop(imageViewHandlers);
             withPlaceholder(imageViewHandlers, R.drawable.app_placeholder);

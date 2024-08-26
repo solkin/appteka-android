@@ -23,6 +23,7 @@ import com.tomclaw.appsend.upload.UploadStatus
 import com.tomclaw.appsend.util.ApkIconLoader
 import com.tomclaw.appsend.util.AppIconLoader
 import com.tomclaw.appsend.util.SchedulersFactory
+import com.tomclaw.appsend.util.createApkIconURI
 import com.tomclaw.appsend.util.filterUnauthorizedErrors
 import com.tomclaw.appsend.util.getParcelableArrayListCompat
 import com.tomclaw.appsend.util.getParcelableCompat
@@ -308,7 +309,7 @@ class UploadPresenterImpl(
 
     private fun bindUploadAppIcon() {
         when {
-            apk?.packageInfo != null -> ApkIconLoader.getUri(apk?.path)
+            apk?.packageInfo != null -> createApkIconURI(apk?.path.orEmpty())
             checkExist?.file?.icon != null -> checkExist?.file?.icon
             else -> null
         }?.let { view?.setAppIcon(it) }
