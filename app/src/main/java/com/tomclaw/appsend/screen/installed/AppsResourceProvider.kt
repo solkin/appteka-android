@@ -13,7 +13,9 @@ interface AppsResourceProvider {
 
     fun formatFileSize(size: Long): String
 
-    fun formatDate(value: Long): String
+    fun installDate(value: Long): String
+
+    fun updateDate(value: Long): String
 
 }
 
@@ -32,7 +34,15 @@ class AppsResourceProviderImpl(
         return FileHelper.formatBytes(resources, size)
     }
 
-    override fun formatDate(value: Long): String {
+    override fun installDate(value: Long): String {
+        return resources.getString(R.string.install_date, formatDate(value))
+    }
+
+    override fun updateDate(value: Long): String {
+        return resources.getString(R.string.update_date, formatDate(value))
+    }
+
+    private fun formatDate(value: Long): String {
         return dateFormat.format(value)
     }
 

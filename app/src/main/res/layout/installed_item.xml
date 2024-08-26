@@ -5,16 +5,27 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?android:attr/selectableItemBackground"
-    android:orientation="horizontal"
-    android:padding="6dp">
+    android:orientation="horizontal">
 
-    <ImageView
-        android:id="@+id/app_icon"
-        android:layout_width="52dp"
-        android:layout_height="52dp"
+    <androidx.cardview.widget.CardView
+        android:id="@+id/icon_back"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
         android:layout_gravity="center_vertical"
-        android:contentDescription="@string/app_icon"
-        tools:src="@mipmap/ic_launcher" />
+        android:layout_margin="12dp"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="4dp">
+
+        <ImageView
+            android:id="@+id/app_icon"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
+            android:layout_gravity="center_vertical"
+            android:contentDescription="@string/app_icon"
+            android:scaleType="centerCrop"
+            tools:src="@mipmap/ic_launcher" />
+
+    </androidx.cardview.widget.CardView>
 
     <LinearLayout
         android:layout_width="0dp"
@@ -22,13 +33,12 @@
         android:layout_gravity="center_vertical"
         android:layout_weight="1"
         android:gravity="center_vertical"
-        android:orientation="vertical"
-        android:paddingStart="10dp"
-        android:paddingEnd="0dp">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <ImageView
@@ -38,7 +48,9 @@
                 android:layout_gravity="center_vertical"
                 android:contentDescription="@string/ratings"
                 android:paddingStart="-1dp"
+                android:paddingLeft="-1dp"
                 android:paddingEnd="2dp"
+                android:paddingRight="2dp"
                 android:src="@drawable/ic_new_box"
                 android:visibility="visible"
                 app:tint="@color/badge_color" />
@@ -48,10 +60,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start|center_vertical"
+                android:fontFamily="sans-serif-medium"
+                android:includeFontPadding="false"
                 android:singleLine="true"
                 android:textColor="?text_primary_color"
-                android:textSize="17sp"
-                android:textStyle="bold"
+                android:textSize="16sp"
                 tools:text="AppSend" />
 
             <TextView
@@ -59,11 +72,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start|center_vertical"
-                android:fontFamily="sans-serif-light"
+                android:includeFontPadding="false"
                 android:paddingStart="4dp"
                 android:paddingLeft="4dp"
-                android:paddingEnd="4dp"
-                android:paddingRight="4dp"
                 android:singleLine="true"
                 android:textColor="?text_secondary_color"
                 android:textSize="16sp"
@@ -74,19 +85,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/app_size"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start|center_vertical"
-                android:ellipsize="marquee"
-                android:marqueeRepeatLimit="marquee_forever"
-                android:scrollHorizontally="true"
-                android:singleLine="true"
-                android:textColor="?text_secondary_color"
-                android:textSize="15sp" />
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingTop="4dp"
+            android:paddingBottom="2dp">
 
             <TextView
                 android:id="@+id/app_update_time"
@@ -94,16 +96,32 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="start|center_vertical"
                 android:ellipsize="marquee"
-                android:fontFamily="sans-serif-light"
+                android:includeFontPadding="false"
                 android:marqueeRepeatLimit="marquee_forever"
-                android:paddingStart="4dp"
-                android:paddingLeft="4dp"
-                android:paddingEnd="4dp"
-                android:paddingRight="4dp"
                 android:scrollHorizontally="true"
                 android:singleLine="true"
                 android:textColor="?text_secondary_color"
-                android:textSize="15sp" />
+                android:textSize="14sp"
+                tools:text="Updated 21.08.2012" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingTop="2dp">
+
+            <TextView
+                android:id="@+id/app_size"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:includeFontPadding="false"
+                android:singleLine="true"
+                android:textColor="?text_secondary_color"
+                android:textSize="14sp"
+                tools:text="3.1 MB" />
 
         </LinearLayout>
 
