@@ -102,7 +102,11 @@ class InstalledPresenterImpl(
                     }
                 }
 
-                MENU_EXTRACT -> {}
+                MENU_EXTRACT -> {
+                    extractApk(app) { path ->
+                        view.showExtractSuccess(path)
+                    }
+                }
 
                 MENU_UPLOAD -> {
                     val uploadInfo = interactor.getPackageUploadInfo(app.packageName)
@@ -135,6 +139,9 @@ class InstalledPresenterImpl(
                     router?.removeApp(app.packageName)
                 }
             }
+        }
+        subscriptions += view.shareExtractedClicks().subscribe { path ->
+            router?.openShareApk(path)
         }
         subscriptions += view.retryClicks().subscribe {
             loadApps()

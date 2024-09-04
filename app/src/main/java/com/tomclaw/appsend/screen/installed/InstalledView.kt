@@ -1,9 +1,11 @@
 package com.tomclaw.appsend.screen.installed
 
 import android.annotation.SuppressLint
+import android.text.Html
 import android.view.View
 import android.widget.TextView
 import android.widget.ViewFlipper
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -35,6 +37,8 @@ interface InstalledView {
 
     fun showError()
 
+    fun showExtractSuccess(path: String)
+
     fun showExtractError()
 
     fun showItemDialog(item: AppItem)
@@ -48,6 +52,8 @@ interface InstalledView {
     fun navigationClicks(): Observable<Unit>
 
     fun itemMenuClicks(): Observable<Pair<Int, AppItem>>
+
+    fun shareExtractedClicks(): Observable<String>
 
     fun retryClicks(): Observable<Unit>
 
@@ -72,6 +78,7 @@ class InstalledViewImpl(
 
     private val navigationRelay = PublishRelay.create<Unit>()
     private val itemMenuRelay = PublishRelay.create<Pair<Int, AppItem>>()
+    private val shareExtractedRelay = PublishRelay.create<String>()
     private val retryRelay = PublishRelay.create<Unit>()
     private val refreshRelay = PublishRelay.create<Unit>()
 
@@ -114,6 +121,20 @@ class InstalledViewImpl(
 
         error.setText(R.string.load_files_error)
         retryButton.clicks(retryRelay)
+    }
+
+    override fun showExtractSuccess(path: String) {
+        val alertDialog = AlertDialog.Builder(context)
+            .setTitle(R.string.success)
+            .setMessage(
+                Html.fromHtml(context.getString(R.string.app_extract_success, path))
+            )
+            .setPositiveButton(
+                R.string.yes
+            ) { _, _ -> shareExtractedRelay.accept(path) }
+            .setNegativeButton(R.string.no, null)
+            .create()
+        alertDialog.show()
     }
 
     override fun showExtractError() {
@@ -170,6 +191,8 @@ class InstalledViewImpl(
     override fun navigationClicks(): Observable<Unit> = navigationRelay
 
     override fun itemMenuClicks(): Observable<Pair<Int, AppItem>> = itemMenuRelay
+
+    override fun shareExtractedClicks(): Observable<String> = shareExtractedRelay
 
     override fun retryClicks(): Observable<Unit> = retryRelay
 
