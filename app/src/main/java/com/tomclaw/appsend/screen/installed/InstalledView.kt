@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
 import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder
+import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.installed.adapter.app.AppItem
@@ -34,6 +35,8 @@ interface InstalledView {
     fun showError()
 
     fun showItemDialog(item: AppItem)
+
+    fun showSnackbar(text: String)
 
     fun stopPullRefreshing()
 
@@ -133,6 +136,10 @@ class InstalledViewImpl(
             }
             .createDialog()
             .show()
+    }
+
+    override fun showSnackbar(text: String) {
+        Snackbar.make(recycler, text, Snackbar.LENGTH_SHORT).show()
     }
 
     @SuppressLint("NotifyDataSetChanged")

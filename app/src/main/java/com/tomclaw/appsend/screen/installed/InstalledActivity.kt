@@ -1,13 +1,19 @@
 package com.tomclaw.appsend.screen.installed
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AppCompatActivity
 import com.avito.konveyor.ItemBinder
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
+import com.greysonparrelli.permiso.Permiso
+import com.greysonparrelli.permiso.Permiso.IOnPermissionResult
+import com.greysonparrelli.permiso.Permiso.IOnRationaleProvided
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
@@ -46,6 +52,7 @@ class InstalledActivity : AppCompatActivity(), InstalledPresenter.InstalledRoute
             .installedComponent(InstalledModule(this, presenterState))
             .inject(activity = this)
         ThemeHelper.updateTheme(this)
+        Permiso.getInstance().setActivity(this)
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.installed_activity)
@@ -71,6 +78,11 @@ class InstalledActivity : AppCompatActivity(), InstalledPresenter.InstalledRoute
         presenter.attachRouter(this)
     }
 
+    override fun onResume() {
+        super.onResume()
+        Permiso.getInstance().setActivity(this)
+    }
+
     override fun onStop() {
         presenter.detachRouter()
         super.onStop()
@@ -86,6 +98,15 @@ class InstalledActivity : AppCompatActivity(), InstalledPresenter.InstalledRoute
         outState.putBundle(KEY_PRESENTER_STATE, presenter.saveState())
     }
 
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String?>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        Permiso.getInstance().onRequestPermissionResult(requestCode, permissions, grantResults)
+    }
+
     override fun openAppScreen(appId: String, title: String) {
         val intent = createDetailsActivityIntent(
             context = this,
@@ -97,8 +118,46 @@ class InstalledActivity : AppCompatActivity(), InstalledPresenter.InstalledRoute
         invalidateDetailsResultLauncher.launch(intent)
     }
 
+    override fun launchApp(packageName: String) {
+        val intent = packageManager.getLaunchIntentForPackage(packageName)
+        startActivity(intent)
+        analytics.trackEvent("installed-launch-app")
+    }
+
+    override fun removeApp(packageName: String) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            Permiso.getInstance().requestPermissions(object : IOnPermissionResult {
+                override fun onPermissionResult(resultSet: Permiso.ResultSet) {
+                    if (resultSet.isPermissionGranted(Manifest.permission.REQUEST_DELETE_PACKAGES)) {
+                        onRemoveAppPermitted(packageName)
+                    } else {
+                        presenter.showSnackbar(getString(R.string.request_delete_packages))
+                    }
+                }
+
+                override fun onRationaleRequested(
+                    callback: IOnRationaleProvided,
+                    vararg permissions: String
+                ) {
+                    val title: String = getString(R.string.app_name)
+                    val message: String = getString(R.string.request_delete_packages)
+                    Permiso.getInstance().showRationaleInDialog(title, message, null, callback)
+                }
+            }, Manifest.permission.REQUEST_DELETE_PACKAGES)
+        } else {
+            onRemoveAppPermitted(packageName)
+        }
+    }
+
     override fun leaveScreen() {
         finish()
+    }
+
+    private fun onRemoveAppPermitted(packageName: String) {
+        val packageUri = Uri.parse("package:$packageName")
+        val uninstallIntent = Intent(Intent.ACTION_DELETE, packageUri)
+        startActivity(uninstallIntent)
+        analytics.trackEvent("installed-delete-app")
     }
 
 }

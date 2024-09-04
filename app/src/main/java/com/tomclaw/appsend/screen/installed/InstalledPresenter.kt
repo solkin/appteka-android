@@ -32,11 +32,17 @@ interface InstalledPresenter : ItemListener {
 
     fun onUpdate()
 
+    fun showSnackbar(text: String)
+
     fun invalidateApps()
 
     interface InstalledRouter {
 
         fun openAppScreen(appId: String, title: String)
+
+        fun launchApp(packageName: String)
+
+        fun removeApp(packageName: String)
 
         fun leaveScreen()
 
@@ -69,8 +75,9 @@ class InstalledPresenterImpl(
             onBackPressed()
         }
         subscriptions += view.itemMenuClicks().subscribe { pair ->
+            val app = items?.find { it.id == pair.second.id } ?: return@subscribe
             when(pair.first) {
-                MENU_RUN -> {}
+                MENU_RUN -> { router?.launchApp(app.packageName) }
                 MENU_SHARE -> {}
                 MENU_EXTRACT -> {}
                 MENU_UPLOAD -> {}
@@ -79,7 +86,7 @@ class InstalledPresenterImpl(
                 MENU_FIND_ON_STORE -> {}
                 MENU_PERMISSIONS -> {}
                 MENU_DETAILS -> {}
-                MENU_REMOVE -> {}
+                MENU_REMOVE -> { router?.removeApp(app.packageName) }
             }
         }
         subscriptions += view.retryClicks().subscribe {
@@ -196,6 +203,10 @@ class InstalledPresenterImpl(
 
     override fun onUpdate() {
         view?.contentUpdated()
+    }
+
+    override fun showSnackbar(text: String) {
+        view?.showSnackbar(text)
     }
 
     override fun onItemClick(item: Item) {

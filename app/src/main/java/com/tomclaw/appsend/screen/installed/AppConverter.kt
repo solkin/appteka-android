@@ -24,6 +24,7 @@ class AppConverterImpl : AppConverter {
             installTime = appEntity.firstInstallTime,
             updateTime = appEntity.lastUpdateTime,
             path = appEntity.path,
+            packageName = appEntity.packageName,
             updateAppId = update?.appId,
             isUserApp = appEntity.isUserApp,
             isNew = (TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()) - appEntity.firstInstallTime) <

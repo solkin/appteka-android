@@ -13,6 +13,7 @@ class AppItem(
     val size: Long,
     val installTime: Long,
     val updateTime: Long,
+    val packageName: String,
     val path: String?,
     var updateAppId: String?,
     val isUserApp: Boolean,
