@@ -3,6 +3,8 @@ package com.tomclaw.appsend.screen.installed
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.net.AppEntry
 import com.tomclaw.appsend.screen.installed.api.CheckUpdatesRequest
+import com.tomclaw.appsend.upload.UploadApk
+import com.tomclaw.appsend.upload.UploadPackage
 import com.tomclaw.appsend.util.SchedulersFactory
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
@@ -15,6 +17,8 @@ interface InstalledInteractor {
     fun getUpdates(apps: Map<String, Long>): Observable<List<AppEntry>>
 
     fun getPackagePermissions(packageName: String): List<String>
+
+    fun getPackageUploadInfo(packageName: String): Pair<UploadPackage, UploadApk>
 
 }
 
@@ -52,6 +56,10 @@ class InstalledInteractorImpl(
 
     override fun getPackagePermissions(packageName: String): List<String> {
         return infoProvider.getPackagePermissions(packageName)
+    }
+
+    override fun getPackageUploadInfo(packageName: String): Pair<UploadPackage, UploadApk> {
+        return infoProvider.getPackageUploadInfo(packageName)
     }
 
 }

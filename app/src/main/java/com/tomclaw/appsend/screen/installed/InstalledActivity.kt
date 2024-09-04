@@ -22,8 +22,10 @@ import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.screen.installed.di.InstalledModule
 import com.tomclaw.appsend.screen.permissions.createPermissionsActivityIntent
+import com.tomclaw.appsend.screen.upload.createUploadActivityIntent
+import com.tomclaw.appsend.upload.UploadApk
+import com.tomclaw.appsend.upload.UploadPackage
 import com.tomclaw.appsend.util.Analytics
-import com.tomclaw.appsend.util.IntentHelper
 import com.tomclaw.appsend.util.ThemeHelper
 import javax.inject.Inject
 
@@ -122,6 +124,12 @@ class InstalledActivity : AppCompatActivity(), InstalledPresenter.InstalledRoute
         )
         invalidateDetailsResultLauncher.launch(intent)
         analytics.trackEvent("installed-app-update")
+    }
+
+    override fun openUploadScreen(pkg: UploadPackage, apk: UploadApk) {
+        val intent = createUploadActivityIntent(context = this, pkg, apk, info = null)
+        startActivity(intent)
+        analytics.trackEvent("installed-app-upload")
     }
 
     override fun searchGooglePlay(packageName: String) {

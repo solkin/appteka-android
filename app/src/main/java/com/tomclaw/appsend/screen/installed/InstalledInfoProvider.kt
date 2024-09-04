@@ -2,16 +2,19 @@ package com.tomclaw.appsend.screen.installed
 
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
+import com.tomclaw.appsend.upload.UploadApk
+import com.tomclaw.appsend.upload.UploadPackage
 import com.tomclaw.appsend.util.createAppIconURI
 import com.tomclaw.appsend.util.versionCodeCompat
 import java.io.File
-import java.util.Arrays.asList
 
 interface InstalledInfoProvider {
 
     fun getInstalledApps(): List<InstalledAppEntity>
 
     fun getPackagePermissions(packageName: String): List<String>
+
+    fun getPackageUploadInfo(packageName: String): Pair<UploadPackage, UploadApk>
 
 }
 
@@ -52,6 +55,14 @@ class InstalledInfoProviderImpl(
     override fun getPackagePermissions(packageName: String): List<String> {
         val packageInfo = packageManager.getPackageInfo(packageName, PackageManager.GET_PERMISSIONS)
         return listOf(*packageInfo.requestedPermissions)
+    }
+
+    override fun getPackageUploadInfo(packageName: String): Pair<UploadPackage, UploadApk> {
+        val packageInfo = packageManager.getPackageInfo(packageName, 0)
+        val file = File(packageInfo.applicationInfo.publicSourceDir)
+        val pkg = UploadPackage(file.path, null, packageName)
+        val apk = UploadApk(file.path, packageInfo.versionName, file.length(), packageInfo)
+        return Pair(pkg, apk)
     }
 
 }

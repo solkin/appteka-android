@@ -7,6 +7,8 @@ import com.avito.konveyor.data_source.ListDataSource
 import com.tomclaw.appsend.net.AppEntry
 import com.tomclaw.appsend.screen.installed.adapter.ItemListener
 import com.tomclaw.appsend.screen.installed.adapter.app.AppItem
+import com.tomclaw.appsend.upload.UploadApk
+import com.tomclaw.appsend.upload.UploadPackage
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.getParcelableArrayListCompat
 import dagger.Lazy
@@ -40,6 +42,8 @@ interface InstalledPresenter : ItemListener {
         fun openAppScreen(appId: String, title: String)
 
         fun launchApp(packageName: String)
+
+        fun openUploadScreen(pkg: UploadPackage, apk: UploadApk)
 
         fun searchGooglePlay(packageName: String)
 
@@ -90,7 +94,11 @@ class InstalledPresenterImpl(
 
                 MENU_SHARE -> {}
                 MENU_EXTRACT -> {}
-                MENU_UPLOAD -> {}
+                MENU_UPLOAD -> {
+                    val uploadInfo = interactor.getPackageUploadInfo(app.packageName)
+                    router?.openUploadScreen(uploadInfo.first, uploadInfo.second)
+                }
+
                 MENU_BLUETOOTH -> {}
                 MENU_FIND_ON_GP -> {
                     router?.searchGooglePlay(app.packageName)
