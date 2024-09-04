@@ -4,7 +4,6 @@ import android.os.Bundle
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.blueprint.Item
 import com.avito.konveyor.data_source.ListDataSource
-import com.tomclaw.appsend.R
 import com.tomclaw.appsend.net.AppEntry
 import com.tomclaw.appsend.screen.installed.adapter.ItemListener
 import com.tomclaw.appsend.screen.installed.adapter.app.AppItem
@@ -41,6 +40,8 @@ interface InstalledPresenter : ItemListener {
         fun openAppScreen(appId: String, title: String)
 
         fun launchApp(packageName: String)
+
+        fun searchAppteka(packageName: String, title: String)
 
         fun openPermissionsScreen(permissions: List<String>)
 
@@ -90,7 +91,10 @@ class InstalledPresenterImpl(
                 MENU_UPLOAD -> {}
                 MENU_BLUETOOTH -> {}
                 MENU_FIND_ON_GP -> {}
-                MENU_FIND_ON_STORE -> {}
+                MENU_FIND_ON_STORE -> {
+                    router?.searchAppteka(app.packageName, app.title)
+                }
+
                 MENU_PERMISSIONS -> {
                     router?.openPermissionsScreen(interactor.getPackagePermissions(app.packageName))
                 }

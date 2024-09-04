@@ -121,6 +121,18 @@ class InstalledActivity : AppCompatActivity(), InstalledPresenter.InstalledRoute
         analytics.trackEvent("installed-app-update")
     }
 
+    override fun searchAppteka(packageName: String, title: String) {
+        val intent = createDetailsActivityIntent(
+            context = this,
+            packageName = packageName,
+            label = title,
+            moderation = false,
+            finishOnly = true
+        )
+        invalidateDetailsResultLauncher.launch(intent)
+        analytics.trackEvent("installed-search-appteka")
+    }
+
     override fun launchApp(packageName: String) {
         val intent = packageManager.getLaunchIntentForPackage(packageName)
         startActivity(intent)
