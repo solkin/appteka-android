@@ -22,19 +22,6 @@
     <string name="sort_order_install_time_value" translatable="false">sort_order_install_time</string>
     <string name="sort_order_update_time_value" translatable="false">sort_order_update_time</string>
 
-    <string-array name="app_actions_titles">
-        <item>@string/run_app</item>
-        <item>@string/share_apk</item>
-        <item>@string/extract_apk</item>
-        <item>@string/upload_apk</item>
-        <item>@string/bluetooth_apk</item>
-        <item>@string/find_on_gp</item>
-        <item>@string/find_on_store</item>
-        <item>@string/required_permissions</item>
-        <item>@string/app_details</item>
-        <item>@string/remove_app</item>
-    </string-array>
-
     <string-array name="apk_actions_titles">
         <item>@string/install_app</item>
         <item>@string/share_apk</item>
@@ -45,19 +32,6 @@
         <item>@string/required_permissions</item>
         <item>@string/remove_app</item>
     </string-array>
-
-    <array name="app_actions_icons">
-        <item>@drawable/ic_run</item>
-        <item>@drawable/ic_share</item>
-        <item>@drawable/ic_floppy</item>
-        <item>@drawable/ic_cloud_upload</item>
-        <item>@drawable/ic_bluetooth</item>
-        <item>@drawable/ic_google_play</item>
-        <item>@drawable/ic_store</item>
-        <item>@drawable/ic_lock_open</item>
-        <item>@drawable/ic_settings</item>
-        <item>@drawable/ic_delete</item>
-    </array>
 
     <array name="apk_actions_icons">
         <item>@drawable/ic_download</item>
