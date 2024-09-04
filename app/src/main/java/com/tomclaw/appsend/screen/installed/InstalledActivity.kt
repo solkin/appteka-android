@@ -170,38 +170,39 @@ class InstalledActivity : AppCompatActivity(), InstalledPresenter.InstalledRoute
 
     override fun openShareApk(path: String) {
         val file = File(path)
-
-        val useFileProvider = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
-
-        val uri = if (useFileProvider) {
-            FileProvider.getUriForFile(this, "$packageName.provider", file)
-        } else {
-            Uri.fromFile(file)
-        }
-
+        val uri = createFileExternalUri(file)
         val intent = Intent()
             .setAction(Intent.ACTION_SEND)
             .putExtra(Intent.EXTRA_TEXT, file.getName())
             .putExtra(Intent.EXTRA_STREAM, uri)
             .setType("application/zip")
-
-        if (useFileProvider) {
-            val resInfoList: List<ResolveInfo> = packageManager
-                .queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY)
-            for (resolveInfo in resInfoList) {
-                val packageName = resolveInfo.activityInfo.packageName
-                grantUriPermission(packageName, uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
-            }
-        }
-
+        grantUriPermission(uri)
         startActivity(
             Intent.createChooser(
                 intent,
                 resources.getText(R.string.send_to)
             )
         )
+        analytics.trackEvent("installed-share-apk")
+    }
 
-        analytics.trackEvent("installed-share")
+    override fun openShareBluetooth(path: String) {
+        val file = File(path)
+        val uri = createFileExternalUri(file)
+        val intent = Intent()
+            .setAction(Intent.ACTION_SEND)
+            .putExtra(Intent.EXTRA_TEXT, file.name)
+            .putExtra(Intent.EXTRA_STREAM, uri)
+            .setType("application/zip")
+            .setPackage("com.android.bluetooth")
+        grantUriPermission(uri)
+        startActivity(
+            Intent.createChooser(
+                intent,
+                resources.getText(R.string.send_to)
+            )
+        )
+        analytics.trackEvent("installed-share-bluetooth")
     }
 
     override fun openPermissionsScreen(permissions: List<String>) {
@@ -255,6 +256,27 @@ class InstalledActivity : AppCompatActivity(), InstalledPresenter.InstalledRoute
         invalidateDetailsResultLauncher.launch(uninstallIntent)
         analytics.trackEvent("installed-delete-app")
     }
+
+    private fun createFileExternalUri(file: File): Uri {
+        return if (useFileProvider()) {
+            FileProvider.getUriForFile(this, "$packageName.provider", file)
+        } else {
+            Uri.fromFile(file)
+        }
+    }
+
+    private fun grantUriPermission(uri: Uri) {
+        if (useFileProvider()) {
+            val resInfoList: List<ResolveInfo> = packageManager
+                .queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY)
+            for (resolveInfo in resInfoList) {
+                val packageName = resolveInfo.activityInfo.packageName
+                grantUriPermission(packageName, uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            }
+        }
+    }
+
+    private fun useFileProvider(): Boolean = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
 
 }
 

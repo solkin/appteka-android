@@ -35,6 +35,8 @@ interface InstalledView {
 
     fun showError()
 
+    fun showExtractError()
+
     fun showItemDialog(item: AppItem)
 
     fun showSnackbar(text: String)
@@ -112,6 +114,10 @@ class InstalledViewImpl(
 
         error.setText(R.string.load_files_error)
         retryButton.clicks(retryRelay)
+    }
+
+    override fun showExtractError() {
+        showSnackbar(context.resources.getString(R.string.app_extract_failed))
     }
 
     override fun showItemDialog(item: AppItem) {

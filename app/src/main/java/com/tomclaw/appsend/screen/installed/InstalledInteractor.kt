@@ -81,9 +81,9 @@ class InstalledInteractorImpl(
     ): Observable<String> {
         return Single
             .create { emitter ->
-                val src = File(path)
-                val dst = targetFile(label, version, packageName)
                 try {
+                    val src = File(path)
+                    val dst = targetFile(label, version, packageName)
                     src.copyTo(dst, overwrite = true)
                     emitter.onSuccess(dst.path)
                 } catch (ex: Throwable) {

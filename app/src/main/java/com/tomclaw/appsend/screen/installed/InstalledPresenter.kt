@@ -45,6 +45,8 @@ interface InstalledPresenter : ItemListener {
 
         fun openShareApk(path: String)
 
+        fun openShareBluetooth(path: String)
+
         fun openUploadScreen(pkg: UploadPackage, apk: UploadApk)
 
         fun searchGooglePlay(packageName: String)
@@ -95,21 +97,9 @@ class InstalledPresenterImpl(
                 }
 
                 MENU_SHARE -> {
-                    app.path ?: return@subscribe
-                    subscriptions += interactor
-                        .extractApk(
-                            path = app.path,
-                            label = app.title,
-                            version = app.version,
-                            packageName = app.packageName,
-                        )
-                        .observeOn(schedulers.mainThread())
-                        .doOnSubscribe { view.showProgress() }
-                        .doAfterTerminate { onReady() }
-                        .subscribe(
-                            { router?.openShareApk(path = it) },
-                            { onError(it) }
-                        )
+                    extractApk(app) { path ->
+                        router?.openShareApk(path)
+                    }
                 }
 
                 MENU_EXTRACT -> {}
@@ -119,7 +109,11 @@ class InstalledPresenterImpl(
                     router?.openUploadScreen(uploadInfo.first, uploadInfo.second)
                 }
 
-                MENU_BLUETOOTH -> {}
+                MENU_BLUETOOTH -> {
+                    extractApk(app) { path ->
+                        router?.openShareBluetooth(path)
+                    }
+                }
 
                 MENU_FIND_ON_GP -> {
                     router?.searchGooglePlay(app.packageName)
@@ -269,6 +263,24 @@ class InstalledPresenterImpl(
 
     override fun onUpdateClick(title: String, appId: String) {
         router?.openAppScreen(appId, title)
+    }
+
+    private fun extractApk(app: AppItem, callback: (String) -> Unit) {
+        app.path ?: return
+        subscriptions += interactor
+            .extractApk(
+                path = app.path,
+                label = app.title,
+                version = app.version,
+                packageName = app.packageName,
+            )
+            .observeOn(schedulers.mainThread())
+            .doOnSubscribe { view?.showProgress() }
+            .doAfterTerminate { onReady() }
+            .subscribe(
+                { callback.invoke(it) },
+                { view?.showExtractError() }
+            )
     }
 
 }
