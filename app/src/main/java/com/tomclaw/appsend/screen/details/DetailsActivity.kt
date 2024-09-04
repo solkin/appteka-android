@@ -228,7 +228,11 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
 
     override fun launchApp(packageName: String) {
         val intent = packageManager.getLaunchIntentForPackage(packageName)
-        startActivity(intent)
+        if (intent == null) {
+            presenter.showSnackbar(resources.getString(R.string.non_launchable_package))
+        } else {
+            startActivity(intent)
+        }
         analytics.trackEvent("details-launch-app")
     }
 
