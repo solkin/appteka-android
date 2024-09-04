@@ -164,7 +164,11 @@ class InstalledActivity : AppCompatActivity(), InstalledPresenter.InstalledRoute
 
     override fun launchApp(packageName: String) {
         val intent = packageManager.getLaunchIntentForPackage(packageName)
-        startActivity(intent)
+        if (intent == null) {
+            presenter.showSnackbar(resources.getString(R.string.non_launchable_package))
+        } else {
+            startActivity(intent)
+        }
         analytics.trackEvent("installed-launch-app")
     }
 
