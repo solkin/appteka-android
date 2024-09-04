@@ -44,6 +44,8 @@ interface InstalledPresenter : ItemListener {
 
         fun openPermissionsScreen(permissions: List<String>)
 
+        fun openSystemDetailsScreen(packageName: String)
+
         fun removeApp(packageName: String)
 
         fun leaveScreen()
@@ -93,7 +95,10 @@ class InstalledPresenterImpl(
                     router?.openPermissionsScreen(interactor.getPackagePermissions(app.packageName))
                 }
 
-                MENU_DETAILS -> {}
+                MENU_DETAILS -> {
+                    router?.openSystemDetailsScreen(app.packageName)
+                }
+
                 MENU_REMOVE -> {
                     router?.removeApp(app.packageName)
                 }

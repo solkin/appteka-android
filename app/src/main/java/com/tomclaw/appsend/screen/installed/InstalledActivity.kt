@@ -6,6 +6,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AppCompatActivity
 import com.avito.konveyor.ItemBinder
@@ -117,6 +118,7 @@ class InstalledActivity : AppCompatActivity(), InstalledPresenter.InstalledRoute
             finishOnly = true
         )
         invalidateDetailsResultLauncher.launch(intent)
+        analytics.trackEvent("installed-app-update")
     }
 
     override fun launchApp(packageName: String) {
@@ -128,6 +130,17 @@ class InstalledActivity : AppCompatActivity(), InstalledPresenter.InstalledRoute
     override fun openPermissionsScreen(permissions: List<String>) {
         val intent = createPermissionsActivityIntent(context = this, permissions)
         startActivity(intent)
+        analytics.trackEvent("installed-open-permissions")
+    }
+
+    override fun openSystemDetailsScreen(packageName: String) {
+        val intent = Intent()
+            .setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
+            .addCategory(Intent.CATEGORY_DEFAULT)
+            .setData(Uri.parse("package:$packageName"))
+            .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        startActivity(intent)
+        analytics.trackEvent("installed-system-details")
     }
 
     override fun removeApp(packageName: String) {
