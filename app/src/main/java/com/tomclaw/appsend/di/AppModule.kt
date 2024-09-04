@@ -75,7 +75,13 @@ class AppModule(private val app: Application) {
 
     @Provides
     @Singleton
+    @Named(USER_DIR)
     fun provideFilesDir(): File = app.filesDir
+
+    @Provides
+    @Singleton
+    @Named(APPS_DIR)
+    fun provideAppsDir(): File = File(Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS), APPS_DIR)
 
     @Provides
     @Singleton
@@ -106,7 +112,9 @@ class AppModule(private val app: Application) {
 
     @Provides
     @Singleton
-    internal fun provideDeviceIdProvider(filesDir: File): DeviceIdProvider =
+    internal fun provideDeviceIdProvider(
+        @Named(USER_DIR) filesDir: File
+    ): DeviceIdProvider =
         DeviceIdProviderImpl(app, filesDir)
 
     @Provides
@@ -125,7 +133,7 @@ class AppModule(private val app: Application) {
     @Provides
     @Singleton
     internal fun provideBananalytics(
-        filesDir: File,
+        @Named(USER_DIR) filesDir: File,
         environmentProvider: EnvironmentProvider,
         api: StoreApi,
         logger: Logger,
@@ -186,9 +194,9 @@ class AppModule(private val app: Application) {
 
     @Provides
     @Singleton
-    internal fun provideDownloadManager(): DownloadManager = DownloadManagerImpl(
-        File(Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS), APPS_DIR),
-    )
+    internal fun provideDownloadManager(
+        @Named(APPS_DIR) appsDir: File
+    ): DownloadManager = DownloadManagerImpl(appsDir)
 
     @Provides
     @Singleton
@@ -202,7 +210,7 @@ class AppModule(private val app: Application) {
     @Provides
     @Singleton
     internal fun provideCookieJar(
-        filesDir: File,
+        @Named(USER_DIR) filesDir: File,
     ): CookieJar = PersistentCookieJar(filesDir)
 
     @Provides

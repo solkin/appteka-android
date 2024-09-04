@@ -43,6 +43,8 @@ interface InstalledPresenter : ItemListener {
 
         fun launchApp(packageName: String)
 
+        fun openShareApk(path: String)
+
         fun openUploadScreen(pkg: UploadPackage, apk: UploadApk)
 
         fun searchGooglePlay(packageName: String)
@@ -92,14 +94,33 @@ class InstalledPresenterImpl(
                     router?.launchApp(app.packageName)
                 }
 
-                MENU_SHARE -> {}
+                MENU_SHARE -> {
+                    app.path ?: return@subscribe
+                    subscriptions += interactor
+                        .extractApk(
+                            path = app.path,
+                            label = app.title,
+                            version = app.version,
+                            packageName = app.packageName,
+                        )
+                        .observeOn(schedulers.mainThread())
+                        .doOnSubscribe { view.showProgress() }
+                        .doAfterTerminate { onReady() }
+                        .subscribe(
+                            { router?.openShareApk(path = it) },
+                            { onError(it) }
+                        )
+                }
+
                 MENU_EXTRACT -> {}
+
                 MENU_UPLOAD -> {
                     val uploadInfo = interactor.getPackageUploadInfo(app.packageName)
                     router?.openUploadScreen(uploadInfo.first, uploadInfo.second)
                 }
 
                 MENU_BLUETOOTH -> {}
+
                 MENU_FIND_ON_GP -> {
                     router?.searchGooglePlay(app.packageName)
                 }

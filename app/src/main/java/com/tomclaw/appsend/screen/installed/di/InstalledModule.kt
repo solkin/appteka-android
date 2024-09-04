@@ -9,6 +9,7 @@ import com.avito.konveyor.blueprint.ItemBlueprint
 import com.tomclaw.appsend.categories.CategoryConverter
 import com.tomclaw.appsend.categories.CategoryConverterImpl
 import com.tomclaw.appsend.core.StoreApi
+import com.tomclaw.appsend.di.APPS_DIR
 import com.tomclaw.appsend.screen.installed.AppConverter
 import com.tomclaw.appsend.screen.installed.AppConverterImpl
 import com.tomclaw.appsend.screen.installed.AppsResourceProvider
@@ -29,7 +30,9 @@ import dagger.Lazy
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoSet
+import java.io.File
 import java.util.Locale
+import javax.inject.Named
 
 @Module
 class InstalledModule(
@@ -58,11 +61,13 @@ class InstalledModule(
     @PerActivity
     internal fun provideInteractor(
         api: StoreApi,
+        @Named(APPS_DIR) appsDir: File,
         locale: Locale,
         infoProvider: InstalledInfoProvider,
         schedulers: SchedulersFactory
     ): InstalledInteractor = InstalledInteractorImpl(
         api,
+        appsDir,
         locale,
         infoProvider,
         schedulers

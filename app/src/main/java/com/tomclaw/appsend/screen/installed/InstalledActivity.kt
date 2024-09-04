@@ -5,12 +5,15 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.Intent.ACTION_VIEW
+import android.content.pm.PackageManager
+import android.content.pm.ResolveInfo
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.FileProvider
 import com.avito.konveyor.ItemBinder
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
@@ -27,6 +30,7 @@ import com.tomclaw.appsend.upload.UploadApk
 import com.tomclaw.appsend.upload.UploadPackage
 import com.tomclaw.appsend.util.Analytics
 import com.tomclaw.appsend.util.ThemeHelper
+import java.io.File
 import javax.inject.Inject
 
 class InstalledActivity : AppCompatActivity(), InstalledPresenter.InstalledRouter {
@@ -162,6 +166,42 @@ class InstalledActivity : AppCompatActivity(), InstalledPresenter.InstalledRoute
         val intent = packageManager.getLaunchIntentForPackage(packageName)
         startActivity(intent)
         analytics.trackEvent("installed-launch-app")
+    }
+
+    override fun openShareApk(path: String) {
+        val file = File(path)
+
+        val useFileProvider = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N
+
+        val uri = if (useFileProvider) {
+            FileProvider.getUriForFile(this, "$packageName.provider", file)
+        } else {
+            Uri.fromFile(file)
+        }
+
+        val intent = Intent()
+            .setAction(Intent.ACTION_SEND)
+            .putExtra(Intent.EXTRA_TEXT, file.getName())
+            .putExtra(Intent.EXTRA_STREAM, uri)
+            .setType("application/zip")
+
+        if (useFileProvider) {
+            val resInfoList: List<ResolveInfo> = packageManager
+                .queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY)
+            for (resolveInfo in resInfoList) {
+                val packageName = resolveInfo.activityInfo.packageName
+                grantUriPermission(packageName, uri, Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            }
+        }
+
+        startActivity(
+            Intent.createChooser(
+                intent,
+                resources.getText(R.string.send_to)
+            )
+        )
+
+        analytics.trackEvent("installed-share")
     }
 
     override fun openPermissionsScreen(permissions: List<String>) {

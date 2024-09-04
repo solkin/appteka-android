@@ -1,13 +1,16 @@
 package com.tomclaw.appsend.screen.installed
 
+import android.os.Environment
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.net.AppEntry
 import com.tomclaw.appsend.screen.installed.api.CheckUpdatesRequest
 import com.tomclaw.appsend.upload.UploadApk
 import com.tomclaw.appsend.upload.UploadPackage
+import com.tomclaw.appsend.util.FileHelper.escapeFileSymbols
 import com.tomclaw.appsend.util.SchedulersFactory
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
+import java.io.File
 import java.util.Locale
 
 interface InstalledInteractor {
@@ -20,10 +23,18 @@ interface InstalledInteractor {
 
     fun getPackageUploadInfo(packageName: String): Pair<UploadPackage, UploadApk>
 
+    fun extractApk(
+        path: String,
+        label: String,
+        version: String,
+        packageName: String
+    ): Observable<String>
+
 }
 
 class InstalledInteractorImpl(
     private val api: StoreApi,
+    private val appsDir: File,
     private val locale: Locale,
     private val infoProvider: InstalledInfoProvider,
     private val schedulers: SchedulersFactory
@@ -60,6 +71,36 @@ class InstalledInteractorImpl(
 
     override fun getPackageUploadInfo(packageName: String): Pair<UploadPackage, UploadApk> {
         return infoProvider.getPackageUploadInfo(packageName)
+    }
+
+    override fun extractApk(
+        path: String,
+        label: String,
+        version: String,
+        packageName: String
+    ): Observable<String> {
+        return Single
+            .create { emitter ->
+                val src = File(path)
+                val dst = targetFile(label, version, packageName)
+                try {
+                    src.copyTo(dst, overwrite = true)
+                    emitter.onSuccess(dst.path)
+                } catch (ex: Throwable) {
+                    emitter.onError(ex)
+                }
+            }
+            .toObservable()
+            .subscribeOn(schedulers.io())
+    }
+
+    private fun targetFile(label: String, version: String, packageName: String): File {
+        val fileName = fileName(label, version, packageName)
+        return File(appsDir, "$fileName.apk")
+    }
+
+    private fun fileName(label: String, version: String, packageName: String): String {
+        return escapeFileSymbols("$label-$version-$packageName")
     }
 
 }
