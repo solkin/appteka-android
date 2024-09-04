@@ -18,6 +18,7 @@ import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.screen.installed.di.InstalledModule
+import com.tomclaw.appsend.screen.permissions.createPermissionsActivityIntent
 import com.tomclaw.appsend.util.Analytics
 import com.tomclaw.appsend.util.ThemeHelper
 import javax.inject.Inject
@@ -122,6 +123,11 @@ class InstalledActivity : AppCompatActivity(), InstalledPresenter.InstalledRoute
         val intent = packageManager.getLaunchIntentForPackage(packageName)
         startActivity(intent)
         analytics.trackEvent("installed-launch-app")
+    }
+
+    override fun openPermissionsScreen(permissions: List<String>) {
+        val intent = createPermissionsActivityIntent(context = this, permissions)
+        startActivity(intent)
     }
 
     override fun removeApp(packageName: String) {

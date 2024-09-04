@@ -42,6 +42,8 @@ interface InstalledPresenter : ItemListener {
 
         fun launchApp(packageName: String)
 
+        fun openPermissionsScreen(permissions: List<String>)
+
         fun removeApp(packageName: String)
 
         fun leaveScreen()
@@ -76,17 +78,25 @@ class InstalledPresenterImpl(
         }
         subscriptions += view.itemMenuClicks().subscribe { pair ->
             val app = items?.find { it.id == pair.second.id } ?: return@subscribe
-            when(pair.first) {
-                MENU_RUN -> { router?.launchApp(app.packageName) }
+            when (pair.first) {
+                MENU_RUN -> {
+                    router?.launchApp(app.packageName)
+                }
+
                 MENU_SHARE -> {}
                 MENU_EXTRACT -> {}
                 MENU_UPLOAD -> {}
                 MENU_BLUETOOTH -> {}
                 MENU_FIND_ON_GP -> {}
                 MENU_FIND_ON_STORE -> {}
-                MENU_PERMISSIONS -> {}
+                MENU_PERMISSIONS -> {
+                    router?.openPermissionsScreen(interactor.getPackagePermissions(app.packageName))
+                }
+
                 MENU_DETAILS -> {}
-                MENU_REMOVE -> { router?.removeApp(app.packageName) }
+                MENU_REMOVE -> {
+                    router?.removeApp(app.packageName)
+                }
             }
         }
         subscriptions += view.retryClicks().subscribe {

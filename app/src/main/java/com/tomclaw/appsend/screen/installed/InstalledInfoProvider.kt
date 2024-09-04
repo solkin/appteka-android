@@ -5,10 +5,13 @@ import android.content.pm.PackageManager
 import com.tomclaw.appsend.util.createAppIconURI
 import com.tomclaw.appsend.util.versionCodeCompat
 import java.io.File
+import java.util.Arrays.asList
 
 interface InstalledInfoProvider {
 
     fun getInstalledApps(): List<InstalledAppEntity>
+
+    fun getPackagePermissions(packageName: String): List<String>
 
 }
 
@@ -44,6 +47,11 @@ class InstalledInfoProviderImpl(
             }
         }
         return apps
+    }
+
+    override fun getPackagePermissions(packageName: String): List<String> {
+        val packageInfo = packageManager.getPackageInfo(packageName, PackageManager.GET_PERMISSIONS)
+        return listOf(*packageInfo.requestedPermissions)
     }
 
 }

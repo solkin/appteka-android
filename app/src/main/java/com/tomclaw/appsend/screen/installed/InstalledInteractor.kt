@@ -14,6 +14,8 @@ interface InstalledInteractor {
 
     fun getUpdates(apps: Map<String, Long>): Observable<List<AppEntry>>
 
+    fun getPackagePermissions(packageName: String): List<String>
+
 }
 
 class InstalledInteractorImpl(
@@ -48,5 +50,8 @@ class InstalledInteractorImpl(
             .subscribeOn(schedulers.io())
     }
 
+    override fun getPackagePermissions(packageName: String): List<String> {
+        return infoProvider.getPackagePermissions(packageName)
+    }
 
 }
