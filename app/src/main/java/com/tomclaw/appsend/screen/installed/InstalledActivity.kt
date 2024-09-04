@@ -1,8 +1,10 @@
 package com.tomclaw.appsend.screen.installed
 
 import android.Manifest
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.content.Intent.ACTION_VIEW
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -21,6 +23,7 @@ import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.screen.installed.di.InstalledModule
 import com.tomclaw.appsend.screen.permissions.createPermissionsActivityIntent
 import com.tomclaw.appsend.util.Analytics
+import com.tomclaw.appsend.util.IntentHelper
 import com.tomclaw.appsend.util.ThemeHelper
 import javax.inject.Inject
 
@@ -121,6 +124,20 @@ class InstalledActivity : AppCompatActivity(), InstalledPresenter.InstalledRoute
         analytics.trackEvent("installed-app-update")
     }
 
+    override fun searchGooglePlay(packageName: String) {
+        try {
+            val intent = Intent(ACTION_VIEW, Uri.parse("market://details?id=$packageName"))
+            invalidateDetailsResultLauncher.launch(intent)
+        } catch (ex: ActivityNotFoundException) {
+            val intent = Intent(
+                ACTION_VIEW,
+                Uri.parse("https://play.google.com/store/apps/details?id=$packageName")
+            )
+            startActivity(intent)
+        }
+        analytics.trackEvent("installed-open-google-play")
+    }
+
     override fun searchAppteka(packageName: String, title: String) {
         val intent = createDetailsActivityIntent(
             context = this,
@@ -151,7 +168,7 @@ class InstalledActivity : AppCompatActivity(), InstalledPresenter.InstalledRoute
             .addCategory(Intent.CATEGORY_DEFAULT)
             .setData(Uri.parse("package:$packageName"))
             .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-        startActivity(intent)
+        invalidateDetailsResultLauncher.launch(intent)
         analytics.trackEvent("installed-system-details")
     }
 
@@ -187,7 +204,7 @@ class InstalledActivity : AppCompatActivity(), InstalledPresenter.InstalledRoute
     private fun onRemoveAppPermitted(packageName: String) {
         val packageUri = Uri.parse("package:$packageName")
         val uninstallIntent = Intent(Intent.ACTION_DELETE, packageUri)
-        startActivity(uninstallIntent)
+        invalidateDetailsResultLauncher.launch(uninstallIntent)
         analytics.trackEvent("installed-delete-app")
     }
 
