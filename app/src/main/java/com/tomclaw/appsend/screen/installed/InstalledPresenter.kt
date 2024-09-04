@@ -59,6 +59,8 @@ interface InstalledPresenter : ItemListener {
 
         fun removeApp(packageName: String)
 
+        fun requestStoragePermissions(callback: () -> Unit)
+
         fun leaveScreen()
 
     }
@@ -274,20 +276,22 @@ class InstalledPresenterImpl(
 
     private fun extractApk(app: AppItem, callback: (String) -> Unit) {
         app.path ?: return
-        subscriptions += interactor
-            .extractApk(
-                path = app.path,
-                label = app.title,
-                version = app.version,
-                packageName = app.packageName,
-            )
-            .observeOn(schedulers.mainThread())
-            .doOnSubscribe { view?.showProgress() }
-            .doAfterTerminate { onReady() }
-            .subscribe(
-                { callback.invoke(it) },
-                { view?.showExtractError() }
-            )
+        router?.requestStoragePermissions {
+            subscriptions += interactor
+                .extractApk(
+                    path = app.path,
+                    label = app.title,
+                    version = app.version,
+                    packageName = app.packageName,
+                )
+                .observeOn(schedulers.mainThread())
+                .doOnSubscribe { view?.showProgress() }
+                .doAfterTerminate { onReady() }
+                .subscribe(
+                    { callback.invoke(it) },
+                    { view?.showExtractError() }
+                )
+        }
     }
 
 }

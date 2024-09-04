@@ -246,6 +246,27 @@ class InstalledActivity : AppCompatActivity(), InstalledPresenter.InstalledRoute
         }
     }
 
+    override fun requestStoragePermissions(callback: () -> Unit) {
+        Permiso.getInstance().requestPermissions(object : IOnPermissionResult {
+            override fun onPermissionResult(resultSet: Permiso.ResultSet) {
+                if (resultSet.isPermissionGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    callback()
+                } else {
+                    presenter.showSnackbar(getString(R.string.write_permission_extract))
+                }
+            }
+
+            override fun onRationaleRequested(
+                callback: IOnRationaleProvided,
+                vararg permissions: String
+            ) {
+                val title: String = getString(R.string.app_name)
+                val message: String = getString(R.string.write_permission_extract)
+                Permiso.getInstance().showRationaleInDialog(title, message, null, callback)
+            }
+        }, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    }
+
     override fun leaveScreen() {
         finish()
     }
