@@ -83,6 +83,7 @@ class InstalledPresenterImpl(
 
     private var items: List<AppItem>? =
         state?.getParcelableArrayListCompat(KEY_APPS, AppItem::class.java)
+    private var filter: String? = state?.getString(KEY_FILTER).takeIf { !it.isNullOrBlank() }
     private var isError: Boolean = state?.getBoolean(KEY_ERROR) ?: false
 
     override fun attachView(view: InstalledView) {
@@ -142,6 +143,9 @@ class InstalledPresenterImpl(
                 }
             }
         }
+        subscriptions += view.searchTextChanged().subscribe { text ->
+            filterApps(text)
+        }
         subscriptions += view.shareExtractedClicks().subscribe { path ->
             router?.openShareApk(path)
         }
@@ -160,6 +164,11 @@ class InstalledPresenterImpl(
         }
     }
 
+    private fun filterApps(text: String) {
+        this.filter = text
+        onReady()
+    }
+
     override fun detachView() {
         subscriptions.clear()
         this.view = null
@@ -175,6 +184,7 @@ class InstalledPresenterImpl(
 
     override fun saveState() = Bundle().apply {
         putParcelableArrayList(KEY_APPS, items?.let { ArrayList(items.orEmpty()) })
+        putString(KEY_FILTER, filter)
         putBoolean(KEY_ERROR, isError)
     }
 
@@ -223,7 +233,12 @@ class InstalledPresenterImpl(
     }
 
     private fun onReady() {
-        val items = this.items
+        val items = this.items?.filter {
+            it.title.contains(
+                StringBuilder(filter.orEmpty()),
+                ignoreCase = true
+            )
+        }
         when {
             isError -> {
                 view?.showError()
@@ -297,4 +312,5 @@ class InstalledPresenterImpl(
 }
 
 private const val KEY_APPS = "apps"
+private const val KEY_FILTER = "filter"
 private const val KEY_ERROR = "error"

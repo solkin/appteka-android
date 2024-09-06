@@ -2,10 +2,12 @@ package com.tomclaw.appsend.screen.installed
 
 import android.annotation.SuppressLint
 import android.text.Html
+import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import android.widget.ViewFlipper
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,6 +24,7 @@ import com.tomclaw.appsend.util.getAttributedColor
 import com.tomclaw.appsend.util.hideWithAlphaAnimation
 import com.tomclaw.appsend.util.showWithAlphaAnimation
 import io.reactivex.rxjava3.core.Observable
+
 
 interface InstalledView {
 
@@ -53,6 +56,8 @@ interface InstalledView {
 
     fun itemMenuClicks(): Observable<Pair<Int, AppItem>>
 
+    fun searchTextChanged(): Observable<String>
+
     fun shareExtractedClicks(): Observable<String>
 
     fun retryClicks(): Observable<Unit>
@@ -78,13 +83,28 @@ class InstalledViewImpl(
 
     private val navigationRelay = PublishRelay.create<Unit>()
     private val itemMenuRelay = PublishRelay.create<Pair<Int, AppItem>>()
+    private val searchTextRelay = PublishRelay.create<String>()
     private val shareExtractedRelay = PublishRelay.create<String>()
     private val retryRelay = PublishRelay.create<Unit>()
     private val refreshRelay = PublishRelay.create<Unit>()
 
     init {
         toolbar.setTitle(R.string.nav_installed)
+        toolbar.inflateMenu(R.menu.installed_menu)
         toolbar.setNavigationOnClickListener { navigationRelay.accept(Unit) }
+        val searchItem: MenuItem = toolbar.menu.findItem(R.id.menu_search)
+        val searchView: SearchView = searchItem.actionView as SearchView
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                searchTextRelay.accept(query)
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                searchTextRelay.accept(newText)
+                return true
+            }
+        })
 
         val orientation = RecyclerView.VERTICAL
         val layoutManager = LinearLayoutManager(view.context, orientation, false)
@@ -191,6 +211,8 @@ class InstalledViewImpl(
     override fun navigationClicks(): Observable<Unit> = navigationRelay
 
     override fun itemMenuClicks(): Observable<Pair<Int, AppItem>> = itemMenuRelay
+
+    override fun searchTextChanged(): Observable<String> = searchTextRelay
 
     override fun shareExtractedClicks(): Observable<String> = shareExtractedRelay
 
