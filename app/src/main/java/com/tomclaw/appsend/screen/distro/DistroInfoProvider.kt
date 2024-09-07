@@ -1,20 +1,72 @@
 package com.tomclaw.appsend.screen.distro
 
 import android.content.pm.PackageManager
+import com.tomclaw.appsend.util.createApkIconURI
+import com.tomclaw.appsend.util.versionCodeCompat
+import java.io.File
 
 interface DistroInfoProvider {
+
+    fun getApkItems(): List<DistroAppEntity>
 
     fun getPackagePermissions(packageName: String): List<String>
 
 }
 
 class DistroInfoProviderImpl(
+    private val rootDir: File,
     private val packageManager: PackageManager,
 ) : DistroInfoProvider {
+
+    override fun getApkItems(): List<DistroAppEntity> {
+        return rootDir
+            .walkTopDown()
+            .map { file ->
+                if (file.extension == APK_EXTENSION) {
+                    processApk(file)
+                } else {
+                    null
+                }
+            }
+            .filterNotNull()
+            .toList()
+    }
 
     override fun getPackagePermissions(packageName: String): List<String> {
         val packageInfo = packageManager.getPackageInfo(packageName, PackageManager.GET_PERMISSIONS)
         return listOf(*packageInfo.requestedPermissions)
     }
 
+    private fun processApk(file: File): DistroAppEntity? {
+        if (file.exists()) {
+            try {
+                val packageInfo = packageManager.getPackageArchiveInfo(
+                    file.absolutePath, PackageManager.GET_PERMISSIONS
+                )
+                if (packageInfo != null) {
+                    val info = packageInfo.applicationInfo
+                    info.sourceDir = file.absolutePath
+                    info.publicSourceDir = file.absolutePath
+                    val label = packageManager.getApplicationLabel(info).toString()
+                    val item = DistroAppEntity(
+                        packageName = info.packageName,
+                        label = label,
+                        icon = createApkIconURI(file.path),
+                        verName = packageInfo.versionName,
+                        verCode = packageInfo.versionCodeCompat(),
+                        lastModified = file.lastModified(),
+                        size = file.length(),
+                        path = file.path,
+                    )
+                    return item
+                }
+            } catch (ignored: Throwable) {
+                // Bad package.
+            }
+        }
+        return null
+    }
+
 }
+
+const val APK_EXTENSION = "apk"

@@ -14,6 +14,7 @@ class ApkItemPresenter(
         view.setTitle(item.title)
         view.setVersion(item.version)
         view.setSize(resourceProvider.formatFileSize(item.size))
+        view.setLastModified(resourceProvider.formatDate(item.lastModified))
         view.setLocation(item.path)
         if (item.isNew) view.showBadge() else view.hideBadge()
         view.setOnClickListener { listener.onItemClick(item) }

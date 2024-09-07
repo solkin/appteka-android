@@ -1,11 +1,8 @@
 package com.tomclaw.appsend.screen.distro
 
-import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.util.SchedulersFactory
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
-import java.io.File
-import java.util.Locale
 
 interface DistroInteractor {
 
@@ -16,9 +13,6 @@ interface DistroInteractor {
 }
 
 class DistroInteractorImpl(
-    private val api: StoreApi,
-    private val appsDir: File,
-    private val locale: Locale,
     private val infoProvider: DistroInfoProvider,
     private val schedulers: SchedulersFactory
 ) : DistroInteractor {
@@ -26,7 +20,8 @@ class DistroInteractorImpl(
     override fun listDistroApps(): Observable<List<DistroAppEntity>> {
         return Single
             .create {
-                it.onSuccess(emptyList<DistroAppEntity>())
+                val items = infoProvider.getApkItems()
+                it.onSuccess(items)
             }
             .toObservable()
             .subscribeOn(schedulers.io())

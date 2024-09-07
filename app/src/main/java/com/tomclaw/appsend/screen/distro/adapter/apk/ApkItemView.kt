@@ -30,6 +30,8 @@ interface ApkItemView : ItemView {
 
     fun hideBadge()
 
+    fun setLastModified(time: String)
+
     fun setOnClickListener(listener: (() -> Unit)?)
 
 }
@@ -41,6 +43,7 @@ class ApkItemViewHolder(view: View) : BaseViewHolder(view), ApkItemView {
     private val version: TextView = view.findViewById(R.id.app_version)
     private val size: TextView = view.findViewById(R.id.app_size)
     private val badge: View = view.findViewById(R.id.badge_new)
+    private val lastModified: TextView = view.findViewById(R.id.app_last_modified)
     private val location: TextView = view.findViewById(R.id.apk_location)
 
     private var clickListener: (() -> Unit)? = null
@@ -84,6 +87,10 @@ class ApkItemViewHolder(view: View) : BaseViewHolder(view), ApkItemView {
 
     override fun hideBadge() {
         badge.hide()
+    }
+
+    override fun setLastModified(time: String) {
+        this.lastModified.bind(time)
     }
 
     override fun setOnClickListener(listener: (() -> Unit)?) {

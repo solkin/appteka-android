@@ -96,7 +96,7 @@
                 android:paddingBottom="2dp">
 
                 <TextView
-                    android:id="@+id/app_update_time"
+                    android:id="@+id/app_last_modified"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start|center_vertical"

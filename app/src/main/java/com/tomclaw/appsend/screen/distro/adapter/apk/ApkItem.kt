@@ -11,7 +11,7 @@ class ApkItem(
     val title: String,
     val version: String,
     val size: Long,
-    val createTime: Long,
+    val lastModified: Long,
     val packageName: String,
     val path: String,
     var isNew: Boolean,

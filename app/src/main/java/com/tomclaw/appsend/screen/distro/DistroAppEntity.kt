@@ -10,7 +10,7 @@ data class DistroAppEntity(
     val icon: String?,
     val verName: String,
     val verCode: Long,
-    val createTime: Long,
+    val lastModified: Long,
     val size: Long,
     val path: String,
 ) : Parcelable

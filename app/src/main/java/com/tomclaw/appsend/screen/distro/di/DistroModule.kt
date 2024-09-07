@@ -2,12 +2,11 @@ package com.tomclaw.appsend.screen.distro.di
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Environment
 import com.avito.konveyor.ItemBinder
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.adapter.SimpleAdapterPresenter
 import com.avito.konveyor.blueprint.ItemBlueprint
-import com.tomclaw.appsend.core.StoreApi
-import com.tomclaw.appsend.di.APPS_DIR
 import com.tomclaw.appsend.screen.distro.ApkConverter
 import com.tomclaw.appsend.screen.distro.ApkConverterImpl
 import com.tomclaw.appsend.screen.distro.DistroInfoProvider
@@ -58,15 +57,9 @@ class DistroModule(
     @Provides
     @PerActivity
     internal fun provideInteractor(
-        api: StoreApi,
-        @Named(APPS_DIR) appsDir: File,
-        locale: Locale,
         infoProvider: DistroInfoProvider,
         schedulers: SchedulersFactory
     ): DistroInteractor = DistroInteractorImpl(
-        api,
-        appsDir,
-        locale,
         infoProvider,
         schedulers
     )
@@ -80,7 +73,10 @@ class DistroModule(
     @Provides
     @PerActivity
     internal fun provideDistroInfoProvider(): DistroInfoProvider {
-        return DistroInfoProviderImpl(context.packageManager)
+        return DistroInfoProviderImpl(
+            rootDir = Environment.getExternalStorageDirectory(),
+            packageManager = context.packageManager
+        )
     }
 
     @Provides

@@ -13,6 +13,8 @@ interface DistroResourceProvider {
 
     fun formatFileSize(size: Long): String
 
+    fun formatDate(value: Long): String
+
 }
 
 class DistroResourceProviderImpl(
@@ -30,7 +32,7 @@ class DistroResourceProviderImpl(
         return FileHelper.formatBytes(resources, size)
     }
 
-    private fun formatDate(value: Long): String {
+    override fun formatDate(value: Long): String {
         return dateFormat.format(value)
     }
 

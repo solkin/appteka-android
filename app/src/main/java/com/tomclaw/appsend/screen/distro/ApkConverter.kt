@@ -20,10 +20,10 @@ class ApkConverterImpl : ApkConverter {
             title = appEntity.label,
             version = appEntity.verName,
             size = appEntity.size,
-            createTime = appEntity.createTime,
+            lastModified = appEntity.lastModified,
             path = appEntity.path,
             packageName = appEntity.packageName,
-            isNew = (TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()) - appEntity.createTime) <
+            isNew = (TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()) - appEntity.lastModified) <
                     TimeUnit.DAYS.toSeconds(1),
         )
     }
