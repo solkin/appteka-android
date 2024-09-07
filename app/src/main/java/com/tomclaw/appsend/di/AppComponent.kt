@@ -16,6 +16,8 @@ import com.tomclaw.appsend.screen.chat.di.ChatComponent
 import com.tomclaw.appsend.screen.chat.di.ChatModule
 import com.tomclaw.appsend.screen.details.di.DetailsComponent
 import com.tomclaw.appsend.screen.details.di.DetailsModule
+import com.tomclaw.appsend.screen.distro.di.DistroComponent
+import com.tomclaw.appsend.screen.distro.di.DistroModule
 import com.tomclaw.appsend.screen.favorite.di.FavoriteComponent
 import com.tomclaw.appsend.screen.favorite.di.FavoriteModule
 import com.tomclaw.appsend.screen.gallery.di.GalleryComponent
@@ -92,6 +94,8 @@ interface AppComponent {
     fun aboutComponent(module: AboutModule): AboutComponent
 
     fun installedComponent(module: InstalledModule): InstalledComponent
+
+    fun distroComponent(module: DistroModule): DistroComponent
 
     fun legacyComponent(module: LegacyModule): LegacyComponent
 

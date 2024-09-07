@@ -1,12 +1,12 @@
-package com.tomclaw.appsend.screen.installed
+package com.tomclaw.appsend.screen.distro
 
 import android.os.Bundle
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.blueprint.Item
 import com.avito.konveyor.data_source.ListDataSource
-import com.tomclaw.appsend.screen.installed.adapter.ItemListener
-import com.tomclaw.appsend.screen.installed.adapter.app.AppItem
-import com.tomclaw.appsend.screen.installed.api.UpdateEntity
+import com.tomclaw.appsend.net.AppEntry
+import com.tomclaw.appsend.screen.distro.adapter.ItemListener
+import com.tomclaw.appsend.screen.distro.adapter.apk.ApkItem
 import com.tomclaw.appsend.upload.UploadApk
 import com.tomclaw.appsend.upload.UploadPackage
 import com.tomclaw.appsend.util.SchedulersFactory
@@ -17,13 +17,13 @@ import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.Observables
 import io.reactivex.rxjava3.kotlin.plusAssign
 
-interface InstalledPresenter : ItemListener {
+interface DistroPresenter : ItemListener {
 
-    fun attachView(view: InstalledView)
+    fun attachView(view: DistroView)
 
     fun detachView()
 
-    fun attachRouter(router: InstalledRouter)
+    fun attachRouter(router: DistroRouter)
 
     fun detachRouter()
 
@@ -37,11 +37,9 @@ interface InstalledPresenter : ItemListener {
 
     fun invalidateApps()
 
-    interface InstalledRouter {
+    interface DistroRouter {
 
-        fun openAppScreen(appId: String, title: String)
-
-        fun launchApp(packageName: String)
+        fun installApp(path: String)
 
         fun openShareApk(path: String)
 
@@ -55,8 +53,6 @@ interface InstalledPresenter : ItemListener {
 
         fun openPermissionsScreen(permissions: List<String>)
 
-        fun openSystemDetailsScreen(packageName: String)
-
         fun removeApp(packageName: String)
 
         fun requestStoragePermissions(callback: () -> Unit)
@@ -67,26 +63,26 @@ interface InstalledPresenter : ItemListener {
 
 }
 
-class InstalledPresenterImpl(
-    private val preferencesProvider: InstalledPreferencesProvider,
-    private val interactor: InstalledInteractor,
+class DistroPresenterImpl(
+    private val preferencesProvider: DistroPreferencesProvider,
+    private val interactor: DistroInteractor,
     private val adapterPresenter: Lazy<AdapterPresenter>,
-    private val appConverter: AppConverter,
+    private val appConverter: ApkConverter,
     private val schedulers: SchedulersFactory,
     state: Bundle?
-) : InstalledPresenter {
+) : DistroPresenter {
 
-    private var view: InstalledView? = null
-    private var router: InstalledPresenter.InstalledRouter? = null
+    private var view: DistroView? = null
+    private var router: DistroPresenter.DistroRouter? = null
 
     private val subscriptions = CompositeDisposable()
 
-    private var items: List<AppItem>? =
-        state?.getParcelableArrayListCompat(KEY_APPS, AppItem::class.java)
+    private var items: List<ApkItem>? =
+        state?.getParcelableArrayListCompat(KEY_APPS, ApkItem::class.java)
     private var filter: String? = state?.getString(KEY_FILTER).takeIf { !it.isNullOrBlank() }
     private var isError: Boolean = state?.getBoolean(KEY_ERROR) ?: false
 
-    override fun attachView(view: InstalledView) {
+    override fun attachView(view: DistroView) {
         this.view = view
 
         subscriptions += view.navigationClicks().subscribe {
@@ -95,31 +91,21 @@ class InstalledPresenterImpl(
         subscriptions += view.itemMenuClicks().subscribe { pair ->
             val app = items?.find { it.id == pair.second.id } ?: return@subscribe
             when (pair.first) {
-                MENU_RUN -> {
-                    router?.launchApp(app.packageName)
+                MENU_INSTALL -> {
+                    router?.installApp(app.path)
                 }
 
                 MENU_SHARE -> {
-                    extractApk(app) { path ->
-                        router?.openShareApk(path)
-                    }
-                }
-
-                MENU_EXTRACT -> {
-                    extractApk(app) { path ->
-                        view.showExtractSuccess(path)
-                    }
+                    router?.openShareApk(app.path)
                 }
 
                 MENU_UPLOAD -> {
-                    val uploadInfo = interactor.getPackageUploadInfo(app.packageName)
-                    router?.openUploadScreen(uploadInfo.first, uploadInfo.second)
+//                    val uploadInfo = interactor.getPackageUploadInfo(app.packageName)
+//                    router?.openUploadScreen(uploadInfo.first, uploadInfo.second)
                 }
 
                 MENU_BLUETOOTH -> {
-                    extractApk(app) { path ->
-                        router?.openShareBluetooth(path)
-                    }
+                    router?.openShareBluetooth(app.path)
                 }
 
                 MENU_FIND_ON_GP -> {
@@ -132,10 +118,6 @@ class InstalledPresenterImpl(
 
                 MENU_PERMISSIONS -> {
                     router?.openPermissionsScreen(interactor.getPackagePermissions(app.packageName))
-                }
-
-                MENU_DETAILS -> {
-                    router?.openSystemDetailsScreen(app.packageName)
                 }
 
                 MENU_REMOVE -> {
@@ -174,7 +156,7 @@ class InstalledPresenterImpl(
         this.view = null
     }
 
-    override fun attachRouter(router: InstalledPresenter.InstalledRouter) {
+    override fun attachRouter(router: DistroPresenter.DistroRouter) {
         this.router = router
     }
 
@@ -194,38 +176,21 @@ class InstalledPresenterImpl(
     }
 
     private fun loadApps() {
-        subscriptions += interactor.listInstalledApps(preferencesProvider.isShowSystemApps())
-            .flatMap { installed ->
-                val installedMap = installed.associate { it.packageName to it.verCode }
-                Observables.zip(
-                    Single.just(installed).toObservable(),
-                    interactor.getUpdates(installedMap)
-                )
-            }
+        subscriptions += interactor.listDistroApps()
             .observeOn(schedulers.mainThread())
             .doOnSubscribe { if (view?.isPullRefreshing() == false) view?.showProgress() }
             .doAfterTerminate { onReady() }
             .subscribe(
-                { onLoaded(it.first, it.second) },
+                { onLoaded(it) },
                 { onError(it) }
             )
     }
 
-    private fun onLoaded(entities: List<InstalledAppEntity>, updates: List<UpdateEntity>) {
+    private fun onLoaded(entities: List<DistroAppEntity>) {
         isError = false
-        val updatesMap = updates.associateBy { it.packageName }
         val newItems = entities
-            .map { appConverter.convert(it, updatesMap[it.packageName]) }
-            .sortedWith { lhs, rhs ->
-                when (preferencesProvider.getSortOrder()) {
-                    SortOrder.ASCENDING -> lhs.title.uppercase().compareTo(rhs.title.uppercase())
-                    SortOrder.DESCENDING -> rhs.title.uppercase().compareTo(lhs.title.uppercase())
-                    SortOrder.APP_SIZE -> rhs.size.compareTo(lhs.size)
-                    SortOrder.INSTALL_TIME -> rhs.installTime.compareTo(lhs.installTime)
-                    SortOrder.UPDATE_TIME -> rhs.updateTime.compareTo(lhs.updateTime)
-                }
-            }
-            .sortedBy { it.updateAppId == null }
+            .map { appConverter.convert(it) }
+            .sortedBy { it.title }
             .toList()
 
         this.items = this.items
@@ -283,30 +248,6 @@ class InstalledPresenterImpl(
     override fun onItemClick(item: Item) {
         val app = items?.find { it.id == item.id } ?: return
         view?.showItemDialog(app)
-    }
-
-    override fun onUpdateClick(title: String, appId: String) {
-        router?.openAppScreen(appId, title)
-    }
-
-    private fun extractApk(app: AppItem, callback: (String) -> Unit) {
-        app.path ?: return
-        router?.requestStoragePermissions {
-            subscriptions += interactor
-                .extractApk(
-                    path = app.path,
-                    label = app.title,
-                    version = app.version,
-                    packageName = app.packageName,
-                )
-                .observeOn(schedulers.mainThread())
-                .doOnSubscribe { view?.showProgress() }
-                .doAfterTerminate { onReady() }
-                .subscribe(
-                    { callback.invoke(it) },
-                    { view?.showExtractError() }
-                )
-        }
     }
 
 }

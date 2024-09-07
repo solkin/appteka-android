@@ -1,9 +1,8 @@
 package com.tomclaw.appsend.screen.installed
 
-import android.os.Environment
 import com.tomclaw.appsend.core.StoreApi
-import com.tomclaw.appsend.net.AppEntry
 import com.tomclaw.appsend.screen.installed.api.CheckUpdatesRequest
+import com.tomclaw.appsend.screen.installed.api.UpdateEntity
 import com.tomclaw.appsend.upload.UploadApk
 import com.tomclaw.appsend.upload.UploadPackage
 import com.tomclaw.appsend.util.FileHelper.escapeFileSymbols
@@ -17,7 +16,7 @@ interface InstalledInteractor {
 
     fun listInstalledApps(systemApps: Boolean): Observable<List<InstalledAppEntity>>
 
-    fun getUpdates(apps: Map<String, Long>): Observable<List<AppEntry>>
+    fun getUpdates(apps: Map<String, Long>): Observable<List<UpdateEntity>>
 
     fun getPackagePermissions(packageName: String): List<String>
 
@@ -52,7 +51,7 @@ class InstalledInteractorImpl(
             .subscribeOn(schedulers.io())
     }
 
-    override fun getUpdates(apps: Map<String, Long>): Observable<List<AppEntry>> {
+    override fun getUpdates(apps: Map<String, Long>): Observable<List<UpdateEntity>> {
         val request = CheckUpdatesRequest(
             locale = locale.language,
             apps = apps,
