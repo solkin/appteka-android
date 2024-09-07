@@ -57,10 +57,6 @@
             android:label="@string/profile_apps"
             android:windowSoftInputMode="stateHidden" />
         <activity
-            android:name=".main.local.DistroActivity_"
-            android:label="@string/nav_distro"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
             android:name=".main.local.SelectLocalAppActivity_"
             android:label="@string/select_app"
             android:windowSoftInputMode="stateHidden" />
@@ -143,6 +139,7 @@
         <activity android:name=".screen.agreement.AgreementActivity" />
         <activity android:name=".screen.about.AboutActivity" />
         <activity android:name=".screen.installed.InstalledActivity" />
+        <activity android:name=".screen.distro.DistroActivity" />
 
         <service android:name=".download.DownloadService" />
 

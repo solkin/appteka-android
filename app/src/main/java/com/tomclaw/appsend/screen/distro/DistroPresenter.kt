@@ -4,7 +4,6 @@ import android.os.Bundle
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.blueprint.Item
 import com.avito.konveyor.data_source.ListDataSource
-import com.tomclaw.appsend.net.AppEntry
 import com.tomclaw.appsend.screen.distro.adapter.ItemListener
 import com.tomclaw.appsend.screen.distro.adapter.apk.ApkItem
 import com.tomclaw.appsend.upload.UploadApk
@@ -12,9 +11,7 @@ import com.tomclaw.appsend.upload.UploadPackage
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.getParcelableArrayListCompat
 import dagger.Lazy
-import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.kotlin.Observables
 import io.reactivex.rxjava3.kotlin.plusAssign
 
 interface DistroPresenter : ItemListener {
