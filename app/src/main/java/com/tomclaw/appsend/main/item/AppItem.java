@@ -3,8 +3,6 @@ package com.tomclaw.appsend.main.item;
 import android.content.pm.PackageInfo;
 import android.os.Parcel;
 
-import com.tomclaw.appsend.net.AppEntry;
-
 /**
  * Created by Solkin on 11.12.2014.
  */
@@ -12,17 +10,15 @@ public class AppItem extends CommonItem {
 
     private long firstInstallTime;
     private long lastUpdateTime;
-    private AppEntry update;
 
     public AppItem() {
     }
 
     public AppItem(String label, String packageName, String version, String path, long size,
-                   long firstInstallTime, long lastUpdateTime, AppEntry update, PackageInfo packageInfo) {
+                   long firstInstallTime, long lastUpdateTime, PackageInfo packageInfo) {
         super(label, packageName, version, path, size, packageInfo);
         this.firstInstallTime = firstInstallTime;
         this.lastUpdateTime = lastUpdateTime;
-        this.update = update;
     }
 
     private AppItem(Parcel in) {
@@ -63,7 +59,4 @@ public class AppItem extends CommonItem {
         return lastUpdateTime;
     }
 
-    public AppEntry getUpdate() {
-        return update;
-    }
 }

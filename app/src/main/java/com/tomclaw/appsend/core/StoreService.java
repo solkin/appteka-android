@@ -5,11 +5,8 @@ import com.tomclaw.appsend.main.dto.ApiResponse;
 import com.tomclaw.appsend.main.store.ListResponse;
 import com.tomclaw.appsend.main.unlink.UnlinkResponse;
 import com.tomclaw.appsend.main.unpublish.UnpublishResponse;
-import com.tomclaw.appsend.net.CheckUpdatesRequest;
-import com.tomclaw.appsend.net.CheckUpdatesResponse;
 
 import retrofit2.Call;
-import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -54,11 +51,6 @@ public interface StoreService {
             @Query("query") String query,
             @Query("offset") Integer offset,
             @Query("locale") String locale
-    );
-
-    @POST("api/1/app/updates")
-    Call<ApiResponse<CheckUpdatesResponse>> checkUpdates(
-            @Body CheckUpdatesRequest request
     );
 
 }

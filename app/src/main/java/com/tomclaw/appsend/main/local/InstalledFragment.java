@@ -11,14 +11,10 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
-import com.tomclaw.appsend.Appteka;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.di.legacy.LegacyInjector;
-import com.tomclaw.appsend.di.legacy.LegacyModule;
 import com.tomclaw.appsend.main.adapter.files.FileViewHolderCreator;
 import com.tomclaw.appsend.main.item.AppItem;
-import com.tomclaw.appsend.net.AppEntry;
-import com.tomclaw.appsend.net.UpdatesCheckInteractor;
 import com.tomclaw.appsend.util.PreferenceHelper;
 
 import org.androidannotations.annotations.Bean;
@@ -30,7 +26,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 @EFragment
 abstract class InstalledFragment extends CommonItemFragment<AppItem> {
@@ -38,9 +33,6 @@ abstract class InstalledFragment extends CommonItemFragment<AppItem> {
     private static final String KEY_FILES = "files";
 
     private ArrayList<AppItem> files;
-
-    @Bean
-    UpdatesCheckInteractor updatesCheck;
 
     @Bean
     LegacyInjector injector;
@@ -99,7 +91,6 @@ abstract class InstalledFragment extends CommonItemFragment<AppItem> {
         PackageManager packageManager = context.getPackageManager();
         ArrayList<AppItem> appItemList = new ArrayList<>();
 
-        Map<String, AppEntry> updates = updatesCheck.checkUpdatesSync();
         List<ApplicationInfo> packages = packageManager.getInstalledApplications(PackageManager.GET_META_DATA);
         for (ApplicationInfo info : packages) {
             try {
@@ -110,9 +101,8 @@ abstract class InstalledFragment extends CommonItemFragment<AppItem> {
                     String version = packageInfo.versionName;
                     long firstInstallTime = packageInfo.firstInstallTime;
                     long lastUpdateTime = packageInfo.lastUpdateTime;
-                    AppEntry update = updates.get(info.packageName);
                     AppItem appItem = new AppItem(label, info.packageName, version, file.getPath(),
-                            file.length(), firstInstallTime, lastUpdateTime, update, packageInfo);
+                            file.length(), firstInstallTime, lastUpdateTime, packageInfo);
                     boolean isUserApp = ((info.flags & ApplicationInfo.FLAG_SYSTEM) != ApplicationInfo.FLAG_SYSTEM &&
                             (info.flags & ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) != ApplicationInfo.FLAG_UPDATED_SYSTEM_APP);
                     if (isUserApp || isShowSystemApps) {
@@ -142,7 +132,6 @@ abstract class InstalledFragment extends CommonItemFragment<AppItem> {
         } else if (TextUtils.equals(sortOrder, context.getString(R.string.sort_order_update_time_value))) {
             Collections.sort(appItemList, (lhs, rhs) -> compareLong(rhs.getLastUpdateTime(), lhs.getLastUpdateTime()));
         }
-        Collections.sort(appItemList, (lhs, rhs) -> Boolean.compare(rhs.getUpdate() != null, lhs.getUpdate() != null));
         return appItemList;
     }
 

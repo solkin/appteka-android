@@ -1,6 +1,5 @@
 package com.tomclaw.appsend.main.local;
 
-import static com.tomclaw.appsend.screen.details.DetailsActivityKt.createDetailsActivityIntent;
 import static com.tomclaw.appsend.main.local.TimeHelper.timeHelper;
 import static com.tomclaw.appsend.util.AppIconLoaderKt.createAppIconURI;
 import static com.tomclaw.imageloader.util.ImageViewHandlersKt.centerCrop;
@@ -8,7 +7,6 @@ import static com.tomclaw.imageloader.util.ImageViewHandlersKt.withPlaceholder;
 import static com.tomclaw.imageloader.util.ImageViewsKt.fetch;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -77,20 +75,7 @@ public class AppItemViewHolder extends FileViewHolder<AppItem> {
         boolean isNewApp = appInstallDelay > 0 && appInstallDelay < TimeUnit.DAYS.toMillis(1);
         badgeNew.setVisibility(isNewApp ? View.VISIBLE : View.GONE);
 
-        updateButton.setVisibility(item.getUpdate() != null ? View.VISIBLE : View.GONE);
-        updateButton.setOnClickListener(v -> {
-            String appId = item.getUpdate().getAppId();
-            String label = item.getUpdate().getLabel();
-            Intent intent = createDetailsActivityIntent(
-                    context,
-                    appId,
-                    null,
-                    label,
-                    false,
-                    true
-            );
-            context.startActivity(intent);
-        });
+        updateButton.setVisibility(View.GONE);
     }
 
 }
