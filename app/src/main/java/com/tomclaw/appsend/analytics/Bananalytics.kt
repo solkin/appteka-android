@@ -146,6 +146,7 @@ class BananalyticsImpl(
                 }
             }
         } catch (_: Throwable) {
+            file.delete()
         }
         return null
     }
@@ -159,38 +160,42 @@ class BananalyticsImpl(
             Collections.sort(files, EventFileComparator())
             val events: MutableList<AnalyticsEvent> = ArrayList()
             val filesToRemove: MutableList<File> = ArrayList()
-            do {
-                val file: File = files.removeAt(0)
-                readEvent(file)?.let { events.add(it) }
-                filesToRemove.add(file)
-                if (events.size >= batchSize) {
-                    log("events data: $events")
-                    try {
-                        val request = SubmitEventsRequest(
-                            environment = environmentProvider.environment(),
-                            events = events
-                        )
-                        val result = api.submitEvents(request).blockingGet()
-                        log("batch result: $result")
-                    } catch (ex: Throwable) {
-                        val cause = ex.cause ?: ex
+            try {
+                do {
+                    val file: File = files.removeFirst()
+                    readEvent(file)?.let { events.add(it) }
+                    filesToRemove.add(file)
+                    if (events.size >= batchSize) {
+                        log("events data: $events")
                         try {
-                            throw (cause)
-                        } catch (ex: IOException) {
-                            log("network error while sending analytics track")
-                            return
+                            val request = SubmitEventsRequest(
+                                environment = environmentProvider.environment(),
+                                events = events
+                            )
+                            val result = api.submitEvents(request).blockingGet()
+                            log("batch result: $result")
                         } catch (ex: Throwable) {
-                            log("failed to send analytics event - skipping")
+                            val cause = ex.cause ?: ex
+                            try {
+                                throw (cause)
+                            } catch (ex: IOException) {
+                                log("network error while sending analytics track")
+                                return
+                            } catch (ex: Throwable) {
+                                log("failed to send analytics event - skipping")
+                            }
                         }
+                        for (f in filesToRemove) {
+                            f.delete()
+                            log("remove event file: " + f.name)
+                        }
+                        events.clear()
+                        filesToRemove.clear()
                     }
-                    for (f in filesToRemove) {
-                        f.delete()
-                        log("remove event file: " + f.name)
-                    }
-                    events.clear()
-                    filesToRemove.clear()
-                }
-            } while (files.size + filesToRemove.size >= batchSize)
+                } while (files.size + filesToRemove.size >= batchSize)
+            } catch (ex: Throwable) {
+                ex.printStackTrace()
+            }
         }
     }
 
