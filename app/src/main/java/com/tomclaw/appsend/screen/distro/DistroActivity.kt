@@ -203,13 +203,14 @@ class DistroActivity : AppCompatActivity(), DistroPresenter.DistroRouter {
         analytics.trackEvent("distro-open-permissions")
     }
 
-    override fun requestStoragePermissions(callback: () -> Unit) {
+    override fun requestStoragePermissions(callback: (Boolean) -> Unit) {
         Permiso.getInstance().requestPermissions(object : IOnPermissionResult {
             override fun onPermissionResult(resultSet: Permiso.ResultSet) {
                 if (resultSet.isPermissionGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                    callback()
+                    callback(true)
                 } else {
-                    presenter.showSnackbar(getString(R.string.write_permission_extract))
+                    callback(false)
+                    presenter.showSnackbar(getString(R.string.write_permission_install))
                 }
             }
 
@@ -218,7 +219,7 @@ class DistroActivity : AppCompatActivity(), DistroPresenter.DistroRouter {
                 vararg permissions: String
             ) {
                 val title: String = getString(R.string.app_name)
-                val message: String = getString(R.string.write_permission_extract)
+                val message: String = getString(R.string.write_permission_install)
                 Permiso.getInstance().showRationaleInDialog(title, message, null, callback)
             }
         }, Manifest.permission.WRITE_EXTERNAL_STORAGE)

@@ -50,7 +50,7 @@ interface DistroPresenter : ItemListener {
 
         fun openPermissionsScreen(permissions: List<String>)
 
-        fun requestStoragePermissions(callback: () -> Unit)
+        fun requestStoragePermissions(callback: (Boolean) -> Unit)
 
         fun leaveScreen()
 
@@ -138,13 +138,6 @@ class DistroPresenterImpl(
         subscriptions += view.refreshClicks().subscribe {
             invalidateApps()
         }
-
-        if (isError) {
-            onError(throwable = null)
-            onReady()
-        } else {
-            items?.let { onReady() } ?: loadApps()
-        }
     }
 
     private fun filterApps(text: String) {
@@ -159,6 +152,12 @@ class DistroPresenterImpl(
 
     override fun attachRouter(router: DistroPresenter.DistroRouter) {
         this.router = router
+        if (isError) {
+            onError(throwable = null)
+            onReady()
+        } else {
+            items?.let { onReady() } ?: loadApps()
+        }
     }
 
     override fun detachRouter() {
@@ -177,14 +176,25 @@ class DistroPresenterImpl(
     }
 
     private fun loadApps() {
-        subscriptions += interactor.listDistroApps()
-            .observeOn(schedulers.mainThread())
-            .doOnSubscribe { if (view?.isPullRefreshing() == false) view?.showProgress() }
-            .doAfterTerminate { onReady() }
-            .subscribe(
-                { onLoaded(it) },
-                { onError(it) }
-            )
+        router?.requestStoragePermissions { success ->
+            if (success) {
+                subscriptions += interactor.listDistroApps()
+                    .observeOn(schedulers.mainThread())
+                    .doOnSubscribe {
+                        if (view?.isPullRefreshing() == false) {
+                            view?.showProgress()
+                        }
+                    }
+                    .doAfterTerminate { onReady() }
+                    .subscribe(
+                        { onLoaded(it) },
+                        { onError(it) }
+                    )
+            } else {
+                view?.stopPullRefreshing()
+                view?.showPlaceholder()
+            }
+        }
     }
 
     private fun onLoaded(entities: List<DistroAppEntity>) {
