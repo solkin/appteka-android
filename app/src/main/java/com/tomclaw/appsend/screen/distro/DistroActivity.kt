@@ -229,13 +229,6 @@ class DistroActivity : AppCompatActivity(), DistroPresenter.DistroRouter {
         finish()
     }
 
-    private fun onRemoveAppPermitted(packageName: String) {
-        val packageUri = Uri.parse("package:$packageName")
-        val uninstallIntent = Intent(Intent.ACTION_DELETE, packageUri)
-        invalidateDetailsResultLauncher.launch(uninstallIntent)
-        analytics.trackEvent("distro-delete-app")
-    }
-
     private fun createFileExternalUri(file: File): Uri {
         return if (useFileProvider()) {
             FileProvider.getUriForFile(this, "$packageName.provider", file)
