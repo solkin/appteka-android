@@ -12,9 +12,7 @@ import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 
-import com.tomclaw.appsend.Appteka;
 import com.tomclaw.appsend.di.legacy.LegacyInjector;
-import com.tomclaw.appsend.di.legacy.LegacyModule;
 import com.tomclaw.appsend.main.adapter.files.FileViewHolderCreator;
 import com.tomclaw.appsend.main.item.ApkItem;
 import com.tomclaw.appsend.util.FileHelper;
