@@ -95,8 +95,9 @@ class DistroPresenterImpl(
                 }
 
                 MENU_UPLOAD -> {
-//                    val uploadInfo = interactor.getPackageUploadInfo(app.packageName)
-//                    router?.openUploadScreen(uploadInfo.first, uploadInfo.second)
+                    interactor.getPackageUploadInfo(app.path)?.let { uploadInfo ->
+                        router?.openUploadScreen(uploadInfo.first, uploadInfo.second)
+                    }
                 }
 
                 MENU_BLUETOOTH -> {

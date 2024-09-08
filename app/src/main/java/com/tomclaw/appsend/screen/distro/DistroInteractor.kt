@@ -1,5 +1,7 @@
 package com.tomclaw.appsend.screen.distro
 
+import com.tomclaw.appsend.upload.UploadApk
+import com.tomclaw.appsend.upload.UploadPackage
 import com.tomclaw.appsend.util.SchedulersFactory
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
@@ -10,6 +12,8 @@ interface DistroInteractor {
     fun listDistroApps(): Observable<List<DistroAppEntity>>
 
     fun getPackagePermissions(path: String): List<String>
+
+    fun getPackageUploadInfo(packageName: String): Pair<UploadPackage, UploadApk>?
 
     fun removeApk(path: String): Observable<Unit>
 
@@ -32,6 +36,10 @@ class DistroInteractorImpl(
 
     override fun getPackagePermissions(path: String): List<String> {
         return infoProvider.getPackagePermissions(path)
+    }
+
+    override fun getPackageUploadInfo(packageName: String): Pair<UploadPackage, UploadApk>? {
+        return infoProvider.getPackageUploadInfo(packageName)
     }
 
     override fun removeApk(path: String): Observable<Unit> {

@@ -1,6 +1,8 @@
 package com.tomclaw.appsend.screen.distro
 
 import android.content.pm.PackageManager
+import com.tomclaw.appsend.upload.UploadApk
+import com.tomclaw.appsend.upload.UploadPackage
 import com.tomclaw.appsend.util.createApkIconURI
 import com.tomclaw.appsend.util.versionCodeCompat
 import java.io.File
@@ -10,6 +12,8 @@ interface DistroInfoProvider {
     fun getApkItems(): List<DistroAppEntity>
 
     fun getPackagePermissions(path: String): List<String>
+
+    fun getPackageUploadInfo(path: String): Pair<UploadPackage, UploadApk>?
 
 }
 
@@ -63,6 +67,17 @@ class DistroInfoProviderImpl(
             } catch (ignored: Throwable) {
                 // Bad package.
             }
+        }
+        return null
+    }
+
+    override fun getPackageUploadInfo(path: String): Pair<UploadPackage, UploadApk>? {
+        val packageInfo = packageManager.getPackageArchiveInfo(path, 0)
+        if (packageInfo != null) {
+            val file = File(path)
+            val pkg = UploadPackage(file.path, null, packageInfo.packageName)
+            val apk = UploadApk(file.path, packageInfo.versionName, file.length(), packageInfo)
+            return Pair(pkg, apk)
         }
         return null
     }
