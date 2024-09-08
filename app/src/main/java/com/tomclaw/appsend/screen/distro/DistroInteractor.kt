@@ -3,12 +3,15 @@ package com.tomclaw.appsend.screen.distro
 import com.tomclaw.appsend.util.SchedulersFactory
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
+import java.io.File
 
 interface DistroInteractor {
 
     fun listDistroApps(): Observable<List<DistroAppEntity>>
 
-    fun getPackagePermissions(packageName: String): List<String>
+    fun getPackagePermissions(path: String): List<String>
+
+    fun removeApk(path: String): Observable<Unit>
 
 }
 
@@ -27,8 +30,18 @@ class DistroInteractorImpl(
             .subscribeOn(schedulers.io())
     }
 
-    override fun getPackagePermissions(packageName: String): List<String> {
-        return infoProvider.getPackagePermissions(packageName)
+    override fun getPackagePermissions(path: String): List<String> {
+        return infoProvider.getPackagePermissions(path)
+    }
+
+    override fun removeApk(path: String): Observable<Unit> {
+        return Single
+            .create {
+                File(path).delete()
+                it.onSuccess(Unit)
+            }
+            .toObservable()
+            .subscribeOn(schedulers.io())
     }
 
 }

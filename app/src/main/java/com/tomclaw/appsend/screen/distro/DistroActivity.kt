@@ -28,6 +28,7 @@ import com.tomclaw.appsend.screen.upload.createUploadActivityIntent
 import com.tomclaw.appsend.upload.UploadApk
 import com.tomclaw.appsend.upload.UploadPackage
 import com.tomclaw.appsend.util.Analytics
+import com.tomclaw.appsend.util.IntentHelper
 import com.tomclaw.appsend.util.ThemeHelper
 import java.io.File
 import javax.inject.Inject
@@ -150,6 +151,12 @@ class DistroActivity : AppCompatActivity(), DistroPresenter.DistroRouter {
     }
 
     override fun installApp(path: String) {
+        val intent = IntentHelper.openFileIntent(
+            this,
+            path,
+            "application/vnd.android.package-archive"
+        )
+        startActivity(intent)
         analytics.trackEvent("distro-install-app")
     }
 
@@ -194,31 +201,6 @@ class DistroActivity : AppCompatActivity(), DistroPresenter.DistroRouter {
         val intent = createPermissionsActivityIntent(context = this, permissions)
         startActivity(intent)
         analytics.trackEvent("distro-open-permissions")
-    }
-
-    override fun removeApp(packageName: String) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            Permiso.getInstance().requestPermissions(object : IOnPermissionResult {
-                override fun onPermissionResult(resultSet: Permiso.ResultSet) {
-                    if (resultSet.isPermissionGranted(Manifest.permission.REQUEST_DELETE_PACKAGES)) {
-                        onRemoveAppPermitted(packageName)
-                    } else {
-                        presenter.showSnackbar(getString(R.string.request_delete_packages))
-                    }
-                }
-
-                override fun onRationaleRequested(
-                    callback: IOnRationaleProvided,
-                    vararg permissions: String
-                ) {
-                    val title: String = getString(R.string.app_name)
-                    val message: String = getString(R.string.request_delete_packages)
-                    Permiso.getInstance().showRationaleInDialog(title, message, null, callback)
-                }
-            }, Manifest.permission.REQUEST_DELETE_PACKAGES)
-        } else {
-            onRemoveAppPermitted(packageName)
-        }
     }
 
     override fun requestStoragePermissions(callback: () -> Unit) {

@@ -50,8 +50,6 @@ interface DistroPresenter : ItemListener {
 
         fun openPermissionsScreen(permissions: List<String>)
 
-        fun removeApp(packageName: String)
-
         fun requestStoragePermissions(callback: () -> Unit)
 
         fun leaveScreen()
@@ -114,11 +112,17 @@ class DistroPresenterImpl(
                 }
 
                 MENU_PERMISSIONS -> {
-                    router?.openPermissionsScreen(interactor.getPackagePermissions(app.packageName))
+                    router?.openPermissionsScreen(interactor.getPackagePermissions(app.path))
                 }
 
                 MENU_REMOVE -> {
-                    router?.removeApp(app.packageName)
+                    subscriptions += interactor
+                        .removeApk(app.path)
+                        .observeOn(schedulers.mainThread())
+                        .subscribe({
+                            items = items?.filter { it.path != app.path }
+                            onReady()
+                        }, { })
                 }
             }
         }

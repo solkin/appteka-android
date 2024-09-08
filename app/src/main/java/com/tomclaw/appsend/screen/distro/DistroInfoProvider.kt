@@ -9,7 +9,7 @@ interface DistroInfoProvider {
 
     fun getApkItems(): List<DistroAppEntity>
 
-    fun getPackagePermissions(packageName: String): List<String>
+    fun getPackagePermissions(path: String): List<String>
 
 }
 
@@ -32,17 +32,17 @@ class DistroInfoProviderImpl(
             .toList()
     }
 
-    override fun getPackagePermissions(packageName: String): List<String> {
-        val packageInfo = packageManager.getPackageInfo(packageName, PackageManager.GET_PERMISSIONS)
-        return listOf(*packageInfo.requestedPermissions)
+    override fun getPackagePermissions(path: String): List<String> {
+        val packageInfo = packageManager.getPackageArchiveInfo(path, PackageManager.GET_PERMISSIONS)
+        return packageInfo?.let {
+            listOf(*packageInfo.requestedPermissions)
+        } ?: emptyList()
     }
 
     private fun processApk(file: File): DistroAppEntity? {
         if (file.exists()) {
             try {
-                val packageInfo = packageManager.getPackageArchiveInfo(
-                    file.absolutePath, PackageManager.GET_PERMISSIONS
-                )
+                val packageInfo = packageManager.getPackageArchiveInfo(file.absolutePath, 0)
                 if (packageInfo != null) {
                     val info = packageInfo.applicationInfo
                     info.sourceDir = file.absolutePath
