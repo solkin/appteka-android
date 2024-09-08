@@ -72,7 +72,10 @@ class DistroInfoProviderImpl(
     }
 
     override fun getPackageUploadInfo(path: String): Pair<UploadPackage, UploadApk>? {
-        val packageInfo = packageManager.getPackageArchiveInfo(path, 0)
+        val packageInfo = packageManager.getPackageArchiveInfo(path, 0)?.apply {
+            applicationInfo.sourceDir = path
+            applicationInfo.publicSourceDir = path
+        }
         if (packageInfo != null) {
             val file = File(path)
             val pkg = UploadPackage(file.path, null, packageInfo.packageName)
