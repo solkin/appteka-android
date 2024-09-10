@@ -195,8 +195,9 @@ class AppModule(private val app: Application) {
     @Provides
     @Singleton
     internal fun provideDownloadManager(
-        @Named(APPS_DIR) appsDir: File
-    ): DownloadManager = DownloadManagerImpl(appsDir)
+        @Named(APPS_DIR) appsDir: File,
+        cookieJar: CookieJar,
+    ): DownloadManager = DownloadManagerImpl(appsDir, cookieJar)
 
     @Provides
     @Singleton

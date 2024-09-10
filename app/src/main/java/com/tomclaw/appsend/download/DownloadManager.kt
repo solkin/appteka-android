@@ -3,6 +3,8 @@ package com.tomclaw.appsend.download
 import com.jakewharton.rxrelay3.BehaviorRelay
 import com.tomclaw.appsend.util.safeClose
 import io.reactivex.rxjava3.core.Observable
+import okhttp3.CookieJar
+import okhttp3.HttpUrl
 import java.io.BufferedInputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -31,6 +33,7 @@ interface DownloadManager {
 
 class DownloadManagerImpl(
     private val dir: File,
+    private val cookieJar: CookieJar,
 ) : DownloadManager {
 
     private val executor = Executors.newSingleThreadExecutor()
@@ -124,7 +127,16 @@ class DownloadManagerImpl(
             println("[download] " + String.format("Download app url: %s", url))
             val u = URL(url)
             connection = u.openConnection() as HttpURLConnection
+
+            val httpUrl = HttpUrl.parse(url)
+                ?: throw IllegalArgumentException("Invalid upload screenshot URL")
+
+            val cookies = cookieJar.loadForRequest(httpUrl)
+                .map { it.toString() }
+                .reduce { acc, cookie -> "$acc;$cookie" }
+
             with(connection) {
+                setRequestProperty("Cookie", cookies)
                 connectTimeout = TimeUnit.SECONDS.toMillis(30).toInt()
                 requestMethod = GET
                 useCaches = false
