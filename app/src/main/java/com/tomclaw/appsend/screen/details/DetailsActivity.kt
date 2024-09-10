@@ -92,6 +92,8 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
             } else if (data.host == "appsend.store") {
                 appId = data.getQueryParameter("id")
                 packageName = data.getQueryParameter("package")
+            } else if (data.host == "play.google.com") {
+                packageName = data.getQueryParameter("id")
             }
         } else {
             appId = intent.getStringExtra(EXTRA_APP_ID)
