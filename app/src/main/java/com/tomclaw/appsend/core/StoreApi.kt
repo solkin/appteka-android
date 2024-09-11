@@ -8,6 +8,7 @@ import com.tomclaw.appsend.events.EventsResponse
 import com.tomclaw.appsend.screen.auth.request_code.api.RequestCodeResponse
 import com.tomclaw.appsend.screen.auth.verify_code.api.VerifyCodeResponse
 import com.tomclaw.appsend.screen.chat.api.HistoryResponse
+import com.tomclaw.appsend.screen.chat.api.MsgTranslateResponse
 import com.tomclaw.appsend.screen.chat.api.ReadTopicResponse
 import com.tomclaw.appsend.screen.chat.api.ReportMessageResponse
 import com.tomclaw.appsend.screen.chat.api.SendMessageResponse
@@ -116,6 +117,12 @@ interface StoreApi {
     fun reportMessage(
         @Field("msg_id") msgId: Int
     ): Single<StoreResponse<ReportMessageResponse>>
+
+    @GET("1/chat/translate")
+    fun translateMessage(
+        @Query("msg_id") msgId: Int,
+        @Query("locale") locale: String,
+    ): Single<StoreResponse<MsgTranslateResponse>>
 
     @FormUrlEncoded
     @POST("1/chat/topic/read")

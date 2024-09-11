@@ -8,6 +8,8 @@ import com.tomclaw.appsend.dto.MessageEntity
 import com.tomclaw.appsend.dto.TopicEntity
 import com.tomclaw.appsend.events.EventsInteractor
 import com.tomclaw.appsend.screen.chat.adapter.ItemListener
+import com.tomclaw.appsend.screen.chat.api.MsgTranslateResponse
+import com.tomclaw.appsend.screen.chat.api.TranslationEntity
 import com.tomclaw.appsend.screen.topics.COMMON_QNA_TOPIC_ICON
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.filterUnauthorizedErrors
@@ -66,6 +68,9 @@ class ChatPresenterImpl(
     private var messageText: String = state?.getString(KEY_MESSAGE) ?: ""
     private var history: List<MessageEntity>? =
         state?.getParcelableArrayListCompat(KEY_HISTORY, MessageEntity::class.java)
+    private var translation: MutableMap<Int, TranslationEntity> =
+        state?.getParcelableArrayListCompat(KEY_TRANSLATION, TranslationEntity::class.java)
+            .orEmpty().associateBy { it.msgId }.toMutableMap()
 
     private val journal = HashSet<Int>()
 
@@ -91,6 +96,9 @@ class ChatPresenterImpl(
         }
         subscriptions += view.msgCopyClicks().subscribe { message ->
             view.copyToClipboard(message.text)
+        }
+        subscriptions += view.msgTranslateClicks().subscribe { message ->
+            translateMessage(message)
         }
         subscriptions += view.openProfileClicks().subscribe { message ->
             router?.openProfileScreen(message.userId)
@@ -140,10 +148,7 @@ class ChatPresenterImpl(
                     val countAfter = history?.size ?: 0
 
                     if (countAfter > countBefore) {
-                        val items = convertHistory()
-
-                        val dataSource = ListDataSource(items)
-                        adapterPresenter.get().onDataSourceChanged(dataSource)
+                        bindHistory()
 
                         view.contentRangeInserted(0, 1)
                     }
@@ -169,10 +174,7 @@ class ChatPresenterImpl(
                     }
                     history = mutableHistory
 
-                    val items = convertHistory()
-
-                    val dataSource = ListDataSource(items)
-                    adapterPresenter.get().onDataSourceChanged(dataSource)
+                    val items = bindHistory()
 
                     deletedIndexes.forEach { index ->
                         view.contentItemRemoved(items.size - index)
@@ -188,6 +190,13 @@ class ChatPresenterImpl(
                     }
                 }
             }
+    }
+
+    private fun bindHistory(): List<Item> {
+        val items = convertHistory()
+        val dataSource = ListDataSource(items)
+        adapterPresenter.get().onDataSourceChanged(dataSource)
+        return items
     }
 
     override fun detachView() {
@@ -207,6 +216,7 @@ class ChatPresenterImpl(
         putParcelable(KEY_TOPIC, topic)
         putBoolean(KEY_ERROR, isError)
         history?.let { putParcelableArrayList(KEY_HISTORY, ArrayList(it)) }
+        putParcelableArrayList(KEY_TRANSLATION, ArrayList(translation.values))
     }
 
     private fun sendMessage() {
@@ -281,10 +291,7 @@ class ChatPresenterImpl(
     }
 
     private fun onHistoryLoaded() {
-        val items = convertHistory()
-
-        val dataSource = ListDataSource(items)
-        adapterPresenter.get().onDataSourceChanged(dataSource)
+        bindHistory()
 
         view?.contentUpdated()
         view?.showContent()
@@ -310,6 +317,41 @@ class ChatPresenterImpl(
                     )
                 }
             )
+    }
+
+    private fun translateMessage(msg: MessageEntity) {
+        translation[msg.msgId]?.let {
+            it.translated = !it.translated
+            onMessageTranslated()
+        } ?: run {
+            subscriptions += chatInteractor.translateMessage(msg.msgId)
+                .observeOn(schedulers.mainThread())
+                .subscribe(
+                    {
+                        translation[msg.msgId] = TranslationEntity(
+                            msgId = msg.msgId,
+                            original = msg.text,
+                            translation = it.text,
+                            lang = it.lang,
+                            translated = true,
+                        )
+                        onMessageTranslated()
+                    },
+                    {
+                        it.filterUnauthorizedErrors(
+                            authError = { view?.showUnauthorizedError() },
+                            other = { view?.showTranslationFailed() }
+                        )
+                    }
+                )
+        }
+    }
+
+    private fun onMessageTranslated() {
+        bindHistory()
+
+        view?.contentUpdated()
+        view?.showContent()
     }
 
     private fun readTopic() {
@@ -349,17 +391,18 @@ class ChatPresenterImpl(
         val message = history?.findLast {
             it.msgId == item.id.toInt()
         } ?: return
+        val translated = translation[message.msgId]?.translated ?: false
         subscriptions += chatInteractor.getUserBrief()
             .observeOn(schedulers.mainThread())
             .subscribe(
                 { userData ->
                     if (userData.role >= ROLE_ADMIN || userData.userId == message.userId) {
-                        view?.showExtendedMessageDialog(message)
+                        view?.showExtendedMessageDialog(message, translated)
                     } else {
-                        view?.showBaseMessageDialog(message)
+                        view?.showBaseMessageDialog(message, translated)
                     }
                 },
-                { view?.showBaseMessageDialog(message) }
+                { view?.showBaseMessageDialog(message, translated) }
             )
     }
 
@@ -404,7 +447,7 @@ class ChatPresenterImpl(
         var prevMsg: MessageEntity? = null
         return history
             .map {
-                val item = converter.convert(it, prevMsg)
+                val item = converter.convert(it, prevMsg, translation[it.msgId])
                 prevMsg = it
                 item
             }
@@ -418,5 +461,6 @@ private const val KEY_TOPIC = "topic"
 private const val KEY_ERROR = "error"
 private const val KEY_MESSAGE = "message"
 private const val KEY_HISTORY = "history"
+private const val KEY_TRANSLATION = "translation"
 
 private const val ROLE_ADMIN = 200

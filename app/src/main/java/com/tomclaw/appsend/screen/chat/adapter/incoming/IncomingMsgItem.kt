@@ -18,5 +18,6 @@ data class IncomingMsgItem(
     val text: String,
     val time: String,
     val date: String?,
-    val attachment: MsgAttachment?
+    val attachment: MsgAttachment?,
+    val translated: Boolean,
 ) : Item, Parcelable

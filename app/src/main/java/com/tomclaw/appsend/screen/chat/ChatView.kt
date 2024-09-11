@@ -10,7 +10,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.ViewFlipper
 import android.widget.ViewSwitcher
-import androidx.annotation.MenuRes
 import androidx.appcompat.widget.Toolbar
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -69,13 +68,15 @@ interface ChatView {
 
     fun copyToClipboard(text: String)
 
-    fun showBaseMessageDialog(message: MessageEntity)
+    fun showBaseMessageDialog(message: MessageEntity, translated: Boolean)
 
-    fun showExtendedMessageDialog(message: MessageEntity)
+    fun showExtendedMessageDialog(message: MessageEntity, translated: Boolean)
 
     fun showReportSuccess()
 
     fun showReportFailed()
+
+    fun showTranslationFailed()
 
     fun showMenu(hasPin: Boolean)
 
@@ -94,6 +95,8 @@ interface ChatView {
     fun msgReplyClicks(): Observable<MessageEntity>
 
     fun msgCopyClicks(): Observable<MessageEntity>
+
+    fun msgTranslateClicks(): Observable<MessageEntity>
 
     fun openProfileClicks(): Observable<MessageEntity>
 
@@ -134,6 +137,7 @@ class ChatViewImpl(
     private val sendRelay = PublishRelay.create<Unit>()
     private val msgReplyRelay = PublishRelay.create<MessageEntity>()
     private val msgCopyRelay = PublishRelay.create<MessageEntity>()
+    private val msgTranslateRelay = PublishRelay.create<MessageEntity>()
     private val openProfileRelay = PublishRelay.create<MessageEntity>()
     private val msgReportRelay = PublishRelay.create<MessageEntity>()
     private val pinChatRelay = PublishRelay.create<Unit>()
@@ -247,28 +251,45 @@ class ChatViewImpl(
         clipboard.setPrimaryClip(ClipData.newPlainText("", text))
     }
 
-    override fun showBaseMessageDialog(message: MessageEntity) {
-        showMessageDialog(message, R.menu.msg_base_menu)
+    override fun showBaseMessageDialog(message: MessageEntity, translated: Boolean) {
+        showMessageDialog(message, translated, extended = false)
     }
 
-    override fun showExtendedMessageDialog(message: MessageEntity) {
-        showMessageDialog(message, R.menu.msg_extended_menu)
+    override fun showExtendedMessageDialog(message: MessageEntity, translated: Boolean) {
+        showMessageDialog(message, translated, extended = true)
     }
 
-    private fun showMessageDialog(message: MessageEntity, @MenuRes menuId: Int) {
+    private fun showMessageDialog(
+        message: MessageEntity,
+        translated: Boolean,
+        extended: Boolean,
+    ) {
         val theme = R.style.BottomSheetDialogDark.takeIf { preferences.isDarkTheme() }
             ?: R.style.BottomSheetDialogLight
         BottomSheetBuilder(view.context, theme)
             .setMode(BottomSheetBuilder.MODE_LIST)
             .setIconTintColor(getAttributedColor(context, R.attr.menu_icons_tint))
             .setItemTextColor(getAttributedColor(context, R.attr.text_primary_color))
-            .setMenu(menuId)
+            .apply {
+                addItem(MENU_REPLY, R.string.reply, R.drawable.ic_reply)
+                addItem(MENU_COPY, R.string.copy, R.drawable.ic_content_copy)
+                when (translated) {
+                    true -> addItem(MENU_TRANSLATE, R.string.original, R.drawable.ic_translate_off)
+                    false -> addItem(MENU_TRANSLATE, R.string.translate, R.drawable.ic_translate)
+                }
+                addItem(MENU_PROFILE, R.string.profile, R.drawable.ic_account)
+                when (extended) {
+                    true -> addItem(MENU_REPORT, R.string.delete, R.drawable.ic_delete)
+                    false -> addItem(MENU_REPORT, R.string.report, R.drawable.ic_alert)
+                }
+            }
             .setItemClickListener {
                 when (it.itemId) {
-                    R.id.menu_reply -> msgReplyRelay.accept(message)
-                    R.id.menu_copy -> msgCopyRelay.accept(message)
-                    R.id.menu_profile -> openProfileRelay.accept(message)
-                    R.id.menu_report -> msgReportRelay.accept(message)
+                    MENU_REPLY -> msgReplyRelay.accept(message)
+                    MENU_COPY -> msgCopyRelay.accept(message)
+                    MENU_TRANSLATE -> msgTranslateRelay.accept(message)
+                    MENU_PROFILE -> openProfileRelay.accept(message)
+                    MENU_REPORT -> msgReportRelay.accept(message)
                 }
             }
             .createDialog()
@@ -281,6 +302,10 @@ class ChatViewImpl(
 
     override fun showReportFailed() {
         Snackbar.make(recycler, R.string.error_message_report, Snackbar.LENGTH_LONG).show()
+    }
+
+    override fun showTranslationFailed() {
+        Snackbar.make(recycler, R.string.translation_error, Snackbar.LENGTH_LONG).show()
     }
 
     override fun showMenu(hasPin: Boolean) {
@@ -338,6 +363,8 @@ class ChatViewImpl(
 
     override fun msgCopyClicks(): Observable<MessageEntity> = msgCopyRelay
 
+    override fun msgTranslateClicks(): Observable<MessageEntity> = msgTranslateRelay
+
     override fun openProfileClicks(): Observable<MessageEntity> = openProfileRelay
 
     override fun msgReportClicks(): Observable<MessageEntity> = msgReportRelay
@@ -348,4 +375,9 @@ class ChatViewImpl(
 
 }
 
+private const val MENU_REPLY = 1
+private const val MENU_COPY = 2
+private const val MENU_TRANSLATE = 3
+private const val MENU_PROFILE = 4
+private const val MENU_REPORT = 5
 private const val DURATION_MEDIUM = 300L

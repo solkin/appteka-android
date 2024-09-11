@@ -5,11 +5,16 @@ import com.tomclaw.appsend.dto.MessageEntity
 import com.tomclaw.appsend.screen.chat.adapter.MsgAttachment
 import com.tomclaw.appsend.screen.chat.adapter.incoming.IncomingMsgItem
 import com.tomclaw.appsend.screen.chat.adapter.outgoing.OutgoingMsgItem
+import com.tomclaw.appsend.screen.chat.api.TranslationEntity
 import java.text.DateFormat
 
 interface MessageConverter {
 
-    fun convert(message: MessageEntity, prevMessage: MessageEntity?): Item
+    fun convert(
+        message: MessageEntity,
+        prevMessage: MessageEntity?,
+        translation: TranslationEntity?
+    ): Item
 
 }
 
@@ -19,7 +24,11 @@ class MessageConverterImpl(
     private val resourceProvider: ChatResourceProvider
 ) : MessageConverter {
 
-    override fun convert(message: MessageEntity, prevMessage: MessageEntity?): Item {
+    override fun convert(
+        message: MessageEntity,
+        prevMessage: MessageEntity?,
+        translation: TranslationEntity?
+    ): Item {
         val time = timeFormatter.format(message.time * 1000)
         val date = dateFormatter.format(message.time * 1000).takeIf {
             val prevTime = (prevMessage?.time ?: 0) * 1000
@@ -41,10 +50,16 @@ class MessageConverterImpl(
                         message.attachment.height
                     )
                 }
+                var translated = false
                 val text = if (attachment != null) {
                     resourceProvider.unsupportedMessageText()
                 } else {
-                    message.text
+                    if (translation == null || !translation.translated) {
+                        message.text
+                    } else {
+                        translated = true
+                        translation.translation
+                    }
                 }
                 if (message.incoming) {
                     IncomingMsgItem(
@@ -58,7 +73,8 @@ class MessageConverterImpl(
                         text = text,
                         time = time,
                         date = date,
-                        attachment = attachment
+                        attachment = attachment,
+                        translated = translated,
                     )
                 } else {
                     OutgoingMsgItem(
@@ -74,7 +90,8 @@ class MessageConverterImpl(
                         date = date,
                         attachment = attachment,
                         cookie = message.cookie,
-                        sent = true
+                        sent = true,
+                        translated = translated,
                     )
                 }
             }
@@ -91,7 +108,8 @@ class MessageConverterImpl(
                     text = resourceProvider.unsupportedMessageText(),
                     time = time,
                     date = date,
-                    attachment = null
+                    attachment = null,
+                    translated = false,
                 )
             }
         }

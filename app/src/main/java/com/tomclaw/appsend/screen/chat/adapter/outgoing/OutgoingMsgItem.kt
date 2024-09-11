@@ -20,5 +20,6 @@ data class OutgoingMsgItem(
     val date: String?,
     val attachment: MsgAttachment?,
     val cookie: String?,
-    val sent: Boolean
+    val sent: Boolean,
+    val translated: Boolean,
 ) : Item, Parcelable

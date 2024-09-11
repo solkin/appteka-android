@@ -32,6 +32,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoSet
 import java.text.DateFormat
+import java.util.Locale
 import javax.inject.Named
 
 @Module
@@ -67,8 +68,9 @@ class ChatModule(
     @PerActivity
     internal fun provideInteractor(
         api: StoreApi,
+        locale: Locale,
         schedulers: SchedulersFactory
-    ): ChatInteractor = ChatInteractorImpl(api, schedulers)
+    ): ChatInteractor = ChatInteractorImpl(api, locale, schedulers)
 
     @Provides
     @PerActivity

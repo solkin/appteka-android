@@ -3,6 +3,7 @@ package com.tomclaw.appsend.screen.chat
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.dto.MessageEntity
 import com.tomclaw.appsend.dto.TopicEntity
+import com.tomclaw.appsend.screen.chat.api.MsgTranslateResponse
 import com.tomclaw.appsend.screen.chat.api.ReadTopicResponse
 import com.tomclaw.appsend.screen.chat.api.ReportMessageResponse
 import com.tomclaw.appsend.screen.chat.api.SendMessageResponse
@@ -11,6 +12,7 @@ import com.tomclaw.appsend.user.api.UserBrief
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.StringUtil
 import io.reactivex.rxjava3.core.Observable
+import java.util.Locale
 
 interface ChatInteractor {
 
@@ -28,6 +30,8 @@ interface ChatInteractor {
 
     fun reportMessage(msgId: Int): Observable<ReportMessageResponse>
 
+    fun translateMessage(msgId: Int): Observable<MsgTranslateResponse>
+
     fun readTopic(topicId: Int, msgId: Int): Observable<ReadTopicResponse>
 
     fun pinTopic(topicId: Int): Observable<PinTopicResponse>
@@ -36,6 +40,7 @@ interface ChatInteractor {
 
 class ChatInteractorImpl(
     private val api: StoreApi,
+    private val locale: Locale,
     private val schedulers: SchedulersFactory
 ) : ChatInteractor {
 
@@ -90,6 +95,13 @@ class ChatInteractorImpl(
 
     override fun reportMessage(msgId: Int): Observable<ReportMessageResponse> {
         return api.reportMessage(msgId = msgId)
+            .map { it.result }
+            .toObservable()
+            .subscribeOn(schedulers.io())
+    }
+
+    override fun translateMessage(msgId: Int): Observable<MsgTranslateResponse> {
+        return api.translateMessage(msgId = msgId, locale = locale.language)
             .map { it.result }
             .toObservable()
             .subscribeOn(schedulers.io())
