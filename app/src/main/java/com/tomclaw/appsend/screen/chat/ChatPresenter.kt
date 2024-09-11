@@ -326,6 +326,8 @@ class ChatPresenterImpl(
         } ?: run {
             subscriptions += chatInteractor.translateMessage(msg.msgId)
                 .observeOn(schedulers.mainThread())
+                .doOnSubscribe { view?.showProgress() }
+                .doAfterTerminate { view?.showContent() }
                 .subscribe(
                     {
                         translation[msg.msgId] = TranslationEntity(
