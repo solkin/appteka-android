@@ -15,6 +15,12 @@ class PlayItemPresenter(
 
         view.setDownloads(item.downloads)
 
+        if (item.favorites > 0) {
+            view.showFavorites(item.favorites)
+        } else {
+            view.hideFavorites()
+        }
+
         view.setSize(resourceProvider.formatFileSize(item.size))
 
         if (item.exclusive) view.showExclusive() else view.hideExclusive()

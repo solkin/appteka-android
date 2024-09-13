@@ -108,6 +108,7 @@ class DetailsConverterImpl(
             id = id++,
             rating = details.meta?.rating,
             downloads = details.info.downloads ?: 0,
+            favorites = details.info.favorites ?: 0,
             size = details.info.size,
             exclusive = details.meta?.exclusive ?: false,
             openSource = details.meta?.sourceUrl?.isNotEmpty() ?: false,

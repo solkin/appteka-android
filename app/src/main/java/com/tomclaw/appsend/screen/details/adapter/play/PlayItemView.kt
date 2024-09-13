@@ -20,6 +20,10 @@ interface PlayItemView : ItemView {
 
     fun setDownloads(downloads: Int)
 
+    fun showFavorites(favorites: Int)
+
+    fun hideFavorites()
+
     fun setSize(size: String)
 
     fun showExclusive()
@@ -48,6 +52,8 @@ class PlayItemViewHolder(view: View) : BaseViewHolder(view), PlayItemView {
     private val ratingContainer: View = view.findViewById(R.id.rating_container)
     private val ratingView: TextView = view.findViewById(R.id.rating_view)
     private val downloadsView: TextView = view.findViewById(R.id.downloads_view)
+    private val favoritesContainer: View = view.findViewById(R.id.favorites_container)
+    private val favoritesView: TextView = view.findViewById(R.id.favorites_view)
     private val sizeView: TextView = view.findViewById(R.id.size_view)
     private val exclusiveContainer: View = view.findViewById(R.id.exclusive_container)
     private val openSourceContainer: View = view.findViewById(R.id.open_source_container)
@@ -69,6 +75,15 @@ class PlayItemViewHolder(view: View) : BaseViewHolder(view), PlayItemView {
 
     override fun setDownloads(downloads: Int) {
         downloadsView.bind(downloads.toString())
+    }
+
+    override fun showFavorites(favorites: Int) {
+        favoritesContainer.show()
+        favoritesView.bind(favorites.toString())
+    }
+
+    override fun hideFavorites() {
+        favoritesContainer.hide()
     }
 
     override fun setSize(size: String) {

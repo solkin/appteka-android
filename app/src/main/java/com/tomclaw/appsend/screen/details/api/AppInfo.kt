@@ -35,6 +35,8 @@ data class AppInfo(
     val downloads: Int?,
     @SerializedName("download_time")
     val downloadTime: Long?,
+    @SerializedName("favorites")
+    val favorites: Int?,
     @SerializedName("time")
     val time: Long,
     @SerializedName("sha1")
