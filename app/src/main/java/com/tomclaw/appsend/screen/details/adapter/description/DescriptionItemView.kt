@@ -6,7 +6,7 @@ import android.widget.TextView
 import androidx.core.view.isVisible
 import com.avito.konveyor.adapter.BaseViewHolder
 import com.avito.konveyor.blueprint.ItemView
-import com.google.android.material.R.style.Widget_Material3_CircularProgressIndicator_ExtraSmall
+import com.google.android.material.R.style.Widget_MaterialComponents_CircularProgressIndicator_ExtraSmall
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.progressindicator.CircularProgressIndicatorSpec
 import com.google.android.material.progressindicator.IndeterminateDrawable
@@ -68,7 +68,7 @@ class DescriptionItemViewHolder(view: View) : BaseViewHolder(view), DescriptionI
             context,
             CircularProgressIndicatorSpec(
                 context, null, 0,
-                Widget_Material3_CircularProgressIndicator_ExtraSmall
+                Widget_MaterialComponents_CircularProgressIndicator_ExtraSmall
             )
         )
 
