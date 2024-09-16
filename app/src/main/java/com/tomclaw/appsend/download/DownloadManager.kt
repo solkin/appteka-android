@@ -5,6 +5,7 @@ import com.tomclaw.appsend.util.safeClose
 import io.reactivex.rxjava3.core.Observable
 import okhttp3.CookieJar
 import okhttp3.HttpUrl
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import java.io.BufferedInputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -128,12 +129,13 @@ class DownloadManagerImpl(
             val u = URL(url)
             connection = u.openConnection() as HttpURLConnection
 
-            val httpUrl = HttpUrl.parse(url)
+            val httpUrl = url.toHttpUrlOrNull()
                 ?: throw IllegalArgumentException("Invalid upload screenshot URL")
 
             val cookies = cookieJar.loadForRequest(httpUrl)
                 .map { it.toString() }
-                .reduce { acc, cookie -> "$acc;$cookie" }
+                .takeIf { it.isNotEmpty() }
+                ?.reduce { acc, cookie -> "$acc;$cookie" }
 
             with(connection) {
                 setRequestProperty("Cookie", cookies)

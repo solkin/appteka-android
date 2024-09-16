@@ -32,7 +32,7 @@ class StreamsProviderImpl(
             SCHEME_HTTPS -> {
                 val request: Request = Request.Builder().url(uri.toString()).build()
                 client.newCall(request).execute().let { response ->
-                    response.body()?.byteStream()?.let { input ->
+                    response.body?.byteStream()?.let { input ->
                         return input
                     }
                 }

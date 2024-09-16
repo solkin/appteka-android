@@ -1,11 +1,8 @@
 package com.tomclaw.appsend.screen.upload
 
-import android.net.Uri
 import android.os.Build
 import com.avito.konveyor.blueprint.Item
 import com.tomclaw.appsend.categories.CategoryItem
-import com.tomclaw.appsend.dto.Screenshot
-import com.tomclaw.appsend.screen.gallery.GalleryItem
 import com.tomclaw.appsend.screen.upload.adapter.category.SelectCategoryItem
 import com.tomclaw.appsend.screen.upload.adapter.description.DescriptionItem
 import com.tomclaw.appsend.screen.upload.adapter.exclusive.ExclusiveItem

@@ -15,23 +15,23 @@ class PersistentCookieJar(filesDir: File) : CookieJar {
     private var loaded = false
     private var cache: MutableList<Cookie> = mutableListOf()
 
-    override fun saveFromResponse(url: HttpUrl, cookies: MutableList<Cookie>) {
+    override fun saveFromResponse(url: HttpUrl, cookies: List<Cookie>) {
         cache.clear()
         cache.addAll(cookies)
 
         DataOutputStream(FileOutputStream(db)).use { output ->
             output.writeShort(cookies.size)
             cookies.forEach { cookie ->
-                if (cookie.persistent()) {
-                    output.writeUTF(cookie.name())
-                    output.writeUTF(cookie.value())
-                    output.writeLong(cookie.expiresAt())
-                    output.writeUTF(cookie.domain())
-                    output.writeUTF(cookie.path())
-                    output.writeBoolean(cookie.secure())
-                    output.writeBoolean(cookie.httpOnly())
-                    output.writeBoolean(cookie.hostOnly())
-                    output.writeBoolean(cookie.persistent())
+                if (cookie.persistent) {
+                    output.writeUTF(cookie.name)
+                    output.writeUTF(cookie.value)
+                    output.writeLong(cookie.expiresAt)
+                    output.writeUTF(cookie.domain)
+                    output.writeUTF(cookie.path)
+                    output.writeBoolean(cookie.secure)
+                    output.writeBoolean(cookie.httpOnly)
+                    output.writeBoolean(cookie.hostOnly)
+                    output.writeBoolean(cookie.persistent)
                 }
             }
         }

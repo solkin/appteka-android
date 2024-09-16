@@ -19,6 +19,7 @@ import com.tomclaw.appsend.util.md5
 import io.reactivex.rxjava3.core.Observable
 import okhttp3.CookieJar
 import okhttp3.HttpUrl
+import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import java.io.ByteArrayInputStream
 import java.io.File
 import java.io.FileInputStream
@@ -371,12 +372,13 @@ class UploadManagerImpl(
     private fun openMultipartConnection(url: String, boundary: String): HttpURLConnection {
         val connection: HttpURLConnection = URL(url).openConnection() as HttpURLConnection
 
-        val httpUrl = HttpUrl.parse(url)
+        val httpUrl = url.toHttpUrlOrNull()
             ?: throw IllegalArgumentException("Invalid upload screenshot URL")
 
         val cookies = cookieJar.loadForRequest(httpUrl)
             .map { it.toString() }
-            .reduce { acc, cookie -> "$acc;$cookie" }
+            .takeIf { it.isNotEmpty() }
+            ?.reduce { acc, cookie -> "$acc;$cookie" }
 
         with(connection) {
             setRequestProperty("Content-Type", "multipart/form-data;boundary=$boundary")
