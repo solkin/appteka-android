@@ -67,7 +67,7 @@ dependencies {
     implementation 'com.github.solkin:simple-image-loader:v0.9.6'
     implementation 'com.github.solkin:disk-lru-cache:1.5'
     implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.9.22'
-    implementation 'androidx.core:core-ktx:1.12.0'
+    implementation 'androidx.core:core-ktx:1.13.1'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'androidx.recyclerview:recyclerview:1.3.2'
     implementation 'androidx.startup:startup-runtime:1.1.1'
