@@ -40,14 +40,6 @@ public class PreferenceHelper {
         }
     }
 
-    public static boolean isShowUploadNotice(Context context) {
-        return getBooleanPreference(context, R.string.pref_upload_notice, R.bool.pref_upload_notice_default);
-    }
-
-    public static void setShowUploadNotice(Context context, boolean value) {
-        setBooleanPreference(context, R.string.pref_upload_notice, value);
-    }
-
     private static boolean getBooleanPreference(Context context, int preferenceKey, int defaultValueKey) {
         return getSharedPreferences(context).getBoolean(context.getResources().getString(preferenceKey),
                 context.getResources().getBoolean(defaultValueKey));
