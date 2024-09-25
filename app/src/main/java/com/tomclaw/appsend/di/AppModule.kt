@@ -17,11 +17,12 @@ import com.tomclaw.appsend.categories.CategoriesInteractor
 import com.tomclaw.appsend.categories.CategoriesInteractorImpl
 import com.tomclaw.appsend.core.AppInfoProvider
 import com.tomclaw.appsend.core.AppInfoProviderImpl
-import com.tomclaw.appsend.core.Config
 import com.tomclaw.appsend.core.DeviceIdInterceptor
 import com.tomclaw.appsend.core.DeviceIdProvider
 import com.tomclaw.appsend.core.DeviceIdProviderImpl
+import com.tomclaw.appsend.core.HOST_URL
 import com.tomclaw.appsend.core.PersistentCookieJar
+import com.tomclaw.appsend.core.STAND_BY_HOST_URL
 import com.tomclaw.appsend.core.StandByApi
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.core.UserAgentInterceptor
@@ -233,7 +234,7 @@ class AppModule(private val app: Application) {
     @Singleton
     internal fun provideStoreApi(client: OkHttpClient): StoreApi = Retrofit.Builder()
         .client(client)
-        .baseUrl(Config.HOST_URL + "/api/")
+        .baseUrl("$HOST_URL/api/")
         .addConverterFactory(GsonConverterFactory.create())
         .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
         .build()
@@ -243,7 +244,7 @@ class AppModule(private val app: Application) {
     @Singleton
     internal fun provideStandByApi(client: OkHttpClient): StandByApi = Retrofit.Builder()
         .client(client)
-        .baseUrl(Config.STAND_BY_HOST_URL + "/api/appteka/")
+        .baseUrl("$STAND_BY_HOST_URL/api/appteka/")
         .addConverterFactory(GsonConverterFactory.create())
         .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
         .build()

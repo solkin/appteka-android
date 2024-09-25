@@ -7,7 +7,7 @@ import android.net.Uri
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.jakewharton.rxrelay3.BehaviorRelay
-import com.tomclaw.appsend.core.Config
+import com.tomclaw.appsend.core.HOST_URL
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.dto.StoreResponse
 import com.tomclaw.appsend.util.MultipartStream
@@ -18,7 +18,6 @@ import com.tomclaw.appsend.util.getLabel
 import com.tomclaw.appsend.util.md5
 import io.reactivex.rxjava3.core.Observable
 import okhttp3.CookieJar
-import okhttp3.HttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import java.io.ByteArrayInputStream
 import java.io.File
@@ -429,5 +428,5 @@ fun totalPercent(
 const val POST = "POST"
 const val SCREENSHOT_MAX_PIXELS = 2000000
 const val SCREENSHOT_JPEG_QUALITY = 90
-const val HOST_UPLOAD_APP_URL = Config.HOST_URL + "/api/1/app/upload"
-const val HOST_UPLOAD_SCREENSHOT_URL = Config.HOST_URL + "/api/1/screenshot/upload"
+const val HOST_UPLOAD_APP_URL = "$HOST_URL/api/1/app/upload"
+const val HOST_UPLOAD_SCREENSHOT_URL = "$HOST_URL/api/1/screenshot/upload"

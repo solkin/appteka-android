@@ -1,10 +1,8 @@
 package com.tomclaw.appsend.core;
 
-import static com.tomclaw.appsend.core.Config.HOST_URL;
+import static com.tomclaw.appsend.core.ConfigKt.HOST_URL;
 
-import com.tomclaw.appsend.Appteka;
 import com.tomclaw.appsend.di.legacy.LegacyInjector;
-import com.tomclaw.appsend.di.legacy.LegacyModule;
 
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
