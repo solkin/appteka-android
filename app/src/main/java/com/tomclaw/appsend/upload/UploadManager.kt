@@ -1,5 +1,6 @@
 package com.tomclaw.appsend.upload
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageInfo
 import android.graphics.Bitmap
@@ -169,6 +170,7 @@ class UploadManagerImpl(
         relays[id]?.accept(UploadState(status = UploadStatus.IDLE))
     }
 
+    @SuppressLint("DefaultLocale")
     private fun uploadScreenshotsBlocking(
         uris: List<Uri>,
         progressCallback: (Int) -> (Unit),
@@ -182,7 +184,10 @@ class UploadManagerImpl(
             connection.outputStream.use { outputStream ->
                 val multipart = MultipartStream(outputStream, boundary)
                 uris.forEachIndexed { index, uri ->
-                    val name = String.format("src%d.jpg", uri.hashCode())
+                    val name = String.format(
+                        format = "src%d.jpg",
+                        uri.hashCode()
+                    )
                     multipart.writePart(
                         "images",
                         name,

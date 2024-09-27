@@ -135,7 +135,7 @@ class UploadNotificationsImpl(private val context: Context) : UploadNotification
                         resources = context.resources,
                         notificationBuilder = uploadedNotificationBuilder
                     )
-                    uri?.run { context.imageLoader().load(uploadedIconHolder, uri, handlers) }
+                    uri.run { context.imageLoader().load(uploadedIconHolder, uri, handlers) }
                     val notification = uploadedNotificationBuilder.build()
                     notificationManager.notify(notificationId, notification)
                     stop()
