@@ -87,7 +87,11 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
             if (data.host == "appteka.store") {
                 val path = data.pathSegments
                 if (path.size == 2) {
-                    appId = path[1]
+                    when (path[0]) {
+                        "app" -> appId = path[1]
+                        "package" -> packageName = path[1]
+                        else -> throw IllegalArgumentException("Unsupported URL type")
+                    }
                 }
             } else if (data.host == "appsend.store") {
                 appId = data.getQueryParameter("id")
