@@ -324,4 +324,7 @@
     <string name="unable_to_change_name">Unable to change user name</string>
     <string name="install_date">Installed %s</string>
     <string name="update_date">Updated %s</string>
+    <string name="posts">posts</string>
+    <string name="subscribers">subscribers</string>
+    <string name="publishers">publishers</string>
 </resources>

@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?selectableItemBackground"
+    android:baselineAligned="false"
     android:gravity="center_vertical"
     android:orientation="horizontal"
     android:paddingStart="20dp"
-    android:paddingTop="16dp"
+    android:paddingTop="4dp"
     android:paddingEnd="20dp"
-    android:paddingBottom="16dp">
+    android:paddingBottom="4dp">
 
     <LinearLayout
         android:id="@+id/feed_block"
@@ -38,7 +38,7 @@
             android:paddingTop="2dp"
             android:textColor="?text_secondary_color"
             android:textSize="12sp"
-            tools:text="posts" />
+            android:text="@string/posts" />
 
     </LinearLayout>
 
@@ -68,7 +68,7 @@
             android:paddingTop="2dp"
             android:textColor="?text_secondary_color"
             android:textSize="12sp"
-            tools:text="subscribers" />
+            android:text="@string/subscribers" />
 
     </LinearLayout>
 
@@ -98,7 +98,7 @@
             android:paddingTop="2dp"
             android:textColor="?text_secondary_color"
             android:textSize="12sp"
-            tools:text="publishers" />
+            android:text="@string/publishers" />
 
     </LinearLayout>
 

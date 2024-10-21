@@ -18,6 +18,8 @@ import com.tomclaw.appsend.screen.profile.adapter.app.AppItemBlueprint
 import com.tomclaw.appsend.screen.profile.adapter.app.AppItemPresenter
 import com.tomclaw.appsend.screen.profile.adapter.favorites.FavoritesItemBlueprint
 import com.tomclaw.appsend.screen.profile.adapter.favorites.FavoritesItemPresenter
+import com.tomclaw.appsend.screen.profile.adapter.feed.FeedItemBlueprint
+import com.tomclaw.appsend.screen.profile.adapter.feed.FeedItemPresenter
 import com.tomclaw.appsend.screen.profile.adapter.header.HeaderItemBlueprint
 import com.tomclaw.appsend.screen.profile.adapter.header.HeaderItemPresenter
 import com.tomclaw.appsend.screen.profile.adapter.header.HeaderResourceProvider
@@ -32,7 +34,6 @@ import com.tomclaw.appsend.screen.profile.adapter.unauthorized.UnauthorizedItemB
 import com.tomclaw.appsend.screen.profile.adapter.unauthorized.UnauthorizedItemPresenter
 import com.tomclaw.appsend.screen.profile.adapter.uploads.UploadsItemBlueprint
 import com.tomclaw.appsend.screen.profile.adapter.uploads.UploadsItemPresenter
-import com.tomclaw.appsend.user.SessionStorage
 import com.tomclaw.appsend.util.PerFragment
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
@@ -239,6 +240,19 @@ class ProfileModule(
     internal fun provideUnauthorizedItemPresenter(
         presenter: ProfilePresenter,
     ) = UnauthorizedItemPresenter(presenter)
+
+    @Provides
+    @IntoSet
+    @PerFragment
+    internal fun provideFeedItemBlueprint(
+        presenter: FeedItemPresenter
+    ): ItemBlueprint<*, *> = FeedItemBlueprint(presenter)
+
+    @Provides
+    @PerFragment
+    internal fun provideFeedItemPresenter(
+        presenter: ProfilePresenter,
+    ) = FeedItemPresenter(presenter)
 
 }
 

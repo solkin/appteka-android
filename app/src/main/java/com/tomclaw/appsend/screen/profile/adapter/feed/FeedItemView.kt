@@ -25,9 +25,9 @@ interface FeedItemView : ItemView {
 
 class FeedItemViewHolder(view: View) : BaseViewHolder(view), FeedItemView {
 
-    private val feedBlockView: TextView = view.findViewById(R.id.feed_block)
-    private val subsBlockView: TextView = view.findViewById(R.id.subs_block)
-    private val pubsBlockView: TextView = view.findViewById(R.id.pubs_block)
+    private val feedBlockView: View = view.findViewById(R.id.feed_block)
+    private val subsBlockView: View = view.findViewById(R.id.subs_block)
+    private val pubsBlockView: View = view.findViewById(R.id.pubs_block)
     private val feedCountView: TextView = view.findViewById(R.id.feed_count)
     private val subsCountView: TextView = view.findViewById(R.id.subs_count)
     private val pubsCountView: TextView = view.findViewById(R.id.pubs_count)

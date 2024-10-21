@@ -34,6 +34,12 @@ data class Profile(
     val msgCount: Int = 0,
     @SerializedName("reviews_count")
     val reviewsCount: Int = 0,
+    @SerializedName("feed_count")
+    val feedCount: Int = 0,
+    @SerializedName("pubs_count")
+    val pubsCount: Int = 0,
+    @SerializedName("subs_count")
+    val subsCount: Int = 0,
     @SerializedName("last_reviews")
     val lastReviews: List<ReviewEntity>? = null,
     @SerializedName("is_registered")

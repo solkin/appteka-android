@@ -4,6 +4,7 @@ import com.avito.konveyor.blueprint.Item
 import com.tomclaw.appsend.dto.AppEntity
 import com.tomclaw.appsend.screen.profile.adapter.app.AppItem
 import com.tomclaw.appsend.screen.profile.adapter.favorites.FavoritesItem
+import com.tomclaw.appsend.screen.profile.adapter.feed.FeedItem
 import com.tomclaw.appsend.screen.profile.adapter.header.HeaderItem
 import com.tomclaw.appsend.screen.profile.adapter.placeholder.PlaceholderItem
 import com.tomclaw.appsend.screen.profile.adapter.review.ReviewItem
@@ -55,6 +56,16 @@ class ProfileConverterImpl : ProfileConverter {
                 nameRegex = profile.nameRegex,
             )
         )
+        if (profile.feedCount + profile.subsCount + profile.pubsCount > 0) {
+            items.add(
+                FeedItem(
+                    id = id.incrementAndGet(),
+                    feedCount = profile.feedCount,
+                    subsCount = profile.subsCount,
+                    pubsCount = profile.pubsCount,
+                )
+            )
+        }
         if (profile.filesCount > 0) {
             val appItems = convertApps(uploads)
 
