@@ -168,6 +168,18 @@ class ProfilePresenterImpl(
             )
     }
 
+    override fun onFeedClick() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onSubsClick() {
+        TODO("Not yet implemented")
+    }
+
+    override fun onPubsClick() {
+        TODO("Not yet implemented")
+    }
+
     private fun onBackPressed() {
         router?.leaveScreen()
     }

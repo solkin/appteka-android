@@ -18,4 +18,10 @@ interface ItemListener {
 
     fun onNextPage(last: AppItem, param: (List<AppItem>) -> Unit)
 
+    fun onFeedClick()
+
+    fun onSubsClick()
+
+    fun onPubsClick()
+
 }

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?selectableItemBackground"
+    android:gravity="center_vertical"
+    android:orientation="horizontal"
+    android:paddingStart="20dp"
+    android:paddingTop="16dp"
+    android:paddingEnd="20dp"
+    android:paddingBottom="16dp">
+
+    <LinearLayout
+        android:id="@+id/feed_block"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:paddingStart="0dp"
+        android:paddingEnd="8dp">
+
+        <TextView
+            android:id="@+id/feed_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            tools:text="1 426"
+            android:textColor="?colorPrimaryVariant"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:paddingTop="2dp"
+            android:textColor="?text_secondary_color"
+            android:textSize="12sp"
+            tools:text="posts" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/subs_block"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingStart="0dp"
+        android:paddingEnd="8dp">
+
+        <TextView
+            android:id="@+id/subs_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            tools:text="14"
+            android:textColor="?colorPrimaryVariant"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:paddingTop="2dp"
+            android:textColor="?text_secondary_color"
+            android:textSize="12sp"
+            tools:text="subscribers" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/pubs_block"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingStart="0dp"
+        android:paddingEnd="8dp">
+
+        <TextView
+            android:id="@+id/pubs_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            tools:text="145"
+            android:textColor="?colorPrimaryVariant"
+            android:textSize="16sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:paddingTop="2dp"
+            android:textColor="?text_secondary_color"
+            android:textSize="12sp"
+            tools:text="publishers" />
+
+    </LinearLayout>
+
+</LinearLayout>
