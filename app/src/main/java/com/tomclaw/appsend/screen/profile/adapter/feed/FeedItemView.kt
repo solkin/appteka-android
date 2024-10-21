@@ -47,17 +47,17 @@ class FeedItemViewHolder(view: View) : BaseViewHolder(view), FeedItemView {
 
     override fun setFeedCount(count: Int) {
         feedCountView.bind(count.toString())
-        feedCountView.setTextColor(getAttributedColor(context, getTextColor(count)))
+        feedCountView.setTextColor(getTextColor(count))
     }
 
     override fun setSubsCount(count: Int) {
         subsCountView.bind(count.toString())
-        subsCountView.setTextColor(getAttributedColor(context, getTextColor(count)))
+        subsCountView.setTextColor(getTextColor(count))
     }
 
     override fun setPubsCount(count: Int) {
         pubsCountView.bind(count.toString())
-        pubsCountView.setTextColor(getAttributedColor(context, getTextColor(count)))
+        pubsCountView.setTextColor(getTextColor(count))
     }
 
     override fun setOnFeedClickListener(listener: (() -> Unit)?) {
@@ -79,9 +79,9 @@ class FeedItemViewHolder(view: View) : BaseViewHolder(view), FeedItemView {
     }
 
     private fun getTextColor(count: Int) = if (count > 0) {
-        getAttributedColor(context, R.attr.text_primary_color)
-    } else {
         getColor(R.color.primary_dark_color, context)
+    } else {
+        getAttributedColor(context, R.attr.text_primary_color)
     }
 
 }
