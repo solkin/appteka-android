@@ -13,7 +13,6 @@ class HeaderItemPresenter(
 ) : ItemPresenter<HeaderItemView, HeaderItem> {
 
     override fun bindView(view: HeaderItemView, item: HeaderItem, position: Int) {
-
         view.setUserIcon(item.userIcon)
 
         val name = item.userName.takeIf { !it.isNullOrBlank() }
@@ -34,6 +33,14 @@ class HeaderItemPresenter(
         if (item.isSelf) {
             view.showUserNameEditIcon()
             view.setOnNameClickListener { listener.onEditName(name, item.nameRegex) }
+            view.hideSubscribeButton()
+            view.hideUnsubscribeButton()
+        } else if (item.isSubscribed) {
+            view.hideSubscribeButton()
+            view.showUnsubscribeButton()
+        } else {
+            view.showSubscribeButton()
+            view.hideUnsubscribeButton()
         }
     }
 

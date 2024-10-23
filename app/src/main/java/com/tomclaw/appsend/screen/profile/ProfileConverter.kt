@@ -53,6 +53,7 @@ class ProfileConverterImpl : ProfileConverter {
                 isRegistered = profile.isRegistered,
                 isVerified = profile.isVerified,
                 isSelf = isSelf,
+                isSubscribed = profile.isSubscribed,
                 nameRegex = profile.nameRegex,
             )
         )

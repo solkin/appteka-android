@@ -327,4 +327,6 @@
     <string name="posts">posts</string>
     <string name="subscribers">subscribers</string>
     <string name="publishers">publishers</string>
+    <string name="subscribe">Subscribe</string>
+    <string name="unsubscribe">Unsubscribe</string>
 </resources>
