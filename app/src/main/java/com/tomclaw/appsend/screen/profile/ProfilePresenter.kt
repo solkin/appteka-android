@@ -14,6 +14,7 @@ import com.tomclaw.appsend.util.getParcelableArrayListCompat
 import com.tomclaw.appsend.util.getParcelableCompat
 import com.tomclaw.appsend.util.retryWhenNonAuthErrors
 import dagger.Lazy
+import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.Observables
 import io.reactivex.rxjava3.kotlin.plusAssign
@@ -178,6 +179,32 @@ class ProfilePresenterImpl(
 
     override fun onPubsClick() {
         TODO("Not yet implemented")
+    }
+
+    override fun onSubscribeClick() {
+        userId ?: return
+        subscriptions += interactor.subscribe(userId)
+            .observeOn(schedulers.mainThread())
+            .subscribe(
+                { loadProfile() },
+                { onChangeSubscriptionStateError(it) }
+            )
+    }
+
+    override fun onUnsubscribeClick() {
+        userId ?: return
+        subscriptions += interactor.unsubscribe(userId)
+            .observeOn(schedulers.mainThread())
+            .subscribe(
+                { loadProfile() },
+                { onChangeSubscriptionStateError(it) }
+            )
+    }
+
+    private fun onChangeSubscriptionStateError(ex: Throwable) {
+        ex.filterUnauthorizedErrors({ view?.showUnauthorizedError() }) {
+            view?.showSubscriptionError()
+        }
     }
 
     private fun onBackPressed() {

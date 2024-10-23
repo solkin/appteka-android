@@ -4,6 +4,8 @@ import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.screen.profile.api.EliminateUserResponse
 import com.tomclaw.appsend.screen.profile.api.ProfileResponse
 import com.tomclaw.appsend.screen.profile.api.SetUserNameResponse
+import com.tomclaw.appsend.screen.profile.api.SubscribeResponse
+import com.tomclaw.appsend.screen.profile.api.UnsubscribeResponse
 import com.tomclaw.appsend.screen.profile.api.UserAppsResponse
 import com.tomclaw.appsend.util.SchedulersFactory
 import io.reactivex.rxjava3.core.Observable
@@ -15,6 +17,10 @@ interface ProfileInteractor {
     fun loadUserApps(userId: Int?, offsetAppId: String?): Observable<UserAppsResponse>
 
     fun setUserName(name: String): Observable<SetUserNameResponse>
+
+    fun subscribe(userId: Int): Observable<SubscribeResponse>
+
+    fun unsubscribe(userId: Int): Observable<UnsubscribeResponse>
 
     fun eliminateUser(userId: Int): Observable<EliminateUserResponse>
 
@@ -49,6 +55,22 @@ class ProfileInteractorImpl(
     override fun setUserName(name: String): Observable<SetUserNameResponse> {
         return api
             .setUserName(name)
+            .map { it.result }
+            .toObservable()
+            .subscribeOn(schedulers.io())
+    }
+
+    override fun subscribe(userId: Int): Observable<SubscribeResponse> {
+        return api
+            .subscribe(userId)
+            .map { it.result }
+            .toObservable()
+            .subscribeOn(schedulers.io())
+    }
+
+    override fun unsubscribe(userId: Int): Observable<UnsubscribeResponse> {
+        return api
+            .unsubscribe(userId)
             .map { it.result }
             .toObservable()
             .subscribeOn(schedulers.io())

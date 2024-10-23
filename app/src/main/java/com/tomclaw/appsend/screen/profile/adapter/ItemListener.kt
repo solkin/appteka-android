@@ -24,4 +24,8 @@ interface ItemListener {
 
     fun onPubsClick()
 
+    fun onSubscribeClick()
+
+    fun onUnsubscribeClick()
+
 }

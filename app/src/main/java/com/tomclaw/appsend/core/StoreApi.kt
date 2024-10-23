@@ -27,6 +27,8 @@ import com.tomclaw.appsend.screen.moderation.api.ModerationResponse
 import com.tomclaw.appsend.screen.profile.api.EliminateUserResponse
 import com.tomclaw.appsend.screen.profile.api.ProfileResponse
 import com.tomclaw.appsend.screen.profile.api.SetUserNameResponse
+import com.tomclaw.appsend.screen.profile.api.SubscribeResponse
+import com.tomclaw.appsend.screen.profile.api.UnsubscribeResponse
 import com.tomclaw.appsend.screen.profile.api.UserAppsResponse
 import com.tomclaw.appsend.screen.rate.api.SubmitReviewResponse
 import com.tomclaw.appsend.screen.ratings.api.DeleteRatingResponse
@@ -258,6 +260,16 @@ interface StoreApi {
     fun setUserName(
         @Query("name") name: String,
     ): Single<StoreResponse<SetUserNameResponse>>
+
+    @POST("1/feed/subscribe")
+    fun subscribe(
+        @Query("pub_id") pubId: Int,
+    ): Single<StoreResponse<SubscribeResponse>>
+
+    @POST("1/feed/unsubscribe")
+    fun unsubscribe(
+        @Query("pub_id") pubId: Int,
+    ): Single<StoreResponse<UnsubscribeResponse>>
 
     @Headers("Content-Type: application/json")
     @POST("1/events/submit")

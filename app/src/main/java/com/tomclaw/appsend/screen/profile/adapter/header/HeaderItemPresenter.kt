@@ -35,12 +35,16 @@ class HeaderItemPresenter(
             view.setOnNameClickListener { listener.onEditName(name, item.nameRegex) }
             view.hideSubscribeButton()
             view.hideUnsubscribeButton()
-        } else if (item.isSubscribed) {
-            view.hideSubscribeButton()
-            view.showUnsubscribeButton()
         } else {
-            view.showSubscribeButton()
-            view.hideUnsubscribeButton()
+            view.setOnSubscribeClickListener { listener.onSubscribeClick() }
+            view.setOnUnsubscribeClickListener { listener.onUnsubscribeClick() }
+            if (item.isSubscribed) {
+                view.hideSubscribeButton()
+                view.showUnsubscribeButton()
+            } else {
+                view.showSubscribeButton()
+                view.hideUnsubscribeButton()
+            }
         }
     }
 

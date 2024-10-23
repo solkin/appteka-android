@@ -54,6 +54,10 @@ interface ProfileView {
 
     fun showEditNameError()
 
+    fun showSubscriptionError()
+
+    fun showUnauthorizedError()
+
     fun navigationClicks(): Observable<Unit>
 
     fun swipeRefresh(): Observable<Unit>
@@ -225,7 +229,24 @@ class ProfileViewImpl(
     }
 
     override fun showEditNameError() {
-        Toast.makeText(context, R.string.unable_to_change_name, Toast.LENGTH_LONG).show()
+        Snackbar
+            .make(recycler, R.string.unable_to_change_name, Snackbar.LENGTH_LONG)
+            .show()
+    }
+
+    override fun showSubscriptionError() {
+        Snackbar
+            .make(recycler, R.string.unable_to_change_subscription_state, Snackbar.LENGTH_LONG)
+            .show()
+    }
+
+    override fun showUnauthorizedError() {
+        Snackbar
+            .make(recycler, R.string.authorization_required_message, Snackbar.LENGTH_INDEFINITE)
+            .setAction(R.string.login_button) {
+                loginRelay.accept(Unit)
+            }
+            .show()
     }
 
     override fun navigationClicks(): Observable<Unit> = navigationRelay
