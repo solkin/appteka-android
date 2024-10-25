@@ -40,6 +40,8 @@ import com.tomclaw.appsend.screen.reviews.di.ReviewsComponent
 import com.tomclaw.appsend.screen.reviews.di.ReviewsModule
 import com.tomclaw.appsend.screen.store.di.StoreComponent
 import com.tomclaw.appsend.screen.store.di.StoreModule
+import com.tomclaw.appsend.screen.subscribers.di.SubscribersComponent
+import com.tomclaw.appsend.screen.subscribers.di.SubscribersModule
 import com.tomclaw.appsend.screen.topics.di.TopicsComponent
 import com.tomclaw.appsend.screen.topics.di.TopicsModule
 import com.tomclaw.appsend.screen.upload.di.UploadComponent
@@ -96,6 +98,8 @@ interface AppComponent {
     fun installedComponent(module: InstalledModule): InstalledComponent
 
     fun distroComponent(module: DistroModule): DistroComponent
+
+    fun subscribersComponent(module: SubscribersModule): SubscribersComponent
 
     fun legacyComponent(module: LegacyModule): LegacyComponent
 
