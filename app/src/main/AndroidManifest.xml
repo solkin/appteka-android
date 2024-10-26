@@ -153,6 +153,7 @@
         <activity android:name=".screen.about.AboutActivity" />
         <activity android:name=".screen.installed.InstalledActivity" />
         <activity android:name=".screen.distro.DistroActivity" />
+        <activity android:name=".screen.subscriptions.SubscriptionsActivity" />
 
         <service android:name=".download.DownloadService" />
 

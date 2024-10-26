@@ -1,6 +1,6 @@
 package com.tomclaw.appsend.screen.subscribers.di
 
-import com.tomclaw.appsend.screen.subscribers.SubscribersActivity
+import com.tomclaw.appsend.screen.subscribers.SubscribersFragment
 import com.tomclaw.appsend.util.PerActivity
 import dagger.Subcomponent
 
@@ -8,6 +8,6 @@ import dagger.Subcomponent
 @Subcomponent(modules = [SubscribersModule::class])
 interface SubscribersComponent {
 
-    fun inject(activity: SubscribersActivity)
+    fun inject(fragment: SubscribersFragment)
 
 }

@@ -1,10 +1,12 @@
 package com.tomclaw.appsend.screen.subscribers
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
-import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatActivity.RESULT_OK
+import androidx.fragment.app.Fragment
 import com.avito.konveyor.ItemBinder
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
@@ -13,10 +15,9 @@ import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.screen.subscribers.di.SubscribersModule
 import com.tomclaw.appsend.util.Analytics
-import com.tomclaw.appsend.util.ThemeHelper
 import javax.inject.Inject
 
-class SubscribersActivity : AppCompatActivity(), SubscribersPresenter.SubscribersRouter {
+class SubscribersFragment : Fragment(), SubscribersPresenter.SubscribersRouter {
 
     @Inject
     lateinit var presenter: SubscribersPresenter
@@ -38,30 +39,34 @@ class SubscribersActivity : AppCompatActivity(), SubscribersPresenter.Subscriber
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val userId = intent.getIntExtra(EXTRA_USER_ID, 0)
+        val userId = arguments?.getInt(ARG_USER_ID)
+            ?: throw IllegalArgumentException("User ID must be provided")
+
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
         Appteka.getComponent()
-            .subscribersComponent(SubscribersModule(this, userId, presenterState))
-            .inject(activity = this)
-        ThemeHelper.updateTheme(this)
+            .subscribersComponent(SubscribersModule(userId, presenterState))
+            .inject(fragment = this)
 
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.subscribers_activity)
-
-        val adapter = SimpleRecyclerAdapter(adapterPresenter, binder)
-        val view = SubscribersViewImpl(window.decorView, adapter)
-
-        presenter.attachView(view)
 
         if (savedInstanceState == null) {
-            analytics.trackEvent("open-subscribers-screen")
+            analytics.trackEvent("open-subscribers-fragment")
         }
     }
 
-    @Deprecated("Deprecated in Java")
-    override fun onBackPressed() {
-        super.onBackPressed()
-        presenter.onBackPressed()
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.subscribers_fragment, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val adapter = SimpleRecyclerAdapter(adapterPresenter, binder)
+        val subscribersView = SubscribersViewImpl(view, adapter)
+
+        presenter.attachView(subscribersView)
     }
 
     override fun onStart() {
@@ -85,8 +90,9 @@ class SubscribersActivity : AppCompatActivity(), SubscribersPresenter.Subscriber
     }
 
     override fun openAppScreen(appId: String, title: String) {
+        val context = context ?: return
         val intent = createDetailsActivityIntent(
-            context = this,
+            context = context,
             appId = appId,
             label = title,
             moderation = false,
@@ -96,16 +102,23 @@ class SubscribersActivity : AppCompatActivity(), SubscribersPresenter.Subscriber
     }
 
     override fun leaveScreen() {
-        finish()
+        activity?.onBackPressed()
     }
 
 }
 
-fun createSubscribersActivityIntent(
-    context: Context,
-    userId: Int
-): Intent = Intent(context, SubscribersActivity::class.java)
-    .putExtra(EXTRA_USER_ID, userId)
+fun createSubscribersFragment(): SubscribersFragment = SubscribersFragment()
 
-private const val EXTRA_USER_ID = "user_id"
+fun createSubscribersFragment(
+    userId: Int,
+    withToolbar: Boolean = true,
+): SubscribersFragment = SubscribersFragment().apply {
+    arguments = Bundle().apply {
+        putInt(ARG_USER_ID, userId)
+        putBoolean(ARG_WITH_TOOLBAR, withToolbar)
+    }
+}
+
 private const val KEY_PRESENTER_STATE = "presenter_state"
+private const val ARG_USER_ID = "user_id"
+private const val ARG_WITH_TOOLBAR = "with_toolbar"
