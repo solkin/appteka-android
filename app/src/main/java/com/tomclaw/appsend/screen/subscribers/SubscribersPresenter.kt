@@ -26,8 +26,6 @@ interface SubscribersPresenter : ItemListener {
 
     fun saveState(): Bundle
 
-    fun onBackPressed()
-
     fun onUpdate()
 
     fun invalidateApps()
@@ -62,9 +60,6 @@ class SubscribersPresenterImpl(
     override fun attachView(view: SubscribersView) {
         this.view = view
 
-        subscriptions += view.navigationClicks().subscribe {
-            onBackPressed()
-        }
         subscriptions += view.retryClicks().subscribe {
             loadApps()
         }
@@ -176,10 +171,6 @@ class SubscribersPresenterImpl(
                 hasMore = false
                 hasError = true
             }
-    }
-
-    override fun onBackPressed() {
-        router?.leaveScreen()
     }
 
     override fun onUpdate() {

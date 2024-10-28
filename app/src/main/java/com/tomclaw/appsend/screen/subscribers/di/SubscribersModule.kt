@@ -19,6 +19,7 @@ import com.tomclaw.appsend.screen.subscribers.adapter.user.UserItemBlueprint
 import com.tomclaw.appsend.screen.subscribers.adapter.user.UserItemPresenter
 import com.tomclaw.appsend.util.PackageObserver
 import com.tomclaw.appsend.util.PerActivity
+import com.tomclaw.appsend.util.PerFragment
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
 import dagger.Module
@@ -33,7 +34,7 @@ class SubscribersModule(
 ) {
 
     @Provides
-    @PerActivity
+    @PerFragment
     internal fun providePresenter(
         interactor: SubscribersInteractor,
         adapterPresenter: Lazy<AdapterPresenter>,
@@ -48,7 +49,7 @@ class SubscribersModule(
     )
 
     @Provides
-    @PerActivity
+    @PerFragment
     internal fun provideInteractor(
         api: StoreApi,
         locale: Locale,
@@ -61,7 +62,7 @@ class SubscribersModule(
     )
 
     @Provides
-    @PerActivity
+    @PerFragment
     internal fun provideUserConverter(
         categoryConverter: CategoryConverter,
         packageObserver: PackageObserver
@@ -70,18 +71,18 @@ class SubscribersModule(
     }
 
     @Provides
-    @PerActivity
+    @PerFragment
     internal fun provideCategoryConverter(locale: Locale): CategoryConverter =
         CategoryConverterImpl(locale)
 
     @Provides
-    @PerActivity
+    @PerFragment
     internal fun provideAdapterPresenter(binder: ItemBinder): AdapterPresenter {
         return SimpleAdapterPresenter(binder, binder)
     }
 
     @Provides
-    @PerActivity
+    @PerFragment
     internal fun provideItemBinder(
         blueprintSet: Set<@JvmSuppressWildcards ItemBlueprint<*, *>>
     ): ItemBinder {
@@ -92,13 +93,13 @@ class SubscribersModule(
 
     @Provides
     @IntoSet
-    @PerActivity
+    @PerFragment
     internal fun provideUserItemBlueprint(
         presenter: UserItemPresenter
     ): ItemBlueprint<*, *> = UserItemBlueprint(presenter)
 
     @Provides
-    @PerActivity
+    @PerFragment
     internal fun provideAppItemPresenter(
         presenter: SubscribersPresenter
     ) = UserItemPresenter(presenter)

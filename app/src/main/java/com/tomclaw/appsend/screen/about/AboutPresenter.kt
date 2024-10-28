@@ -1,14 +1,10 @@
 package com.tomclaw.appsend.screen.about
 
 import android.os.Bundle
-import com.tomclaw.appsend.categories.DEFAULT_LOCALE
 import com.tomclaw.appsend.core.UserAgentProvider
-import com.tomclaw.appsend.user.api.UserBrief
 import com.tomclaw.appsend.util.SchedulersFactory
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
-import java.util.Locale
-import javax.inject.Inject
 
 interface AboutPresenter {
 
@@ -92,6 +88,3 @@ class AboutPresenterImpl(
     }
 
 }
-
-private const val KEY_RATING = "rating"
-private const val KEY_REVIEW = "review"

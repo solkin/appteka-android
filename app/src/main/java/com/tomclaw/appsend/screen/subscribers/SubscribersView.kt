@@ -33,8 +33,6 @@ interface SubscribersView {
 
     fun isPullRefreshing(): Boolean
 
-    fun navigationClicks(): Observable<Unit>
-
     fun retryClicks(): Observable<Unit>
 
     fun refreshClicks(): Observable<Unit>
@@ -46,22 +44,16 @@ class SubscribersViewImpl(
     private val adapter: SimpleRecyclerAdapter
 ) : SubscribersView {
 
-    private val context = view.context
-    private val toolbar: Toolbar = view.findViewById(R.id.toolbar)
     private val refresher: SwipeRefreshLayout = view.findViewById(R.id.swipe_refresh)
     private val flipper: ViewFlipper = view.findViewById(R.id.view_flipper)
     private val recycler: RecyclerView = view.findViewById(R.id.recycler)
     private val error: TextView = view.findViewById(R.id.error_text)
     private val retryButton: View = view.findViewById(R.id.button_retry)
 
-    private val navigationRelay = PublishRelay.create<Unit>()
     private val retryRelay = PublishRelay.create<Unit>()
     private val refreshRelay = PublishRelay.create<Unit>()
 
     init {
-        toolbar.setTitle(R.string.favorite_activity)
-        toolbar.setNavigationOnClickListener { navigationRelay.accept(Unit) }
-
         val orientation = RecyclerView.VERTICAL
         val layoutManager = LinearLayoutManager(view.context, orientation, false)
         adapter.setHasStableIds(true)
@@ -111,8 +103,6 @@ class SubscribersViewImpl(
     }
 
     override fun isPullRefreshing(): Boolean = refresher.isRefreshing
-
-    override fun navigationClicks(): Observable<Unit> = navigationRelay
 
     override fun retryClicks(): Observable<Unit> = retryRelay
 

@@ -111,14 +111,11 @@ fun createSubscribersFragment(): SubscribersFragment = SubscribersFragment()
 
 fun createSubscribersFragment(
     userId: Int,
-    withToolbar: Boolean = true,
 ): SubscribersFragment = SubscribersFragment().apply {
     arguments = Bundle().apply {
         putInt(ARG_USER_ID, userId)
-        putBoolean(ARG_WITH_TOOLBAR, withToolbar)
     }
 }
 
 private const val KEY_PRESENTER_STATE = "presenter_state"
 private const val ARG_USER_ID = "user_id"
-private const val ARG_WITH_TOOLBAR = "with_toolbar"
