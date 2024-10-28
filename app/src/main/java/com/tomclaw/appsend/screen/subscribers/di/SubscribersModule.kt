@@ -1,6 +1,5 @@
 package com.tomclaw.appsend.screen.subscribers.di
 
-import android.content.Context
 import android.os.Bundle
 import com.avito.konveyor.ItemBinder
 import com.avito.konveyor.adapter.AdapterPresenter
@@ -15,10 +14,8 @@ import com.tomclaw.appsend.screen.subscribers.SubscribersPresenter
 import com.tomclaw.appsend.screen.subscribers.SubscribersPresenterImpl
 import com.tomclaw.appsend.screen.subscribers.UserConverter
 import com.tomclaw.appsend.screen.subscribers.UserConverterImpl
-import com.tomclaw.appsend.screen.subscribers.adapter.user.UserItemBlueprint
-import com.tomclaw.appsend.screen.subscribers.adapter.user.UserItemPresenter
-import com.tomclaw.appsend.util.PackageObserver
-import com.tomclaw.appsend.util.PerActivity
+import com.tomclaw.appsend.screen.subscribers.adapter.subscriber.SubscriberItemBlueprint
+import com.tomclaw.appsend.screen.subscribers.adapter.subscriber.SubscriberItemPresenter
 import com.tomclaw.appsend.util.PerFragment
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
@@ -90,13 +87,14 @@ class SubscribersModule(
     @IntoSet
     @PerFragment
     internal fun provideUserItemBlueprint(
-        presenter: UserItemPresenter
-    ): ItemBlueprint<*, *> = UserItemBlueprint(presenter)
+        presenter: SubscriberItemPresenter
+    ): ItemBlueprint<*, *> = SubscriberItemBlueprint(presenter)
 
     @Provides
     @PerFragment
     internal fun provideAppItemPresenter(
+        locale: Locale,
         presenter: SubscribersPresenter
-    ) = UserItemPresenter(presenter)
+    ) = SubscriberItemPresenter(locale, presenter)
 
 }

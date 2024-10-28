@@ -1,4 +1,4 @@
-package com.tomclaw.appsend.screen.subscribers.adapter.user
+package com.tomclaw.appsend.screen.subscribers.adapter.subscriber
 
 import android.os.Parcelable
 import com.avito.konveyor.blueprint.Item
@@ -6,7 +6,7 @@ import com.tomclaw.appsend.user.api.UserBrief
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-class UserItem(
+class SubscriberItem(
     override val id: Long,
     val time: Long,
     val user: UserBrief,

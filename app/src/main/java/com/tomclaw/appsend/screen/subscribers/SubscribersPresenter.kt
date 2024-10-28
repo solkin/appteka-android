@@ -4,9 +4,8 @@ import android.os.Bundle
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.blueprint.Item
 import com.avito.konveyor.data_source.ListDataSource
-import com.tomclaw.appsend.dto.AppEntity
 import com.tomclaw.appsend.screen.subscribers.adapter.ItemListener
-import com.tomclaw.appsend.screen.subscribers.adapter.user.UserItem
+import com.tomclaw.appsend.screen.subscribers.adapter.subscriber.SubscriberItem
 import com.tomclaw.appsend.screen.subscribers.api.SubscriberEntity
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.getParcelableArrayListCompat
@@ -54,8 +53,8 @@ class SubscribersPresenterImpl(
 
     private val subscriptions = CompositeDisposable()
 
-    private var items: List<UserItem>? =
-        state?.getParcelableArrayListCompat(KEY_APPS, UserItem::class.java)
+    private var items: List<SubscriberItem>? =
+        state?.getParcelableArrayListCompat(KEY_APPS, SubscriberItem::class.java)
     private var isError: Boolean = state?.getBoolean(KEY_ERROR) ?: false
 
     override fun attachView(view: SubscribersView) {
