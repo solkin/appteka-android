@@ -3,7 +3,6 @@ package com.tomclaw.appsend.screen.subscriptions
 import android.annotation.SuppressLint
 import android.view.View
 import androidx.appcompat.widget.Toolbar
-import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
@@ -32,7 +31,6 @@ class SubscriptionsViewImpl(
     private val navigationRelay = PublishRelay.create<Unit>()
 
     init {
-        toolbar.setTitle(R.string.subscribers)
         toolbar.setNavigationOnClickListener { navigationRelay.accept(Unit) }
 
         pager.orientation = ViewPager2.ORIENTATION_HORIZONTAL
