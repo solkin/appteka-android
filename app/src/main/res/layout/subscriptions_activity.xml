@@ -35,6 +35,7 @@
                 app:tabIndicatorColor="?android:colorPrimary"
                 app:tabMode="auto"
                 app:tabSelectedTextColor="?android:textColorPrimary"
+                app:tabTextAppearance="@style/TabTextAppearance"
                 app:tabTextColor="?android:textColorPrimaryDisableOnly" />
 
         </androidx.appcompat.widget.Toolbar>

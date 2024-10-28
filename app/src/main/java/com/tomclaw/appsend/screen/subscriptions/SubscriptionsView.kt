@@ -8,7 +8,9 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.util.capitalize
 import io.reactivex.rxjava3.core.Observable
+import java.util.Locale
 
 interface SubscriptionsView {
 
@@ -24,6 +26,7 @@ class SubscriptionsViewImpl(
     private val adapter: SubscriptionsAdapter
 ) : SubscriptionsView {
 
+    private val context = view.context
     private val toolbar: Toolbar = view.findViewById(R.id.toolbar)
     private val tabs: TabLayout = view.findViewById(R.id.tabs)
     private val pager: ViewPager2 = view.findViewById(R.id.pager)
@@ -37,7 +40,8 @@ class SubscriptionsViewImpl(
         pager.adapter = adapter
 
         TabLayoutMediator(tabs, pager) { tab, position ->
-            tab.setText(adapter.getItemTitle(position))
+            tab.text = context.getString(adapter.getItemTitle(position))
+                .capitalize(Locale.getDefault())
         }.attach()
     }
 
