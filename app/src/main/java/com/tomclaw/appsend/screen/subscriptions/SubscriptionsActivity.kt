@@ -32,17 +32,10 @@ class SubscriptionsActivity : AppCompatActivity(), SubscriptionsPresenter.Subscr
         super.onCreate(savedInstanceState)
         setContentView(R.layout.subscriptions_activity)
 
-        val view = SubscriptionsViewImpl(window.decorView)
+        val adapter = SubscriptionsAdapter(supportFragmentManager, lifecycle, userId)
+        val view = SubscriptionsViewImpl(window.decorView, adapter)
 
         presenter.attachView(view)
-
-        if (savedInstanceState == null) {
-            val fragment = createSubscribersFragment(userId)
-            supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.fragment, fragment)
-                .commit()
-        }
 
         onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
