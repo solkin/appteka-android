@@ -21,8 +21,6 @@ interface SubscriptionsPresenter {
 
     interface SubscriptionsRouter {
 
-        fun openProfileScreen(userId: Int)
-
         fun leaveScreen()
 
     }

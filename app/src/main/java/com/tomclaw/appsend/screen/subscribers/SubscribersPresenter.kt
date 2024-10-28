@@ -7,6 +7,7 @@ import com.avito.konveyor.data_source.ListDataSource
 import com.tomclaw.appsend.dto.AppEntity
 import com.tomclaw.appsend.screen.subscribers.adapter.ItemListener
 import com.tomclaw.appsend.screen.subscribers.adapter.user.UserItem
+import com.tomclaw.appsend.screen.subscribers.api.SubscriberEntity
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.getParcelableArrayListCompat
 import com.tomclaw.appsend.util.retryWhenNonAuthErrors
@@ -32,7 +33,7 @@ interface SubscribersPresenter : ItemListener {
 
     interface SubscribersRouter {
 
-        fun openAppScreen(appId: String, title: String)
+        fun openProfileScreen(userId: Int)
 
         fun leaveScreen()
 
@@ -99,7 +100,7 @@ class SubscribersPresenterImpl(
     }
 
     private fun loadApps() {
-        subscriptions += interactor.listApps()
+        subscriptions += interactor.listSubscribers()
             .observeOn(schedulers.mainThread())
             .doOnSubscribe { if (view?.isPullRefreshing() == false) view?.showProgress() }
             .doAfterTerminate { onReady() }
@@ -112,8 +113,8 @@ class SubscribersPresenterImpl(
             )
     }
 
-    private fun loadApps(offsetAppId: String) {
-        subscriptions += interactor.listApps(offsetAppId)
+    private fun loadApps(offsetId: Int) {
+        subscriptions += interactor.listSubscribers(offsetId)
             .observeOn(schedulers.mainThread())
             .retryWhenNonAuthErrors()
             .doAfterTerminate { onReady() }
@@ -123,7 +124,7 @@ class SubscribersPresenterImpl(
             )
     }
 
-    private fun onLoaded(entities: List<AppEntity>) {
+    private fun onLoaded(entities: List<SubscriberEntity>) {
         isError = false
         val newItems = entities
             .map { converter.convert(it) }
@@ -178,27 +179,27 @@ class SubscribersPresenterImpl(
     }
 
     override fun onItemClick(item: Item) {
-        val app = items?.find { it.id == item.id } ?: return
-        router?.openAppScreen(app.appId, app.title)
+        val sub = items?.find { it.id == item.id } ?: return
+        router?.openProfileScreen(sub.user.userId)
     }
 
     override fun onRetryClick(item: Item) {
-        val app = items?.find { it.id == item.id } ?: return
+        val sub = items?.find { it.id == item.id } ?: return
         if (items?.isNotEmpty() == true) {
             items?.last()?.let {
                 it.hasProgress = true
                 it.hasError = false
             }
-            items?.indexOf(app)?.let {
+            items?.indexOf(sub)?.let {
                 view?.contentUpdated(it)
             }
         }
-        loadApps(app.appId)
+        loadApps(sub.id.toInt())
     }
 
     override fun onLoadMore(item: Item) {
-        val app = items?.find { it.id == item.id } ?: return
-        loadApps(app.appId)
+        val sub = items?.find { it.id == item.id } ?: return
+        loadApps(sub.id.toInt())
     }
 
 }

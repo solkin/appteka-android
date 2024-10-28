@@ -52,22 +52,17 @@ class SubscribersModule(
     @PerFragment
     internal fun provideInteractor(
         api: StoreApi,
-        locale: Locale,
         schedulers: SchedulersFactory
     ): SubscribersInteractor = SubscribersInteractorImpl(
         api,
         userId,
-        locale,
         schedulers
     )
 
     @Provides
     @PerFragment
-    internal fun provideUserConverter(
-        categoryConverter: CategoryConverter,
-        packageObserver: PackageObserver
-    ): UserConverter {
-        return UserConverterImpl(categoryConverter, packageObserver)
+    internal fun provideUserConverter(): UserConverter {
+        return UserConverterImpl()
     }
 
     @Provides

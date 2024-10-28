@@ -35,6 +35,7 @@ import com.tomclaw.appsend.screen.ratings.api.DeleteRatingResponse
 import com.tomclaw.appsend.screen.ratings.api.RatingsResponse
 import com.tomclaw.appsend.screen.reviews.api.ReviewsResponse
 import com.tomclaw.appsend.screen.store.api.AppsListResponse
+import com.tomclaw.appsend.screen.subscribers.api.SubscribersResponse
 import com.tomclaw.appsend.screen.topics.api.PinTopicResponse
 import com.tomclaw.appsend.screen.topics.api.TopicsResponse
 import com.tomclaw.appsend.screen.upload.api.CheckExistResponse
@@ -276,6 +277,12 @@ interface StoreApi {
     fun submitEvents(
         @Body body: SubmitEventsRequest,
     ): Single<StoreResponse<SubmitEventsResponse>>
+
+    @GET("1/feed/subscribers/list")
+    fun getSubscribersList(
+        @Query("user_id") userId: Int?,
+        @Query("id") rowId: Int?,
+    ): Single<StoreResponse<SubscribersResponse>>
 
     @POST("1/app/updates")
     fun checkUpdates(

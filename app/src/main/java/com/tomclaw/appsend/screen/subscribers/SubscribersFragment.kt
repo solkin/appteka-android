@@ -13,6 +13,7 @@ import com.avito.konveyor.adapter.SimpleRecyclerAdapter
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
+import com.tomclaw.appsend.screen.profile.createProfileActivityIntent
 import com.tomclaw.appsend.screen.subscribers.di.SubscribersModule
 import com.tomclaw.appsend.util.Analytics
 import javax.inject.Inject
@@ -89,16 +90,10 @@ class SubscribersFragment : Fragment(), SubscribersPresenter.SubscribersRouter {
         outState.putBundle(KEY_PRESENTER_STATE, presenter.saveState())
     }
 
-    override fun openAppScreen(appId: String, title: String) {
+    override fun openProfileScreen(userId: Int) {
         val context = context ?: return
-        val intent = createDetailsActivityIntent(
-            context = context,
-            appId = appId,
-            label = title,
-            moderation = false,
-            finishOnly = true
-        )
-        invalidateDetailsResultLauncher.launch(intent)
+        val intent = createProfileActivityIntent(context, userId)
+        startActivity(intent)
     }
 
     override fun leaveScreen() {

@@ -65,11 +65,6 @@ class SubscriptionsActivity : AppCompatActivity(), SubscriptionsPresenter.Subscr
         super.onDestroy()
     }
 
-    override fun openProfileScreen(userId: Int) {
-        val intent = createProfileActivityIntent(context = this, userId)
-        startActivity(intent)
-    }
-
     override fun leaveScreen() {
         finish()
     }

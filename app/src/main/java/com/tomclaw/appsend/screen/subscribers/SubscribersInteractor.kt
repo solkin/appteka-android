@@ -1,33 +1,30 @@
 package com.tomclaw.appsend.screen.subscribers
 
 import com.tomclaw.appsend.core.StoreApi
-import com.tomclaw.appsend.dto.AppEntity
+import com.tomclaw.appsend.screen.subscribers.api.SubscriberEntity
 import com.tomclaw.appsend.util.SchedulersFactory
 import io.reactivex.rxjava3.core.Observable
-import java.util.Locale
 
 interface SubscribersInteractor {
 
-    fun listApps(offsetAppId: String? = null): Observable<List<AppEntity>>
+    fun listSubscribers(offsetId: Int? = null): Observable<List<SubscriberEntity>>
 
 }
 
 class SubscribersInteractorImpl(
     private val api: StoreApi,
     private val userId: Int,
-    private val locale: Locale,
     private val schedulers: SchedulersFactory
 ) : SubscribersInteractor {
 
-    override fun listApps(offsetAppId: String?): Observable<List<AppEntity>> {
+    override fun listSubscribers(offsetId: Int?): Observable<List<SubscriberEntity>> {
         return api
-            .getFavoriteList(
+            .getSubscribersList(
                 userId = userId,
-                appId = offsetAppId,
-                locale = locale.language
+                rowId = offsetId,
             )
             .map { list ->
-                list.result.files
+                list.result.entries
             }
             .toObservable()
             .subscribeOn(schedulers.io())
