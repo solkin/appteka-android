@@ -18,6 +18,8 @@ interface SubscriberItemView : ItemView {
 
     fun setUserName(name: String)
 
+    fun setSubscribedDate(formatSubscribedTime: String)
+
     fun showProgress()
 
     fun hideProgress()
@@ -33,7 +35,7 @@ interface SubscriberItemView : ItemView {
 class SubscriberItemViewHolder(view: View) : BaseViewHolder(view), SubscriberItemView {
 
     private val context = view.context
-    private val userIcon: UserIconView = UserIconViewImpl(view.findViewById(R.id.user_icon))
+    private val userIcon: UserIconView = UserIconViewImpl(view.findViewById(R.id.member_icon))
     private val userName: TextView = view.findViewById(R.id.user_name)
     private val dateView: TextView = view.findViewById(R.id.date_view)
     private val progress: View = view.findViewById(R.id.item_progress)
@@ -51,6 +53,10 @@ class SubscriberItemViewHolder(view: View) : BaseViewHolder(view), SubscriberIte
 
     override fun setUserName(name: String) {
         userName.bind(name)
+    }
+
+    override fun setSubscribedDate(value: String) {
+        dateView.bind(value)
     }
 
     override fun showProgress() {

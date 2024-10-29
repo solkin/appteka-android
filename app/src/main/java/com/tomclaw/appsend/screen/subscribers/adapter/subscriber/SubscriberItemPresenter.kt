@@ -7,6 +7,7 @@ import java.util.Locale
 
 class SubscriberItemPresenter(
     private val locale: Locale,
+    private val resourceProvider: SubscriberResourceProvider,
     private val listener: ItemListener,
 ) : ItemPresenter<SubscriberItemView, SubscriberItem> {
 
@@ -25,6 +26,7 @@ class SubscriberItemPresenter(
             ?: item.user.userIcon.label[DEFAULT_LOCALE].orEmpty()
         view.setUserName(name)
         view.setUserIcon(item.user.userIcon)
+        view.setSubscribedDate(resourceProvider.formatSubscribedDate(item.time))
         if (item.hasProgress) view.showProgress() else view.hideProgress()
         view.setOnRetryListener { listener.onRetryClick(item) }
     }

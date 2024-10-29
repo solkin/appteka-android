@@ -40,12 +40,13 @@ class SubscribersFragment : Fragment(), SubscribersPresenter.SubscribersRouter {
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val context = context ?: return
         val userId = arguments?.getInt(ARG_USER_ID)
             ?: throw IllegalArgumentException("User ID must be provided")
 
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
         Appteka.getComponent()
-            .subscribersComponent(SubscribersModule(userId, presenterState))
+            .subscribersComponent(SubscribersModule(context, userId, presenterState))
             .inject(fragment = this)
 
         super.onCreate(savedInstanceState)

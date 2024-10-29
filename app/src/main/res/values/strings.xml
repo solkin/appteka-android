@@ -331,4 +331,5 @@
     <string name="unsubscribe">Unsubscribe</string>
     <string name="unable_to_change_subscription_state">Failed to change subscription state</string>
     <string name="subscriptions_activity">Subscriptions</string>
+    <string name="subscribed_date">Subscribed %s</string>
 </resources>
