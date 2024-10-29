@@ -7,17 +7,16 @@ import io.reactivex.rxjava3.core.Observable
 
 interface SubscribersInteractor {
 
-    fun listSubscribers(offsetId: Int? = null): Observable<List<SubscriberEntity>>
+    fun listSubscribers(userId: Int, offsetId: Int? = null): Observable<List<SubscriberEntity>>
 
 }
 
 class SubscribersInteractorImpl(
     private val api: StoreApi,
-    private val userId: Int,
     private val schedulers: SchedulersFactory
 ) : SubscribersInteractor {
 
-    override fun listSubscribers(offsetId: Int?): Observable<List<SubscriberEntity>> {
+    override fun listSubscribers(userId: Int, offsetId: Int?): Observable<List<SubscriberEntity>> {
         return api
             .getSubscribersList(
                 userId = userId,

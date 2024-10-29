@@ -102,8 +102,6 @@ class SubscribersFragment : Fragment(), SubscribersPresenter.SubscribersRouter {
 
 }
 
-fun createSubscribersFragment(): SubscribersFragment = SubscribersFragment()
-
 fun createSubscribersFragment(
     userId: Int,
 ): SubscribersFragment = SubscribersFragment().apply {

@@ -7,8 +7,6 @@ import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
-import com.tomclaw.appsend.screen.profile.createProfileActivityIntent
-import com.tomclaw.appsend.screen.subscribers.createSubscribersFragment
 import com.tomclaw.appsend.screen.subscriptions.di.SubscriptionsModule
 import com.tomclaw.appsend.util.ThemeHelper
 import javax.inject.Inject

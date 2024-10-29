@@ -6,6 +6,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.Lifecycle
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.screen.profile.createProfileFragment
 import com.tomclaw.appsend.screen.subscribers.createSubscribersFragment
 
 class SubscriptionsAdapter internal constructor(
@@ -29,12 +30,9 @@ class SubscriptionsAdapter internal constructor(
     override fun createFragment(position: Int): Fragment {
         val fragment = when(position) {
             0 -> createSubscribersFragment(userId)
-            1 -> createSubscribersFragment(userId) // TODO: replace with publishers fragment
+            1 -> createProfileFragment(userId, withToolbar = false) // TODO: replace with publishers fragment
             else -> throw IllegalStateException("Invalid fragment index")
         }
-//        val fragment = fragments[position]
-        val args = Bundle()
-        fragment.arguments = args
         return fragment
     }
 }

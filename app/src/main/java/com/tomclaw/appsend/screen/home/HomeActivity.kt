@@ -20,6 +20,8 @@ import com.tomclaw.appsend.screen.home.di.HomeModule
 import com.tomclaw.appsend.screen.moderation.createModerationActivityIntent
 import com.tomclaw.appsend.screen.profile.createProfileFragment
 import com.tomclaw.appsend.screen.store.createStoreFragment
+import com.tomclaw.appsend.screen.subscriptions.Tab
+import com.tomclaw.appsend.screen.subscriptions.createSubscriptionsActivityIntent
 import com.tomclaw.appsend.screen.topics.createTopicsFragment
 import com.tomclaw.appsend.screen.upload.createUploadActivityIntent
 import com.tomclaw.appsend.util.Analytics
@@ -62,6 +64,9 @@ class HomeActivity : AppCompatActivity(), HomePresenter.HomeRouter {
         if (savedInstanceState == null) {
             analytics.trackEvent("open-home-screen")
         }
+
+        val intent = createSubscriptionsActivityIntent(context = this, userId = 1, activeTab = Tab.SUBSCRIBERS)
+        startActivity(intent)
     }
 
     override fun showStoreFragment() {

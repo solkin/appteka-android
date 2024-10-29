@@ -38,6 +38,7 @@ class SubscribersModule(
         converter: UserConverter,
         schedulers: SchedulersFactory
     ): SubscribersPresenter = SubscribersPresenterImpl(
+        userId,
         interactor,
         adapterPresenter,
         converter,
@@ -52,7 +53,6 @@ class SubscribersModule(
         schedulers: SchedulersFactory
     ): SubscribersInteractor = SubscribersInteractorImpl(
         api,
-        userId,
         schedulers
     )
 

@@ -41,6 +41,7 @@ interface SubscribersPresenter : ItemListener {
 }
 
 class SubscribersPresenterImpl(
+    private val userId: Int,
     private val interactor: SubscribersInteractor,
     private val adapterPresenter: Lazy<AdapterPresenter>,
     private val converter: UserConverter,
@@ -99,7 +100,7 @@ class SubscribersPresenterImpl(
     }
 
     private fun loadApps() {
-        subscriptions += interactor.listSubscribers()
+        subscriptions += interactor.listSubscribers(userId)
             .observeOn(schedulers.mainThread())
             .doOnSubscribe { if (view?.isPullRefreshing() == false) view?.showProgress() }
             .doAfterTerminate { onReady() }
@@ -113,7 +114,7 @@ class SubscribersPresenterImpl(
     }
 
     private fun loadApps(offsetId: Int) {
-        subscriptions += interactor.listSubscribers(offsetId)
+        subscriptions += interactor.listSubscribers(userId, offsetId)
             .observeOn(schedulers.mainThread())
             .retryWhenNonAuthErrors()
             .doAfterTerminate { onReady() }
