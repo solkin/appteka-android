@@ -1,4 +1,4 @@
-package com.tomclaw.appsend.screen.subscribers
+package com.tomclaw.appsend.screen.users
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,16 +12,15 @@ import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
-import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.screen.profile.createProfileActivityIntent
-import com.tomclaw.appsend.screen.subscribers.di.SubscribersModule
+import com.tomclaw.appsend.screen.users.di.SubscribersModule
 import com.tomclaw.appsend.util.Analytics
 import javax.inject.Inject
 
-class SubscribersFragment : Fragment(), SubscribersPresenter.SubscribersRouter {
+class UsersFragment : Fragment(), UsersPresenter.SubscribersRouter {
 
     @Inject
-    lateinit var presenter: SubscribersPresenter
+    lateinit var presenter: UsersPresenter
 
     @Inject
     lateinit var adapterPresenter: AdapterPresenter
@@ -43,10 +42,13 @@ class SubscribersFragment : Fragment(), SubscribersPresenter.SubscribersRouter {
         val context = context ?: return
         val userId = arguments?.getInt(ARG_USER_ID)
             ?: throw IllegalArgumentException("User ID must be provided")
+        val name = arguments?.getString(ARG_USERS_TYPE)
+            ?: throw IllegalArgumentException("User ID must be provided")
+        val type = UsersType.valueOf(name)
 
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
         Appteka.getComponent()
-            .subscribersComponent(SubscribersModule(context, userId, presenterState))
+            .subscribersComponent(SubscribersModule(context, type, userId, presenterState))
             .inject(fragment = this)
 
         super.onCreate(savedInstanceState)
@@ -66,7 +68,7 @@ class SubscribersFragment : Fragment(), SubscribersPresenter.SubscribersRouter {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val adapter = SimpleRecyclerAdapter(adapterPresenter, binder)
-        val subscribersView = SubscribersViewImpl(view, adapter)
+        val subscribersView = UsersViewImpl(view, adapter)
 
         presenter.attachView(subscribersView)
     }
@@ -103,13 +105,21 @@ class SubscribersFragment : Fragment(), SubscribersPresenter.SubscribersRouter {
 
 }
 
-fun createSubscribersFragment(
+fun createUsersFragment(
     userId: Int,
-): SubscribersFragment = SubscribersFragment().apply {
+    type: UsersType,
+): UsersFragment = UsersFragment().apply {
     arguments = Bundle().apply {
         putInt(ARG_USER_ID, userId)
+        putString(ARG_USERS_TYPE, type.name)
     }
+}
+
+enum class UsersType {
+    SUBSCRIBERS,
+    PUBLISHERS,
 }
 
 private const val KEY_PRESENTER_STATE = "presenter_state"
 private const val ARG_USER_ID = "user_id"
+private const val ARG_USERS_TYPE = "users_type"

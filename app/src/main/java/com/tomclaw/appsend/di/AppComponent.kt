@@ -40,8 +40,8 @@ import com.tomclaw.appsend.screen.reviews.di.ReviewsComponent
 import com.tomclaw.appsend.screen.reviews.di.ReviewsModule
 import com.tomclaw.appsend.screen.store.di.StoreComponent
 import com.tomclaw.appsend.screen.store.di.StoreModule
-import com.tomclaw.appsend.screen.subscribers.di.SubscribersComponent
-import com.tomclaw.appsend.screen.subscribers.di.SubscribersModule
+import com.tomclaw.appsend.screen.users.di.SubscribersComponent
+import com.tomclaw.appsend.screen.users.di.SubscribersModule
 import com.tomclaw.appsend.screen.subscriptions.di.SubscriptionsComponent
 import com.tomclaw.appsend.screen.subscriptions.di.SubscriptionsModule
 import com.tomclaw.appsend.screen.topics.di.TopicsComponent

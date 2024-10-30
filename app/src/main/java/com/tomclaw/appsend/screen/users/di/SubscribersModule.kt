@@ -1,4 +1,4 @@
-package com.tomclaw.appsend.screen.subscribers.di
+package com.tomclaw.appsend.screen.users.di
 
 import android.content.Context
 import android.os.Bundle
@@ -9,16 +9,18 @@ import com.avito.konveyor.blueprint.ItemBlueprint
 import com.tomclaw.appsend.categories.CategoryConverter
 import com.tomclaw.appsend.categories.CategoryConverterImpl
 import com.tomclaw.appsend.core.StoreApi
-import com.tomclaw.appsend.screen.subscribers.SubscribersInteractor
-import com.tomclaw.appsend.screen.subscribers.SubscribersInteractorImpl
-import com.tomclaw.appsend.screen.subscribers.SubscribersPresenter
-import com.tomclaw.appsend.screen.subscribers.SubscribersPresenterImpl
-import com.tomclaw.appsend.screen.subscribers.UserConverter
-import com.tomclaw.appsend.screen.subscribers.UserConverterImpl
-import com.tomclaw.appsend.screen.subscribers.adapter.subscriber.SubscriberItemBlueprint
-import com.tomclaw.appsend.screen.subscribers.adapter.subscriber.SubscriberItemPresenter
-import com.tomclaw.appsend.screen.subscribers.adapter.subscriber.SubscriberResourceProvider
-import com.tomclaw.appsend.screen.subscribers.adapter.subscriber.SubscriberResourceProviderImpl
+import com.tomclaw.appsend.screen.users.PublishersInteractor
+import com.tomclaw.appsend.screen.users.UsersInteractor
+import com.tomclaw.appsend.screen.users.SubscribersInteractor
+import com.tomclaw.appsend.screen.users.UsersPresenter
+import com.tomclaw.appsend.screen.users.UsersPresenterImpl
+import com.tomclaw.appsend.screen.users.UserConverter
+import com.tomclaw.appsend.screen.users.UserConverterImpl
+import com.tomclaw.appsend.screen.users.UsersType
+import com.tomclaw.appsend.screen.users.adapter.subscriber.SubscriberItemBlueprint
+import com.tomclaw.appsend.screen.users.adapter.subscriber.SubscriberItemPresenter
+import com.tomclaw.appsend.screen.users.adapter.UsersResourceProvider
+import com.tomclaw.appsend.screen.users.adapter.UsersResourceProviderImpl
 import com.tomclaw.appsend.util.PerFragment
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
@@ -30,6 +32,7 @@ import java.util.Locale
 @Module
 class SubscribersModule(
     private val context: Context,
+    private val type: UsersType,
     private val userId: Int,
     private val state: Bundle?
 ) {
@@ -37,11 +40,11 @@ class SubscribersModule(
     @Provides
     @PerFragment
     internal fun providePresenter(
-        interactor: SubscribersInteractor,
+        interactor: UsersInteractor,
         adapterPresenter: Lazy<AdapterPresenter>,
         converter: UserConverter,
         schedulers: SchedulersFactory
-    ): SubscribersPresenter = SubscribersPresenterImpl(
+    ): UsersPresenter = UsersPresenterImpl(
         userId,
         interactor,
         adapterPresenter,
@@ -55,10 +58,10 @@ class SubscribersModule(
     internal fun provideInteractor(
         api: StoreApi,
         schedulers: SchedulersFactory
-    ): SubscribersInteractor = SubscribersInteractorImpl(
-        api,
-        schedulers
-    )
+    ): UsersInteractor = when (type) {
+        UsersType.SUBSCRIBERS -> SubscribersInteractor(api, schedulers)
+        UsersType.PUBLISHERS -> PublishersInteractor(api, schedulers)
+    }
 
     @Provides
     @PerFragment
@@ -98,14 +101,14 @@ class SubscribersModule(
     @PerFragment
     internal fun provideAppItemPresenter(
         locale: Locale,
-        resourceProvider: SubscriberResourceProvider,
-        presenter: SubscribersPresenter
+        resourceProvider: UsersResourceProvider,
+        presenter: UsersPresenter
     ) = SubscriberItemPresenter(locale, resourceProvider, presenter)
 
     @Provides
     @PerFragment
-    internal fun provideSubscriberResourceProvider(): SubscriberResourceProvider {
-        return SubscriberResourceProviderImpl(context)
+    internal fun provideSubscriberResourceProvider(): UsersResourceProvider {
+        return UsersResourceProviderImpl(context)
     }
 
 }

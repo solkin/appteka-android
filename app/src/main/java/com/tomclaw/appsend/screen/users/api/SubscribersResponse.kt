@@ -1,4 +1,4 @@
-package com.tomclaw.appsend.screen.subscribers.api
+package com.tomclaw.appsend.screen.users.api
 
 import com.google.gson.annotations.SerializedName
 

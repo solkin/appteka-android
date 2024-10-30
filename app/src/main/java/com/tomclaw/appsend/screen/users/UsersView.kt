@@ -1,10 +1,9 @@
-package com.tomclaw.appsend.screen.subscribers
+package com.tomclaw.appsend.screen.users
 
 import android.annotation.SuppressLint
 import android.view.View
 import android.widget.TextView
 import android.widget.ViewFlipper
-import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -15,7 +14,7 @@ import com.tomclaw.appsend.R
 import com.tomclaw.appsend.util.clicks
 import io.reactivex.rxjava3.core.Observable
 
-interface SubscribersView {
+interface UsersView {
 
     fun showProgress()
 
@@ -39,10 +38,10 @@ interface SubscribersView {
 
 }
 
-class SubscribersViewImpl(
+class UsersViewImpl(
     view: View,
     private val adapter: SimpleRecyclerAdapter
-) : SubscribersView {
+) : UsersView {
 
     private val refresher: SwipeRefreshLayout = view.findViewById(R.id.swipe_refresh)
     private val flipper: ViewFlipper = view.findViewById(R.id.view_flipper)

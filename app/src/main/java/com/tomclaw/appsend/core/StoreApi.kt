@@ -35,10 +35,11 @@ import com.tomclaw.appsend.screen.ratings.api.DeleteRatingResponse
 import com.tomclaw.appsend.screen.ratings.api.RatingsResponse
 import com.tomclaw.appsend.screen.reviews.api.ReviewsResponse
 import com.tomclaw.appsend.screen.store.api.AppsListResponse
-import com.tomclaw.appsend.screen.subscribers.api.SubscribersResponse
 import com.tomclaw.appsend.screen.topics.api.PinTopicResponse
 import com.tomclaw.appsend.screen.topics.api.TopicsResponse
 import com.tomclaw.appsend.screen.upload.api.CheckExistResponse
+import com.tomclaw.appsend.screen.users.api.PublishersResponse
+import com.tomclaw.appsend.screen.users.api.SubscribersResponse
 import com.tomclaw.appsend.upload.SetMetaResponse
 import com.tomclaw.appsend.user.api.UserBrief
 import io.reactivex.rxjava3.core.Single
@@ -283,6 +284,12 @@ interface StoreApi {
         @Query("user_id") userId: Int?,
         @Query("id") rowId: Int?,
     ): Single<StoreResponse<SubscribersResponse>>
+
+    @GET("1/feed/publishers/list")
+    fun getPublishersList(
+        @Query("user_id") userId: Int?,
+        @Query("id") rowId: Int?,
+    ): Single<StoreResponse<PublishersResponse>>
 
     @POST("1/app/updates")
     fun checkUpdates(

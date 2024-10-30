@@ -1,4 +1,4 @@
-package com.tomclaw.appsend.screen.subscribers.adapter.subscriber
+package com.tomclaw.appsend.screen.users.adapter.subscriber
 
 import com.avito.konveyor.blueprint.Item
 import com.avito.konveyor.blueprint.ItemBlueprint

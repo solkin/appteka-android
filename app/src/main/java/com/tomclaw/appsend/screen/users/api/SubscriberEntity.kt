@@ -1,4 +1,4 @@
-package com.tomclaw.appsend.screen.subscribers.api
+package com.tomclaw.appsend.screen.users.api
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
@@ -13,4 +13,4 @@ data class SubscriberEntity(
     val time: Long,
     @SerializedName("user")
     val user: UserBrief,
-) : Parcelable
+) : UserEntity, Parcelable

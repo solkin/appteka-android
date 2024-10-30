@@ -1,17 +1,18 @@
-package com.tomclaw.appsend.screen.subscribers.adapter.subscriber
+package com.tomclaw.appsend.screen.users.adapter.publisher
 
 import com.avito.konveyor.blueprint.ItemPresenter
 import com.tomclaw.appsend.categories.DEFAULT_LOCALE
-import com.tomclaw.appsend.screen.subscribers.adapter.ItemListener
+import com.tomclaw.appsend.screen.users.adapter.ItemListener
+import com.tomclaw.appsend.screen.users.adapter.UsersResourceProvider
 import java.util.Locale
 
-class SubscriberItemPresenter(
+class PublisherItemPresenter(
     private val locale: Locale,
-    private val resourceProvider: SubscriberResourceProvider,
+    private val resourceProvider: UsersResourceProvider,
     private val listener: ItemListener,
-) : ItemPresenter<SubscriberItemView, SubscriberItem> {
+) : ItemPresenter<PublisherItemView, PublisherItem> {
 
-    override fun bindView(view: SubscriberItemView, item: SubscriberItem, position: Int) {
+    override fun bindView(view: PublisherItemView, item: PublisherItem, position: Int) {
         with(item) {
             if (hasMore) {
                 hasMore = false

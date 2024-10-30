@@ -1,4 +1,4 @@
-package com.tomclaw.appsend.screen.subscribers.adapter.subscriber
+package com.tomclaw.appsend.screen.users.adapter.subscriber
 
 import android.view.View
 import android.view.View.GONE

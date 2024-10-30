@@ -1,19 +1,19 @@
-package com.tomclaw.appsend.screen.subscribers.adapter.subscriber
+package com.tomclaw.appsend.screen.users.adapter
 
 import android.content.Context
 import android.text.format.DateUtils
 import com.tomclaw.appsend.R
 import java.util.concurrent.TimeUnit
 
-interface SubscriberResourceProvider {
+interface UsersResourceProvider {
 
     fun formatSubscribedDate(date: Long): String
 
 }
 
-class SubscriberResourceProviderImpl(
+class UsersResourceProviderImpl(
     private val context: Context,
-) : SubscriberResourceProvider {
+) : UsersResourceProvider {
 
     override fun formatSubscribedDate(date: Long): String {
         return context.getString(
