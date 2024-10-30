@@ -26,8 +26,6 @@ interface SubscriberItemView : ItemView {
 
     fun setOnClickListener(listener: (() -> Unit)?)
 
-    fun setOnRetryListener(listener: (() -> Unit)?)
-
     fun setClickable(clickable: Boolean)
 
 }
@@ -41,7 +39,6 @@ class SubscriberItemViewHolder(view: View) : BaseViewHolder(view), SubscriberIte
     private val progress: View = view.findViewById(R.id.item_progress)
 
     private var clickListener: (() -> Unit)? = null
-    private var retryListener: (() -> Unit)? = null
 
     init {
         view.setOnClickListener { clickListener?.invoke() }
@@ -75,13 +72,8 @@ class SubscriberItemViewHolder(view: View) : BaseViewHolder(view), SubscriberIte
         itemView.isClickable = clickable
     }
 
-    override fun setOnRetryListener(listener: (() -> Unit)?) {
-        this.retryListener = listener
-    }
-
     override fun onUnbind() {
         this.clickListener = null
-        this.retryListener = null
     }
 
 }

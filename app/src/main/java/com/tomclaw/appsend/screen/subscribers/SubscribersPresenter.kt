@@ -170,7 +170,6 @@ class SubscribersPresenterImpl(
             ?.apply {
                 hasProgress = false
                 hasMore = false
-                hasError = true
             }
     }
 
@@ -181,20 +180,6 @@ class SubscribersPresenterImpl(
     override fun onItemClick(item: Item) {
         val sub = items?.find { it.id == item.id } ?: return
         router?.openProfileScreen(sub.user.userId)
-    }
-
-    override fun onRetryClick(item: Item) {
-        val sub = items?.find { it.id == item.id } ?: return
-        if (items?.isNotEmpty() == true) {
-            items?.last()?.let {
-                it.hasProgress = true
-                it.hasError = false
-            }
-            items?.indexOf(sub)?.let {
-                view?.contentUpdated(it)
-            }
-        }
-        loadApps(sub.id.toInt())
     }
 
     override fun onLoadMore(item: Item) {

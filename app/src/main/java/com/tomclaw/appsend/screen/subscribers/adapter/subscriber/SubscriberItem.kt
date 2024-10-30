@@ -11,6 +11,5 @@ class SubscriberItem(
     val time: Long,
     val user: UserBrief,
     var hasMore: Boolean = false,
-    var hasError: Boolean = false,
     var hasProgress: Boolean = false,
 ) : Item, Parcelable

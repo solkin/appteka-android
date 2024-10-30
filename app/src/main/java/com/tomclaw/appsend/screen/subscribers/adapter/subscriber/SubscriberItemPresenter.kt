@@ -16,7 +16,6 @@ class SubscriberItemPresenter(
             if (hasMore) {
                 hasMore = false
                 hasProgress = true
-                hasError = false
                 listener.onLoadMore(this)
             }
         }
@@ -28,7 +27,7 @@ class SubscriberItemPresenter(
         view.setUserIcon(item.user.userIcon)
         view.setSubscribedDate(resourceProvider.formatSubscribedDate(item.time))
         if (item.hasProgress) view.showProgress() else view.hideProgress()
-        view.setOnRetryListener { listener.onRetryClick(item) }
+        view.setOnClickListener { listener.onItemClick(item) }
     }
 
 }
