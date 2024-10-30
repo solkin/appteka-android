@@ -31,13 +31,6 @@ class UsersFragment : Fragment(), UsersPresenter.SubscribersRouter {
     @Inject
     lateinit var analytics: Analytics
 
-    private val invalidateDetailsResultLauncher =
-        registerForActivityResult(StartActivityForResult()) { result ->
-            if (result.resultCode == RESULT_OK) {
-                presenter.invalidateApps()
-            }
-        }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         val context = context ?: return
         val userId = arguments?.getInt(ARG_USER_ID)
