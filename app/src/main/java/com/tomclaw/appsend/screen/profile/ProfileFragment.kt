@@ -20,6 +20,8 @@ import com.tomclaw.appsend.screen.favorite.createFavoriteActivityIntent
 import com.tomclaw.appsend.screen.profile.di.PROFILE_ADAPTER_PRESENTER
 import com.tomclaw.appsend.screen.profile.di.ProfileModule
 import com.tomclaw.appsend.screen.reviews.createReviewsActivityIntent
+import com.tomclaw.appsend.screen.subscriptions.Tab
+import com.tomclaw.appsend.screen.subscriptions.createSubscriptionsActivityIntent
 import com.tomclaw.appsend.util.Analytics
 import javax.inject.Inject
 import javax.inject.Named
@@ -141,6 +143,18 @@ class ProfileFragment : Fragment(), ProfilePresenter.ProfileRouter {
         val context = context ?: return
         val intent = createRequestCodeActivityIntent(context)
         authLauncher.launch(intent)
+    }
+
+    override fun openSubscribersScreen(userId: Int) {
+        val context = context ?: return
+        val intent = createSubscriptionsActivityIntent(context, userId, activeTab = Tab.SUBSCRIBERS)
+        startActivity(intent)
+    }
+
+    override fun openPublishersScreen(userId: Int) {
+        val context = context ?: return
+        val intent = createSubscriptionsActivityIntent(context, userId, activeTab = Tab.PUBLISHERS)
+        startActivity(intent)
     }
 
     override fun leaveScreen() {

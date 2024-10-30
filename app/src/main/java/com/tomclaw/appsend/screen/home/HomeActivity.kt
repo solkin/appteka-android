@@ -64,9 +64,6 @@ class HomeActivity : AppCompatActivity(), HomePresenter.HomeRouter {
         if (savedInstanceState == null) {
             analytics.trackEvent("open-home-screen")
         }
-
-        val intent = createSubscriptionsActivityIntent(context = this, userId = 1, activeTab = Tab.SUBSCRIBERS)
-        startActivity(intent)
     }
 
     override fun showStoreFragment() {

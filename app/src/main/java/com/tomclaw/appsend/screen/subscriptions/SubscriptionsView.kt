@@ -14,6 +14,8 @@ import java.util.Locale
 
 interface SubscriptionsView {
 
+    fun setSelectedPage(index: Int)
+
     fun navigationClicks(): Observable<Unit>
 
     @SuppressLint("NotifyDataSetChanged")
@@ -48,6 +50,10 @@ class SubscriptionsViewImpl(
     @SuppressLint("NotifyDataSetChanged")
     override fun contentUpdated() {
         adapter.notifyDataSetChanged()
+    }
+
+    override fun setSelectedPage(index: Int) {
+        pager.setCurrentItem(index, false)
     }
 
     override fun navigationClicks(): Observable<Unit> = navigationRelay

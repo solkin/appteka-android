@@ -12,8 +12,8 @@ class FeedItemPresenter(
         view.setSubsCount(item.subsCount)
         view.setPubsCount(item.pubsCount)
         view.setOnFeedClickListener { listener.onFeedClick() }
-        view.setOnSubsClickListener { listener.onSubsClick() }
-        view.setOnPubsClickListener { listener.onPubsClick() }
+        view.setOnSubsClickListener { listener.onSubscribersClick() }
+        view.setOnPubsClickListener { listener.onPublishersClick() }
     }
 
 }

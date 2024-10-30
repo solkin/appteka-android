@@ -14,7 +14,6 @@ import com.tomclaw.appsend.util.getParcelableArrayListCompat
 import com.tomclaw.appsend.util.getParcelableCompat
 import com.tomclaw.appsend.util.retryWhenNonAuthErrors
 import dagger.Lazy
-import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.Observables
 import io.reactivex.rxjava3.kotlin.plusAssign
@@ -46,6 +45,10 @@ interface ProfilePresenter : ItemListener {
         fun openShareUrlDialog(text: String)
 
         fun openLoginScreen()
+
+        fun openSubscribersScreen(userId: Int)
+
+        fun openPublishersScreen(userId: Int)
 
         fun leaveScreen()
 
@@ -173,17 +176,19 @@ class ProfilePresenterImpl(
         TODO("Not yet implemented")
     }
 
-    override fun onSubsClick() {
-        TODO("Not yet implemented")
+    override fun onSubscribersClick() {
+        val profile = profile?.profile ?: return
+        router?.openSubscribersScreen(profile.userId)
     }
 
-    override fun onPubsClick() {
-        TODO("Not yet implemented")
+    override fun onPublishersClick() {
+        val profile = profile?.profile ?: return
+        router?.openPublishersScreen(profile.userId)
     }
 
     override fun onSubscribeClick() {
-        userId ?: return
-        subscriptions += interactor.subscribe(userId)
+        val profile = profile?.profile ?: return
+        subscriptions += interactor.subscribe(profile.userId)
             .observeOn(schedulers.mainThread())
             .subscribe(
                 { loadProfile() },

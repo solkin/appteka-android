@@ -17,8 +17,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:orientation="vertical"
+        android:background="?selectableItemBackgroundBorderless"
         android:gravity="center_horizontal"
+        android:orientation="vertical"
         android:paddingStart="0dp"
         android:paddingEnd="8dp">
 
@@ -27,18 +28,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-medium"
-            tools:text="1 426"
             android:textColor="?colorPrimaryVariant"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            tools:text="1 426" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif"
             android:paddingTop="2dp"
+            android:text="@string/posts"
             android:textColor="?text_secondary_color"
-            android:textSize="12sp"
-            android:text="@string/posts" />
+            android:textSize="12sp" />
 
     </LinearLayout>
 
@@ -46,8 +47,9 @@
         android:id="@+id/subs_block"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
         android:layout_weight="1"
+        android:background="?selectableItemBackgroundBorderless"
+        android:gravity="center_horizontal"
         android:orientation="vertical"
         android:paddingStart="0dp"
         android:paddingEnd="8dp">
@@ -57,18 +59,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-medium"
-            tools:text="14"
             android:textColor="?colorPrimaryVariant"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            tools:text="14" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif"
             android:paddingTop="2dp"
+            android:text="@string/subscribers"
             android:textColor="?text_secondary_color"
-            android:textSize="12sp"
-            android:text="@string/subscribers" />
+            android:textSize="12sp" />
 
     </LinearLayout>
 
@@ -76,8 +78,9 @@
         android:id="@+id/pubs_block"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
         android:layout_weight="1"
+        android:background="?selectableItemBackgroundBorderless"
+        android:gravity="center_horizontal"
         android:orientation="vertical"
         android:paddingStart="0dp"
         android:paddingEnd="8dp">
@@ -87,18 +90,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-medium"
-            tools:text="145"
             android:textColor="?colorPrimaryVariant"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            tools:text="145" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif"
             android:paddingTop="2dp"
+            android:text="@string/publishers"
             android:textColor="?text_secondary_color"
-            android:textSize="12sp"
-            android:text="@string/publishers" />
+            android:textSize="12sp" />
 
     </LinearLayout>
 

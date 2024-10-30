@@ -19,7 +19,8 @@ class SubscriptionsActivity : AppCompatActivity(), SubscriptionsPresenter.Subscr
     override fun onCreate(savedInstanceState: Bundle?) {
         val userId = intent.getIntExtra(EXTRA_USER_ID, 0).takeIf { it != 0 }
             ?: throw IllegalArgumentException("user ID must be provided")
-        val activeTab = intent.getIntExtra(EXTRA_ACTIVE_TAB, Tab.SUBSCRIBERS.index)
+        val name = intent.getStringExtra(EXTRA_ACTIVE_TAB) ?: Tab.SUBSCRIBERS.name
+        val activeTab = Tab.valueOf(name)
 
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
         Appteka.getComponent()
@@ -32,6 +33,7 @@ class SubscriptionsActivity : AppCompatActivity(), SubscriptionsPresenter.Subscr
 
         val adapter = SubscriptionsAdapter(supportFragmentManager, lifecycle, userId)
         val view = SubscriptionsViewImpl(window.decorView, adapter)
+        view.setSelectedPage(activeTab.ordinal)
 
         presenter.attachView(view)
 
@@ -69,9 +71,9 @@ class SubscriptionsActivity : AppCompatActivity(), SubscriptionsPresenter.Subscr
 
 }
 
-enum class Tab(val index: Int) {
-    SUBSCRIBERS(index = 0),
-    PUBLISHERS(index = 1),
+enum class Tab {
+    SUBSCRIBERS,
+    PUBLISHERS,
 }
 
 fun createSubscriptionsActivityIntent(
@@ -80,7 +82,7 @@ fun createSubscriptionsActivityIntent(
     activeTab: Tab,
 ): Intent = Intent(context, SubscriptionsActivity::class.java)
     .putExtra(EXTRA_USER_ID, userId)
-    .putExtra(EXTRA_ACTIVE_TAB, activeTab.index)
+    .putExtra(EXTRA_ACTIVE_TAB, activeTab.name)
 
 private const val KEY_PRESENTER_STATE = "presenter_state"
 

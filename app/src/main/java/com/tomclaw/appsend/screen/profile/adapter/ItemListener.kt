@@ -20,9 +20,9 @@ interface ItemListener {
 
     fun onFeedClick()
 
-    fun onSubsClick()
+    fun onSubscribersClick()
 
-    fun onPubsClick()
+    fun onPublishersClick()
 
     fun onSubscribeClick()
 
