@@ -38,7 +38,7 @@ class PublishersInteractor(
 
     override fun listUsers(userId: Int, offsetId: Int?): Observable<List<UserEntity>> {
         return api
-            .getSubscribersList(
+            .getPublishersList(
                 userId = userId,
                 rowId = offsetId,
             )
