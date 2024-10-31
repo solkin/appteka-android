@@ -16,12 +16,11 @@ import com.tomclaw.appsend.main.store.search.SearchActivity.createSearchActivity
 import com.tomclaw.appsend.screen.about.createAboutActivityIntent
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.screen.distro.createDistroActivityIntent
+import com.tomclaw.appsend.screen.feed.createFeedFragment
 import com.tomclaw.appsend.screen.home.di.HomeModule
 import com.tomclaw.appsend.screen.moderation.createModerationActivityIntent
 import com.tomclaw.appsend.screen.profile.createProfileFragment
 import com.tomclaw.appsend.screen.store.createStoreFragment
-import com.tomclaw.appsend.screen.subscriptions.Tab
-import com.tomclaw.appsend.screen.subscriptions.createSubscriptionsActivityIntent
 import com.tomclaw.appsend.screen.topics.createTopicsFragment
 import com.tomclaw.appsend.screen.upload.createUploadActivityIntent
 import com.tomclaw.appsend.util.Analytics
@@ -39,7 +38,7 @@ class HomeActivity : AppCompatActivity(), HomePresenter.HomeRouter {
 
     private var isDarkTheme: Boolean = false
     private val handler: Handler = Handler(Looper.getMainLooper())
-    private val fragments = Array<Fragment?>(size = 3) { null }
+    private val fragments = Array<Fragment?>(size = 4) { null }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
@@ -69,6 +68,11 @@ class HomeActivity : AppCompatActivity(), HomePresenter.HomeRouter {
     override fun showStoreFragment() {
         val fragment = getOrCreateFragment(INDEX_STORE) { createStoreFragment() }
         replaceFragment(fragment, INDEX_STORE)
+    }
+
+    override fun showFeedFragment() {
+        val fragment = getOrCreateFragment(INDEX_FEED) { createFeedFragment() }
+        replaceFragment(fragment, INDEX_FEED)
     }
 
     override fun showTopicsFragment() {
@@ -197,5 +201,6 @@ fun createHomeActivityIntent(
 
 private const val KEY_PRESENTER_STATE = "presenter_state"
 private const val INDEX_STORE = 0
-private const val INDEX_DISCUSS = 1
-private const val INDEX_PROFILE = 2
+private const val INDEX_FEED = 1
+private const val INDEX_DISCUSS = 2
+private const val INDEX_PROFILE = 3

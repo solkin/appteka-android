@@ -6,6 +6,11 @@
         android:icon="@drawable/cloud"
         android:title="@string/tab_store" />
     <item
+        android:id="@+id/nav_feed"
+        android:enabled="true"
+        android:icon="@drawable/feed"
+        android:title="@string/tab_feed" />
+    <item
         android:id="@+id/nav_discuss"
         android:enabled="true"
         android:icon="@drawable/discuss"

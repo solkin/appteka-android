@@ -18,6 +18,8 @@ interface HomeView {
 
     fun showStoreToolbar(canModerate: Boolean)
 
+    fun showFeedToolbar()
+
     fun showDiscussToolbar()
 
     fun showProfileToolbar()
@@ -43,6 +45,8 @@ interface HomeView {
     fun showStatusDialog(block: Boolean, title: String?, message: String)
 
     fun storeClicks(): Observable<Unit>
+
+    fun feedClicks(): Observable<Unit>
 
     fun discussClicks(): Observable<Unit>
 
@@ -83,6 +87,7 @@ class HomeViewImpl(view: View) : HomeView {
     private val laterButton: Button = view.findViewById(R.id.update_later)
 
     private val storeRelay = PublishRelay.create<Unit>()
+    private val feedRelay = PublishRelay.create<Unit>()
     private val discussRelay = PublishRelay.create<Unit>()
     private val profileRelay = PublishRelay.create<Unit>()
     private val uploadRelay = PublishRelay.create<Unit>()
@@ -114,6 +119,7 @@ class HomeViewImpl(view: View) : HomeView {
         bottomNavigation.setOnItemSelectedListener { item: MenuItem ->
             when (item.itemId) {
                 R.id.nav_store -> storeRelay.accept(Unit)
+                R.id.nav_feed -> feedRelay.accept(Unit)
                 R.id.nav_discuss -> discussRelay.accept(Unit)
                 R.id.nav_profile -> profileRelay.accept(Unit)
             }
@@ -133,6 +139,15 @@ class HomeViewImpl(view: View) : HomeView {
             if (!canModerate) {
                 menu.removeItem(R.id.menu_moderation)
             }
+            invalidateMenu()
+        }
+    }
+
+    override fun showFeedToolbar() {
+        with(toolbar) {
+            setTitle(R.string.tab_feed)
+            menu.clear()
+            inflateMenu(R.menu.home_menu)
             invalidateMenu()
         }
     }
@@ -212,6 +227,8 @@ class HomeViewImpl(view: View) : HomeView {
     }
 
     override fun storeClicks(): Observable<Unit> = storeRelay
+
+    override fun feedClicks(): Observable<Unit> = feedRelay
 
     override fun discussClicks(): Observable<Unit> = discussRelay
 

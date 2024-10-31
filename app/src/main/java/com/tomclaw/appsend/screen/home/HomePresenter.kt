@@ -8,7 +8,6 @@ import com.tomclaw.appsend.screen.home.api.StatusResponse
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.getParcelableCompat
 import io.reactivex.rxjava3.disposables.CompositeDisposable
-import io.reactivex.rxjava3.kotlin.Observables
 import io.reactivex.rxjava3.kotlin.plusAssign
 
 interface HomePresenter {
@@ -28,6 +27,8 @@ interface HomePresenter {
     interface HomeRouter {
 
         fun showStoreFragment()
+
+        fun showFeedFragment()
 
         fun showTopicsFragment()
 
@@ -85,6 +86,7 @@ class HomePresenterImpl(
         this.view = view
 
         subscriptions += view.storeClicks().subscribe { bindTab(index = INDEX_STORE) }
+        subscriptions += view.feedClicks().subscribe { bindTab(index = INDEX_FEED) }
         subscriptions += view.discussClicks().subscribe { bindTab(index = INDEX_DISCUSS) }
         subscriptions += view.profileClicks().subscribe { bindTab(index = INDEX_PROFILE) }
         subscriptions += view.uploadClicks().subscribe { router?.openUploadScreen() }
@@ -122,6 +124,12 @@ class HomePresenterImpl(
                 router?.showStoreFragment()
                 view?.showStoreToolbar(canModerate())
                 view?.showUploadButton()
+            }
+
+            INDEX_FEED -> {
+                router?.showFeedFragment()
+                view?.showFeedToolbar()
+                view?.hideUploadButton()
             }
 
             INDEX_DISCUSS -> {
@@ -269,8 +277,9 @@ private const val KEY_UPDATE = "update"
 private const val KEY_MODERATION = "moderation"
 private const val KEY_STATUS = "status"
 private const val INDEX_STORE = 0
-private const val INDEX_DISCUSS = 1
-private const val INDEX_PROFILE = 2
+private const val INDEX_FEED = 1
+private const val INDEX_DISCUSS = 2
+private const val INDEX_PROFILE = 3
 
 const val ACTION_STORE = "com.tomclaw.appsend.cloud"
 const val ACTION_DISCUSS = "com.tomclaw.appsend.discuss"
