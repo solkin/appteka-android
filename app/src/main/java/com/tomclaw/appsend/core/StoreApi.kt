@@ -20,6 +20,7 @@ import com.tomclaw.appsend.screen.details.api.MarkFavoriteResponse
 import com.tomclaw.appsend.screen.details.api.ModerationDecisionResponse
 import com.tomclaw.appsend.screen.details.api.TranslationResponse
 import com.tomclaw.appsend.screen.favorite.api.FavoriteResponse
+import com.tomclaw.appsend.screen.feed.api.FeedResponse
 import com.tomclaw.appsend.screen.home.api.StartupResponse
 import com.tomclaw.appsend.screen.installed.api.CheckUpdatesRequest
 import com.tomclaw.appsend.screen.installed.api.CheckUpdatesResponse
@@ -290,6 +291,12 @@ interface StoreApi {
         @Query("user_id") userId: Int?,
         @Query("id") rowId: Int?,
     ): Single<StoreResponse<PublishersResponse>>
+
+    @GET("1/feed/list")
+    fun getFeedList(
+        @Query("user_id") userId: Int?,
+        @Query("post_id") postId: Int?,
+    ): Single<StoreResponse<FeedResponse>>
 
     @POST("1/app/updates")
     fun checkUpdates(

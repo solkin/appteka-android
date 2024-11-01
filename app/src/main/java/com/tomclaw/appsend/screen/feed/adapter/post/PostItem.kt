@@ -1,14 +1,14 @@
-package com.tomclaw.appsend.screen.users.adapter.subscriber
+package com.tomclaw.appsend.screen.feed.adapter.post
 
-import com.tomclaw.appsend.screen.users.adapter.UserItem
+import com.tomclaw.appsend.screen.feed.adapter.FeedItem
 import com.tomclaw.appsend.user.api.UserBrief
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-class SubscriberItem(
+class PostItem(
     override val id: Long,
     val time: Long,
     override val user: UserBrief,
     override var hasMore: Boolean = false,
     override var hasProgress: Boolean = false,
-) : UserItem
+) : FeedItem

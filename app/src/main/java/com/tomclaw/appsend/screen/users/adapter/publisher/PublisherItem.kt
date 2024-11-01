@@ -1,6 +1,6 @@
 package com.tomclaw.appsend.screen.users.adapter.publisher
 
-import com.tomclaw.appsend.screen.users.UserItem
+import com.tomclaw.appsend.screen.users.adapter.UserItem
 import com.tomclaw.appsend.user.api.UserBrief
 import kotlinx.parcelize.Parcelize
 

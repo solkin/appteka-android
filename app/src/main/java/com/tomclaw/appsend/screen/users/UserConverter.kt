@@ -1,5 +1,6 @@
 package com.tomclaw.appsend.screen.users
 
+import com.tomclaw.appsend.screen.users.adapter.UserItem
 import com.tomclaw.appsend.screen.users.adapter.subscriber.SubscriberItem
 import com.tomclaw.appsend.screen.users.api.PublisherEntity
 import com.tomclaw.appsend.screen.users.api.SubscriberEntity

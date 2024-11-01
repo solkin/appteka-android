@@ -1,12 +1,12 @@
-package com.tomclaw.appsend.screen.users
+package com.tomclaw.appsend.screen.feed
 
 import android.os.Bundle
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.blueprint.Item
 import com.avito.konveyor.data_source.ListDataSource
-import com.tomclaw.appsend.screen.users.adapter.ItemListener
-import com.tomclaw.appsend.screen.users.adapter.UserItem
-import com.tomclaw.appsend.screen.users.api.UserEntity
+import com.tomclaw.appsend.screen.feed.adapter.FeedItem
+import com.tomclaw.appsend.screen.feed.adapter.ItemListener
+import com.tomclaw.appsend.screen.feed.api.FeedEntity
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.getParcelableArrayListCompat
 import com.tomclaw.appsend.util.retryWhenNonAuthErrors
@@ -14,9 +14,9 @@ import dagger.Lazy
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
 
-interface UsersPresenter : ItemListener {
+interface FeedPresenter : ItemListener {
 
-    fun attachView(view: UsersView)
+    fun attachView(view: FeedView)
 
     fun detachView()
 
@@ -40,25 +40,25 @@ interface UsersPresenter : ItemListener {
 
 }
 
-class UsersPresenterImpl(
+class FeedPresenterImpl(
     private val userId: Int,
-    private val interactor: UsersInteractor,
+    private val interactor: FeedInteractor,
     private val adapterPresenter: Lazy<AdapterPresenter>,
-    private val converter: UserConverter,
+    private val converter: FeedConverter,
     private val schedulers: SchedulersFactory,
     state: Bundle?
-) : UsersPresenter {
+) : FeedPresenter {
 
-    private var view: UsersView? = null
-    private var router: UsersPresenter.SubscribersRouter? = null
+    private var view: FeedView? = null
+    private var router: FeedPresenter.SubscribersRouter? = null
 
     private val subscriptions = CompositeDisposable()
 
-    private var items: List<UserItem>? =
-        state?.getParcelableArrayListCompat(KEY_APPS, UserItem::class.java)
+    private var items: List<FeedItem>? =
+        state?.getParcelableArrayListCompat(KEY_APPS, FeedItem::class.java)
     private var isError: Boolean = state?.getBoolean(KEY_ERROR) ?: false
 
-    override fun attachView(view: UsersView) {
+    override fun attachView(view: FeedView) {
         this.view = view
 
         subscriptions += view.retryClicks().subscribe {
@@ -81,7 +81,7 @@ class UsersPresenterImpl(
         this.view = null
     }
 
-    override fun attachRouter(router: UsersPresenter.SubscribersRouter) {
+    override fun attachRouter(router: FeedPresenter.SubscribersRouter) {
         this.router = router
     }
 
@@ -100,7 +100,7 @@ class UsersPresenterImpl(
     }
 
     private fun loadApps() {
-        subscriptions += interactor.listUsers(userId)
+        subscriptions += interactor.listFeed(userId)
             .observeOn(schedulers.mainThread())
             .doOnSubscribe { if (view?.isPullRefreshing() == false) view?.showProgress() }
             .doAfterTerminate { onReady() }
@@ -114,7 +114,7 @@ class UsersPresenterImpl(
     }
 
     private fun loadApps(offsetId: Int) {
-        subscriptions += interactor.listUsers(userId, offsetId)
+        subscriptions += interactor.listFeed(userId, offsetId)
             .observeOn(schedulers.mainThread())
             .retryWhenNonAuthErrors()
             .doAfterTerminate { onReady() }
@@ -124,7 +124,7 @@ class UsersPresenterImpl(
             )
     }
 
-    private fun onLoaded(entities: List<UserEntity>) {
+    private fun onLoaded(entities: List<FeedEntity>) {
         isError = false
         val newItems = entities
             .map { converter.convert(it) }
