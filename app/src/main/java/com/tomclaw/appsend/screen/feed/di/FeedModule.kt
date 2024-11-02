@@ -27,8 +27,7 @@ import java.util.Locale
 
 @Module
 class FeedModule(
-    private val context: Context,
-    private val userId: Int,
+    private val userId: Int?,
     private val state: Bundle?
 ) {
 

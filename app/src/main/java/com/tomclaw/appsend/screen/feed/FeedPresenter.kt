@@ -20,7 +20,7 @@ interface FeedPresenter : ItemListener {
 
     fun detachView()
 
-    fun attachRouter(router: SubscribersRouter)
+    fun attachRouter(router: FeedRouter)
 
     fun detachRouter()
 
@@ -30,7 +30,7 @@ interface FeedPresenter : ItemListener {
 
     fun invalidateApps()
 
-    interface SubscribersRouter {
+    interface FeedRouter {
 
         fun openProfileScreen(userId: Int)
 
@@ -41,7 +41,7 @@ interface FeedPresenter : ItemListener {
 }
 
 class FeedPresenterImpl(
-    private val userId: Int,
+    private val userId: Int?,
     private val interactor: FeedInteractor,
     private val adapterPresenter: Lazy<AdapterPresenter>,
     private val converter: FeedConverter,
@@ -50,7 +50,7 @@ class FeedPresenterImpl(
 ) : FeedPresenter {
 
     private var view: FeedView? = null
-    private var router: FeedPresenter.SubscribersRouter? = null
+    private var router: FeedPresenter.FeedRouter? = null
 
     private val subscriptions = CompositeDisposable()
 
@@ -81,7 +81,7 @@ class FeedPresenterImpl(
         this.view = null
     }
 
-    override fun attachRouter(router: FeedPresenter.SubscribersRouter) {
+    override fun attachRouter(router: FeedPresenter.FeedRouter) {
         this.router = router
     }
 

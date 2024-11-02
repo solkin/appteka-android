@@ -7,7 +7,7 @@ import io.reactivex.rxjava3.core.Observable
 
 interface FeedInteractor {
 
-    fun listFeed(userId: Int, postId: Int? = null): Observable<List<PostEntity>>
+    fun listFeed(userId: Int?, postId: Int? = null): Observable<List<PostEntity>>
 
 }
 
@@ -16,7 +16,7 @@ class FeedInteractorImpl(
     private val schedulers: SchedulersFactory
 ) : FeedInteractor {
 
-    override fun listFeed(userId: Int, postId: Int?): Observable<List<PostEntity>> {
+    override fun listFeed(userId: Int?, postId: Int?): Observable<List<PostEntity>> {
         return api
             .getFeedList(userId, postId)
             .map { list ->
