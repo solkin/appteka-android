@@ -4,5 +4,5 @@ import com.google.gson.annotations.SerializedName
 
 class FeedResponse(
     @SerializedName("posts")
-    val entries: List<FeedEntity>
+    val posts: List<PostEntity>
 )

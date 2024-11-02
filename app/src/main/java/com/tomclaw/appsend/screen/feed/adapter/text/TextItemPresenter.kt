@@ -1,16 +1,16 @@
-package com.tomclaw.appsend.screen.feed.adapter.post
+package com.tomclaw.appsend.screen.feed.adapter.text
 
 import com.avito.konveyor.blueprint.ItemPresenter
 import com.tomclaw.appsend.categories.DEFAULT_LOCALE
 import com.tomclaw.appsend.screen.feed.adapter.ItemListener
 import java.util.Locale
 
-class PostItemPresenter(
+class TextItemPresenter(
     private val locale: Locale,
     private val listener: ItemListener,
-) : ItemPresenter<PostItemView, PostItem> {
+) : ItemPresenter<PostItemView, TextItem> {
 
-    override fun bindView(view: PostItemView, item: PostItem, position: Int) {
+    override fun bindView(view: PostItemView, item: TextItem, position: Int) {
         with(item) {
             if (hasMore) {
                 hasMore = false

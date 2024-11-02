@@ -1,13 +1,14 @@
-package com.tomclaw.appsend.screen.feed.adapter.post
+package com.tomclaw.appsend.screen.feed.adapter.text
 
 import com.tomclaw.appsend.screen.feed.adapter.FeedItem
 import com.tomclaw.appsend.user.api.UserBrief
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-class PostItem(
+class TextItem(
     override val id: Long,
     val time: Long,
+    val text: String,
     override val user: UserBrief,
     override var hasMore: Boolean = false,
     override var hasProgress: Boolean = false,

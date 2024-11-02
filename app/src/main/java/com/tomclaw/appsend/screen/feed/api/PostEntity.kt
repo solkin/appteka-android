@@ -6,11 +6,17 @@ import com.tomclaw.appsend.user.api.UserBrief
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class FeedEntity(
+data class PostEntity(
     @SerializedName("id")
-    val rowId: Int,
+    val postId: Int,
     @SerializedName("time")
     val time: Long,
+    @SerializedName("type")
+    val type: Int,
+    @SerializedName("payload")
+    val payload: Unit,
     @SerializedName("user")
     val user: UserBrief,
 ) : Parcelable
+
+const val TYPE_TEXT = 1

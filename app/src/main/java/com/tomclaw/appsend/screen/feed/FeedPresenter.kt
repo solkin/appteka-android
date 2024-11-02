@@ -6,7 +6,7 @@ import com.avito.konveyor.blueprint.Item
 import com.avito.konveyor.data_source.ListDataSource
 import com.tomclaw.appsend.screen.feed.adapter.FeedItem
 import com.tomclaw.appsend.screen.feed.adapter.ItemListener
-import com.tomclaw.appsend.screen.feed.api.FeedEntity
+import com.tomclaw.appsend.screen.feed.api.PostEntity
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.getParcelableArrayListCompat
 import com.tomclaw.appsend.util.retryWhenNonAuthErrors
@@ -124,9 +124,9 @@ class FeedPresenterImpl(
             )
     }
 
-    private fun onLoaded(entities: List<FeedEntity>) {
+    private fun onLoaded(posts: List<PostEntity>) {
         isError = false
-        val newItems = entities
+        val newItems = posts
             .map { converter.convert(it) }
             .toList()
             .apply { if (isNotEmpty()) last().hasMore = true }

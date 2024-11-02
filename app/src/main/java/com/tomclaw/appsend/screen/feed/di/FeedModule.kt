@@ -15,8 +15,8 @@ import com.tomclaw.appsend.screen.feed.FeedInteractor
 import com.tomclaw.appsend.screen.feed.FeedInteractorImpl
 import com.tomclaw.appsend.screen.feed.FeedPresenter
 import com.tomclaw.appsend.screen.feed.FeedPresenterImpl
-import com.tomclaw.appsend.screen.feed.adapter.post.PostItemBlueprint
-import com.tomclaw.appsend.screen.feed.adapter.post.PostItemPresenter
+import com.tomclaw.appsend.screen.feed.adapter.text.TextItemBlueprint
+import com.tomclaw.appsend.screen.feed.adapter.text.TextItemPresenter
 import com.tomclaw.appsend.util.PerFragment
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
@@ -86,14 +86,14 @@ class FeedModule(
     @IntoSet
     @PerFragment
     internal fun providePostItemBlueprint(
-        presenter: PostItemPresenter
-    ): ItemBlueprint<*, *> = PostItemBlueprint(presenter)
+        presenter: TextItemPresenter
+    ): ItemBlueprint<*, *> = TextItemBlueprint(presenter)
 
     @Provides
     @PerFragment
     internal fun provideFeedItemPresenter(
         locale: Locale,
         presenter: FeedPresenter,
-    ) = PostItemPresenter(locale, presenter)
+    ) = TextItemPresenter(locale, presenter)
 
 }

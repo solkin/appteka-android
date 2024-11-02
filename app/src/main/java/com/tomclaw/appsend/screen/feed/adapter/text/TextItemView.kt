@@ -1,4 +1,4 @@
-package com.tomclaw.appsend.screen.feed.adapter.post
+package com.tomclaw.appsend.screen.feed.adapter.text
 
 import android.view.View
 import android.view.View.GONE
