@@ -10,7 +10,7 @@ class TextItemBlueprint(override val presenter: ItemPresenter<PostItemView, Text
     ItemBlueprint<PostItemView, TextItem> {
 
     override val viewHolderProvider = ViewHolderBuilder.ViewHolderProvider(
-        layoutId = R.layout.publisher_item,
+        layoutId = R.layout.feed_item_text,
         creator = { _, view -> PostItemViewHolder(view) }
     )
 

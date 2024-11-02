@@ -34,7 +34,7 @@ class FeedFragment : Fragment(), FeedPresenter.FeedRouter {
 
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
         Appteka.getComponent()
-            .feedComponent(FeedModule(userId, presenterState))
+            .feedComponent(FeedModule(requireContext(), userId, presenterState))
             .inject(fragment = this)
 
         super.onCreate(savedInstanceState)

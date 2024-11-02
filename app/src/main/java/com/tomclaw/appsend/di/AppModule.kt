@@ -25,6 +25,8 @@ import com.tomclaw.appsend.core.PersistentCookieJar
 import com.tomclaw.appsend.core.STAND_BY_HOST_URL
 import com.tomclaw.appsend.core.StandByApi
 import com.tomclaw.appsend.core.StoreApi
+import com.tomclaw.appsend.core.TimeProvider
+import com.tomclaw.appsend.core.TimeProviderImpl
 import com.tomclaw.appsend.core.UserAgentInterceptor
 import com.tomclaw.appsend.core.UserAgentProvider
 import com.tomclaw.appsend.core.UserAgentProviderImpl
@@ -107,6 +109,10 @@ class AppModule(private val app: Application) {
     @Named(DATE_FORMATTER)
     internal fun provideDateFormatter(locale: Locale): DateFormat =
         SimpleDateFormat("dd.MM.yy", locale)
+
+    @Provides
+    @Singleton
+    internal fun provideTimeProvider(context: Context): TimeProvider = TimeProviderImpl(context)
 
     @Provides
     @Singleton

@@ -2,11 +2,13 @@ package com.tomclaw.appsend.screen.feed.adapter.text
 
 import com.avito.konveyor.blueprint.ItemPresenter
 import com.tomclaw.appsend.categories.DEFAULT_LOCALE
+import com.tomclaw.appsend.screen.feed.FeedResourceProvider
 import com.tomclaw.appsend.screen.feed.adapter.ItemListener
 import java.util.Locale
 
 class TextItemPresenter(
     private val locale: Locale,
+    private val resourceProvider: FeedResourceProvider,
     private val listener: ItemListener,
 ) : ItemPresenter<PostItemView, TextItem> {
 
@@ -24,6 +26,8 @@ class TextItemPresenter(
             ?: item.user.userIcon.label[DEFAULT_LOCALE].orEmpty()
         view.setUserName(name)
         view.setUserIcon(item.user.userIcon)
+        view.setTime(resourceProvider.formatTime(item.time))
+        view.setText(item.text)
         if (item.hasProgress) view.showProgress() else view.hideProgress()
         view.setOnClickListener { listener.onItemClick(item) }
     }

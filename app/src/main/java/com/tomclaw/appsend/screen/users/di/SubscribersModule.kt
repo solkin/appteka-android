@@ -9,6 +9,7 @@ import com.avito.konveyor.blueprint.ItemBlueprint
 import com.tomclaw.appsend.categories.CategoryConverter
 import com.tomclaw.appsend.categories.CategoryConverterImpl
 import com.tomclaw.appsend.core.StoreApi
+import com.tomclaw.appsend.core.TimeProvider
 import com.tomclaw.appsend.screen.users.PublishersInteractor
 import com.tomclaw.appsend.screen.users.UsersInteractor
 import com.tomclaw.appsend.screen.users.SubscribersInteractor
@@ -107,8 +108,8 @@ class SubscribersModule(
 
     @Provides
     @PerFragment
-    internal fun provideSubscriberResourceProvider(): UsersResourceProvider {
-        return UsersResourceProviderImpl(context)
+    internal fun provideSubscriberResourceProvider(timeProvider: TimeProvider): UsersResourceProvider {
+        return UsersResourceProviderImpl(context, timeProvider)
     }
 
 }

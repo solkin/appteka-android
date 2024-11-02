@@ -6,15 +6,16 @@ import com.avito.konveyor.ItemBinder
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.adapter.SimpleAdapterPresenter
 import com.avito.konveyor.blueprint.ItemBlueprint
-import com.tomclaw.appsend.categories.CategoryConverter
-import com.tomclaw.appsend.categories.CategoryConverterImpl
 import com.tomclaw.appsend.core.StoreApi
+import com.tomclaw.appsend.core.TimeProvider
 import com.tomclaw.appsend.screen.feed.FeedConverter
 import com.tomclaw.appsend.screen.feed.FeedConverterImpl
 import com.tomclaw.appsend.screen.feed.FeedInteractor
 import com.tomclaw.appsend.screen.feed.FeedInteractorImpl
 import com.tomclaw.appsend.screen.feed.FeedPresenter
 import com.tomclaw.appsend.screen.feed.FeedPresenterImpl
+import com.tomclaw.appsend.screen.feed.FeedResourceProvider
+import com.tomclaw.appsend.screen.feed.FeedResourceProviderImpl
 import com.tomclaw.appsend.screen.feed.adapter.text.TextItemBlueprint
 import com.tomclaw.appsend.screen.feed.adapter.text.TextItemPresenter
 import com.tomclaw.appsend.util.PerFragment
@@ -27,6 +28,7 @@ import java.util.Locale
 
 @Module
 class FeedModule(
+    private val context: Context,
     private val userId: Int?,
     private val state: Bundle?
 ) {
@@ -62,8 +64,8 @@ class FeedModule(
 
     @Provides
     @PerFragment
-    internal fun provideCategoryConverter(locale: Locale): CategoryConverter =
-        CategoryConverterImpl(locale)
+    internal fun provideResourceProvider(locale: Locale, timeProvider: TimeProvider): FeedResourceProvider =
+        FeedResourceProviderImpl(context.resources, locale, timeProvider)
 
     @Provides
     @PerFragment
@@ -92,7 +94,8 @@ class FeedModule(
     @PerFragment
     internal fun provideFeedItemPresenter(
         locale: Locale,
+        resourceProvider: FeedResourceProvider,
         presenter: FeedPresenter,
-    ) = TextItemPresenter(locale, presenter)
+    ) = TextItemPresenter(locale, resourceProvider, presenter)
 
 }

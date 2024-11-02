@@ -7,6 +7,7 @@ import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.adapter.SimpleAdapterPresenter
 import com.avito.konveyor.blueprint.ItemBlueprint
 import com.tomclaw.appsend.core.StoreApi
+import com.tomclaw.appsend.core.TimeProvider
 import com.tomclaw.appsend.di.DATE_FORMATTER
 import com.tomclaw.appsend.screen.profile.ProfileConverter
 import com.tomclaw.appsend.screen.profile.ProfileConverterImpl
@@ -121,7 +122,8 @@ class ProfileModule(
     @PerFragment
     internal fun provideHeaderResourceProvider(
         context: Context,
-    ): HeaderResourceProvider = HeaderResourceProviderImpl(context)
+        timeProvider: TimeProvider,
+    ): HeaderResourceProvider = HeaderResourceProviderImpl(context, timeProvider)
 
     @Provides
     @PerFragment
