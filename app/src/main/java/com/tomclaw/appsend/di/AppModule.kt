@@ -34,6 +34,9 @@ import com.tomclaw.appsend.download.DownloadNotifications
 import com.tomclaw.appsend.download.DownloadNotificationsImpl
 import com.tomclaw.appsend.events.EventsInteractor
 import com.tomclaw.appsend.events.EventsInteractorImpl
+import com.tomclaw.appsend.screen.feed.api.PostDeserializer
+import com.tomclaw.appsend.screen.feed.api.PostEntity
+import com.tomclaw.appsend.screen.feed.api.PostPayload
 import com.tomclaw.appsend.upload.UploadManager
 import com.tomclaw.appsend.upload.UploadManagerImpl
 import com.tomclaw.appsend.upload.UploadNotifications
@@ -82,7 +85,8 @@ class AppModule(private val app: Application) {
     @Provides
     @Singleton
     @Named(APPS_DIR)
-    fun provideAppsDir(): File = File(Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS), APPS_DIR)
+    fun provideAppsDir(): File =
+        File(Environment.getExternalStoragePublicDirectory(DIRECTORY_DOWNLOADS), APPS_DIR)
 
     @Provides
     @Singleton
@@ -232,10 +236,16 @@ class AppModule(private val app: Application) {
 
     @Provides
     @Singleton
-    internal fun provideStoreApi(client: OkHttpClient): StoreApi = Retrofit.Builder()
+    internal fun provideStoreApi(client: OkHttpClient, gson: Gson): StoreApi = Retrofit.Builder()
         .client(client)
         .baseUrl("$HOST_URL/api/")
-        .addConverterFactory(GsonConverterFactory.create())
+        .addConverterFactory(
+            GsonConverterFactory.create(
+                gson.newBuilder()
+                    .registerTypeAdapter(PostEntity::class.java, PostDeserializer(gson))
+                    .create()
+            )
+        )
         .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
         .build()
         .create(StoreApi::class.java)

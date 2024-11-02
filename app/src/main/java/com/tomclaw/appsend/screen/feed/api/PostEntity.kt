@@ -1,11 +1,8 @@
 package com.tomclaw.appsend.screen.feed.api
 
-import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import com.tomclaw.appsend.user.api.UserBrief
-import kotlinx.parcelize.Parcelize
 
-@Parcelize
 data class PostEntity(
     @SerializedName("id")
     val postId: Int,
@@ -14,9 +11,9 @@ data class PostEntity(
     @SerializedName("type")
     val type: Int,
     @SerializedName("payload")
-    val payload: Unit,
+    val payload: PostPayload,
     @SerializedName("user")
     val user: UserBrief,
-) : Parcelable
+)
 
 const val TYPE_TEXT = 1

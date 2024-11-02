@@ -3,7 +3,7 @@ package com.tomclaw.appsend.screen.feed
 import com.tomclaw.appsend.screen.feed.adapter.FeedItem
 import com.tomclaw.appsend.screen.feed.adapter.text.TextItem
 import com.tomclaw.appsend.screen.feed.api.PostEntity
-import com.tomclaw.appsend.screen.feed.api.TYPE_TEXT
+import com.tomclaw.appsend.screen.feed.api.TextPayload
 
 interface FeedConverter {
 
@@ -14,11 +14,12 @@ interface FeedConverter {
 class FeedConverterImpl : FeedConverter {
 
     override fun convert(post: PostEntity): FeedItem {
-        return when (post.type) {
-            TYPE_TEXT -> TextItem(
+        return when (post.payload) {
+            is TextPayload -> TextItem(
                 id = post.postId.toLong(),
                 time = post.time,
-                text = "Sample text",
+                screenshots = post.payload.screenshots,
+                text = post.payload.text,
                 user = post.user
             )
 
