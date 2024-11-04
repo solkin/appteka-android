@@ -127,6 +127,7 @@ class FeedPresenterImpl(
     private fun onLoaded(posts: List<PostEntity>) {
         isError = false
         val newItems = posts
+            .filterNot { post -> items?.find { it.id == post.postId.toLong() } != null }
             .map { converter.convert(it) }
             .toList()
             .apply { if (isNotEmpty()) last().hasMore = true }
