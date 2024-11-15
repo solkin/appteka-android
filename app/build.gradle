@@ -98,6 +98,5 @@ dependencies {
     debugImplementation 'com.github.chuckerteam.chucker:library:3.5.2'
     releaseImplementation 'com.github.chuckerteam.chucker:library-no-op:3.5.2'
     implementation 'org.androidannotations:androidannotations-api:4.8.0'
-    kapt 'org.androidannotations:androidannotations:4.8.0'
     testImplementation 'junit:junit:4.13.2'
 }
