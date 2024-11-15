@@ -17,7 +17,7 @@
         tools:ignore="QueryAllPackagesPermission" />
 
     <application
-        android:name=".Appteka_"
+        android:name=".Appteka"
         android:allowBackup="true"
         android:fullBackupContent="@xml/backup_descriptor"
         android:icon="@mipmap/ic_launcher"
