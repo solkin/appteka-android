@@ -4,13 +4,13 @@ android {
     compileSdk 34
 
     defaultConfig {
-        minSdkVersion 15
+        minSdkVersion 21
         //noinspection ExpiredTargetSdkVersion
         targetSdkVersion 28
     }
 
     dependencies {
-        implementation 'androidx.appcompat:appcompat:1.6.1'
+        compileOnly 'androidx.appcompat:appcompat:1.7.0'
     }
     namespace 'com.github.machinarius.preferencefragment'
 }
