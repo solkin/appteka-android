@@ -21,7 +21,7 @@ import androidx.core.app.ActivityCompat;
 
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.core.StoreServiceHolder_;
-import com.tomclaw.appsend.di.legacy.LegacyInjector_;
+import com.tomclaw.appsend.di.legacy.LegacyInjector;
 
 import org.androidannotations.api.bean.BeanHolder;
 import org.androidannotations.api.builder.ActivityIntentBuilder;
@@ -59,7 +59,7 @@ public final class AbuseActivity_
     private void init_(Bundle savedInstanceState) {
         OnViewChangedNotifier.registerOnViewChangedListener(this);
         this.serviceHolder = StoreServiceHolder_.getInstance_(this);
-        this.legacyInjector = LegacyInjector_.getInstance_(this);
+        this.legacyInjector = LegacyInjector.getInstance();
         injectExtras_();
     }
 

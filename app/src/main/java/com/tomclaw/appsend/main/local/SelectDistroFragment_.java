@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.tomclaw.appsend.R;
-import com.tomclaw.appsend.di.legacy.LegacyInjector_;
+import com.tomclaw.appsend.di.legacy.LegacyInjector;
 
 import org.androidannotations.api.bean.BeanHolder;
 import org.androidannotations.api.builder.FragmentBuilder;
@@ -67,7 +67,7 @@ public final class SelectDistroFragment_
 
     private void init_(Bundle savedInstanceState) {
         OnViewChangedNotifier.registerOnViewChangedListener(this);
-        this.injector = LegacyInjector_.getInstance_(getActivity());
+        this.injector = LegacyInjector.getInstance();
         restoreSavedInstanceState_(savedInstanceState);
     }
 

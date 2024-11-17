@@ -26,15 +26,12 @@ import com.tomclaw.imageloader.util.loader.ContentLoader;
 import com.tomclaw.imageloader.util.loader.FileLoader;
 import com.tomclaw.imageloader.util.loader.UrlLoader;
 
-import org.androidannotations.annotations.EApplication;
-
 import java.io.IOException;
 import java.util.concurrent.Executors;
 
 /**
  * Created by ivsolkin on 21.03.17.
  */
-@EApplication
 public class Appteka extends Application {
 
     private static Appteka app;

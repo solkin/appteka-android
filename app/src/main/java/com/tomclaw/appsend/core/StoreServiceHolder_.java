@@ -9,7 +9,7 @@ package com.tomclaw.appsend.core;
 
 import android.content.Context;
 
-import com.tomclaw.appsend.di.legacy.LegacyInjector_;
+import com.tomclaw.appsend.di.legacy.LegacyInjector;
 
 import org.androidannotations.api.view.OnViewChangedNotifier;
 
@@ -40,6 +40,6 @@ public final class StoreServiceHolder_
     }
 
     private void init_() {
-        this.injector = LegacyInjector_.getInstance_(context_);
+        this.injector = LegacyInjector.getInstance();
     }
 }
