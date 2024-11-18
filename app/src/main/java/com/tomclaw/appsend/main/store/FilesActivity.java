@@ -10,36 +10,21 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.di.legacy.LegacyInjector;
-import com.tomclaw.appsend.main.store.UploadsFragment;
 import com.tomclaw.appsend.util.ThemeHelper;
-
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Bean;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.Extra;
-import org.androidannotations.annotations.FragmentById;
-import org.androidannotations.annotations.OptionsItem;
-import org.androidannotations.annotations.ViewById;
 
 /**
  * Created by Igor on 22.10.2017.
  */
 @SuppressLint("Registered")
-@EActivity(R.layout.user_files_activity)
 public class FilesActivity extends AppCompatActivity {
 
-    @ViewById
     Toolbar toolbar;
 
-    @FragmentById
     UploadsFragment uploadsFragment;
 
-    @Extra
     Long userId;
 
-    @Bean
     LegacyInjector legacyInjector;
 
     @Override
@@ -51,7 +36,6 @@ public class FilesActivity extends AppCompatActivity {
         }
     }
 
-    @AfterViews
     void init() {
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -64,7 +48,6 @@ public class FilesActivity extends AppCompatActivity {
         uploadsFragment.setUserId(userId);
     }
 
-    @OptionsItem(android.R.id.home)
     boolean actionHome() {
         onBackPressed();
         return true;
