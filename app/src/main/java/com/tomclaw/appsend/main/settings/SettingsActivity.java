@@ -16,12 +16,6 @@ import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.di.legacy.LegacyInjector;
 import com.tomclaw.appsend.util.ThemeHelper;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Bean;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.OptionsItem;
-import org.androidannotations.annotations.ViewById;
-
 
 /**
  * Created with IntelliJ IDEA.
@@ -29,16 +23,13 @@ import org.androidannotations.annotations.ViewById;
  * Date: 9/30/13
  * Time: 7:37 PM
  */
-@EActivity(R.layout.settings_activity)
 public class SettingsActivity extends AppCompatActivity {
 
     private SharedPreferences preferences;
     private OnSettingsChangedListener listener;
 
-    @ViewById
     Toolbar toolbar;
 
-    @Bean
     LegacyInjector legacyInjector;
 
     @Override
@@ -50,7 +41,6 @@ public class SettingsActivity extends AppCompatActivity {
         }
     }
 
-    @AfterViews
     void init() {
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -73,7 +63,6 @@ public class SettingsActivity extends AppCompatActivity {
         preferences.unregisterOnSharedPreferenceChangeListener(listener);
     }
 
-    @OptionsItem(android.R.id.home)
     boolean actionHome() {
         finish();
         return true;
