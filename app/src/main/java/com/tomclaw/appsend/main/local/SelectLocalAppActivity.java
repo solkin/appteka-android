@@ -22,31 +22,20 @@ import com.tomclaw.appsend.di.legacy.LegacyInjector;
 import com.tomclaw.appsend.main.item.CommonItem;
 import com.tomclaw.appsend.util.ThemeHelper;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Bean;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.OptionsItem;
-import org.androidannotations.annotations.ViewById;
-
 import java.util.Arrays;
 import java.util.List;
 
 @SuppressLint("Registered")
-@EActivity(R.layout.local_apps)
 public class SelectLocalAppActivity extends PermisoActivity implements CommonItemClickListener {
 
     public static final String SELECTED_ITEM = "selected_item";
 
-    @ViewById
     Toolbar toolbar;
 
-    @ViewById
     ViewPager pager;
 
-    @ViewById
     TabLayout tabs;
 
-    @Bean
     LegacyInjector legacyInjector;
 
     @Override
@@ -58,7 +47,6 @@ public class SelectLocalAppActivity extends PermisoActivity implements CommonIte
         }
     }
 
-    @AfterViews
     void init() {
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -82,7 +70,6 @@ public class SelectLocalAppActivity extends PermisoActivity implements CommonIte
         tabs.setupWithViewPager(pager);
     }
 
-    @OptionsItem(android.R.id.home)
     boolean actionHome() {
         leaveScreen();
         return true;
