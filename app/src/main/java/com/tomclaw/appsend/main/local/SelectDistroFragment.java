@@ -6,9 +6,6 @@ import com.greysonparrelli.permiso.Permiso;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.main.item.ApkItem;
 
-import org.androidannotations.annotations.EFragment;
-
-@EFragment(R.layout.local_apps_fragment)
 public class SelectDistroFragment extends DistroFragment {
 
     @Override
