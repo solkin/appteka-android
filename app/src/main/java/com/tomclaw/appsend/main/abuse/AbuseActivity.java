@@ -24,14 +24,6 @@ import com.tomclaw.appsend.main.dto.AbuseResult;
 import com.tomclaw.appsend.main.dto.ApiResponse;
 import com.tomclaw.appsend.util.ThemeHelper;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Bean;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.Extra;
-import org.androidannotations.annotations.OptionsItem;
-import org.androidannotations.annotations.OptionsMenu;
-import org.androidannotations.annotations.ViewById;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -39,32 +31,22 @@ import retrofit2.Response;
 /**
  * Created by solkin on 19.02.17.
  */
-@EActivity(R.layout.abuse_activity)
-@OptionsMenu(R.menu.abuse_menu)
 public class AbuseActivity extends AppCompatActivity {
 
-    @ViewById
     Toolbar toolbar;
 
-    @ViewById
     ViewFlipper viewFlipper;
 
-    @ViewById(R.id.reason_group)
     RadioGroup reasonGroup;
 
-    @ViewById(R.id.input_email)
     EditText emailInput;
 
-    @Extra
     String label;
 
-    @Extra
     String appId;
 
-    @Bean
     StoreServiceHolder serviceHolder;
 
-    @Bean
     LegacyInjector legacyInjector;
 
     @Override
@@ -76,7 +58,6 @@ public class AbuseActivity extends AppCompatActivity {
         }
     }
 
-    @AfterViews
     void init() {
         toolbar.setBackgroundColor(getResources().getColor(R.color.abuse_color));
         setSupportActionBar(toolbar);
@@ -91,13 +72,11 @@ public class AbuseActivity extends AppCompatActivity {
         onReady();
     }
 
-    @OptionsItem(android.R.id.home)
     boolean actionHome() {
         onBackPressed();
         return true;
     }
 
-    @OptionsItem(R.id.send)
     void onSendAbuse() {
         onSendPressed();
     }
