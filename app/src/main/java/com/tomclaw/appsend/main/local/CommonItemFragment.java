@@ -23,43 +23,28 @@ import com.tomclaw.appsend.main.adapter.files.FilesListener;
 import com.tomclaw.appsend.main.item.CommonItem;
 import com.tomclaw.appsend.main.item.StoreItem;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.InstanceState;
-import org.androidannotations.annotations.ViewById;
-
 import java.util.List;
 
-@EFragment
 abstract class CommonItemFragment<T extends CommonItem> extends Fragment implements FilesListener<T> {
 
-    @ViewById
     ViewFlipper viewFlipper;
 
-    @ViewById
     SwipeRefreshLayout swipeRefresh;
 
-    @ViewById
     RecyclerView recycler;
 
-    @ViewById
     TextView errorText;
 
-    @ViewById
     Button buttonRetry;
 
-    @InstanceState
     boolean isError;
 
-    @InstanceState
     boolean isLoading;
 
-    @InstanceState
     boolean isRefreshOnResume = false;
 
     private FilesAdapter<T> adapter;
 
-    @AfterViews
     void init() {
         int orientation = RecyclerView.VERTICAL;
         LinearLayoutManager layoutManager =
