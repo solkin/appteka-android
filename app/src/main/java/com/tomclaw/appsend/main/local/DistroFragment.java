@@ -17,14 +17,10 @@ import com.tomclaw.appsend.main.adapter.files.FileViewHolderCreator;
 import com.tomclaw.appsend.main.item.ApkItem;
 import com.tomclaw.appsend.util.FileHelper;
 
-import org.androidannotations.annotations.Bean;
-import org.androidannotations.annotations.EFragment;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-@EFragment
 abstract class DistroFragment extends CommonItemFragment<ApkItem> {
 
     private static final CharSequence APK_EXTENSION = "apk";
@@ -32,7 +28,6 @@ abstract class DistroFragment extends CommonItemFragment<ApkItem> {
 
     private ArrayList<ApkItem> files;
 
-    @Bean
     LegacyInjector injector;
 
     @Override
