@@ -17,9 +17,6 @@ import com.tomclaw.appsend.main.adapter.files.FileViewHolderCreator;
 import com.tomclaw.appsend.main.item.AppItem;
 import com.tomclaw.appsend.util.PreferenceHelper;
 
-import org.androidannotations.annotations.Bean;
-import org.androidannotations.annotations.EFragment;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -27,14 +24,12 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
-@EFragment
 abstract class InstalledFragment extends CommonItemFragment<AppItem> {
 
     private static final String KEY_FILES = "files";
 
     private ArrayList<AppItem> files;
 
-    @Bean
     LegacyInjector injector;
 
     @Override
