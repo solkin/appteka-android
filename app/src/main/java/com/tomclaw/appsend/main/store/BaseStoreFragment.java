@@ -29,10 +29,6 @@ import com.tomclaw.appsend.main.dto.ApiResponse;
 import com.tomclaw.appsend.main.item.StoreItem;
 import com.tomclaw.appsend.util.LocaleHelper;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.ViewById;
-
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,24 +37,18 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-@EFragment
 public abstract class BaseStoreFragment extends Fragment implements FilesListener<StoreItem> {
 
     private static final String KEY_FILES = "files";
 
-    @ViewById
     protected ViewFlipper viewFlipper;
 
-    @ViewById
     protected SwipeRefreshLayout swipeRefresh;
 
-    @ViewById
     protected RecyclerView recycler;
 
-    @ViewById
     protected TextView errorText;
 
-    @ViewById
     protected Button buttonRetry;
 
     protected ArrayList<StoreItem> files;
@@ -68,7 +58,6 @@ public abstract class BaseStoreFragment extends Fragment implements FilesListene
 
     private FilesAdapter<StoreItem> adapter;
 
-    @AfterViews
     protected void init() {
         int orientation = VERTICAL;
         LinearLayoutManager layoutManager =
