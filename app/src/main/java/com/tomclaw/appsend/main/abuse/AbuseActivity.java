@@ -1,5 +1,6 @@
 package com.tomclaw.appsend.main.abuse;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -81,6 +82,7 @@ public class AbuseActivity extends AppCompatActivity {
         onSendPressed();
     }
 
+    @SuppressLint("NonConstantResourceId")
     private void onSendPressed() {
         try {
             onProgress();
@@ -109,29 +111,21 @@ public class AbuseActivity extends AppCompatActivity {
                         return;
                 }
                 Call<ApiResponse<AbuseResult>> call = serviceHolder.getService().reportAbuse(appId, reason, email);
-                call.enqueue(new Callback<ApiResponse<AbuseResult>>() {
+                call.enqueue(new Callback<>() {
                     @Override
                     public void onResponse(Call<ApiResponse<AbuseResult>> call, final Response<ApiResponse<AbuseResult>> response) {
-                        MainExecutor.execute(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (response.isSuccessful()) {
-                                    onAbuseSent();
-                                } else {
-                                    onError();
-                                }
+                        MainExecutor.execute(() -> {
+                            if (response.isSuccessful()) {
+                                onAbuseSent();
+                            } else {
+                                onError();
                             }
                         });
                     }
 
                     @Override
                     public void onFailure(Call<ApiResponse<AbuseResult>> call, Throwable t) {
-                        MainExecutor.execute(new Runnable() {
-                            @Override
-                            public void run() {
-                                onError();
-                            }
-                        });
+                        MainExecutor.execute(() -> onError());
                     }
                 });
             } else {
