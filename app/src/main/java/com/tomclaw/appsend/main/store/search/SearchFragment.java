@@ -12,21 +12,14 @@ import com.tomclaw.appsend.main.store.ListResponse;
 import com.tomclaw.appsend.main.store.BaseStoreFragment;
 import com.tomclaw.appsend.util.Debouncer;
 
-import org.androidannotations.annotations.Bean;
-import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.InstanceState;
-
 import retrofit2.Call;
 
-@EFragment(R.layout.search_fragment)
 public class SearchFragment extends BaseStoreFragment implements Debouncer.Callback<String> {
 
     private final Debouncer<String> filterDebouncer = new Debouncer<>(this, 1000);
 
-    @Bean
     StoreServiceHolder serviceHolder;
 
-    @InstanceState
     String query;
 
     @Override
