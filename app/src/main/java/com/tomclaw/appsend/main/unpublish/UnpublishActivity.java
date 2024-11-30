@@ -88,7 +88,7 @@ public class UnpublishActivity extends AppCompatActivity {
             String reason = reasonInput.getText().toString();
             if (!TextUtils.isEmpty(reason)) {
                 Call<ApiResponse<UnpublishResponse>> call = serviceHolder.getService().unpublish(appId, reason);
-                call.enqueue(new Callback<ApiResponse<UnpublishResponse>>() {
+                call.enqueue(new Callback<>() {
                     @Override
                     public void onResponse(Call<ApiResponse<UnpublishResponse>> call, final Response<ApiResponse<UnpublishResponse>> response) {
                         MainExecutor.execute(() -> {
@@ -102,12 +102,7 @@ public class UnpublishActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<ApiResponse<UnpublishResponse>> call, Throwable t) {
-                        MainExecutor.execute(new Runnable() {
-                            @Override
-                            public void run() {
-                                onError();
-                            }
-                        });
+                        MainExecutor.execute(() -> onError());
                     }
                 });
             } else {

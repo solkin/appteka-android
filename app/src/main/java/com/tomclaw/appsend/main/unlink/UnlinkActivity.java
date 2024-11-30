@@ -88,7 +88,7 @@ public class UnlinkActivity extends AppCompatActivity {
             String reason = reasonInput.getText().toString();
             if (!TextUtils.isEmpty(reason)) {
                 Call<ApiResponse<UnlinkResponse>> call = serviceHolder.getService().unlink(appId, reason);
-                call.enqueue(new Callback<ApiResponse<UnlinkResponse>>() {
+                call.enqueue(new Callback<>() {
                     @Override
                     public void onResponse(Call<ApiResponse<UnlinkResponse>> call, final Response<ApiResponse<UnlinkResponse>> response) {
                         MainExecutor.execute(() -> {
@@ -102,12 +102,7 @@ public class UnlinkActivity extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<ApiResponse<UnlinkResponse>> call, Throwable t) {
-                        MainExecutor.execute(new Runnable() {
-                            @Override
-                            public void run() {
-                                onError();
-                            }
-                        });
+                        MainExecutor.execute(() -> onError());
                     }
                 });
             } else {
