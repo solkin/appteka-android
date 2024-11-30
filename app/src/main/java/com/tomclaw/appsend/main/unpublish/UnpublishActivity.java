@@ -23,14 +23,6 @@ import com.tomclaw.appsend.core.StoreServiceHolder;
 import com.tomclaw.appsend.main.dto.ApiResponse;
 import com.tomclaw.appsend.util.ThemeHelper;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Bean;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.Extra;
-import org.androidannotations.annotations.OptionsItem;
-import org.androidannotations.annotations.OptionsMenu;
-import org.androidannotations.annotations.ViewById;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -39,26 +31,18 @@ import retrofit2.Response;
  * Created by solkin on 19/03/2018.
  */
 @SuppressLint("Registered")
-@EActivity(R.layout.unlink_activity)
-@OptionsMenu(R.menu.unlink_menu)
 public class UnpublishActivity extends AppCompatActivity {
 
-    @ViewById
     Toolbar toolbar;
 
-    @ViewById
     ViewFlipper viewFlipper;
 
-    @ViewById
     EditText reasonInput;
 
-    @Extra
     String label;
 
-    @Extra
     String appId;
 
-    @Bean
     StoreServiceHolder serviceHolder;
 
     @Override
@@ -67,7 +51,6 @@ public class UnpublishActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
     }
 
-    @AfterViews
     void init() {
         toolbar.setBackgroundColor(getResources().getColor(R.color.unlink_color));
         setSupportActionBar(toolbar);
@@ -85,13 +68,11 @@ public class UnpublishActivity extends AppCompatActivity {
         onReady();
     }
 
-    @OptionsItem(android.R.id.home)
     boolean actionHome() {
         onBackPressed();
         return true;
     }
 
-    @OptionsItem(R.id.unlink)
     void onUnlink() {
         onUnlinkPressed();
     }
