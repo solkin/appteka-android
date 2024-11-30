@@ -17,27 +17,15 @@ import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.di.legacy.LegacyInjector;
 import com.tomclaw.appsend.util.ThemeHelper;
 
-import org.androidannotations.annotations.AfterViews;
-import org.androidannotations.annotations.Bean;
-import org.androidannotations.annotations.EActivity;
-import org.androidannotations.annotations.FragmentById;
-import org.androidannotations.annotations.OptionsItem;
-import org.androidannotations.annotations.ViewById;
-
 @SuppressLint("Registered")
-@EActivity(R.layout.activity_search)
 public class SearchActivity extends AppCompatActivity {
 
-    @ViewById
     Toolbar toolbar;
 
-    @ViewById
     EditText queryEdit;
 
-    @FragmentById
     SearchFragment searchFragment;
 
-    @Bean
     LegacyInjector legacyInjector;
 
     @Override
@@ -49,7 +37,6 @@ public class SearchActivity extends AppCompatActivity {
         }
     }
 
-    @AfterViews
     void init() {
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -85,7 +72,6 @@ public class SearchActivity extends AppCompatActivity {
         queryEdit.requestFocus();
     }
 
-    @OptionsItem(android.R.id.home)
     boolean actionHome() {
         onBackPressed();
         return true;
