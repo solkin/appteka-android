@@ -20,7 +20,7 @@ import android.view.ViewGroup.LayoutParams;
 import androidx.core.app.ActivityCompat;
 
 import com.tomclaw.appsend.R;
-import com.tomclaw.appsend.core.StoreServiceHolder_;
+import com.tomclaw.appsend.core.StoreServiceHolder;
 import com.tomclaw.appsend.di.legacy.LegacyInjector;
 
 import org.androidannotations.api.bean.BeanHolder;
@@ -58,7 +58,7 @@ public final class AbuseActivity_
 
     private void init_(Bundle savedInstanceState) {
         OnViewChangedNotifier.registerOnViewChangedListener(this);
-        this.serviceHolder = StoreServiceHolder_.getInstance_(this);
+        this.serviceHolder = StoreServiceHolder.getInstance();
         this.legacyInjector = LegacyInjector.getInstance();
         injectExtras_();
     }

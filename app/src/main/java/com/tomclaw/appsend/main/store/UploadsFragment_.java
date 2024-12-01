@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.tomclaw.appsend.R;
-import com.tomclaw.appsend.core.StoreServiceHolder_;
+import com.tomclaw.appsend.core.StoreServiceHolder;
 
 import org.androidannotations.api.bean.BeanHolder;
 import org.androidannotations.api.builder.FragmentBuilder;
@@ -25,12 +25,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class UploadsFragment_
-    extends UploadsFragment
-    implements BeanHolder, HasViews, OnViewChangedListener
-{
+        extends UploadsFragment
+        implements BeanHolder, HasViews, OnViewChangedListener {
     private final OnViewChangedNotifier onViewChangedNotifier_ = new OnViewChangedNotifier();
     private View contentView_;
-    private final Map<Class<?> , Object> beans_ = new HashMap<Class<?> , Object>();
+    private final Map<Class<?>, Object> beans_ = new HashMap<Class<?>, Object>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,8 +40,8 @@ public final class UploadsFragment_
     }
 
     @Override
-    public<T extends View> T internalFindViewById(int id) {
-        return ((T)((contentView_ == null)?null:contentView_.findViewById(id)));
+    public <T extends View> T internalFindViewById(int id) {
+        return ((T) ((contentView_ == null) ? null : contentView_.findViewById(id)));
     }
 
     @Override
@@ -67,7 +66,7 @@ public final class UploadsFragment_
 
     private void init_(Bundle savedInstanceState) {
         OnViewChangedNotifier.registerOnViewChangedListener(this);
-        this.serviceHolder = StoreServiceHolder_.getInstance_(getActivity());
+        this.serviceHolder = StoreServiceHolder.getInstance();
         restoreSavedInstanceState_(savedInstanceState);
     }
 
@@ -82,12 +81,12 @@ public final class UploadsFragment_
     }
 
     @Override
-    public<T> T getBean(Class<T> key) {
+    public <T> T getBean(Class<T> key) {
         return ((T) beans_.get(key));
     }
 
     @Override
-    public<T> void putBean(Class<T> key, T value) {
+    public <T> void putBean(Class<T> key, T value) {
         beans_.put(key, value);
     }
 
@@ -115,8 +114,7 @@ public final class UploadsFragment_
     }
 
     public static class FragmentBuilder_
-        extends FragmentBuilder<FragmentBuilder_, UploadsFragment>
-    {
+            extends FragmentBuilder<FragmentBuilder_, UploadsFragment> {
 
         @Override
         public UploadsFragment build() {

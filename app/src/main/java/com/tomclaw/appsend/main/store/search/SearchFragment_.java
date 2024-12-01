@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.tomclaw.appsend.R;
-import com.tomclaw.appsend.core.StoreServiceHolder_;
+import com.tomclaw.appsend.core.StoreServiceHolder;
 
 import org.androidannotations.api.bean.BeanHolder;
 import org.androidannotations.api.builder.FragmentBuilder;
@@ -67,7 +67,7 @@ public final class SearchFragment_
 
     private void init_(Bundle savedInstanceState) {
         OnViewChangedNotifier.registerOnViewChangedListener(this);
-        this.serviceHolder = StoreServiceHolder_.getInstance_(getActivity());
+        this.serviceHolder = StoreServiceHolder.getInstance();
         restoreSavedInstanceState_(savedInstanceState);
     }
 

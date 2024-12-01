@@ -21,7 +21,7 @@ import android.view.ViewGroup.LayoutParams;
 import androidx.core.app.ActivityCompat;
 
 import com.tomclaw.appsend.R;
-import com.tomclaw.appsend.core.StoreServiceHolder_;
+import com.tomclaw.appsend.core.StoreServiceHolder;
 
 import org.androidannotations.api.bean.BeanHolder;
 import org.androidannotations.api.builder.ActivityIntentBuilder;
@@ -61,7 +61,7 @@ public final class UnlinkActivity_
 
     private void init_(Bundle savedInstanceState) {
         OnViewChangedNotifier.registerOnViewChangedListener(this);
-        this.serviceHolder = StoreServiceHolder_.getInstance_(this);
+        this.serviceHolder = StoreServiceHolder.getInstance();
         injectExtras_();
     }
 
