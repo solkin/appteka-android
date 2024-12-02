@@ -9,6 +9,7 @@ import android.content.Intent.ACTION_VIEW
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AppCompatActivity
 import com.avito.konveyor.ItemBinder
@@ -136,6 +137,12 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
         if (savedInstanceState == null) {
             analytics.trackEvent("open-details-screen")
         }
+
+        onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                presenter.onBackPressed()
+            }
+        })
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -145,12 +152,6 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
         finish()
         overridePendingTransition(0, 0)
         startActivity(intent)
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onBackPressed() {
-        super.onBackPressed()
-        presenter.onBackPressed()
     }
 
     override fun onStart() {

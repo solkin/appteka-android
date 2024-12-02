@@ -3,6 +3,7 @@ package com.tomclaw.appsend.screen.chat
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import com.avito.konveyor.ItemBinder
 import com.avito.konveyor.adapter.AdapterPresenter
@@ -60,12 +61,12 @@ class ChatActivity : AppCompatActivity(), ChatPresenter.ChatRouter {
         if (savedInstanceState == null) {
             analytics.trackEvent("open-chat-screen")
         }
-    }
 
-    @Deprecated("Deprecated in Java")
-    override fun onBackPressed() {
-        super.onBackPressed()
-        presenter.onBackPressed()
+        onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                presenter.onBackPressed()
+            }
+        })
     }
 
     override fun onStart() {

@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
@@ -51,12 +52,12 @@ class RateActivity : AppCompatActivity(), RatePresenter.RateRouter {
         if (savedInstanceState == null) {
             analytics.trackEvent("open-rate-screen")
         }
-    }
 
-    @Deprecated("Deprecated in Java")
-    override fun onBackPressed() {
-        super.onBackPressed()
-        presenter.onBackPressed()
+        onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                presenter.onBackPressed()
+            }
+        })
     }
 
     override fun onStart() {

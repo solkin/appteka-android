@@ -3,6 +3,7 @@ package com.tomclaw.appsend.screen.ratings
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import com.avito.konveyor.ItemBinder
 import com.avito.konveyor.adapter.AdapterPresenter
@@ -49,12 +50,12 @@ class RatingsActivity : AppCompatActivity(), RatingsPresenter.RatingsRouter {
         if (savedInstanceState == null) {
             analytics.trackEvent("open-ratings-screen")
         }
-    }
 
-    @Deprecated("Deprecated in Java")
-    override fun onBackPressed() {
-        super.onBackPressed()
-        presenter.onBackPressed()
+        onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                presenter.onBackPressed()
+            }
+        })
     }
 
     override fun onStart() {

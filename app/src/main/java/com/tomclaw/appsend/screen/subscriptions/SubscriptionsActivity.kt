@@ -39,15 +39,9 @@ class SubscriptionsActivity : AppCompatActivity(), SubscriptionsPresenter.Subscr
 
         onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                leaveScreen()
+                presenter.onBackPressed()
             }
         })
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onBackPressed() {
-        super.onBackPressed()
-        presenter.onBackPressed()
     }
 
     override fun onStart() {
