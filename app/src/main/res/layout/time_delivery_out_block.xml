@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:gravity="end"
     android:orientation="vertical"
-    android:paddingEnd="0dp"
-    android:paddingLeft="5dp"
-    android:paddingRight="0dp"
     android:paddingStart="5dp"
+    android:paddingLeft="5dp"
+    android:paddingEnd="0dp"
+    android:paddingRight="0dp"
     tools:ignore="UseCompoundDrawables">
 
     <TextView
@@ -26,6 +27,6 @@
         android:layout_gravity="start"
         android:contentDescription="@string/delivery"
         android:src="@drawable/check_circle"
-        android:tint="@color/chat_time_color" />
+        app:tint="@color/chat_time_color" />
 
 </LinearLayout>
