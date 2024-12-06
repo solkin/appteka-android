@@ -61,7 +61,7 @@
     <string name="cancel">Cancel</string>
     <string name="percent" translatable="false">%d %%</string>
     <string name="upload">Upload</string>
-    <string name="uploaded_url" translatable="false">%1$s (%2$s)\n%3$s</string>
+    <string name="uploaded_url">%1$s (%2$s)\n%3$s</string>
     <string name="tab_store">Store</string>
     <string name="retry">Retry</string>
     <string name="store_loading_error">Failed to retrieve applications list</string>

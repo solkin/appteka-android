@@ -59,7 +59,7 @@
     <string name="cancel">Cancelar</string>
     <string name="percent" translatable="false">%d %%</string>
     <string name="upload">Carregar</string>
-    <string name="uploaded_url" traduzível="false">%1$s (%2$s)\n%3$s</string>
+    <string name="uploaded_url">%1$s (%2$s)\n%3$s</string>
     <string name="tab_store">Loja</string>
     <string name="retry">Repetir</string>
     <string name="store_loading_error">Falha ao recuperar a lista de aplicativos</string>
