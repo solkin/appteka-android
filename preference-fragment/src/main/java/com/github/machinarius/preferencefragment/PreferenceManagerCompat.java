@@ -106,13 +106,13 @@ public class PreferenceManagerCompat {
      * Inflates a preference hierarchy from the preference hierarchies of
      * {@link Activity Activities} that match the given {@link Intent}. An
      * {@link Activity} defines its preference hierarchy with meta-data using
-     * the {@link #METADATA_KEY_PREFERENCES} key.
+     * the METADATA_KEY_PREFERENCES key.
      * <p>
      * If a preference hierarchy is given, the new preference hierarchies will
      * be merged in.
      * 
-     * @param queryIntent The intent to match activities.
-     * @param rootPreferences Optional existing hierarchy to merge the new
+     * @param intent The intent to match activities.
+     * @param screen Optional existing hierarchy to merge the new
      *            hierarchies into.
      * @return The root hierarchy (if one was not provided, the new hierarchy's
      *         root).
@@ -133,13 +133,12 @@ public class PreferenceManagerCompat {
      * Inflates a preference hierarchy from XML. If a preference hierarchy is
      * given, the new preference hierarchies will be merged in.
      * 
-     * @param context The context of the resource.
+     * @param activity The context of the resource.
      * @param resId The resource ID of the XML to inflate.
-     * @param rootPreferences Optional existing hierarchy to merge the new
+     * @param screen Optional existing hierarchy to merge the new
      *            hierarchies into.
      * @return The root hierarchy (if one was not provided, the new hierarchy's
      *         root).
-     * @hide
      */
 	static PreferenceScreen inflateFromResource(PreferenceManager manager, Activity activity, int resId, PreferenceScreen screen) {
 		try {
@@ -213,7 +212,7 @@ public class PreferenceManagerCompat {
 	/**
      * Sets the root of the preference hierarchy.
      * 
-     * @param preferenceScreen The root {@link PreferenceScreen} of the preference hierarchy.
+     * @param screen The root {@link PreferenceScreen} of the preference hierarchy.
      * @return Whether the {@link PreferenceScreen} given is different than the previous. 
      */
 	static boolean setPreferences(PreferenceManager manager, PreferenceScreen screen) {
