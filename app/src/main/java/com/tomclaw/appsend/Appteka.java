@@ -36,8 +36,6 @@ public class Appteka extends Application {
 
     private static Appteka app;
 
-    private static int lastRunBuildNumber = 0;
-
     private static AppComponent component;
 
     private final LegacyInjector injector = new LegacyInjector();
@@ -47,12 +45,14 @@ public class Appteka extends Application {
         super.onCreate();
         app = this;
         component = buildComponent();
+
         initImageLoader();
-        actuateFlags();
         TimeHelper.init();
         StateHolder.init();
 
         component.legacyComponent(new LegacyModule()).inject(injector);
+
+        injector.getMigration();
 
         injector.analytics.register();
     }
@@ -88,15 +88,6 @@ public class Appteka extends Application {
 
     public static Appteka app() {
         return app;
-    }
-
-    private void actuateFlags() {
-        lastRunBuildNumber = PreferenceHelper.getLastRunBuildNumber(this);
-        PreferenceHelper.updateLastRunBuildNumber(this);
-    }
-
-    public static int getLastRunBuildNumber() {
-        return lastRunBuildNumber;
     }
 
 }

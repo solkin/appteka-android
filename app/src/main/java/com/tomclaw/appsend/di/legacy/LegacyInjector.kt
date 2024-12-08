@@ -1,6 +1,7 @@
 package com.tomclaw.appsend.di.legacy
 
 import com.tomclaw.appsend.Appteka
+import com.tomclaw.appsend.core.MigrationManager
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.util.Analytics
 import okhttp3.OkHttpClient
@@ -16,6 +17,9 @@ class LegacyInjector {
 
     @Inject
     lateinit var analytics: Analytics
+
+    @Inject
+    lateinit var migration: MigrationManager
 
     fun init() {
         Appteka.getComponent().legacyComponent(LegacyModule()).inject(this)

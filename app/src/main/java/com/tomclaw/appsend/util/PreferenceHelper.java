@@ -23,32 +23,9 @@ public class PreferenceHelper {
         return getStringPreference(context, R.string.pref_sort_order, R.string.pref_sort_order_default);
     }
 
-    public static int getLastRunBuildNumber(Context context) {
-        return getIntegerPreference(context, R.string.pref_last_run_build_number, R.integer.pref_last_run_build_number_default);
-    }
-
-    public static void updateLastRunBuildNumber(Context context) {
-        PackageManager manager = context.getPackageManager();
-        try {
-            PackageInfo info = manager.getPackageInfo(context.getPackageName(), 0);
-            setIntegerPreference(context, R.string.pref_last_run_build_number, info.versionCode);
-        } catch (PackageManager.NameNotFoundException ignored) {
-        }
-    }
-
     private static boolean getBooleanPreference(Context context, int preferenceKey, int defaultValueKey) {
         return getSharedPreferences(context).getBoolean(context.getResources().getString(preferenceKey),
                 context.getResources().getBoolean(defaultValueKey));
-    }
-
-    private static int getIntegerPreference(Context context, int preferenceKey, int defaultValueKey) {
-        return getSharedPreferences(context).getInt(context.getResources().getString(preferenceKey),
-                context.getResources().getInteger(defaultValueKey));
-    }
-
-    private static void setIntegerPreference(Context context, int preferenceKey, int value) {
-        getSharedPreferences(context).edit().putInt(context.getResources().getString(preferenceKey),
-                value).apply();
     }
 
     private static String getStringPreference(Context context, int preferenceKey, int defaultValueKey) {

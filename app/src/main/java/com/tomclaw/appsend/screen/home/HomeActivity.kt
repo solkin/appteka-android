@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
-import com.tomclaw.appsend.screen.installed.createInstalledActivityIntent
 import com.tomclaw.appsend.main.settings.SettingsActivity.createSettingsActivityIntent
 import com.tomclaw.appsend.main.store.search.SearchActivity.createSearchActivityIntent
 import com.tomclaw.appsend.screen.about.createAboutActivityIntent
@@ -18,15 +17,15 @@ import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.screen.distro.createDistroActivityIntent
 import com.tomclaw.appsend.screen.feed.createFeedFragment
 import com.tomclaw.appsend.screen.home.di.HomeModule
+import com.tomclaw.appsend.screen.installed.createInstalledActivityIntent
 import com.tomclaw.appsend.screen.moderation.createModerationActivityIntent
-import com.tomclaw.appsend.screen.profile.createProfileActivityIntent
 import com.tomclaw.appsend.screen.profile.createProfileFragment
 import com.tomclaw.appsend.screen.store.createStoreFragment
 import com.tomclaw.appsend.screen.topics.createTopicsFragment
 import com.tomclaw.appsend.screen.upload.createUploadActivityIntent
 import com.tomclaw.appsend.util.Analytics
-import com.tomclaw.appsend.util.updateTheme
 import com.tomclaw.appsend.util.restartIfThemeChanged
+import com.tomclaw.appsend.util.updateTheme
 import javax.inject.Inject
 import kotlin.system.exitProcess
 
@@ -65,9 +64,6 @@ class HomeActivity : AppCompatActivity(), HomePresenter.HomeRouter {
         if (savedInstanceState == null) {
             analytics.trackEvent("open-home-screen")
         }
-
-        val intent = createProfileActivityIntent(this, 1)
-        startActivity(intent)
     }
 
     override fun showStoreFragment() {

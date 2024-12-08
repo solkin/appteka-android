@@ -21,6 +21,8 @@ import com.tomclaw.appsend.core.DeviceIdInterceptor
 import com.tomclaw.appsend.core.DeviceIdProvider
 import com.tomclaw.appsend.core.DeviceIdProviderImpl
 import com.tomclaw.appsend.core.HOST_URL
+import com.tomclaw.appsend.core.MigrationManager
+import com.tomclaw.appsend.core.MigrationManagerImpl
 import com.tomclaw.appsend.core.PersistentCookieJar
 import com.tomclaw.appsend.core.STAND_BY_HOST_URL
 import com.tomclaw.appsend.core.StandByApi
@@ -131,6 +133,11 @@ class AppModule(private val app: Application) {
     @Singleton
     internal fun provideAppInfoProvider(packageManager: PackageManager): AppInfoProvider =
         AppInfoProviderImpl(app, packageManager)
+
+    @Provides
+    @Singleton
+    internal fun provideMigrationManager(appInfoProvider: AppInfoProvider): MigrationManager =
+        MigrationManagerImpl(app, appInfoProvider)
 
     @Provides
     @Singleton
