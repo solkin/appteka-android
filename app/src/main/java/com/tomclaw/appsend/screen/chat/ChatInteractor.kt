@@ -10,9 +10,9 @@ import com.tomclaw.appsend.screen.chat.api.SendMessageResponse
 import com.tomclaw.appsend.screen.topics.api.PinTopicResponse
 import com.tomclaw.appsend.user.api.UserBrief
 import com.tomclaw.appsend.util.SchedulersFactory
-import com.tomclaw.appsend.util.StringUtil
 import io.reactivex.rxjava3.core.Observable
 import java.util.Locale
+import java.util.UUID
 
 interface ChatInteractor {
 
@@ -80,7 +80,7 @@ class ChatInteractorImpl(
         text: String?,
         attachment: String?
     ): Observable<SendMessageResponse> {
-        val cookie = StringUtil.generateCookie()
+        val cookie = generateCookie()
         return api
             .sendMessage(
                 topicId = topicId,
@@ -120,6 +120,10 @@ class ChatInteractorImpl(
             .map { it.result }
             .toObservable()
             .subscribeOn(schedulers.io())
+    }
+
+    private fun generateCookie(): String {
+        return UUID.randomUUID().toString().filter { it == '-' }
     }
 
 }

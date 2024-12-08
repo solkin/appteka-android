@@ -38,7 +38,6 @@ import com.tomclaw.appsend.events.EventsInteractor
 import com.tomclaw.appsend.events.EventsInteractorImpl
 import com.tomclaw.appsend.screen.feed.api.PostDeserializer
 import com.tomclaw.appsend.screen.feed.api.PostEntity
-import com.tomclaw.appsend.screen.feed.api.PostPayload
 import com.tomclaw.appsend.upload.UploadManager
 import com.tomclaw.appsend.upload.UploadManagerImpl
 import com.tomclaw.appsend.upload.UploadNotifications
