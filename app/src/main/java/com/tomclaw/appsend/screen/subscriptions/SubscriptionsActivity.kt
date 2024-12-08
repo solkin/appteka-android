@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.subscriptions.di.SubscriptionsModule
-import com.tomclaw.appsend.util.ThemeHelper
+import com.tomclaw.appsend.util.updateTheme
 import javax.inject.Inject
 
 class SubscriptionsActivity : AppCompatActivity(), SubscriptionsPresenter.SubscriptionsRouter {
@@ -26,7 +26,7 @@ class SubscriptionsActivity : AppCompatActivity(), SubscriptionsPresenter.Subscr
         Appteka.getComponent()
             .subscriptionsComponent(SubscriptionsModule(userId, presenterState))
             .inject(activity = this)
-        ThemeHelper.updateTheme(this)
+        updateTheme()
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.subscriptions_activity)

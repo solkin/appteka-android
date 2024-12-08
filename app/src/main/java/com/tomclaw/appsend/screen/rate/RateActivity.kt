@@ -11,8 +11,8 @@ import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.rate.di.RateModule
 import com.tomclaw.appsend.user.api.UserBrief
 import com.tomclaw.appsend.util.Analytics
-import com.tomclaw.appsend.util.ThemeHelper
 import com.tomclaw.appsend.util.getParcelableExtraCompat
+import com.tomclaw.appsend.util.updateTheme
 import javax.inject.Inject
 
 class RateActivity : AppCompatActivity(), RatePresenter.RateRouter {
@@ -37,7 +37,7 @@ class RateActivity : AppCompatActivity(), RatePresenter.RateRouter {
         Appteka.getComponent()
             .rateComponent(RateModule(this, appId, userBrief, rating, review, presenterState))
             .inject(activity = this)
-        ThemeHelper.updateTheme(this)
+        updateTheme()
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.rate_activity)

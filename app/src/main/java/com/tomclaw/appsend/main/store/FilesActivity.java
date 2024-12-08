@@ -1,5 +1,7 @@
 package com.tomclaw.appsend.main.store;
 
+import static com.tomclaw.appsend.util.ThemesKt.updateTheme;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -11,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import com.tomclaw.appsend.di.legacy.LegacyInjector;
-import com.tomclaw.appsend.util.ThemeHelper;
 
 /**
  * Created by Igor on 22.10.2017.
@@ -29,7 +30,7 @@ public class FilesActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        ThemeHelper.updateTheme(this);
+        updateTheme(this);
         super.onCreate(savedInstanceState);
         if (savedInstanceState == null) {
             legacyInjector.analytics.trackEvent("open-files-screen");

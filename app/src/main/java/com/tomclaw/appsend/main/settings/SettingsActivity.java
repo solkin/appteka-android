@@ -1,5 +1,7 @@
 package com.tomclaw.appsend.main.settings;
 
+import static com.tomclaw.appsend.util.ThemesKt.updateTheme;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,7 +16,6 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.di.legacy.LegacyInjector;
-import com.tomclaw.appsend.util.ThemeHelper;
 
 
 /**
@@ -34,7 +35,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ThemeHelper.updateTheme(this);
+        updateTheme(this);
         super.onCreate(savedInstanceState);
         if (savedInstanceState == null) {
             legacyInjector.analytics.trackEvent("open-settings-screen");

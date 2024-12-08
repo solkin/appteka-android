@@ -40,7 +40,7 @@ import com.tomclaw.appsend.upload.UploadPackage
 import com.tomclaw.appsend.user.api.UserBrief
 import com.tomclaw.appsend.util.Analytics
 import com.tomclaw.appsend.util.IntentHelper
-import com.tomclaw.appsend.util.ThemeHelper
+import com.tomclaw.appsend.util.updateTheme
 import java.io.File
 import javax.inject.Inject
 import javax.inject.Named
@@ -123,7 +123,7 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
                 )
             )
             .inject(activity = this)
-        ThemeHelper.updateTheme(this)
+        updateTheme()
         Permiso.getInstance().setActivity(this)
 
         super.onCreate(savedInstanceState)

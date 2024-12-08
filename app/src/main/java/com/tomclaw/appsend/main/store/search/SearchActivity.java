@@ -1,5 +1,7 @@
 package com.tomclaw.appsend.main.store.search;
 
+import static com.tomclaw.appsend.util.ThemesKt.updateTheme;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -15,7 +17,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.di.legacy.LegacyInjector;
-import com.tomclaw.appsend.util.ThemeHelper;
+import com.tomclaw.appsend.util.ThemesKt;
 
 @SuppressLint("Registered")
 public class SearchActivity extends AppCompatActivity {
@@ -30,7 +32,7 @@ public class SearchActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        ThemeHelper.updateTheme(this);
+        updateTheme(this);
         super.onCreate(savedInstanceState);
         if (savedInstanceState == null) {
             legacyInjector.analytics.trackEvent("open-search-screen");

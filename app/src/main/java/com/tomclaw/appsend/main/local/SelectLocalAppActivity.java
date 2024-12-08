@@ -1,5 +1,7 @@
 package com.tomclaw.appsend.main.local;
 
+import static com.tomclaw.appsend.util.ThemesKt.updateTheme;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -20,7 +22,6 @@ import com.greysonparrelli.permiso.PermisoActivity;
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.di.legacy.LegacyInjector;
 import com.tomclaw.appsend.main.item.CommonItem;
-import com.tomclaw.appsend.util.ThemeHelper;
 
 import java.util.Arrays;
 import java.util.List;
@@ -40,7 +41,7 @@ public class SelectLocalAppActivity extends PermisoActivity implements CommonIte
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ThemeHelper.updateTheme(this);
+        updateTheme(this);
         super.onCreate(savedInstanceState);
         if (savedInstanceState == null) {
             legacyInjector.analytics.trackEvent("open-select-app-screen");
