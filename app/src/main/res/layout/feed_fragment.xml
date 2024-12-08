@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,7 +9,7 @@
         android:id="@+id/swipe_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="?actionBarSize">
+        android:layout_below="@+id/toolbar_container">
 
         <ViewFlipper
             android:id="@+id/view_flipper"
@@ -70,4 +70,4 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-</FrameLayout>
+</RelativeLayout>
