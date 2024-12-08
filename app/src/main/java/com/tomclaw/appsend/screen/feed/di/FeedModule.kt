@@ -30,6 +30,7 @@ import java.util.Locale
 class FeedModule(
     private val context: Context,
     private val userId: Int?,
+    private val withToolbar: Boolean?,
     private val state: Bundle?
 ) {
 
@@ -42,6 +43,7 @@ class FeedModule(
         schedulers: SchedulersFactory
     ): FeedPresenter = FeedPresenterImpl(
         userId,
+        withToolbar,
         interactor,
         adapterPresenter,
         converter,

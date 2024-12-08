@@ -19,6 +19,7 @@ import com.tomclaw.appsend.screen.distro.createDistroActivityIntent
 import com.tomclaw.appsend.screen.feed.createFeedFragment
 import com.tomclaw.appsend.screen.home.di.HomeModule
 import com.tomclaw.appsend.screen.moderation.createModerationActivityIntent
+import com.tomclaw.appsend.screen.profile.createProfileActivityIntent
 import com.tomclaw.appsend.screen.profile.createProfileFragment
 import com.tomclaw.appsend.screen.store.createStoreFragment
 import com.tomclaw.appsend.screen.topics.createTopicsFragment
@@ -63,6 +64,9 @@ class HomeActivity : AppCompatActivity(), HomePresenter.HomeRouter {
         if (savedInstanceState == null) {
             analytics.trackEvent("open-home-screen")
         }
+
+        val intent = createProfileActivityIntent(this, 1)
+        startActivity(intent)
     }
 
     override fun showStoreFragment() {

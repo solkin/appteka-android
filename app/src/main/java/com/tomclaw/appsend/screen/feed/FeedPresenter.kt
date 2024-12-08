@@ -28,6 +28,8 @@ interface FeedPresenter : ItemListener {
 
     fun onUpdate()
 
+    fun onBackPressed()
+
     fun invalidateApps()
 
     interface FeedRouter {
@@ -42,6 +44,7 @@ interface FeedPresenter : ItemListener {
 
 class FeedPresenterImpl(
     private val userId: Int?,
+    private val withToolbar: Boolean?,
     private val interactor: FeedInteractor,
     private val adapterPresenter: Lazy<AdapterPresenter>,
     private val converter: FeedConverter,
@@ -61,11 +64,18 @@ class FeedPresenterImpl(
     override fun attachView(view: FeedView) {
         this.view = view
 
+        subscriptions += view.navigationClicks().subscribe { onBackPressed() }
         subscriptions += view.retryClicks().subscribe {
             loadApps()
         }
         subscriptions += view.refreshClicks().subscribe {
             invalidateApps()
+        }
+
+        if (withToolbar == true) {
+            view.showToolbar()
+        } else {
+            view.hideToolbar()
         }
 
         if (isError) {
@@ -92,6 +102,10 @@ class FeedPresenterImpl(
     override fun saveState() = Bundle().apply {
         putParcelableArrayList(KEY_APPS, items?.let { ArrayList(items.orEmpty()) })
         putBoolean(KEY_ERROR, isError)
+    }
+
+    override fun onBackPressed() {
+        router?.leaveScreen()
     }
 
     override fun invalidateApps() {

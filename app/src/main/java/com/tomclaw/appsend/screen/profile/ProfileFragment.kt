@@ -17,6 +17,7 @@ import com.tomclaw.appsend.main.store.FilesActivity.createUserAppsActivityIntent
 import com.tomclaw.appsend.screen.auth.request_code.createRequestCodeActivityIntent
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.screen.favorite.createFavoriteActivityIntent
+import com.tomclaw.appsend.screen.feed.createFeedActivityIntent
 import com.tomclaw.appsend.screen.profile.di.PROFILE_ADAPTER_PRESENTER
 import com.tomclaw.appsend.screen.profile.di.ProfileModule
 import com.tomclaw.appsend.screen.reviews.createReviewsActivityIntent
@@ -50,7 +51,7 @@ class ProfileFragment : Fragment(), ProfilePresenter.ProfileRouter {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val userId = arguments?.getInt(ARG_USER_ID)
-        val withToolbar = arguments?.getBoolean(ARG_WITH_TOOLBAR, true)
+        val withToolbar = arguments?.getBoolean(ARG_WITH_TOOLBAR, false)
 
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
         Appteka.getComponent()
@@ -143,6 +144,12 @@ class ProfileFragment : Fragment(), ProfilePresenter.ProfileRouter {
         val context = context ?: return
         val intent = createRequestCodeActivityIntent(context)
         authLauncher.launch(intent)
+    }
+
+    override fun openFeedScreen(userId: Int) {
+        val context = context ?: return
+        val intent = createFeedActivityIntent(context, userId)
+        startActivity(intent)
     }
 
     override fun openSubscribersScreen(userId: Int) {

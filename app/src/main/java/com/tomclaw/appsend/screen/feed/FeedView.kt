@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.view.View
 import android.widget.TextView
 import android.widget.ViewFlipper
+import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -12,7 +13,9 @@ import com.avito.konveyor.adapter.SimpleRecyclerAdapter
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.util.clicks
+import com.tomclaw.appsend.util.hide
 import com.tomclaw.appsend.util.hideWithAlphaAnimation
+import com.tomclaw.appsend.util.show
 import com.tomclaw.appsend.util.showWithAlphaAnimation
 import io.reactivex.rxjava3.core.Observable
 
@@ -21,6 +24,10 @@ interface FeedView {
     fun showProgress()
 
     fun showContent()
+
+    fun showToolbar()
+
+    fun hideToolbar()
 
     fun contentUpdated()
 
@@ -34,6 +41,8 @@ interface FeedView {
 
     fun isPullRefreshing(): Boolean
 
+    fun navigationClicks(): Observable<Unit>
+
     fun retryClicks(): Observable<Unit>
 
     fun refreshClicks(): Observable<Unit>
@@ -45,6 +54,7 @@ class FeedViewImpl(
     private val adapter: SimpleRecyclerAdapter
 ) : FeedView {
 
+    private val toolbar: Toolbar = view.findViewById(R.id.toolbar)
     private val refresher: SwipeRefreshLayout = view.findViewById(R.id.swipe_refresh)
     private val flipper: ViewFlipper = view.findViewById(R.id.view_flipper)
     private val overlayProgress: View = view.findViewById(R.id.overlay_progress)
@@ -52,10 +62,13 @@ class FeedViewImpl(
     private val error: TextView = view.findViewById(R.id.error_text)
     private val retryButton: View = view.findViewById(R.id.button_retry)
 
+    private val navigationRelay = PublishRelay.create<Unit>()
     private val retryRelay = PublishRelay.create<Unit>()
     private val refreshRelay = PublishRelay.create<Unit>()
 
     init {
+        toolbar.setNavigationOnClickListener { navigationRelay.accept(Unit) }
+
         val orientation = RecyclerView.VERTICAL
         val layoutManager = LinearLayoutManager(view.context, orientation, false)
         adapter.setHasStableIds(true)
@@ -77,6 +90,14 @@ class FeedViewImpl(
         refresher.isEnabled = true
         flipper.displayedChild = 0
         overlayProgress.hideWithAlphaAnimation(animateFully = false)
+    }
+
+    override fun showToolbar() {
+        toolbar.show()
+    }
+
+    override fun hideToolbar() {
+        toolbar.hide()
     }
 
     override fun showPlaceholder() {
@@ -107,6 +128,8 @@ class FeedViewImpl(
     }
 
     override fun isPullRefreshing(): Boolean = refresher.isRefreshing
+
+    override fun navigationClicks(): Observable<Unit> = navigationRelay
 
     override fun retryClicks(): Observable<Unit> = retryRelay
 
