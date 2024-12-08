@@ -1,4 +1,4 @@
-package com.tomclaw.appsend.util;
+package com.tomclaw.appsend.main.store;
 
 import android.text.TextUtils;
 

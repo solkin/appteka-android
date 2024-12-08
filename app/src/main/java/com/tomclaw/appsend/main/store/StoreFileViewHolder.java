@@ -24,7 +24,6 @@ import com.tomclaw.appsend.main.adapter.files.FileViewHolder;
 import com.tomclaw.appsend.main.adapter.files.FilesListener;
 import com.tomclaw.appsend.main.item.StoreItem;
 import com.tomclaw.appsend.util.FileHelper;
-import com.tomclaw.appsend.util.LocaleHelper;
 
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;

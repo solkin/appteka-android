@@ -1,6 +1,6 @@
 package com.tomclaw.appsend.main.store;
 
-import static com.tomclaw.appsend.util.LocaleHelper.getLocaleLanguage;
+import static com.tomclaw.appsend.main.store.LocaleHelper.getLocaleLanguage;
 
 import com.tomclaw.appsend.core.StoreServiceHolder;
 import com.tomclaw.appsend.main.dto.ApiResponse;

@@ -1,6 +1,6 @@
 package com.tomclaw.appsend.main.store.search;
 
-import static com.tomclaw.appsend.util.LocaleHelper.getLocaleLanguage;
+import static com.tomclaw.appsend.main.store.LocaleHelper.getLocaleLanguage;
 
 import android.text.TextUtils;
 
