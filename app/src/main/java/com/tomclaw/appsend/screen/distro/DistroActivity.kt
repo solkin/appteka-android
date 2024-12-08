@@ -29,7 +29,7 @@ import com.tomclaw.appsend.screen.upload.createUploadActivityIntent
 import com.tomclaw.appsend.upload.UploadApk
 import com.tomclaw.appsend.upload.UploadPackage
 import com.tomclaw.appsend.util.Analytics
-import com.tomclaw.appsend.util.IntentHelper
+import com.tomclaw.appsend.util.openFileIntent
 import com.tomclaw.appsend.util.updateTheme
 import java.io.File
 import javax.inject.Inject
@@ -152,10 +152,9 @@ class DistroActivity : AppCompatActivity(), DistroPresenter.DistroRouter {
     }
 
     override fun installApp(path: String) {
-        val intent = IntentHelper.openFileIntent(
-            this,
-            path,
-            "application/vnd.android.package-archive"
+        val intent = openFileIntent(
+            filePath = path,
+            type = "application/vnd.android.package-archive"
         )
         startActivity(intent)
         analytics.trackEvent("distro-install-app")

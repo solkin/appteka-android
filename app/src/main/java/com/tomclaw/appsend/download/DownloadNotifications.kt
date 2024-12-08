@@ -15,10 +15,10 @@ import androidx.core.graphics.drawable.toBitmap
 import com.tomclaw.appsend.BuildConfig
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
-import com.tomclaw.appsend.util.IntentHelper
 import com.tomclaw.appsend.util.NotificationIconHolder
 import com.tomclaw.appsend.util.crc32
 import com.tomclaw.appsend.util.getColor
+import com.tomclaw.appsend.util.openFileIntent
 import com.tomclaw.imageloader.SimpleImageLoader.imageLoader
 import com.tomclaw.imageloader.core.Handlers
 import io.reactivex.rxjava3.core.Observable
@@ -194,10 +194,9 @@ class DownloadNotificationsImpl(
     private fun getInstallIntent(file: File): PendingIntent {
         return PendingIntent.getActivity(
             context, 0,
-            IntentHelper.openFileIntent(
-                context,
-                file.absolutePath,
-                "application/vnd.android.package-archive"
+            context.openFileIntent(
+                filePath = file.absolutePath,
+                type = "application/vnd.android.package-archive"
             ),
             FLAG_CANCEL_CURRENT
         )

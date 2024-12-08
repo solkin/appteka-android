@@ -39,7 +39,7 @@ import com.tomclaw.appsend.screen.upload.createUploadActivityIntent
 import com.tomclaw.appsend.upload.UploadPackage
 import com.tomclaw.appsend.user.api.UserBrief
 import com.tomclaw.appsend.util.Analytics
-import com.tomclaw.appsend.util.IntentHelper
+import com.tomclaw.appsend.util.openFileIntent
 import com.tomclaw.appsend.util.updateTheme
 import java.io.File
 import javax.inject.Inject
@@ -244,10 +244,9 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
     }
 
     override fun installApp(file: File) {
-        val intent = IntentHelper.openFileIntent(
-            this,
-            file.absolutePath,
-            "application/vnd.android.package-archive"
+        val intent = openFileIntent(
+            filePath = file.absolutePath,
+            type = "application/vnd.android.package-archive"
         )
         startActivity(intent)
         analytics.trackEvent("details-install-app")
