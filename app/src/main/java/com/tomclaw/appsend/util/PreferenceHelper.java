@@ -15,10 +15,6 @@ import com.tomclaw.appsend.R;
  */
 public class PreferenceHelper {
 
-    public static boolean isDarkTheme(Context context) {
-        return getBooleanPreference(context, R.string.pref_dark_theme, R.bool.pref_dark_theme_default);
-    }
-
     public static boolean isShowSystemApps(Context context) {
         return getBooleanPreference(context, R.string.pref_show_system, R.bool.pref_show_system_default);
     }
@@ -43,11 +39,6 @@ public class PreferenceHelper {
     private static boolean getBooleanPreference(Context context, int preferenceKey, int defaultValueKey) {
         return getSharedPreferences(context).getBoolean(context.getResources().getString(preferenceKey),
                 context.getResources().getBoolean(defaultValueKey));
-    }
-
-    private static void setBooleanPreference(Context context, int preferenceKey, boolean value) {
-        getSharedPreferences(context).edit().putBoolean(context.getResources().getString(preferenceKey),
-                value).apply();
     }
 
     private static int getIntegerPreference(Context context, int preferenceKey, int defaultValueKey) {
