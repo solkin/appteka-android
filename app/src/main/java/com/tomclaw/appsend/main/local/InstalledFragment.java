@@ -3,6 +3,7 @@ package com.tomclaw.appsend.main.local;
 import static com.tomclaw.appsend.util.states.StateHolder.stateHolder;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -15,7 +16,6 @@ import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.di.legacy.LegacyInjector;
 import com.tomclaw.appsend.main.adapter.files.FileViewHolderCreator;
 import com.tomclaw.appsend.main.item.AppItem;
-import com.tomclaw.appsend.util.PreferenceHelper;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -82,7 +82,7 @@ abstract class InstalledFragment extends CommonItemFragment<AppItem> {
         if (context == null) {
             return null;
         }
-        boolean isShowSystemApps = PreferenceHelper.isShowSystemApps(context);
+        boolean isShowSystemApps = isShowSystemApps(context);
         PackageManager packageManager = context.getPackageManager();
         ArrayList<AppItem> appItemList = new ArrayList<>();
 
@@ -108,7 +108,7 @@ abstract class InstalledFragment extends CommonItemFragment<AppItem> {
                 // Bad package.
             }
         }
-        String sortOrder = PreferenceHelper.getSortOrder(context);
+        String sortOrder = getSortOrder(context);
         if (TextUtils.equals(sortOrder, context.getString(R.string.sort_order_ascending_value))) {
             Collections.sort(appItemList, (lhs, rhs) -> lhs.getLabel().toUpperCase(locale)
                     .compareTo(rhs.getLabel().toUpperCase(locale)));
@@ -133,6 +133,22 @@ abstract class InstalledFragment extends CommonItemFragment<AppItem> {
     @SuppressWarnings("UseCompareMethod")
     private int compareLong(long lhs, long rhs) {
         return lhs < rhs ? -1 : (lhs == rhs ? 0 : 1);
+    }
+
+
+    public static boolean isShowSystemApps(Context context) {
+        return getSharedPreferences(context).getBoolean(context.getResources().getString(R.string.pref_show_system),
+                context.getResources().getBoolean(R.bool.pref_show_system_default));
+    }
+
+    public static String getSortOrder(Context context) {
+        return getSharedPreferences(context).getString(context.getResources().getString(R.string.pref_sort_order),
+                context.getResources().getString(R.string.pref_sort_order_default));
+    }
+
+    private static SharedPreferences getSharedPreferences(Context context) {
+        return context.getSharedPreferences(context.getPackageName() + "_preferences",
+                Context.MODE_PRIVATE);
     }
 
 }

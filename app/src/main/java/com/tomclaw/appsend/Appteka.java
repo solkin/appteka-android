@@ -11,7 +11,6 @@ import com.tomclaw.appsend.di.legacy.LegacyInjector;
 import com.tomclaw.appsend.di.legacy.LegacyModule;
 import com.tomclaw.appsend.util.ApkIconLoader;
 import com.tomclaw.appsend.util.AppIconLoader;
-import com.tomclaw.appsend.util.PreferenceHelper;
 import com.tomclaw.appsend.main.local.TimeHelper;
 import com.tomclaw.appsend.util.states.StateHolder;
 import com.tomclaw.cache.DiskLruCache;
