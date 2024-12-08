@@ -1,4 +1,4 @@
-package com.tomclaw.appsend.util
+package com.tomclaw.appsend.view
 
 import android.animation.ValueAnimator
 import android.annotation.SuppressLint

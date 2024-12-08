@@ -6,7 +6,7 @@ import android.widget.ImageView
 import com.avito.konveyor.adapter.BaseViewHolder
 import com.avito.konveyor.blueprint.ItemView
 import com.tomclaw.appsend.R
-import com.tomclaw.appsend.util.ZoomImageView
+import com.tomclaw.appsend.view.ZoomImageView
 import com.tomclaw.imageloader.util.fetch
 
 interface ImageItemView : ItemView {
