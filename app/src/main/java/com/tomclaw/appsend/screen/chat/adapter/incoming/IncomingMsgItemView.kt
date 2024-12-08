@@ -9,8 +9,8 @@ import com.tomclaw.appsend.R
 import com.tomclaw.appsend.dto.UserIcon
 import com.tomclaw.appsend.util.BubbleColorDrawable
 import com.tomclaw.appsend.util.Corner
-import com.tomclaw.appsend.util.StringUtil.formatQuote
 import com.tomclaw.appsend.util.bind
+import com.tomclaw.appsend.util.formatQuote
 import com.tomclaw.appsend.util.getAttributedColor
 import com.tomclaw.appsend.view.UserIconView
 import com.tomclaw.appsend.view.UserIconViewImpl
@@ -61,7 +61,7 @@ class IncomingMsgItemViewHolder(view: View) : BaseViewHolder(view), IncomingMsgI
     }
 
     override fun setText(text: String) {
-        textView.text = formatQuote(text)
+        textView.text = text.formatQuote()
     }
 
     override fun setOnClickListener(listener: (() -> Unit)?) {

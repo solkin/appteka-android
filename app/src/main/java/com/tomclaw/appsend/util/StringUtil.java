@@ -39,13 +39,4 @@ public class StringUtil {
         return sb.toString();
     }
 
-    public static SpannableStringBuilder formatQuote(String string) {
-        SpannableStringBuilder spannable = new SpannableStringBuilder(string);
-        int quoteStart = string.indexOf('>');
-        int quoteEnd = string.indexOf('\n', quoteStart);
-        if (quoteStart >= 0 && quoteEnd > 0) {
-            spannable.setSpan(new StyleSpan(Typeface.BOLD), quoteStart, quoteEnd, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        }
-        return spannable;
-    }
 }
