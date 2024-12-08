@@ -162,7 +162,7 @@ class BananalyticsImpl(
             val filesToRemove: MutableList<File> = ArrayList()
             try {
                 do {
-                    val file: File = files.removeFirst()
+                    val file: File = files.removeAt(0)
                     readEvent(file)?.let { events.add(it) }
                     filesToRemove.add(file)
                     if (events.size >= batchSize) {
