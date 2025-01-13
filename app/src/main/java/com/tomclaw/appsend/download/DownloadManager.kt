@@ -4,7 +4,6 @@ import com.jakewharton.rxrelay3.BehaviorRelay
 import com.tomclaw.appsend.util.safeClose
 import io.reactivex.rxjava3.core.Observable
 import okhttp3.CookieJar
-import okhttp3.HttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import java.io.BufferedInputStream
 import java.io.File

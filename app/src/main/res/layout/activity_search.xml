@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.fragment.app.FragmentContainerView
+    <fragment
         android:id="@+id/search_fragment"
         android:name="com.tomclaw.appsend.main.store.search.SearchFragment_"
         android:layout_width="match_parent"

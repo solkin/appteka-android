@@ -5,7 +5,7 @@
 
     <include layout="@layout/toolbar" />
 
-    <androidx.fragment.app.FragmentContainerView
+    <fragment
         android:id="@+id/uploads_fragment"
         android:name="com.tomclaw.appsend.main.store.UploadsFragment_"
         android:layout_width="match_parent"
