@@ -13,6 +13,7 @@ import com.tomclaw.appsend.dto.UserIcon
 import com.tomclaw.appsend.util.bind
 import com.tomclaw.appsend.view.UserIconView
 import com.tomclaw.appsend.view.UserIconViewImpl
+import com.tomclaw.imageloader.util.centerCrop
 import com.tomclaw.imageloader.util.fetch
 
 interface PostItemView : ItemView {
@@ -31,7 +32,9 @@ interface PostItemView : ItemView {
 
     fun hideProgress()
 
-    fun setOnClickListener(listener: (() -> Unit)?)
+    fun setOnPostClickListener(listener: (() -> Unit)?)
+
+    fun setOnImageClickListener(listener: (() -> Unit)?)
 
     fun setClickable(clickable: Boolean)
 
@@ -42,14 +45,17 @@ class PostItemViewHolder(view: View) : BaseViewHolder(view), PostItemView {
     private val userIcon: UserIconView = UserIconViewImpl(view.findViewById(R.id.member_icon))
     private val userName: TextView = view.findViewById(R.id.user_name)
     private val time: TextView = view.findViewById(R.id.date_view)
-    private val image: ImageView = view.findViewById(R.id.image)
     private val text: TextView = view.findViewById(R.id.text)
+    private val card: View = view.findViewById(R.id.image_card)
+    private val image: ImageView = view.findViewById(R.id.image)
     private val progress: View = view.findViewById(R.id.item_progress)
 
-    private var clickListener: (() -> Unit)? = null
+    private var postClickListener: (() -> Unit)? = null
+    private var imageClickListener: (() -> Unit)? = null
 
     init {
-        view.setOnClickListener { clickListener?.invoke() }
+        view.setOnClickListener { postClickListener?.invoke() }
+        card.setOnClickListener { imageClickListener?.invoke() }
     }
 
     override fun setUserIcon(userIcon: UserIcon) {
@@ -61,25 +67,11 @@ class PostItemViewHolder(view: View) : BaseViewHolder(view), PostItemView {
     }
 
     override fun setImage(uri: Uri) {
-        image.setImageResource(R.drawable.ic_cloud)
-        image.scaleType = ImageView.ScaleType.CENTER_INSIDE
-        image.fetch(uri) {
+        image.fetch(uri.toString()) {
+            centerCrop()
             placeholder = {
                 with(it.get()) {
-                    image.scaleType = android.widget.ImageView.ScaleType.CENTER_INSIDE
-                    image.setImageResource(com.tomclaw.appsend.R.drawable.ic_cloud)
-                }
-            }
-            success = { viewHolder, result ->
-                with(viewHolder.get()) {
-                    image.scaleType = android.widget.ImageView.ScaleType.MATRIX
-                    setImageDrawable(result.getDrawable())
-                }
-            }
-            error = {
-                with(it.get()) {
-                    image.scaleType = android.widget.ImageView.ScaleType.CENTER_INSIDE
-                    image.setImageResource(com.tomclaw.appsend.R.drawable.ic_error)
+                    setImageDrawable(null)
                 }
             }
         }
@@ -101,8 +93,12 @@ class PostItemViewHolder(view: View) : BaseViewHolder(view), PostItemView {
         progress.visibility = GONE
     }
 
-    override fun setOnClickListener(listener: (() -> Unit)?) {
-        this.clickListener = listener
+    override fun setOnPostClickListener(listener: (() -> Unit)?) {
+        this.postClickListener = listener
+    }
+
+    override fun setOnImageClickListener(listener: (() -> Unit)?) {
+        this.imageClickListener = listener
     }
 
     override fun setClickable(clickable: Boolean) {
@@ -110,7 +106,8 @@ class PostItemViewHolder(view: View) : BaseViewHolder(view), PostItemView {
     }
 
     override fun onUnbind() {
-        this.clickListener = null
+        this.postClickListener = null
+        this.imageClickListener = null
     }
 
 }
