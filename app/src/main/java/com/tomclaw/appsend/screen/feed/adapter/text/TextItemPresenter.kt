@@ -32,7 +32,10 @@ class TextItemPresenter(
         item.screenshots
             .takeIf { it.isNotEmpty() }
             ?.first()
-            ?.let { view.setImage(Uri.parse(it.preview)) }
+            ?.let {
+                view.setImage(Uri.parse(it.preview))
+                view.setOnImageClickListener { listener.onImageClick(it) }
+            }
         if (item.hasProgress) view.showProgress() else view.hideProgress()
         view.setOnPostClickListener { listener.onItemClick(item) }
     }

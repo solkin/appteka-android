@@ -11,6 +11,8 @@ import com.avito.konveyor.adapter.SimpleRecyclerAdapter
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.feed.di.FeedModule
+import com.tomclaw.appsend.screen.gallery.GalleryItem
+import com.tomclaw.appsend.screen.gallery.createGalleryActivityIntent
 import com.tomclaw.appsend.screen.profile.createProfileActivityIntent
 import com.tomclaw.appsend.util.Analytics
 import javax.inject.Inject
@@ -83,6 +85,12 @@ class FeedFragment : Fragment(), FeedPresenter.FeedRouter {
     override fun openProfileScreen(userId: Int) {
         val context = context ?: return
         val intent = createProfileActivityIntent(context, userId)
+        startActivity(intent)
+    }
+
+    override fun openGallery(items: List<GalleryItem>, current: Int) {
+        val context = context ?: return
+        val intent = createGalleryActivityIntent(context, items, current)
         startActivity(intent)
     }
 

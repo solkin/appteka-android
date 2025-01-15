@@ -1,12 +1,15 @@
 package com.tomclaw.appsend.screen.feed
 
+import android.net.Uri
 import android.os.Bundle
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.blueprint.Item
 import com.avito.konveyor.data_source.ListDataSource
+import com.tomclaw.appsend.dto.Screenshot
 import com.tomclaw.appsend.screen.feed.adapter.FeedItem
 import com.tomclaw.appsend.screen.feed.adapter.ItemListener
 import com.tomclaw.appsend.screen.feed.api.PostEntity
+import com.tomclaw.appsend.screen.gallery.GalleryItem
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.getParcelableArrayListCompat
 import com.tomclaw.appsend.util.retryWhenNonAuthErrors
@@ -35,6 +38,8 @@ interface FeedPresenter : ItemListener {
     interface FeedRouter {
 
         fun openProfileScreen(userId: Int)
+
+        fun openGallery(items: List<GalleryItem>, current: Int)
 
         fun leaveScreen()
 
@@ -200,6 +205,13 @@ class FeedPresenterImpl(
     override fun onLoadMore(item: Item) {
         val sub = items?.find { it.id == item.id } ?: return
         loadApps(sub.id.toInt())
+    }
+
+    override fun onImageClick(image: Screenshot) {
+        router?.openGallery(
+            items = listOf(GalleryItem(Uri.parse(image.original), image.width, image.height)),
+            current = 0,
+        )
     }
 
 }
