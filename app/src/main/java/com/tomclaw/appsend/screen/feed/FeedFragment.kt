@@ -33,11 +33,12 @@ class FeedFragment : Fragment(), FeedPresenter.FeedRouter {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val userId = arguments?.getInt(ARG_USER_ID)
+        val postId = arguments?.getInt(ARG_POST_ID)
         val withToolbar = arguments?.getBoolean(ARG_WITH_TOOLBAR, false)
 
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
         Appteka.getComponent()
-            .feedComponent(FeedModule(requireContext(), userId, withToolbar, presenterState))
+            .feedComponent(FeedModule(requireContext(), userId, postId, withToolbar, presenterState))
             .inject(fragment = this)
 
         super.onCreate(savedInstanceState)
@@ -102,14 +103,16 @@ class FeedFragment : Fragment(), FeedPresenter.FeedRouter {
 
 fun createFeedFragment(): FeedFragment = FeedFragment()
 
-fun createFeedFragment(userId: Int, withToolbar: Boolean): FeedFragment =
+fun createFeedFragment(userId: Int, postId: Int = 0, withToolbar: Boolean): FeedFragment =
     FeedFragment().apply {
         arguments = Bundle().apply {
             putInt(ARG_USER_ID, userId)
+            putInt(ARG_POST_ID, postId)
             putBoolean(ARG_WITH_TOOLBAR, withToolbar)
         }
     }
 
 private const val KEY_PRESENTER_STATE = "presenter_state"
 private const val ARG_USER_ID = "user_id"
+private const val ARG_POST_ID = "post_id"
 private const val ARG_WITH_TOOLBAR = "with_toolbar"

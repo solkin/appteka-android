@@ -49,6 +49,7 @@ interface FeedPresenter : ItemListener {
 
 class FeedPresenterImpl(
     private val userId: Int?,
+    private val postId: Int?,
     private val withToolbar: Boolean?,
     private val interactor: FeedInteractor,
     private val adapterPresenter: Lazy<AdapterPresenter>,
@@ -87,7 +88,7 @@ class FeedPresenterImpl(
             onError()
             onReady()
         } else {
-            items?.let { onReady() } ?: loadApps()
+            items?.let { onReady() } ?: postId?.let { loadApps(it) } ?: loadApps()
         }
     }
 
@@ -133,10 +134,11 @@ class FeedPresenterImpl(
     }
 
     private fun loadApps(offsetId: Int) {
+        val scroll = items.isNullOrEmpty()
         subscriptions += interactor.listFeed(userId, offsetId)
             .observeOn(schedulers.mainThread())
             .retryWhenNonAuthErrors()
-            .doAfterTerminate { onReady() }
+            .doAfterTerminate { onReady(offsetId.takeIf { scroll }) }
             .subscribe(
                 { onLoaded(it) },
                 { onLoadMoreError() }
@@ -155,26 +157,25 @@ class FeedPresenterImpl(
             ?.plus(newItems) ?: newItems
     }
 
-    private fun onReady() {
+    private fun onReady(offsetId: Int? = null) {
         val items = this.items
         when {
-            isError -> {
-                view?.showError()
-            }
-
-            items.isNullOrEmpty() -> {
-                view?.showPlaceholder()
-            }
-
+            isError -> view?.showError()
+            items.isNullOrEmpty() -> view?.showPlaceholder()
             else -> {
                 val dataSource = ListDataSource(items)
                 adapterPresenter.get().onDataSourceChanged(dataSource)
-                view?.let {
-                    it.contentUpdated()
-                    if (it.isPullRefreshing()) {
-                        it.stopPullRefreshing()
+                view?.let { view ->
+                    view.contentUpdated()
+                    if (view.isPullRefreshing()) {
+                        view.stopPullRefreshing()
                     } else {
-                        it.showContent()
+                        view.showContent()
+                    }
+                    offsetId?.let { offsetId ->
+                        items
+                            .indexOfFirst { it.id.toInt() == offsetId }
+                            .let { view.scrollTo(it) }
                     }
                 }
             }

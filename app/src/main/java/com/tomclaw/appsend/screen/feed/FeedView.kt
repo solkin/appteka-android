@@ -33,6 +33,8 @@ interface FeedView {
 
     fun contentUpdated(position: Int)
 
+    fun scrollTo(position: Int)
+
     fun showPlaceholder()
 
     fun showError()
@@ -121,6 +123,10 @@ class FeedViewImpl(
 
     override fun contentUpdated(position: Int) {
         adapter.notifyItemChanged(position)
+    }
+
+    override fun scrollTo(position: Int) {
+        recycler.scrollToPosition(position)
     }
 
     override fun stopPullRefreshing() {
