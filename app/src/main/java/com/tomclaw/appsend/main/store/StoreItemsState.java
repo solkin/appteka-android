@@ -63,7 +63,7 @@ public class StoreItemsState extends State {
         return 0;
     }
 
-    public static final Creator<StoreItemsState> CREATOR = new Creator<StoreItemsState>() {
+    public static final Creator<StoreItemsState> CREATOR = new Creator<>() {
         @Override
         public StoreItemsState createFromParcel(Parcel in) {
             return new StoreItemsState(in);

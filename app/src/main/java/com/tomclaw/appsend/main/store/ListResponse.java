@@ -35,7 +35,7 @@ public class ListResponse implements Parcelable, Unobfuscatable {
         return 0;
     }
 
-    public static final Creator<ListResponse> CREATOR = new Creator<ListResponse>() {
+    public static final Creator<ListResponse> CREATOR = new Creator<>() {
         @Override
         public ListResponse createFromParcel(Parcel in) {
             return new ListResponse(in);

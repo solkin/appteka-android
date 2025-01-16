@@ -70,12 +70,9 @@ public abstract class BaseStoreFragment extends Fragment implements FilesListene
         recycler.setAdapter(adapter);
         recycler.addItemDecoration(itemDecor);
 
-        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                invalidate();
-                loadFiles(true);
-            }
+        swipeRefresh.setOnRefreshListener(() -> {
+            invalidate();
+            loadFiles(true);
         });
 
         if (files == null) {
@@ -129,7 +126,7 @@ public abstract class BaseStoreFragment extends Fragment implements FilesListene
         }
         String appId = null;
         int offset = 0;
-        if (files != null && files.size() > 0 && !isInvalidate) {
+        if (files != null && !files.isEmpty() && !isInvalidate) {
             StoreItem lastItem = files.get(files.size() - 1);
             appId = lastItem.getAppId();
             offset = files.size();
@@ -305,13 +302,10 @@ public abstract class BaseStoreFragment extends Fragment implements FilesListene
 
         @Override
         public void onFailure(Call<ApiResponse<ListResponse>> call, Throwable t) {
-            MainExecutor.execute(new Runnable() {
-                @Override
-                public void run() {
-                    BaseStoreFragment fragment = weakFragment.get();
-                    if (fragment != null && fragment.isAdded()) {
-                        fragment.onLoadingError(isInvalidate);
-                    }
+            MainExecutor.execute(() -> {
+                BaseStoreFragment fragment = weakFragment.get();
+                if (fragment != null && fragment.isAdded()) {
+                    fragment.onLoadingError(isInvalidate);
                 }
             });
         }

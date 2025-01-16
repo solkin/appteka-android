@@ -17,7 +17,6 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.di.legacy.LegacyInjector;
-import com.tomclaw.appsend.util.ThemesKt;
 
 @SuppressLint("Registered")
 public class SearchActivity extends AppCompatActivity {

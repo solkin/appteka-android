@@ -41,7 +41,7 @@ public final class UploadsFragment_
 
     @Override
     public <T extends View> T internalFindViewById(int id) {
-        return ((T) ((contentView_ == null) ? null : contentView_.findViewById(id)));
+        return (contentView_ == null) ? null : contentView_.findViewById(id);
     }
 
     @Override

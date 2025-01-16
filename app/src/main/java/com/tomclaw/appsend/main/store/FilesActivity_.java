@@ -28,7 +28,6 @@ import org.androidannotations.api.view.HasViews;
 import org.androidannotations.api.view.OnViewChangedListener;
 import org.androidannotations.api.view.OnViewChangedNotifier;
 
-import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,7 +39,7 @@ public final class FilesActivity_
     implements BeanHolder, HasViews, OnViewChangedListener
 {
     private final OnViewChangedNotifier onViewChangedNotifier_ = new OnViewChangedNotifier();
-    private final Map<Class<?> , Object> beans_ = new HashMap<Class<?> , Object>();
+    private final Map<Class<?> , Object> beans_ = new HashMap<>();
     public final static String USER_ID_EXTRA = "userId";
 
     @Override
@@ -54,7 +53,7 @@ public final class FilesActivity_
 
     @Override
     public<T extends View> T internalFindViewById(int id) {
-        return ((T) this.findViewById(id));
+        return this.findViewById(id);
     }
 
     private void init_(Bundle savedInstanceState) {
@@ -166,8 +165,7 @@ public final class FilesActivity_
                 if (fragment_!= null) {
                     fragment_.startActivityForResult(intent, requestCode, lastOptions);
                 } else {
-                    if (context instanceof Activity) {
-                        Activity activity = ((Activity) context);
+                    if (context instanceof Activity activity) {
                         ActivityCompat.startActivityForResult(activity, intent, requestCode, lastOptions);
                     } else {
                         context.startActivity(intent, lastOptions);
@@ -184,7 +182,7 @@ public final class FilesActivity_
          *     the IntentBuilder to chain calls
          */
         public IntentBuilder_ userId(Long userId) {
-            return super.extra(USER_ID_EXTRA, ((Serializable) userId));
+            return super.extra(USER_ID_EXTRA, userId);
         }
     }
 }

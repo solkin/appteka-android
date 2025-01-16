@@ -81,12 +81,7 @@ public class StoreFileViewHolder extends FileViewHolder<StoreItem> {
 
     @Override
     public void bind(final StoreItem item, boolean isLast, final FilesListener<StoreItem> listener) {
-        appCard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onClick(item);
-            }
-        });
+        appCard.setOnClickListener(v -> listener.onClick(item));
 
         fetch(appIcon, item.getIcon(), imageViewHandlers -> {
             centerCrop(imageViewHandlers);
@@ -195,12 +190,7 @@ public class StoreFileViewHolder extends FileViewHolder<StoreItem> {
         viewProgress.setVisibility(isProgress ? View.VISIBLE : View.GONE);
         errorView.setVisibility(isError ? View.VISIBLE : View.GONE);
         if (isError) {
-            buttonRetry.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    listener.onRetry();
-                }
-            });
+            buttonRetry.setOnClickListener(v -> listener.onRetry());
         } else {
             buttonRetry.setOnClickListener(null);
         }

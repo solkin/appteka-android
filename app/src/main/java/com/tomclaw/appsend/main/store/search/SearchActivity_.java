@@ -51,7 +51,7 @@ public final class SearchActivity_
 
     @Override
     public<T extends View> T internalFindViewById(int id) {
-        return ((T) this.findViewById(id));
+        return this.findViewById(id);
     }
 
     private void init_(Bundle savedInstanceState) {
@@ -148,8 +148,7 @@ public final class SearchActivity_
                 if (fragment_!= null) {
                     fragment_.startActivityForResult(intent, requestCode, lastOptions);
                 } else {
-                    if (context instanceof Activity) {
-                        Activity activity = ((Activity) context);
+                    if (context instanceof Activity activity) {
                         ActivityCompat.startActivityForResult(activity, intent, requestCode, lastOptions);
                     } else {
                         context.startActivity(intent, lastOptions);
