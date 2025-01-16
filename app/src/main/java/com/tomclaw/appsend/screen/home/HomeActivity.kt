@@ -39,7 +39,6 @@ class HomeActivity : AppCompatActivity(), HomePresenter.HomeRouter {
 
     private var isDarkTheme: Boolean = false
     private val handler: Handler = Handler(Looper.getMainLooper())
-    private val fragments = Array<Fragment?>(size = 4) { null }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
@@ -122,10 +121,8 @@ class HomeActivity : AppCompatActivity(), HomePresenter.HomeRouter {
     }
 
     private fun getOrCreateFragment(index: Int, creator: () -> Fragment): Fragment {
-        return fragments[index] ?: let {
-            val fragment = creator.invoke()
-            fragments[index] = fragment
-            fragment
+        return supportFragmentManager.findFragmentByTag("fragment$index") ?: let {
+            creator.invoke()
         }
     }
 
@@ -135,7 +132,7 @@ class HomeActivity : AppCompatActivity(), HomePresenter.HomeRouter {
                 .beginTransaction()
                 .setCustomAnimations(0, 0)
                 .replace(R.id.frame, fragment, "fragment$index")
-                .commitAllowingStateLoss()
+                .commit()
         }
         handler.post(pendingRunnable)
     }
