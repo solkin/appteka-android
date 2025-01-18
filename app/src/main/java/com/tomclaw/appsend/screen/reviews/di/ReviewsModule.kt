@@ -14,6 +14,8 @@ import com.tomclaw.appsend.screen.reviews.ReviewConverter
 import com.tomclaw.appsend.screen.reviews.ReviewConverterImpl
 import com.tomclaw.appsend.screen.reviews.ReviewsInteractor
 import com.tomclaw.appsend.screen.reviews.ReviewsInteractorImpl
+import com.tomclaw.appsend.screen.reviews.ReviewsPreferencesProvider
+import com.tomclaw.appsend.screen.reviews.ReviewsPreferencesProviderImpl
 import com.tomclaw.appsend.screen.reviews.ReviewsPresenter
 import com.tomclaw.appsend.screen.reviews.ReviewsPresenterImpl
 import com.tomclaw.appsend.screen.reviews.adapter.review.ReviewItemBlueprint
@@ -82,6 +84,12 @@ class ReviewsModule(
 
     @Provides
     @PerActivity
+    internal fun provideReviewsPreferencesProvider(): ReviewsPreferencesProvider {
+        return ReviewsPreferencesProviderImpl(context)
+    }
+
+    @Provides
+    @PerActivity
     internal fun provideItemBinder(
         blueprintSet: Set<@JvmSuppressWildcards ItemBlueprint<*, *>>
     ): ItemBinder {
@@ -94,8 +102,9 @@ class ReviewsModule(
     @IntoSet
     @PerActivity
     internal fun provideReviewItemBlueprint(
-        presenter: ReviewItemPresenter
-    ): ItemBlueprint<*, *> = ReviewItemBlueprint(presenter)
+        presenter: ReviewItemPresenter,
+        preferences: ReviewsPreferencesProvider,
+    ): ItemBlueprint<*, *> = ReviewItemBlueprint(presenter, preferences)
 
     @Provides
     @PerActivity

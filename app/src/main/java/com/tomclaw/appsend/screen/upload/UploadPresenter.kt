@@ -20,8 +20,6 @@ import com.tomclaw.appsend.upload.UploadInfo
 import com.tomclaw.appsend.upload.UploadManager
 import com.tomclaw.appsend.upload.UploadPackage
 import com.tomclaw.appsend.upload.UploadStatus
-import com.tomclaw.appsend.util.ApkIconLoader
-import com.tomclaw.appsend.util.AppIconLoader
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.createApkIconURI
 import com.tomclaw.appsend.util.filterUnauthorizedErrors

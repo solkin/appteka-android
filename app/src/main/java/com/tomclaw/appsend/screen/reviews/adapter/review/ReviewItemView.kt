@@ -4,10 +4,16 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
+import androidx.annotation.MenuRes
 import com.avito.konveyor.adapter.BaseViewHolder
 import com.avito.konveyor.blueprint.ItemView
+import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.screen.reviews.ReviewsPreferencesProvider
 import com.tomclaw.appsend.util.bind
+import com.tomclaw.appsend.util.getAttributedColor
+import com.tomclaw.appsend.util.hide
+import com.tomclaw.appsend.util.show
 import com.tomclaw.imageloader.util.centerCrop
 import com.tomclaw.imageloader.util.fetch
 import com.tomclaw.imageloader.util.withPlaceholder
@@ -30,11 +36,20 @@ interface ReviewItemView : ItemView {
 
     fun hideProgress()
 
-    fun setOnClickListener(listener: (() -> Unit)?)
+    fun showRatingMenu()
+
+    fun hideRatingMenu()
+
+    fun setOnReviewClickListener(listener: (() -> Unit)?)
+
+    fun setOnDeleteClickListener(listener: (() -> Unit)?)
 
 }
 
-class ReviewItemViewHolder(view: View) : BaseViewHolder(view), ReviewItemView {
+class ReviewItemViewHolder(
+    private val view: View,
+    private val preferences: ReviewsPreferencesProvider,
+) : BaseViewHolder(view), ReviewItemView {
 
     private val icon: ImageView = view.findViewById(R.id.app_icon)
     private val title: TextView = view.findViewById(R.id.app_name)
@@ -43,11 +58,16 @@ class ReviewItemViewHolder(view: View) : BaseViewHolder(view), ReviewItemView {
     private val dateView: TextView = view.findViewById(R.id.date_view)
     private val reviewView: TextView = view.findViewById(R.id.review_view)
     private val progress: View = view.findViewById(R.id.item_progress)
+    private val menuView: View = view.findViewById(R.id.rating_menu)
 
-    private var clickListener: (() -> Unit)? = null
+    private var reviewClickListener: (() -> Unit)? = null
+    private var deleteClickListener: (() -> Unit)? = null
 
     init {
-        view.setOnClickListener { clickListener?.invoke() }
+        view.setOnClickListener { reviewClickListener?.invoke() }
+        menuView.setOnClickListener {
+            showRatingDialog()
+        }
     }
 
     override fun setIcon(url: String?) {
@@ -91,12 +111,46 @@ class ReviewItemViewHolder(view: View) : BaseViewHolder(view), ReviewItemView {
         progress.visibility = View.GONE
     }
 
-    override fun setOnClickListener(listener: (() -> Unit)?) {
-        this.clickListener = listener
+    override fun showRatingMenu() {
+        menuView.show()
+    }
+
+    override fun hideRatingMenu() {
+        menuView.hide()
+    }
+
+    private fun showRatingDialog() {
+        showRatingDialog(R.menu.review_menu)
+    }
+
+    private fun showRatingDialog(@MenuRes menuId: Int) {
+        val theme = R.style.BottomSheetDialogDark.takeIf { preferences.isDarkTheme() }
+            ?: R.style.BottomSheetDialogLight
+        BottomSheetBuilder(view.context, theme)
+            .setMode(BottomSheetBuilder.MODE_LIST)
+            .setIconTintColor(getAttributedColor(view.context, R.attr.menu_icons_tint))
+            .setItemTextColor(getAttributedColor(view.context, R.attr.text_primary_color))
+            .setMenu(menuId)
+            .setItemClickListener {
+                when (it.itemId) {
+                    R.id.menu_details -> reviewClickListener?.invoke()
+                    R.id.menu_delete -> deleteClickListener?.invoke()
+                }
+            }
+            .createDialog()
+            .show()
+    }
+
+    override fun setOnReviewClickListener(listener: (() -> Unit)?) {
+        this.reviewClickListener = listener
+    }
+
+    override fun setOnDeleteClickListener(listener: (() -> Unit)?) {
+        this.deleteClickListener = listener
     }
 
     override fun onUnbind() {
-        this.clickListener = null
+        this.reviewClickListener = null
     }
 
 }

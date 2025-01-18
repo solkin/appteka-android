@@ -7,11 +7,14 @@ import com.avito.konveyor.data_source.ListDataSource
 import com.tomclaw.appsend.screen.reviews.adapter.ItemListener
 import com.tomclaw.appsend.screen.reviews.adapter.review.ReviewItem
 import com.tomclaw.appsend.screen.reviews.api.ReviewEntity
+import com.tomclaw.appsend.user.api.UserBrief
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.getParcelableArrayListCompat
+import com.tomclaw.appsend.util.getParcelableCompat
 import com.tomclaw.appsend.util.retryWhenNonAuthErrors
 import dagger.Lazy
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.kotlin.Observables
 import io.reactivex.rxjava3.kotlin.plusAssign
 
 interface ReviewsPresenter : ItemListener {
@@ -57,6 +60,7 @@ class ReviewsPresenterImpl(
 
     private var items: List<ReviewItem>? =
         state?.getParcelableArrayListCompat(KEY_APPS, ReviewItem::class.java)
+    private var brief: UserBrief? = state?.getParcelableCompat(KEY_BRIEF, UserBrief::class.java)
     private var isError: Boolean = state?.getBoolean(KEY_ERROR) ?: false
 
     override fun attachView(view: ReviewsView) {
@@ -95,6 +99,7 @@ class ReviewsPresenterImpl(
 
     override fun saveState() = Bundle().apply {
         putParcelableArrayList(KEY_APPS, items?.let { ArrayList(items.orEmpty()) })
+        putParcelable(KEY_BRIEF, brief)
         putBoolean(KEY_ERROR, isError)
     }
 
@@ -104,12 +109,19 @@ class ReviewsPresenterImpl(
     }
 
     private fun loadReviews() {
-        subscriptions += interactor.listReviews(offsetRateId = null)
+        subscriptions += Observables
+            .zip(
+                interactor.listReviews(offsetRateId = null),
+                interactor.getUserBrief()
+            )
             .observeOn(schedulers.mainThread())
             .doOnSubscribe { if (view?.isPullRefreshing() == false) view?.showProgress() }
             .doAfterTerminate { onReady() }
             .subscribe(
-                { onLoaded(it) },
+                {
+                    onBriefLoaded(it.second.userBrief)
+                    onLoaded(it.first)
+                },
                 {
                     it.printStackTrace()
                     onError()
@@ -123,15 +135,21 @@ class ReviewsPresenterImpl(
             .retryWhenNonAuthErrors()
             .doAfterTerminate { onReady() }
             .subscribe(
-                { onLoaded(it) },
+                {
+                    onLoaded(it)
+                },
                 { onLoadMoreError() }
             )
+    }
+
+    private fun onBriefLoaded(brief: UserBrief?) {
+        this.brief = brief
     }
 
     private fun onLoaded(entities: List<ReviewEntity>) {
         isError = false
         val newItems = entities
-            .map { converter.convert(it) }
+            .map { converter.convert(it, brief) }
             .toList()
             .apply { if (isNotEmpty()) last().hasMore = true }
         this.items = this.items
@@ -191,6 +209,23 @@ class ReviewsPresenterImpl(
         router?.openAppScreen(review.appId, review.title)
     }
 
+    override fun onDeleteClick(item: Item) {
+        val review = items?.find { it.id == item.id } ?: return
+        subscriptions += interactor.deleteRating(review.rateId)
+            .observeOn(schedulers.mainThread())
+            .retryWhenNonAuthErrors()
+            .doAfterTerminate { onReady() }
+            .subscribe(
+                { onReviewDeleted(item) },
+                { view?.showReviewRemovalFailed() }
+            )
+    }
+
+    private fun onReviewDeleted(item: Item) {
+        this.items = items?.filter { it.id != item.id }
+        onReady()
+    }
+
     override fun onRetryClick(item: Item) {
         val review = items?.find { it.id == item.id } ?: return
         if (items?.isNotEmpty() == true) {
@@ -213,4 +248,5 @@ class ReviewsPresenterImpl(
 }
 
 private const val KEY_APPS = "apps"
+private const val KEY_BRIEF = "brief"
 private const val KEY_ERROR = "error"

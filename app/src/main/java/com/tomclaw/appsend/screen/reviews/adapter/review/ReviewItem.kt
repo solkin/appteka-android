@@ -15,6 +15,7 @@ class ReviewItem(
     val rating: Float,
     val text: String?,
     val time: Long,
+    val showRatingMenu: Boolean,
     var hasMore: Boolean = false,
     var hasError: Boolean = false,
     var hasProgress: Boolean = false,

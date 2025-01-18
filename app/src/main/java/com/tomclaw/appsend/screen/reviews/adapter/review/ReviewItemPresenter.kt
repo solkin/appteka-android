@@ -27,7 +27,13 @@ class ReviewItemPresenter(
         view.setDate(date)
         view.setReview(item.text)
         if (item.hasProgress) view.showProgress() else view.hideProgress()
-        view.setOnClickListener { listener.onItemClick(item) }
+        if (item.showRatingMenu) {
+            view.showRatingMenu()
+        } else {
+            view.hideRatingMenu()
+        }
+        view.setOnReviewClickListener { listener.onItemClick(item) }
+        view.setOnDeleteClickListener { listener.onDeleteClick(item) }
     }
 
 }

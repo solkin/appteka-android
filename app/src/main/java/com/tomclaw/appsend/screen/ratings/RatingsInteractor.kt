@@ -1,7 +1,6 @@
 package com.tomclaw.appsend.screen.ratings
 
 import com.tomclaw.appsend.core.StoreApi
-import com.tomclaw.appsend.dto.StoreResponse
 import com.tomclaw.appsend.screen.details.api.RatingEntity
 import com.tomclaw.appsend.screen.ratings.api.DeleteRatingResponse
 import com.tomclaw.appsend.user.api.UserBrief
