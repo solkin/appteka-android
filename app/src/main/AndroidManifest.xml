@@ -13,7 +13,8 @@
         android:name="android.permission.REQUEST_DELETE_PACKAGES"
         tools:remove="android:maxSdkVersion" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"
+    <uses-permission
+        android:name="android.permission.QUERY_ALL_PACKAGES"
         tools:ignore="QueryAllPackagesPermission" />
 
     <application
@@ -164,6 +165,19 @@
             android:name="androidx.startup.InitializationProvider"
             android:authorities="${applicationId}.androidx-startup"
             tools:node="remove" />
+
+        <meta-data
+            android:name="io.sentry.dsn"
+            android:value="${SENTRY_DSN}" />
+        <meta-data
+            android:name="io.sentry.traces.user-interaction.enable"
+            android:value="false" />
+        <meta-data
+            android:name="io.sentry.attach-screenshot"
+            android:value="false" />
+        <meta-data
+            android:name="io.sentry.attach-view-hierarchy"
+            android:value="false" />
     </application>
 
 </manifest>

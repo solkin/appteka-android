@@ -24,7 +24,8 @@ android {
         versionCode = project.hasProperty("versionCode") ? Integer.parseInt(project.versionCode) : 1000
         versionName = "16.0"
         manifestPlaceholders = [
-                APPCENTER_APP_ID: "c8564e90-1f35-4fcc-9858-e6ad5b1594f9"
+                APPCENTER_APP_ID: "c8564e90-1f35-4fcc-9858-e6ad5b1594f9",
+                SENTRY_DSN: "https://71713567a1cc4c6bb64af82c15155af5@sentry.citron.dev/2"
         ]
     }
 
@@ -99,4 +100,5 @@ dependencies {
     releaseImplementation 'com.github.chuckerteam.chucker:library-no-op:3.5.2'
     implementation 'org.androidannotations:androidannotations-api:4.8.0'
     testImplementation 'junit:junit:4.13.2'
+    implementation 'io.sentry:sentry-android:2.3.2'
 }
