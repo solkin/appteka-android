@@ -121,16 +121,19 @@ class FeedPresenterImpl(
 
     private fun loadApps() {
         val direction = FeedDirection.After
+        var offsetId: Int? = null
         subscriptions += interactor.listFeed(userId, postId = null, direction)
             .observeOn(schedulers.mainThread())
             .doOnSubscribe { if (view?.isPullRefreshing() == false) view?.showProgress() }
-            .doAfterTerminate { onReady() }
+            .doAfterTerminate { onReady(offsetId) }
             .subscribe(
-                { onLoaded(it, direction) },
-                {
-                    it.printStackTrace()
-                    onError()
-                }
+                { result ->
+                    onLoaded(result.posts, direction)
+                    if (result.offsetId > 0) {
+                        offsetId = result.offsetId
+                    }
+                },
+                { onError() }
             )
     }
 
@@ -148,7 +151,7 @@ class FeedPresenterImpl(
                 onReady(offsetId.takeIf { scroll }, rangeInserted)
             }
             .subscribe(
-                { rangeInserted = onLoaded(it, direction) },
+                { rangeInserted = onLoaded(it.posts, direction) },
                 { onLoadMoreError() }
             )
     }

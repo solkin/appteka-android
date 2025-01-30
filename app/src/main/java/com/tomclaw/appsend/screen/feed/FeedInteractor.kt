@@ -1,7 +1,7 @@
 package com.tomclaw.appsend.screen.feed
 
 import com.tomclaw.appsend.core.StoreApi
-import com.tomclaw.appsend.screen.feed.api.PostEntity
+import com.tomclaw.appsend.screen.feed.api.FeedResponse
 import com.tomclaw.appsend.util.SchedulersFactory
 import io.reactivex.rxjava3.core.Observable
 
@@ -11,7 +11,7 @@ interface FeedInteractor {
         userId: Int?,
         postId: Int? = null,
         direction: FeedDirection?,
-    ): Observable<List<PostEntity>>
+    ): Observable<FeedResponse>
 
 }
 
@@ -24,11 +24,11 @@ class FeedInteractorImpl(
         userId: Int?,
         postId: Int?,
         direction: FeedDirection?,
-    ): Observable<List<PostEntity>> {
+    ): Observable<FeedResponse> {
         return api
             .getFeedList(userId, postId, direction?.value)
             .map { list ->
-                list.result.posts
+                list.result
             }
             .toObservable()
             .subscribeOn(schedulers.io())
