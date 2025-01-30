@@ -74,6 +74,7 @@ class HomePresenterImpl(
     private var tabIndex: Int = state?.getInt(KEY_TAB_INDEX) ?: INDEX_STORE
     private var startupLoaded: Boolean = state?.getBoolean(KEY_STARTUP_LOADED) ?: false
     private var unread: Int = state?.getInt(KEY_UNREAD) ?: 0
+    private var feed: Int = state?.getInt(KEY_UNREAD) ?: 0
     private var update: AppEntity? = state?.getParcelableCompat(KEY_UPDATE, AppEntity::class.java)
     private var moderation: ModerationData? =
         state?.getParcelableCompat(KEY_MODERATION, ModerationData::class.java)
@@ -103,6 +104,7 @@ class HomePresenterImpl(
 
         if (startupLoaded) {
             bindUnread()
+            bindFeed()
             bindUpdate()
             bindTab()
         } else {
@@ -130,6 +132,7 @@ class HomePresenterImpl(
                 router?.showFeedFragment()
                 view?.showFeedToolbar()
                 view?.hideUploadButton()
+                bindFeed(count = 0)
             }
 
             INDEX_DISCUSS -> {
@@ -170,10 +173,12 @@ class HomePresenterImpl(
     private fun onStartupLoaded(response: StartupResponse) {
         startupLoaded = true
         unread = response.unread
+        feed = response.feed
         update = response.update
         moderation = response.moderation
 
         bindUnread()
+        bindFeed()
         bindUpdate()
         bindTab()
     }
@@ -195,6 +200,15 @@ class HomePresenterImpl(
             view?.showUnreadBadge(count)
         } else {
             view?.hideUnreadBadge()
+        }
+    }
+
+    private fun bindFeed(count: Int = feed) {
+        feed = count
+        if (feed > 0) {
+            view?.showFeedBadge(count)
+        } else {
+            view?.hideFeedBadge()
         }
     }
 
@@ -244,6 +258,7 @@ class HomePresenterImpl(
         putInt(KEY_TAB_INDEX, tabIndex)
         putBoolean(KEY_STARTUP_LOADED, startupLoaded)
         putInt(KEY_UNREAD, unread)
+        putInt(KEY_FEED, feed)
         putParcelable(KEY_UPDATE, update)
         putParcelable(KEY_MODERATION, moderation)
         putParcelable(KEY_STATUS, status)
@@ -273,6 +288,7 @@ private const val KEY_ACTION = "action"
 private const val KEY_TAB_INDEX = "current_tab"
 private const val KEY_STARTUP_LOADED = "startup_loaded"
 private const val KEY_UNREAD = "unread"
+private const val KEY_FEED = "feed"
 private const val KEY_UPDATE = "update"
 private const val KEY_MODERATION = "moderation"
 private const val KEY_STATUS = "status"

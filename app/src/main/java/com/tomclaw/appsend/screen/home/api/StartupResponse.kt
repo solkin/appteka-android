@@ -11,6 +11,8 @@ data class StartupResponse(
     val update: AppEntity?,
     @SerializedName("unread")
     val unread: Int,
+    @SerializedName("feed")
+    val feed: Int,
     @SerializedName("moderation")
     val moderation: ModerationData?,
 ) : Parcelable

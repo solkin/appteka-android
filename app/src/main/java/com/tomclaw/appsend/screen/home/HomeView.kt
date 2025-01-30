@@ -32,7 +32,11 @@ interface HomeView {
 
     fun showUnreadBadge(count: Int)
 
+    fun showFeedBadge(count: Int)
+
     fun hideUnreadBadge()
+
+    fun hideFeedBadge()
 
     fun showUpdateBlock()
 
@@ -189,8 +193,22 @@ class HomeViewImpl(view: View) : HomeView {
         }
     }
 
+    override fun showFeedBadge(count: Int) {
+        bottomNavigation.getOrCreateBadge(R.id.nav_feed).apply {
+            number = count
+            isVisible = true
+        }
+    }
+
     override fun hideUnreadBadge() {
         bottomNavigation.getBadge(R.id.nav_discuss)?.apply {
+            clearNumber()
+            isVisible = false
+        }
+    }
+
+    override fun hideFeedBadge() {
+        bottomNavigation.getBadge(R.id.nav_feed)?.apply {
             clearNumber()
             isVisible = false
         }
