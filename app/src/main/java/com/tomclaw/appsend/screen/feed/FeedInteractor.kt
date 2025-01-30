@@ -2,10 +2,13 @@ package com.tomclaw.appsend.screen.feed
 
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.screen.feed.api.FeedResponse
+import com.tomclaw.appsend.screen.feed.api.ReadResponse
 import com.tomclaw.appsend.util.SchedulersFactory
 import io.reactivex.rxjava3.core.Observable
 
 interface FeedInteractor {
+
+    fun readFeed(postId: Int): Observable<ReadResponse>
 
     fun listFeed(
         userId: Int?,
@@ -19,6 +22,14 @@ class FeedInteractorImpl(
     private val api: StoreApi,
     private val schedulers: SchedulersFactory
 ) : FeedInteractor {
+
+    override fun readFeed(postId: Int): Observable<ReadResponse> {
+        return api
+            .readFeed(postId)
+            .map { it.result }
+            .toObservable()
+            .subscribeOn(schedulers.io())
+    }
 
     override fun listFeed(
         userId: Int?,

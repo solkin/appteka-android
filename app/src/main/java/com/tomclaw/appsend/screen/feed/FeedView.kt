@@ -8,6 +8,7 @@ import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
 import com.jakewharton.rxrelay3.PublishRelay
@@ -51,6 +52,8 @@ interface FeedView {
 
     fun refreshClicks(): Observable<Unit>
 
+    fun scrollIdle(): Observable<Int>
+
 }
 
 class FeedViewImpl(
@@ -69,6 +72,7 @@ class FeedViewImpl(
     private val navigationRelay = PublishRelay.create<Unit>()
     private val retryRelay = PublishRelay.create<Unit>()
     private val refreshRelay = PublishRelay.create<Unit>()
+    private val scrollIdleRelay = PublishRelay.create<Int>()
 
     init {
         toolbar.setNavigationOnClickListener { navigationRelay.accept(Unit) }
@@ -80,6 +84,13 @@ class FeedViewImpl(
         recycler.layoutManager = layoutManager
         recycler.itemAnimator = DefaultItemAnimator()
         recycler.itemAnimator?.changeDuration = DURATION_MEDIUM
+        recycler.addOnScrollListener(object : OnScrollListener() {
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
+                    scrollIdleRelay.accept(layoutManager.findFirstVisibleItemPosition())
+                }
+            }
+        })
 
         refresher.setOnRefreshListener { refreshRelay.accept(Unit) }
     }
@@ -146,6 +157,8 @@ class FeedViewImpl(
     override fun retryClicks(): Observable<Unit> = retryRelay
 
     override fun refreshClicks(): Observable<Unit> = refreshRelay
+
+    override fun scrollIdle(): Observable<Int> = scrollIdleRelay
 
 }
 

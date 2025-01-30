@@ -16,6 +16,7 @@ import com.tomclaw.appsend.util.retryWhenNonAuthErrors
 import dagger.Lazy
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
+import java.util.concurrent.TimeUnit
 
 interface FeedPresenter : ItemListener {
 
@@ -77,6 +78,13 @@ class FeedPresenterImpl(
         subscriptions += view.refreshClicks().subscribe {
             invalidateApps()
         }
+        subscriptions += view.scrollIdle()
+            .debounce(1000, TimeUnit.MILLISECONDS)
+            .subscribe { position ->
+                items?.get(position)?.let { item ->
+                    onFeedRead(postId = item.id.toInt())
+                }
+            }
 
         if (withToolbar == true) {
             view.showToolbar()
@@ -119,8 +127,16 @@ class FeedPresenterImpl(
         loadApps()
     }
 
+    private fun onFeedRead(postId: Int) {
+        if (userId == null) {
+            subscriptions += interactor.readFeed(postId)
+                .observeOn(schedulers.mainThread())
+                .subscribe({}, {})
+        }
+    }
+
     private fun loadApps() {
-        val direction = FeedDirection.After
+        val direction = FeedDirection.Both
         var offsetId: Int? = null
         subscriptions += interactor.listFeed(userId, postId = null, direction)
             .observeOn(schedulers.mainThread())
@@ -167,15 +183,18 @@ class FeedPresenterImpl(
         this.items = this.items
             ?.apply { if (isNotEmpty()) applyWithDirection(direction) { hasProgress = false } }
             ?.let { currentItems ->
-                when(direction) {
+                when (direction) {
                     FeedDirection.Before -> {
                         rangeInserted = RangeInserted(position = 0, count = newItems.size)
                         newItems.plus(currentItems)
                     }
+
                     FeedDirection.After -> {
-                        rangeInserted = RangeInserted(position = currentItems.size, count = newItems.size)
+                        rangeInserted =
+                            RangeInserted(position = currentItems.size, count = newItems.size)
                         currentItems.plus(newItems)
                     }
+
                     FeedDirection.Both -> newItems
                 }
             } ?: newItems
