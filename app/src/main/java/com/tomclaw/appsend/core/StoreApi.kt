@@ -296,6 +296,7 @@ interface StoreApi {
     fun getFeedList(
         @Query("user_id") userId: Int?,
         @Query("post_id") postId: Int?,
+        @Query("direction") direction: String?,
     ): Single<StoreResponse<FeedResponse>>
 
     @POST("1/app/updates")

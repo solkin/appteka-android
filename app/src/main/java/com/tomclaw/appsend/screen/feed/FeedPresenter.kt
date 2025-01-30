@@ -120,12 +120,13 @@ class FeedPresenterImpl(
     }
 
     private fun loadApps() {
-        subscriptions += interactor.listFeed(userId)
+        val direction = FeedDirection.After
+        subscriptions += interactor.listFeed(userId, postId = null, direction)
             .observeOn(schedulers.mainThread())
             .doOnSubscribe { if (view?.isPullRefreshing() == false) view?.showProgress() }
             .doAfterTerminate { onReady() }
             .subscribe(
-                { onLoaded(it) },
+                { onLoaded(it, direction) },
                 {
                     it.printStackTrace()
                     onError()
@@ -133,28 +134,41 @@ class FeedPresenterImpl(
             )
     }
 
-    private fun loadApps(offsetId: Int) {
+    private fun loadApps(offsetId: Int, direction: FeedDirection = FeedDirection.Both) {
         val scroll = items.isNullOrEmpty()
-        subscriptions += interactor.listFeed(userId, offsetId)
+        subscriptions += interactor.listFeed(userId, offsetId, direction)
             .observeOn(schedulers.mainThread())
             .retryWhenNonAuthErrors()
             .doAfterTerminate { onReady(offsetId.takeIf { scroll }) }
             .subscribe(
-                { onLoaded(it) },
+                { onLoaded(it, direction) },
                 { onLoadMoreError() }
             )
     }
 
-    private fun onLoaded(posts: List<PostEntity>) {
+    private fun onLoaded(posts: List<PostEntity>, direction: FeedDirection) {
         isError = false
         val newItems = posts
             .filterNot { post -> items?.find { it.id == post.postId.toLong() } != null }
             .map { converter.convert(it) }
             .toList()
-            .apply { if (isNotEmpty()) last().hasMore = true }
+            .apply { if (isNotEmpty()) applyWithDirection(direction) { hasMore = true } }
         this.items = this.items
-            ?.apply { if (isNotEmpty()) last().hasProgress = false }
-            ?.plus(newItems) ?: newItems
+            ?.apply { if (isNotEmpty()) applyWithDirection(direction) { hasProgress = false } }
+            ?.let { currentItems ->
+                when(direction) {
+                    FeedDirection.Before -> newItems.plus(currentItems)
+                    FeedDirection.After -> currentItems.plus(newItems)
+                    FeedDirection.Both -> newItems
+                }
+            } ?: newItems
+    }
+
+    private fun <T> List<T>.applyWithDirection(direction: FeedDirection, fn: T.() -> Unit) {
+        if (direction == FeedDirection.Before || direction == FeedDirection.Both)
+            fn.invoke(first())
+        if (direction == FeedDirection.After || direction == FeedDirection.Both)
+            fn.invoke(last())
     }
 
     private fun onReady(offsetId: Int? = null) {
@@ -204,8 +218,23 @@ class FeedPresenterImpl(
     }
 
     override fun onLoadMore(item: Item) {
-        val sub = items?.find { it.id == item.id } ?: return
-        loadApps(sub.id.toInt())
+        val sub: FeedItem
+        val first = items?.first()
+        val last = items?.last()
+        val direction = when (item) {
+            first -> {
+                sub = first
+                FeedDirection.Before
+            }
+
+            last -> {
+                sub = last
+                FeedDirection.After
+            }
+
+            else -> return
+        }
+        loadApps(offsetId = sub.id.toInt(), direction)
     }
 
     override fun onImageClick(image: Screenshot) {

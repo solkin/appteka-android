@@ -7,7 +7,11 @@ import io.reactivex.rxjava3.core.Observable
 
 interface FeedInteractor {
 
-    fun listFeed(userId: Int?, postId: Int? = null): Observable<List<PostEntity>>
+    fun listFeed(
+        userId: Int?,
+        postId: Int? = null,
+        direction: FeedDirection?,
+    ): Observable<List<PostEntity>>
 
 }
 
@@ -16,9 +20,13 @@ class FeedInteractorImpl(
     private val schedulers: SchedulersFactory
 ) : FeedInteractor {
 
-    override fun listFeed(userId: Int?, postId: Int?): Observable<List<PostEntity>> {
+    override fun listFeed(
+        userId: Int?,
+        postId: Int?,
+        direction: FeedDirection?,
+    ): Observable<List<PostEntity>> {
         return api
-            .getFeedList(userId, postId)
+            .getFeedList(userId, postId, direction?.value)
             .map { list ->
                 list.result.posts
             }
@@ -26,4 +34,10 @@ class FeedInteractorImpl(
             .subscribeOn(schedulers.io())
     }
 
+}
+
+enum class FeedDirection(val value: String) {
+    Before("before"),
+    After("after"),
+    Both("both"),
 }
