@@ -33,6 +33,8 @@ interface FeedView {
 
     fun contentUpdated(position: Int)
 
+    fun rangeInserted(position: Int, count: Int)
+
     fun scrollTo(position: Int)
 
     fun showPlaceholder()
@@ -123,6 +125,10 @@ class FeedViewImpl(
 
     override fun contentUpdated(position: Int) {
         adapter.notifyItemChanged(position)
+    }
+
+    override fun rangeInserted(position: Int, count: Int) {
+        adapter.notifyItemRangeInserted(position, count)
     }
 
     override fun scrollTo(position: Int) {

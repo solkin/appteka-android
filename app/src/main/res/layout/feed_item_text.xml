@@ -110,14 +110,4 @@
 
     </LinearLayout>
 
-    <ProgressBar
-        android:id="@+id/item_progress"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_gravity="center_horizontal"
-        android:paddingTop="8dp"
-        android:paddingBottom="12dp"
-        android:visibility="gone"
-        tools:visibility="visible" />
-
 </LinearLayout>

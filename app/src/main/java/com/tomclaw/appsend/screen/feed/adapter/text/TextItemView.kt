@@ -48,7 +48,6 @@ class PostItemViewHolder(view: View) : BaseViewHolder(view), PostItemView {
     private val text: TextView = view.findViewById(R.id.text)
     private val card: View = view.findViewById(R.id.image_card)
     private val image: ImageView = view.findViewById(R.id.image)
-    private val progress: View = view.findViewById(R.id.item_progress)
 
     private var postClickListener: (() -> Unit)? = null
     private var imageClickListener: (() -> Unit)? = null
@@ -86,11 +85,9 @@ class PostItemViewHolder(view: View) : BaseViewHolder(view), PostItemView {
     }
 
     override fun showProgress() {
-        progress.visibility = VISIBLE
     }
 
     override fun hideProgress() {
-        progress.visibility = GONE
     }
 
     override fun setOnPostClickListener(listener: (() -> Unit)?) {

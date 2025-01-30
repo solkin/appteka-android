@@ -135,33 +135,48 @@ class FeedPresenterImpl(
     }
 
     private fun loadApps(offsetId: Int, direction: FeedDirection = FeedDirection.Both) {
+        val items = items
+
         val scroll = items.isNullOrEmpty()
+
+        var rangeInserted: RangeInserted? = null
+
         subscriptions += interactor.listFeed(userId, offsetId, direction)
             .observeOn(schedulers.mainThread())
             .retryWhenNonAuthErrors()
-            .doAfterTerminate { onReady(offsetId.takeIf { scroll }) }
+            .doAfterTerminate {
+                onReady(offsetId.takeIf { scroll }, rangeInserted)
+            }
             .subscribe(
-                { onLoaded(it, direction) },
+                { rangeInserted = onLoaded(it, direction) },
                 { onLoadMoreError() }
             )
     }
 
-    private fun onLoaded(posts: List<PostEntity>, direction: FeedDirection) {
+    private fun onLoaded(posts: List<PostEntity>, direction: FeedDirection): RangeInserted {
         isError = false
         val newItems = posts
             .filterNot { post -> items?.find { it.id == post.postId.toLong() } != null }
             .map { converter.convert(it) }
             .toList()
             .apply { if (isNotEmpty()) applyWithDirection(direction) { hasMore = true } }
+        var rangeInserted = RangeInserted(position = 0, count = newItems.size)
         this.items = this.items
             ?.apply { if (isNotEmpty()) applyWithDirection(direction) { hasProgress = false } }
             ?.let { currentItems ->
                 when(direction) {
-                    FeedDirection.Before -> newItems.plus(currentItems)
-                    FeedDirection.After -> currentItems.plus(newItems)
+                    FeedDirection.Before -> {
+                        rangeInserted = RangeInserted(position = 0, count = newItems.size)
+                        newItems.plus(currentItems)
+                    }
+                    FeedDirection.After -> {
+                        rangeInserted = RangeInserted(position = currentItems.size, count = newItems.size)
+                        currentItems.plus(newItems)
+                    }
                     FeedDirection.Both -> newItems
                 }
             } ?: newItems
+        return rangeInserted
     }
 
     private fun <T> List<T>.applyWithDirection(direction: FeedDirection, fn: T.() -> Unit) {
@@ -171,7 +186,7 @@ class FeedPresenterImpl(
             fn.invoke(last())
     }
 
-    private fun onReady(offsetId: Int? = null) {
+    private fun onReady(offsetId: Int? = null, rangeInserted: RangeInserted? = null) {
         val items = this.items
         when {
             isError -> view?.showError()
@@ -180,12 +195,16 @@ class FeedPresenterImpl(
                 val dataSource = ListDataSource(items)
                 adapterPresenter.get().onDataSourceChanged(dataSource)
                 view?.let { view ->
-                    view.contentUpdated()
+                    rangeInserted?.let { range ->
+                        view.rangeInserted(range.position, range.count)
+                    } ?: view.contentUpdated()
+
                     if (view.isPullRefreshing()) {
                         view.stopPullRefreshing()
                     } else {
                         view.showContent()
                     }
+
                     offsetId?.let { offsetId ->
                         items
                             .indexOfFirst { it.id.toInt() == offsetId }
@@ -243,6 +262,11 @@ class FeedPresenterImpl(
             current = 0,
         )
     }
+
+    private data class RangeInserted(
+        val position: Int,
+        val count: Int,
+    )
 
 }
 
