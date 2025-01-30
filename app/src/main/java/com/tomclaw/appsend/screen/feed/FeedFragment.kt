@@ -101,11 +101,7 @@ class FeedFragment : Fragment(), FeedPresenter.FeedRouter {
 
 }
 
-fun createFeedFragment(): FeedFragment = FeedFragment().apply {
-    arguments = Bundle().apply {
-        putInt(ARG_POST_ID, 70)
-    }
-}
+fun createFeedFragment(): FeedFragment = FeedFragment()
 
 fun createFeedFragment(userId: Int, postId: Int = 0, withToolbar: Boolean): FeedFragment =
     FeedFragment().apply {
