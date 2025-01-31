@@ -74,7 +74,7 @@ class HomePresenterImpl(
     private var tabIndex: Int = state?.getInt(KEY_TAB_INDEX) ?: INDEX_STORE
     private var startupLoaded: Boolean = state?.getBoolean(KEY_STARTUP_LOADED) ?: false
     private var unread: Int = state?.getInt(KEY_UNREAD) ?: 0
-    private var feed: Int = state?.getInt(KEY_UNREAD) ?: 0
+    private var feed: Int = state?.getInt(KEY_FEED) ?: 0
     private var update: AppEntity? = state?.getParcelableCompat(KEY_UPDATE, AppEntity::class.java)
     private var moderation: ModerationData? =
         state?.getParcelableCompat(KEY_MODERATION, ModerationData::class.java)
