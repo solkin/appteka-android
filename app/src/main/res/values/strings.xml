@@ -333,4 +333,5 @@
     <string name="subscriptions_activity">Subscriptions</string>
     <string name="subscribed_date">Subscribed %s</string>
     <string name="tab_feed">Feed</string>
+    <string name="user_feed">User Feed</string>
 </resources>

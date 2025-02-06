@@ -76,6 +76,7 @@ class FeedViewImpl(
 
     init {
         toolbar.setNavigationOnClickListener { navigationRelay.accept(Unit) }
+        toolbar.setTitle(R.string.user_feed)
 
         val orientation = RecyclerView.VERTICAL
         val layoutManager = LinearLayoutManager(view.context, orientation, false)
