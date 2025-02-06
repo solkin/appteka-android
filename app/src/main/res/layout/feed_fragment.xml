@@ -35,11 +35,6 @@
                         android:scrollbarStyle="outsideOverlay"
                         android:scrollbars="vertical" />
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="?divider_color" />
-
                 </FrameLayout>
 
                 <include layout="@layout/progress_overlay" />
