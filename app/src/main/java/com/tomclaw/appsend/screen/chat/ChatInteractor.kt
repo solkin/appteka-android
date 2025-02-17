@@ -123,7 +123,7 @@ class ChatInteractorImpl(
     }
 
     private fun generateCookie(): String {
-        return UUID.randomUUID().toString().filter { it == '-' }
+        return UUID.randomUUID().toString()
     }
 
 }
