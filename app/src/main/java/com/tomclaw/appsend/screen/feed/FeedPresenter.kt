@@ -168,18 +168,22 @@ class FeedPresenterImpl(
             }
             .subscribe(
                 { rangeInserted = onLoaded(it.posts, direction) },
-                { onLoadMoreError() }
+                { onLoadMoreError(it) }
             )
     }
 
     private fun onLoaded(posts: List<PostEntity>, direction: FeedDirection): RangeInserted {
         isError = false
         val newItems = posts
-            .filterNot { post -> items?.find { it.id == post.postId.toLong() } != null }
+            .filter { post ->
+                items?.find { it.id == post.postId.toLong() } == null
+            }
             .map { converter.convert(it) }
             .toList()
             .apply { if (isNotEmpty()) applyWithDirection(direction) { hasMore = true } }
+
         var rangeInserted = RangeInserted(position = 0, count = newItems.size)
+
         this.items = this.items
             ?.apply { if (isNotEmpty()) applyWithDirection(direction) { hasProgress = false } }
             ?.let { currentItems ->
@@ -202,10 +206,8 @@ class FeedPresenterImpl(
     }
 
     private fun <T> List<T>.applyWithDirection(direction: FeedDirection, fn: T.() -> Unit) {
-        if (direction == FeedDirection.Before || direction == FeedDirection.Both)
-            fn.invoke(first())
-        if (direction == FeedDirection.After || direction == FeedDirection.Both)
-            fn.invoke(last())
+        if (direction == FeedDirection.Before || direction == FeedDirection.Both) fn.invoke(first())
+        if (direction == FeedDirection.After || direction == FeedDirection.Both) fn.invoke(last())
     }
 
     private fun onReady(offsetId: Int? = null, rangeInserted: RangeInserted? = null) {
@@ -241,7 +243,7 @@ class FeedPresenterImpl(
         this.isError = true
     }
 
-    private fun onLoadMoreError() {
+    private fun onLoadMoreError(ex: Throwable) {
         items?.last()
             ?.apply {
                 hasProgress = false
