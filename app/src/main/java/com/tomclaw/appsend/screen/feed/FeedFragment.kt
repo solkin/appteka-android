@@ -15,6 +15,7 @@ import com.tomclaw.appsend.screen.gallery.GalleryItem
 import com.tomclaw.appsend.screen.gallery.createGalleryActivityIntent
 import com.tomclaw.appsend.screen.profile.createProfileActivityIntent
 import com.tomclaw.appsend.util.Analytics
+import com.tomclaw.appsend.util.ZipParcelable
 import javax.inject.Inject
 
 class FeedFragment : Fragment(), FeedPresenter.FeedRouter {
@@ -36,7 +37,8 @@ class FeedFragment : Fragment(), FeedPresenter.FeedRouter {
         val postId = arguments?.getInt(ARG_POST_ID)
         val withToolbar = arguments?.getBoolean(ARG_WITH_TOOLBAR, false)
 
-        val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
+        val compressedPresenterState: ZipParcelable? = savedInstanceState?.getParcelable(KEY_PRESENTER_STATE, ZipParcelable::class.java)
+        val presenterState: Bundle? = compressedPresenterState?.restore()
         Appteka.getComponent()
             .feedComponent(FeedModule(requireContext(), userId, postId, withToolbar, presenterState))
             .inject(fragment = this)
@@ -80,7 +82,7 @@ class FeedFragment : Fragment(), FeedPresenter.FeedRouter {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putBundle(KEY_PRESENTER_STATE, presenter.saveState())
+        outState.putParcelable(KEY_PRESENTER_STATE, ZipParcelable(presenter.saveState()))
     }
 
     override fun openProfileScreen(userId: Int) {
