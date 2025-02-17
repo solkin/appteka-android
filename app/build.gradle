@@ -93,7 +93,7 @@ dependencies {
     implementation 'com.greysonparrelli.permiso:permiso:0.3.0'
     implementation 'com.microsoft.appcenter:appcenter-analytics:4.4.5'
     implementation 'com.microsoft.appcenter:appcenter-crashes:4.4.5'
-    implementation 'com.github.laobie:StatusBarUtil:2aac14c8e8'
+    implementation 'com.github.laobie:StatusBarUtil:8bc86216b7'
     implementation 'com.github.avito-tech:Konveyor:0.42.2'
     implementation 'com.github.rubensousa:BottomSheetBuilder:1.6.0'
     debugImplementation 'com.github.chuckerteam.chucker:library:3.5.2'
