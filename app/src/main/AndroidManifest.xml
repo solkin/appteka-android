@@ -35,10 +35,6 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
-        <meta-data
-            android:name="appcenter.app_identifier"
-            android:value="${APPCENTER_APP_ID}" />
-
         <activity
             android:name=".main.settings.SettingsActivity_"
             android:label="@string/settings" />
