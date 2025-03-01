@@ -162,19 +162,6 @@
             android:name="androidx.startup.InitializationProvider"
             android:authorities="${applicationId}.androidx-startup"
             tools:node="remove" />
-
-        <meta-data
-            android:name="io.sentry.dsn"
-            android:value="${SENTRY_DSN}" />
-        <meta-data
-            android:name="io.sentry.traces.user-interaction.enable"
-            android:value="false" />
-        <meta-data
-            android:name="io.sentry.attach-screenshot"
-            android:value="false" />
-        <meta-data
-            android:name="io.sentry.attach-view-hierarchy"
-            android:value="false" />
     </application>
 
 </manifest>

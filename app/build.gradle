@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'kotlin-parcelize'
+    id 'io.appmetrica.analytics'
 }
 
 android {
@@ -21,11 +22,8 @@ android {
         minSdkVersion 21
         //noinspection ExpiredTargetSdkVersion
         targetSdkVersion 28
-        versionCode = project.hasProperty("versionCode") ? Integer.parseInt(project.versionCode) : 1000
-        versionName = "16.0"
-        manifestPlaceholders = [
-                SENTRY_DSN: "https://71713567a1cc4c6bb64af82c15155af5@sentry.citron.dev/2"
-        ]
+        versionCode = project.hasProperty("versionCode") ? Integer.parseInt(project.versionCode) : 878
+        versionName = "17.0"
     }
 
     buildTypes {
@@ -60,6 +58,13 @@ android {
     }
 
     namespace 'com.tomclaw.appsend'
+}
+
+appmetrica {
+    postApiKey = "fdc69a9d-4a65-41ac-bcd2-6b8eb46bda79"
+    enable = { applicationVariant -> true }
+    offline = { applicationVariant -> false }
+    enableAnalytics = true
 }
 
 dependencies {
@@ -97,5 +102,5 @@ dependencies {
     releaseImplementation 'com.github.chuckerteam.chucker:library-no-op:3.5.2'
     implementation 'org.androidannotations:androidannotations-api:4.8.0'
     testImplementation 'junit:junit:4.13.2'
-    implementation 'io.sentry:sentry-android:2.3.2'
+    implementation 'io.appmetrica.analytics:analytics:7.7.0'
 }
