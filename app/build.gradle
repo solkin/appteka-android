@@ -22,7 +22,7 @@ android {
         minSdkVersion 21
         //noinspection ExpiredTargetSdkVersion
         targetSdkVersion 28
-        versionCode = project.hasProperty("versionCode") ? Integer.parseInt(project.versionCode) : 878
+        versionCode = project.hasProperty("versionCode") ? Integer.parseInt(project.versionCode) : 879
         versionName = "17.0"
     }
 
@@ -62,7 +62,7 @@ android {
 
 appmetrica {
     postApiKey = "fdc69a9d-4a65-41ac-bcd2-6b8eb46bda79"
-    enable = { applicationVariant -> true }
+    mappingBuildTypes = ['release']
     offline = { applicationVariant -> false }
     enableAnalytics = true
 }
