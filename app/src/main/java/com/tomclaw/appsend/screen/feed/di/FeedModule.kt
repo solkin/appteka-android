@@ -16,8 +16,12 @@ import com.tomclaw.appsend.screen.feed.FeedPresenter
 import com.tomclaw.appsend.screen.feed.FeedPresenterImpl
 import com.tomclaw.appsend.screen.feed.FeedResourceProvider
 import com.tomclaw.appsend.screen.feed.FeedResourceProviderImpl
+import com.tomclaw.appsend.screen.feed.adapter.favorite.FavoriteItemBlueprint
+import com.tomclaw.appsend.screen.feed.adapter.favorite.FavoriteItemPresenter
 import com.tomclaw.appsend.screen.feed.adapter.text.TextItemBlueprint
 import com.tomclaw.appsend.screen.feed.adapter.text.TextItemPresenter
+import com.tomclaw.appsend.screen.feed.adapter.upload.UploadItemBlueprint
+import com.tomclaw.appsend.screen.feed.adapter.upload.UploadItemPresenter
 import com.tomclaw.appsend.util.PerFragment
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
@@ -90,16 +94,46 @@ class FeedModule(
     @Provides
     @IntoSet
     @PerFragment
-    internal fun providePostItemBlueprint(
+    internal fun provideTextItemBlueprint(
         presenter: TextItemPresenter
     ): ItemBlueprint<*, *> = TextItemBlueprint(presenter)
 
     @Provides
     @PerFragment
-    internal fun provideFeedItemPresenter(
+    internal fun provideTextItemPresenter(
         locale: Locale,
         resourceProvider: FeedResourceProvider,
         presenter: FeedPresenter,
     ) = TextItemPresenter(locale, resourceProvider, presenter)
+
+    @Provides
+    @IntoSet
+    @PerFragment
+    internal fun provideFavoriteItemBlueprint(
+        presenter: FavoriteItemPresenter
+    ): ItemBlueprint<*, *> = FavoriteItemBlueprint(presenter)
+
+    @Provides
+    @PerFragment
+    internal fun provideFavoriteItemPresenter(
+        locale: Locale,
+        resourceProvider: FeedResourceProvider,
+        presenter: FeedPresenter,
+    ) = FavoriteItemPresenter(locale, resourceProvider, presenter)
+
+    @Provides
+    @IntoSet
+    @PerFragment
+    internal fun provideUploadItemBlueprint(
+        presenter: UploadItemPresenter
+    ): ItemBlueprint<*, *> = UploadItemBlueprint(presenter)
+
+    @Provides
+    @PerFragment
+    internal fun provideUploadItemPresenter(
+        locale: Locale,
+        resourceProvider: FeedResourceProvider,
+        presenter: FeedPresenter,
+    ) = UploadItemPresenter(locale, resourceProvider, presenter)
 
 }
