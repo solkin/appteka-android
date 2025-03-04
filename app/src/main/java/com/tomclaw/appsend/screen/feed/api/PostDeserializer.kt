@@ -20,6 +20,8 @@ class PostDeserializer(private val gson: Gson) : JsonDeserializer<PostEntity> {
         val type = obj["type"].asInt
         val payloadType = when (type) {
             TYPE_TEXT -> TextPayload::class.java
+            TYPE_FAVORITE -> FavoritePayload::class.java
+            TYPE_UPLOAD -> UploadPayload::class.java
             else -> throw IllegalArgumentException("Invalid payload type")
         }
         val payload = gson.fromJson(obj["payload"].asJsonObject, payloadType)

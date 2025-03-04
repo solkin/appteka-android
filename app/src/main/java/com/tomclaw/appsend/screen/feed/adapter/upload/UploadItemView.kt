@@ -1,4 +1,4 @@
-package com.tomclaw.appsend.screen.feed.adapter.text
+package com.tomclaw.appsend.screen.feed.adapter.upload
 
 import android.net.Uri
 import android.view.View
@@ -14,7 +14,7 @@ import com.tomclaw.appsend.view.UserIconViewImpl
 import com.tomclaw.imageloader.util.centerCrop
 import com.tomclaw.imageloader.util.fetch
 
-interface TextItemView : ItemView {
+interface UploadItemView : ItemView {
 
     fun setUserIcon(userIcon: UserIcon)
 
@@ -38,7 +38,7 @@ interface TextItemView : ItemView {
 
 }
 
-class TextItemViewHolder(view: View) : BaseViewHolder(view), TextItemView {
+class UploadItemViewHolder(view: View) : BaseViewHolder(view), UploadItemView {
 
     private val userIcon: UserIconView = UserIconViewImpl(view.findViewById(R.id.member_icon))
     private val userName: TextView = view.findViewById(R.id.user_name)

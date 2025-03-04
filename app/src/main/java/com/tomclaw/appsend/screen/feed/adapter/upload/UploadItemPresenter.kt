@@ -1,4 +1,4 @@
-package com.tomclaw.appsend.screen.feed.adapter.text
+package com.tomclaw.appsend.screen.feed.adapter.upload
 
 import android.net.Uri
 import com.avito.konveyor.blueprint.ItemPresenter
@@ -7,13 +7,13 @@ import com.tomclaw.appsend.screen.feed.FeedResourceProvider
 import com.tomclaw.appsend.screen.feed.adapter.ItemListener
 import java.util.Locale
 
-class TextItemPresenter(
+class UploadItemPresenter(
     private val locale: Locale,
     private val resourceProvider: FeedResourceProvider,
     private val listener: ItemListener,
-) : ItemPresenter<TextItemView, TextItem> {
+) : ItemPresenter<UploadItemView, UploadItem> {
 
-    override fun bindView(view: TextItemView, item: TextItem, position: Int) {
+    override fun bindView(view: UploadItemView, item: UploadItem, position: Int) {
         with(item) {
             if (hasMore) {
                 hasMore = false

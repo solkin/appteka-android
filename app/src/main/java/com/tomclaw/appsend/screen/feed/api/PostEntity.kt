@@ -17,3 +17,5 @@ data class PostEntity(
 )
 
 const val TYPE_TEXT = 1
+const val TYPE_FAVORITE = 2
+const val TYPE_UPLOAD = 3
