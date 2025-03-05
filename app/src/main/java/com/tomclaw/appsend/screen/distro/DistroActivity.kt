@@ -112,7 +112,7 @@ class DistroActivity : AppCompatActivity(), DistroPresenter.DistroRouter {
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
-        permissions: Array<String?>,
+        permissions: Array<String>,
         grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)

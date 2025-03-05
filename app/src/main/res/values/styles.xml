@@ -72,6 +72,11 @@
     <color name="block_grey_color_light">#E9DEDEDE</color>
     <color name="block_grey_color_dark">#2E2E2E</color>
 
+    <color name="feed_outline_color_light">#E9DEDEDE</color>
+    <color name="feed_background_color_light">#fafafa</color>
+    <color name="feed_outline_color_dark">#2E2E2E</color>
+    <color name="feed_background_color_dark">#0e0e0f</color>
+
     <color name="online_color">#32A304</color>
 
     <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
@@ -125,6 +130,9 @@
         </item>
 
         <item name="block_grey_color">@color/block_grey_color_light</item>
+
+        <item name="feed_outline_color">@color/feed_outline_color_light</item>
+        <item name="feed_background_color">@color/feed_background_color_light</item>
     </style>
 
     <style name="AppThemeBlack" parent="Theme.MaterialComponents.NoActionBar">
@@ -177,6 +185,9 @@
         </item>
 
         <item name="block_grey_color">@color/block_grey_color_dark</item>
+
+        <item name="feed_outline_color">@color/feed_outline_color_dark</item>
+        <item name="feed_background_color">@color/feed_background_color_dark</item>
     </style>
 
     <style name="AppThemeSemitransparent" parent="AppThemeBlack">

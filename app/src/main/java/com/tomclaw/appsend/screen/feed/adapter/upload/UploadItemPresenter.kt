@@ -28,7 +28,7 @@ class UploadItemPresenter(
         view.setUserName(name)
         view.setUserIcon(item.user.userIcon)
         view.setTime(resourceProvider.formatTime(item.time))
-        view.setText(item.text)
+        view.setText(item.description.orEmpty())
         item.screenshots
             .takeIf { it.isNotEmpty() }
             ?.first()
