@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/screenshot_card"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_margin="8dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="4dp">
+
+        <ImageView
+            android:id="@+id/screenshot"
+            android:layout_width="@dimen/screenshot_width"
+            android:layout_height="@dimen/screenshot_height"
+            android:layout_gravity="center_vertical"
+            android:contentDescription="@string/app_icon"
+            android:minWidth="85dp"
+            android:scaleType="centerCrop"
+            android:src="@color/grey" />
+
+    </androidx.cardview.widget.CardView>
+
+</FrameLayout>

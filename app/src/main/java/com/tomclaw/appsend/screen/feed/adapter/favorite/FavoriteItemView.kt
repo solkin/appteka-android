@@ -1,13 +1,18 @@
 package com.tomclaw.appsend.screen.feed.adapter.favorite
 
-import android.net.Uri
+import android.annotation.SuppressLint
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.avito.konveyor.adapter.BaseViewHolder
 import com.avito.konveyor.blueprint.ItemView
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.dto.Screenshot
 import com.tomclaw.appsend.dto.UserIcon
+import com.tomclaw.appsend.screen.feed.adapter.ScreenshotsAdapter
 import com.tomclaw.appsend.util.bind
 import com.tomclaw.appsend.util.hide
 import com.tomclaw.appsend.util.show
@@ -29,7 +34,7 @@ interface FavoriteItemView : ItemView {
 
     fun setPackage(value: String)
 
-    fun setImage(url: String?)
+    fun setImages(screenshots: List<Screenshot>)
 
     fun hideImage()
 
@@ -43,13 +48,14 @@ interface FavoriteItemView : ItemView {
 
     fun setOnPostClickListener(listener: (() -> Unit)?)
 
-    fun setOnImageClickListener(listener: (() -> Unit)?)
-
     fun setClickable(clickable: Boolean)
 
 }
 
-class FavoriteItemViewHolder(view: View) : BaseViewHolder(view), FavoriteItemView {
+class FavoriteItemViewHolder(
+    view: View,
+    private val adapter: ScreenshotsAdapter,
+) : BaseViewHolder(view), FavoriteItemView {
 
     private val userIcon: UserIconView = UserIconViewImpl(view.findViewById(R.id.member_icon))
     private val userName: TextView = view.findViewById(R.id.user_name)
@@ -58,16 +64,20 @@ class FavoriteItemViewHolder(view: View) : BaseViewHolder(view), FavoriteItemVie
     private val label: TextView = view.findViewById(R.id.app_label)
     private val packageName: TextView = view.findViewById(R.id.app_package)
     private val text: TextView = view.findViewById(R.id.text)
-    private val images: View = view.findViewById(R.id.images)
-    private val card: View = view.findViewById(R.id.image_card_first)
-    private val image: ImageView = view.findViewById(R.id.image_first)
+    private val images: RecyclerView = view.findViewById(R.id.images)
 
     private var postClickListener: (() -> Unit)? = null
-    private var imageClickListener: (() -> Unit)? = null
 
     init {
         view.setOnClickListener { postClickListener?.invoke() }
-        card.setOnClickListener { imageClickListener?.invoke() }
+        adapter.setHasStableIds(true)
+
+        val orientation = RecyclerView.HORIZONTAL
+        val layoutManager = LinearLayoutManager(view.context, orientation, false)
+        images.adapter = adapter
+        images.layoutManager = layoutManager
+        images.itemAnimator = DefaultItemAnimator()
+        images.itemAnimator?.changeDuration = DURATION_MEDIUM
     }
 
     override fun setUserIcon(userIcon: UserIcon) {
@@ -99,15 +109,13 @@ class FavoriteItemViewHolder(view: View) : BaseViewHolder(view), FavoriteItemVie
         packageName.bind(value)
     }
 
-    override fun setImage(url: String?) {
+    @SuppressLint("NotifyDataSetChanged")
+    override fun setImages(screenshots: List<Screenshot>) {
         images.show()
-        image.fetch(url.orEmpty()) {
-            centerCrop()
-            placeholder = {
-                with(it.get()) {
-                    setImageDrawable(null)
-                }
-            }
+        with(adapter) {
+            dataSet.clear()
+            dataSet.addAll(screenshots)
+            notifyDataSetChanged()
         }
     }
 
@@ -133,17 +141,14 @@ class FavoriteItemViewHolder(view: View) : BaseViewHolder(view), FavoriteItemVie
         this.postClickListener = listener
     }
 
-    override fun setOnImageClickListener(listener: (() -> Unit)?) {
-        this.imageClickListener = listener
-    }
-
     override fun setClickable(clickable: Boolean) {
         itemView.isClickable = clickable
     }
 
     override fun onUnbind() {
         this.postClickListener = null
-        this.imageClickListener = null
     }
 
 }
+
+private const val DURATION_MEDIUM = 300L

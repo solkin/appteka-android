@@ -34,7 +34,7 @@ class UploadItemPresenter(
             ?.first()
             ?.let {
                 view.setImage(Uri.parse(it.preview))
-                view.setOnImageClickListener { listener.onImageClick(it) }
+//                view.setOnImageClickListener { listener.onImageClick(it) }
             }
         if (item.hasProgress) view.showProgress() else view.hideProgress()
         view.setOnPostClickListener { listener.onItemClick(item) }

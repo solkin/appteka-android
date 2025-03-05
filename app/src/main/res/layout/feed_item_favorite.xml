@@ -167,80 +167,15 @@
                     android:textColor="?attr/text_primary_color"
                     tools:text="Vel eu dignissim tellus at porttitor euismod est vitae suspendisse.  Pellentesque, eget nascetur velit, odio dictum eget in praesent ultricies.  Varius montes, dignissim bibendum pulvinar laoreet enim sed ac." />
 
-                <ScrollView
-                    android:layout_width="match_parent"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/images"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:scrollbars="horizontal">
-
-                    <LinearLayout
-                        android:id="@+id/images"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:paddingTop="6dp"
-                        android:paddingBottom="12dp"
-                        android:clipToPadding="false"
-                        android:paddingStart="6dp"
-                        android:paddingEnd="6dp">
-
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/image_card_first"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="6dp"
-                            android:layout_marginEnd="6dp"
-                            android:layout_gravity="center_vertical"
-                            android:foreground="?android:attr/selectableItemBackground"
-                            app:cardCornerRadius="8dp"
-                            app:cardElevation="4dp">
-
-                            <ImageView
-                                android:id="@+id/image_first"
-                                android:layout_width="wrap_content"
-                                android:layout_height="168dp"
-                                android:scaleType="centerCrop"
-                                android:src="@drawable/discuss_back_light_repeat" />
-
-                        </androidx.cardview.widget.CardView>
-
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/image_card_second"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:foreground="?android:attr/selectableItemBackground"
-                            app:cardCornerRadius="8dp"
-                            app:cardElevation="4dp">
-
-                            <ImageView
-                                android:id="@+id/image_second"
-                                android:layout_width="wrap_content"
-                                android:layout_height="168dp"
-                                android:scaleType="centerCrop"
-                                android:src="@drawable/discuss_back_light_repeat" />
-
-                        </androidx.cardview.widget.CardView>
-
-                        <androidx.cardview.widget.CardView
-                            android:id="@+id/image_card_third"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_vertical"
-                            android:foreground="?android:attr/selectableItemBackground"
-                            app:cardCornerRadius="8dp"
-                            app:cardElevation="4dp">
-
-                            <ImageView
-                                android:id="@+id/image_third"
-                                android:layout_width="wrap_content"
-                                android:layout_height="168dp"
-                                android:scaleType="centerCrop"
-                                android:src="@drawable/discuss_back_light_repeat" />
-
-                        </androidx.cardview.widget.CardView>
-
-                    </LinearLayout>
-
-                </ScrollView>
+                    android:clipToPadding="false"
+                    android:paddingStart="6dp"
+                    android:paddingTop="6dp"
+                    android:paddingEnd="6dp"
+                    android:paddingBottom="12dp" />
 
             </LinearLayout>
 

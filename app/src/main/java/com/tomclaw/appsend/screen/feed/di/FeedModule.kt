@@ -16,6 +16,7 @@ import com.tomclaw.appsend.screen.feed.FeedPresenter
 import com.tomclaw.appsend.screen.feed.FeedPresenterImpl
 import com.tomclaw.appsend.screen.feed.FeedResourceProvider
 import com.tomclaw.appsend.screen.feed.FeedResourceProviderImpl
+import com.tomclaw.appsend.screen.feed.adapter.ScreenshotsAdapter
 import com.tomclaw.appsend.screen.feed.adapter.favorite.FavoriteItemBlueprint
 import com.tomclaw.appsend.screen.feed.adapter.favorite.FavoriteItemPresenter
 import com.tomclaw.appsend.screen.feed.adapter.text.TextItemBlueprint
@@ -110,8 +111,9 @@ class FeedModule(
     @IntoSet
     @PerFragment
     internal fun provideFavoriteItemBlueprint(
-        presenter: FavoriteItemPresenter
-    ): ItemBlueprint<*, *> = FavoriteItemBlueprint(presenter)
+        itemPresenter: FavoriteItemPresenter,
+        feedPresenter: FeedPresenter,
+    ): ItemBlueprint<*, *> = FavoriteItemBlueprint(itemPresenter, feedPresenter)
 
     @Provides
     @PerFragment

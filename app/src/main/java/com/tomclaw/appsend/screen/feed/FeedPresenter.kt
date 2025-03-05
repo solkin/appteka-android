@@ -2,10 +2,12 @@ package com.tomclaw.appsend.screen.feed
 
 import android.net.Uri
 import android.os.Bundle
+import androidx.core.net.toUri
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.blueprint.Item
 import com.avito.konveyor.data_source.ListDataSource
 import com.tomclaw.appsend.dto.Screenshot
+import com.tomclaw.appsend.screen.details.adapter.screenshot.ScreenshotItem
 import com.tomclaw.appsend.screen.feed.adapter.FeedItem
 import com.tomclaw.appsend.screen.feed.adapter.ItemListener
 import com.tomclaw.appsend.screen.feed.api.PostEntity
@@ -280,10 +282,10 @@ class FeedPresenterImpl(
         loadApps(offsetId = sub.id.toInt(), direction)
     }
 
-    override fun onImageClick(image: Screenshot) {
+    override fun onImageClick(items: List<Screenshot>, clicked: Int) {
         router?.openGallery(
-            items = listOf(GalleryItem(Uri.parse(image.original), image.width, image.height)),
-            current = 0,
+            items = items.map { GalleryItem(it.original.toUri(), it.width, it.height) },
+            current = clicked,
         )
     }
 

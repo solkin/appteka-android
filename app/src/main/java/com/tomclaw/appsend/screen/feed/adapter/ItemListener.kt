@@ -9,6 +9,6 @@ interface ItemListener {
 
     fun onLoadMore(item: Item)
 
-    fun onImageClick(image: Screenshot)
+    fun onImageClick(items: List<Screenshot>, clicked: Int)
 
 }
