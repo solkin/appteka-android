@@ -6,6 +6,7 @@ import com.tomclaw.appsend.categories.DEFAULT_LOCALE
 import com.tomclaw.appsend.screen.feed.FeedResourceProvider
 import com.tomclaw.appsend.screen.feed.adapter.ItemListener
 import java.util.Locale
+import androidx.core.net.toUri
 
 class FavoriteItemPresenter(
     private val locale: Locale,
@@ -28,14 +29,18 @@ class FavoriteItemPresenter(
         view.setUserName(name)
         view.setUserIcon(item.user.userIcon)
         view.setTime(resourceProvider.formatTime(item.time))
-        view.setText(item.text)
+        view.setIcon(item.icon)
+        view.setLabel(item.description.orEmpty())
+        view.setPackage(item.description.orEmpty())
+        view.setText(item.description.orEmpty())
         item.screenshots
             .takeIf { it.isNotEmpty() }
             ?.first()
             ?.let {
-                view.setImage(Uri.parse(it.preview))
+                view.setImage(it.preview)
                 view.setOnImageClickListener { listener.onImageClick(it) }
             }
+            ?: view.hideImage()
         if (item.hasProgress) view.showProgress() else view.hideProgress()
         view.setOnPostClickListener { listener.onItemClick(item) }
     }

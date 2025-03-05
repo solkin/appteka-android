@@ -9,10 +9,13 @@ import com.avito.konveyor.blueprint.ItemView
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.dto.UserIcon
 import com.tomclaw.appsend.util.bind
+import com.tomclaw.appsend.util.hide
+import com.tomclaw.appsend.util.show
 import com.tomclaw.appsend.view.UserIconView
 import com.tomclaw.appsend.view.UserIconViewImpl
 import com.tomclaw.imageloader.util.centerCrop
 import com.tomclaw.imageloader.util.fetch
+import com.tomclaw.imageloader.util.withPlaceholder
 
 interface FavoriteItemView : ItemView {
 
@@ -20,7 +23,15 @@ interface FavoriteItemView : ItemView {
 
     fun setUserName(name: String)
 
-    fun setImage(uri: Uri)
+    fun setIcon(url: String?)
+
+    fun setLabel(value: String)
+
+    fun setPackage(value: String)
+
+    fun setImage(url: String?)
+
+    fun hideImage()
 
     fun setText(text: String)
 
@@ -43,9 +54,12 @@ class FavoriteItemViewHolder(view: View) : BaseViewHolder(view), FavoriteItemVie
     private val userIcon: UserIconView = UserIconViewImpl(view.findViewById(R.id.member_icon))
     private val userName: TextView = view.findViewById(R.id.user_name)
     private val time: TextView = view.findViewById(R.id.date_view)
+    private val icon: ImageView = view.findViewById(R.id.app_icon)
+    private val label: TextView = view.findViewById(R.id.app_label)
+    private val packageName: TextView = view.findViewById(R.id.app_package)
     private val text: TextView = view.findViewById(R.id.text)
-    private val card: View = view.findViewById(R.id.image_card)
-    private val image: ImageView = view.findViewById(R.id.image)
+    private val card: View = view.findViewById(R.id.image_card_first)
+    private val image: ImageView = view.findViewById(R.id.image_first)
 
     private var postClickListener: (() -> Unit)? = null
     private var imageClickListener: (() -> Unit)? = null
@@ -63,8 +77,30 @@ class FavoriteItemViewHolder(view: View) : BaseViewHolder(view), FavoriteItemVie
         userName.bind(name)
     }
 
-    override fun setImage(uri: Uri) {
-        image.fetch(uri.toString()) {
+    override fun setIcon(url: String?) {
+        icon.fetch(url.orEmpty()) {
+            centerCrop()
+            withPlaceholder(R.drawable.app_placeholder)
+            placeholder = {
+                with(it.get()) {
+                    scaleType = ImageView.ScaleType.CENTER_CROP
+                    setImageResource(R.drawable.app_placeholder)
+                }
+            }
+        }
+    }
+
+    override fun setLabel(value: String) {
+        label.bind(value)
+    }
+
+    override fun setPackage(value: String) {
+        packageName.bind(value)
+    }
+
+    override fun setImage(url: String?) {
+        image.show()
+        image.fetch(url.orEmpty()) {
             centerCrop()
             placeholder = {
                 with(it.get()) {
@@ -72,6 +108,10 @@ class FavoriteItemViewHolder(view: View) : BaseViewHolder(view), FavoriteItemVie
                 }
             }
         }
+    }
+
+    override fun hideImage() {
+        image.hide()
     }
 
     override fun setText(text: String) {

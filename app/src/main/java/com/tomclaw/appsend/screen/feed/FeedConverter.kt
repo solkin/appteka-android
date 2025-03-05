@@ -30,8 +30,21 @@ class FeedConverterImpl : FeedConverter {
             is FavoritePayload -> FavoriteItem(
                 id = post.postId.toLong(),
                 time = TimeUnit.SECONDS.toMillis(post.time),
+                appId = post.payload.appId,
+                packageName = post.payload.packageName,
+                icon = post.payload.icon,
+                title = post.payload.title,
+                verName = post.payload.verName,
+                verCode = post.payload.verCode,
+                size = post.payload.size,
+                rating = post.payload.rating,
+                downloads = post.payload.downloads,
+                status = post.payload.status,
+                category = post.payload.category,
+                exclusive = post.payload.exclusive,
+                openSource = post.payload.openSource,
+                description = post.payload.description.orEmpty(),
                 screenshots = post.payload.screenshots.orEmpty(),
-                text = post.payload.description.orEmpty(),
                 user = post.user
             )
             is UploadPayload -> UploadItem(
