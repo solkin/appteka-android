@@ -127,8 +127,9 @@ class FeedModule(
     @IntoSet
     @PerFragment
     internal fun provideUploadItemBlueprint(
-        presenter: UploadItemPresenter
-    ): ItemBlueprint<*, *> = UploadItemBlueprint(presenter)
+        itemPresenter: UploadItemPresenter,
+        feedPresenter: FeedPresenter,
+    ): ItemBlueprint<*, *> = UploadItemBlueprint(itemPresenter, feedPresenter)
 
     @Provides
     @PerFragment

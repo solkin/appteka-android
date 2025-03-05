@@ -17,8 +17,6 @@ class UploadItem(
     val verName: String,
     val verCode: Int,
     val size: Long,
-    val rating: Float,
-    val downloads: Int,
     val status: Int,
     val category: Category?,
     val exclusive: Boolean,

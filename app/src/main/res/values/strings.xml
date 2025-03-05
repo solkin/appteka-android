@@ -334,4 +334,6 @@
     <string name="subscribed_date">Subscribed %s</string>
     <string name="tab_feed">Feed</string>
     <string name="user_feed">User Feed</string>
+    <string name="feed_marked_favorite">Marked application as favorite</string>
+    <string name="feed_uploaded_app">Uploaded new application</string>
 </resources>

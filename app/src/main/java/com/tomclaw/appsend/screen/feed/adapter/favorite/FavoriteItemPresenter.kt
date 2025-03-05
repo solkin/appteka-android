@@ -2,7 +2,6 @@ package com.tomclaw.appsend.screen.feed.adapter.favorite
 
 import com.avito.konveyor.blueprint.ItemPresenter
 import com.tomclaw.appsend.categories.DEFAULT_LOCALE
-import com.tomclaw.appsend.dto.Screenshot
 import com.tomclaw.appsend.screen.feed.FeedResourceProvider
 import com.tomclaw.appsend.screen.feed.adapter.ItemListener
 import java.util.Locale

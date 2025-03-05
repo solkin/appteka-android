@@ -57,8 +57,6 @@ class FeedConverterImpl : FeedConverter {
                 verName = post.payload.verName,
                 verCode = post.payload.verCode,
                 size = post.payload.size,
-                rating = post.payload.rating,
-                downloads = post.payload.downloads,
                 status = post.payload.status,
                 category = post.payload.category,
                 exclusive = post.payload.exclusive,

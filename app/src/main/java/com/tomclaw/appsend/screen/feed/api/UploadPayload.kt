@@ -19,10 +19,6 @@ data class UploadPayload(
     val verCode: Int,
     @SerializedName("size")
     val size: Long,
-    @SerializedName("rating")
-    val rating: Float,
-    @SerializedName("downloads")
-    val downloads: Int,
     @SerializedName("file_status")
     val status: Int,
     @SerializedName("category")
