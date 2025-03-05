@@ -1,12 +1,10 @@
 package com.tomclaw.appsend.screen.feed.adapter.favorite
 
-import android.net.Uri
 import com.avito.konveyor.blueprint.ItemPresenter
 import com.tomclaw.appsend.categories.DEFAULT_LOCALE
 import com.tomclaw.appsend.screen.feed.FeedResourceProvider
 import com.tomclaw.appsend.screen.feed.adapter.ItemListener
 import java.util.Locale
-import androidx.core.net.toUri
 
 class FavoriteItemPresenter(
     private val locale: Locale,
@@ -30,8 +28,8 @@ class FavoriteItemPresenter(
         view.setUserIcon(item.user.userIcon)
         view.setTime(resourceProvider.formatTime(item.time))
         view.setIcon(item.icon)
-        view.setLabel(item.description.orEmpty())
-        view.setPackage(item.description.orEmpty())
+        view.setLabel(item.title)
+        view.setPackage(item.packageName)
         view.setText(item.description.orEmpty())
         item.screenshots
             .takeIf { it.isNotEmpty() }

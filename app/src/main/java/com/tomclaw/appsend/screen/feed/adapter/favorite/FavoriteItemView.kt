@@ -58,6 +58,7 @@ class FavoriteItemViewHolder(view: View) : BaseViewHolder(view), FavoriteItemVie
     private val label: TextView = view.findViewById(R.id.app_label)
     private val packageName: TextView = view.findViewById(R.id.app_package)
     private val text: TextView = view.findViewById(R.id.text)
+    private val images: View = view.findViewById(R.id.images)
     private val card: View = view.findViewById(R.id.image_card_first)
     private val image: ImageView = view.findViewById(R.id.image_first)
 
@@ -99,7 +100,7 @@ class FavoriteItemViewHolder(view: View) : BaseViewHolder(view), FavoriteItemVie
     }
 
     override fun setImage(url: String?) {
-        image.show()
+        images.show()
         image.fetch(url.orEmpty()) {
             centerCrop()
             placeholder = {
@@ -111,7 +112,7 @@ class FavoriteItemViewHolder(view: View) : BaseViewHolder(view), FavoriteItemVie
     }
 
     override fun hideImage() {
-        image.hide()
+        images.hide()
     }
 
     override fun setText(text: String) {

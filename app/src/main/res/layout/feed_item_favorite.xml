@@ -173,6 +173,7 @@
                     android:scrollbars="horizontal">
 
                     <LinearLayout
+                        android:id="@+id/images"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingTop="6dp"
@@ -194,10 +195,10 @@
 
                             <ImageView
                                 android:id="@+id/image_first"
-                                android:layout_width="match_parent"
+                                android:layout_width="wrap_content"
                                 android:layout_height="168dp"
                                 android:scaleType="centerCrop"
-                                tools:src="@drawable/discuss_back_light_repeat" />
+                                android:src="@drawable/discuss_back_light_repeat" />
 
                         </androidx.cardview.widget.CardView>
 
@@ -212,10 +213,10 @@
 
                             <ImageView
                                 android:id="@+id/image_second"
-                                android:layout_width="match_parent"
+                                android:layout_width="wrap_content"
                                 android:layout_height="168dp"
                                 android:scaleType="centerCrop"
-                                tools:src="@drawable/discuss_back_light_repeat" />
+                                android:src="@drawable/discuss_back_light_repeat" />
 
                         </androidx.cardview.widget.CardView>
 
@@ -230,10 +231,10 @@
 
                             <ImageView
                                 android:id="@+id/image_third"
-                                android:layout_width="match_parent"
+                                android:layout_width="wrap_content"
                                 android:layout_height="168dp"
                                 android:scaleType="centerCrop"
-                                tools:src="@drawable/discuss_back_light_repeat" />
+                                android:src="@drawable/discuss_back_light_repeat" />
 
                         </androidx.cardview.widget.CardView>
 
