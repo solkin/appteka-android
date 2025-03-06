@@ -78,22 +78,36 @@
 
             </LinearLayout>
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:drawableStart="@drawable/ic_cloud_upload"
-                android:drawablePadding="4dp"
-                android:drawableTint="?attr/text_primary_color"
-                android:paddingTop="2dp"
-                android:paddingBottom="2dp"
-                android:text="@string/feed_uploaded_app"
-                android:textColor="?attr/text_primary_color"
-                android:textSize="15sp" />
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/ic_cloud_upload"
+                    app:tint="?attr/text_primary_color" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="4dp"
+                    android:paddingTop="2dp"
+                    android:paddingEnd="4dp"
+                    android:paddingBottom="2dp"
+                    android:text="@string/feed_uploaded_app"
+                    android:textColor="?attr/text_primary_color"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
+                android:paddingBottom="4dp"
                 android:background="@drawable/outline_feed_block"
                 android:orientation="vertical">
 
@@ -184,10 +198,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:clipToPadding="false"
-                    android:paddingStart="6dp"
-                    android:paddingTop="6dp"
-                    android:paddingEnd="6dp"
-                    android:paddingBottom="12dp"
+                    android:padding="4dp"
+                    android:layout_marginTop="-4dp"
+                    android:layout_marginBottom="-4dp"
                     tools:itemCount="3"
                     tools:listitem="@layout/feed_screenshot_item" />
 
