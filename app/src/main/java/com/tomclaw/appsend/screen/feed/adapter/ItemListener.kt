@@ -11,4 +11,6 @@ interface ItemListener {
 
     fun onImageClick(items: List<Screenshot>, clicked: Int)
 
+    fun onAppClick(appId: String, title: String?)
+
 }

@@ -42,6 +42,8 @@ interface FeedPresenter : ItemListener {
 
         fun openProfileScreen(userId: Int)
 
+        fun openDetailsScreen(appId: String, label: String?, isFinish: Boolean)
+
         fun openGallery(items: List<GalleryItem>, current: Int)
 
         fun leaveScreen()
@@ -286,6 +288,14 @@ class FeedPresenterImpl(
         router?.openGallery(
             items = items.map { GalleryItem(it.original.toUri(), it.width, it.height) },
             current = clicked,
+        )
+    }
+
+    override fun onAppClick(appId: String, title: String?) {
+        router?.openDetailsScreen(
+            appId = appId,
+            label = title,
+            isFinish = false
         )
     }
 

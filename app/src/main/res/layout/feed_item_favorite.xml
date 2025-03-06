@@ -81,8 +81,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
                 <ImageView
                     android:layout_width="24dp"
@@ -104,12 +104,13 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/app_block"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:paddingBottom="4dp"
-                android:background="@drawable/outline_feed_block"
-                android:orientation="vertical">
+                android:background="@drawable/outline_feed_ripple"
+                android:orientation="vertical"
+                android:paddingBottom="4dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -197,10 +198,10 @@
                     android:id="@+id/images"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:clipToPadding="false"
-                    android:padding="4dp"
                     android:layout_marginTop="-4dp"
                     android:layout_marginBottom="-4dp"
+                    android:clipToPadding="false"
+                    android:padding="4dp"
                     tools:itemCount="3"
                     tools:listitem="@layout/feed_screenshot_item" />
 

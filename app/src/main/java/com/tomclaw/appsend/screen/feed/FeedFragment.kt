@@ -1,5 +1,6 @@
 package com.tomclaw.appsend.screen.feed
 
+import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.screen.feed.di.FeedModule
 import com.tomclaw.appsend.screen.gallery.GalleryItem
 import com.tomclaw.appsend.screen.gallery.createGalleryActivityIntent
@@ -88,6 +90,21 @@ class FeedFragment : Fragment(), FeedPresenter.FeedRouter {
     override fun openProfileScreen(userId: Int) {
         val context = context ?: return
         val intent = createProfileActivityIntent(context, userId)
+        startActivity(intent)
+    }
+
+    override fun openDetailsScreen(appId: String, label: String?, isFinish: Boolean) {
+        val context = context ?: return
+        val intent = createDetailsActivityIntent(
+            context = context,
+            appId = appId,
+            label = label.orEmpty(),
+            finishOnly = true
+        )
+        if (isFinish) {
+            intent.flags = FLAG_ACTIVITY_CLEAR_TOP
+            leaveScreen()
+        }
         startActivity(intent)
     }
 
