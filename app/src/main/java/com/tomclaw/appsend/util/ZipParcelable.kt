@@ -34,10 +34,10 @@ class ZipParcelable : Parcelable {
 
         val data = raw?.takeIf { it.isNotEmpty() } ?: return null
 
-        val array = when (zip ?: false) {
+        val array = when (zip == true) {
             true -> try {
                 data.unzip()
-            } catch (throwable: Throwable) {
+            } catch (_: Throwable) {
                 return null
             }
 
@@ -56,7 +56,7 @@ class ZipParcelable : Parcelable {
                     val zip = originalArray.zip()
                     writeBool(value = true)
                     writeByteArrayWithSize(zip)
-                } catch (throwable: Throwable) {
+                } catch (_: Throwable) {
                     writeBool(value = false)
                     writeByteArrayWithSize(originalArray)
                 }

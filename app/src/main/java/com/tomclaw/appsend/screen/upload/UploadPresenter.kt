@@ -116,12 +116,12 @@ class UploadPresenterImpl(
     private var description: String =
         state?.getString(KEY_DESCRIPTION) ?: startInfo?.description.orEmpty()
     private var exclusive: Boolean =
-        state?.getBoolean(KEY_EXCLUSIVE) ?: startInfo?.exclusive ?: false
+        (state?.getBoolean(KEY_EXCLUSIVE) ?: startInfo?.exclusive) == true
     private var openSource: Boolean =
-        state?.getBoolean(KEY_OPEN_SOURCE) ?: startInfo?.openSource ?: false
+        (state?.getBoolean(KEY_OPEN_SOURCE) ?: startInfo?.openSource) == true
     private var sourceUrl: String =
         state?.getString(KEY_SOURCE_URL) ?: startInfo?.sourceUrl.orEmpty()
-    private var highlightErrors: Boolean = state?.getBoolean(KEY_HIGHLIGHT_ERRORS) ?: false
+    private var highlightErrors: Boolean = state?.getBoolean(KEY_HIGHLIGHT_ERRORS) == true
 
     private val items = ArrayList<Item>()
 
@@ -266,7 +266,7 @@ class UploadPresenterImpl(
             this.category = meta.category?.let { categoryConverter.convert(it) } ?: this.category
             this.whatsNew = meta.whatsNew.orEmpty()
             this.description = meta.description.orEmpty()
-            this.exclusive = meta.exclusive ?: false
+            this.exclusive = meta.exclusive == true
             this.openSource = meta.openSource ?: !meta.sourceUrl.isNullOrEmpty()
             this.sourceUrl = meta.sourceUrl.orEmpty()
         }

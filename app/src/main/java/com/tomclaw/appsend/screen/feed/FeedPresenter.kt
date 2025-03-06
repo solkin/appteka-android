@@ -68,7 +68,7 @@ class FeedPresenterImpl(
 
     private var items: List<FeedItem>? =
         state?.getParcelableArrayListCompat(KEY_APPS, FeedItem::class.java)
-    private var isError: Boolean = state?.getBoolean(KEY_ERROR) ?: false
+    private var isError: Boolean = state?.getBoolean(KEY_ERROR) == true
 
     override fun attachView(view: FeedView) {
         this.view = view

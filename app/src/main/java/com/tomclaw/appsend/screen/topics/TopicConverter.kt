@@ -34,7 +34,7 @@ class TopicConverterImpl(
             description = description,
             packageName = entity.packageName,
             isPinned = entity.isPinned,
-            hasUnread = entity.readMsgId?.let { it < entity.lastMsg.msgId } ?: false,
+            hasUnread = entity.readMsgId?.let { it < entity.lastMsg.msgId } == true,
             lastMsgId = entity.lastMsg.msgId,
             lastMsgText = entity.lastMsg.text,
             lastMsgUserIcon = entity.lastMsg.userIcon,

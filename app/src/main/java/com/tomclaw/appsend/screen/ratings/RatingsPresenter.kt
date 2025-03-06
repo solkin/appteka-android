@@ -60,7 +60,7 @@ class RatingsPresenterImpl(
 
     private var items: List<RatingItem>? =
         state?.getParcelableArrayListCompat(KEY_APPS, RatingItem::class.java)
-    private var isError: Boolean = state?.getBoolean(KEY_ERROR) ?: false
+    private var isError: Boolean = state?.getBoolean(KEY_ERROR) == true
     private var brief: UserBrief? = state?.getParcelableCompat(KEY_BRIEF, UserBrief::class.java)
 
     override fun attachView(view: RatingsView) {

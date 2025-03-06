@@ -28,7 +28,7 @@ class ReviewConverterImpl() : ReviewConverter {
             text = entity.rating.text,
             time = TimeUnit.SECONDS.toMillis(entity.rating.time),
             showRatingMenu = brief
-                ?.let { it.role >= ROLE_ADMIN || it.userId == entity.rating.userId } ?: false,
+                ?.let { it.role >= ROLE_ADMIN || it.userId == entity.rating.userId } == true,
         )
     }
 

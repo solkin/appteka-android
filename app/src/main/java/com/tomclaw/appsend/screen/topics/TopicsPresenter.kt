@@ -54,8 +54,8 @@ class TopicsPresenterImpl(
 
     private var entities: List<TopicEntity>? =
         state?.getParcelableArrayListCompat(KEY_TOPICS, TopicEntity::class.java)
-    private var isError: Boolean = state?.getBoolean(KEY_ERROR) ?: false
-    private var hasMore: Boolean = state?.getBoolean(KEY_HAS_MORE) ?: false
+    private var isError: Boolean = state?.getBoolean(KEY_ERROR) == true
+    private var hasMore: Boolean = state?.getBoolean(KEY_HAS_MORE) == true
 
     override fun attachView(view: TopicsView) {
         this.view = view
@@ -92,7 +92,7 @@ class TopicsPresenterImpl(
             .subscribe { response ->
                 println("[polling] event received (topics)")
                 response.topics?.let { topics ->
-                    val isInvalidateTopics = response.invalidateTopics ?: false
+                    val isInvalidateTopics = response.invalidateTopics == true
                     val topItems = ArrayList(topics)
                     val filteredEntities = ArrayList(
                         entities?.takeUnless { isInvalidateTopics } ?: emptyList()

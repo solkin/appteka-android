@@ -56,7 +56,7 @@ class UsersPresenterImpl(
 
     private var items: List<UserItem>? =
         state?.getParcelableArrayListCompat(KEY_APPS, UserItem::class.java)
-    private var isError: Boolean = state?.getBoolean(KEY_ERROR) ?: false
+    private var isError: Boolean = state?.getBoolean(KEY_ERROR) == true
 
     override fun attachView(view: UsersView) {
         this.view = view

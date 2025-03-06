@@ -97,7 +97,7 @@ class UploadConverterImpl(
                                 title = resourceProvider.formatVersion(version),
                                 compatible = version.sdkVersion <= Build.VERSION.SDK_INT,
                                 newer = apk?.packageInfo?.versionCodeCompat()
-                                    ?.let { version.verCode > it } ?: false,
+                                    ?.let { version.verCode > it } == true,
                             )
                         }
                     items += OtherVersionsItem(id++, versions)

@@ -72,7 +72,7 @@ class HomePresenterImpl(
 
     private var action: String? = state?.getString(KEY_ACTION) ?: startAction
     private var tabIndex: Int = state?.getInt(KEY_TAB_INDEX) ?: INDEX_STORE
-    private var startupLoaded: Boolean = state?.getBoolean(KEY_STARTUP_LOADED) ?: false
+    private var startupLoaded: Boolean = state?.getBoolean(KEY_STARTUP_LOADED) == true
     private var unread: Int = state?.getInt(KEY_UNREAD) ?: 0
     private var feed: Int = state?.getInt(KEY_FEED) ?: 0
     private var update: AppEntity? = state?.getParcelableCompat(KEY_UPDATE, AppEntity::class.java)
@@ -150,7 +150,7 @@ class HomePresenterImpl(
         }
     }
 
-    private fun canModerate(): Boolean = moderation?.moderator ?: false
+    private fun canModerate(): Boolean = moderation?.moderator == true
 
     private fun loadStartup() {
         subscriptions += interactor.loadStartup()
@@ -187,7 +187,7 @@ class HomePresenterImpl(
         status = response
         if (!response.message.isNullOrBlank()) {
             view?.showStatusDialog(
-                block = response.block ?: false,
+                block = response.block == true,
                 title = response.title,
                 message = response.message,
             )

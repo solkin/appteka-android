@@ -133,8 +133,8 @@ class DetailsPresenterImpl(
     private var installedVersionCode: Int = state?.getInt(KEY_INSTALLED_VERSION) ?: NOT_INSTALLED
     private var downloadState: Int = state?.getInt(KEY_DOWNLOAD_STATE) ?: IDLE
     private var targetFile: File? = state?.getString(KEY_TARGET_FILE)?.let { File(it) }
-    private var needInstall: Boolean = state?.getBoolean(KEY_NEED_INSTALL) ?: false
-    private var isFavorite: Boolean = state?.getBoolean(KEY_IS_FAVORITE) ?: false
+    private var needInstall: Boolean = state?.getBoolean(KEY_NEED_INSTALL) == true
+    private var isFavorite: Boolean = state?.getBoolean(KEY_IS_FAVORITE) == true
     private var translationData: TranslationResponse? =
         state?.getParcelableCompat(KEY_TRANSLATION_DATA, TranslationResponse::class.java)
     private var translationState: Int = state?.getInt(KEY_TRANSLATION_STATE) ?: TRANSLATION_ORIGINAL
@@ -260,7 +260,7 @@ class DetailsPresenterImpl(
 
     private fun onDetailsLoaded(details: Details) {
         this.details = details
-        this.isFavorite = details.isFavorite ?: false
+        this.isFavorite = details.isFavorite == true
         dispatchPackageStatus()
     }
 

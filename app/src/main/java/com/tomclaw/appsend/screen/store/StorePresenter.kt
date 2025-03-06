@@ -62,7 +62,7 @@ class StorePresenterImpl(
 
     private var items: List<AppItem>? =
         state?.getParcelableArrayListCompat(KEY_APPS, AppItem::class.java)
-    private var isError: Boolean = state?.getBoolean(KEY_ERROR) ?: false
+    private var isError: Boolean = state?.getBoolean(KEY_ERROR) == true
     private var category: CategoryItem? =
         state?.getParcelableCompat(KEY_CATEGORY_ID, CategoryItem::class.java)
 

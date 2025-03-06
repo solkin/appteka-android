@@ -59,7 +59,7 @@ class TopicItemViewHolder(view: View) : BaseViewHolder(view), TopicItemView {
 
     init {
         view.setOnClickListener { clickListener?.invoke() }
-        view.setOnLongClickListener { longClickListener?.invoke()?.let { true } ?: false }
+        view.setOnLongClickListener { longClickListener?.invoke()?.let { true } == true }
     }
 
     override fun setIcon(url: String?) {

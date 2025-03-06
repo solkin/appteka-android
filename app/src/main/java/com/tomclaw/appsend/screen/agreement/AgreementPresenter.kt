@@ -35,7 +35,7 @@ class AgreementPresenterImpl(
     private var view: AgreementView? = null
     private var router: AgreementPresenter.AgreementRouter? = null
 
-    private var agreed: Boolean = state?.getBoolean(KEY_AGREED) ?: false
+    private var agreed: Boolean = state?.getBoolean(KEY_AGREED) == true
 
     private val subscriptions = CompositeDisposable()
 

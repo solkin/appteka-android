@@ -70,7 +70,7 @@ class DetailsConverterImpl(
             )
 
             STATUS_PRIVATE -> {
-                val canEdit = details.actions?.contains(ACTION_EDIT_META) ?: false
+                val canEdit = details.actions?.contains(ACTION_EDIT_META) == true
                 items += StatusItem(
                     id = id++,
                     type = StatusType.INFO,
@@ -82,7 +82,7 @@ class DetailsConverterImpl(
 
             STATUS_MODERATION -> {
                 if (!moderation) {
-                    val canUnpublish = details.actions?.contains(ACTION_UNPUBLISH) ?: false
+                    val canUnpublish = details.actions?.contains(ACTION_UNPUBLISH) == true
                     items += StatusItem(
                         id = id++,
                         type = StatusType.WARNING,
@@ -111,8 +111,8 @@ class DetailsConverterImpl(
             downloads = details.info.downloads ?: 0,
             favorites = details.info.favorites ?: 0,
             size = details.info.size,
-            exclusive = details.meta?.exclusive ?: false,
-            openSource = details.meta?.sourceUrl?.isNotEmpty() ?: false,
+            exclusive = details.meta?.exclusive == true,
+            openSource = details.meta?.sourceUrl?.isNotEmpty() == true,
             category = details.meta?.category,
             osVersion = details.info.androidVersion,
             minSdk = details.info.sdkVersion,

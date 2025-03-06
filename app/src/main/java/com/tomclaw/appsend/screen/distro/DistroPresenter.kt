@@ -75,7 +75,7 @@ class DistroPresenterImpl(
     private var items: List<ApkItem>? =
         state?.getParcelableArrayListCompat(KEY_APPS, ApkItem::class.java)
     private var filter: String? = state?.getString(KEY_FILTER).takeIf { !it.isNullOrBlank() }
-    private var isError: Boolean = state?.getBoolean(KEY_ERROR) ?: false
+    private var isError: Boolean = state?.getBoolean(KEY_ERROR) == true
 
     override fun attachView(view: DistroView) {
         this.view = view

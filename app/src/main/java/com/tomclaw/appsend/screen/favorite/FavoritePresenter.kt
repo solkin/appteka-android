@@ -57,7 +57,7 @@ class FavoritePresenterImpl(
 
     private var items: List<AppItem>? =
         state?.getParcelableArrayListCompat(KEY_APPS, AppItem::class.java)
-    private var isError: Boolean = state?.getBoolean(KEY_ERROR) ?: false
+    private var isError: Boolean = state?.getBoolean(KEY_ERROR) == true
 
     override fun attachView(view: FavoriteView) {
         this.view = view

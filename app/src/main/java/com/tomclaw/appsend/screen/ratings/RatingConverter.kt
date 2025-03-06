@@ -29,7 +29,7 @@ class RatingConverterImpl(
                 ?: entity.userIcon.label[DEFAULT_LOCALE].orEmpty(),
             userIcon = entity.userIcon,
             showRatingMenu = brief
-                ?.let { it.role >= ROLE_ADMIN || it.userId == entity.userId } ?: false,
+                ?.let { it.role >= ROLE_ADMIN || it.userId == entity.userId } == true,
         )
     }
 

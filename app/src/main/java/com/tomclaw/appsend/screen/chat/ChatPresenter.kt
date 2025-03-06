@@ -64,7 +64,7 @@ class ChatPresenterImpl(
 
     private var topic: TopicEntity? =
         state?.getParcelableCompat(KEY_TOPIC, TopicEntity::class.java) ?: topicEntity
-    private var isError: Boolean = state?.getBoolean(KEY_ERROR) ?: false
+    private var isError: Boolean = state?.getBoolean(KEY_ERROR) == true
     private var messageText: String = state?.getString(KEY_MESSAGE) ?: ""
     private var history: List<MessageEntity>? =
         state?.getParcelableArrayListCompat(KEY_HISTORY, MessageEntity::class.java)
@@ -393,7 +393,7 @@ class ChatPresenterImpl(
         val message = history?.findLast {
             it.msgId == item.id.toInt()
         } ?: return
-        val translated = translation[message.msgId]?.translated ?: false
+        val translated = translation[message.msgId]?.translated == true
         subscriptions += chatInteractor.getUserBrief()
             .observeOn(schedulers.mainThread())
             .subscribe(
