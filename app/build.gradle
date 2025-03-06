@@ -22,7 +22,7 @@ android {
         minSdkVersion 21
         //noinspection ExpiredTargetSdkVersion
         targetSdkVersion 28
-        versionCode = project.hasProperty("versionCode") ? Integer.parseInt(project.versionCode) : 880
+        versionCode = project.hasProperty("versionCode") ? Integer.parseInt(project.versionCode) : 881
         versionName = "17.0"
     }
 
