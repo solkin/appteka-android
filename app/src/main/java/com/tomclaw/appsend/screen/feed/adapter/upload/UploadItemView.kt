@@ -76,6 +76,7 @@ class UploadItemViewHolder(
     init {
         view.setOnClickListener { postClickListener?.invoke() }
         appBlock.setOnClickListener { appClickListener?.invoke() }
+
         adapter.setHasStableIds(true)
 
         val orientation = RecyclerView.HORIZONTAL

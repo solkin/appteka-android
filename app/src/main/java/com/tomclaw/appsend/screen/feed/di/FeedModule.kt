@@ -96,8 +96,9 @@ class FeedModule(
     @IntoSet
     @PerFragment
     internal fun provideTextItemBlueprint(
-        presenter: TextItemPresenter
-    ): ItemBlueprint<*, *> = TextItemBlueprint(presenter)
+        itemPresenter: TextItemPresenter,
+        feedPresenter: FeedPresenter,
+    ): ItemBlueprint<*, *> = TextItemBlueprint(itemPresenter, feedPresenter)
 
     @Provides
     @PerFragment

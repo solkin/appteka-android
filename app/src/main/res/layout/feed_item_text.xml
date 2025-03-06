@@ -87,27 +87,21 @@
                 android:textColor="?attr/text_primary_color"
                 tools:text="Vel eu dignissim tellus at porttitor euismod est vitae suspendisse.  Pellentesque, eget nascetur velit, odio dictum eget in praesent ultricies.  Varius montes, dignissim bibendum pulvinar laoreet enim sed ac." />
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/image_card"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginTop="4dp"
-                android:foreground="?android:attr/selectableItemBackground"
-                app:cardCornerRadius="8dp"
-                app:cardElevation="4dp">
-
-                <ImageView
-                    android:id="@+id/image"
-                    android:layout_width="match_parent"
-                    android:layout_height="168dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/discuss_back_light_repeat" />
-
-            </androidx.cardview.widget.CardView>
-
         </LinearLayout>
 
     </LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/images"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="52dp"
+        android:paddingEnd="0dp"
+        android:paddingTop="4dp"
+        android:paddingBottom="4dp"
+        android:layout_marginTop="-4dp"
+        android:layout_marginBottom="-4dp"
+        android:clipToPadding="false"
+        tools:itemCount="3"
+        tools:listitem="@layout/feed_screenshot_item" />
 
 </LinearLayout>
