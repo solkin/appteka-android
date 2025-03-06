@@ -30,6 +30,7 @@ import dagger.Lazy
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
+import androidx.core.net.toUri
 
 interface UploadPresenter : ItemListener {
 
@@ -256,8 +257,8 @@ class UploadPresenterImpl(
             this.screenshots = meta.screenshots?.map {
                 UploadScreenshot(
                     it.scrId,
-                    Uri.parse(it.original),
-                    Uri.parse(it.preview),
+                    it.original.toUri(),
+                    it.preview.toUri(),
                     it.width,
                     it.height
                 )

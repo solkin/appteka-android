@@ -33,6 +33,7 @@ import com.tomclaw.appsend.util.Analytics
 import com.tomclaw.appsend.util.updateTheme
 import java.io.File
 import javax.inject.Inject
+import androidx.core.net.toUri
 
 class InstalledActivity : AppCompatActivity(), InstalledPresenter.InstalledRouter {
 
@@ -139,12 +140,12 @@ class InstalledActivity : AppCompatActivity(), InstalledPresenter.InstalledRoute
 
     override fun searchGooglePlay(packageName: String) {
         try {
-            val intent = Intent(ACTION_VIEW, Uri.parse("market://details?id=$packageName"))
+            val intent = Intent(ACTION_VIEW, "market://details?id=$packageName".toUri())
             invalidateDetailsResultLauncher.launch(intent)
-        } catch (ex: ActivityNotFoundException) {
+        } catch (_: ActivityNotFoundException) {
             val intent = Intent(
                 ACTION_VIEW,
-                Uri.parse("https://play.google.com/store/apps/details?id=$packageName")
+                "https://play.google.com/store/apps/details?id=$packageName".toUri()
             )
             startActivity(intent)
         }
@@ -220,7 +221,7 @@ class InstalledActivity : AppCompatActivity(), InstalledPresenter.InstalledRoute
         val intent = Intent()
             .setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS)
             .addCategory(Intent.CATEGORY_DEFAULT)
-            .setData(Uri.parse("package:$packageName"))
+            .setData("package:$packageName".toUri())
             .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         invalidateDetailsResultLauncher.launch(intent)
         analytics.trackEvent("installed-system-details")
@@ -277,7 +278,7 @@ class InstalledActivity : AppCompatActivity(), InstalledPresenter.InstalledRoute
     }
 
     private fun onRemoveAppPermitted(packageName: String) {
-        val packageUri = Uri.parse("package:$packageName")
+        val packageUri = "package:$packageName".toUri()
         val uninstallIntent = Intent(Intent.ACTION_DELETE, packageUri)
         invalidateDetailsResultLauncher.launch(uninstallIntent)
         analytics.trackEvent("installed-delete-app")

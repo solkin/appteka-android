@@ -13,6 +13,7 @@ import com.tomclaw.appsend.screen.about.di.AboutModule
 import com.tomclaw.appsend.util.Analytics
 import com.tomclaw.appsend.util.updateTheme
 import javax.inject.Inject
+import androidx.core.net.toUri
 
 class AboutActivity : AppCompatActivity(), AboutPresenter.AboutRouter {
 
@@ -101,7 +102,7 @@ class AboutActivity : AppCompatActivity(), AboutPresenter.AboutRouter {
 
     private fun openUrl(url: String) {
         try {
-            startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
+            startActivity(Intent(Intent.ACTION_VIEW, url.toUri()))
         } catch (ignored: Throwable) {
         }
     }

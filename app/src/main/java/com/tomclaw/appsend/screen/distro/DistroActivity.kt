@@ -33,6 +33,7 @@ import com.tomclaw.appsend.util.openFileIntent
 import com.tomclaw.appsend.util.updateTheme
 import java.io.File
 import javax.inject.Inject
+import androidx.core.net.toUri
 
 class DistroActivity : AppCompatActivity(), DistroPresenter.DistroRouter {
 
@@ -127,12 +128,12 @@ class DistroActivity : AppCompatActivity(), DistroPresenter.DistroRouter {
 
     override fun searchGooglePlay(packageName: String) {
         try {
-            val intent = Intent(ACTION_VIEW, Uri.parse("market://details?id=$packageName"))
+            val intent = Intent(ACTION_VIEW, "market://details?id=$packageName".toUri())
             invalidateDetailsResultLauncher.launch(intent)
-        } catch (ex: ActivityNotFoundException) {
+        } catch (_: ActivityNotFoundException) {
             val intent = Intent(
                 ACTION_VIEW,
-                Uri.parse("https://play.google.com/store/apps/details?id=$packageName")
+                "https://play.google.com/store/apps/details?id=$packageName".toUri()
             )
             startActivity(intent)
         }

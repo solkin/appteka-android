@@ -29,6 +29,7 @@ import com.tomclaw.appsend.screen.details.api.STATUS_UNLINKED
 import com.tomclaw.appsend.screen.details.api.TranslationResponse
 import com.tomclaw.appsend.util.NOT_INSTALLED
 import java.util.Locale
+import androidx.core.net.toUri
 
 interface DetailsConverter {
 
@@ -135,8 +136,8 @@ class DetailsConverterImpl(
                 items = details.meta.screenshots.map {
                     ScreenshotItem(
                         id = it.scrId.hashCode().toLong(),
-                        original = Uri.parse(it.original),
-                        preview = Uri.parse(it.preview),
+                        original = it.original.toUri(),
+                        preview = it.preview.toUri(),
                         width = it.width,
                         height = it.height,
                     )

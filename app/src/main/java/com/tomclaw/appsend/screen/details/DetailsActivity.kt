@@ -44,6 +44,7 @@ import com.tomclaw.appsend.util.updateTheme
 import java.io.File
 import javax.inject.Inject
 import javax.inject.Named
+import androidx.core.net.toUri
 
 class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
 
@@ -348,12 +349,12 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
 
     override fun openGooglePlay(packageName: String) {
         try {
-            val intent = Intent(ACTION_VIEW, Uri.parse("market://details?id=$packageName"))
+            val intent = Intent(ACTION_VIEW, "market://details?id=$packageName".toUri())
             startActivity(intent)
         } catch (ex: ActivityNotFoundException) {
             val intent = Intent(
                 ACTION_VIEW,
-                Uri.parse("https://play.google.com/store/apps/details?id=$packageName")
+                "https://play.google.com/store/apps/details?id=$packageName".toUri()
             )
             startActivity(intent)
         }
@@ -392,7 +393,7 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
     }
 
     private fun onRemoveAppPermitted(packageName: String) {
-        val packageUri = Uri.parse("package:$packageName")
+        val packageUri = "package:$packageName".toUri()
         val uninstallIntent = Intent(Intent.ACTION_DELETE, packageUri)
         startActivity(uninstallIntent)
         analytics.trackEvent("details-delete-app")

@@ -1,6 +1,6 @@
 package com.tomclaw.appsend.screen.feed.adapter.text
 
-import android.net.Uri
+import androidx.core.net.toUri
 import com.avito.konveyor.blueprint.ItemPresenter
 import com.tomclaw.appsend.categories.DEFAULT_LOCALE
 import com.tomclaw.appsend.screen.feed.FeedResourceProvider
@@ -33,8 +33,8 @@ class TextItemPresenter(
             .takeIf { it.isNotEmpty() }
             ?.first()
             ?.let {
-                view.setImage(Uri.parse(it.preview))
-//                view.setOnImageClickListener { listener.onImageClick(it) }
+                view.setImage(it.preview.toUri())
+                view.setOnImageClickListener { listener.onImageClick(listOf(it), 0) }
             }
         if (item.hasProgress) view.showProgress() else view.hideProgress()
         view.setOnPostClickListener { listener.onItemClick(item) }
