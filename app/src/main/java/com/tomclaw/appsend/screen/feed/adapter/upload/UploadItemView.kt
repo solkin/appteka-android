@@ -49,6 +49,8 @@ interface UploadItemView : ItemView {
 
     fun setOnPostClickListener(listener: (() -> Unit)?)
 
+    fun setOnAppClickListener(listener: (() -> Unit)?)
+
     fun setClickable(clickable: Boolean)
 
 }
@@ -61,6 +63,7 @@ class UploadItemViewHolder(
     private val userIcon: UserIconView = UserIconViewImpl(view.findViewById(R.id.member_icon))
     private val userName: TextView = view.findViewById(R.id.user_name)
     private val time: TextView = view.findViewById(R.id.date_view)
+    private val appBlock: View = view.findViewById(R.id.app_block)
     private val icon: ImageView = view.findViewById(R.id.app_icon)
     private val label: TextView = view.findViewById(R.id.app_label)
     private val packageName: TextView = view.findViewById(R.id.app_package)
@@ -68,9 +71,11 @@ class UploadItemViewHolder(
     private val images: RecyclerView = view.findViewById(R.id.images)
 
     private var postClickListener: (() -> Unit)? = null
+    private var appClickListener: (() -> Unit)? = null
 
     init {
         view.setOnClickListener { postClickListener?.invoke() }
+        appBlock.setOnClickListener { appClickListener?.invoke() }
         adapter.setHasStableIds(true)
 
         val orientation = RecyclerView.HORIZONTAL
@@ -140,6 +145,10 @@ class UploadItemViewHolder(
 
     override fun setOnPostClickListener(listener: (() -> Unit)?) {
         this.postClickListener = listener
+    }
+
+    override fun setOnAppClickListener(listener: (() -> Unit)?) {
+        this.appClickListener = listener
     }
 
     override fun setClickable(clickable: Boolean) {

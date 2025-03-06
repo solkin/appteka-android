@@ -38,6 +38,7 @@ class UploadItemPresenter(
         }
         if (item.hasProgress) view.showProgress() else view.hideProgress()
         view.setOnPostClickListener { listener.onItemClick(item) }
+        view.setOnAppClickListener { listener.onAppClick(item.appId, item.title) }
     }
 
 }
