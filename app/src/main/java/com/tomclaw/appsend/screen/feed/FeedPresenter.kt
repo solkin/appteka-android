@@ -100,7 +100,7 @@ class FeedPresenterImpl(
             onError()
             onReady()
         } else {
-            items?.let { onReady() } ?: postId?.let { loadApps(it) } ?: loadApps()
+            items?.let { onReady() } ?: postId?.takeIf { it > 0 }?.let { loadApps(it) } ?: loadApps()
         }
     }
 
