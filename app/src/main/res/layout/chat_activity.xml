@@ -58,7 +58,7 @@
                         android:ems="10"
                         android:hint="@string/enter_your_message"
                         android:inputType="textCapSentences|textMultiLine"
-                        android:maxLines="2"
+                        android:maxLines="5"
                         android:minHeight="32dp"
                         android:paddingLeft="16dp"
                         android:paddingTop="0dp"
@@ -74,7 +74,7 @@
                         <ImageView
                             android:id="@+id/send_button"
                             android:layout_width="56dp"
-                            android:layout_height="match_parent"
+                            android:layout_height="48dp"
                             android:layout_gravity="center_horizontal|bottom"
                             android:background="?selectableItemBackgroundBorderless"
                             android:contentDescription=""
