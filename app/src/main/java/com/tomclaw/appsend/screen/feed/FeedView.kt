@@ -88,7 +88,7 @@ class FeedViewImpl(
         recycler.addOnScrollListener(object : OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    scrollIdleRelay.accept(layoutManager.findFirstVisibleItemPosition())
+                    scrollIdleRelay.accept(layoutManager.findLastVisibleItemPosition())
                 }
             }
         })
