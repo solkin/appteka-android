@@ -280,7 +280,7 @@ class UploadPresenterImpl(
         view?.showError()
     }
 
-    private fun bindForm() {
+    private fun updateItems() {
         items.clear()
         items += uploadConverter.convert(
             pkg,
@@ -295,9 +295,11 @@ class UploadPresenterImpl(
             sourceUrl,
             highlightErrors,
         )
+    }
 
+    private fun bindForm() {
+        updateItems()
         bindItems()
-
         view?.contentUpdated()
     }
 
@@ -398,19 +400,23 @@ class UploadPresenterImpl(
 
     override fun onWhatsNewChanged(text: String) {
         whatsNew = text
+        updateItems()
     }
 
     override fun onDescriptionChanged(text: String) {
         description = text
+        updateItems()
     }
 
     override fun onExclusiveChanged(value: Boolean) {
         exclusive = value
+        updateItems()
     }
 
     override fun onOpenSourceChanged(value: Boolean, url: String) {
         openSource = value
         sourceUrl = url
+        updateItems()
     }
 
     override fun onSubmitClick() {
