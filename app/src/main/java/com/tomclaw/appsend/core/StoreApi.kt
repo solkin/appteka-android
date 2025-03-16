@@ -26,6 +26,7 @@ import com.tomclaw.appsend.screen.home.api.StartupResponse
 import com.tomclaw.appsend.screen.installed.api.CheckUpdatesRequest
 import com.tomclaw.appsend.screen.installed.api.CheckUpdatesResponse
 import com.tomclaw.appsend.screen.moderation.api.ModerationResponse
+import com.tomclaw.appsend.screen.post.api.FeedPostResponse
 import com.tomclaw.appsend.screen.profile.api.EliminateUserResponse
 import com.tomclaw.appsend.screen.profile.api.ProfileResponse
 import com.tomclaw.appsend.screen.profile.api.SetUserNameResponse
@@ -309,5 +310,12 @@ interface StoreApi {
     fun checkUpdates(
         @Body request: CheckUpdatesRequest
     ): Single<StoreResponse<CheckUpdatesResponse>>
+
+    @FormUrlEncoded
+    @POST("1/feed/post")
+    fun postFeed(
+        @Field("text") text: String,
+        @Field("scr_ids") scrIds: List<String>?,
+    ): Single<StoreResponse<FeedPostResponse>>
 
 }

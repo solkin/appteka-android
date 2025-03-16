@@ -336,4 +336,7 @@
     <string name="user_feed">User Feed</string>
     <string name="feed_marked_favorite">Marked application as favorite</string>
     <string name="feed_uploaded_app">Uploaded new application</string>
+    <string name="feed_post_failed">Failed to publish feed post</string>
+    <string name="post_text">Text</string>
+    <string name="publish_post">Publish</string>
 </resources>
