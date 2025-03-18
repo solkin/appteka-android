@@ -1,16 +1,18 @@
 package com.tomclaw.appsend.screen.post
 
 import com.avito.konveyor.blueprint.Item
+import com.tomclaw.appsend.screen.post.adapter.screen_append.ScreenAppendItem
+import com.tomclaw.appsend.screen.post.adapter.screen_image.ScreenImageItem
+import com.tomclaw.appsend.screen.post.adapter.screenshots.ScreenshotsItem
+import com.tomclaw.appsend.screen.post.adapter.submit.SubmitItem
+import com.tomclaw.appsend.screen.post.adapter.text.TextItem
 import com.tomclaw.appsend.screen.post.dto.PostScreenshot
-import com.tomclaw.appsend.screen.upload.adapter.screen_append.ScreenAppendItem
-import com.tomclaw.appsend.screen.upload.adapter.screen_image.ScreenImageItem
-import com.tomclaw.appsend.screen.upload.adapter.screenshots.ScreenshotsItem
 
 interface PostConverter {
 
     fun convert(
         screenshots: List<PostScreenshot>,
-        test: String,
+        text: String,
     ): List<Item>
 
 }
@@ -19,7 +21,7 @@ class PostConverterImpl() : PostConverter {
 
     override fun convert(
         screenshots: List<PostScreenshot>,
-        test: String
+        text: String
     ): List<Item> {
         var id: Long = 1
         val items = ArrayList<Item>()
@@ -37,6 +39,12 @@ class PostConverterImpl() : PostConverter {
                 )
             } + ScreenAppendItem(id++)
         )
+
+        items += TextItem(
+            id++,
+            text = text,
+        )
+        items += SubmitItem(id++, enabled = text.isNotBlank())
 
         return items
     }
