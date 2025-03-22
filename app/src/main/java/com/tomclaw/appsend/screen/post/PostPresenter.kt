@@ -6,9 +6,9 @@ import com.avito.konveyor.blueprint.Item
 import com.avito.konveyor.data_source.ListDataSource
 import com.tomclaw.appsend.screen.gallery.GalleryItem
 import com.tomclaw.appsend.screen.post.api.FeedPostResponse
-import com.tomclaw.appsend.screen.post.dto.PostScreenshot
+import com.tomclaw.appsend.screen.post.dto.PostImage
 import com.tomclaw.appsend.screen.post.adapter.ItemListener
-import com.tomclaw.appsend.screen.post.adapter.screen_image.ScreenImageItem
+import com.tomclaw.appsend.screen.post.adapter.image.ImageItem
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.filterUnauthorizedErrors
 import com.tomclaw.appsend.util.getParcelableArrayListCompat
@@ -31,7 +31,7 @@ interface PostPresenter : ItemListener {
 
     fun onAuthorized()
 
-    fun onImagesSelected(images: List<PostScreenshot>)
+    fun onImagesSelected(images: List<PostImage>)
 
     fun onBackPressed()
 
@@ -63,8 +63,8 @@ class PostPresenterImpl(
     private var view: PostView? = null
     private var router: PostPresenter.PostRouter? = null
 
-    private var screenshots: ArrayList<PostScreenshot> = state
-        ?.getParcelableArrayListCompat(KEY_SCREENSHOTS, PostScreenshot::class.java) ?: ArrayList()
+    private var images: ArrayList<PostImage> = state
+        ?.getParcelableArrayListCompat(KEY_IMAGES, PostImage::class.java) ?: ArrayList()
     private var text: String = state?.getString(KEY_TEXT).orEmpty()
 
     private val items = ArrayList<Item>()
@@ -98,7 +98,7 @@ class PostPresenterImpl(
     }
 
     override fun saveState() = Bundle().apply {
-        putParcelableArrayList(KEY_SCREENSHOTS, screenshots)
+        putParcelableArrayList(KEY_IMAGES, images)
         putString(KEY_TEXT, text)
     }
 
@@ -106,8 +106,8 @@ class PostPresenterImpl(
         invalidate()
     }
 
-    override fun onImagesSelected(images: List<PostScreenshot>) {
-        screenshots = ArrayList((screenshots + images).distinctBy { it.original })
+    override fun onImagesSelected(images: List<PostImage>) {
+        this@PostPresenterImpl.images = ArrayList((this@PostPresenterImpl.images + images).distinctBy { it.original })
         bindForm()
     }
 
@@ -116,7 +116,7 @@ class PostPresenterImpl(
     }
 
     private fun postFeed() {
-        subscriptions += interactor.uploadScreenshots(screenshots)
+        subscriptions += interactor.uploadImages(images)
             .flatMap { interactor.post(text, it.scrIds) }
             .observeOn(schedulers.mainThread())
             .retryWhenNonAuthErrors()
@@ -139,7 +139,7 @@ class PostPresenterImpl(
 
     private fun updateItems() {
         items.clear()
-        items += postConverter.convert(screenshots, text)
+        items += postConverter.convert(images, text)
     }
 
     private fun bindForm() {
@@ -158,7 +158,7 @@ class PostPresenterImpl(
     }
 
     private fun clearForm() {
-        screenshots = ArrayList()
+        images = ArrayList()
         text = ""
         bindForm()
     }
@@ -176,19 +176,19 @@ class PostPresenterImpl(
         router?.openImagePicker()
     }
 
-    override fun onScreenshotClick(item: ScreenImageItem) {
+    override fun onImageClick(item: ImageItem) {
         router?.openGallery(
-            items = screenshots.map { GalleryItem(it.original, it.width, it.height) },
-            current = screenshots.indexOfFirst { it.original == item.original },
+            items = images.map { GalleryItem(it.original, it.width, it.height) },
+            current = images.indexOfFirst { it.original == item.original },
         )
     }
 
-    override fun onScreenshotDelete(item: ScreenImageItem) {
-        screenshots.remove(screenshots.first { it.original == item.original })
+    override fun onImageDelete(item: ImageItem) {
+        images.remove(images.first { it.original == item.original })
         bindForm()
     }
 
 }
 
-private const val KEY_SCREENSHOTS = "screenshots"
+private const val KEY_IMAGES = "images"
 private const val KEY_TEXT = "text"

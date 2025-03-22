@@ -340,4 +340,5 @@
     <string name="post_text">Text</string>
     <string name="publish_post">Publish</string>
     <string name="input_post_text">Input post text</string>
+    <string name="add_post_image">Add Image</string>
 </resources>

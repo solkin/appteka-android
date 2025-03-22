@@ -1,6 +1,6 @@
 package com.tomclaw.appsend.screen.post.adapter
 
-import com.tomclaw.appsend.screen.post.adapter.screen_image.ScreenImageItem
+import com.tomclaw.appsend.screen.post.adapter.image.ImageItem
 
 interface ItemListener {
 
@@ -10,8 +10,8 @@ interface ItemListener {
 
     fun onScreenAppendClick()
 
-    fun onScreenshotClick(item: ScreenImageItem)
+    fun onImageClick(item: ImageItem)
 
-    fun onScreenshotDelete(item: ScreenImageItem)
+    fun onImageDelete(item: ImageItem)
 
 }

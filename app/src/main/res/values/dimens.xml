@@ -4,4 +4,7 @@
     <dimen name="screenshot_width">108dp</dimen>
     <dimen name="screenshot_height">168dp</dimen>
 
+    <dimen name="post_image_width">128dp</dimen>
+    <dimen name="post_image_height">128dp</dimen>
+
 </resources>

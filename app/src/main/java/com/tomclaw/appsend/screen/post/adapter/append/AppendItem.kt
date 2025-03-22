@@ -1,10 +1,10 @@
-package com.tomclaw.appsend.screen.post.adapter.screen_append
+package com.tomclaw.appsend.screen.post.adapter.append
 
 import android.os.Parcelable
 import com.avito.konveyor.blueprint.Item
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class ScreenAppendItem(
+data class AppendItem(
     override val id: Long,
 ) : Item, Parcelable

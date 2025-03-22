@@ -1,4 +1,4 @@
-package com.tomclaw.appsend.screen.post.adapter.screenshots
+package com.tomclaw.appsend.screen.post.adapter.ribbon
 
 import com.avito.konveyor.ItemBinder
 import com.avito.konveyor.adapter.AdapterPresenter
@@ -10,24 +10,24 @@ import com.avito.konveyor.blueprint.ViewHolderBuilder
 import com.tomclaw.appsend.R
 import dagger.Lazy
 
-class ScreenshotsItemBlueprint(
-    override val presenter: ItemPresenter<ScreenshotsItemView, ScreenshotsItem>,
+class RibbonItemBlueprint(
+    override val presenter: ItemPresenter<RibbonItemView, RibbonItem>,
     private val adapterPresenter: Lazy<AdapterPresenter>,
     private val binder: Lazy<ItemBinder>,
 ) :
-    ItemBlueprint<ScreenshotsItemView, ScreenshotsItem> {
+    ItemBlueprint<RibbonItemView, RibbonItem> {
 
     override val viewHolderProvider =
         ViewHolderBuilder.ViewHolderProvider(
             layoutId = R.layout.upload_block_screenshots,
             creator = { _, view ->
-                ScreenshotsItemViewHolder(
+                RibbonItemViewHolder(
                     view,
                     SimpleRecyclerAdapter(adapterPresenter.get(), binder.get())
                 )
             }
         )
 
-    override fun isRelevantItem(item: Item) = item is ScreenshotsItem
+    override fun isRelevantItem(item: Item) = item is RibbonItem
 
 }

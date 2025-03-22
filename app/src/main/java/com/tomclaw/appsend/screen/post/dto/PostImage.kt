@@ -5,7 +5,7 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class PostScreenshot(
+data class PostImage(
     val scrId: String?,
     val original: Uri,
     val preview: Uri,

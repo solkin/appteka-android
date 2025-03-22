@@ -1,4 +1,4 @@
-package com.tomclaw.appsend.screen.post.adapter.screenshots
+package com.tomclaw.appsend.screen.post.adapter.ribbon
 
 import android.annotation.SuppressLint
 import android.view.View
@@ -10,16 +10,16 @@ import com.avito.konveyor.adapter.SimpleRecyclerAdapter
 import com.avito.konveyor.blueprint.ItemView
 import com.tomclaw.appsend.R
 
-interface ScreenshotsItemView : ItemView {
+interface RibbonItemView : ItemView {
 
     fun notifyChanged()
 
 }
 
-class ScreenshotsItemViewHolder(
+class RibbonItemViewHolder(
     view: View,
     private val adapter: SimpleRecyclerAdapter,
-) : BaseViewHolder(view), ScreenshotsItemView {
+) : BaseViewHolder(view), RibbonItemView {
 
     private val recycler: RecyclerView = view.findViewById(R.id.recycler)
 

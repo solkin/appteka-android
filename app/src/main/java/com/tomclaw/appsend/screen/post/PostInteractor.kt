@@ -3,7 +3,7 @@ package com.tomclaw.appsend.screen.post
 import android.annotation.SuppressLint
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.screen.post.api.FeedPostResponse
-import com.tomclaw.appsend.screen.post.dto.PostScreenshot
+import com.tomclaw.appsend.screen.post.dto.PostImage
 import com.tomclaw.appsend.upload.UploadScreenshotsResponse
 import com.tomclaw.appsend.util.SchedulersFactory
 import io.reactivex.rxjava3.core.Observable
@@ -11,7 +11,7 @@ import okhttp3.MultipartBody
 
 interface PostInteractor {
 
-    fun uploadScreenshots(scrs: List<PostScreenshot>): Observable<UploadScreenshotsResponse>
+    fun uploadImages(imgList: List<PostImage>): Observable<UploadScreenshotsResponse>
 
     fun post(text: String, scrIds: List<String>): Observable<FeedPostResponse>
 
@@ -24,12 +24,12 @@ class PostInteractorImpl(
 ) : PostInteractor {
 
     @SuppressLint("DefaultLocale")
-    override fun uploadScreenshots(scrs: List<PostScreenshot>): Observable<UploadScreenshotsResponse> {
+    override fun uploadImages(imgList: List<PostImage>): Observable<UploadScreenshotsResponse> {
         return api
             .uploadScreenshots(
-                images = scrs.map { scr ->
-                    val uri = scr.original
-                    val name = String.format(format = "src%d.jpg", uri.hashCode())
+                images = imgList.map { img ->
+                    val uri = img.original
+                    val name = String.format(format = "img%d.jpg", uri.hashCode())
                     MultipartBody.Part.createFormData(
                         "images",
                         name,

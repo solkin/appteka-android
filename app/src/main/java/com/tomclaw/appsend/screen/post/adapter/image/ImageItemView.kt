@@ -1,4 +1,4 @@
-package com.tomclaw.appsend.screen.post.adapter.screen_image
+package com.tomclaw.appsend.screen.post.adapter.image
 
 import android.view.View
 import android.widget.ImageView
@@ -9,9 +9,9 @@ import com.tomclaw.appsend.R
 import com.tomclaw.imageloader.util.centerCrop
 import com.tomclaw.imageloader.util.fetch
 
-interface ScreenImageItemView : ItemView {
+interface ImageItemView : ItemView {
 
-    fun setImage(item: ScreenImageItem)
+    fun setImage(item: ImageItem)
 
     fun setRemote(remote: Boolean)
 
@@ -21,10 +21,10 @@ interface ScreenImageItemView : ItemView {
 
 }
 
-class ScreenImageItemViewHolder(view: View) : BaseViewHolder(view), ScreenImageItemView {
+class ImageItemViewHolder(view: View) : BaseViewHolder(view), ImageItemView {
 
-    private val card: View = view.findViewById(R.id.screenshot_card)
-    private val image: ImageView = view.findViewById(R.id.screenshot)
+    private val card: View = view.findViewById(R.id.image_card)
+    private val image: ImageView = view.findViewById(R.id.image)
     private val upload: View = view.findViewById(R.id.upload)
     private val deleteButton: View = view.findViewById(R.id.delete_button)
 
@@ -36,7 +36,7 @@ class ScreenImageItemViewHolder(view: View) : BaseViewHolder(view), ScreenImageI
         deleteButton.setOnClickListener { deleteListener?.invoke() }
     }
 
-    override fun setImage(item: ScreenImageItem) {
+    override fun setImage(item: ImageItem) {
         val aspectRatio = item.width.toFloat() / item.height.toFloat()
         val width = image.layoutParams.height * aspectRatio
         image.layoutParams.width = width.toInt()

@@ -5,7 +5,7 @@
     android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/screen_append"
+        android:id="@+id/image_append"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
@@ -15,9 +15,9 @@
         app:cardElevation="4dp">
 
         <LinearLayout
-            android:id="@+id/screenshot"
-            android:layout_width="@dimen/screenshot_width"
-            android:layout_height="@dimen/screenshot_height"
+            android:id="@+id/image"
+            android:layout_width="@dimen/post_image_width"
+            android:layout_height="@dimen/post_image_height"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -34,7 +34,7 @@
                 android:paddingTop="8dp"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
-                android:text="@string/add_screenshot"
+                android:text="@string/add_post_image"
                 android:textColor="?text_primary_color"
                 android:textSize="14sp" />
 

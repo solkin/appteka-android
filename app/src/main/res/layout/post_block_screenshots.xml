@@ -26,6 +26,6 @@
         android:paddingTop="4dp"
         android:paddingEnd="12dp"
         android:paddingBottom="4dp"
-        tools:listitem="@layout/post_block_screenshot_append_item" />
+        tools:listitem="@layout/post_block_append_item" />
 
 </LinearLayout>

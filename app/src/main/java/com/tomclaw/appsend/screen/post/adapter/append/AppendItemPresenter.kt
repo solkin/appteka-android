@@ -1,13 +1,13 @@
-package com.tomclaw.appsend.screen.post.adapter.screen_append
+package com.tomclaw.appsend.screen.post.adapter.append
 
 import com.avito.konveyor.blueprint.ItemPresenter
 import com.tomclaw.appsend.screen.post.adapter.ItemListener
 
-class ScreenAppendItemPresenter(
+class AppendItemPresenter(
     private val listener: ItemListener,
-) : ItemPresenter<ScreenAppendItemView, ScreenAppendItem> {
+) : ItemPresenter<AppendItemView, AppendItem> {
 
-    override fun bindView(view: ScreenAppendItemView, item: ScreenAppendItem, position: Int) {
+    override fun bindView(view: AppendItemView, item: AppendItem, position: Int) {
         with(view) {
             setOnClickListener { listener.onScreenAppendClick() }
         }

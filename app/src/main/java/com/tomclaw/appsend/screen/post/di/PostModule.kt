@@ -17,12 +17,12 @@ import com.tomclaw.appsend.screen.post.PostPresenter
 import com.tomclaw.appsend.screen.post.PostPresenterImpl
 import com.tomclaw.appsend.screen.post.ImageCompressor
 import com.tomclaw.appsend.screen.post.ImageCompressorImpl
-import com.tomclaw.appsend.screen.post.adapter.screen_append.ScreenAppendItemBlueprint
-import com.tomclaw.appsend.screen.post.adapter.screen_append.ScreenAppendItemPresenter
-import com.tomclaw.appsend.screen.post.adapter.screen_image.ScreenImageItemBlueprint
-import com.tomclaw.appsend.screen.post.adapter.screen_image.ScreenImageItemPresenter
-import com.tomclaw.appsend.screen.post.adapter.screenshots.ScreenshotsItemBlueprint
-import com.tomclaw.appsend.screen.post.adapter.screenshots.ScreenshotsItemPresenter
+import com.tomclaw.appsend.screen.post.adapter.append.AppendItemBlueprint
+import com.tomclaw.appsend.screen.post.adapter.append.AppendItemPresenter
+import com.tomclaw.appsend.screen.post.adapter.image.ImageItemBlueprint
+import com.tomclaw.appsend.screen.post.adapter.image.ImageItemPresenter
+import com.tomclaw.appsend.screen.post.adapter.ribbon.RibbonItemBlueprint
+import com.tomclaw.appsend.screen.post.adapter.ribbon.RibbonItemPresenter
 import com.tomclaw.appsend.screen.post.adapter.submit.SubmitItemBlueprint
 import com.tomclaw.appsend.screen.post.adapter.submit.SubmitItemPresenter
 import com.tomclaw.appsend.screen.post.adapter.text.TextItemBlueprint
@@ -112,43 +112,43 @@ class PostModule(
     @IntoSet
     @PerActivity
     internal fun provideScreenshotsItemBlueprint(
-        presenter: ScreenshotsItemPresenter,
+        presenter: RibbonItemPresenter,
         @Named(SCREENSHOT_ADAPTER_PRESENTER) adapterPresenter: Lazy<AdapterPresenter>,
         binder: Lazy<ItemBinder>,
-    ): ItemBlueprint<*, *> = ScreenshotsItemBlueprint(presenter, adapterPresenter, binder)
+    ): ItemBlueprint<*, *> = RibbonItemBlueprint(presenter, adapterPresenter, binder)
 
     @Provides
     @PerActivity
     internal fun provideScreenshotsItemPresenter(
         presenter: PostPresenter,
         @Named(SCREENSHOT_ADAPTER_PRESENTER) adapterPresenter: Lazy<AdapterPresenter>,
-    ) = ScreenshotsItemPresenter(presenter, adapterPresenter)
+    ) = RibbonItemPresenter(presenter, adapterPresenter)
 
     @Provides
     @IntoSet
     @PerActivity
     internal fun provideScreenAppendItemBlueprint(
-        presenter: ScreenAppendItemPresenter
-    ): ItemBlueprint<*, *> = ScreenAppendItemBlueprint(presenter)
+        presenter: AppendItemPresenter
+    ): ItemBlueprint<*, *> = AppendItemBlueprint(presenter)
 
     @Provides
     @PerActivity
     internal fun provideScreenAppendItemPresenter(
         presenter: PostPresenter
-    ) = ScreenAppendItemPresenter(presenter)
+    ) = AppendItemPresenter(presenter)
 
     @Provides
     @IntoSet
     @PerActivity
     internal fun provideScreenImageItemBlueprint(
-        presenter: ScreenImageItemPresenter
-    ): ItemBlueprint<*, *> = ScreenImageItemBlueprint(presenter)
+        presenter: ImageItemPresenter
+    ): ItemBlueprint<*, *> = ImageItemBlueprint(presenter)
 
     @Provides
     @PerActivity
     internal fun provideScreenImageItemPresenter(
         presenter: PostPresenter
-    ) = ScreenImageItemPresenter(presenter)
+    ) = ImageItemPresenter(presenter)
 
     @Provides
     @IntoSet

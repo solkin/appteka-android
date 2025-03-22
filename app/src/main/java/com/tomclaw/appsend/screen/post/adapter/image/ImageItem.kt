@@ -1,4 +1,4 @@
-package com.tomclaw.appsend.screen.post.adapter.screen_image
+package com.tomclaw.appsend.screen.post.adapter.image
 
 import android.net.Uri
 import android.os.Parcelable
@@ -6,7 +6,7 @@ import com.avito.konveyor.blueprint.Item
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class ScreenImageItem(
+data class ImageItem(
     override val id: Long,
     val original: Uri,
     val preview: Uri,

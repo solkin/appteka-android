@@ -15,6 +15,7 @@ projectFilesBackup/
 !.idea/codeStyleSettings.xml
 !.idea/encodings.xml
 !.idea/inspectionProfiles/
+.kotlin/
 
 # Gradle files
 .gradle/

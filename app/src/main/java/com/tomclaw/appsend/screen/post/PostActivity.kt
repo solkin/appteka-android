@@ -19,7 +19,7 @@ import com.tomclaw.appsend.screen.gallery.GalleryItem
 import com.tomclaw.appsend.screen.gallery.createGalleryActivityIntent
 import com.tomclaw.appsend.screen.post.di.POST_ADAPTER_PRESENTER
 import com.tomclaw.appsend.screen.post.di.PostModule
-import com.tomclaw.appsend.screen.post.dto.PostScreenshot
+import com.tomclaw.appsend.screen.post.dto.PostImage
 import com.tomclaw.appsend.util.Analytics
 import com.tomclaw.appsend.util.updateTheme
 import javax.inject.Inject
@@ -67,7 +67,7 @@ class PostActivity : AppCompatActivity(), PostPresenter.PostRouter {
                         uris.add(intentData)
                     }
                 }
-                val items: List<PostScreenshot> = uris.map { convertUri(it) }
+                val items: List<PostImage> = uris.map { convertUri(it) }
                 presenter.onImagesSelected(items)
             }
         }
@@ -151,12 +151,12 @@ class PostActivity : AppCompatActivity(), PostPresenter.PostRouter {
         }
     }
 
-    private fun convertUri(uri: Uri): PostScreenshot {
+    private fun convertUri(uri: Uri): PostImage {
         val input = contentResolver.openInputStream(uri)
         val options = BitmapFactory.Options()
         options.inJustDecodeBounds = true
         BitmapFactory.decodeStream(input, null, options)
-        return PostScreenshot(
+        return PostImage(
             scrId = null,
             original = uri,
             preview = uri,
