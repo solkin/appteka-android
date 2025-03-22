@@ -7,6 +7,17 @@
     android:layout_marginEnd="12dp"
     android:orientation="vertical">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-black"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:paddingBottom="6dp"
+        android:text="@string/input_post_text"
+        android:textColor="?attr/text_primary_color"
+        android:textSize="15sp" />
+
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

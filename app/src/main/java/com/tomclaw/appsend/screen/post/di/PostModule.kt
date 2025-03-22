@@ -15,6 +15,8 @@ import com.tomclaw.appsend.screen.post.PostPreferencesProvider
 import com.tomclaw.appsend.screen.post.PostPreferencesProviderImpl
 import com.tomclaw.appsend.screen.post.PostPresenter
 import com.tomclaw.appsend.screen.post.PostPresenterImpl
+import com.tomclaw.appsend.screen.post.ImageCompressor
+import com.tomclaw.appsend.screen.post.ImageCompressorImpl
 import com.tomclaw.appsend.screen.post.adapter.screen_append.ScreenAppendItemBlueprint
 import com.tomclaw.appsend.screen.post.adapter.screen_append.ScreenAppendItemPresenter
 import com.tomclaw.appsend.screen.post.adapter.screen_image.ScreenImageItemBlueprint
@@ -31,7 +33,6 @@ import dagger.Lazy
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoSet
-import java.util.Locale
 import javax.inject.Named
 
 @Module
@@ -61,9 +62,15 @@ class PostModule(
     @PerActivity
     internal fun provideInteractor(
         api: StoreApi,
-        locale: Locale,
+        compressor: ImageCompressor,
         schedulers: SchedulersFactory
-    ): PostInteractor = PostInteractorImpl(api, locale, schedulers)
+    ): PostInteractor = PostInteractorImpl(api, compressor, schedulers)
+
+    @Provides
+    @PerActivity
+    internal fun provideScreenshotCompressor(): ImageCompressor {
+        return ImageCompressorImpl(context.contentResolver)
+    }
 
     @Provides
     @PerActivity

@@ -117,7 +117,7 @@ class PostPresenterImpl(
 
     private fun postFeed() {
         subscriptions += interactor.uploadScreenshots(screenshots)
-            .flatMap { interactor.post(text, it) }
+            .flatMap { interactor.post(text, it.scrIds) }
             .observeOn(schedulers.mainThread())
             .retryWhenNonAuthErrors()
             .doOnSubscribe {

@@ -44,15 +44,19 @@ import com.tomclaw.appsend.screen.upload.api.CheckExistResponse
 import com.tomclaw.appsend.screen.users.api.PublishersResponse
 import com.tomclaw.appsend.screen.users.api.SubscribersResponse
 import com.tomclaw.appsend.upload.SetMetaResponse
+import com.tomclaw.appsend.upload.UploadScreenshotsResponse
 import com.tomclaw.appsend.user.api.UserBrief
 import io.reactivex.rxjava3.core.Single
+import okhttp3.MultipartBody
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.Headers
+import retrofit2.http.Multipart
 import retrofit2.http.POST
+import retrofit2.http.Part
 import retrofit2.http.Query
 
 interface StoreApi {
@@ -317,5 +321,11 @@ interface StoreApi {
         @Field("text") text: String,
         @Field("scr_ids") scrIds: List<String>?,
     ): Single<StoreResponse<FeedPostResponse>>
+
+    @Multipart
+    @POST("1/screenshot/upload")
+    fun uploadScreenshots(
+        @Part images: List<MultipartBody.Part>,
+    ): Single<StoreResponse<UploadScreenshotsResponse>>
 
 }
