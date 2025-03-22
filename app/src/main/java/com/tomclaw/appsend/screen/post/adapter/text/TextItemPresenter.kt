@@ -10,6 +10,11 @@ class TextItemPresenter(
     override fun bindView(view: TextItemView, item: TextItem, position: Int) {
         with(view) {
             setText(item.text)
+            if (item.errorRequiredField) {
+                showRequiredFieldError()
+            } else {
+                hideRequiredFieldError()
+            }
             setOnTextChangedListener { listener.onTextChanged(it) }
         }
     }

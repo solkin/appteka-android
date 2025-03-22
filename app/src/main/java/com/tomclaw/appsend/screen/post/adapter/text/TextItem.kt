@@ -8,4 +8,5 @@ import kotlinx.parcelize.Parcelize
 data class TextItem(
     override val id: Long,
     val text: String,
+    val errorRequiredField: Boolean,
 ) : Item, Parcelable

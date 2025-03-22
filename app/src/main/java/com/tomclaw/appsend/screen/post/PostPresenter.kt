@@ -66,6 +66,7 @@ class PostPresenterImpl(
     private var images: ArrayList<PostImage> = state
         ?.getParcelableArrayListCompat(KEY_IMAGES, PostImage::class.java) ?: ArrayList()
     private var text: String = state?.getString(KEY_TEXT).orEmpty()
+    private var highlightErrors: Boolean = state?.getBoolean(KEY_HIGHLIGHT_ERRORS) == true
 
     private val items = ArrayList<Item>()
 
@@ -100,6 +101,7 @@ class PostPresenterImpl(
     override fun saveState() = Bundle().apply {
         putParcelableArrayList(KEY_IMAGES, images)
         putString(KEY_TEXT, text)
+        putBoolean(KEY_HIGHLIGHT_ERRORS, highlightErrors)
     }
 
     override fun onAuthorized() {
@@ -117,7 +119,7 @@ class PostPresenterImpl(
 
     private fun postFeed() {
         subscriptions += interactor.uploadImages(images)
-            .flatMap { interactor.post(text, it.scrIds) }
+            .flatMap { interactor.post(text.trim(), it.scrIds) }
             .observeOn(schedulers.mainThread())
             .retryWhenNonAuthErrors()
             .doOnSubscribe {
@@ -139,7 +141,7 @@ class PostPresenterImpl(
 
     private fun updateItems() {
         items.clear()
-        items += postConverter.convert(images, text)
+        items += postConverter.convert(images, text, highlightErrors)
     }
 
     private fun bindForm() {
@@ -160,6 +162,7 @@ class PostPresenterImpl(
     private fun clearForm() {
         images = ArrayList()
         text = ""
+        highlightErrors = false
         bindForm()
     }
 
@@ -169,7 +172,15 @@ class PostPresenterImpl(
     }
 
     override fun onSubmitClick() {
-        postFeed()
+        highlightErrors = true
+        if (isConditionReady()) {
+            postFeed()
+        }
+        bindForm()
+    }
+
+    private fun isConditionReady(): Boolean {
+        return text.isNotBlank()
     }
 
     override fun onScreenAppendClick() {
@@ -192,3 +203,4 @@ class PostPresenterImpl(
 
 private const val KEY_IMAGES = "images"
 private const val KEY_TEXT = "text"
+private const val KEY_HIGHLIGHT_ERRORS = "highlight_errors"

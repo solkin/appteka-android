@@ -13,6 +13,7 @@ interface PostConverter {
     fun convert(
         images: List<PostImage>,
         text: String,
+        highlightErrors: Boolean,
     ): List<Item>
 
 }
@@ -21,7 +22,8 @@ class PostConverterImpl() : PostConverter {
 
     override fun convert(
         images: List<PostImage>,
-        text: String
+        text: String,
+        highlightErrors: Boolean,
     ): List<Item> {
         var id: Long = 1
         val items = ArrayList<Item>()
@@ -29,6 +31,7 @@ class PostConverterImpl() : PostConverter {
         items += TextItem(
             id++,
             text = text,
+            errorRequiredField = highlightErrors && text.isBlank()
         )
 
         items += RibbonItem(

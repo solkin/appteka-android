@@ -12,12 +12,17 @@ interface TextItemView : ItemView {
 
     fun setText(text: String)
 
+    fun showRequiredFieldError()
+
+    fun hideRequiredFieldError()
+
     fun setOnTextChangedListener(listener: ((String) -> Unit)?)
 
 }
 
 class TextItemViewHolder(view: View) : BaseViewHolder(view), TextItemView {
 
+    private val resources = view.resources
     private val textEdit: EditText = view.findViewById(R.id.text)
 
     private var textChangedListener: ((String) -> Unit)? = null
@@ -34,6 +39,14 @@ class TextItemViewHolder(view: View) : BaseViewHolder(view), TextItemView {
 
     override fun setText(text: String) {
         textEdit.setText(text)
+    }
+
+    override fun showRequiredFieldError() {
+        textEdit.error = resources.getString(R.string.required_field)
+    }
+
+    override fun hideRequiredFieldError() {
+        textEdit.error = null
     }
 
     override fun setOnTextChangedListener(listener: ((String) -> Unit)?) {
