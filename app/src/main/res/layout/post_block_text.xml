@@ -21,12 +21,19 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        android:layout_marginEnd="4dp"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:hint="@string/post_text">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/text"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox"
+            android:gravity="top"
+            android:minLines="3"
+            android:maxLines="8" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

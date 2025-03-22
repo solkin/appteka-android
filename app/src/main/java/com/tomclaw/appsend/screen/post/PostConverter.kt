@@ -26,6 +26,11 @@ class PostConverterImpl() : PostConverter {
         var id: Long = 1
         val items = ArrayList<Item>()
 
+        items += TextItem(
+            id++,
+            text = text,
+        )
+
         items += RibbonItem(
             id = id++,
             items = images.map {
@@ -40,11 +45,7 @@ class PostConverterImpl() : PostConverter {
             } + AppendItem(id++)
         )
 
-        items += TextItem(
-            id++,
-            text = text,
-        )
-        items += SubmitItem(id++, enabled = text.isNotBlank())
+        items += SubmitItem(id++)
 
         return items
     }

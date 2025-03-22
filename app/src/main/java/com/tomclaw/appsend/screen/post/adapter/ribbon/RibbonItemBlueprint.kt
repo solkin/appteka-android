@@ -19,7 +19,7 @@ class RibbonItemBlueprint(
 
     override val viewHolderProvider =
         ViewHolderBuilder.ViewHolderProvider(
-            layoutId = R.layout.upload_block_screenshots,
+            layoutId = R.layout.post_block_ribbon,
             creator = { _, view ->
                 RibbonItemViewHolder(
                     view,

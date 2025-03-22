@@ -56,7 +56,7 @@
         android:layout_marginEnd="18dp"
         android:layout_marginRight="18dp"
         android:layout_marginBottom="75dp"
-        android:src="@drawable/ic_discuss"
+        android:src="@drawable/ic_pencil"
         app:elevation="4dp"
         app:fabSize="normal"
         app:pressedTranslationZ="12dp" />

@@ -5,14 +5,8 @@ import android.widget.Button
 import com.avito.konveyor.adapter.BaseViewHolder
 import com.avito.konveyor.blueprint.ItemView
 import com.tomclaw.appsend.R
-import com.tomclaw.appsend.util.disable
-import com.tomclaw.appsend.util.enable
 
 interface SubmitItemView : ItemView {
-
-    fun setEnabled()
-
-    fun setDisabled()
 
     fun setOnClickListener(listener: (() -> Unit)?)
 
@@ -26,14 +20,6 @@ class SubmitItemViewHolder(view: View) : BaseViewHolder(view), SubmitItemView {
 
     init {
         submitButton.setOnClickListener { clickListener?.invoke() }
-    }
-
-    override fun setEnabled() {
-        submitButton.enable()
-    }
-
-    override fun setDisabled() {
-        submitButton.disable()
     }
 
     override fun setOnClickListener(listener: (() -> Unit)?) {

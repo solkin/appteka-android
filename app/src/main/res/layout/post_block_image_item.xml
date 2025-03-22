@@ -9,10 +9,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_margin="8dp"
+        android:layout_margin="4dp"
         android:foreground="?android:attr/selectableItemBackground"
         app:cardCornerRadius="8dp"
-        app:cardElevation="4dp">
+        app:cardElevation="2dp">
 
         <ImageView
             android:id="@+id/image"

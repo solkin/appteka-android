@@ -9,7 +9,6 @@ class SubmitItemPresenter(
 
     override fun bindView(view: SubmitItemView, item: SubmitItem, position: Int) {
         with(view) {
-            if (item.enabled) setEnabled() else setDisabled()
             setOnClickListener { listener.onSubmitClick() }
         }
     }

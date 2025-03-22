@@ -13,7 +13,7 @@
         android:paddingStart="20dp"
         android:paddingTop="8dp"
         android:paddingEnd="20dp"
-        android:text="@string/screenshots_title"
+        android:text="@string/images_title"
         android:textColor="?attr/text_primary_color"
         android:textSize="15sp" />
 
