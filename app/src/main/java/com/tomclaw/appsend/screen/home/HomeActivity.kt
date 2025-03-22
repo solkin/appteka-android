@@ -19,6 +19,7 @@ import com.tomclaw.appsend.screen.feed.createFeedFragment
 import com.tomclaw.appsend.screen.home.di.HomeModule
 import com.tomclaw.appsend.screen.installed.createInstalledActivityIntent
 import com.tomclaw.appsend.screen.moderation.createModerationActivityIntent
+import com.tomclaw.appsend.screen.post.createPostActivityIntent
 import com.tomclaw.appsend.screen.profile.createProfileFragment
 import com.tomclaw.appsend.screen.store.createStoreFragment
 import com.tomclaw.appsend.screen.topics.createTopicsFragment
@@ -87,6 +88,11 @@ class HomeActivity : AppCompatActivity(), HomePresenter.HomeRouter {
 
     override fun openUploadScreen() {
         val intent = createUploadActivityIntent(context = this, pkg = null, apk = null, info = null)
+        startActivity(intent)
+    }
+
+    override fun openPostScreen() {
+        val intent = createPostActivityIntent(context = this)
         startActivity(intent)
     }
 

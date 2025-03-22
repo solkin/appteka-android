@@ -8,7 +8,7 @@ import com.tomclaw.appsend.screen.gallery.GalleryItem
 import com.tomclaw.appsend.screen.post.api.FeedPostResponse
 import com.tomclaw.appsend.screen.post.dto.PostScreenshot
 import com.tomclaw.appsend.screen.post.adapter.ItemListener
-import com.tomclaw.appsend.screen.upload.adapter.screen_image.ScreenImageItem
+import com.tomclaw.appsend.screen.post.adapter.screen_image.ScreenImageItem
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.filterUnauthorizedErrors
 import com.tomclaw.appsend.util.getParcelableArrayListCompat

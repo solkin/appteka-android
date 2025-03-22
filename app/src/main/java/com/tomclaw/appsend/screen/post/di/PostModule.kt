@@ -25,9 +25,6 @@ import com.tomclaw.appsend.screen.post.adapter.submit.SubmitItemBlueprint
 import com.tomclaw.appsend.screen.post.adapter.submit.SubmitItemPresenter
 import com.tomclaw.appsend.screen.post.adapter.text.TextItemBlueprint
 import com.tomclaw.appsend.screen.post.adapter.text.TextItemPresenter
-import com.tomclaw.appsend.screen.upload.UploadPresenter
-import com.tomclaw.appsend.screen.upload.adapter.description.DescriptionItemBlueprint
-import com.tomclaw.appsend.screen.upload.adapter.description.DescriptionItemPresenter
 import com.tomclaw.appsend.util.PerActivity
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy

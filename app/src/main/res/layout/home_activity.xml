@@ -36,7 +36,7 @@
     </FrameLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/fab_upload"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
@@ -44,6 +44,19 @@
         android:layout_marginRight="18dp"
         android:layout_marginBottom="75dp"
         android:src="@drawable/ic_cloud_upload"
+        app:elevation="4dp"
+        app:fabSize="normal"
+        app:pressedTranslationZ="12dp" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_post"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="18dp"
+        android:layout_marginRight="18dp"
+        android:layout_marginBottom="75dp"
+        android:src="@drawable/ic_discuss"
         app:elevation="4dp"
         app:fabSize="normal"
         app:pressedTranslationZ="12dp" />

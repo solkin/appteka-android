@@ -44,7 +44,9 @@ interface HomeView {
 
     fun showUploadButton()
 
-    fun hideUploadButton()
+    fun showPostButton()
+
+    fun hideFabButtons()
 
     fun showStatusDialog(block: Boolean, title: String?, message: String)
 
@@ -57,6 +59,8 @@ interface HomeView {
     fun profileClicks(): Observable<Unit>
 
     fun uploadClicks(): Observable<Unit>
+
+    fun postClicks(): Observable<Unit>
 
     fun updateClicks(): Observable<Unit>
 
@@ -86,7 +90,8 @@ class HomeViewImpl(view: View) : HomeView {
     private val toolbar: Toolbar = view.findViewById(R.id.toolbar)
     private val updateBlock: View = view.findViewById(R.id.update_block)
     private val bottomNavigation: BottomNavigationView = view.findViewById(R.id.bottom_navigation)
-    private val uploadButton: FloatingActionButton = view.findViewById(R.id.fab)
+    private val uploadButton: FloatingActionButton = view.findViewById(R.id.fab_upload)
+    private val postButton: FloatingActionButton = view.findViewById(R.id.fab_post)
     private val updateButton: Button = view.findViewById(R.id.update)
     private val laterButton: Button = view.findViewById(R.id.update_later)
 
@@ -95,6 +100,7 @@ class HomeViewImpl(view: View) : HomeView {
     private val discussRelay = PublishRelay.create<Unit>()
     private val profileRelay = PublishRelay.create<Unit>()
     private val uploadRelay = PublishRelay.create<Unit>()
+    private val postRelay = PublishRelay.create<Unit>()
     private val updateRelay = PublishRelay.create<Unit>()
     private val laterRelay = PublishRelay.create<Unit>()
     private val searchRelay = PublishRelay.create<Unit>()
@@ -131,6 +137,7 @@ class HomeViewImpl(view: View) : HomeView {
         }
 
         uploadButton.clicks(uploadRelay)
+        postButton.clicks(postRelay)
         updateButton.clicks(updateRelay)
         laterButton.clicks(laterRelay)
     }
@@ -226,8 +233,13 @@ class HomeViewImpl(view: View) : HomeView {
         uploadButton.show()
     }
 
-    override fun hideUploadButton() {
+    override fun showPostButton() {
+        postButton.show()
+    }
+
+    override fun hideFabButtons() {
         uploadButton.hide()
+        postButton.hide()
     }
 
     override fun showStatusDialog(block: Boolean, title: String?, message: String) {
@@ -253,6 +265,8 @@ class HomeViewImpl(view: View) : HomeView {
     override fun profileClicks(): Observable<Unit> = profileRelay
 
     override fun uploadClicks(): Observable<Unit> = uploadRelay
+
+    override fun postClicks(): Observable<Unit> = postRelay
 
     override fun updateClicks(): Observable<Unit> = updateRelay
 

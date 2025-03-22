@@ -36,6 +36,8 @@ interface HomePresenter {
 
         fun openUploadScreen()
 
+        fun openPostScreen()
+
         fun openSearchScreen()
 
         fun openModerationScreen()
@@ -91,6 +93,7 @@ class HomePresenterImpl(
         subscriptions += view.discussClicks().subscribe { bindTab(index = INDEX_DISCUSS) }
         subscriptions += view.profileClicks().subscribe { bindTab(index = INDEX_PROFILE) }
         subscriptions += view.uploadClicks().subscribe { router?.openUploadScreen() }
+        subscriptions += view.postClicks().subscribe { router?.openPostScreen() }
         subscriptions += view.updateClicks().subscribe { onUpdateClicks() }
         subscriptions += view.laterClicks().subscribe { onLaterClicks() }
         subscriptions += view.searchClicks().subscribe { router?.openSearchScreen() }
@@ -125,27 +128,29 @@ class HomePresenterImpl(
             INDEX_STORE -> {
                 router?.showStoreFragment()
                 view?.showStoreToolbar(canModerate())
+                view?.hideFabButtons()
                 view?.showUploadButton()
             }
 
             INDEX_FEED -> {
                 router?.showFeedFragment()
                 view?.showFeedToolbar()
-                view?.hideUploadButton()
+                view?.hideFabButtons()
+                view?.showPostButton()
                 bindFeed(count = 0)
             }
 
             INDEX_DISCUSS -> {
                 router?.showTopicsFragment()
                 view?.showDiscussToolbar()
-                view?.hideUploadButton()
+                view?.hideFabButtons()
                 bindUnread(count = 0)
             }
 
             INDEX_PROFILE -> {
                 router?.showProfileFragment()
                 view?.showProfileToolbar()
-                view?.hideUploadButton()
+                view?.hideFabButtons()
             }
         }
     }
