@@ -7,7 +7,10 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_alignTop="@id/toolbar_container"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="?actionBarSize" />
 
     <include
         layout="@layout/progress_overlay"
