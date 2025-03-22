@@ -1,13 +1,11 @@
 package com.tomclaw.appsend.screen.feed
 
-import android.net.Uri
 import android.os.Bundle
 import androidx.core.net.toUri
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.blueprint.Item
 import com.avito.konveyor.data_source.ListDataSource
 import com.tomclaw.appsend.dto.Screenshot
-import com.tomclaw.appsend.screen.details.adapter.screenshot.ScreenshotItem
 import com.tomclaw.appsend.screen.feed.adapter.FeedItem
 import com.tomclaw.appsend.screen.feed.adapter.ItemListener
 import com.tomclaw.appsend.screen.feed.api.PostEntity
@@ -83,7 +81,7 @@ class FeedPresenterImpl(
             invalidateApps()
         }
         subscriptions += view.scrollIdle()
-            .debounce(1000, TimeUnit.MILLISECONDS)
+            .debounce(READ_DELAY_MILLIS, TimeUnit.MILLISECONDS)
             .subscribe { position ->
                 items?.get(position)?.let { item ->
                     onFeedRead(postId = item.id.toInt())
@@ -306,5 +304,6 @@ class FeedPresenterImpl(
 
 }
 
+private const val READ_DELAY_MILLIS = 200L
 private const val KEY_APPS = "apps"
 private const val KEY_ERROR = "error"
