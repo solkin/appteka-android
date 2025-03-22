@@ -123,6 +123,7 @@ class PostPresenterImpl(
             .observeOn(schedulers.mainThread())
             .retryWhenNonAuthErrors()
             .doOnSubscribe {
+                router?.hideKeyboard()
                 view?.showProgress()
             }
             .subscribe(
