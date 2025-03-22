@@ -182,7 +182,7 @@ class FeedPresenterImpl(
             .filter { post ->
                 items?.find { it.id == post.postId.toLong() } == null
             }
-            .map { converter.convert(it) }
+            .mapNotNull { converter.convert(it) }
             .toList()
             .apply { if (isNotEmpty()) applyWithDirection(direction) { hasMore = true } }
 

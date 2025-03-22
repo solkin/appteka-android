@@ -22,7 +22,7 @@ class PostDeserializer(private val gson: Gson) : JsonDeserializer<PostEntity> {
             TYPE_TEXT -> TextPayload::class.java
             TYPE_FAVORITE -> FavoritePayload::class.java
             TYPE_UPLOAD -> UploadPayload::class.java
-            else -> throw IllegalArgumentException("Invalid payload type")
+            else -> UnsupportedPayload::class.java
         }
         val payload = gson.fromJson(obj["payload"].asJsonObject, payloadType)
         val user = gson.fromJson(obj["user"].asJsonObject, UserBrief::class.java)

@@ -12,13 +12,13 @@ import java.util.concurrent.TimeUnit
 
 interface FeedConverter {
 
-    fun convert(post: PostEntity): FeedItem
+    fun convert(post: PostEntity): FeedItem?
 
 }
 
 class FeedConverterImpl : FeedConverter {
 
-    override fun convert(post: PostEntity): FeedItem {
+    override fun convert(post: PostEntity): FeedItem? {
         return when (post.payload) {
             is TextPayload -> TextItem(
                 id = post.postId.toLong(),
@@ -66,7 +66,7 @@ class FeedConverterImpl : FeedConverter {
                 user = post.user
             )
 
-            else -> throw IllegalArgumentException("Post type is not supported: $post")
+            else -> null
         }
     }
 
