@@ -22,6 +22,7 @@ class PostDeserializer(private val gson: Gson) : JsonDeserializer<PostEntity> {
             TYPE_TEXT -> TextPayload::class.java
             TYPE_FAVORITE -> FavoritePayload::class.java
             TYPE_UPLOAD -> UploadPayload::class.java
+            TYPE_SUBSCRIBE -> SubscribePayload::class.java
             else -> UnsupportedPayload::class.java
         }
         val payload = gson.fromJson(obj["payload"].asJsonObject, payloadType)

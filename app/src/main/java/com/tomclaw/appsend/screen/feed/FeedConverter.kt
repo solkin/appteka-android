@@ -2,10 +2,12 @@ package com.tomclaw.appsend.screen.feed
 
 import com.tomclaw.appsend.screen.feed.adapter.FeedItem
 import com.tomclaw.appsend.screen.feed.adapter.favorite.FavoriteItem
+import com.tomclaw.appsend.screen.feed.adapter.subscribe.SubscribeItem
 import com.tomclaw.appsend.screen.feed.adapter.text.TextItem
 import com.tomclaw.appsend.screen.feed.adapter.upload.UploadItem
 import com.tomclaw.appsend.screen.feed.api.FavoritePayload
 import com.tomclaw.appsend.screen.feed.api.PostEntity
+import com.tomclaw.appsend.screen.feed.api.SubscribePayload
 import com.tomclaw.appsend.screen.feed.api.TextPayload
 import com.tomclaw.appsend.screen.feed.api.UploadPayload
 import java.util.concurrent.TimeUnit
@@ -63,6 +65,12 @@ class FeedConverterImpl : FeedConverter {
                 openSource = post.payload.openSource,
                 description = post.payload.description.orEmpty(),
                 screenshots = post.payload.screenshots.orEmpty(),
+                user = post.user
+            )
+            is SubscribePayload -> SubscribeItem(
+                id = post.postId.toLong(),
+                time = TimeUnit.SECONDS.toMillis(post.time),
+                publisher = post.payload.publisher,
                 user = post.user
             )
 

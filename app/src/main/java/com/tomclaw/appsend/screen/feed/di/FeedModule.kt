@@ -19,6 +19,8 @@ import com.tomclaw.appsend.screen.feed.FeedResourceProviderImpl
 import com.tomclaw.appsend.screen.feed.adapter.ScreenshotsAdapter
 import com.tomclaw.appsend.screen.feed.adapter.favorite.FavoriteItemBlueprint
 import com.tomclaw.appsend.screen.feed.adapter.favorite.FavoriteItemPresenter
+import com.tomclaw.appsend.screen.feed.adapter.subscribe.SubscribeItemBlueprint
+import com.tomclaw.appsend.screen.feed.adapter.subscribe.SubscribeItemPresenter
 import com.tomclaw.appsend.screen.feed.adapter.text.TextItemBlueprint
 import com.tomclaw.appsend.screen.feed.adapter.text.TextItemPresenter
 import com.tomclaw.appsend.screen.feed.adapter.upload.UploadItemBlueprint
@@ -139,5 +141,20 @@ class FeedModule(
         resourceProvider: FeedResourceProvider,
         presenter: FeedPresenter,
     ) = UploadItemPresenter(locale, resourceProvider, presenter)
+
+    @Provides
+    @IntoSet
+    @PerFragment
+    internal fun provideSubscribeItemBlueprint(
+        itemPresenter: SubscribeItemPresenter,
+    ): ItemBlueprint<*, *> = SubscribeItemBlueprint(itemPresenter)
+
+    @Provides
+    @PerFragment
+    internal fun provideSubscribeItemPresenter(
+        locale: Locale,
+        resourceProvider: FeedResourceProvider,
+        presenter: FeedPresenter,
+    ) = SubscribeItemPresenter(locale, resourceProvider, presenter)
 
 }

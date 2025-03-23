@@ -342,4 +342,5 @@
     <string name="input_post_text">Input post text</string>
     <string name="add_post_image">Add Image</string>
     <string name="images_title">Images</string>
+    <string name="subscribed_to">Subscribed to</string>
 </resources>

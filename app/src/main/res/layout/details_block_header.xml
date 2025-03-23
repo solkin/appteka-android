@@ -75,6 +75,7 @@
             android:includeFontPadding="false"
             android:marqueeRepeatLimit="marquee_forever"
             android:paddingTop="5dp"
+            android:paddingBottom="5dp"
             android:scrollHorizontally="true"
             android:singleLine="true"
             android:textColor="?text_secondary_color"
@@ -82,35 +83,7 @@
             android:typeface="monospace"
             tools:text="com.example.android.app" />
 
-
-        <LinearLayout
-            android:id="@+id/uploader_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/round_name_ripple"
-            android:backgroundTint="@color/primary_color"
-            android:orientation="horizontal">
-
-            <include
-                android:id="@+id/uploader_icon"
-                layout="@layout/user_icon_xs"
-                android:scaleType="fitCenter" />
-
-            <TextView
-                android:id="@+id/uploader_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:fontFamily="sans-serif"
-                android:includeFontPadding="false"
-                android:paddingStart="6dp"
-                android:paddingEnd="9dp"
-                android:textColor="?text_primary_color"
-                android:textSize="12sp"
-                tools:text="Crown" />
-
-        </LinearLayout>
+        <include layout="@layout/uploader" />
 
     </LinearLayout>
 

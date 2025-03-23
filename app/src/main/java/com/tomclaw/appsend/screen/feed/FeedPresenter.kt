@@ -10,6 +10,7 @@ import com.tomclaw.appsend.screen.feed.adapter.FeedItem
 import com.tomclaw.appsend.screen.feed.adapter.ItemListener
 import com.tomclaw.appsend.screen.feed.api.PostEntity
 import com.tomclaw.appsend.screen.gallery.GalleryItem
+import com.tomclaw.appsend.user.api.UserBrief
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.getParcelableArrayListCompat
 import com.tomclaw.appsend.util.retryWhenNonAuthErrors
@@ -98,7 +99,8 @@ class FeedPresenterImpl(
             onError()
             onReady()
         } else {
-            items?.let { onReady() } ?: postId?.takeIf { it > 0 }?.let { loadApps(it) } ?: loadApps()
+            items?.let { onReady() } ?: postId?.takeIf { it > 0 }?.let { loadApps(it) }
+            ?: loadApps()
         }
     }
 
@@ -295,6 +297,10 @@ class FeedPresenterImpl(
             label = title,
             isFinish = false
         )
+    }
+
+    override fun onUserClick(user: UserBrief) {
+        router?.openProfileScreen(user.userId)
     }
 
     private data class RangeInserted(
