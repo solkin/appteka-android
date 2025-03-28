@@ -318,4 +318,23 @@
     <string name="unable_to_change_name">Невозможно поменять имя</string>
     <string name="install_date">Установлено %s</string>
     <string name="update_date">Обновлено %s</string>
+    <string name="posts">Посты</string>
+    <string name="subscribers">подписчики</string>
+    <string name="publishers">я подписан</string>
+    <string name="subscribe">Подписаться</string>
+    <string name="unsubscribe">Отписаться</string>
+    <string name="unable_to_change_subscription_state">Ошибка изменения статуса полписки</string>
+    <string name="subscriptions_activity">Подписки</string>
+    <string name="subscribed_date">Подписался %s</string>
+    <string name="tab_feed">Лента</string>
+    <string name="user_feed">Лента пользователя</string>
+    <string name="feed_marked_favorite">Добавил приложение в избранное</string>
+    <string name="feed_uploaded_app">Загрузил новое приложение</string>
+    <string name="feed_post_failed">Ошибка добавления поста в ленту</string>
+    <string name="post_text">Текст</string>
+    <string name="publish_post">Опубликовать пост</string>
+    <string name="input_post_text">Добавить текст</string>
+    <string name="add_post_image">Добавить изображения</string>
+    <string name="images_title">Изображения</string>
+    <string name="subscribed_to">Подписался на</string>
 </resources>
