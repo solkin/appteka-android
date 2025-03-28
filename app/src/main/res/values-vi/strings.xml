@@ -297,4 +297,23 @@
     <string name="unable_to_change_name">Không thể thay đổi tên người dùng</string>
     <string name="install_date">Ngày cài đặt %s</string>
     <string name="update_date">Ngày cập nhật %s</string>
+    <string name="posts">posts</string>
+    <string name="subscribers">Người đăng ký</string>
+    <string name="publishers">các tác giả</string>
+    <string name="subscribe">Đăng ký</string>
+    <string name="unsubscribe">Hủy đăng ký</string>
+    <string name="unable_to_change_subscription_state">Không thể thay đổi trạng thái đăng ký</string>
+    <string name="subscriptions_activity">Đăng ký</string>
+    <string name="subscribed_date">Đã đăng ký %s</string>
+    <string name="tab_feed">Tin tức</string>
+    <string name="user_feed">Tin tức người dùng</string>
+    <string name="feed_marked_favorite">Đã thêm ứng dụng vào mục yêu thích</string>
+    <string name="feed_uploaded_app">Một ứng dụng mới đã được thêm vào</string>
+    <string name="feed_post_failed">Không thể xuất bản bài đăng nguồn cấp dữ liệu</string>
+    <string name="post_text">Văn bản tin nhắn</string>
+    <string name="publish_post">Xuất bản</string>
+    <string name="input_post_text">Nhập văn bản của tin nhắn</string>
+    <string name="add_post_image">Thêm một hình ảnh</string>
+    <string name="images_title">Hình ảnh</string>
+    <string name="subscribed_to">Đăng ký</string>
 </resources>
