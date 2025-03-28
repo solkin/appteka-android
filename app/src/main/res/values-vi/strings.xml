@@ -297,7 +297,7 @@
     <string name="unable_to_change_name">Không thể thay đổi tên người dùng</string>
     <string name="install_date">Ngày cài đặt %s</string>
     <string name="update_date">Ngày cập nhật %s</string>
-    <string name="posts">posts</string>
+    <string name="posts">bài viết</string>
     <string name="subscribers">Người đăng ký</string>
     <string name="publishers">các tác giả</string>
     <string name="subscribe">Đăng ký</string>
