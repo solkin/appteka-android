@@ -43,7 +43,7 @@ interface PostPresenter : ItemListener {
 
         fun openGallery(items: List<GalleryItem>, current: Int)
 
-        fun leaveScreen(isPosted: Boolean)
+        fun leaveScreen(postId: Int? = 0)
 
         fun hideKeyboard()
 
@@ -114,7 +114,7 @@ class PostPresenterImpl(
     }
 
     override fun onBackPressed() {
-        router?.leaveScreen(isPosted = false)
+        router?.leaveScreen()
     }
 
     private fun postFeed() {
@@ -137,7 +137,7 @@ class PostPresenterImpl(
     }
 
     private fun onPostDone(response: FeedPostResponse) {
-        router?.leaveScreen(isPosted = true)
+        router?.leaveScreen(response.postId)
     }
 
     private fun updateItems() {

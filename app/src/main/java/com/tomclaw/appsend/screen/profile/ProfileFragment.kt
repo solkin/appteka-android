@@ -169,7 +169,7 @@ class ProfileFragment : Fragment(), ProfilePresenter.ProfileRouter, HomeFragment
         activity?.onBackPressed()
     }
 
-    override fun invalidate() {}
+    override fun handleEvent(data: Intent?) {}
 
 }
 

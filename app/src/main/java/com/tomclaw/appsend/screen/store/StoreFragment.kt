@@ -1,5 +1,6 @@
 package com.tomclaw.appsend.screen.store
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -92,7 +93,7 @@ class StoreFragment : Fragment(), StorePresenter.StoreRouter, HomeFragment {
         startActivity(intent)
     }
 
-    override fun invalidate() {
+    override fun handleEvent(data: Intent?) {
         presenter.invalidateApps()
     }
 

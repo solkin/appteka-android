@@ -1,5 +1,7 @@
 package com.tomclaw.appsend.screen.home
 
+import android.content.Intent
+
 interface HomeFragment {
-    fun invalidate()
+    fun handleEvent(data: Intent?)
 }

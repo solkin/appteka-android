@@ -1,5 +1,6 @@
 package com.tomclaw.appsend.screen.feed
 
+import android.content.Intent
 import android.content.Intent.FLAG_ACTIVITY_CLEAR_TOP
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -22,6 +23,7 @@ import com.tomclaw.appsend.screen.home.HomeFragment
 import com.tomclaw.appsend.screen.profile.createProfileActivityIntent
 import com.tomclaw.appsend.util.Analytics
 import com.tomclaw.appsend.util.ZipParcelable
+import com.tomclaw.appsend.util.getParcelableCompat
 import javax.inject.Inject
 
 class FeedFragment : Fragment(), FeedPresenter.FeedRouter, HomeFragment {
@@ -50,10 +52,19 @@ class FeedFragment : Fragment(), FeedPresenter.FeedRouter, HomeFragment {
         val postId = arguments?.getInt(ARG_POST_ID)
         val withToolbar = arguments?.getBoolean(ARG_WITH_TOOLBAR, false)
 
-        val compressedPresenterState: ZipParcelable? = savedInstanceState?.getParcelable(KEY_PRESENTER_STATE, ZipParcelable::class.java)
+        val compressedPresenterState: ZipParcelable? =
+            savedInstanceState?.getParcelableCompat(KEY_PRESENTER_STATE, ZipParcelable::class.java)
         val presenterState: Bundle? = compressedPresenterState?.restore()
         Appteka.getComponent()
-            .feedComponent(FeedModule(requireContext(), userId, postId, withToolbar, presenterState))
+            .feedComponent(
+                FeedModule(
+                    requireContext(),
+                    userId,
+                    postId,
+                    withToolbar,
+                    presenterState
+                )
+            )
             .inject(fragment = this)
 
         super.onCreate(savedInstanceState)
@@ -135,8 +146,9 @@ class FeedFragment : Fragment(), FeedPresenter.FeedRouter, HomeFragment {
         activity?.onBackPressed()
     }
 
-    override fun invalidate() {
-        presenter.invalidate()
+    override fun handleEvent(data: Intent?) {
+        val postId = data?.getIntExtra(EXTRA_POST_ID, 0)
+        presenter.invalidate(postId?.takeIf { it != 0 })
     }
 
 }
@@ -156,3 +168,5 @@ private const val KEY_PRESENTER_STATE = "presenter_state"
 private const val ARG_USER_ID = "user_id"
 private const val ARG_POST_ID = "post_id"
 private const val ARG_WITH_TOOLBAR = "with_toolbar"
+
+const val EXTRA_POST_ID = "post_id"

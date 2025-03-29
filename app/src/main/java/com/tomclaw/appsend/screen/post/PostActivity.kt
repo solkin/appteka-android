@@ -15,6 +15,7 @@ import com.avito.konveyor.adapter.SimpleRecyclerAdapter
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.auth.request_code.createRequestCodeActivityIntent
+import com.tomclaw.appsend.screen.feed.EXTRA_POST_ID
 import com.tomclaw.appsend.screen.gallery.GalleryItem
 import com.tomclaw.appsend.screen.gallery.createGalleryActivityIntent
 import com.tomclaw.appsend.screen.post.di.POST_ADAPTER_PRESENTER
@@ -137,8 +138,12 @@ class PostActivity : AppCompatActivity(), PostPresenter.PostRouter {
         startActivity(intent)
     }
 
-    override fun leaveScreen(isPosted: Boolean) {
-        setResult(if (isPosted) RESULT_OK else RESULT_CANCELED)
+    override fun leaveScreen(postId: Int?) {
+        if (postId != null) {
+            setResult(RESULT_OK, Intent().putExtra(EXTRA_POST_ID, postId))
+        } else {
+            setResult(RESULT_CANCELED)
+        }
         finish()
     }
 

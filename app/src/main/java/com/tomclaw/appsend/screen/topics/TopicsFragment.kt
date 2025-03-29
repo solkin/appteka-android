@@ -1,5 +1,6 @@
 package com.tomclaw.appsend.screen.topics
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -93,7 +94,7 @@ class TopicsFragment : Fragment(), TopicsPresenter.TopicsRouter, HomeFragment {
         startActivity(intent)
     }
 
-    override fun invalidate() {}
+    override fun handleEvent(data: Intent?) {}
 
 }
 

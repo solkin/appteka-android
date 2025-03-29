@@ -45,7 +45,7 @@ class HomeActivity : AppCompatActivity(), HomePresenter.HomeRouter {
     private val postLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
-                presenter.invalidate()
+                invalidateFragment(result.data)
             }
         }
 
@@ -94,10 +94,10 @@ class HomeActivity : AppCompatActivity(), HomePresenter.HomeRouter {
         replaceFragment(fragment, INDEX_PROFILE)
     }
 
-    override fun invalidateFragment() {
+    fun invalidateFragment(data: Intent?) {
         val pendingRunnable = Runnable {
             val fragment = supportFragmentManager.findFragmentById(R.id.frame) as? HomeFragment
-            fragment?.invalidate()
+            fragment?.handleEvent(data)
         }
         handler.post(pendingRunnable)
     }

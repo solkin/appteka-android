@@ -24,8 +24,6 @@ interface HomePresenter {
 
     fun onBackPressed()
 
-    fun invalidate()
-
     interface HomeRouter {
 
         fun showStoreFragment()
@@ -35,8 +33,6 @@ interface HomePresenter {
         fun showTopicsFragment()
 
         fun showProfileFragment()
-
-        fun invalidateFragment()
 
         fun openUploadScreen()
 
@@ -279,10 +275,6 @@ class HomePresenterImpl(
         } else {
             router?.leaveScreen()
         }
-    }
-
-    override fun invalidate() {
-        router?.invalidateFragment()
     }
 
     private fun handleAction() {

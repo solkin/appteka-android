@@ -36,7 +36,7 @@ interface FeedPresenter : ItemListener {
 
     fun onBackPressed()
 
-    fun invalidate()
+    fun invalidate(offsetId: Int? = null)
 
     interface FeedRouter {
 
@@ -129,9 +129,19 @@ class FeedPresenterImpl(
         router?.leaveScreen()
     }
 
-    override fun invalidate() {
+    override fun invalidate(offsetId: Int?) {
         items = null
-        loadFeed()
+        error = ERROR_NO
+
+        val dataSource = ListDataSource(emptyList<FeedItem>())
+        adapterPresenter.get().onDataSourceChanged(dataSource)
+        view?.contentUpdated()
+
+        if (offsetId != null) {
+            loadFeed(offsetId)
+        } else {
+            loadFeed()
+        }
     }
 
     private fun onFeedRead(postId: Int) {
@@ -233,15 +243,16 @@ class FeedPresenterImpl(
                 val dataSource = ListDataSource(items)
                 adapterPresenter.get().onDataSourceChanged(dataSource)
                 view?.let { view ->
-                    rangeInserted?.let { range ->
-                        view.rangeInserted(range.position, range.count)
-                    } ?: view.contentUpdated()
-
                     if (view.isPullRefreshing()) {
                         view.stopPullRefreshing()
                     } else {
                         view.showContent()
                     }
+
+                    rangeInserted?.let { range ->
+                        view.rangeInserted(range.position, range.count)
+                    } ?:
+                    view.contentUpdated()
 
                     offsetId?.let { offsetId ->
                         items
