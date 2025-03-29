@@ -13,11 +13,12 @@ import com.tomclaw.appsend.R
 import com.tomclaw.appsend.dto.TopicEntity
 import com.tomclaw.appsend.screen.auth.request_code.createRequestCodeActivityIntent
 import com.tomclaw.appsend.screen.chat.createChatActivityIntent
+import com.tomclaw.appsend.screen.home.HomeFragment
 import com.tomclaw.appsend.screen.topics.di.TopicsModule
 import com.tomclaw.appsend.util.Analytics
 import javax.inject.Inject
 
-class TopicsFragment : Fragment(), TopicsPresenter.TopicsRouter {
+class TopicsFragment : Fragment(), TopicsPresenter.TopicsRouter, HomeFragment {
 
     @Inject
     lateinit var presenter: TopicsPresenter
@@ -91,6 +92,8 @@ class TopicsFragment : Fragment(), TopicsPresenter.TopicsRouter {
         val intent = createRequestCodeActivityIntent(requireContext())
         startActivity(intent)
     }
+
+    override fun invalidate() {}
 
 }
 

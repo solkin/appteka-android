@@ -36,6 +36,8 @@ interface HomePresenter {
 
         fun showProfileFragment()
 
+        fun invalidateFragment()
+
         fun openUploadScreen()
 
         fun openPostScreen()
@@ -280,6 +282,7 @@ class HomePresenterImpl(
     }
 
     override fun invalidate() {
+        router?.invalidateFragment()
         bindTab()
     }
 

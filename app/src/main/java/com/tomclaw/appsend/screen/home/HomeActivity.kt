@@ -94,6 +94,14 @@ class HomeActivity : AppCompatActivity(), HomePresenter.HomeRouter {
         replaceFragment(fragment, INDEX_PROFILE)
     }
 
+    override fun invalidateFragment() {
+        val pendingRunnable = Runnable {
+            val fragment = supportFragmentManager.findFragmentById(R.id.frame) as? HomeFragment
+            fragment?.invalidate()
+        }
+        handler.post(pendingRunnable)
+    }
+
     override fun openUploadScreen() {
         val intent = createUploadActivityIntent(context = this, pkg = null, apk = null, info = null)
         startActivity(intent)

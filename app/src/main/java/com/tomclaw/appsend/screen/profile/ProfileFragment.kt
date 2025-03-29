@@ -18,6 +18,7 @@ import com.tomclaw.appsend.screen.auth.request_code.createRequestCodeActivityInt
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.screen.favorite.createFavoriteActivityIntent
 import com.tomclaw.appsend.screen.feed.createFeedActivityIntent
+import com.tomclaw.appsend.screen.home.HomeFragment
 import com.tomclaw.appsend.screen.profile.di.PROFILE_ADAPTER_PRESENTER
 import com.tomclaw.appsend.screen.profile.di.ProfileModule
 import com.tomclaw.appsend.screen.reviews.createReviewsActivityIntent
@@ -27,7 +28,7 @@ import com.tomclaw.appsend.util.Analytics
 import javax.inject.Inject
 import javax.inject.Named
 
-class ProfileFragment : Fragment(), ProfilePresenter.ProfileRouter {
+class ProfileFragment : Fragment(), ProfilePresenter.ProfileRouter, HomeFragment {
 
     @Inject
     lateinit var presenter: ProfilePresenter
@@ -167,6 +168,8 @@ class ProfileFragment : Fragment(), ProfilePresenter.ProfileRouter {
     override fun leaveScreen() {
         activity?.onBackPressed()
     }
+
+    override fun invalidate() {}
 
 }
 

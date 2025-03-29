@@ -11,11 +11,12 @@ import com.avito.konveyor.adapter.SimpleRecyclerAdapter
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
+import com.tomclaw.appsend.screen.home.HomeFragment
 import com.tomclaw.appsend.screen.store.di.StoreModule
 import com.tomclaw.appsend.util.Analytics
 import javax.inject.Inject
 
-class StoreFragment : Fragment(), StorePresenter.StoreRouter {
+class StoreFragment : Fragment(), StorePresenter.StoreRouter, HomeFragment {
 
     @Inject
     lateinit var presenter: StorePresenter
@@ -89,6 +90,10 @@ class StoreFragment : Fragment(), StorePresenter.StoreRouter {
             finishOnly = true
         )
         startActivity(intent)
+    }
+
+    override fun invalidate() {
+        presenter.invalidateApps()
     }
 
 }

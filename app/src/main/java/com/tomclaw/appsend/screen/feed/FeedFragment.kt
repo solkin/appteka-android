@@ -18,12 +18,13 @@ import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.screen.feed.di.FeedModule
 import com.tomclaw.appsend.screen.gallery.GalleryItem
 import com.tomclaw.appsend.screen.gallery.createGalleryActivityIntent
+import com.tomclaw.appsend.screen.home.HomeFragment
 import com.tomclaw.appsend.screen.profile.createProfileActivityIntent
 import com.tomclaw.appsend.util.Analytics
 import com.tomclaw.appsend.util.ZipParcelable
 import javax.inject.Inject
 
-class FeedFragment : Fragment(), FeedPresenter.FeedRouter {
+class FeedFragment : Fragment(), FeedPresenter.FeedRouter, HomeFragment {
 
     @Inject
     lateinit var presenter: FeedPresenter
@@ -132,6 +133,10 @@ class FeedFragment : Fragment(), FeedPresenter.FeedRouter {
 
     override fun leaveScreen() {
         activity?.onBackPressed()
+    }
+
+    override fun invalidate() {
+        presenter.invalidate()
     }
 
 }
