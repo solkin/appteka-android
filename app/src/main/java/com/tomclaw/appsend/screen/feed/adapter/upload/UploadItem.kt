@@ -24,6 +24,7 @@ class UploadItem(
     val description: String?,
     val screenshots: List<Screenshot>,
     override val user: UserBrief,
+    override val actions: List<String>?,
     override var hasMore: Boolean = false,
     override var hasProgress: Boolean = false,
 ) : FeedItem

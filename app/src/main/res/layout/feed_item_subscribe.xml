@@ -36,67 +36,96 @@
             android:orientation="vertical"
             android:paddingStart="12dp"
             android:paddingTop="8dp"
-            android:paddingEnd="12dp"
+            android:paddingEnd="4dp"
             android:paddingBottom="8dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/user_name"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="start|center_vertical"
-                    android:fontFamily="sans-serif"
-                    android:includeFontPadding="false"
-                    android:singleLine="true"
-                    android:textColor="?text_primary_color"
-                    android:textSize="15sp"
-                    tools:text="Admin" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-medium"
-                    android:paddingStart="6dp"
-                    android:paddingEnd="5dp"
-                    android:text="•"
-                    android:textColor="?text_secondary_color"
-                    android:textSize="16sp"
-                    tools:ignore="HardcodedText" />
-
-                <TextView
-                    android:id="@+id/date_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="?text_secondary_color"
-                    android:textSize="12sp"
-                    tools:text="2 days ago" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:paddingStart="0dp"
-                    android:paddingTop="2dp"
-                    android:paddingEnd="4dp"
-                    android:paddingBottom="2dp"
-                    android:includeFontPadding="false"
-                    android:text="@string/subscribed_to"
-                    android:textColor="?attr/text_primary_color"
-                    android:textSize="15sp" />
+                    android:paddingEnd="8dp"
+                    android:orientation="vertical">
 
-                <include layout="@layout/uploader" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/user_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="start|center_vertical"
+                            android:fontFamily="sans-serif"
+                            android:includeFontPadding="false"
+                            android:singleLine="true"
+                            android:textColor="?text_primary_color"
+                            android:textSize="15sp"
+                            tools:text="Admin" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-medium"
+                            android:paddingStart="6dp"
+                            android:paddingEnd="5dp"
+                            android:text="•"
+                            android:textColor="?text_secondary_color"
+                            android:textSize="16sp"
+                            tools:ignore="HardcodedText" />
+
+                        <TextView
+                            android:id="@+id/date_view"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="?text_secondary_color"
+                            android:textSize="12sp"
+                            tools:text="2 days ago" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:includeFontPadding="false"
+                            android:paddingStart="0dp"
+                            android:paddingTop="2dp"
+                            android:paddingEnd="4dp"
+                            android:paddingBottom="2dp"
+                            android:text="@string/subscribed_to"
+                            android:textColor="?attr/text_primary_color"
+                            android:textSize="15sp" />
+
+                        <include layout="@layout/uploader" />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/post_menu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:padding="6dp"
+                    android:src="@drawable/ic_dots_vertical"
+                    android:visibility="gone"
+                    app:tint="?text_secondary_color"
+                    tools:visibility="visible" />
 
             </LinearLayout>
 

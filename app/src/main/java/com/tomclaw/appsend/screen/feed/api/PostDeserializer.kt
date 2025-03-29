@@ -27,7 +27,11 @@ class PostDeserializer(private val gson: Gson) : JsonDeserializer<PostEntity> {
         }
         val payload = gson.fromJson(obj["payload"].asJsonObject, payloadType)
         val user = gson.fromJson(obj["user"].asJsonObject, UserBrief::class.java)
-        return PostEntity(postId, time, type, payload, user)
+        class StringArrayList : ArrayList<String>()
+        val actions = obj["action"]?.let { actionsArray ->
+            gson.fromJson(actionsArray.asJsonArray, StringArrayList::class.java)
+        }
+        return PostEntity(postId, time, type, payload, user, actions)
     }
 
 }

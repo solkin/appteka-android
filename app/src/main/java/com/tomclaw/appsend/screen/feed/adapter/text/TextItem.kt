@@ -12,6 +12,7 @@ class TextItem(
     val screenshots: List<Screenshot>,
     val text: String,
     override val user: UserBrief,
+    override val actions: List<String>?,
     override var hasMore: Boolean = false,
     override var hasProgress: Boolean = false,
 ) : FeedItem

@@ -6,6 +6,7 @@ import com.tomclaw.appsend.user.api.UserBrief
 
 interface FeedItem : Item, Parcelable {
     val user: UserBrief?
+    val actions: List<String>?
     var hasMore: Boolean
     var hasProgress: Boolean
 }

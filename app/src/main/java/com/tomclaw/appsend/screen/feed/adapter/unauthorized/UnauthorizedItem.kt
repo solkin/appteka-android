@@ -11,6 +11,8 @@ data class UnauthorizedItem(
 ) : FeedItem, Parcelable {
     override val user: UserBrief?
         get() = null
+    override val actions: List<String>?
+        get() = null
     override var hasMore: Boolean
         get() = false
         set(value) {}

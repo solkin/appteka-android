@@ -10,6 +10,7 @@ class SubscribeItem(
     val time: Long,
     val publisher: UserBrief,
     override val user: UserBrief,
+    override val actions: List<String>?,
     override var hasMore: Boolean = false,
     override var hasProgress: Boolean = false,
 ) : FeedItem

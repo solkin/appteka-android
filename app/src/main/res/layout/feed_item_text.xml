@@ -26,81 +26,102 @@
             android:layout_marginTop="12dp"
             android:scaleType="center" />
 
-        <LinearLayout
+        <FrameLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:clipToPadding="false"
-            android:gravity="center_vertical"
-            android:orientation="vertical"
-            android:paddingStart="12dp"
-            android:paddingTop="8dp"
-            android:paddingEnd="12dp"
-            android:paddingBottom="8dp">
+            android:layout_weight="1">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:clipToPadding="false"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="vertical"
+                android:paddingStart="12dp"
+                android:paddingTop="8dp"
+                android:paddingEnd="12dp"
+                android:paddingBottom="8dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/user_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="start|center_vertical"
+                        android:fontFamily="sans-serif"
+                        android:includeFontPadding="false"
+                        android:singleLine="true"
+                        android:textColor="?text_primary_color"
+                        android:textSize="15sp"
+                        tools:text="Admin" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-medium"
+                        android:paddingStart="6dp"
+                        android:paddingEnd="5dp"
+                        android:text="•"
+                        android:textColor="?text_secondary_color"
+                        android:textSize="16sp"
+                        tools:ignore="HardcodedText" />
+
+                    <TextView
+                        android:id="@+id/date_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="?text_secondary_color"
+                        android:textSize="12sp"
+                        tools:text="2 days ago" />
+
+                </LinearLayout>
 
                 <TextView
-                    android:id="@+id/user_name"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/text"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="start|center_vertical"
-                    android:fontFamily="sans-serif"
-                    android:includeFontPadding="false"
-                    android:singleLine="true"
-                    android:textColor="?text_primary_color"
-                    android:textSize="15sp"
-                    tools:text="Admin" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-medium"
-                    android:paddingStart="6dp"
-                    android:paddingEnd="5dp"
-                    android:text="•"
-                    android:textColor="?text_secondary_color"
-                    android:textSize="16sp"
-                    tools:ignore="HardcodedText" />
-
-                <TextView
-                    android:id="@+id/date_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="?text_secondary_color"
-                    android:textSize="12sp"
-                    tools:text="2 days ago" />
+                    android:paddingTop="2dp"
+                    android:paddingBottom="2dp"
+                    android:textColor="?attr/text_primary_color"
+                    tools:text="Vel eu dignissim tellus at porttitor euismod est vitae suspendisse.  Pellentesque, eget nascetur velit, odio dictum eget in praesent ultricies.  Varius montes, dignissim bibendum pulvinar laoreet enim sed ac." />
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/text"
-                android:layout_width="match_parent"
+            <ImageView
+                android:id="@+id/post_menu"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingTop="2dp"
-                android:paddingBottom="2dp"
-                android:textColor="?attr/text_primary_color"
-                tools:text="Vel eu dignissim tellus at porttitor euismod est vitae suspendisse.  Pellentesque, eget nascetur velit, odio dictum eget in praesent ultricies.  Varius montes, dignissim bibendum pulvinar laoreet enim sed ac." />
+                android:layout_gravity="top|end"
+                android:background="?selectableItemBackgroundBorderless"
+                android:padding="6dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginEnd="4dp"
+                android:src="@drawable/ic_dots_vertical"
+                android:visibility="gone"
+                app:tint="?text_secondary_color"
+                tools:visibility="visible" />
 
-        </LinearLayout>
+        </FrameLayout>
 
     </LinearLayout>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/images"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingStart="52dp"
-        android:paddingEnd="0dp"
-        android:paddingTop="4dp"
-        android:paddingBottom="4dp"
         android:layout_marginTop="-4dp"
         android:layout_marginBottom="-4dp"
         android:clipToPadding="false"
+        android:paddingStart="52dp"
+        android:paddingTop="4dp"
+        android:paddingEnd="0dp"
+        android:paddingBottom="4dp"
         tools:itemCount="3"
         tools:listitem="@layout/feed_screenshot_item" />
 

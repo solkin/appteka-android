@@ -14,9 +14,13 @@ data class PostEntity(
     val payload: PostPayload,
     @SerializedName("user")
     val user: UserBrief,
+    @SerializedName("actions")
+    val actions: List<String>?,
 )
 
 const val TYPE_TEXT = 1
 const val TYPE_FAVORITE = 2
 const val TYPE_UPLOAD = 3
 const val TYPE_SUBSCRIBE = 4
+
+const val ACTION_DELETE = "delete"

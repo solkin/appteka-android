@@ -31,7 +31,8 @@ class FeedConverterImpl : FeedConverter {
                 time = TimeUnit.SECONDS.toMillis(post.time),
                 screenshots = post.payload.screenshots,
                 text = post.payload.text,
-                user = post.user
+                user = post.user,
+                actions = post.actions,
             )
             is FavoritePayload -> FavoriteItem(
                 id = post.postId.toLong(),
@@ -51,7 +52,8 @@ class FeedConverterImpl : FeedConverter {
                 openSource = post.payload.openSource,
                 description = post.payload.description.orEmpty(),
                 screenshots = post.payload.screenshots.orEmpty(),
-                user = post.user
+                user = post.user,
+                actions = post.actions,
             )
             is UploadPayload -> UploadItem(
                 id = post.postId.toLong(),
@@ -69,13 +71,15 @@ class FeedConverterImpl : FeedConverter {
                 openSource = post.payload.openSource,
                 description = post.payload.description.orEmpty(),
                 screenshots = post.payload.screenshots.orEmpty(),
-                user = post.user
+                user = post.user,
+                actions = post.actions,
             )
             is SubscribePayload -> SubscribeItem(
                 id = post.postId.toLong(),
                 time = TimeUnit.SECONDS.toMillis(post.time),
                 publisher = post.payload.publisher,
-                user = post.user
+                user = post.user,
+                actions = post.actions,
             )
 
             else -> null
