@@ -283,7 +283,6 @@ class HomePresenterImpl(
 
     override fun invalidate() {
         router?.invalidateFragment()
-        bindTab()
     }
 
     private fun handleAction() {
