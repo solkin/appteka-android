@@ -1,9 +1,11 @@
 package com.tomclaw.appsend.screen.feed
 
+import com.avito.konveyor.blueprint.Item
 import com.tomclaw.appsend.screen.feed.adapter.FeedItem
 import com.tomclaw.appsend.screen.feed.adapter.favorite.FavoriteItem
 import com.tomclaw.appsend.screen.feed.adapter.subscribe.SubscribeItem
 import com.tomclaw.appsend.screen.feed.adapter.text.TextItem
+import com.tomclaw.appsend.screen.feed.adapter.unauthorized.UnauthorizedItem
 import com.tomclaw.appsend.screen.feed.adapter.upload.UploadItem
 import com.tomclaw.appsend.screen.feed.api.FavoritePayload
 import com.tomclaw.appsend.screen.feed.api.PostEntity
@@ -15,6 +17,8 @@ import java.util.concurrent.TimeUnit
 interface FeedConverter {
 
     fun convert(post: PostEntity): FeedItem?
+
+    fun unauthorized(): List<FeedItem>
 
 }
 
@@ -76,6 +80,12 @@ class FeedConverterImpl : FeedConverter {
 
             else -> null
         }
+    }
+
+    override fun unauthorized(): List<FeedItem> {
+        return listOf(
+            UnauthorizedItem(id = 1)
+        )
     }
 
 }

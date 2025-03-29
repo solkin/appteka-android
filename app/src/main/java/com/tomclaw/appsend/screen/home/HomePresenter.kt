@@ -24,6 +24,8 @@ interface HomePresenter {
 
     fun onBackPressed()
 
+    fun invalidate()
+
     interface HomeRouter {
 
         fun showStoreFragment()
@@ -275,6 +277,10 @@ class HomePresenterImpl(
         } else {
             router?.leaveScreen()
         }
+    }
+
+    override fun invalidate() {
+        bindTab()
     }
 
     private fun handleAction() {

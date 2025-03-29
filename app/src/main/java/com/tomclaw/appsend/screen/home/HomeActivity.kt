@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.tomclaw.appsend.Appteka
@@ -40,6 +41,13 @@ class HomeActivity : AppCompatActivity(), HomePresenter.HomeRouter {
 
     private var isDarkTheme: Boolean = false
     private val handler: Handler = Handler(Looper.getMainLooper())
+
+    private val postLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK) {
+                presenter.invalidate()
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
@@ -93,7 +101,7 @@ class HomeActivity : AppCompatActivity(), HomePresenter.HomeRouter {
 
     override fun openPostScreen() {
         val intent = createPostActivityIntent(context = this)
-        startActivity(intent)
+        postLauncher.launch(intent)
     }
 
     override fun openSearchScreen() {

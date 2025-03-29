@@ -12,6 +12,7 @@ import com.tomclaw.appsend.screen.feed.api.PostEntity
 import com.tomclaw.appsend.screen.gallery.GalleryItem
 import com.tomclaw.appsend.user.api.UserBrief
 import com.tomclaw.appsend.util.SchedulersFactory
+import com.tomclaw.appsend.util.filterUnauthorizedErrors
 import com.tomclaw.appsend.util.getParcelableArrayListCompat
 import com.tomclaw.appsend.util.retryWhenNonAuthErrors
 import dagger.Lazy
@@ -35,7 +36,7 @@ interface FeedPresenter : ItemListener {
 
     fun onBackPressed()
 
-    fun invalidateApps()
+    fun invalidate()
 
     interface FeedRouter {
 
@@ -44,6 +45,8 @@ interface FeedPresenter : ItemListener {
         fun openDetailsScreen(appId: String, label: String?, isFinish: Boolean)
 
         fun openGallery(items: List<GalleryItem>, current: Int)
+
+        fun openLoginScreen()
 
         fun leaveScreen()
 
@@ -59,7 +62,7 @@ class FeedPresenterImpl(
     private val adapterPresenter: Lazy<AdapterPresenter>,
     private val converter: FeedConverter,
     private val schedulers: SchedulersFactory,
-    state: Bundle?
+    state: Bundle?,
 ) : FeedPresenter {
 
     private var view: FeedView? = null
@@ -69,17 +72,17 @@ class FeedPresenterImpl(
 
     private var items: List<FeedItem>? =
         state?.getParcelableArrayListCompat(KEY_APPS, FeedItem::class.java)
-    private var isError: Boolean = state?.getBoolean(KEY_ERROR) == true
+    private var error: Int = state?.getInt(KEY_ERROR) ?: ERROR_NO
 
     override fun attachView(view: FeedView) {
         this.view = view
 
         subscriptions += view.navigationClicks().subscribe { onBackPressed() }
         subscriptions += view.retryClicks().subscribe {
-            loadApps()
+            loadFeed()
         }
         subscriptions += view.refreshClicks().subscribe {
-            invalidateApps()
+            invalidate()
         }
         subscriptions += view.scrollIdle()
             .debounce(READ_DELAY_MILLIS, TimeUnit.MILLISECONDS)
@@ -95,12 +98,12 @@ class FeedPresenterImpl(
             view.hideToolbar()
         }
 
-        if (isError) {
-            onError()
+        if (error != ERROR_NO) {
+            onLoadingError(error)
             onReady()
         } else {
-            items?.let { onReady() } ?: postId?.takeIf { it > 0 }?.let { loadApps(it) }
-            ?: loadApps()
+            items?.let { onReady() } ?: postId?.takeIf { it > 0 }?.let { loadFeed(it) }
+            ?: loadFeed()
         }
     }
 
@@ -119,16 +122,16 @@ class FeedPresenterImpl(
 
     override fun saveState() = Bundle().apply {
         putParcelableArrayList(KEY_APPS, items?.let { ArrayList(items.orEmpty()) })
-        putBoolean(KEY_ERROR, isError)
+        putInt(KEY_ERROR, error)
     }
 
     override fun onBackPressed() {
         router?.leaveScreen()
     }
 
-    override fun invalidateApps() {
+    override fun invalidate() {
         items = null
-        loadApps()
+        loadFeed()
     }
 
     private fun onFeedRead(postId: Int) {
@@ -139,7 +142,7 @@ class FeedPresenterImpl(
         }
     }
 
-    private fun loadApps() {
+    private fun loadFeed() {
         val direction = FeedDirection.Both
         var offsetId: Int? = null
         subscriptions += interactor.listFeed(userId, postId = null, direction)
@@ -153,11 +156,18 @@ class FeedPresenterImpl(
                         offsetId = result.offsetId
                     }
                 },
-                { onError() }
+                {
+                    it.filterUnauthorizedErrors({
+                        onLoadingError(ERROR_UNAUTHORIZED)
+                    }) {
+                        onLoadingError(ERROR_OTHER)
+                    }
+
+                }
             )
     }
 
-    private fun loadApps(offsetId: Int, direction: FeedDirection = FeedDirection.Both) {
+    private fun loadFeed(offsetId: Int, direction: FeedDirection = FeedDirection.Both) {
         val items = items
 
         val scroll = items.isNullOrEmpty()
@@ -177,7 +187,7 @@ class FeedPresenterImpl(
     }
 
     private fun onLoaded(posts: List<PostEntity>, direction: FeedDirection): RangeInserted {
-        isError = false
+        error = ERROR_NO
         val newItems = posts
             .filter { post ->
                 items?.find { it.id == post.postId.toLong() } == null
@@ -217,7 +227,7 @@ class FeedPresenterImpl(
     private fun onReady(offsetId: Int? = null, rangeInserted: RangeInserted? = null) {
         val items = this.items
         when {
-            isError -> view?.showError()
+            error != ERROR_NO -> view?.showError()
             items.isNullOrEmpty() -> view?.showPlaceholder()
             else -> {
                 val dataSource = ListDataSource(items)
@@ -243,8 +253,11 @@ class FeedPresenterImpl(
         }
     }
 
-    private fun onError() {
-        this.isError = true
+    private fun onLoadingError(err: Int) {
+        when(err) {
+            ERROR_UNAUTHORIZED -> items = converter.unauthorized()
+            else -> this.error = err
+        }
     }
 
     private fun onLoadMoreError(ex: Throwable) {
@@ -261,7 +274,8 @@ class FeedPresenterImpl(
 
     override fun onItemClick(item: Item) {
         val sub = items?.find { it.id == item.id } ?: return
-        router?.openProfileScreen(sub.user.userId)
+        val user = sub.user ?: return
+        router?.openProfileScreen(user.userId)
     }
 
     override fun onLoadMore(item: Item) {
@@ -281,7 +295,7 @@ class FeedPresenterImpl(
 
             else -> return
         }
-        loadApps(offsetId = sub.id.toInt(), direction)
+        loadFeed(offsetId = sub.id.toInt(), direction)
     }
 
     override fun onImageClick(items: List<Screenshot>, clicked: Int) {
@@ -303,6 +317,10 @@ class FeedPresenterImpl(
         router?.openProfileScreen(user.userId)
     }
 
+    override fun onLoginClick() {
+        router?.openLoginScreen()
+    }
+
     private data class RangeInserted(
         val position: Int,
         val count: Int,
@@ -313,3 +331,6 @@ class FeedPresenterImpl(
 private const val READ_DELAY_MILLIS = 200L
 private const val KEY_APPS = "apps"
 private const val KEY_ERROR = "error"
+private const val ERROR_NO = 0
+private const val ERROR_OTHER = 1
+private const val ERROR_UNAUTHORIZED = 2

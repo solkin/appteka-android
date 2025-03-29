@@ -5,12 +5,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.avito.konveyor.ItemBinder
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.screen.auth.request_code.createRequestCodeActivityIntent
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.screen.feed.di.FeedModule
 import com.tomclaw.appsend.screen.gallery.GalleryItem
@@ -33,6 +36,13 @@ class FeedFragment : Fragment(), FeedPresenter.FeedRouter {
 
     @Inject
     lateinit var analytics: Analytics
+
+    private val authLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == AppCompatActivity.RESULT_OK) {
+                presenter.invalidate()
+            }
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val userId = arguments?.getInt(ARG_USER_ID)
@@ -112,6 +122,12 @@ class FeedFragment : Fragment(), FeedPresenter.FeedRouter {
         val context = context ?: return
         val intent = createGalleryActivityIntent(context, items, current)
         startActivity(intent)
+    }
+
+    override fun openLoginScreen() {
+        val context = context ?: return
+        val intent = createRequestCodeActivityIntent(context)
+        authLauncher.launch(intent)
     }
 
     override fun leaveScreen() {

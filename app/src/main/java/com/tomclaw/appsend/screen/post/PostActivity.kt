@@ -137,7 +137,8 @@ class PostActivity : AppCompatActivity(), PostPresenter.PostRouter {
         startActivity(intent)
     }
 
-    override fun leaveScreen() {
+    override fun leaveScreen(isPosted: Boolean) {
+        setResult(if (isPosted) RESULT_OK else RESULT_CANCELED)
         finish()
     }
 

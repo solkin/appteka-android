@@ -5,7 +5,7 @@ import com.avito.konveyor.blueprint.Item
 import com.tomclaw.appsend.user.api.UserBrief
 
 interface FeedItem : Item, Parcelable {
-    val user: UserBrief
+    val user: UserBrief?
     var hasMore: Boolean
     var hasProgress: Boolean
 }

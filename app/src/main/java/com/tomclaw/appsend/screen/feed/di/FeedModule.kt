@@ -16,13 +16,14 @@ import com.tomclaw.appsend.screen.feed.FeedPresenter
 import com.tomclaw.appsend.screen.feed.FeedPresenterImpl
 import com.tomclaw.appsend.screen.feed.FeedResourceProvider
 import com.tomclaw.appsend.screen.feed.FeedResourceProviderImpl
-import com.tomclaw.appsend.screen.feed.adapter.ScreenshotsAdapter
 import com.tomclaw.appsend.screen.feed.adapter.favorite.FavoriteItemBlueprint
 import com.tomclaw.appsend.screen.feed.adapter.favorite.FavoriteItemPresenter
 import com.tomclaw.appsend.screen.feed.adapter.subscribe.SubscribeItemBlueprint
 import com.tomclaw.appsend.screen.feed.adapter.subscribe.SubscribeItemPresenter
 import com.tomclaw.appsend.screen.feed.adapter.text.TextItemBlueprint
 import com.tomclaw.appsend.screen.feed.adapter.text.TextItemPresenter
+import com.tomclaw.appsend.screen.feed.adapter.unauthorized.UnauthorizedItemBlueprint
+import com.tomclaw.appsend.screen.feed.adapter.unauthorized.UnauthorizedItemPresenter
 import com.tomclaw.appsend.screen.feed.adapter.upload.UploadItemBlueprint
 import com.tomclaw.appsend.screen.feed.adapter.upload.UploadItemPresenter
 import com.tomclaw.appsend.util.PerFragment
@@ -57,7 +58,7 @@ class FeedModule(
         adapterPresenter,
         converter,
         schedulers,
-        state
+        state,
     )
 
     @Provides
@@ -156,5 +157,18 @@ class FeedModule(
         resourceProvider: FeedResourceProvider,
         presenter: FeedPresenter,
     ) = SubscribeItemPresenter(locale, resourceProvider, presenter)
+
+    @Provides
+    @IntoSet
+    @PerFragment
+    internal fun provideUnauthorizedItemBlueprint(
+        itemPresenter: UnauthorizedItemPresenter,
+    ): ItemBlueprint<*, *> = UnauthorizedItemBlueprint(itemPresenter)
+
+    @Provides
+    @PerFragment
+    internal fun provideUnauthorizedItemPresenter(
+        presenter: FeedPresenter,
+    ) = UnauthorizedItemPresenter(presenter)
 
 }
