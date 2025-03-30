@@ -61,7 +61,6 @@
     <string name="cancel">الغاء</string>
     <string name="percent" translatable="false">%d %%</string>
     <string name="upload">رفع</string>
-    <string name="uploaded_url">%1$s (%2$s)\n%3$s</string>
     <string name="tab_store">المتجر</string>
     <string name="retry">إعادة المحاولة</string>
     <string name="store_loading_error">فشل في استرداد قائمة التطبيقات</string>

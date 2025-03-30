@@ -61,7 +61,6 @@
     <string name="cancel">ڕەتکردنەوە</string>
     <string name="percent" translatable="false">%d %%</string>
     <string name="upload">بەرزکردنەوە</string>
-    <string name="uploaded_url">%1$s (%2$s)\n%3$s</string>
     <string name="tab_store">فرۆشگا</string>
     <string name="retry">دووبارە هەوڵبدەرەوە</string>
     <string name="store_loading_error">شکستی هێنا لە وەرگرتنەوەی لیستی بەرنامەکان</string>

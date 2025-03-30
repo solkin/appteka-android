@@ -60,7 +60,6 @@
     <string name="cancel">لغو</string>
     <string name="percent" translatable="false">%d %%</string>
     <string name="upload">بارگذاری</string>
-    <string name="uploaded_url">%1$s (%2$s)\n%3$s</string>
     <string name="tab_store">فروشگاه</string>
     <string name="retry">دوباره امتحان کنید</string>
     <string name="store_loading_error">فهرست برنامه ها بازیابی نشد</string>
