@@ -179,9 +179,6 @@ class DownloadManagerImpl(
                     }
                     percent = p
                 }
-                if (percent % 5 == 0) {
-                    Thread.sleep(1)
-                }
             }
             progressCallback(100)
             return true
