@@ -203,6 +203,7 @@ class UploadManagerImpl(
                                     outputStream
                                 )
                                 outputStream.flush()
+                                bitmap.recycle()
                             } ?: throw IOException("unable to read file")
                         },
                         "image/jpeg",
@@ -400,7 +401,7 @@ class UploadManagerImpl(
         return connection
     }
 
-    private fun generateBoundary(): String = UUID.randomUUID().toString().filter { it == '-' }
+    private fun generateBoundary(): String = UUID.randomUUID().toString().filterNot { it == '-' }
 
 }
 

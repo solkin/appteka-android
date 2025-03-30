@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory
 import java.io.BufferedInputStream
 import java.io.InputStream
 import kotlin.math.sqrt
+import androidx.core.graphics.scale
 
 fun decodeSampledBitmapFromStream(stream: InputStream, maxPixels: Int): Bitmap? {
     var bitmap: Bitmap?
@@ -22,8 +23,8 @@ fun decodeSampledBitmapFromStream(stream: InputStream, maxPixels: Int): Bitmap? 
 
         // Calculate inSampleSize
         val reqSize = calculateImageSize(width = options.outWidth, height = options.outHeight, maxPixels)
-        val widthSample = (options.outWidth / reqSize.first).toFloat()
-        val heightSample = (options.outHeight / reqSize.second).toFloat()
+        val widthSample = options.outWidth.toFloat() / reqSize.first
+        val heightSample = options.outHeight.toFloat() / reqSize.second
         var scaleFactor = widthSample.coerceAtLeast(heightSample)
         if (scaleFactor < 1) {
             scaleFactor = 1f
@@ -35,6 +36,7 @@ fun decodeSampledBitmapFromStream(stream: InputStream, maxPixels: Int): Bitmap? 
         // Decode bitmap with inSampleSize set
         inputStream.reset()
         bitmap = BitmapFactory.decodeStream(inputStream, null, options)
+            ?.scale(reqSize.first, reqSize.second, true)
     } catch (ignored: Throwable) {
         bitmap = null
     }

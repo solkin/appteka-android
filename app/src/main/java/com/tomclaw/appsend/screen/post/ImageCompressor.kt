@@ -20,25 +20,28 @@ class ImageCompressorImpl(
 
     override fun asRequestBody(uri: Uri): RequestBody {
         return object : RequestBody() {
-            val bytes = ByteArrayOutputStream()
+            var data: ByteArray? = null
 
             private fun getBytes(): ByteArray {
-                if (bytes.size() > 0) {
-                    return bytes.toByteArray()
+                val data = data ?: run {
+                    val bytes = ByteArrayOutputStream()
+                    contentResolver.openInputStream(uri)?.use { inputStream ->
+                        val bitmap = decodeSampledBitmapFromStream(
+                            inputStream,
+                            IMAGE_MAX_PIXELS
+                        ) ?: throw IOException("unable to decode file")
+                        bitmap.compress(
+                            Bitmap.CompressFormat.JPEG,
+                            IMAGE_JPEG_QUALITY,
+                            bytes
+                        )
+                        bytes.flush()
+                        bitmap.recycle()
+                    } ?: throw IOException("unable to read file")
+                    bytes.toByteArray()
                 }
-                contentResolver.openInputStream(uri)?.use { inputStream ->
-                    val bitmap = decodeSampledBitmapFromStream(
-                        inputStream,
-                        IMAGE_MAX_PIXELS
-                    ) ?: throw IOException("unable to decode file")
-                    bitmap.compress(
-                        Bitmap.CompressFormat.JPEG,
-                        IMAGE_JPEG_QUALITY,
-                        bytes
-                    )
-                    bytes.flush()
-                } ?: throw IOException("unable to read file")
-                return bytes.toByteArray()
+                this.data = data
+                return data
             }
 
             override fun contentType() = "image/jpeg".toMediaTypeOrNull()
