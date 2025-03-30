@@ -357,4 +357,5 @@
     <string name="add_post_image">إضافة صورة</string>
     <string name="images_title">الصور</string>
     <string name="subscribed_to">مشترك في</string>
+    <string name="error_post_deletion">تعذر حذف منشور الخلاصة</string>
 </resources>

@@ -323,4 +323,5 @@
     <string name="add_post_image">छवि जोड़ें</string>
     <string name="images_title">इमेजिस</string>
     <string name="subscribed_to">सदस्यता ली</string>
+    <string name="error_post_deletion">फ़ीड पोस्ट हटाने में असमर्थ</string>
 </resources>
