@@ -338,4 +338,23 @@
     <string name="unable_to_change_name">غير قادر على تغيير اسم المستخدم</string>
     <string name="install_date">تاريخ التثبيت %s</string>
     <string name="update_date">تاريخ التحديث %s</string>
+    <string name="posts">المنشورات</string>
+    <string name="subscribers">المشتركين</string>
+    <string name="publishers">الناشرون</string>
+    <string name="subscribe">يشترك</string>
+    <string name="unsubscribe">إلغاء الاشتراك</string>
+    <string name="unable_to_change_subscription_state">فشل في تغيير حالة الاشتراك</string>
+    <string name="subscriptions_activity">الاشتراكات</string>
+    <string name="subscribed_date">يشترك%s</string>
+    <string name="tab_feed">موجز الأخبار</string>
+    <string name="user_feed">موجز أخبار المستخدم</string>
+    <string name="feed_marked_favorite">تم وضع علامة على التطبيق كمفضل</string>
+    <string name="feed_uploaded_app">تم تحميل التطبيق الجديد</string>
+    <string name="feed_post_failed">فشل نشر منشور موجز الأخبار</string>
+    <string name="post_text">نص</string>
+    <string name="publish_post">نشر</string>
+    <string name="input_post_text">إدخال نص المنشور</string>
+    <string name="add_post_image">إضافة صورة</string>
+    <string name="images_title">الصور</string>
+    <string name="subscribed_to">مشترك في</string>
 </resources>

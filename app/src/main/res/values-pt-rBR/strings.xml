@@ -308,4 +308,23 @@
     <string name="unable_to_change_name">Não é possível alterar o nome do usuário</string>
     <string name="install_date">Instalado %s</string>
     <string name="update_date">Atualizado %s</string>
+    <string name="posts">publicações</string>
+    <string name="subscribers">subscritores</string>
+    <string name="publishers">publicadores</string>
+    <string name="subscribe">Subscrever</string>
+    <string name="unsubscribe">Cancelar subscrição</string>
+    <string name="unable_to_change_subscription_state">Falha ao alterar o estado da Assinatura</string>
+    <string name="subscriptions_activity">Assinaturas</string>
+    <string name="subscribed_date">Subscrito %s</string>
+    <string name="tab_feed">Notícia</string>
+    <string name="user_feed">Notícias do utilizador</string>
+    <string name="feed_marked_favorite">Aplicação marcada como favorita</string>
+    <string name="feed_uploaded_app">Novo aplicativo carregado</string>
+    <string name="feed_post_failed">Falha ao publicar a publicação do feed</string>
+    <string name="post_text">Texto</string>
+    <string name="publish_post">Publicar</string>
+    <string name="input_post_text">Insira o texto da postagem</string>
+    <string name="add_post_image">Adicionar imagem</string>
+    <string name="images_title">Imagens</string>
+    <string name="subscribed_to">Subscrito</string>
 </resources>

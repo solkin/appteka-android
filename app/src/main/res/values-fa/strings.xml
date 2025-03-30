@@ -314,4 +314,23 @@
     <string name="unable_to_change_name">امکان تغییر نام کاربری وجود ندارد</string>
     <string name="install_date">تاریخ نصب %s</string>
     <string name="update_date">تاریخ به روز رسانی %s</string>
+    <string name="posts">پست ها</string>
+    <string name="subscribers">مشترکین</string>
+    <string name="publishers">ناشران</string>
+    <string name="subscribe">مشترک شوید</string>
+    <string name="unsubscribe">لغو اشتراک</string>
+    <string name="unable_to_change_subscription_state">تغییر وضعیت اشتراک انجام نشد</string>
+    <string name="subscriptions_activity">اشتراک ها</string>
+    <string name="subscribed_date">مشترک شد %s</string>
+    <string name="tab_feed">فید خبری</string>
+    <string name="user_feed">اخبار کاربران</string>
+    <string name="feed_marked_favorite">برنامه به عنوان مورد علاقه علامت گذاری شده است</string>
+    <string name="feed_uploaded_app">برنامه جدید آپلود شد</string>
+    <string name="feed_post_failed">پست فید منتشر نشد</string>
+    <string name="post_text">متن</string>
+    <string name="publish_post">منتشر کنید</string>
+    <string name="input_post_text">متن پست را وارد کنید</string>
+    <string name="add_post_image">اضافه کردن تصویر</string>
+    <string name="images_title">تصاویر</string>
+    <string name="subscribed_to">مشترک شده است</string>
 </resources>

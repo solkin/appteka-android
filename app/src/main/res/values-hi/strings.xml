@@ -304,4 +304,23 @@
     <string name="unable_to_change_name">नाम बदलना असंभव है</string>
     <string name="install_date">एप्लिकेशन इंस्टॉल हो गया है %s</string>
     <string name="update_date">एप्लिकेशन अपडेट किया गया %s</string>
+    <string name="posts">पदों</string>
+    <string name="subscribers">ग्राहकों</string>
+    <string name="publishers">प्रकाशकों</string>
+    <string name="subscribe">सदस्यता लें</string>
+    <string name="unsubscribe">सदस्यता रद्द</string>
+    <string name="unable_to_change_subscription_state">सदस्यता स्थिति बदलने में विफल</string>
+    <string name="subscriptions_activity">सदस्यताएँ</string>
+    <string name="subscribed_date">सब्स्क्राइब्ड %s</string>
+    <string name="tab_feed">समाचार फ़ीड</string>
+    <string name="user_feed">उपयोगकर्ता समाचार फ़ीड</string>
+    <string name="feed_marked_favorite">एप्लिकेशन को पसंदीदा के रूप में चिह्नित किया गया</string>
+    <string name="feed_uploaded_app">नया आवेदन अपलोड किया गया</string>
+    <string name="feed_post_failed">फ़ीड पोस्ट प्रकाशित करने में विफल</string>
+    <string name="post_text">पोस्ट का पाठ</string>
+    <string name="publish_post"> प्रकाशित </string>
+    <string name="input_post_text">पोस्ट टेक्स्ट इनपुट करें</string>
+    <string name="add_post_image">छवि जोड़ें</string>
+    <string name="images_title">इमेजिस</string>
+    <string name="subscribed_to">सदस्यता ली</string>
 </resources>
