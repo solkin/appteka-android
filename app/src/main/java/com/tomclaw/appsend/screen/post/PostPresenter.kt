@@ -14,6 +14,8 @@ import com.tomclaw.appsend.util.filterUnauthorizedErrors
 import com.tomclaw.appsend.util.getParcelableArrayListCompat
 import com.tomclaw.appsend.util.retryWhenNonAuthErrors
 import dagger.Lazy
+import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
 
@@ -109,7 +111,8 @@ class PostPresenterImpl(
     }
 
     override fun onImagesSelected(images: List<PostImage>) {
-        this@PostPresenterImpl.images = ArrayList((this@PostPresenterImpl.images + images).distinctBy { it.original })
+        this@PostPresenterImpl.images =
+            ArrayList((this@PostPresenterImpl.images + images).distinctBy { it.original })
         bindForm()
     }
 
@@ -118,8 +121,13 @@ class PostPresenterImpl(
     }
 
     private fun postFeed() {
-        subscriptions += interactor.uploadImages(images)
-            .flatMap { interactor.post(text.trim(), it.scrIds) }
+        val imageUploadObservable = if (images.isNotEmpty()) {
+            interactor.uploadImages(images).map { it.scrIds }
+        } else {
+            Observable.just(emptyList<String>())
+        }
+        subscriptions += imageUploadObservable
+            .flatMap { interactor.post(text.trim(), it) }
             .observeOn(schedulers.mainThread())
             .retryWhenNonAuthErrors()
             .doOnSubscribe {
