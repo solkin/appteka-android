@@ -301,7 +301,7 @@
     <string name="legal_info">زانیاری یاسایی</string>
     <string name="translate">وەرگێڕان</string>
     <string name="original">ڕەسەن</string>
-    <string name="wait">Wait…</string>
+    <string name="wait">صبر کن…</string>
     <string name="translation_error">وەرگێڕان شکستی هێنا</string>
     <string name="submit">پێشکەشکردن</string>
     <string name="agree_with_terms">من لەگەڵ ئەم مەرجانەدام بۆ بارکردنەکانی ئێستا و داهاتوو</string>
@@ -310,4 +310,24 @@
     <string name="unable_to_change_name">ناتوانرێت ناوی بەکارهێنەر بگۆڕدرێت</string>
     <string name="install_date">دامەزراوە %s</string>
     <string name="update_date">نوێ کراوەتەوە %s</string>
+    <string name="posts">پۆستەکان</string>
+    <string name="subscribers">مشترکین</string>
+    <string name="publishers">ناشران</string>
+    <string name="subscribe">مشترک شوید</string>
+    <string name="unsubscribe">لغو اشتراک</string>
+    <string name="unable_to_change_subscription_state">نتوانست وضعیت اشتراک را تغییر دهد</string>
+    <string name="subscriptions_activity">اشتراک ها</string>
+    <string name="subscribed_date">اشتراک ها %s</string>
+    <string name="tab_feed">اخبار</string>
+    <string name="user_feed">اخبار کاربران</string>
+    <string name="feed_marked_favorite">برنامه مشخص شده به عنوان مورد علاقه</string>
+    <string name="feed_uploaded_app">آپلود نرم افزار جدید</string>
+    <string name="feed_post_failed">نتوانست پست فید را منتشر کند</string>
+    <string name="post_text">متن</string>
+    <string name="publish_post">انتشار</string>
+    <string name="input_post_text">متن پست ورودی</string>
+    <string name="add_post_image">اضافه کردن تصویر</string>
+    <string name="images_title">تصاویر</string>
+    <string name="subscribed_to">مشترک شده است</string>
+
 </resources>

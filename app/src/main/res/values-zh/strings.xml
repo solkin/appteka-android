@@ -297,4 +297,23 @@
     <string name="unable_to_change_name">无法更改用户名</string>
     <string name="install_date">安装日期 %s</string>
     <string name="update_date">更新日期 %s</string>
+    <string name="posts">貼文</string>
+    <string name="subscribers">訂戶</string>
+    <string name="publishers">出版商</string>
+    <string name="subscribe">訂閱</string>
+    <string name="unsubscribe">退訂</string>
+    <string name="unable_to_change_subscription_state">更改訂閱狀態失敗</string>
+    <string name="subscriptions_activity">订阅内容</string>
+    <string name="subscribed_date">訂閱於 %s</string>
+    <string name="tab_feed">新聞提要</string>
+    <string name="user_feed">用戶新聞提要</string>
+    <string name="feed_marked_favorite">已将应用程序标记为收藏夹</string>
+    <string name="feed_uploaded_app">已上传的新应用程序</string>
+    <string name="feed_post_failed">未能发布订阅源帖子</string>
+    <string name="post_text">文本</string>
+    <string name="publish_post">出版</string>
+    <string name="input_post_text">输入帖子文本</string>
+    <string name="add_post_image">添加映像</string>
+    <string name="images_title">圖片</string>
+    <string name="subscribed_to">已訂閱</string>
 </resources>
