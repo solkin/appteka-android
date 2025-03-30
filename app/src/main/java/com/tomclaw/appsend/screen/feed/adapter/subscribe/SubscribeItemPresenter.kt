@@ -28,8 +28,10 @@ class SubscribeItemPresenter(
         view.setPublisherIcon(item.publisher.userIcon)
         view.setTime(resourceProvider.formatTime(item.time))
         if (item.hasProgress) view.showProgress() else view.hideProgress()
+        if (!item.actions.isNullOrEmpty()) view.showMenu() else view.hideMenu()
         view.setOnPostClickListener { listener.onItemClick(item) }
         view.setOnPublisherClickListener { listener.onUserClick(item.publisher) }
+        view.setOnMenuClickListener { listener.onMenuClick(item) }
     }
 
     private fun UserBrief.name(): String {

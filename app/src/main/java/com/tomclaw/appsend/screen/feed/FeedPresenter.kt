@@ -61,6 +61,7 @@ class FeedPresenterImpl(
     private val interactor: FeedInteractor,
     private val adapterPresenter: Lazy<AdapterPresenter>,
     private val converter: FeedConverter,
+    private val resourceProvider: FeedResourceProvider,
     private val schedulers: SchedulersFactory,
     state: Bundle?,
 ) : FeedPresenter {
@@ -182,7 +183,7 @@ class FeedPresenterImpl(
 
         val scroll = items.isNullOrEmpty()
 
-        var rangeInserted: RangeInserted? = null
+        var rangeInserted: Range? = null
 
         subscriptions += interactor.listFeed(userId, offsetId, direction)
             .observeOn(schedulers.mainThread())
@@ -196,7 +197,7 @@ class FeedPresenterImpl(
             )
     }
 
-    private fun onLoaded(posts: List<PostEntity>, direction: FeedDirection): RangeInserted {
+    private fun onLoaded(posts: List<PostEntity>, direction: FeedDirection): Range {
         error = ERROR_NO
         val newItems = posts
             .filter { post ->
@@ -206,20 +207,19 @@ class FeedPresenterImpl(
             .toList()
             .apply { if (isNotEmpty()) applyWithDirection(direction) { hasMore = true } }
 
-        var rangeInserted = RangeInserted(position = 0, count = newItems.size)
+        var rangeInserted = Range(position = 0, count = newItems.size)
 
         this.items = this.items
             ?.apply { if (isNotEmpty()) applyWithDirection(direction) { hasProgress = false } }
             ?.let { currentItems ->
                 when (direction) {
                     FeedDirection.Before -> {
-                        rangeInserted = RangeInserted(position = 0, count = newItems.size)
+                        rangeInserted = Range(position = 0, count = newItems.size)
                         newItems.plus(currentItems)
                     }
 
                     FeedDirection.After -> {
-                        rangeInserted =
-                            RangeInserted(position = currentItems.size, count = newItems.size)
+                        rangeInserted = Range(position = currentItems.size, count = newItems.size)
                         currentItems.plus(newItems)
                     }
 
@@ -234,7 +234,11 @@ class FeedPresenterImpl(
         if (direction == FeedDirection.After || direction == FeedDirection.Both) fn.invoke(last())
     }
 
-    private fun onReady(offsetId: Int? = null, rangeInserted: RangeInserted? = null) {
+    private fun onReady(
+        offsetId: Int? = null,
+        inserted: Range? = null,
+        deleted: Range? = null,
+    ) {
         val items = this.items
         when {
             error != ERROR_NO -> view?.showError()
@@ -249,10 +253,15 @@ class FeedPresenterImpl(
                         view.showContent()
                     }
 
-                    rangeInserted?.let { range ->
+                    inserted?.let { range ->
                         view.rangeInserted(range.position, range.count)
-                    } ?:
-                    view.contentUpdated()
+                    }
+                    deleted?.let { range ->
+                        view.rangeDeleted(range.position, range.count)
+                    }
+                    if (inserted == null && deleted == null) {
+                        view.contentUpdated()
+                    }
 
                     offsetId?.let { offsetId ->
                         items
@@ -328,11 +337,46 @@ class FeedPresenterImpl(
         router?.openProfileScreen(user.userId)
     }
 
+    override fun onMenuClick(item: FeedItem) {
+        val actions = item.actions ?: return
+        view?.showPostMenu(
+            resourceProvider.prepareMenuActions(actions) { action ->
+                when(action) {
+                    MENU_DELETE -> onDeletePostClick(item)
+                }
+            }
+        )
+    }
+
+    private fun onDeletePostClick(item: FeedItem) {
+        subscriptions += interactor.deletePost(postId = item.id.toInt())
+            .observeOn(schedulers.mainThread())
+            .retryWhenNonAuthErrors()
+            .doOnSubscribe { view?.showProgress() }
+            .doAfterTerminate { view?.showContent() }
+            .subscribe(
+                { onPostDeleted(item) },
+                { view?.showPostDeletionFailed() }
+            )
+    }
+
+    private fun onPostDeleted(item: FeedItem) {
+        val items = items ?: return
+        val index = items.indexOf(item)
+        this.items = items.filterNot { it.id == item.id }
+        val deleted = Range(position = index, count = 1)
+        onReady(
+            offsetId = null,
+            inserted = null,
+            deleted = deleted
+        )
+    }
+
     override fun onLoginClick() {
         router?.openLoginScreen()
     }
 
-    private data class RangeInserted(
+    private data class Range(
         val position: Int,
         val count: Int,
     )

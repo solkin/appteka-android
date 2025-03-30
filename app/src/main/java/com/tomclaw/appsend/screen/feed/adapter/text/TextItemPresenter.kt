@@ -32,7 +32,9 @@ class TextItemPresenter(
             ?.let { view.setImages(item.screenshots) }
             ?: view.hideImage()
         if (item.hasProgress) view.showProgress() else view.hideProgress()
+        if (!item.actions.isNullOrEmpty()) view.showMenu() else view.hideMenu()
         view.setOnPostClickListener { listener.onItemClick(item) }
+        view.setOnMenuClickListener { listener.onMenuClick(item) }
     }
 
 }

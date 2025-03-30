@@ -37,8 +37,10 @@ class UploadItemPresenter(
                 ?: view.hideImage()
         }
         if (item.hasProgress) view.showProgress() else view.hideProgress()
+        if (!item.actions.isNullOrEmpty()) view.showMenu() else view.hideMenu()
         view.setOnPostClickListener { listener.onItemClick(item) }
         view.setOnAppClickListener { listener.onAppClick(item.appId, item.title) }
+        view.setOnMenuClickListener { listener.onMenuClick(item) }
     }
 
 }

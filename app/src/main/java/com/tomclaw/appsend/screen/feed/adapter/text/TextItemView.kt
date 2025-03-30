@@ -36,11 +36,15 @@ interface TextItemView : ItemView {
 
     fun hideProgress()
 
+    fun showMenu()
+
+    fun hideMenu()
+
     fun setOnPostClickListener(listener: (() -> Unit)?)
 
     fun setOnImageClickListener(listener: (() -> Unit)?)
 
-    fun setClickable(clickable: Boolean)
+    fun setOnMenuClickListener(listener: (() -> Unit)?)
 
 }
 
@@ -54,12 +58,15 @@ class TextItemViewHolder(
     private val time: TextView = view.findViewById(R.id.date_view)
     private val text: TextView = view.findViewById(R.id.text)
     private val images: RecyclerView = view.findViewById(R.id.images)
+    private val menu: View = view.findViewById(R.id.post_menu)
 
     private var postClickListener: (() -> Unit)? = null
     private var imageClickListener: (() -> Unit)? = null
+    private var menuClickListener: (() -> Unit)? = null
 
     init {
         view.setOnClickListener { postClickListener?.invoke() }
+        menu.setOnClickListener { menuClickListener?.invoke() }
 
         adapter.setHasStableIds(true)
 
@@ -107,6 +114,14 @@ class TextItemViewHolder(
     override fun hideProgress() {
     }
 
+    override fun showMenu() {
+        menu.show()
+    }
+
+    override fun hideMenu() {
+        menu.hide()
+    }
+
     override fun setOnPostClickListener(listener: (() -> Unit)?) {
         this.postClickListener = listener
     }
@@ -115,13 +130,14 @@ class TextItemViewHolder(
         this.imageClickListener = listener
     }
 
-    override fun setClickable(clickable: Boolean) {
-        itemView.isClickable = clickable
+    override fun setOnMenuClickListener(listener: (() -> Unit)?) {
+        this.menuClickListener = listener
     }
 
     override fun onUnbind() {
         this.postClickListener = null
         this.imageClickListener = null
+        this.menuClickListener = null
     }
 
 }

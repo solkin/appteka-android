@@ -38,6 +38,9 @@ class FeedFragment : Fragment(), FeedPresenter.FeedRouter, HomeFragment {
     lateinit var binder: ItemBinder
 
     @Inject
+    lateinit var preferences: FeedPreferencesProvider
+
+    @Inject
     lateinit var analytics: Analytics
 
     private val authLauncher =
@@ -84,7 +87,7 @@ class FeedFragment : Fragment(), FeedPresenter.FeedRouter, HomeFragment {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val adapter = SimpleRecyclerAdapter(adapterPresenter, binder)
-        val feedView = FeedViewImpl(view, adapter)
+        val feedView = FeedViewImpl(view, adapter, preferences)
 
         presenter.attachView(feedView)
     }

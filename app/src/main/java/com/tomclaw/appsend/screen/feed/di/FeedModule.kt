@@ -12,6 +12,8 @@ import com.tomclaw.appsend.screen.feed.FeedConverter
 import com.tomclaw.appsend.screen.feed.FeedConverterImpl
 import com.tomclaw.appsend.screen.feed.FeedInteractor
 import com.tomclaw.appsend.screen.feed.FeedInteractorImpl
+import com.tomclaw.appsend.screen.feed.FeedPreferencesProvider
+import com.tomclaw.appsend.screen.feed.FeedPreferencesProviderImpl
 import com.tomclaw.appsend.screen.feed.FeedPresenter
 import com.tomclaw.appsend.screen.feed.FeedPresenterImpl
 import com.tomclaw.appsend.screen.feed.FeedResourceProvider
@@ -49,6 +51,7 @@ class FeedModule(
         interactor: FeedInteractor,
         adapterPresenter: Lazy<AdapterPresenter>,
         converter: FeedConverter,
+        resourceProvider: FeedResourceProvider,
         schedulers: SchedulersFactory
     ): FeedPresenter = FeedPresenterImpl(
         userId,
@@ -57,6 +60,7 @@ class FeedModule(
         interactor,
         adapterPresenter,
         converter,
+        resourceProvider,
         schedulers,
         state,
     )
@@ -78,6 +82,11 @@ class FeedModule(
     @PerFragment
     internal fun provideResourceProvider(locale: Locale, timeProvider: TimeProvider): FeedResourceProvider =
         FeedResourceProviderImpl(context.resources, locale, timeProvider)
+
+    @Provides
+    @PerFragment
+    internal fun providePreferencesProvider(): FeedPreferencesProvider =
+        FeedPreferencesProviderImpl(context)
 
     @Provides
     @PerFragment

@@ -16,6 +16,8 @@ interface ItemListener {
 
     fun onUserClick(user: UserBrief)
 
+    fun onMenuClick(item: FeedItem)
+
     fun onLoginClick()
 
 }

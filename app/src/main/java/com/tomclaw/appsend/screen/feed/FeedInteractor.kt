@@ -1,6 +1,7 @@
 package com.tomclaw.appsend.screen.feed
 
 import com.tomclaw.appsend.core.StoreApi
+import com.tomclaw.appsend.screen.feed.api.DeletePostResponse
 import com.tomclaw.appsend.screen.feed.api.FeedResponse
 import com.tomclaw.appsend.screen.feed.api.ReadResponse
 import com.tomclaw.appsend.util.SchedulersFactory
@@ -15,6 +16,8 @@ interface FeedInteractor {
         postId: Int? = null,
         direction: FeedDirection?,
     ): Observable<FeedResponse>
+
+    fun deletePost(postId: Int): Observable<DeletePostResponse>
 
 }
 
@@ -41,6 +44,14 @@ class FeedInteractorImpl(
             .map { list ->
                 list.result
             }
+            .toObservable()
+            .subscribeOn(schedulers.io())
+    }
+
+    override fun deletePost(postId: Int): Observable<DeletePostResponse> {
+        return api
+            .deletePost(postId)
+            .map { it.result }
             .toObservable()
             .subscribeOn(schedulers.io())
     }

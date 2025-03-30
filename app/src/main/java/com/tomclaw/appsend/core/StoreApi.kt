@@ -20,6 +20,7 @@ import com.tomclaw.appsend.screen.details.api.MarkFavoriteResponse
 import com.tomclaw.appsend.screen.details.api.ModerationDecisionResponse
 import com.tomclaw.appsend.screen.details.api.TranslationResponse
 import com.tomclaw.appsend.screen.favorite.api.FavoriteResponse
+import com.tomclaw.appsend.screen.feed.api.DeletePostResponse
 import com.tomclaw.appsend.screen.feed.api.FeedResponse
 import com.tomclaw.appsend.screen.feed.api.ReadResponse
 import com.tomclaw.appsend.screen.home.api.StartupResponse
@@ -327,5 +328,10 @@ interface StoreApi {
     fun uploadScreenshots(
         @Part images: List<MultipartBody.Part>,
     ): Single<StoreResponse<UploadScreenshotsResponse>>
+
+    @DELETE("1/feed/delete")
+    fun deletePost(
+        @Query("post_id") postId: Int
+    ): Single<StoreResponse<DeletePostResponse>>
 
 }

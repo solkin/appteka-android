@@ -343,4 +343,5 @@
     <string name="add_post_image">Add Image</string>
     <string name="images_title">Images</string>
     <string name="subscribed_to">Subscribed to</string>
+    <string name="error_post_deletion">Unable to delete feed post</string>
 </resources>

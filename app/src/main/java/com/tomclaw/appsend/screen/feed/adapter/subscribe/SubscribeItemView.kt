@@ -11,6 +11,8 @@ import com.tomclaw.appsend.util.bind
 import com.tomclaw.appsend.view.UserIconView
 import com.tomclaw.appsend.view.UserIconViewImpl
 import androidx.core.graphics.toColorInt
+import com.tomclaw.appsend.util.hide
+import com.tomclaw.appsend.util.show
 
 interface SubscribeItemView : ItemView {
 
@@ -28,9 +30,15 @@ interface SubscribeItemView : ItemView {
 
     fun hideProgress()
 
+    fun showMenu()
+
+    fun hideMenu()
+
     fun setOnPostClickListener(listener: (() -> Unit)?)
 
     fun setOnPublisherClickListener(listener: (() -> Unit)?)
+
+    fun setOnMenuClickListener(listener: (() -> Unit)?)
 
 }
 
@@ -44,12 +52,15 @@ class SubscribeItemViewHolder(
     private val publisherName: TextView = view.findViewById(R.id.uploader_name)
     private val time: TextView = view.findViewById(R.id.date_view)
     private val publisherContainer: View = view.findViewById(R.id.uploader_container)
+    private val menu: View = view.findViewById(R.id.post_menu)
 
     private var postClickListener: (() -> Unit)? = null
     private var subscribedClickListener: (() -> Unit)? = null
+    private var menuClickListener: (() -> Unit)? = null
 
     init {
         view.setOnClickListener { postClickListener?.invoke() }
+        menu.setOnClickListener { menuClickListener?.invoke() }
         publisherContainer.setOnClickListener { subscribedClickListener?.invoke() }
     }
 
@@ -81,12 +92,24 @@ class SubscribeItemViewHolder(
     override fun hideProgress() {
     }
 
+    override fun showMenu() {
+        menu.show()
+    }
+
+    override fun hideMenu() {
+        menu.hide()
+    }
+
     override fun setOnPostClickListener(listener: (() -> Unit)?) {
         this.postClickListener = listener
     }
 
     override fun setOnPublisherClickListener(listener: (() -> Unit)?) {
         this.subscribedClickListener = listener
+    }
+
+    override fun setOnMenuClickListener(listener: (() -> Unit)?) {
+        this.menuClickListener = listener
     }
 
     override fun onUnbind() {

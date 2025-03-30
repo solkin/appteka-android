@@ -46,11 +46,15 @@ interface FavoriteItemView : ItemView {
 
     fun hideProgress()
 
+    fun showMenu()
+
+    fun hideMenu()
+
     fun setOnPostClickListener(listener: (() -> Unit)?)
 
     fun setOnAppClickListener(listener: (() -> Unit)?)
 
-    fun setClickable(clickable: Boolean)
+    fun setOnMenuClickListener(listener: (() -> Unit)?)
 
 }
 
@@ -68,13 +72,16 @@ class FavoriteItemViewHolder(
     private val packageName: TextView = view.findViewById(R.id.app_package)
     private val text: TextView = view.findViewById(R.id.text)
     private val images: RecyclerView = view.findViewById(R.id.images)
+    private val menu: View = view.findViewById(R.id.post_menu)
 
     private var postClickListener: (() -> Unit)? = null
     private var appClickListener: (() -> Unit)? = null
+    private var menuClickListener: (() -> Unit)? = null
 
     init {
         view.setOnClickListener { postClickListener?.invoke() }
         appBlock.setOnClickListener { appClickListener?.invoke() }
+        menu.setOnClickListener { menuClickListener?.invoke() }
 
         adapter.setHasStableIds(true)
 
@@ -143,6 +150,14 @@ class FavoriteItemViewHolder(
     override fun hideProgress() {
     }
 
+    override fun showMenu() {
+        menu.show()
+    }
+
+    override fun hideMenu() {
+        menu.hide()
+    }
+
     override fun setOnPostClickListener(listener: (() -> Unit)?) {
         this.postClickListener = listener
     }
@@ -151,8 +166,8 @@ class FavoriteItemViewHolder(
         this.appClickListener = listener
     }
 
-    override fun setClickable(clickable: Boolean) {
-        itemView.isClickable = clickable
+    override fun setOnMenuClickListener(listener: (() -> Unit)?) {
+        this.menuClickListener = listener
     }
 
     override fun onUnbind() {
