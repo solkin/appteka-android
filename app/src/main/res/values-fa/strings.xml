@@ -333,4 +333,5 @@
     <string name="add_post_image">اضافه کردن تصویر</string>
     <string name="images_title">تصاویر</string>
     <string name="subscribed_to">مشترک شده است</string>
+    <string name="error_post_deletion">امکان حذف پست فید وجود ندارد</string>
 </resources>

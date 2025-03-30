@@ -316,4 +316,5 @@
     <string name="add_post_image">添加映像</string>
     <string name="images_title">圖片</string>
     <string name="subscribed_to">已訂閱</string>
+    <string name="error_post_deletion">無法刪除新聞源帖子</string>
 </resources>

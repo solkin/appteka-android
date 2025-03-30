@@ -327,4 +327,5 @@
     <string name="add_post_image">Adicionar imagem</string>
     <string name="images_title">Imagens</string>
     <string name="subscribed_to">Subscrito</string>
+    <string name="error_post_deletion">Não foi possível eliminar a publicação do feed</string>
 </resources>

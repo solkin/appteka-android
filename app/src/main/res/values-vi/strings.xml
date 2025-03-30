@@ -316,4 +316,5 @@
     <string name="add_post_image">Thêm một hình ảnh</string>
     <string name="images_title">Hình ảnh</string>
     <string name="subscribed_to">Đăng ký</string>
+    <string name="error_post_deletion">Không thể xóa bài đăng nguồn cấp dữ liệu</string>
 </resources>

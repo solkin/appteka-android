@@ -337,4 +337,5 @@
     <string name="add_post_image">Добавить изображения</string>
     <string name="images_title">Изображения</string>
     <string name="subscribed_to">Подписался на</string>
+    <string name="error_post_deletion">Не удалось удалить пост</string>
 </resources>
