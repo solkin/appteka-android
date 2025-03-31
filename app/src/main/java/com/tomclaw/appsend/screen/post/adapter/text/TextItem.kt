@@ -9,4 +9,5 @@ data class TextItem(
     override val id: Long,
     val text: String,
     val errorRequiredField: Boolean,
+    val maxLength: Int,
 ) : Item, Parcelable

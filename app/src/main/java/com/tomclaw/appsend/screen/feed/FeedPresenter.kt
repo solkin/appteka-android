@@ -88,6 +88,9 @@ class FeedPresenterImpl(
         subscriptions += view.scrollIdle()
             .debounce(READ_DELAY_MILLIS, TimeUnit.MILLISECONDS)
             .subscribe { position ->
+                if (position < 0) {
+                    return@subscribe
+                }
                 items?.get(position)?.let { item ->
                     onFeedRead(postId = item.id.toInt())
                 }

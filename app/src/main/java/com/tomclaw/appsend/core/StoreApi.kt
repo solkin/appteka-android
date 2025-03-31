@@ -28,6 +28,7 @@ import com.tomclaw.appsend.screen.installed.api.CheckUpdatesRequest
 import com.tomclaw.appsend.screen.installed.api.CheckUpdatesResponse
 import com.tomclaw.appsend.screen.moderation.api.ModerationResponse
 import com.tomclaw.appsend.screen.post.api.FeedPostResponse
+import com.tomclaw.appsend.screen.post.api.FeedConfigResponse
 import com.tomclaw.appsend.screen.profile.api.EliminateUserResponse
 import com.tomclaw.appsend.screen.profile.api.ProfileResponse
 import com.tomclaw.appsend.screen.profile.api.SetUserNameResponse
@@ -333,5 +334,8 @@ interface StoreApi {
     fun deletePost(
         @Query("post_id") postId: Int
     ): Single<StoreResponse<DeletePostResponse>>
+
+    @DELETE("1/feed/config")
+    fun feedConfig(): Single<StoreResponse<FeedConfigResponse>>
 
 }

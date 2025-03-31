@@ -2,6 +2,7 @@ package com.tomclaw.appsend.screen.post
 
 import android.annotation.SuppressLint
 import com.tomclaw.appsend.core.StoreApi
+import com.tomclaw.appsend.screen.post.api.FeedConfigResponse
 import com.tomclaw.appsend.screen.post.api.FeedPostResponse
 import com.tomclaw.appsend.screen.post.dto.PostImage
 import com.tomclaw.appsend.upload.UploadScreenshotsResponse
@@ -14,6 +15,8 @@ interface PostInteractor {
     fun uploadImages(imgList: List<PostImage>): Observable<UploadScreenshotsResponse>
 
     fun post(text: String, scrIds: List<String>): Observable<FeedPostResponse>
+
+    fun config(): Observable<FeedConfigResponse>
 
 }
 
@@ -53,6 +56,11 @@ class PostInteractorImpl(
             .subscribeOn(schedulers.io())
     }
 
-
+    override fun config(): Observable<FeedConfigResponse> {
+        return api.feedConfig()
+            .map { it.result }
+            .toObservable()
+            .subscribeOn(schedulers.io())
+    }
 
 }

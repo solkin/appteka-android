@@ -1,6 +1,8 @@
 package com.tomclaw.appsend.screen.post.adapter.text
 
 import android.text.Editable
+import android.text.InputFilter
+import android.text.InputFilter.LengthFilter
 import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
@@ -9,6 +11,8 @@ import com.avito.konveyor.blueprint.ItemView
 import com.tomclaw.appsend.R
 
 interface TextItemView : ItemView {
+
+    fun setMaxLength(length: Int)
 
     fun setText(text: String)
 
@@ -35,6 +39,14 @@ class TextItemViewHolder(view: View) : BaseViewHolder(view), TextItemView {
                 textChangedListener?.invoke(s.toString())
             }
         })
+    }
+
+    override fun setMaxLength(length: Int) {
+        textEdit.setFilters(
+            arrayOf<InputFilter>(
+                LengthFilter(length)
+            )
+        )
     }
 
     override fun setText(text: String) {

@@ -6,7 +6,9 @@ import com.tomclaw.appsend.screen.post.adapter.image.ImageItem
 import com.tomclaw.appsend.screen.post.adapter.ribbon.RibbonItem
 import com.tomclaw.appsend.screen.post.adapter.submit.SubmitItem
 import com.tomclaw.appsend.screen.post.adapter.text.TextItem
+import com.tomclaw.appsend.screen.post.dto.FeedConfig
 import com.tomclaw.appsend.screen.post.dto.PostImage
+import kotlin.math.min
 
 interface PostConverter {
 
@@ -14,6 +16,7 @@ interface PostConverter {
         images: List<PostImage>,
         text: String,
         highlightErrors: Boolean,
+        config: FeedConfig,
     ): List<Item>
 
 }
@@ -24,28 +27,33 @@ class PostConverterImpl() : PostConverter {
         images: List<PostImage>,
         text: String,
         highlightErrors: Boolean,
+        config: FeedConfig,
     ): List<Item> {
         var id: Long = 1
         val items = ArrayList<Item>()
 
         items += TextItem(
             id++,
-            text = text,
-            errorRequiredField = highlightErrors && text.isBlank()
+            text = text.substring(0, min(text.length, config.postMaxLength)),
+            errorRequiredField = highlightErrors && text.isBlank(),
+            maxLength = config.postMaxLength,
         )
 
         items += RibbonItem(
             id = id++,
-            items = images.map {
-                ImageItem(
-                    id = it.longId(),
-                    original = it.original,
-                    preview = it.preview,
-                    width = it.width,
-                    height = it.height,
-                    remote = it.remote()
-                )
-            } + AppendItem(id++)
+            items = images
+                .map {
+                    ImageItem(
+                        id = it.longId(),
+                        original = it.original,
+                        preview = it.preview,
+                        width = it.width,
+                        height = it.height,
+                        remote = it.remote()
+                    )
+                }
+                .plus(AppendItem(id++))
+                .subList(0, min(images.size + 1, config.postMaxImages))
         )
 
         items += SubmitItem(id++)

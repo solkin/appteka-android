@@ -9,13 +9,14 @@ import com.tomclaw.appsend.screen.post.api.FeedPostResponse
 import com.tomclaw.appsend.screen.post.dto.PostImage
 import com.tomclaw.appsend.screen.post.adapter.ItemListener
 import com.tomclaw.appsend.screen.post.adapter.image.ImageItem
+import com.tomclaw.appsend.screen.post.dto.FeedConfig
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.filterUnauthorizedErrors
 import com.tomclaw.appsend.util.getParcelableArrayListCompat
+import com.tomclaw.appsend.util.getParcelableCompat
 import com.tomclaw.appsend.util.retryWhenNonAuthErrors
 import dagger.Lazy
 import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
 
@@ -69,6 +70,7 @@ class PostPresenterImpl(
         ?.getParcelableArrayListCompat(KEY_IMAGES, PostImage::class.java) ?: ArrayList()
     private var text: String = state?.getString(KEY_TEXT).orEmpty()
     private var highlightErrors: Boolean = state?.getBoolean(KEY_HIGHLIGHT_ERRORS) == true
+    private var config: FeedConfig? = state?.getParcelableCompat(KEY_CONFIG, FeedConfig::class.java)
 
     private val items = ArrayList<Item>()
 
@@ -83,7 +85,11 @@ class PostPresenterImpl(
             router?.openLoginScreen()
         }
 
-        invalidate()
+        if (config != null) {
+            invalidate()
+        } else {
+            loadConfig()
+        }
     }
 
     override fun detachView() {
@@ -104,6 +110,7 @@ class PostPresenterImpl(
         putParcelableArrayList(KEY_IMAGES, images)
         putString(KEY_TEXT, text)
         putBoolean(KEY_HIGHLIGHT_ERRORS, highlightErrors)
+        putParcelable(KEY_CONFIG, config)
     }
 
     override fun onAuthorized() {
@@ -120,6 +127,24 @@ class PostPresenterImpl(
         router?.leaveScreen()
     }
 
+    private fun loadConfig() {
+        subscriptions += interactor.config()
+            .observeOn(schedulers.mainThread())
+            .retryWhenNonAuthErrors()
+            .doOnSubscribe { view?.showProgress() }
+            .doAfterTerminate { view?.showContent() }
+            .subscribe(
+                {
+                    config = FeedConfig(
+                        postMaxLength = it.postMaxLength,
+                        postMaxImages = it.postMaxImages,
+                    )
+                    invalidate()
+                },
+                {}
+            )
+    }
+
     private fun postFeed() {
         val imageUploadObservable = if (images.isNotEmpty()) {
             interactor.uploadImages(images).map { it.scrIds }
@@ -129,11 +154,11 @@ class PostPresenterImpl(
         subscriptions += imageUploadObservable
             .flatMap { interactor.post(text.trim(), it) }
             .observeOn(schedulers.mainThread())
-            .retryWhenNonAuthErrors()
             .doOnSubscribe {
                 router?.hideKeyboard()
                 view?.showProgress()
             }
+            .doAfterTerminate { view?.showContent() }
             .subscribe(
                 { onPostDone(it) },
                 {
@@ -148,15 +173,16 @@ class PostPresenterImpl(
         router?.leaveScreen(response.postId)
     }
 
-    private fun updateItems() {
-        items.clear()
-        items += postConverter.convert(images, text, highlightErrors)
-    }
-
     private fun bindForm() {
         updateItems()
         bindItems()
         view?.contentUpdated()
+    }
+
+    private fun updateItems() {
+        val config = config ?: return
+        items.clear()
+        items += postConverter.convert(images, text, highlightErrors, config)
     }
 
     private fun bindItems() {
@@ -165,13 +191,6 @@ class PostPresenterImpl(
     }
 
     private fun invalidate() {
-        bindForm()
-    }
-
-    private fun clearForm() {
-        images = ArrayList()
-        text = ""
-        highlightErrors = false
         bindForm()
     }
 
@@ -213,3 +232,4 @@ class PostPresenterImpl(
 private const val KEY_IMAGES = "images"
 private const val KEY_TEXT = "text"
 private const val KEY_HIGHLIGHT_ERRORS = "highlight_errors"
+private const val KEY_CONFIG = "config"

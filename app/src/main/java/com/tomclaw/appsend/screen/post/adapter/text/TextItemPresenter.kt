@@ -9,6 +9,7 @@ class TextItemPresenter(
 
     override fun bindView(view: TextItemView, item: TextItem, position: Int) {
         with(view) {
+            setMaxLength(item.maxLength)
             setText(item.text)
             if (item.errorRequiredField) {
                 showRequiredFieldError()
