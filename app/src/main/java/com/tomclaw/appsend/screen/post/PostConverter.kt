@@ -8,6 +8,7 @@ import com.tomclaw.appsend.screen.post.adapter.submit.SubmitItem
 import com.tomclaw.appsend.screen.post.adapter.text.TextItem
 import com.tomclaw.appsend.screen.post.dto.FeedConfig
 import com.tomclaw.appsend.screen.post.dto.PostImage
+import com.tomclaw.appsend.util.trim
 import kotlin.math.min
 
 interface PostConverter {
@@ -53,7 +54,7 @@ class PostConverterImpl() : PostConverter {
                     )
                 }
                 .plus(AppendItem(id++))
-                .subList(0, min(images.size + 1, config.postMaxImages))
+                .trim(config.postMaxImages)
         )
 
         items += SubmitItem(id++)

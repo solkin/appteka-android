@@ -15,10 +15,12 @@ import com.tomclaw.appsend.util.filterUnauthorizedErrors
 import com.tomclaw.appsend.util.getParcelableArrayListCompat
 import com.tomclaw.appsend.util.getParcelableCompat
 import com.tomclaw.appsend.util.retryWhenNonAuthErrors
+import com.tomclaw.appsend.util.trim
 import dagger.Lazy
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
+import kotlin.math.min
 
 interface PostPresenter : ItemListener {
 
@@ -66,8 +68,8 @@ class PostPresenterImpl(
     private var view: PostView? = null
     private var router: PostPresenter.PostRouter? = null
 
-    private var images: ArrayList<PostImage> = state
-        ?.getParcelableArrayListCompat(KEY_IMAGES, PostImage::class.java) ?: ArrayList()
+    private var images: MutableList<PostImage> = state
+        ?.getParcelableArrayListCompat(KEY_IMAGES, PostImage::class.java) ?: mutableListOf()
     private var text: String = state?.getString(KEY_TEXT).orEmpty()
     private var highlightErrors: Boolean = state?.getBoolean(KEY_HIGHLIGHT_ERRORS) == true
     private var config: FeedConfig? = state?.getParcelableCompat(KEY_CONFIG, FeedConfig::class.java)
@@ -107,7 +109,7 @@ class PostPresenterImpl(
     }
 
     override fun saveState() = Bundle().apply {
-        putParcelableArrayList(KEY_IMAGES, images)
+        putParcelableArrayList(KEY_IMAGES, ArrayList(images))
         putString(KEY_TEXT, text)
         putBoolean(KEY_HIGHLIGHT_ERRORS, highlightErrors)
         putParcelable(KEY_CONFIG, config)
@@ -118,8 +120,11 @@ class PostPresenterImpl(
     }
 
     override fun onImagesSelected(images: List<PostImage>) {
-        this@PostPresenterImpl.images =
-            ArrayList((this@PostPresenterImpl.images + images).distinctBy { it.original })
+        val config = config ?: return
+        this.images = (this.images + images)
+            .distinctBy { it.original }
+            .trim(config.postMaxImages)
+            .toMutableList()
         bindForm()
     }
 
