@@ -101,10 +101,10 @@ class FeedPresenterImpl(
 
         if (error != ERROR_NO) {
             onLoadingError(error)
-            onReady()
         } else {
-            items?.let { onReady() } ?: postId?.takeIf { it > 0 }?.let { loadFeed(it) }
-            ?: loadFeed()
+            items?.let { bindItems() }
+                ?: postId?.takeIf { it > 0 }?.let { loadFeed(it) }
+                ?: loadFeed()
         }
     }
 
@@ -155,17 +155,13 @@ class FeedPresenterImpl(
 
     private fun loadFeed() {
         val direction = FeedDirection.Both
-        var offsetId: Int? = null
         subscriptions += interactor.listFeed(userId, postId = null, direction)
             .observeOn(schedulers.mainThread())
             .doOnSubscribe { view?.showProgress() }
-            .doAfterTerminate { onReady(offsetId) }
             .subscribe(
                 { result ->
                     onLoaded(result.posts, direction)
-                    if (result.offsetId > 0) {
-                        offsetId = result.offsetId
-                    }
+                    bindItems(offsetId = result.offsetId.takeIf { it > 0 })
                 },
                 {
                     it.filterUnauthorizedErrors({
@@ -173,26 +169,24 @@ class FeedPresenterImpl(
                     }) {
                         onLoadingError(ERROR_OTHER)
                     }
-
                 }
             )
     }
 
     private fun loadFeed(offsetId: Int, direction: FeedDirection = FeedDirection.Both) {
         val items = items
-
         val scroll = items.isNullOrEmpty()
-
-        var rangeInserted: Range? = null
-
         subscriptions += interactor.listFeed(userId, offsetId, direction)
             .observeOn(schedulers.mainThread())
+            .doOnSubscribe { view?.showProgress() }
             .retryWhenNonAuthErrors()
-            .doAfterTerminate {
-                onReady(offsetId.takeIf { scroll }, rangeInserted)
-            }
             .subscribe(
-                { rangeInserted = onLoaded(it.posts, direction) },
+                {
+                    bindItems(
+                        offsetId = offsetId.takeIf { scroll },
+                        inserted = onLoaded(it.posts, direction)
+                    )
+                },
                 { onLoadMoreError(it) }
             )
     }
@@ -234,45 +228,54 @@ class FeedPresenterImpl(
         if (direction == FeedDirection.After || direction == FeedDirection.Both) fn.invoke(last())
     }
 
-    private fun onReady(
+    private fun bindItems(
         offsetId: Int? = null,
         inserted: Range? = null,
         deleted: Range? = null,
     ) {
         val items = this.items
-        when {
-            error != ERROR_NO -> view?.showError()
-            items.isNullOrEmpty() -> view?.showPlaceholder()
-            else -> {
-                val dataSource = ListDataSource(items)
-                adapterPresenter.get().onDataSourceChanged(dataSource)
-                view?.let { view ->
-                    view.showContent()
 
-                    inserted?.let { range ->
-                        view.rangeInserted(range.position, range.count)
-                    }
-                    deleted?.let { range ->
-                        view.rangeDeleted(range.position, range.count)
-                    }
-                    if (inserted == null && deleted == null) {
-                        view.contentUpdated()
-                    }
+        if (items.isNullOrEmpty()) {
+            view?.showContent()
+            view?.showPlaceholder()
+            return
+        }
 
-                    offsetId?.let { offsetId ->
-                        items
-                            .indexOfFirst { it.id.toInt() == offsetId }
-                            .let { view.scrollTo(it) }
-                    }
-                }
+        val dataSource = ListDataSource(items)
+        adapterPresenter.get().onDataSourceChanged(dataSource)
+
+        view?.let { view ->
+            view.showContent()
+
+            inserted?.let { range ->
+                view.rangeInserted(range.position, range.count)
+            }
+            deleted?.let { range ->
+                view.rangeDeleted(range.position, range.count)
+            }
+            if (inserted == null && deleted == null) {
+                view.contentUpdated()
+            }
+
+            offsetId?.let { offsetId ->
+                items
+                    .indexOfFirst { it.id.toInt() == offsetId }
+                    .let { view.scrollTo(it) }
             }
         }
     }
 
     private fun onLoadingError(err: Int) {
-        when(err) {
-            ERROR_UNAUTHORIZED -> items = converter.unauthorized()
-            else -> this.error = err
+        when (err) {
+            ERROR_UNAUTHORIZED -> {
+                items = converter.unauthorized()
+                bindItems()
+            }
+
+            else -> {
+                this.error = err
+                view?.showError()
+            }
         }
     }
 
@@ -282,6 +285,7 @@ class FeedPresenterImpl(
                 hasProgress = false
                 hasMore = false
             }
+        bindItems()
     }
 
     override fun onUpdate() {
@@ -337,7 +341,7 @@ class FeedPresenterImpl(
         val actions = item.actions ?: return
         view?.showPostMenu(
             resourceProvider.prepareMenuActions(actions) { action ->
-                when(action) {
+                when (action) {
                     MENU_DELETE -> onDeletePostClick(item)
                 }
             }
@@ -361,7 +365,7 @@ class FeedPresenterImpl(
         val index = items.indexOf(item)
         this.items = items.filterNot { it.id == item.id }
         val deleted = Range(position = index, count = 1)
-        onReady(
+        bindItems(
             offsetId = null,
             inserted = null,
             deleted = deleted
