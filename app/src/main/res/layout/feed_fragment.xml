@@ -5,49 +5,42 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_refresh"
+    <ViewFlipper
+        android:id="@+id/view_flipper"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/toolbar_container">
+        android:layout_below="@+id/toolbar_container"
+        tools:ignore="UselessParent">
 
-        <ViewFlipper
-            android:id="@+id/view_flipper"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:ignore="UselessParent">
+            android:layout_height="match_parent">
 
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <FrameLayout
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recycler"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:clipToPadding="false"
-                        android:paddingTop="4dp"
-                        android:paddingBottom="4dp"
-                        android:scrollbarStyle="outsideOverlay"
-                        android:scrollbars="vertical" />
-
-                </FrameLayout>
-
-                <include layout="@layout/progress_overlay" />
+                    android:layout_height="match_parent"
+                    android:clipToPadding="false"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:scrollbarStyle="outsideOverlay"
+                    android:scrollbars="vertical" />
 
             </FrameLayout>
 
-            <include layout="@layout/empty_view" />
+            <include layout="@layout/progress_overlay" />
 
-            <include layout="@layout/error_view" />
+        </FrameLayout>
 
-        </ViewFlipper>
+        <include layout="@layout/empty_view" />
 
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+        <include layout="@layout/error_view" />
+
+    </ViewFlipper>
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/toolbar_container"

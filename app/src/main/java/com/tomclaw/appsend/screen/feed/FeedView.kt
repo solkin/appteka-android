@@ -50,17 +50,11 @@ interface FeedView {
 
     fun showPostDeletionFailed()
 
-    fun stopPullRefreshing()
-
-    fun isPullRefreshing(): Boolean
-
     fun showPostMenu(actions: List<MenuAction>)
 
     fun navigationClicks(): Observable<Unit>
 
     fun retryClicks(): Observable<Unit>
-
-    fun refreshClicks(): Observable<Unit>
 
     fun scrollIdle(): Observable<Int>
 
@@ -73,7 +67,6 @@ class FeedViewImpl(
 ) : FeedView {
 
     private val toolbar: Toolbar = view.findViewById(R.id.toolbar)
-    private val refresher: SwipeRefreshLayout = view.findViewById(R.id.swipe_refresh)
     private val flipper: ViewFlipper = view.findViewById(R.id.view_flipper)
     private val overlayProgress: View = view.findViewById(R.id.overlay_progress)
     private val recycler: RecyclerView = view.findViewById(R.id.recycler)
@@ -82,7 +75,6 @@ class FeedViewImpl(
 
     private val navigationRelay = PublishRelay.create<Unit>()
     private val retryRelay = PublishRelay.create<Unit>()
-    private val refreshRelay = PublishRelay.create<Unit>()
     private val scrollIdleRelay = PublishRelay.create<Int>()
 
     init {
@@ -103,18 +95,14 @@ class FeedViewImpl(
                 }
             }
         })
-
-        refresher.setOnRefreshListener { refreshRelay.accept(Unit) }
     }
 
     override fun showProgress() {
-        refresher.isEnabled = false
         flipper.displayedChild = 0
         overlayProgress.showWithAlphaAnimation(animateFully = true)
     }
 
     override fun showContent() {
-        refresher.isEnabled = true
         flipper.displayedChild = 0
         overlayProgress.hideWithAlphaAnimation(animateFully = false)
     }
@@ -128,13 +116,10 @@ class FeedViewImpl(
     }
 
     override fun showPlaceholder() {
-        refresher.isRefreshing = false
-        refresher.isEnabled = true
         flipper.displayedChild = 1
     }
 
     override fun showError() {
-        refresher.isEnabled = true
         flipper.displayedChild = 2
 
         error.setText(R.string.load_files_error)
@@ -166,12 +151,6 @@ class FeedViewImpl(
         recycler.scrollToPosition(position)
     }
 
-    override fun stopPullRefreshing() {
-        refresher.isRefreshing = false
-    }
-
-    override fun isPullRefreshing(): Boolean = refresher.isRefreshing
-
     override fun showPostMenu(actions: List<MenuAction>) {
         val theme = R.style.BottomSheetDialogDark.takeIf { preferences.isDarkTheme() }
             ?: R.style.BottomSheetDialogLight
@@ -194,8 +173,6 @@ class FeedViewImpl(
     override fun navigationClicks(): Observable<Unit> = navigationRelay
 
     override fun retryClicks(): Observable<Unit> = retryRelay
-
-    override fun refreshClicks(): Observable<Unit> = refreshRelay
 
     override fun scrollIdle(): Observable<Int> = scrollIdleRelay
 

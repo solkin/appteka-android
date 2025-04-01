@@ -82,9 +82,6 @@ class FeedPresenterImpl(
         subscriptions += view.retryClicks().subscribe {
             loadFeed()
         }
-        subscriptions += view.refreshClicks().subscribe {
-            invalidate()
-        }
         subscriptions += view.scrollIdle()
             .debounce(READ_DELAY_MILLIS, TimeUnit.MILLISECONDS)
             .subscribe { position ->
@@ -161,7 +158,7 @@ class FeedPresenterImpl(
         var offsetId: Int? = null
         subscriptions += interactor.listFeed(userId, postId = null, direction)
             .observeOn(schedulers.mainThread())
-            .doOnSubscribe { if (view?.isPullRefreshing() == false) view?.showProgress() }
+            .doOnSubscribe { view?.showProgress() }
             .doAfterTerminate { onReady(offsetId) }
             .subscribe(
                 { result ->
@@ -250,11 +247,7 @@ class FeedPresenterImpl(
                 val dataSource = ListDataSource(items)
                 adapterPresenter.get().onDataSourceChanged(dataSource)
                 view?.let { view ->
-                    if (view.isPullRefreshing()) {
-                        view.stopPullRefreshing()
-                    } else {
-                        view.showContent()
-                    }
+                    view.showContent()
 
                     inserted?.let { range ->
                         view.rangeInserted(range.position, range.count)
