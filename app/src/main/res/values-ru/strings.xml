@@ -319,8 +319,8 @@
     <string name="install_date">Установлено %s</string>
     <string name="update_date">Обновлено %s</string>
     <string name="posts">Посты</string>
-    <string name="subscribers">подписчики</string>
-    <string name="publishers">я подписан</string>
+    <string name="subscribers">Подписчики</string>
+    <string name="publishers">Подписки</string>
     <string name="subscribe">Подписаться</string>
     <string name="unsubscribe">Отписаться</string>
     <string name="unable_to_change_subscription_state">Ошибка изменения статуса полписки</string>
