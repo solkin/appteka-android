@@ -172,7 +172,7 @@
     <string name="eliminate_user">Eliminar</string>
     <string name="eliminate_user_title">Eliminar usuário</string>
     <string name="eliminate_user_message">Tem certeza de que deseja eliminar o usuário?</string>
-    <string name="eliminate_user_success">Usuário excluiu: %d arquivos, %d mensagens, %d avaliações</string>
+    <string name="eliminate_user_success">Usuário excluiu: %1$d arquivos, %2$d mensagens, %3$d avaliações</string>
     <string name="eliminate_user_failed">Falha ao eliminar usuário</string>
     <string name="topics_loading_failed">Falha ao carregar tópicos</string>
     <string name="topic_common_qna_title">Perguntas comuns</string>
@@ -268,7 +268,6 @@
     <string name="authorization_required_message">Faça login para continuar</string>
     <string name="authorization_description">Faça login e aproveite os recursos pessoais do Appteka</string>
     <string name="error_domain_blocked">E-mails temporários são proibidos</string>
-    <string name="gallery_title">%d / %d</string>
     <string name="add_screenshot">Adicionar captura de tela</string>
     <string name="screenshots_title">Capturas de tela</string>
     <string name="download_screenshot">Baixar captura de tela</string>

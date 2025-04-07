@@ -169,7 +169,7 @@
     <string name="eliminate_user">नष्ट करना</string>
     <string name="eliminate_user_title">उपयोगकर्ता को नष्ट करें</string>
     <string name="eliminate_user_message">क्या आप वाकई उपयोगकर्ता को नष्ट करनाचाहते हैं?</string>
-    <string name="eliminate_user_success">उपयोगकर्ता हटा दिया गया: %d files, %d messages, %d ratings</string>
+    <string name="eliminate_user_success">उपयोगकर्ता हटा दिया गया: %1$d files, %2$d messages, %3$d ratings</string>
     <string name="eliminate_user_failed">उपयोगकर्ता को नष्ट करने में विफल</string>
     <string name="topics_loading_failed">थीम लोड करने में विफल</string>
     <string name="topic_common_qna_title">सामान्य प्रश्न</string>
@@ -265,7 +265,6 @@
     <string name="authorization_required_message">जारी रखने के लिए लॉग इन करें</string>
     <string name="authorization_description">लॉग इन करें और अप्प्टेका की व्यक्तिगत क्षमताओं का लाभ उठाएं</string>
     <string name="error_domain_blocked">अस्थायी ईमेल पते निषिद्ध हैं</string>
-    <string name="gallery_title">%d / %d</string>
     <string name="add_screenshot">एक स्क्रीनशॉट जोड़ें</string>
     <string name="screenshots_title">स्क्रीनशॉट</string>
     <string name="download_screenshot">स्क्रीनशॉट डाउनलोड करे</string>

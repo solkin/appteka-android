@@ -174,7 +174,7 @@
     <string name="eliminate_user">إزالة</string>
     <string name="eliminate_user_title">حذف المستخدم</string>
     <string name="eliminate_user_message">هل أنت متأكد أنك تريد حذف المستخدم؟</string>
-    <string name="eliminate_user_success">يتم حذف المستخدم:\n%d ملفات\n%d الرسائل\n%d التقييمات</string>
+    <string name="eliminate_user_success">يتم حذف المستخدم:\n%3$d ملفات\n%2$d الرسائل\n%1$d التقييمات</string>
     <string name="eliminate_user_failed">فشل في إزالة المستخدم</string>
     <string name="topics_loading_failed">فشل تحميل المواضيع</string>
     <string name="topic_common_qna_title">الأسئلة الشائعة</string>
@@ -282,7 +282,6 @@
     <string name="authorization_required_message">تسجيل الدخول للمتابعة</string>
     <string name="authorization_description">قم بتسجيل الدخول والاستفادة من القدرات الشخصية لـ Appteka</string>
     <string name="error_domain_blocked">رسائل البريد الإلكتروني المؤقتة محظورة</string>
-    <string name="gallery_title">%d / %d</string>
     <string name="add_screenshot">اضافة لقطة شاشة</string>
     <string name="screenshots_title">لقطة شاشة</string>
     <string name="download_screenshot">تحميل لقطة الشاشة</string>

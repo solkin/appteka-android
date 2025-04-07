@@ -176,9 +176,9 @@
     <string name="eliminate_user_title">حذف کاربر</string>
     <string name="eliminate_user_message">آیا مطمئن هستید که می خواهید کاربر را حذف کنید؟</string>
     <string name="eliminate_user_success">اطلاعاتی که از حساب کاربر حذف خواهد شد:
-%d فایل
-%d پیام
-%d رتبه بندی</string>
+%1$d فایل
+%2$d پیام
+%3$d رتبه بندی</string>
     <string name="eliminate_user_failed">کاربر حذف نشد</string>
     <string name="topics_loading_failed">موضوعات بارگذاری نشد</string>
     <string name="topic_common_qna_title">پرسش های رایج</string>
@@ -274,7 +274,6 @@
     <string name="authorization_required_message">برای ادامه به حساب خود وارد شوید</string>
     <string name="authorization_description">به حساب خود وارد شوید و از قابلیت های شخصی Appteka استفاده کنید</string>
     <string name="error_domain_blocked">ایمیل های موقت ممنوع است</string>
-    <string name="gallery_title">%d / %d</string>
     <string name="add_screenshot">افزودن عکس های گرفته شده از صفحه برنامه</string>
     <string name="screenshots_title">عکس های گرفته شده از صفحه برنامه </string>
     <string name="download_screenshot">دانلود عکس های گرفته شده از صفحه برنامه</string>

@@ -169,7 +169,7 @@
     <string name="eliminate_user">Уничтожить</string>
     <string name="eliminate_user_title">Уничтожить пользователя</string>
     <string name="eliminate_user_message">Вы уверены, что хотите уничтожить пользователя?</string>
-    <string name="eliminate_user_success">Пользователь удалён: %d files, %d messages, %d ratings</string>
+    <string name="eliminate_user_success">Пользователь удалён: %1$d files, %2$d messages, %3$d ratings</string>
     <string name="eliminate_user_failed">Не удалось уничтожить пользователя</string>
     <string name="topics_loading_failed">Не удалось загрузить темы</string>
     <string name="topic_common_qna_title">Общие вопросы</string>
@@ -271,7 +271,6 @@
     <string name="authorization_required_message">Войдите, чтобы продолжить</string>
     <string name="authorization_description">Авторизуйтесь и воспользуйтесь персональными возможностями Appteka</string>
     <string name="error_domain_blocked">Временные адреса электронной почты запрещены</string>
-    <string name="gallery_title">%d / %d</string>
     <string name="add_screenshot">Добавить снимок экрана</string>
     <string name="screenshots_title">Снимки экрана</string>
     <string name="download_screenshot">Скачать снимок экрана</string>

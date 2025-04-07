@@ -169,7 +169,7 @@
     <string name="eliminate_user">Loại bỏ</string>
     <string name="eliminate_user_title">Loại bỏ người sử dụng</string>
     <string name="eliminate_user_message">Bạn có chắc muốn loại bỏ người sử dụng?</string>
-    <string name="eliminate_user_success">Người sử dụng đã loại bỏ thành công\n%d files\n%d messages\n%d ratings</string>
+    <string name="eliminate_user_success">Người sử dụng đã loại bỏ thành công\n%1$d files\n%2$d messages\n%3$d ratings</string>
     <string name="eliminate_user_failed">Không thể loại bỏ người sử dụng</string>
     <string name="topics_loading_failed">Chủ đề không thể tải về</string>
     <string name="topic_common_qna_title">Các vấn đề chung</string>
@@ -262,7 +262,6 @@
     <string name="authorization_required_message">Đăng nhập để tiếp tục</string>
     <string name="authorization_description">Đăng nhập và tận dụng khả năng cá nhân của Appteka</string>
     <string name="error_domain_blocked">Địa chỉ hòm thư tạm thời không hoạt động</string>
-    <string name="gallery_title">%d / %d</string>
     <string name="add_screenshot">Thêm ảnh màn hình</string>
     <string name="screenshots_title">Chụp ảnh màn hình</string>
     <string name="download_screenshot">Tải xuống ảnh chụp màn hình</string>

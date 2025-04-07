@@ -169,7 +169,7 @@
     <string name="eliminate_user">销毁</string>
     <string name="eliminate_user_title">销毁用户</string>
     <string name="eliminate_user_message">您确定要销毁该用户吗？</string>
-    <string name="eliminate_user_success">用户成功被销毁\n%d 个文件\n%d 条消息\n%d 条评分</string>
+    <string name="eliminate_user_success">用户成功被销毁\n%1$d 个文件\n%2$d 条消息\n%3$d 条评分</string>
     <string name="eliminate_user_failed">销毁用户失败</string>
     <string name="topics_loading_failed">加载主题失败</string>
     <string name="topic_common_qna_title">一般问题</string>
@@ -216,20 +216,11 @@
     <string name="check_uploaded_versions">查看历史版本</string>
     <plurals name="other_versions_text">
         <item quantity="other">此应用程序已上传 %d 个版本</item>
-        <item quantity="few">此应用程序已上传 %d 个版本</item>
-        <item quantity="many">此应用程序已上传 %d 个版本</item>
-        <item quantity="other">此应用程序已上传 %d 个版本</item>
     </plurals>
     <plurals name="other_versions_count">
-        <item quantity="one">%d 个版本</item>
-        <item quantity="few">%d 个版本</item>
-        <item quantity="many">%d 个版本</item>
         <item quantity="other">%d 个版本</item>
     </plurals>
     <plurals name="other_access">
-        <item quantity="one">%d 个其他权限</item>
-        <item quantity="few">%d 个其他权限</item>
-        <item quantity="many">%d 个其他权限</item>
         <item quantity="other">%d 个其他权限</item>
     </plurals>
     <string name="uploading_progress">上传中: %d%%</string>
@@ -271,7 +262,6 @@
     <string name="authorization_required_message">登录以继续</string>
     <string name="authorization_description">授权说明</string>
     <string name="error_domain_blocked">禁止使用临时邮箱地址</string>
-    <string name="gallery_title">%d / %d</string>
     <string name="add_screenshot">添加截吐</string>
     <string name="screenshots_title">截图 </string>
     <string name="download_screenshot">下载截图</string>

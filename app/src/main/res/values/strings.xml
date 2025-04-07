@@ -175,7 +175,7 @@
     <string name="eliminate_user">Eliminate</string>
     <string name="eliminate_user_title">Eliminate user</string>
     <string name="eliminate_user_message">Are you sure want to eliminate user?</string>
-    <string name="eliminate_user_success">User deleted: %d files, %d messages, %d ratings</string>
+    <string name="eliminate_user_success">User deleted: %1$d files, %2$d messages, %3$d ratings</string>
     <string name="eliminate_user_failed">Failed to eliminate user</string>
     <string name="topics_loading_failed">Failed to load topics</string>
     <string name="topic_common_qna_title">Common questions</string>
@@ -277,7 +277,7 @@
     <string name="authorization_required_message">Log in to continue</string>
     <string name="authorization_description">Log in and take advantage of Appteka\'s personal capabilities</string>
     <string name="error_domain_blocked">Temporary emails are prohibited</string>
-    <string name="gallery_title">%d / %d</string>
+    <string name="gallery_title" translatable="false">%d / %d</string>
     <string name="add_screenshot">Add screenshot</string>
     <string name="screenshots_title">Screenshots</string>
     <string name="download_screenshot">Download screenshot</string>

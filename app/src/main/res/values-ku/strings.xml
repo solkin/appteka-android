@@ -174,7 +174,7 @@
     <string name="eliminate_user">بنبڕکردن</string>
     <string name="eliminate_user_title">بەکارهێنەر لەناو ببە</string>
     <string name="eliminate_user_message">ئایا دڵنیای دەتەوێت بەکارهێنەر لەناو ببەیت؟</string>
-    <string name="eliminate_user_success">بەکارهێنەر سڕاوەتەوە: %d فایل، %d پەیام، %d هەڵسەنگاندن</string>
+    <string name="eliminate_user_success">بەکارهێنەر سڕاوەتەوە: %3$d فایل، %2$d پەیام، %1$d هەڵسەنگاندن</string>
     <string name="eliminate_user_failed">شکستی هێنا لە نەهێشتنی بەکارهێنەر</string>
     <string name="topics_loading_failed">شکستی هێنا لە بارکردنی بابەتەکان</string>
     <string name="topic_common_qna_title">پرسیارە باوەکان</string>
@@ -270,7 +270,6 @@
     <string name="authorization_required_message">بۆ بەردەوام بوون بچۆرە ژوورەوە</string>
     <string name="authorization_description">چوونە ژوورەوە و سوود لە توانا کەسییەکانی Appteka\'s وەربگرە</string>
     <string name="error_domain_blocked">ئیمەیڵی کاتی قەدەغەیە</string>
-    <string name="gallery_title">%d / %d</string>
     <string name="add_screenshot">زیادکردنی وێنەی شاشە</string>
     <string name="screenshots_title">وێنەی شاشە</string>
     <string name="download_screenshot">داگرتنی وێنەی شاشە</string>
