@@ -3,6 +3,7 @@ package com.tomclaw.appsend.screen.profile
 import com.avito.konveyor.blueprint.Item
 import com.tomclaw.appsend.dto.AppEntity
 import com.tomclaw.appsend.screen.profile.adapter.app.AppItem
+import com.tomclaw.appsend.screen.profile.adapter.downloads.DownloadsItem
 import com.tomclaw.appsend.screen.profile.adapter.favorites.FavoritesItem
 import com.tomclaw.appsend.screen.profile.adapter.feed.FeedItem
 import com.tomclaw.appsend.screen.profile.adapter.header.HeaderItem
@@ -108,6 +109,15 @@ class ProfileConverterImpl : ProfileConverter {
                 FavoritesItem(
                     id = id.incrementAndGet(),
                     count = profile.favoritesCount,
+                )
+            )
+            isInactive = false
+        }
+        if (profile.downloadsCount != null && profile.downloadsCount > 0) {
+            items.add(
+                DownloadsItem(
+                    id = id.incrementAndGet(),
+                    count = profile.downloadsCount,
                 )
             )
             isInactive = false

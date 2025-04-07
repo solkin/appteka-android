@@ -19,6 +19,7 @@ import com.tomclaw.appsend.screen.details.api.Details
 import com.tomclaw.appsend.screen.details.api.MarkFavoriteResponse
 import com.tomclaw.appsend.screen.details.api.ModerationDecisionResponse
 import com.tomclaw.appsend.screen.details.api.TranslationResponse
+import com.tomclaw.appsend.screen.downloads.api.DownloadsResponse
 import com.tomclaw.appsend.screen.favorite.api.FavoriteResponse
 import com.tomclaw.appsend.screen.feed.api.DeletePostResponse
 import com.tomclaw.appsend.screen.feed.api.FeedResponse
@@ -337,5 +338,12 @@ interface StoreApi {
 
     @DELETE("1/feed/config")
     fun feedConfig(): Single<StoreResponse<FeedConfigResponse>>
+
+    @GET("1/user/downloaded/list")
+    fun getDownloadsList(
+        @Query("user_id") userId: Int,
+        @Query("app_id") appId: String?,
+        @Query("locale") locale: String
+    ): Single<StoreResponse<DownloadsResponse>>
 
 }

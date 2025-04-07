@@ -10,6 +10,8 @@ interface ItemListener {
 
     fun onFavoritesClick()
 
+    fun onDownloadsClick()
+
     fun onUploadsClick(userId: Int)
 
     fun onLoginClick()

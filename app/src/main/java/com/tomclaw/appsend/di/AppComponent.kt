@@ -18,6 +18,8 @@ import com.tomclaw.appsend.screen.details.di.DetailsComponent
 import com.tomclaw.appsend.screen.details.di.DetailsModule
 import com.tomclaw.appsend.screen.distro.di.DistroComponent
 import com.tomclaw.appsend.screen.distro.di.DistroModule
+import com.tomclaw.appsend.screen.downloads.di.DownloadsComponent
+import com.tomclaw.appsend.screen.downloads.di.DownloadsModule
 import com.tomclaw.appsend.screen.favorite.di.FavoriteComponent
 import com.tomclaw.appsend.screen.favorite.di.FavoriteModule
 import com.tomclaw.appsend.screen.feed.di.FeedComponent
@@ -112,6 +114,8 @@ interface AppComponent {
     fun feedComponent(module: FeedModule): FeedComponent
 
     fun postComponent(module: PostModule): PostComponent
+
+    fun downloadComponent(module: DownloadsModule): DownloadsComponent
 
     fun legacyComponent(module: LegacyModule): LegacyComponent
 

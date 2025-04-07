@@ -16,6 +16,7 @@ import com.tomclaw.appsend.R
 import com.tomclaw.appsend.main.store.FilesActivity.createUserAppsActivityIntent
 import com.tomclaw.appsend.screen.auth.request_code.createRequestCodeActivityIntent
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
+import com.tomclaw.appsend.screen.downloads.createDownloadsActivityIntent
 import com.tomclaw.appsend.screen.favorite.createFavoriteActivityIntent
 import com.tomclaw.appsend.screen.feed.createFeedActivityIntent
 import com.tomclaw.appsend.screen.home.HomeFragment
@@ -122,6 +123,12 @@ class ProfileFragment : Fragment(), ProfilePresenter.ProfileRouter, HomeFragment
     override fun openFavoriteScreen(userId: Int) {
         val context = context ?: return
         val intent = createFavoriteActivityIntent(context, userId)
+        startActivity(intent)
+    }
+
+    override fun openDownloadsScreen(userId: Int) {
+        val context = context ?: return
+        val intent = createDownloadsActivityIntent(context, userId)
         startActivity(intent)
     }
 

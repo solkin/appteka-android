@@ -17,6 +17,8 @@ import com.tomclaw.appsend.screen.profile.ProfilePresenter
 import com.tomclaw.appsend.screen.profile.ProfilePresenterImpl
 import com.tomclaw.appsend.screen.profile.adapter.app.AppItemBlueprint
 import com.tomclaw.appsend.screen.profile.adapter.app.AppItemPresenter
+import com.tomclaw.appsend.screen.profile.adapter.downloads.DownloadsItemBlueprint
+import com.tomclaw.appsend.screen.profile.adapter.downloads.DownloadsItemPresenter
 import com.tomclaw.appsend.screen.profile.adapter.favorites.FavoritesItemBlueprint
 import com.tomclaw.appsend.screen.profile.adapter.favorites.FavoritesItemPresenter
 import com.tomclaw.appsend.screen.profile.adapter.feed.FeedItemBlueprint
@@ -218,6 +220,19 @@ class ProfileModule(
     internal fun provideFavoritesItemPresenter(
         presenter: ProfilePresenter,
     ) = FavoritesItemPresenter(presenter)
+
+    @Provides
+    @IntoSet
+    @PerFragment
+    internal fun provideDownloadsItemBlueprint(
+        presenter: DownloadsItemPresenter
+    ): ItemBlueprint<*, *> = DownloadsItemBlueprint(presenter)
+
+    @Provides
+    @PerFragment
+    internal fun provideDownloadsItemPresenter(
+        presenter: ProfilePresenter,
+    ) = DownloadsItemPresenter(presenter)
 
     @Provides
     @IntoSet

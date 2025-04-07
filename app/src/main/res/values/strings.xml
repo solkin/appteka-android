@@ -344,4 +344,12 @@
     <string name="images_title">Images</string>
     <string name="subscribed_to">Subscribed to</string>
     <string name="error_post_deletion">Unable to delete feed post</string>
+    <string name="downloads_activity">Downloads</string>
+    <string name="download_history">Download history</string>
+    <plurals name="download_apps_count">
+        <item quantity="one">%d app were downloaded</item>
+        <item quantity="few">%d apps were downloaded</item>
+        <item quantity="many">%d apps were downloaded</item>
+        <item quantity="other">%d apps were downloaded</item>
+    </plurals>
 </resources>

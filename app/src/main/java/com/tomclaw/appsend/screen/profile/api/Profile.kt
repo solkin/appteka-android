@@ -28,6 +28,8 @@ data class Profile(
     val filesCount: Int = 0,
     @SerializedName("favorites_count")
     val favoritesCount: Int = 0,
+    @SerializedName("downloads_count")
+    val downloadsCount: Int? = 0,
     @SerializedName("total_downloads")
     val totalDownloads: Int = 0,
     @SerializedName("msg_count")

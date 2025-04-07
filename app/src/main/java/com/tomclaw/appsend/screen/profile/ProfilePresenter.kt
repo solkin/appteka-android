@@ -40,6 +40,8 @@ interface ProfilePresenter : ItemListener {
 
         fun openFavoriteScreen(userId: Int)
 
+        fun openDownloadsScreen(userId: Int)
+
         fun openReviewsScreen(userId: Int)
 
         fun openShareUrlDialog(text: String)
@@ -147,6 +149,11 @@ class ProfilePresenterImpl(
     override fun onFavoritesClick() {
         val profile = profile?.profile ?: return
         router?.openFavoriteScreen(profile.userId)
+    }
+
+    override fun onDownloadsClick() {
+        val profile = profile?.profile ?: return
+        router?.openDownloadsScreen(profile.userId)
     }
 
     override fun onUploadsClick(userId: Int) {
