@@ -323,4 +323,12 @@
     <string name="images_title">इमेजिस</string>
     <string name="subscribed_to">सदस्यता ली</string>
     <string name="error_post_deletion">फ़ीड पोस्ट हटाने में असमर्थ</string>
+    <string name="downloads_activity">डाउनलोड</string>
+    <string name="download_history">डाउनलोड इतिहास</string>
+    <plurals name="download_apps_count">
+        <item quantity="one">%d ऐप डाउनलोड हो गया है</item>
+        <item quantity="few">%d ऐप्स डाउनलोड किए गए</item>
+        <item quantity="many">%d ऐप्स डाउनलोड किए गए</item>
+        <item quantity="other">%d ऐप्स डाउनलोड किए गए</item>
+    </plurals>
 </resources>

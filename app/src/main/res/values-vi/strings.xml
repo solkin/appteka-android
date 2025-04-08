@@ -316,4 +316,12 @@
     <string name="images_title">Hình ảnh</string>
     <string name="subscribed_to">Đăng ký</string>
     <string name="error_post_deletion">Không thể xóa bài đăng nguồn cấp dữ liệu</string>
+    <string name="downloads_activity">Tải xuống</string>
+    <string name="download_history">Lịch sử tải xuống</string>
+    <plurals name="download_apps_count">
+        <item quantity="one">%d ứng dụng đã được tải xuống</item>
+        <item quantity="few">%d các ứng dụng đã được tải xuống</item>
+        <item quantity="many">%d các ứng dụng đã được tải xuống</item>
+        <item quantity="other">%d các ứng dụng đã được tải xuống</item>
+    </plurals>
 </resources>

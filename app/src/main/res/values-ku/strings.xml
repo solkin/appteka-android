@@ -328,4 +328,12 @@
     <string name="images_title">تصاویر</string>
     <string name="subscribed_to">مشترک شده است</string>
     <string name="error_post_deletion">ناتوانرێت پۆستی هەواڵ فید بسڕدرێتەوە</string>
+    <string name="downloads_activity">دابەزاندنەکان</string>
+    <string name="download_history">مێژووی دابەزاندن</string>
+    <plurals name="download_apps_count">
+        <item quantity="one">%d ئەپەکە دابەزێندرا</item>
+        <item quantity="few">%d ئەپەکان دابەزێنران</item>
+        <item quantity="many">%d ئەپەکان دابەزێنران</item>
+        <item quantity="other">%d ئەپەکان دابەزێنران</item>
+    </plurals>
 </resources>

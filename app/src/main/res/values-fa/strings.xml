@@ -332,4 +332,12 @@
     <string name="images_title">تصاویر</string>
     <string name="subscribed_to">مشترک شده است</string>
     <string name="error_post_deletion">امکان حذف پست فید وجود ندارد</string>
+    <string name="downloads_activity">دانلودها</string>
+    <string name="download_history">تاریخچه دانلود</string>
+    <plurals name="download_apps_count">
+        <item quantity="one">%d برنامه دانلود شد</item>
+        <item quantity="few">%d برنامه ها دانلود شده اند</item>
+        <item quantity="many">%d برنامه ها دانلود شده اند</item>
+        <item quantity="other">%d برنامه ها دانلود شده اند</item>
+    </plurals>
 </resources>
