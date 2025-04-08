@@ -356,4 +356,12 @@
     <string name="images_title">الصور</string>
     <string name="subscribed_to">مشترك في</string>
     <string name="error_post_deletion">تعذر حذف منشور الخلاصة</string>
+    <string name="downloads_activity">التنزيلات</string>
+    <string name="download_history">تحميل التاريخ</string>
+    <plurals name="download_apps_count">
+        <item quantity="one">%d تم تنزيل تطبيق </item>
+        <item quantity="few">%d تم تنزيل التطبيقات</item>
+        <item quantity="many">%d تم تنزيل التطبيقات</item>
+        <item quantity="other">%d تم تنزيل التطبيقات</item>
+    </plurals>
 </resources>

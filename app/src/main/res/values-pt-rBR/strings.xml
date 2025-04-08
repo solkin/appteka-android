@@ -326,4 +326,12 @@
     <string name="images_title">Imagens</string>
     <string name="subscribed_to">Subscrito</string>
     <string name="error_post_deletion">Não foi possível eliminar a publicação do feed</string>
+    <string name="downloads_activity">Downloads</string>
+    <string name="download_history">Histórico de downloads</string>
+    <plurals name="download_apps_count">
+        <item quantity="one">%d aplicativo foram baixados</item>
+        <item quantity="few">%d aplicativos foram baixados</item>
+        <item quantity="many">%d aplicativos foram baixados</item>
+        <item quantity="other">%d aplicativos foram baixados</item>
+    </plurals>
 </resources>

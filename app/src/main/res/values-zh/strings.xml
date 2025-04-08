@@ -316,4 +316,12 @@
     <string name="images_title">图片</string>
     <string name="subscribed_to">已订阅</string>
     <string name="error_post_deletion">无法删除摘要贴文</string>
+    <string name="downloads_activity">下载</string>
+    <string name="download_history">下载历史</string>
+    <plurals name="download_apps_count">
+        <item quantity="one">%d 个应用已被下载</item>
+        <item quantity="few">%d 个应用已被下载</item>
+        <item quantity="many">%d 个应用已被下载</item>
+        <item quantity="other">%d 个应用已被下载</item>
+    </plurals>
 </resources>

@@ -337,4 +337,12 @@
     <string name="images_title">Изображения</string>
     <string name="subscribed_to">Подписался на</string>
     <string name="error_post_deletion">Не удалось удалить пост</string>
+    <string name="downloads_activity">Загрузки</string>
+    <string name="download_history">История загрузок</string>
+    <plurals name="download_apps_count">
+        <item quantity="one">%d приложение было загружно</item>
+        <item quantity="few">%d приложения было загружено</item>
+        <item quantity="many">%d приложений было загружено</item>
+        <item quantity="other">%d приложений было загружено</item>
+    </plurals>
 </resources>
