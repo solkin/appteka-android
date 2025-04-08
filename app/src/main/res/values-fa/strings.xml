@@ -336,8 +336,6 @@
     <string name="download_history">تاریخچه دانلود</string>
     <plurals name="download_apps_count">
         <item quantity="one">%d برنامه دانلود شد</item>
-        <item quantity="few">%d برنامه ها دانلود شده اند</item>
-        <item quantity="many">%d برنامه ها دانلود شده اند</item>
         <item quantity="other">%d برنامه ها دانلود شده اند</item>
     </plurals>
 </resources>

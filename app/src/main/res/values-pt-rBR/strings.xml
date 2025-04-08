@@ -330,8 +330,6 @@
     <string name="download_history">Histórico de downloads</string>
     <plurals name="download_apps_count">
         <item quantity="one">%d aplicativo foram baixados</item>
-        <item quantity="few">%d aplicativos foram baixados</item>
-        <item quantity="many">%d aplicativos foram baixados</item>
         <item quantity="other">%d aplicativos foram baixados</item>
     </plurals>
 </resources>

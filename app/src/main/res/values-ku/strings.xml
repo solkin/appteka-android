@@ -332,8 +332,6 @@
     <string name="download_history">مێژووی دابەزاندن</string>
     <plurals name="download_apps_count">
         <item quantity="one">%d ئەپەکە دابەزێندرا</item>
-        <item quantity="few">%d ئەپەکان دابەزێنران</item>
-        <item quantity="many">%d ئەپەکان دابەزێنران</item>
         <item quantity="other">%d ئەپەکان دابەزێنران</item>
     </plurals>
 </resources>

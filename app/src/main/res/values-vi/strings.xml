@@ -319,9 +319,6 @@
     <string name="downloads_activity">Tải xuống</string>
     <string name="download_history">Lịch sử tải xuống</string>
     <plurals name="download_apps_count">
-        <item quantity="one">%d ứng dụng đã được tải xuống</item>
-        <item quantity="few">%d các ứng dụng đã được tải xuống</item>
-        <item quantity="many">%d các ứng dụng đã được tải xuống</item>
         <item quantity="other">%d các ứng dụng đã được tải xuống</item>
     </plurals>
 </resources>

@@ -327,8 +327,6 @@
     <string name="download_history">डाउनलोड इतिहास</string>
     <plurals name="download_apps_count">
         <item quantity="one">%d ऐप डाउनलोड हो गया है</item>
-        <item quantity="few">%d ऐप्स डाउनलोड किए गए</item>
-        <item quantity="many">%d ऐप्स डाउनलोड किए गए</item>
         <item quantity="other">%d ऐप्स डाउनलोड किए गए</item>
     </plurals>
 </resources>

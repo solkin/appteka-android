@@ -359,7 +359,9 @@
     <string name="downloads_activity">التنزيلات</string>
     <string name="download_history">تحميل التاريخ</string>
     <plurals name="download_apps_count">
+        <item quantity="zero">%d تم تنزيل تطبيق </item>
         <item quantity="one">%d تم تنزيل تطبيق </item>
+        <item quantity="two">%d تم تنزيل التطبيقات</item>
         <item quantity="few">%d تم تنزيل التطبيقات</item>
         <item quantity="many">%d تم تنزيل التطبيقات</item>
         <item quantity="other">%d تم تنزيل التطبيقات</item>
