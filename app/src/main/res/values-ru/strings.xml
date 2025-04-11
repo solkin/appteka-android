@@ -337,7 +337,7 @@
     <string name="images_title">Изображения</string>
     <string name="subscribed_to">Подписался на</string>
     <string name="error_post_deletion">Не удалось удалить пост</string>
-    <string name="downloads_activity">Загрузки</string>
+    <string name="downloads_activity">Скачивания</string>
     <string name="download_history">История скачиваний</string>
     <plurals name="download_apps_count">
         <item quantity="one">%d приложение было скачано</item>
