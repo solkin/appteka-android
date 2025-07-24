@@ -26,7 +26,7 @@ class DistroInfoProviderImpl(
         return rootDir
             .walkTopDown()
             .map { file ->
-                if (file.extension == APK_EXTENSION) {
+                if (file.extension.equals(APK_EXTENSION, ignoreCase = true)) {
                     processApk(file)
                 } else {
                     null
@@ -38,53 +38,51 @@ class DistroInfoProviderImpl(
 
     override fun getPackagePermissions(path: String): List<String> {
         val packageInfo = packageManager.getPackageArchiveInfo(path, PackageManager.GET_PERMISSIONS)
-        return packageInfo?.let {
-            listOf(*packageInfo.requestedPermissions)
-        } ?: emptyList()
+        // requestedPermissions - массив nullable, надо проверить
+        return packageInfo?.requestedPermissions?.toList() ?: emptyList()
     }
 
     private fun processApk(file: File): DistroAppEntity? {
-        if (file.exists()) {
-            try {
-                val packageInfo = packageManager.getPackageArchiveInfo(file.absolutePath, 0)
-                if (packageInfo != null) {
-                    val info = packageInfo.applicationInfo
-                    info.sourceDir = file.absolutePath
-                    info.publicSourceDir = file.absolutePath
-                    val label = packageManager.getApplicationLabel(info).toString()
-                    val item = DistroAppEntity(
-                        packageName = info.packageName,
-                        label = label,
-                        icon = createApkIconURI(file.path),
-                        verName = packageInfo.versionName,
-                        verCode = packageInfo.versionCodeCompat(),
-                        lastModified = file.lastModified(),
-                        size = file.length(),
-                        path = file.path,
-                    )
-                    return item
-                }
-            } catch (ignored: Throwable) {
-                // Bad package.
+        if (!file.exists()) return null
+
+        return try {
+            val packageInfo = packageManager.getPackageArchiveInfo(file.absolutePath, 0)
+            packageInfo?.applicationInfo?.let { info ->
+                // Обязательно присваиваем пути sourceDir и publicSourceDir для корректной работы
+                info.sourceDir = file.absolutePath
+                info.publicSourceDir = file.absolutePath
+
+                val label = packageManager.getApplicationLabel(info).toString()
+                DistroAppEntity(
+                    packageName = info.packageName ?: "", // Если packageName вдруг null
+                    label = label,
+                    icon = createApkIconURI(file.path),
+                    verName = packageInfo.versionName ?: "", // versionName nullable
+                    verCode = packageInfo.versionCodeCompat(),
+                    lastModified = file.lastModified(),
+                    size = file.length(),
+                    path = file.path,
+                )
             }
+        } catch (ignored: Throwable) {
+            null // плохой APK
         }
-        return null
     }
 
     override fun getPackageUploadInfo(path: String): Pair<UploadPackage, UploadApk>? {
         val packageInfo = packageManager.getPackageArchiveInfo(path, 0)?.apply {
-            applicationInfo.sourceDir = path
-            applicationInfo.publicSourceDir = path
-        }
-        if (packageInfo != null) {
-            val file = File(path)
-            val pkg = UploadPackage(file.path, null, packageInfo.packageName)
-            val apk = UploadApk(file.path, packageInfo.versionName, file.length(), packageInfo)
-            return Pair(pkg, apk)
-        }
-        return null
-    }
+            applicationInfo?.apply {
+                sourceDir = path
+                publicSourceDir = path
+            } ?: return null // если applicationInfo == null — возвращаем null
+        } ?: return null
 
+        val file = File(path)
+
+        val pkg = UploadPackage(file.path, null, packageInfo.packageName ?: "")
+        val apk = UploadApk(file.path, packageInfo.versionName ?: "", file.length(), packageInfo)
+        return Pair(pkg, apk)
+    }
 }
 
 const val APK_EXTENSION = "apk"

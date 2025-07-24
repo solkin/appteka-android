@@ -17,10 +17,15 @@ class ApkIconLoader(private val packageManager: PackageManager) : Loader {
         try {
             val path = parseUri(uriString)
             val info = packageManager.getPackageArchiveInfo(path, 0)?.apply {
-                applicationInfo.sourceDir = path
-                applicationInfo.publicSourceDir = path
+                applicationInfo?.let {
+                    it.sourceDir = path
+                    it.publicSourceDir = path
+                } ?: return false
             } ?: return false
-            val data = PackageHelper.getPackageIconPng(info.applicationInfo, packageManager)
+
+            val appInfo = info.applicationInfo ?: return false
+
+            val data = PackageHelper.getPackageIconPng(appInfo, packageManager)
             FileOutputStream(file).use { output ->
                 output.write(data)
                 output.flush()

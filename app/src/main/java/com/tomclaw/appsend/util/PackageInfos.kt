@@ -15,5 +15,5 @@ fun PackageInfo.versionCodeCompat(): Long {
 
 fun PackageInfo.getLabel(): String {
     val packageManager = Appteka.app().packageManager
-    return applicationInfo.loadLabel(packageManager).toString()
+    return applicationInfo?.loadLabel(packageManager)?.toString() ?: "Unknown"
 }

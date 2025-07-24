@@ -1,16 +1,36 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdk 34
+    //noinspection GradleDependency
+    compileSdk = 35
+    namespace = 'com.github.machinarius.preferencefragment'
 
     defaultConfig {
         minSdkVersion 21
-        //noinspection ExpiredTargetSdkVersion
-        targetSdkVersion 28
+        //noinspection OldTargetApi
+        targetSdkVersion 33
     }
 
     dependencies {
-        compileOnly 'androidx.appcompat:appcompat:1.7.0'
+        compileOnly 'androidx.appcompat:appcompat:1.7.1'
     }
-    namespace 'com.github.machinarius.preferencefragment'
+    buildTypes {
+        release {
+            debuggable false
+            jniDebuggable false
+            minifyEnabled false
+        }
+        debug {
+            minifyEnabled false
+            debuggable true
+            shrinkResources = false
+            jniDebuggable false
+            signingConfig = signingConfigs.debug
+        }
+    }
+}
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
 }

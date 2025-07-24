@@ -28,13 +28,16 @@ class InstalledInfoProviderImpl(
         for (info in packages) {
             try {
                 val packageInfo = packageManager.getPackageInfo(info.packageName, 0)
-                val file = File(info.publicSourceDir)
+                val publicSourceDir = packageInfo.applicationInfo?.publicSourceDir ?: continue
+                val file = File(publicSourceDir)
                 if (file.exists()) {
+                    val label = packageInfo.applicationInfo?.loadLabel(packageManager)?.toString() ?: ""
+                    val verName = packageInfo.versionName ?: ""
                     val app = InstalledAppEntity(
                         packageName = info.packageName,
-                        label = packageInfo.applicationInfo.loadLabel(packageManager).toString(),
-                        icon = createAppIconURI(packageInfo.packageName),
-                        verName = packageInfo.versionName,
+                        label = label,
+                        icon = createAppIconURI(packageInfo.packageName ?: ""),
+                        verName = verName,
                         verCode = packageInfo.versionCodeCompat(),
                         firstInstallTime = packageInfo.firstInstallTime,
                         lastUpdateTime = packageInfo.lastUpdateTime,
@@ -54,15 +57,17 @@ class InstalledInfoProviderImpl(
 
     override fun getPackagePermissions(packageName: String): List<String> {
         val packageInfo = packageManager.getPackageInfo(packageName, PackageManager.GET_PERMISSIONS)
-        return listOf(*packageInfo.requestedPermissions)
+        // Проверяем nullable массива requestedPermissions
+        return packageInfo.requestedPermissions?.toList() ?: emptyList()
     }
 
     override fun getPackageUploadInfo(packageName: String): Pair<UploadPackage, UploadApk> {
         val packageInfo = packageManager.getPackageInfo(packageName, 0)
-        val file = File(packageInfo.applicationInfo.publicSourceDir)
+        val publicSourceDir = packageInfo.applicationInfo?.publicSourceDir ?: throw IllegalArgumentException("No publicSourceDir")
+        val file = File(publicSourceDir)
+        val verName = packageInfo.versionName ?: ""
         val pkg = UploadPackage(file.path, null, packageName)
-        val apk = UploadApk(file.path, packageInfo.versionName, file.length(), packageInfo)
+        val apk = UploadApk(file.path, verName, file.length(), packageInfo)
         return Pair(pkg, apk)
     }
-
 }

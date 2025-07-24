@@ -15,22 +15,26 @@ android {
             if (project.hasProperty("keyPassword")) keyPassword project.keyPassword
         }
     }
-    compileSdk 34
+    //noinspection GradleDependency
+    compileSdk = 35
+    namespace = 'com.tomclaw.appsend'
 
     defaultConfig {
         applicationId "com.tomclaw.appsend"
         minSdkVersion 21
-        //noinspection ExpiredTargetSdkVersion
-        targetSdkVersion 28
-        versionCode = project.hasProperty("versionCode") ? Integer.parseInt(project.versionCode) : 918
-        versionName = "17.1"
+        //noinspection OldTargetApi
+        targetSdkVersion 33
+        versionCode project.hasProperty("versionCode") ? Integer.parseInt(project.versionCode) : 919
+        versionName = "17.2"
     }
 
     buildTypes {
         release {
             minifyEnabled true
-            shrinkResources true
-            signingConfig signingConfigs.release
+            debuggable false
+            shrinkResources = true
+            jniDebuggable false
+            signingConfig = signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-project.txt'
         }
     }
@@ -45,7 +49,7 @@ android {
     }
 
     lint {
-        abortOnError false
+        abortOnError = false
     }
 
     compileOptions {
@@ -57,50 +61,47 @@ android {
         jvmTarget = '17'
     }
 
-    namespace 'com.tomclaw.appsend'
-}
-
-appmetrica {
-    postApiKey = "fdc69a9d-4a65-41ac-bcd2-6b8eb46bda79"
-    mappingBuildTypes = ['release']
-    offline = { applicationVariant -> false }
-    enableAnalytics = true
-}
-
-dependencies {
-    implementation project(path: ':preference-fragment')
-    implementation 'com.github.solkin:simple-image-loader:v0.9.6'
-    implementation 'com.github.solkin:disk-lru-cache:1.5'
-    implementation 'org.jetbrains.kotlin:kotlin-stdlib:2.1.10'
-    implementation 'androidx.core:core-ktx:1.13.1'
-    implementation 'androidx.appcompat:appcompat:1.7.0'
-    implementation 'androidx.recyclerview:recyclerview:1.3.2'
-    implementation 'androidx.startup:startup-runtime:1.2.0'
-    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
-    implementation 'androidx.annotation:annotation:1.9.1'
-    kapt 'androidx.annotation:annotation:1.9.1'
-    implementation 'com.google.android.material:material:1.12.0'
-    implementation 'com.google.code.gson:gson:2.10.1'
-    implementation 'com.google.dagger:dagger:2.55'
-    kapt 'com.google.dagger:dagger-compiler:2.55'
-    kapt 'org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.5.0'
-    implementation 'io.reactivex.rxjava3:rxandroid:3.0.2'
-    implementation 'io.reactivex.rxjava3:rxjava:3.1.5'
-    implementation 'io.reactivex.rxjava3:rxkotlin:3.0.1'
-    implementation 'com.jakewharton.rxrelay3:rxrelay:3.0.1'
-    implementation 'com.squareup.okhttp3:okhttp:4.12.0'
-    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
-    implementation 'com.squareup.retrofit2:adapter-rxjava3:2.9.0'
-    implementation 'com.caverock:androidsvg-aar:1.4'
-    implementation 'me.zhanghai.android.materialratingbar:library:1.4.0'
-    implementation 'com.greysonparrelli.permiso:permiso:0.3.0'
-    implementation 'com.github.laobie:StatusBarUtil:8bc86216b7'
-    implementation 'com.github.avito-tech:Konveyor:0.42.2'
-    implementation 'com.github.rubensousa:BottomSheetBuilder:1.6.0'
-    debugImplementation 'com.github.chuckerteam.chucker:library:4.1.0'
-    releaseImplementation 'com.github.chuckerteam.chucker:library-no-op:4.1.0'
-    implementation 'org.androidannotations:androidannotations-api:4.8.0'
-    testImplementation 'junit:junit:4.13.2'
-    implementation 'io.appmetrica.analytics:analytics:7.7.0'
+    appmetrica {
+        postApiKey = "fdc69a9d-4a65-41ac-bcd2-6b8eb46bda79"
+        mappingBuildTypes = ['release']
+        offline = { applicationVariant -> false }
+        enableAnalytics = true
+    }
+    dependencies {
+        implementation project(path: ':preference-fragment')
+        implementation 'com.github.solkin:simple-image-loader:v0.9.6'
+        implementation 'com.github.solkin:disk-lru-cache:1.5'
+        implementation 'org.jetbrains.kotlin:kotlin-stdlib:2.2.0'
+        implementation 'androidx.core:core-ktx:1.16.0'
+        implementation 'androidx.appcompat:appcompat:1.7.1'
+        implementation 'androidx.recyclerview:recyclerview:1.4.0'
+        implementation 'androidx.startup:startup-runtime:1.2.0'
+        implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0'
+        implementation 'androidx.annotation:annotation:1.9.1'
+        kapt 'androidx.annotation:annotation:1.9.1'
+        implementation 'com.google.android.material:material:1.12.0'
+        implementation 'com.google.code.gson:gson:2.13.1'
+        implementation 'com.google.dagger:dagger:2.57'
+        kapt 'com.google.dagger:dagger-compiler:2.57'
+        kapt 'org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.9.0'
+        implementation 'io.reactivex.rxjava3:rxandroid:3.0.2'
+        implementation 'io.reactivex.rxjava3:rxjava:3.1.11'
+        implementation 'io.reactivex.rxjava3:rxkotlin:3.0.1'
+        implementation 'com.jakewharton.rxrelay3:rxrelay:3.0.1'
+        implementation 'com.squareup.okhttp3:okhttp:5.1.0'
+        implementation 'com.squareup.retrofit2:retrofit:3.0.0'
+        implementation 'com.squareup.retrofit2:converter-gson:3.0.0'
+        implementation 'com.squareup.retrofit2:adapter-rxjava3:3.0.0'
+        implementation 'com.caverock:androidsvg-aar:1.4'
+        implementation 'me.zhanghai.android.materialratingbar:library:1.4.0'
+        implementation 'com.greysonparrelli.permiso:permiso:0.3.0'
+        implementation 'com.github.laobie:StatusBarUtil:8bc86216b7'
+        implementation 'com.github.avito-tech:Konveyor:0.42.2'
+        implementation 'com.github.rubensousa:BottomSheetBuilder:1.6.0'
+        debugImplementation 'com.github.chuckerteam.chucker:library:4.2.0'
+        releaseImplementation 'com.github.chuckerteam.chucker:library-no-op:4.2.0'
+        implementation 'org.androidannotations:androidannotations-api:4.8.0'
+        testImplementation 'junit:junit:4.13.2'
+        implementation 'io.appmetrica.analytics:analytics:7.10.0'
+    }
 }

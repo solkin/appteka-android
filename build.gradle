@@ -1,26 +1,21 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
     repositories {
-        maven {
-            url 'https://maven.google.com/'
-            name 'Google'
-        }
         google()
         mavenCentral()
+        maven { url = "https://jitpack.io" }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.9.1'
+        classpath 'com.android.tools.build:gradle:8.11.1'
         classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:2.1.10'
-        classpath 'io.appmetrica.analytics:gradle:1.0.1'
+        classpath 'io.appmetrica.analytics:gradle:1.2.0'
     }
 }
 
 allprojects {
     repositories {
-        maven { url "https://jitpack.io" }
         google()
-        maven { url = 'https://oss.sonatype.org/content/repositories/snapshots' }
         mavenCentral()
-        maven { url "https://oss.jfrog.org/libs-snapshot" }
+        maven { url = "https://jitpack.io" }
     }
 }
