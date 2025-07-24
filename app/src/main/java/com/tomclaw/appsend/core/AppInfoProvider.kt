@@ -23,7 +23,7 @@ class AppInfoProviderImpl(
 
     override fun getPackageName(): String = packageInfo.packageName
 
-    override fun getVersionName(): String = packageInfo.versionName
+    override fun getVersionName(): String = packageInfo.versionName ?: ""
 
     override fun getVersionCode(): Long = packageInfo.versionCodeCompat()
 
