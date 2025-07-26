@@ -54,10 +54,10 @@ class DistroInfoProviderImpl(
 
                 val label = packageManager.getApplicationLabel(info).toString()
                 DistroAppEntity(
-                    packageName = info.packageName ?: "", // Если packageName вдруг null
+                    packageName = info.packageName ?: "",
                     label = label,
                     icon = createApkIconURI(file.path),
-                    verName = packageInfo.versionName ?: "", // versionName nullable
+                    verName = packageInfo.versionName.orEmpty(), // versionName nullable
                     verCode = packageInfo.versionCodeCompat(),
                     lastModified = file.lastModified(),
                     size = file.length(),
@@ -79,8 +79,9 @@ class DistroInfoProviderImpl(
 
         val file = File(path)
 
-        val pkg = UploadPackage(file.path, null, packageInfo.packageName ?: "")
-        val apk = UploadApk(file.path, packageInfo.versionName ?: "", file.length(), packageInfo)
+        val pkg = UploadPackage(uniqueId = file.path, null, packageInfo.packageName)
+        val apk =
+            UploadApk(file.path, packageInfo.versionName.orEmpty(), file.length(), packageInfo)
         return Pair(pkg, apk)
     }
 }

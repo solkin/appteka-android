@@ -31,12 +31,12 @@ class InstalledInfoProviderImpl(
                 val publicSourceDir = packageInfo.applicationInfo?.publicSourceDir ?: continue
                 val file = File(publicSourceDir)
                 if (file.exists()) {
-                    val label = packageInfo.applicationInfo?.loadLabel(packageManager)?.toString() ?: ""
-                    val verName = packageInfo.versionName ?: ""
+                    val label = packageInfo.applicationInfo?.loadLabel(packageManager)?.toString().orEmpty()
+                    val verName = packageInfo.versionName.orEmpty()
                     val app = InstalledAppEntity(
                         packageName = info.packageName,
                         label = label,
-                        icon = createAppIconURI(packageInfo.packageName ?: ""),
+                        icon = createAppIconURI(packageInfo.packageName),
                         verName = verName,
                         verCode = packageInfo.versionCodeCompat(),
                         firstInstallTime = packageInfo.firstInstallTime,
@@ -58,14 +58,14 @@ class InstalledInfoProviderImpl(
     override fun getPackagePermissions(packageName: String): List<String> {
         val packageInfo = packageManager.getPackageInfo(packageName, PackageManager.GET_PERMISSIONS)
         // Проверяем nullable массива requestedPermissions
-        return packageInfo.requestedPermissions?.toList() ?: emptyList()
+        return packageInfo.requestedPermissions?.toList().orEmpty()
     }
 
     override fun getPackageUploadInfo(packageName: String): Pair<UploadPackage, UploadApk> {
         val packageInfo = packageManager.getPackageInfo(packageName, 0)
         val publicSourceDir = packageInfo.applicationInfo?.publicSourceDir ?: throw IllegalArgumentException("No publicSourceDir")
         val file = File(publicSourceDir)
-        val verName = packageInfo.versionName ?: ""
+        val verName = packageInfo.versionName.orEmpty()
         val pkg = UploadPackage(file.path, null, packageName)
         val apk = UploadApk(file.path, verName, file.length(), packageInfo)
         return Pair(pkg, apk)

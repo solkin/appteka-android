@@ -277,7 +277,7 @@ class ZoomImageView : androidx.appcompat.widget.AppCompatImageView {
             canvas.drawText(logText, 10F, height - 10F, textPaint)
             val drawableBound = displayRect?.let {
                 "Drawable: $it"
-            } ?: ""
+            }.orEmpty()
             canvas.drawText(drawableBound, 10F, 40F, textPaint)
         }
     }

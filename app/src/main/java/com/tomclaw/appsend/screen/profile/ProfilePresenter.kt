@@ -165,7 +165,7 @@ class ProfilePresenterImpl(
     }
 
     override fun onEditName(name: String?, nameRegex: String?) {
-        view?.showEditNameDialog(name ?: "", nameRegex)
+        view?.showEditNameDialog(name.orEmpty(), nameRegex)
     }
 
     override fun onNextPage(last: AppItem, param: (List<AppItem>) -> Unit) {

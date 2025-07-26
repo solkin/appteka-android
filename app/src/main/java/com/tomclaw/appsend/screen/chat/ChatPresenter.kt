@@ -65,7 +65,7 @@ class ChatPresenterImpl(
     private var topic: TopicEntity? =
         state?.getParcelableCompat(KEY_TOPIC, TopicEntity::class.java) ?: topicEntity
     private var isError: Boolean = state?.getBoolean(KEY_ERROR) == true
-    private var messageText: String = state?.getString(KEY_MESSAGE) ?: ""
+    private var messageText: String = state?.getString(KEY_MESSAGE).orEmpty()
     private var history: List<MessageEntity>? =
         state?.getParcelableArrayListCompat(KEY_HISTORY, MessageEntity::class.java)
     private var translation: MutableMap<Int, TranslationEntity> =

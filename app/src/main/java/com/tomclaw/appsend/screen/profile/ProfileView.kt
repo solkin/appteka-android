@@ -169,7 +169,7 @@ class ProfileViewImpl(
             .setTitle(context.getString(R.string.edit_name_title))
             .setView(R.layout.profile_edit_name_dialog)
             .setPositiveButton(R.string.ok) { _, _ ->
-                val editedName = editUserName?.text?.toString() ?: ""
+                val editedName = editUserName?.text?.toString().orEmpty()
                 nameEditedRelay.accept(editedName)
             }
             .setNegativeButton(R.string.cancel, null)
