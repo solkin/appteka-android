@@ -16,13 +16,11 @@ android {
     }
     buildTypes {
         release {
-            debuggable false
             jniDebuggable false
             minifyEnabled false
         }
         debug {
             minifyEnabled false
-            debuggable true
             shrinkResources = false
             jniDebuggable false
             signingConfig = signingConfigs.debug
