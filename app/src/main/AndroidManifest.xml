@@ -160,6 +160,7 @@
         <activity android:name=".screen.feed.FeedActivity" />
         <activity android:name=".screen.post.PostActivity" />
         <activity android:name=".screen.downloads.DownloadsActivity" />
+        <activity android:name=".screen.unlink.UnlinkActivity" />
 
         <service android:name=".download.DownloadService" />
 
