@@ -1,58 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <include layout="@layout/toolbar" />
-
-    <ViewFlipper
-        android:id="@+id/view_flipper"
+    <ScrollView
+        android:id="@+id/root_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="?actionBarSize">
 
-        <ScrollView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="12dp">
 
-            <LinearLayout
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:padding="12dp">
+                android:text="@string/enter_unlink_reason"
+                android:textColor="?attr/text_secondary_color"
+                android:textSize="14sp"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="@string/enter_unlink_reason"
-                    android:textColor="?attr/text_secondary_color"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/reason_input_layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="12dp"
+                app:cursorErrorColor="?colorError">
 
-                <EditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/reason_input"
+                    style="@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:drawablePadding="12dp"
                     android:ems="10"
                     android:hint="@string/unlink_reason"
                     android:inputType="textCapSentences|textMultiLine"
-                    android:textSize="17sp" />
+                    android:maxLines="1"
+                    app:drawableTint="@color/grey_dark" />
 
-            </LinearLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-        </ScrollView>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/unlink_button"
+                style="@style/MaterialButtonPrimary"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="@string/unlink_file"
+                app:backgroundTint="@color/abuse_color"
+                app:cornerRadius="99dp" />
 
-        <FrameLayout
+        </LinearLayout>
+
+    </ScrollView>
+
+    <include
+        layout="@layout/progress_overlay"
+        android:visibility="gone" />
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/toolbar_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/toolbar_background"
+            app:navigationIcon="?attr/homeAsUpIndicator"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-            <ProgressBar
-                android:layout_width="48dp"
-                android:layout_height="48dp"
-                android:layout_gravity="center" />
+    </com.google.android.material.appbar.AppBarLayout>
 
-        </FrameLayout>
-
-    </ViewFlipper>
-
-</LinearLayout>
+</RelativeLayout>
