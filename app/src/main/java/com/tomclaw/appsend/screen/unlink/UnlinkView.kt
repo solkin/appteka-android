@@ -16,8 +16,6 @@ interface UnlinkView {
 
     fun showContent()
 
-    fun setTitle(title: String)
-
     fun navigationClicks(): Observable<Unit>
 
     fun submitClicks(): Observable<String>
@@ -25,7 +23,8 @@ interface UnlinkView {
 }
 
 class UnlinkViewImpl(
-    view: View
+    view: View,
+    title: String
 ) : UnlinkView {
 
     private val context = view.context
@@ -39,6 +38,7 @@ class UnlinkViewImpl(
 
     init {
         toolbar.setNavigationOnClickListener { navigationRelay.accept(Unit) }
+        toolbar.setTitle(context.getString(R.string.unlink_of, title))
         submitButton.setOnClickListener { submitRelay.accept(reasonEdit.text.toString()) }
     }
 
@@ -48,10 +48,6 @@ class UnlinkViewImpl(
 
     override fun showContent() {
         overlayProgress.hideWithAlphaAnimation(animateFully = false)
-    }
-
-    override fun setTitle(title: String) {
-        toolbar.title = context.getString(R.string.unlink_of, title)
     }
 
     override fun navigationClicks(): Observable<Unit> = navigationRelay

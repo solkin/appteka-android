@@ -27,6 +27,7 @@ interface UnlinkPresenter {
 }
 
 class UnlinkPresenterImpl(
+    private val appId: String,
     private val interactor: UnlinkInteractor,
     private val schedulers: SchedulersFactory,
     state: Bundle?

@@ -14,6 +14,7 @@ import dagger.Provides
 @Module
 class UnlinkModule(
         private val context: Context,
+        private val appId: String,
         private val state: Bundle?
 ) {
 
@@ -22,7 +23,7 @@ class UnlinkModule(
     internal fun providePresenter(
             interactor: UnlinkInteractor,
             schedulers: SchedulersFactory
-    ): UnlinkPresenter = UnlinkPresenterImpl(interactor, schedulers, state)
+    ): UnlinkPresenter = UnlinkPresenterImpl(appId, interactor, schedulers, state)
 
     @Provides
     @PerActivity
