@@ -22,7 +22,6 @@ import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.download.createDownloadIntent
 import com.tomclaw.appsend.main.abuse.AbuseActivity.createAbuseActivityIntent
-import com.tomclaw.appsend.main.unlink.UnlinkActivity.createUnlinkActivityIntent
 import com.tomclaw.appsend.main.unpublish.UnpublishActivity.createUnpublishActivityIntent
 import com.tomclaw.appsend.screen.auth.request_code.createRequestCodeActivityIntent
 import com.tomclaw.appsend.screen.chat.createChatActivityIntent
@@ -45,6 +44,7 @@ import java.io.File
 import javax.inject.Inject
 import javax.inject.Named
 import androidx.core.net.toUri
+import com.tomclaw.appsend.screen.unlink.createUnlinkActivityIntent
 
 class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
 

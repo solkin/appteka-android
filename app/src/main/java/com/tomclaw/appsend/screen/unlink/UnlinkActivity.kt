@@ -69,8 +69,8 @@ class UnlinkActivity : AppCompatActivity(), UnlinkPresenter.UnlinkRouter {
 fun createUnlinkActivityIntent(
     context: Context,
     appId: String,
-    label: String,
-): Intent = Intent(context, VerifyCodeActivity::class.java)
+    label: String?,
+): Intent = Intent(context, UnlinkActivity::class.java)
     .putExtra(EXTRA_APP_ID, appId)
     .putExtra(EXTRA_LABEL, label)
 
