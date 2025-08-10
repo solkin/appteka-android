@@ -42,7 +42,7 @@
                     android:ems="10"
                     android:hint="@string/unlink_reason"
                     android:inputType="textCapSentences|textMultiLine"
-                    android:maxLines="1"
+                    android:maxLines="10"
                     app:drawableTint="@color/grey_dark" />
 
             </com.google.android.material.textfield.TextInputLayout>
