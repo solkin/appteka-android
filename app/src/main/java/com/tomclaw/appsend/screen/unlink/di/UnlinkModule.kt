@@ -2,6 +2,7 @@ package com.tomclaw.appsend.screen.unlink.di
 
 import android.content.Context
 import android.os.Bundle
+import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.screen.unlink.UnlinkInteractor
 import com.tomclaw.appsend.screen.unlink.UnlinkInteractorImpl
 import com.tomclaw.appsend.screen.unlink.UnlinkPresenter
@@ -13,22 +14,23 @@ import dagger.Provides
 
 @Module
 class UnlinkModule(
-        private val context: Context,
-        private val appId: String,
-        private val state: Bundle?
+    private val context: Context,
+    private val appId: String,
+    private val state: Bundle?
 ) {
 
     @Provides
     @PerActivity
     internal fun providePresenter(
-            interactor: UnlinkInteractor,
-            schedulers: SchedulersFactory
+        interactor: UnlinkInteractor,
+        schedulers: SchedulersFactory
     ): UnlinkPresenter = UnlinkPresenterImpl(appId, interactor, schedulers, state)
 
     @Provides
     @PerActivity
     internal fun provideInteractor(
-            schedulers: SchedulersFactory
-    ): UnlinkInteractor = UnlinkInteractorImpl(schedulers)
+        api: StoreApi,
+        schedulers: SchedulersFactory
+    ): UnlinkInteractor = UnlinkInteractorImpl(api, schedulers)
 
 }

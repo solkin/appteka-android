@@ -28,8 +28,8 @@ import com.tomclaw.appsend.screen.home.api.StartupResponse
 import com.tomclaw.appsend.screen.installed.api.CheckUpdatesRequest
 import com.tomclaw.appsend.screen.installed.api.CheckUpdatesResponse
 import com.tomclaw.appsend.screen.moderation.api.ModerationResponse
-import com.tomclaw.appsend.screen.post.api.FeedPostResponse
 import com.tomclaw.appsend.screen.post.api.FeedConfigResponse
+import com.tomclaw.appsend.screen.post.api.FeedPostResponse
 import com.tomclaw.appsend.screen.profile.api.EliminateUserResponse
 import com.tomclaw.appsend.screen.profile.api.ProfileResponse
 import com.tomclaw.appsend.screen.profile.api.SetUserNameResponse
@@ -43,6 +43,7 @@ import com.tomclaw.appsend.screen.reviews.api.ReviewsResponse
 import com.tomclaw.appsend.screen.store.api.AppsListResponse
 import com.tomclaw.appsend.screen.topics.api.PinTopicResponse
 import com.tomclaw.appsend.screen.topics.api.TopicsResponse
+import com.tomclaw.appsend.screen.unlink.api.UnlinkResponse
 import com.tomclaw.appsend.screen.upload.api.CheckExistResponse
 import com.tomclaw.appsend.screen.users.api.PublishersResponse
 import com.tomclaw.appsend.screen.users.api.SubscribersResponse
@@ -345,5 +346,12 @@ interface StoreApi {
         @Query("app_id") appId: String?,
         @Query("locale") locale: String
     ): Single<StoreResponse<DownloadsResponse>>
+
+    @FormUrlEncoded
+    @POST("1/app/unlink")
+    fun unlink(
+        @Field("app_id") appId: String,
+        @Field("reason") reason: String,
+    ): Single<StoreResponse<UnlinkResponse>>
 
 }
