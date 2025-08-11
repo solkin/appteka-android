@@ -22,7 +22,7 @@ interface UnlinkPresenter {
 
     interface UnlinkRouter {
 
-        fun leaveScreen()
+        fun leaveScreen(success: Boolean)
 
     }
 
@@ -70,7 +70,7 @@ class UnlinkPresenterImpl(
     }
 
     override fun onBackPressed() {
-        router?.leaveScreen()
+        router?.leaveScreen(success = false)
     }
 
     private fun onSubmitClicked() {
@@ -80,7 +80,7 @@ class UnlinkPresenterImpl(
             .retryWhenNonAuthErrors()
             .doAfterTerminate { view?.showContent() }
             .subscribe(
-                { onBackPressed() },
+                { router?.leaveScreen(success = true) },
                 { view?.showUnlinkFailed() }
             )
     }

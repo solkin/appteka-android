@@ -7,7 +7,6 @@ import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
-import com.tomclaw.appsend.screen.auth.verify_code.VerifyCodeActivity
 import com.tomclaw.appsend.screen.unlink.di.UnlinkModule
 import javax.inject.Inject
 
@@ -60,7 +59,12 @@ class UnlinkActivity : AppCompatActivity(), UnlinkPresenter.UnlinkRouter {
         outState.putBundle(KEY_PRESENTER_STATE, presenter.saveState())
     }
 
-    override fun leaveScreen() {
+    override fun leaveScreen(success: Boolean) {
+        val result = when(success) {
+            true -> RESULT_OK
+            else -> RESULT_CANCELED
+        }
+        setResult(result)
         finish()
     }
 
