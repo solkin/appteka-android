@@ -3,7 +3,6 @@ package com.tomclaw.appsend.core;
 import com.tomclaw.appsend.main.dto.AbuseResult;
 import com.tomclaw.appsend.main.dto.ApiResponse;
 import com.tomclaw.appsend.main.store.ListResponse;
-import com.tomclaw.appsend.main.unlink.UnlinkResponse;
 import com.tomclaw.appsend.main.unpublish.UnpublishResponse;
 
 import retrofit2.Call;
@@ -23,13 +22,6 @@ public interface StoreService {
             @Query("app_id") String appId,
             @Query("reason") String reason,
             @Query("email") String email
-    );
-
-    @FormUrlEncoded
-    @POST("api/1/app/unlink")
-    Call<ApiResponse<UnlinkResponse>> unlink(
-            @Field("app_id") String fileId,
-            @Field("reason") String reason
     );
 
     @FormUrlEncoded
