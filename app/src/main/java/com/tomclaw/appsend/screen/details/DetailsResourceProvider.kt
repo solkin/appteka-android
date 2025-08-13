@@ -18,6 +18,15 @@ interface DetailsResourceProvider {
         size: Long
     ): String
 
+    fun formatAbuseText(
+        label: String?,
+        packageName: String,
+        version: String,
+        versionCode: Int,
+        size: Long,
+        url: String,
+    ): String
+
     fun formatVersion(version: AppVersion): String
 
     fun createTopicError(): String
@@ -68,6 +77,26 @@ class DetailsResourceProviderImpl(
             ?: defaultLabel.orEmpty()
         val sizeString = FileHelper.formatBytes(resources, size)
         return resources.getString(R.string.uploaded_url, localizedLabel, sizeString, url)
+    }
+
+    override fun formatAbuseText(
+        label: String?,
+        packageName: String,
+        version: String,
+        versionCode: Int,
+        size: Long,
+        url: String
+    ): String {
+        val lines = listOf(
+            "Label: $label",
+            "Package: $packageName",
+            "Version: $version ($versionCode)",
+            "Size: ${FileHelper.formatBytes(resources, size)}",
+            "URL: $url",
+            "--",
+            "Abuse reason (write here): "
+        )
+        return lines.reduce { acc, line -> "$acc\n$line" }
     }
 
     override fun formatVersion(version: AppVersion): String {

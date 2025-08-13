@@ -73,16 +73,7 @@
     <string name="checksum_title">Kiểm tra tổng số (SHA1)</string>
     <string name="update">Nâng cấp</string>
     <string name="abuse">Phàn nàn</string>
-    <string name="abuse_on">Phàn nàn về %s</string>
-    <string name="does_not_works">Ứng dụng không làm việc</string>
-    <string name="malicious_app">Ứng dụng độc hại</string>
-    <string name="license_violation">vi phạm bản quyền</string>
-    <string name="private_app">Hạn chế quyền truy cập công cộng</string>
-    <string name="select_abuse_reason">Hãy nêu lý do để xóa ứng dụng trong phần trao đổi</string>
-    <string name="enter_your_email">Để xóa ứng dụng chúng tôi sẽ liên lạc với bạn.Xin cho địa chỉ e-mail:</string>
-    <string name="send_abuse">Отправить жалобу</string>Phản ánh đã chuyển
     <string name="your_email">E-mail của bạn</string>
-    <string name="unable_to_send_abuse">Không thể chuyển phản ánh</string>
     <string name="thanks_for_attention">Cảm ơn bạn đã giúp đỡ trong việc kiểm duyệt trao đổi</string>
     <string name="fill_all_fields">Điền vào tất cả các danh mục</string>
     <string name="unable_to_get_permissions">Không thể lấy được danh sách các quyền ứng dụng cần thiết</string>

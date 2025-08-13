@@ -75,16 +75,7 @@
     <string name="app_version_format" translatable="false">%1$s (%2$d)</string>
     <string name="update">Atualizar</string>
     <string name="abuse">Abuso</string>
-    <string name="abuse_on">Abuso em %s</string>
-    <string name="does_not_works">O aplicativo não funciona</string>
-    <string name="malicious_app">Aplicativo malicioso</string>
-    <string name="license_violation">Violação de licença</string>
-    <string name="private_app">Restringindo o acesso público</string>
-    <string name="select_abuse_reason">Selecione o motivo para remover o aplicativo da loja</string>
-    <string name="enter_your_email">Para remover este aplicativo, precisaremos entrar em contato com você. Insira seu e-mail:</string>
-    <string name="send_abuse">Enviar abuso</string>
     <string name="your_email">Seu e-mail</string>
-    <string name="unable_to_send_abuse">Não é possível enviar o abuso</string>
     <string name="thanks_for_attention">Obrigado pela sua ajuda na moderação da loja!</string>
     <string name="fill_all_fields">Preencha todos os campos</string>
     <string name="unable_to_get_permissions">Não é possível obter as permissões necessárias da lista ou do aplicativo</string>

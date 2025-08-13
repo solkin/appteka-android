@@ -77,16 +77,7 @@
     <string name="app_version_format" translatable="false">%1$s (%2$d)</string>
     <string name="update">نوێکردنەوە</string>
     <string name="abuse">مامەڵەی خراپ</string>
-    <string name="abuse_on">سووکایەتیکردن لەسەر %s</string>
-    <string name="does_not_works">ئەپەکە کارناکات</string>
-    <string name="malicious_app">ئەپی زیانبەخش</string>
-    <string name="license_violation">پێشێلکردنی مۆڵەت</string>
-    <string name="private_app">سنووردارکردنی دەستڕاگەیشتن بە گشتی</string>
-    <string name="select_abuse_reason">هۆکاری لابردنی بەرنامەکە لە فرۆشگاکە هەڵبژێرە</string>
-    <string name="enter_your_email">بۆ لابردنی ئەم ئەپڵیکەیشنە پێویستە پەیوەندیت پێوە بکەین. ئیمێلەکەت داخڵ بکە:</string>
-    <string name="send_abuse">سووکایەتی بنێرە</string>
     <string name="your_email">ئیمەیڵەکەت</string>
-    <string name="unable_to_send_abuse">ناتوانێت سووکایەتی بنێرێت</string>
     <string name="thanks_for_attention">سوپاس بۆ هاوکاریتان لە فرۆشگا میانڕەوی!</string>
     <string name="fill_all_fields">هەموو مەیدانەکان پڕ بکەرەوە</string>
     <string name="unable_to_get_permissions">ناتوانرێت مۆڵەتی پێویستی لیست یان ئەپ\'s بەدەست بهێنرێت</string>

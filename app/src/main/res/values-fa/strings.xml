@@ -76,16 +76,7 @@
     <string name="app_version_format" translatable="false">%1$s (%2$d)</string>
     <string name="update">به روز رسانی</string>
     <string name="abuse">ارسال گزارش</string>
-    <string name="abuse_on">گزارش برنامه %s</string>
-    <string name="does_not_works">برنامه کار نمی‌کند</string>
-    <string name="malicious_app">برنامه مخرب</string>
-    <string name="license_violation">نقض مجوز</string>
-    <string name="private_app">محدود کردن دسترسی عمومی</string>
-    <string name="select_abuse_reason">دلیل حذف برنامه از فروشگاه را انتخاب کنید</string>
-    <string name="enter_your_email">برای حذف این برنامه باید با شما تماس بگیریم لطفا ایمیل خود را وارد کنید</string>
-    <string name="send_abuse">ارسال گزارش</string>
     <string name="your_email">ایمیل شما</string>
-    <string name="unable_to_send_abuse">امکان ارسال گزارش وجود ندارد</string>
     <string name="thanks_for_attention">با تشکر از شما برای کمک شما در نظارت فروشگاه</string>
     <string name="fill_all_fields">تمام جایگاه ها را پر کنید</string>
     <string name="unable_to_get_permissions">دریافت مجوزهای مورد نیاز فهرست یا برنامه امکان پذیر نیست</string>

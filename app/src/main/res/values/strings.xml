@@ -78,16 +78,7 @@
     <string name="app_version_format" translatable="false">%1$s (%2$d)</string>
     <string name="update">Update</string>
     <string name="abuse">Abuse</string>
-    <string name="abuse_on">Abuse on %s</string>
-    <string name="does_not_works">The app does not work</string>
-    <string name="malicious_app">Malicious app</string>
-    <string name="license_violation">License violation</string>
-    <string name="private_app">Restricting public access</string>
-    <string name="select_abuse_reason">Select reason for removing the application from store</string>
-    <string name="enter_your_email">To remove this application, we will need to contact you. Enter your e-mail:</string>
-    <string name="send_abuse">Send abuse</string>
     <string name="your_email">Your E-mail</string>
-    <string name="unable_to_send_abuse">Unable to send abuse</string>
     <string name="thanks_for_attention">Thank you for your assistance in store moderation!</string>
     <string name="fill_all_fields">Fill in all the fields</string>
     <string name="unable_to_get_permissions">Unable to get list or app\'s required permissions</string>

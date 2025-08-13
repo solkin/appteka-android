@@ -9,6 +9,7 @@ import android.content.Intent.ACTION_VIEW
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AppCompatActivity
@@ -21,7 +22,6 @@ import com.greysonparrelli.permiso.Permiso.IOnRationaleProvided
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.download.createDownloadIntent
-import com.tomclaw.appsend.main.abuse.AbuseActivity.createAbuseActivityIntent
 import com.tomclaw.appsend.main.unpublish.UnpublishActivity.createUnpublishActivityIntent
 import com.tomclaw.appsend.screen.auth.request_code.createRequestCodeActivityIntent
 import com.tomclaw.appsend.screen.chat.createChatActivityIntent
@@ -324,9 +324,19 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
         backPressedResultLauncher.launch(intent)
     }
 
-    override fun openAbuseScreen(appId: String, label: String?) {
-        val intent = createAbuseActivityIntent(this, appId, label)
-        startActivity(intent)
+    override fun openAbuseScreen(url: String, label: String?, text: String) {
+        val addr = "support@appteka.store"
+        val subject = "Abuse Report on $label"
+
+        val uri = Uri.fromParts("mailto", addr, null)
+        val intent = Intent(Intent.ACTION_SENDTO, uri)
+            .putExtra(Intent.EXTRA_SUBJECT, subject)
+            .putExtra(Intent.EXTRA_TEXT, text)
+        try {
+            startActivity(Intent.createChooser(intent, getString(R.string.send_email)))
+        } catch (ex: Throwable) {
+            Toast.makeText(this, getString(R.string.no_email_clients), Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun openDetailsScreen(appId: String, label: String?) {

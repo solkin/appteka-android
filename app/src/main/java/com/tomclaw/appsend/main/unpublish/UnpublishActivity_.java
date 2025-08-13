@@ -51,7 +51,7 @@ public final class UnpublishActivity_
         init_(savedInstanceState);
         super.onCreate(savedInstanceState);
         OnViewChangedNotifier.replaceNotifier(previousNotifier);
-        setContentView(R.layout.unlink_activity_legacy);
+        setContentView(R.layout.unlink_activity);
     }
 
     @Override

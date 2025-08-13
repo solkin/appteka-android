@@ -1,6 +1,5 @@
 package com.tomclaw.appsend.core;
 
-import com.tomclaw.appsend.main.dto.AbuseResult;
 import com.tomclaw.appsend.main.dto.ApiResponse;
 import com.tomclaw.appsend.main.store.ListResponse;
 import com.tomclaw.appsend.main.unpublish.UnpublishResponse;
@@ -16,13 +15,6 @@ import retrofit2.http.Query;
  * Created by solkin on 23.09.17.
  */
 public interface StoreService {
-
-    @GET("api/1/app/abuse")
-    Call<ApiResponse<AbuseResult>> reportAbuse(
-            @Query("app_id") String appId,
-            @Query("reason") String reason,
-            @Query("email") String email
-    );
 
     @FormUrlEncoded
     @POST("api/1/app/unpublish")

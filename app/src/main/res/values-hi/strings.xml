@@ -73,16 +73,7 @@
     <string name="checksum_title">चेकसम (SHA1)</string>
     <string name="update">अद्यतन</string>
     <string name="abuse">शिकायत</string>
-    <string name="abuse_on">के बारे में शिकायत %s</string>
-    <string name="does_not_works">ऐप काम नहीं करता</string>
-    <string name="malicious_app">दुर्भावनापूर्ण अनुप्रयोग</string>
-    <string name="license_violation">लाइसेंस का उल्लंघन</string>
-    <string name="private_app">सार्वजनिक पहुंच को प्रतिबंधित करना</string>
-    <string name="select_abuse_reason">एक्सचेंजर से एप्लिकेशन को हटाने का कारण चुनें</string>
-    <string name="enter_your_email">ऐप को हटाने के लिए हमें आपसे संपर्क करना होगा ।  अपना ईमेल पता दर्ज करें:</string>
-    <string name="send_abuse">शिकायत भेजें</string>
     <string name="your_email">आपका ईमेल</string>
-    <string name="unable_to_send_abuse">शिकायत भेजने में विफल</string>
     <string name="thanks_for_attention">एक्सचेंजर को मॉडरेट करने में आपकी मदद के लिए धन्यवाद!</string>
     <string name="fill_all_fields">सभी फ़ील्ड भरें</string>
     <string name="unable_to_get_permissions">आवश्यक एप्लिकेशन अनुमतियों की सूची प्राप्त करने में विफल</string>

@@ -73,16 +73,7 @@
     <string name="checksum_title">校验和 (SHA1)</string>
     <string name="update">更新</string>
     <string name="abuse">举报</string>
-    <string name="abuse_on">举报%s</string>
-    <string name="does_not_works">该应用程序无法运行</string>
-    <string name="malicious_app">恶意应用</string>
-    <string name="license_violation">违反许可证</string>
-    <string name="private_app">限制公众访问</string>
-    <string name="select_abuse_reason">选择从Appteka商店删除应用程序的原因</string>
-    <string name="enter_your_email">要删除该应用程序，我们需要联系您。输入你的电子邮箱:</string>
-    <string name="send_abuse">举报提交</string>
     <string name="your_email">你的邮件</string>
-    <string name="unable_to_send_abuse">未能发送举报</string>
     <string name="thanks_for_attention">感谢您在商店维护中的协助</string>
     <string name="fill_all_fields">填写所有字段</string>
     <string name="unable_to_get_permissions">无法获取所需的应用程序权限列表</string>

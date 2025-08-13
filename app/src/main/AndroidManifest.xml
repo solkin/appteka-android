@@ -44,9 +44,6 @@
             android:name=".screen.upload.UploadActivity"
             android:label="@string/upload" />
         <activity
-            android:name=".main.abuse.AbuseActivity_"
-            android:label="@string/abuse" />
-        <activity
             android:name=".main.unpublish.UnpublishActivity_"
             android:label="@string/unpublish_file"
             android:windowSoftInputMode="stateHidden" />

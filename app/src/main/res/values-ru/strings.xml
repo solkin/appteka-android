@@ -73,16 +73,7 @@
     <string name="checksum_title">Контрольная сумма (SHA1)</string>
     <string name="update">Обновить</string>
     <string name="abuse">Жалоба</string>
-    <string name="abuse_on">Жалоба на %s</string>
-    <string name="does_not_works">Приложение не работает</string>
-    <string name="malicious_app">Вредоносное приложение</string>
-    <string name="license_violation">Нарушение лицензии</string>
-    <string name="private_app">Ограничение публичного доступа</string>
-    <string name="select_abuse_reason">Выберите причину для удаления приложения из обменника</string>
-    <string name="enter_your_email">Для удаления приложения с Вами необходимо будет связаться. Укажите Ваш e-mail:</string>
-    <string name="send_abuse">Отправить жалобу</string>
     <string name="your_email">Ваш E-mail</string>
-    <string name="unable_to_send_abuse">Не удалось отправить жалобу</string>
     <string name="thanks_for_attention">Спасибо за помощь в модерации обменника!</string>
     <string name="fill_all_fields">Заполните все поля</string>
     <string name="unable_to_get_permissions">Не удалось получить список требуемых разрешений приложения</string>

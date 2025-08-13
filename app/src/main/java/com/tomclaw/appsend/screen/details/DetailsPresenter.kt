@@ -89,7 +89,7 @@ interface DetailsPresenter : ItemListener {
 
         fun openUnlinkScreen(appId: String, label: String?)
 
-        fun openAbuseScreen(appId: String, label: String?)
+        fun openAbuseScreen(url: String, label: String?, text: String)
 
         fun openDetailsScreen(appId: String, label: String?)
 
@@ -187,7 +187,18 @@ class DetailsPresenterImpl(
             }
         }
         subscriptions += view.abuseClicks().subscribe {
-            appId?.let { appId -> router?.openAbuseScreen(appId, details?.info?.label) }
+            val url = details?.url ?: return@subscribe
+            val info = details?.info ?: return@subscribe
+            val label = info.label
+            val text = resourceProvider.formatAbuseText(
+                label = info.label,
+                packageName = info.packageName,
+                version = info.version,
+                versionCode = info.versionCode,
+                size = info.size,
+                url = url,
+            )
+            appId?.let { appId -> router?.openAbuseScreen(url, label, text) }
         }
         subscriptions += view.versionClicks().subscribe { version ->
             details?.let { details ->
@@ -291,7 +302,14 @@ class DetailsPresenterImpl(
         val details = this.details ?: return
 
         items.clear()
-        items += detailsConverter.convert(details, downloadState, installedVersionCode, moderation, translationData, translationState)
+        items += detailsConverter.convert(
+            details,
+            downloadState,
+            installedVersionCode,
+            moderation,
+            translationData,
+            translationState
+        )
 
         bindItems()
 
