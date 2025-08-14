@@ -44,6 +44,7 @@ import com.tomclaw.appsend.screen.store.api.AppsListResponse
 import com.tomclaw.appsend.screen.topics.api.PinTopicResponse
 import com.tomclaw.appsend.screen.topics.api.TopicsResponse
 import com.tomclaw.appsend.screen.unlink.api.UnlinkResponse
+import com.tomclaw.appsend.screen.unpublish.api.UnpublishResponse
 import com.tomclaw.appsend.screen.upload.api.CheckExistResponse
 import com.tomclaw.appsend.screen.users.api.PublishersResponse
 import com.tomclaw.appsend.screen.users.api.SubscribersResponse
@@ -353,5 +354,12 @@ interface StoreApi {
         @Field("app_id") appId: String,
         @Field("reason") reason: String,
     ): Single<StoreResponse<UnlinkResponse>>
+
+    @FormUrlEncoded
+    @POST("1/app/unpublish")
+    fun unpublish(
+        @Field("app_id") appId: String,
+        @Field("reason") reason: String,
+    ): Single<StoreResponse<UnpublishResponse>>
 
 }

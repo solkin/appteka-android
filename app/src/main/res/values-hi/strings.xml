@@ -121,10 +121,10 @@
     <string name="online">ऑनलाइन</string>
     <string name="offline">ऑफलाइन</string>
     <string name="unlink_file">ब्लॉक</string>
-    <string name="unlink_reason">कारण…</string>
-    <string name="enter_unlink_reason">कृपया कारण बताएं।:</string>
+    <string name="unfile_reason">कारण…</string>
+    <string name="enter_unfile_reason">कृपया कारण बताएं।:</string>
     <string name="fill_reason_field">कारण क्षेत्र की आवश्यकता है</string>
-    <string name="unable_to_unlink_file">अनुरोध विफल रहा</string>
+    <string name="unable_to_unfile">अनुरोध विफल रहा</string>
     <string name="unlink_of">अवरुद्ध करना %s</string>
     <string name="profile_apps">कस्टम अनुप्रयोग</string>
     <string name="nav_store">एक्सचेंजर</string>

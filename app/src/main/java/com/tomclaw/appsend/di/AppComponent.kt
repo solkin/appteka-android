@@ -54,6 +54,8 @@ import com.tomclaw.appsend.screen.topics.di.TopicsComponent
 import com.tomclaw.appsend.screen.topics.di.TopicsModule
 import com.tomclaw.appsend.screen.unlink.di.UnlinkComponent
 import com.tomclaw.appsend.screen.unlink.di.UnlinkModule
+import com.tomclaw.appsend.screen.unpublish.di.UnpublishComponent
+import com.tomclaw.appsend.screen.unpublish.di.UnpublishModule
 import com.tomclaw.appsend.screen.upload.di.UploadComponent
 import com.tomclaw.appsend.screen.upload.di.UploadModule
 import com.tomclaw.appsend.upload.di.UploadServiceComponent
@@ -120,6 +122,8 @@ interface AppComponent {
     fun downloadComponent(module: DownloadsModule): DownloadsComponent
 
     fun unlinkComponent(module: UnlinkModule): UnlinkComponent
+
+    fun unpublishComponent(module: UnpublishModule): UnpublishComponent
 
     fun legacyComponent(module: LegacyModule): LegacyComponent
 

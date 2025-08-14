@@ -121,10 +121,10 @@
     <string name="online">在线</string>
     <string name="offline">离线</string>
     <string name="unlink_file">屏蔽</string>
-    <string name="unlink_reason">原因…</string>
-    <string name="enter_unlink_reason">请描述原因:</string>
+    <string name="unfile_reason">原因…</string>
+    <string name="enter_unfile_reason">请描述原因:</string>
     <string name="fill_reason_field">原因字段为必填项</string>
-    <string name="unable_to_unlink_file">请求失败</string>
+    <string name="unable_to_unfile">请求失败</string>
     <string name="unlink_of">由 %s 屏蔽</string>
     <string name="profile_apps">用户应用程序</string>
     <string name="nav_store">商店</string>

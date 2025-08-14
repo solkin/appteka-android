@@ -121,10 +121,10 @@
     <string name="online">trực tuyến</string>
     <string name="offline">ngoại tuyến</string>
     <string name="unlink_file">khóa</string>
-    <string name="unlink_reason">Lý do…</string>
-    <string name="enter_unlink_reason">Vui lòng viết lý do:</string>
+    <string name="unfile_reason">Lý do…</string>
+    <string name="enter_unfile_reason">Vui lòng viết lý do:</string>
     <string name="fill_reason_field">Phần bắt buộc</string>
-    <string name="unable_to_unlink_file">Không thể thực hiện</string>
+    <string name="unable_to_unfile">Không thể thực hiện</string>
     <string name="unlink_of">Khóa %s</string>
     <string name="profile_apps">Ứng dụng người sử dụng</string>
     <string name="nav_store">Trao đổi</string>

@@ -126,10 +126,10 @@
     <string name="online">متصل</string>
     <string name="offline">غير متصل</string>
     <string name="unlink_file">حظر</string>
-    <string name="unlink_reason">سبب…</string>
-    <string name="enter_unlink_reason">يرجى وصف السبب:</string>
+    <string name="unfile_reason">سبب…</string>
+    <string name="enter_unfile_reason">يرجى وصف السبب:</string>
     <string name="fill_reason_field">حقل السبب مطلوب</string>
-    <string name="unable_to_unlink_file">فشل في إكمال الطلب</string>
+    <string name="unable_to_unfile">فشل في إكمال الطلب</string>
     <string name="unlink_of">حظر من %s</string>
     <string name="profile_apps">تطبيقات المستخدم</string>
     <string name="nav_store">المتجر</string>

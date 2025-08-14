@@ -127,10 +127,10 @@
     <string name="online">online</string>
     <string name="offline">offline</string>
     <string name="unlink_file">Block</string>
-    <string name="unlink_reason">Reason…</string>
-    <string name="enter_unlink_reason">Please describe the reason:</string>
+    <string name="unfile_reason">Reason…</string>
+    <string name="enter_unfile_reason">Please describe the reason:</string>
     <string name="fill_reason_field">Reason field is required</string>
-    <string name="unable_to_unlink_file">Failed to complete request</string>
+    <string name="unable_to_unfile">Failed to complete request</string>
     <string name="unlink_of">Block of %s</string>
     <string name="profile_apps">User apps</string>
     <string name="nav_store">Store</string>

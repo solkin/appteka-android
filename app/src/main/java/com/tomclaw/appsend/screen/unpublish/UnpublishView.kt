@@ -1,4 +1,4 @@
-package com.tomclaw.appsend.screen.unlink
+package com.tomclaw.appsend.screen.unpublish
 
 import android.text.Editable
 import android.text.TextWatcher
@@ -13,7 +13,7 @@ import com.tomclaw.appsend.util.hideWithAlphaAnimation
 import com.tomclaw.appsend.util.showWithAlphaAnimation
 import io.reactivex.rxjava3.core.Observable
 
-interface UnlinkView {
+interface UnpublishView {
 
     fun showProgress()
 
@@ -21,7 +21,7 @@ interface UnlinkView {
 
     fun setReason(reason: String)
 
-    fun showUnlinkFailed()
+    fun showUnpublishFailed()
 
     fun navigationClicks(): Observable<Unit>
 
@@ -31,16 +31,16 @@ interface UnlinkView {
 
 }
 
-class UnlinkViewImpl(
+class UnpublishViewImpl(
     view: View,
     title: String
-) : UnlinkView {
+) : UnpublishView {
 
     private val context = view.context
     private val scrollView: View = view.findViewById(R.id.scroll_view)
     private val toolbar: Toolbar = view.findViewById(R.id.toolbar)
     private val reasonEdit: EditText = view.findViewById(R.id.reason_input)
-    private val submitButton: Button = view.findViewById(R.id.unlink_button)
+    private val submitButton: Button = view.findViewById(R.id.unpublish_button)
     private val overlayProgress: View = view.findViewById(R.id.overlay_progress)
 
     private val navigationRelay = PublishRelay.create<Unit>()
@@ -49,7 +49,7 @@ class UnlinkViewImpl(
 
     init {
         toolbar.setNavigationOnClickListener { navigationRelay.accept(Unit) }
-        toolbar.setTitle(context.getString(R.string.unlink_of, title))
+        toolbar.setTitle(context.getString(R.string.unpublish_of, title))
         reasonEdit.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
@@ -72,7 +72,7 @@ class UnlinkViewImpl(
         reasonEdit.setText(reason)
     }
 
-    override fun showUnlinkFailed() {
+    override fun showUnpublishFailed() {
         Snackbar.make(
             scrollView,
             R.string.unable_to_unfile,

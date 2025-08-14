@@ -121,10 +121,10 @@
     <string name="online">онлайн</string>
     <string name="offline">оффлайн</string>
     <string name="unlink_file">Заблокировать</string>
-    <string name="unlink_reason">Причина…</string>
-    <string name="enter_unlink_reason">Пожалуйста, опишите причину:</string>
+    <string name="unfile_reason">Причина…</string>
+    <string name="enter_unfile_reason">Пожалуйста, опишите причину:</string>
     <string name="fill_reason_field">Поле причины является обязательным</string>
-    <string name="unable_to_unlink_file">Не удалось выполнить запрос</string>
+    <string name="unable_to_unfile">Не удалось выполнить запрос</string>
     <string name="unlink_of">Блокировка %s</string>
     <string name="profile_apps">Приложения пользователя</string>
     <string name="nav_store">Обменник</string>

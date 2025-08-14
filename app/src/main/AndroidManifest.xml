@@ -154,6 +154,7 @@
         <activity android:name=".screen.post.PostActivity" />
         <activity android:name=".screen.downloads.DownloadsActivity" />
         <activity android:name=".screen.unlink.UnlinkActivity" />
+        <activity android:name=".screen.unpublish.UnpublishActivity" />
 
         <service android:name=".download.DownloadService" />
 

@@ -138,7 +138,7 @@ public class UnpublishActivity extends AppCompatActivity {
     public void onError() {
         reasonInput.setEnabled(true);
         viewFlipper.setDisplayedChild(0);
-        showError(getString(R.string.unable_to_unlink_file));
+        showError(getString(R.string.unable_to_unfile));
     }
 
     public static Intent createUnpublishActivityIntent(Context context, String appId, String label) {

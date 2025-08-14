@@ -124,10 +124,10 @@
     <string name="online">online</string>
     <string name="offline">offline</string>
     <string name="unlink_file">Bloquear</string>
-    <string name="unlink_reason">Motivo…</string>
-    <string name="enter_unlink_reason">Descreva o motivo:</string>
+    <string name="unfile_reason">Motivo…</string>
+    <string name="enter_unfile_reason">Descreva o motivo:</string>
     <string name="fill_reason_field">O campo Motivo é obrigatório</string>
-    <string name="unable_to_unlink_file">Falha ao concluir a solicitação</string>
+    <string name="unable_to_unfile">Falha ao concluir a solicitação</string>
     <string name="unlink_of">Bloco de %s</string>
     <string name="profile_apps">Aplicativos do usuário</string>
     <string name="nav_store">Loja</string>

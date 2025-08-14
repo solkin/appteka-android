@@ -126,10 +126,10 @@
     <string name="online">سەرهێڵ</string>
     <string name="offline">ئۆفلاین</string>
     <string name="unlink_file">بلۆک</string>
-    <string name="unlink_reason">Reason…</string>
-    <string name="enter_unlink_reason">تکایە هۆکارەکەی باس بکە:</string>
+    <string name="unfile_reason">Reason…</string>
+    <string name="enter_unfile_reason">تکایە هۆکارەکەی باس بکە:</string>
     <string name="fill_reason_field">مەیدانی عەقڵ پێویستە</string>
-    <string name="unable_to_unlink_file">شکستی هێنا لە تەواوکردنی داواکاری</string>
+    <string name="unable_to_unfile">شکستی هێنا لە تەواوکردنی داواکاری</string>
     <string name="unlink_of">بلۆکی %s</string>
     <string name="profile_apps">ئەپەکانی بەکارهێنەر</string>
     <string name="nav_store">فرۆشگا</string>

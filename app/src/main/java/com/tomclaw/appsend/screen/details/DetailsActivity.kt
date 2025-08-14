@@ -22,7 +22,6 @@ import com.greysonparrelli.permiso.Permiso.IOnRationaleProvided
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.download.createDownloadIntent
-import com.tomclaw.appsend.main.unpublish.UnpublishActivity.createUnpublishActivityIntent
 import com.tomclaw.appsend.screen.auth.request_code.createRequestCodeActivityIntent
 import com.tomclaw.appsend.screen.chat.createChatActivityIntent
 import com.tomclaw.appsend.screen.details.di.DETAILS_ADAPTER_PRESENTER
@@ -45,6 +44,7 @@ import javax.inject.Inject
 import javax.inject.Named
 import androidx.core.net.toUri
 import com.tomclaw.appsend.screen.unlink.createUnlinkActivityIntent
+import com.tomclaw.appsend.screen.unpublish.createUnpublishActivityIntent
 
 class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
 
@@ -315,7 +315,7 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
     }
 
     override fun openUnpublishScreen(appId: String, label: String?) {
-        val intent = createUnpublishActivityIntent(this, appId, label)
+        val intent = createUnpublishActivityIntent(context = this, appId, label)
         invalidateDetailsResultLauncher.launch(intent)
     }
 

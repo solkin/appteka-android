@@ -127,10 +127,10 @@
     <string name="online">کاربر اکنون آنلاین است</string>
     <string name="offline">کاربر اکنون آفلاین است</string>
     <string name="unlink_file">مسدود کردن</string>
-    <string name="unlink_reason">دلیل…</string>
-    <string name="enter_unlink_reason">لطفا علت را توضیح دهید:</string>
+    <string name="unfile_reason">دلیل…</string>
+    <string name="enter_unfile_reason">لطفا علت را توضیح دهید:</string>
     <string name="fill_reason_field">پر کردن جایگاه ضروری است</string>
-    <string name="unable_to_unlink_file">درخواست تکمیل نشد</string>
+    <string name="unable_to_unfile">درخواست تکمیل نشد</string>
     <string name="unlink_of">مسدود کردن از %s</string>
     <string name="profile_apps">برنامه های کاربر</string>
     <string name="nav_store">فروشگاه</string>
