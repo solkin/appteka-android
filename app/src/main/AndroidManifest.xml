@@ -44,10 +44,6 @@
             android:name=".screen.upload.UploadActivity"
             android:label="@string/upload" />
         <activity
-            android:name=".main.unpublish.UnpublishActivity_"
-            android:label="@string/unpublish_file"
-            android:windowSoftInputMode="stateHidden" />
-        <activity
             android:name=".main.store.FilesActivity_"
             android:label="@string/profile_apps"
             android:windowSoftInputMode="stateHidden" />
