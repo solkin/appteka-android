@@ -5,6 +5,8 @@ import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.app.PendingIntent.FLAG_CANCEL_CURRENT
+import android.app.PendingIntent.FLAG_IMMUTABLE
 import android.content.Context
 import android.content.Intent
 import android.os.Build
@@ -205,7 +207,7 @@ class UploadNotificationsImpl(private val context: Context) : UploadNotification
                 moderation = false,
                 finishOnly = false
             ).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP),
-            PendingIntent.FLAG_CANCEL_CURRENT
+            FLAG_CANCEL_CURRENT or FLAG_IMMUTABLE
         )
     }
 
@@ -223,7 +225,7 @@ class UploadNotificationsImpl(private val context: Context) : UploadNotification
                 apk = apk,
                 info = info
             ).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP),
-            PendingIntent.FLAG_CANCEL_CURRENT
+            FLAG_CANCEL_CURRENT or FLAG_IMMUTABLE
         )
     }
 

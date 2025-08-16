@@ -6,6 +6,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.app.PendingIntent.FLAG_CANCEL_CURRENT
+import android.app.PendingIntent.FLAG_IMMUTABLE
 import android.content.Context
 import android.content.Context.NOTIFICATION_SERVICE
 import android.content.Intent
@@ -186,7 +187,7 @@ class DownloadNotificationsImpl(
                 moderation = false,
                 finishOnly = false
             ).setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP),
-            FLAG_CANCEL_CURRENT
+            FLAG_CANCEL_CURRENT or FLAG_IMMUTABLE
         )
     }
 
@@ -198,7 +199,7 @@ class DownloadNotificationsImpl(
                 filePath = file.absolutePath,
                 type = "application/vnd.android.package-archive"
             ),
-            FLAG_CANCEL_CURRENT
+            FLAG_CANCEL_CURRENT or FLAG_IMMUTABLE
         )
     }
 
