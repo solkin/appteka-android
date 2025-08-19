@@ -31,7 +31,8 @@ class InstalledInfoProviderImpl(
                 val publicSourceDir = packageInfo.applicationInfo?.publicSourceDir ?: continue
                 val file = File(publicSourceDir)
                 if (file.exists()) {
-                    val label = packageInfo.applicationInfo?.loadLabel(packageManager)?.toString().orEmpty()
+                    val label =
+                        packageInfo.applicationInfo?.loadLabel(packageManager)?.toString().orEmpty()
                     val verName = packageInfo.versionName.orEmpty()
                     val app = InstalledAppEntity(
                         packageName = info.packageName,
@@ -63,11 +64,22 @@ class InstalledInfoProviderImpl(
 
     override fun getPackageUploadInfo(packageName: String): Pair<UploadPackage, UploadApk> {
         val packageInfo = packageManager.getPackageInfo(packageName, 0)
-        val publicSourceDir = packageInfo.applicationInfo?.publicSourceDir ?: throw IllegalArgumentException("No publicSourceDir")
+        val publicSourceDir = packageInfo.applicationInfo?.publicSourceDir
+            ?: throw IllegalArgumentException("No publicSourceDir")
         val file = File(publicSourceDir)
         val verName = packageInfo.versionName.orEmpty()
-        val pkg = UploadPackage(file.path, null, packageName)
-        val apk = UploadApk(file.path, verName, file.length(), packageInfo)
+        val pkg = UploadPackage(
+            uniqueId = file.path,
+            sha1 = null,
+            packageName = packageName,
+            size = file.length()
+        )
+        val apk = UploadApk(
+            path = file.path,
+            version = verName,
+            size = file.length(),
+            packageInfo = packageInfo
+        )
         return Pair(pkg, apk)
     }
 }

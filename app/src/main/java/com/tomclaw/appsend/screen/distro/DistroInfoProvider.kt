@@ -79,9 +79,18 @@ class DistroInfoProviderImpl(
 
         val file = File(path)
 
-        val pkg = UploadPackage(uniqueId = file.path, null, packageInfo.packageName)
-        val apk =
-            UploadApk(file.path, packageInfo.versionName.orEmpty(), file.length(), packageInfo)
+        val pkg = UploadPackage(
+            uniqueId = file.path,
+            sha1 = null,
+            packageName = packageInfo.packageName,
+            size = file.length()
+        )
+        val apk = UploadApk(
+            path = file.path,
+            version = packageInfo.versionName.orEmpty(),
+            size = file.length(),
+            packageInfo = packageInfo
+        )
         return Pair(pkg, apk)
     }
 }

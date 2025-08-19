@@ -303,12 +303,14 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
         label: String?,
         icon: String?,
         packageName: String,
-        sha1: String
+        sha1: String,
+        size: Long,
     ) {
         val pkg = UploadPackage(
             uniqueId = appId,
             sha1 = sha1,
             packageName = packageName,
+            size = size,
         )
         val intent = createUploadActivityIntent(this, pkg, null, null)
         invalidateDetailsResultLauncher.launch(intent)

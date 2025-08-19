@@ -234,7 +234,7 @@ class UploadPresenterImpl(
         }
 
         subscriptions += sha1Observer
-            .flatMap { interactor.checkExist(it, pkg.packageName) }
+            .flatMap { interactor.checkExist(it, pkg.packageName, pkg.size) }
             .observeOn(schedulers.mainThread())
             .retryWhenNonAuthErrors()
             .doOnSubscribe {

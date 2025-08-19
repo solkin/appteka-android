@@ -9,6 +9,7 @@ data class UploadPackage(
     val uniqueId: String,
     val sha1: String?,
     val packageName: String,
+    val size: Long,
 ) : Parcelable
 
 @Parcelize

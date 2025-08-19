@@ -190,6 +190,7 @@ interface StoreApi {
     fun checkExist(
         @Query("sha1") sha1: String,
         @Query("package") packageName: String,
+        @Query("size") size: Long,
         @Query("locale") locale: String
     ): Single<StoreResponse<CheckExistResponse>>
 

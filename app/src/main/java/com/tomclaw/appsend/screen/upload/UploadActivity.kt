@@ -66,6 +66,7 @@ class UploadActivity : AppCompatActivity(), UploadPresenter.UploadRouter {
                     uniqueId = info.path.md5(),
                     sha1 = null,
                     packageName = info.packageName,
+                    size = info.size,
                 )
                 val apk = UploadApk(
                     path = info.path,

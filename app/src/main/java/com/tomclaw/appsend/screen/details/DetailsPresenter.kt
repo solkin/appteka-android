@@ -82,7 +82,8 @@ interface DetailsPresenter : ItemListener {
             label: String?,
             icon: String?,
             packageName: String,
-            sha1: String
+            sha1: String,
+            size: Long,
         )
 
         fun openUnpublishScreen(appId: String, label: String?)
@@ -165,11 +166,12 @@ class DetailsPresenterImpl(
             appId?.let { appId ->
                 val info = details?.info ?: return@subscribe
                 router?.openEditMetaScreen(
-                    appId,
-                    info.label,
-                    info.icon,
-                    info.packageName,
-                    info.sha1
+                    appId = appId,
+                    label = info.label,
+                    icon = info.icon,
+                    packageName = info.packageName,
+                    sha1 = info.sha1,
+                    size = info.size,
                 )
             }
         }
@@ -611,11 +613,12 @@ class DetailsPresenterImpl(
         val appId = appId ?: return
         when (type) {
             StatusAction.EDIT_META -> router?.openEditMetaScreen(
-                appId,
-                info.label,
-                info.icon,
-                info.packageName,
-                info.sha1
+                appId = appId,
+                label = info.label,
+                icon = info.icon,
+                packageName = info.packageName,
+                sha1 = info.sha1,
+                size = info.size,
             )
 
             StatusAction.UNPUBLISH -> router?.openUnpublishScreen(

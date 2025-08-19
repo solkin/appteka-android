@@ -14,7 +14,7 @@ interface UploadInteractor {
 
     fun calculateSha1(file: String): Observable<String>
 
-    fun checkExist(sha1: String, packageName: String): Observable<CheckExistResponse>
+    fun checkExist(sha1: String, packageName: String, size: Long): Observable<CheckExistResponse>
 
 }
 
@@ -47,11 +47,12 @@ class UploadInteractorImpl(
             .toObservable()
     }
 
-    override fun checkExist(sha1: String, packageName: String): Observable<CheckExistResponse> {
+    override fun checkExist(sha1: String, packageName: String, size: Long): Observable<CheckExistResponse> {
         return api
             .checkExist(
                 sha1 = sha1,
                 packageName = packageName,
+                size = size,
                 locale = locale.language,
             )
             .map { it.result }
