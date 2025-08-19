@@ -103,21 +103,21 @@ class UploadConverterImpl(
                     items += OtherVersionsItem(id++, versions)
                 }
         }
-        items += ScreenshotsItem(
-            id = id++,
-            items = screenshots.map {
-                ScreenImageItem(
-                    id = it.longId(),
-                    original = it.original,
-                    preview = it.preview,
-                    width = it.width,
-                    height = it.height,
-                    remote = it.remote()
-                )
-            } + ScreenAppendItem(id++)
-        )
 
         if (isUploadAvailable) {
+            items += ScreenshotsItem(
+                id = id++,
+                items = screenshots.map {
+                    ScreenImageItem(
+                        id = it.longId(),
+                        original = it.original,
+                        preview = it.preview,
+                        width = it.width,
+                        height = it.height,
+                        remote = it.remote()
+                    )
+                } + ScreenAppendItem(id++)
+            )
             items += SelectCategoryItem(
                 id++,
                 category = category,
