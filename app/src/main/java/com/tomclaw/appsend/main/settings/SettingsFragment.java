@@ -1,6 +1,7 @@
 package com.tomclaw.appsend.main.settings;
 
-import static com.tomclaw.appsend.util.FileHelper.getExternalDirectory;
+import static com.tomclaw.appsend.Appteka.app;
+import static com.tomclaw.appsend.di.AppModuleKt.APPS_DIR;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -30,7 +31,7 @@ public class SettingsFragment extends PreferenceFragment {
                 TaskExecutor.getInstance().execute(new PleaseWaitTask(getActivity()) {
                     @Override
                     public void executeBackground() throws Throwable {
-                        File directory = getExternalDirectory();
+                        File directory = new File(app().getCacheDir(), APPS_DIR);
                         File[] files = directory.listFiles(new FileFilter() {
                             @Override
                             public boolean accept(File pathname) {

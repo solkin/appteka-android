@@ -60,7 +60,7 @@ public class SelectLocalAppActivity extends PermisoActivity implements CommonIte
                         new SelectInstalledFragment_()
                 ),
                 new Pair<>(
-                        getString(R.string.nav_distro),
+                        getString(R.string.nav_downloaded),
                         new SelectDistroFragment_()
                 )
         );

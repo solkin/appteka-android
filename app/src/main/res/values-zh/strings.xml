@@ -130,7 +130,7 @@
     <string name="nav_store">商店</string>
     <string name="nav_discuss">讨论组</string>
     <string name="nav_installed">已安装</string>
-    <string name="nav_distro">安装包</string>
+    <string name="nav_downloaded">已下载</string>
     <string name="nav_settings">设置</string>
     <string name="nav_info">信息</string>
     <string name="select_app">选择一个应用程序</string>

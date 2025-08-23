@@ -1,6 +1,8 @@
 package com.tomclaw.appsend.main.local;
 
 import static android.content.pm.PackageManager.GET_PERMISSIONS;
+import static com.tomclaw.appsend.Appteka.app;
+import static com.tomclaw.appsend.di.AppModuleKt.APPS_DIR;
 import static com.tomclaw.appsend.util.states.StateHolder.stateHolder;
 
 import android.content.pm.ApplicationInfo;
@@ -77,7 +79,7 @@ abstract class DistroFragment extends CommonItemFragment<ApkItem> {
     List<ApkItem> loadItemsSync() {
         PackageManager packageManager = getContext().getPackageManager();
         ArrayList<ApkItem> itemList = new ArrayList<>();
-        walkDir(packageManager, itemList, Environment.getExternalStorageDirectory());
+        walkDir(packageManager, itemList, new File(app().getCacheDir(), APPS_DIR));
         return itemList;
     }
 

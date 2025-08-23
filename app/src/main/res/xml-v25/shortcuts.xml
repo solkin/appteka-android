@@ -42,9 +42,9 @@
         android:shortcutId="install"
         android:enabled="true"
         android:icon="@drawable/ic_shortcut_install"
-        android:shortcutShortLabel="@string/nav_distro"
-        android:shortcutLongLabel="@string/nav_distro"
-        android:shortcutDisabledMessage="@string/nav_distro">
+        android:shortcutShortLabel="@string/nav_downloaded"
+        android:shortcutLongLabel="@string/nav_downloaded"
+        android:shortcutDisabledMessage="@string/nav_downloaded">
         <intent
             android:action="com.tomclaw.appsend.install"
             android:targetPackage="com.tomclaw.appsend"

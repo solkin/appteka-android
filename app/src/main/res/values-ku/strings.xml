@@ -135,7 +135,7 @@
     <string name="nav_store">فرۆشگا</string>
     <string name="nav_discuss">گفتوگۆکان</string>
     <string name="nav_installed">دامەزراوە</string>
-    <string name="nav_distro">دیسترۆ</string>
+    <string name="nav_downloaded">دابەزێنراوە</string>
     <string name="nav_settings">دانانەوە</string>
     <string name="nav_info">زانیاری</string>
     <string name="select_app">بەرنامە هەڵبژێرە</string>

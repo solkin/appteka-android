@@ -130,7 +130,7 @@
     <string name="nav_store">एक्सचेंजर</string>
     <string name="nav_discuss">विचार विमर्श</string>
     <string name="nav_installed">इंस्टॉल किए</string>
-    <string name="nav_distro">स्थापना फ़ाइलें</string>
+    <string name="nav_downloaded">डाउनलोड</string>
     <string name="nav_settings">सेटिंग्स</string>
     <string name="nav_info">Информация</string>
     <string name="select_app">एक एप्लिकेशन चुनें</string>

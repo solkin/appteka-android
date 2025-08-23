@@ -136,7 +136,7 @@
     <string name="nav_store">فروشگاه</string>
     <string name="nav_discuss">گفتگو</string>
     <string name="nav_installed">برنامه های نصب شده</string>
-    <string name="nav_distro">فایل های apk موجود در حافظه داخلی</string>
+    <string name="nav_downloaded">دانلود شده</string>
     <string name="nav_settings">تنظیمات</string>
     <string name="nav_info">درباره فروشگاه appteka</string>
     <string name="select_app">انتخاب برنامه</string>

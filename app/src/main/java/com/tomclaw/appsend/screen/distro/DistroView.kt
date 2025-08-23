@@ -89,7 +89,7 @@ class DistroViewImpl(
     private val refreshRelay = PublishRelay.create<Unit>()
 
     init {
-        toolbar.setTitle(R.string.nav_distro)
+        toolbar.setTitle(R.string.nav_downloaded)
         toolbar.inflateMenu(R.menu.distro_menu)
         toolbar.setNavigationOnClickListener { navigationRelay.accept(Unit) }
         val searchItem: MenuItem = toolbar.menu.findItem(R.id.menu_search)

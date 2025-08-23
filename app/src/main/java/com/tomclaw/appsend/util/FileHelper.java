@@ -46,11 +46,4 @@ public class FileHelper {
         return name;
     }
 
-    @SuppressLint("NewApi")
-    public static File getExternalDirectory() {
-        File externalDirectory = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-        File directory = new File(externalDirectory, "Apps");
-        directory.mkdirs();
-        return directory;
-    }
 }

@@ -135,7 +135,7 @@
     <string name="nav_store">المتجر</string>
     <string name="nav_discuss">مناقشات</string>
     <string name="nav_installed">المثبتة</string>
-    <string name="nav_distro">ملف APK</string>
+    <string name="nav_downloaded">تم التنزيل</string>
     <string name="nav_settings">الاعدادات</string>
     <string name="nav_info">معلومات</string>
     <string name="select_app">تحديد تطبيق</string>

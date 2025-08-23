@@ -130,7 +130,7 @@
     <string name="nav_store">Trao đổi</string>
     <string name="nav_discuss">Bình luận</string>
     <string name="nav_installed">Đã cài đặt</string>
-    <string name="nav_distro">Phân phối</string>
+    <string name="nav_downloaded">Đã tải xuống</string>
     <string name="nav_settings">Cài đặt</string>
     <string name="nav_info">Thông tin</string>
     <string name="select_app">Chọn ứng dụng</string>

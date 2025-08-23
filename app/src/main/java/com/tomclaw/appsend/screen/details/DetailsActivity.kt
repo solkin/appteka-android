@@ -1,7 +1,7 @@
 package com.tomclaw.appsend.screen.details
 
 import android.Manifest
-import android.app.Activity
+import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import com.avito.konveyor.ItemBinder
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
@@ -33,6 +34,8 @@ import com.tomclaw.appsend.screen.permissions.createPermissionsActivityIntent
 import com.tomclaw.appsend.screen.profile.createProfileActivityIntent
 import com.tomclaw.appsend.screen.rate.createRateActivityIntent
 import com.tomclaw.appsend.screen.ratings.createRatingsActivityIntent
+import com.tomclaw.appsend.screen.unlink.createUnlinkActivityIntent
+import com.tomclaw.appsend.screen.unpublish.createUnpublishActivityIntent
 import com.tomclaw.appsend.screen.upload.createUploadActivityIntent
 import com.tomclaw.appsend.upload.UploadPackage
 import com.tomclaw.appsend.user.api.UserBrief
@@ -42,9 +45,6 @@ import com.tomclaw.appsend.util.updateTheme
 import java.io.File
 import javax.inject.Inject
 import javax.inject.Named
-import androidx.core.net.toUri
-import com.tomclaw.appsend.screen.unlink.createUnlinkActivityIntent
-import com.tomclaw.appsend.screen.unpublish.createUnpublishActivityIntent
 
 class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
 
@@ -146,12 +146,21 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
         })
     }
 
-    override fun onNewIntent(intent: Intent) {
+    @Suppress("DEPRECATION")
+    override fun onNewIntent(@SuppressLint("UnsafeIntentLaunch") intent: Intent) {
         super.onNewIntent(intent)
-        overridePendingTransition(0, 0)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            overrideActivityTransition(OVERRIDE_TRANSITION_CLOSE, 0, 0)
+        } else {
+            overridePendingTransition(0, 0)
+        }
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
         finish()
-        overridePendingTransition(0, 0)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            overrideActivityTransition(OVERRIDE_TRANSITION_OPEN, 0, 0)
+        } else {
+            overridePendingTransition(0, 0)
+        }
         startActivity(intent)
     }
 
@@ -194,29 +203,13 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
     }
 
     override fun leaveModeration() {
-        setResult(Activity.RESULT_OK)
+        setResult(RESULT_OK)
         finish()
     }
 
     override fun requestStoragePermissions(callback: () -> Unit) {
-        Permiso.getInstance().requestPermissions(object : IOnPermissionResult {
-            override fun onPermissionResult(resultSet: Permiso.ResultSet) {
-                if (resultSet.isPermissionGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                    callback()
-                } else {
-                    presenter.showSnackbar(getString(R.string.write_permission_install))
-                }
-            }
-
-            override fun onRationaleRequested(
-                callback: IOnRationaleProvided,
-                vararg permissions: String
-            ) {
-                val title: String = getString(R.string.app_name)
-                val message: String = getString(R.string.write_permission_install)
-                Permiso.getInstance().showRationaleInDialog(title, message, null, callback)
-            }
-        }, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        // Storage permissions was deprecated by Google; content was moved to the internal storage
+        callback()
     }
 
     override fun openPermissionsScreen(permissions: List<String>) {

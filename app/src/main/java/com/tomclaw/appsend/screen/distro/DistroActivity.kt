@@ -14,6 +14,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
+import androidx.core.net.toUri
 import com.avito.konveyor.ItemBinder
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
@@ -33,7 +34,6 @@ import com.tomclaw.appsend.util.openFileIntent
 import com.tomclaw.appsend.util.updateTheme
 import java.io.File
 import javax.inject.Inject
-import androidx.core.net.toUri
 
 class DistroActivity : AppCompatActivity(), DistroPresenter.DistroRouter {
 
@@ -205,25 +205,8 @@ class DistroActivity : AppCompatActivity(), DistroPresenter.DistroRouter {
     }
 
     override fun requestStoragePermissions(callback: (Boolean) -> Unit) {
-        Permiso.getInstance().requestPermissions(object : IOnPermissionResult {
-            override fun onPermissionResult(resultSet: Permiso.ResultSet) {
-                if (resultSet.isPermissionGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                    callback(true)
-                } else {
-                    callback(false)
-                    presenter.showSnackbar(getString(R.string.write_permission_install))
-                }
-            }
-
-            override fun onRationaleRequested(
-                callback: IOnRationaleProvided,
-                vararg permissions: String
-            ) {
-                val title: String = getString(R.string.app_name)
-                val message: String = getString(R.string.write_permission_install)
-                Permiso.getInstance().showRationaleInDialog(title, message, null, callback)
-            }
-        }, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        // Storage permissions was deprecated by Google; content was moved to the internal storage
+        callback(true)
     }
 
     override fun leaveScreen() {

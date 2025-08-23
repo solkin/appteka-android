@@ -12,7 +12,7 @@
         android:id="@+id/menu_distro"
         android:enabled="true"
         android:icon="@drawable/ic_install"
-        android:title="@string/nav_distro" />
+        android:title="@string/nav_downloaded" />
     <item
         android:id="@+id/menu_about"
         android:title="@string/nav_info" />

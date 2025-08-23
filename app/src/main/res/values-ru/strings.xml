@@ -130,7 +130,7 @@
     <string name="nav_store">Обменник</string>
     <string name="nav_discuss">Обсуждения</string>
     <string name="nav_installed">Установленные</string>
-    <string name="nav_distro">Дистрибутивы</string>
+    <string name="nav_downloaded">Скачанные</string>
     <string name="nav_settings">Настройки</string>
     <string name="nav_info">Информация</string>
     <string name="select_app">Выберите приложение</string>
