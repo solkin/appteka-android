@@ -12,13 +12,6 @@ import retrofit2.http.Query;
  */
 public interface StoreService {
 
-    @GET("api/1/user/app/list")
-    Call<ApiResponse<ListResponse>> listUserFiles(
-            @Query("user_id") Long userId,
-            @Query("app_id") String appId,
-            @Query("locale") String locale
-    );
-
     @GET("api/1/app/search")
     Call<ApiResponse<ListResponse>> searchFiles(
             @Query("query") String query,
