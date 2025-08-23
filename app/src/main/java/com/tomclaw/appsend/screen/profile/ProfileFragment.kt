@@ -25,6 +25,7 @@ import com.tomclaw.appsend.screen.profile.di.ProfileModule
 import com.tomclaw.appsend.screen.reviews.createReviewsActivityIntent
 import com.tomclaw.appsend.screen.subscriptions.Tab
 import com.tomclaw.appsend.screen.subscriptions.createSubscriptionsActivityIntent
+import com.tomclaw.appsend.screen.uploads.createUploadsActivityIntent
 import com.tomclaw.appsend.util.Analytics
 import javax.inject.Inject
 import javax.inject.Named
@@ -104,7 +105,7 @@ class ProfileFragment : Fragment(), ProfilePresenter.ProfileRouter, HomeFragment
 
     override fun openUserFilesScreen(userId: Int) {
         val context = context ?: return
-        val intent = createUserAppsActivityIntent(context, userId)
+        val intent = createUploadsActivityIntent(context, userId)
         startActivity(intent)
     }
 

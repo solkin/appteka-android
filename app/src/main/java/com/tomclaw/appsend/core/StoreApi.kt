@@ -46,6 +46,7 @@ import com.tomclaw.appsend.screen.topics.api.TopicsResponse
 import com.tomclaw.appsend.screen.unlink.api.UnlinkResponse
 import com.tomclaw.appsend.screen.unpublish.api.UnpublishResponse
 import com.tomclaw.appsend.screen.upload.api.CheckExistResponse
+import com.tomclaw.appsend.screen.uploads.api.UploadsResponse
 import com.tomclaw.appsend.screen.users.api.PublishersResponse
 import com.tomclaw.appsend.screen.users.api.SubscribersResponse
 import com.tomclaw.appsend.upload.SetMetaResponse
@@ -219,6 +220,13 @@ interface StoreApi {
         @Query("app_id") appId: String?,
         @Query("locale") locale: String
     ): Single<StoreResponse<FavoriteResponse>>
+
+    @GET("1/user/app/list")
+    fun getUploadsList(
+        @Query("user_id") userId: Int,
+        @Query("app_id") appId: String?,
+        @Query("locale") locale: String
+    ): Single<StoreResponse<UploadsResponse>>
 
     @GET("1/auth/request")
     fun requestCode(

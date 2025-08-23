@@ -58,6 +58,8 @@ import com.tomclaw.appsend.screen.unpublish.di.UnpublishComponent
 import com.tomclaw.appsend.screen.unpublish.di.UnpublishModule
 import com.tomclaw.appsend.screen.upload.di.UploadComponent
 import com.tomclaw.appsend.screen.upload.di.UploadModule
+import com.tomclaw.appsend.screen.uploads.di.UploadsComponent
+import com.tomclaw.appsend.screen.uploads.di.UploadsModule
 import com.tomclaw.appsend.upload.di.UploadServiceComponent
 import com.tomclaw.appsend.upload.di.UploadServiceModule
 import dagger.Component
@@ -124,6 +126,8 @@ interface AppComponent {
     fun unlinkComponent(module: UnlinkModule): UnlinkComponent
 
     fun unpublishComponent(module: UnpublishModule): UnpublishComponent
+
+    fun uploadsComponent(module: UploadsModule): UploadsComponent
 
     fun legacyComponent(module: LegacyModule): LegacyComponent
 
