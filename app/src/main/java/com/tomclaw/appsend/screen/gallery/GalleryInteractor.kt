@@ -1,6 +1,7 @@
 package com.tomclaw.appsend.screen.gallery
 
 import android.net.Uri
+import com.tomclaw.appsend.core.StreamsProvider
 import com.tomclaw.appsend.util.SchedulersFactory
 import io.reactivex.rxjava3.core.Single
 
@@ -19,13 +20,17 @@ class GalleryInteractorImpl(
     override fun downloadFile(source: Uri, destination: Uri): Single<Unit> {
         return Single
             .create { emitter ->
-                 streamsProvider.openInputStream(source)?.let { input ->
-                    streamsProvider.openOutputStream(destination)?.let { output ->
-                        input.copyTo(output)
-                        output.flush()
-                        emitter.onSuccess(Unit)
-                    } ?: emitter.onError(Throwable("Output stream opening error"))
-                } ?: emitter.onError(Throwable("Input stream opening error"))
+                try {
+                    streamsProvider.openInputStream(source)?.let { input ->
+                        streamsProvider.openOutputStream(destination)?.let { output ->
+                            input.copyTo(output)
+                            output.flush()
+                            emitter.onSuccess(Unit)
+                        } ?: emitter.onError(Throwable("Output stream opening error"))
+                    } ?: emitter.onError(Throwable("Input stream opening error"))
+                } catch (ex: Throwable) {
+                    emitter.onError(ex)
+                }
             }
             .subscribeOn(schedulers.io())
     }

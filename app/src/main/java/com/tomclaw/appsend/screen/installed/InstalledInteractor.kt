@@ -1,11 +1,12 @@
 package com.tomclaw.appsend.screen.installed
 
+import android.net.Uri
 import com.tomclaw.appsend.core.StoreApi
+import com.tomclaw.appsend.core.StreamsProvider
 import com.tomclaw.appsend.screen.installed.api.CheckUpdatesRequest
 import com.tomclaw.appsend.screen.installed.api.UpdateEntity
 import com.tomclaw.appsend.upload.UploadApk
 import com.tomclaw.appsend.upload.UploadPackage
-import com.tomclaw.appsend.util.FileHelper.escapeFileSymbols
 import com.tomclaw.appsend.util.SchedulersFactory
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
@@ -22,12 +23,7 @@ interface InstalledInteractor {
 
     fun getPackageUploadInfo(packageName: String): Pair<UploadPackage, UploadApk>
 
-    fun extractApk(
-        path: String,
-        label: String,
-        version: String,
-        packageName: String
-    ): Observable<String>
+    fun copyFile(source: String, target: Uri): Observable<Unit>
 
 }
 
@@ -35,6 +31,7 @@ class InstalledInteractorImpl(
     private val api: StoreApi,
     private val appsDir: File,
     private val locale: Locale,
+    private val streamsProvider: StreamsProvider,
     private val infoProvider: InstalledInfoProvider,
     private val schedulers: SchedulersFactory
 ) : InstalledInteractor {
@@ -72,34 +69,24 @@ class InstalledInteractorImpl(
         return infoProvider.getPackageUploadInfo(packageName)
     }
 
-    override fun extractApk(
-        path: String,
-        label: String,
-        version: String,
-        packageName: String
-    ): Observable<String> {
+    override fun copyFile(source: String, target: Uri): Observable<Unit> {
         return Single
             .create { emitter ->
                 try {
-                    val src = File(path)
-                    val dst = targetFile(label, version, packageName)
-                    src.copyTo(dst, overwrite = true)
-                    emitter.onSuccess(dst.path)
+                    val srcFile = File(source)
+                    streamsProvider.openInputStream(Uri.fromFile(srcFile))?.let { input ->
+                        streamsProvider.openOutputStream(target)?.let { output ->
+                            input.copyTo(output)
+                            output.flush()
+                            emitter.onSuccess(Unit)
+                        } ?: emitter.onError(Throwable("Output stream opening error"))
+                    } ?: emitter.onError(Throwable("Input stream opening error"))
                 } catch (ex: Throwable) {
                     emitter.onError(ex)
                 }
             }
             .toObservable()
             .subscribeOn(schedulers.io())
-    }
-
-    private fun targetFile(label: String, version: String, packageName: String): File {
-        val fileName = fileName(label, version, packageName)
-        return File(appsDir, "$fileName.apk")
-    }
-
-    private fun fileName(label: String, version: String, packageName: String): String {
-        return escapeFileSymbols("$label-$version-$packageName")
     }
 
 }

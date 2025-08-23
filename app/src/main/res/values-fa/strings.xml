@@ -6,7 +6,7 @@
     <string name="mibibytes">%1f مگابایت</string>
     <string name="gigibytes">%1f گیگابایت</string>
     <string name="please_wait">لطفا منتظر بمانید…</string>
-    <string name="app_extract_success">با موفقیت در پوشه &lt;b>%s&lt;/b> ذخیره شد\nآیا میخواهید آن را با دیگران به اشتراک بگذارید؟</string>
+    <string name="app_extract_success">برنامه با موفقیت صادر شده است.</string>
     <string name="app_extract_failed">خروجی گرفته نشد :(</string>
     <string name="tomclaw_software">نویسنده برنامه: گروه نرم افزاری TomClaw</string>
     <string name="app_version">نسخه %1$s (%2$d)</string>
@@ -30,7 +30,7 @@
     <string name="sort_order_install_time">زمان نصب</string>
     <string name="sort_order_update_time">زمان به روز رسانی</string>
     <string name="pref_summary_sort_order">مرتب سازی فهرست برنامه ها</string>
-    <string name="extract_apk">استخراج فایل apk در حافظه داخلی / پوشه دانلود</string>
+    <string name="extract_apk">استخراج APK</string>
     <string name="share_apk">اشتراک گذاری</string>
     <string name="upload_apk">بارگذاری APK و دریافت لینک آن</string>
     <string name="upload_app">بارگذاری برنامه</string>

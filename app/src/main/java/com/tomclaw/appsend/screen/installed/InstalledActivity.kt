@@ -12,9 +12,11 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
+import androidx.core.net.toUri
 import com.avito.konveyor.ItemBinder
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
@@ -33,7 +35,6 @@ import com.tomclaw.appsend.util.Analytics
 import com.tomclaw.appsend.util.updateTheme
 import java.io.File
 import javax.inject.Inject
-import androidx.core.net.toUri
 
 class InstalledActivity : AppCompatActivity(), InstalledPresenter.InstalledRouter {
 
@@ -56,6 +57,15 @@ class InstalledActivity : AppCompatActivity(), InstalledPresenter.InstalledRoute
         registerForActivityResult(StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
                 presenter.invalidateApps()
+            }
+        }
+
+    private val saveFileLauncher =
+        registerForActivityResult(StartActivityForResult()) { result ->
+            if (result.resultCode == RESULT_OK) {
+                result.data?.data?.let { uri ->
+                    presenter.saveFile(target = uri)
+                }
             }
         }
 
@@ -252,9 +262,14 @@ class InstalledActivity : AppCompatActivity(), InstalledPresenter.InstalledRoute
         }
     }
 
-    override fun requestStoragePermissions(callback: () -> Unit) {
-        // Storage permissions was deprecated by Google; content was moved to the internal storage
-        callback()
+    override fun requestSaveFile(fileName: String, fileType: String) {
+        val intent = Intent(Intent.ACTION_CREATE_DOCUMENT)
+            .apply {
+                addCategory(Intent.CATEGORY_OPENABLE)
+                type = fileType
+                putExtra(Intent.EXTRA_TITLE, fileName)
+            }
+        saveFileLauncher.launch(intent)
     }
 
     override fun leaveScreen() {

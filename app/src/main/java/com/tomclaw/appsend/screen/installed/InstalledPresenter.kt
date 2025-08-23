@@ -1,5 +1,6 @@
 package com.tomclaw.appsend.screen.installed
 
+import android.net.Uri
 import android.os.Bundle
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.blueprint.Item
@@ -9,8 +10,10 @@ import com.tomclaw.appsend.screen.installed.adapter.app.AppItem
 import com.tomclaw.appsend.screen.installed.api.UpdateEntity
 import com.tomclaw.appsend.upload.UploadApk
 import com.tomclaw.appsend.upload.UploadPackage
+import com.tomclaw.appsend.util.FileHelper.escapeFileSymbols
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.getParcelableArrayListCompat
+import com.tomclaw.appsend.util.getParcelableCompat
 import dagger.Lazy
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -34,6 +37,8 @@ interface InstalledPresenter : ItemListener {
     fun onUpdate()
 
     fun showSnackbar(text: String)
+
+    fun saveFile(target: Uri)
 
     fun invalidateApps()
 
@@ -59,7 +64,7 @@ interface InstalledPresenter : ItemListener {
 
         fun removeApp(packageName: String)
 
-        fun requestStoragePermissions(callback: () -> Unit)
+        fun requestSaveFile(fileName: String, fileType: String)
 
         fun leaveScreen()
 
@@ -85,6 +90,8 @@ class InstalledPresenterImpl(
         state?.getParcelableArrayListCompat(KEY_APPS, AppItem::class.java)
     private var filter: String? = state?.getString(KEY_FILTER).takeIf { !it.isNullOrBlank() }
     private var isError: Boolean = state?.getBoolean(KEY_ERROR) == true
+    private var extractItem: AppItem? =
+        state?.getParcelableCompat(KEY_EXTRACT_ITEM, AppItem::class.java)
 
     override fun attachView(view: InstalledView) {
         this.view = view
@@ -100,15 +107,12 @@ class InstalledPresenterImpl(
                 }
 
                 MENU_SHARE -> {
-                    extractApk(app) { path ->
-                        router?.openShareApk(path)
-                    }
+                    app.path ?: return@subscribe
+                    router?.openShareApk(path = app.path)
                 }
 
                 MENU_EXTRACT -> {
-                    extractApk(app) { path ->
-                        view.showExtractSuccess(path)
-                    }
+                    requestExtractApk(app)
                 }
 
                 MENU_UPLOAD -> {
@@ -117,9 +121,8 @@ class InstalledPresenterImpl(
                 }
 
                 MENU_BLUETOOTH -> {
-                    extractApk(app) { path ->
-                        router?.openShareBluetooth(path)
-                    }
+                    app.path ?: return@subscribe
+                    router?.openShareBluetooth(path = app.path)
                 }
 
                 MENU_FIND_ON_GP -> {
@@ -186,6 +189,7 @@ class InstalledPresenterImpl(
         putParcelableArrayList(KEY_APPS, items?.let { ArrayList(items.orEmpty()) })
         putString(KEY_FILTER, filter)
         putBoolean(KEY_ERROR, isError)
+        putParcelable(KEY_EXTRACT_ITEM, extractItem)
     }
 
     override fun invalidateApps() {
@@ -289,24 +293,39 @@ class InstalledPresenterImpl(
         router?.openAppScreen(appId, title)
     }
 
-    private fun extractApk(app: AppItem, callback: (String) -> Unit) {
+    private fun requestExtractApk(app: AppItem) {
         app.path ?: return
-        router?.requestStoragePermissions {
-            subscriptions += interactor
-                .extractApk(
-                    path = app.path,
-                    label = app.title,
-                    version = app.version,
-                    packageName = app.packageName,
-                )
-                .observeOn(schedulers.mainThread())
-                .doOnSubscribe { view?.showProgress() }
-                .doAfterTerminate { onReady() }
-                .subscribe(
-                    { callback.invoke(it) },
-                    { view?.showExtractError() }
-                )
-        }
+        extractItem = app
+        router?.requestSaveFile(
+            fileName = fileName(
+                label = app.title,
+                version = app.version,
+                packageName = app.packageName
+            ),
+            fileType = "application/vnd.android.package-archive"
+        )
+    }
+
+    override fun saveFile(target: Uri) {
+        val item = extractItem ?: return
+        extractItem = null
+        item.path ?: return
+        subscriptions += interactor
+            .copyFile(
+                source = item.path,
+                target,
+            )
+            .observeOn(schedulers.mainThread())
+            .doOnSubscribe { view?.showProgress() }
+            .doAfterTerminate { onReady() }
+            .subscribe(
+                { view?.showExtractSuccess() },
+                { view?.showExtractError() }
+            )
+    }
+
+    private fun fileName(label: String, version: String, packageName: String): String {
+        return escapeFileSymbols("$label-$version-$packageName")
     }
 
 }
@@ -314,3 +333,4 @@ class InstalledPresenterImpl(
 private const val KEY_APPS = "apps"
 private const val KEY_FILTER = "filter"
 private const val KEY_ERROR = "error"
+private const val KEY_EXTRACT_ITEM = "extract_item"

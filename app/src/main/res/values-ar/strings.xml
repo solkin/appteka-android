@@ -6,7 +6,7 @@
     <string name="mibibytes">%.1f ميجا</string>
     <string name="gigibytes">%.1f جيجا</string>
     <string name="please_wait">برجاء الانتظار…</string>
-    <string name="app_extract_success">تم التصدير بنجاح إلى \n&lt;b>%s&lt;/b>\nشاركها الآن?</string>
+    <string name="app_extract_success">تم تصدير التطبيق بنجاح.</string>
     <string name="app_extract_failed">فشل التصدير :(</string>
     <string name="tomclaw_software">برنامج توم كلاو</string>
     <string name="app_version">الاصدار %1$s (%2$d)</string>
@@ -31,7 +31,7 @@
     <string name="sort_order_install_time">حسب وقت التثبيت</string>
     <string name="sort_order_update_time">حسب وقت التحديث</string>
     <string name="pref_summary_sort_order">قائمة التطبيقات تفرز متغيرات الترتيب</string>
-    <string name="extract_apk">استخراج APK إلى التنزيلات</string>
+    <string name="extract_apk">استخراج APK</string>
     <string name="share_apk">مشاركة APK عبر التطبيقات</string>
     <string name="upload_apk">قم بتحميل APK واحصل على الرابط</string>
     <string name="upload_app">تحميل التطبيق</string>

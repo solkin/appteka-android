@@ -40,7 +40,7 @@ interface InstalledView {
 
     fun showError()
 
-    fun showExtractSuccess(path: String)
+    fun showExtractSuccess()
 
     fun showExtractError()
 
@@ -143,18 +143,8 @@ class InstalledViewImpl(
         retryButton.clicks(retryRelay)
     }
 
-    override fun showExtractSuccess(path: String) {
-        val alertDialog = AlertDialog.Builder(context)
-            .setTitle(R.string.success)
-            .setMessage(
-                Html.fromHtml(context.getString(R.string.app_extract_success, path))
-            )
-            .setPositiveButton(
-                R.string.yes
-            ) { _, _ -> shareExtractedRelay.accept(path) }
-            .setNegativeButton(R.string.no, null)
-            .create()
-        alertDialog.show()
+    override fun showExtractSuccess() {
+        showSnackbar(context.resources.getString(R.string.app_extract_success))
     }
 
     override fun showExtractError() {

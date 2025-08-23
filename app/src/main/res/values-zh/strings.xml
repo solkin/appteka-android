@@ -6,7 +6,7 @@
     <string name="mibibytes">%.1f MB</string>
     <string name="gigibytes">%.1f GB</string>
     <string name="please_wait">加载中请稍候…</string>
-    <string name="app_extract_success">应用程序已成功导出到 \n&lt;b&gt;%s&lt;/b&gt;\n现在分享吗？</string>
+    <string name="app_extract_success">应用程序已成功导出。</string>
     <string name="app_extract_failed">无法提取应用程序 :(</string>
     <string name="tomclaw_software">TomClaw Software</string>
     <string name="app_version">版本 %1$s (%2$d)</string>
@@ -29,7 +29,7 @@
     <string name="sort_order_install_time">安装时间</string>
     <string name="sort_order_update_time">更新时间</string>
     <string name="pref_summary_sort_order">应用程序列表排序选项</string>
-    <string name="extract_apk">导出应用程序至下载目录</string>
+    <string name="extract_apk">提取APK</string>
     <string name="share_apk">分享应用程序</string>
     <string name="upload_apk">上传APK并且获得链接</string>
     <string name="upload_app">上传应用程序</string>

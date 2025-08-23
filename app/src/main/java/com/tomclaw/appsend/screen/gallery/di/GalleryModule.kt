@@ -13,8 +13,8 @@ import com.tomclaw.appsend.screen.gallery.GalleryPresenter
 import com.tomclaw.appsend.screen.gallery.GalleryPresenterImpl
 import com.tomclaw.appsend.screen.gallery.GalleryResourceProvider
 import com.tomclaw.appsend.screen.gallery.GalleryResourceProviderImpl
-import com.tomclaw.appsend.screen.gallery.StreamsProvider
-import com.tomclaw.appsend.screen.gallery.StreamsProviderImpl
+import com.tomclaw.appsend.core.StreamsProvider
+import com.tomclaw.appsend.core.StreamsProviderImpl
 import com.tomclaw.appsend.screen.gallery.adapter.image.ImageItemBlueprint
 import com.tomclaw.appsend.screen.gallery.adapter.image.ImageItemPresenter
 import com.tomclaw.appsend.util.PerActivity
@@ -57,11 +57,6 @@ class GalleryModule(
         streamsProvider: StreamsProvider,
         schedulers: SchedulersFactory,
     ): GalleryInteractor = GalleryInteractorImpl(streamsProvider, schedulers)
-
-    @Provides
-    @PerActivity
-    internal fun provideStreamsProvider(client: OkHttpClient): StreamsProvider =
-        StreamsProviderImpl(context, client)
 
     @Provides
     @PerActivity

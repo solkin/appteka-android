@@ -6,7 +6,7 @@
     <string name="mibibytes">%.1f مێگابایت</string>
     <string name="gigibytes">%.1f گێگابایت</string>
     <string name="please_wait">Please, wait…</string>
-    <string name="app_extract_success">Successfully exported to \n&lt;b>%s&lt;/b>\nShare with it now?</string>
+    <string name="app_extract_success">بەرنامەکە بە سەرکەوتوویی هەناردە کراوە.</string>
     <string name="app_extract_failed">هەناردەکردن شکستی هێنا :(</string>
     <string name="tomclaw_software">نەرمەکاڵای تۆمکلاو</string>
     <string name="app_version">وەشانی %1$s (%2$d)</string>
@@ -31,7 +31,7 @@
     <string name="sort_order_install_time">بە کاتی دامەزراندن</string>
     <string name="sort_order_update_time">بە کاتی نوێکردنەوە</string>
     <string name="pref_summary_sort_order">ئەپەکان لیستی جۆرەکانی ڕێکخستنی ڕیزبەندی دەکەن</string>
-    <string name="extract_apk">دەرهێنانی APK بۆ ناو دابەزاندنەکان</string>
+    <string name="extract_apk">دەرهێنانی APK</string>
     <string name="share_apk">APK لە ڕێگەی ئەپەکانەوە هاوبەش بکە</string>
     <string name="upload_apk">APK بار بکە و لینکی بەدەست بهێنە</string>
     <string name="upload_app">بەرنامە بارکردن</string>

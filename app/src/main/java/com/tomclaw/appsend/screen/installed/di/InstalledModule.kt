@@ -10,6 +10,7 @@ import com.tomclaw.appsend.categories.CategoryConverter
 import com.tomclaw.appsend.categories.CategoryConverterImpl
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.di.APPS_DIR
+import com.tomclaw.appsend.core.StreamsProvider
 import com.tomclaw.appsend.screen.installed.AppConverter
 import com.tomclaw.appsend.screen.installed.AppConverterImpl
 import com.tomclaw.appsend.screen.installed.AppsResourceProvider
@@ -63,12 +64,14 @@ class InstalledModule(
         api: StoreApi,
         @Named(APPS_DIR) appsDir: File,
         locale: Locale,
+        streamsProvider: StreamsProvider,
         infoProvider: InstalledInfoProvider,
         schedulers: SchedulersFactory
     ): InstalledInteractor = InstalledInteractorImpl(
         api,
         appsDir,
         locale,
+        streamsProvider,
         infoProvider,
         schedulers
     )

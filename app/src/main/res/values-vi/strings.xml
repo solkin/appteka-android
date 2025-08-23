@@ -6,7 +6,7 @@
     <string name="mibibytes">%.1f МБ</string>Mb
     <string name="gigibytes">%.1f ГБ</string>Gb
     <string name="please_wait">Vui lòng chờ</string>
-    <string name="app_extract_success">Ứng dụng đã được trích xuất thành công sang %s Chìa sẻ ngay </string>
+    <string name="app_extract_success">Ứng dụng đã được xuất thành công.</string>
     <string name="app_extract_failed">Không thể trích xuất ứng dụng</string>
     <string name="tomclaw_software">Phần mềm TomClaw</string>
     <string name="app_version">Phiên bản %1$s (%2$d)</string>
@@ -29,7 +29,7 @@
     <string name="sort_order_install_time">Thời gian cài đặt</string>
     <string name="sort_order_update_time">Thời gian cập nhật</string>
     <string name="pref_summary_sort_order">Tùy chọn sắp xếp danh sách ứng dụng</string>
-    <string name="extract_apk">trích suất APK vào tệp tin tải xuống</string>
+    <string name="extract_apk">Trích xuất APK</string>
     <string name="share_apk">Chia sẻ ứng dụng</string>
     <string name="upload_apk">Tải về phần chia sẻ</string>
     <string name="upload_app">Tải về phần chia sẻ</string>

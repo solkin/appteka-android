@@ -25,6 +25,8 @@ import com.tomclaw.appsend.core.PersistentCookieJar
 import com.tomclaw.appsend.core.STAND_BY_HOST_URL
 import com.tomclaw.appsend.core.StandByApi
 import com.tomclaw.appsend.core.StoreApi
+import com.tomclaw.appsend.core.StreamsProvider
+import com.tomclaw.appsend.core.StreamsProviderImpl
 import com.tomclaw.appsend.core.TimeProvider
 import com.tomclaw.appsend.core.TimeProviderImpl
 import com.tomclaw.appsend.core.UserAgentInterceptor
@@ -50,6 +52,7 @@ import com.tomclaw.appsend.util.Logger
 import com.tomclaw.appsend.util.LoggerImpl
 import com.tomclaw.appsend.util.PackageObserver
 import com.tomclaw.appsend.util.PackageObserverImpl
+import com.tomclaw.appsend.util.PerActivity
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Module
 import dagger.Provides
@@ -268,6 +271,11 @@ class AppModule(private val app: Application) {
         .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
         .build()
         .create(StandByApi::class.java)
+
+    @Provides
+    @Singleton
+    internal fun provideStreamsProvider(client: OkHttpClient): StreamsProvider =
+        StreamsProviderImpl(context = app, client)
 
 }
 

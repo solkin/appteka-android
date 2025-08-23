@@ -6,7 +6,7 @@
     <string name="mibibytes">%.1f МБ</string>
     <string name="gigibytes">%.1f ГБ</string>
     <string name="please_wait">Пожалуйста, подождите…</string>
-    <string name="app_extract_success">Приложение успешно экспортировано в \n&lt;b&gt;%s&lt;/b&gt;\nПоделиться им сейчас?</string>
+    <string name="app_extract_success">Приложение успешно экспортировано</string>
     <string name="app_extract_failed">Не удалось извлечь приложение :(</string>
     <string name="tomclaw_software">TomClaw Software</string>
     <string name="app_version">Версия %1$s (%2$d)</string>
@@ -29,7 +29,7 @@
     <string name="sort_order_install_time">Времени установки</string>
     <string name="sort_order_update_time">Времени обновления</string>
     <string name="pref_summary_sort_order">Варианты сортировки списка приложений</string>
-    <string name="extract_apk">Извлечь APK в Downloads</string>
+    <string name="extract_apk">Извлечь APK</string>
     <string name="share_apk">Поделиться приложением</string>
     <string name="upload_apk">Загрузить в обменник</string>
     <string name="upload_app">Загрузить в обменник</string>
