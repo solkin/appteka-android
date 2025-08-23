@@ -116,12 +116,7 @@ abstract class InstalledFragment extends CommonItemFragment<AppItem> {
             Collections.sort(appItemList, (lhs, rhs) -> rhs.getLabel().toUpperCase(locale)
                     .compareTo(lhs.getLabel().toUpperCase(locale)));
         } else if (TextUtils.equals(sortOrder, context.getString(R.string.sort_order_app_size_value))) {
-            Collections.sort(appItemList, new Comparator<AppItem>() {
-                @Override
-                public int compare(AppItem lhs, AppItem rhs) {
-                    return compareLong(rhs.getSize(), lhs.getSize());
-                }
-            });
+            Collections.sort(appItemList, (lhs, rhs) -> compareLong(rhs.getSize(), lhs.getSize()));
         } else if (TextUtils.equals(sortOrder, context.getString(R.string.sort_order_install_time_value))) {
             Collections.sort(appItemList, (lhs, rhs) -> compareLong(rhs.getFirstInstallTime(), lhs.getFirstInstallTime()));
         } else if (TextUtils.equals(sortOrder, context.getString(R.string.sort_order_update_time_value))) {

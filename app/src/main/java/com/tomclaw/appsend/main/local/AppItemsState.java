@@ -36,7 +36,7 @@ public class AppItemsState extends State {
         return 0;
     }
 
-    public static final Creator<AppItemsState> CREATOR = new Creator<AppItemsState>() {
+    public static final Creator<AppItemsState> CREATOR = new Creator<>() {
         @Override
         public AppItemsState createFromParcel(Parcel in) {
             return new AppItemsState(in);

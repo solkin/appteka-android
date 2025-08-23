@@ -1,9 +1,7 @@
 package com.tomclaw.appsend.main.local;
 
-import static com.tomclaw.appsend.util.PackageHelper.getInstalledVersionCode;
-
-import android.content.pm.PackageManager;
-import android.view.View;
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
@@ -21,7 +19,6 @@ import com.tomclaw.appsend.main.adapter.files.FileViewHolderCreator;
 import com.tomclaw.appsend.main.adapter.files.FilesAdapter;
 import com.tomclaw.appsend.main.adapter.files.FilesListener;
 import com.tomclaw.appsend.main.item.CommonItem;
-import com.tomclaw.appsend.main.item.StoreItem;
 
 import java.util.List;
 
@@ -46,11 +43,13 @@ abstract class CommonItemFragment<T extends CommonItem> extends Fragment impleme
     private FilesAdapter<T> adapter;
 
     void init() {
+        Context context = getContext();
+        if (context == null) {
+            return;
+        }
         int orientation = RecyclerView.VERTICAL;
-        LinearLayoutManager layoutManager =
-                new LinearLayoutManager(getContext(), orientation, false);
-        DividerItemDecoration itemDecor =
-                new DividerItemDecoration(getContext(), orientation);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(context, orientation, false);
+        DividerItemDecoration itemDecor = new DividerItemDecoration(context, orientation);
         adapter = new FilesAdapter<>(getViewHolderCreator());
         adapter.setHasStableIds(true);
         adapter.setListener(this);
@@ -58,12 +57,9 @@ abstract class CommonItemFragment<T extends CommonItem> extends Fragment impleme
         recycler.setAdapter(adapter);
         recycler.addItemDecoration(itemDecor);
 
-        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                invalidate();
-                loadFiles();
-            }
+        swipeRefresh.setOnRefreshListener(() -> {
+            invalidate();
+            loadFiles();
         });
 
         if (getFiles() == null) {
@@ -96,12 +92,6 @@ abstract class CommonItemFragment<T extends CommonItem> extends Fragment impleme
         loadFiles();
     }
 
-    public void reloadFiles() {
-        showProgress();
-        invalidate();
-        loadFiles();
-    }
-
     public void loadFiles() {
         isLoading = true;
         isError = false;
@@ -122,6 +112,7 @@ abstract class CommonItemFragment<T extends CommonItem> extends Fragment impleme
         swipeRefresh.setRefreshing(false);
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void onLoadingError() {
         isLoading = false;
         isError = true;
@@ -137,6 +128,7 @@ abstract class CommonItemFragment<T extends CommonItem> extends Fragment impleme
         setFiles(null);
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void updateFiles() {
         adapter.setItems(getFiles());
         adapter.notifyDataSetChanged();
@@ -165,12 +157,9 @@ abstract class CommonItemFragment<T extends CommonItem> extends Fragment impleme
 
     public void showError() {
         errorText.setText(R.string.load_files_error);
-        buttonRetry.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showProgress();
-                loadAttempt();
-            }
+        buttonRetry.setOnClickListener(v -> {
+            showProgress();
+            loadAttempt();
         });
         viewFlipper.setDisplayedChild(3);
     }
@@ -188,21 +177,10 @@ abstract class CommonItemFragment<T extends CommonItem> extends Fragment impleme
     }
 
     @Override
+    @SuppressLint("NotifyDataSetChanged")
     public void onRetry() {
         loadFiles();
         adapter.notifyDataSetChanged();
-    }
-
-    public void setRefreshOnResume() {
-        isRefreshOnResume = true;
-    }
-
-    public static void updateItemsInstalledVersions(PackageManager packageManager,
-                                                    List<StoreItem> items) {
-        for (StoreItem item : items) {
-            item.setInstalledVersionCode(getInstalledVersionCode(
-                    item.getPackageName(), packageManager));
-        }
     }
 
     private static class ItemsLoadTask<A extends CommonItem> extends WeakObjectTask<CommonItemFragment<A>> {

@@ -12,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+
 import com.tomclaw.appsend.R;
 import com.tomclaw.appsend.di.legacy.LegacyInjector;
 
@@ -42,11 +44,11 @@ public final class SelectDistroFragment_
 
     @Override
     public<T extends View> T internalFindViewById(int id) {
-        return ((T)((contentView_ == null)?null:contentView_.findViewById(id)));
+        return (contentView_ == null)?null:contentView_.findViewById(id);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         contentView_ = super.onCreateView(inflater, container, savedInstanceState);
         if (contentView_ == null) {
             contentView_ = inflater.inflate(R.layout.local_apps_fragment, container, false);
@@ -72,7 +74,7 @@ public final class SelectDistroFragment_
     }
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         onViewChangedNotifier_.notifyViewChanged(this);
     }
@@ -102,7 +104,7 @@ public final class SelectDistroFragment_
     }
 
     @Override
-    public void onSaveInstanceState(Bundle bundle_) {
+    public void onSaveInstanceState(@NonNull Bundle bundle_) {
         super.onSaveInstanceState(bundle_);
         bundle_.putBoolean("isError", isError);
         bundle_.putBoolean("isLoading", isLoading);

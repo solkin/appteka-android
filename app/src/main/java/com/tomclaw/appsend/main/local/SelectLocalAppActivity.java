@@ -87,10 +87,6 @@ public class SelectLocalAppActivity extends PermisoActivity implements CommonIte
         leaveScreen(item);
     }
 
-    private void showError(@StringRes int message) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-    }
-
     private void leaveScreen() {
         setResult(RESULT_CANCELED);
         finish();

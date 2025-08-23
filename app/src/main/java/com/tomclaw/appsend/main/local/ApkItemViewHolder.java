@@ -46,12 +46,7 @@ public class ApkItemViewHolder extends FileViewHolder<ApkItem> {
     public void bind(final ApkItem item, boolean isLast, final FilesListener<ApkItem> listener) {
         Context context = itemView.getContext();
         if (listener != null) {
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    listener.onClick(item);
-                }
-            });
+            itemView.setOnClickListener(v -> listener.onClick(item));
         }
 
         String uri = createApkIconURI(item.getPath());
