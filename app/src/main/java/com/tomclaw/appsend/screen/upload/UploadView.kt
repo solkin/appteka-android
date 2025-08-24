@@ -57,6 +57,8 @@ interface UploadView {
 
     fun showVersionsDialog(items: List<VersionItem>)
 
+    fun showUploadDialog()
+
     fun showUploadProgress()
 
     fun resetUploadProgress()
@@ -80,6 +82,8 @@ interface UploadView {
     fun cancelClicks(): Observable<Unit>
 
     fun loginClicks(): Observable<Unit>
+
+    fun pickAppClicks(): Observable<Int>
 
 }
 
@@ -109,6 +113,7 @@ class UploadViewImpl(
     private val versionRelay = PublishRelay.create<VersionItem>()
     private val cancelRelay = PublishRelay.create<Unit>()
     private val loginRelay = PublishRelay.create<Unit>()
+    private val pickAppRelay = PublishRelay.create<Int>()
 
     private var bounceAnimator: ValueAnimator? = null
     private var rotationAnimator: ValueAnimator? = null
@@ -236,6 +241,24 @@ class UploadViewImpl(
             .apply { show() }
     }
 
+    override fun showUploadDialog() {
+        val theme = R.style.BottomSheetDialogDark.takeIf { preferences.isDarkTheme() }
+            ?: R.style.BottomSheetDialogLight
+        BottomSheetBuilder(context, theme)
+            .setMode(BottomSheetBuilder.MODE_LIST)
+            .setIconTintColor(getAttributedColor(context, R.attr.menu_icons_tint))
+            .setItemTextColor(getAttributedColor(context, R.attr.text_primary_color))
+            .setMenu(R.menu.upload_menu)
+            .setItemClickListener {
+                when (it.itemId) {
+                    R.id.menu_pick_apk -> pickAppRelay.accept(MENU_APK)
+                    R.id.menu_pick_installed -> pickAppRelay.accept(MENU_INSTALLED)
+                }
+            }
+            .createDialog()
+            .show()
+    }
+
     override fun showUploadProgress() {
         flipper.displayedChild = CHILD_UPLOAD
 
@@ -316,6 +339,8 @@ class UploadViewImpl(
 
     override fun loginClicks(): Observable<Unit> = loginRelay
 
+    override fun pickAppClicks(): Observable<Int> = pickAppRelay
+
     @SuppressLint("AnimatorKeep")
     fun ProgressBar.setProgressWithAnimation(progress: Int, duration: Long = 1500) {
         val objectAnimator = ObjectAnimator.ofInt(this, "progress", progress)
@@ -329,3 +354,5 @@ class UploadViewImpl(
 private const val DURATION_MEDIUM = 300L
 private const val CHILD_CONTENT = 0
 private const val CHILD_UPLOAD = 1
+internal const val MENU_APK = 1
+internal const val MENU_INSTALLED = 2

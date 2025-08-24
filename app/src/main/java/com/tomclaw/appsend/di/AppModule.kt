@@ -21,6 +21,8 @@ import com.tomclaw.appsend.core.DeviceIdProviderImpl
 import com.tomclaw.appsend.core.HOST_URL
 import com.tomclaw.appsend.core.MigrationManager
 import com.tomclaw.appsend.core.MigrationManagerImpl
+import com.tomclaw.appsend.core.PackageInfoProvider
+import com.tomclaw.appsend.core.PackageInfoProviderImpl
 import com.tomclaw.appsend.core.PersistentCookieJar
 import com.tomclaw.appsend.core.STAND_BY_HOST_URL
 import com.tomclaw.appsend.core.StandByApi
@@ -276,6 +278,11 @@ class AppModule(private val app: Application) {
     @Singleton
     internal fun provideStreamsProvider(client: OkHttpClient): StreamsProvider =
         StreamsProviderImpl(context = app, client)
+
+    @Provides
+    @Singleton
+    internal fun providePackageInfoProvider(packageManager: PackageManager): PackageInfoProvider =
+        PackageInfoProviderImpl(packageManager)
 
 }
 

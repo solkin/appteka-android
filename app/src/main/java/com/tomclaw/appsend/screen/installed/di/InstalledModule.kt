@@ -62,14 +62,12 @@ class InstalledModule(
     @PerActivity
     internal fun provideInteractor(
         api: StoreApi,
-        @Named(APPS_DIR) appsDir: File,
         locale: Locale,
         streamsProvider: StreamsProvider,
         infoProvider: InstalledInfoProvider,
         schedulers: SchedulersFactory
     ): InstalledInteractor = InstalledInteractorImpl(
         api,
-        appsDir,
         locale,
         streamsProvider,
         infoProvider,

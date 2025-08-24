@@ -29,7 +29,6 @@ interface InstalledInteractor {
 
 class InstalledInteractorImpl(
     private val api: StoreApi,
-    private val appsDir: File,
     private val locale: Locale,
     private val streamsProvider: StreamsProvider,
     private val infoProvider: InstalledInfoProvider,

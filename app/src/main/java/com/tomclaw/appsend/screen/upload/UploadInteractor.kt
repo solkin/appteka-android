@@ -1,11 +1,15 @@
 package com.tomclaw.appsend.screen.upload
 
+import android.net.Uri
 import com.tomclaw.appsend.core.StoreApi
+import com.tomclaw.appsend.core.StreamsProvider
+import com.tomclaw.appsend.core.StreamsProviderImpl
 import com.tomclaw.appsend.screen.upload.api.CheckExistResponse
 import com.tomclaw.appsend.util.SchedulersFactory
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import java.io.BufferedInputStream
+import java.io.File
 import java.io.FileInputStream
 import java.security.MessageDigest
 import java.util.Locale
@@ -16,11 +20,15 @@ interface UploadInteractor {
 
     fun checkExist(sha1: String, packageName: String, size: Long): Observable<CheckExistResponse>
 
+    fun saveTempFile(uri: Uri): Observable<File>
+
 }
 
 class UploadInteractorImpl(
     private val api: StoreApi,
     private val locale: Locale,
+    private val appsDir: File,
+    private val streamsProvider: StreamsProvider,
     private val schedulers: SchedulersFactory
 ) : UploadInteractor {
 
@@ -56,6 +64,28 @@ class UploadInteractorImpl(
                 locale = locale.language,
             )
             .map { it.result }
+            .toObservable()
+            .subscribeOn(schedulers.io())
+    }
+
+    override fun saveTempFile(uri: Uri): Observable<File> {
+        return Single
+            .create { emitter ->
+                try {
+                    val temp = File.createTempFile("pick", "upload", appsDir)
+                    temp.deleteOnExit()
+                    val target = Uri.fromFile(temp)
+                    streamsProvider.openInputStream(uri)?.let { input ->
+                        streamsProvider.openOutputStream(target)?.let { output ->
+                            input.copyTo(output)
+                            output.flush()
+                            emitter.onSuccess(temp)
+                        } ?: emitter.onError(Throwable("Output stream opening error"))
+                    } ?: emitter.onError(Throwable("Input stream opening error"))
+                } catch (ex: Throwable) {
+                    emitter.onError(ex)
+                }
+            }
             .toObservable()
             .subscribeOn(schedulers.io())
     }

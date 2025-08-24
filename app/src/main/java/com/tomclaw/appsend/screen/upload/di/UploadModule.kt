@@ -9,7 +9,10 @@ import com.avito.konveyor.blueprint.ItemBlueprint
 import com.tomclaw.appsend.categories.CategoriesInteractor
 import com.tomclaw.appsend.categories.CategoryConverter
 import com.tomclaw.appsend.categories.CategoryConverterImpl
+import com.tomclaw.appsend.core.PackageInfoProvider
 import com.tomclaw.appsend.core.StoreApi
+import com.tomclaw.appsend.core.StreamsProvider
+import com.tomclaw.appsend.di.APPS_DIR
 import com.tomclaw.appsend.screen.upload.UploadConverter
 import com.tomclaw.appsend.screen.upload.UploadConverterImpl
 import com.tomclaw.appsend.screen.upload.UploadInteractor
@@ -58,6 +61,7 @@ import dagger.Lazy
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoSet
+import java.io.File
 import java.util.Locale
 import javax.inject.Named
 
@@ -79,6 +83,7 @@ class UploadModule(
         uploadConverter: UploadConverter,
         @Named(UPLOAD_ADAPTER_PRESENTER) adapterPresenter: Lazy<AdapterPresenter>,
         uploadManager: UploadManager,
+        packageInfoProvider: PackageInfoProvider,
         preferences: UploadPreferencesProvider,
         schedulers: SchedulersFactory
     ): UploadPresenter = UploadPresenterImpl(
@@ -91,6 +96,7 @@ class UploadModule(
         uploadConverter,
         adapterPresenter,
         uploadManager,
+        packageInfoProvider,
         preferences,
         schedulers,
         state
@@ -101,8 +107,10 @@ class UploadModule(
     internal fun provideInteractor(
         api: StoreApi,
         locale: Locale,
+        @Named(APPS_DIR) appsDir: File,
+        streamsProvider: StreamsProvider,
         schedulers: SchedulersFactory
-    ): UploadInteractor = UploadInteractorImpl(api, locale, schedulers)
+    ): UploadInteractor = UploadInteractorImpl(api, locale, appsDir, streamsProvider, schedulers)
 
     @Provides
     @PerActivity

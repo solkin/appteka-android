@@ -1,6 +1,6 @@
 package com.tomclaw.appsend.screen.distro
 
-import android.content.pm.PackageManager
+import com.tomclaw.appsend.core.PackageInfoProvider
 import com.tomclaw.appsend.upload.UploadApk
 import com.tomclaw.appsend.upload.UploadPackage
 import com.tomclaw.appsend.util.createApkIconURI
@@ -19,7 +19,7 @@ interface DistroInfoProvider {
 
 class DistroInfoProviderImpl(
     private val rootDir: File,
-    private val packageManager: PackageManager,
+    private val packageInfoProvider: PackageInfoProvider,
 ) : DistroInfoProvider {
 
     override fun getApkItems(): List<DistroAppEntity> {
@@ -36,26 +36,16 @@ class DistroInfoProviderImpl(
             .toList()
     }
 
-    override fun getPackagePermissions(path: String): List<String> {
-        val packageInfo = packageManager.getPackageArchiveInfo(path, PackageManager.GET_PERMISSIONS)
-        // requestedPermissions - массив nullable, надо проверить
-        return packageInfo?.requestedPermissions?.toList() ?: emptyList()
-    }
+    override fun getPackagePermissions(path: String) =
+        packageInfoProvider.getPackagePermissions(path)
 
     private fun processApk(file: File): DistroAppEntity? {
         if (!file.exists()) return null
-
-        return try {
-            val packageInfo = packageManager.getPackageArchiveInfo(file.absolutePath, 0)
-            packageInfo?.applicationInfo?.let { info ->
-                // Обязательно присваиваем пути sourceDir и publicSourceDir для корректной работы
-                info.sourceDir = file.absolutePath
-                info.publicSourceDir = file.absolutePath
-
-                val label = packageManager.getApplicationLabel(info).toString()
+        return packageInfoProvider.getPackageInfo(file.absolutePath)?.let { packageInfo ->
+            packageInfo.applicationInfo?.let { info ->
                 DistroAppEntity(
                     packageName = info.packageName ?: "",
-                    label = label,
+                    label = packageInfoProvider.getApplicationLabel(info),
                     icon = createApkIconURI(file.path),
                     verName = packageInfo.versionName.orEmpty(), // versionName nullable
                     verCode = packageInfo.versionCodeCompat(),
@@ -64,21 +54,12 @@ class DistroInfoProviderImpl(
                     path = file.path,
                 )
             }
-        } catch (ignored: Throwable) {
-            null // плохой APK
         }
     }
 
     override fun getPackageUploadInfo(path: String): Pair<UploadPackage, UploadApk>? {
-        val packageInfo = packageManager.getPackageArchiveInfo(path, 0)?.apply {
-            applicationInfo?.apply {
-                sourceDir = path
-                publicSourceDir = path
-            } ?: return null // если applicationInfo == null — возвращаем null
-        } ?: return null
-
+        val packageInfo = packageInfoProvider.getPackageInfo(path) ?: return null
         val file = File(path)
-
         val pkg = UploadPackage(
             uniqueId = file.path,
             sha1 = null,

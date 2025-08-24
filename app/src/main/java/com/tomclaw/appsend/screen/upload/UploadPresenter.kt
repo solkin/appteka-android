@@ -2,6 +2,7 @@ package com.tomclaw.appsend.screen.upload
 
 import android.net.Uri
 import android.os.Bundle
+import androidx.core.net.toUri
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.blueprint.Item
 import com.avito.konveyor.data_source.ListDataSource
@@ -9,6 +10,7 @@ import com.tomclaw.appsend.categories.CategoriesInteractor
 import com.tomclaw.appsend.categories.Category
 import com.tomclaw.appsend.categories.CategoryConverter
 import com.tomclaw.appsend.categories.CategoryItem
+import com.tomclaw.appsend.core.PackageInfoProvider
 import com.tomclaw.appsend.screen.gallery.GalleryItem
 import com.tomclaw.appsend.screen.upload.adapter.ItemListener
 import com.tomclaw.appsend.screen.upload.adapter.other_versions.VersionItem
@@ -30,7 +32,6 @@ import dagger.Lazy
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
-import androidx.core.net.toUri
 
 interface UploadPresenter : ItemListener {
 
@@ -46,6 +47,8 @@ interface UploadPresenter : ItemListener {
 
     fun onAppSelected(pkg: UploadPackage, apk: UploadApk)
 
+    fun onFileSelected(uri: Uri)
+
     fun onAuthorized()
 
     fun onImagesSelected(images: List<UploadScreenshot>)
@@ -58,7 +61,9 @@ interface UploadPresenter : ItemListener {
 
     interface UploadRouter {
 
-        fun openSelectAppScreen()
+        fun openApkPicker()
+
+        fun openInstalledPicker()
 
         fun openDetailsScreen(appId: String, label: String?, isFinish: Boolean)
 
@@ -90,6 +95,7 @@ class UploadPresenterImpl(
     private val uploadConverter: UploadConverter,
     private val adapterPresenter: Lazy<AdapterPresenter>,
     private val uploadManager: UploadManager,
+    private val packageInfoProvider: PackageInfoProvider,
     private val preferences: UploadPreferencesProvider,
     private val schedulers: SchedulersFactory,
     state: Bundle?
@@ -158,6 +164,12 @@ class UploadPresenterImpl(
         subscriptions += view.loginClicks().subscribe {
             router?.openLoginScreen()
         }
+        subscriptions += view.pickAppClicks().subscribe { menu ->
+            when (menu) {
+                MENU_APK -> router?.openApkPicker()
+                MENU_INSTALLED -> router?.openInstalledPicker()
+            }
+        }
 
         invalidate()
     }
@@ -192,6 +204,35 @@ class UploadPresenterImpl(
 
     override fun onAppSelected(pkg: UploadPackage, apk: UploadApk) {
         onPackageChanged(pkg, apk)
+    }
+
+    override fun onFileSelected(uri: Uri) {
+        subscriptions += interactor
+            .saveTempFile(uri)
+            .observeOn(schedulers.mainThread())
+            .doOnSubscribe { view?.showProgress() }
+            .doAfterTerminate { view?.showContent() }
+            .subscribe(
+                { file ->
+                    packageInfoProvider.getPackageInfo(file.absolutePath)?.let { packageInfo ->
+                        onAppSelected(
+                            pkg = UploadPackage(
+                                uniqueId = file.path,
+                                sha1 = null,
+                                packageName = packageInfo.packageName,
+                                size = file.length()
+                            ),
+                            apk = UploadApk(
+                                path = file.path,
+                                version = packageInfo.versionName.orEmpty(),
+                                size = file.length(),
+                                packageInfo = packageInfo
+                            ),
+                        )
+                    }
+                },
+                { }
+            )
     }
 
     override fun onAuthorized() {
@@ -386,7 +427,7 @@ class UploadPresenterImpl(
     }
 
     override fun onSelectAppClick() {
-        router?.openSelectAppScreen()
+        view?.showUploadDialog()
     }
 
     override fun onNoticeClick() {

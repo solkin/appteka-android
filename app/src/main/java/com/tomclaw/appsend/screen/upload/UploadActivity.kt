@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.avito.konveyor.ItemBinder
@@ -78,6 +79,13 @@ class UploadActivity : AppCompatActivity(), UploadPresenter.UploadRouter {
             }
         }
 
+    private val apkPickerLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            result.getUris()?.firstOrNull()?.let { uri ->
+                presenter.onFileSelected(uri)
+            }
+        }
+
     private val authLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
@@ -95,21 +103,7 @@ class UploadActivity : AppCompatActivity(), UploadPresenter.UploadRouter {
 
     private val imagePickerLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == RESULT_OK) {
-                val uris: MutableList<Uri> = ArrayList()
-                val clipData = result.data?.clipData
-                if (clipData != null) {
-                    val count = clipData.itemCount
-                    for (i in 0 until count) {
-                        val item = clipData.getItemAt(i)
-                        uris.add(item.uri)
-                    }
-                } else {
-                    val intentData = result.data?.data
-                    if (intentData != null) {
-                        uris.add(intentData)
-                    }
-                }
+            result.getUris()?.let { uris ->
                 val items: List<UploadScreenshot> = uris.map { convertUri(it) }
                 presenter.onImagesSelected(items)
             }
@@ -165,7 +159,16 @@ class UploadActivity : AppCompatActivity(), UploadPresenter.UploadRouter {
         outState.putBundle(KEY_PRESENTER_STATE, presenter.saveState())
     }
 
-    override fun openSelectAppScreen() {
+    override fun openApkPicker() {
+        val intent = Intent(Intent.ACTION_PICK).apply {
+            putExtra(Intent.EXTRA_ALLOW_MULTIPLE, false)
+            action = Intent.ACTION_GET_CONTENT
+            type = "application/vnd.android.package-archive"
+        }
+        apkPickerLauncher.launch(intent)
+    }
+
+    override fun openInstalledPicker() {
         val intent = createSelectAppActivity(this)
         selectAppResultLauncher.launch(intent)
     }
@@ -240,6 +243,27 @@ class UploadActivity : AppCompatActivity(), UploadPresenter.UploadRouter {
             width = options.outWidth,
             height = options.outHeight
         )
+    }
+
+    private fun ActivityResult.getUris(): List<Uri>? {
+        if (resultCode == RESULT_OK) {
+            val uris: MutableList<Uri> = ArrayList()
+            val clipData = data?.clipData
+            if (clipData != null) {
+                val count = clipData.itemCount
+                for (i in 0 until count) {
+                    val item = clipData.getItemAt(i)
+                    uris.add(item.uri)
+                }
+            } else {
+                val intentData = data?.data
+                if (intentData != null) {
+                    uris.add(intentData)
+                }
+            }
+            return uris
+        }
+        return null
     }
 
 }

@@ -7,6 +7,7 @@ import com.avito.konveyor.ItemBinder
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.adapter.SimpleAdapterPresenter
 import com.avito.konveyor.blueprint.ItemBlueprint
+import com.tomclaw.appsend.core.PackageInfoProvider
 import com.tomclaw.appsend.di.APPS_DIR
 import com.tomclaw.appsend.screen.distro.ApkConverter
 import com.tomclaw.appsend.screen.distro.ApkConverterImpl
@@ -74,11 +75,12 @@ class DistroModule(
     @Provides
     @PerActivity
     internal fun provideDistroInfoProvider(
-        @Named(APPS_DIR) appsDir: File
+        @Named(APPS_DIR) appsDir: File,
+        packageInfoProvider: PackageInfoProvider,
     ): DistroInfoProvider {
         return DistroInfoProviderImpl(
             rootDir = appsDir,
-            packageManager = context.packageManager
+            packageInfoProvider = packageInfoProvider
         )
     }
 
