@@ -12,7 +12,6 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import androidx.activity.OnBackPressedCallback
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
@@ -71,8 +70,11 @@ class InstalledActivity : AppCompatActivity(), InstalledPresenter.InstalledRoute
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
+
+        val picker = intent.getBooleanExtra(EXTRA_PICKER, false)
+
         Appteka.getComponent()
-            .installedComponent(InstalledModule(this, presenterState))
+            .installedComponent(InstalledModule(this, picker, presenterState))
             .inject(activity = this)
         updateTheme()
         Permiso.getInstance().setActivity(this)
@@ -272,7 +274,13 @@ class InstalledActivity : AppCompatActivity(), InstalledPresenter.InstalledRoute
         saveFileLauncher.launch(intent)
     }
 
-    override fun leaveScreen() {
+    override fun leaveScreen(path: String?) {
+        if (path != null) {
+            val data = Intent().apply {
+                setData(Uri.fromFile(File(path)))
+            }
+            setResult(RESULT_OK, data)
+        }
         finish()
     }
 
@@ -308,6 +316,9 @@ class InstalledActivity : AppCompatActivity(), InstalledPresenter.InstalledRoute
 
 fun createInstalledActivityIntent(
     context: Context,
+    picker: Boolean = false,
 ): Intent = Intent(context, InstalledActivity::class.java)
+    .putExtra(EXTRA_PICKER, picker)
 
 private const val KEY_PRESENTER_STATE = "presenter_state"
+private const val EXTRA_PICKER = "picker"

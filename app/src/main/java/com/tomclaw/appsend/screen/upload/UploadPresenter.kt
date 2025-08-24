@@ -208,7 +208,7 @@ class UploadPresenterImpl(
 
     override fun onFileSelected(uri: Uri) {
         subscriptions += interactor
-            .saveTempFile(uri)
+            .uriToFile(uri)
             .observeOn(schedulers.mainThread())
             .doOnSubscribe { view?.showProgress() }
             .doAfterTerminate { view?.showContent() }

@@ -16,14 +16,12 @@ import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
-import com.tomclaw.appsend.main.item.CommonItem
-import com.tomclaw.appsend.main.local.SelectLocalAppActivity.SELECTED_ITEM
-import com.tomclaw.appsend.main.local.SelectLocalAppActivity.createSelectAppActivity
 import com.tomclaw.appsend.screen.agreement.createAgreementActivityIntent
 import com.tomclaw.appsend.screen.auth.request_code.createRequestCodeActivityIntent
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.screen.gallery.GalleryItem
 import com.tomclaw.appsend.screen.gallery.createGalleryActivityIntent
+import com.tomclaw.appsend.screen.installed.createInstalledActivityIntent
 import com.tomclaw.appsend.screen.upload.di.UPLOAD_ADAPTER_PRESENTER
 import com.tomclaw.appsend.screen.upload.di.UploadModule
 import com.tomclaw.appsend.screen.upload.dto.UploadScreenshot
@@ -33,7 +31,6 @@ import com.tomclaw.appsend.upload.UploadPackage
 import com.tomclaw.appsend.upload.createUploadIntent
 import com.tomclaw.appsend.util.Analytics
 import com.tomclaw.appsend.util.getParcelableExtraCompat
-import com.tomclaw.appsend.util.md5
 import com.tomclaw.appsend.util.updateTheme
 import javax.inject.Inject
 import javax.inject.Named
@@ -56,36 +53,6 @@ class UploadActivity : AppCompatActivity(), UploadPresenter.UploadRouter {
     @Inject
     lateinit var analytics: Analytics
 
-    private val selectAppResultLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == RESULT_OK) {
-                val info: CommonItem = result.data?.getParcelableExtraCompat(
-                    SELECTED_ITEM,
-                    CommonItem::class.java
-                ) ?: return@registerForActivityResult
-                val pkg = UploadPackage(
-                    uniqueId = info.path.md5(),
-                    sha1 = null,
-                    packageName = info.packageName,
-                    size = info.size,
-                )
-                val apk = UploadApk(
-                    path = info.path,
-                    packageInfo = info.packageInfo,
-                    version = info.version,
-                    size = info.size,
-                )
-                presenter.onAppSelected(pkg, apk)
-            }
-        }
-
-    private val apkPickerLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            result.getUris()?.firstOrNull()?.let { uri ->
-                presenter.onFileSelected(uri)
-            }
-        }
-
     private val authLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
@@ -106,6 +73,13 @@ class UploadActivity : AppCompatActivity(), UploadPresenter.UploadRouter {
             result.getUris()?.let { uris ->
                 val items: List<UploadScreenshot> = uris.map { convertUri(it) }
                 presenter.onImagesSelected(items)
+            }
+        }
+
+    private val appPickerLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            result.getUris()?.firstOrNull()?.let { uri ->
+                presenter.onFileSelected(uri)
             }
         }
 
@@ -165,12 +139,12 @@ class UploadActivity : AppCompatActivity(), UploadPresenter.UploadRouter {
             action = Intent.ACTION_GET_CONTENT
             type = "application/vnd.android.package-archive"
         }
-        apkPickerLauncher.launch(intent)
+        appPickerLauncher.launch(intent)
     }
 
     override fun openInstalledPicker() {
-        val intent = createSelectAppActivity(this)
-        selectAppResultLauncher.launch(intent)
+        val intent = createInstalledActivityIntent(context = this, picker = true)
+        appPickerLauncher.launch(intent)
     }
 
     override fun openDetailsScreen(appId: String, label: String?, isFinish: Boolean) {

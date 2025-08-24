@@ -1,12 +1,10 @@
 package com.tomclaw.appsend.screen.installed
 
 import android.annotation.SuppressLint
-import android.text.Html
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import android.widget.ViewFlipper
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -58,8 +56,6 @@ interface InstalledView {
 
     fun searchTextChanged(): Observable<String>
 
-    fun shareExtractedClicks(): Observable<String>
-
     fun retryClicks(): Observable<Unit>
 
     fun refreshClicks(): Observable<Unit>
@@ -84,7 +80,6 @@ class InstalledViewImpl(
     private val navigationRelay = PublishRelay.create<Unit>()
     private val itemMenuRelay = PublishRelay.create<Pair<Int, AppItem>>()
     private val searchTextRelay = PublishRelay.create<String>()
-    private val shareExtractedRelay = PublishRelay.create<String>()
     private val retryRelay = PublishRelay.create<Unit>()
     private val refreshRelay = PublishRelay.create<Unit>()
 
@@ -203,8 +198,6 @@ class InstalledViewImpl(
     override fun itemMenuClicks(): Observable<Pair<Int, AppItem>> = itemMenuRelay
 
     override fun searchTextChanged(): Observable<String> = searchTextRelay
-
-    override fun shareExtractedClicks(): Observable<String> = shareExtractedRelay
 
     override fun retryClicks(): Observable<Unit> = retryRelay
 

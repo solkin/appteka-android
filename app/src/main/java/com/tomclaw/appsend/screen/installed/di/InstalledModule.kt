@@ -9,7 +9,6 @@ import com.avito.konveyor.blueprint.ItemBlueprint
 import com.tomclaw.appsend.categories.CategoryConverter
 import com.tomclaw.appsend.categories.CategoryConverterImpl
 import com.tomclaw.appsend.core.StoreApi
-import com.tomclaw.appsend.di.APPS_DIR
 import com.tomclaw.appsend.core.StreamsProvider
 import com.tomclaw.appsend.screen.installed.AppConverter
 import com.tomclaw.appsend.screen.installed.AppConverterImpl
@@ -31,13 +30,12 @@ import dagger.Lazy
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoSet
-import java.io.File
 import java.util.Locale
-import javax.inject.Named
 
 @Module
 class InstalledModule(
     private val context: Context,
+    private val picker: Boolean,
     private val state: Bundle?
 ) {
 
@@ -50,6 +48,7 @@ class InstalledModule(
         appConverter: AppConverter,
         schedulers: SchedulersFactory
     ): InstalledPresenter = InstalledPresenterImpl(
+        picker,
         preferencesProvider,
         interactor,
         adapterPresenter,

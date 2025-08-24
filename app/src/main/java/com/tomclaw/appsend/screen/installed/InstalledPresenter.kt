@@ -15,6 +15,7 @@ import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.getParcelableArrayListCompat
 import com.tomclaw.appsend.util.getParcelableCompat
 import dagger.Lazy
+import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.Observables
@@ -66,13 +67,14 @@ interface InstalledPresenter : ItemListener {
 
         fun requestSaveFile(fileName: String, fileType: String)
 
-        fun leaveScreen()
+        fun leaveScreen(path: String? = null)
 
     }
 
 }
 
 class InstalledPresenterImpl(
+    private val picker: Boolean,
     private val preferencesProvider: InstalledPreferencesProvider,
     private val interactor: InstalledInteractor,
     private val adapterPresenter: Lazy<AdapterPresenter>,
@@ -149,9 +151,6 @@ class InstalledPresenterImpl(
         subscriptions += view.searchTextChanged().subscribe { text ->
             filterApps(text)
         }
-        subscriptions += view.shareExtractedClicks().subscribe { path ->
-            router?.openShareApk(path)
-        }
         subscriptions += view.retryClicks().subscribe {
             loadApps()
         }
@@ -203,7 +202,8 @@ class InstalledPresenterImpl(
                 val installedMap = installed.associate { it.packageName to it.verCode }
                 Observables.zip(
                     Single.just(installed).toObservable(),
-                    interactor.getUpdates(installedMap)
+                    Observable.just(emptyList<UpdateEntity>()).takeIf { picker }
+                        ?: interactor.getUpdates(installedMap)
                 )
             }
             .observeOn(schedulers.mainThread())
@@ -286,7 +286,11 @@ class InstalledPresenterImpl(
 
     override fun onItemClick(item: Item) {
         val app = items?.find { it.id == item.id } ?: return
-        view?.showItemDialog(app)
+        if (picker) {
+            router?.leaveScreen(app.path)
+        } else {
+            view?.showItemDialog(app)
+        }
     }
 
     override fun onUpdateClick(title: String, appId: String) {

@@ -1,9 +1,9 @@
 package com.tomclaw.appsend.screen.upload
 
 import android.net.Uri
+import androidx.core.net.toFile
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.core.StreamsProvider
-import com.tomclaw.appsend.core.StreamsProviderImpl
 import com.tomclaw.appsend.screen.upload.api.CheckExistResponse
 import com.tomclaw.appsend.util.SchedulersFactory
 import io.reactivex.rxjava3.core.Observable
@@ -20,7 +20,7 @@ interface UploadInteractor {
 
     fun checkExist(sha1: String, packageName: String, size: Long): Observable<CheckExistResponse>
 
-    fun saveTempFile(uri: Uri): Observable<File>
+    fun uriToFile(uri: Uri): Observable<File>
 
 }
 
@@ -68,9 +68,13 @@ class UploadInteractorImpl(
             .subscribeOn(schedulers.io())
     }
 
-    override fun saveTempFile(uri: Uri): Observable<File> {
+    override fun uriToFile(uri: Uri): Observable<File> {
         return Single
             .create { emitter ->
+                if (uri.isFile()) {
+                    emitter.onSuccess(uri.toFile())
+                    return@create
+                }
                 try {
                     val temp = File.createTempFile("pick", "upload", appsDir)
                     temp.deleteOnExit()
@@ -93,4 +97,8 @@ class UploadInteractorImpl(
     private fun ByteArray.toHex(): String =
         joinToString(separator = "") { eachByte -> "%02x".format(eachByte) }
 
+}
+
+private fun Uri.isFile(): Boolean {
+    return scheme == "file"
 }
