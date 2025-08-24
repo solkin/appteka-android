@@ -88,7 +88,11 @@ class InstalledActivity : AppCompatActivity(), InstalledPresenter.InstalledRoute
         presenter.attachView(view)
 
         if (savedInstanceState == null) {
-            analytics.trackEvent("open-installed-screen")
+            if (picker) {
+                analytics.trackEvent("open-select-app-screen")
+            } else {
+                analytics.trackEvent("open-installed-screen")
+            }
         }
 
         onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
