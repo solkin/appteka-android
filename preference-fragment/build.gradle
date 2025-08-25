@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 
 android {
     //noinspection GradleDependency
-    compileSdk = 35
+    compileSdk = 36
     namespace = 'com.github.machinarius.preferencefragment'
 
     defaultConfig {

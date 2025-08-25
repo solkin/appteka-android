@@ -16,7 +16,7 @@ android {
         }
     }
     //noinspection GradleDependency
-    compileSdk = 35
+    compileSdk = 36
     namespace = 'com.tomclaw.appsend'
 
     defaultConfig {
@@ -72,7 +72,7 @@ android {
         implementation 'com.github.solkin:simple-image-loader:v0.9.6'
         implementation 'com.github.solkin:disk-lru-cache:v1.7'
         implementation 'org.jetbrains.kotlin:kotlin-stdlib:2.2.0'
-        implementation 'androidx.core:core-ktx:1.16.0'
+        implementation 'androidx.core:core-ktx:1.17.0'
         implementation 'androidx.appcompat:appcompat:1.7.1'
         implementation 'androidx.recyclerview:recyclerview:1.4.0'
         implementation 'androidx.startup:startup-runtime:1.2.0'
