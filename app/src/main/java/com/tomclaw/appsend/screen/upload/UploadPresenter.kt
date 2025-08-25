@@ -210,8 +210,6 @@ class UploadPresenterImpl(
         subscriptions += interactor
             .uriToFile(uri)
             .observeOn(schedulers.mainThread())
-            .doOnSubscribe { view?.showProgress() }
-            .doAfterTerminate { view?.showContent() }
             .subscribe(
                 { file ->
                     packageInfoProvider.getPackageInfo(file.absolutePath)?.let { packageInfo ->
@@ -271,6 +269,7 @@ class UploadPresenterImpl(
         } else if (apk != null) {
             interactor.calculateSha1(apk.path)
         } else {
+            subscribeStatusChange(pkg)
             return
         }
 
@@ -281,6 +280,9 @@ class UploadPresenterImpl(
             .doOnSubscribe {
                 view?.hideError()
                 view?.showProgress()
+            }
+            .doAfterTerminate {
+                subscribeStatusChange(pkg)
             }
             .subscribe(
                 { onCheckExistLoaded(it) },
@@ -374,8 +376,8 @@ class UploadPresenterImpl(
             checkAppUploaded()
         } else {
             bindForm()
+            subscribeStatusChange(pkg)
         }
-        subscribeStatusChange(pkg)
     }
 
     private fun clearForm() {
