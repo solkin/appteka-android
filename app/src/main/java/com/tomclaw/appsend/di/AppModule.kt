@@ -54,7 +54,6 @@ import com.tomclaw.appsend.util.Logger
 import com.tomclaw.appsend.util.LoggerImpl
 import com.tomclaw.appsend.util.PackageObserver
 import com.tomclaw.appsend.util.PackageObserverImpl
-import com.tomclaw.appsend.util.PerActivity
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Module
 import dagger.Provides
@@ -91,7 +90,16 @@ class AppModule(private val app: Application) {
     @Provides
     @Singleton
     @Named(APPS_DIR)
-    fun provideAppsDir(): File = File(app.cacheDir, APPS_DIR)
+    fun provideAppsDir(): File = File(app.cacheDir, APPS_DIR).apply {
+        mkdirs()
+        walkTopDown()
+            .map { file ->
+                file.takeIf { it.extension.equals("tmp", ignoreCase = true) }
+            }
+            .filterNotNull()
+            .toList()
+            .forEach { it.delete() }
+    }
 
     @Provides
     @Singleton

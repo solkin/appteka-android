@@ -76,7 +76,7 @@ class UploadInteractorImpl(
                     return@create
                 }
                 try {
-                    val temp = File.createTempFile("pick", "upload", appsDir)
+                    val temp = File.createTempFile("pick", ".tmp", appsDir)
                     temp.deleteOnExit()
                     val target = Uri.fromFile(temp)
                     streamsProvider.openInputStream(uri)?.let { input ->
