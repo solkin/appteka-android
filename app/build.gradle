@@ -24,8 +24,8 @@ android {
         minSdkVersion 21
         //noinspection OldTargetApi
         targetSdkVersion 33
-        versionCode project.hasProperty("versionCode") ? Integer.parseInt(project.versionCode) : 919
-        versionName = "17.2"
+        versionCode project.hasProperty("versionCode") ? Integer.parseInt(project.versionCode) : 921
+        versionName = "18.0"
     }
 
     buildTypes {
