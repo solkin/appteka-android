@@ -1,9 +1,8 @@
 name: Appteka Build
 permissions:
   contents: write
-
 on:
-  push:
+  pull_request:
     branches:
       - master
   workflow_dispatch:
@@ -11,6 +10,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     strategy:
       matrix:
         build_type: [debug, release]
@@ -28,53 +28,11 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
-      - name: Get versionName from build.gradle
-        id: get_version
-        run: echo "VERSION_NAME=$(grep versionName app/build.gradle | head -1 | awk '{print $2}' | tr -d '\"')" >> $GITHUB_ENV
-
       - name: Build APK
         run: ./gradlew assemble${{ matrix.build_type }}
 
-      - name: Upload APK artifact
+      - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: app-${{ matrix.build_type }}-${{ env.VERSION_NAME }}
+          name: appteka-apk-${{ matrix.build_type }}-${{ github.run_id }}
           path: app/build/outputs/apk/${{ matrix.build_type }}/app-${{ matrix.build_type }}.apk
-
-  release:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - name: Download APK artifacts
-        uses: actions/download-artifact@v4
-        with:
-          path: ./apks
-
-      - name: Create GitHub Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: v${{ env.VERSION_NAME }}
-          release_name: "Appteka v${{ env.VERSION_NAME }}"
-
-      - name: Upload Debug APK
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./apks/app-debug-${{ env.VERSION_NAME }}/app-debug.apk
-          asset_name: app-debug-${{ env.VERSION_NAME }}.apk
-          asset_content_type: application/vnd.android.package-archive
-
-      - name: Upload Release APK
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./apks/app-release-${{ env.VERSION_NAME }}/app-release.apk
-          asset_name: app-release-${{ env.VERSION_NAME }}.apk
-          asset_content_type: application/vnd.android.package-archive
