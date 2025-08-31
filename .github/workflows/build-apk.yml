@@ -58,8 +58,6 @@ jobs:
         with:
           tag_name: v${{ env.VERSION_NAME }}
           release_name: "Appteka v${{ env.VERSION_NAME }}"
-          draft: false
-          prerelease: false
 
       - name: Upload Debug APK
         uses: actions/upload-release-asset@v1
