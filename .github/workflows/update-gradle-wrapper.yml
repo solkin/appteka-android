@@ -1,0 +1,26 @@
+name: Update Gradle Wrapper
+
+permissions:
+  contents: read
+  pull-requests: write
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 0 * * 0"
+
+jobs:
+  update-gradle-wrapper:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+      - name: Update Gradle Wrapper
+        uses: gradle-update/update-gradle-wrapper-action@v2
+        with:
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          set-distribution-checksum: false

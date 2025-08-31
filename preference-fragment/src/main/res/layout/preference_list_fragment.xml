@@ -18,6 +18,7 @@
 -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_height="fill_parent"
     android:layout_width="fill_parent"
@@ -55,8 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dip"
             android:layout_alignParentLeft="true"
-            android:text="@string/back_button_label"
-        />
+            android:text="@string/back_button_label" />
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="wrap_content"
@@ -69,14 +69,14 @@
                 android:layout_margin="5dip"
                 android:text="@string/skip_button_label"
                 android:visibility="gone"
-            />
+                tools:ignore="ButtonStyle" />
 
             <Button android:id="@+id/next_button"
                 android:layout_width="150dip"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dip"
                 android:text="@string/next_button_label"
-            />
+                tools:ignore="ButtonStyle" />
         </LinearLayout>
     </RelativeLayout>
 </LinearLayout>

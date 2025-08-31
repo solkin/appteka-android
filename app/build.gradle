@@ -37,6 +37,13 @@ android {
             signingConfig = signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-project.txt'
         }
+        debug {
+            debuggable true
+            jniDebuggable true
+            signingConfig = signingConfigs.debug
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-project.txt'
+        }
     }
 
     dependenciesInfo {
@@ -71,7 +78,8 @@ android {
         implementation project(path: ':preference-fragment')
         implementation 'com.github.solkin:simple-image-loader:v0.9.6'
         implementation 'com.github.solkin:disk-lru-cache:v1.7'
-        implementation 'org.jetbrains.kotlin:kotlin-stdlib:2.2.0'
+        //noinspection GradleDependency
+        implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
         implementation 'androidx.core:core-ktx:1.17.0'
         implementation 'androidx.appcompat:appcompat:1.7.1'
         implementation 'androidx.recyclerview:recyclerview:1.4.0'
