@@ -15,12 +15,12 @@
     limitations under the License.
 -->
 
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
+<selector xmlns:tools="http://schemas.android.com/tools" xmlns:android="http://schemas.android.com/apk/res/android">
 
-  <item android:alpha="@dimen/mtrl_low_ripple_pressed_alpha" android:color="@color/decline_color" android:state_pressed="true"/>
-  <item android:alpha="@dimen/mtrl_low_ripple_focused_alpha" android:color="@color/decline_color" android:state_focused="true" android:state_hovered="true"/>
-  <item android:alpha="@dimen/mtrl_low_ripple_focused_alpha" android:color="@color/decline_color" android:state_focused="true"/>
-  <item android:alpha="@dimen/mtrl_low_ripple_hovered_alpha" android:color="@color/decline_color" android:state_hovered="true"/>
-  <item android:alpha="@dimen/mtrl_low_ripple_default_alpha" android:color="@color/decline_color"/>
+  <item android:alpha="@dimen/mtrl_low_ripple_pressed_alpha" android:color="@color/decline_color" android:state_pressed="true" tools:ignore="PrivateResource" />
+  <item android:alpha="@dimen/mtrl_low_ripple_focused_alpha" android:color="@color/decline_color" android:state_focused="true" android:state_hovered="true" tools:ignore="PrivateResource" />
+  <item android:alpha="@dimen/mtrl_low_ripple_focused_alpha" android:color="@color/decline_color" android:state_focused="true" tools:ignore="PrivateResource" />
+  <item android:alpha="@dimen/mtrl_low_ripple_hovered_alpha" android:color="@color/decline_color" android:state_hovered="true" tools:ignore="PrivateResource" />
+  <item android:alpha="@dimen/mtrl_low_ripple_default_alpha" android:color="@color/decline_color" tools:ignore="PrivateResource" />
 
 </selector>

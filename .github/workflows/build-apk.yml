@@ -1,0 +1,38 @@
+name: Appteka Build
+permissions:
+  contents: write
+on:
+  pull_request:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        build_type: [debug, release]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v5
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
+
+      - name: Build APK
+        run: ./gradlew assemble${{ matrix.build_type }}
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: appteka-apk-${{ matrix.build_type }}-${{ github.run_id }}
+          path: app/build/outputs/apk/${{ matrix.build_type }}/app-${{ matrix.build_type }}.apk
