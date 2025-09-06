@@ -80,7 +80,10 @@ class FeedModule(
 
     @Provides
     @PerFragment
-    internal fun provideResourceProvider(locale: Locale, timeProvider: TimeProvider): FeedResourceProvider =
+    internal fun provideResourceProvider(
+        locale: Locale,
+        timeProvider: TimeProvider
+    ): FeedResourceProvider =
         FeedResourceProviderImpl(context.resources, locale, timeProvider)
 
     @Provides
