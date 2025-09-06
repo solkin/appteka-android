@@ -29,7 +29,7 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Build APK
-        run: ./gradlew assemble${{ matrix.build_type }}
+        run: ./gradlew assemble${{ matrix.build_type }} -PstoreFile=${{ secrets.STORE_FILE }} -PstorePassword=${{ secrets.STORE_PASSWORD }} -PkeyAlias=${{ secrets.KEY_ALIAS }} -PkeyPassword=${{ secrets.KEY_PASSWORD }}
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
