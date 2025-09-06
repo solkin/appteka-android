@@ -22,8 +22,7 @@ android {
     defaultConfig {
         applicationId "com.tomclaw.appsend"
         minSdkVersion 21
-        //noinspection OldTargetApi
-        targetSdkVersion 33
+        targetSdkVersion 36
         versionCode project.hasProperty("versionCode") ? Integer.parseInt(project.versionCode) : 921
         versionName = "18.0"
     }
@@ -63,11 +62,9 @@ android {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
     }
-
     kotlinOptions {
-        jvmTarget = '17'
+        jvmTarget = JavaVersion.VERSION_17
     }
-
     appmetrica {
         postApiKey = "fdc69a9d-4a65-41ac-bcd2-6b8eb46bda79"
         mappingBuildTypes = ['release']

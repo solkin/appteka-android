@@ -7,8 +7,7 @@ android {
 
     defaultConfig {
         minSdkVersion 21
-        //noinspection OldTargetApi
-        targetSdkVersion 33
+        targetSdkVersion 36
     }
 
     dependencies {
