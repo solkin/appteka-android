@@ -12,6 +12,8 @@ data class PostEntity(
     val type: Int,
     @SerializedName("payload")
     val payload: PostPayload,
+    @SerializedName("reacts")
+    val reacts: List<Reaction>?,
     @SerializedName("user")
     val user: UserBrief,
     @SerializedName("actions")

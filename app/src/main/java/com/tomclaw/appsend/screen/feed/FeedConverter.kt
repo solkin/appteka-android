@@ -1,6 +1,5 @@
 package com.tomclaw.appsend.screen.feed
 
-import com.avito.konveyor.blueprint.Item
 import com.tomclaw.appsend.screen.feed.adapter.FeedItem
 import com.tomclaw.appsend.screen.feed.adapter.favorite.FavoriteItem
 import com.tomclaw.appsend.screen.feed.adapter.subscribe.SubscribeItem
@@ -34,6 +33,7 @@ class FeedConverterImpl : FeedConverter {
                 user = post.user,
                 actions = post.actions,
             )
+
             is FavoritePayload -> FavoriteItem(
                 id = post.postId.toLong(),
                 time = TimeUnit.SECONDS.toMillis(post.time),
@@ -55,6 +55,7 @@ class FeedConverterImpl : FeedConverter {
                 user = post.user,
                 actions = post.actions,
             )
+
             is UploadPayload -> UploadItem(
                 id = post.postId.toLong(),
                 time = TimeUnit.SECONDS.toMillis(post.time),
@@ -74,6 +75,7 @@ class FeedConverterImpl : FeedConverter {
                 user = post.user,
                 actions = post.actions,
             )
+
             is SubscribePayload -> SubscribeItem(
                 id = post.postId.toLong(),
                 time = TimeUnit.SECONDS.toMillis(post.time),
