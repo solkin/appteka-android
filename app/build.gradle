@@ -96,7 +96,7 @@ android {
         implementation 'io.reactivex.rxjava3:rxjava:3.1.12'
         implementation 'io.reactivex.rxjava3:rxkotlin:3.0.1'
         implementation 'com.jakewharton.rxrelay3:rxrelay:3.0.1'
-        implementation 'com.squareup.okhttp3:okhttp:5.3.0'
+        implementation 'com.squareup.okhttp3:okhttp:5.3.2'
         implementation 'com.squareup.retrofit2:retrofit:3.0.0'
         implementation 'com.squareup.retrofit2:converter-gson:3.0.0'
         implementation 'com.squareup.retrofit2:adapter-rxjava3:3.0.0'
