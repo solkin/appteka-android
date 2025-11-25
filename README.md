@@ -8,7 +8,7 @@ Appteka is a free Android apps market. Download [Appteka](https://appteka.store)
 
 add Badge
 ```
-<a href="https://appteka.store/app/ac5r222861"><img src="https://raw.githubusercontent.com/solkin/appteka-android/refs/heads/master/art/badge.png" alt="Get it on Appteka" width="200"></a>
+[<img src="https://raw.githubusercontent.com/solkin/appteka-android/refs/heads/master/art/badge.png" alt="Get it on Appteka" height="200">](https://appteka.store/app/ac5r222861)
 ```
 
 ![Screenshot](art/main.jpg "Main")
