@@ -109,6 +109,6 @@ android {
         releaseImplementation 'com.github.chuckerteam.chucker:library-no-op:4.2.0'
         implementation 'org.androidannotations:androidannotations-api:4.8.0'
         testImplementation 'junit:junit:4.13.2'
-        implementation 'io.appmetrica.analytics:analytics:7.13.0'
+        implementation 'io.appmetrica.analytics:analytics:7.14.0'
     }
 }
