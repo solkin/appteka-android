@@ -40,7 +40,7 @@
             android:name=".screen.upload.UploadActivity"
             android:label="@string/upload" />
         <activity
-            android:name=".main.store.search.SearchActivity_"
+            android:name=".screen.search.SearchActivity"
             android:label="@string/search_app"
             android:windowSoftInputMode="stateVisible|adjustResize" />
         <activity
