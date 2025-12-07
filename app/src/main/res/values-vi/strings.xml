@@ -191,6 +191,8 @@
     <string name="enter_your_review">Chia sẻ ấn tượng của bạn (tùy chọn)</string>
     <string name="review_publish_failed">Không thể đăng bài đánh giá</string>
     <string name="your_review">Đánh giá của bạn</string>
+    <string name="review_required_error">Đánh giá dưới 4 sao yêu cầu nhận xét phải chứa ít nhất 10 ký tự</string>
+    <string name="rating_required_error">Vui lòng chọn đánh giá</string>
     <string name="edit_feedback">Sửa đánh giá</string>
     <string name="details_error_title">Đã xảy ra lỗi</string>
     <string name="details_error_subtitle">Vui lòng thử lại lần nữa</string>

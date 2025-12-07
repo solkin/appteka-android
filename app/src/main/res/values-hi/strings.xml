@@ -191,6 +191,8 @@
     <string name="enter_your_review">अपने इंप्रेशन साझा करें (वैकल्पिक)</string>
     <string name="review_publish_failed">समीक्षा पोस्ट नहीं कर सका</string>
     <string name="your_review">आपकी समीक्षा</string>
+    <string name="review_required_error">4 से कम रेटिंग के लिए समीक्षा आवश्यक है और इसमें कम से कम 10 वर्ण होने चाहिए</string>
+    <string name="rating_required_error">कृपया रेटिंग चुनें</string>
     <string name="edit_feedback">समीक्षा संपादित करें</string>
     <string name="details_error_title">कुछ गलत हो गया</string>
     <string name="details_error_subtitle">पुनः प्रयास करें</string>

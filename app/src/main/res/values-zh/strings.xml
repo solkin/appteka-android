@@ -191,6 +191,8 @@
     <string name="enter_your_review">分享您的印象(可选)</string>
     <string name="review_publish_failed">无法发表评论</string>
     <string name="your_review">您的反馈</string>
+    <string name="review_required_error">低于4星的评分必须包含至少10个字符的评论</string>
+    <string name="rating_required_error">请选择评分</string>
     <string name="edit_feedback">编辑评论</string>
     <string name="details_error_title">出了些问题</string>
     <string name="details_error_subtitle">再试一次</string>

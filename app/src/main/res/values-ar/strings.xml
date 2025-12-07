@@ -200,6 +200,8 @@
     <string name="enter_your_review">شارك تجربتك (اختياري)</string>
     <string name="review_publish_failed">فشل نشر المراجعة</string>
     <string name="your_review">مراجعتك</string>
+    <string name="review_required_error">التقييمات أقل من 4 تتطلب مراجعة يجب أن تحتوي على 10 أحرف على الأقل</string>
+    <string name="rating_required_error">يرجى اختيار التقييم</string>
     <string name="edit_feedback">تعديل ردود الفعل</string>
     <string name="details_error_title">هناك خطأ ما</string>
     <string name="details_error_subtitle">يمكنك إعادة المحاولة</string>

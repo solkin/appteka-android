@@ -200,6 +200,8 @@
     <string name="enter_your_review">ئەزموونەکەت بەیەکەوە باس بکە (ئیختیاری)</string>
     <string name="review_publish_failed">پێداچوونەوە بڵاوکردنەوە شکستی هێنا</string>
     <string name="your_review">هەڵسەنگاندی تۆ بۆ شتێك</string>
+    <string name="review_required_error">بۆ نرخاندنەکانی کەمتر لە 4، پێداچوونەوە پێویستە و دەبێت لانیکەم 10 پیت تێدابێت</string>
+    <string name="rating_required_error">تکایە نرخاندن هەڵبژێرە</string>
     <string name="edit_feedback">دەستکاریکردنی فیدباک</string>
     <string name="details_error_title">هەندێ شت بە هەڵە ڕۆیشت</string>
     <string name="details_error_subtitle">دەتوانیت هەوڵی دووبارە بدەیتەوە</string>

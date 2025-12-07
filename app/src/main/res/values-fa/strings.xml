@@ -204,6 +204,8 @@
     <string name="enter_your_review">تجربه خود را به اشتراک بگذارید (اختیاری)</string>
     <string name="review_publish_failed">بازبینی انتشار ناموفق بود</string>
     <string name="your_review">دیدگاه شما</string>
+    <string name="review_required_error">برای امتیازات کمتر از 4، بررسی الزامی است و باید حداقل 10 کاراکتر داشته باشد</string>
+    <string name="rating_required_error">لطفاً امتیاز را انتخاب کنید</string>
     <string name="edit_feedback">ویرایش بازخورد</string>
     <string name="details_error_title">مشکلی پیش آمد</string>
     <string name="details_error_subtitle">می توانید دوباره امتحان کنید</string>

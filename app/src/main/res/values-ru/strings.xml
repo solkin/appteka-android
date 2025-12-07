@@ -191,6 +191,8 @@
     <string name="enter_your_review">Поделитесь впечатлениями (необязательно)</string>
     <string name="review_publish_failed">Не удалось опубликовать отзыв</string>
     <string name="your_review">Ваш отзыв</string>
+    <string name="review_required_error">Для оценок ниже 4 отзыв обязателен и должен содержать не менее 10 символов</string>
+    <string name="rating_required_error">Пожалуйста, выберите оценку</string>
     <string name="edit_feedback">Изменить отзыв</string>
     <string name="details_error_title">Что-то пошло не так</string>
     <string name="details_error_subtitle">Попробуйте ещё раз</string>
