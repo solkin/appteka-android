@@ -2,23 +2,26 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/reaction_container"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:background="?selectableItemBackgroundBorderless"
+    android:layout_marginEnd="6dp"
+    android:layout_marginBottom="4dp"
+    android:background="@drawable/reaction_background"
     android:gravity="center_vertical"
     android:orientation="horizontal"
     android:paddingStart="8dp"
     android:paddingTop="4dp"
     android:paddingEnd="8dp"
     android:paddingBottom="4dp"
-    android:minHeight="32dp">
+    android:minHeight="28dp">
 
     <ImageView
         android:id="@+id/reaction_icon"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
         android:contentDescription="@string/reaction"
-        android:scaleType="centerCrop"
+        android:scaleType="fitCenter"
         tools:src="@mipmap/ic_launcher" />
 
     <TextView
@@ -26,8 +29,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:textColor="?attr/text_secondary_color"
-        android:textSize="14sp"
+        android:textColor="?attr/reaction_text_color"
+        android:textSize="13sp"
+        android:fontFamily="sans-serif-medium"
         tools:text="42" />
 
 </LinearLayout>

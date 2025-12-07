@@ -26,6 +26,11 @@
     <attr name="block_grey_color" format="reference" />
     <attr name="feed_outline_color" format="reference" />
     <attr name="feed_background_color" format="reference" />
+    <attr name="reaction_background_color" format="color|reference" />
+    <attr name="reaction_border_color" format="color|reference" />
+    <attr name="reaction_background_active_color" format="color|reference" />
+    <attr name="reaction_border_active_color" format="color|reference" />
+    <attr name="reaction_text_color" format="color|reference" />
     <declare-styleable name="MaxHeightFrameLayout">
         <attr name="maxHeight" format="dimension" />
     </declare-styleable>

@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.feed.api.Reaction
+import com.tomclaw.appsend.util.bind
 import com.tomclaw.imageloader.util.centerCrop
 import com.tomclaw.imageloader.util.fetch
 
@@ -26,6 +27,7 @@ class ReactionsAdapter(
         private val adapter: ReactionsAdapter
     ) : RecyclerView.ViewHolder(view) {
 
+        private val container: View = view.findViewById(R.id.reaction_container)
         private val icon: ImageView = view.findViewById(R.id.reaction_icon)
         private val count: TextView = view.findViewById(R.id.reaction_count)
 
@@ -46,8 +48,14 @@ class ReactionsAdapter(
                     }
                 }
             }
-            count.text = if ((item.count ?: 0) > 0) item.count.toString() else ""
-            itemView.alpha = if (item.active == true) 1.0f else 0.7f
+            count.bind(value = if ((item.count ?: 0) > 0) item.count.toString() else "")
+            
+            // Применяем стиль в зависимости от активности реакции (как в Slack)
+            if (item.active == true) {
+                container.setBackgroundResource(R.drawable.reaction_background_active)
+            } else {
+                container.setBackgroundResource(R.drawable.reaction_background)
+            }
         }
 
         fun onUnbind() {

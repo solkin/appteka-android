@@ -133,6 +133,12 @@
 
         <item name="feed_outline_color">@color/feed_outline_color_light</item>
         <item name="feed_background_color">@color/feed_background_color_light</item>
+
+        <item name="reaction_background_color">#F0F0F0</item>
+        <item name="reaction_border_color">#E0E0E0</item>
+        <item name="reaction_background_active_color">#E8F5E9</item>
+        <item name="reaction_border_active_color">@color/primary_color</item>
+        <item name="reaction_text_color">?attr/text_secondary_color</item>
     </style>
 
     <style name="AppThemeBlack" parent="Theme.MaterialComponents.NoActionBar">
@@ -188,6 +194,12 @@
 
         <item name="feed_outline_color">@color/feed_outline_color_dark</item>
         <item name="feed_background_color">@color/feed_background_color_dark</item>
+
+        <item name="reaction_background_color">#2A2A2B</item>
+        <item name="reaction_border_color">#3A3A3B</item>
+        <item name="reaction_background_active_color">#1A3A1A</item>
+        <item name="reaction_border_active_color">@color/primary_color</item>
+        <item name="reaction_text_color">?attr/text_secondary_color</item>
     </style>
 
     <style name="AppThemeSemitransparent" parent="AppThemeBlack">
