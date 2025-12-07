@@ -38,6 +38,7 @@ class TextItemPresenter(
             ?: view.hideReactions()
         view.setOnPostClickListener { listener.onItemClick(item) }
         view.setOnMenuClickListener { listener.onMenuClick(item) }
+        view.setOnReactionClickListener { reaction -> listener.onReactionClick(item, reaction) }
     }
 
 }

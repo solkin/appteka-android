@@ -35,6 +35,7 @@ class SubscribeItemPresenter(
         view.setOnPostClickListener { listener.onItemClick(item) }
         view.setOnPublisherClickListener { listener.onUserClick(item.publisher) }
         view.setOnMenuClickListener { listener.onMenuClick(item) }
+        view.setOnReactionClickListener { reaction -> listener.onReactionClick(item, reaction) }
     }
 
     private fun UserBrief.name(): String {

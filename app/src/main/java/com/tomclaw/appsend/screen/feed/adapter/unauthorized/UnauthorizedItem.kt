@@ -2,6 +2,7 @@ package com.tomclaw.appsend.screen.feed.adapter.unauthorized
 
 import android.os.Parcelable
 import com.tomclaw.appsend.screen.feed.adapter.FeedItem
+import com.tomclaw.appsend.screen.feed.api.Reaction
 import com.tomclaw.appsend.user.api.UserBrief
 import kotlinx.parcelize.Parcelize
 
@@ -19,4 +20,8 @@ data class UnauthorizedItem(
     override var hasProgress: Boolean
         get() = false
         set(value) {}
+    
+    override fun getReactions(): List<Reaction>? = null
+    
+    override fun withReactions(reactions: List<Reaction>): FeedItem = this
 }

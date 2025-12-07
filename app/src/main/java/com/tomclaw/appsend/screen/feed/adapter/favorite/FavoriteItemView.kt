@@ -62,6 +62,8 @@ interface FavoriteItemView : ItemView {
 
     fun hideReactions()
 
+    fun setOnReactionClickListener(listener: ((Reaction) -> Unit)?)
+
 }
 
 class FavoriteItemViewHolder(
@@ -85,6 +87,7 @@ class FavoriteItemViewHolder(
     private var postClickListener: (() -> Unit)? = null
     private var appClickListener: (() -> Unit)? = null
     private var menuClickListener: (() -> Unit)? = null
+    private var reactionClickListener: ((Reaction) -> Unit)? = null
 
     init {
         view.setOnClickListener { postClickListener?.invoke() }
@@ -186,21 +189,27 @@ class FavoriteItemViewHolder(
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    override fun setReactions(reactionsList: List<Reaction>) {
-        if (reactionsList.isNotEmpty()) {
-            reactions.show()
+    override fun setReactions(reactions: List<Reaction>) {
+        if (reactions.isNotEmpty()) {
+            this.reactions.show()
             with(reactionsAdapter) {
                 dataSet.clear()
-                dataSet.addAll(reactionsList)
+                dataSet.addAll(reactions)
+                setClickListener(reactionClickListener)
                 notifyDataSetChanged()
             }
         } else {
-            reactions.hide()
+            this.reactions.hide()
         }
     }
 
     override fun hideReactions() {
         reactions.hide()
+    }
+
+    override fun setOnReactionClickListener(listener: ((Reaction) -> Unit)?) {
+        this.reactionClickListener = listener
+        reactionsAdapter.setClickListener(listener)
     }
 
     override fun onUnbind() {

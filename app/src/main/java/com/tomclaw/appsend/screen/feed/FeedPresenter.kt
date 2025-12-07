@@ -376,6 +376,134 @@ class FeedPresenterImpl(
         router?.openLoginScreen()
     }
 
+    override fun onReactionClick(item: FeedItem, reaction: com.tomclaw.appsend.screen.feed.api.Reaction) {
+        val items = items ?: return
+        val itemIndex = items.indexOf(item)
+        if (itemIndex < 0) return
+
+        val currentReactions = item.getReactions()?.toMutableList() ?: return
+
+        // Optimistic UI update
+        val reactionIndex = currentReactions.indexOfFirst { it.id == reaction.id }
+        val wasActive = reaction.active == true
+        val currentCount = reaction.count ?: 0
+
+        if (reactionIndex >= 0) {
+            val existingReaction = currentReactions[reactionIndex]
+            val updatedReaction = existingReaction.copy(
+                active = !wasActive,
+                count = if (!wasActive) currentCount + 1 else maxOf(0, currentCount - 1)
+            )
+            currentReactions[reactionIndex] = updatedReaction
+        } else {
+            // If reaction is not in the list, add it
+            val newReaction = reaction.copy(
+                active = true,
+                count = 1
+            )
+            currentReactions.add(newReaction)
+        }
+
+        // Update item with new reactions
+        val updatedItem = item.withReactions(currentReactions)
+
+        // Update items list
+        val updatedItems = items.toMutableList()
+        updatedItems[itemIndex] = updatedItem
+        this.items = updatedItems
+
+        // Update UI
+        bindItems()
+
+        // Send API request
+        val tag = item.id.toString()
+        val postId = item.id
+        subscriptions += interactor.reaction(tag, reaction.id)
+            .observeOn(schedulers.mainThread())
+            .retryWhenNonAuthErrors()
+            .subscribe(
+                { response -> onReactionResponse(postId, response.reactions) },
+                { onReactionError(postId, reaction, wasActive, currentCount) }
+            )
+    }
+
+    private fun onReactionResponse(postId: Long, reactions: Map<String, com.tomclaw.appsend.screen.feed.api.Reaction>) {
+        val items = items ?: return
+        val itemIndex = items.indexOfFirst { it.id == postId }
+        if (itemIndex < 0) return
+
+        // Get current item from the list
+        val currentItem = items[itemIndex]
+        val currentReactions = currentItem.getReactions()?.toMutableList() ?: return
+
+        // Update count and selection state for existing reactions
+        reactions.forEach { (reactionId, updatedReaction) ->
+            val reactionIndex = currentReactions.indexOfFirst { it.id == reactionId }
+            if (reactionIndex >= 0) {
+                // Update existing reaction: count and selection state
+                val existingReaction = currentReactions[reactionIndex]
+                currentReactions[reactionIndex] = existingReaction.copy(
+                    count = updatedReaction.count,
+                    active = updatedReaction.active
+                )
+            }
+        }
+
+        // For reactions not in API response, set count to 0 and remove selection
+        currentReactions.forEachIndexed { index, reaction ->
+            if (!reactions.containsKey(reaction.id)) {
+                currentReactions[index] = reaction.copy(
+                    count = 0,
+                    active = false
+                )
+            }
+        }
+
+        val updatedItem = currentItem.withReactions(currentReactions)
+
+        // Update items list
+        val updatedItems = items.toMutableList()
+        updatedItems[itemIndex] = updatedItem
+        this.items = updatedItems
+
+        // Update UI
+        bindItems()
+    }
+
+    private fun onReactionError(
+        postId: Long,
+        reaction: com.tomclaw.appsend.screen.feed.api.Reaction,
+        wasActive: Boolean,
+        previousCount: Int
+    ) {
+        // Rollback optimistic update on error
+        val items = items ?: return
+        val itemIndex = items.indexOfFirst { it.id == postId }
+        if (itemIndex < 0) return
+
+        // Get current item from the list
+        val currentItem = items[itemIndex]
+        val currentReactions = currentItem.getReactions()?.toMutableList() ?: return
+
+        val reactionIndex = currentReactions.indexOfFirst { it.id == reaction.id }
+        if (reactionIndex >= 0) {
+            val existingReaction = currentReactions[reactionIndex]
+            val updatedReaction = existingReaction.copy(
+                active = wasActive,
+                count = previousCount
+            )
+            currentReactions[reactionIndex] = updatedReaction
+        }
+
+        val updatedItem = currentItem.withReactions(currentReactions)
+
+        val updatedItems = items.toMutableList()
+        updatedItems[itemIndex] = updatedItem
+        this.items = updatedItems
+
+        bindItems()
+    }
+
     private data class Range(
         val position: Int,
         val count: Int,

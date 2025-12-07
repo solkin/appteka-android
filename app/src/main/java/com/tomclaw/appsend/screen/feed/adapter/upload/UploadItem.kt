@@ -8,7 +8,7 @@ import com.tomclaw.appsend.user.api.UserBrief
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-class UploadItem(
+data class UploadItem(
     override val id: Long,
     val time: Long,
     val appId: String,
@@ -29,4 +29,9 @@ class UploadItem(
     val reacts: List<Reaction>?,
     override var hasMore: Boolean = false,
     override var hasProgress: Boolean = false,
-) : FeedItem
+) : FeedItem {
+    
+    override fun getReactions(): List<Reaction>? = reacts
+    
+    override fun withReactions(reactions: List<Reaction>): FeedItem = copy(reacts = reactions)
+}
