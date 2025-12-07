@@ -32,6 +32,7 @@ class FeedConverterImpl : FeedConverter {
                 text = post.payload.text,
                 user = post.user,
                 actions = post.actions,
+                reacts = post.reacts,
             )
 
             is FavoritePayload -> FavoriteItem(
@@ -54,6 +55,7 @@ class FeedConverterImpl : FeedConverter {
                 screenshots = post.payload.screenshots.orEmpty(),
                 user = post.user,
                 actions = post.actions,
+                reacts = post.reacts,
             )
 
             is UploadPayload -> UploadItem(
@@ -74,6 +76,7 @@ class FeedConverterImpl : FeedConverter {
                 screenshots = post.payload.screenshots.orEmpty(),
                 user = post.user,
                 actions = post.actions,
+                reacts = post.reacts,
             )
 
             is SubscribePayload -> SubscribeItem(
@@ -82,6 +85,7 @@ class FeedConverterImpl : FeedConverter {
                 publisher = post.payload.publisher,
                 user = post.user,
                 actions = post.actions,
+                reacts = post.reacts,
             )
 
             else -> null

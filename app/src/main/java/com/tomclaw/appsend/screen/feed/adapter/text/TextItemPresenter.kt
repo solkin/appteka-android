@@ -33,6 +33,9 @@ class TextItemPresenter(
             ?: view.hideImage()
         if (item.hasProgress) view.showProgress() else view.hideProgress()
         if (!item.actions.isNullOrEmpty()) view.showMenu() else view.hideMenu()
+        item.reacts.takeIf { !it.isNullOrEmpty() }
+            ?.let { view.setReactions(it) }
+            ?: view.hideReactions()
         view.setOnPostClickListener { listener.onItemClick(item) }
         view.setOnMenuClickListener { listener.onMenuClick(item) }
     }

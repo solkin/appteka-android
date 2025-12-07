@@ -34,6 +34,7 @@ import dagger.Lazy
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoSet
+import javax.inject.Named
 import java.util.Locale
 
 @Module
@@ -96,6 +97,7 @@ class FeedModule(
     internal fun provideAdapterPresenter(binder: ItemBinder): AdapterPresenter {
         return SimpleAdapterPresenter(binder, binder)
     }
+
 
     @Provides
     @PerFragment

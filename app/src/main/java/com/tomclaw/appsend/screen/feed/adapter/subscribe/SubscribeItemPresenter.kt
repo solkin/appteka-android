@@ -29,6 +29,9 @@ class SubscribeItemPresenter(
         view.setTime(resourceProvider.formatTime(item.time))
         if (item.hasProgress) view.showProgress() else view.hideProgress()
         if (!item.actions.isNullOrEmpty()) view.showMenu() else view.hideMenu()
+        item.reacts.takeIf { !it.isNullOrEmpty() }
+            ?.let { view.setReactions(it) }
+            ?: view.hideReactions()
         view.setOnPostClickListener { listener.onItemClick(item) }
         view.setOnPublisherClickListener { listener.onUserClick(item.publisher) }
         view.setOnMenuClickListener { listener.onMenuClick(item) }

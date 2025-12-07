@@ -12,7 +12,9 @@ import com.avito.konveyor.blueprint.ItemView
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.dto.Screenshot
 import com.tomclaw.appsend.dto.UserIcon
+import com.tomclaw.appsend.screen.feed.adapter.ReactionsAdapter
 import com.tomclaw.appsend.screen.feed.adapter.ScreenshotsAdapter
+import com.tomclaw.appsend.screen.feed.api.Reaction
 import com.tomclaw.appsend.util.bind
 import com.tomclaw.appsend.util.hide
 import com.tomclaw.appsend.util.show
@@ -56,11 +58,16 @@ interface FavoriteItemView : ItemView {
 
     fun setOnMenuClickListener(listener: (() -> Unit)?)
 
+    fun setReactions(reactions: List<com.tomclaw.appsend.screen.feed.api.Reaction>)
+
+    fun hideReactions()
+
 }
 
 class FavoriteItemViewHolder(
     view: View,
     private val adapter: ScreenshotsAdapter,
+    private val reactionsAdapter: ReactionsAdapter,
 ) : BaseViewHolder(view), FavoriteItemView {
 
     private val userIcon: UserIconView = UserIconViewImpl(view.findViewById(R.id.member_icon))
@@ -72,6 +79,7 @@ class FavoriteItemViewHolder(
     private val packageName: TextView = view.findViewById(R.id.app_package)
     private val text: TextView = view.findViewById(R.id.text)
     private val images: RecyclerView = view.findViewById(R.id.images)
+    private val reactions: RecyclerView = view.findViewById(R.id.reactions)
     private val menu: View = view.findViewById(R.id.post_menu)
 
     private var postClickListener: (() -> Unit)? = null
@@ -91,6 +99,13 @@ class FavoriteItemViewHolder(
         images.layoutManager = layoutManager
         images.itemAnimator = DefaultItemAnimator()
         images.itemAnimator?.changeDuration = DURATION_MEDIUM
+
+        val reactionsOrientation = RecyclerView.HORIZONTAL
+        val reactionsLayoutManager = LinearLayoutManager(view.context, reactionsOrientation, false)
+        reactions.adapter = reactionsAdapter
+        reactions.layoutManager = reactionsLayoutManager
+        reactions.itemAnimator = DefaultItemAnimator()
+        reactions.itemAnimator?.changeDuration = DURATION_MEDIUM
     }
 
     override fun setUserIcon(userIcon: UserIcon) {
@@ -168,6 +183,24 @@ class FavoriteItemViewHolder(
 
     override fun setOnMenuClickListener(listener: (() -> Unit)?) {
         this.menuClickListener = listener
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    override fun setReactions(reactionsList: List<Reaction>) {
+        if (reactionsList.isNotEmpty()) {
+            reactions.show()
+            with(reactionsAdapter) {
+                dataSet.clear()
+                dataSet.addAll(reactionsList)
+                notifyDataSetChanged()
+            }
+        } else {
+            reactions.hide()
+        }
+    }
+
+    override fun hideReactions() {
+        reactions.hide()
     }
 
     override fun onUnbind() {

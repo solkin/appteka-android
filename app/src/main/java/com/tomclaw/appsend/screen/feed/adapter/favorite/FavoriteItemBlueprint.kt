@@ -6,6 +6,7 @@ import com.avito.konveyor.blueprint.ItemPresenter
 import com.avito.konveyor.blueprint.ViewHolderBuilder
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.feed.adapter.ItemListener
+import com.tomclaw.appsend.screen.feed.adapter.ReactionsAdapter
 import com.tomclaw.appsend.screen.feed.adapter.ScreenshotsAdapter
 
 class FavoriteItemBlueprint(
@@ -16,7 +17,7 @@ class FavoriteItemBlueprint(
     override val viewHolderProvider = ViewHolderBuilder.ViewHolderProvider(
         layoutId = R.layout.feed_item_favorite,
         creator = { _, view ->
-            FavoriteItemViewHolder(view, ScreenshotsAdapter(listener))
+            FavoriteItemViewHolder(view, ScreenshotsAdapter(listener), ReactionsAdapter())
         }
     )
 
