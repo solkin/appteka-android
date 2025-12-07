@@ -14,7 +14,7 @@ interface PostInteractor {
 
     fun uploadImages(imgList: List<PostImage>): Observable<UploadScreenshotsResponse>
 
-    fun post(text: String, scrIds: List<String>): Observable<FeedPostResponse>
+    fun post(text: String, scrIds: List<String>, reactionIds: List<String>): Observable<FeedPostResponse>
 
     fun config(): Observable<FeedConfigResponse>
 
@@ -45,11 +45,12 @@ class PostInteractorImpl(
             .subscribeOn(schedulers.io())
     }
 
-    override fun post(text: String, scrIds: List<String>): Observable<FeedPostResponse> {
+    override fun post(text: String, scrIds: List<String>, reactionIds: List<String>): Observable<FeedPostResponse> {
         return api
             .postFeed(
                 text = text,
                 scrIds = scrIds,
+                reactionIds = reactionIds,
             )
             .map { it.result }
             .toObservable()

@@ -21,6 +21,8 @@ import com.tomclaw.appsend.screen.post.adapter.append.AppendItemBlueprint
 import com.tomclaw.appsend.screen.post.adapter.append.AppendItemPresenter
 import com.tomclaw.appsend.screen.post.adapter.image.ImageItemBlueprint
 import com.tomclaw.appsend.screen.post.adapter.image.ImageItemPresenter
+import com.tomclaw.appsend.screen.post.adapter.reactions.ReactionsItemBlueprint
+import com.tomclaw.appsend.screen.post.adapter.reactions.ReactionsItemPresenter
 import com.tomclaw.appsend.screen.post.adapter.ribbon.RibbonItemBlueprint
 import com.tomclaw.appsend.screen.post.adapter.ribbon.RibbonItemPresenter
 import com.tomclaw.appsend.screen.post.adapter.submit.SubmitItemBlueprint
@@ -175,6 +177,19 @@ class PostModule(
     internal fun provideSubmitItemPresenter(
         presenter: PostPresenter
     ) = SubmitItemPresenter(presenter)
+
+    @Provides
+    @IntoSet
+    @PerActivity
+    internal fun provideReactionsItemBlueprint(
+        presenter: ReactionsItemPresenter,
+    ): ItemBlueprint<*, *> = ReactionsItemBlueprint(presenter)
+
+    @Provides
+    @PerActivity
+    internal fun provideReactionsItemPresenter(
+        presenter: PostPresenter
+    ) = ReactionsItemPresenter(presenter)
 
 }
 

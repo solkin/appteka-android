@@ -1,6 +1,7 @@
 package com.tomclaw.appsend.screen.feed.adapter.subscribe
 
 import com.tomclaw.appsend.screen.feed.adapter.FeedItem
+import com.tomclaw.appsend.screen.feed.api.Reaction
 import com.tomclaw.appsend.user.api.UserBrief
 import kotlinx.parcelize.Parcelize
 
@@ -11,7 +12,7 @@ class SubscribeItem(
     val publisher: UserBrief,
     override val user: UserBrief,
     override val actions: List<String>?,
-    val reacts: List<com.tomclaw.appsend.screen.feed.api.Reaction>?,
+    val reacts: List<Reaction>?,
     override var hasMore: Boolean = false,
     override var hasProgress: Boolean = false,
 ) : FeedItem

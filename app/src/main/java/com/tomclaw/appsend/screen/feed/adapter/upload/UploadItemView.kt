@@ -59,7 +59,7 @@ interface UploadItemView : ItemView {
 
     fun setOnMenuClickListener(listener: (() -> Unit)?)
 
-    fun setReactions(reactions: List<com.tomclaw.appsend.screen.feed.api.Reaction>)
+    fun setReactions(reactions: List<Reaction>)
 
     fun hideReactions()
 

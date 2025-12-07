@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
+import com.google.gson.reflect.TypeToken
 import com.tomclaw.appsend.user.api.UserBrief
 import java.lang.reflect.Type
 
@@ -26,7 +27,10 @@ class PostDeserializer(private val gson: Gson) : JsonDeserializer<PostEntity> {
             else -> UnsupportedPayload::class.java
         }
         val payload = gson.fromJson(obj["payload"].asJsonObject, payloadType)
-        val reacts: List<Reaction>? = gson.fromJson(obj["reacts"].asJsonArray, List::class.java) as List<Reaction>?
+        val reacts: List<Reaction>? = obj["reacts"]?.let { reactsElement ->
+            val type = object : TypeToken<List<Reaction>>() {}.type
+            gson.fromJson(reactsElement.asJsonArray, type)
+        }
         val user = gson.fromJson(obj["user"].asJsonObject, UserBrief::class.java)
         class StringArrayList : ArrayList<String>()
         val actions = obj["actions"]?.let { actionsArray ->

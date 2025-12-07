@@ -3,6 +3,7 @@ package com.tomclaw.appsend.screen.post
 import com.avito.konveyor.blueprint.Item
 import com.tomclaw.appsend.screen.post.adapter.append.AppendItem
 import com.tomclaw.appsend.screen.post.adapter.image.ImageItem
+import com.tomclaw.appsend.screen.post.adapter.reactions.ReactionsItem
 import com.tomclaw.appsend.screen.post.adapter.ribbon.RibbonItem
 import com.tomclaw.appsend.screen.post.adapter.submit.SubmitItem
 import com.tomclaw.appsend.screen.post.adapter.text.TextItem
@@ -18,6 +19,7 @@ interface PostConverter {
         text: String,
         highlightErrors: Boolean,
         config: FeedConfig,
+        selectedReactionIds: Set<String>,
     ): List<Item>
 
 }
@@ -29,6 +31,7 @@ class PostConverterImpl() : PostConverter {
         text: String,
         highlightErrors: Boolean,
         config: FeedConfig,
+        selectedReactionIds: Set<String>,
     ): List<Item> {
         var id: Long = 1
         val items = ArrayList<Item>()
@@ -56,6 +59,14 @@ class PostConverterImpl() : PostConverter {
                 .plus(AppendItem(id++))
                 .trim(config.postMaxImages)
         )
+
+        config.reactions?.takeIf { it.isNotEmpty() }?.let { availableReactions ->
+            items += ReactionsItem(
+                id = id++,
+                availableReactions = availableReactions,
+                selectedReactionIds = selectedReactionIds,
+            )
+        }
 
         items += SubmitItem(id++)
 

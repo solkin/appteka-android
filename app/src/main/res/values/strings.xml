@@ -143,6 +143,7 @@
     <string name="select_app_description">Installed one or apk file</string>
     <string name="search_app">Search in store</string>
     <string name="reaction">Reaction</string>
+    <string name="select_reactions">Select reactions</string>
     <string name="empty_list">There is nothing here…</string>
     <string name="login_button">Login</string>
     <string name="register_button">Register</string>

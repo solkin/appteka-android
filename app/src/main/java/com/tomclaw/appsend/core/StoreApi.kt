@@ -341,6 +341,7 @@ interface StoreApi {
     fun postFeed(
         @Field("text") text: String,
         @Field("scr_ids") scrIds: List<String>?,
+        @Field("react_ids") reactionIds: List<String>?,
     ): Single<StoreResponse<FeedPostResponse>>
 
     @Multipart

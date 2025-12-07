@@ -10,6 +10,7 @@ import com.tomclaw.appsend.screen.post.dto.PostImage
 import com.tomclaw.appsend.screen.post.adapter.ItemListener
 import com.tomclaw.appsend.screen.post.adapter.image.ImageItem
 import com.tomclaw.appsend.screen.post.dto.FeedConfig
+import com.tomclaw.appsend.screen.feed.api.Reaction
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.filterUnauthorizedErrors
 import com.tomclaw.appsend.util.getParcelableArrayListCompat
@@ -73,6 +74,10 @@ class PostPresenterImpl(
     private var text: String = state?.getString(KEY_TEXT).orEmpty()
     private var highlightErrors: Boolean = state?.getBoolean(KEY_HIGHLIGHT_ERRORS) == true
     private var config: FeedConfig? = state?.getParcelableCompat(KEY_CONFIG, FeedConfig::class.java)
+    private var selectedReactionIds: MutableSet<String> = state
+        ?.getStringArray(KEY_SELECTED_REACTIONS)
+        ?.toSet()
+        ?.toMutableSet() ?: mutableSetOf()
 
     private val items = ArrayList<Item>()
 
@@ -113,6 +118,7 @@ class PostPresenterImpl(
         putString(KEY_TEXT, text)
         putBoolean(KEY_HIGHLIGHT_ERRORS, highlightErrors)
         putParcelable(KEY_CONFIG, config)
+        putStringArray(KEY_SELECTED_REACTIONS, selectedReactionIds.toTypedArray())
     }
 
     override fun onAuthorized() {
@@ -143,6 +149,7 @@ class PostPresenterImpl(
                     config = FeedConfig(
                         postMaxLength = it.postMaxLength,
                         postMaxImages = it.postMaxImages,
+                        reactions = it.reactions,
                     )
                     invalidate()
                 },
@@ -157,7 +164,7 @@ class PostPresenterImpl(
             Observable.just(emptyList<String>())
         }
         subscriptions += imageUploadObservable
-            .flatMap { interactor.post(text.trim(), it) }
+            .flatMap { interactor.post(text.trim(), it, selectedReactionIds.toList()) }
             .observeOn(schedulers.mainThread())
             .doOnSubscribe {
                 router?.hideKeyboard()
@@ -187,7 +194,7 @@ class PostPresenterImpl(
     private fun updateItems() {
         val config = config ?: return
         items.clear()
-        items += postConverter.convert(images, text, highlightErrors, config)
+        items += postConverter.convert(images, text, highlightErrors, config, selectedReactionIds)
     }
 
     private fun bindItems() {
@@ -232,9 +239,19 @@ class PostPresenterImpl(
         bindForm()
     }
 
+    override fun onReactionClick(reaction: Reaction) {
+        if (selectedReactionIds.contains(reaction.id)) {
+            selectedReactionIds.remove(reaction.id)
+        } else {
+            selectedReactionIds.add(reaction.id)
+        }
+        bindForm()
+    }
+
 }
 
 private const val KEY_IMAGES = "images"
 private const val KEY_TEXT = "text"
 private const val KEY_HIGHLIGHT_ERRORS = "highlight_errors"
 private const val KEY_CONFIG = "config"
+private const val KEY_SELECTED_REACTIONS = "selected_reactions"
