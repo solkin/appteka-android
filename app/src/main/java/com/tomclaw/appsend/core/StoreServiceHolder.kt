@@ -3,7 +3,6 @@ package com.tomclaw.appsend.core
 import com.tomclaw.appsend.di.legacy.LegacyInjector
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import kotlin.concurrent.Volatile
 
 /**
  * Created by solkin on 23.09.17.

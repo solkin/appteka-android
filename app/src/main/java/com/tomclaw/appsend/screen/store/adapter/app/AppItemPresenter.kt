@@ -1,7 +1,7 @@
 package com.tomclaw.appsend.screen.store.adapter.app
 
 import com.avito.konveyor.blueprint.ItemPresenter
-import com.tomclaw.appsend.main.item.StoreItem
+import com.tomclaw.appsend.core.FileStatus
 import com.tomclaw.appsend.screen.store.AppsResourceProvider
 import com.tomclaw.appsend.screen.store.adapter.ItemListener
 
@@ -36,17 +36,17 @@ class AppItemPresenter(
         }
         var clickable = true
         when (item.status) {
-            StoreItem.FILE_STATUS_UNLINKED -> {
+            FileStatus.UNLINKED -> {
                 statusText = resourceProvider.getStatusBlockedString()
                 isPublished = false
                 clickable = false
             }
 
-            StoreItem.FILE_STATUS_PRIVATE -> {
+            FileStatus.PRIVATE -> {
                 statusText = resourceProvider.getStatusPrivateString()
                 isPublished = false
             }
-            StoreItem.FILE_STATUS_MODERATION -> {
+            FileStatus.MODERATION -> {
                 statusText = resourceProvider.getStatusModerationString()
                 isPublished = false
             }

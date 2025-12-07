@@ -7,8 +7,6 @@ import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
-import com.tomclaw.appsend.main.item.StoreItem;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
@@ -16,14 +14,6 @@ import java.io.IOException;
  * Created by solkin on 23.04.17.
  */
 public class PackageHelper {
-
-    public static int getInstalledVersionCode(String packageName, PackageManager packageManager) {
-        try {
-            return packageManager.getPackageInfo(packageName, 0).versionCode;
-        } catch (Throwable ex) {
-            return StoreItem.NOT_INSTALLED;
-        }
-    }
 
     public static byte[] getPackageIconPng(ApplicationInfo info,
                                            PackageManager packageManager) {
