@@ -203,6 +203,8 @@
     <string name="enter_your_review">Share your experience (optional)</string>
     <string name="review_publish_failed">Review publish failed</string>
     <string name="your_review">Your review</string>
+    <string name="review_required_error">Review is required for ratings below 4 and must contain at least 10 characters</string>
+    <string name="rating_required_error">Please select a rating</string>
     <string name="edit_feedback">Edit feedback</string>
     <string name="details_error_title">Something went wrong</string>
     <string name="details_error_subtitle">You can try again</string>
