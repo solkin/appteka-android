@@ -63,7 +63,7 @@
                             android:layout_height="match_parent"
                             android:clipToPadding="false"
                             android:paddingTop="4dp"
-                            android:paddingBottom="4dp"
+                            android:paddingBottom="8dp"
                             android:scrollbarStyle="outsideOverlay"
                             android:scrollbars="vertical" />
 

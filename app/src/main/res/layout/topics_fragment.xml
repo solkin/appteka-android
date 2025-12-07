@@ -76,6 +76,7 @@
                 android:layout_height="match_parent"
                 android:choiceMode="none"
                 android:clipToPadding="false"
+                android:paddingBottom="8dp"
                 android:dividerHeight="0.5dp"
                 android:fastScrollEnabled="false"
                 android:stackFromBottom="false"
