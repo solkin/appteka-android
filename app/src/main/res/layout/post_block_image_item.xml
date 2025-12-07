@@ -11,7 +11,7 @@
         android:layout_gravity="center_vertical"
         android:layout_margin="4dp"
         android:foreground="?android:attr/selectableItemBackground"
-        app:cardCornerRadius="8dp"
+        app:cardCornerRadius="16dp"
         app:cardElevation="2dp">
 
         <ImageView

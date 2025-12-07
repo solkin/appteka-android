@@ -44,9 +44,9 @@
         android:layout_marginRight="16dp"
         android:layout_marginBottom="96dp"
         android:src="@drawable/ic_cloud_upload"
-        app:elevation="6dp"
+        app:elevation="3dp"
         app:fabSize="normal"
-        app:pressedTranslationZ="12dp" />
+        app:pressedTranslationZ="6dp" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab_post"
@@ -57,9 +57,9 @@
         android:layout_marginRight="16dp"
         android:layout_marginBottom="96dp"
         android:src="@drawable/ic_pencil"
-        app:elevation="6dp"
+        app:elevation="3dp"
         app:fabSize="normal"
-        app:pressedTranslationZ="12dp" />
+        app:pressedTranslationZ="6dp" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"

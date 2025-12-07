@@ -45,7 +45,7 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/code_input_layout"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                style="@style/MaterialTextInputExpressive"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="12dp"
@@ -83,7 +83,7 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/name_input_layout"
-                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                    style="@style/MaterialTextInputExpressive"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="12dp"
@@ -112,7 +112,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:text="@string/login_button"
-                app:cornerRadius="99dp" />
+                />
 
         </LinearLayout>
 

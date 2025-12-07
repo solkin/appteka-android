@@ -18,6 +18,6 @@
         android:layout_gravity="center"
         android:layout_margin="8dp"
         android:text="@string/publish_post"
-        app:cornerRadius="99dp" />
+        />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

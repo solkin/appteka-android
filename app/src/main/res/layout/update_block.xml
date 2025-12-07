@@ -83,7 +83,7 @@
                     android:layout_marginStart="4dp"
                     android:paddingLeft="24dp"
                     android:paddingRight="24dp"
-                    app:cornerRadius="99dp"
+                   
                     android:text="@string/update" />
 
             </LinearLayout>

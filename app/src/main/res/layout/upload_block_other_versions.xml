@@ -40,7 +40,7 @@
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
         android:text="@string/check_uploaded_versions"
-        app:cornerRadius="99dp"
+       
         app:drawableTint="?attr/colorPrimary" />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

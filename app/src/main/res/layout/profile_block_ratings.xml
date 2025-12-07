@@ -89,6 +89,6 @@
         android:layout_marginTop="2dp"
         android:layout_marginBottom="-2dp"
         android:text="@string/show_all_ratings"
-        app:cornerRadius="99dp" />
+        />
 
 </LinearLayout>

@@ -17,7 +17,7 @@
         android:layout_margin="8dp"
         android:layout_weight="1"
         android:text="@string/cancel"
-        app:cornerRadius="99dp" />
+        />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/remove_button"
@@ -28,7 +28,7 @@
         android:layout_margin="8dp"
         android:layout_weight="1"
         android:text="@string/remove"
-        app:cornerRadius="99dp" />
+        />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/install_button"
@@ -39,7 +39,7 @@
         android:layout_margin="8dp"
         android:layout_weight="1"
         android:text="@string/install"
-        app:cornerRadius="99dp" />
+        />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/update_button"
@@ -50,7 +50,7 @@
         android:layout_margin="8dp"
         android:layout_weight="1"
         android:text="@string/update"
-        app:cornerRadius="99dp" />
+        />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/launch_button"
@@ -61,6 +61,6 @@
         android:layout_margin="8dp"
         android:layout_weight="1"
         android:text="@string/open"
-        app:cornerRadius="99dp" />
+        />
 
 </androidx.appcompat.widget.LinearLayoutCompat>

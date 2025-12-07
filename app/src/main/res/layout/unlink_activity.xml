@@ -27,7 +27,7 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/reason_input_layout"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                style="@style/MaterialTextInputExpressive"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="12dp"
@@ -55,7 +55,7 @@
                 android:layout_gravity="center_horizontal"
                 android:text="@string/unlink_file"
                 app:backgroundTint="@color/abuse_color"
-                app:cornerRadius="99dp" />
+                />
 
         </LinearLayout>
 

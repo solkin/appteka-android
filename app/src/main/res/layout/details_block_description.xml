@@ -41,7 +41,7 @@
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:text="@string/translate"
-            app:cornerRadius="99dp"
+           
             app:drawableTint="?attr/colorPrimary" />
 
     </LinearLayout>
@@ -69,7 +69,7 @@
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
         android:text="@string/find_on_gp"
-        app:cornerRadius="99dp"
+       
         app:drawableTint="?attr/colorPrimary" />
 
     <LinearLayout

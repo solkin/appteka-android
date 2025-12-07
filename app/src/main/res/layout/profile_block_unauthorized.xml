@@ -53,6 +53,6 @@
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="12dp"
         android:text="@string/login_button"
-        app:cornerRadius="99dp" />
+        />
 
 </LinearLayout>
