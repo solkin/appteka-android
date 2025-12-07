@@ -46,6 +46,10 @@ import com.tomclaw.appsend.screen.reviews.di.ReviewsComponent
 import com.tomclaw.appsend.screen.reviews.di.ReviewsModule
 import com.tomclaw.appsend.screen.search.di.SearchComponent
 import com.tomclaw.appsend.screen.search.di.SearchModule
+import com.tomclaw.appsend.screen.settings.di.SettingsActivityComponent
+import com.tomclaw.appsend.screen.settings.di.SettingsActivityModule
+import com.tomclaw.appsend.screen.settings.di.SettingsComponent
+import com.tomclaw.appsend.screen.settings.di.SettingsModule
 import com.tomclaw.appsend.screen.store.di.StoreComponent
 import com.tomclaw.appsend.screen.store.di.StoreModule
 import com.tomclaw.appsend.screen.users.di.SubscribersComponent
@@ -80,6 +84,10 @@ interface AppComponent {
     fun storeComponent(module: StoreModule): StoreComponent
 
     fun searchComponent(module: SearchModule): SearchComponent
+
+    fun settingsActivityComponent(module: SettingsActivityModule): SettingsActivityComponent
+
+    fun settingsComponent(module: SettingsModule): SettingsComponent
 
     fun detailsComponent(module: DetailsModule): DetailsComponent
 

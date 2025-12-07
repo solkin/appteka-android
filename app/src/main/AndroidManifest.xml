@@ -34,7 +34,7 @@
         </provider>
 
         <activity
-            android:name=".main.settings.SettingsActivity_"
+            android:name=".screen.settings.SettingsActivity"
             android:label="@string/settings" />
         <activity
             android:name=".screen.upload.UploadActivity"

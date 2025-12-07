@@ -11,7 +11,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
-import com.tomclaw.appsend.main.settings.SettingsActivity.createSettingsActivityIntent
+import com.tomclaw.appsend.screen.settings.createSettingsActivityIntent
 import com.tomclaw.appsend.screen.search.createSearchActivityIntent
 import com.tomclaw.appsend.screen.about.createAboutActivityIntent
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
