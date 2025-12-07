@@ -36,6 +36,7 @@ class ReactionsAdapter(
         fun setReaction(item: Reaction, listener: ((Reaction) -> Unit)?) {
             this.clickListener = listener
             view.setOnClickListener {
+                view.performHapticFeedback(android.view.HapticFeedbackConstants.KEYBOARD_TAP)
                 if (adapterPosition != RecyclerView.NO_POSITION && adapterPosition < adapter.dataSet.size) {
                     clickListener?.invoke(adapter.dataSet[adapterPosition])
                 }
