@@ -16,8 +16,20 @@
     <color name="light_back_color">#FFFFFF</color>
     <color name="dark_back_color">#0d0d0e</color>
 
+    <!-- Светло-серый цвет для фона Bottom Navigation -->
+    <color name="bottom_nav_background_light">#FAFAFA</color>
+    <color name="bottom_nav_background_dark">#151515</color>
+
     <color name="permissions_container_light_background">#DBF0E8</color>
     <color name="permissions_container_dark_background">#051C13</color>
+
+    <!-- Material 3 Primary Container colors - светло-зеленый для фона выбранных элементов -->
+    <color name="primary_container_light">#E8F5E9</color>
+    <color name="primary_container_dark">#1A3A1A</color>
+
+    <!-- Material 3 Secondary Container colors - светло-оранжевый для фона Bottom Navigation -->
+    <color name="secondary_container_light">#FFF3E0</color>
+    <color name="secondary_container_dark">#3E2723</color>
 
     <color name="divider_light">#dadada</color>
     <color name="divider_dark">#424242</color>
@@ -79,17 +91,40 @@
 
     <color name="online_color">#32A304</color>
 
-    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.Material3.Light.NoActionBar">
+        <!-- Material 3 Color Scheme - сохраняем основные и акцентные цвета -->
         <item name="colorPrimary">@color/primary_color</item>
-        <item name="colorPrimaryVariant">@color/primary_dark_color</item>
         <item name="colorOnPrimary">@android:color/white</item>
+        <item name="colorPrimaryContainer">@color/primary_container_light</item>
+        <item name="colorOnPrimaryContainer">@color/primary_color</item>
 
         <item name="colorSecondary">@color/accent_color</item>
-        <item name="colorSecondaryVariant">@color/accent_dark_color</item>
         <item name="colorOnSecondary">@android:color/white</item>
+        <item name="colorSecondaryContainer">@color/secondary_container_light</item>
+        <item name="colorOnSecondaryContainer">@color/accent_color</item>
+
+        <item name="colorTertiary">@color/accent_color</item>
+        <item name="colorOnTertiary">@android:color/white</item>
+        <item name="colorTertiaryContainer">@color/accent_color</item>
+        <item name="colorOnTertiaryContainer">@android:color/white</item>
+
+        <item name="colorError">#d63205</item>
+        <item name="colorOnError">@android:color/white</item>
+        <item name="colorErrorContainer">#ffdad6</item>
+        <item name="colorOnErrorContainer">#410002</item>
+
+        <item name="colorSurface">@color/light_back_color</item>
+        <item name="colorOnSurface">@color/text_primary_color_light</item>
+        <item name="colorSurfaceVariant">#E7E0EC</item>
+        <item name="colorOnSurfaceVariant">#49454F</item>
+
+        <item name="colorOutline">#79747E</item>
+        <item name="colorOutlineVariant">#CAC4D0</item>
 
         <item name="android:statusBarColor">#efefef</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="android:navigationBarColor">@color/bottom_nav_background_light</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
 
         <item name="android:windowBackground">@color/light_back_color</item>
 
@@ -100,7 +135,7 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
 
-        <item name="bottom_bar_background">#ffffff</item>
+        <item name="bottom_bar_background">@color/bottom_nav_background_light</item>
 
         <item name="toolbar_background">@android:color/white</item>
         <item name="search_toolbar_background">@android:color/white</item>
@@ -141,17 +176,40 @@
         <item name="reaction_text_color">?attr/text_secondary_color</item>
     </style>
 
-    <style name="AppThemeBlack" parent="Theme.MaterialComponents.NoActionBar">
+    <style name="AppThemeBlack" parent="Theme.Material3.Dark.NoActionBar">
+        <!-- Material 3 Color Scheme - сохраняем основные и акцентные цвета -->
         <item name="colorPrimary">@color/primary_color</item>
-        <item name="colorPrimaryVariant">@color/primary_dark_color</item>
         <item name="colorOnPrimary">@android:color/white</item>
+        <item name="colorPrimaryContainer">@color/primary_container_dark</item>
+        <item name="colorOnPrimaryContainer">@color/primary_color</item>
 
         <item name="colorSecondary">@color/accent_color</item>
-        <item name="colorSecondaryVariant">@color/accent_dark_color</item>
         <item name="colorOnSecondary">@android:color/white</item>
+        <item name="colorSecondaryContainer">@color/secondary_container_dark</item>
+        <item name="colorOnSecondaryContainer">@color/accent_color</item>
+
+        <item name="colorTertiary">@color/accent_color</item>
+        <item name="colorOnTertiary">@android:color/white</item>
+        <item name="colorTertiaryContainer">@color/accent_color</item>
+        <item name="colorOnTertiaryContainer">@android:color/white</item>
+
+        <item name="colorError">#d63205</item>
+        <item name="colorOnError">@android:color/white</item>
+        <item name="colorErrorContainer">#93000a</item>
+        <item name="colorOnErrorContainer">#ffdad6</item>
+
+        <item name="colorSurface">@color/dark_back_color</item>
+        <item name="colorOnSurface">@color/text_primary_color_dark</item>
+        <item name="colorSurfaceVariant">#49454F</item>
+        <item name="colorOnSurfaceVariant">#CAC4D0</item>
+
+        <item name="colorOutline">#938F99</item>
+        <item name="colorOutlineVariant">#49454F</item>
 
         <item name="android:statusBarColor">#1a1a1b</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+        <item name="android:navigationBarColor">@color/bottom_nav_background_dark</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">false</item>
 
         <item name="android:windowBackground">@color/dark_back_color</item>
 
@@ -162,7 +220,7 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
 
-        <item name="bottom_bar_background">#202022</item>
+        <item name="bottom_bar_background">@color/bottom_nav_background_dark</item>
 
         <item name="toolbar_background">#202022</item>
         <item name="search_toolbar_background">#202022</item>
@@ -209,9 +267,9 @@
         <item name="toolbar_background">@android:color/black</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.ActionBar" />
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.Material3.ActionBar" />
 
-    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.MaterialComponents" />
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.Material3" />
 
     <style name="Chat.Message" parent="android:Widget.TextView">
         <item name="android:layout_width">wrap_content</item>
@@ -230,33 +288,38 @@
         <item name="android:progressDrawable">@drawable/rating_detail_element</item>
     </style>
 
-    <style name="MaterialButtonPrimary" parent="@style/Widget.MaterialComponents.Button">
+    <style name="MaterialButtonPrimary" parent="@style/Widget.Material3.Button">
         <item name="textAllCaps">false</item>
     </style>
 
-    <style name="MaterialButtonSecondary" parent="@style/Widget.MaterialComponents.Button.TextButton">
+    <style name="MaterialButtonSecondary" parent="@style/Widget.Material3.Button.TextButton">
         <item name="textAllCaps">false</item>
     </style>
 
-    <style name="MaterialButtonSecondaryOutline" parent="@style/Widget.MaterialComponents.Button.OutlinedButton">
+    <style name="MaterialButtonSecondaryOutline" parent="@style/Widget.Material3.Button.OutlinedButton">
         <item name="textAllCaps">false</item>
     </style>
 
-    <style name="BottomSheetDialogLight" parent="Theme.MaterialComponents.Light.BottomSheetDialog">
+    <style name="BottomSheetDialogLight" parent="Theme.Material3.Light.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/BottomSheetStyle</item>
     </style>
 
-    <style name="BottomSheetDialogDark" parent="Theme.MaterialComponents.BottomSheetDialog">
+    <style name="BottomSheetDialogDark" parent="Theme.Material3.Dark.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/BottomSheetStyle</item>
     </style>
 
-    <style name="BottomSheetStyle" parent="Widget.MaterialComponents.BottomSheet.Modal">
+    <style name="BottomSheetStyle" parent="Widget.Material3.BottomSheet.Modal">
         <item name="behavior_hideable">true</item>
         <item name="behavior_skipCollapsed">true</item>
     </style>
 
     <style name="TabTextAppearance" parent="TextAppearance.Material3.LabelLarge">
         <item name="android:textAllCaps">false</item>
+    </style>
+
+    <!-- Material 3 BottomNavigationView Active Indicator стиль -->
+    <style name="BottomNavActiveIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">?attr/colorPrimaryContainer</item>
     </style>
 
 </resources>

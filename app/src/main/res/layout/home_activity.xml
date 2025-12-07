@@ -40,11 +40,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_marginEnd="18dp"
-        android:layout_marginRight="18dp"
-        android:layout_marginBottom="75dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="96dp"
         android:src="@drawable/ic_cloud_upload"
-        app:elevation="4dp"
+        app:elevation="6dp"
         app:fabSize="normal"
         app:pressedTranslationZ="12dp" />
 
@@ -53,11 +53,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_marginEnd="18dp"
-        android:layout_marginRight="18dp"
-        android:layout_marginBottom="75dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="96dp"
         android:src="@drawable/ic_pencil"
-        app:elevation="4dp"
+        app:elevation="6dp"
         app:fabSize="normal"
         app:pressedTranslationZ="12dp" />
 
@@ -67,6 +67,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         app:labelVisibilityMode="labeled"
-        app:menu="@menu/bottom_navigation_menu" />
+        app:menu="@menu/bottom_navigation_menu"
+        app:itemIconTint="@color/bottom_nav_item_color"
+        app:itemTextColor="@color/bottom_nav_item_color"
+        app:itemActiveIndicatorStyle="@style/BottomNavActiveIndicator"
+        app:backgroundTint="?attr/bottom_bar_background" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

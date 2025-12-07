@@ -45,7 +45,7 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/code_input_layout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="12dp"
@@ -53,7 +53,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/code_input"
-                    style="@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox"
+                    style="@style/Widget.Material3.TextInputEditText.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawableStart="@drawable/numeric"
@@ -83,7 +83,7 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/name_input_layout"
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="12dp"
@@ -91,7 +91,7 @@
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/name_input"
-                        style="@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox"
+                        style="@style/Widget.Material3.TextInputEditText.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:drawableStart="@drawable/account"

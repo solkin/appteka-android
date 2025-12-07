@@ -23,14 +23,14 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         android:layout_marginEnd="4dp"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
         android:hint="@string/post_text">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox"
+            style="@style/Widget.Material3.TextInputEditText.OutlinedBox"
             android:inputType="textCapSentences|textMultiLine"
             android:minLines="3"
             android:maxLength="700"
