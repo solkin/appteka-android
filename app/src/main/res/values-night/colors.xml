@@ -1,5 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="bottom_nav_background_light">@color/bottom_nav_background_dark</color>
+
+    <!-- Block colors for dark theme - brighter colors for better visibility -->
+    <color name="block_error_color">#FF6B6B</color>
+    <color name="block_error_text_color">#FF8A8A</color>
+    <color name="block_error_back_color">#33FF6B6B</color>
+
+    <color name="block_info_color">#4FC3F7</color>
+    <color name="block_info_text_color">#81D4FA</color>
+    <color name="block_info_back_color">#334FC3F7</color>
+
+    <color name="block_warning_color">#FFD54F</color>
+    <color name="block_warning_text_color">#FFE082</color>
+    <color name="block_warning_back_color">#33FFD54F</color>
+
+    <color name="block_success_color">#81C784</color>
+    <color name="block_success_text_color">#A5D6A7</color>
+    <color name="block_success_back_color">#3381C784</color>
+
+    <color name="block_neutral_color">#AAAAAA</color>
+    <color name="block_neutral_text_color">#BBBBBB</color>
+    <color name="block_neutral_back_color">#33AAAAAA</color>
 </resources>
 

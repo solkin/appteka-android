@@ -14,6 +14,7 @@ import com.tomclaw.appsend.di.legacy.LegacyModule;
 import com.tomclaw.appsend.util.ApkIconLoader;
 import com.tomclaw.appsend.util.AppIconLoader;
 import com.tomclaw.appsend.util.SvgDecoder;
+import com.tomclaw.appsend.util.ThemesKt;
 import com.tomclaw.appsend.util.states.StateHolder;
 import com.tomclaw.cache.DiskLruCache;
 import com.tomclaw.imageloader.SimpleImageLoader;
@@ -47,6 +48,7 @@ public class Appteka extends Application {
         app = this;
         component = buildComponent();
 
+        ThemesKt.initTheme(this);
         initImageLoader();
         StateHolder.init();
 

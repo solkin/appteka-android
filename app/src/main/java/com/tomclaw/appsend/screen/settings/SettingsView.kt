@@ -1,8 +1,8 @@
 package com.tomclaw.appsend.screen.settings
 
-import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
 import io.reactivex.rxjava3.core.Observable
@@ -26,23 +26,19 @@ class SettingsViewImpl(
     private val clearCacheRelay = PublishRelay.create<Unit>()
 
     override fun showCacheClearedMessage() {
-        Toast.makeText(
-            fragment.requireContext(),
-            R.string.cache_cleared_successfully,
-            Toast.LENGTH_SHORT
-        ).show()
+        fragment.view?.let { view ->
+            Snackbar.make(view, R.string.cache_cleared_successfully, Snackbar.LENGTH_SHORT).show()
+        }
     }
 
     override fun showCacheClearErrorMessage() {
-        Toast.makeText(
-            fragment.requireContext(),
-            R.string.cache_clearing_failed,
-            Toast.LENGTH_SHORT
-        ).show()
+        fragment.view?.let { view ->
+            Snackbar.make(view, R.string.cache_clearing_failed, Snackbar.LENGTH_SHORT).show()
+        }
     }
 
     override fun showSystemAppsWarning(title: String, message: String, buttonText: String) {
-        AlertDialog.Builder(fragment.requireContext())
+        MaterialAlertDialogBuilder(fragment.requireContext())
             .setTitle(title)
             .setMessage(message)
             .setNeutralButton(buttonText, null)
@@ -53,8 +49,19 @@ class SettingsViewImpl(
     override fun clearCacheClicks(): Observable<Unit> = clearCacheRelay
 
     fun onClearCacheClick() {
-        clearCacheRelay.accept(Unit)
+        showClearCacheConfirmation()
+    }
+
+    private fun showClearCacheConfirmation() {
+        val context = fragment.requireContext()
+        MaterialAlertDialogBuilder(context)
+            .setTitle(R.string.clear_cache_dialog_title)
+            .setMessage(context.getString(R.string.clear_cache_dialog_message, "Appteka"))
+            .setPositiveButton(R.string.clear_cache_dialog_positive) { _, _ ->
+                clearCacheRelay.accept(Unit)
+            }
+            .setNegativeButton(android.R.string.cancel, null)
+            .show()
     }
 
 }
-

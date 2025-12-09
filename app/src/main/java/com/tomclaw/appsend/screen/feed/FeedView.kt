@@ -10,14 +10,14 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
-import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.util.ActionItem
+import com.tomclaw.appsend.util.ActionsAdapter
 import com.tomclaw.appsend.util.clicks
-import com.tomclaw.appsend.util.getAttributedColor
 import com.tomclaw.appsend.util.hide
 import com.tomclaw.appsend.util.hideWithAlphaAnimation
 import com.tomclaw.appsend.util.show
@@ -66,6 +66,7 @@ class FeedViewImpl(
     private val preferences: FeedPreferencesProvider,
 ) : FeedView {
 
+    private val context = view.context
     private val toolbar: Toolbar = view.findViewById(R.id.toolbar)
     private val flipper: ViewFlipper = view.findViewById(R.id.view_flipper)
     private val overlayProgress: View = view.findViewById(R.id.overlay_progress)
@@ -95,6 +96,8 @@ class FeedViewImpl(
                 }
             }
         })
+
+        retryButton.clicks(retryRelay)
     }
 
     override fun showProgress() {
@@ -123,7 +126,6 @@ class FeedViewImpl(
         flipper.displayedChild = 2
 
         error.setText(R.string.load_files_error)
-        retryButton.clicks(retryRelay)
     }
 
     override fun showPostDeletionFailed() {
@@ -152,22 +154,24 @@ class FeedViewImpl(
     }
 
     override fun showPostMenu(actions: List<MenuAction>) {
-        val theme = R.style.BottomSheetDialogDark.takeIf { preferences.isDarkTheme() }
-            ?: R.style.BottomSheetDialogLight
-        BottomSheetBuilder(view.context, theme)
-            .setMode(BottomSheetBuilder.MODE_LIST)
-            .setIconTintColor(getAttributedColor(view.context, R.attr.menu_icons_tint))
-            .setItemTextColor(getAttributedColor(view.context, R.attr.text_primary_color))
-            .apply {
-                for (action in actions) {
-                    addItem(action.id, action.title, action.icon)
-                }
-            }
-            .setItemClickListener { menuItem ->
-                actions.firstOrNull { it.id == menuItem.itemId }?.action?.invoke()
-            }
-            .createDialog()
-            .show()
+        val bottomSheetDialog = BottomSheetDialog(context)
+        val sheetView = View.inflate(context, R.layout.bottom_sheet_actions, null)
+        val actionsRecycler: RecyclerView = sheetView.findViewById(R.id.actions_recycler)
+
+        val actionItems = actions.map { action ->
+            ActionItem(action.id, action.title, action.icon)
+        }
+
+        val actionsAdapter = ActionsAdapter(actionItems) { actionId ->
+            bottomSheetDialog.dismiss()
+            actions.firstOrNull { it.id == actionId }?.action?.invoke()
+        }
+
+        actionsRecycler.layoutManager = LinearLayoutManager(context)
+        actionsRecycler.adapter = actionsAdapter
+
+        bottomSheetDialog.setContentView(sheetView)
+        bottomSheetDialog.show()
     }
 
     override fun navigationClicks(): Observable<Unit> = navigationRelay

@@ -3,6 +3,7 @@ package com.tomclaw.appsend.screen.details.adapter.play
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import com.avito.konveyor.adapter.BaseViewHolder
 import com.avito.konveyor.blueprint.ItemView
 import com.tomclaw.appsend.R
@@ -60,11 +61,9 @@ interface PlayItemView : ItemView {
 
 }
 
-@Suppress("DEPRECATION")
 class PlayItemViewHolder(view: View) : BaseViewHolder(view), PlayItemView {
 
     private val context = view.context
-    private val resources = view.resources
     private val ratingContainer: View = view.findViewById(R.id.rating_container)
     private val ratingView: TextView = view.findViewById(R.id.rating_view)
     private val downloadsView: TextView = view.findViewById(R.id.downloads_view)
@@ -146,7 +145,7 @@ class PlayItemViewHolder(view: View) : BaseViewHolder(view), PlayItemView {
     override fun showOsVersionIncompatible(version: String) {
         osVersionContainer.show()
         osVersionView.bind(version)
-        osVersionView.setTextColor(context.resources.getColor(R.color.sdk_incompatible_tint))
+        osVersionView.setTextColor(ContextCompat.getColor(context, R.color.sdk_incompatible_tint))
         osIncompatibleImage.show()
     }
 
@@ -157,35 +156,35 @@ class PlayItemViewHolder(view: View) : BaseViewHolder(view), PlayItemView {
     override fun showSecurityScanning(title: String) {
         securityContainer.show()
         securityIcon.setImageResource(R.drawable.ic_timer_sand)
-        securityIcon.setColorFilter(resources.getColor(R.color.block_info_color))
+        securityIcon.setColorFilter(ContextCompat.getColor(context, R.color.block_info_color))
         securityTitle.bind(title)
     }
 
     override fun showSecuritySafe(title: String) {
         securityContainer.show()
         securityIcon.setImageResource(R.drawable.ic_verified)
-        securityIcon.setColorFilter(resources.getColor(R.color.block_success_color))
+        securityIcon.setColorFilter(ContextCompat.getColor(context, R.color.block_success_color))
         securityTitle.bind(title)
     }
 
     override fun showSecuritySuspicious(title: String) {
         securityContainer.show()
         securityIcon.setImageResource(R.drawable.ic_warning)
-        securityIcon.setColorFilter(resources.getColor(R.color.block_warning_color))
+        securityIcon.setColorFilter(ContextCompat.getColor(context, R.color.block_warning_color))
         securityTitle.bind(title)
     }
 
     override fun showSecurityMalware(title: String) {
         securityContainer.show()
         securityIcon.setImageResource(R.drawable.ic_virus)
-        securityIcon.setColorFilter(resources.getColor(R.color.block_error_color))
+        securityIcon.setColorFilter(ContextCompat.getColor(context, R.color.block_error_color))
         securityTitle.bind(title)
     }
 
     override fun showSecurityNotChecked(title: String) {
         securityContainer.show()
         securityIcon.setImageResource(R.drawable.ic_security)
-        securityIcon.setColorFilter(resources.getColor(R.color.block_warning_color))
+        securityIcon.setColorFilter(ContextCompat.getColor(context, R.color.block_warning_color))
         securityTitle.bind(title)
     }
 

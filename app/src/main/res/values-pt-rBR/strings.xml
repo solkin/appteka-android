@@ -56,6 +56,25 @@
     <string name="write_permission_select">Para escanear e selecionar aplicativos de distribuição, você precisa conceder a permissão de armazenamento</string>
     <string name="pref_title_dark_theme">Tema escuro</string>
     <string name="pref_dark_theme_system">Cores escuras na aparência do aplicativo</string>
+    <string name="pref_title_theme">Tema</string>
+    <string name="pref_summary_theme">Selecione o tema do aplicativo</string>
+    <string name="pref_title_dynamic_colors">Cores dinâmicas</string>
+    <string name="pref_summary_dynamic_colors">Usa as cores do papel de parede em dispositivos Android 12+ (Reinicialização necessária)</string>
+    <string name="theme_dialog_title">Selecionar tema</string>
+    <string name="theme_system">Padrão do sistema</string>
+    <string name="theme_light">Claro</string>
+    <string name="theme_dark">Escuro</string>
+    <string name="theme_battery_saver">Economia de bateria</string>
+    <string name="restart_now">Reiniciar agora</string>
+    <string name="clear_cache_dialog_title">Confirmar Limpeza de Cache</string>
+    <string name="clear_cache_dialog_message">Todos os APKs previamente baixados por %1$s no Armazenamento serão removidos. Esta ação não pode ser desfeita. Deseja prosseguir?</string>
+    <string name="clear_cache_dialog_positive">Sim, Excluir Arquivos</string>
+    <string name="restart_required_dynamic_colors_short">Reinicie para aplicar as alterações.</string>
+    <string name="pref_category_appearance_title">Aparência</string>
+    <string name="pref_category_app_behavior_title">Comportamento do Aplicativo</string>
+    <string name="pref_category_general_title">Geral</string>
+    <string name="pick_apk">Selecionar arquivo APK</string>
+    <string name="pick_installed">Selecionar app instalado</string>
     <string name="cancel">Cancelar</string>
     <string name="percent" translatable="false">%d %%</string>
     <string name="upload">Carregar</string>

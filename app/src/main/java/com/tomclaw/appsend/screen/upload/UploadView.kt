@@ -5,7 +5,6 @@ import android.animation.ValueAnimator
 import android.animation.ValueAnimator.INFINITE
 import android.animation.ValueAnimator.REVERSE
 import android.annotation.SuppressLint
-import android.app.Dialog
 import android.view.View
 import android.view.animation.DecelerateInterpolator
 import android.view.animation.LinearInterpolator
@@ -18,14 +17,15 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
-import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.categories.CategoryItem
 import com.tomclaw.appsend.screen.upload.adapter.other_versions.VersionItem
+import com.tomclaw.appsend.util.ActionItem
+import com.tomclaw.appsend.util.ActionsAdapter
 import com.tomclaw.appsend.util.bind
-import com.tomclaw.appsend.util.getAttributedColor
 import com.tomclaw.appsend.util.hide
 import com.tomclaw.appsend.util.hideWithAlphaAnimation
 import com.tomclaw.appsend.util.show
@@ -174,89 +174,101 @@ class UploadViewImpl(
     }
 
     override fun showCategories(items: List<CategoryItem>) {
-        val theme = R.style.BottomSheetDialogDark.takeIf { preferences.isDarkTheme() }
-            ?: R.style.BottomSheetDialogLight
-        BottomSheetBuilder(context, theme)
-            .setMode(BottomSheetBuilder.MODE_LIST)
-            .setIconTintColor(getAttributedColor(context, R.attr.menu_icons_tint))
-            .setItemTextColor(getAttributedColor(context, R.attr.text_primary_color))
-            .apply {
-                addItem(0, R.string.category_not_defined, R.drawable.ic_category)
-            }
-            .apply {
-                for (item in items) {
-                    val title = item.title
-                    val icon = svgToDrawable(item.icon, context.resources)
-                    addItem(item.id, title, icon)
+        val dialog = BottomSheetDialog(context)
+
+        val actionView = View.inflate(context, R.layout.bottom_sheet_actions, null)
+        val actionsRecycler: RecyclerView = actionView.findViewById(R.id.actions_recycler)
+
+        val actions = mutableListOf<ActionItem>()
+
+        // "Not defined" item
+        actions.add(
+            ActionItem(
+                id = 0,
+                title = context.getString(R.string.category_not_defined),
+                iconRes = R.drawable.ic_category,
+                iconSvg = null
+            )
+        )
+
+        // Category items
+        for (item in items) {
+            actions.add(
+                ActionItem(
+                    id = item.id,
+                    title = item.title,
+                    iconRes = 0,
+                    iconSvg = item.icon
+                )
+            )
+        }
+
+        val actionsAdapter = ActionsAdapter(actions) { itemId ->
+            dialog.dismiss()
+            if (itemId == 0) {
+                categoryClearedRelay.accept(Unit)
+            } else {
+                items.find { it.id == itemId }?.let {
+                    categorySelectedRelay.accept(it)
                 }
             }
-            .setItemClickListener { item ->
-                val categoryItem = items.find {
-                    it.id == item.itemId
-                } ?: run {
-                    categoryClearedRelay.accept(Unit)
-                    return@setItemClickListener
-                }
-                categorySelectedRelay.accept(categoryItem)
-            }
-            .createDialog()
-            .show()
+        }
+
+        actionsRecycler.layoutManager = LinearLayoutManager(context)
+        actionsRecycler.adapter = actionsAdapter
+
+        dialog.setContentView(actionView)
+        dialog.show()
     }
 
     override fun showVersionsDialog(items: List<VersionItem>) {
-        val theme = R.style.BottomSheetDialogDark.takeIf { preferences.isDarkTheme() }
-            ?: R.style.BottomSheetDialogLight
-        var bottomSheet: Dialog? = null
-        bottomSheet = BottomSheetBuilder(context, theme)
-            .setMode(BottomSheetBuilder.MODE_LIST)
-            .apply {
-                for (item in items) {
-                    val icon = if (item.compatible) {
-                        if (item.newer) {
-                            setIconTintColorResource(R.color.newer_color)
-                            setItemTextColorResource(R.color.newer_text_color)
-                            R.drawable.ic_new
-                        } else {
-                            setIconTintColor(getAttributedColor(context, R.attr.menu_icons_tint))
-                            setItemTextColor(getAttributedColor(context, R.attr.text_primary_color))
-                            R.drawable.ic_download_circle
-                        }
-                    } else {
-                        setIconTintColorResource(R.color.incompatible_color)
-                        setItemTextColorResource(R.color.incompatible_text_color)
-                        R.drawable.ic_alert_circle
-                    }
-                    addItem(item.versionId, item.title, icon)
-                }
+        val bottomSheetDialog = BottomSheetDialog(context)
+        val sheetView = View.inflate(context, R.layout.bottom_sheet_actions, null)
+        val actionsRecycler: RecyclerView = sheetView.findViewById(R.id.actions_recycler)
+
+        val actions = items.map { item ->
+            val icon = if (item.compatible) {
+                if (item.newer) R.drawable.ic_new else R.drawable.ic_download_circle
+            } else {
+                R.drawable.ic_alert_circle
             }
-            .setItemClickListener { item ->
-                items.find {
-                    it.versionId == item.itemId
-                }?.let {
-                    bottomSheet?.hide()
-                    versionRelay.accept(it)
-                }
+            ActionItem(item.versionId, item.title, icon)
+        }
+
+        val actionsAdapter = ActionsAdapter(actions) { actionId ->
+            bottomSheetDialog.dismiss()
+            items.find { it.versionId == actionId }?.let {
+                versionRelay.accept(it)
             }
-            .createDialog()
-            .apply { show() }
+        }
+
+        actionsRecycler.layoutManager = LinearLayoutManager(context)
+        actionsRecycler.adapter = actionsAdapter
+
+        bottomSheetDialog.setContentView(sheetView)
+        bottomSheetDialog.show()
     }
 
     override fun showUploadDialog() {
-        val theme = R.style.BottomSheetDialogDark.takeIf { preferences.isDarkTheme() }
-            ?: R.style.BottomSheetDialogLight
-        BottomSheetBuilder(context, theme)
-            .setMode(BottomSheetBuilder.MODE_LIST)
-            .setIconTintColor(getAttributedColor(context, R.attr.menu_icons_tint))
-            .setItemTextColor(getAttributedColor(context, R.attr.text_primary_color))
-            .setMenu(R.menu.upload_menu)
-            .setItemClickListener {
-                when (it.itemId) {
-                    R.id.menu_pick_apk -> pickAppRelay.accept(MENU_APK)
-                    R.id.menu_pick_installed -> pickAppRelay.accept(MENU_INSTALLED)
-                }
-            }
-            .createDialog()
-            .show()
+        val bottomSheetDialog = BottomSheetDialog(context)
+        val sheetView = View.inflate(context, R.layout.bottom_sheet_actions, null)
+        val actionsRecycler: RecyclerView = sheetView.findViewById(R.id.actions_recycler)
+
+        val actions = listOf(
+            ActionItem(MENU_APK, context.getString(R.string.pick_apk), R.drawable.ic_file_apk_box),
+            ActionItem(MENU_INSTALLED, context.getString(R.string.pick_installed), R.drawable.ic_apps_box)
+        )
+
+        val actionsAdapter = ActionsAdapter(actions) { actionId ->
+            bottomSheetDialog.dismiss()
+            pickAppRelay.accept(actionId)
+        }
+
+        actionsRecycler.layoutManager = LinearLayoutManager(context)
+        actionsRecycler.adapter = actionsAdapter
+
+        bottomSheetDialog.setContentView(sheetView)
+        bottomSheetDialog.show()
     }
 
     override fun showUploadProgress() {

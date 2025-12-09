@@ -5,6 +5,7 @@ import android.graphics.PorterDuff
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import com.avito.konveyor.adapter.BaseViewHolder
 import com.avito.konveyor.blueprint.ItemView
 import com.google.android.material.button.MaterialButton
@@ -38,10 +39,9 @@ interface SecurityItemView : ItemView {
 
 }
 
-@Suppress("DEPRECATION")
 class SecurityItemViewHolder(view: View) : BaseViewHolder(view), SecurityItemView {
 
-    private val resources = view.resources
+    private val context = view.context
     private val background: View = view.findViewById(R.id.security_back)
     private val icon: ImageView = view.findViewById(R.id.security_icon)
     private val progress: CircularProgressIndicator = view.findViewById(R.id.security_progress)
@@ -57,65 +57,65 @@ class SecurityItemViewHolder(view: View) : BaseViewHolder(view), SecurityItemVie
     override fun setSecurityTypeNotScanned() {
         setBackgroundColor(R.color.block_neutral_back_color)
         icon.setImageResource(R.drawable.ic_security)
-        icon.setColorFilter(resources.getColor(R.color.block_neutral_color))
+        icon.setColorFilter(ContextCompat.getColor(context, R.color.block_neutral_color))
         icon.show()
         progress.hide()
-        text.setTextColor(resources.getColor(R.color.block_neutral_text_color))
+        text.setTextColor(ContextCompat.getColor(context, R.color.block_neutral_text_color))
         actionButton.setRippleColorResource(R.color.block_neutral_color)
-        actionButton.setTextColor(resources.getColor(R.color.block_neutral_text_color))
+        actionButton.setTextColor(ContextCompat.getColor(context, R.color.block_neutral_text_color))
     }
 
     override fun setSecurityTypeScanning() {
         setBackgroundColor(R.color.block_info_back_color)
         icon.hide()
         progress.show()
-        text.setTextColor(resources.getColor(R.color.block_info_text_color))
+        text.setTextColor(ContextCompat.getColor(context, R.color.block_info_text_color))
         actionButton.setRippleColorResource(R.color.block_info_color)
-        actionButton.setTextColor(resources.getColor(R.color.block_info_text_color))
+        actionButton.setTextColor(ContextCompat.getColor(context, R.color.block_info_text_color))
     }
 
     override fun setSecurityTypeSafe() {
         setBackgroundColor(R.color.block_success_back_color)
         icon.setImageResource(R.drawable.ic_verified)
-        icon.setColorFilter(resources.getColor(R.color.block_success_color))
+        icon.setColorFilter(ContextCompat.getColor(context, R.color.block_success_color))
         icon.show()
         progress.hide()
-        text.setTextColor(resources.getColor(R.color.block_success_text_color))
+        text.setTextColor(ContextCompat.getColor(context, R.color.block_success_text_color))
         actionButton.setRippleColorResource(R.color.block_success_color)
-        actionButton.setTextColor(resources.getColor(R.color.block_success_text_color))
+        actionButton.setTextColor(ContextCompat.getColor(context, R.color.block_success_text_color))
     }
 
     override fun setSecurityTypeSuspicious() {
         setBackgroundColor(R.color.block_warning_back_color)
         icon.setImageResource(R.drawable.ic_warning)
-        icon.setColorFilter(resources.getColor(R.color.block_warning_color))
+        icon.setColorFilter(ContextCompat.getColor(context, R.color.block_warning_color))
         icon.show()
         progress.hide()
-        text.setTextColor(resources.getColor(R.color.block_warning_text_color))
+        text.setTextColor(ContextCompat.getColor(context, R.color.block_warning_text_color))
         actionButton.setRippleColorResource(R.color.block_warning_color)
-        actionButton.setTextColor(resources.getColor(R.color.block_warning_text_color))
+        actionButton.setTextColor(ContextCompat.getColor(context, R.color.block_warning_text_color))
     }
 
     override fun setSecurityTypeMalware() {
         setBackgroundColor(R.color.block_error_back_color)
         icon.setImageResource(R.drawable.ic_virus)
-        icon.setColorFilter(resources.getColor(R.color.block_error_color))
+        icon.setColorFilter(ContextCompat.getColor(context, R.color.block_error_color))
         icon.show()
         progress.hide()
-        text.setTextColor(resources.getColor(R.color.block_error_text_color))
+        text.setTextColor(ContextCompat.getColor(context, R.color.block_error_text_color))
         actionButton.setRippleColorResource(R.color.block_error_color)
-        actionButton.setTextColor(resources.getColor(R.color.block_error_text_color))
+        actionButton.setTextColor(ContextCompat.getColor(context, R.color.block_error_text_color))
     }
 
     override fun setSecurityTypeUnknown() {
         setBackgroundColor(R.color.block_info_back_color)
         icon.setImageResource(R.drawable.ic_security)
-        icon.setColorFilter(resources.getColor(R.color.block_info_color))
+        icon.setColorFilter(ContextCompat.getColor(context, R.color.block_info_color))
         icon.show()
         progress.hide()
-        text.setTextColor(resources.getColor(R.color.block_info_text_color))
+        text.setTextColor(ContextCompat.getColor(context, R.color.block_info_text_color))
         actionButton.setRippleColorResource(R.color.block_info_color)
-        actionButton.setTextColor(resources.getColor(R.color.block_info_text_color))
+        actionButton.setTextColor(ContextCompat.getColor(context, R.color.block_info_text_color))
     }
 
     override fun hideActionButton() {
@@ -132,7 +132,7 @@ class SecurityItemViewHolder(view: View) : BaseViewHolder(view), SecurityItemVie
     }
 
     private fun setBackgroundColor(colorRes: Int) {
-        val backgroundTintList = ColorStateList.valueOf(resources.getColor(colorRes))
+        val backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(context, colorRes))
         background.backgroundTintList = backgroundTintList
         background.backgroundTintMode = PorterDuff.Mode.SRC_ATOP
     }

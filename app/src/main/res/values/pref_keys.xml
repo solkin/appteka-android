@@ -2,6 +2,9 @@
 <resources>
     <string name="pref_base_settings" translatable="false">pref_base_settings</string>
     <string name="pref_dark_theme" translatable="false">pref_dark_theme</string>
+    <string name="pref_theme" translatable="false">pref_theme</string>
+    <string name="pref_theme_mode" translatable="false">pref_theme_mode</string>
+    <string name="pref_dynamic_colors" translatable="false">pref_dynamic_colors</string>
     <string name="pref_show_system" translatable="false">pref_show_system</string>
     <string name="pref_sort_order" translatable="false">pref_sort_order</string>
     <string name="pref_clear_cache" translatable="false">pref_clear_cache</string>

@@ -58,6 +58,25 @@
     <string name="write_permission_select">من أجل مسح وتحديد توزيع التطبيقات، تحتاج إلى منح أذونات التخزين</string>
     <string name="pref_title_dark_theme">المظهر الداكن</string>
     <string name="pref_dark_theme_system">الألوان الداكنة في مظهر التطبيق</string>
+    <string name="pref_title_theme">السمة</string>
+    <string name="pref_summary_theme">اختر سمة التطبيق</string>
+    <string name="pref_title_dynamic_colors">الألوان الديناميكية</string>
+    <string name="pref_summary_dynamic_colors">يستخدم ألوان خلفية الشاشة على أجهزة Android 12+ (يتطلب إعادة التشغيل)</string>
+    <string name="theme_dialog_title">اختر السمة</string>
+    <string name="theme_system">الإعدادات الافتراضية للنظام</string>
+    <string name="theme_light">فاتح</string>
+    <string name="theme_dark">داكن</string>
+    <string name="theme_battery_saver">موفر البطارية</string>
+    <string name="restart_now">أعد التشغيل الآن</string>
+    <string name="clear_cache_dialog_title">تأكيد مسح ذاكرة التخزين المؤقت</string>
+    <string name="clear_cache_dialog_message">ستتم إزالة جميع ملفات APK التي تم تنزيلها مسبقًا بواسطة %1$s في وحدة التخزين. لا يمكن التراجع عن هذا الإجراء. هل تريد المتابعة؟</string>
+    <string name="clear_cache_dialog_positive">نعم، احذف الملفات</string>
+    <string name="restart_required_dynamic_colors_short">أعد التشغيل لتطبيق التغييرات.</string>
+    <string name="pref_category_appearance_title">المظهر</string>
+    <string name="pref_category_app_behavior_title">سلوك التطبيق</string>
+    <string name="pref_category_general_title">عام</string>
+    <string name="pick_apk">حدد ملف APK</string>
+    <string name="pick_installed">حدد تطبيقًا مثبتًا</string>
     <string name="cancel">الغاء</string>
     <string name="percent" translatable="false">%d %%</string>
     <string name="upload">رفع</string>

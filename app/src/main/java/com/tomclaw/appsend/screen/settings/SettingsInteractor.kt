@@ -1,8 +1,8 @@
 package com.tomclaw.appsend.screen.settings
 
 import android.content.Context
-import android.content.Context.MODE_PRIVATE
 import android.content.SharedPreferences
+import androidx.preference.PreferenceManager
 import com.tomclaw.appsend.util.SchedulersFactory
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
@@ -28,9 +28,7 @@ class SettingsInteractorImpl(
     private val schedulers: SchedulersFactory
 ) : SettingsInteractor {
 
-    private val preferences: SharedPreferences = context.getSharedPreferences(
-        context.packageName + "_preferences", MODE_PRIVATE
-    )
+    private val preferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
     override fun clearCache(): Completable = Completable.fromAction {
         val files = appsDir.listFiles { file ->
@@ -45,6 +43,8 @@ class SettingsInteractorImpl(
             val listener = SharedPreferences.OnSharedPreferenceChangeListener { prefs, key ->
                 val value = when (key) {
                     resourceProvider.getPrefDarkThemeKey() -> prefs.getBoolean(key, false)
+                    resourceProvider.getPrefThemeModeKey() -> prefs.getInt(key, -1)
+                    resourceProvider.getPrefDynamicColorsKey() -> prefs.getBoolean(key, true)
                     resourceProvider.getPrefShowSystemKey() -> prefs.getBoolean(key, false)
                     resourceProvider.getPrefSortOrderKey() -> prefs.getString(key, "")
                     else -> null
@@ -62,4 +62,3 @@ class SettingsInteractorImpl(
     }
 
 }
-

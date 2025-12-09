@@ -4,14 +4,16 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
-import androidx.annotation.MenuRes
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.avito.konveyor.adapter.BaseViewHolder
 import com.avito.konveyor.blueprint.ItemView
-import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.reviews.ReviewsPreferencesProvider
+import com.tomclaw.appsend.util.ActionItem
+import com.tomclaw.appsend.util.ActionsAdapter
 import com.tomclaw.appsend.util.bind
-import com.tomclaw.appsend.util.getAttributedColor
 import com.tomclaw.appsend.util.hide
 import com.tomclaw.appsend.util.show
 import com.tomclaw.imageloader.util.centerCrop
@@ -51,6 +53,7 @@ class ReviewItemViewHolder(
     private val preferences: ReviewsPreferencesProvider,
 ) : BaseViewHolder(view), ReviewItemView {
 
+    private val context = view.context
     private val icon: ImageView = view.findViewById(R.id.app_icon)
     private val title: TextView = view.findViewById(R.id.app_name)
     private val version: TextView = view.findViewById(R.id.app_version)
@@ -120,25 +123,28 @@ class ReviewItemViewHolder(
     }
 
     private fun showRatingDialog() {
-        showRatingDialog(R.menu.review_menu)
-    }
+        val bottomSheetDialog = BottomSheetDialog(context)
+        val sheetView = View.inflate(context, R.layout.bottom_sheet_actions, null)
+        val actionsRecycler: RecyclerView = sheetView.findViewById(R.id.actions_recycler)
 
-    private fun showRatingDialog(@MenuRes menuId: Int) {
-        val theme = R.style.BottomSheetDialogDark.takeIf { preferences.isDarkTheme() }
-            ?: R.style.BottomSheetDialogLight
-        BottomSheetBuilder(view.context, theme)
-            .setMode(BottomSheetBuilder.MODE_LIST)
-            .setIconTintColor(getAttributedColor(view.context, R.attr.menu_icons_tint))
-            .setItemTextColor(getAttributedColor(view.context, R.attr.text_primary_color))
-            .setMenu(menuId)
-            .setItemClickListener {
-                when (it.itemId) {
-                    R.id.menu_details -> reviewClickListener?.invoke()
-                    R.id.menu_delete -> deleteClickListener?.invoke()
-                }
+        val actions = listOf(
+            ActionItem(MENU_DETAILS, context.getString(R.string.details_activity), R.drawable.ic_info),
+            ActionItem(MENU_DELETE, context.getString(R.string.delete), R.drawable.ic_delete)
+        )
+
+        val actionsAdapter = ActionsAdapter(actions) { actionId ->
+            bottomSheetDialog.dismiss()
+            when (actionId) {
+                MENU_DETAILS -> reviewClickListener?.invoke()
+                MENU_DELETE -> deleteClickListener?.invoke()
             }
-            .createDialog()
-            .show()
+        }
+
+        actionsRecycler.layoutManager = LinearLayoutManager(context)
+        actionsRecycler.adapter = actionsAdapter
+
+        bottomSheetDialog.setContentView(sheetView)
+        bottomSheetDialog.show()
     }
 
     override fun setOnReviewClickListener(listener: (() -> Unit)?) {
@@ -154,3 +160,6 @@ class ReviewItemViewHolder(
     }
 
 }
+
+private const val MENU_DETAILS = 1
+private const val MENU_DELETE = 2
