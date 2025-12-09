@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">فروشگاه Appteka</string>
+    <string name="save_to_device">ذخیره در دانلودهای دستگاه</string>
+    <string name="save_location">فایل با موفقیت در دانلودها/برنامه ذخیره شد: %1$s</string>
+    <string name="save_error">ذخیره فایل برنامه با شکست مواجه شد.</string>
+
+
     <string name="pref_theme">pref_theme</string>
     <string name="pref_title_theme">پوسته</string>
     <string name="pref_summary_theme">پوسته برنامه را انتخاب کنید</string>

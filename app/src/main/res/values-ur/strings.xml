@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">ایپ ٹیکا</string>
+    <string name="save_to_device">ڈیوائس ڈاؤنلوڈز میں محفوظ کریں</string>
+    <string name="save_location">فائل کامیابی سے ڈاؤنلوڈز/ایپ میں محفوظ ہو گئی: %1$s</string>
+    <string name="save_error">ایپلیکیشن فائل محفوظ کرنے میں ناکامی ہوئی ہے۔</string>
+
+
     <string name="pref_theme">pref_theme</string>
     <string name="pref_title_theme">تھیم</string>
     <string name="pref_summary_theme">ایپ کا تھیم منتخب کریں</string>
@@ -22,8 +27,8 @@
     <string name="pref_category_general_title">عمومی</string>
     <string name="pref_summary_dynamic_colors">اینڈرائیڈ 12+ آلات پر وال پیپر کے رنگ استعمال کرتا ہے (ری سٹارٹ درکار ہے)</string>
     <string name="restart_required_dynamic_colors_short">تبدیلیاں لاگو کرنے کے لیے ری سٹارٹ کریں۔</string>
-    
-    
+
+
     <string name="bytes">%d B</string>
     <string name="kibibytes">%.1f KB</string>
     <string name="mibibytes">%.1f MB</string>

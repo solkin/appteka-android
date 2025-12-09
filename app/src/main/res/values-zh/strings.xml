@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Appteka</string>
+    <string name="save_to_device">保存到设备下载</string>
+    <string name="save_location">文件已成功保存到 下载/应用: %1$s</string>
+    <string name="save_error">保存应用程序文件失败。</string>
+
+
     <string name="pref_theme">pref_theme</string>
     <string name="pref_title_theme">主题</string>
     <string name="pref_summary_theme">选择应用主题</string>
