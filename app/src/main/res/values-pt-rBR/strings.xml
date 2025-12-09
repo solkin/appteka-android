@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Appteka</string>
+    <string name="save_to_device">Salvar nos Downloads do Dispositivo</string>
+    <string name="save_location">Arquivo salvo com sucesso em Downloads/App: %1$s</string>
+    <string name="save_error">Falha ao salvar o arquivo do aplicativo.</string>
+
+
     <string name="pref_theme">pref_theme</string>
     <string name="pref_title_theme">Tema</string>
     <string name="pref_summary_theme">Selecione o tema do aplicativo</string>

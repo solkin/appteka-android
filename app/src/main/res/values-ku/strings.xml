@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">ئاپتێکا</string>
+    <string name="save_to_device">پاشکەوتکردن لە داگرتنەکانی ئامێر</string>
+    <string name="save_location">پەڕگە بە سەرکەوتوویی لە داگرتنەکان/ئەپ پاشکەوت کرا: %1$s</string>
+    <string name="save_error">شکست هێنا لە پاشکەوتکردنی پەڕگەی ئەپلیکەیشن.</string>
+
+
     <string name="pref_theme">pref_theme</string>
     <string name="pref_title_theme">تێما</string>
     <string name="pref_summary_theme">تێمای بەرنامەکە هەڵبژێرە</string>
