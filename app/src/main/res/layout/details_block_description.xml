@@ -1,38 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:clipToPadding="false"
-    android:orientation="vertical"
-    android:paddingStart="20dp"
-    android:paddingTop="3dp"
-    android:paddingEnd="20dp"
-    android:paddingBottom="16dp">
+<LinearLayout
+     xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:app="http://schemas.android.com/apk/res-auto"
+     xmlns:tools="http://schemas.android.com/tools"
+     android:layout_height="wrap_content"
+     android:layout_width="match_parent"
+     android:orientation="vertical"
+     android:paddingBottom="16dp"
+     android:paddingHorizontal="16dp"
+     android:paddingTop="8dp">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="-8dp"
-        android:layout_marginRight="-8dp"
-        android:orientation="horizontal">
+         android:layout_height="wrap_content"
+         android:layout_width="match_parent"
+         android:paddingVertical="8dp"
+         android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/description_title"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:fontFamily="sans-serif-black"
-            android:paddingLeft="8dp"
-            android:paddingTop="13dp"
-            android:paddingRight="8dp"
-            android:paddingBottom="13dp"
-            android:text="@string/description"
-            android:textColor="?text_primary_color"
-            android:textSize="16sp" />
+        <com.google.android.material.textview.MaterialTextView
+             android:layout_height="wrap_content"
+             android:layout_width="0dp"
+             android:textAppearance="?attr/textAppearanceTitleMedium"
+             android:textColor="?attr/colorOnSurface"
+             android:layout_weight="1"
+             android:id="@+id/description_title"
+             android:text="@string/description" />
 
         <com.google.android.material.button.MaterialButton
+<<<<<<< HEAD
             android:id="@+id/translate_button"
             style="@style/Widget.Material3.Button.TextButton"
             android:layout_width="wrap_content"
@@ -43,22 +37,31 @@
             android:text="@string/translate"
            
             app:drawableTint="?attr/colorPrimary" />
+=======
+             android:layout_height="wrap_content"
+             android:layout_width="wrap_content"
+             style="@style/MaterialButtonSecondary"
+             android:id="@+id/translate_button"
+             app:iconGravity="start"
+             android:text="@string/translate" />
+>>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:autoLink="web|email"
-        android:gravity="fill"
-        android:paddingBottom="8dp"
-        android:textColor="?text_primary_color"
-        android:textIsSelectable="true"
-        android:textSize="16sp"
-        tools:text="Application description text here" />
+    <com.google.android.material.textview.MaterialTextView
+         android:layout_height="wrap_content"
+         android:layout_width="wrap_content"
+         android:autoLink="web|email"
+         android:gravity="fill"
+         android:textAppearance="?attr/textAppearanceBodyLarge"
+         android:paddingVertical="8dp"
+         android:textColor="?attr/colorOnSurfaceVariant"
+         tools:text="Application description text here"
+         android:textIsSelectable="true"
+         android:id="@+id/description" />
 
     <com.google.android.material.button.MaterialButton
+<<<<<<< HEAD
         android:id="@+id/google_play_button"
         style="@style/MaterialButtonSecondary"
         android:layout_width="wrap_content"
@@ -71,133 +74,118 @@
         android:text="@string/find_on_gp"
        
         app:drawableTint="?attr/colorPrimary" />
+=======
+         android:layout_height="wrap_content"
+         android:layout_width="wrap_content"
+         app:icon="@drawable/ic_google_play"
+         app:iconTint="?attr/colorPrimary"
+         style="@style/MaterialButtonSecondary"
+         android:id="@+id/google_play_button"
+         app:iconGravity="start"
+         android:text="@string/find_on_gp" />
+>>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingTop="4dp"
-        android:paddingBottom="4dp">
+         android:layout_height="wrap_content"
+         android:layout_width="match_parent"
+         android:gravity="center_vertical"
+         android:paddingVertical="12dp"
+         android:orientation="horizontal">
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
+             android:layout_height="wrap_content"
+             android:layout_width="0dp"
+             android:orientation="vertical"
+             android:layout_weight="1">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-black"
-                android:text="@string/app_version_title"
-                android:textColor="?attr/text_primary_color"
-                android:textSize="15sp" />
+            <com.google.android.material.textview.MaterialTextView
+                 android:layout_height="wrap_content"
+                 android:layout_width="match_parent"
+                 android:textAppearance="?attr/textAppearanceLabelLarge"
+                 android:textColor="?attr/colorOnSurface"
+                 android:text="@string/app_version_title" />
 
-            <TextView
-                android:id="@+id/app_version"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="?attr/text_secondary_color"
-                android:textSize="16sp"
-                tools:text="1.7 (490)" />
+            <com.google.android.material.textview.MaterialTextView
+                 android:layout_height="wrap_content"
+                 android:layout_width="wrap_content"
+                 android:textAppearance="?attr/textAppearanceBodyLarge"
+                 android:textColor="?attr/colorOnSurfaceVariant"
+                 tools:text="1.7 (490)"
+                 android:id="@+id/app_version" />
 
         </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/versions_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/round_grey_ripple"
-            android:orientation="horizontal"
-            android:paddingStart="12dp"
-            android:paddingTop="4dp"
-            android:paddingEnd="8dp"
-            android:paddingBottom="4dp"
-            android:visibility="gone"
-            tools:visibility="visible">
-
-            <TextView
-                android:id="@+id/versions_button_text"
-                android:layout_width="wrap_content"
-                android:layout_height="24dp"
-                android:fontFamily="sans-serif-black"
-                android:gravity="center"
-                android:minWidth="24dp"
-                android:paddingStart="4dp"
-                android:paddingEnd="4dp"
-                android:textColor="@color/text_primary_color_light"
-                android:textSize="12sp"
-                tools:text="10 versions" />
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/ic_arrow_forward"
-                app:tint="@android:color/black" />
-
-        </LinearLayout>
+        <com.google.android.material.button.MaterialButton
+             android:layout_height="wrap_content"
+             android:layout_width="wrap_content"
+             app:icon="@drawable/ic_arrow_forward"
+             android:visibility="gone"
+             android:layout_marginVertical="4dp"
+             style="@style/MaterialButtonSecondary"
+             android:id="@+id/versions_button"
+             app:iconGravity="end" />
 
     </LinearLayout>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-black"
-        android:paddingTop="4dp"
-        android:text="@string/uploaded_title"
-        android:textColor="?attr/text_primary_color"
-        android:textSize="15sp" />
+    <com.google.android.material.divider.MaterialDivider
+         android:layout_height="wrap_content"
+         android:layout_width="match_parent"
+         android:layout_marginVertical="4dp" />
 
-    <TextView
-        android:id="@+id/upload_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingBottom="4dp"
-        android:textColor="?attr/text_secondary_color"
-        android:textSize="16sp"
-        tools:text="18.01.2017" />
+    <com.google.android.material.textview.MaterialTextView
+         android:layout_height="wrap_content"
+         android:layout_width="match_parent"
+         android:textAppearance="?attr/textAppearanceLabelLarge"
+         android:textColor="?attr/colorOnSurface"
+         android:paddingTop="4dp"
+         android:text="@string/uploaded_title" />
 
-    <TextView
-        android:id="@+id/app_checksum_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-black"
-        android:paddingTop="4dp"
-        android:text="@string/checksum_title"
-        android:textColor="?attr/text_primary_color"
-        android:textSize="15sp" />
+    <com.google.android.material.textview.MaterialTextView
+         android:layout_height="wrap_content"
+         android:layout_width="wrap_content"
+         android:textAppearance="?attr/textAppearanceBodyLarge"
+         android:paddingBottom="4dp"
+         android:textColor="?attr/colorOnSurfaceVariant"
+         tools:text="18.01.2017"
+         android:id="@+id/upload_date" />
 
-    <TextView
-        android:id="@+id/app_checksum"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="monospace"
-        android:paddingBottom="4dp"
-        android:textColor="?attr/text_secondary_color"
-        android:textIsSelectable="true"
-        android:textSize="13sp"
-        android:typeface="monospace"
-        tools:text="d3cdd8d14a376b8309ee1c06a78cb01142427e59" />
+    <com.google.android.material.textview.MaterialTextView
+         android:layout_height="wrap_content"
+         android:layout_width="match_parent"
+         android:textAppearance="?attr/textAppearanceLabelLarge"
+         android:textColor="?attr/colorOnSurface"
+         android:id="@+id/app_checksum_title"
+         android:paddingTop="4dp"
+         android:text="@string/checksum_title" />
 
-    <TextView
-        android:id="@+id/app_source_url_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-black"
-        android:paddingTop="4dp"
-        android:text="@string/source_code_url"
-        android:textColor="?attr/text_primary_color"
-        android:textSize="15sp" />
+    <com.google.android.material.textview.MaterialTextView
+         android:layout_height="wrap_content"
+         android:layout_width="wrap_content"
+         android:textAppearance="?attr/textAppearanceBodyMedium"
+         android:paddingBottom="4dp"
+         android:fontFamily="monospace"
+         android:textColor="?attr/colorOnSurfaceVariant"
+         tools:text="d3cdd8d14a376b8309ee1c06a78cb01142427e59"
+         android:textIsSelectable="true"
+         android:id="@+id/app_checksum" />
 
-    <TextView
-        android:id="@+id/app_source_url"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:autoLink="web"
-        android:paddingBottom="4dp"
-        android:textColor="?attr/text_secondary_color"
-        android:textSize="16sp"
-        tools:text="https://github.com/solkin/appteka-android" />
+    <com.google.android.material.textview.MaterialTextView
+         android:layout_height="wrap_content"
+         android:layout_width="match_parent"
+         android:textAppearance="?attr/textAppearanceLabelLarge"
+         android:textColor="?attr/colorOnSurface"
+         android:id="@+id/app_source_url_title"
+         android:paddingTop="4dp"
+         android:text="@string/source_code_url" />
+
+    <com.google.android.material.textview.MaterialTextView
+         android:layout_height="wrap_content"
+         android:layout_width="wrap_content"
+         android:autoLink="web"
+         android:textAppearance="?attr/textAppearanceBodyLarge"
+         android:paddingBottom="4dp"
+         android:textColor="?attr/colorOnSurfaceVariant"
+         tools:text="https://github.com/solkin/appteka-android"
+         android:id="@+id/app_source_url" />
 
 </LinearLayout>

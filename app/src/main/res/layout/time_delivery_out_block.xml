@@ -17,8 +17,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
-        android:textColor="@color/chat_time_color"
-        android:textSize="12sp" />
+        android:textSize="12sp"
+        android:textColor="?attr/colorOnSurface" />
 
     <ImageView
         android:id="@+id/message_delivery"
@@ -27,6 +27,6 @@
         android:layout_gravity="start"
         android:contentDescription="@string/delivery"
         android:src="@drawable/check_circle"
-        app:tint="@color/chat_time_color" />
+        android:tint="?attr/colorOnSurface" />
 
 </LinearLayout>

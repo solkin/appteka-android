@@ -1,7 +1,9 @@
 package com.tomclaw.appsend.screen.store
 
 import android.annotation.SuppressLint
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.ViewFlipper
@@ -10,12 +12,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
-import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.tomclaw.appsend.main.adapter.files.ActionItem
+import com.tomclaw.appsend.main.adapter.files.ActionsAdapter
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.categories.CategoryItem
 import com.tomclaw.appsend.util.clicks
-import com.tomclaw.appsend.util.getAttributedColor
 import com.tomclaw.appsend.util.hideWithAlphaAnimation
 import com.tomclaw.appsend.util.showWithAlphaAnimation
 import com.tomclaw.appsend.util.svgToDrawable
@@ -89,63 +92,90 @@ class StoreViewImpl(
 
         refresher.setOnRefreshListener { refreshRelay.accept(Unit) }
         categoriesButton.setOnClickListener { categoriesButtonRelay.accept(Unit) }
+
+        // Setup retry button click stream
+        retryButton.clicks(retryRelay)
     }
 
     override fun showProgress() {
         refresher.isEnabled = false
-        flipper.displayedChild = 0
+        flipper.displayedChild = CHILD_CONTENT
         overlayProgress.showWithAlphaAnimation(animateFully = true)
     }
 
     override fun showContent() {
         refresher.isEnabled = true
-        flipper.displayedChild = 0
+        flipper.displayedChild = CHILD_CONTENT
         overlayProgress.hideWithAlphaAnimation(animateFully = false)
     }
 
     override fun showPlaceholder() {
         refresher.isRefreshing = false
         refresher.isEnabled = true
-        flipper.displayedChild = 1
+        flipper.displayedChild = CHILD_PLACEHOLDER
     }
 
     override fun showError() {
         refresher.isEnabled = true
-        flipper.displayedChild = 2
+        flipper.displayedChild = CHILD_ERROR
 
         error.setText(R.string.load_files_error)
-        retryButton.clicks(retryRelay)
+        // retryButton click is handled via clicks extension in init
     }
 
+    /**
+     * Shows categories using Material BottomSheetDialog and existing global ActionsAdapter.
+     * We pass both icon resource (if any) and SVG string (if any) into ActionItem so
+     * the adapter can first attempt resource-based icon, then fallback to SVG, and finally
+     * to default drawable. This keeps a single adapter and no extra files.
+     */
     override fun showCategories(items: List<CategoryItem>) {
-        val theme = R.style.BottomSheetDialogDark.takeIf { preferences.isDarkTheme() }
-            ?: R.style.BottomSheetDialogLight
-        BottomSheetBuilder(context, theme)
-            .setMode(BottomSheetBuilder.MODE_LIST)
-            .setIconTintColor(getAttributedColor(context, R.attr.menu_icons_tint))
-            .setItemTextColor(getAttributedColor(context, R.attr.text_primary_color))
-            .apply {
-                addItem(0, R.string.all_categories, R.drawable.ic_category)
-            }
-            .apply {
-                for (item in items) {
-                    val title = item.title
-                    val icon = svgToDrawable(item.icon, context.resources)
-                    addItem(item.id, title, icon)
-                }
-            }
-            .setItemClickListener { item ->
-                val categoryItem = items.find {
-                    it.id == item.itemId
-                } ?: run {
-                    categoryClearedRelay.accept(Unit)
-                    return@setItemClickListener
-                }
-                categorySelectedRelay.accept(categoryItem)
-            }
-            .createDialog()
-            .show()
+    val dialog = BottomSheetDialog(context)
+
+    val actionView = View.inflate(context, R.layout.bottom_sheet_actions, null)
+    val actionsRecycler: RecyclerView = actionView.findViewById(R.id.actions_recycler)
+
+    val actions = mutableListOf<ActionItem>()
+
+    // "All Categories" item
+    actions.add(
+        ActionItem(
+            id = 0,
+            title = context.getString(R.string.all_categories),
+            iconRes = R.drawable.ic_category,
+            iconSvg = null
+        )
+    )
+
+    // Category items
+    for (item in items) {
+        actions.add(
+            ActionItem(
+                id = item.id,
+                title = item.title,
+                iconRes = 0,
+                iconSvg = item.icon
+            )
+        )
     }
+
+    val actionsAdapter = ActionsAdapter(actions) { itemId ->
+        dialog.dismiss()
+        if (itemId == 0) {
+            categoryClearedRelay.accept(Unit)
+        } else {
+            items.find { it.id == itemId }?.let {
+                categorySelectedRelay.accept(it)
+            }
+        }
+    }
+
+    actionsRecycler.layoutManager = LinearLayoutManager(context)
+    actionsRecycler.adapter = actionsAdapter
+
+    dialog.setContentView(actionView)
+    dialog.show()
+}
 
     override fun setSelectedCategory(category: CategoryItem?) {
         category?.let {
@@ -185,3 +215,6 @@ class StoreViewImpl(
 }
 
 private const val DURATION_MEDIUM = 300L
+private const val CHILD_CONTENT = 0
+private const val CHILD_PLACEHOLDER = 1
+private const val CHILD_ERROR = 2

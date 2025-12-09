@@ -1,40 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="12dp"
-    android:layout_marginTop="12dp"
-    android:layout_marginEnd="12dp"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:paddingStart="24dp"
+    android:paddingTop="8dp"
+    android:paddingEnd="24dp"
+    android:paddingBottom="8dp">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-black"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
-        android:paddingBottom="6dp"
+        android:includeFontPadding="false"
         android:text="@string/input_post_text"
-        android:textColor="?attr/text_primary_color"
-        android:textSize="15sp" />
+        android:textAppearance="?attr/textAppearanceBodyMedium"
+        android:textColor="?attr/colorOnSurface" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+<<<<<<< HEAD
         android:layout_marginStart="4dp"
         android:layout_marginEnd="4dp"
         style="@style/MaterialTextInputExpressive"
         android:hint="@string/post_text">
+=======
+        android:layout_marginTop="8dp"
+        android:hint="@string/post_text"
+        style="@style/Widget.Material3.TextInputLayout.FilledBox">
+>>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+<<<<<<< HEAD
             style="@style/Widget.Material3.TextInputEditText.OutlinedBox"
+=======
+            android:gravity="top"
+>>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
             android:inputType="textCapSentences|textMultiLine"
             android:minLines="3"
             android:maxLength="700"
-            android:gravity="top" />
+            android:includeFontPadding="false"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            tools:text="Sample post text..." />
 
     </com.google.android.material.textfield.TextInputLayout>
 

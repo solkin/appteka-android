@@ -1,63 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<FrameLayout
+     xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:app="http://schemas.android.com/apk/res-auto"
+     xmlns:tools="http://schemas.android.com/tools"
+     android:layout_height="match_parent"
+     android:layout_width="match_parent"
+     android:background="?attr/colorBackground">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_refresh"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+         android:layout_height="match_parent"
+         android:layout_width="match_parent"
+         android:id="@+id/swipe_refresh">
 
         <ViewFlipper
-            android:id="@+id/view_flipper"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:ignore="UselessParent">
+             android:layout_height="match_parent"
+             android:layout_width="match_parent"
+             tools:ignore="UselessParent"
+             android:id="@+id/view_flipper">
 
             <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                 android:layout_height="match_parent"
+                 android:layout_width="match_parent">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
+                     android:layout_height="match_parent"
+                     android:layout_width="match_parent"
+                     android:orientation="vertical">
 
-                    <LinearLayout
-                        android:id="@+id/button_categories"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="?selectableItemBackground"
-                        android:gravity="center"
-                        android:orientation="horizontal"
-                        android:padding="12dp">
+                    <com.google.android.material.card.MaterialCardView
+                         android:layout_height="wrap_content"
+                         android:layout_width="match_parent"
+                         app:rippleColor="?attr/colorSecondaryContainer"
+                         android:clickable="true"
+                         app:cardElevation="0dp"
+                         app:cardBackgroundColor="?attr/colorSurfaceContainerHigh"
+                         android:layout_marginTop="8dp"
+                         android:focusable="true"
+                         android:foreground="?attr/selectableItemBackground"
+                         android:layout_marginBottom="8dp"
+                         android:layout_marginHorizontal="16dp"
+                         app:strokeWidth="0dp"
+                         android:id="@+id/button_categories">
 
-                        <ImageView
-                            android:id="@+id/category_icon"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:src="@drawable/ic_category"
-                            app:tint="?attr/text_secondary_color" />
+                        <LinearLayout
+                             android:layout_height="wrap_content"
+                             android:layout_width="wrap_content"
+                             android:gravity="center_vertical"
+                             android:paddingVertical="12dp"
+                             android:orientation="horizontal"
+                             android:paddingHorizontal="16dp"
+                             tools:ignore="UseCompoundDrawables"
+                             android:layout_gravity="center_horizontal|center_vertical">
 
-                        <TextView
-                            android:id="@+id/category_title"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingStart="8dp"
-                            android:paddingLeft="8dp"
-                            android:text="@string/all_categories"
-                            android:textColor="?attr/text_secondary_color"
-                            android:textSize="16sp" />
+                            <com.google.android.material.imageview.ShapeableImageView
+                                 android:layout_height="24dp"
+                                 android:layout_width="24dp"
+                                 android:scaleType="fitCenter"
+                                 android:src="@drawable/ic_category"
+                                 android:tint="?attr/colorPrimary"
+                                 android:id="@+id/category_icon" />
 
-                    </LinearLayout>
+                            <com.google.android.material.textview.MaterialTextView
+                                 android:layout_height="wrap_content"
+                                 android:layout_width="wrap_content"
+                                 android:layout_marginEnd="16dp"
+                                 android:textAppearance="?attr/textAppearanceTitleMedium"
+                                 android:textColor="?attr/colorOnSurface"
+                                 android:layout_marginStart="12dp"
+                                 tools:text="Selected Category Name"
+                                 android:id="@+id/category_title"
+                                 android:text="@string/all_categories" />
+
+                        </LinearLayout>
+
+                    </com.google.android.material.card.MaterialCardView>
 
                     <FrameLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                         android:layout_height="0dp"
+                         android:layout_width="match_parent"
+                         android:layout_weight="1">
 
                         <androidx.recyclerview.widget.RecyclerView
+<<<<<<< HEAD
                             android:id="@+id/recycler"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -71,18 +95,32 @@
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
                             android:background="?divider_color" />
+=======
+                             android:layout_height="match_parent"
+                             android:layout_width="match_parent"
+                             android:scrollbars="vertical"
+                             android:scrollbarStyle="outsideOverlay"
+                             android:paddingBottom="16dp"
+                             android:clipToPadding="false"
+                             android:id="@+id/recycler"
+                             android:paddingTop="4dp" />
+>>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
 
                     </FrameLayout>
 
                 </LinearLayout>
 
-                <include layout="@layout/progress_overlay" />
+                <include
+                     layout="@layout/progress_overlay"
+                     android:id="@+id/overlay_progress" />
 
             </FrameLayout>
 
-            <include layout="@layout/empty_view" />
+            <include
+                 layout="@layout/empty_view" />
 
-            <include layout="@layout/error_view" />
+            <include
+                 layout="@layout/error_view" />
 
         </ViewFlipper>
 

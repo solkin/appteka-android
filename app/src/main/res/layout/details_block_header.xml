@@ -1,44 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/title_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="4dp">
+    android:padding="16dp">
 
     <FrameLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_gravity="center_vertical">
 
-        <androidx.cardview.widget.CardView
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/icon_back"
             android:layout_width="64dp"
             android:layout_height="64dp"
+            android:layout_gravity="center"
             android:layout_margin="16dp"
+            app:cardBackgroundColor="?attr/colorSurface"
             app:cardCornerRadius="16dp"
-            app:cardElevation="6dp">
+            app:cardElevation="0dp">
 
-            <ImageView
+            <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/app_icon"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
-                android:layout_gravity="center_vertical"
-                android:contentDescription="@string/app_icon"
                 android:scaleType="centerCrop"
+                android:contentDescription="@string/app_icon"
                 tools:src="@mipmap/ic_launcher" />
 
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
         <com.google.android.material.progressindicator.CircularProgressIndicator
             android:id="@+id/progress_bar"
             android:layout_width="80dp"
             android:layout_height="80dp"
+            style="@style/Widget.Material3Expressive.CircularProgressIndicator.Wavy"
             android:layout_gravity="center"
-            android:progress="100"
-            app:indicatorInset="3dp"
-            app:indicatorSize="64dp" />
+            app:indicatorSize="64dp"
+            android:progress="0"
+            android:max="100"
+            tools:progress="60" />
 
     </FrameLayout>
 
@@ -48,39 +54,33 @@
         android:layout_gravity="center_vertical"
         android:gravity="center_vertical"
         android:orientation="vertical"
-        android:paddingStart="8dp"
-        android:paddingLeft="8dp"
-        android:paddingEnd="8dp"
-        android:paddingRight="8dp">
+        android:paddingHorizontal="4dp">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/app_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start|center_vertical"
-            android:fontFamily="sans-serif-black"
             android:includeFontPadding="false"
             android:singleLine="true"
-            android:textColor="?text_primary_color"
-            android:textSize="17sp"
+            android:textAppearance="?attr/textAppearanceHeadlineSmall"
+            android:textColor="?attr/colorOnSurface"
             tools:text="Sample Application Name" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/app_package"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start|center_vertical"
             android:ellipsize="marquee"
-            android:fontFamily="monospace"
             android:includeFontPadding="false"
             android:marqueeRepeatLimit="marquee_forever"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
+            android:paddingVertical="4dp"
             android:scrollHorizontally="true"
             android:singleLine="true"
-            android:textColor="?text_secondary_color"
-            android:textSize="11sp"
-            android:typeface="monospace"
+            android:textAppearance="?attr/textAppearanceBodySmall"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:fontFamily="monospace"
             tools:text="com.example.android.app" />
 
         <include layout="@layout/uploader" />

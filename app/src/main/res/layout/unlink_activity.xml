@@ -21,7 +21,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/enter_unfile_reason"
-                android:textColor="?attr/text_secondary_color"
                 android:textSize="14sp"
                 android:textStyle="bold" />
 
@@ -42,8 +41,7 @@
                     android:ems="10"
                     android:hint="@string/unfile_reason"
                     android:inputType="textCapSentences|textMultiLine"
-                    android:maxLines="10"
-                    app:drawableTint="@color/grey_dark" />
+                    android:maxLines="10" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -54,8 +52,12 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:text="@string/unlink_file"
+<<<<<<< HEAD
                 app:backgroundTint="@color/abuse_color"
                 />
+=======
+                app:cornerRadius="99dp" />
+>>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
 
         </LinearLayout>
 
@@ -68,16 +70,13 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/toolbar_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:layout_height="wrap_content">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/toolbar_background"
-            app:navigationIcon="?attr/homeAsUpIndicator"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            app:navigationIcon="?attr/homeAsUpIndicator" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

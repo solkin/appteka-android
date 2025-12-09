@@ -1,10 +1,15 @@
 package com.tomclaw.appsend;
 
 import static java.util.Collections.singletonList;
+import static com.tomclaw.appsend.util.ThemesKt.initTheme;
 
 import java.util.Arrays;
 
 import android.app.Application;
+import android.os.Build;
+
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.preference.PreferenceManager;
 
 import com.tomclaw.appsend.di.AppComponent;
 import com.tomclaw.appsend.di.AppModule;
@@ -30,9 +35,6 @@ import com.tomclaw.imageloader.util.loader.UrlLoader;
 import java.io.IOException;
 import java.util.concurrent.Executors;
 
-/**
- * Created by ivsolkin on 21.03.17.
- */
 public class Appteka extends Application {
 
     private static Appteka app;
@@ -55,6 +57,9 @@ public class Appteka extends Application {
         injector.getMigration();
 
         injector.analytics.register();
+
+        // Initialize theme from ThemesKt
+        initTheme(this);
     }
 
     public static AppComponent getComponent() {

@@ -4,118 +4,110 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?selectableItemBackground"
+    android:background="?attr/selectableItemBackground"
     android:orientation="vertical"
-    android:paddingStart="20dp"
-    android:paddingTop="16dp"
-    android:paddingEnd="20dp"
-    android:paddingBottom="16dp">
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="16dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingBottom="8dp"
+        android:gravity="center_vertical">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:fontFamily="sans-serif-black"
-            android:paddingBottom="4dp"
-            android:text="@string/required_permissions"
-            android:textColor="?text_primary_color"
-            android:textSize="16sp" />
+            android:textAppearance="?attr/textAppearanceTitleMedium"
+            android:textColor="?attr/colorOnSurface"
+            android:text="@string/required_permissions" />
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/ic_arrow_forward"
-            app:tint="?text_primary_color" />
+            app:tint="?attr/colorOnSurfaceVariant" />
 
     </LinearLayout>
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/access_network"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:drawablePadding="12dp"
-        android:fontFamily="sans-serif"
         android:gravity="center_vertical"
         android:text="@string/internet_access"
-        android:textColor="?attr/text_primary_color"
-        android:textSize="16sp"
-        app:drawableLeftCompat="@drawable/ic_internet"
-        app:drawableTint="?text_secondary_color" />
+        android:textAppearance="?attr/textAppearanceBodyLarge"
+        android:textColor="?attr/colorOnSurfaceVariant"
+        app:drawableStartCompat="@drawable/ic_internet"
+        app:drawableTint="?attr/colorOnSurfaceVariant" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/access_calls"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:drawablePadding="12dp"
-        android:fontFamily="sans-serif"
         android:gravity="center_vertical"
         android:text="@string/calls_access"
-        android:textColor="?attr/text_primary_color"
-        android:textSize="16sp"
-        app:drawableLeftCompat="@drawable/ic_phone"
-        app:drawableTint="?text_secondary_color" />
+        android:textAppearance="?attr/textAppearanceBodyLarge"
+        android:textColor="?attr/colorOnSurfaceVariant"
+        app:drawableStartCompat="@drawable/ic_phone"
+        app:drawableTint="?attr/colorOnSurfaceVariant" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/access_sms"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:drawablePadding="12dp"
-        android:fontFamily="sans-serif"
         android:gravity="center_vertical"
         android:text="@string/sms_access"
-        android:textColor="?attr/text_primary_color"
-        android:textSize="16sp"
-        app:drawableLeftCompat="@drawable/ic_sms"
-        app:drawableTint="?text_secondary_color" />
+        android:textAppearance="?attr/textAppearanceBodyLarge"
+        android:textColor="?attr/colorOnSurfaceVariant"
+        app:drawableStartCompat="@drawable/ic_sms"
+        app:drawableTint="?attr/colorOnSurfaceVariant" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/access_storage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:drawablePadding="12dp"
-        android:fontFamily="sans-serif"
         android:gravity="center_vertical"
         android:text="@string/storage_access"
-        android:textColor="?attr/text_primary_color"
-        android:textSize="16sp"
-        app:drawableLeftCompat="@drawable/ic_storage"
-        app:drawableTint="?text_secondary_color" />
+        android:textAppearance="?attr/textAppearanceBodyLarge"
+        android:textColor="?attr/colorOnSurfaceVariant"
+        app:drawableStartCompat="@drawable/ic_storage"
+        app:drawableTint="?attr/colorOnSurfaceVariant" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/access_location"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:drawablePadding="12dp"
-        android:fontFamily="sans-serif"
         android:gravity="center_vertical"
         android:text="@string/location_access"
-        android:textColor="?attr/text_primary_color"
-        android:textSize="16sp"
-        app:drawableLeftCompat="@drawable/ic_location"
-        app:drawableTint="?text_secondary_color" />
+        android:textAppearance="?attr/textAppearanceBodyLarge"
+        android:textColor="?attr/colorOnSurfaceVariant"
+        app:drawableStartCompat="@drawable/ic_location"
+        app:drawableTint="?attr/colorOnSurfaceVariant" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/access_other"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:drawablePadding="12dp"
-        android:fontFamily="sans-serif"
         android:gravity="center_vertical"
-        android:textColor="?attr/text_primary_color"
-        android:textSize="16sp"
-        app:drawableLeftCompat="@drawable/ic_permissions"
-        app:drawableTint="?text_secondary_color"
+        android:textAppearance="?attr/textAppearanceBodyLarge"
+        android:textColor="?attr/colorOnSurfaceVariant"
+        app:drawableStartCompat="@drawable/ic_permissions"
+        app:drawableTint="?attr/colorOnSurfaceVariant"
         tools:text="14 other permissions" />
 
 </LinearLayout>

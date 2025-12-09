@@ -1,7 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Appteka</string>
+    <string name="pref_theme">pref_theme</string>
+    <string name="pref_title_theme">السمة</string>
+    <string name="pref_summary_theme">اختر سمة التطبيق</string>
+    <string name="pref_theme_mode">pref_theme_mode</string>
+    <string name="pref_dynamic_colors">pref_dynamic_colors</string>
+    <string name="pref_title_dynamic_colors">الألوان الديناميكية</string>
+    <string name="theme_dialog_title">اختر السمة</string>
+    <string name="theme_system">الإعدادات الافتراضية للنظام</string>
+    <string name="theme_light">فاتح</string>
+    <string name="theme_dark">داكن</string>
+    <string name="theme_battery_saver">موفر البطارية</string>
+    <string name="restart_now">أعد التشغيل الآن</string>
+    <string name="clear_cache_dialog_title">تأكيد مسح ذاكرة التخزين المؤقت</string>
+    <string name="clear_cache_dialog_message">ستتم إزالة جميع ملفات APK التي تم تنزيلها مسبقًا بواسطة %1$s في وحدة التخزين. لا يمكن التراجع عن هذا الإجراء. هل تريد المتابعة؟</string>
+    <string name="clear_cache_dialog_positive">نعم، احذف الملفات</string>
+    <string name="pref_category_appearance_title">المظهر</string>
+    <string name="pref_category_app_behavior_key">app_behavior_settings</string>
+    <string name="pref_category_app_behavior_title">سلوك التطبيق</string>
+    <string name="pref_category_general_title">عام</string>
+    <string name="pref_summary_dynamic_colors">يستخدم ألوان خلفية الشاشة على أجهزة Android 12+ (يتطلب إعادة التشغيل)</string>
+    <string name="restart_required_dynamic_colors_short">أعد التشغيل لتطبيق التغييرات.</string>
+
+
     <string name="bytes">%d بايت</string>
+    <string name="send">إرسال</string>
     <string name="kibibytes">%.1f كيلو</string>
     <string name="mibibytes">%.1f ميجا</string>
     <string name="gigibytes">%.1f جيجا</string>
@@ -18,7 +42,7 @@
     <string name="system_apps_warning_title">تحذير!</string>
     <string name="system_apps_warning_message">تطبيقات النظام ليست تطبيقات معتادة ولا يوجد ضمان لها
          تصدير ناجح!
-    </string>
+</string>
     <string name="settings">الاعدادات</string>
     <string name="success">نجح!</string>
     <string name="yes">نعم</string>
@@ -59,7 +83,9 @@
     <string name="pref_title_dark_theme">المظهر الداكن</string>
     <string name="pref_dark_theme_system">الألوان الداكنة في مظهر التطبيق</string>
     <string name="cancel">الغاء</string>
-    <string name="percent" translatable="false">%d %%</string>
+    <string
+        name="percent"
+        translatable="false">%d %%</string>
     <string name="upload">رفع</string>
     <string name="tab_store">المتجر</string>
     <string name="retry">إعادة المحاولة</string>
@@ -74,7 +100,9 @@
     <string name="app_version_title">الاصدار</string>
     <string name="uploaded_title">تم الرفع</string>
     <string name="checksum_title">المجموع الاختباري (SHA1)</string>
-    <string name="app_version_format" translatable="false">%1$s (%2$d)</string>
+    <string
+        name="app_version_format"
+        translatable="false">%1$s (%2$d)</string>
     <string name="update">تحديث</string>
     <string name="abuse">الإساءة</string>
     <string name="your_email">بريدك الإلكتروني</string>
@@ -104,7 +132,9 @@
     <string name="report">بلغ عن سوء معاملة</string>
     <string name="error_message_report">غير قادر على الإبلاغ عن سوء الاستخدام</string>
     <string name="message_report_sent">شكرا لك على المساعدة في الاعتدال في المناقشات!</string>
-    <string name="reply_form" translatable="false">&gt; %s\n</string>
+    <string
+        name="reply_form"
+        translatable="false">&gt; %s\n</string>
     <string name="exclusive_short">حصري</string>
     <string name="exclusive">تطبيق حصري (غير موجود في Google Play)</string>
     <string name="description">الوصف</string>
@@ -260,7 +290,7 @@
     <string name="favorite_apps">التطبيقات المفضلة</string>
     <string name="send_verification_code">ارسال رمز التحقق</string>
     <string name="send_verification_code_description">سوف نرسل لك رمز التحقق</string>
-    <string name="input_your_email">برجاء ادخال البريد الإلكتروني </string>
+    <string name="input_your_email">برجاء ادخال البريد الإلكتروني</string>
     <string name="error_sending_request_code">خطأ في إرسال رمز التحقق.  حاول مرة أخرى في وقت لاحق.</string>
     <string name="verify_email">تحقق بواسطة البريد الالكتروني</string>
     <string name="input_verification_code">برجاء ادخال كود التحقق</string>
@@ -352,8 +382,8 @@
     <string name="downloads_activity">التنزيلات</string>
     <string name="download_history">تحميل التاريخ</string>
     <plurals name="download_apps_count">
-        <item quantity="zero">%d تم تنزيل تطبيق </item>
-        <item quantity="one">%d تم تنزيل تطبيق </item>
+        <item quantity="zero">%d تم تنزيل تطبيق</item>
+        <item quantity="one">%d تم تنزيل تطبيق</item>
         <item quantity="two">%d تم تنزيل التطبيقات</item>
         <item quantity="few">%d تم تنزيل التطبيقات</item>
         <item quantity="many">%d تم تنزيل التطبيقات</item>

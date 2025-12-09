@@ -1,92 +1,82 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingLeft="20dp"
-    android:paddingTop="12dp"
-    android:paddingRight="20dp"
-    android:paddingBottom="0dp">
+<LinearLayout
+     xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:app="http://schemas.android.com/apk/res-auto"
+     xmlns:tools="http://schemas.android.com/tools"
+     android:layout_height="wrap_content"
+     android:layout_width="match_parent"
+     android:orientation="vertical"
+     android:paddingBottom="16dp"
+     android:paddingTop="16dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-black"
-        android:paddingBottom="20dp"
-        android:text="@string/your_review"
-        android:textColor="?text_primary_color"
-        android:textSize="16sp" />
+    <com.google.android.material.textview.MaterialTextView
+         android:layout_height="wrap_content"
+         android:layout_width="wrap_content"
+         android:paddingEnd="16dp"
+         android:textAppearance="?attr/textAppearanceTitleMedium"
+         android:paddingBottom="16dp"
+         android:textColor="?attr/colorOnSurface"
+         android:paddingStart="16dp"
+         android:text="@string/your_review" />
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingBottom="8dp">
+         android:layout_height="wrap_content"
+         android:layout_width="match_parent"
+         android:paddingEnd="16dp"
+         android:gravity="center_vertical"
+         android:orientation="horizontal"
+         android:paddingBottom="8dp"
+         android:paddingStart="16dp">
 
         <include
-            android:id="@+id/member_icon"
-            layout="@layout/user_icon_s"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:scaleType="center" />
+             layout="@layout/user_icon_s"
+             android:scaleType="center"
+             android:layout_marginEnd="16dp"
+             android:layout_width="40dp"
+             android:layout_height="40dp"
+             android:id="@+id/member_icon" />
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingStart="8dp"
-            android:paddingLeft="8dp"
-            android:paddingEnd="8dp"
-            android:paddingRight="8dp">
+             android:layout_height="wrap_content"
+             android:layout_width="match_parent"
+             android:orientation="vertical"
+             android:paddingHorizontal="0dp">
 
-            <TextView
-                android:id="@+id/member_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-medium"
-                android:includeFontPadding="false"
-                android:paddingStart="2dp"
-                android:paddingEnd="2dp"
-                android:paddingBottom="2dp"
-                android:textColor="?text_primary_color"
-                android:textSize="14sp"
-                tools:text="Crown" />
+            <com.google.android.material.textview.MaterialTextView
+                 android:layout_height="wrap_content"
+                 android:layout_width="wrap_content"
+                 android:textAppearance="?attr/textAppearanceTitleSmall"
+                 android:includeFontPadding="false"
+                 android:paddingBottom="2dp"
+                 android:textColor="?attr/colorOnSurface"
+                 tools:text="Crown"
+                 android:id="@+id/member_name" />
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                 android:layout_height="wrap_content"
+                 android:layout_width="match_parent"
+                 android:gravity="center_vertical"
+                 android:orientation="horizontal">
 
-                <me.zhanghai.android.materialratingbar.MaterialRatingBar
-                    android:id="@+id/rating_view"
-                    style="@style/Widget.MaterialRatingBar.RatingBar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="18dp"
-                    android:isIndicator="true"
-                    android:numStars="5"
-                    android:progressBackgroundTint="?rating_empty"
-                    android:progressDrawable="@drawable/rating_bar_small"
-                    android:progressTint="?rating_fill"
-                    android:rating="0"
-                    android:secondaryProgressTint="?rating_empty"
-                    android:stepSize="0.5"
-                    app:mrb_fillBackgroundStars="true"
-                    tools:rating="3.5" />
+                <androidx.appcompat.widget.AppCompatRatingBar
+                     android:layout_height="wrap_content"
+                     android:layout_width="wrap_content"
+                     style="?android:attr/ratingBarStyleSmall"
+                     android:isIndicator="true"
+                     android:stepSize="1.0"
+                     android:numStars="5"
+                     android:id="@+id/rating_view" />
 
-                <TextView
-                    android:id="@+id/date_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    android:includeFontPadding="false"
-                    android:paddingStart="6dp"
-                    android:paddingEnd="6dp"
-                    android:textColor="?text_secondary_color"
-                    android:textSize="14sp"
-                    tools:text="19.11.2022" />
+                <com.google.android.material.textview.MaterialTextView
+                     android:layout_height="wrap_content"
+                     android:layout_width="wrap_content"
+                     android:textAppearance="?attr/textAppearanceBodySmall"
+                     android:includeFontPadding="false"
+                     android:textColor="?attr/colorOnSurfaceVariant"
+                     android:paddingStart="8dp"
+                     tools:text="19.11.2022"
+                     android:id="@+id/date_view"
+                     android:layout_gravity="bottom" />
 
             </LinearLayout>
 
@@ -94,18 +84,20 @@
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/review_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:autoLink="web|email"
-        android:paddingTop="12dp"
-        android:paddingBottom="12dp"
-        android:textColor="?text_primary_color"
-        android:textSize="16sp"
-        tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam lobortis accumsan molestie. Maecenas purus sapien, aliquet sed vehicula quis, egestas id lectus. Fusce commodo neque augue, sit amet vehicula odio maximus eu. Cras tristique semper vulputate. Etiam vehicula diam non justo sodales vestibulum. Nam sagittis elit sit amet arcu cursus, at dapibus lacus venenatis." />
+    <com.google.android.material.textview.MaterialTextView
+         android:layout_height="wrap_content"
+         android:layout_width="match_parent"
+         android:autoLink="web|email"
+         android:paddingEnd="16dp"
+         android:textAppearance="?attr/textAppearanceBodyLarge"
+         android:paddingVertical="12dp"
+         android:textColor="?attr/colorOnSurface"
+         android:paddingStart="72dp"
+         tools:text="I'm Ameer Muawiya Sangha From Punjab Pakistan"
+         android:id="@+id/review_view" />
 
     <com.google.android.material.button.MaterialButton
+<<<<<<< HEAD
         android:id="@+id/feedback_button"
         style="@style/MaterialButtonSecondary"
         android:layout_width="wrap_content"
@@ -116,5 +108,13 @@
         android:paddingRight="8dp"
         android:text="@string/edit_feedback"
         />
+=======
+         android:layout_height="wrap_content"
+         android:layout_width="wrap_content"
+         style="@style/MaterialButtonSecondary"
+         android:layout_marginStart="56dp"
+         android:id="@+id/feedback_button"
+         android:text="@string/edit_feedback" />
+>>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
 
 </LinearLayout>

@@ -1,89 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingStart="20dp"
-    android:paddingTop="20dp"
-    android:paddingEnd="20dp">
+<LinearLayout
+     xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:app="http://schemas.android.com/apk/res-auto"
+     xmlns:tools="http://schemas.android.com/tools"
+     android:layout_height="wrap_content"
+     android:layout_width="match_parent"
+     android:paddingEnd="24dp"
+     android:orientation="vertical"
+     android:paddingBottom="16dp"
+     android:paddingStart="24dp"
+     android:paddingTop="24dp">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:baselineAligned="false"
-        android:orientation="horizontal">
+         android:layout_height="wrap_content"
+         android:layout_width="match_parent"
+         android:gravity="top"
+         android:orientation="horizontal"
+         android:baselineAligned="false">
 
         <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+             android:layout_height="wrap_content"
+             android:layout_width="wrap_content"
+             android:layout_gravity="top">
 
             <include
-                android:id="@+id/user_icon"
-                layout="@layout/user_icon_xl"
-                android:scaleType="fitCenter" />
+                 layout="@layout/user_icon_xl"
+                 android:id="@+id/user_icon" />
 
             <ImageView
-                android:id="@+id/user_online"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:layout_gravity="end|bottom"
-                android:layout_marginEnd="-3dp"
-                android:layout_marginBottom="-3dp"
-                android:importantForAccessibility="no"
-                android:src="@drawable/online_indicator" />
+                 android:layout_height="18dp"
+                 android:layout_width="18dp"
+                 android:layout_marginBottom="-2dp"
+                 android:layout_marginEnd="-2dp"
+                 android:src="@drawable/online_indicator"
+                 android:importantForAccessibility="no"
+                 android:id="@+id/user_online"
+                 android:layout_gravity="end|bottom" />
 
         </FrameLayout>
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:paddingStart="16dp"
-            android:paddingEnd="0dp">
+             android:layout_height="wrap_content"
+             android:layout_width="0dp"
+             android:orientation="vertical"
+             android:layout_marginStart="16dp"
+             android:layout_weight="1">
 
             <TextView
-                android:id="@+id/user_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start|center_vertical"
-                android:layout_marginBottom="4dp"
-                android:background="@drawable/rounded_transparent_ripple"
-                android:drawablePadding="6dp"
-                android:ellipsize="end"
-                android:fontFamily="sans-serif-medium"
-                android:gravity="center_vertical"
-                android:includeFontPadding="false"
-                android:maxLines="2"
-                android:padding="2dp"
-                android:singleLine="false"
-                android:textColor="?text_primary_color"
-                android:textSize="22sp"
-                app:drawableTint="?android:textColorPrimary"
-                tools:text="Zibuhoker" />
+                 android:layout_height="wrap_content"
+                 android:layout_width="match_parent"
+                 android:layout_marginBottom="4dp"
+                 android:gravity="start"
+                 android:textAppearance="?attr/textAppearanceTitleMedium"
+                 android:ellipsize="end"
+                 android:includeFontPadding="false"
+                 android:singleLine="false"
+                 android:textColor="?attr/colorOnSurface"
+                 tools:text="Usman Ghani"
+                 android:maxLines="2"
+                 android:id="@+id/user_name" />
 
             <TextView
-                android:id="@+id/user_description"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start|center_vertical"
-                android:fontFamily="sans-serif"
-                android:includeFontPadding="false"
-                android:paddingStart="2dp"
-                android:paddingEnd="2dp"
-                android:textColor="?text_secondary_color"
-                android:textSize="15sp"
-                tools:text="Moderator, joined 2 years ago,\nlast seen yesterday" />
+                 android:layout_height="wrap_content"
+                 android:layout_width="match_parent"
+                 android:textAppearance="?attr/textAppearanceBodyMedium"
+                 android:includeFontPadding="false"
+                 android:textColor="?attr/colorOnSurfaceVariant"
+                 tools:text="Moderator · joined 2 years ago · last seen yesterday"
+                 android:id="@+id/user_description"
+                 android:paddingTop="2dp" />
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="20dp">
+            <LinearLayout
+                 android:layout_height="wrap_content"
+                 android:layout_width="match_parent"
+                 android:gravity="start"
+                 android:orientation="horizontal"
+                 android:paddingTop="8dp">
 
                 <com.google.android.material.button.MaterialButton
+<<<<<<< HEAD
                     android:id="@+id/subscribe_button"
                     style="@style/MaterialButtonSecondaryOutline"
                     android:layout_width="wrap_content"
@@ -109,8 +104,32 @@
                    
                     app:drawableTint="?attr/colorPrimary"
                     tools:visibility="gone" />
+=======
+                     android:layout_height="wrap_content"
+                     android:layout_width="match_parent"
+                     app:icon="@drawable/ic_account_plus"
+                     app:iconTint="?attr/colorPrimary"
+                     style="@style/MaterialButtonSecondaryOutline"
+                     app:iconPadding="8dp"
+                     android:id="@+id/subscribe_button"
+                     android:text="@string/subscribe"
+                     app:iconGravity="textStart" />
 
-            </FrameLayout>
+                <com.google.android.material.button.MaterialButton
+                     android:layout_height="wrap_content"
+                     android:layout_width="match_parent"
+                     app:icon="@drawable/ic_account_minus"
+                     tools:visibility="gone"
+                     app:iconTint="?attr/colorPrimary"
+                     style="@style/MaterialButtonSecondaryOutline"
+                     app:iconPadding="8dp"
+                     android:layout_marginStart="8dp"
+                     android:id="@+id/unsubscribe_button"
+                     android:text="@string/unsubscribe"
+                     app:iconGravity="textStart" />
+>>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
+
+            </LinearLayout>
 
         </LinearLayout>
 

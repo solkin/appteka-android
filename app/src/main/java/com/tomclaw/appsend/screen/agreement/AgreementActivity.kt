@@ -9,7 +9,7 @@ import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.agreement.di.AgreementModule
 import com.tomclaw.appsend.util.Analytics
-import com.tomclaw.appsend.util.updateTheme
+// import com.tomclaw.appsend.util.updateTheme
 import javax.inject.Inject
 
 class AgreementActivity : AppCompatActivity(), AgreementPresenter.AgreementRouter {
@@ -25,7 +25,7 @@ class AgreementActivity : AppCompatActivity(), AgreementPresenter.AgreementRoute
         Appteka.getComponent()
             .agreementComponent(AgreementModule(presenterState))
             .inject(activity = this)
-        updateTheme()
+       // updateTheme()
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.agreement_activity)

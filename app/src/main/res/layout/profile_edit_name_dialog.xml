@@ -1,19 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="12dp">
+<FrameLayout
+     xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:app="http://schemas.android.com/apk/res-auto"
+     android:layout_height="wrap_content"
+     android:layout_width="match_parent"
+     android:padding="20dp">
 
     <com.google.android.material.textfield.TextInputLayout
+<<<<<<< HEAD
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/MaterialTextInputExpressive"
         android:hint="@string/name_input">
+=======
+         android:layout_height="wrap_content"
+         android:layout_width="match_parent"
+         android:hint="@string/name_input"
+         app:boxStrokeWidthFocused="0dp"
+         app:hintTextColor="?attr/colorOnSurfaceVariant"
+         style="@style/Widget.Material3.TextInputLayout.FilledBox"
+         app:boxBackgroundMode="filled"
+         app:boxStrokeWidth="0dp">
+>>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/user_name"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+             android:layout_height="wrap_content"
+             android:layout_width="match_parent"
+             android:textAppearance="?attr/textAppearanceBodyMedium"
+             android:singleLine="true"
+             android:maxLines="1"
+             android:inputType="textPersonName"
+             android:id="@+id/user_name" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

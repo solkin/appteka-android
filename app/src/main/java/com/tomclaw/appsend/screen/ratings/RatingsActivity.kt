@@ -13,7 +13,7 @@ import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.profile.createProfileActivityIntent
 import com.tomclaw.appsend.screen.ratings.di.RatingsModule
 import com.tomclaw.appsend.util.Analytics
-import com.tomclaw.appsend.util.updateTheme
+// import com.tomclaw.appsend.util.updateTheme
 import javax.inject.Inject
 
 class RatingsActivity : AppCompatActivity(), RatingsPresenter.RatingsRouter {
@@ -37,7 +37,7 @@ class RatingsActivity : AppCompatActivity(), RatingsPresenter.RatingsRouter {
         Appteka.getComponent()
             .ratingsComponent(RatingsModule(this, appId, presenterState))
             .inject(activity = this)
-        updateTheme()
+        // updateTheme()
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.ratings_activity)

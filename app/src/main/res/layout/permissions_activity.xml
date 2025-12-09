@@ -11,23 +11,22 @@
         android:layout_height="match_parent"
         android:layout_marginTop="?attr/actionBarSize"
         android:clipToPadding="false"
-        android:paddingTop="4dp"
-        android:paddingBottom="4dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
         android:scrollbarStyle="outsideOverlay"
-        android:scrollbars="vertical" />
+        android:scrollbars="vertical"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:layout_height="wrap_content">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/toolbar_background"
             app:navigationIcon="?attr/homeAsUpIndicator"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            app:navigationIconTint="?attr/colorOnSurface" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

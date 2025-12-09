@@ -4,21 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:fillViewport="true"
-    android:orientation="vertical"
+    android:fillViewport="false"
     android:scrollbars="none">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
-        tools:ignore="UselessLeaf">
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="8dp">
 
         <LinearLayout
-            android:id="@+id/rating_container"
+            android:id="@+id/rating_container" 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -29,104 +26,43 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
-                android:paddingTop="8dp"
-                android:paddingBottom="8dp">
+                android:paddingStart="4dp"
+                android:paddingEnd="16dp" 
+                android:paddingVertical="8dp"> 
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/rating_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:drawablePadding="2dp"
-                    android:fontFamily="sans-serif-medium"
                     android:includeFontPadding="false"
-                    android:textColor="?text_primary_color"
-                    android:textSize="16sp"
+                    android:textAppearance="?attr/textAppearanceTitleMedium"
+                    android:textColor="?attr/colorOnSurface"
                     app:drawableEndCompat="@drawable/ic_star_14"
-                    app:drawableTint="?text_primary_color"
+                    app:drawableTint="?attr/colorOnSurfaceVariant"
                     tools:text="4.4" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-condensed-light"
                     android:includeFontPadding="false"
-                    android:paddingTop="8sp"
-                    android:text="@string/ratings"
-                    android:textColor="?text_secondary_color"
-                    android:textSize="14sp" />
+                    android:paddingTop="4sp"
+                    android:textAppearance="?attr/textAppearanceLabelSmall"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:text="@string/ratings" />
 
             </LinearLayout>
 
-            <include layout="@layout/details_play_item_divider" />
+            <View
+                android:layout_width="1dp"
+                android:layout_height="24dp" 
+                android:layout_marginEnd="16dp"
+                android:background="?attr/colorOutlineVariant"
+                android:layout_gravity="center_vertical" /> 
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:paddingTop="8dp"
-            android:paddingBottom="8dp">
-
-            <TextView
-                android:id="@+id/downloads_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawablePadding="2dp"
-                android:fontFamily="sans-serif-medium"
-                android:includeFontPadding="false"
-                android:textColor="?text_primary_color"
-                android:textSize="16sp"
-                tools:text="57" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-condensed-light"
-                android:includeFontPadding="false"
-                android:paddingTop="8sp"
-                android:text="@string/downloads"
-                android:textColor="?text_secondary_color"
-                android:textSize="14sp" />
-
-        </LinearLayout>
-
-        <include layout="@layout/details_play_item_divider" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:paddingTop="4dp"
-            android:paddingBottom="8dp"
-            tools:ignore="UseCompoundDrawables">
-
-            <ImageView
-                android:layout_width="26sp"
-                android:layout_height="26sp"
-                android:contentDescription="@string/size_comment"
-                android:src="@drawable/ic_download_box_outline"
-                app:tint="?text_primary_color" />
-
-            <TextView
-                android:id="@+id/size_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-condensed-light"
-                android:includeFontPadding="false"
-                android:paddingTop="5sp"
-                android:textColor="?text_secondary_color"
-                android:textSize="14sp"
-                tools:text="9 MB" />
-
-        </LinearLayout>
-
-        <include layout="@layout/details_play_item_divider" />
-
-        <LinearLayout
-            android:id="@+id/os_version_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -137,55 +73,147 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
-                android:paddingTop="4dp"
-                android:paddingBottom="8dp">
+                android:paddingStart="0dp"
+                android:paddingEnd="16dp"
+                android:paddingVertical="8dp">
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/downloads_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawablePadding="2dp"
+                    android:includeFontPadding="false"
+                    android:textAppearance="?attr/textAppearanceTitleMedium"
+                    android:textColor="?attr/colorOnSurface"
+                    tools:text="57" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
+                    android:paddingTop="4sp"
+                    android:textAppearance="?attr/textAppearanceLabelSmall"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:text="@string/downloads" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="24dp" 
+                android:layout_marginEnd="16dp"
+                android:background="?attr/colorOutlineVariant"
+                android:layout_gravity="center_vertical" />
+
+        </LinearLayout>
+        
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingStart="0dp"
+                android:paddingEnd="16dp"
+                android:paddingVertical="8dp">
+
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:layout_width="18dp" 
+                    android:layout_height="18dp" 
+                    android:contentDescription="@string/size_comment"
+                    android:src="@drawable/ic_download_box_outline"
+                    app:tint="?attr/colorOnSurface" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/size_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
+                    android:paddingTop="4sp"
+                    android:textAppearance="?attr/textAppearanceLabelSmall"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    tools:text="9 MB" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="24dp" 
+                android:layout_marginEnd="16dp"
+                android:background="?attr/colorOutlineVariant"
+                android:layout_gravity="center_vertical" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/os_version_container" 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingStart="0dp"
+                android:paddingEnd="16dp"
+                android:paddingVertical="8dp">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="26sp"
+                    android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:orientation="horizontal">
 
-                    <TextView
+                    <com.google.android.material.textview.MaterialTextView
                         android:id="@+id/os_version_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:drawablePadding="2dp"
-                        android:fontFamily="sans-serif-medium"
                         android:includeFontPadding="false"
-                        android:textColor="?text_primary_color"
-                        android:textSize="16sp"
+                        android:textAppearance="?attr/textAppearanceTitleMedium"
+                        android:textColor="?attr/colorOnSurface"
                         tools:text="5.0" />
 
-                    <ImageView
+                    <com.google.android.material.imageview.ShapeableImageView
                         android:id="@+id/os_incompatible_image"
-                        android:layout_width="26sp"
-                        android:layout_height="26sp"
-                        android:paddingStart="2dp"
-                        android:paddingEnd="0dp"
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:layout_marginStart="4dp"
                         android:src="@drawable/ic_alert"
-                        app:tint="@color/sdk_incompatible_tint" />
+                        app:tint="?attr/colorError" />
 
                 </LinearLayout>
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-condensed-light"
                     android:includeFontPadding="false"
-                    android:paddingTop="5sp"
-                    android:text="@string/android"
-                    android:textColor="?text_secondary_color"
-                    android:textSize="14sp" />
+                    android:paddingTop="4sp"
+                    android:textAppearance="?attr/textAppearanceLabelSmall"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:text="@string/android" />
 
             </LinearLayout>
 
+            <View
+                android:layout_width="1dp"
+                android:layout_height="24dp" 
+                android:layout_marginEnd="16dp"
+                android:background="?attr/colorOutlineVariant"
+                android:layout_gravity="center_vertical" />
+
         </LinearLayout>
 
-        <include layout="@layout/details_play_item_divider" />
-
         <LinearLayout
-            android:id="@+id/favorites_container"
+            android:id="@+id/favorites_container" 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -196,36 +224,40 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
-                android:paddingTop="4dp"
-                android:paddingBottom="8dp"
-                tools:ignore="UseCompoundDrawables">
+                android:paddingStart="0dp"
+                android:paddingEnd="16dp"
+                android:paddingVertical="8dp">
 
-                <ImageView
-                    android:layout_width="26sp"
-                    android:layout_height="26sp"
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
                     android:contentDescription="@string/marked_favorite"
                     android:src="@drawable/ic_favorite"
-                    app:tint="?text_primary_color" />
+                    app:tint="?attr/colorOnSurface" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/favorites_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-condensed-light"
                     android:includeFontPadding="false"
-                    android:paddingTop="5sp"
-                    android:textColor="?text_secondary_color"
-                    android:textSize="14sp"
+                    android:paddingTop="4sp"
+                    android:textAppearance="?attr/textAppearanceLabelSmall"
+                    android:textColor="?attr/colorOnSurfaceVariant"
                     tools:text="11" />
 
             </LinearLayout>
 
-            <include layout="@layout/details_play_item_divider" />
+            <View
+                android:layout_width="1dp"
+                android:layout_height="24dp" 
+                android:layout_marginEnd="16dp"
+                android:background="?attr/colorOutlineVariant"
+                android:layout_gravity="center_vertical" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/exclusive_container"
+            android:id="@+id/exclusive_container" 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -236,35 +268,39 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
-                android:paddingTop="4dp"
-                android:paddingBottom="8dp"
-                tools:ignore="UseCompoundDrawables">
+                android:paddingStart="0dp"
+                android:paddingEnd="16dp"
+                android:paddingVertical="8dp">
 
-                <ImageView
-                    android:layout_width="26sp"
-                    android:layout_height="26sp"
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
                     android:contentDescription="@string/exclusive_short"
                     android:src="@drawable/ic_creation"
-                    app:tint="?text_primary_color" />
+                    app:tint="?attr/colorOnSurface" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-condensed-light"
                     android:includeFontPadding="false"
-                    android:paddingTop="5sp"
-                    android:text="@string/exclusive_short"
-                    android:textColor="?text_secondary_color"
-                    android:textSize="14sp" />
+                    android:paddingTop="4sp"
+                    android:textAppearance="?attr/textAppearanceLabelSmall"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:text="@string/exclusive_short" />
 
             </LinearLayout>
 
-            <include layout="@layout/details_play_item_divider" />
+            <View
+                android:layout_width="1dp"
+                android:layout_height="24dp" 
+                android:layout_marginEnd="16dp"
+                android:background="?attr/colorOutlineVariant"
+                android:layout_gravity="center_vertical" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/open_source_container"
+            android:id="@+id/open_source_container" 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -275,35 +311,40 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
-                android:paddingTop="4dp"
-                android:paddingBottom="8dp"
-                tools:ignore="UseCompoundDrawables">
+                android:paddingStart="0dp"
+                android:paddingEnd="16dp"
+                android:paddingVertical="8dp">
 
-                <ImageView
-                    android:layout_width="26sp"
-                    android:layout_height="26sp"
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
                     android:contentDescription="@string/open_source"
                     android:src="@drawable/ic_open_source"
-                    app:tint="?text_primary_color" />
+                    app:tint="?attr/colorOnSurface" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-condensed-light"
                     android:includeFontPadding="false"
-                    android:paddingTop="5sp"
-                    android:text="@string/open_source_short"
-                    android:textColor="?text_secondary_color"
-                    android:textSize="14sp" />
+                    android:paddingTop="4sp"
+                    android:textAppearance="?attr/textAppearanceLabelSmall"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:text="@string/open_source_short" />
 
             </LinearLayout>
 
-            <include layout="@layout/details_play_item_divider" />
+            <View
+                android:layout_width="1dp"
+                android:layout_height="24dp" 
+                android:layout_marginEnd="16dp"
+                android:background="?attr/colorOutlineVariant"
+                android:layout_gravity="center_vertical" />
 
         </LinearLayout>
 
+
         <LinearLayout
-            android:id="@+id/category_container"
+            android:id="@+id/category_container" 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
@@ -314,25 +355,25 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:orientation="vertical"
-                android:paddingTop="4dp"
-                android:paddingBottom="8dp">
+                android:paddingStart="0dp"
+                android:paddingEnd="4dp" 
+                android:paddingVertical="8dp"> 
 
-                <ImageView
+                <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/category_svg"
-                    android:layout_width="26sp"
-                    android:layout_height="26sp"
-                    app:tint="?text_primary_color"
+                    android:layout_width="18dp" 
+                    android:layout_height="18dp" 
+                    app:tint="?attr/colorOnSurface"
                     tools:src="@drawable/ic_apps" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/category_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-condensed-light"
                     android:includeFontPadding="false"
-                    android:paddingTop="5sp"
-                    android:textColor="?text_secondary_color"
-                    android:textSize="14sp"
+                    android:paddingTop="4sp"
+                    android:textAppearance="?attr/textAppearanceLabelSmall"
+                    android:textColor="?attr/colorOnSurfaceVariant"
                     tools:text="Tools" />
 
             </LinearLayout>

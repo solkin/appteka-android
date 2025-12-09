@@ -14,7 +14,7 @@ import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.screen.favorite.di.FavoriteModule
 import com.tomclaw.appsend.util.Analytics
-import com.tomclaw.appsend.util.updateTheme
+// import com.tomclaw.appsend.util.updateTheme
 import javax.inject.Inject
 
 class FavoriteActivity : AppCompatActivity(), FavoritePresenter.FavoriteRouter {
@@ -44,7 +44,7 @@ class FavoriteActivity : AppCompatActivity(), FavoritePresenter.FavoriteRouter {
         Appteka.getComponent()
             .favoriteComponent(FavoriteModule(this, userId, presenterState))
             .inject(activity = this)
-        updateTheme()
+        // updateTheme()
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.favorite_activity)

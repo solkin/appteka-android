@@ -31,7 +31,7 @@ import com.tomclaw.appsend.upload.UploadPackage
 import com.tomclaw.appsend.upload.createUploadIntent
 import com.tomclaw.appsend.util.Analytics
 import com.tomclaw.appsend.util.getParcelableExtraCompat
-import com.tomclaw.appsend.util.updateTheme
+// import com.tomclaw.appsend.util.updateTheme
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -92,7 +92,7 @@ class UploadActivity : AppCompatActivity(), UploadPresenter.UploadRouter {
         Appteka.getComponent()
             .uploadComponent(UploadModule(this, pkg, apk, info, presenterState))
             .inject(activity = this)
-        updateTheme()
+        // updateTheme()
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.upload_activity)

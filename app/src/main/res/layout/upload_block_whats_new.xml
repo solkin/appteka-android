@@ -1,22 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="12dp"
+    android:layout_marginStart="16dp"
     android:layout_marginTop="12dp"
-    android:layout_marginEnd="12dp"
+    android:layout_marginEnd="16dp"
     android:orientation="vertical">
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+<<<<<<< HEAD
         style="@style/MaterialTextInputExpressive"
         android:hint="@string/whats_new">
+=======
+        android:hint="@string/whats_new"
+        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+        app:boxBackgroundMode="outline"
+        app:hintTextColor="?attr/colorOnSurfaceVariant">
+>>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/whats_new"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:includeFontPadding="false"
+            android:textAppearance="?attr/textAppearanceBodyMedium" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

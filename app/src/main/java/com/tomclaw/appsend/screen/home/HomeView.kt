@@ -3,8 +3,8 @@ package com.tomclaw.appsend.screen.home
 import android.view.MenuItem
 import android.view.View
 import android.widget.Button
-import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.widget.Toolbar
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.jakewharton.rxrelay3.PublishRelay
@@ -87,7 +87,7 @@ interface HomeView {
 class HomeViewImpl(view: View) : HomeView {
 
     private val context = view.context
-    private val toolbar: Toolbar = view.findViewById(R.id.toolbar)
+    private val toolbar: MaterialToolbar = view.findViewById(R.id.toolbar)
     private val updateBlock: View = view.findViewById(R.id.update_block)
     private val bottomNavigation: BottomNavigationView = view.findViewById(R.id.bottom_navigation)
     private val uploadButton: FloatingActionButton = view.findViewById(R.id.fab_upload)
@@ -148,7 +148,7 @@ class HomeViewImpl(view: View) : HomeView {
             menu.clear()
             inflateMenu(R.menu.store_menu)
             if (!canModerate) {
-                menu.removeItem(R.id.menu_moderation)
+             menu.removeItem(R.id.menu_moderation)
             }
             invalidateMenu()
         }
@@ -243,18 +243,17 @@ class HomeViewImpl(view: View) : HomeView {
     }
 
     override fun showStatusDialog(block: Boolean, title: String?, message: String) {
-        AlertDialog.Builder(context)
-            .setTitle(title)
-            .setMessage(message)
-            .setCancelable(!block)
-            .setPositiveButton(R.string.ok) { dialog, which ->
-                if (block) {
-                    exitAppRelay.accept(Unit)
-                }
+    MaterialAlertDialogBuilder(context)
+        .setTitle(title)
+        .setMessage(message)
+        .setCancelable(!block)
+        .setPositiveButton(R.string.ok) { dialog, which ->
+            if (block) {
+                exitAppRelay.accept(Unit)
             }
-            .create()
-            .show()
-    }
+        }
+        .show()
+}
 
     override fun storeClicks(): Observable<Unit> = storeRelay
 

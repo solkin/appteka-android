@@ -14,7 +14,7 @@ import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.screen.uploads.di.UploadsModule
 import com.tomclaw.appsend.util.Analytics
-import com.tomclaw.appsend.util.updateTheme
+// import com.tomclaw.appsend.util.updateTheme
 import javax.inject.Inject
 
 class UploadsActivity : AppCompatActivity(), UploadsPresenter.UploadsRouter {
@@ -44,7 +44,7 @@ class UploadsActivity : AppCompatActivity(), UploadsPresenter.UploadsRouter {
         Appteka.getComponent()
             .uploadsComponent(UploadsModule(this, userId, presenterState))
             .inject(activity = this)
-        updateTheme()
+        // updateTheme()
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.uploads_activity)
