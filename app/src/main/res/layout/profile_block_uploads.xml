@@ -1,100 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:clipToPadding="false"
-    android:orientation="vertical">
+<LinearLayout
+     xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:app="http://schemas.android.com/apk/res-auto"
+     xmlns:tools="http://schemas.android.com/tools"
+     android:layout_height="wrap_content"
+     android:layout_width="match_parent"
+     android:orientation="vertical"
+     android:clipToPadding="false">
 
     <LinearLayout
-        android:id="@+id/uploads_block"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?selectableItemBackground"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingStart="20dp"
-        android:paddingTop="16dp"
-        android:paddingEnd="20dp"
-        android:paddingBottom="16dp">
+         android:layout_height="wrap_content"
+         android:layout_width="match_parent"
+         android:paddingEnd="20dp"
+         android:background="?android:attr/selectableItemBackground"
+         android:gravity="center_vertical"
+         android:orientation="horizontal"
+         android:paddingBottom="12dp"
+         android:paddingStart="20dp"
+         android:id="@+id/uploads_block"
+         android:paddingTop="16dp">
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:paddingStart="0dp"
-            android:paddingEnd="8dp">
+             android:layout_height="wrap_content"
+             android:layout_width="0dp"
+             android:paddingEnd="8dp"
+             android:orientation="vertical"
+             android:layout_weight="1">
 
             <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                 android:layout_height="wrap_content"
+                 android:layout_width="wrap_content"
+                 android:gravity="center_vertical"
+                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-medium"
-                    android:text="@string/uploaded_title"
-                    android:textColor="?text_primary_color"
-                    android:textSize="16sp" />
+                     android:layout_height="wrap_content"
+                     android:layout_width="wrap_content"
+                     android:textAppearance="?attr/textAppearanceTitleSmall"
+                     android:textColor="?attr/colorOnSurface"
+                     android:text="@string/uploaded_title" />
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-medium"
-                    android:paddingStart="6dp"
-                    android:paddingEnd="5dp"
-                    android:text="•"
-                    android:textColor="?text_secondary_color"
-                    android:textSize="16sp"
-                    tools:ignore="HardcodedText" />
+                     android:layout_height="wrap_content"
+                     android:layout_width="wrap_content"
+                     android:paddingEnd="5dp"
+                     android:textAppearance="?attr/textAppearanceTitleSmall"
+                     android:textColor="?attr/colorOnSurfaceVariant"
+                     android:paddingStart="6dp"
+                     tools:ignore="HardcodedText"
+                     android:text="•" />
 
                 <TextView
-                    android:id="@+id/uploads_count"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="?colorPrimary"
-                    android:fontFamily="sans-serif-medium"
-                    android:gravity="center"
-                    android:textColor="?text_secondary_color"
-                    android:textSize="16sp"
-                    tools:text="10" />
+                     android:layout_height="wrap_content"
+                     android:layout_width="wrap_content"
+                     android:gravity="center"
+                     android:textAppearance="?attr/textAppearanceLabelMedium"
+                     android:textColor="?attr/colorPrimary"
+                     tools:text="10"
+                     android:id="@+id/uploads_count" />
 
             </LinearLayout>
 
             <TextView
-                android:id="@+id/subtitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif"
-                android:paddingTop="2dp"
-                android:textColor="?text_secondary_color"
-                android:textSize="12sp"
-                tools:text="They were downloaded 15748 times" />
+                 android:layout_height="wrap_content"
+                 android:layout_width="wrap_content"
+                 android:textAppearance="?attr/textAppearanceBodySmall"
+                 android:textColor="?attr/colorOnSurfaceVariant"
+                 tools:text="They were downloaded 15748 times"
+                 android:id="@+id/subtitle"
+                 android:paddingTop="2dp" />
 
         </LinearLayout>
 
         <ImageView
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:importantForAccessibility="no"
-            android:src="@drawable/ic_arrow_forward"
-            app:tint="?text_primary_color" />
+             android:layout_height="24dp"
+             android:layout_width="24dp"
+             android:src="@drawable/ic_arrow_forward"
+             android:importantForAccessibility="no"
+             android:tint="?attr/colorOnSurfaceVariant" />
 
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="-12dp"
-        android:clipToPadding="false"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
-        android:paddingBottom="12dp"
-        tools:listitem="@layout/profile_app_item" />
+         android:layout_height="wrap_content"
+         android:layout_width="match_parent"
+         android:paddingEnd="8dp"
+         android:paddingBottom="12dp"
+         tools:listitem="@layout/profile_app_item"
+         android:clipToPadding="false"
+         android:paddingStart="8dp"
+         android:layout_marginTop="0dp"
+         android:id="@+id/recycler" />
 
 </LinearLayout>

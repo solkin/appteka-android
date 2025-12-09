@@ -14,7 +14,7 @@ import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.screen.downloads.di.DownloadsModule
 import com.tomclaw.appsend.util.Analytics
-import com.tomclaw.appsend.util.updateTheme
+// import com.tomclaw.appsend.util.updateTheme
 import javax.inject.Inject
 
 class DownloadsActivity : AppCompatActivity(), DownloadsPresenter.DownloadsRouter {
@@ -44,7 +44,7 @@ class DownloadsActivity : AppCompatActivity(), DownloadsPresenter.DownloadsRoute
         Appteka.getComponent()
             .downloadComponent(DownloadsModule(this, userId, presenterState))
             .inject(activity = this)
-        updateTheme()
+        // updateTheme()
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.downloads_activity)

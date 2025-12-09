@@ -5,13 +5,13 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.jakewharton.rxrelay3.PublishRelay
@@ -163,45 +163,55 @@ class ProfileViewImpl(
         error.hide()
     }
 
+    /**
+     * Shows a Material Dialog for editing the user's profile name.
+     */
     override fun showEditNameDialog(name: String, nameRegex: String?) {
-        var editUserName: TextInputEditText? = null
-        val dialog = AlertDialog.Builder(context)
+        val dialogView = View.inflate(context, R.layout.profile_edit_name_dialog, null)
+        val editUserName = dialogView.findViewById<TextInputEditText>(R.id.user_name)
+            .apply {
+                this.setText(name)
+            }
+
+        val dialog = MaterialAlertDialogBuilder(context)
             .setTitle(context.getString(R.string.edit_name_title))
-            .setView(R.layout.profile_edit_name_dialog)
+            .setView(dialogView)
             .setPositiveButton(R.string.ok) { _, _ ->
                 val editedName = editUserName?.text?.toString().orEmpty()
                 nameEditedRelay.accept(editedName)
             }
             .setNegativeButton(R.string.cancel, null)
             .show()
-
-        editUserName = dialog
-            .findViewById<TextInputEditText>(R.id.user_name)
-            ?.apply {
-                this.setText(name)
-            }
-
+        
+        // Handling regex validation for positive button
         if (nameRegex != null) {
+            val positiveButton = dialog.getButton(android.app.AlertDialog.BUTTON_POSITIVE)
+            
+            // Initial check
+            positiveButton.isEnabled = name.matches(nameRegex.toRegex())
+
             editUserName?.addTextChangedListener(object : TextWatcher {
                 override fun beforeTextChanged(s: CharSequence?, st: Int, cn: Int, af: Int) {}
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
                 override fun afterTextChanged(s: Editable?) {
-                    dialog
-                        .getButton(AlertDialog.BUTTON_POSITIVE)
-                        .setEnabled(s.toString().matches(nameRegex.toRegex()))
+                    positiveButton.isEnabled = s.toString().matches(nameRegex.toRegex())
                 }
             })
         }
     }
 
+    /**
+     * Shows a Material Dialog to confirm user elimination (account deletion).
+     */
     override fun showEliminationDialog() {
-        AlertDialog.Builder(context)
+        MaterialAlertDialogBuilder(context)
             .setTitle(context.getString(R.string.eliminate_user_title))
             .setMessage(context.getString(R.string.eliminate_user_message))
-            .setNegativeButton(R.string.yes) { _, _ ->
+            // Swapping Positive and Negative buttons to align with standard M3 confirmation flow (Positive = confirm)
+            .setPositiveButton(R.string.yes) { _, _ ->
                 eliminateRelay.accept(true)
             }
-            .setPositiveButton(R.string.no, null)
+            .setNegativeButton(R.string.no, null)
             .show()
     }
 

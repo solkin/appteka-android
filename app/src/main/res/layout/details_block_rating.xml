@@ -1,28 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?selectableItemBackground"
+    android:focusable="true"
+    android:background="?android:attr/selectableItemBackground"
     android:orientation="vertical"
-    android:paddingStart="8dp"
-    android:paddingTop="4dp"
-    android:paddingEnd="8dp"
-    android:paddingBottom="4dp">
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
 
         <include
             android:id="@+id/member_icon"
             layout="@layout/user_icon_s"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_gravity="center_vertical"
-            android:layout_margin="12dp"
+            android:layout_marginEnd="16dp"
             android:scaleType="center" />
 
         <LinearLayout
@@ -33,77 +35,69 @@
             android:gravity="center_vertical"
             android:orientation="vertical">
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:id="@+id/user_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start|center_vertical"
-                android:fontFamily="sans-serif"
                 android:includeFontPadding="false"
                 android:singleLine="true"
-                android:textColor="?text_primary_color"
-                android:textSize="15sp"
+                android:textAppearance="?attr/textAppearanceTitleSmall"
+                android:textColor="?attr/colorOnSurface"
                 tools:text="Admin" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingTop="3dp">
+                android:paddingTop="2dp"
+                android:gravity="center_vertical">
 
-                <me.zhanghai.android.materialratingbar.MaterialRatingBar
+                <androidx.appcompat.widget.AppCompatRatingBar
                     android:id="@+id/rating_view"
-                    style="@style/Widget.MaterialRatingBar.RatingBar"
-                    android:layout_width="wrap_content"
-                    android:layout_height="18dp"
+                    style="?android:attr/ratingBarStyleSmall"
                     android:isIndicator="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:numStars="5"
-                    android:progressBackgroundTint="?rating_empty"
-                    android:progressDrawable="@drawable/rating_bar_small"
-                    android:progressTint="?rating_fill"
-                    android:rating="0"
-                    android:secondaryProgressTint="?rating_empty"
-                    android:stepSize="0.5"
-                    app:mrb_fillBackgroundStars="true"
-                    tools:rating="3.5" />
+                    android:stepSize="1.0" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/date_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingStart="6dp"
-                    android:paddingEnd="0dp"
-                    android:textColor="?text_secondary_color"
-                    android:textSize="12sp"
+                    android:paddingStart="8dp"
+                    android:textAppearance="?attr/textAppearanceBodySmall"
+                    android:textColor="?attr/colorOnSurfaceVariant"
                     tools:text="15.10.2017" />
 
             </LinearLayout>
 
         </LinearLayout>
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/rating_menu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:background="?selectableItemBackgroundBorderless"
-            android:padding="6dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="8dp"
             android:src="@drawable/ic_dots_vertical"
+            app:tint="?attr/colorOnSurfaceVariant"
             android:visibility="gone"
-            app:tint="?text_secondary_color"
             tools:visibility="visible" />
 
     </LinearLayout>
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/comment_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:autoLink="web|email"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp"
-        android:paddingBottom="6dp"
-        android:textColor="?text_primary_color"
-        android:textSize="16sp"
+        android:paddingTop="8dp"
+        android:paddingStart="72dp"
+        android:paddingEnd="16dp"
+        android:textAppearance="?attr/textAppearanceBodyLarge"
+        android:textColor="?attr/colorOnSurface"
         tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam lobortis accumsan molestie. Maecenas purus sapien, aliquet sed vehicula quis, egestas id lectus. Fusce commodo neque augue, sit amet vehicula odio maximus eu. Cras tristique semper vulputate. Etiam vehicula diam non justo sodales vestibulum. Nam sagittis elit sit amet arcu cursus, at dapibus lacus venenatis." />
 
 </LinearLayout>

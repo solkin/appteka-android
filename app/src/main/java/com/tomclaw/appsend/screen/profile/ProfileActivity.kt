@@ -7,7 +7,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.home.createHomeActivityIntent
-import com.tomclaw.appsend.util.updateTheme
+// import com.tomclaw.appsend.util.updateTheme
 
 class ProfileActivity : AppCompatActivity() {
 
@@ -33,7 +33,7 @@ class ProfileActivity : AppCompatActivity() {
             throw IllegalArgumentException("user ID must be provided")
         }
 
-        updateTheme()
+        // updateTheme()
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.profile_activity)

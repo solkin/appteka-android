@@ -1,71 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/toolbar"
-    android:layout_width="match_parent"
-    android:layout_height="?actionBarSize"
-    android:background="?toolbar_background"
-    android:gravity="center_vertical">
+<LinearLayout
+     xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:tools="http://schemas.android.com/tools"
+     android:layout_height="match_parent"
+     android:layout_width="match_parent"
+     android:paddingEnd="16dp"
+     android:gravity="center_vertical"
+     android:background="?selectableItemBackground"
+     android:orientation="horizontal"
+     android:paddingStart="4dp"
+     android:focusable="true"
+     android:id="@+id/toolbar_content_container">
+
+    <ImageView
+         android:layout_height="36dp"
+         android:layout_width="36dp"
+         android:scaleType="centerCrop"
+         android:layout_marginEnd="4dp"
+         android:src="@drawable/app_placeholder"
+         android:id="@+id/icon" />
 
     <LinearLayout
-        android:id="@+id/go_back"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="?selectableItemBackgroundBorderless"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:paddingRight="4dp">
-
-        <ImageView
-            android:id="@+id/back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="6dp"
-            android:src="@drawable/ic_arrow_back"
-            app:tint="?android:textColorPrimary" />
-
-        <ImageView
-            android:id="@+id/icon"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:layout_marginLeft="2dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/app_placeholder" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/header"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="?selectableItemBackgroundBorderless"
-        android:orientation="vertical"
-        android:paddingLeft="4dp"
-        android:paddingRight="4dp">
+         android:layout_height="wrap_content"
+         android:layout_width="wrap_content"
+         android:orientation="vertical"
+         android:id="@+id/header">
 
         <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:lines="1"
-            android:singleLine="true"
-            android:textColor="?android:textColorPrimary"
-            android:textSize="17sp"
-            android:textStyle="bold"
-            tools:text="Name" />
+             android:layout_height="wrap_content"
+             android:layout_width="wrap_content"
+             android:ellipsize="end"
+             android:textSize="17sp"
+             android:lines="1"
+             android:singleLine="true"
+             android:textColor="?attr/colorOnSurface"
+             tools:text="Name"
+             android:id="@+id/title"
+             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/subtitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:lines="1"
-            android:singleLine="true"
-            android:textColor="?android:textColorSecondary"
-            android:textSize="12sp"
-            tools:text="Last seen at 3:34 a.m" />
+             android:layout_height="wrap_content"
+             android:layout_width="wrap_content"
+             android:ellipsize="end"
+             android:textSize="12sp"
+             android:lines="1"
+             android:singleLine="true"
+             android:textColor="?attr/colorOnSurfaceVariant"
+             tools:text="Last seen at 3:34 a.m"
+             android:id="@+id/subtitle" />
 
     </LinearLayout>
 

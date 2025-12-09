@@ -1,30 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/error_view"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical">
+<LinearLayout
+     xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:tools="http://schemas.android.com/tools"
+     android:layout_height="match_parent"
+     android:layout_width="match_parent"
+     android:paddingEnd="40dp"
+     android:gravity="center"
+     android:background="?attr/colorSurface"
+     android:orientation="vertical"
+     android:paddingStart="40dp"
+     android:id="@+id/empty_view">
 
     <ImageView
-        android:id="@+id/empty_image"
-        android:layout_width="68dp"
-        android:layout_height="68dp"
-        android:layout_centerInParent="true"
-        android:gravity="center"
-        android:src="@drawable/ic_archive_outline"
-        app:tint="?attr/text_secondary_color" />
+         android:layout_height="72dp"
+         android:layout_width="72dp"
+         android:layout_marginBottom="16dp"
+         android:src="@drawable/ic_archive_outline"
+         android:contentDescription="Empty state indicator"
+         android:tint="?attr/colorOnSurfaceVariant"
+         android:id="@+id/empty_image" />
 
     <TextView
-        android:id="@+id/empty_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/empty_image"
-        android:layout_centerHorizontal="true"
-        android:gravity="center"
-        android:paddingTop="24dp"
-        android:text="@string/empty_list"
-        android:textSize="18sp" />
+         android:layout_height="wrap_content"
+         android:layout_width="match_parent"
+         android:gravity="center"
+         android:textAppearance="?attr/textAppearanceBodyLarge"
+         android:textColor="?attr/colorOnSurfaceVariant"
+         tools:text="There's nothing here yet."
+         android:lineSpacingExtra="2dp"
+         android:id="@+id/empty_text"
+         android:text="@string/empty_list" />
 
-</RelativeLayout>
+</LinearLayout>

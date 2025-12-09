@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/overlay_progress"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?semitransparent_color"
-    android:clickable="true"
-    android:focusable="true"
+    android:background="?attr/colorSurface"
     android:visibility="gone"
     tools:visibility="visible">
 
-    <ProgressBar
-        android:layout_width="42dp"
-        android:layout_height="42dp"
-        android:layout_gravity="center" />
+    <!-- Using Material3 LoadingIndicator (contained style) -->
+    <com.google.android.material.loadingindicator.LoadingIndicator
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        style="@style/Widget.Material3.LoadingIndicator.Contained" />
 
 </FrameLayout>

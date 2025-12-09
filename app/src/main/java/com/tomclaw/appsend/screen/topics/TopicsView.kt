@@ -1,7 +1,10 @@
 package com.tomclaw.appsend.screen.topics
 
 import android.annotation.SuppressLint
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.ViewFlipper
 import androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -9,14 +12,16 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
-import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
-import com.tomclaw.appsend.util.getAttributedColor
 import com.tomclaw.appsend.util.hideWithAlphaAnimation
 import com.tomclaw.appsend.util.showWithAlphaAnimation
 import io.reactivex.rxjava3.core.Observable
+
+// TopicsPreferencesProvider is expected to be defined externally in its own file.
+// We only keep the interface reference in the constructor.
 
 interface TopicsView {
 
@@ -50,7 +55,8 @@ interface TopicsView {
 
 class TopicsViewImpl(
     private val view: View,
-    private val preferences: TopicsPreferencesProvider,
+    // Dependency kept for code completion, but its methods are no longer used for styling.
+    private val preferences: TopicsPreferencesProvider, 
     private val adapter: SimpleRecyclerAdapter
 ) : TopicsView {
 
@@ -83,47 +89,56 @@ class TopicsViewImpl(
     }
 
     override fun showIntro() {
-        viewFlipper.displayedChild = 0
+        viewFlipper.displayedChild = CHILD_INTRO
     }
 
     override fun showProgress() {
-        viewFlipper.displayedChild = 1
+        viewFlipper.displayedChild = CHILD_CONTENT
         overlayProgress.showWithAlphaAnimation(animateFully = true)
     }
 
     override fun showContent() {
-        viewFlipper.displayedChild = 1
+        viewFlipper.displayedChild = CHILD_CONTENT
         overlayProgress.hideWithAlphaAnimation(animateFully = false)
     }
 
     override fun showError() {
-        viewFlipper.displayedChild = 2
+        viewFlipper.displayedChild = CHILD_ERROR
     }
 
+    /**
+     * Shows topic pin/unpin options using BottomSheetDialog with default system styling.
+     * All custom theme/color application logic has been removed.
+     */
     override fun showMessageDialog(topicId: Int, isPinned: Boolean) {
-        val theme = R.style.BottomSheetDialogDark.takeIf { preferences.isDarkTheme() }
-            ?: R.style.BottomSheetDialogLight
-        BottomSheetBuilder(view.context, theme)
-            .setMode(BottomSheetBuilder.MODE_LIST)
-            .setIconTintColor(getAttributedColor(context, R.attr.menu_icons_tint))
-            .setItemTextColor(getAttributedColor(context, R.attr.text_primary_color))
-            .apply {
-                if (isPinned) {
-                    addItem(
-                        MENU_PIN,
-                        R.string.unpin,
-                        R.drawable.ic_pin_off
-                    ).setItemClickListener { pinTopicRelay.accept(topicId) }
-                } else {
-                    addItem(
-                        MENU_PIN,
-                        R.string.pin,
-                        R.drawable.ic_pin
-                    ).setItemClickListener { pinTopicRelay.accept(topicId) }
-                }
+        // Use default system theme for BottomSheetDialog
+        val dialog = BottomSheetDialog(context)
+        
+        // Inflate the custom layout for bottom sheet actions/list 
+        val actionView = View.inflate(context, R.layout.bottom_sheet_actions, null)
+        val actionsRecycler: RecyclerView = actionView.findViewById(R.id.actions_recycler)
+
+        val pinTitle = if (isPinned) R.string.unpin else R.string.pin
+        val pinIcon = if (isPinned) R.drawable.ic_pin_off else R.drawable.ic_pin
+        
+        // Setup the list of actions (only Pin/Unpin action)
+        val actions = listOf(
+            ActionItem(MENU_PIN, context.getString(pinTitle), pinIcon)
+        )
+
+        // Create adapter and handle click listener
+        val actionsAdapter = ActionsAdapter(actions) { itemId ->
+            dialog.dismiss()
+            if (itemId == MENU_PIN) {
+                pinTopicRelay.accept(topicId)
             }
-            .createDialog()
-            .show()
+        }
+        
+        actionsRecycler.layoutManager = LinearLayoutManager(context)
+        actionsRecycler.adapter = actionsAdapter
+
+        dialog.setContentView(actionView)
+        dialog.show()
     }
 
     override fun showPinFailed() {
@@ -160,3 +175,45 @@ class TopicsViewImpl(
 
 private const val DURATION_MEDIUM = 300L
 private const val MENU_PIN = 1
+private const val CHILD_INTRO = 0
+private const val CHILD_CONTENT = 1
+private const val CHILD_ERROR = 2
+
+// -------------------------------------------------------------------------------------------------
+// Helper classes for Material BottomSheetDialog 
+// -------------------------------------------------------------------------------------------------
+
+// Data class to represent a single action item in the bottom sheet
+data class ActionItem(
+    val id: Int,
+    val title: String, 
+    val iconRes: Int
+)
+
+class ActionsAdapter(
+    private val actions: List<ActionItem>,
+    private val onClick: (Int) -> Unit
+) : RecyclerView.Adapter<ActionsAdapter.ActionViewHolder>() {
+
+    class ActionViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val title: TextView = view.findViewById(R.id.action_title)
+        val icon: ImageView = view.findViewById(R.id.action_icon)
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ActionViewHolder {
+        // R.layout.item_bottom_sheet_action is assumed to exist
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_bottom_sheet_action, parent, false)
+        return ActionViewHolder(view)
+    }
+
+    override fun onBindViewHolder(holder: ActionViewHolder, position: Int) {
+        val item = actions[position]
+        holder.title.text = item.title
+        holder.icon.setImageResource(item.iconRes)
+        holder.itemView.setOnClickListener {
+            onClick(item.id)
+        }
+    }
+
+    override fun getItemCount() = actions.size
+}

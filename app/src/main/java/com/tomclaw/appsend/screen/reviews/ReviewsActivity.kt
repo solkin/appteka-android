@@ -14,7 +14,7 @@ import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.screen.reviews.di.ReviewsModule
 import com.tomclaw.appsend.util.Analytics
-import com.tomclaw.appsend.util.updateTheme
+// import com.tomclaw.appsend.util.updateTheme
 import javax.inject.Inject
 
 class ReviewsActivity : AppCompatActivity(), ReviewsPresenter.ReviewsRouter {
@@ -44,7 +44,7 @@ class ReviewsActivity : AppCompatActivity(), ReviewsPresenter.ReviewsRouter {
         Appteka.getComponent()
             .reviewsComponent(ReviewsModule(this, userId, presenterState))
             .inject(activity = this)
-        updateTheme()
+        // updateTheme()
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.reviews_activity)

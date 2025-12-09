@@ -1,7 +1,5 @@
 package com.tomclaw.appsend.screen.chat.adapter.outgoing
 
-import android.graphics.Color
-import android.graphics.PorterDuff
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -10,11 +8,8 @@ import com.avito.konveyor.adapter.BaseViewHolder
 import com.avito.konveyor.blueprint.ItemView
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.dto.UserIcon
-import com.tomclaw.appsend.util.BubbleColorDrawable
-import com.tomclaw.appsend.util.Corner
 import com.tomclaw.appsend.util.bind
 import com.tomclaw.appsend.util.formatQuote
-import com.tomclaw.appsend.util.getAttributedColor
 import com.tomclaw.appsend.view.UserIconView
 import com.tomclaw.appsend.view.UserIconViewImpl
 
@@ -35,7 +30,6 @@ interface OutgoingMsgItemView : ItemView {
     fun deliveredState()
 
     fun setOnClickListener(listener: (() -> Unit)?)
-
 }
 
 class OutgoingMsgItemViewHolder(view: View) : BaseViewHolder(view), OutgoingMsgItemView {
@@ -52,17 +46,14 @@ class OutgoingMsgItemViewHolder(view: View) : BaseViewHolder(view), OutgoingMsgI
     private var clickListener: (() -> Unit)? = null
 
     init {
-        val bubbleColor = getAttributedColor(context, R.attr.discuss_bubble_color)
-        bubbleBack.background = BubbleColorDrawable(context, bubbleColor, Corner.RIGHT)
-
+        // Removed all programmatic colors/backgrounds.
+        // XML + MaterialTheme now fully control bubble colors, shapes, and text colors.
         view.setOnClickListener { clickListener?.invoke() }
     }
 
     override fun setUserIcon(userIcon: UserIcon) {
         userIconView.bind(userIcon)
-        val memberColor = Color.parseColor(userIcon.color)
-        textView.setTextColor(memberColor)
-        delivery.setColorFilter(memberColor, PorterDuff.Mode.SRC_ATOP)
+        // Removed dynamic text color and icon tint based on userIcon.color.
     }
 
     override fun setTime(time: String) {
@@ -96,5 +87,4 @@ class OutgoingMsgItemViewHolder(view: View) : BaseViewHolder(view), OutgoingMsgI
     override fun onUnbind() {
         this.clickListener = null
     }
-
 }

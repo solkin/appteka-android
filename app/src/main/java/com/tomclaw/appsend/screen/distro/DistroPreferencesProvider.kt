@@ -7,11 +7,17 @@ import android.content.SharedPreferences
 interface DistroPreferencesProvider {
 
     fun isDarkTheme(): Boolean
+    
+    // New function to retrieve string resource by ID
+    fun getString(resId: Int): String 
+
+    // New function to retrieve string resource with format arguments
+    fun getString(resId: Int, vararg formatArgs: Any): String 
 
 }
 
 class DistroPreferencesProviderImpl(
-    context: Context
+    private val context: Context // Context is needed to access resources
 ) : DistroPreferencesProvider {
 
     private val preferences: SharedPreferences = context.getSharedPreferences(
@@ -22,6 +28,15 @@ class DistroPreferencesProviderImpl(
         return preferences.getBoolean(DARK_THEME_PREF_KEY, false)
     }
 
+    // Implementation to retrieve simple string resources
+    override fun getString(resId: Int): String {
+        return context.getString(resId)
+    }
+
+    // Implementation to retrieve formatted string resources
+    override fun getString(resId: Int, vararg formatArgs: Any): String {
+        return context.getString(resId, *formatArgs)
+    }
 }
 
 const val DARK_THEME_PREF_KEY = "pref_dark_theme"

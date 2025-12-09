@@ -80,7 +80,6 @@ class UploadNotificationsImpl(private val context: Context) : UploadNotification
             .setSmallIcon(android.R.drawable.stat_sys_upload)
             .setSilent(true)
             .setOngoing(true)
-            .setColor(getColor(R.color.primary_color, context))
             .setContentIntent(uploadingIntent)
             .setGroup(GROUP_NOTIFICATIONS)
 
@@ -131,7 +130,6 @@ class UploadNotificationsImpl(private val context: Context) : UploadNotification
                             .setGroup(GROUP_NOTIFICATIONS)
                             .setOngoing(false)
                             .setAutoCancel(true)
-                            .setColor(getColor(R.color.primary_color, context))
                             .setContentIntent(uploadedIntent)
                     val uploadedIconHolder = NotificationIconHolder(
                         resources = context.resources,

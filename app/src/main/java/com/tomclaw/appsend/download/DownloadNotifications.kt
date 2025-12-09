@@ -80,7 +80,6 @@ class DownloadNotificationsImpl(
             .setSmallIcon(android.R.drawable.stat_sys_download)
             .setSilent(true)
             .setOngoing(true)
-            .setColor(getColor(R.color.primary_color, context))
             .setContentIntent(openDetailsIntent)
             .setGroup(GROUP_NOTIFICATIONS)
 
@@ -130,7 +129,6 @@ class DownloadNotificationsImpl(
                             .setGroup(GROUP_NOTIFICATIONS)
                             .setOngoing(false)
                             .setAutoCancel(true)
-                            .setColor(getColor(R.color.primary_color, context))
                             .setContentIntent(installIntent)
                     val installIconHolder = NotificationIconHolder(
                         resources = context.resources,

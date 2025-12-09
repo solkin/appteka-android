@@ -1,134 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/discuss_back_repeat">
+    android:layout_width="match_parent"
+    android:id="@+id/root"
+    tools:context=".screen.chat.ChatActivity">
 
     <ViewFlipper
-        android:id="@+id/view_flipper"
-        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize">
+        android:layout_width="match_parent"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:id="@+id/view_flipper">
 
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+        <RelativeLayout
+            android:layout_height="match_parent"
+            android:layout_width="match_parent">
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/recycler"
-                android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:choiceMode="none"
-                android:clipToPadding="false"
-                android:divider="@android:color/transparent"
-                android:dividerHeight="0dp"
-                android:fastScrollEnabled="false"
-                android:paddingTop="8dp"
-                android:paddingBottom="64dp"
+                android:layout_width="match_parent"
                 android:stackFromBottom="true"
                 android:transcriptMode="normal"
+                android:layout_above="@id/input_card"
                 tools:itemCount="1"
-                tools:listitem="@layout/chat_item_inc_text" />
+                tools:listitem="@layout/chat_item_inc_text"
+                android:id="@+id/recycler"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:clipToPadding="false" />
 
-            <FrameLayout
-                android:layout_width="match_parent"
+            <com.google.android.material.divider.MaterialDivider
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:background="?attr/compose_gradient"
-                android:padding="8dp">
+                android:layout_width="match_parent"
+                android:layout_above="@id/input_card" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_margin="0dp"
+                app:cardElevation="0dp"
+                app:cardBackgroundColor="?attr/colorSurface"
+                android:layout_alignParentBottom="true"
+                app:cardCornerRadius="0dp"
+                android:id="@+id/input_card"
+                android:layout_gravity="bottom">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="?attr/compose_background"
-                    android:baselineAligned="false"
-                    android:orientation="horizontal">
+                    android:layout_width="match_parent"
+                    android:paddingEnd="12dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingBottom="8dp"
+                    android:paddingStart="12dp"
+                    android:paddingTop="8dp">
 
-                    <EditText
-                        android:id="@+id/message_edit"
-                        android:layout_width="0dp"
+                    <com.google.android.material.textfield.TextInputLayout
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="8dp"
+                        android:layout_width="0dp"
+                        app:hintEnabled="false"
+                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                        app:boxBackgroundMode="none"
                         android:layout_weight="1"
-                        android:background="@null"
-                        android:ems="10"
-                        android:hint="@string/enter_your_message"
-                        android:inputType="textCapSentences|textMultiLine"
-                        android:maxLines="5"
-                        android:minHeight="32dp"
-                        android:paddingLeft="16dp"
-                        android:paddingTop="0dp"
-                        android:paddingRight="8dp"
-                        android:paddingBottom="0dp"
-                        android:textSize="17sp" />
+                        android:id="@+id/message_input_layout">
 
-                    <ViewSwitcher
-                        android:id="@+id/send_switcher"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:layout_height="wrap_content"
+                            android:layout_width="match_parent"
+                            android:textSize="16sp"
+                            android:importantForAutofill="no"
+                            android:textColor="?attr/colorOnSurface"
+                            android:paddingStart="8dp"
+                            android:paddingEnd="8dp"
+                            android:background="@null"
+                            android:hint="@string/enter_your_message"
+                            android:minHeight="44dp"
+                            android:textColorHint="?attr/colorOutline"
+                            android:maxLines="5"
+                            android:inputType="textCapSentences|textMultiLine"
+                            android:id="@+id/message_edit" />
 
-                        <ImageView
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <FrameLayout
+                        android:layout_height="48dp"
+                        android:layout_width="48dp"
+                        android:layout_marginStart="8dp">
+
+                        <com.google.android.material.button.MaterialButton
+                            android:layout_height="match_parent"
+                            android:layout_width="match_parent"
+                            app:icon="@drawable/ic_send"
+                            android:contentDescription="@string/send"
+                            style="@style/MaterialButtonPrimary"
+                            app:iconPadding="0dp"
                             android:id="@+id/send_button"
-                            android:layout_width="56dp"
-                            android:layout_height="48dp"
-                            android:layout_gravity="center_horizontal|bottom"
-                            android:background="?selectableItemBackgroundBorderless"
-                            android:contentDescription=""
-                            android:padding="9dp"
-                            android:scaleType="center"
-                            android:src="@drawable/ic_send"
-                            app:tint="@color/primary_color" />
+                            app:iconGravity="textStart" />
 
-                        <ProgressBar
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
-                            android:layout_gravity="center"
-                            android:padding="10dp" />
+                        <com.google.android.material.progressindicator.CircularProgressIndicator
+                            android:layout_height="match_parent"
+                            android:layout_width="match_parent"
+                            android:visibility="gone"
+                            android:indeterminate="true"
+                            style="@style/Widget.Material3Expressive.CircularProgressIndicator.Wavy"
+                            android:id="@+id/send_progress" />
 
-                    </ViewSwitcher>
+                    </FrameLayout>
 
                 </LinearLayout>
 
-            </FrameLayout>
+            </com.google.android.material.card.MaterialCardView>
 
             <include
                 layout="@layout/progress_overlay"
                 android:visibility="gone" />
 
-        </FrameLayout>
+        </RelativeLayout>
 
-        <include layout="@layout/error_view" />
+        <include
+            layout="@layout/error_view" />
 
     </ViewFlipper>
 
-    <com.google.android.material.appbar.AppBarLayout
+    <com.google.android.material.appbar.MaterialToolbar
+        android:layout_height="?attr/actionBarSize"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        app:navigationIconTint="?attr/colorOnSurface"
+        app:navigationContentDescription="@string/go_back"
+        app:navigationIcon="?attr/homeAsUpIndicator"
+        android:id="@+id/toolbar">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/toolbar_background"
-            android:contentInsetLeft="0dp"
-            android:contentInsetStart="0dp"
-            app:contentInsetLeft="0dp"
-            app:contentInsetStart="0dp"
-            android:contentInsetRight="0dp"
-            android:contentInsetEnd="0dp"
-            app:contentInsetRight="0dp"
-            app:contentInsetEnd="0dp"
-            app:popupTheme="@style/AppTheme.PopupOverlay">
+        <include
+            layout="@layout/icon_toolbar" />
 
-            <include layout="@layout/icon_toolbar"/>
-
-        </androidx.appcompat.widget.Toolbar>
-
-    </com.google.android.material.appbar.AppBarLayout>
+    </com.google.android.material.appbar.MaterialToolbar>
 
 </FrameLayout>

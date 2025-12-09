@@ -14,56 +14,39 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
-import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.main.adapter.files.ActionItem
+import com.tomclaw.appsend.main.adapter.files.ActionsAdapter
 import com.tomclaw.appsend.screen.distro.adapter.apk.ApkItem
 import com.tomclaw.appsend.util.clicks
-import com.tomclaw.appsend.util.getAttributedColor
 import com.tomclaw.appsend.util.hideWithAlphaAnimation
 import com.tomclaw.appsend.util.showWithAlphaAnimation
 import io.reactivex.rxjava3.core.Observable
 
-
 interface DistroView {
-
+    // ... (existing functions)
     fun showProgress()
-
     fun showContent()
-
     fun contentUpdated()
-
     fun contentUpdated(position: Int)
-
     fun showPlaceholder()
-
     fun showError()
-
     fun showExtractSuccess(path: String)
-
     fun showExtractError()
-
     fun showItemDialog(item: ApkItem)
-
     fun showSnackbar(text: String)
-
     fun stopPullRefreshing()
-
     fun isPullRefreshing(): Boolean
 
     fun navigationClicks(): Observable<Unit>
-
     fun itemMenuClicks(): Observable<Pair<Int, ApkItem>>
-
     fun searchTextChanged(): Observable<String>
-
     fun shareExtractedClicks(): Observable<String>
-
     fun retryClicks(): Observable<Unit>
-
     fun refreshClicks(): Observable<Unit>
-
 }
 
 class DistroViewImpl(
@@ -92,6 +75,7 @@ class DistroViewImpl(
         toolbar.setTitle(R.string.nav_downloaded)
         toolbar.inflateMenu(R.menu.distro_menu)
         toolbar.setNavigationOnClickListener { navigationRelay.accept(Unit) }
+
         val searchItem: MenuItem = toolbar.menu.findItem(R.id.menu_search)
         val searchView: SearchView = searchItem.actionView as SearchView
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -106,17 +90,19 @@ class DistroViewImpl(
             }
         })
 
-        val orientation = RecyclerView.VERTICAL
-        val layoutManager = LinearLayoutManager(view.context, orientation, false)
+        val layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         adapter.setHasStableIds(true)
         recycler.adapter = adapter
         recycler.layoutManager = layoutManager
-        recycler.itemAnimator = DefaultItemAnimator()
-        recycler.itemAnimator?.changeDuration = DURATION_MEDIUM
+        recycler.itemAnimator = DefaultItemAnimator().apply {
+            changeDuration = DURATION_MEDIUM
+        }
 
         refresher.setOnRefreshListener { refreshRelay.accept(Unit) }
     }
 
+    // ... (rest of the override functions)
+    
     override fun showProgress() {
         refresher.isEnabled = false
         flipper.displayedChild = 0
@@ -138,53 +124,51 @@ class DistroViewImpl(
     override fun showError() {
         refresher.isEnabled = true
         flipper.displayedChild = 2
-
         error.setText(R.string.load_files_error)
         retryButton.clicks(retryRelay)
     }
 
     override fun showExtractSuccess(path: String) {
-        val alertDialog = AlertDialog.Builder(context)
+        AlertDialog.Builder(context)
             .setTitle(R.string.success)
-            .setMessage(
-                Html.fromHtml(context.getString(R.string.app_extract_success, path))
-            )
-            .setPositiveButton(
-                R.string.yes
-            ) { _, _ -> shareExtractedRelay.accept(path) }
+            .setMessage(Html.fromHtml(context.getString(R.string.app_extract_success, path)))
+            .setPositiveButton(R.string.yes) { _, _ -> shareExtractedRelay.accept(path) }
             .setNegativeButton(R.string.no, null)
-            .create()
-        alertDialog.show()
+            .show()
     }
 
     override fun showExtractError() {
-        showSnackbar(context.resources.getString(R.string.app_extract_failed))
+        showSnackbar(context.getString(R.string.app_extract_failed))
     }
 
+    // Updated showItemDialog to include the new save option
     override fun showItemDialog(item: ApkItem) {
-        val theme = R.style.BottomSheetDialogDark.takeIf { preferences.isDarkTheme() }
-            ?: R.style.BottomSheetDialogLight
-        BottomSheetBuilder(view.context, theme)
-            .setMode(BottomSheetBuilder.MODE_LIST)
-            .setIconTintColor(getAttributedColor(view.context, R.attr.menu_icons_tint))
-            .setItemTextColor(getAttributedColor(view.context, R.attr.text_primary_color))
-            .setMenu(R.menu.distro_app_menu)
-            .setItemClickListener {
-                val id = when (it.itemId) {
-                    R.id.menu_install_app -> MENU_INSTALL
-                    R.id.menu_share_apk -> MENU_SHARE
-                    R.id.menu_upload_apk -> MENU_UPLOAD
-                    R.id.menu_bluetooth_apk -> MENU_BLUETOOTH
-                    R.id.menu_find_on_gp -> MENU_FIND_ON_GP
-                    R.id.menu_find_on_store -> MENU_FIND_ON_STORE
-                    R.id.menu_required_permissions -> MENU_PERMISSIONS
-                    R.id.menu_remove_app -> MENU_REMOVE
-                    else -> return@setItemClickListener
-                }
-                itemMenuRelay.accept(Pair(id, item))
-            }
-            .createDialog()
-            .show()
+        val bottomSheetDialog = BottomSheetDialog(context)
+        val sheetView = View.inflate(context, R.layout.bottom_sheet_actions, null)
+        val actionsRecycler: RecyclerView = sheetView.findViewById(R.id.actions_recycler)
+
+        val actions = mutableListOf<ActionItem>().apply {
+            add(ActionItem(MENU_INSTALL, context.getString(R.string.install_app), R.drawable.ic_install))
+            add(ActionItem(MENU_SAVE_TO_DEVICE, context.getString(R.string.save_to_device), R.drawable.ic_save)) // New Save to Device item
+            add(ActionItem(MENU_SHARE, context.getString(R.string.share_apk), R.drawable.ic_share))
+            add(ActionItem(MENU_UPLOAD, context.getString(R.string.upload_apk), R.drawable.ic_cloud_upload))
+            add(ActionItem(MENU_BLUETOOTH, context.getString(R.string.bluetooth_apk), R.drawable.ic_bluetooth))
+            add(ActionItem(MENU_FIND_ON_GP, context.getString(R.string.find_on_gp), R.drawable.ic_google_play))
+            add(ActionItem(MENU_FIND_ON_STORE, context.getString(R.string.find_on_store), R.drawable.ic_store))
+            add(ActionItem(MENU_PERMISSIONS, context.getString(R.string.required_permissions), R.drawable.ic_lock_open))
+            add(ActionItem(MENU_REMOVE, context.getString(R.string.remove), R.drawable.ic_delete))
+        }
+
+        val actionsAdapter = ActionsAdapter(actions) { actionId ->
+            bottomSheetDialog.dismiss()
+            itemMenuRelay.accept(Pair(actionId, item))
+        }
+
+        actionsRecycler.layoutManager = LinearLayoutManager(context)
+        actionsRecycler.adapter = actionsAdapter
+
+        bottomSheetDialog.setContentView(sheetView)
+        bottomSheetDialog.show()
     }
 
     override fun showSnackbar(text: String) {
@@ -207,17 +191,11 @@ class DistroViewImpl(
     override fun isPullRefreshing(): Boolean = refresher.isRefreshing
 
     override fun navigationClicks(): Observable<Unit> = navigationRelay
-
     override fun itemMenuClicks(): Observable<Pair<Int, ApkItem>> = itemMenuRelay
-
     override fun searchTextChanged(): Observable<String> = searchTextRelay
-
     override fun shareExtractedClicks(): Observable<String> = shareExtractedRelay
-
     override fun retryClicks(): Observable<Unit> = retryRelay
-
     override fun refreshClicks(): Observable<Unit> = refreshRelay
-
 }
 
 const val MENU_INSTALL = 1
@@ -228,5 +206,6 @@ const val MENU_FIND_ON_GP = 5
 const val MENU_FIND_ON_STORE = 6
 const val MENU_PERMISSIONS = 7
 const val MENU_REMOVE = 8
+const val MENU_SAVE_TO_DEVICE = 9 // New constant for save action
 
 private const val DURATION_MEDIUM = 300L

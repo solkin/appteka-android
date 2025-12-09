@@ -12,12 +12,13 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
-import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.main.adapter.files.ActionItem
+import com.tomclaw.appsend.main.adapter.files.ActionsAdapter
 import com.tomclaw.appsend.util.clicks
-import com.tomclaw.appsend.util.getAttributedColor
 import com.tomclaw.appsend.util.hide
 import com.tomclaw.appsend.util.hideWithAlphaAnimation
 import com.tomclaw.appsend.util.show
@@ -27,37 +28,22 @@ import io.reactivex.rxjava3.core.Observable
 interface FeedView {
 
     fun showProgress()
-
     fun showContent()
-
     fun showToolbar()
-
     fun hideToolbar()
-
     fun contentUpdated()
-
     fun contentUpdated(position: Int)
-
     fun rangeInserted(position: Int, count: Int)
-
     fun rangeDeleted(position: Int, count: Int)
-
     fun scrollTo(position: Int)
-
     fun showPlaceholder()
-
     fun showError()
-
     fun showPostDeletionFailed()
-
     fun showPostMenu(actions: List<MenuAction>)
 
     fun navigationClicks(): Observable<Unit>
-
     fun retryClicks(): Observable<Unit>
-
     fun scrollIdle(): Observable<Int>
-
 }
 
 class FeedViewImpl(
@@ -66,6 +52,7 @@ class FeedViewImpl(
     private val preferences: FeedPreferencesProvider,
 ) : FeedView {
 
+    private val context = view.context
     private val toolbar: Toolbar = view.findViewById(R.id.toolbar)
     private val flipper: ViewFlipper = view.findViewById(R.id.view_flipper)
     private val overlayProgress: View = view.findViewById(R.id.overlay_progress)
@@ -81,13 +68,14 @@ class FeedViewImpl(
         toolbar.setNavigationOnClickListener { navigationRelay.accept(Unit) }
         toolbar.setTitle(R.string.user_feed)
 
-        val orientation = RecyclerView.VERTICAL
-        val layoutManager = LinearLayoutManager(view.context, orientation, false)
+        val layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         adapter.setHasStableIds(true)
         recycler.adapter = adapter
         recycler.layoutManager = layoutManager
-        recycler.itemAnimator = DefaultItemAnimator()
-        recycler.itemAnimator?.changeDuration = DURATION_MEDIUM
+        recycler.itemAnimator = DefaultItemAnimator().apply {
+            changeDuration = DURATION_MEDIUM
+        }
+
         recycler.addOnScrollListener(object : OnScrollListener() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
@@ -107,13 +95,9 @@ class FeedViewImpl(
         overlayProgress.hideWithAlphaAnimation(animateFully = false)
     }
 
-    override fun showToolbar() {
-        toolbar.show()
-    }
+    override fun showToolbar() = toolbar.show()
 
-    override fun hideToolbar() {
-        toolbar.hide()
-    }
+    override fun hideToolbar() = toolbar.hide()
 
     override fun showPlaceholder() {
         flipper.displayedChild = 1
@@ -121,7 +105,6 @@ class FeedViewImpl(
 
     override fun showError() {
         flipper.displayedChild = 2
-
         error.setText(R.string.load_files_error)
         retryButton.clicks(retryRelay)
     }
@@ -131,51 +114,41 @@ class FeedViewImpl(
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    override fun contentUpdated() {
-        adapter.notifyDataSetChanged()
-    }
+    override fun contentUpdated() = adapter.notifyDataSetChanged()
 
-    override fun contentUpdated(position: Int) {
-        adapter.notifyItemChanged(position)
-    }
+    override fun contentUpdated(position: Int) = adapter.notifyItemChanged(position)
 
-    override fun rangeInserted(position: Int, count: Int) {
-        adapter.notifyItemRangeInserted(position, count)
-    }
+    override fun rangeInserted(position: Int, count: Int) = adapter.notifyItemRangeInserted(position, count)
 
-    override fun rangeDeleted(position: Int, count: Int) {
-        adapter.notifyItemRangeRemoved(position, count)
-    }
+    override fun rangeDeleted(position: Int, count: Int) = adapter.notifyItemRangeRemoved(position, count)
 
-    override fun scrollTo(position: Int) {
-        recycler.scrollToPosition(position)
-    }
+    override fun scrollTo(position: Int) = recycler.scrollToPosition(position)
 
+    // Replaced BottomSheetBuilder with Material 3 BottomSheetDialog + ActionsAdapter
     override fun showPostMenu(actions: List<MenuAction>) {
-        val theme = R.style.BottomSheetDialogDark.takeIf { preferences.isDarkTheme() }
-            ?: R.style.BottomSheetDialogLight
-        BottomSheetBuilder(view.context, theme)
-            .setMode(BottomSheetBuilder.MODE_LIST)
-            .setIconTintColor(getAttributedColor(view.context, R.attr.menu_icons_tint))
-            .setItemTextColor(getAttributedColor(view.context, R.attr.text_primary_color))
-            .apply {
-                for (action in actions) {
-                    addItem(action.id, action.title, action.icon)
-                }
-            }
-            .setItemClickListener { menuItem ->
-                actions.firstOrNull { it.id == menuItem.itemId }?.action?.invoke()
-            }
-            .createDialog()
-            .show()
+        val bottomSheetDialog = BottomSheetDialog(context)
+        val sheetView = View.inflate(context, R.layout.bottom_sheet_actions, null)
+        val actionsRecycler: RecyclerView = sheetView.findViewById(R.id.actions_recycler)
+
+        val actionItems = actions.map { action ->
+            ActionItem(action.id, action.title, action.icon)
+        }
+
+        val actionsAdapter = ActionsAdapter(actionItems) { clickedId ->
+            bottomSheetDialog.dismiss()
+            actions.firstOrNull { it.id == clickedId }?.action?.invoke()
+        }
+
+        actionsRecycler.layoutManager = LinearLayoutManager(context)
+        actionsRecycler.adapter = actionsAdapter
+
+        bottomSheetDialog.setContentView(sheetView)
+        bottomSheetDialog.show()
     }
 
     override fun navigationClicks(): Observable<Unit> = navigationRelay
-
     override fun retryClicks(): Observable<Unit> = retryRelay
-
     override fun scrollIdle(): Observable<Int> = scrollIdleRelay
-
 }
 
 data class MenuAction(

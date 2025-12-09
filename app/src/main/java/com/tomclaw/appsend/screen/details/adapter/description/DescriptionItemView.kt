@@ -52,8 +52,7 @@ class DescriptionItemViewHolder(view: View) : BaseViewHolder(view), DescriptionI
     private val translateButton: MaterialButton = view.findViewById(R.id.translate_button)
     private val googlePlayButton: View = view.findViewById(R.id.google_play_button)
     private val appVersion: TextView = view.findViewById(R.id.app_version)
-    private val versionsButton: View = view.findViewById(R.id.versions_button)
-    private val versionsButtonText: TextView = view.findViewById(R.id.versions_button_text)
+    private val versionsButton: MaterialButton = view.findViewById(R.id.versions_button)
     private val uploadDate: TextView = view.findViewById(R.id.upload_date)
     private val checksum: TextView = view.findViewById(R.id.app_checksum)
     private val sourceUrlTitle: View = view.findViewById(R.id.app_source_url_title)
@@ -90,7 +89,7 @@ class DescriptionItemViewHolder(view: View) : BaseViewHolder(view), DescriptionI
 
     override fun setVersionsCount(count: Int) {
         versionsButton.isVisible = count > 1
-        versionsButtonText.text = context.resources.getQuantityString(
+        versionsButton.text = context.resources.getQuantityString(
             R.plurals.other_versions_count,
             count,
             count

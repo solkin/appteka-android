@@ -1,63 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<FrameLayout
+     xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:app="http://schemas.android.com/apk/res-auto"
+     xmlns:tools="http://schemas.android.com/tools"
+     android:layout_height="match_parent"
+     android:layout_width="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+         android:layout_height="wrap_content"
+         android:layout_width="match_parent"
+         app:elevation="0dp">
+
+        <com.google.android.material.appbar.MaterialToolbar
+             android:layout_height="?attr/actionBarSize"
+             android:layout_width="match_parent"
+             app:navigationIconTint="?attr/colorOnSurface"
+             app:titleTextAppearance="?attr/textAppearanceTitleMedium"
+             app:navigationIcon="?attr/homeAsUpIndicator"
+             app:titleTextColor="?attr/colorOnSurface"
+             tools:title="@string/app_name"
+             android:id="@+id/toolbar">
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/swipe_refresh"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="?attr/actionBarSize">
+         android:layout_height="match_parent"
+         android:layout_width="match_parent"
+         android:layout_marginTop="?attr/actionBarSize"
+         android:id="@+id/swipe_refresh">
 
         <ViewFlipper
-            android:id="@+id/view_flipper"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:ignore="UselessParent">
+             android:layout_height="match_parent"
+             android:layout_width="match_parent"
+             tools:ignore="UselessParent"
+             android:id="@+id/view_flipper">
 
             <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                 android:layout_height="match_parent"
+                 android:layout_width="match_parent">
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recycler"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:clipToPadding="false"
-                    android:paddingTop="4dp"
-                    android:paddingBottom="4dp"
-                    android:scrollbarStyle="outsideOverlay"
-                    android:scrollbars="vertical" />
+                     android:layout_height="match_parent"
+                     android:layout_width="match_parent"
+                     android:scrollbars="vertical"
+                     android:scrollbarStyle="outsideOverlay"
+                     android:paddingBottom="4dp"
+                     android:clipToPadding="false"
+                     android:id="@+id/recycler"
+                     android:paddingTop="4dp" />
 
                 <include
-                    layout="@layout/progress_overlay"
-                    android:visibility="gone" />
+                     layout="@layout/progress_overlay"
+                     android:visibility="gone" />
 
             </FrameLayout>
 
-            <include layout="@layout/empty_view" />
+            <include
+                 layout="@layout/empty_view" />
 
-            <include layout="@layout/error_view" />
+            <include
+                 layout="@layout/error_view" />
 
         </ViewFlipper>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/toolbar_background"
-            app:navigationIcon="?attr/homeAsUpIndicator"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
-
-    </com.google.android.material.appbar.AppBarLayout>
 
 </FrameLayout>

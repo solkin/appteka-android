@@ -1,10 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Appteka</string>
-    <string name="bytes">%d Б</string>B
-    <string name="kibibytes">%.1f КБ</string>Kb
-    <string name="mibibytes">%.1f МБ</string>Mb
-    <string name="gigibytes">%.1f ГБ</string>Gb
+    <string name="pref_theme">pref_theme</string>
+    <string name="pref_title_theme">Chủ đề</string>
+    <string name="pref_summary_theme">Chọn chủ đề ứng dụng</string>
+    <string name="pref_theme_mode">pref_theme_mode</string>
+    <string name="pref_dynamic_colors">pref_dynamic_colors</string>
+    <string name="pref_title_dynamic_colors">Màu động</string>
+    <string name="theme_dialog_title">Chọn chủ đề</string>
+    <string name="theme_system">Mặc định hệ thống</string>
+    <string name="theme_light">Sáng</string>
+    <string name="theme_dark">Tối</string>
+    <string name="theme_battery_saver">Tiết kiệm pin</string>
+    <string name="restart_now">Khởi động lại ngay</string>
+    <string name="clear_cache_dialog_title">Xác nhận xóa bộ nhớ đệm</string>
+    <string name="clear_cache_dialog_message">Tất cả các tệp APK đã được %1$s tải xuống trước đó trong Bộ nhớ sẽ bị xóa. Hành động này không thể hoàn tác. Bạn có muốn tiếp tục không؟</string>
+    <string name="clear_cache_dialog_positive">Có, Xóa tệp</string>
+    <string name="pref_category_appearance_title">Giao diện</string>
+    <string name="pref_category_app_behavior_key">app_behavior_settings</string>
+    <string name="pref_category_app_behavior_title">Hành vi ứng dụng</string>
+    <string name="pref_category_general_title">Chung</string>
+    <string name="pref_summary_dynamic_colors">Sử dụng màu hình nền trên các thiết bị Android 12+ (Yêu cầu khởi động lại)</string>
+    <string name="restart_required_dynamic_colors_short">Khởi động lại để áp dụng thay đổi.</string>
+
+
+    <string name="send">Отправить</string>
+    <string name="bytes">%d Б</string>
+    B
+    <string name="kibibytes">%.1f КБ</string>
+    Kb
+    <string name="mibibytes">%.1f МБ</string>
+    Mb
+    <string name="gigibytes">%.1f ГБ</string>
+    Gb
     <string name="please_wait">Vui lòng chờ</string>
     <string name="app_extract_success">Ứng dụng đã được xuất thành công.</string>
     <string name="app_extract_failed">Không thể trích xuất ứng dụng</string>
@@ -59,7 +87,7 @@
     <string name="cancel">Hủy bỏ</string>
     <string name="upload">Đang tải</string>
     <string name="tab_store">Bộ phận trao đổi</string>
-    <string name="retry">Lặp lại</string>
+    <string name="retry">Thử lại</string>
     <string name="store_loading_error">Không thể nhận danh sách ứng dụng</string>
     <string name="downloads">Đao loát</string>
     <string name="android">Android</string>

@@ -111,10 +111,14 @@ class StorePresenterImpl(
     }
 
     override fun saveState() = Bundle().apply {
-        putParcelableArrayList(KEY_APPS, items?.let { ArrayList(items.orEmpty()) })
-        putBoolean(KEY_ERROR, isError)
-        putParcelable(KEY_CATEGORY_ID, category)
-    }
+
+    // Disabled to prevent TransactionTooLargeException (apps list was too large)
+    // Safe alternative caching recommended instead of Bundle.
+    // putParcelableArrayList(KEY_APPS, items?.let { ArrayList(items.orEmpty()) })
+
+    putBoolean(KEY_ERROR, isError)
+    putParcelable(KEY_CATEGORY_ID, category)
+}
 
     override fun invalidateApps() {
         items = null

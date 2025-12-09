@@ -1,7 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Appteka</string>
+    <string name="pref_theme">pref_theme</string>
+    <string name="pref_title_theme">Тема</string>
+    <string name="pref_summary_theme">Выберите тему приложения</string>
+    <string name="pref_theme_mode">pref_theme_mode</string>
+    <string name="pref_dynamic_colors">pref_dynamic_colors</string>
+    <string name="pref_title_dynamic_colors">Динамические цвета</string>
+    <string name="theme_dialog_title">Выбор темы</string>
+    <string name="theme_system">Системные настройки</string>
+    <string name="theme_light">Светлая</string>
+    <string name="theme_dark">Темная</string>
+    <string name="theme_battery_saver">Экономия заряда</string>
+    <string name="restart_now">Перезапустить сейчас</string>
+    <string name="clear_cache_dialog_title">Подтвердите очистку кэша</string>
+    <string name="clear_cache_dialog_message">Все APK-файлы, ранее загруженные с помощью %1$s в хранилище, будут удалены. Это действие необратимо. Желаете продолжить?</string>
+    <string name="clear_cache_dialog_positive">Да, удалить файлы</string>
+    <string name="pref_category_appearance_title">Внешний вид</string>
+    <string name="pref_category_app_behavior_key">app_behavior_settings</string>
+    <string name="pref_category_app_behavior_title">Поведение приложения</string>
+    <string name="pref_category_general_title">Общие</string>
+    <string name="pref_summary_dynamic_colors">Использует цвета обоев на устройствах Android 12+ (требуется перезапуск)</string>
+    <string name="restart_required_dynamic_colors_short">Перезапустите для применения изменений.</string>
+
+
     <string name="bytes">%d Б</string>
+    <string name="send">Отправить</string>
     <string name="kibibytes">%.1f КБ</string>
     <string name="mibibytes">%.1f МБ</string>
     <string name="gigibytes">%.1f ГБ</string>

@@ -1,17 +1,13 @@
 package com.tomclaw.appsend.screen.chat.adapter.incoming
 
-import android.graphics.Color
 import android.view.View
 import android.widget.TextView
 import com.avito.konveyor.adapter.BaseViewHolder
 import com.avito.konveyor.blueprint.ItemView
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.dto.UserIcon
-import com.tomclaw.appsend.util.BubbleColorDrawable
-import com.tomclaw.appsend.util.Corner
 import com.tomclaw.appsend.util.bind
 import com.tomclaw.appsend.util.formatQuote
-import com.tomclaw.appsend.util.getAttributedColor
 import com.tomclaw.appsend.view.UserIconView
 import com.tomclaw.appsend.view.UserIconViewImpl
 
@@ -41,15 +37,14 @@ class IncomingMsgItemViewHolder(view: View) : BaseViewHolder(view), IncomingMsgI
     private var clickListener: (() -> Unit)? = null
 
     init {
-        val bubbleColor = getAttributedColor(context, R.attr.discuss_bubble_color)
-        bubbleBack.background = BubbleColorDrawable(context, bubbleColor, Corner.LEFT)
-
+        // All styling (colors/backgrounds) must come from XML/themes.
+        // Removed programmatic bubble background/color setting.
         view.setOnClickListener { clickListener?.invoke() }
     }
 
     override fun setUserIcon(userIcon: UserIcon) {
         userIconView.bind(userIcon)
-        textView.setTextColor(Color.parseColor(userIcon.color))
+        // Removed programmatic text color assignment so theme/XML controls text color.
     }
 
     override fun setTime(time: String) {

@@ -1,19 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <item
         android:id="@+id/menu_settings"
         android:title="@string/nav_settings" />
+
     <item
         android:id="@+id/menu_installed"
         android:enabled="true"
         android:icon="@drawable/ic_apps"
         android:title="@string/nav_installed" />
+
     <item
         android:id="@+id/menu_distro"
         android:enabled="true"
-        android:icon="@drawable/ic_install"
-        android:title="@string/nav_downloaded" />
+        android:icon="@drawable/ic_download_smooth"
+        app:iconTint="?android:textColorPrimary"
+        android:title="@string/nav_downloaded"
+        app:showAsAction="always" />
+
     <item
         android:id="@+id/menu_about"
         android:title="@string/nav_info" />
+
 </menu>

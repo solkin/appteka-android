@@ -1,27 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/error_view"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="?attr/colorSurface">
 
-    <TextView
-        android:id="@+id/error_text"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:gravity="center"
-        android:textSize="14sp"
-        tools:text="Failed to load something" />
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:paddingStart="40dp"
+        android:paddingEnd="40dp">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/button_retry"
-        style="@style/MaterialButtonSecondary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/error_text"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="8dp"
-        android:text="@string/retry" />
+        <ImageView
+            android:id="@+id/error_icon"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginBottom="24dp"
+            android:src="@drawable/ic_error_outline"
+            android:tint="?attr/colorError"
+            android:contentDescription="Error Icon" />
+
+        <TextView
+            android:id="@+id/error_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_marginBottom="32dp"
+            android:textAppearance="?attr/textAppearanceBodyLarge"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:lineSpacingExtra="2dp"
+            tools:text="Failed to load something. Please check your network connection and try again." />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_retry"
+            style="@style/MaterialButtonPrimary" 
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:paddingStart="32dp"
+            android:paddingEnd="32dp"
+            android:text="@string/retry"
+            tools:text="RETRY" />
+
+        </LinearLayout>
 
 </RelativeLayout>

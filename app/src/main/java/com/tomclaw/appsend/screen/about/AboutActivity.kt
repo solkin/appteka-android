@@ -11,7 +11,7 @@ import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.about.di.AboutModule
 import com.tomclaw.appsend.util.Analytics
-import com.tomclaw.appsend.util.updateTheme
+// import com.tomclaw.appsend.util.updateTheme
 import javax.inject.Inject
 import androidx.core.net.toUri
 
@@ -28,7 +28,7 @@ class AboutActivity : AppCompatActivity(), AboutPresenter.AboutRouter {
         Appteka.getComponent()
             .aboutComponent(AboutModule(context = this, presenterState))
             .inject(activity = this)
-        updateTheme()
+        // updateTheme()
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.about_activity)

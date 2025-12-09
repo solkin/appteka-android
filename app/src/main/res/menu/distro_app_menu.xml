@@ -4,6 +4,12 @@
         android:id="@+id/menu_install_app"
         android:icon="@drawable/ic_install"
         android:title="@string/install_app" />
+    
+    <item
+        android:id="@+id/menu_save_to_device"
+        android:icon="@drawable/ic_save" 
+        android:title="@string/save_to_device" /> 
+        
     <item
         android:id="@+id/menu_share_apk"
         android:icon="@drawable/ic_share"

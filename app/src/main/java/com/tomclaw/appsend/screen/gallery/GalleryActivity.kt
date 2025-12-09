@@ -50,7 +50,7 @@ class GalleryActivity : AppCompatActivity(), GalleryPresenter.GalleryRouter {
         Appteka.getComponent()
             .galleryComponent(GalleryModule(this, items, startIndex, presenterState))
             .inject(activity = this)
-        setTheme(R.style.AppThemeSemitransparent)
+       // setTheme(R.style.AppThemeSemitransparent)
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.gallery_activity)

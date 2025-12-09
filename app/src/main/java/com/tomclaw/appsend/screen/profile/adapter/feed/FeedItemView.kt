@@ -6,8 +6,6 @@ import com.avito.konveyor.adapter.BaseViewHolder
 import com.avito.konveyor.blueprint.ItemView
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.util.bind
-import com.tomclaw.appsend.util.getAttributedColor
-import com.tomclaw.appsend.util.getColor
 
 interface FeedItemView : ItemView {
 
@@ -22,12 +20,10 @@ interface FeedItemView : ItemView {
     fun setOnSubsClickListener(listener: (() -> Unit)?)
 
     fun setOnPubsClickListener(listener: (() -> Unit)?)
-
 }
 
 class FeedItemViewHolder(view: View) : BaseViewHolder(view), FeedItemView {
 
-    private val context = view.context
     private val feedBlockView: View = view.findViewById(R.id.feed_block)
     private val subsBlockView: View = view.findViewById(R.id.subs_block)
     private val pubsBlockView: View = view.findViewById(R.id.pubs_block)
@@ -47,17 +43,14 @@ class FeedItemViewHolder(view: View) : BaseViewHolder(view), FeedItemView {
 
     override fun setFeedCount(count: Int) {
         feedCountView.bind(count.toString())
-        feedCountView.setTextColor(getTextColor(count))
     }
 
     override fun setSubsCount(count: Int) {
         subsCountView.bind(count.toString())
-        subsCountView.setTextColor(getTextColor(count))
     }
 
     override fun setPubsCount(count: Int) {
         pubsCountView.bind(count.toString())
-        pubsCountView.setTextColor(getTextColor(count))
     }
 
     override fun setOnFeedClickListener(listener: (() -> Unit)?) {
@@ -77,11 +70,4 @@ class FeedItemViewHolder(view: View) : BaseViewHolder(view), FeedItemView {
         this.subsClickListener = null
         this.pubsClickListener = null
     }
-
-    private fun getTextColor(count: Int) = if (count > 0) {
-        getColor(R.color.primary_dark_color, context)
-    } else {
-        getAttributedColor(context, R.attr.text_primary_color)
-    }
-
 }

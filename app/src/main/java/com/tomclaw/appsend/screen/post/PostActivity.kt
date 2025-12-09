@@ -22,7 +22,7 @@ import com.tomclaw.appsend.screen.post.di.POST_ADAPTER_PRESENTER
 import com.tomclaw.appsend.screen.post.di.PostModule
 import com.tomclaw.appsend.screen.post.dto.PostImage
 import com.tomclaw.appsend.util.Analytics
-import com.tomclaw.appsend.util.updateTheme
+// import com.tomclaw.appsend.util.updateTheme
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -78,7 +78,7 @@ class PostActivity : AppCompatActivity(), PostPresenter.PostRouter {
         Appteka.getComponent()
             .postComponent(PostModule(this, presenterState))
             .inject(activity = this)
-        updateTheme()
+        // updateTheme()
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.post_activity)

@@ -13,7 +13,7 @@ import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.screen.moderation.di.ModerationModule
-import com.tomclaw.appsend.util.updateTheme
+// import com.tomclaw.appsend.util.updateTheme
 import javax.inject.Inject
 
 class ModerationActivity : AppCompatActivity(), ModerationPresenter.ModerationRouter {
@@ -39,7 +39,7 @@ class ModerationActivity : AppCompatActivity(), ModerationPresenter.ModerationRo
         Appteka.getComponent()
             .moderationComponent(ModerationModule(this, presenterState))
             .inject(activity = this)
-        updateTheme()
+        // updateTheme()
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.moderation_activity)
