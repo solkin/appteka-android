@@ -1,9 +1,7 @@
 package com.tomclaw.appsend.screen.store
 
 import android.annotation.SuppressLint
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.ViewFlipper
@@ -13,49 +11,35 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.tomclaw.appsend.main.adapter.files.ActionItem
-import com.tomclaw.appsend.main.adapter.files.ActionsAdapter
-import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.categories.CategoryItem
+import com.tomclaw.appsend.main.adapter.files.ActionItem
+import com.tomclaw.appsend.main.adapter.files.ActionsAdapter
 import com.tomclaw.appsend.util.clicks
 import com.tomclaw.appsend.util.hideWithAlphaAnimation
 import com.tomclaw.appsend.util.showWithAlphaAnimation
 import com.tomclaw.appsend.util.svgToDrawable
+import com.jakewharton.rxrelay3.PublishRelay
 import io.reactivex.rxjava3.core.Observable
 
 interface StoreView {
 
     fun showProgress()
-
     fun showContent()
-
     fun contentUpdated()
-
     fun contentUpdated(position: Int)
-
     fun showPlaceholder()
-
     fun showError()
-
     fun showCategories(items: List<CategoryItem>)
-
     fun setSelectedCategory(category: CategoryItem?)
-
     fun stopPullRefreshing()
-
     fun isPullRefreshing(): Boolean
 
     fun retryClicks(): Observable<Unit>
-
     fun refreshClicks(): Observable<Unit>
-
     fun categoriesButtonClicks(): Observable<Unit>
-
     fun categorySelectedClicks(): Observable<CategoryItem>
-
     fun categoryClearedClicks(): Observable<Unit>
-
 }
 
 class StoreViewImpl(
@@ -82,104 +66,109 @@ class StoreViewImpl(
     private val categoryClearedRelay = PublishRelay.create<Unit>()
 
     init {
-        val orientation = RecyclerView.VERTICAL
-        val layoutManager = LinearLayoutManager(context, orientation, false)
         adapter.setHasStableIds(true)
+
+        recycler.layoutManager =
+            LinearLayoutManager(context, RecyclerView.VERTICAL, false)
         recycler.adapter = adapter
-        recycler.layoutManager = layoutManager
-        recycler.itemAnimator = DefaultItemAnimator()
-        recycler.itemAnimator?.changeDuration = DURATION_MEDIUM
+        recycler.itemAnimator = DefaultItemAnimator().apply {
+            changeDuration = DURATION_MEDIUM
+        }
 
-        refresher.setOnRefreshListener { refreshRelay.accept(Unit) }
-        categoriesButton.setOnClickListener { categoriesButtonRelay.accept(Unit) }
+        refresher.setOnRefreshListener {
+            refreshRelay.accept(Unit)
+        }
 
-        // Setup retry button click stream
+        categoriesButton.setOnClickListener {
+            categoriesButtonRelay.accept(Unit)
+        }
+
         retryButton.clicks(retryRelay)
+
+        // Deterministic initial state
+        flipper.displayedChild = CHILD_CONTENT
+        overlayProgress.visibility = View.GONE
+        overlayProgress.alpha = 1f
     }
 
     override fun showProgress() {
-        refresher.isEnabled = false
+        // Used ONLY for initial load / tab switch
         flipper.displayedChild = CHILD_CONTENT
-        overlayProgress.showWithAlphaAnimation(animateFully = true)
+        if (overlayProgress.visibility != View.VISIBLE) {
+            overlayProgress.showWithAlphaAnimation(animateFully = true)
+        }
     }
 
     override fun showContent() {
-        refresher.isEnabled = true
         flipper.displayedChild = CHILD_CONTENT
         overlayProgress.hideWithAlphaAnimation(animateFully = false)
     }
 
     override fun showPlaceholder() {
-        refresher.isRefreshing = false
-        refresher.isEnabled = true
+        stopPullRefreshing()
         flipper.displayedChild = CHILD_PLACEHOLDER
+        overlayProgress.hideWithAlphaAnimation(animateFully = false)
     }
 
     override fun showError() {
-        refresher.isEnabled = true
+        stopPullRefreshing()
         flipper.displayedChild = CHILD_ERROR
-
+        overlayProgress.hideWithAlphaAnimation(animateFully = false)
         error.setText(R.string.load_files_error)
-        // retryButton click is handled via clicks extension in init
     }
 
-    /**
-     * Shows categories using Material BottomSheetDialog and existing global ActionsAdapter.
-     * We pass both icon resource (if any) and SVG string (if any) into ActionItem so
-     * the adapter can first attempt resource-based icon, then fallback to SVG, and finally
-     * to default drawable. This keeps a single adapter and no extra files.
-     */
     override fun showCategories(items: List<CategoryItem>) {
-    val dialog = BottomSheetDialog(context)
+        val dialog = BottomSheetDialog(context)
 
-    val actionView = View.inflate(context, R.layout.bottom_sheet_actions, null)
-    val actionsRecycler: RecyclerView = actionView.findViewById(R.id.actions_recycler)
+        val actionView = View.inflate(context, R.layout.bottom_sheet_actions, null)
+        val actionsRecycler: RecyclerView =
+            actionView.findViewById(R.id.actions_recycler)
 
-    val actions = mutableListOf<ActionItem>()
+        val actions = mutableListOf<ActionItem>()
 
-    // "All Categories" item
-    actions.add(
-        ActionItem(
-            id = 0,
-            title = context.getString(R.string.all_categories),
-            iconRes = R.drawable.ic_category,
-            iconSvg = null
-        )
-    )
-
-    // Category items
-    for (item in items) {
         actions.add(
             ActionItem(
-                id = item.id,
-                title = item.title,
-                iconRes = 0,
-                iconSvg = item.icon
+                id = 0,
+                title = context.getString(R.string.all_categories),
+                iconRes = R.drawable.ic_category,
+                iconSvg = null
             )
         )
-    }
 
-    val actionsAdapter = ActionsAdapter(actions) { itemId ->
-        dialog.dismiss()
-        if (itemId == 0) {
-            categoryClearedRelay.accept(Unit)
-        } else {
-            items.find { it.id == itemId }?.let {
-                categorySelectedRelay.accept(it)
+        for (item in items) {
+            actions.add(
+                ActionItem(
+                    id = item.id,
+                    title = item.title,
+                    iconRes = 0,
+                    iconSvg = item.icon
+                )
+            )
+        }
+
+        val actionsAdapter = ActionsAdapter(actions) { itemId ->
+            dialog.dismiss()
+            if (itemId == 0) {
+                categoryClearedRelay.accept(Unit)
+            } else {
+                items.find { it.id == itemId }?.let {
+                    categorySelectedRelay.accept(it)
+                }
             }
         }
+
+        actionsRecycler.layoutManager = LinearLayoutManager(context)
+        actionsRecycler.adapter = actionsAdapter
+
+        dialog.setContentView(actionView)
+        dialog.show()
     }
-
-    actionsRecycler.layoutManager = LinearLayoutManager(context)
-    actionsRecycler.adapter = actionsAdapter
-
-    dialog.setContentView(actionView)
-    dialog.show()
-}
 
     override fun setSelectedCategory(category: CategoryItem?) {
         category?.let {
-            categoryIcon.setImageDrawable(svgToDrawable(it.icon, context.resources))
+            categoryIcon.setImageDrawable(
+                svgToDrawable(it.icon, context.resources)
+            )
             categoryTitle.text = it.title
         } ?: run {
             categoryIcon.setImageResource(R.drawable.ic_category)
@@ -200,18 +189,14 @@ class StoreViewImpl(
         refresher.isRefreshing = false
     }
 
-    override fun isPullRefreshing(): Boolean = refresher.isRefreshing
+    override fun isPullRefreshing(): Boolean =
+        refresher.isRefreshing
 
     override fun retryClicks(): Observable<Unit> = retryRelay
-
     override fun refreshClicks(): Observable<Unit> = refreshRelay
-
     override fun categoriesButtonClicks(): Observable<Unit> = categoriesButtonRelay
-
     override fun categorySelectedClicks(): Observable<CategoryItem> = categorySelectedRelay
-
     override fun categoryClearedClicks(): Observable<Unit> = categoryClearedRelay
-
 }
 
 private const val DURATION_MEDIUM = 300L

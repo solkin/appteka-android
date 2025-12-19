@@ -1,25 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
-        xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <!-- Basic network permission -->
     <uses-permission android:name="android.permission.INTERNET" />
-
-    <!-- Allow installing/deleting packages (used by app stores / installers) -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES" />
-
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
-    <!-- Foreground services -->
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
-
-    <!-- Android 13+: notifications permission (still requires runtime request on API 33+) -->
     <uses-permission
-            android:name="android.permission.POST_NOTIFICATIONS"
+        android:name="android.permission.POST_NOTIFICATIONS"
         tools:targetApi="33" />
 
     <application
@@ -33,7 +25,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <!-- FileProvider -->
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
@@ -44,7 +35,6 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
-        <!-- Activities -->
         <activity
             android:name=".screen.settings.SettingsActivity"
             android:label="@string/settings" />
@@ -65,9 +55,7 @@
             android:name=".screen.details.DetailsActivity"
             android:exported="true"
             android:label="@string/details_activity">
-            <intent-filter
-                    android:autoVerify="true"
-                    tools:targetApi="23">
+            <intent-filter android:autoVerify="true" tools:targetApi="23">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
@@ -77,10 +65,7 @@
                 <data android:host="appteka.store" />
                 <data android:pathPrefix="/app" />
             </intent-filter>
-
-            <intent-filter
-                    android:autoVerify="true"
-                    tools:targetApi="23">
+            <intent-filter android:autoVerify="true" tools:targetApi="23">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
@@ -112,9 +97,7 @@
             android:exported="true"
             android:label="@string/profile"
             android:windowSoftInputMode="stateHidden">
-            <intent-filter
-                    android:autoVerify="true"
-                    tools:targetApi="23">
+            <intent-filter android:autoVerify="true" tools:targetApi="23">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
@@ -140,6 +123,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".screen.ratings.RatingsActivity" />
         <activity android:name=".screen.agreement.AgreementActivity" />
         <activity android:name=".screen.about.AboutActivity" />
@@ -153,10 +137,16 @@
         <activity android:name=".screen.unpublish.UnpublishActivity" />
         <activity android:name=".screen.uploads.UploadsActivity" />
 
-        <service android:name=".download.DownloadService" />
-        <service android:name=".upload.UploadService" />
+        <service
+            android:name=".download.DownloadService"
+            android:exported="false"
+            android:foregroundServiceType="dataSync" />
 
-        <!-- Remove androidx.startup provider if you explicitly do not want it. If you keep it, don't use tools:node="remove". -->
+        <service
+            android:name=".upload.UploadService"
+            android:exported="false"
+            android:foregroundServiceType="dataSync" />
+
         <provider
             android:name="androidx.startup.InitializationProvider"
             android:authorities="${applicationId}.androidx-startup"

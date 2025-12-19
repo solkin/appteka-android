@@ -84,16 +84,21 @@
             </LinearLayout>
 
             <!-- 2. Rating Bar (Material Styling) -->
-            <RatingBar
-                android:id="@+id/rating_view"
-                style="?android:attr/ratingBarStyle"
-                android:isIndicator="false"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:numStars="5"
-                android:layout_gravity="center_horizontal"
-                android:stepSize="1.0"
-                android:layout_marginBottom="24dp" />
+            <me.zhanghai.android.materialratingbar.MaterialRatingBar
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:id="@+id/rating_view"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="24dp"
+            android:numStars="5"
+            android:rating="0"
+            android:stepSize="1"
+            android:isIndicator="false"
+            android:progressTint="#FFFFC107"
+            android:progressBackgroundTint="#FFBDBDBD"
+            android:secondaryProgressTint="#FFBDBDBD"
+            style="@style/Widget.MaterialRatingBar.RatingBar" />
 
             <!-- 3. Review Input (Material 3 Outlined Text Field) -->
             <com.google.android.material.textfield.TextInputLayout

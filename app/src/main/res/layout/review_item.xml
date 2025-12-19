@@ -1,128 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="?selectableItemBackground"
-    android:orientation="vertical"
-    android:paddingTop="4dp"
-    android:paddingBottom="4dp">
+<LinearLayout
+     xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:app="http://schemas.android.com/apk/res-auto"
+     xmlns:tools="http://schemas.android.com/tools"
+     android:layout_height="wrap_content"
+     android:layout_width="match_parent"
+     android:background="?attr/selectableItemBackground"
+     android:paddingVertical="8dp"
+     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/review_card"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+         android:layout_height="wrap_content"
+         android:layout_width="match_parent"
+         android:orientation="horizontal"
+         android:paddingHorizontal="12dp"
+         android:id="@+id/review_card">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/icon_back"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:layout_gravity="center_vertical"
-            android:layout_margin="12dp"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="4dp">
-
-            <ImageView
-                android:id="@+id/app_icon"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_gravity="center_vertical"
-                android:contentDescription="@string/app_icon"
-                android:scaleType="centerCrop"
-                tools:src="@mipmap/ic_launcher" />
-
-        </androidx.cardview.widget.CardView>
+        <ImageView
+             android:layout_height="40dp"
+             android:layout_width="40dp"
+             android:contentDescription="@string/app_icon"
+             android:scaleType="centerCrop"
+             tools:src="@mipmap/ic_launcher"
+             android:clipToOutline="true"
+             android:id="@+id/app_icon"
+             android:layout_gravity="center_vertical" />
 
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:gravity="center_vertical"
-            android:layout_weight="1"
-            android:orientation="vertical">
+             android:layout_height="wrap_content"
+             android:layout_width="0dp"
+             android:orientation="vertical"
+             android:layout_marginStart="12dp"
+             android:layout_weight="1">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                 android:layout_height="wrap_content"
+                 android:layout_width="match_parent"
+                 android:gravity="center_vertical"
+                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/app_name"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start|center_vertical"
-                    android:fontFamily="sans-serif-medium"
-                    android:includeFontPadding="false"
-                    android:singleLine="true"
-                    android:textSize="14sp"
-                    tools:text="AppSend" />
+                     android:layout_height="wrap_content"
+                     android:layout_width="wrap_content"
+                     android:includeFontPadding="false"
+                     android:fontFamily="sans-serif-medium"
+                     android:textSize="14sp"
+                     android:singleLine="true"
+                     tools:text="AppSend"
+                     android:id="@+id/app_name" />
 
                 <TextView
-                    android:id="@+id/app_version"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="start|center_vertical"
-                    android:fontFamily="sans-serif"
-                    android:includeFontPadding="false"
-                    android:paddingStart="4dp"
-                    android:paddingLeft="4dp"
-                    android:singleLine="true"
-                    android:textSize="14sp"
-                    tools:text="3.4" />
+                     android:layout_height="wrap_content"
+                     android:layout_width="wrap_content"
+                     android:includeFontPadding="false"
+                     android:fontFamily="sans-serif"
+                     android:textSize="14sp"
+                     android:singleLine="true"
+                     android:textColor="?attr/colorOnSurfaceVariant"
+                     android:layout_marginStart="4dp"
+                     tools:text="3.4"
+                     android:id="@+id/app_version" />
 
             </LinearLayout>
 
-            <androidx.appcompat.widget.AppCompatRatingBar
-        android:id="@+id/rating_view"
-        style="?android:attr/ratingBarStyle"
-        android:isIndicator="false"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:numStars="5"
-        android:layout_gravity="center"
-        android:stepSize="1.0" />
+            <me.zhanghai.android.materialratingbar.MaterialRatingBar
+                 android:layout_height="18dp"
+                 android:layout_width="wrap_content"
+                 android:progressTint="#FFFFC107"
+                 android:secondaryProgressTint="#FFBDBDBD"
+                 android:layout_marginTop="2dp"
+                 android:isIndicator="true"
+                 android:rating="3"
+                 android:stepSize="1"
+                 app:mrb_fillBackgroundStars="true"
+                 android:progressBackgroundTint="#FFBDBDBD"
+                 style="@style/Widget.MaterialRatingBar.RatingBar"
+                 android:numStars="5"
+                 android:id="@+id/rating_view" />
 
             <TextView
-                android:id="@+id/date_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingTop="2dp"
-                android:textSize="12sp"
-                tools:text="15.10.2017" />
+                 android:layout_height="wrap_content"
+                 android:layout_width="wrap_content"
+                 android:textSize="12sp"
+                 android:textColor="?attr/colorOnSurfaceVariant"
+                 android:layout_marginTop="2dp"
+                 tools:text="15.10.2017"
+                 android:id="@+id/date_view" />
 
         </LinearLayout>
 
         <ImageView
-            android:id="@+id/rating_menu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:background="?selectableItemBackgroundBorderless"
-            android:padding="6dp"
-            android:src="@drawable/ic_dots_vertical" />
+             android:layout_height="48dp"
+             android:layout_width="48dp"
+             android:layout_marginEnd="4dp"
+             android:src="@drawable/ic_dots_vertical"
+             android:background="?attr/selectableItemBackgroundBorderless"
+             android:padding="12dp"
+             android:tint="?attr/colorOnSurfaceVariant"
+             android:layout_marginStart="4dp"
+             android:id="@+id/rating_menu"
+             android:layout_gravity="center_vertical" />
 
     </LinearLayout>
 
     <TextView
-        android:id="@+id/review_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp"
-        android:paddingBottom="6dp"
-        android:textSize="16sp"
-        tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam lobortis accumsan molestie. Maecenas purus sapien, aliquet sed vehicula quis, egestas id lectus. Fusce commodo neque augue, sit amet vehicula odio maximus eu. Cras tristique semper vulputate. Etiam vehicula diam non justo sodales vestibulum. Nam sagittis elit sit amet arcu cursus, at dapibus lacus venenatis." />
+         android:layout_height="wrap_content"
+         android:layout_width="match_parent"
+         android:paddingEnd="12dp"
+         android:paddingBottom="8dp"
+         android:textSize="16sp"
+         android:paddingStart="12dp"
+         tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+         android:id="@+id/review_view"
+         android:paddingTop="4dp" />
 
-    <ProgressBar
-        android:id="@+id/item_progress"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+         android:id="@+id/item_progress"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:indeterminate="true"
+        style="@style/Widget.Material3Expressive.CircularProgressIndicator.Wavy"
         android:layout_gravity="center_horizontal"
-        android:paddingTop="8dp"
-        android:paddingBottom="12dp"
+        android:layout_marginVertical="16dp"
         android:visibility="gone"
         tools:visibility="visible" />
 

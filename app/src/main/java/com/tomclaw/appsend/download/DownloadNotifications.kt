@@ -37,7 +37,6 @@ interface DownloadNotifications {
         stop: () -> Unit,
         observable: Observable<Int>
     )
-
 }
 
 class DownloadNotificationsImpl(
@@ -72,7 +71,6 @@ class DownloadNotificationsImpl(
         observable: Observable<Int>
     ) {
         val notificationId = appId.crc32()
-
         val openDetailsIntent = getOpenDetailsIntent(appId, label)
 
         val notificationBuilder = NotificationCompat.Builder(context, CHANNEL_INSTALL)
@@ -84,99 +82,118 @@ class DownloadNotificationsImpl(
             .setGroup(GROUP_NOTIFICATIONS)
 
         val iconHolder = NotificationIconHolder(context.resources, notificationBuilder)
-        val handlers = Handlers<NotificationCompat.Builder>()
-            .apply {
-                successHandler { viewHolder, result ->
-                    viewHolder.get().setLargeIcon(result.getDrawable().toBitmap())
-                }
-            }
-
-        var disposable: Disposable? = null
-        disposable = observable.subscribe { status ->
-            icon?.run { context.imageLoader().load(iconHolder, icon, handlers) }
-            when (status) {
-                AWAIT -> {
-                    val notification = notificationBuilder
-                        .setContentText(context.getString(R.string.waiting_for_download))
-                        .setSmallIcon(android.R.drawable.stat_sys_download)
-                        .setProgress(100, 0, true)
-                        .setOngoing(true)
-                        .build()
-                    notificationManager.notify(notificationId, notification)
-                }
-
-                ERROR -> {
-                    val notification = notificationBuilder
-                        .setContentText(context.getString(R.string.download_failed))
-                        .setSmallIcon(android.R.drawable.stat_sys_warning)
-                        .setProgress(0, 0, false)
-                        .setOngoing(false)
-                        .setAutoCancel(true)
-                        .build()
-                    notificationManager.notify(notificationId, notification)
-                    stop()
-                    disposable?.dispose()
-                }
-
-                COMPLETED -> {
-                    notificationManager.cancel(notificationId)
-                    val installIntent = getInstallIntent(file)
-                    val installNotificationBuilder =
-                        NotificationCompat.Builder(context, CHANNEL_INSTALL)
-                            .setContentTitle(label)
-                            .setContentText(context.getString(R.string.tap_to_install))
-                            .setSmallIcon(android.R.drawable.stat_sys_download_done)
-                            .setGroup(GROUP_NOTIFICATIONS)
-                            .setOngoing(false)
-                            .setAutoCancel(true)
-                            .setContentIntent(installIntent)
-                    val installIconHolder = NotificationIconHolder(
-                        resources = context.resources,
-                        notificationBuilder = installNotificationBuilder
-                    )
-                    icon?.run { context.imageLoader().load(installIconHolder, icon, handlers) }
-                    val notification = installNotificationBuilder.build()
-                    notificationManager.notify(notificationId, notification)
-                    stop()
-                    disposable?.dispose()
-                }
-
-                IDLE -> {
-                    notificationManager.cancel(notificationId)
-                    stop()
-                    disposable?.dispose()
-                }
-
-                STARTED -> {
-                    val notification = notificationBuilder
-                        .setContentText(context.getString(R.string.waiting_for_download))
-                        .setSmallIcon(android.R.drawable.stat_sys_download)
-                        .setProgress(100, 0, true)
-                        .setOngoing(true)
-                        .build()
-                    notificationManager.notify(DOWNLOAD_NOTIFICATION_ID, notification)
-                    start(
-                        DOWNLOAD_NOTIFICATION_ID,
-                        notification
-                    )
-                }
-
-                else -> {
-                    val notification = notificationBuilder
-                        .setContentText(context.getString(R.string.downloading_progress, status))
-                        .setProgress(100, status, false)
-                        .build()
-                    notificationManager.cancel(notificationId)
-                    notificationManager.notify(DOWNLOAD_NOTIFICATION_ID, notification)
-                }
+        val handlers = Handlers<NotificationCompat.Builder>().apply {
+            successHandler { viewHolder, result ->
+                viewHolder.get().setLargeIcon(result.getDrawable().toBitmap())
             }
         }
+
+        var disposable: Disposable? = null
+
+        disposable = observable.subscribe(
+            { status ->
+                icon?.let { context.imageLoader().load(iconHolder, it, handlers) }
+
+                when (status) {
+                    AWAIT -> {
+                        val notification = notificationBuilder
+                            .setContentText(context.getString(R.string.waiting_for_download))
+                            .setSmallIcon(android.R.drawable.stat_sys_download)
+                            .setProgress(100, 0, true)
+                            .setOngoing(true)
+                            .build()
+                        notificationManager.notify(notificationId, notification)
+                    }
+
+                    ERROR -> {
+                        val notification = notificationBuilder
+                            .setContentText(context.getString(R.string.download_failed))
+                            .setSmallIcon(android.R.drawable.stat_sys_warning)
+                            .setProgress(0, 0, false)
+                            .setOngoing(false)
+                            .setAutoCancel(true)
+                            .build()
+                        notificationManager.notify(notificationId, notification)
+                        stop()
+                        disposable?.dispose()
+                    }
+
+                    COMPLETED -> {
+                        notificationManager.cancel(notificationId)
+
+                        val installIntent = getInstallIntent(file)
+                        val installNotificationBuilder =
+                            NotificationCompat.Builder(context, CHANNEL_INSTALL)
+                                .setContentTitle(label)
+                                .setContentText(context.getString(R.string.tap_to_install))
+                                .setSmallIcon(android.R.drawable.stat_sys_download_done)
+                                .setGroup(GROUP_NOTIFICATIONS)
+                                .setOngoing(false)
+                                .setAutoCancel(true)
+                                .setContentIntent(installIntent)
+
+                        val installIconHolder = NotificationIconHolder(
+                            context.resources,
+                            installNotificationBuilder
+                        )
+                        icon?.let { context.imageLoader().load(installIconHolder, it, handlers) }
+
+                        notificationManager.notify(
+                            notificationId,
+                            installNotificationBuilder.build()
+                        )
+
+                        stop()
+                        disposable?.dispose()
+                    }
+
+                    IDLE -> {
+                        notificationManager.cancel(notificationId)
+                        stop()
+                        disposable?.dispose()
+                    }
+
+                    STARTED -> {
+                        val notification = notificationBuilder
+                            .setContentText(context.getString(R.string.waiting_for_download))
+                            .setSmallIcon(android.R.drawable.stat_sys_download)
+                            .setProgress(100, 0, true)
+                            .setOngoing(true)
+                            .build()
+
+                        notificationManager.notify(DOWNLOAD_NOTIFICATION_ID, notification)
+                        start(DOWNLOAD_NOTIFICATION_ID, notification)
+                    }
+
+                    else -> {
+                        val notification = notificationBuilder
+                            .setContentText(
+                                context.getString(
+                                    R.string.downloading_progress,
+                                    status
+                                )
+                            )
+                            .setProgress(100, status, false)
+                            .build()
+
+                        notificationManager.cancel(notificationId)
+                        notificationManager.notify(DOWNLOAD_NOTIFICATION_ID, notification)
+                    }
+                }
+            },
+            { error ->
+                error.printStackTrace()
+                stop()
+                disposable?.dispose()
+            }
+        )
     }
 
     @SuppressLint("UnspecifiedImmutableFlag")
     private fun getOpenDetailsIntent(appId: String, label: String): PendingIntent {
         return PendingIntent.getActivity(
-            context, 0,
+            context,
+            0,
             createDetailsActivityIntent(
                 context = context,
                 appId = appId,
@@ -192,7 +209,8 @@ class DownloadNotificationsImpl(
     @SuppressLint("UnspecifiedImmutableFlag")
     private fun getInstallIntent(file: File): PendingIntent {
         return PendingIntent.getActivity(
-            context, 0,
+            context,
+            0,
             context.openFileIntent(
                 filePath = file.absolutePath,
                 type = "application/vnd.android.package-archive"
@@ -206,15 +224,18 @@ class DownloadNotificationsImpl(
         channelName: String,
         channelDescription: String
     ) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            return
-        }
-        val importance = NotificationManager.IMPORTANCE_DEFAULT
-        val mChannel = NotificationChannel(channelId, channelName, importance)
-        mChannel.description = channelDescription
-        notificationManager.createNotificationChannel(mChannel)
-    }
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) return
 
+        val channel = NotificationChannel(
+            channelId,
+            channelName,
+            NotificationManager.IMPORTANCE_DEFAULT
+        ).apply {
+            description = channelDescription
+        }
+
+        notificationManager.createNotificationChannel(channel)
+    }
 }
 
 const val DOWNLOAD_NOTIFICATION_ID = 1

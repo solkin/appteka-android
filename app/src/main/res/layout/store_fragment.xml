@@ -1,126 +1,89 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
-     xmlns:android="http://schemas.android.com/apk/res/android"
-     xmlns:app="http://schemas.android.com/apk/res-auto"
-     xmlns:tools="http://schemas.android.com/tools"
-     android:layout_height="match_parent"
-     android:layout_width="match_parent"
-     android:background="?attr/colorBackground">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-         android:layout_height="match_parent"
-         android:layout_width="match_parent"
-         android:id="@+id/swipe_refresh">
+        android:id="@+id/swipe_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <ViewFlipper
-             android:layout_height="match_parent"
-             android:layout_width="match_parent"
-             tools:ignore="UselessParent"
-             android:id="@+id/view_flipper">
+            android:id="@+id/view_flipper"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <FrameLayout
-                 android:layout_height="match_parent"
-                 android:layout_width="match_parent">
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
                 <LinearLayout
-                     android:layout_height="match_parent"
-                     android:layout_width="match_parent"
-                     android:orientation="vertical">
+                    android:id="@+id/store_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
 
                     <com.google.android.material.card.MaterialCardView
-                         android:layout_height="wrap_content"
-                         android:layout_width="match_parent"
-                         app:rippleColor="?attr/colorSecondaryContainer"
-                         android:clickable="true"
-                         app:cardElevation="0dp"
-                         app:cardBackgroundColor="?attr/colorSurfaceContainerHigh"
-                         android:layout_marginTop="8dp"
-                         android:focusable="true"
-                         android:foreground="?attr/selectableItemBackground"
-                         android:layout_marginBottom="8dp"
-                         android:layout_marginHorizontal="16dp"
-                         app:strokeWidth="0dp"
-                         android:id="@+id/button_categories">
+                        android:id="@+id/button_categories"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        app:cardElevation="0dp"
+                        app:cardBackgroundColor="?attr/colorSurfaceContainerHigh"
+                        android:foreground="?attr/selectableItemBackground">
 
                         <LinearLayout
-                             android:layout_height="wrap_content"
-                             android:layout_width="wrap_content"
-                             android:gravity="center_vertical"
-                             android:paddingVertical="12dp"
-                             android:orientation="horizontal"
-                             android:paddingHorizontal="16dp"
-                             tools:ignore="UseCompoundDrawables"
-                             android:layout_gravity="center_horizontal|center_vertical">
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:paddingHorizontal="16dp"
+                            android:paddingVertical="12dp"
+                            android:gravity="center_vertical"
+                            android:layout_gravity="center">
 
                             <com.google.android.material.imageview.ShapeableImageView
-                                 android:layout_height="24dp"
-                                 android:layout_width="24dp"
-                                 android:scaleType="fitCenter"
-                                 android:src="@drawable/ic_category"
-                                 android:tint="?attr/colorPrimary"
-                                 android:id="@+id/category_icon" />
+                                android:id="@+id/category_icon"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:src="@drawable/ic_category"
+                                android:tint="?attr/colorPrimary" />
 
                             <com.google.android.material.textview.MaterialTextView
-                                 android:layout_height="wrap_content"
-                                 android:layout_width="wrap_content"
-                                 android:layout_marginEnd="16dp"
-                                 android:textAppearance="?attr/textAppearanceTitleMedium"
-                                 android:textColor="?attr/colorOnSurface"
-                                 android:layout_marginStart="12dp"
-                                 tools:text="Selected Category Name"
-                                 android:id="@+id/category_title"
-                                 android:text="@string/all_categories" />
+                                android:id="@+id/category_title"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="12dp"
+                                android:text="@string/all_categories"
+                                android:textAppearance="?attr/textAppearanceTitleMedium" />
 
                         </LinearLayout>
 
                     </com.google.android.material.card.MaterialCardView>
 
-                    <FrameLayout
-                         android:layout_height="0dp"
-                         android:layout_width="match_parent"
-                         android:layout_weight="1">
-
-                        <androidx.recyclerview.widget.RecyclerView
-<<<<<<< HEAD
-                            android:id="@+id/recycler"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:clipToPadding="false"
-                            android:paddingTop="4dp"
-                            android:paddingBottom="8dp"
-                            android:scrollbarStyle="outsideOverlay"
-                            android:scrollbars="vertical" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="?divider_color" />
-=======
-                             android:layout_height="match_parent"
-                             android:layout_width="match_parent"
-                             android:scrollbars="vertical"
-                             android:scrollbarStyle="outsideOverlay"
-                             android:paddingBottom="16dp"
-                             android:clipToPadding="false"
-                             android:id="@+id/recycler"
-                             android:paddingTop="4dp" />
->>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
-
-                    </FrameLayout>
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="16dp"
+                        android:clipToPadding="false" />
 
                 </LinearLayout>
 
                 <include
-                     layout="@layout/progress_overlay"
-                     android:id="@+id/overlay_progress" />
+                    android:id="@+id/overlay_progress"
+                    layout="@layout/progress_overlay"
+                    android:visibility="visible" />
 
             </FrameLayout>
 
-            <include
-                 layout="@layout/empty_view" />
-
-            <include
-                 layout="@layout/error_view" />
+            <include layout="@layout/empty_view" />
+            <include layout="@layout/error_view" />
 
         </ViewFlipper>
 

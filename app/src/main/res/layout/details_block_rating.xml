@@ -52,14 +52,19 @@
                 android:paddingTop="2dp"
                 android:gravity="center_vertical">
 
-                <androidx.appcompat.widget.AppCompatRatingBar
-                    android:id="@+id/rating_view"
-                    style="?android:attr/ratingBarStyleSmall"
-                    android:isIndicator="true"
+                <me.zhanghai.android.materialratingbar.MaterialRatingBar
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="18dp"
+                    android:id="@+id/rating_view"
                     android:numStars="5"
-                    android:stepSize="1.0" />
+                    android:rating="3"
+                    android:stepSize="1"
+                    android:isIndicator="true"
+                    android:progressTint="#FFFFC107"
+                    android:progressBackgroundTint="#FFBDBDBD"
+                    android:secondaryProgressTint="#FFBDBDBD"
+                    app:mrb_fillBackgroundStars="true"
+                    style="@style/Widget.MaterialRatingBar.RatingBar" />
 
                 <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/date_view"

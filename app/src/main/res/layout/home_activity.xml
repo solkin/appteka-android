@@ -2,7 +2,6 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout
      xmlns:android="http://schemas.android.com/apk/res/android"
      xmlns:app="http://schemas.android.com/apk/res-auto"
-     xmlns:tools="http://schemas.android.com/tools"
      android:layout_height="match_parent"
      android:layout_width="match_parent"
      android:fitsSystemWindows="true">
@@ -23,7 +22,6 @@
         <include
              layout="@layout/update_block"
              android:visibility="gone"
-             tools:visibility="visible"
              android:id="@+id/update_block" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -87,27 +85,23 @@
          android:layout_height="wrap_content"
          android:layout_width="wrap_content"
          android:layout_marginBottom="80dp"
+         android:visibility="gone"
          android:layout_marginEnd="18dp"
          android:src="@drawable/ic_cloud_upload"
-         app:elevation="4dp"
-         android:layout_marginRight="18dp"
          app:fabSize="normal"
          android:id="@+id/fab_upload"
-         android:layout_gravity="bottom|end"
-         app:pressedTranslationZ="12dp" />
+         android:layout_gravity="bottom|end" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
          android:layout_height="wrap_content"
          android:layout_width="wrap_content"
          android:layout_marginBottom="80dp"
+         android:visibility="gone"
          android:layout_marginEnd="18dp"
          android:src="@drawable/ic_pencil"
-         app:elevation="4dp"
-         android:layout_marginRight="18dp"
          app:fabSize="normal"
          android:id="@+id/fab_post"
-         android:layout_gravity="bottom|end"
-         app:pressedTranslationZ="12dp" />
+         android:layout_gravity="bottom|end" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
          android:layout_height="wrap_content"

@@ -30,6 +30,8 @@
             <TextView
                  android:layout_height="wrap_content"
                  android:layout_width="wrap_content"
+                 android:gravity="center_vertical"
+                 android:layout_gravity="center_vertical"
                  android:textAppearance="?attr/textAppearanceTitleSmall"
                  android:textColor="?attr/colorOnSurface"
                  android:text="@string/ratings" />
@@ -38,6 +40,8 @@
                  android:layout_height="wrap_content"
                  android:layout_width="wrap_content"
                  android:paddingEnd="6dp"
+                 android:gravity="center_vertical"
+                 android:layout_gravity="center_vertical"
                  android:textAppearance="?attr/textAppearanceTitleSmall"
                  android:textColor="?attr/colorOnSurfaceVariant"
                  android:paddingStart="6dp"
@@ -48,7 +52,8 @@
                  android:layout_height="wrap_content"
                  android:layout_width="wrap_content"
                  android:paddingEnd="6dp"
-                 android:gravity="center"
+                 android:gravity="center_vertical"
+                 android:layout_gravity="center_vertical"
                  android:textAppearance="?attr/textAppearanceBodySmall"
                  android:paddingBottom="2dp"
                  android:textColor="?attr/colorPrimary"

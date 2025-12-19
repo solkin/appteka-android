@@ -1,82 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-     xmlns:android="http://schemas.android.com/apk/res/android"
-     xmlns:app="http://schemas.android.com/apk/res-auto"
-     xmlns:tools="http://schemas.android.com/tools"
-     android:layout_height="wrap_content"
-     android:layout_width="match_parent"
-     android:orientation="vertical"
-     android:paddingBottom="16dp"
-     android:paddingTop="16dp">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:paddingBottom="16dp"
+    android:paddingTop="16dp">
 
     <com.google.android.material.textview.MaterialTextView
-         android:layout_height="wrap_content"
-         android:layout_width="wrap_content"
-         android:paddingEnd="16dp"
-         android:textAppearance="?attr/textAppearanceTitleMedium"
-         android:paddingBottom="16dp"
-         android:textColor="?attr/colorOnSurface"
-         android:paddingStart="16dp"
-         android:text="@string/your_review" />
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:paddingEnd="16dp"
+        android:textAppearance="?attr/textAppearanceTitleMedium"
+        android:paddingBottom="16dp"
+        android:textColor="?attr/colorOnSurface"
+        android:paddingStart="16dp"
+        android:text="@string/your_review" />
 
     <LinearLayout
-         android:layout_height="wrap_content"
-         android:layout_width="match_parent"
-         android:paddingEnd="16dp"
-         android:gravity="center_vertical"
-         android:orientation="horizontal"
-         android:paddingBottom="8dp"
-         android:paddingStart="16dp">
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:paddingEnd="16dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingBottom="8dp"
+        android:paddingStart="16dp">
 
         <include
-             layout="@layout/user_icon_s"
-             android:scaleType="center"
-             android:layout_marginEnd="16dp"
-             android:layout_width="40dp"
-             android:layout_height="40dp"
-             android:id="@+id/member_icon" />
+            layout="@layout/user_icon_s"
+            android:scaleType="center"
+            android:layout_marginEnd="16dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:id="@+id/member_icon" />
 
         <LinearLayout
-             android:layout_height="wrap_content"
-             android:layout_width="match_parent"
-             android:orientation="vertical"
-             android:paddingHorizontal="0dp">
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:paddingHorizontal="0dp">
 
             <com.google.android.material.textview.MaterialTextView
-                 android:layout_height="wrap_content"
-                 android:layout_width="wrap_content"
-                 android:textAppearance="?attr/textAppearanceTitleSmall"
-                 android:includeFontPadding="false"
-                 android:paddingBottom="2dp"
-                 android:textColor="?attr/colorOnSurface"
-                 tools:text="Crown"
-                 android:id="@+id/member_name" />
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:textAppearance="?attr/textAppearanceTitleSmall"
+                android:includeFontPadding="false"
+                android:paddingBottom="2dp"
+                android:textColor="?attr/colorOnSurface"
+                tools:text="Crown"
+                android:id="@+id/member_name" />
 
             <LinearLayout
-                 android:layout_height="wrap_content"
-                 android:layout_width="match_parent"
-                 android:gravity="center_vertical"
-                 android:orientation="horizontal">
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
-                <androidx.appcompat.widget.AppCompatRatingBar
-                     android:layout_height="wrap_content"
-                     android:layout_width="wrap_content"
-                     style="?android:attr/ratingBarStyleSmall"
-                     android:isIndicator="true"
-                     android:stepSize="1.0"
-                     android:numStars="5"
-                     android:id="@+id/rating_view" />
+                <me.zhanghai.android.materialratingbar.MaterialRatingBar
+                    android:layout_width="wrap_content"
+                    android:layout_height="18dp"
+                    android:id="@+id/rating_view"
+                    android:numStars="5"
+                    android:rating="3"
+                    android:stepSize="1"
+                    android:isIndicator="true"
+                    android:progressTint="#FFFFC107"
+                    android:progressBackgroundTint="#FFBDBDBD"
+                    android:secondaryProgressTint="#FFBDBDBD"
+                    app:mrb_fillBackgroundStars="true"
+                    style="@style/Widget.MaterialRatingBar.RatingBar" />
 
                 <com.google.android.material.textview.MaterialTextView
-                     android:layout_height="wrap_content"
-                     android:layout_width="wrap_content"
-                     android:textAppearance="?attr/textAppearanceBodySmall"
-                     android:includeFontPadding="false"
-                     android:textColor="?attr/colorOnSurfaceVariant"
-                     android:paddingStart="8dp"
-                     tools:text="19.11.2022"
-                     android:id="@+id/date_view"
-                     android:layout_gravity="bottom" />
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:textAppearance="?attr/textAppearanceBodySmall"
+                    android:includeFontPadding="false"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:paddingStart="8dp"
+                    tools:text="19.11.2022"
+                    android:id="@+id/date_view"
+                    android:layout_gravity="bottom" />
 
             </LinearLayout>
 
@@ -85,36 +90,23 @@
     </LinearLayout>
 
     <com.google.android.material.textview.MaterialTextView
-         android:layout_height="wrap_content"
-         android:layout_width="match_parent"
-         android:autoLink="web|email"
-         android:paddingEnd="16dp"
-         android:textAppearance="?attr/textAppearanceBodyLarge"
-         android:paddingVertical="12dp"
-         android:textColor="?attr/colorOnSurface"
-         android:paddingStart="72dp"
-         tools:text="I'm Ameer Muawiya Sangha From Punjab Pakistan"
-         android:id="@+id/review_view" />
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:autoLink="web|email"
+        android:paddingEnd="16dp"
+        android:textAppearance="?attr/textAppearanceBodyLarge"
+        android:paddingVertical="12dp"
+        android:textColor="?attr/colorOnSurface"
+        android:paddingStart="72dp"
+        tools:text="I'm Ameer Muawiya Sangha From Punjab Pakistan"
+        android:id="@+id/review_view" />
 
     <com.google.android.material.button.MaterialButton
-<<<<<<< HEAD
-        android:id="@+id/feedback_button"
-        style="@style/MaterialButtonSecondary"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="-8dp"
-        android:layout_marginRight="-8dp"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
-        android:text="@string/edit_feedback"
-        />
-=======
-         android:layout_height="wrap_content"
-         android:layout_width="wrap_content"
-         style="@style/MaterialButtonSecondary"
-         android:layout_marginStart="56dp"
-         android:id="@+id/feedback_button"
-         android:text="@string/edit_feedback" />
->>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
+        android:layout_width="wrap_content"
+        style="@style/MaterialButtonSecondary"
+        android:layout_marginStart="56dp"
+        android:id="@+id/feedback_button"
+        android:text="@string/edit_feedback" />
 
 </LinearLayout>
