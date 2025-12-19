@@ -23,25 +23,16 @@ import io.reactivex.rxjava3.kotlin.plusAssign
 interface StorePresenter : ItemListener {
 
     fun attachView(view: StoreView)
-
     fun detachView()
-
     fun attachRouter(router: StoreRouter)
-
     fun detachRouter()
-
     fun saveState(): Bundle
-
     fun onUpdate()
-
     fun invalidateApps()
 
     interface StoreRouter {
-
         fun openAppScreen(appId: String, title: String)
-
     }
-
 }
 
 class StorePresenterImpl(
@@ -62,44 +53,67 @@ class StorePresenterImpl(
 
     private var items: List<AppItem>? =
         state?.getParcelableArrayListCompat(KEY_APPS, AppItem::class.java)
-    private var isError: Boolean = state?.getBoolean(KEY_ERROR) == true
+
+    private var isError: Boolean =
+        state?.getBoolean(KEY_ERROR) == true
+
     private var category: CategoryItem? =
         state?.getParcelableCompat(KEY_CATEGORY_ID, CategoryItem::class.java)
+
+    private var isRefreshing: Boolean = false
 
     override fun attachView(view: StoreView) {
         this.view = view
 
         subscriptions += view.retryClicks().subscribe {
-            loadApps()
-        }
-        subscriptions += view.refreshClicks().subscribe {
+            isRefreshing = false
             invalidateApps()
+        }
+
+        subscriptions += view.refreshClicks().subscribe {
+            isRefreshing = true
+            loadApps()
             analytics.trackEvent("store-refresh")
         }
+
         subscriptions += view.categoriesButtonClicks().subscribe {
             loadCategories()
             analytics.trackEvent("store-category-list")
         }
+
         subscriptions += view.categorySelectedClicks().subscribe { categoryItem ->
+            isRefreshing = false
             onCategorySelected(categoryItem)
             analytics.trackEvent("store-category-selected")
         }
+
         subscriptions += view.categoryClearedClicks().subscribe {
+            isRefreshing = false
             onCategorySelected()
             analytics.trackEvent("store-category-cleared")
         }
 
-        if (isError) {
-            onError()
-        } else {
-            view.setSelectedCategory(category)
-            items?.let { bindItems() } ?: loadApps()
+        when {
+            isError -> {
+                view.showError()
+            }
+
+            items != null -> {
+                view.setSelectedCategory(category)
+                bindItems()
+            }
+
+            else -> {
+                view.setSelectedCategory(category)
+                view.showProgress()
+                loadApps()
+            }
         }
     }
 
     override fun detachView() {
         subscriptions.clear()
-        this.view = null
+        view = null
     }
 
     override fun attachRouter(router: StorePresenter.StoreRouter) {
@@ -110,8 +124,7 @@ class StorePresenterImpl(
         this.router = null
     }
 
-    override fun saveState() = Bundle().apply {
-        putParcelableArrayList(KEY_APPS, items?.let { ArrayList(items.orEmpty()) })
+    override fun saveState(): Bundle = Bundle().apply {
         putBoolean(KEY_ERROR, isError)
         putParcelable(KEY_CATEGORY_ID, category)
     }
@@ -119,13 +132,14 @@ class StorePresenterImpl(
     override fun invalidateApps() {
         items = null
         isError = false
+        isRefreshing = false
+        view?.showProgress()
         loadApps()
     }
 
     private fun loadApps() {
         subscriptions += storeInteractor.listApps(categoryId = category?.id)
             .observeOn(schedulers.mainThread())
-            .doOnSubscribe { if (view?.isPullRefreshing() == false) view?.showProgress() }
             .subscribe(
                 { onLoaded(it) },
                 { onError() }
@@ -144,18 +158,24 @@ class StorePresenterImpl(
 
     private fun onLoaded(entities: List<AppEntity>) {
         isError = false
+
         val newItems = entities
             .map { appConverter.convert(it) }
             .toList()
             .apply { if (isNotEmpty()) last().hasMore = true }
-        this.items = this.items
+
+        items = items
             ?.apply { if (isNotEmpty()) last().hasProgress = false }
-            ?.plus(newItems) ?: newItems
+            ?.plus(newItems)
+            ?: newItems
+
         bindItems()
+        isRefreshing = false
     }
 
     private fun bindItems() {
         val items = this.items
+
         when {
             items.isNullOrEmpty() -> {
                 view?.showPlaceholder()
@@ -164,6 +184,7 @@ class StorePresenterImpl(
             else -> {
                 val dataSource = ListDataSource(items)
                 adapterPresenter.get().onDataSourceChanged(dataSource)
+
                 view?.let {
                     it.contentUpdated()
                     if (it.isPullRefreshing()) {
@@ -177,7 +198,8 @@ class StorePresenterImpl(
     }
 
     private fun onError() {
-        this.isError = true
+        isError = true
+        isRefreshing = false
         view?.showError()
     }
 
@@ -207,7 +229,10 @@ class StorePresenterImpl(
     }
 
     private fun onCategoriesLoaded(categories: List<Category>) {
-        val items = categories.map { categoryConverter.convert(it) }.sortedBy { it.title }
+        val items = categories
+            .map { categoryConverter.convert(it) }
+            .sortedBy { it.title }
+
         view?.showCategories(items)
     }
 
@@ -216,7 +241,6 @@ class StorePresenterImpl(
         view?.setSelectedCategory(categoryItem)
         invalidateApps()
     }
-
 }
 
 private const val KEY_APPS = "apps"

@@ -1,7 +1,5 @@
 package com.tomclaw.appsend.screen.details.adapter.status
 
-import android.content.res.ColorStateList
-import android.graphics.PorterDuff
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -31,11 +29,8 @@ interface StatusItemView : ItemView {
 
 }
 
-@Suppress("DEPRECATION")
 class StatusItemViewHolder(view: View) : BaseViewHolder(view), StatusItemView {
 
-    private val context = view.context
-    private val resources = view.resources
     private val background: View = view.findViewById(R.id.status_back)
     private val icon: ImageView = view.findViewById(R.id.status_icon)
     private val text: TextView = view.findViewById(R.id.status_text)
@@ -48,30 +43,19 @@ class StatusItemViewHolder(view: View) : BaseViewHolder(view), StatusItemView {
     }
 
     override fun setStatusTypeInfo() {
-        setBackgroundColor(R.color.block_info_back_color)
+        // Only setting the icon resource. Icon color and text color 
+        // must be controlled via XML using Theme Attributes (e.g., ?attr/colorPrimary)
         icon.setImageResource(R.drawable.ic_info)
-        icon.setColorFilter(resources.getColor(R.color.block_info_color))
-        text.setTextColor(resources.getColor(R.color.block_info_text_color))
-        actionButton.setRippleColorResource(R.color.block_info_color)
-        actionButton.setTextColor(resources.getColor(R.color.block_info_text_color))
     }
 
     override fun setStatusTypeWarning() {
-        setBackgroundColor(R.color.block_warning_back_color)
+        // Only setting the icon resource. Colors are controlled by XML/Theme Attributes.
         icon.setImageResource(R.drawable.ic_warning)
-        icon.setColorFilter(resources.getColor(R.color.block_warning_color))
-        text.setTextColor(resources.getColor(R.color.block_warning_text_color))
-        actionButton.setRippleColorResource(R.color.block_warning_color)
-        actionButton.setTextColor(resources.getColor(R.color.block_warning_text_color))
     }
 
     override fun setStatusTypeError() {
-        setBackgroundColor(R.color.block_error_back_color)
+        // Only setting the icon resource. Colors are controlled by XML/Theme Attributes.
         icon.setImageResource(R.drawable.ic_error)
-        icon.setColorFilter(resources.getColor(R.color.block_error_color))
-        text.setTextColor(resources.getColor(R.color.block_error_text_color))
-        actionButton.setRippleColorResource(R.color.block_error_color)
-        actionButton.setTextColor(resources.getColor(R.color.block_error_text_color))
     }
 
     override fun hideActionButton() {
@@ -87,12 +71,6 @@ class StatusItemViewHolder(view: View) : BaseViewHolder(view), StatusItemView {
         this.text.bind(text)
     }
 
-    private fun setBackgroundColor(colorRes: Int) {
-        val backgroundTintList = ColorStateList.valueOf(resources.getColor(colorRes))
-        background.backgroundTintList = backgroundTintList
-        background.backgroundTintMode = PorterDuff.Mode.SRC_ATOP
-    }
-
     override fun setOnActionClickListener(listener: (() -> Unit)?) {
         this.actionClickListener = listener
     }
@@ -100,5 +78,4 @@ class StatusItemViewHolder(view: View) : BaseViewHolder(view), StatusItemView {
     override fun onUnbind() {
         this.actionClickListener = null
     }
-
 }

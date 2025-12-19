@@ -1,12 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="?android:attr/selectableItemBackground"
-    android:orientation="horizontal">
+<LinearLayout
+     xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:app="http://schemas.android.com/apk/res-auto"
+     xmlns:tools="http://schemas.android.com/tools"
+     android:layout_height="wrap_content"
+     android:layout_width="match_parent"
+     android:gravity="center_vertical"
+     android:background="?android:attr/selectableItemBackground"
+     android:paddingVertical="8dp"
+     android:orientation="horizontal"
+     android:paddingHorizontal="16dp">
 
+<<<<<<< HEAD
     <androidx.cardview.widget.CardView
         android:id="@+id/icon_back"
         android:layout_width="56dp"
@@ -15,124 +20,129 @@
         android:layout_margin="12dp"
         app:cardCornerRadius="16dp"
         app:cardElevation="4dp">
+=======
+    <com.google.android.material.card.MaterialCardView
+         android:layout_height="56dp"
+         android:layout_width="56dp"
+         android:layout_marginEnd="16dp"
+         app:cardElevation="0dp"
+         app:strokeWidth="0dp"
+         app:cardBackgroundColor="?attr/colorSurface"
+         app:cardCornerRadius="12dp"
+         android:id="@+id/icon_back"
+         android:layout_gravity="center_vertical">
+>>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
 
         <ImageView
-            android:id="@+id/app_icon"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_gravity="center_vertical"
-            android:contentDescription="@string/app_icon"
-            android:scaleType="centerCrop"
-            tools:src="@mipmap/ic_launcher" />
+             android:layout_height="match_parent"
+             android:layout_width="match_parent"
+             android:contentDescription="@string/app_icon"
+             android:scaleType="centerCrop"
+             tools:src="@mipmap/ic_launcher"
+             android:id="@+id/app_icon" />
 
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
     <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:layout_weight="1"
-        android:gravity="center_vertical"
-        android:orientation="vertical">
+         android:layout_height="wrap_content"
+         android:layout_width="0dp"
+         android:gravity="center_vertical"
+         android:orientation="vertical"
+         android:layout_weight="1"
+         android:layout_gravity="center_vertical">
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+             android:layout_height="wrap_content"
+             android:layout_width="match_parent"
+             android:gravity="center_vertical"
+             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/badge_new"
-                android:layout_width="wrap_content"
-                android:layout_height="18dp"
-                android:layout_gravity="center_vertical"
-                android:contentDescription="@string/ratings"
-                android:paddingStart="-1dp"
-                android:paddingLeft="-1dp"
-                android:paddingEnd="2dp"
-                android:paddingRight="2dp"
-                android:src="@drawable/ic_new_box"
-                android:visibility="visible"
-                app:tint="@color/badge_color" />
+                 android:layout_height="20dp"
+                 android:layout_width="20dp"
+                 android:visibility="visible"
+                 android:contentDescription="@string/ratings"
+                 android:paddingEnd="4dp"
+                 android:src="@drawable/ic_new"
+                 android:tint="?attr/colorPrimary"
+                 android:id="@+id/badge_new"
+                 android:layout_gravity="center_vertical" />
 
             <TextView
-                android:id="@+id/app_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start|center_vertical"
-                android:fontFamily="sans-serif-medium"
-                android:includeFontPadding="false"
-                android:singleLine="true"
-                android:textColor="?text_primary_color"
-                android:textSize="16sp"
-                tools:text="AppSend" />
+                 android:layout_height="wrap_content"
+                 android:layout_width="wrap_content"
+                 android:textAppearance="?attr/textAppearanceTitleSmall"
+                 android:ellipsize="end"
+                 android:includeFontPadding="false"
+                 android:singleLine="true"
+                 android:textColor="?attr/colorOnSurface"
+                 tools:text="AppSend"
+                 android:id="@+id/app_name" />
 
             <TextView
-                android:id="@+id/app_version"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start|center_vertical"
-                android:includeFontPadding="false"
-                android:paddingStart="4dp"
-                android:paddingLeft="4dp"
-                android:singleLine="true"
-                android:textColor="?text_secondary_color"
-                android:textSize="16sp"
-                tools:text="3.4" />
+                 android:layout_height="wrap_content"
+                 android:layout_width="wrap_content"
+                 android:textAppearance="?attr/textAppearanceBodySmall"
+                 android:includeFontPadding="false"
+                 android:singleLine="true"
+                 android:textColor="?attr/colorOnSurfaceVariant"
+                 android:paddingStart="4dp"
+                 tools:text="3.4"
+                 android:id="@+id/app_version" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingTop="4dp"
-            android:paddingBottom="2dp">
+             android:layout_height="wrap_content"
+             android:layout_width="match_parent"
+             android:gravity="center_vertical"
+             android:orientation="horizontal"
+             android:paddingBottom="2dp"
+             android:paddingTop="2dp">
 
             <TextView
-                android:id="@+id/app_update_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="start|center_vertical"
-                android:ellipsize="marquee"
-                android:includeFontPadding="false"
-                android:marqueeRepeatLimit="marquee_forever"
-                android:scrollHorizontally="true"
-                android:singleLine="true"
-                android:textColor="?text_secondary_color"
-                android:textSize="14sp"
-                tools:text="Updated 21.08.2012" />
+                 android:layout_height="wrap_content"
+                 android:layout_width="wrap_content"
+                 android:textAppearance="?attr/textAppearanceLabelMedium"
+                 android:ellipsize="marquee"
+                 android:marqueeRepeatLimit="marquee_forever"
+                 android:includeFontPadding="false"
+                 android:singleLine="true"
+                 android:textColor="?attr/colorOnSurfaceVariant"
+                 tools:text="Updated 21.08.2012"
+                 android:scrollHorizontally="true"
+                 android:id="@+id/app_update_time" />
 
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:paddingTop="2dp">
+             android:layout_height="wrap_content"
+             android:layout_width="match_parent"
+             android:gravity="center_vertical"
+             android:orientation="horizontal"
+             android:paddingTop="2dp">
 
             <TextView
-                android:id="@+id/app_size"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:includeFontPadding="false"
-                android:singleLine="true"
-                android:textColor="?text_secondary_color"
-                android:textSize="14sp"
-                tools:text="3.1 MB" />
+                 android:layout_height="wrap_content"
+                 android:layout_width="wrap_content"
+                 android:textAppearance="?attr/textAppearanceLabelSmall"
+                 android:includeFontPadding="false"
+                 android:singleLine="true"
+                 android:textColor="?attr/colorOnSurfaceVariant"
+                 tools:text="3.1 MB"
+                 android:id="@+id/app_size" />
 
         </LinearLayout>
 
     </LinearLayout>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/update_button"
-        style="@style/MaterialButtonSecondary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/update" />
+         android:layout_height="wrap_content"
+         android:layout_width="wrap_content"
+         style="@style/MaterialButtonSecondary"
+         android:layout_marginStart="12dp"
+         android:id="@+id/update_button"
+         android:layout_gravity="center"
+         android:text="@string/update" />
 
 </LinearLayout>

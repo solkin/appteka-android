@@ -4,6 +4,7 @@ import android.os.Bundle
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.blueprint.Item
 import com.avito.konveyor.data_source.ListDataSource
+import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.distro.adapter.ItemListener
 import com.tomclaw.appsend.screen.distro.adapter.apk.ApkItem
 import com.tomclaw.appsend.upload.UploadApk
@@ -50,7 +51,7 @@ interface DistroPresenter : ItemListener {
 
         fun openPermissionsScreen(permissions: List<String>)
 
-        fun requestStoragePermissions(callback: (Boolean) -> Unit)
+        fun requestStoragePermissions(callback: (Boolean) -> Unit) // Permission request handler
 
         fun leaveScreen()
 
@@ -88,6 +89,29 @@ class DistroPresenterImpl(
             when (pair.first) {
                 MENU_INSTALL -> {
                     router?.installApp(app.path)
+                }
+
+                MENU_SAVE_TO_DEVICE -> {
+                    // Request permission (Activity handles modern/legacy logic, currently returns true)
+                    router?.requestStoragePermissions { success ->
+                        if (success) {
+                            // Permission granted, start file saving process
+                            subscriptions += interactor.saveApkToDownloads(app.path)
+                                .observeOn(schedulers.mainThread()) // Switch to main thread for UI
+                                .subscribe({ destPath ->
+                                    // Show success message with file location
+                                    val message = preferencesProvider.getString(R.string.save_location, destPath)
+                                    view?.showSnackbar(message)
+                                }, { throwable ->
+                                    // Show error message on failure
+                                    view?.showSnackbar(preferencesProvider.getString(R.string.save_error))
+                                    onError(throwable)
+                                })
+                        } else {
+                            // Permission denied, inform the user
+                            view?.showSnackbar(preferencesProvider.getString(R.string.write_permission_extract))
+                        }
+                    }
                 }
 
                 MENU_SHARE -> {

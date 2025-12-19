@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+<<<<<<< HEAD
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+=======
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+>>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -38,29 +43,27 @@
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <View
+    <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="7dp"
-        android:layout_marginTop="?attr/actionBarSize"
-        android:background="@drawable/shadow" />
+        android:layout_height="wrap_content">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="?attr/search_toolbar_background"
-        android:theme="@style/AppTheme.AppBarOverlay">
-
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/query_edit"
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@null"
-            android:hint="@string/search_app"
-            android:imeOptions="flagNoFullscreen|actionSearch"
-            android:lines="1"
-            android:singleLine="true" />
+            android:layout_height="?attr/actionBarSize">
 
-    </androidx.appcompat.widget.Toolbar>
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/query_edit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:hint="@string/search_app"
+                android:imeOptions="flagNoFullscreen|actionSearch"
+                android:lines="1"
+                android:singleLine="true" />
+
+        </com.google.android.material.appbar.MaterialToolbar>
+
+    </com.google.android.material.appbar.AppBarLayout>
 
 </FrameLayout>

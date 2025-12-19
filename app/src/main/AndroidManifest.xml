@@ -1,28 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission
-        android:name="android.permission.REQUEST_INSTALL_PACKAGES"
-        tools:remove="android:maxSdkVersion" />
-    <uses-permission
-        android:name="android.permission.REQUEST_DELETE_PACKAGES"
-        tools:remove="android:maxSdkVersion" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <uses-permission android:name="android.permission.REQUEST_DELETE_PACKAGES" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
     <uses-permission
-        android:name="android.permission.QUERY_ALL_PACKAGES"
-        tools:ignore="QueryAllPackagesPermission" />
+        android:name="android.permission.POST_NOTIFICATIONS"
+        tools:targetApi="33" />
 
     <application
         android:name=".Appteka"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_descriptor"
+        android:enableOnBackInvokedCallback="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
@@ -53,32 +55,27 @@
             android:name=".screen.details.DetailsActivity"
             android:exported="true"
             android:label="@string/details_activity">
-            <intent-filter android:autoVerify="true"
-                tools:targetApi="23">
+            <intent-filter android:autoVerify="true" tools:targetApi="23">
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-
                 <data android:scheme="http" />
                 <data android:scheme="https" />
                 <data android:host="appsend.store" />
                 <data android:host="appteka.store" />
                 <data android:pathPrefix="/app" />
             </intent-filter>
-            <intent-filter android:autoVerify="true"
-                tools:targetApi="23">
+            <intent-filter android:autoVerify="true" tools:targetApi="23">
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-
                 <data android:scheme="http" />
                 <data android:scheme="https" />
                 <data android:host="play.google.com" />
                 <data android:pathPrefix="/store/apps/details" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".screen.rate.RateActivity"
             android:label="@string/rate_app" />
@@ -100,13 +97,10 @@
             android:exported="true"
             android:label="@string/profile"
             android:windowSoftInputMode="stateHidden">
-            <intent-filter android:autoVerify="true"
-                tools:targetApi="23">
+            <intent-filter android:autoVerify="true" tools:targetApi="23">
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-
                 <data android:scheme="http" />
                 <data android:scheme="https" />
                 <data android:host="appsend.store" />
@@ -115,6 +109,7 @@
                 <data android:pathPrefix="/profile" />
             </intent-filter>
         </activity>
+
         <activity android:name=".screen.reviews.ReviewsActivity" />
         <activity
             android:name=".screen.home.HomeActivity"
@@ -128,6 +123,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity android:name=".screen.ratings.RatingsActivity" />
         <activity android:name=".screen.agreement.AgreementActivity" />
         <activity android:name=".screen.about.AboutActivity" />
@@ -141,9 +137,15 @@
         <activity android:name=".screen.unpublish.UnpublishActivity" />
         <activity android:name=".screen.uploads.UploadsActivity" />
 
-        <service android:name=".download.DownloadService" />
+        <service
+            android:name=".download.DownloadService"
+            android:exported="false"
+            android:foregroundServiceType="dataSync" />
 
-        <service android:name=".upload.UploadService" />
+        <service
+            android:name=".upload.UploadService"
+            android:exported="false"
+            android:foregroundServiceType="dataSync" />
 
         <provider
             android:name="androidx.startup.InitializationProvider"

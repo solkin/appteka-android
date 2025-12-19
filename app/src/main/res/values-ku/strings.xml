@@ -1,7 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">ئاپتێکا</string>
+    <string name="save_to_device">پاشکەوتکردن لە داگرتنەکانی ئامێر</string>
+    <string name="save_location">پەڕگە بە سەرکەوتوویی لە داگرتنەکان/ئەپ پاشکەوت کرا: %1$s</string>
+    <string name="save_error">شکست هێنا لە پاشکەوتکردنی پەڕگەی ئەپلیکەیشن.</string>
+
+
+    <string name="pref_theme">pref_theme</string>
+    <string name="pref_title_theme">تێما</string>
+    <string name="pref_summary_theme">تێمای بەرنامەکە هەڵبژێرە</string>
+    <string name="pref_theme_mode">pref_theme_mode</string>
+    <string name="pref_dynamic_colors">pref_dynamic_colors</string>
+    <string name="pref_title_dynamic_colors">ڕەنگە داینامیکییەکان</string>
+    <string name="theme_dialog_title">تێما هەڵبژێرە</string>
+    <string name="theme_system">پێشوەنەکی سیستەم</string>
+    <string name="theme_light">ڕۆشن</string>
+    <string name="theme_dark">تاریک</string>
+    <string name="theme_battery_saver">پاشکەوتی پاتری</string>
+    <string name="restart_now">ئێستا دەستپێکردنەوە</string>
+    <string name="clear_cache_dialog_title">پاککردنەوەی کاش پشتڕاست بکەرەوە</string>
+    <string name="clear_cache_dialog_message">هەموو فایلی APK کە پێشتر لەلایەن %1$s لە بیرگەدا داگیران، لادەبرێن. ناتوانرێت ئەم کارە هەڵبگیرێتەوە. ئایا دەتەوێت بەردەوام بیت؟</string>
+    <string name="clear_cache_dialog_positive">بەڵێ، فایلی بسڕەوە</string>
+    <string name="pref_category_appearance_title">شێوە</string>
+    <string name="pref_category_app_behavior_key">app_behavior_settings</string>
+    <string name="pref_category_app_behavior_title">ڕەفتاری بەرنامە</string>
+    <string name="pref_category_general_title">گشتی</string>
+    <string name="pref_summary_dynamic_colors">ڕەنگەکانی وۆڵپەیپەر لە ئامێرەکانی ئەندرۆید ١٢+ بەکار دەهێنێت (پێویستی بە دەستپێکردنەوەیە)</string>
+    <string name="restart_required_dynamic_colors_short">دەستپێکردنەوە بۆ جێبەجێکردنی گۆڕانکارییەکان.</string>
+
+
     <string name="bytes">%d ب</string>
+    <string name="send">ناردن</string>
     <string name="kibibytes">%.1f کیلۆبایت</string>
     <string name="mibibytes">%.1f مێگابایت</string>
     <string name="gigibytes">%.1f گێگابایت</string>
@@ -18,7 +47,7 @@
     <string name="system_apps_warning_title">Warning!</string>
     <string name="system_apps_warning_message">System apps are not usual apps and there is no warranty of its
         successful export!
-    </string>
+</string>
     <string name="settings">دانانەوە</string>
     <string name="success">Success!</string>
     <string name="yes">بەڵێ</string>
@@ -59,10 +88,12 @@
     <string name="pref_title_dark_theme">تەوەرەی تاریک</string>
     <string name="pref_dark_theme_system">ڕەنگی تۆخ لە شێوەی بەکارهێناندا</string>
     <string name="cancel">ڕەتکردنەوە</string>
-    <string name="percent" translatable="false">%d %%</string>
+    <string
+        name="percent"
+        translatable="false">%d %%</string>
     <string name="upload">بەرزکردنەوە</string>
     <string name="tab_store">فرۆشگا</string>
-    <string name="retry">دووبارە هەوڵبدەرەوە</string>
+    <string name="retry">هەوڵدانەوە</string>
     <string name="store_loading_error">شکستی هێنا لە وەرگرتنەوەی لیستی بەرنامەکان</string>
     <string name="downloads">دابەزاندنەکان</string>
     <string name="android">ئەندرۆید</string>
@@ -74,7 +105,9 @@
     <string name="app_version_title">وەشان</string>
     <string name="uploaded_title">بارکراوە</string>
     <string name="checksum_title">کۆی گشتی (SHA1)</string>
-    <string name="app_version_format" translatable="false">%1$s (%2$d)</string>
+    <string
+        name="app_version_format"
+        translatable="false">%1$s (%2$d)</string>
     <string name="update">نوێکردنەوە</string>
     <string name="abuse">مامەڵەی خراپ</string>
     <string name="your_email">ئیمەیڵەکەت</string>
@@ -104,7 +137,9 @@
     <string name="report">ڕاپۆرتی خراپ بەکارهێنان</string>
     <string name="error_message_report">ناتوانێت ڕاپۆرتی خراپ بەکارهێنان بکات</string>
     <string name="message_report_sent">سوپاس بۆ یارمەتیدانتان لە گفتوگۆکاندا میانڕەوی!</string>
-    <string name="reply_form" translatable="false">&gt; %s\n</string>
+    <string
+        name="reply_form"
+        translatable="false">&gt; %s\n</string>
     <string name="exclusive_short">تایبەت</string>
     <string name="exclusive">ئەپی تایبەت (لە گووگڵ پلەیدا ئامادە نابێت)</string>
     <string name="description">وەسف</string>

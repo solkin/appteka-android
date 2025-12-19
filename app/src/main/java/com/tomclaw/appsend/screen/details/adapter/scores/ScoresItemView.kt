@@ -10,19 +10,15 @@ import com.tomclaw.appsend.R
 import com.tomclaw.appsend.util.bind
 
 interface ScoresItemView : ItemView {
-
     fun setRating(rating: Float)
-
     fun setScores(totalCount: Int, five: Int, four: Int, three: Int, two: Int, one: Int)
-
     fun setOnClickListener(listener: (() -> Unit)?)
-
 }
 
 class ScoresItemViewHolder(view: View) : BaseViewHolder(view), ScoresItemView {
 
     private val ratingScore: TextView = view.findViewById(R.id.rating_score)
-    private val ratingIndicator: RatingBar = view.findViewById(R.id.small_rating_indicator)
+    private val ratingIndicator: RatingBar = view.findViewById(R.id.rating_view)  // small_rating_indicator → rating_view
     private val ratedCount: TextView = view.findViewById(R.id.rates_count)
     private val fiveElement: ProgressBar = view.findViewById(R.id.rating_detail_element_five)
     private val fourElement: ProgressBar = view.findViewById(R.id.rating_detail_element_four)
@@ -64,5 +60,4 @@ class ScoresItemViewHolder(view: View) : BaseViewHolder(view), ScoresItemView {
     override fun onUnbind() {
         this.clickListener = null
     }
-
 }

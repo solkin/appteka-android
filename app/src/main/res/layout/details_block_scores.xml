@@ -1,70 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?selectableItemBackground"
+    android:background="?attr/selectableItemBackground"
     android:orientation="horizontal"
-    android:paddingLeft="12dp"
-    android:paddingTop="8dp"
-    android:paddingRight="12dp"
-    android:paddingBottom="8dp">
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="16dp"
+    android:gravity="center_vertical">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:id="@+id/rating_score"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-light"
         android:padding="4dp"
-        android:paddingTop="4dp"
-        android:textAllCaps="true"
-        android:textColor="?text_primary_color"
-        android:textSize="48sp"
+        android:textAppearance="?attr/textAppearanceDisplayMedium"
+        android:textColor="?attr/colorPrimary"
         tools:text="4.7" />
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:orientation="vertical"
-        android:paddingStart="12dp"
-        android:paddingEnd="0dp">
+        android:paddingStart="12dp">
 
         <me.zhanghai.android.materialratingbar.MaterialRatingBar
-            android:id="@+id/small_rating_indicator"
-            style="@style/Widget.MaterialRatingBar.RatingBar"
-            android:layout_width="90dp"
+            android:layout_width="wrap_content"
             android:layout_height="18dp"
-            android:layout_marginBottom="2dp"
-            android:isIndicator="true"
+            android:id="@+id/rating_view"
             android:numStars="5"
-            android:progressBackgroundTint="?rating_empty"
-            android:progressDrawable="@drawable/rating_bar_small"
-            android:progressTint="?rating_fill"
-            android:rating="0"
-            android:secondaryProgressTint="?rating_empty"
-            android:stepSize="0.5"
+            android:rating="3"
+            android:stepSize="1"
+            android:isIndicator="true"
+            android:progressTint="#FFFFC107"
+            android:progressBackgroundTint="#FFBDBDBD"
+            android:secondaryProgressTint="#FFBDBDBD"
             app:mrb_fillBackgroundStars="true"
-            tools:rating="3.5" />
+            style="@style/Widget.MaterialRatingBar.RatingBar" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/rates_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/small_rating_indicator"
-            android:textColor="?text_secondary_color"
-            android:textSize="14sp"
+            android:layout_below="@+id/rating_view"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            android:textColor="?attr/colorOnSurfaceVariant"
             tools:text="15" />
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:layout_width="17dp"
             android:layout_height="17dp"
             android:layout_alignTop="@+id/rates_count"
             android:layout_toEndOf="@id/rates_count"
             android:contentDescription="@string/rates_count"
             android:src="@drawable/ic_account"
-            app:tint="?text_secondary_color" />
+            app:tint="?attr/colorOnSurfaceVariant"
+            android:layout_marginStart="4dp" />
 
     </RelativeLayout>
 
@@ -73,38 +66,37 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:orientation="vertical"
-        android:paddingStart="12dp"
-        android:paddingEnd="0dp">
+        android:paddingStart="16dp">
 
         <ProgressBar
             android:id="@+id/rating_detail_element_five"
             style="@style/RatingDetailElementSmall"
-            android:progressTint="?five_stars"
-            tools:progress="80" />
+            tools:progress="80"
+            android:progressTint="?attr/colorPrimary" />
 
         <ProgressBar
             android:id="@+id/rating_detail_element_four"
             style="@style/RatingDetailElementSmall"
-            android:progressTint="?four_stars"
-            tools:progress="15" />
+            tools:progress="15"
+            android:progressTint="?attr/colorPrimary" />
 
         <ProgressBar
             android:id="@+id/rating_detail_element_three"
             style="@style/RatingDetailElementSmall"
-            android:progressTint="?three_stars"
-            tools:progress="7" />
+            tools:progress="7"
+            android:progressTint="?attr/colorPrimary" />
 
         <ProgressBar
             android:id="@+id/rating_detail_element_two"
             style="@style/RatingDetailElementSmall"
-            android:progressTint="?two_stars"
-            tools:progress="3" />
+            tools:progress="3"
+            android:progressTint="?attr/colorPrimary" />
 
         <ProgressBar
             android:id="@+id/rating_detail_element_one"
             style="@style/RatingDetailElementSmall"
-            android:progressTint="?one_stars"
-            tools:progress="10" />
+            tools:progress="10"
+            android:progressTint="?attr/colorPrimary" />
 
     </LinearLayout>
 

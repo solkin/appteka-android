@@ -1,28 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/image_card"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
+<<<<<<< HEAD
         android:layout_margin="4dp"
         android:foreground="?android:attr/selectableItemBackground"
         app:cardCornerRadius="16dp"
         app:cardElevation="2dp">
+=======
+        android:layout_margin="8dp"
+        android:foreground="?attr/selectableItemBackground"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="2dp"
+        app:strokeWidth="0dp">
+>>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
 
         <ImageView
             android:id="@+id/image"
-            android:layout_width="@dimen/post_image_width"
+            android:layout_width="wrap_content"
             android:layout_height="@dimen/post_image_height"
             android:layout_gravity="center_vertical"
             android:contentDescription="@string/app_icon"
             android:minWidth="85dp"
             android:scaleType="centerCrop"
-            android:src="@color/grey" />
+            android:adjustViewBounds="true" />
 
         <ImageView
             android:id="@+id/delete_button"
@@ -32,10 +41,11 @@
             android:layout_marginTop="6dp"
             android:layout_marginEnd="6dp"
             android:padding="4dp"
+            android:tint="?attr/colorPrimary"
+            android:foreground="?attr/selectableItemBackground"
             android:background="@drawable/round_white_ripple"
-            android:backgroundTint="@android:color/black"
-            android:src="@drawable/ic_close"
-            app:tint="@android:color/white" />
+            android:importantForAccessibility="no"
+            android:src="@drawable/ic_close" />
 
         <ImageView
             android:id="@+id/upload"
@@ -45,8 +55,9 @@
             android:background="@drawable/radial_gradient"
             android:contentDescription="@string/upload"
             android:padding="8dp"
+            android:tint="?attr/colorOnPrimary"
             android:src="@drawable/ic_cloud_upload" />
 
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
 </FrameLayout>

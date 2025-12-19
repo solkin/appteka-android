@@ -9,26 +9,29 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.ViewFlipper
-import android.widget.ViewSwitcher
-import androidx.appcompat.widget.Toolbar
-import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
-import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder
+import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.tomclaw.appsend.main.adapter.files.ActionItem
+import com.tomclaw.appsend.main.adapter.files.ActionsAdapter
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.card.MaterialCardView
+import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.dto.MessageEntity
 import com.tomclaw.appsend.util.clicks
-import com.tomclaw.appsend.util.getAttributedColor
 import com.tomclaw.appsend.util.hideWithAlphaAnimation
 import com.tomclaw.appsend.util.showWithAlphaAnimation
 import com.tomclaw.imageloader.util.centerCrop
 import com.tomclaw.imageloader.util.fetch
 import com.tomclaw.imageloader.util.withPlaceholder
 import io.reactivex.rxjava3.core.Observable
+import androidx.core.widget.addTextChangedListener
 
 interface ChatView {
 
@@ -114,10 +117,10 @@ class ChatViewImpl(
     private val adapter: SimpleRecyclerAdapter
 ) : ChatView {
 
-    private val context = view.context
+    private val context: Context = view.context
     private val flipper: ViewFlipper = view.findViewById(R.id.view_flipper)
-    private val toolbar: Toolbar = view.findViewById(R.id.toolbar)
-    private val back: View = view.findViewById(R.id.go_back)
+    private val toolbar: MaterialToolbar = view.findViewById(R.id.toolbar)
+    private val toolbarContentContainer: View = view.findViewById(R.id.toolbar_content_container)
     private val icon: ImageView = view.findViewById(R.id.icon)
     private val title: TextView = view.findViewById(R.id.title)
     private val subtitle: TextView = view.findViewById(R.id.subtitle)
@@ -126,9 +129,10 @@ class ChatViewImpl(
     private val overlayProgress: View = view.findViewById(R.id.overlay_progress)
     private val errorText: TextView = view.findViewById(R.id.error_text)
     private val recycler: RecyclerView = view.findViewById(R.id.recycler)
+    private val inputCard: MaterialCardView? = view.findViewById(R.id.input_card)
     private val messageEdit: EditText = view.findViewById(R.id.message_edit)
-    private val sendSwitcher: ViewSwitcher = view.findViewById(R.id.send_switcher)
-    private val sendButton: View = view.findViewById(R.id.send_button)
+    private val sendButton: MaterialButton = view.findViewById(R.id.send_button)
+    private val sendProgress: CircularProgressIndicator = view.findViewById(R.id.send_progress)
 
     private val navigationRelay = PublishRelay.create<Unit>()
     private val toolbarRelay = PublishRelay.create<Unit>()
@@ -147,6 +151,7 @@ class ChatViewImpl(
 
     init {
         title.setText(R.string.chat_activity)
+
         toolbar.setOnMenuItemClickListener { item ->
             when (item.itemId) {
                 R.id.pin -> {
@@ -162,8 +167,16 @@ class ChatViewImpl(
                 else -> false
             }
         }
-        back.clicks(navigationRelay)
-        header.setOnClickListener { toolbarRelay.accept(Unit) }
+
+        // Handle navigation (back) click from the MaterialToolbar's default icon
+        toolbar.setNavigationOnClickListener {
+            navigationRelay.accept(Unit)
+        }
+
+        // Handle header (toolbar) click from the custom content container
+        toolbarContentContainer.setOnClickListener {
+            toolbarRelay.accept(Unit)
+        }
 
         val orientation = RecyclerView.VERTICAL
         layoutManager = LinearLayoutManager(view.context, orientation, true)
@@ -173,11 +186,31 @@ class ChatViewImpl(
         recycler.itemAnimator = DefaultItemAnimator()
         recycler.itemAnimator?.changeDuration = DURATION_MEDIUM
 
-        retryButton.clicks(retryRelay)
+        // retry button
+        retryButton.setOnClickListener {
+            retryRelay.accept(Unit)
+        }
+
+        // message text changes
         messageEdit.addTextChangedListener { text ->
             messageEditRelay.accept(text.toString())
         }
-        sendButton.clicks(sendRelay)
+
+        // send button click
+        sendButton.setOnClickListener {
+            val text = messageEdit.text?.toString()?.trim()
+            if (text.isNullOrEmpty()) {
+                // prevent showing loading when message empty
+                return@setOnClickListener
+            }
+
+            // Disable and show progress overlay (progress will replace the button)
+            showSendProgress()
+            sendRelay.accept(Unit)
+        }
+
+        // Ensure sendProgress is non-interactive
+        sendProgress.isClickable = false
     }
 
     override fun setIcon(url: String?) {
@@ -226,14 +259,20 @@ class ChatViewImpl(
     }
 
     override fun showSendButton() {
-        sendSwitcher.displayedChild = 0
+        // hide progress, show button (button takes its place)
+        sendProgress.visibility = View.GONE
+        sendButton.isEnabled = true
+        sendButton.visibility = View.VISIBLE
     }
 
     override fun showSendProgress() {
-        sendSwitcher.displayedChild = 1
+        sendButton.isEnabled = false
+        sendButton.visibility = View.GONE
+        sendProgress.visibility = View.VISIBLE
     }
 
     override fun showSendError() {
+        showSendButton()
         Snackbar.make(recycler, R.string.error_sending_message, Snackbar.LENGTH_LONG).show()
     }
 
@@ -264,36 +303,44 @@ class ChatViewImpl(
         translated: Boolean,
         extended: Boolean,
     ) {
-        val theme = R.style.BottomSheetDialogDark.takeIf { preferences.isDarkTheme() }
-            ?: R.style.BottomSheetDialogLight
-        BottomSheetBuilder(view.context, theme)
-            .setMode(BottomSheetBuilder.MODE_LIST)
-            .setIconTintColor(getAttributedColor(context, R.attr.menu_icons_tint))
-            .setItemTextColor(getAttributedColor(context, R.attr.text_primary_color))
-            .apply {
-                addItem(MENU_REPLY, R.string.reply, R.drawable.ic_reply)
-                addItem(MENU_COPY, R.string.copy, R.drawable.ic_content_copy)
-                when (translated) {
-                    true -> addItem(MENU_TRANSLATE, R.string.original, R.drawable.ic_translate_off)
-                    false -> addItem(MENU_TRANSLATE, R.string.translate, R.drawable.ic_translate)
-                }
-                addItem(MENU_PROFILE, R.string.profile, R.drawable.ic_account)
-                when (extended) {
-                    true -> addItem(MENU_REPORT, R.string.delete, R.drawable.ic_delete)
-                    false -> addItem(MENU_REPORT, R.string.report, R.drawable.ic_alert)
-                }
+        val bottomSheetDialog = BottomSheetDialog(context)
+        val actionView = View.inflate(context, R.layout.bottom_sheet_actions, null)
+        val actionsRecycler: RecyclerView = actionView.findViewById(R.id.actions_recycler)
+
+        val actions = mutableListOf<ActionItem>()
+        actions.add(ActionItem(MENU_REPLY, context.getString(R.string.reply), R.drawable.ic_reply))
+        actions.add(ActionItem(MENU_COPY, context.getString(R.string.copy), R.drawable.ic_content_copy))
+
+        if (translated) {
+            actions.add(ActionItem(MENU_TRANSLATE, context.getString(R.string.original), R.drawable.ic_translate_off))
+        } else {
+            actions.add(ActionItem(MENU_TRANSLATE, context.getString(R.string.translate), R.drawable.ic_translate))
+        }
+
+        actions.add(ActionItem(MENU_PROFILE, context.getString(R.string.profile), R.drawable.ic_account))
+
+        if (extended) {
+            actions.add(ActionItem(MENU_REPORT, context.getString(R.string.delete), R.drawable.ic_delete))
+        } else {
+            actions.add(ActionItem(MENU_REPORT, context.getString(R.string.report), R.drawable.ic_alert))
+        }
+
+        val actionsAdapter = ActionsAdapter(actions) { itemId ->
+            bottomSheetDialog.dismiss()
+            when (itemId) {
+                MENU_REPLY -> msgReplyRelay.accept(message)
+                MENU_COPY -> msgCopyRelay.accept(message)
+                MENU_TRANSLATE -> msgTranslateRelay.accept(message)
+                MENU_PROFILE -> openProfileRelay.accept(message)
+                MENU_REPORT -> msgReportRelay.accept(message)
             }
-            .setItemClickListener {
-                when (it.itemId) {
-                    MENU_REPLY -> msgReplyRelay.accept(message)
-                    MENU_COPY -> msgCopyRelay.accept(message)
-                    MENU_TRANSLATE -> msgTranslateRelay.accept(message)
-                    MENU_PROFILE -> openProfileRelay.accept(message)
-                    MENU_REPORT -> msgReportRelay.accept(message)
-                }
-            }
-            .createDialog()
-            .show()
+        }
+
+        actionsRecycler.layoutManager = LinearLayoutManager(context)
+        actionsRecycler.adapter = actionsAdapter
+
+        bottomSheetDialog.setContentView(actionView)
+        bottomSheetDialog.show()
     }
 
     override fun showReportSuccess() {
@@ -316,12 +363,12 @@ class ChatViewImpl(
         } else {
             toolbar.menu.removeItem(R.id.pin_off)
         }
-        toolbar.invalidateMenu()
+        toolbar.invalidate()
     }
 
     override fun hideMenu() {
         toolbar.menu.clear()
-        toolbar.invalidateMenu()
+        toolbar.invalidate()
     }
 
     @SuppressLint("NotifyDataSetChanged")

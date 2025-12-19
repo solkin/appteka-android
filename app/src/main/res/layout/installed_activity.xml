@@ -1,10 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- Top app bar -->
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/toolbar_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:elevation="0dp">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:navigationIcon="?attr/homeAsUpIndicator"
+            app:navigationIconTint="?attr/colorOnSurface"
+            app:titleTextAppearance="?attr/textAppearanceTitleMedium"
+            app:titleTextColor="?attr/colorOnSurface"
+            tools:title="@string/app_name" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- Content with pull-to-refresh -->
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh"
         android:layout_width="match_parent"
@@ -17,6 +38,7 @@
             android:layout_height="match_parent"
             tools:ignore="UselessParent">
 
+            <!-- Apps list -->
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -28,8 +50,8 @@
                     android:clipToPadding="false"
                     android:paddingTop="4dp"
                     android:paddingBottom="4dp"
-                    android:scrollbarStyle="outsideOverlay"
-                    android:scrollbars="vertical" />
+                    android:scrollbars="vertical"
+                    android:scrollbarStyle="outsideOverlay" />
 
                 <include
                     layout="@layout/progress_overlay"
@@ -37,27 +59,14 @@
 
             </FrameLayout>
 
+            <!-- Empty state -->
             <include layout="@layout/empty_view" />
 
+            <!-- Error state -->
             <include layout="@layout/error_view" />
 
         </ViewFlipper>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-    <com.google.android.material.appbar.AppBarLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/toolbar_background"
-            app:navigationIcon="?attr/homeAsUpIndicator"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
-
-    </com.google.android.material.appbar.AppBarLayout>
 
 </FrameLayout>

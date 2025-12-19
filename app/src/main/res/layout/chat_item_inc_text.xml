@@ -1,62 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="wrap_content"
+    android:layout_width="match_parent"
     android:background="?android:attr/activatedBackgroundIndicator"
-    android:descendantFocusability="blocksDescendants"
     android:gravity="center_vertical"
+    android:paddingRight="5dp"
     android:orientation="vertical"
     android:paddingLeft="5dp"
-    android:paddingTop="5dp"
-    android:paddingRight="5dp">
+    android:descendantFocusability="blocksDescendants"
+    android:paddingTop="5dp">
 
-    <include layout="@layout/chat_item_date" />
+    <include
+        layout="@layout/chat_item_date" />
 
     <LinearLayout
-        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:baselineAligned="false"
-        android:orientation="horizontal">
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:baselineAligned="false">
 
         <include
-            android:id="@+id/member_icon"
             layout="@layout/user_icon_s"
+            android:scaleType="center"
             android:layout_width="36dp"
             android:layout_height="36dp"
-            android:scaleType="center" />
+            android:id="@+id/member_icon" />
 
         <LinearLayout
-            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:paddingStart="0dp"
-            android:paddingLeft="0dp"
+            android:layout_width="0dp"
             android:paddingEnd="5dp"
-            android:paddingRight="5dp">
+            android:orientation="vertical"
+            android:paddingStart="8dp"
+            android:layout_weight="1">
 
-            <LinearLayout
-                android:id="@+id/inc_bubble_back"
-                android:layout_width="wrap_content"
+            <FrameLayout
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingStart="14dp"
-                android:paddingLeft="14dp"
-                android:paddingTop="3dp"
-                android:paddingEnd="6dp"
-                android:paddingRight="6dp"
-                android:paddingBottom="4dp">
+                android:layout_width="wrap_content"
+                android:layout_marginEnd="80dp">
 
-                <TextView
-                    android:id="@+id/inc_text"
-                    style="@style/Chat.Message"
-                    android:textColor="@color/inc_text_color" />
+                <com.google.android.material.card.MaterialCardView
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:orientation="vertical"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    app:cardElevation="0dp"
+                    app:cardBackgroundColor="?attr/colorSurfaceVariant"
+                    app:cardCornerRadius="16dp"
+                    android:id="@+id/inc_bubble_back">
 
-            </LinearLayout>
+                    <LinearLayout
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:paddingEnd="6dp"
+                        android:orientation="vertical"
+                        android:duplicateParentState="true"
+                        android:paddingBottom="4dp"
+                        android:paddingStart="6dp"
+                        android:paddingTop="4dp">
+
+                        <TextView
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:breakStrategy="balanced"
+                            android:paddingEnd="6dp"
+                            android:includeFontPadding="false"
+                            android:paddingBottom="0dp"
+                            android:textColor="?attr/colorOnSurface"
+                            style="@style/Chat.Message"
+                            android:paddingStart="6dp"
+                            android:hyphenationFrequency="full"
+                            android:id="@+id/inc_text"
+                            android:paddingTop="4dp" />
+
+                        <TextView
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:paddingEnd="2dp"
+                            android:textSize="12sp"
+                            android:paddingBottom="0dp"
+                            android:textColor="?attr/colorOnSurfaceVariant"
+                            android:paddingStart="6dp"
+                            android:id="@+id/inc_time"
+                            android:layout_gravity="end"
+                            android:paddingTop="2dp" />
+
+                    </LinearLayout>
+
+                </com.google.android.material.card.MaterialCardView>
+
+            </FrameLayout>
 
         </LinearLayout>
 
-        <include layout="@layout/time_inc_block" />
+        <include
+            layout="@layout/time_inc_block" />
 
     </LinearLayout>
 

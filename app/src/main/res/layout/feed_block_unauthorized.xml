@@ -1,49 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center_vertical"
-    android:orientation="vertical">
+<LinearLayout
+     xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:app="http://schemas.android.com/apk/res-auto"
+     android:layout_height="match_parent"
+     android:layout_width="match_parent"
+     android:paddingEnd="24dp"
+     android:gravity="center"
+     android:orientation="vertical"
+     android:paddingBottom="24dp"
+     android:paddingStart="24dp"
+     android:paddingTop="24dp">
 
     <ImageView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_gravity="center_horizontal"
-        android:importantForAccessibility="no"
-        android:src="@drawable/newspaper" />
+         android:layout_height="96dp"
+         android:layout_width="96dp"
+         android:layout_marginBottom="16dp"
+         android:src="@drawable/newspaper"
+         android:importantForAccessibility="no"
+         android:tint="?attr/colorPrimary"
+         android:layout_gravity="center_horizontal" />
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:gravity="center_horizontal"
-        android:orientation="vertical">
+         android:layout_height="wrap_content"
+         android:layout_width="match_parent"
+         android:layout_marginBottom="24dp"
+         android:gravity="center_horizontal"
+         android:orientation="vertical">
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-black"
-            android:gravity="center"
-            android:paddingTop="13dp"
-            android:paddingBottom="13dp"
-            android:text="@string/authorization_required_message"
-            android:textColor="?text_primary_color"
-            android:textSize="16sp" />
+             android:layout_height="wrap_content"
+             android:layout_width="match_parent"
+             android:gravity="center"
+             android:textAppearance="?attr/textAppearanceHeadlineSmall"
+             android:paddingBottom="8dp"
+             android:textColor="?attr/colorOnSurface"
+             android:paddingTop="8dp"
+             android:text="@string/authorization_required_message" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingBottom="8dp"
-            android:text="@string/authorization_description"
-            android:textColor="?text_primary_color"
-            android:textSize="16sp" />
+             android:layout_height="wrap_content"
+             android:layout_width="wrap_content"
+             android:gravity="center"
+             android:textAppearance="?attr/textAppearanceBodyMedium"
+             android:paddingBottom="4dp"
+             android:textColor="?attr/colorOnSurfaceVariant"
+             android:paddingTop="4dp"
+             android:text="@string/authorization_description" />
 
     </LinearLayout>
 
     <com.google.android.material.button.MaterialButton
+<<<<<<< HEAD
         android:id="@+id/login_button"
         style="@style/MaterialButtonPrimary"
         android:layout_width="match_parent"
@@ -54,5 +61,14 @@
         android:layout_marginBottom="12dp"
         android:text="@string/login_button"
         />
+=======
+         android:layout_height="wrap_content"
+         android:layout_width="match_parent"
+         android:layout_marginBottom="8dp"
+         style="@style/MaterialButtonPrimary"
+         android:layout_marginTop="8dp"
+         android:id="@+id/login_button"
+         android:text="@string/login_button" />
+>>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
 
 </LinearLayout>

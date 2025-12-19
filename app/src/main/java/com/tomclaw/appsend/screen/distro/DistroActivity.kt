@@ -31,7 +31,7 @@ import com.tomclaw.appsend.upload.UploadApk
 import com.tomclaw.appsend.upload.UploadPackage
 import com.tomclaw.appsend.util.Analytics
 import com.tomclaw.appsend.util.openFileIntent
-import com.tomclaw.appsend.util.updateTheme
+// import com.tomclaw.appsend.util.updateTheme
 import java.io.File
 import javax.inject.Inject
 
@@ -64,7 +64,7 @@ class DistroActivity : AppCompatActivity(), DistroPresenter.DistroRouter {
         Appteka.getComponent()
             .distroComponent(DistroModule(this, presenterState))
             .inject(activity = this)
-        updateTheme()
+      //  updateTheme()
         Permiso.getInstance().setActivity(this)
 
         super.onCreate(savedInstanceState)

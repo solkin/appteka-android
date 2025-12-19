@@ -1,37 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="?selectableItemBackground"
-    android:orientation="vertical"
-    android:paddingTop="4dp"
-    android:paddingBottom="4dp">
+<LinearLayout
+     xmlns:android="http://schemas.android.com/apk/res/android"
+     xmlns:tools="http://schemas.android.com/tools"
+     android:layout_height="wrap_content"
+     android:layout_width="match_parent"
+     android:background="?android:attr/selectableItemBackground"
+     android:orientation="vertical"
+     android:paddingBottom="4dp"
+     android:paddingTop="4dp">
 
     <LinearLayout
-        android:id="@+id/feed_card"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:baselineAligned="false"
-        android:orientation="horizontal">
+         android:layout_height="wrap_content"
+         android:layout_width="match_parent"
+         android:paddingEnd="16dp"
+         android:orientation="horizontal"
+         android:baselineAligned="false"
+         android:paddingBottom="8dp"
+         android:paddingStart="16dp"
+         android:id="@+id/feed_card"
+         android:paddingTop="8dp">
 
         <include
-            android:id="@+id/member_icon"
-            layout="@layout/user_icon_s"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
-            android:layout_gravity="top"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="12dp"
-            android:scaleType="center" />
+             layout="@layout/user_icon_s"
+             android:layout_marginEnd="12dp"
+             android:scaleType="center"
+             android:layout_width="36dp"
+             android:layout_height="36dp"
+             android:layout_marginTop="4dp"
+             android:id="@+id/member_icon"
+             android:layout_gravity="top" />
 
-        <FrameLayout
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1">
+        <LinearLayout
+             android:layout_height="wrap_content"
+             android:layout_width="0dp"
+             android:gravity="center_vertical"
+             android:orientation="vertical"
+             android:clipToPadding="false"
+             android:layout_weight="1">
 
             <LinearLayout
+<<<<<<< HEAD
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -42,76 +50,85 @@
                 android:paddingTop="8dp"
                 android:paddingEnd="12dp"
                 android:paddingBottom="4dp">
+=======
+                 android:layout_height="wrap_content"
+                 android:layout_width="match_parent"
+                 android:gravity="center_vertical"
+                 android:orientation="horizontal">
+>>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal">
+                     android:layout_height="wrap_content"
+                     android:layout_width="0dp"
+                     android:gravity="center_vertical"
+                     android:orientation="horizontal"
+                     android:layout_weight="1">
 
                     <TextView
-                        android:id="@+id/user_name"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start|center_vertical"
-                        android:fontFamily="sans-serif"
-                        android:includeFontPadding="false"
-                        android:singleLine="true"
-                        android:textColor="?text_primary_color"
-                        android:textSize="15sp"
-                        tools:text="Admin" />
+                         android:layout_height="wrap_content"
+                         android:layout_width="wrap_content"
+                         android:textAppearance="?attr/textAppearanceBodyMedium"
+                         android:ellipsize="end"
+                         android:includeFontPadding="false"
+                         android:singleLine="true"
+                         android:textColor="?attr/colorOnSurface"
+                         tools:text="Admin"
+                         android:id="@+id/user_name" />
 
                     <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="sans-serif-medium"
-                        android:paddingStart="6dp"
-                        android:paddingEnd="5dp"
-                        android:text="•"
-                        android:textColor="?text_secondary_color"
-                        android:textSize="16sp"
-                        tools:ignore="HardcodedText" />
+                         android:layout_height="wrap_content"
+                         android:layout_width="wrap_content"
+                         android:paddingEnd="5dp"
+                         android:textAppearance="?attr/textAppearanceBodyMedium"
+                         android:textColor="?attr/colorOnSurfaceVariant"
+                         android:paddingStart="6dp"
+                         tools:ignore="HardcodedText"
+                         android:text="•" />
 
                     <TextView
-                        android:id="@+id/date_view"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="?text_secondary_color"
-                        android:textSize="12sp"
-                        tools:text="2 days ago" />
+                         android:layout_height="wrap_content"
+                         android:layout_width="wrap_content"
+                         android:textAppearance="?attr/textAppearanceLabelSmall"
+                         android:includeFontPadding="false"
+                         android:singleLine="true"
+                         android:textColor="?attr/colorOnSurfaceVariant"
+                         tools:text="2 days ago"
+                         android:id="@+id/date_view" />
 
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingTop="2dp"
-                    android:paddingBottom="2dp"
-                    android:textColor="?attr/text_primary_color"
-                    tools:text="Vel eu dignissim tellus at porttitor euismod est vitae suspendisse.  Pellentesque, eget nascetur velit, odio dictum eget in praesent ultricies.  Varius montes, dignissim bibendum pulvinar laoreet enim sed ac." />
+                <ImageView
+                     android:layout_height="wrap_content"
+                     android:layout_width="wrap_content"
+                     android:visibility="gone"
+                     android:src="@drawable/ic_dots_vertical"
+                     android:tint="?attr/colorPrimary"
+                     android:background="?attr/selectableItemBackgroundBorderless"
+                     tools:visibility="visible"
+                     android:padding="6dp"
+                     android:importantForAccessibility="no"
+                     android:id="@+id/post_menu"
+                     android:layout_gravity="center_vertical" />
 
             </LinearLayout>
 
-            <ImageView
-                android:id="@+id/post_menu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="top|end"
-                android:background="?selectableItemBackgroundBorderless"
-                android:padding="6dp"
-                android:layout_marginTop="2dp"
-                android:layout_marginEnd="4dp"
-                android:src="@drawable/ic_dots_vertical"
-                android:visibility="gone"
-                app:tint="?text_secondary_color"
-                tools:visibility="visible" />
+            <TextView
+                 android:layout_height="wrap_content"
+                 android:layout_width="match_parent"
+                 android:textAppearance="?attr/textAppearanceBodyMedium"
+                 android:includeFontPadding="false"
+                 android:paddingBottom="2dp"
+                 android:textColor="?attr/colorOnSurface"
+                 tools:text="Vel eu dignissim tellus at porttitor euismod est vitae suspendisse. Pellentesque, eget nascetur velit, odio dictum eget in praesent ultricies. Varius montes, dignissim bibendum pulvinar laoreet enim sed ac."
+                 android:id="@+id/text"
+                 android:paddingTop="4dp" />
 
-        </FrameLayout>
+        </LinearLayout>
 
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
+<<<<<<< HEAD
         android:id="@+id/images"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -140,3 +157,17 @@
         tools:listitem="@layout/feed_reaction_item" />
 
 </LinearLayout>
+=======
+         android:layout_height="wrap_content"
+         android:layout_width="match_parent"
+         android:paddingEnd="16dp"
+         android:paddingBottom="4dp"
+         tools:itemCount="3"
+         tools:listitem="@layout/feed_screenshot_item"
+         android:clipToPadding="false"
+         android:paddingStart="64dp"
+         android:id="@+id/images"
+         android:paddingTop="0dp" />
+
+</LinearLayout>
+>>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))

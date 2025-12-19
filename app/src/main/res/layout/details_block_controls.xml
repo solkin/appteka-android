@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:paddingStart="8dp"
-    android:paddingTop="8dp"
-    android:paddingEnd="8dp">
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="8dp">
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/cancel_button"
@@ -14,10 +13,14 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_margin="8dp"
+        android:layout_marginHorizontal="4dp"
         android:layout_weight="1"
+<<<<<<< HEAD
         android:text="@string/cancel"
         />
+=======
+        android:text="@string/cancel" />
+>>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/remove_button"
@@ -25,10 +28,14 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_margin="8dp"
+        android:layout_marginHorizontal="4dp"
         android:layout_weight="1"
+<<<<<<< HEAD
         android:text="@string/remove"
         />
+=======
+        android:text="@string/remove" />
+>>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/install_button"
@@ -36,10 +43,14 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_margin="8dp"
+        android:layout_marginHorizontal="4dp"
         android:layout_weight="1"
+<<<<<<< HEAD
         android:text="@string/install"
         />
+=======
+        android:text="@string/install" />
+>>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/update_button"
@@ -47,10 +58,14 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_margin="8dp"
+        android:layout_marginHorizontal="4dp"
         android:layout_weight="1"
+<<<<<<< HEAD
         android:text="@string/update"
         />
+=======
+        android:text="@string/update" />
+>>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/launch_button"
@@ -58,9 +73,13 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_margin="8dp"
+        android:layout_marginHorizontal="4dp"
         android:layout_weight="1"
+<<<<<<< HEAD
         android:text="@string/open"
         />
+=======
+        android:text="@string/open" />
+>>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+</LinearLayout>

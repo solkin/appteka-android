@@ -4,13 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?selectableItemBackground"
-    android:clipToPadding="false"
+    android:background="?attr/selectableItemBackground"
     android:orientation="vertical"
-    android:paddingStart="20dp"
-    android:paddingTop="16dp"
-    android:paddingEnd="20dp"
-    android:paddingBottom="16dp">
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="16dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,7 +20,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:paddingStart="0dp"
             android:paddingEnd="8dp">
 
             <LinearLayout
@@ -32,59 +28,55 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-black"
-                    android:paddingStart="0dp"
-                    android:paddingEnd="6dp"
-                    android:text="@string/discuss_app"
-                    android:textColor="?text_primary_color"
-                    android:textSize="16sp" />
+                    android:paddingEnd="8dp"
+                    android:textAppearance="?attr/textAppearanceTitleMedium"
+                    android:textColor="?attr/colorOnSurface"
+                    android:text="@string/discuss_app" />
 
-                <TextView
+                <com.google.android.material.textview.MaterialTextView
                     android:id="@+id/msg_count"
                     android:layout_width="wrap_content"
-                    android:layout_height="18sp"
+                    android:layout_height="wrap_content"
+                    android:minWidth="18dp"
                     android:background="@drawable/round_grey_back"
-                    android:backgroundTint="?colorPrimary"
+                    android:backgroundTint="?attr/colorPrimary"
                     android:fontFamily="sans-serif-medium"
                     android:gravity="center"
+                    android:paddingHorizontal="5dp"
                     android:includeFontPadding="false"
-                    android:minWidth="18sp"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="5dp"
-                    android:textColor="@android:color/white"
+                    android:textColor="?attr/colorOnPrimary"
                     android:textSize="11sp"
-                    android:typeface="normal"
+                    android:visibility="gone"
                     tools:text="10"
-                    tools:visibility="gone" />
+                    tools:visibility="visible" />
 
-                <ImageView
+                <com.google.android.material.imageview.ShapeableImageView
                     android:id="@+id/no_msg_indicator"
                     android:layout_width="8dp"
                     android:layout_height="8dp"
                     android:src="@drawable/round_grey_back"
-                    app:tint="?colorPrimary" />
+                    app:tint="?attr/colorPrimary" />
 
             </LinearLayout>
 
-            <TextView
+            <com.google.android.material.textview.MaterialTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="sans-serif"
                 android:paddingTop="2dp"
-                android:text="@string/discuss_description"
-                android:textColor="?text_secondary_color"
-                android:textSize="12sp" />
+                android:textAppearance="?attr/textAppearanceBodySmall"
+                android:textColor="?attr/colorOnSurfaceVariant"
+                android:text="@string/discuss_description" />
 
         </LinearLayout>
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/ic_arrow_forward"
-            app:tint="?text_primary_color" />
+            app:tint="?attr/colorOnSurfaceVariant" />
 
     </LinearLayout>
 

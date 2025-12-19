@@ -3,12 +3,11 @@ package com.tomclaw.appsend.screen.home
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.commit
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.settings.createSettingsActivityIntent
@@ -26,8 +25,6 @@ import com.tomclaw.appsend.screen.store.createStoreFragment
 import com.tomclaw.appsend.screen.topics.createTopicsFragment
 import com.tomclaw.appsend.screen.upload.createUploadActivityIntent
 import com.tomclaw.appsend.util.Analytics
-import com.tomclaw.appsend.util.restartIfThemeChanged
-import com.tomclaw.appsend.util.updateTheme
 import javax.inject.Inject
 import kotlin.system.exitProcess
 
@@ -39,9 +36,6 @@ class HomeActivity : AppCompatActivity(), HomePresenter.HomeRouter {
     @Inject
     lateinit var analytics: Analytics
 
-    private var isDarkTheme: Boolean = false
-    private val handler: Handler = Handler(Looper.getMainLooper())
-
     private val postLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
@@ -51,112 +45,127 @@ class HomeActivity : AppCompatActivity(), HomePresenter.HomeRouter {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
+
         Appteka.getComponent()
-            .homeComponent(HomeModule(context = this, startAction = intent.action, presenterState))
-            .inject(activity = this)
-        isDarkTheme = updateTheme()
+            .homeComponent(HomeModule(this, intent.action, presenterState))
+            .inject(this)
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.home_activity)
 
-        onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                presenter.onBackPressed()
+        onBackPressedDispatcher.addCallback(
+            this,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    presenter.onBackPressed()
+                }
             }
-        })
+        )
 
-        val view = HomeViewImpl(window.decorView)
-
-        presenter.attachView(view)
+        presenter.attachView(HomeViewImpl(window.decorView))
 
         if (savedInstanceState == null) {
             analytics.trackEvent("open-home-screen")
         }
     }
 
+    // ---------------- fragments ----------------
+
     override fun showStoreFragment() {
-        val fragment = getOrCreateFragment(INDEX_STORE) { createStoreFragment() }
-        replaceFragment(fragment, INDEX_STORE)
+        replaceFragment(INDEX_STORE) { createStoreFragment() }
     }
 
     override fun showFeedFragment() {
-        val fragment = getOrCreateFragment(INDEX_FEED) { createFeedFragment() }
-        replaceFragment(fragment, INDEX_FEED)
+        replaceFragment(INDEX_FEED) { createFeedFragment() }
     }
 
     override fun showTopicsFragment() {
-        val fragment = getOrCreateFragment(INDEX_DISCUSS) { createTopicsFragment() }
-        replaceFragment(fragment, INDEX_DISCUSS)
+        replaceFragment(INDEX_DISCUSS) { createTopicsFragment() }
     }
 
     override fun showProfileFragment() {
-        val fragment = getOrCreateFragment(INDEX_PROFILE) { createProfileFragment() }
-        replaceFragment(fragment, INDEX_PROFILE)
+        replaceFragment(INDEX_PROFILE) { createProfileFragment() }
+    }
+
+    private fun replaceFragment(index: Int, creator: () -> Fragment) {
+        val tag = "fragment$index"
+        val fragment = creator() // 🔥 ALWAYS FRESH INSTANCE
+
+        supportFragmentManager.commit {
+            setReorderingAllowed(true)
+            replace(R.id.frame, fragment, tag)
+        }
     }
 
     fun invalidateFragment(data: Intent?) {
-        val pendingRunnable = Runnable {
-            val fragment = supportFragmentManager.findFragmentById(R.id.frame) as? HomeFragment
-            fragment?.handleEvent(data)
-        }
-        handler.post(pendingRunnable)
+        val fragment = supportFragmentManager.findFragmentById(R.id.frame) as? HomeFragment
+        fragment?.handleEvent(data)
     }
 
+    // ---------------- navigation ----------------
+
     override fun openUploadScreen() {
-        val intent = createUploadActivityIntent(context = this, pkg = null, apk = null, info = null)
-        startActivity(intent)
+        startActivity(createUploadActivityIntent(this, null, null, null))
     }
 
     override fun openPostScreen() {
-        val intent = createPostActivityIntent(context = this)
-        postLauncher.launch(intent)
+        postLauncher.launch(createPostActivityIntent(this))
     }
 
     override fun openSearchScreen() {
-        val intent = createSearchActivityIntent(this)
-        startActivity(intent)
+        startActivity(createSearchActivityIntent(this))
     }
 
     override fun openModerationScreen() {
-        val intent = createModerationActivityIntent(this)
-        startActivity(intent)
+        startActivity(createModerationActivityIntent(this))
     }
 
     override fun openInstalledScreen() {
-        val intent = createInstalledActivityIntent(this)
-        startActivity(intent)
+        startActivity(createInstalledActivityIntent(this))
     }
 
     override fun openDistroScreen() {
-        val intent = createDistroActivityIntent(this)
-        startActivity(intent)
+        startActivity(createDistroActivityIntent(this))
     }
 
     override fun openSettingsScreen() {
-        val intent = createSettingsActivityIntent(this)
-        startActivity(intent)
+        startActivity(createSettingsActivityIntent(this))
     }
 
     override fun openAboutScreen() {
-        val intent = createAboutActivityIntent(this)
-        startActivity(intent)
+        startActivity(createAboutActivityIntent(this))
     }
 
-    private fun getOrCreateFragment(index: Int, creator: () -> Fragment): Fragment {
-        return supportFragmentManager.findFragmentByTag("fragment$index") ?: let {
-            creator.invoke()
-        }
+    override fun openAppScreen(appId: String, title: String) {
+        startActivity(
+            createDetailsActivityIntent(
+                context = this,
+                appId = appId,
+                label = title,
+                moderation = false,
+                finishOnly = true
+            )
+        )
     }
 
-    private fun replaceFragment(fragment: Fragment, index: Int) {
-        val pendingRunnable = Runnable {
-            supportFragmentManager
-                .beginTransaction()
-                .setCustomAnimations(0, 0)
-                .replace(R.id.frame, fragment, "fragment$index")
-                .commit()
-        }
-        handler.post(pendingRunnable)
+    override fun openShareUrlDialog(text: String) {
+        startActivity(
+            Intent.createChooser(
+                Intent(Intent.ACTION_SEND).apply {
+                    putExtra(Intent.EXTRA_TEXT, text)
+                    type = "text/plain"
+                },
+                getText(R.string.send_url_to)
+            )
+        )
+    }
+
+    override fun leaveScreen() {
+        finish()
+    }
+
+    override fun exitApp() {
+        exitProcess(0)
     }
 
     override fun onStart() {
@@ -169,11 +178,6 @@ class HomeActivity : AppCompatActivity(), HomePresenter.HomeRouter {
         super.onStop()
     }
 
-    override fun onResume() {
-        super.onResume()
-        restartIfThemeChanged(isDarkTheme)
-    }
-
     override fun onDestroy() {
         presenter.detachView()
         super.onDestroy()
@@ -183,41 +187,10 @@ class HomeActivity : AppCompatActivity(), HomePresenter.HomeRouter {
         super.onSaveInstanceState(outState)
         outState.putBundle(KEY_PRESENTER_STATE, presenter.saveState())
     }
-
-    override fun openAppScreen(appId: String, title: String) {
-        val intent = createDetailsActivityIntent(
-            context = this,
-            appId = appId,
-            label = title,
-            moderation = false,
-            finishOnly = true
-        )
-        startActivity(intent)
-    }
-
-    override fun openShareUrlDialog(text: String) {
-        val intent = Intent().apply {
-            setAction(Intent.ACTION_SEND)
-            putExtra(Intent.EXTRA_TEXT, text)
-            setType("text/plain")
-        }
-        val chooser = Intent.createChooser(intent, resources.getText(R.string.send_url_to))
-        startActivity(chooser)
-    }
-
-    override fun leaveScreen() {
-        finish()
-    }
-
-    override fun exitApp() {
-        exitProcess(0)
-    }
-
 }
 
-fun createHomeActivityIntent(
-    context: Context,
-): Intent = Intent(context, HomeActivity::class.java)
+fun createHomeActivityIntent(context: Context): Intent =
+    Intent(context, HomeActivity::class.java)
 
 private const val KEY_PRESENTER_STATE = "presenter_state"
 private const val INDEX_STORE = 0

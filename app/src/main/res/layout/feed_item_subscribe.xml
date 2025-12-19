@@ -1,131 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?selectableItemBackground"
     android:orientation="vertical"
+    android:background="?android:attr/selectableItemBackground"
     android:paddingTop="4dp"
     android:paddingBottom="4dp">
 
+    <!-- Main row -->
     <LinearLayout
         android:id="@+id/feed_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:baselineAligned="false"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp">
 
+        <!-- User avatar -->
         <include
             android:id="@+id/member_icon"
             layout="@layout/user_icon_s"
             android:layout_width="36dp"
             android:layout_height="36dp"
             android:layout_gravity="top"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="12dp"
-            android:scaleType="center" />
+            android:layout_marginEnd="12dp"
+            android:layout_marginTop="4dp" />
 
+        <!-- Right content column -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
             android:layout_weight="1"
-            android:clipToPadding="false"
-            android:gravity="center_vertical"
             android:orientation="vertical"
+<<<<<<< HEAD
             android:paddingStart="12dp"
             android:paddingTop="8dp"
             android:paddingEnd="4dp"
             android:paddingBottom="4dp">
+=======
+            android:gravity="center_vertical"
+            android:clipToPadding="false">
+>>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
 
+            <!-- Header: name + dot + date + menu -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
 
+                <!-- Name + dot + date -->
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:paddingStart="0dp"
-                    android:paddingEnd="8dp"
-                    android:orientation="vertical">
+                    android:orientation="horizontal"
+                    android:gravity="center_vertical">
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/user_name"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
+                        android:includeFontPadding="false"
+                        android:singleLine="true"
+                        android:ellipsize="end"
+                        android:textAppearance="?attr/textAppearanceBodyMedium"
+                        android:textColor="?attr/colorOnSurface"
+                        tools:text="Admin" />
 
-                        <TextView
-                            android:id="@+id/user_name"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="start|center_vertical"
-                            android:fontFamily="sans-serif"
-                            android:includeFontPadding="false"
-                            android:singleLine="true"
-                            android:textColor="?text_primary_color"
-                            android:textSize="15sp"
-                            tools:text="Admin" />
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:fontFamily="sans-serif-medium"
-                            android:paddingStart="6dp"
-                            android:paddingEnd="5dp"
-                            android:text="•"
-                            android:textColor="?text_secondary_color"
-                            android:textSize="16sp"
-                            tools:ignore="HardcodedText" />
-
-                        <TextView
-                            android:id="@+id/date_view"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="?text_secondary_color"
-                            android:textSize="12sp"
-                            tools:text="2 days ago" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
+                        android:paddingStart="6dp"
+                        android:paddingEnd="5dp"
+                        android:text="•"
+                        android:textAppearance="?attr/textAppearanceBodyMedium"
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        tools:ignore="HardcodedText" />
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:includeFontPadding="false"
-                            android:paddingStart="0dp"
-                            android:paddingTop="2dp"
-                            android:paddingEnd="4dp"
-                            android:paddingBottom="2dp"
-                            android:text="@string/subscribed_to"
-                            android:textColor="?attr/text_primary_color"
-                            android:textSize="15sp" />
-
-                        <include layout="@layout/uploader" />
-
-                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/date_view"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:includeFontPadding="false"
+                        android:singleLine="true"
+                        android:textAppearance="?attr/textAppearanceLabelSmall"
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        tools:text="2 days ago" />
 
                 </LinearLayout>
 
+                <!-- Overflow menu -->
                 <ImageView
                     android:id="@+id/post_menu"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:background="?selectableItemBackgroundBorderless"
                     android:padding="6dp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
                     android:src="@drawable/ic_dots_vertical"
                     android:visibility="gone"
-                    app:tint="?text_secondary_color"
-                    tools:visibility="visible" />
+                    tools:visibility="visible"
+                    android:importantForAccessibility="no" />
+
+            </LinearLayout>
+
+            <!-- Action row: "subscribed to" + uploader -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingTop="4dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
+                    android:paddingEnd="4dp"
+                    android:text="@string/subscribed_to"
+                    android:textAppearance="?attr/textAppearanceBodySmall"
+                    android:textColor="?attr/colorOnSurfaceVariant" />
+
+                <include
+                    layout="@layout/uploader"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp" />
 
             </LinearLayout>
 
@@ -133,6 +138,7 @@
 
     </LinearLayout>
 
+<<<<<<< HEAD
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/reactions"
         android:layout_width="wrap_content"
@@ -148,3 +154,6 @@
         tools:listitem="@layout/feed_reaction_item" />
 
 </LinearLayout>
+=======
+</LinearLayout>
+>>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))

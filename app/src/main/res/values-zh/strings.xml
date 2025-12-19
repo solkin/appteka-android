@@ -1,7 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Appteka</string>
+    <string name="save_to_device">保存到设备下载</string>
+    <string name="save_location">文件已成功保存到 下载/应用: %1$s</string>
+    <string name="save_error">保存应用程序文件失败。</string>
+
+
+    <string name="pref_theme">pref_theme</string>
+    <string name="pref_title_theme">主题</string>
+    <string name="pref_summary_theme">选择应用主题</string>
+    <string name="pref_theme_mode">pref_theme_mode</string>
+    <string name="pref_dynamic_colors">pref_dynamic_colors</string>
+    <string name="pref_title_dynamic_colors">动态颜色</string>
+    <string name="theme_dialog_title">选择主题</string>
+    <string name="theme_system">系统默认</string>
+    <string name="theme_light">浅色</string>
+    <string name="theme_dark">深色</string>
+    <string name="theme_battery_saver">省电模式</string>
+    <string name="restart_now">立即重启</string>
+    <string name="clear_cache_dialog_title">确认清除缓存</string>
+    <string name="clear_cache_dialog_message">存储中所有先前由 %1$s 下载的 APK 文件都将被移除。此操作无法撤消。您希望继续吗？</string>
+    <string name="clear_cache_dialog_positive">是，删除文件</string>
+    <string name="pref_category_appearance_title">外观</string>
+    <string name="pref_category_app_behavior_key">app_behavior_settings</string>
+    <string name="pref_category_app_behavior_title">应用行为</string>
+    <string name="pref_category_general_title">常规</string>
+    <string name="pref_summary_dynamic_colors">在 Android 12+ 设备上使用壁纸颜色（需要重启）</string>
+    <string name="restart_required_dynamic_colors_short">重启以应用更改。</string>
+
+
     <string name="bytes">%d B</string>
+    <string name="send">发送</string>
     <string name="kibibytes">%.1f KB</string>
     <string name="mibibytes">%.1f MB</string>
     <string name="gigibytes">%.1f GB</string>
@@ -12,7 +41,7 @@
     <string name="app_version">版本 %1$s (%2$d)</string>
     <string name="info">信息</string>
     <string name="pref_base_title">基本设置</string>
-    <string name="pref_summary_show_system">在列表中显示系统应用程序 </string>
+    <string name="pref_summary_show_system">在列表中显示系统应用程序</string>
     <string name="pref_title_show_system">系统应用</string>
     <string name="got_it">我明白了</string>
     <string name="system_apps_warning_title">注意!</string>
@@ -116,7 +145,7 @@
     <string name="role_admin">群组管理员</string>
     <string name="role_moderator">群组维护者</string>
     <string name="role_default">普通用户</string>
-    <string name="joined_date">与 %s 加入 Appteka </string>
+    <string name="joined_date">与 %s 加入 Appteka</string>
     <string name="last_seen">最后一次上线%s</string>
     <string name="online">在线</string>
     <string name="offline">离线</string>
@@ -236,7 +265,7 @@
     <string name="unmarked_favorite">该应用程序已从收藏夹中删除</string>
     <string name="mark_favorite_error">添加到收藏夹时出错</string>
     <string name="unmark_favorite_error">从收藏夹中删除时出错</string>
-    <string name="favorite_activity">收藏夹 </string>
+    <string name="favorite_activity">收藏夹</string>
     <string name="favorite_apps">已收藏的应用</string>
     <string name="send_verification_code">发送验证码</string>
     <string name="send_verification_code_description">我们将向您发送验证码</string>
@@ -256,7 +285,7 @@
     <string name="authorization_description">授权说明</string>
     <string name="error_domain_blocked">禁止使用临时邮箱地址</string>
     <string name="add_screenshot">添加截吐</string>
-    <string name="screenshots_title">截图 </string>
+    <string name="screenshots_title">截图</string>
     <string name="download_screenshot">下载截图</string>
     <string name="error_saving_screenshot">保存截图失败</string>
     <plurals name="days_ago">

@@ -7,6 +7,7 @@ import android.widget.RatingBar
 import android.widget.TextView
 import androidx.core.widget.addTextChangedListener
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.appbar.MaterialToolbar
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.dto.UserIcon
@@ -63,7 +64,7 @@ class RateViewImpl(view: View) : RateView {
 
     private val overlayProgress: View = view.findViewById(R.id.overlay_progress)
     private val scrollView: View = view.findViewById(R.id.scroll_view)
-    private val back: View = view.findViewById(R.id.go_back)
+    private val toolbar: MaterialToolbar = view.findViewById(R.id.toolbar)
     private val icon: ImageView = view.findViewById(R.id.icon)
     private val title: TextView = view.findViewById(R.id.title)
     private val subtitle: TextView = view.findViewById(R.id.subtitle)
@@ -80,7 +81,11 @@ class RateViewImpl(view: View) : RateView {
 
     init {
         subtitle.setText(R.string.rate_app)
-        back.clicks(navigationRelay)
+
+        toolbar.setNavigationOnClickListener {
+            navigationRelay.accept(Unit)
+        }
+
         ratingView.setOnRatingBarChangeListener { _, rating, fromUser ->
             if (fromUser) {
                 ratingRelay.accept(rating)

@@ -1,10 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Appteka</string>
+    <string name="save_to_device">Save to Device Downloads</string>
+    <string name="save_location">File saved successfully to Downloads/App: %1$s</string>
+    <string name="save_error">Failed to save the application file.</string>
+
+
+    <string name="pref_theme">pref_theme</string>
+    <string name="pref_title_theme">Theme</string>
+    <string name="pref_summary_theme">Select the app theme</string>
+    <string name="pref_theme_mode">pref_theme_mode</string>
+    <string name="pref_dynamic_colors">pref_dynamic_colors</string>
+    <string name="pref_title_dynamic_colors">Dynamic colors</string>
+    <string name="theme_dialog_title">Select theme</string>
+    <string name="theme_system">System default</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="theme_battery_saver">Battery saver</string>
+    <string name="restart_now">Restart now</string>
+    <string name="clear_cache_dialog_title">Confirm Cache Clearing</string>
+    <string name="clear_cache_dialog_message">All previously downloaded APKs by %1$s in Storage will be removed. This action cannot be undone. Do you wish to proceed?</string>
+    <string name="clear_cache_dialog_positive">Yes, Delete Files</string>
+    <string name="pref_category_appearance_title">Appearance</string>
+    <string name="pref_category_app_behavior_key">app_behavior_settings</string>
+    <string name="pref_category_app_behavior_title">App Behavior</string>
+    <string name="pref_category_general_title">General</string>
+    <string name="pref_summary_dynamic_colors">Uses wallpaper colors on Android 12+ devices (Restart required)</string>
+    <string name="restart_required_dynamic_colors_short">Restart to apply changes.</string>
+
+
     <string name="bytes">%d B</string>
     <string name="kibibytes">%.1f KB</string>
     <string name="mibibytes">%.1f MB</string>
     <string name="gigibytes">%.1f GB</string>
+    <string name="send">Send</string>
     <string name="please_wait">Please, wait…</string>
     <string name="app_extract_success">The application has been exported successfully</string>
     <string name="app_extract_failed">Exporting failed :(</string>
@@ -18,7 +47,7 @@
     <string name="system_apps_warning_title">Warning!</string>
     <string name="system_apps_warning_message">System apps are not usual apps and there is no warranty of its
         successful export!
-    </string>
+</string>
     <string name="settings">Settings</string>
     <string name="success">Success!</string>
     <string name="yes">Yes</string>
@@ -59,9 +88,13 @@
     <string name="pref_title_dark_theme">Dark theme</string>
     <string name="pref_dark_theme_system">Dark colors in application appearance</string>
     <string name="cancel">Cancel</string>
-    <string name="percent" translatable="false">%d %%</string>
+    <string
+        name="percent"
+        translatable="false">%d %%</string>
     <string name="upload">Upload</string>
-    <string name="uploaded_url" translatable="false">%1$s (%2$s)\n%3$s</string>
+    <string
+        name="uploaded_url"
+        translatable="false">%1$s (%2$s)\n%3$s</string>
     <string name="tab_store">Store</string>
     <string name="retry">Retry</string>
     <string name="store_loading_error">Failed to retrieve applications list</string>
@@ -75,7 +108,9 @@
     <string name="app_version_title">Version</string>
     <string name="uploaded_title">Uploaded</string>
     <string name="checksum_title">Checksum (SHA1)</string>
-    <string name="app_version_format" translatable="false">%1$s (%2$d)</string>
+    <string
+        name="app_version_format"
+        translatable="false">%1$s (%2$d)</string>
     <string name="update">Update</string>
     <string name="abuse">Abuse</string>
     <string name="your_email">Your E-mail</string>
@@ -105,7 +140,9 @@
     <string name="report">Report abuse</string>
     <string name="error_message_report">Unable to report abuse</string>
     <string name="message_report_sent">Thank you for helping in discussions moderation!</string>
-    <string name="reply_form" translatable="false">&gt; %s\n</string>
+    <string
+        name="reply_form"
+        translatable="false">&gt; %s\n</string>
     <string name="exclusive_short">Exclusive</string>
     <string name="exclusive">Exclusive app (do not present in Google Play)</string>
     <string name="description">Description</string>
@@ -272,7 +309,9 @@
     <string name="authorization_required_message">Log in to continue</string>
     <string name="authorization_description">Log in and take advantage of Appteka\'s personal capabilities</string>
     <string name="error_domain_blocked">Temporary emails are prohibited</string>
-    <string name="gallery_title" translatable="false">%d / %d</string>
+    <string
+        name="gallery_title"
+        translatable="false">%d / %d</string>
     <string name="add_screenshot">Add screenshot</string>
     <string name="screenshots_title">Screenshots</string>
     <string name="download_screenshot">Download screenshot</string>
@@ -349,4 +388,5 @@
         <item quantity="many">%d apps were downloaded</item>
         <item quantity="other">%d apps were downloaded</item>
     </plurals>
+    <string name="go_back">Go Back</string>
 </resources>

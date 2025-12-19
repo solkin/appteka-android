@@ -1,122 +1,134 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?selectableItemBackground"
     android:orientation="vertical"
+    android:background="?android:attr/selectableItemBackground"
     android:paddingTop="4dp"
     android:paddingBottom="4dp">
 
+    <!-- Main row: icon + app info + rating/date -->
     <LinearLayout
         android:id="@+id/review_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp">
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:gravity="center_vertical">
 
-        <androidx.cardview.widget.CardView
+        <!-- App icon card -->
+        <com.google.android.material.card.MaterialCardView
             android:id="@+id/icon_back"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_gravity="center_vertical"
+<<<<<<< HEAD
             android:layout_margin="12dp"
             app:cardCornerRadius="16dp"
             app:cardElevation="4dp">
+=======
+            android:layout_marginEnd="12dp"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="0dp"
+            app:strokeWidth="0dp"
+            app:cardBackgroundColor="?attr/colorSurface">
+>>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
 
             <ImageView
                 android:id="@+id/app_icon"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:layout_gravity="center_vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:contentDescription="@string/app_icon"
                 android:scaleType="centerCrop"
                 tools:src="@mipmap/ic_launcher" />
 
-        </androidx.cardview.widget.CardView>
+        </com.google.android.material.card.MaterialCardView>
 
+        <!-- Text + rating column -->
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:gravity="center_vertical"
-            android:orientation="vertical">
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center_vertical">
 
+            <!-- App name + version -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
 
                 <TextView
                     android:id="@+id/app_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="start|center_vertical"
-                    android:fontFamily="sans-serif-medium"
                     android:includeFontPadding="false"
                     android:singleLine="true"
-                    android:textColor="?text_primary_color"
-                    android:textSize="14sp"
+                    android:ellipsize="end"
+                    android:textAppearance="?attr/textAppearanceBodyMedium"
+                    android:textColor="?attr/colorOnSurface"
                     tools:text="AppSend" />
 
                 <TextView
                     android:id="@+id/app_version"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="start|center_vertical"
-                    android:fontFamily="sans-serif"
                     android:includeFontPadding="false"
-                    android:paddingStart="4dp"
-                    android:paddingLeft="4dp"
                     android:singleLine="true"
-                    android:textColor="?text_secondary_color"
-                    android:textSize="14sp"
+                    android:paddingStart="4dp"
+                    android:textAppearance="?attr/textAppearanceBodySmall"
+                    android:textColor="?attr/colorOnSurfaceVariant"
                     tools:text="3.4" />
 
             </LinearLayout>
 
+            <!-- Rating bar -->
             <me.zhanghai.android.materialratingbar.MaterialRatingBar
-                android:id="@+id/rating_view"
-                style="@style/Widget.MaterialRatingBar.RatingBar"
-                android:layout_width="wrap_content"
-                android:layout_height="18dp"
-                android:layout_marginTop="3dp"
-                android:isIndicator="true"
-                android:numStars="5"
-                android:progressBackgroundTint="?rating_empty"
-                android:progressDrawable="@drawable/rating_bar_small"
-                android:progressTint="?rating_fill"
-                android:rating="0"
-                android:secondaryProgressTint="?rating_empty"
-                android:stepSize="0.5"
-                app:mrb_fillBackgroundStars="true"
-                tools:rating="3.5" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="18dp"
+                    android:id="@+id/rating_view"
+                    android:numStars="5"
+                    android:rating="3"
+                    android:stepSize="1"
+                    android:isIndicator="true"
+                    android:progressTint="#FFFFC107"
+                    android:progressBackgroundTint="#FFBDBDBD"
+                    android:secondaryProgressTint="#FFBDBDBD"
+                    app:mrb_fillBackgroundStars="true"
+                    style="@style/Widget.MaterialRatingBar.RatingBar" />
 
+            <!-- Date -->
             <TextView
                 android:id="@+id/date_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="2dp"
-                android:textColor="?text_secondary_color"
-                android:textSize="12sp"
+                android:includeFontPadding="false"
+                android:textAppearance="?attr/textAppearanceLabelSmall"
+                android:textColor="?attr/colorOnSurfaceVariant"
                 tools:text="15.10.2017" />
 
         </LinearLayout>
 
     </LinearLayout>
 
+    <!-- Review text -->
     <TextView
         android:id="@+id/review_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingStart="20dp"
         android:paddingEnd="20dp"
-        android:paddingBottom="6dp"
-        android:textColor="?text_primary_color"
-        android:textSize="16sp"
+        android:paddingBottom="8dp"
+        android:paddingTop="2dp"
+        android:includeFontPadding="false"
+        android:textAppearance="?attr/textAppearanceBodyMedium"
+        android:textColor="?attr/colorOnSurface"
         tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam lobortis accumsan molestie. Maecenas purus sapien, aliquet sed vehicula quis, egestas id lectus. Fusce commodo neque augue, sit amet vehicula odio maximus eu. Cras tristique semper vulputate. Etiam vehicula diam non justo sodales vestibulum. Nam sagittis elit sit amet arcu cursus, at dapibus lacus venenatis." />
 
 </LinearLayout>

@@ -10,16 +10,19 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
-import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder
+// REMOVED: import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
-import com.tomclaw.appsend.util.getAttributedColor
+// REMOVED: import com.tomclaw.appsend.util.getAttributedColor
 import com.tomclaw.appsend.util.hide
 import com.tomclaw.appsend.util.hideWithAlphaAnimation
 import com.tomclaw.appsend.util.show
 import com.tomclaw.appsend.util.showWithAlphaAnimation
 import io.reactivex.rxjava3.core.Observable
+import com.tomclaw.appsend.main.adapter.files.ActionItem
+import com.tomclaw.appsend.main.adapter.files.ActionsAdapter
 
 interface DetailsView {
 
@@ -179,41 +182,37 @@ class DetailsViewImpl(
     }
 
     override fun showVersionsDialog(items: List<VersionItem>) {
-        val theme = R.style.BottomSheetDialogDark.takeIf { preferences.isDarkTheme() }
-            ?: R.style.BottomSheetDialogLight
-        var bottomSheet: Dialog? = null
-        bottomSheet = BottomSheetBuilder(context, theme)
-            .setMode(BottomSheetBuilder.MODE_LIST)
-            .apply {
-                for (item in items) {
-                    val icon = if (item.compatible) {
-                        if (item.newer) {
-                            setIconTintColorResource(R.color.newer_color)
-                            setItemTextColorResource(R.color.newer_text_color)
-                            R.drawable.ic_new
-                        } else {
-                            setIconTintColor(getAttributedColor(context, R.attr.menu_icons_tint))
-                            setItemTextColor(getAttributedColor(context, R.attr.text_primary_color))
-                            R.drawable.ic_download_circle
-                        }
-                    } else {
-                        setIconTintColorResource(R.color.incompatible_color)
-                        setItemTextColorResource(R.color.incompatible_text_color)
-                        R.drawable.ic_alert_circle
-                    }
-                    addItem(item.versionId, item.title, icon)
-                }
+        val bottomSheetDialog = BottomSheetDialog(context)
+        
+        // Inflate the custom layout containing the RecyclerView
+        val actionView = View.inflate(context, R.layout.bottom_sheet_actions, null) 
+        val actionsRecycler: RecyclerView = actionView.findViewById(R.id.actions_recycler)
+
+        // Setup the list of actions
+        val actions = mutableListOf<ActionItem>()
+        for (item in items) {
+            val iconRes = when {
+                item.newer -> R.drawable.ic_new // Assuming this icon exists and is styled by M3 theme
+                item.compatible -> R.drawable.ic_git
+                else -> R.drawable.ic_alert_circle
             }
-            .setItemClickListener { item ->
-                items.find {
-                    it.versionId == item.itemId
-                }?.let {
-                    bottomSheet?.hide()
-                    versionRelay.accept(it)
-                }
+            // FIX: Using item.title (String) directly instead of expecting a resource ID (Int).
+            // This requires modifying the ActionItem class to accept a String.
+            actions.add(ActionItem(item.versionId, item.title, iconRes))
+        }
+
+        val actionsAdapter = ActionsAdapter(actions) { itemId ->
+            bottomSheetDialog.dismiss()
+            items.find { it.versionId == itemId }?.let {
+                versionRelay.accept(it)
             }
-            .createDialog()
-            .apply { show() }
+        }
+        
+        actionsRecycler.layoutManager = LinearLayoutManager(context)
+        actionsRecycler.adapter = actionsAdapter
+
+        bottomSheetDialog.setContentView(actionView)
+        bottomSheetDialog.show()
     }
 
     override fun showSnackbar(text: String) {

@@ -1,29 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?selectableItemBackground"
+    android:focusable="true"
+    android:background="?android:attr/selectableItemBackground"
     android:orientation="vertical"
-    android:paddingTop="4dp"
-    android:paddingBottom="4dp">
+    android:paddingTop="8dp"
+    android:paddingBottom="8dp">
 
     <LinearLayout
         android:id="@+id/review_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:baselineAligned="false"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp">
 
         <include
             android:id="@+id/member_icon"
             layout="@layout/user_icon_s"
-            android:layout_width="36dp"
-            android:layout_height="36dp"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_gravity="center_vertical"
-            android:layout_margin="12dp"
-            android:scaleType="center" />
+            android:layout_marginEnd="16dp"
+            android:scaleType="centerCrop" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -37,36 +41,35 @@
                 android:id="@+id/user_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start|center_vertical"
-                android:fontFamily="sans-serif"
+                android:layout_gravity="start"
+                android:fontFamily="sans-serif-medium"
                 android:includeFontPadding="false"
                 android:singleLine="true"
-                android:textColor="?text_primary_color"
-                android:textSize="15sp"
+                android:textAppearance="?attr/textAppearanceTitleSmall"
+                android:textColor="?attr/colorOnSurface"
                 tools:text="Admin" />
 
             <TextView
                 android:id="@+id/date_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingStart="0dp"
-                android:paddingTop="3dp"
-                android:paddingEnd="0dp"
-                android:textColor="?text_secondary_color"
-                android:textSize="12sp"
+                android:paddingTop="2dp"
+                android:textAppearance="?attr/textAppearanceBodySmall"
+                android:textColor="?attr/colorOnSurfaceVariant"
                 tools:text="Subscribed 2 days ago" />
 
         </LinearLayout>
 
     </LinearLayout>
 
-    <ProgressBar
+    <com.google.android.material.progressindicator.CircularProgressIndicator
         android:id="@+id/item_progress"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        style="@style/Widget.Material3Expressive.CircularProgressIndicator.Wavy"
         android:layout_gravity="center_horizontal"
-        android:paddingTop="8dp"
-        android:paddingBottom="12dp"
+        android:layout_marginVertical="16dp"
+        android:indeterminate="true"
         android:visibility="gone"
         tools:visibility="visible" />
 

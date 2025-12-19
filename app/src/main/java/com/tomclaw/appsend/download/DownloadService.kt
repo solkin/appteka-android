@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Binder
 import android.os.Build
 import android.os.IBinder
+import android.content.pm.ServiceInfo
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.download.di.DownloadServiceModule
 import javax.inject.Inject
@@ -27,9 +28,14 @@ class DownloadService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        intent?.let { onIntentReceived(it) }
-
-        return super.onStartCommand(intent, flags, startId)
+        intent?.let {
+            try {
+                onIntentReceived(it)
+            } catch (t: Throwable) {
+                t.printStackTrace()
+            }
+        }
+        return START_STICKY
     }
 
     private fun onIntentReceived(intent: Intent): Boolean {
@@ -39,10 +45,9 @@ class DownloadService : Service() {
         val appId = intent.getStringExtra(EXTRA_APP_ID) ?: return false
         val url = intent.getStringExtra(EXTRA_URL) ?: return false
 
-        println("[download service] onStartCommand(label = $label, version = $version, appId = $appId, url = $url)")
+        println("[download service] onStartCommand(label=$label, version=$version, appId=$appId)")
 
         val relay = downloadManager.status(appId)
-
         val file = downloadManager.download(label, version, appId, url)
 
         notifications.subscribe(
@@ -51,34 +56,53 @@ class DownloadService : Service() {
             icon = icon,
             file = file,
             start = { notificationId, notification ->
-                startForeground(notificationId, notification)
+                startForegroundSafe(notificationId, notification)
             },
             stop = {
-                stopForeground()
+                stopForegroundSafe()
             },
-            observable = relay,
+            observable = relay
         )
         return true
     }
 
+    private fun startForegroundSafe(id: Int, notification: android.app.Notification) {
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                startForeground(
+                    id,
+                    notification,
+                    ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC
+                )
+            } else {
+                startForeground(id, notification)
+            }
+        } catch (t: Throwable) {
+            // Android 14 crash protection
+            t.printStackTrace()
+        }
+    }
+
     @Suppress("DEPRECATION")
-    private fun Service.stopForeground() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            stopForeground(STOP_FOREGROUND_REMOVE)
-        } else {
-            stopForeground(true)
+    private fun stopForegroundSafe() {
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                stopForeground(STOP_FOREGROUND_REMOVE)
+            } else {
+                stopForeground(true)
+            }
+        } catch (t: Throwable) {
+            t.printStackTrace()
         }
     }
 
     override fun onDestroy() {
         println("[download service] onDestroy")
-        stopForeground()
+        stopForegroundSafe()
+        super.onDestroy()
     }
 
-    override fun onBind(intent: Intent): IBinder {
-        println("[download service] onBind")
-        return Binder()
-    }
+    override fun onBind(intent: Intent): IBinder = Binder()
 }
 
 fun createDownloadIntent(

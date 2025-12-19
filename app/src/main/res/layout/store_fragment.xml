@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -13,75 +13,76 @@
         <ViewFlipper
             android:id="@+id/view_flipper"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:ignore="UselessParent">
+            android:layout_height="match_parent">
 
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <LinearLayout
+                    android:id="@+id/store_content"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical">
 
-                    <LinearLayout
+                    <com.google.android.material.card.MaterialCardView
                         android:id="@+id/button_categories"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="?selectableItemBackground"
-                        android:gravity="center"
-                        android:orientation="horizontal"
-                        android:padding="12dp">
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        app:cardElevation="0dp"
+                        app:cardBackgroundColor="?attr/colorSurfaceContainerHigh"
+                        android:foreground="?attr/selectableItemBackground">
 
-                        <ImageView
-                            android:id="@+id/category_icon"
+                        <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/ic_category"
-                            app:tint="?attr/text_secondary_color" />
+                            android:orientation="horizontal"
+                            android:paddingHorizontal="16dp"
+                            android:paddingVertical="12dp"
+                            android:gravity="center_vertical"
+                            android:layout_gravity="center">
 
-                        <TextView
-                            android:id="@+id/category_title"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingStart="8dp"
-                            android:paddingLeft="8dp"
-                            android:text="@string/all_categories"
-                            android:textColor="?attr/text_secondary_color"
-                            android:textSize="16sp" />
+                            <com.google.android.material.imageview.ShapeableImageView
+                                android:id="@+id/category_icon"
+                                android:layout_width="24dp"
+                                android:layout_height="24dp"
+                                android:src="@drawable/ic_category"
+                                android:tint="?attr/colorPrimary" />
 
-                    </LinearLayout>
+                            <com.google.android.material.textview.MaterialTextView
+                                android:id="@+id/category_title"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="12dp"
+                                android:text="@string/all_categories"
+                                android:textAppearance="?attr/textAppearanceTitleMedium" />
 
-                    <FrameLayout
+                        </LinearLayout>
+
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/recycler"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:clipToPadding="false"
-                            android:paddingTop="4dp"
-                            android:paddingBottom="8dp"
-                            android:scrollbarStyle="outsideOverlay"
-                            android:scrollbars="vertical" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="?divider_color" />
-
-                    </FrameLayout>
+                        android:layout_height="0dp"
+                        android:layout_weight="1"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="16dp"
+                        android:clipToPadding="false" />
 
                 </LinearLayout>
 
-                <include layout="@layout/progress_overlay" />
+                <include
+                    android:id="@+id/overlay_progress"
+                    layout="@layout/progress_overlay"
+                    android:visibility="visible" />
 
             </FrameLayout>
 
             <include layout="@layout/empty_view" />
-
             <include layout="@layout/error_view" />
 
         </ViewFlipper>

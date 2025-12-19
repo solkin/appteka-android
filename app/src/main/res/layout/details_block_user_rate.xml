@@ -1,54 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:paddingLeft="20dp"
-    android:paddingTop="12dp"
-    android:paddingRight="20dp"
-    android:paddingBottom="0dp">
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="16dp">
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-black"
+        android:textAppearance="?attr/textAppearanceTitleMedium"
+        android:textColor="?attr/colorOnSurface"
         android:paddingBottom="2dp"
-        android:text="@string/rate_app"
-        android:textColor="?text_primary_color"
-        android:textSize="16sp" />
+        android:text="@string/rate_app" />
 
-    <TextView
+    <com.google.android.material.textview.MaterialTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif"
         android:paddingBottom="12dp"
-        android:text="@string/rate_app_description"
-        android:textColor="?text_secondary_color"
-        android:textSize="12sp" />
+        android:textAppearance="?attr/textAppearanceBodyMedium"
+        android:textColor="?attr/colorOnSurfaceVariant"
+        android:text="@string/rate_app_description" />
 
     <me.zhanghai.android.materialratingbar.MaterialRatingBar
-        android:id="@+id/rating_view"
-        style="@style/Widget.MaterialRatingBar.RatingBar"
-        android:layout_width="match_parent"
-        android:layout_height="32dp"
-        android:layout_marginTop="12dp"
-        android:layout_marginBottom="12dp"
-        android:isIndicator="false"
-        android:numStars="5"
-        android:rating="0"
-        android:stepSize="1" />
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:id="@+id/rating_view"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginBottom="24dp"
+            android:numStars="5"
+            android:rating="0"
+            android:stepSize="1"
+            android:isIndicator="false"
+            android:progressTint="#FFFFC107"
+            android:progressBackgroundTint="#FFBDBDBD"
+            android:secondaryProgressTint="#FFBDBDBD"
+            style="@style/Widget.MaterialRatingBar.RatingBar" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/feedback_button"
         style="@style/MaterialButtonSecondary"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+<<<<<<< HEAD
         android:text="@string/write_feedback"
         android:layout_marginLeft="-8dp"
         android:layout_marginRight="-8dp"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
         />
+=======
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        android:text="@string/write_feedback" />
+>>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
 
 </LinearLayout>

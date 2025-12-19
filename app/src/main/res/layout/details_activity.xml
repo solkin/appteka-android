@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -16,7 +17,9 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:paddingBottom="20dp"
+            android:clipToPadding="false" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
@@ -27,53 +30,45 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="-6dp"
         android:orientation="vertical"
         android:visibility="gone"
         tools:visibility="visible">
 
-        <View
+        <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
-            android:layout_height="6dp"
-            android:background="@drawable/shadow_inverted" />
+            android:layout_height="wrap_content" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?android:windowBackground">
+            android:background="?attr/colorSurfaceContainer"
+            android:paddingVertical="8dp">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_approve"
+<<<<<<< HEAD
                 style="@style/Widget.Material3.Button.TextButton"
+=======
+                style="@style/MaterialButtonPrimary"
+>>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="6dp"
-                android:layout_marginRight="6dp"
+                android:layout_marginHorizontal="8dp"
                 android:layout_weight="1"
-                android:text="@string/moderation_approve"
-                android:textAllCaps="false"
-                android:textColor="@color/approve_color"
-                app:rippleColor="@color/green_text_btn_ripple_color" />
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:background="?attr/divider_color" />
+                android:text="@string/moderation_approve" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_deny"
+<<<<<<< HEAD
                 style="@style/Widget.Material3.Button.TextButton"
+=======
+                style="@style/MaterialButtonSecondaryOutline"
+>>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="6dp"
-                android:layout_marginRight="6dp"
+                android:layout_marginHorizontal="8dp"
                 android:layout_weight="1"
-                android:text="@string/moderation_decline"
-                android:textAllCaps="false"
-                android:textColor="@color/decline_color"
-                app:rippleColor="@color/red_text_btn_ripple_color" />
+                android:text="@string/moderation_decline" />
 
         </LinearLayout>
 
@@ -84,40 +79,48 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="?actionBarSize"
-        android:background="?android:windowBackground"
+        android:background="?attr/colorSurface"
         android:clickable="true"
         android:focusable="true"
         android:gravity="center"
         android:orientation="vertical"
         android:visibility="gone">
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/error_title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="@string/details_error_title"
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textAppearance="?attr/textAppearanceTitleMedium"
+            android:textColor="?attr/colorOnSurface"
+            android:text="@string/details_error_title" />
 
-        <TextView
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/error_subtitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:paddingTop="2dp"
-            android:text="@string/details_error_subtitle"
-            android:textSize="14sp" />
+            android:paddingTop="4dp"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:text="@string/details_error_subtitle" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/retry_button"
             style="@style/MaterialButtonPrimary"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+<<<<<<< HEAD
             android:layout_marginTop="16dp"
             android:text="@string/retry"
             />
+=======
+            android:layout_marginTop="24dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:text="@string/retry" />
+>>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
 
     </LinearLayout>
 
@@ -126,7 +129,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="?actionBarSize"
-        android:background="?android:windowBackground"
+        android:background="?attr/colorSurface"
         android:visibility="gone">
 
         <include
@@ -138,16 +141,13 @@
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/toolbar_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/AppTheme.AppBarOverlay">
+        android:layout_height="wrap_content">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/toolbar_background"
-            app:navigationIcon="?attr/homeAsUpIndicator"
-            app:popupTheme="@style/AppTheme.PopupOverlay" />
+            app:navigationIcon="?attr/homeAsUpIndicator" />
 
     </com.google.android.material.appbar.AppBarLayout>
 

@@ -4,26 +4,34 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/screenshot_card"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_margin="8dp"
+<<<<<<< HEAD
         android:foreground="?android:attr/selectableItemBackground"
         app:cardCornerRadius="16dp"
         app:cardElevation="4dp">
+=======
+        android:clickable="true"
+        android:focusable="true"
+        app:cardCornerRadius="12dp"
+        app:cardElevation="0dp"
+        app:strokeColor="?attr/colorOutline"
+        app:strokeWidth="0dp">
+>>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
 
-        <ImageView
+        <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/screenshot"
             android:layout_width="@dimen/screenshot_width"
             android:layout_height="@dimen/screenshot_height"
             android:layout_gravity="center_vertical"
             android:contentDescription="@string/app_icon"
             android:minWidth="85dp"
-            android:scaleType="centerCrop"
-            android:src="@color/grey" />
+            android:scaleType="centerCrop" />
 
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
 </FrameLayout>

@@ -1,0 +1,17 @@
+<resources>
+    <attr
+            name="colorBackground"
+            format="reference|color" />
+    <attr
+            name="colorSurface"
+            format="color" />
+    <attr
+            name="colorPrimary"
+            format="color" />
+    <attr
+            name="colorSecondary"
+            format="color" />
+    <attr
+            name="colorTertiary"
+            format="color" />
+</resources>

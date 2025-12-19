@@ -1,35 +1,50 @@
 package com.tomclaw.appsend.util
 
 import android.app.Activity
+import android.app.Application
 import android.content.Context
-import android.content.Context.MODE_PRIVATE
-import android.content.Intent
-import androidx.core.content.ContextCompat
+import android.os.Build
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.preference.PreferenceManager
+import com.google.android.material.color.DynamicColors
 import com.tomclaw.appsend.R
 
-/**
- * Created by ivsolkin on 21.09.16.
- */
+fun initTheme(app: Application) {
+    val preferences = PreferenceManager.getDefaultSharedPreferences(app)
+    val oldKey = app.getString(R.string.pref_dark_theme)
+    val modeKey = app.getString(R.string.pref_theme_mode)
 
-fun Activity.updateTheme(): Boolean {
-    val isDarkTheme = isDarkTheme()
-    setTheme(if (isDarkTheme) R.style.AppThemeBlack else R.style.AppTheme)
-    return isDarkTheme
-}
-
-fun Activity.restartIfThemeChanged(isDarkTheme: Boolean) {
-    if (isDarkTheme != isDarkTheme()) {
-        val intent = intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-        finish()
-        ContextCompat.startActivity(this, intent, null)
+    if (preferences.contains(oldKey)) {
+        val dark = preferences.getBoolean(oldKey, false)
+        val mode = if (dark) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
+        preferences.edit().putInt(modeKey, mode).remove(oldKey).apply()
     }
+
+    applyTheme(app)
 }
 
-fun Context.isDarkTheme(): Boolean {
-    val preferences = getSharedPreferences(
-        packageName + "_preferences", MODE_PRIVATE
-    )
-    return preferences.getBoolean(DARK_THEME_PREF_KEY, false)
+fun updateTheme(activity: Activity) {
+    applyTheme(activity)
 }
 
-const val DARK_THEME_PREF_KEY = "pref_dark_theme"
+fun applyTheme(context: Context) {
+    val preferences = PreferenceManager.getDefaultSharedPreferences(context)
+    val modeKey = context.getString(R.string.pref_theme_mode)
+    val dynamicKey = context.getString(R.string.pref_dynamic_colors)
+
+    val dynamicEnabled = preferences.getBoolean(dynamicKey, true)
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && dynamicEnabled) {
+        DynamicColors.applyToActivitiesIfAvailable(context.applicationContext as Application)
+    }
+
+    val defaultMode = if (Build.VERSION.SDK_INT >= 29) {
+        AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+    } else {
+        AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY
+    }
+    var mode = preferences.getInt(modeKey, defaultMode)
+    if (Build.VERSION.SDK_INT < 29 && mode == AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM) {
+        mode = AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY
+    }
+    AppCompatDelegate.setDefaultNightMode(mode)
+}

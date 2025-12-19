@@ -1,7 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">فروشگاه Appteka</string>
+    <string name="save_to_device">ذخیره در دانلودهای دستگاه</string>
+    <string name="save_location">فایل با موفقیت در دانلودها/برنامه ذخیره شد: %1$s</string>
+    <string name="save_error">ذخیره فایل برنامه با شکست مواجه شد.</string>
+
+
+    <string name="pref_theme">pref_theme</string>
+    <string name="pref_title_theme">پوسته</string>
+    <string name="pref_summary_theme">پوسته برنامه را انتخاب کنید</string>
+    <string name="pref_theme_mode">pref_theme_mode</string>
+    <string name="pref_dynamic_colors">pref_dynamic_colors</string>
+    <string name="pref_title_dynamic_colors">رنگ‌های پویا</string>
+    <string name="theme_dialog_title">انتخاب پوسته</string>
+    <string name="theme_system">پیش‌فرض سیستم</string>
+    <string name="theme_light">روشن</string>
+    <string name="theme_dark">تیره</string>
+    <string name="theme_battery_saver">صرفه‌جویی در باتری</string>
+    <string name="restart_now">اکنون راه‌اندازی مجدد</string>
+    <string name="clear_cache_dialog_title">تأیید پاکسازی حافظه پنهان</string>
+    <string name="clear_cache_dialog_message">همه فایل‌های APK که قبلاً توسط %1$s در حافظه دانلود شده‌اند، حذف خواهند شد. این عمل قابل بازگشت نیست. آیا مایل به ادامه هستید؟</string>
+    <string name="clear_cache_dialog_positive">بله، فایل‌ها را حذف کن</string>
+    <string name="pref_category_appearance_title">ظاهر</string>
+    <string name="pref_category_app_behavior_key">app_behavior_settings</string>
+    <string name="pref_category_app_behavior_title">رفتار برنامه</string>
+    <string name="pref_category_general_title">عمومی</string>
+    <string name="pref_summary_dynamic_colors">استفاده از رنگ‌های پس‌زمینه در دستگاه‌های اندروید ۱۲+ (نیاز به راه‌اندازی مجدد)</string>
+    <string name="restart_required_dynamic_colors_short">برای اعمال تغییرات، راه‌اندازی مجدد کنید.</string>
+
+
     <string name="bytes">%d بایت</string>
+    <string name="send">ارسال</string>
     <string name="kibibytes">%1f کیلوبایت</string>
     <string name="mibibytes">%1f مگابایت</string>
     <string name="gigibytes">%1f گیگابایت</string>
@@ -17,7 +46,7 @@
     <string name="got_it">فهمیدم</string>
     <string name="system_apps_warning_title">هشدار</string>
     <string name="system_apps_warning_message">برنامه های سیستمی برنامه های معمولی نیستند و هیچ ضمانتی برای خروجی موفقیت آمیز آن وجود ندارد
-    </string>
+</string>
     <string name="settings">تنظیمات</string>
     <string name="success">با موفقیت انجام شد</string>
     <string name="yes">بله</string>
@@ -58,10 +87,12 @@
     <string name="pref_title_dark_theme">حالت تاریک</string>
     <string name="pref_dark_theme_system">استفاده از رنگ تاریک برای پس زمینه</string>
     <string name="cancel">لغو</string>
-    <string name="percent" translatable="false">%d %%</string>
+    <string
+        name="percent"
+        translatable="false">%d %%</string>
     <string name="upload">بارگذاری</string>
     <string name="tab_store">فروشگاه</string>
-    <string name="retry">دوباره امتحان کنید</string>
+    <string name="retry">تلاش دوباره</string>
     <string name="store_loading_error">فهرست برنامه ها بازیابی نشد</string>
     <string name="downloads">تعداد دانلود</string>
     <string name="android">اندروید</string>
@@ -73,7 +104,9 @@
     <string name="app_version_title">نسخه</string>
     <string name="uploaded_title">بارگذاری شده</string>
     <string name="checksum_title">درستی سنجی (SHA1)</string>
-    <string name="app_version_format" translatable="false">%1$s (%2$d)</string>
+    <string
+        name="app_version_format"
+        translatable="false">%1$s (%2$d)</string>
     <string name="update">به روز رسانی</string>
     <string name="abuse">ارسال گزارش</string>
     <string name="your_email">ایمیل شما</string>
@@ -105,7 +138,9 @@
     <string name="report">ارسال گزارش</string>
     <string name="error_message_report">امکان ارسال گزارش وجود ندارد</string>
     <string name="message_report_sent">از شما برای کمک به گروه نظارت گفتگو ها متشکریم</string>
-    <string name="reply_form" translatable="false">&gt; %s\n</string>
+    <string
+        name="reply_form"
+        translatable="false">&gt; %s\n</string>
     <string name="exclusive_short">انحصاری</string>
     <string name="exclusive">برنامه انحصاری (در فروشگاه گوگل پلی وجود ندارد)</string>
     <string name="description">توضیحات</string>
@@ -268,7 +303,7 @@
     <string name="authorization_description">به حساب خود وارد شوید و از قابلیت های شخصی Appteka استفاده کنید</string>
     <string name="error_domain_blocked">ایمیل های موقت ممنوع است</string>
     <string name="add_screenshot">افزودن عکس های گرفته شده از صفحه برنامه</string>
-    <string name="screenshots_title">عکس های گرفته شده از صفحه برنامه </string>
+    <string name="screenshots_title">عکس های گرفته شده از صفحه برنامه</string>
     <string name="download_screenshot">دانلود عکس های گرفته شده از صفحه برنامه</string>
     <string name="error_saving_screenshot">عکس گرفته شده از صفحه برنامه ذخیره نشد</string>
     <plurals name="days_ago">
