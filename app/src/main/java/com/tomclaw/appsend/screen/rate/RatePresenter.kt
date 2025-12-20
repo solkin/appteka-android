@@ -37,7 +37,6 @@ class RatePresenterImpl(
     startReview: String,
     private val interactor: RateInteractor,
     private val locale: Locale,
-    private val resourceProvider: RateResourceProvider,
     private val schedulers: SchedulersFactory,
     state: Bundle?
 ) : RatePresenter {
@@ -60,10 +59,7 @@ class RatePresenterImpl(
             rating = it
             bindData()
         }
-        subscriptions += view.reviewEditChanged().subscribe {
-            review = it
-            bindData()
-        }
+        subscriptions += view.reviewEditChanged().subscribe { review = it }
         subscriptions += view.submitClicks().subscribe { onSubmitReview() }
 
         bindMemberInfo(userBrief)
@@ -73,7 +69,6 @@ class RatePresenterImpl(
         with(view ?: return) {
             setRating(rating)
             setReview(review)
-            // Enable button if rating is selected (validation happens on submit)
             if (rating > 0) {
                 enableSubmitButton()
             } else {
@@ -82,28 +77,7 @@ class RatePresenterImpl(
         }
     }
 
-    private fun isValidForSubmit(): Boolean {
-        if (rating <= 0) {
-            return false
-        }
-        // If rating is below 4, review is required and must be at least 10 characters
-        if (rating < 4) {
-            return review.trim().length >= 10
-        }
-        return true
-    }
-
     private fun onSubmitReview() {
-        // Validate before submitting
-        if (!isValidForSubmit()) {
-            if (rating < 4) {
-                view?.showValidationError(getReviewRequiredError())
-            } else {
-                view?.showValidationError(getRatingRequiredError())
-            }
-            return
-        }
-
         subscriptions += interactor.submitReview(appId, rating, review)
             .doOnSubscribe { view?.showProgress() }
             .observeOn(schedulers.mainThread())
@@ -149,14 +123,6 @@ class RatePresenterImpl(
 
     override fun onBackPressed() {
         router?.leaveScreen(success = false)
-    }
-
-    private fun getReviewRequiredError(): String {
-        return resourceProvider.getReviewRequiredError()
-    }
-
-    private fun getRatingRequiredError(): String {
-        return resourceProvider.getRatingRequiredError()
     }
 
 }

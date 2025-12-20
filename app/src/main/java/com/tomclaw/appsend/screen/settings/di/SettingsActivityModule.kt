@@ -1,4 +1,4 @@
-package com.tomclaw.appsend.screen.settings.di
+/* package com.tomclaw.appsend.screen.settings.di
 
 import android.content.Context
 import com.tomclaw.appsend.util.PerActivity
@@ -16,3 +16,4 @@ class SettingsActivityModule(
 
 }
 
+*/

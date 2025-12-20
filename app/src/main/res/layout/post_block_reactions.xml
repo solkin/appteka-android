@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/select_reactions"
-        android:textColor="?attr/text_primary_color"
+        android:textColor="?attr/colorOnSurface"
         android:textSize="16sp"
         android:textStyle="bold"
         tools:text="Select reactions" />
@@ -28,4 +28,3 @@
         tools:listitem="@layout/feed_reaction_item" />
 
 </LinearLayout>
-
