@@ -84,20 +84,6 @@
          android:id="@+id/recycler" />
 
     <com.google.android.material.button.MaterialButton
-<<<<<<< HEAD
-        android:id="@+id/show_ratings_button"
-        style="@style/MaterialButtonSecondary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="12dp"
-        android:layout_marginRight="12dp"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
-        android:layout_marginTop="2dp"
-        android:layout_marginBottom="-2dp"
-        android:text="@string/show_all_ratings"
-        />
-=======
          android:layout_height="wrap_content"
          android:layout_width="wrap_content"
          android:layout_marginBottom="8dp"
@@ -106,6 +92,5 @@
          android:id="@+id/show_ratings_button"
          android:layout_gravity="center_horizontal"
          android:text="@string/show_all_ratings" />
->>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
 
 </LinearLayout>

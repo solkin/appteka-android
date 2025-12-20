@@ -10,34 +10,57 @@ import com.tomclaw.appsend.util.getParcelableCompat
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
 
-interface HomePresenter {
-
-    fun attachView(view: HomeView)
-    fun detachView()
-    fun attachRouter(router: HomeRouter)
-    fun detachRouter()
-    fun saveState(): Bundle
-    fun onBackPressed()
-
-    interface HomeRouter {
-        fun showStoreFragment()
-        fun showFeedFragment()
-        fun showTopicsFragment()
-        fun showProfileFragment()
-        fun openUploadScreen()
-        fun openPostScreen()
-        fun openSearchScreen()
-        fun openModerationScreen()
-        fun openInstalledScreen()
-        fun openDistroScreen()
-        fun openSettingsScreen()
-        fun openAboutScreen()
-        fun openAppScreen(appId: String, title: String)
-        fun openShareUrlDialog(text: String)
-        fun leaveScreen()
-        fun exitApp()
-    }
-}
+interface HomePresenter {  
+  
+    fun attachView(view: HomeView)  
+  
+    fun detachView()  
+  
+    fun attachRouter(router: HomeRouter)  
+  
+    fun detachRouter()  
+  
+    fun saveState(): Bundle  
+  
+    fun onBackPressed()  
+  
+    interface HomeRouter {  
+  
+        fun showStoreFragment()  
+  
+        fun showFeedFragment()  
+  
+        fun showTopicsFragment()  
+  
+        fun showProfileFragment()  
+  
+        fun openUploadScreen()  
+  
+        fun openPostScreen()  
+  
+        fun openSearchScreen()  
+  
+        fun openModerationScreen()  
+  
+        fun openInstalledScreen()  
+  
+        fun openDistroScreen()  
+  
+        fun openSettingsScreen()  
+  
+        fun openAboutScreen()  
+  
+        fun openAppScreen(appId: String, title: String)  
+  
+        fun openShareUrlDialog(text: String)  
+  
+        fun leaveScreen()  
+  
+        fun exitApp()  
+  
+    }  
+  
+}  
 
 class HomePresenterImpl(
     startAction: String?,
@@ -62,16 +85,14 @@ class HomePresenterImpl(
         state?.getParcelableCompat(KEY_STATUS, StatusResponse::class.java)
 
     private val subscriptions = CompositeDisposable()
-    private var uiInitialized = false
 
     override fun attachView(view: HomeView) {
         this.view = view
 
-        subscriptions += view.storeClicks().subscribe { onTabSelected(INDEX_STORE) }
-        subscriptions += view.feedClicks().subscribe { onTabSelected(INDEX_FEED) }
-        subscriptions += view.discussClicks().subscribe { onTabSelected(INDEX_DISCUSS) }
-        subscriptions += view.profileClicks().subscribe { onTabSelected(INDEX_PROFILE) }
-
+        subscriptions += view.storeClicks().subscribe { bindTab(INDEX_STORE) }
+        subscriptions += view.feedClicks().subscribe { bindTab(INDEX_FEED) }
+        subscriptions += view.discussClicks().subscribe { bindTab(INDEX_DISCUSS) }
+        subscriptions += view.profileClicks().subscribe { bindTab(INDEX_PROFILE) }
         subscriptions += view.uploadClicks().subscribe { router?.openUploadScreen() }
         subscriptions += view.postClicks().subscribe { router?.openPostScreen() }
         subscriptions += view.updateClicks().subscribe { onUpdateClicks() }
@@ -86,7 +107,10 @@ class HomePresenterImpl(
         subscriptions += view.exitAppClicks().subscribe { router?.exitApp() }
 
         if (startupLoaded) {
-            applyStartupUi()
+            bindUnread()
+            bindFeed()
+            bindUpdate()
+            bindTab(tabIndex) // SINGLE startup bind (NO flicker)
         } else {
             loadStartup()
         }
@@ -102,6 +126,7 @@ class HomePresenterImpl(
     override fun attachRouter(router: HomePresenter.HomeRouter) {
         this.router = router
         handleAction()
+        // bindTab() REMOVED intentionally to avoid double selection
     }
 
     override fun detachRouter() {
@@ -127,48 +152,37 @@ class HomePresenterImpl(
         }
     }
 
-    private fun onTabSelected(index: Int) {
-        if (tabIndex == index && uiInitialized) return
+    private fun bindTab(index: Int) {
         tabIndex = index
-        renderTab(index)
-    }
-
-    private fun renderTab(index: Int) {
-        view?.hideFabButtons()
-
         when (index) {
             INDEX_STORE -> {
-                view?.showUploadButton()
-                view?.showStoreToolbar(canModerate())
                 router?.showStoreFragment()
+                view?.showStoreToolbar(canModerate())
+                view?.hideFabButtons()
+                view?.showUploadButton()
             }
 
             INDEX_FEED -> {
-                view?.showPostButton()
-                view?.showFeedToolbar()
                 router?.showFeedFragment()
+                view?.showFeedToolbar()
+                view?.hideFabButtons()
+                view?.showPostButton()
                 bindFeed(0)
             }
 
             INDEX_DISCUSS -> {
-                view?.showDiscussToolbar()
                 router?.showTopicsFragment()
+                view?.showDiscussToolbar()
+                view?.hideFabButtons()
                 bindUnread(0)
             }
 
             INDEX_PROFILE -> {
-                view?.showProfileToolbar()
                 router?.showProfileFragment()
+                view?.showProfileToolbar()
+                view?.hideFabButtons()
             }
         }
-    }
-
-    private fun applyStartupUi() {
-        bindUnread()
-        bindFeed()
-        bindUpdate()
-        renderTab(tabIndex)
-        uiInitialized = true
     }
 
     private fun loadStartup() {
@@ -189,7 +203,11 @@ class HomePresenterImpl(
         feed = response.feed
         update = response.update
         moderation = response.moderation
-        applyStartupUi()
+
+        bindUnread()
+        bindFeed()
+        bindUpdate()
+        bindTab(tabIndex)
     }
 
     private fun onStatusLoaded(response: StatusResponse) {
@@ -248,21 +266,21 @@ class HomePresenterImpl(
     private fun canModerate(): Boolean = moderation?.moderator == true
 }
 
-private const val KEY_ACTION = "action"
-private const val KEY_TAB_INDEX = "current_tab"
-private const val KEY_STARTUP_LOADED = "startup_loaded"
-private const val KEY_UNREAD = "unread"
-private const val KEY_FEED = "feed"
-private const val KEY_UPDATE = "update"
-private const val KEY_MODERATION = "moderation"
-private const val KEY_STATUS = "status"
 
-private const val INDEX_STORE = 0
-private const val INDEX_FEED = 1
-private const val INDEX_DISCUSS = 2
-private const val INDEX_PROFILE = 3
-
-const val ACTION_STORE = "com.tomclaw.appsend.cloud"
-const val ACTION_DISCUSS = "com.tomclaw.appsend.discuss"
-const val ACTION_APPS = "com.tomclaw.appsend.apps"
+private const val KEY_ACTION = "action"  
+private const val KEY_TAB_INDEX = "current_tab"  
+private const val KEY_STARTUP_LOADED = "startup_loaded"  
+private const val KEY_UNREAD = "unread"  
+private const val KEY_FEED = "feed"  
+private const val KEY_UPDATE = "update"  
+private const val KEY_MODERATION = "moderation"  
+private const val KEY_STATUS = "status"  
+private const val INDEX_STORE = 0  
+private const val INDEX_FEED = 1  
+private const val INDEX_DISCUSS = 2  
+private const val INDEX_PROFILE = 3  
+  
+const val ACTION_STORE = "com.tomclaw.appsend.cloud"  
+const val ACTION_DISCUSS = "com.tomclaw.appsend.discuss"  
+const val ACTION_APPS = "com.tomclaw.appsend.apps"  
 const val ACTION_INSTALL = "com.tomclaw.appsend.install"

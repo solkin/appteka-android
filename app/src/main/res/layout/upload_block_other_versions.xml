@@ -37,13 +37,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="@string/check_uploaded_versions"
-<<<<<<< HEAD
-       
-        app:drawableTint="?attr/colorPrimary" />
-=======
         app:icon="@drawable/ic_git"
         app:iconTint="?attr/colorPrimary"
         app:iconGravity="end" />
->>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
 
 </androidx.appcompat.widget.LinearLayoutCompat>

@@ -1,10 +1,4 @@
-<<<<<<< HEAD
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <color name="bottom_nav_background_light">@color/bottom_nav_background_dark</color>
-</resources>
-
-=======
 <resources>
     <color name="colorPrimary">#FFB59A</color>
     <color name="colorAccent">#E7BEAF</color>
@@ -152,4 +146,3 @@
     <color name="colorSurfaceContainerHighHighContrast">#322824</color>
     <color name="colorSurfaceContainerHighestHighContrast">#3D322F</color>
 </resources>
->>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))

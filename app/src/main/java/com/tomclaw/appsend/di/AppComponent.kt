@@ -46,10 +46,6 @@ import com.tomclaw.appsend.screen.reviews.di.ReviewsComponent
 import com.tomclaw.appsend.screen.reviews.di.ReviewsModule
 import com.tomclaw.appsend.screen.search.di.SearchComponent
 import com.tomclaw.appsend.screen.search.di.SearchModule
-import com.tomclaw.appsend.screen.settings.di.SettingsActivityComponent
-import com.tomclaw.appsend.screen.settings.di.SettingsActivityModule
-import com.tomclaw.appsend.screen.settings.di.SettingsComponent
-import com.tomclaw.appsend.screen.settings.di.SettingsModule
 import com.tomclaw.appsend.screen.store.di.StoreComponent
 import com.tomclaw.appsend.screen.store.di.StoreModule
 import com.tomclaw.appsend.screen.users.di.SubscribersComponent
@@ -76,71 +72,36 @@ import javax.inject.Singleton
 interface AppComponent {
 
     fun moderationComponent(module: ModerationModule): ModerationComponent
-
     fun topicsComponent(module: TopicsModule): TopicsComponent
-
     fun chatComponent(module: ChatModule): ChatComponent
-
     fun storeComponent(module: StoreModule): StoreComponent
-
     fun searchComponent(module: SearchModule): SearchComponent
-
-    fun settingsActivityComponent(module: SettingsActivityModule): SettingsActivityComponent
-
-    fun settingsComponent(module: SettingsModule): SettingsComponent
-
     fun detailsComponent(module: DetailsModule): DetailsComponent
-
     fun rateComponent(module: RateModule): RateComponent
-
     fun uploadComponent(module: UploadModule): UploadComponent
-
     fun downloadServiceComponent(module: DownloadServiceModule): DownloadServiceComponent
-
     fun uploadServiceComponent(module: UploadServiceModule): UploadServiceComponent
-
     fun favoriteComponent(module: FavoriteModule): FavoriteComponent
-
     fun requestCodeComponent(module: RequestCodeModule): RequestCodeComponent
-
     fun verifyCodeComponent(module: VerifyCodeModule): VerifyCodeComponent
-
     fun permissionsComponent(module: PermissionsModule): PermissionsComponent
-
     fun galleryComponent(module: GalleryModule): GalleryComponent
-
     fun profileComponent(module: ProfileModule): ProfileComponent
-
     fun reviewsComponent(module: ReviewsModule): ReviewsComponent
-
     fun homeComponent(module: HomeModule): HomeComponent
-
     fun ratingsComponent(module: RatingsModule): RatingsComponent
-
     fun agreementComponent(module: AgreementModule): AgreementComponent
-
     fun aboutComponent(module: AboutModule): AboutComponent
-
     fun installedComponent(module: InstalledModule): InstalledComponent
-
     fun distroComponent(module: DistroModule): DistroComponent
-
     fun subscribersComponent(module: SubscribersModule): SubscribersComponent
-
     fun subscriptionsComponent(module: SubscriptionsModule): SubscriptionsComponent
-
     fun feedComponent(module: FeedModule): FeedComponent
-
     fun postComponent(module: PostModule): PostComponent
-
     fun downloadComponent(module: DownloadsModule): DownloadsComponent
-
     fun unlinkComponent(module: UnlinkModule): UnlinkComponent
-
     fun unpublishComponent(module: UnpublishModule): UnpublishComponent
-
     fun uploadsComponent(module: UploadsModule): UploadsComponent
 
     fun legacyComponent(module: LegacyModule): LegacyComponent
-
 }

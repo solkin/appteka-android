@@ -27,61 +27,15 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <FrameLayout
-<<<<<<< HEAD
-        android:id="@+id/frame"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="80dp"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-=======
          android:layout_height="match_parent"
          android:layout_width="match_parent"
          android:layout_marginBottom="56dp"
          app:layout_behavior="@string/appbar_scrolling_view_behavior"
          android:id="@+id/frame">
->>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
 
     </FrameLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-<<<<<<< HEAD
-        android:id="@+id/fab_upload"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="96dp"
-        android:src="@drawable/ic_cloud_upload"
-        app:elevation="3dp"
-        app:fabSize="normal"
-        app:pressedTranslationZ="6dp" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_post"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="96dp"
-        android:src="@drawable/ic_pencil"
-        app:elevation="3dp"
-        app:fabSize="normal"
-        app:pressedTranslationZ="6dp" />
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        app:labelVisibilityMode="labeled"
-        app:menu="@menu/bottom_navigation_menu"
-        app:itemIconTint="@color/bottom_nav_item_color"
-        app:itemTextColor="@color/bottom_nav_item_color"
-        app:itemActiveIndicatorStyle="@style/BottomNavActiveIndicator"
-        app:backgroundTint="?attr/bottom_bar_background" />
-=======
          android:layout_height="wrap_content"
          android:layout_width="wrap_content"
          android:layout_marginBottom="80dp"
@@ -112,7 +66,6 @@
          app:elevation="0dp"
          android:id="@+id/bottom_navigation"
          android:layout_gravity="bottom">
->>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
 
     </com.google.android.material.bottomnavigation.BottomNavigationView>
 

@@ -7,8 +7,6 @@ import com.tomclaw.appsend.screen.rate.RateInteractor
 import com.tomclaw.appsend.screen.rate.RateInteractorImpl
 import com.tomclaw.appsend.screen.rate.RatePresenter
 import com.tomclaw.appsend.screen.rate.RatePresenterImpl
-import com.tomclaw.appsend.screen.rate.RateResourceProvider
-import com.tomclaw.appsend.screen.rate.RateResourceProviderImpl
 import com.tomclaw.appsend.user.api.UserBrief
 import com.tomclaw.appsend.util.PerActivity
 import com.tomclaw.appsend.util.SchedulersFactory
@@ -31,7 +29,6 @@ class RateModule(
     internal fun providePresenter(
         interactor: RateInteractor,
         locale: Locale,
-        resourceProvider: RateResourceProvider,
         schedulers: SchedulersFactory
     ): RatePresenter = RatePresenterImpl(
         appId,
@@ -40,15 +37,8 @@ class RateModule(
         startReview,
         interactor,
         locale,
-        resourceProvider,
         schedulers,
         state
-    )
-
-    @Provides
-    @PerActivity
-    internal fun provideResourceProvider(): RateResourceProvider = RateResourceProviderImpl(
-        context.resources
     )
 
     @Provides

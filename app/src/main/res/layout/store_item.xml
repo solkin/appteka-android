@@ -18,16 +18,6 @@
          android:focusable="true"
          android:id="@+id/app_card">
 
-<<<<<<< HEAD
-        <androidx.cardview.widget.CardView
-            android:id="@+id/icon_back"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_gravity="center_vertical"
-            android:layout_margin="12dp"
-            app:cardCornerRadius="16dp"
-            app:cardElevation="4dp">
-=======
         <com.google.android.material.card.MaterialCardView
              android:layout_height="56dp"
              android:layout_width="56dp"
@@ -38,7 +28,6 @@
              app:cardCornerRadius="12dp"
              android:id="@+id/icon_back"
              android:layout_gravity="center_vertical">
->>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
 
             <ImageView
                  android:layout_height="match_parent"

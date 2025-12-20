@@ -53,22 +53,12 @@
                      android:text="@string/discuss_intro_text" />
 
                 <com.google.android.material.button.MaterialButton
-<<<<<<< HEAD
-                    android:id="@+id/get_started_button"
-                    style="@style/MaterialButtonPrimary"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="@string/get_started"
-                    />
-=======
                      android:layout_height="wrap_content"
                      android:layout_width="match_parent"
                      style="@style/MaterialButtonPrimary"
                      android:layout_marginTop="20dp"
                      android:id="@+id/get_started_button"
                      android:text="@string/get_started" />
->>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
 
             </LinearLayout>
 
@@ -79,20 +69,6 @@
              android:layout_width="match_parent">
 
             <androidx.recyclerview.widget.RecyclerView
-<<<<<<< HEAD
-                android:id="@+id/recycler"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:choiceMode="none"
-                android:clipToPadding="false"
-                android:paddingBottom="8dp"
-                android:dividerHeight="0.5dp"
-                android:fastScrollEnabled="false"
-                android:stackFromBottom="false"
-                android:transcriptMode="normal"
-                tools:itemCount="3"
-                tools:listitem="@layout/topic_item" />
-=======
                  android:layout_height="match_parent"
                  android:layout_width="match_parent"
                  android:paddingBottom="16dp"
@@ -100,7 +76,6 @@
                  tools:listitem="@layout/topic_item"
                  android:clipToPadding="false"
                  android:id="@+id/recycler" />
->>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                  android:layout_height="wrap_content"

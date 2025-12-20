@@ -56,6 +56,7 @@
                  android:includeFontPadding="false"
                  android:singleLine="false"
                  android:textColor="?attr/colorOnSurface"
+                 app:iconTint="?attr/colorPrimary"
                  tools:text="Usman Ghani"
                  android:maxLines="2"
                  android:id="@+id/user_name" />
@@ -78,33 +79,6 @@
                  android:paddingTop="8dp">
 
                 <com.google.android.material.button.MaterialButton
-<<<<<<< HEAD
-                    android:id="@+id/subscribe_button"
-                    style="@style/MaterialButtonSecondaryOutline"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:drawableLeft="@drawable/ic_account_plus"
-                    android:paddingLeft="12dp"
-                    android:paddingRight="12dp"
-                    android:text="@string/subscribe"
-                   
-                    app:drawableTint="?attr/colorPrimary" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/unsubscribe_button"
-                    style="@style/MaterialButtonSecondaryOutline"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:drawableLeft="@drawable/ic_account_minus"
-                    android:paddingLeft="12dp"
-                    android:paddingRight="12dp"
-                    android:text="@string/unsubscribe"
-                   
-                    app:drawableTint="?attr/colorPrimary"
-                    tools:visibility="gone" />
-=======
                      android:layout_height="wrap_content"
                      android:layout_width="match_parent"
                      app:icon="@drawable/ic_account_plus"
@@ -127,7 +101,6 @@
                      android:id="@+id/unsubscribe_button"
                      android:text="@string/unsubscribe"
                      app:iconGravity="textStart" />
->>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
 
             </LinearLayout>
 

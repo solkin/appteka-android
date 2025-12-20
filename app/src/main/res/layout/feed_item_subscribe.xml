@@ -37,15 +37,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:orientation="vertical"
-<<<<<<< HEAD
-            android:paddingStart="12dp"
-            android:paddingTop="8dp"
-            android:paddingEnd="4dp"
-            android:paddingBottom="4dp">
-=======
             android:gravity="center_vertical"
             android:clipToPadding="false">
->>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
 
             <!-- Header: name + dot + date + menu -->
             <LinearLayout
@@ -137,8 +130,7 @@
         </LinearLayout>
 
     </LinearLayout>
-
-<<<<<<< HEAD
+    
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/reactions"
         android:layout_width="wrap_content"
@@ -154,6 +146,3 @@
         tools:listitem="@layout/feed_reaction_item" />
 
 </LinearLayout>
-=======
-</LinearLayout>
->>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))

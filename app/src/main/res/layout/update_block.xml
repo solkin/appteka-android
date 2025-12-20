@@ -55,20 +55,6 @@
                      android:id="@+id/app_name"
                      android:text="@string/update_available" />
 
-<<<<<<< HEAD
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/update"
-                    style="@style/MaterialButtonPrimary"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:layout_marginLeft="4dp"
-                    android:layout_marginStart="4dp"
-                    android:paddingLeft="24dp"
-                    android:paddingRight="24dp"
-                   
-                    android:text="@string/update" />
-=======
                 <TextView
                      android:layout_height="wrap_content"
                      android:layout_width="match_parent"
@@ -106,7 +92,6 @@
                          android:text="@string/update" />
 
                 </LinearLayout>
->>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
 
             </LinearLayout>
 

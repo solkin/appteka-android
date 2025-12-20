@@ -58,16 +58,6 @@
              android:text="@string/details_error_subtitle" />
 
         <com.google.android.material.button.MaterialButton
-<<<<<<< HEAD
-            android:id="@+id/retry_button"
-            style="@style/MaterialButtonPrimary"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="16dp"
-            android:text="@string/retry"
-            />
-=======
              android:layout_height="wrap_content"
              android:layout_width="match_parent"
              style="@style/MaterialButtonPrimary"
@@ -77,7 +67,6 @@
              android:id="@+id/retry_button"
              android:layout_gravity="center"
              android:text="@string/retry" />
->>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
 
     </LinearLayout>
 

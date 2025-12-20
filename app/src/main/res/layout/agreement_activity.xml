@@ -53,25 +53,12 @@
                  android:text="@string/agree_with_terms" />
 
             <com.google.android.material.button.MaterialButton
-<<<<<<< HEAD
-                android:id="@+id/submit_button"
-                style="@style/MaterialButtonPrimary"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="20dp"
-                android:text="@string/submit"
-                />
-=======
                  android:layout_height="wrap_content"
                  android:layout_width="match_parent"
                  style="@style/MaterialButtonPrimary"
                  android:layout_marginTop="12dp"
                  android:id="@+id/submit_button"
                  android:text="@string/submit" />
->>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
 
         </LinearLayout>
 

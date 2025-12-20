@@ -63,11 +63,7 @@
             <!-- Code input -->
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/code_input_layout"
-<<<<<<< HEAD
-                style="@style/MaterialTextInputExpressive"
-=======
                 style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
->>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
@@ -77,10 +73,6 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/code_input"
-<<<<<<< HEAD
-                    style="@style/Widget.Material3.TextInputEditText.OutlinedBox"
-=======
->>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/verification_code_input"
@@ -115,11 +107,7 @@
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/name_input_layout"
-<<<<<<< HEAD
-                    style="@style/MaterialTextInputExpressive"
-=======
                     style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
->>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
@@ -129,10 +117,6 @@
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/name_input"
-<<<<<<< HEAD
-                        style="@style/Widget.Material3.TextInputEditText.OutlinedBox"
-=======
->>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/name_input"
@@ -155,14 +139,8 @@
                 style="@style/MaterialButtonPrimary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-<<<<<<< HEAD
-                android:layout_gravity="center_horizontal"
-                android:text="@string/login_button"
-                />
-=======
                 android:layout_marginTop="8dp"
                 android:text="@string/login_button" />
->>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
 
         </LinearLayout>
 

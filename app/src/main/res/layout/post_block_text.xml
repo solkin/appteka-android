@@ -22,26 +22,15 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-<<<<<<< HEAD
-        android:layout_marginStart="4dp"
-        android:layout_marginEnd="4dp"
-        style="@style/MaterialTextInputExpressive"
-        android:hint="@string/post_text">
-=======
         android:layout_marginTop="8dp"
         android:hint="@string/post_text"
         style="@style/Widget.Material3.TextInputLayout.FilledBox">
->>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-<<<<<<< HEAD
-            style="@style/Widget.Material3.TextInputEditText.OutlinedBox"
-=======
             android:gravity="top"
->>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
             android:inputType="textCapSentences|textMultiLine"
             android:minLines="3"
             android:maxLength="700"

@@ -1,4 +1,4 @@
-package com.tomclaw.appsend.screen.settings
+/* package com.tomclaw.appsend.screen.settings
 
 import android.content.res.Resources
 import com.tomclaw.appsend.R
@@ -43,3 +43,4 @@ class SettingsResourceProviderImpl(
 
 }
 
+*/

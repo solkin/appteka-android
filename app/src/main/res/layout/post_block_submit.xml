@@ -16,14 +16,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-<<<<<<< HEAD
-        android:layout_margin="8dp"
-        android:text="@string/publish_post"
-        />
-=======
         android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
         android:text="@string/publish_post" />
->>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
 
 </androidx.appcompat.widget.LinearLayoutCompat>

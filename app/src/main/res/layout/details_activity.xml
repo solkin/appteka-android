@@ -46,11 +46,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_approve"
-<<<<<<< HEAD
-                style="@style/Widget.Material3.Button.TextButton"
-=======
                 style="@style/MaterialButtonPrimary"
->>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="8dp"
@@ -59,11 +55,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_deny"
-<<<<<<< HEAD
-                style="@style/Widget.Material3.Button.TextButton"
-=======
                 style="@style/MaterialButtonSecondaryOutline"
->>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="8dp"
@@ -111,16 +103,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-<<<<<<< HEAD
-            android:layout_marginTop="16dp"
-            android:text="@string/retry"
-            />
-=======
             android:layout_marginTop="24dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
             android:text="@string/retry" />
->>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
 
     </LinearLayout>
 

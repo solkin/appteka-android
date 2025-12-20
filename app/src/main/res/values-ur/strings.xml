@@ -289,7 +289,7 @@
     <string name="authorization_required_message">جاری رکھنے کے لیے لاگ اِن کریں</string>
     <string name="authorization_description">لاگ اِن کریں اور Appteka کی ذاتی خصوصیات سے فائدہ اٹھائیں</string>
     <string name="error_domain_blocked">عارضی ای میلز ممنوع ہیں</string>
-    <string name="gallery_title">%d / %d</string>
+    <string name="gallery_title" formatted="false">%d / %d</string>
     <string name="add_screenshot">سکرین شاٹ شامل کریں</string>
     <string name="screenshots_title">سکرین شاٹس</string>
     <string name="download_screenshot">سکرین شاٹ ڈاؤن لوڈ کریں</string>

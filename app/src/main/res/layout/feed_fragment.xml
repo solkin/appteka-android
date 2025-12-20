@@ -23,14 +23,8 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:layout_height="match_parent"
-<<<<<<< HEAD
-                    android:clipToPadding="false"
-                    android:paddingTop="4dp"
-                    android:paddingBottom="8dp"
-=======
                     android:layout_width="match_parent"
                     android:scrollbars="vertical"
->>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
                     android:scrollbarStyle="outsideOverlay"
                     android:paddingBottom="16dp"
                     android:clipToPadding="false"

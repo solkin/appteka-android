@@ -39,23 +39,10 @@
              android:layout_weight="1">
 
             <LinearLayout
-<<<<<<< HEAD
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:clipToPadding="false"
-                android:gravity="center_vertical"
-                android:orientation="vertical"
-                android:paddingStart="12dp"
-                android:paddingTop="8dp"
-                android:paddingEnd="12dp"
-                android:paddingBottom="4dp">
-=======
                  android:layout_height="wrap_content"
                  android:layout_width="match_parent"
                  android:gravity="center_vertical"
                  android:orientation="horizontal">
->>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
 
                 <LinearLayout
                      android:layout_height="wrap_content"
@@ -128,21 +115,18 @@
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-<<<<<<< HEAD
-        android:id="@+id/images"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="-4dp"
-        android:layout_marginBottom="-4dp"
-        android:clipToPadding="false"
-        android:paddingStart="52dp"
-        android:paddingTop="2dp"
-        android:paddingEnd="0dp"
-        android:paddingBottom="4dp"
-        tools:itemCount="3"
-        tools:listitem="@layout/feed_screenshot_item" />
-
-    <androidx.recyclerview.widget.RecyclerView
+         android:layout_height="wrap_content"
+         android:layout_width="match_parent"
+         android:paddingEnd="16dp"
+         android:paddingBottom="4dp"
+         tools:itemCount="3"
+         tools:listitem="@layout/feed_screenshot_item"
+         android:clipToPadding="false"
+         android:paddingStart="64dp"
+         android:id="@+id/images"
+         android:paddingTop="0dp" />
+         
+         <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/reactions"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -157,17 +141,3 @@
         tools:listitem="@layout/feed_reaction_item" />
 
 </LinearLayout>
-=======
-         android:layout_height="wrap_content"
-         android:layout_width="match_parent"
-         android:paddingEnd="16dp"
-         android:paddingBottom="4dp"
-         tools:itemCount="3"
-         tools:listitem="@layout/feed_screenshot_item"
-         android:clipToPadding="false"
-         android:paddingStart="64dp"
-         android:id="@+id/images"
-         android:paddingTop="0dp" />
-
-</LinearLayout>
->>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))

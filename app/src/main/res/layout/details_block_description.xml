@@ -26,25 +26,12 @@
              android:text="@string/description" />
 
         <com.google.android.material.button.MaterialButton
-<<<<<<< HEAD
-            android:id="@+id/translate_button"
-            style="@style/Widget.Material3.Button.TextButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAllCaps="false"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:text="@string/translate"
-           
-            app:drawableTint="?attr/colorPrimary" />
-=======
              android:layout_height="wrap_content"
              android:layout_width="wrap_content"
              style="@style/MaterialButtonSecondary"
              android:id="@+id/translate_button"
              app:iconGravity="start"
              android:text="@string/translate" />
->>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
 
     </LinearLayout>
 
@@ -61,20 +48,6 @@
          android:id="@+id/description" />
 
     <com.google.android.material.button.MaterialButton
-<<<<<<< HEAD
-        android:id="@+id/google_play_button"
-        style="@style/MaterialButtonSecondary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="-8dp"
-        android:layout_marginRight="-8dp"
-        android:drawableEnd="@drawable/ic_google_play"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
-        android:text="@string/find_on_gp"
-       
-        app:drawableTint="?attr/colorPrimary" />
-=======
          android:layout_height="wrap_content"
          android:layout_width="wrap_content"
          app:icon="@drawable/ic_google_play"
@@ -83,7 +56,6 @@
          android:id="@+id/google_play_button"
          app:iconGravity="start"
          android:text="@string/find_on_gp" />
->>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
 
     <LinearLayout
          android:layout_height="wrap_content"
