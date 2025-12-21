@@ -17,11 +17,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="8dp"
-<<<<<<< HEAD
-        android:text="@string/upload_app"
-        />
-=======
         android:text="@string/upload_app" />
->>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
 
 </androidx.appcompat.widget.LinearLayoutCompat>

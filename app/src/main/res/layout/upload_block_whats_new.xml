@@ -12,15 +12,10 @@
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-<<<<<<< HEAD
-        style="@style/MaterialTextInputExpressive"
-        android:hint="@string/whats_new">
-=======
         android:hint="@string/whats_new"
         style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
         app:boxBackgroundMode="outline"
         app:hintTextColor="?attr/colorOnSurfaceVariant">
->>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/whats_new"

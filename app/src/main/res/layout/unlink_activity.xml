@@ -26,7 +26,7 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/reason_input_layout"
-                style="@style/MaterialTextInputExpressive"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="12dp"
@@ -34,7 +34,7 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/reason_input"
-                    style="@style/Widget.Material3.TextInputEditText.OutlinedBox"
+                    style="@style/Widget.MaterialComponents.TextInputEditText.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:drawablePadding="12dp"
@@ -52,12 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:text="@string/unlink_file"
-<<<<<<< HEAD
-                app:backgroundTint="@color/abuse_color"
-                />
-=======
                 app:cornerRadius="99dp" />
->>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
 
         </LinearLayout>
 

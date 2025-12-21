@@ -126,17 +126,8 @@
                 style="@style/MaterialButtonPrimary"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-<<<<<<< HEAD
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_marginBottom="20dp"
-                android:text="@string/publish_review"
-                />
-=======
                 android:layout_marginTop="24dp"
                 android:text="@string/publish_review" />
->>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
 
         </LinearLayout>
 

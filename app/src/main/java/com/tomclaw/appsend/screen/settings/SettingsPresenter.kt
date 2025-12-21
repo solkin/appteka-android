@@ -1,4 +1,4 @@
-package com.tomclaw.appsend.screen.settings
+/* package com.tomclaw.appsend.screen.settings
 
 import android.os.Bundle
 import com.tomclaw.appsend.util.Analytics
@@ -117,3 +117,4 @@ class SettingsPresenterImpl(
 
 }
 
+*/

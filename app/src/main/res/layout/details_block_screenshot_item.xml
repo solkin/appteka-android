@@ -10,18 +10,12 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_margin="8dp"
-<<<<<<< HEAD
-        android:foreground="?android:attr/selectableItemBackground"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="4dp">
-=======
         android:clickable="true"
         android:focusable="true"
         app:cardCornerRadius="12dp"
         app:cardElevation="0dp"
         app:strokeColor="?attr/colorOutline"
         app:strokeWidth="0dp">
->>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/screenshot"

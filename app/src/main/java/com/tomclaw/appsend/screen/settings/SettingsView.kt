@@ -1,4 +1,4 @@
-package com.tomclaw.appsend.screen.settings
+/* package com.tomclaw.appsend.screen.settings
 
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -58,3 +58,4 @@ class SettingsViewImpl(
 
 }
 
+*/

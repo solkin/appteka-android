@@ -7,12 +7,6 @@
      android:padding="20dp">
 
     <com.google.android.material.textfield.TextInputLayout
-<<<<<<< HEAD
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/MaterialTextInputExpressive"
-        android:hint="@string/name_input">
-=======
          android:layout_height="wrap_content"
          android:layout_width="match_parent"
          android:hint="@string/name_input"
@@ -21,7 +15,6 @@
          style="@style/Widget.Material3.TextInputLayout.FilledBox"
          app:boxBackgroundMode="filled"
          app:boxStrokeWidth="0dp">
->>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
 
         <com.google.android.material.textfield.TextInputEditText
              android:layout_height="wrap_content"

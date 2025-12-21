@@ -3,8 +3,6 @@ package com.tomclaw.appsend;
 import static java.util.Collections.singletonList;
 import static com.tomclaw.appsend.util.ThemesKt.initTheme;
 
-import java.util.Arrays;
-
 import android.app.Application;
 import android.os.Build;
 
@@ -18,7 +16,6 @@ import com.tomclaw.appsend.di.legacy.LegacyInjector;
 import com.tomclaw.appsend.di.legacy.LegacyModule;
 import com.tomclaw.appsend.util.ApkIconLoader;
 import com.tomclaw.appsend.util.AppIconLoader;
-import com.tomclaw.appsend.util.SvgDecoder;
 import com.tomclaw.appsend.util.states.StateHolder;
 import com.tomclaw.cache.DiskLruCache;
 import com.tomclaw.imageloader.SimpleImageLoader;
@@ -83,10 +80,8 @@ public class Appteka extends Application {
                     new AppIconLoader(getPackageManager()),
                     new ApkIconLoader(getPackageManager())
             );
-            SimpleImageLoader.INSTANCE.initImageLoader(this, Arrays.asList(
-                    new SvgDecoder(),
-                    new BitmapDecoder()
-            ), fileProvider, new MemoryCacheImpl(), new MainExecutorImpl(),
+            SimpleImageLoader.INSTANCE.initImageLoader(this, singletonList(new BitmapDecoder()),
+                    fileProvider, new MemoryCacheImpl(), new MainExecutorImpl(),
                     Executors.newFixedThreadPool(5));
         } catch (IOException e) {
             e.printStackTrace();

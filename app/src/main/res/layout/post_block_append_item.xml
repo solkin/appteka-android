@@ -10,19 +10,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-<<<<<<< HEAD
-        android:layout_margin="4dp"
-        android:background="@drawable/append_image_ripple"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="0dp">
-=======
         android:layout_margin="8dp"
         android:background="?android:attr/selectableItemBackground"
         android:focusable="true"
         app:cardCornerRadius="12dp"
         app:cardElevation="0dp"
         app:strokeWidth="0dp">
->>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
 
         <LinearLayout
             android:id="@+id/image"

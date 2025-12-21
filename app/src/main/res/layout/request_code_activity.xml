@@ -69,12 +69,6 @@
                  android:text="@string/send_verification_code_description" />
 
             <com.google.android.material.textfield.TextInputLayout
-<<<<<<< HEAD
-                style="@style/MaterialTextInputExpressive"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingBottom="8dp">
-=======
                  android:layout_height="wrap_content"
                  android:layout_width="match_parent"
                  android:layout_marginBottom="16dp"
@@ -83,7 +77,6 @@
                  style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                  android:layout_marginTop="4dp"
                  app:boxBackgroundMode="outline">
->>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
 
                 <com.google.android.material.textfield.TextInputEditText
                      android:layout_height="wrap_content"
@@ -97,22 +90,12 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton
-<<<<<<< HEAD
-                android:id="@+id/submit_button"
-                style="@style/MaterialButtonPrimary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="@string/send_verification_code"
-                />
-=======
                  android:layout_height="wrap_content"
                  android:layout_width="match_parent"
                  style="@style/MaterialButtonPrimary"
                  android:layout_marginTop="8dp"
                  android:id="@+id/submit_button"
                  android:text="@string/send_verification_code" />
->>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
 
         </LinearLayout>
 

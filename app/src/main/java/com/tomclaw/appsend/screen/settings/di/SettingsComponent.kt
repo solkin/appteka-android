@@ -1,4 +1,4 @@
-package com.tomclaw.appsend.screen.settings.di
+/* package com.tomclaw.appsend.screen.settings.di
 
 import com.tomclaw.appsend.screen.settings.SettingsActivity
 import com.tomclaw.appsend.screen.settings.SettingsFragment
@@ -22,3 +22,4 @@ interface SettingsComponent {
 
 }
 
+*/

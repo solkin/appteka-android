@@ -1,56 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<<<<<<< HEAD
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-=======
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
->>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <!-- Progress overlay -->
     <include
         layout="@layout/progress_overlay"
         android:visibility="gone" />
 
+    <!-- Content -->
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="?actionBarSize">
+        android:layout_marginTop="?attr/actionBarSize">
 
         <ViewFlipper
             android:id="@+id/view_flipper"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:ignore="UselessParent">
+            android:layout_height="match_parent">
 
+            <!-- List -->
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:clipToPadding="false"
-                android:paddingBottom="4dp"
-                android:paddingTop="4dp"
+                android:paddingVertical="4dp"
                 android:scrollbarStyle="outsideOverlay"
                 android:scrollbars="vertical" />
 
             <include layout="@layout/empty_view" />
-
             <include layout="@layout/error_view" />
 
         </ViewFlipper>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
+    <!-- App bar -->
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true">
 
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize">
+            android:layout_height="?attr/actionBarSize"
+            app:titleCentered="false">
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/query_edit"
@@ -58,9 +57,11 @@
                 android:layout_height="wrap_content"
                 android:background="@null"
                 android:hint="@string/search_app"
+                app:endIconMode="clear_text"
                 android:imeOptions="flagNoFullscreen|actionSearch"
                 android:lines="1"
                 android:singleLine="true" />
+
 
         </com.google.android.material.appbar.MaterialToolbar>
 

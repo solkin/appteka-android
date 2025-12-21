@@ -64,28 +64,4 @@
 
     </LinearLayout>
 
-<<<<<<< HEAD
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="12dp">
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/action_button"
-            style="@style/Widget.Material3.Button.OutlinedButton"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="6dp"
-            android:text="@string/moderation_approve"
-            android:textAllCaps="false"
-            android:textColor="@color/block_info_text_color"
-            android:visibility="gone"
-            app:rippleColor="@color/block_info_color"
-            tools:visibility="visible" />
-
-    </FrameLayout>
-
-</LinearLayout>
-=======
 </com.google.android.material.card.MaterialCardView>
->>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))

@@ -1,4 +1,4 @@
-package com.tomclaw.appsend.screen.settings
+/* package com.tomclaw.appsend.screen.settings
 
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
@@ -63,3 +63,4 @@ class SettingsInteractorImpl(
 
 }
 
+*/

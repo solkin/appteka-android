@@ -1,269 +1,241 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-     xmlns:android="http://schemas.android.com/apk/res/android"
-     xmlns:app="http://schemas.android.com/apk/res-auto"
-     xmlns:tools="http://schemas.android.com/tools"
-     android:layout_height="wrap_content"
-     android:layout_width="match_parent"
-     android:background="?android:attr/selectableItemBackground"
-     android:orientation="vertical"
-     android:paddingBottom="4dp"
-     android:paddingTop="4dp">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="wrap_content"
+    android:layout_width="match_parent"
+    android:background="?android:attr/selectableItemBackground"
+    android:orientation="vertical"
+    android:paddingBottom="4dp"
+    android:paddingTop="4dp">
 
     <LinearLayout
-         android:layout_height="wrap_content"
-         android:layout_width="match_parent"
-         android:paddingEnd="16dp"
-         android:orientation="horizontal"
-         android:baselineAligned="false"
-         android:paddingBottom="8dp"
-         android:paddingStart="16dp"
-         android:id="@+id/feed_card"
-         android:paddingTop="8dp">
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:paddingEnd="16dp"
+        android:orientation="horizontal"
+        android:baselineAligned="false"
+        android:paddingBottom="8dp"
+        android:paddingStart="16dp"
+        android:id="@+id/feed_card"
+        android:paddingTop="8dp">
 
         <include
-             layout="@layout/user_icon_s"
-             android:layout_marginEnd="12dp"
-             android:layout_width="36dp"
-             android:layout_height="36dp"
-             android:layout_marginTop="4dp"
-             android:id="@+id/member_icon"
-             android:layout_gravity="top" />
+            layout="@layout/user_icon_s"
+            android:layout_marginEnd="12dp"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:layout_marginTop="4dp"
+            android:id="@+id/member_icon"
+            android:layout_gravity="top" />
 
         <LinearLayout
-             android:layout_height="wrap_content"
-             android:layout_width="0dp"
-             android:orientation="vertical"
-             android:clipToPadding="false"
-             android:layout_weight="1">
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:orientation="vertical"
+            android:clipToPadding="false"
+            android:layout_weight="1">
 
             <LinearLayout
-                 android:layout_height="wrap_content"
-                 android:layout_width="match_parent"
-                 android:gravity="center_vertical"
-                 android:orientation="horizontal">
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
 
                 <LinearLayout
-                     android:layout_height="wrap_content"
-                     android:layout_width="0dp"
-                     android:gravity="center_vertical"
-                     android:orientation="horizontal"
-                     android:layout_weight="1">
+                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:layout_weight="1">
 
                     <TextView
-                         android:layout_height="wrap_content"
-                         android:layout_width="wrap_content"
-                         android:textAppearance="?attr/textAppearanceBodyMedium"
-                         android:ellipsize="end"
-                         android:includeFontPadding="false"
-                         android:singleLine="true"
-                         android:textColor="?attr/colorOnSurface"
-                         tools:text="Admin"
-                         android:id="@+id/user_name" />
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:textAppearance="?attr/textAppearanceBodyMedium"
+                        android:ellipsize="end"
+                        android:includeFontPadding="false"
+                        android:singleLine="true"
+                        android:textColor="?attr/colorOnSurface"
+                        tools:text="Admin"
+                        android:id="@+id/user_name" />
 
                     <TextView
-                         android:layout_height="wrap_content"
-                         android:layout_width="wrap_content"
-                         android:paddingEnd="5dp"
-                         android:textAppearance="?attr/textAppearanceBodyMedium"
-                         android:textColor="?attr/colorOnSurfaceVariant"
-                         android:paddingStart="6dp"
-                         tools:ignore="HardcodedText"
-                         android:text="•" />
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:paddingEnd="5dp"
+                        android:textAppearance="?attr/textAppearanceBodyMedium"
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        android:paddingStart="6dp"
+                        tools:ignore="HardcodedText"
+                        android:text="•" />
 
                     <TextView
-                         android:layout_height="wrap_content"
-                         android:layout_width="wrap_content"
-                         android:textAppearance="?attr/textAppearanceLabelSmall"
-                         android:includeFontPadding="false"
-                         android:singleLine="true"
-                         android:textColor="?attr/colorOnSurfaceVariant"
-                         tools:text="2 days ago"
-                         android:id="@+id/date_view" />
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:textAppearance="?attr/textAppearanceLabelSmall"
+                        android:includeFontPadding="false"
+                        android:singleLine="true"
+                        android:textColor="?attr/colorOnSurfaceVariant"
+                        tools:text="2 days ago"
+                        android:id="@+id/date_view" />
 
                 </LinearLayout>
 
                 <ImageView
-                     android:layout_height="wrap_content"
-                     android:layout_width="wrap_content"
-                     android:visibility="gone"
-                     android:src="@drawable/ic_dots_vertical"
-                     android:background="?attr/selectableItemBackgroundBorderless"
-                     tools:visibility="visible"
-                     android:padding="6dp"
-                     android:importantForAccessibility="no"
-                     android:id="@+id/post_menu" />
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:visibility="gone"
+                    android:src="@drawable/ic_dots_vertical"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    tools:visibility="visible"
+                    android:padding="6dp"
+                    android:importantForAccessibility="no"
+                    android:id="@+id/post_menu" />
 
             </LinearLayout>
 
             <LinearLayout
-                 android:layout_height="wrap_content"
-                 android:layout_width="match_parent"
-                 android:gravity="center_vertical"
-                 android:orientation="horizontal"
-                 android:paddingTop="4dp">
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingTop="4dp">
 
                 <ImageView
-                     android:layout_height="20dp"
-                     android:layout_width="20dp"
-                     android:src="@drawable/ic_favorite"
-                     android:importantForAccessibility="no"
-                     android:tint="?attr/colorPrimary" />
+                    android:layout_height="20dp"
+                    android:layout_width="20dp"
+                    android:src="@drawable/ic_favorite"
+                    android:importantForAccessibility="no"
+                    android:tint="?attr/colorPrimary" />
 
                 <TextView
-                     android:layout_height="wrap_content"
-                     android:layout_width="wrap_content"
-                     android:textAppearance="?attr/textAppearanceBodySmall"
-                     android:includeFontPadding="false"
-                     android:textColor="?attr/colorOnSurfaceVariant"
-                     android:paddingStart="6dp"
-                     android:text="@string/feed_marked_favorite" />
+                    android:layout_height="wrap_content"
+                    android:layout_width="wrap_content"
+                    android:textAppearance="?attr/textAppearanceBodySmall"
+                    android:includeFontPadding="false"
+                    android:textColor="?attr/colorOnSurfaceVariant"
+                    android:paddingStart="6dp"
+                    android:text="@string/feed_marked_favorite" />
 
             </LinearLayout>
 
             <com.google.android.material.card.MaterialCardView
-                 android:layout_height="wrap_content"
-                 android:layout_width="match_parent"
-                 android:clickable="true"
-                 app:cardElevation="0dp"
-                 app:strokeWidth="0dp"
-                 app:cardBackgroundColor="?attr/colorSurfaceVariant"
-                 android:layout_marginTop="8dp"
-                 app:cardCornerRadius="12dp"
-                 android:focusable="true"
-                 android:id="@+id/app_block"
-                 android:foreground="?attr/selectableItemBackground">
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:clickable="true"
+                app:cardElevation="0dp"
+                app:strokeWidth="0dp"
+                app:cardBackgroundColor="?attr/colorSurfaceVariant"
+                android:layout_marginTop="8dp"
+                app:cardCornerRadius="12dp"
+                android:focusable="true"
+                android:id="@+id/app_block"
+                android:foreground="?attr/selectableItemBackground">
 
                 <LinearLayout
-<<<<<<< HEAD
-                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:clipToPadding="false"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="8dp">
-
-                    <androidx.cardview.widget.CardView
-                        android:id="@+id/icon_back"
-                        android:layout_width="32dp"
-                        android:layout_height="32dp"
-                        android:elevation="0dp"
-                        app:cardCornerRadius="16dp">
-
-                        <ImageView
-                            android:id="@+id/app_icon"
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
-                            android:layout_gravity="center_vertical"
-                            android:contentDescription="@string/app_icon"
-                            android:scaleType="centerCrop"
-                            tools:src="@mipmap/ic_launcher" />
-
-                    </androidx.cardview.widget.CardView>
-=======
-                     android:layout_height="wrap_content"
-                     android:layout_width="match_parent"
-                     android:paddingEnd="4dp"
-                     android:orientation="vertical"
-                     android:paddingBottom="4dp"
-                     android:paddingStart="4dp"
-                     android:paddingTop="4dp">
->>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
+                    android:layout_width="match_parent"
+                    android:paddingEnd="4dp"
+                    android:orientation="vertical"
+                    android:paddingBottom="4dp"
+                    android:paddingStart="4dp"
+                    android:paddingTop="4dp">
 
                     <LinearLayout
-                         android:layout_height="wrap_content"
-                         android:layout_width="match_parent"
-                         android:gravity="center_vertical"
-                         android:padding="4dp"
-                         android:orientation="horizontal"
-                         android:clipToPadding="false">
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:gravity="center_vertical"
+                        android:padding="4dp"
+                        android:orientation="horizontal"
+                        android:clipToPadding="false">
 
                         <com.google.android.material.card.MaterialCardView
-                             android:layout_height="32dp"
-                             android:layout_width="32dp"
-                             app:cardElevation="0dp"
-                             app:strokeWidth="0dp"
-                             app:cardBackgroundColor="?attr/colorSurfaceVariant"
-                             app:cardCornerRadius="8dp"
-                             android:id="@+id/icon_back"
-                             android:layout_gravity="center_vertical">
+                            android:layout_height="32dp"
+                            android:layout_width="32dp"
+                            app:cardElevation="0dp"
+                            app:strokeWidth="0dp"
+                            app:cardBackgroundColor="?attr/colorSurfaceVariant"
+                            app:cardCornerRadius="8dp"
+                            android:id="@+id/icon_back"
+                            android:layout_gravity="center_vertical">
 
                             <ImageView
-                                 android:layout_height="match_parent"
-                                 android:layout_width="match_parent"
-                                 android:contentDescription="@string/app_icon"
-                                 android:scaleType="centerCrop"
-                                 tools:src="@mipmap/ic_launcher"
-                                 android:id="@+id/app_icon" />
+                                android:layout_height="match_parent"
+                                android:layout_width="match_parent"
+                                android:contentDescription="@string/app_icon"
+                                android:scaleType="centerCrop"
+                                tools:src="@mipmap/ic_launcher"
+                                android:id="@+id/app_icon" />
 
                         </com.google.android.material.card.MaterialCardView>
 
                         <LinearLayout
-                             android:layout_height="wrap_content"
-                             android:layout_width="0dp"
-                             android:paddingEnd="4dp"
-                             android:gravity="center_vertical"
-                             android:orientation="vertical"
-                             android:paddingStart="8dp"
-                             android:layout_weight="1">
+                            android:layout_height="wrap_content"
+                            android:layout_width="0dp"
+                            android:paddingEnd="4dp"
+                            android:gravity="center_vertical"
+                            android:orientation="vertical"
+                            android:paddingStart="8dp"
+                            android:layout_weight="1">
 
                             <TextView
-                                 android:layout_height="wrap_content"
-                                 android:layout_width="match_parent"
-                                 android:textAppearance="?attr/textAppearanceBodyMedium"
-                                 android:ellipsize="end"
-                                 android:includeFontPadding="false"
-                                 android:singleLine="true"
-                                 android:textColor="?attr/colorOnSurface"
-                                 tools:text="Sample Application Name"
-                                 android:id="@+id/app_label" />
+                                android:layout_height="wrap_content"
+                                android:layout_width="match_parent"
+                                android:textAppearance="?attr/textAppearanceBodyMedium"
+                                android:ellipsize="end"
+                                android:includeFontPadding="false"
+                                android:singleLine="true"
+                                android:textColor="?attr/colorOnSurface"
+                                tools:text="Sample Application Name"
+                                android:id="@+id/app_label" />
 
                             <TextView
-                                 android:layout_height="wrap_content"
-                                 android:layout_width="match_parent"
-                                 android:ellipsize="marquee"
-                                 android:marqueeRepeatLimit="marquee_forever"
-                                 android:singleLine="true"
-                                 android:textColor="?attr/colorOnSurfaceVariant"
-                                 tools:text="com.example.android.app"
-                                 android:scrollHorizontally="true"
-                                 android:textAppearance="?attr/textAppearanceLabelSmall"
-                                 android:includeFontPadding="false"
-                                 android:fontFamily="monospace"
-                                 android:id="@+id/app_package"
-                                 android:paddingTop="2dp" />
+                                android:layout_height="wrap_content"
+                                android:layout_width="match_parent"
+                                android:ellipsize="marquee"
+                                android:marqueeRepeatLimit="marquee_forever"
+                                android:singleLine="true"
+                                android:textColor="?attr/colorOnSurfaceVariant"
+                                tools:text="com.example.android.app"
+                                android:scrollHorizontally="true"
+                                android:textAppearance="?attr/textAppearanceLabelSmall"
+                                android:includeFontPadding="false"
+                                android:fontFamily="monospace"
+                                android:id="@+id/app_package"
+                                android:paddingTop="2dp" />
 
                         </LinearLayout>
 
                     </LinearLayout>
 
                     <TextView
-                         android:layout_height="wrap_content"
-                         android:layout_width="match_parent"
-                         android:ellipsize="end"
-                         android:textColor="?attr/colorOnSurface"
-                         android:paddingStart="8dp"
-                         tools:text="Vel eu dignissim tellus at porttitor euismod est vitae suspendisse. Pellentesque eget nascetur velit, odio dictum eget in praesent ultricies. Varius montes, dignissim bibendum pulvinar laoreet enim sed ac."
-                         android:paddingEnd="8dp"
-                         android:textAppearance="?attr/textAppearanceBodyMedium"
-                         android:includeFontPadding="false"
-                         android:paddingBottom="4dp"
-                         android:maxLines="7"
-                         android:id="@+id/text"
-                         android:paddingTop="2dp" />
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:ellipsize="end"
+                        android:textColor="?attr/colorOnSurface"
+                        android:paddingStart="8dp"
+                        tools:text="Vel eu dignissim tellus at porttitor euismod est vitae suspendisse. Pellentesque eget nascetur velit, odio dictum eget in praesent ultricies. Varius montes, dignissim bibendum pulvinar laoreet enim sed ac."
+                        android:paddingEnd="8dp"
+                        android:textAppearance="?attr/textAppearanceBodyMedium"
+                        android:includeFontPadding="false"
+                        android:paddingBottom="4dp"
+                        android:maxLines="7"
+                        android:id="@+id/text"
+                        android:paddingTop="2dp" />
 
                     <androidx.recyclerview.widget.RecyclerView
-                         android:layout_height="wrap_content"
-                         android:layout_width="match_parent"
-                         android:layout_marginBottom="0dp"
-                         android:paddingEnd="4dp"
-                         android:paddingBottom="4dp"
-                         tools:itemCount="3"
-                         tools:listitem="@layout/feed_screenshot_item"
-                         android:clipToPadding="false"
-                         android:paddingStart="4dp"
-                         android:layout_marginTop="4dp"
-                         android:id="@+id/images" />
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:layout_marginBottom="0dp"
+                        android:paddingEnd="4dp"
+                        android:paddingBottom="4dp"
+                        tools:itemCount="3"
+                        tools:listitem="@layout/feed_screenshot_item"
+                        android:clipToPadding="false"
+                        android:paddingStart="4dp"
+                        android:layout_marginTop="4dp"
+                        android:id="@+id/images" />
 
                 </LinearLayout>
 
@@ -273,7 +245,7 @@
 
     </LinearLayout>
 
-<<<<<<< HEAD
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/reactions"
         android:layout_width="wrap_content"
@@ -289,6 +261,3 @@
         tools:listitem="@layout/feed_reaction_item" />
 
 </LinearLayout>
-=======
-</LinearLayout>
->>>>>>> 08fc343 (Replace repository with updated Appteka project — Material3 upgrade (by Ameer Muawiya))
