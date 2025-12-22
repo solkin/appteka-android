@@ -265,6 +265,12 @@
     <string name="security_malware_short">برنامج ضار</string>
     <string name="security_unknown_short">غير معروف</string>
     <string name="security_not_checked_short">غير مفحوص</string>
+    <string name="security_info_safe">آمن — لم يتم اكتشاف تهديدات</string>
+    <string name="security_info_suspicious">مشبوه — تم العثور على مخاطر محتملة</string>
+    <string name="security_info_malware">تم اكتشاف برنامج ضار — قد يكون هذا التطبيق ضارًا</string>
+    <string name="security_info_unknown">تعذر التحقق — فشل فحص الأمان</string>
+    <string name="security_info_score">درجة المخاطر: %d%%</string>
+    <string name="security_info_tools">تم الفحص بواسطة: ClamAV, APKiD, Quark-Engine</string>
     <string name="open_source_short">مصدر مفتوح</string>
     <string name="required_field">يتطلب حقلا</string>
     <string name="category_not_set">النوع غير محدد</string>

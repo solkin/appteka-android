@@ -254,6 +254,12 @@
     <string name="security_malware_short">Вирус</string>
     <string name="security_unknown_short">Неизвестно</string>
     <string name="security_not_checked_short">Не проверено</string>
+    <string name="security_info_safe">Проверено — Угрозы не обнаружены</string>
+    <string name="security_info_suspicious">Подозрительно — Обнаружены потенциальные риски</string>
+    <string name="security_info_malware">Обнаружен вирус — Это приложение может быть опасным</string>
+    <string name="security_info_unknown">Не удалось проверить — Сканирование не выполнено</string>
+    <string name="security_info_score">Уровень риска: %d%%</string>
+    <string name="security_info_tools">Проверено: ClamAV, APKiD, Quark-Engine</string>
     <string name="open_source_short">Open Source</string>
     <string name="required_field">Обязательное поле</string>
     <string name="category_not_set">Категория не указана</string>

@@ -195,8 +195,9 @@ class DetailsModule(
     @PerActivity
     internal fun providePlayItemPresenter(
         locale: Locale,
-        resourceProvider: PlayResourceProvider
-    ) = PlayItemPresenter(locale, resourceProvider)
+        resourceProvider: PlayResourceProvider,
+        presenter: DetailsPresenter,
+    ) = PlayItemPresenter(locale, resourceProvider, presenter)
 
     @Provides
     @IntoSet

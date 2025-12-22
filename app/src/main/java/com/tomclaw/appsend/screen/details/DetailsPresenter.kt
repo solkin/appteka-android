@@ -9,6 +9,7 @@ import com.tomclaw.appsend.download.COMPLETED
 import com.tomclaw.appsend.download.DownloadManager
 import com.tomclaw.appsend.download.IDLE
 import com.tomclaw.appsend.screen.details.adapter.ItemListener
+import com.tomclaw.appsend.screen.details.adapter.play.PlaySecurityStatus
 import com.tomclaw.appsend.screen.details.adapter.screenshot.ScreenshotItem
 import com.tomclaw.appsend.screen.details.adapter.status.StatusAction
 import com.tomclaw.appsend.screen.details.api.ACTION_DELETE
@@ -644,6 +645,10 @@ class DetailsPresenterImpl(
                 { onSecurityScanRequested() },
                 { onSecurityScanError(it) }
             )
+    }
+
+    override fun onSecurityInfoClick(status: PlaySecurityStatus, score: Int?) {
+        view?.showSecurityInfoDialog(status, score)
     }
 
     private fun onSecurityScanRequested() {

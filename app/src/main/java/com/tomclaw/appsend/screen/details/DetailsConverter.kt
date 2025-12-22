@@ -134,6 +134,7 @@ class DetailsConverterImpl(
             osVersion = details.info.androidVersion,
             minSdk = details.info.sdkVersion,
             securityStatus = convertPlaySecurityStatus(details.security),
+            securityScore = details.security?.score,
         )
         items += ControlsItem(
             id = id++,

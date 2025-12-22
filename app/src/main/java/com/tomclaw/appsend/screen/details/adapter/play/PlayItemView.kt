@@ -56,6 +56,8 @@ interface PlayItemView : ItemView {
 
     fun hideSecurityStatus()
 
+    fun setOnSecurityClickListener(listener: (() -> Unit)?)
+
 }
 
 @Suppress("DEPRECATION")
@@ -78,6 +80,7 @@ class PlayItemViewHolder(view: View) : BaseViewHolder(view), PlayItemView {
     private val osVersionView: TextView = view.findViewById(R.id.os_version_view)
     private val osIncompatibleImage: ImageView = view.findViewById(R.id.os_incompatible_image)
     private val securityContainer: View = view.findViewById(R.id.security_container)
+    private val securityClickable: View = view.findViewById(R.id.security_clickable)
     private val securityIcon: ImageView = view.findViewById(R.id.security_icon)
     private val securityTitle: TextView = view.findViewById(R.id.security_title)
 
@@ -188,6 +191,17 @@ class PlayItemViewHolder(view: View) : BaseViewHolder(view), PlayItemView {
 
     override fun hideSecurityStatus() {
         securityContainer.hide()
+    }
+
+    override fun setOnSecurityClickListener(listener: (() -> Unit)?) {
+        if (listener != null) {
+            securityClickable.isClickable = true
+            securityClickable.setOnClickListener { listener.invoke() }
+        } else {
+            securityClickable.background = null
+            securityClickable.isClickable = false
+            securityClickable.setOnClickListener(null)
+        }
     }
 
 }

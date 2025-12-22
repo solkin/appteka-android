@@ -14,6 +14,7 @@ import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.screen.details.adapter.play.PlaySecurityStatus
 import com.tomclaw.appsend.util.getAttributedColor
 import com.tomclaw.appsend.util.hide
 import com.tomclaw.appsend.util.hideWithAlphaAnimation
@@ -30,6 +31,8 @@ interface DetailsView {
     fun contentUpdated()
 
     fun showVersionsDialog(items: List<VersionItem>)
+
+    fun showSecurityInfoDialog(status: PlaySecurityStatus, score: Int?)
 
     fun showSnackbar(text: String)
 
@@ -214,6 +217,61 @@ class DetailsViewImpl(
             }
             .createDialog()
             .apply { show() }
+    }
+
+    @Suppress("DEPRECATION")
+    override fun showSecurityInfoDialog(status: PlaySecurityStatus, score: Int?) {
+        val theme = R.style.BottomSheetDialogDark.takeIf { preferences.isDarkTheme() }
+            ?: R.style.BottomSheetDialogLight
+
+        val (statusText, statusIcon, statusColor) = when (status) {
+            PlaySecurityStatus.SAFE -> Triple(
+                context.getString(R.string.security_info_safe),
+                R.drawable.ic_verified,
+                R.color.block_success_color
+            )
+            PlaySecurityStatus.SUSPICIOUS -> Triple(
+                context.getString(R.string.security_info_suspicious),
+                R.drawable.ic_warning,
+                R.color.block_warning_color
+            )
+            PlaySecurityStatus.MALWARE -> Triple(
+                context.getString(R.string.security_info_malware),
+                R.drawable.ic_virus,
+                R.color.block_error_color
+            )
+            else -> Triple(
+                context.getString(R.string.security_info_unknown),
+                R.drawable.ic_security,
+                R.color.block_warning_color
+            )
+        }
+
+        val bottomSheet = com.google.android.material.bottomsheet.BottomSheetDialog(context, theme)
+        val sheetView = android.view.LayoutInflater.from(context)
+            .inflate(R.layout.bottom_sheet_security_info, null)
+
+        val statusIconView = sheetView.findViewById<android.widget.ImageView>(R.id.security_status_icon)
+        val statusTextView = sheetView.findViewById<android.widget.TextView>(R.id.security_status_text)
+        val scoreRow = sheetView.findViewById<View>(R.id.security_score_row)
+        val scoreTextView = sheetView.findViewById<android.widget.TextView>(R.id.security_score_text)
+        val toolsTextView = sheetView.findViewById<android.widget.TextView>(R.id.security_tools_text)
+
+        statusIconView.setImageResource(statusIcon)
+        statusIconView.setColorFilter(context.resources.getColor(statusColor))
+        statusTextView.text = statusText
+
+        score?.let {
+            scoreRow.visibility = View.VISIBLE
+            scoreTextView.text = context.getString(R.string.security_info_score, it)
+        } ?: run {
+            scoreRow.visibility = View.GONE
+        }
+
+        toolsTextView.text = context.getString(R.string.security_info_tools)
+
+        bottomSheet.setContentView(sheetView)
+        bottomSheet.show()
     }
 
     override fun showSnackbar(text: String) {

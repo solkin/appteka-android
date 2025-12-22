@@ -251,6 +251,12 @@
     <string name="security_malware_short">Malware</string>
     <string name="security_unknown_short">Desconhecido</string>
     <string name="security_not_checked_short">Não verificado</string>
+    <string name="security_info_safe">Verificado e Seguro — Nenhuma ameaça detectada</string>
+    <string name="security_info_suspicious">Suspeito — Riscos potenciais encontrados</string>
+    <string name="security_info_malware">Malware Detectado — Este app pode ser perigoso</string>
+    <string name="security_info_unknown">Não foi possível verificar — Verificação falhou</string>
+    <string name="security_info_score">Pontuação de Risco: %d%%</string>
+    <string name="security_info_tools">Verificado com: ClamAV, APKiD, Quark-Engine</string>
     <string name="open_source_short">Código aberto</string>
     <string name="required_field">Campo obrigatório</string>
     <string name="category_not_set">Categoria não definida</string>

@@ -18,6 +18,7 @@ data class PlayItem(
     val osVersion: String?,
     val minSdk: Int?,
     val securityStatus: PlaySecurityStatus?,
+    val securityScore: Int?,
 ) : Item, Parcelable
 
 enum class PlaySecurityStatus {

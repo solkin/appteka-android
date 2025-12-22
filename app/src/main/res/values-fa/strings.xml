@@ -257,6 +257,12 @@
     <string name="security_malware_short">بدافزار</string>
     <string name="security_unknown_short">نامشخص</string>
     <string name="security_not_checked_short">بررسی نشده</string>
+    <string name="security_info_safe">امن — هیچ تهدیدی یافت نشد</string>
+    <string name="security_info_suspicious">مشکوک — خطرات احتمالی یافت شد</string>
+    <string name="security_info_malware">بدافزار شناسایی شد — این برنامه ممکن است مضر باشد</string>
+    <string name="security_info_unknown">تأیید نشد — اسکن امنیتی ناموفق بود</string>
+    <string name="security_info_score">امتیاز ریسک: %d%%</string>
+    <string name="security_info_tools">اسکن شده با: ClamAV, APKiD, Quark-Engine</string>
     <string name="open_source_short">متن باز</string>
     <string name="required_field">جایگاه لازم</string>
     <string name="category_not_set">دسته بندی نشده</string>

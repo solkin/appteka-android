@@ -245,6 +245,12 @@
     <string name="security_malware_short">恶意软件</string>
     <string name="security_unknown_short">未知</string>
     <string name="security_not_checked_short">未检查</string>
+    <string name="security_info_safe">已验证安全 — 未检测到威胁</string>
+    <string name="security_info_suspicious">可疑 — 发现潜在风险</string>
+    <string name="security_info_malware">检测到恶意软件 — 此应用可能有害</string>
+    <string name="security_info_unknown">无法验证 — 安全扫描失败</string>
+    <string name="security_info_score">风险评分: %d%%</string>
+    <string name="security_info_tools">扫描工具: ClamAV, APKiD, Quark-Engine</string>
     <string name="open_source_short">开源</string>
     <string name="required_field">必填字段</string>
     <string name="category_not_set">未指定类别</string>

@@ -262,6 +262,12 @@
     <string name="security_malware_short">Malware</string>
     <string name="security_unknown_short">Unknown</string>
     <string name="security_not_checked_short">Non-checked</string>
+    <string name="security_info_safe">Verified Safe — No threats detected</string>
+    <string name="security_info_suspicious">Suspicious — Potential risks found</string>
+    <string name="security_info_malware">Malware Detected — This app may be harmful</string>
+    <string name="security_info_unknown">Unable to verify — Security scan failed</string>
+    <string name="security_info_score">Risk Score: %d%%</string>
+    <string name="security_info_tools">Scanned with: ClamAV, APKiD, Quark-Engine</string>
     <string name="open_source_short">Open Source</string>
     <string name="required_field">Required field</string>
     <string name="category_not_set">Category not set</string>

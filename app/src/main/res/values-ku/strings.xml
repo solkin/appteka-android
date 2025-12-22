@@ -253,6 +253,12 @@
     <string name="security_malware_short">مەلوێر</string>
     <string name="security_unknown_short">نەزانراو</string>
     <string name="security_not_checked_short">پشکنین نەکراو</string>
+    <string name="security_info_safe">سەلامەت — هیچ مەترسییەک نەدۆزرایەوە</string>
+    <string name="security_info_suspicious">گومانلێکراو — مەترسی دۆزرایەوە</string>
+    <string name="security_info_malware">مەلوێر دۆزرایەوە — ئەم بەرنامەیە لەوانەیە زیانبەخش بێت</string>
+    <string name="security_info_unknown">پشتڕاستکردنەوە نەکرا — سکانی ئاسایش شکستی هێنا</string>
+    <string name="security_info_score">ڕێژەی مەترسی: %d%%</string>
+    <string name="security_info_tools">سکان کراوە بە: ClamAV, APKiD, Quark-Engine</string>
     <string name="open_source_short">سەرچاوەی كراوە</string>
     <string name="required_field">مەیدانی پێویست</string>
     <string name="category_not_set">پۆل دانەنراوە</string>

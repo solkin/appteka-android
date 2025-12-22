@@ -248,6 +248,12 @@
     <string name="security_malware_short">मैलवेयर</string>
     <string name="security_unknown_short">अज्ञात</string>
     <string name="security_not_checked_short">जाँच नहीं</string>
+    <string name="security_info_safe">सत्यापित सुरक्षित — कोई खतरा नहीं मिला</string>
+    <string name="security_info_suspicious">संदिग्ध — संभावित जोखिम पाए गए</string>
+    <string name="security_info_malware">मैलवेयर पाया गया — यह ऐप हानिकारक हो सकता है</string>
+    <string name="security_info_unknown">सत्यापित नहीं हो सका — सुरक्षा स्कैन विफल</string>
+    <string name="security_info_score">जोखिम स्कोर: %d%%</string>
+    <string name="security_info_tools">स्कैन किया गया: ClamAV, APKiD, Quark-Engine</string>
     <string name="open_source_short">Open Source</string>
     <string name="required_field">भरने के लिए आवश्यक वस्तु</string>
     <string name="category_not_set">श्रेणी निर्दिष्ट नहीं है</string>
