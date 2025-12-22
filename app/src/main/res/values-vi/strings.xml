@@ -245,6 +245,8 @@
     <string name="security_malware_short">Phần mềm độc hại</string>
     <string name="security_unknown_short">Không xác định</string>
     <string name="security_not_checked_short">Chưa kiểm tra</string>
+    <string name="security_info_scanning">Đang quét bảo mật…</string>
+    <string name="security_info_scanning_duration">Đang quét với ClamAV, APKiD, Quark-Engine. Có thể mất vài phút tùy thuộc vào kích thước tệp và hàng đợi.</string>
     <string name="security_info_safe">An toàn — Không phát hiện mối đe dọa</string>
     <string name="security_info_suspicious">Đáng ngờ — Phát hiện rủi ro tiềm ẩn</string>
     <string name="security_info_malware">Phát hiện Malware — Ứng dụng này có thể gây hại</string>

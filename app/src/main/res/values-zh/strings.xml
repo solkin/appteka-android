@@ -245,6 +245,8 @@
     <string name="security_malware_short">恶意软件</string>
     <string name="security_unknown_short">未知</string>
     <string name="security_not_checked_short">未检查</string>
+    <string name="security_info_scanning">正在进行安全扫描…</string>
+    <string name="security_info_scanning_duration">使用 ClamAV, APKiD, Quark-Engine 扫描中。可能需要几分钟，取决于文件大小和队列。</string>
     <string name="security_info_safe">已验证安全 — 未检测到威胁</string>
     <string name="security_info_suspicious">可疑 — 发现潜在风险</string>
     <string name="security_info_malware">检测到恶意软件 — 此应用可能有害</string>

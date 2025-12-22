@@ -253,6 +253,8 @@
     <string name="security_malware_short">مەلوێر</string>
     <string name="security_unknown_short">نەزانراو</string>
     <string name="security_not_checked_short">پشکنین نەکراو</string>
+    <string name="security_info_scanning">سکانی ئاسایش بەردەوامە…</string>
+    <string name="security_info_scanning_duration">سکان بە ClamAV, APKiD, Quark-Engine. لەوانەیە چەند خولەکێک بخایەنێت بەپێی قەبارەی فایل و ڕیز.</string>
     <string name="security_info_safe">سەلامەت — هیچ مەترسییەک نەدۆزرایەوە</string>
     <string name="security_info_suspicious">گومانلێکراو — مەترسی دۆزرایەوە</string>
     <string name="security_info_malware">مەلوێر دۆزرایەوە — ئەم بەرنامەیە لەوانەیە زیانبەخش بێت</string>

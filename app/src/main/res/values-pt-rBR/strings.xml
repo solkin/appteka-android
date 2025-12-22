@@ -251,6 +251,8 @@
     <string name="security_malware_short">Malware</string>
     <string name="security_unknown_short">Desconhecido</string>
     <string name="security_not_checked_short">Não verificado</string>
+    <string name="security_info_scanning">Verificação de segurança em andamento…</string>
+    <string name="security_info_scanning_duration">Verificando com ClamAV, APKiD, Quark-Engine. Pode levar alguns minutos dependendo do tamanho do arquivo e da fila.</string>
     <string name="security_info_safe">Verificado e Seguro — Nenhuma ameaça detectada</string>
     <string name="security_info_suspicious">Suspeito — Riscos potenciais encontrados</string>
     <string name="security_info_malware">Malware Detectado — Este app pode ser perigoso</string>

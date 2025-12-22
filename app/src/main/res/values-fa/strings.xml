@@ -257,6 +257,8 @@
     <string name="security_malware_short">بدافزار</string>
     <string name="security_unknown_short">نامشخص</string>
     <string name="security_not_checked_short">بررسی نشده</string>
+    <string name="security_info_scanning">اسکن امنیتی در حال انجام…</string>
+    <string name="security_info_scanning_duration">اسکن با ClamAV, APKiD, Quark-Engine. ممکن است چند دقیقه طول بکشد بسته به اندازه فایل و صف.</string>
     <string name="security_info_safe">امن — هیچ تهدیدی یافت نشد</string>
     <string name="security_info_suspicious">مشکوک — خطرات احتمالی یافت شد</string>
     <string name="security_info_malware">بدافزار شناسایی شد — این برنامه ممکن است مضر باشد</string>

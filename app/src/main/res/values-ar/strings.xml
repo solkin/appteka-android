@@ -265,6 +265,8 @@
     <string name="security_malware_short">برنامج ضار</string>
     <string name="security_unknown_short">غير معروف</string>
     <string name="security_not_checked_short">غير مفحوص</string>
+    <string name="security_info_scanning">جاري فحص الأمان…</string>
+    <string name="security_info_scanning_duration">الفحص باستخدام ClamAV, APKiD, Quark-Engine. قد يستغرق بضع دقائق حسب حجم الملف والطابور.</string>
     <string name="security_info_safe">آمن — لم يتم اكتشاف تهديدات</string>
     <string name="security_info_suspicious">مشبوه — تم العثور على مخاطر محتملة</string>
     <string name="security_info_malware">تم اكتشاف برنامج ضار — قد يكون هذا التطبيق ضارًا</string>

@@ -55,14 +55,14 @@ class SecurityItemViewHolder(view: View) : BaseViewHolder(view), SecurityItemVie
     }
 
     override fun setSecurityTypeNotScanned() {
-        setBackgroundColor(R.color.block_info_back_color)
+        setBackgroundColor(R.color.block_neutral_back_color)
         icon.setImageResource(R.drawable.ic_security)
-        icon.setColorFilter(resources.getColor(R.color.block_info_color))
+        icon.setColorFilter(resources.getColor(R.color.block_neutral_color))
         icon.show()
         progress.hide()
-        text.setTextColor(resources.getColor(R.color.block_info_text_color))
-        actionButton.setRippleColorResource(R.color.block_info_color)
-        actionButton.setTextColor(resources.getColor(R.color.block_info_text_color))
+        text.setTextColor(resources.getColor(R.color.block_neutral_text_color))
+        actionButton.setRippleColorResource(R.color.block_neutral_color)
+        actionButton.setTextColor(resources.getColor(R.color.block_neutral_text_color))
     }
 
     override fun setSecurityTypeScanning() {

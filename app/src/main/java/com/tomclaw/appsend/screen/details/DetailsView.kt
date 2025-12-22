@@ -224,7 +224,14 @@ class DetailsViewImpl(
         val theme = R.style.BottomSheetDialogDark.takeIf { preferences.isDarkTheme() }
             ?: R.style.BottomSheetDialogLight
 
+        val isScanning = status == PlaySecurityStatus.SCANNING
+
         val (statusText, statusIcon, statusColor) = when (status) {
+            PlaySecurityStatus.SCANNING -> Triple(
+                context.getString(R.string.security_info_scanning),
+                R.drawable.ic_timer_sand,
+                R.color.block_info_color
+            )
             PlaySecurityStatus.SAFE -> Triple(
                 context.getString(R.string.security_info_safe),
                 R.drawable.ic_verified,
@@ -255,20 +262,27 @@ class DetailsViewImpl(
         val statusTextView = sheetView.findViewById<android.widget.TextView>(R.id.security_status_text)
         val scoreRow = sheetView.findViewById<View>(R.id.security_score_row)
         val scoreTextView = sheetView.findViewById<android.widget.TextView>(R.id.security_score_text)
+        val toolsRow = sheetView.findViewById<View>(R.id.security_tools_row)
         val toolsTextView = sheetView.findViewById<android.widget.TextView>(R.id.security_tools_text)
 
         statusIconView.setImageResource(statusIcon)
         statusIconView.setColorFilter(context.resources.getColor(statusColor))
         statusTextView.text = statusText
 
-        score?.let {
+        if (isScanning) {
             scoreRow.visibility = View.VISIBLE
-            scoreTextView.text = context.getString(R.string.security_info_score, it)
-        } ?: run {
-            scoreRow.visibility = View.GONE
+            scoreTextView.text = context.getString(R.string.security_info_scanning_duration)
+            toolsRow.visibility = View.GONE
+        } else {
+            score?.let {
+                scoreRow.visibility = View.VISIBLE
+                scoreTextView.text = context.getString(R.string.security_info_score, it)
+            } ?: run {
+                scoreRow.visibility = View.GONE
+            }
+            toolsRow.visibility = View.VISIBLE
+            toolsTextView.text = context.getString(R.string.security_info_tools)
         }
-
-        toolsTextView.text = context.getString(R.string.security_info_tools)
 
         bottomSheet.setContentView(sheetView)
         bottomSheet.show()

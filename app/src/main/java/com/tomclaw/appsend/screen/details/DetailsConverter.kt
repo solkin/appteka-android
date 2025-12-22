@@ -107,11 +107,6 @@ class DetailsConverterImpl(
             else -> Unit
         }
 
-        // Add security scan status item (only if not in scanning mode)
-        convertSecurityItem(id++, details.info.appId, details.security, resourceProvider)?.let {
-            items += it
-        }
-
         items += HeaderItem(
             id = id++,
             icon = details.info.icon,
@@ -136,6 +131,12 @@ class DetailsConverterImpl(
             securityStatus = convertPlaySecurityStatus(details.security),
             securityScore = details.security?.score,
         )
+
+        // Add security scan status item (only if not scanned)
+        convertSecurityItem(id++, details.info.appId, details.security, resourceProvider)?.let {
+            items += it
+        }
+
         items += ControlsItem(
             id = id++,
             appId = details.info.appId,
@@ -185,6 +186,7 @@ class DetailsConverterImpl(
                 msgCount = details.msgCount,
             )
         }
+
         if (!details.meta?.whatsNew.isNullOrBlank()) {
             val whatsNewText = when (translationState) {
                 TRANSLATION_TRANSLATED -> translationData?.whatsNew

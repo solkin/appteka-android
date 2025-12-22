@@ -248,6 +248,8 @@
     <string name="security_malware_short">मैलवेयर</string>
     <string name="security_unknown_short">अज्ञात</string>
     <string name="security_not_checked_short">जाँच नहीं</string>
+    <string name="security_info_scanning">सुरक्षा स्कैन जारी है…</string>
+    <string name="security_info_scanning_duration">ClamAV, APKiD, Quark-Engine से स्कैन हो रहा है। फ़ाइल आकार और कतार के आधार पर कुछ मिनट लग सकते हैं।</string>
     <string name="security_info_safe">सत्यापित सुरक्षित — कोई खतरा नहीं मिला</string>
     <string name="security_info_suspicious">संदिग्ध — संभावित जोखिम पाए गए</string>
     <string name="security_info_malware">मैलवेयर पाया गया — यह ऐप हानिकारक हो सकता है</string>

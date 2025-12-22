@@ -45,7 +45,9 @@ class PlayItemPresenter(
         when (item.securityStatus) {
             PlaySecurityStatus.SCANNING -> {
                 view.showSecurityScanning(resourceProvider.securityScanningShort())
-                view.setOnSecurityClickListener(null)
+                view.setOnSecurityClickListener {
+                    listener.onSecurityInfoClick(item.securityStatus, item.securityScore)
+                }
             }
             PlaySecurityStatus.SAFE -> {
                 view.showSecuritySafe(resourceProvider.securitySafeShort())

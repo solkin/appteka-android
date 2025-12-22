@@ -254,6 +254,8 @@
     <string name="security_malware_short">Вирус</string>
     <string name="security_unknown_short">Неизвестно</string>
     <string name="security_not_checked_short">Не проверено</string>
+    <string name="security_info_scanning">Выполняется проверка безопасности…</string>
+    <string name="security_info_scanning_duration">Проверка с помощью ClamAV, APKiD, Quark-Engine. Может занять несколько минут в зависимости от размера файла и очереди.</string>
     <string name="security_info_safe">Проверено — Угрозы не обнаружены</string>
     <string name="security_info_suspicious">Подозрительно — Обнаружены потенциальные риски</string>
     <string name="security_info_malware">Обнаружен вирус — Это приложение может быть опасным</string>
