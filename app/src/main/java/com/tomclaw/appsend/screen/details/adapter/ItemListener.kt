@@ -33,4 +33,6 @@ interface ItemListener {
 
     fun onScreenshotClick(items: List<ScreenshotItem>, clicked: Int)
 
+    fun onRequestSecurityScan(appId: String)
+
 }

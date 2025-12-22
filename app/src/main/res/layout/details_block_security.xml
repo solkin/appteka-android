@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/security_back"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginStart="12dp"
+    android:layout_marginTop="12dp"
+    android:layout_marginEnd="12dp"
+    android:background="@drawable/rounded_white_ripple"
+    android:gravity="start"
+    android:orientation="vertical"
+    android:paddingStart="12dp"
+    android:paddingTop="20dp"
+    android:paddingEnd="12dp"
+    android:paddingBottom="6dp"
+    tools:backgroundTint="@color/block_success_back_color">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingStart="0dp"
+            android:paddingEnd="8dp">
+
+            <ImageView
+                android:id="@+id/security_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:src="@drawable/ic_verified"
+                tools:tint="@color/block_success_color" />
+
+            <com.google.android.material.progressindicator.CircularProgressIndicator
+                android:id="@+id/security_progress"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:indeterminate="true"
+                android:visibility="gone"
+                app:indicatorSize="24dp"
+                app:trackThickness="2dp" />
+
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/security_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif"
+            android:includeFontPadding="false"
+            android:paddingTop="2dp"
+            android:textSize="16sp"
+            android:textStyle="normal"
+            tools:text="Verified Safe"
+            tools:textColor="@color/block_success_text_color" />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="12dp">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/action_button"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="@string/request_security_scan"
+            android:textAllCaps="false"
+            android:textColor="@color/block_info_text_color"
+            android:visibility="gone"
+            app:rippleColor="@color/block_info_color"
+            tools:visibility="visible" />
+
+    </FrameLayout>
+
+</LinearLayout>
+

@@ -81,6 +81,10 @@
     <color name="block_warning_text_color">#c49d00</color>
     <color name="block_warning_back_color">#33ffcc00</color>
 
+    <color name="block_success_color">#32A304</color>
+    <color name="block_success_text_color">#2a8a03</color>
+    <color name="block_success_back_color">#3332A304</color>
+
     <color name="block_grey_color_light">#E9DEDEDE</color>
     <color name="block_grey_color_dark">#2E2E2E</color>
 

@@ -45,6 +45,8 @@ import com.tomclaw.appsend.screen.details.adapter.screenshot.ScreenshotItemBluep
 import com.tomclaw.appsend.screen.details.adapter.screenshot.ScreenshotItemPresenter
 import com.tomclaw.appsend.screen.details.adapter.screenshots.ScreenshotsItemBlueprint
 import com.tomclaw.appsend.screen.details.adapter.screenshots.ScreenshotsItemPresenter
+import com.tomclaw.appsend.screen.details.adapter.security.SecurityItemBlueprint
+import com.tomclaw.appsend.screen.details.adapter.security.SecurityItemPresenter
 import com.tomclaw.appsend.screen.details.adapter.status.StatusItemBlueprint
 import com.tomclaw.appsend.screen.details.adapter.status.StatusItemPresenter
 import com.tomclaw.appsend.screen.details.adapter.user_rate.UserRateItemBlueprint
@@ -330,6 +332,19 @@ class DetailsModule(
     internal fun provideStatusItemPresenter(
         presenter: DetailsPresenter,
     ) = StatusItemPresenter(presenter)
+
+    @Provides
+    @IntoSet
+    @PerActivity
+    internal fun provideSecurityItemBlueprint(
+        presenter: SecurityItemPresenter
+    ): ItemBlueprint<*, *> = SecurityItemBlueprint(presenter)
+
+    @Provides
+    @PerActivity
+    internal fun provideSecurityItemPresenter(
+        presenter: DetailsPresenter,
+    ) = SecurityItemPresenter(presenter)
 
     @Provides
     @IntoSet

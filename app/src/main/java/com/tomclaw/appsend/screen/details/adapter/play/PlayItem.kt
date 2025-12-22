@@ -17,4 +17,13 @@ data class PlayItem(
     val category: Category?,
     val osVersion: String?,
     val minSdk: Int?,
+    val securityStatus: PlaySecurityStatus?,
 ) : Item, Parcelable
+
+enum class PlaySecurityStatus {
+    SCANNING,
+    SAFE,
+    SUSPICIOUS,
+    MALWARE,
+    NOT_CHECKED
+}

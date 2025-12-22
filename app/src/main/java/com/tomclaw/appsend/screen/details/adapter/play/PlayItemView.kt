@@ -44,11 +44,25 @@ interface PlayItemView : ItemView {
 
     fun hideOsVersion()
 
+    fun showSecurityScanning(title: String)
+
+    fun showSecuritySafe(title: String)
+
+    fun showSecuritySuspicious(title: String)
+
+    fun showSecurityMalware(title: String)
+
+    fun showSecurityNotChecked(title: String)
+
+    fun hideSecurityStatus()
+
 }
 
+@Suppress("DEPRECATION")
 class PlayItemViewHolder(view: View) : BaseViewHolder(view), PlayItemView {
 
     private val context = view.context
+    private val resources = view.resources
     private val ratingContainer: View = view.findViewById(R.id.rating_container)
     private val ratingView: TextView = view.findViewById(R.id.rating_view)
     private val downloadsView: TextView = view.findViewById(R.id.downloads_view)
@@ -63,6 +77,9 @@ class PlayItemViewHolder(view: View) : BaseViewHolder(view), PlayItemView {
     private val osVersionContainer: View = view.findViewById(R.id.os_version_container)
     private val osVersionView: TextView = view.findViewById(R.id.os_version_view)
     private val osIncompatibleImage: ImageView = view.findViewById(R.id.os_incompatible_image)
+    private val securityContainer: View = view.findViewById(R.id.security_container)
+    private val securityIcon: ImageView = view.findViewById(R.id.security_icon)
+    private val securityTitle: TextView = view.findViewById(R.id.security_title)
 
     override fun showRating(rating: String) {
         ratingContainer.show()
@@ -132,6 +149,45 @@ class PlayItemViewHolder(view: View) : BaseViewHolder(view), PlayItemView {
 
     override fun hideOsVersion() {
         osVersionContainer.hide()
+    }
+
+    override fun showSecurityScanning(title: String) {
+        securityContainer.show()
+        securityIcon.setImageResource(R.drawable.ic_timer_sand)
+        securityIcon.setColorFilter(resources.getColor(R.color.block_info_color))
+        securityTitle.bind(title)
+    }
+
+    override fun showSecuritySafe(title: String) {
+        securityContainer.show()
+        securityIcon.setImageResource(R.drawable.ic_verified)
+        securityIcon.setColorFilter(resources.getColor(R.color.block_success_color))
+        securityTitle.bind(title)
+    }
+
+    override fun showSecuritySuspicious(title: String) {
+        securityContainer.show()
+        securityIcon.setImageResource(R.drawable.ic_warning)
+        securityIcon.setColorFilter(resources.getColor(R.color.block_warning_color))
+        securityTitle.bind(title)
+    }
+
+    override fun showSecurityMalware(title: String) {
+        securityContainer.show()
+        securityIcon.setImageResource(R.drawable.ic_virus)
+        securityIcon.setColorFilter(resources.getColor(R.color.block_error_color))
+        securityTitle.bind(title)
+    }
+
+    override fun showSecurityNotChecked(title: String) {
+        securityContainer.show()
+        securityIcon.setImageResource(R.drawable.ic_security)
+        securityIcon.setColorFilter(resources.getColor(R.color.block_warning_color))
+        securityTitle.bind(title)
+    }
+
+    override fun hideSecurityStatus() {
+        securityContainer.hide()
     }
 
 }

@@ -9,6 +9,9 @@ import com.tomclaw.appsend.screen.details.adapter.discuss.DiscussItem
 import com.tomclaw.appsend.screen.details.adapter.header.HeaderItem
 import com.tomclaw.appsend.screen.details.adapter.permissions.PermissionsItem
 import com.tomclaw.appsend.screen.details.adapter.play.PlayItem
+import com.tomclaw.appsend.screen.details.adapter.play.PlaySecurityStatus
+import com.tomclaw.appsend.screen.details.adapter.security.SecurityItem
+import com.tomclaw.appsend.screen.details.adapter.security.SecurityType
 import com.tomclaw.appsend.screen.details.adapter.rating.RatingItem
 import com.tomclaw.appsend.screen.details.adapter.scores.ScoresItem
 import com.tomclaw.appsend.screen.details.adapter.screenshot.ScreenshotItem
@@ -24,8 +27,16 @@ import com.tomclaw.appsend.screen.details.api.ACTION_UNPUBLISH
 import com.tomclaw.appsend.screen.details.api.Details
 import com.tomclaw.appsend.screen.details.api.STATUS_MODERATION
 import com.tomclaw.appsend.screen.details.api.STATUS_NORMAL
+import com.tomclaw.appsend.screen.details.api.SECURITY_STATUS_COMPLETED
+import com.tomclaw.appsend.screen.details.api.SECURITY_STATUS_FAILED
+import com.tomclaw.appsend.screen.details.api.SECURITY_STATUS_PENDING
+import com.tomclaw.appsend.screen.details.api.SECURITY_STATUS_SCANNING
+import com.tomclaw.appsend.screen.details.api.SECURITY_VERDICT_MALWARE
+import com.tomclaw.appsend.screen.details.api.SECURITY_VERDICT_SAFE
+import com.tomclaw.appsend.screen.details.api.SECURITY_VERDICT_SUSPICIOUS
 import com.tomclaw.appsend.screen.details.api.STATUS_PRIVATE
 import com.tomclaw.appsend.screen.details.api.STATUS_UNLINKED
+import com.tomclaw.appsend.screen.details.api.Security
 import com.tomclaw.appsend.screen.details.api.TranslationResponse
 import com.tomclaw.appsend.util.NOT_INSTALLED
 import java.util.Locale
@@ -95,6 +106,12 @@ class DetailsConverterImpl(
 
             else -> Unit
         }
+
+        // Add security scan status item (only if not in scanning mode)
+        convertSecurityItem(id++, details.info.appId, details.security, resourceProvider)?.let {
+            items += it
+        }
+
         items += HeaderItem(
             id = id++,
             icon = details.info.icon,
@@ -116,6 +133,7 @@ class DetailsConverterImpl(
             category = details.meta?.category,
             osVersion = details.info.androidVersion,
             minSdk = details.info.sdkVersion,
+            securityStatus = convertPlaySecurityStatus(details.security),
         )
         items += ControlsItem(
             id = id++,
@@ -235,3 +253,43 @@ class DetailsConverterImpl(
 const val TRANSLATION_ORIGINAL: Int = 0
 const val TRANSLATION_PROGRESS: Int = 1
 const val TRANSLATION_TRANSLATED: Int = 2
+
+private fun convertSecurityItem(
+    id: Long,
+    appId: String,
+    security: Security?,
+    resourceProvider: DetailsResourceProvider
+): SecurityItem? {
+    // Only show the separate block when not scanned (security is null)
+    // All other statuses are shown only in the horizontal bar
+    return if (security == null) {
+        SecurityItem(
+            id = id,
+            appId = appId,
+            type = SecurityType.NOT_SCANNED,
+            text = resourceProvider.securityNotScannedText(),
+            score = null,
+            showAction = true,
+            actionLabel = resourceProvider.requestScanAction(),
+        )
+    } else {
+        null
+    }
+}
+
+private fun convertPlaySecurityStatus(security: Security?): PlaySecurityStatus? {
+    return when {
+        security == null -> null
+        security.status == SECURITY_STATUS_PENDING || security.status == SECURITY_STATUS_SCANNING -> {
+            PlaySecurityStatus.SCANNING
+        }
+        security.status == SECURITY_STATUS_COMPLETED -> when (security.verdict) {
+            SECURITY_VERDICT_SAFE -> PlaySecurityStatus.SAFE
+            SECURITY_VERDICT_SUSPICIOUS -> PlaySecurityStatus.SUSPICIOUS
+            SECURITY_VERDICT_MALWARE -> PlaySecurityStatus.MALWARE
+            else -> PlaySecurityStatus.NOT_CHECKED
+        }
+        security.status == SECURITY_STATUS_FAILED -> PlaySecurityStatus.NOT_CHECKED
+        else -> PlaySecurityStatus.NOT_CHECKED
+    }
+}

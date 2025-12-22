@@ -6,6 +6,7 @@ import com.tomclaw.appsend.screen.details.api.DeletionResponse
 import com.tomclaw.appsend.screen.details.api.Details
 import com.tomclaw.appsend.screen.details.api.MarkFavoriteResponse
 import com.tomclaw.appsend.screen.details.api.ModerationDecisionResponse
+import com.tomclaw.appsend.screen.details.api.RequestScanResponse
 import com.tomclaw.appsend.screen.details.api.TranslationResponse
 import com.tomclaw.appsend.user.api.UserBrief
 import com.tomclaw.appsend.util.SchedulersFactory
@@ -31,6 +32,8 @@ interface DetailsInteractor {
     fun getUserBrief(): Single<UserBrief>
 
     fun translate(appId: String): Single<TranslationResponse>
+
+    fun requestSecurityScan(appId: String): Single<RequestScanResponse>
 
 }
 
@@ -97,6 +100,13 @@ class DetailsInteractorImpl(
     override fun translate(appId: String): Single<TranslationResponse> {
         return api
             .getInfoTranslation(appId, locale.language)
+            .map { it.result }
+            .subscribeOn(schedulers.io())
+    }
+
+    override fun requestSecurityScan(appId: String): Single<RequestScanResponse> {
+        return api
+            .requestSecurityScan(appId)
             .map { it.result }
             .subscribeOn(schedulers.io())
     }

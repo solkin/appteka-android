@@ -15,6 +15,7 @@ import com.tomclaw.appsend.screen.chat.api.SendMessageResponse
 import com.tomclaw.appsend.screen.chat.api.TopicInfoResponse
 import com.tomclaw.appsend.screen.details.api.CreateTopicResponse
 import com.tomclaw.appsend.screen.details.api.DeletionResponse
+import com.tomclaw.appsend.screen.details.api.RequestScanResponse
 import com.tomclaw.appsend.screen.details.api.Details
 import com.tomclaw.appsend.screen.details.api.MarkFavoriteResponse
 import com.tomclaw.appsend.screen.details.api.ModerationDecisionResponse
@@ -386,5 +387,11 @@ interface StoreApi {
         @Field("app_id") appId: String,
         @Field("reason") reason: String,
     ): Single<StoreResponse<UnpublishResponse>>
+
+    @FormUrlEncoded
+    @POST("1/app/scan")
+    fun requestSecurityScan(
+        @Field("app_id") appId: String,
+    ): Single<StoreResponse<RequestScanResponse>>
 
 }

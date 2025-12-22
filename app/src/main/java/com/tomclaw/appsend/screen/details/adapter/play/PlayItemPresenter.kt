@@ -39,6 +39,15 @@ class PlayItemPresenter(
                 view.showOsVersionIncompatible(osVersion)
             }
         } ?: view.hideOsVersion()
+
+        when (item.securityStatus) {
+            PlaySecurityStatus.SCANNING -> view.showSecurityScanning(resourceProvider.securityScanningShort())
+            PlaySecurityStatus.SAFE -> view.showSecuritySafe(resourceProvider.securitySafeShort())
+            PlaySecurityStatus.SUSPICIOUS -> view.showSecuritySuspicious(resourceProvider.securitySuspiciousShort())
+            PlaySecurityStatus.MALWARE -> view.showSecurityMalware(resourceProvider.securityMalwareShort())
+            PlaySecurityStatus.NOT_CHECKED -> view.showSecurityNotChecked(resourceProvider.securityNotCheckedShort())
+            null -> view.hideSecurityStatus()
+        }
     }
 
 }

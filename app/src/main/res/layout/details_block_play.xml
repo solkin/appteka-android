@@ -123,6 +123,47 @@
 
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/security_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <include layout="@layout/details_play_item_divider" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:paddingTop="4dp"
+                android:paddingBottom="8dp">
+
+                <ImageView
+                    android:id="@+id/security_icon"
+                    android:layout_width="26sp"
+                    android:layout_height="26sp"
+                    tools:src="@drawable/ic_verified"
+                    tools:tint="@color/block_success_color" />
+
+                <TextView
+                    android:id="@+id/security_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-condensed-light"
+                    android:includeFontPadding="false"
+                    android:paddingTop="5sp"
+                    android:textColor="?text_secondary_color"
+                    android:textSize="14sp"
+                    tools:text="Safe" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
         <include layout="@layout/details_play_item_divider" />
 
         <LinearLayout

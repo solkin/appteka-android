@@ -636,6 +636,27 @@ class DetailsPresenterImpl(
         )
     }
 
+    override fun onRequestSecurityScan(appId: String) {
+        subscriptions += interactor.requestSecurityScan(appId)
+            .toObservable()
+            .observeOn(schedulers.mainThread())
+            .subscribe(
+                { onSecurityScanRequested() },
+                { onSecurityScanError(it) }
+            )
+    }
+
+    private fun onSecurityScanRequested() {
+        view?.showSnackbar(resourceProvider.securityScanRequestedText())
+        invalidateDetails()
+    }
+
+    private fun onSecurityScanError(ex: Throwable) {
+        ex.filterUnauthorizedErrors({ view?.showUnauthorizedError() }) {
+            view?.showSnackbar(resourceProvider.securityScanErrorText())
+        }
+    }
+
 }
 
 private const val KEY_DETAILS = "details"
