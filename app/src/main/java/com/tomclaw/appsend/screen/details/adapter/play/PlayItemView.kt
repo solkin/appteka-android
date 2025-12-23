@@ -198,7 +198,6 @@ class PlayItemViewHolder(view: View) : BaseViewHolder(view), PlayItemView {
             securityClickable.isClickable = true
             securityClickable.setOnClickListener { listener.invoke() }
         } else {
-            securityClickable.background = null
             securityClickable.isClickable = false
             securityClickable.setOnClickListener(null)
         }
