@@ -275,6 +275,10 @@ class DetailsPresenterImpl(
     private fun onDetailsLoaded(details: Details) {
         this.details = details
         this.isFavorite = details.isFavorite == true
+        details.translation?.let { translation ->
+            this.translationData = translation
+            this.translationState = TRANSLATION_TRANSLATED
+        }
         dispatchPackageStatus()
     }
 

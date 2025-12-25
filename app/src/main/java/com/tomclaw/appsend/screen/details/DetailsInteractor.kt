@@ -48,6 +48,7 @@ class DetailsInteractorImpl(
             .getInfo(
                 appId = appId,
                 packageName = packageName,
+                locale = locale.language,
             )
             .map { it.result }
             .toObservable()

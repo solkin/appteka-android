@@ -163,7 +163,8 @@ interface StoreApi {
     @GET("1/app/info")
     fun getInfo(
         @Query("app_id") appId: String?,
-        @Query("package") packageName: String?
+        @Query("package") packageName: String?,
+        @Query("locale") locale: String
     ): Single<StoreResponse<Details>>
 
     @GET("1/app/info/translate")
