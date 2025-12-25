@@ -74,7 +74,7 @@ android {
         enableAnalytics = true
     }
     dependencies {
-        implementation 'androidx.preference:preference:1.2.1'
+        implementation 'androidx.preference:preference-ktx:1.2.1'
         implementation 'com.github.solkin:simple-image-loader:v0.9.6'
         implementation 'com.github.solkin:disk-lru-cache:v1.7'
         //noinspection GradleDependency
