@@ -9,11 +9,11 @@
 
     <ImageView
         android:id="@+id/empty_image"
-        android:layout_width="68dp"
-        android:layout_height="68dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_centerInParent="true"
         android:gravity="center"
-        android:src="@drawable/ic_archive_outline"
+        android:src="@drawable/archive_outline"
         app:tint="?attr/text_secondary_color" />
 
     <TextView
@@ -25,6 +25,7 @@
         android:gravity="center"
         android:paddingTop="24dp"
         android:text="@string/empty_list"
-        android:textSize="18sp" />
+        android:textColor="?attr/text_secondary_color"
+        android:textSize="15sp" />
 
 </RelativeLayout>

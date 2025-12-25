@@ -1,0 +1,89 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="128dp"
+    android:height="128dp"
+    android:viewportWidth="128"
+    android:viewportHeight="128">
+
+    <!-- Decorative circle top left -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M18,22m-5,0a5,5 0,1 1,10 0a5,5 0,1 1,-10 0"
+        android:strokeColor="#000000"
+        android:strokeWidth="2" />
+
+    <!-- Small decorative dot -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M30,16m-2,0a2,2 0,1 1,4 0a2,2 0,1 1,-4 0" />
+
+    <!-- Folder shape - main body -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M18,42 L18,98 C18,102 22,106 26,106 L102,106 C106,106 110,102 110,98 L110,48 C110,44 106,40 102,40 L60,40 L52,30 L26,30 C22,30 18,34 18,38 Z"
+        android:strokeColor="#000000"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:strokeWidth="2.5" />
+
+    <!-- Folder tab -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M26,30 L52,30 L60,40 L18,40 L18,38 C18,34 22,30 26,30 Z" />
+
+    <!-- Empty state - question mark or search -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M64,58 C64,58 72,58 72,66 C72,72 64,72 64,78"
+        android:strokeColor="#000000"
+        android:strokeLineCap="round"
+        android:strokeWidth="3" />
+
+    <!-- Question dot -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M64,88m-3,0a3,3 0,1 1,6 0a3,3 0,1 1,-6 0" />
+
+    <!-- Decorative curved lines right -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M112,30 Q122,22 118,10"
+        android:strokeColor="#000000"
+        android:strokeLineCap="round"
+        android:strokeWidth="2" />
+
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M116,38 Q124,32 122,22"
+        android:strokeColor="#000000"
+        android:strokeLineCap="round"
+        android:strokeWidth="2" />
+
+    <!-- Decorative circle top right -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M120,8m-3,0a3,3 0,1 1,6 0a3,3 0,1 1,-6 0" />
+
+    <!-- Decorative circles bottom left -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M10,112m-4,0a4,4 0,1 1,8 0a4,4 0,1 1,-8 0"
+        android:strokeColor="#000000"
+        android:strokeWidth="2" />
+
+    <path
+        android:fillColor="#000000"
+        android:pathData="M22,118m-2,0a2,2 0,1 1,4 0a2,2 0,1 1,-4 0" />
+
+    <!-- Decorative element bottom right -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M115,105 Q122,98 118,88"
+        android:strokeColor="#000000"
+        android:strokeLineCap="round"
+        android:strokeWidth="2" />
+
+    <path
+        android:fillColor="#000000"
+        android:pathData="M120,85m-2.5,0a2.5,2.5 0,1 1,5 0a2.5,2.5 0,1 1,-5 0" />
+
+</vector>

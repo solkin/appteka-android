@@ -1,11 +1,84 @@
-<vector xmlns:android="http://schemas.android.com/apk/res/android" android:height="256dp" android:viewportHeight="32" android:viewportWidth="32" android:width="256dp">
-      
-    <path android:fillColor="#00000000" android:pathData="M26.708,16.283a9,9 0,1 0,-17.66 -3.218A7.001,7.001 0,0 0,10 27h13a6,6 0,0 0,3.708 -10.717z" android:strokeColor="#535358" android:strokeLineCap="round" android:strokeLineJoin="round" android:strokeWidth="2"/>
-      
-    <path android:fillColor="#535358" android:pathData="M10,18m-2,0a2,2 0,1 1,4 0a2,2 0,1 1,-4 0"/>
-      
-    <path android:fillColor="#535358" android:pathData="M20,18m-2,0a2,2 0,1 1,4 0a2,2 0,1 1,-4 0"/>
-      
-    <path android:fillColor="#00000000" android:pathData="M14,21h2" android:strokeColor="#535358" android:strokeLineCap="round" android:strokeLineJoin="round" android:strokeWidth="2"/>
-    
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="128dp"
+    android:height="128dp"
+    android:viewportWidth="128"
+    android:viewportHeight="128">
+
+    <!-- Decorative circle top left -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M22,20m-6,0a6,6 0,1 1,12 0a6,6 0,1 1,-12 0"
+        android:strokeColor="#000000"
+        android:strokeWidth="2" />
+
+    <!-- Decorative small dot top -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M36,14m-2.5,0a2.5,2.5 0,1 1,5 0a2.5,2.5 0,1 1,-5 0" />
+
+    <!-- Cloud shape - empty/nothing -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M95,58 C95,46 85,38 74,38 C70,38 66,39 63,41 C59,32 50,26 40,26 C27,26 16,37 16,50 C16,51 16,52 16,53 C10,56 6,62 6,70 C6,80 14,88 24,88 L90,88 C98,88 104,82 104,74 C104,66 100,60 95,58 Z"
+        android:strokeColor="#000000"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:strokeWidth="2.5" />
+
+    <!-- Face - sleeping/empty eyes -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M38,62m-4,0a4,4 0,1 1,8 0a4,4 0,1 1,-8 0" />
+
+    <path
+        android:fillColor="#000000"
+        android:pathData="M62,62m-4,0a4,4 0,1 1,8 0a4,4 0,1 1,-8 0" />
+
+    <!-- Neutral mouth -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M45,74 L55,74"
+        android:strokeColor="#000000"
+        android:strokeLineCap="round"
+        android:strokeWidth="2.5" />
+
+    <!-- Decorative plant/leaf right side -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M105,75 Q120,60 112,40"
+        android:strokeColor="#000000"
+        android:strokeLineCap="round"
+        android:strokeWidth="2" />
+
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M110,62 Q118,58 122,48"
+        android:strokeColor="#000000"
+        android:strokeLineCap="round"
+        android:strokeWidth="2" />
+
+    <!-- Decorative small circle right -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M122,38m-3,0a3,3 0,1 1,6 0a3,3 0,1 1,-6 0" />
+
+    <!-- Decorative circles bottom -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M18,105m-5,0a5,5 0,1 1,10 0a5,5 0,1 1,-10 0"
+        android:strokeColor="#000000"
+        android:strokeWidth="2" />
+
+    <path
+        android:fillColor="#000000"
+        android:pathData="M32,108m-2,0a2,2 0,1 1,4 0a2,4 0,1 1,-4 0" />
+
+    <!-- Decorative element bottom right -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M100,100 Q108,95 105,88"
+        android:strokeColor="#000000"
+        android:strokeLineCap="round"
+        android:strokeWidth="2" />
+
 </vector>

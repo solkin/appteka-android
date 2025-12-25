@@ -14,7 +14,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="8dp"
         android:src="@drawable/no_content"
-        app:tint="@color/grey_dark" />
+        app:tint="?attr/text_secondary_color" />
 
     <TextView
         android:layout_width="match_parent"

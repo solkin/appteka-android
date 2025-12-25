@@ -1,0 +1,90 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="128dp"
+    android:height="128dp"
+    android:viewportWidth="128"
+    android:viewportHeight="128">
+
+    <!-- Decorative circle top left -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M18,20m-6,0a6,6 0,1 1,12 0a6,6 0,1 1,-12 0"
+        android:strokeColor="#000000"
+        android:strokeWidth="2" />
+
+    <!-- Small decorative dot -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M32,13m-2.5,0a2.5,2.5 0,1 1,5 0a2.5,2.5 0,1 1,-5 0" />
+
+    <!-- Cloud with error -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M100,55 C100,42 90,32 77,32 C72,32 68,34 64,37 C60,28 51,22 40,22 C26,22 14,34 14,48 C14,50 14,51 15,53 C9,57 5,64 5,72 C5,84 15,94 27,94 L95,94 C105,94 113,86 113,76 C113,67 107,59 100,55 Z"
+        android:strokeColor="#000000"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:strokeWidth="2.5" />
+
+    <!-- Lightning bolt (error symbol) -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M58,45 L52,62 L62,62 L54,82 L72,58 L60,58 L68,45 Z" />
+
+    <!-- Disconnected cable left -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M25,100 L25,108 L35,108"
+        android:strokeColor="#000000"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:strokeWidth="2.5" />
+
+    <!-- Disconnected cable right -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M50,108 L60,108 L60,100"
+        android:strokeColor="#000000"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:strokeWidth="2.5" />
+
+    <!-- Break marks between cables -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M40,105 L42,111 M45,105 L47,111"
+        android:strokeColor="#000000"
+        android:strokeLineCap="round"
+        android:strokeWidth="2" />
+
+    <!-- Decorative curved lines top right -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M108,22 Q118,15 114,5"
+        android:strokeColor="#000000"
+        android:strokeLineCap="round"
+        android:strokeWidth="2" />
+
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M114,28 Q122,22 120,14"
+        android:strokeColor="#000000"
+        android:strokeLineCap="round"
+        android:strokeWidth="2" />
+
+    <!-- Decorative circle top right -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M116,4m-3,0a3,3 0,1 1,6 0a3,3 0,1 1,-6 0" />
+
+    <!-- Decorative circles bottom right -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M115,110m-5,0a5,5 0,1 1,10 0a5,5 0,1 1,-10 0"
+        android:strokeColor="#000000"
+        android:strokeWidth="2" />
+
+    <path
+        android:fillColor="#000000"
+        android:pathData="M105,118m-2,0a2,2 0,1 1,4 0a2,2 0,1 1,-4 0" />
+
+</vector>

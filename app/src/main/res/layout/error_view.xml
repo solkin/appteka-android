@@ -1,27 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/error_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/error_text"
-        android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:gravity="center"
-        android:textSize="14sp"
-        tools:text="Failed to load something" />
+        android:orientation="vertical"
+        android:padding="24dp">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/button_retry"
-        style="@style/MaterialButtonSecondary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/error_text"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="8dp"
-        android:text="@string/retry" />
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginBottom="16dp"
+            android:src="@drawable/error_illustration"
+            app:tint="?attr/text_secondary_color" />
+
+        <TextView
+            android:id="@+id/error_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:textSize="15sp"
+            android:textColor="?attr/text_primary_color"
+            tools:text="Failed to load something" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/button_retry"
+            style="@style/MaterialButtonSecondary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/retry" />
+
+    </LinearLayout>
 
 </RelativeLayout>

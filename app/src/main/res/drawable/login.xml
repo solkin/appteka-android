@@ -1,30 +1,81 @@
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="128dp"
     android:height="128dp"
-    android:viewportWidth="64"
-    android:viewportHeight="64">
+    android:viewportWidth="128"
+    android:viewportHeight="128">
+
+    <!-- Decorative circle top left -->
     <path
-        android:fillColor="#F76D57"
-        android:pathData="M46,7h4v8h-4zM14,7h4v8h-4z" />
+        android:fillColor="#00000000"
+        android:pathData="M20,25m-5,0a5,5 0,1 1,10 0a5,5 0,1 1,-10 0"
+        android:strokeColor="#000000"
+        android:strokeWidth="2" />
+
+    <!-- Decorative small dot -->
     <path
-        android:fillColor="#B4CCB9"
-        android:pathData="M62,55a2,2 0,0 1,-2 2H4a2,2 0,0 1,-2 -2V15a2,2 0,0 1,2 -2h8v3a1,1 0,0 0,1 1h6a1,1 0,0 0,1 -1v-3h24v3a1,1 0,0 0,1 1h6a1,1 0,0 0,1 -1v-3h8a2,2 0,0 1,2 2v40z" />
+        android:fillColor="#000000"
+        android:pathData="M32,18m-2,0a2,2 0,1 1,4 0a2,2 0,1 1,-4 0" />
+
+    <!-- Person silhouette - head -->
     <path
-        android:fillColor="#45AAB8"
-        android:pathData="M14.521,44.374C15.457,43.08 17.639,41 22,41c4.363,0 6.545,2.082 7.48,3.374C27.428,46.014 24.831,47 22,47s-5.428,-0.986 -7.479,-2.626z" />
+        android:fillColor="#000000"
+        android:pathData="M50,48m-12,0a12,12 0,1 1,24 0a12,12 0,1 1,-24 0" />
+
+    <!-- Person silhouette - body -->
     <path
-        android:fillColor="#506C7F"
-        android:pathData="M30.936,42.989C29.657,41.326 26.986,39 22,39s-7.657,2.326 -8.936,3.989A11.94,11.94 0,0 1,10 35c0,-6.627 5.373,-12 12,-12s12,5.373 12,12a11.94,11.94 0,0 1,-3.064 7.989z" />
+        android:fillColor="#000000"
+        android:pathData="M50,65 C32,65 22,80 22,95 L22,105 L78,105 L78,95 C78,80 68,65 50,65 Z" />
+
+    <!-- Door frame outline -->
     <path
-        android:fillColor="#394240"
-        android:pathData="M60,11h-8L52,6a1,1 0,0 0,-1 -1h-6a1,1 0,0 0,-1 1v5L20,11L20,6a1,1 0,0 0,-1 -1h-6a1,1 0,0 0,-1 1v5L4,11c-2.211,0 -4,1.789 -4,4v40c0,2.211 1.789,4 4,4h56c2.211,0 4,-1.789 4,-4L64,15c0,-2.211 -1.789,-4 -4,-4zM46,7h4v8h-4L46,7zM14,7h4v8h-4L14,7zM62,55a2,2 0,0 1,-2 2L4,57a2,2 0,0 1,-2 -2L2,15a2,2 0,0 1,2 -2h8v3a1,1 0,0 0,1 1h6a1,1 0,0 0,1 -1v-3h24v3a1,1 0,0 0,1 1h6a1,1 0,0 0,1 -1v-3h8a2,2 0,0 1,2 2v40z" />
+        android:fillColor="#00000000"
+        android:pathData="M72,30 L105,30 L105,110 L72,110"
+        android:strokeColor="#000000"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:strokeWidth="2.5" />
+
+    <!-- Door -->
     <path
-        android:fillColor="#394240"
-        android:pathData="M41,39h10a1,1 0,1 0,0 -2L41,37a1,1 0,1 0,0 2zM55,31L41,31a1,1 0,1 0,0 2h14a1,1 0,1 0,0 -2zM55,43L41,43a1,1 0,1 0,0 2h14a1,1 0,1 0,0 -2zM41,27h6a1,1 0,1 0,0 -2h-6a1,1 0,1 0,0 2zM22,21c-7.731,0 -14,6.269 -14,14s6.269,14 14,14 14,-6.269 14,-14 -6.269,-14 -14,-14zM22,47c-2.831,0 -5.428,-0.986 -7.479,-2.626C15.457,43.08 17.639,41 22,41c4.363,0 6.545,2.082 7.48,3.374A11.938,11.938 0,0 1,22 47zM30.936,42.989C29.657,41.326 26.986,39 22,39s-7.657,2.326 -8.936,3.989A11.94,11.94 0,0 1,10 35c0,-6.627 5.373,-12 12,-12s12,5.373 12,12a11.94,11.94 0,0 1,-3.064 7.989z" />
+        android:fillColor="#00000000"
+        android:pathData="M78,35 L100,35 L100,105 L78,105 L78,35"
+        android:strokeColor="#000000"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:strokeWidth="2" />
+
+    <!-- Door handle -->
     <path
-        android:fillColor="#394240"
-        android:pathData="M27,34v-2c0,-2.762 -2.238,-5 -5,-5s-5,2.238 -5,5v2c0,2.762 2.238,5 5,5s5,-2.238 5,-5zM25,34a3,3 0,1 1,-6 0v-2a3,3 0,1 1,6 0v2z" />
+        android:fillColor="#000000"
+        android:pathData="M95,68m-3,0a3,3 0,1 1,6 0a3,3 0,1 1,-6 0" />
+
+    <!-- Arrow pointing right (entering) -->
     <path
-        android:fillColor="#F9EBB2"
-        android:pathData="M25,34a3,3 0,1 1,-6 0v-2a3,3 0,1 1,6 0v2z" />
+        android:fillColor="#00000000"
+        android:pathData="M60,70 L72,70 M68,64 L74,70 L68,76"
+        android:strokeColor="#000000"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:strokeWidth="2.5" />
+
+    <!-- Decorative curved line bottom right -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M100,95 Q115,90 118,75"
+        android:strokeColor="#000000"
+        android:strokeLineCap="round"
+        android:strokeWidth="2" />
+
+    <!-- Decorative small circle -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M120,72m-3,0a3,3 0,1 1,6 0a3,3 0,1 1,-6 0" />
+
+    <!-- Decorative circle bottom left -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M12,100m-4,0a4,4 0,1 1,8 0a4,4 0,1 1,-8 0"
+        android:strokeColor="#000000"
+        android:strokeWidth="2" />
+
 </vector>

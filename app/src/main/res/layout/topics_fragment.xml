@@ -30,7 +30,8 @@
                     android:layout_width="92dp"
                     android:layout_height="92dp"
                     android:layout_marginBottom="20dp"
-                    android:src="@drawable/chat" />
+                    android:src="@drawable/chat"
+                    app:tint="?attr/text_secondary_color" />
 
                 <TextView
                     android:id="@+id/intro_title"

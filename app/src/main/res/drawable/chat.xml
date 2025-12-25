@@ -1,43 +1,85 @@
-<?xml version="1.0" encoding="utf-8"?>
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="504.123dp"
-    android:height="504.123dp"
-    android:viewportWidth="504.123"
-    android:viewportHeight="504.123">
+    android:width="128dp"
+    android:height="128dp"
+    android:viewportWidth="128"
+    android:viewportHeight="128">
+
+    <!-- Decorative circle top left -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M15,25m-5,0a5,5 0,1 1,10 0a5,5 0,1 1,-10 0"
+        android:strokeColor="#000000"
+        android:strokeWidth="2" />
+
+    <!-- Small decorative dot -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M28,18m-2,0a2,2 0,1 1,4 0a2,2 0,1 1,-4 0" />
+
+    <!-- Main chat bubble (large, back) -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M25,30 L90,30 C95,30 100,35 100,40 L100,70 C100,75 95,80 90,80 L75,80 L65,95 L60,80 L25,80 C20,80 15,75 15,70 L15,40 C15,35 20,30 25,30 Z"
+        android:strokeColor="#000000"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:strokeWidth="2.5" />
+
+    <!-- Chat dots in main bubble -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M40,55m-5,0a5,5 0,1 1,10 0a5,5 0,1 1,-10 0" />
 
     <path
-        android:fillColor="#EFC75E"
-        android:pathData="M232.369,313.888c0-52.775-51.988-95.311-116.185-95.311S0,261.112,0,313.888
-s51.988,93.735,116.185,93.735c5.514,0,11.028-0.394,16.542-1.182c24.025,18.905,48.443,25.206,48.837,24.812
-c-8.665-8.665-13.785-20.086-16.935-30.72C204.8,385.174,232.369,352.485,232.369,313.888z" />
+        android:fillColor="#000000"
+        android:pathData="M58,55m-5,0a5,5 0,1 1,10 0a5,5 0,1 1,-10 0" />
+
     <path
-        android:fillColor="#FAEECF"
-        android:pathData="M137.846,297.346c-8.665,0-15.754,7.089-15.754,15.754s7.089,15.754,15.754,15.754
-S153.6,321.765,153.6,313.1C153.6,304.435,146.511,297.346,137.846,297.346z
-M86.646,297.346c-8.665,0-15.754,7.089-15.754,15.754
-s7.089,15.754,15.754,15.754S102.4,321.765,102.4,313.1S95.311,297.346,86.646,297.346z" />
+        android:fillColor="#000000"
+        android:pathData="M76,55m-5,0a5,5 0,1 1,10 0a5,5 0,1 1,-10 0" />
+
+    <!-- Secondary chat bubble (smaller, front right) -->
     <path
-        android:fillColor="#26A6D1"
-        android:pathData="M334.769,348.94c-8.665,0-17.329-0.394-25.6-1.575c-33.871,25.206-66.954,33.477-67.348,32.689
-c11.422-11.815,18.905-26.782,23.631-41.748c-59.077-21.662-100.037-70.105-100.037-126.425c0-76.8,76.012-139.028,169.354-139.028
-s169.354,62.228,169.354,139.028S428.111,348.94,334.769,348.94z" />
+        android:fillColor="#000000"
+        android:pathData="M85,65 L110,65 C113,65 115,67 115,70 L115,90 C115,93 113,95 110,95 L100,95 L95,105 L92,95 L85,95 C82,95 80,93 80,90 L80,70 C80,67 82,65 85,65 Z" />
+
+    <!-- Text lines in filled bubble -->
     <path
-        android:fillColor="#FFFFFF"
-        android:pathData="M334.769,187.069c-12.997,0-23.631,10.634-23.631,23.631s10.634,23.631,23.631,23.631
-S358.4,223.697,358.4,210.7S347.766,187.069,334.769,187.069z
-M405.662,187.069c-12.997,0-23.631,10.634-23.631,23.631
-s10.634,23.631,23.631,23.631s23.631-10.634,23.631-23.631S418.658,187.069,405.662,187.069z
-M263.877,187.069
-c-12.997,0-23.631,10.634-23.631,23.631s10.634,23.631,23.631,23.631c12.997,0,23.631-10.634,23.631-23.631
-S276.874,187.069,263.877,187.069z" />
+        android:fillColor="#00000000"
+        android:pathData="M88,75 L108,75"
+        android:strokeColor="#ffffff"
+        android:strokeLineCap="round"
+        android:strokeWidth="2" />
+
     <path
-        android:fillColor="#2295BC"
-        android:pathData="M280.812,330.429c-58.683-21.662-99.643-70.105-99.643-126.425
-c0-47.655,29.145-89.403,73.649-114.609c-53.169,23.237-89.403,69.317-89.403,122.486c0,56.32,40.96,104.763,99.643,126.425
-c-4.726,14.572-11.815,29.538-23.631,41.748C241.822,380.448,267.028,361.937,280.812,330.429z" />
+        android:fillColor="#00000000"
+        android:pathData="M88,82 L102,82"
+        android:strokeColor="#ffffff"
+        android:strokeLineCap="round"
+        android:strokeWidth="2" />
+
+    <!-- Decorative curved lines top right -->
     <path
-        android:fillColor="#DCB757"
-        android:pathData="M15.754,313.888c0-50.412,47.655-91.766,108.308-94.917l-7.877-0.394
-C51.988,218.577,0,261.112,0,313.888s51.988,93.735,116.185,93.735c2.363,0,4.726,0,7.483-0.394
-C63.409,403.685,15.754,364.3,15.754,313.888z" />
+        android:fillColor="#00000000"
+        android:pathData="M105,25 Q115,18 112,8"
+        android:strokeColor="#000000"
+        android:strokeLineCap="round"
+        android:strokeWidth="2" />
+
+    <!-- Decorative circle top right -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M115,6m-3,0a3,3 0,1 1,6 0a3,3 0,1 1,-6 0" />
+
+    <!-- Decorative circles bottom left -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M18,110m-5,0a5,5 0,1 1,10 0a5,5 0,1 1,-10 0"
+        android:strokeColor="#000000"
+        android:strokeWidth="2" />
+
+    <path
+        android:fillColor="#000000"
+        android:pathData="M32,115m-2.5,0a2.5,2.5 0,1 1,5 0a2.5,2.5 0,1 1,-5 0" />
+
 </vector>

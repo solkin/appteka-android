@@ -1,0 +1,129 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="128dp"
+    android:height="128dp"
+    android:viewportWidth="128"
+    android:viewportHeight="128">
+
+    <!-- Decorative circle top left -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M18,18m-6,0a6,6 0,1 1,12 0a6,6 0,1 1,-12 0"
+        android:strokeColor="#000000"
+        android:strokeWidth="2" />
+
+    <!-- Small decorative dot -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M32,11m-2.5,0a2.5,2.5 0,1 1,5 0a2.5,2.5 0,1 1,-5 0" />
+
+    <!-- Large lock body -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M35,55 L93,55 C97,55 100,58 100,62 L100,100 C100,104 97,107 93,107 L35,107 C31,107 28,104 28,100 L28,62 C28,58 31,55 35,55 Z" />
+
+    <!-- Lock shackle (open) -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M45,55 L45,40 C45,30 52,23 64,23 C76,23 83,30 83,40 L83,48"
+        android:strokeColor="#000000"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:strokeWidth="5" />
+
+    <!-- Keyhole -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M64,72m-8,0a8,8 0,1 1,16 0a8,8 0,1 1,-16 0"
+        android:strokeColor="#ffffff"
+        android:strokeWidth="2.5" />
+
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M64,80 L64,92"
+        android:strokeColor="#ffffff"
+        android:strokeLineCap="round"
+        android:strokeWidth="3" />
+
+    <!-- Floating envelope -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M88,18 L118,18 C120,18 122,20 122,22 L122,42 C122,44 120,46 118,46 L88,46 C86,46 84,44 84,42 L84,22 C84,20 86,18 88,18 Z"
+        android:strokeColor="#000000"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:strokeWidth="2" />
+
+    <!-- Envelope flap -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M84,22 L103,34 L122,22 L122,26 L103,38 L84,26 Z" />
+
+    <!-- Key flying from envelope -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M95,52 L95,60 L90,60"
+        android:strokeColor="#000000"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:strokeWidth="2.5" />
+
+    <!-- Key head -->
+    <path
+        android:fillColor="#000000"
+        android:pathData="M95,48m-5,0a5,5 0,1 1,10 0a5,5 0,1 1,-10 0" />
+
+    <!-- Sparkles around key -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M105,55 L108,52 M108,60 L112,58"
+        android:strokeColor="#000000"
+        android:strokeLineCap="round"
+        android:strokeWidth="2" />
+
+    <!-- Decorative curved lines right -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M115,8 Q122,4 120,0"
+        android:strokeColor="#000000"
+        android:strokeLineCap="round"
+        android:strokeWidth="2" />
+
+    <!-- Decorative plant element left -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M12,50 Q5,38 10,25"
+        android:strokeColor="#000000"
+        android:strokeLineCap="round"
+        android:strokeWidth="2" />
+
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M8,42 Q3,38 5,30"
+        android:strokeColor="#000000"
+        android:strokeLineCap="round"
+        android:strokeWidth="2" />
+
+    <!-- Decorative circles bottom left -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M10,118m-4,0a4,4 0,1 1,8 0a4,4 0,1 1,-8 0"
+        android:strokeColor="#000000"
+        android:strokeWidth="2" />
+
+    <path
+        android:fillColor="#000000"
+        android:pathData="M22,122m-2,0a2,2 0,1 1,4 0a2,2 0,1 1,-4 0" />
+
+    <!-- Decorative element bottom right -->
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M108,112 Q118,106 114,95"
+        android:strokeColor="#000000"
+        android:strokeLineCap="round"
+        android:strokeWidth="2" />
+
+    <path
+        android:fillColor="#000000"
+        android:pathData="M116,92m-2.5,0a2.5,2.5 0,1 1,5 0a2.5,2.5 0,1 1,-5 0" />
+
+</vector>
