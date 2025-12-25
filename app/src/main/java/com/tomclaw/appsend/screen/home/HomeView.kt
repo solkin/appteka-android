@@ -11,6 +11,7 @@ import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.util.applyBottomInsets
 import com.tomclaw.appsend.util.applyBottomInsetsAsMargin
+import com.tomclaw.appsend.util.applyBottomMarginForView
 import com.tomclaw.appsend.util.clicks
 import com.tomclaw.appsend.util.hide
 import com.tomclaw.appsend.util.show
@@ -91,6 +92,7 @@ class HomeViewImpl(view: View) : HomeView {
     private val context = view.context
     private val toolbar: Toolbar = view.findViewById(R.id.toolbar)
     private val updateBlock: View = view.findViewById(R.id.update_block)
+    private val frameLayout: View = view.findViewById(R.id.frame)
     private val bottomNavigation: BottomNavigationView = view.findViewById(R.id.bottom_navigation)
     private val uploadButton: FloatingActionButton = view.findViewById(R.id.fab_upload)
     private val postButton: FloatingActionButton = view.findViewById(R.id.fab_post)
@@ -145,6 +147,7 @@ class HomeViewImpl(view: View) : HomeView {
 
         // Apply edge-to-edge insets
         bottomNavigation.applyBottomInsets()
+        frameLayout.applyBottomMarginForView(bottomNavigation)
         uploadButton.applyBottomInsetsAsMargin()
         postButton.applyBottomInsetsAsMargin()
     }

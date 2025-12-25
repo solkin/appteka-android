@@ -74,3 +74,25 @@ fun View.applySystemBarInsets() {
     }
 }
 
+/**
+ * Sets bottom margin of this view to match the height of another view.
+ * The anchor view should already have bottom insets applied.
+ * Useful for content areas that need to stay above BottomNavigationView.
+ */
+fun View.applyBottomMarginForView(anchorView: View) {
+    // Wait for anchor view to be laid out with its insets applied
+    anchorView.addOnLayoutChangeListener { _, _, _, _, bottom, _, _, _, oldBottom ->
+        if (bottom != oldBottom) {
+            this.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+                bottomMargin = anchorView.height
+            }
+        }
+    }
+    // Initial setup
+    anchorView.post {
+        this.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+            bottomMargin = anchorView.height
+        }
+    }
+}
+
