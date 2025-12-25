@@ -25,54 +25,45 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
 
-                    <LinearLayout
-                        android:id="@+id/button_categories"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/category_dropdown_layout"
+                        style="@style/Widget.Material3.TextInputLayout.FilledBox.Dense.ExposedDropdownMenu"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="?selectableItemBackground"
-                        android:gravity="center"
-                        android:orientation="horizontal"
-                        android:padding="12dp">
+                        android:layout_marginHorizontal="12dp"
+                        android:layout_marginBottom="4dp"
+                        app:boxBackgroundColor="?attr/category_dropdown_background"
+                        app:boxCornerRadiusBottomEnd="24dp"
+                        app:boxCornerRadiusBottomStart="24dp"
+                        app:boxCornerRadiusTopEnd="24dp"
+                        app:boxCornerRadiusTopStart="24dp"
+                        app:boxStrokeWidth="0dp"
+                        app:boxStrokeWidthFocused="0dp"
+                        app:hintEnabled="false"
+                        app:startIconDrawable="@drawable/ic_category">
 
-                        <ImageView
-                            android:id="@+id/category_icon"
-                            android:layout_width="wrap_content"
+                        <AutoCompleteTextView
+                            android:id="@+id/category_dropdown"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:src="@drawable/ic_category"
-                            app:tint="?attr/text_secondary_color" />
-
-                        <TextView
-                            android:id="@+id/category_title"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:paddingStart="8dp"
-                            android:paddingLeft="8dp"
+                            android:gravity="center_vertical"
+                            android:inputType="none"
+                            android:paddingVertical="12dp"
                             android:text="@string/all_categories"
-                            android:textColor="?attr/text_secondary_color"
-                            android:textSize="16sp" />
+                            android:textSize="14sp"
+                            tools:ignore="LabelFor" />
 
-                    </LinearLayout>
-
-                    <FrameLayout
+                    </com.google.android.material.textfield.TextInputLayout>
+                    
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/recycler"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/recycler"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:clipToPadding="false"
-                            android:paddingTop="4dp"
-                            android:paddingBottom="8dp"
-                            android:scrollbarStyle="outsideOverlay"
-                            android:scrollbars="vertical" />
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="1dp"
-                            android:background="?divider_color" />
-
-                    </FrameLayout>
+                        android:layout_height="match_parent"
+                        android:clipToPadding="false"
+                        android:paddingTop="4dp"
+                        android:paddingBottom="8dp"
+                        android:scrollbarStyle="outsideOverlay"
+                        android:scrollbars="vertical" />
 
                 </LinearLayout>
 

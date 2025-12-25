@@ -48,6 +48,7 @@ class StorePresenterImpl(
     private val storeInteractor: StoreInteractor,
     private val categoriesInteractor: CategoriesInteractor,
     private val categoryConverter: CategoryConverter,
+    private val dropdownItemConverter: CategoryDropdownItemConverter,
     private val adapterPresenter: Lazy<AdapterPresenter>,
     private val appConverter: AppConverter,
     private val analytics: Analytics,
@@ -66,6 +67,9 @@ class StorePresenterImpl(
     private var category: CategoryItem? =
         state?.getParcelableCompat(KEY_CATEGORY_ID, CategoryItem::class.java)
 
+    private var dropdownItems: List<CategoryDropdownItem> = emptyList()
+    private var selectedPosition: Int = 0
+
     override fun attachView(view: StoreView) {
         this.view = view
 
@@ -76,25 +80,12 @@ class StorePresenterImpl(
             invalidateApps()
             analytics.trackEvent("store-refresh")
         }
-        subscriptions += view.categoriesButtonClicks().subscribe {
-            loadCategories()
-            analytics.trackEvent("store-category-list")
-        }
-        subscriptions += view.categorySelectedClicks().subscribe { categoryItem ->
-            onCategorySelected(categoryItem)
-            analytics.trackEvent("store-category-selected")
-        }
-        subscriptions += view.categoryClearedClicks().subscribe {
-            onCategorySelected()
-            analytics.trackEvent("store-category-cleared")
+        subscriptions += view.categorySelectedClicks().subscribe { position ->
+            onCategoryPositionSelected(position)
         }
 
-        if (isError) {
-            onError()
-        } else {
-            view.setSelectedCategory(category)
-            items?.let { bindItems() } ?: loadApps()
-        }
+        // Load categories first, then load apps
+        loadCategories()
     }
 
     override fun detachView() {
@@ -207,13 +198,46 @@ class StorePresenterImpl(
     }
 
     private fun onCategoriesLoaded(categories: List<Category>) {
-        val items = categories.map { categoryConverter.convert(it) }.sortedBy { it.title }
-        view?.showCategories(items)
+        val categoryItems = categories.map { categoryConverter.convert(it) }.sortedBy { it.title }
+        dropdownItems = dropdownItemConverter.convert(categoryItems)
+
+        // Find position of saved category
+        selectedPosition = if (category != null) {
+            dropdownItems.indexOfFirst { it.id == category?.id }.takeIf { it >= 0 } ?: 0
+        } else {
+            0
+        }
+
+        view?.showCategories(dropdownItems)
+        view?.setSelectedCategory(dropdownItems[selectedPosition])
+
+        if (isError) {
+            onError()
+        } else {
+            items?.let { bindItems() } ?: loadApps()
+        }
     }
 
-    private fun onCategorySelected(categoryItem: CategoryItem? = null) {
-        category = categoryItem
-        view?.setSelectedCategory(categoryItem)
+    private fun onCategoryPositionSelected(position: Int) {
+        if (position == selectedPosition) return
+
+        selectedPosition = position
+        val selectedItem = dropdownItems.getOrNull(position)
+
+        if (selectedItem == null || selectedItem.id == 0) {
+            category = null
+            analytics.trackEvent("store-category-cleared")
+        } else {
+            category = CategoryItem(
+                id = selectedItem.id,
+                title = selectedItem.title,
+                icon = selectedItem.iconSvg ?: ""
+            )
+            analytics.trackEvent("store-category-selected")
+        }
+
+        view?.setSelectedCategory(dropdownItems[selectedPosition])
+        view?.scrollToTop()
         invalidateApps()
     }
 

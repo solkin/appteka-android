@@ -14,6 +14,8 @@ import com.tomclaw.appsend.screen.store.AppConverter
 import com.tomclaw.appsend.screen.store.AppConverterImpl
 import com.tomclaw.appsend.screen.store.AppsResourceProvider
 import com.tomclaw.appsend.screen.store.AppsResourceProviderImpl
+import com.tomclaw.appsend.screen.store.CategoryDropdownItemConverter
+import com.tomclaw.appsend.screen.store.CategoryDropdownItemConverterImpl
 import com.tomclaw.appsend.screen.store.StoreInteractor
 import com.tomclaw.appsend.screen.store.StoreInteractorImpl
 import com.tomclaw.appsend.screen.store.StorePreferencesProvider
@@ -44,6 +46,7 @@ class StoreModule(
         storeInteractor: StoreInteractor,
         categoriesInteractor: CategoriesInteractor,
         categoryConverter: CategoryConverter,
+        dropdownItemConverter: CategoryDropdownItemConverter,
         adapterPresenter: Lazy<AdapterPresenter>,
         appConverter: AppConverter,
         analytics: Analytics,
@@ -52,6 +55,7 @@ class StoreModule(
         storeInteractor,
         categoriesInteractor,
         categoryConverter,
+        dropdownItemConverter,
         adapterPresenter,
         appConverter,
         analytics,
@@ -123,5 +127,10 @@ class StoreModule(
     @PerFragment
     internal fun provideCategoryConverter(locale: Locale): CategoryConverter =
         CategoryConverterImpl(locale)
+
+    @Provides
+    @PerFragment
+    internal fun provideCategoryDropdownItemConverter(): CategoryDropdownItemConverter =
+        CategoryDropdownItemConverterImpl(context.resources)
 
 }

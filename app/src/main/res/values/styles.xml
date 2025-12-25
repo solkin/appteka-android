@@ -139,7 +139,7 @@
         <item name="colorSurfaceVariant">#E7E0EC</item>
         <item name="colorOnSurfaceVariant">#49454F</item>
         <item name="colorSurfaceContainer">@color/surface_container_light</item>
-        <item name="colorSurfaceContainerLow">#F7F2FA</item>
+        <item name="colorSurfaceContainerLow">#F0F0F0</item>
 
         <item name="colorOutline">#79747E</item>
         <item name="colorOutlineVariant">#CAC4D0</item>
@@ -192,6 +192,8 @@
         <item name="reaction_background_active_color">#E8F5E9</item>
         <item name="reaction_border_active_color">@color/primary_color</item>
         <item name="reaction_text_color">?attr/text_secondary_color</item>
+
+        <item name="category_dropdown_background">?attr/colorSurfaceContainerLow</item>
 
         <!-- Preference Theme -->
         <item name="preferenceTheme">@style/AppPreferenceThemeOverlay</item>

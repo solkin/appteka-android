@@ -31,6 +31,7 @@
     <attr name="reaction_background_active_color" format="color|reference" />
     <attr name="reaction_border_active_color" format="color|reference" />
     <attr name="reaction_text_color" format="color|reference" />
+    <attr name="category_dropdown_background" format="color|reference" />
     <declare-styleable name="MaxHeightFrameLayout">
         <attr name="maxHeight" format="dimension" />
     </declare-styleable>

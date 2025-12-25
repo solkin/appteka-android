@@ -35,7 +35,7 @@
         <item name="colorSurfaceVariant">#49454F</item>
         <item name="colorOnSurfaceVariant">#CAC4D0</item>
         <item name="colorSurfaceContainer">@color/surface_container_dark</item>
-        <item name="colorSurfaceContainerLow">#1D1B20</item>
+        <item name="colorSurfaceContainerLow">#1E1E1E</item>
 
         <item name="colorOutline">#938F99</item>
         <item name="colorOutlineVariant">#49454F</item>
@@ -51,8 +51,8 @@
 
         <item name="bottom_bar_background">@color/bottom_nav_background_dark</item>
 
-        <item name="toolbar_background">#202022</item>
-        <item name="search_toolbar_background">#202022</item>
+        <item name="toolbar_background">@color/surface_color_dark</item>
+        <item name="search_toolbar_background">@color/surface_color_dark</item>
 
         <item name="divider_color">@color/divider_dark</item>
 
@@ -86,6 +86,8 @@
         <item name="reaction_background_active_color">#1A3A1A</item>
         <item name="reaction_border_active_color">@color/primary_color</item>
         <item name="reaction_text_color">?attr/text_secondary_color</item>
+
+        <item name="category_dropdown_background">?attr/colorSurfaceContainerLow</item>
 
         <!-- Preference Theme -->
         <item name="preferenceTheme">@style/AppPreferenceThemeOverlay</item>
