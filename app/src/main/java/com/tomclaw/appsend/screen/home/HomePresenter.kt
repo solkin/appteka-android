@@ -54,6 +54,8 @@ interface HomePresenter {
 
         fun openShareUrlDialog(text: String)
 
+        fun setBackCallbackEnabled(enabled: Boolean)
+
         fun leaveScreen()
 
         fun exitApp()
@@ -124,6 +126,8 @@ class HomePresenterImpl(
 
     private fun bindTab(index: Int = tabIndex) {
         tabIndex = index
+        // Enable back callback only when not on Store tab (to switch to Store first)
+        router?.setBackCallbackEnabled(index != INDEX_STORE)
         when (index) {
             INDEX_STORE -> {
                 router?.showStoreFragment()

@@ -3,7 +3,6 @@ package com.tomclaw.appsend.screen.uploads
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AppCompatActivity
 import com.avito.konveyor.ItemBinder
@@ -57,12 +56,6 @@ class UploadsActivity : AppCompatActivity(), UploadsPresenter.UploadsRouter {
         if (savedInstanceState == null) {
             analytics.trackEvent("open-files-screen")
         }
-
-        onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                presenter.onBackPressed()
-            }
-        })
     }
 
     override fun onStart() {

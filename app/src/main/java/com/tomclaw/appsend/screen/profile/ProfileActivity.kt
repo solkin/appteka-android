@@ -46,20 +46,21 @@ class ProfileActivity : AppCompatActivity() {
                 .commit()
         }
 
-        onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                leaveScreen(isShowHomeOnFinish)
-            }
-        })
+        // Only intercept back if we need to show home screen (deep link case)
+        if (isShowHomeOnFinish) {
+            onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    leaveScreen()
+                }
+            })
+        }
     }
 
-    private fun leaveScreen(isShowHomeOnFinish: Boolean) {
-        if (isShowHomeOnFinish) {
-            val intent = createHomeActivityIntent(context = this).apply {
-                setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-            }
-            startActivity(intent)
+    private fun leaveScreen() {
+        val intent = createHomeActivityIntent(context = this).apply {
+            setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         }
+        startActivity(intent)
         finish()
     }
 

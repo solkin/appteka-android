@@ -3,7 +3,6 @@ package com.tomclaw.appsend.screen.subscriptions
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
@@ -36,12 +35,6 @@ class SubscriptionsActivity : AppCompatActivity(), SubscriptionsPresenter.Subscr
         view.setSelectedPage(activeTab.ordinal)
 
         presenter.attachView(view)
-
-        onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                presenter.onBackPressed()
-            }
-        })
     }
 
     override fun onStart() {

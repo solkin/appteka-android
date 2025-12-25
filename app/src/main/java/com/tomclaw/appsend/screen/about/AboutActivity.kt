@@ -5,7 +5,6 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
@@ -40,12 +39,6 @@ class AboutActivity : AppCompatActivity(), AboutPresenter.AboutRouter {
         if (savedInstanceState == null) {
             analytics.trackEvent("open-about-screen")
         }
-
-        onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                presenter.onBackPressed()
-            }
-        })
     }
 
     override fun onStart() {

@@ -3,7 +3,6 @@ package com.tomclaw.appsend.screen.moderation
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AppCompatActivity
 import com.avito.konveyor.ItemBinder
@@ -48,12 +47,6 @@ class ModerationActivity : AppCompatActivity(), ModerationPresenter.ModerationRo
         val view = ModerationViewImpl(window.decorView, adapter)
 
         presenter.attachView(view)
-
-        onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                presenter.onBackPressed()
-            }
-        })
     }
 
     override fun onStart() {

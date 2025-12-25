@@ -41,6 +41,12 @@ class HomeActivity : AppCompatActivity(), HomePresenter.HomeRouter {
     private val handler: Handler = Handler(Looper.getMainLooper())
     private var pendingFragmentRunnable: Runnable? = null
 
+    private val backCallback = object : OnBackPressedCallback(false) {
+        override fun handleOnBackPressed() {
+            presenter.onBackPressed()
+        }
+    }
+
     private val postLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
@@ -58,11 +64,7 @@ class HomeActivity : AppCompatActivity(), HomePresenter.HomeRouter {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.home_activity)
 
-        onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                presenter.onBackPressed()
-            }
-        })
+        onBackPressedDispatcher.addCallback(backCallback)
 
         val view = HomeViewImpl(window.decorView)
 
@@ -207,6 +209,10 @@ class HomeActivity : AppCompatActivity(), HomePresenter.HomeRouter {
         }
         val chooser = Intent.createChooser(intent, resources.getText(R.string.send_url_to))
         startActivity(chooser)
+    }
+
+    override fun setBackCallbackEnabled(enabled: Boolean) {
+        backCallback.isEnabled = enabled
     }
 
     override fun leaveScreen() {

@@ -93,7 +93,7 @@ class UsersFragment : Fragment(), UsersPresenter.SubscribersRouter {
     }
 
     override fun leaveScreen() {
-        activity?.onBackPressed()
+        activity?.onBackPressedDispatcher?.onBackPressed()
     }
 
 }

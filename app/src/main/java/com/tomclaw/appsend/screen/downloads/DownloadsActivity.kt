@@ -3,7 +3,6 @@ package com.tomclaw.appsend.screen.downloads
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AppCompatActivity
 import com.avito.konveyor.ItemBinder
@@ -57,12 +56,6 @@ class DownloadsActivity : AppCompatActivity(), DownloadsPresenter.DownloadsRoute
         if (savedInstanceState == null) {
             analytics.trackEvent("open-downloads-screen")
         }
-
-        onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                presenter.onBackPressed()
-            }
-        })
     }
 
     override fun onStart() {

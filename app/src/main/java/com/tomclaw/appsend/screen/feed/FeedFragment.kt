@@ -146,7 +146,7 @@ class FeedFragment : Fragment(), FeedPresenter.FeedRouter, HomeFragment {
     }
 
     override fun leaveScreen() {
-        activity?.onBackPressed()
+        activity?.onBackPressedDispatcher?.onBackPressed()
     }
 
     override fun handleEvent(data: Intent?) {

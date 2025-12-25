@@ -3,7 +3,6 @@ package com.tomclaw.appsend.screen.unpublish
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
@@ -31,12 +30,6 @@ class UnpublishActivity : AppCompatActivity(), UnpublishPresenter.UnpublishRoute
         val view = UnpublishViewImpl(window.decorView, title = label)
 
         presenter.attachView(view)
-
-        onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                presenter.onBackPressed()
-            }
-        })
     }
 
     override fun onStart() {

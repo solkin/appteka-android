@@ -3,7 +3,6 @@ package com.tomclaw.appsend.screen.feed
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.util.updateTheme
@@ -29,16 +28,6 @@ class FeedActivity : AppCompatActivity() {
                 .replace(R.id.feed_fragment, fragment)
                 .commit()
         }
-
-        onBackPressedDispatcher.addCallback(object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                leaveScreen()
-            }
-        })
-    }
-
-    private fun leaveScreen() {
-        finish()
     }
 
 }
