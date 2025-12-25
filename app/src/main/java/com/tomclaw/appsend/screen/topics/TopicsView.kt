@@ -40,6 +40,8 @@ interface TopicsView {
 
     fun isPullRefreshing(): Boolean
 
+    fun scrollToTop()
+
     fun getStartedClicks(): Observable<Unit>
 
     fun retryButtonClicks(): Observable<Unit>
@@ -121,6 +123,10 @@ class TopicsViewImpl(
     }
 
     override fun isPullRefreshing(): Boolean = refresher.isRefreshing
+
+    override fun scrollToTop() {
+        recycler.scrollToPosition(0)
+    }
 
     override fun showMessageDialog(topicId: Int, isPinned: Boolean) {
         val bottomSheetDialog = BottomSheetDialog(context)

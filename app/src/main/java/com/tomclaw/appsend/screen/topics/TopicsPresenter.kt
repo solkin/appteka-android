@@ -27,6 +27,8 @@ interface TopicsPresenter : ItemListener {
 
     fun saveState(): Bundle
 
+    fun scrollToTop()
+
     interface TopicsRouter {
 
         fun showChatScreen(entity: TopicEntity)
@@ -130,6 +132,10 @@ class TopicsPresenterImpl(
         putParcelableArrayList(KEY_TOPICS, entities?.let { ArrayList(entities.orEmpty()) })
         putBoolean(KEY_ERROR, isError)
         putBoolean(KEY_HAS_MORE, hasMore)
+    }
+
+    override fun scrollToTop() {
+        view?.scrollToTop()
     }
 
     private fun invalidateTopics() {

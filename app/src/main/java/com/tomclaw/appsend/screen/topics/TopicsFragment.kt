@@ -96,6 +96,10 @@ class TopicsFragment : Fragment(), TopicsPresenter.TopicsRouter, HomeFragment {
 
     override fun handleEvent(data: Intent?) {}
 
+    override fun onReselect() {
+        presenter.scrollToTop()
+    }
+
 }
 
 fun createTopicsFragment(): TopicsFragment = TopicsFragment()
