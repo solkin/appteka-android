@@ -11,7 +11,6 @@
     <string name="tomclaw_software">نویسنده برنامه: گروه نرم افزاری TomClaw</string>
     <string name="app_version">نسخه %1$s (%2$d)</string>
     <string name="info">اطلاعات</string>
-    <string name="pref_base_title">تنظیمات پایه</string>
     <string name="pref_summary_show_system">نمایش برنامه های سیستمی در فهرست برنامه ها</string>
     <string name="pref_title_show_system">برنامه های سیستمی</string>
     <string name="got_it">فهمیدم</string>
@@ -44,19 +43,13 @@
     <string name="pref_summary_clear_cache">تمام فایل های APK استخراج شده قبلی را از پوشه دانلود ها حذف می‌کند</string>
     <string name="cache_cleared_successfully">حافظه پنهان با موفقیت پاکسازی شد</string>
     <string name="cache_clearing_failed">حافظه پنهان پاکسازی نشد</string>
-    <string name="write_permission_extract">برای ذخیره فایل برنامه باید مجوز ذخیره سازی را فعال کنید</string>
-    <string name="permission_denied_message">بدون اجازه لازم نمی توان ادامه داد</string>
     <string name="menu_search">جستجو</string>
     <string name="run_app">اجرای برنامه</string>
     <string name="non_launchable_package">این بسته قابل اجرا نیست</string>
     <string name="app_details">اطلاعات برنامه</string>
     <string name="install">نصب</string>
     <string name="install_app">نصب برنامه</string>
-    <string name="write_permission_install">برای نصب برنامه ها باید مجوزهای ذخیره سازی را اعطا کنید</string>
     <string name="request_delete_packages">برای حذف برنامه ها باید مجوزها را اعطا کنید</string>
-    <string name="write_permission_select">برای جستجو و انتخاب برنامه ها باید مجوزهای ذخیره سازی را فعال کنید</string>
-    <string name="pref_title_dark_theme">حالت تاریک</string>
-    <string name="pref_dark_theme_system">استفاده از رنگ تاریک برای پس زمینه</string>
     <string name="pref_title_theme">پوسته</string>
     <string name="pref_summary_theme">پوسته برنامه را انتخاب کنید</string>
     <string name="pref_title_dynamic_colors">رنگ‌های پویا</string>
@@ -96,9 +89,6 @@
     <string name="update">به روز رسانی</string>
     <string name="abuse">ارسال گزارش</string>
     <string name="your_email">ایمیل شما</string>
-    <string name="thanks_for_attention">با تشکر از شما برای کمک شما در نظارت فروشگاه</string>
-    <string name="fill_all_fields">تمام جایگاه ها را پر کنید</string>
-    <string name="unable_to_get_permissions">دریافت مجوزهای مورد نیاز فهرست یا برنامه امکان پذیر نیست</string>
     <string name="store_app_update">به روز رسانی</string>
     <string name="store_app_installed">نصب شد</string>
     <string name="feedback_email">بازخورد</string>
@@ -156,7 +146,6 @@
     <string name="unlink_file">مسدود کردن</string>
     <string name="unfile_reason">دلیل…</string>
     <string name="enter_unfile_reason">لطفا علت را توضیح دهید:</string>
-    <string name="fill_reason_field">پر کردن جایگاه ضروری است</string>
     <string name="unable_to_unfile">درخواست تکمیل نشد</string>
     <string name="unlink_of">مسدود کردن از %s</string>
     <string name="profile_apps">برنامه های کاربر</string>
@@ -282,7 +271,6 @@
     <string name="security_safe_short">امن</string>
     <string name="security_suspicious_short">مشکوک</string>
     <string name="security_malware_short">بدافزار</string>
-    <string name="security_unknown_short">نامشخص</string>
     <string name="security_not_checked_short">بررسی نشده</string>
     <string name="security_info_scanning">اسکن امنیتی در حال انجام…</string>
     <string name="security_info_scanning_duration">اسکن با ClamAV, APKiD, Quark-Engine. ممکن است چند دقیقه طول بکشد بسته به اندازه فایل و صف.</string>
@@ -365,7 +353,6 @@
     <string name="subscribe">مشترک شوید</string>
     <string name="unsubscribe">لغو اشتراک</string>
     <string name="unable_to_change_subscription_state">تغییر وضعیت اشتراک انجام نشد</string>
-    <string name="subscriptions_activity">اشتراک ها</string>
     <string name="subscribed_date">مشترک شد %s</string>
     <string name="tab_feed">فید خبری</string>
     <string name="user_feed">اخبار کاربران</string>

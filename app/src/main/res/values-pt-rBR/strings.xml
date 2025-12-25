@@ -11,7 +11,6 @@
     <string name="tomclaw_software">Software TomClaw</string>
     <string name="app_version">Versão %1$s (%2$d)</string>
     <string name="info">Informações</string>
-    <string name="pref_base_title">Configurações básicas</string>
     <string name="pref_summary_show_system">Mostrar aplicativos do sistema na lista</string>
     <string name="pref_title_show_system">Aplicativos do sistema</string>
     <string name="got_it">Entendi!</string>
@@ -43,19 +42,13 @@
     <string name="pref_summary_clear_cache">Remover todos os arquivos APKs extraídos anteriormente no diretório Downloads</string>
     <string name="cache_cleared_successfully">Cache limpo com sucesso</string>
     <string name="cache_clearing_failed">Falha na limpeza do cache</string>
-    <string name="write_permission_extract">Para salvar o arquivo do aplicativo, você precisará conceder a permissão de armazenamento</string>
-    <string name="permission_denied_message">Não é possível continuar sem a permissão necessária</string>
     <string name="menu_search">Pesquisar</string>
     <string name="run_app">Executar aplicativo</string>
     <string name="non_launchable_package">Este pacote não pode ser executado.</string>
     <string name="app_details">Mostrar detalhes</string>
     <string name="install">Instalar</string>
     <string name="install_app">Instalar aplicativo</string>
-    <string name="write_permission_install">Para instalar aplicativos, você precisa conceder a permissão de armazenamento</string>
     <string name="request_delete_packages">Para excluir os aplicativos, você precisa conceder a permissão</string>
-    <string name="write_permission_select">Para escanear e selecionar aplicativos de distribuição, você precisa conceder a permissão de armazenamento</string>
-    <string name="pref_title_dark_theme">Tema escuro</string>
-    <string name="pref_dark_theme_system">Cores escuras na aparência do aplicativo</string>
     <string name="pref_title_theme">Tema</string>
     <string name="pref_summary_theme">Selecione o tema do aplicativo</string>
     <string name="pref_title_dynamic_colors">Cores dinâmicas</string>
@@ -95,9 +88,6 @@
     <string name="update">Atualizar</string>
     <string name="abuse">Abuso</string>
     <string name="your_email">Seu e-mail</string>
-    <string name="thanks_for_attention">Obrigado pela sua ajuda na moderação da loja!</string>
-    <string name="fill_all_fields">Preencha todos os campos</string>
-    <string name="unable_to_get_permissions">Não é possível obter as permissões necessárias da lista ou do aplicativo</string>
     <string name="store_app_update">Atualizar</string>
     <string name="store_app_installed">Instalado</string>
     <string name="feedback_email">Comentários</string>
@@ -153,7 +143,6 @@
     <string name="unlink_file">Bloquear</string>
     <string name="unfile_reason">Motivo…</string>
     <string name="enter_unfile_reason">Descreva o motivo:</string>
-    <string name="fill_reason_field">O campo Motivo é obrigatório</string>
     <string name="unable_to_unfile">Falha ao concluir a solicitação</string>
     <string name="unlink_of">Bloco de %s</string>
     <string name="profile_apps">Aplicativos do usuário</string>
@@ -276,7 +265,6 @@
     <string name="security_safe_short">Seguro</string>
     <string name="security_suspicious_short">Suspeito</string>
     <string name="security_malware_short">Malware</string>
-    <string name="security_unknown_short">Desconhecido</string>
     <string name="security_not_checked_short">Não verificado</string>
     <string name="security_info_scanning">Verificação de segurança em andamento…</string>
     <string name="security_info_scanning_duration">Verificando com ClamAV, APKiD, Quark-Engine. Pode levar alguns minutos dependendo do tamanho do arquivo e da fila.</string>
@@ -359,7 +347,6 @@
     <string name="subscribe">Subscrever</string>
     <string name="unsubscribe">Cancelar subscrição</string>
     <string name="unable_to_change_subscription_state">Falha ao alterar o estado da Assinatura</string>
-    <string name="subscriptions_activity">Assinaturas</string>
     <string name="subscribed_date">Subscrito %s</string>
     <string name="tab_feed">Notícia</string>
     <string name="user_feed">Notícias do utilizador</string>

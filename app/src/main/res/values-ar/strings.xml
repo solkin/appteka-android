@@ -11,7 +11,6 @@
     <string name="tomclaw_software">برنامج توم كلاو</string>
     <string name="app_version">الاصدار %1$s (%2$d)</string>
     <string name="info">معلومات</string>
-    <string name="pref_base_title">الإعدادات الأساسية</string>
     <string name="pref_summary_show_system">إظهار تطبيقات النظام في القائمة</string>
     <string name="pref_title_show_system">تطبيقات النظام</string>
     <string name="got_it">فهمت!</string>
@@ -45,19 +44,13 @@
     <string name="pref_summary_clear_cache">قم بإزالة جميع ملفات APK المحملة مسبقًا في دليل التنزيلات</string>
     <string name="cache_cleared_successfully">تم مسح ذاكرة التخزين المؤقت بنجاح</string>
     <string name="cache_clearing_failed">فشل مسح ذاكرة التخزين المؤقت</string>
-    <string name="write_permission_extract">من أجل حفظ ملف التطبيق، سوف تحتاج إلى منح إذن التخزين</string>
-    <string name="permission_denied_message">لا يمكن المتابعة بدون الإذن المطلوب</string>
     <string name="menu_search">بحث</string>
     <string name="run_app">تشغيل التطبيق</string>
     <string name="non_launchable_package">هذه الحزمة غير قابلة للتشغيل.</string>
     <string name="app_details">عرض التفاصيل</string>
     <string name="install">تثبيت</string>
     <string name="install_app">تثبيت التطبيق</string>
-    <string name="write_permission_install">من أجل تثبيت التطبيقات تحتاج إلى منح أذونات التخزين</string>
     <string name="request_delete_packages">من أجل حذف التطبيقات تحتاج إلى منح الأذونات</string>
-    <string name="write_permission_select">من أجل مسح وتحديد توزيع التطبيقات، تحتاج إلى منح أذونات التخزين</string>
-    <string name="pref_title_dark_theme">المظهر الداكن</string>
-    <string name="pref_dark_theme_system">الألوان الداكنة في مظهر التطبيق</string>
     <string name="pref_title_theme">السمة</string>
     <string name="pref_summary_theme">اختر سمة التطبيق</string>
     <string name="pref_title_dynamic_colors">الألوان الديناميكية</string>
@@ -97,9 +90,6 @@
     <string name="update">تحديث</string>
     <string name="abuse">الإساءة</string>
     <string name="your_email">بريدك الإلكتروني</string>
-    <string name="thanks_for_attention">شكرا لمساعدتكم في الإشراف على المتجر!</string>
-    <string name="fill_all_fields">املأ جميع الحقول</string>
-    <string name="unable_to_get_permissions">غير قادر على الحصول على القائمة أو الأذونات المطلوبة للتطبيق</string>
     <string name="store_app_update">تحديث</string>
     <string name="store_app_installed">المثبتة</string>
     <string name="feedback_email">ردود الفعل</string>
@@ -155,7 +145,6 @@
     <string name="unlink_file">حظر</string>
     <string name="unfile_reason">سبب…</string>
     <string name="enter_unfile_reason">يرجى وصف السبب:</string>
-    <string name="fill_reason_field">حقل السبب مطلوب</string>
     <string name="unable_to_unfile">فشل في إكمال الطلب</string>
     <string name="unlink_of">حظر من %s</string>
     <string name="profile_apps">تطبيقات المستخدم</string>
@@ -290,7 +279,6 @@
     <string name="security_safe_short">آمن</string>
     <string name="security_suspicious_short">مشبوه</string>
     <string name="security_malware_short">برنامج ضار</string>
-    <string name="security_unknown_short">غير معروف</string>
     <string name="security_not_checked_short">غير مفحوص</string>
     <string name="security_info_scanning">جاري فحص الأمان…</string>
     <string name="security_info_scanning_duration">الفحص باستخدام ClamAV, APKiD, Quark-Engine. قد يستغرق بضع دقائق حسب حجم الملف والطابور.</string>
@@ -389,7 +377,6 @@
     <string name="subscribe">يشترك</string>
     <string name="unsubscribe">إلغاء الاشتراك</string>
     <string name="unable_to_change_subscription_state">فشل في تغيير حالة الاشتراك</string>
-    <string name="subscriptions_activity">الاشتراكات</string>
     <string name="subscribed_date">يشترك%s</string>
     <string name="tab_feed">موجز الأخبار</string>
     <string name="user_feed">موجز أخبار المستخدم</string>

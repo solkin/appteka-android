@@ -11,7 +11,6 @@
     <string name="tomclaw_software">TomClaw Software</string>
     <string name="app_version">版本 %1$s (%2$d)</string>
     <string name="info">信息</string>
-    <string name="pref_base_title">基本设置</string>
     <string name="pref_summary_show_system">在列表中显示系统应用程序 </string>
     <string name="pref_title_show_system">系统应用</string>
     <string name="got_it">我明白了</string>
@@ -43,19 +42,13 @@
     <string name="pref_summary_clear_cache">删除之前导出到“下载”文件夹中的所有 APK 文件</string>
     <string name="cache_cleared_successfully">缓存清除成功</string>
     <string name="cache_clearing_failed">清除缓存时出错</string>
-    <string name="write_permission_extract">要保存提取的应用程序文件，您必须启用写入存储空间的权限。</string>
-    <string name="permission_denied_message">未授权必要权限无法继续</string>
     <string name="menu_search">搜索</string>
     <string name="run_app">启动应用程序</string>
     <string name="non_launchable_package">该应用程序无法运行。</string>
     <string name="app_details">显示详细资料</string>
     <string name="install">安装</string>
     <string name="install_app">安装应用程序</string>
-    <string name="write_permission_install">要安装新应用程序，您必须启用写入存储空间的权限。</string>
     <string name="request_delete_packages">必须获得删除应用程序的权限</string>
-    <string name="write_permission_select">要搜索和选择应用程序的安装包，您必须启用写入存储空间的权限</string>
-    <string name="pref_title_dark_theme">深色主题</string>
-    <string name="pref_dark_theme_system">应用主题深色</string>
     <string name="pref_title_theme">主题</string>
     <string name="pref_summary_theme">选择应用主题</string>
     <string name="pref_title_dynamic_colors">动态颜色</string>
@@ -93,9 +86,6 @@
     <string name="update">更新</string>
     <string name="abuse">举报</string>
     <string name="your_email">你的邮件</string>
-    <string name="thanks_for_attention">感谢您在商店维护中的协助</string>
-    <string name="fill_all_fields">填写所有字段</string>
-    <string name="unable_to_get_permissions">无法获取所需的应用程序权限列表</string>
     <string name="store_app_update">更新</string>
     <string name="store_app_installed">已安装</string>
     <string name="feedback_email">发送邮件给作者</string>
@@ -150,7 +140,6 @@
     <string name="unlink_file">屏蔽</string>
     <string name="unfile_reason">原因…</string>
     <string name="enter_unfile_reason">请描述原因:</string>
-    <string name="fill_reason_field">原因字段为必填项</string>
     <string name="unable_to_unfile">请求失败</string>
     <string name="unlink_of">由 %s 屏蔽</string>
     <string name="profile_apps">用户应用程序</string>
@@ -270,7 +259,6 @@
     <string name="security_safe_short">安全</string>
     <string name="security_suspicious_short">可疑</string>
     <string name="security_malware_short">恶意软件</string>
-    <string name="security_unknown_short">未知</string>
     <string name="security_not_checked_short">未检查</string>
     <string name="security_info_scanning">正在进行安全扫描…</string>
     <string name="security_info_scanning_duration">使用 ClamAV, APKiD, Quark-Engine 扫描中。可能需要几分钟，取决于文件大小和队列。</string>
@@ -349,7 +337,6 @@
     <string name="subscribe">订阅</string>
     <string name="unsubscribe">退订</string>
     <string name="unable_to_change_subscription_state">更改订阅状态失败</string>
-    <string name="subscriptions_activity">订阅内容</string>
     <string name="subscribed_date">订阅于 %s</string>
     <string name="tab_feed">摘要</string>
     <string name="user_feed">用戶摘要</string>

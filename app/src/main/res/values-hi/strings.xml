@@ -11,7 +11,6 @@
     <string name="tomclaw_software">TomClaw Software</string>
     <string name="app_version">संस्करण %1$s (%2$d)</string>
     <string name="info">जानकारी</string>
-    <string name="pref_base_title">मूल सेटिंग्स</string>
     <string name="pref_summary_show_system">सामान्य सूची में सिस्टम एप्लिकेशन दिखाएँ</string>
     <string name="pref_title_show_system">सिस्टम अनुप्रयोग</string>
     <string name="got_it">समझ गया!</string>
@@ -43,19 +42,13 @@
     <string name="pref_summary_clear_cache">डाउनलोड फ़ोल्डर में पहले से निकाली गई सभी एपीके फ़ाइलें हटा दें</string>
     <string name="cache_cleared_successfully">मेमोरी सफलतापूर्वक साफ़ हो गई</string>
     <string name="cache_clearing_failed">स्मृति त्रुटि साफ़ करें</string>
-    <string name="write_permission_extract">निकाली गई एप्लिकेशन फ़ाइल को सहेजने के लिए, आपको डिस्क लेखन सक्षम करना होगा।</string>
-    <string name="permission_denied_message">आवश्यक अनुमति के बिना जारी रखना असंभव है</string>
     <string name="menu_search">खोज</string>
     <string name="run_app">ऐप लॉन्च करें</string>
     <string name="non_launchable_package">यह पैकेज चलाया नहीं जा सकता.</string>
     <string name="app_details">विवरण दिखाएं</string>
     <string name="install">स्थापित करना</string>
     <string name="install_app">ऐप इंस्टॉल करें</string>
-    <string name="write_permission_install">नए एप्लिकेशन इंस्टॉल करने के लिए, आपको डिस्क लेखन सक्षम करना होगा।</string>
     <string name="request_delete_packages">एप्लिकेशन हटाने के लिए, आपको अनुमति देनी होगी । </string>
-    <string name="write_permission_select">एप्लिकेशन वितरण को खोजने और चुनने के लिए, आपको डिस्क तक पहुंच की अनुमति देनी होगी । </string>
-    <string name="pref_title_dark_theme">डार्क थीम</string>
-    <string name="pref_dark_theme_system">ऐप डिज़ाइन में गहरे रंग</string>
     <string name="pref_title_theme">थीम</string>
     <string name="pref_summary_theme">ऐप थीम चुनें</string>
     <string name="pref_title_dynamic_colors">डायनामिक रंग</string>
@@ -93,9 +86,6 @@
     <string name="update">अद्यतन</string>
     <string name="abuse">शिकायत</string>
     <string name="your_email">आपका ईमेल</string>
-    <string name="thanks_for_attention">एक्सचेंजर को मॉडरेट करने में आपकी मदद के लिए धन्यवाद!</string>
-    <string name="fill_all_fields">सभी फ़ील्ड भरें</string>
-    <string name="unable_to_get_permissions">आवश्यक एप्लिकेशन अनुमतियों की सूची प्राप्त करने में विफल</string>
     <string name="store_app_update">अद्यतन</string>
     <string name="store_app_installed">स्थापित</string>
     <string name="feedback_email">लेखक को लिखें</string>
@@ -150,7 +140,6 @@
     <string name="unlink_file">ब्लॉक</string>
     <string name="unfile_reason">कारण…</string>
     <string name="enter_unfile_reason">कृपया कारण बताएं।:</string>
-    <string name="fill_reason_field">कारण क्षेत्र की आवश्यकता है</string>
     <string name="unable_to_unfile">अनुरोध विफल रहा</string>
     <string name="unlink_of">अवरुद्ध करना %s</string>
     <string name="profile_apps">कस्टम अनुप्रयोग</string>
@@ -273,7 +262,6 @@
     <string name="security_safe_short">सुरक्षित</string>
     <string name="security_suspicious_short">संदिग्ध</string>
     <string name="security_malware_short">मैलवेयर</string>
-    <string name="security_unknown_short">अज्ञात</string>
     <string name="security_not_checked_short">जाँच नहीं</string>
     <string name="security_info_scanning">सुरक्षा स्कैन जारी है…</string>
     <string name="security_info_scanning_duration">ClamAV, APKiD, Quark-Engine से स्कैन हो रहा है। फ़ाइल आकार और कतार के आधार पर कुछ मिनट लग सकते हैं।</string>
@@ -356,7 +344,6 @@
     <string name="subscribe">सदस्यता लें</string>
     <string name="unsubscribe">सदस्यता रद्द</string>
     <string name="unable_to_change_subscription_state">सदस्यता स्थिति बदलने में विफल</string>
-    <string name="subscriptions_activity">सदस्यताएँ</string>
     <string name="subscribed_date">सब्स्क्राइब्ड %s</string>
     <string name="tab_feed">समाचार फ़ीड</string>
     <string name="user_feed">उपयोगकर्ता समाचार फ़ीड</string>

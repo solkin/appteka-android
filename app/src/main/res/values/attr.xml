@@ -17,7 +17,6 @@
     <attr name="cardViewStyle" format="reference" />
     <attr name="divider_color" format="reference" />
     <attr name="compose_background" format="reference" />
-    <attr name="discuss_back_repeat" format="reference" />
     <attr name="compose_gradient" format="reference" />
     <attr name="discuss_bubble_color" format="reference" />
     <attr name="service_background" format="reference" />

@@ -2,7 +2,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
 
     <color name="accent_color">#DA5100</color>
-    <color name="accent_dark_color">#B84400</color>
     <color name="primary_color">#32A304</color>
     <color name="primary_dark_color">#2A8A03</color>
 
@@ -13,8 +12,6 @@
 
     <color name="grey">#25000000</color>
     <color name="grey_dark">#747474</color>
-    <color name="light_back_color">#FFFFFF</color>
-    <color name="dark_back_color">#0d0d0e</color>
 
     <!-- Светло-серый цвет для фона Bottom Navigation -->
     <color name="bottom_nav_background_light">#FAFAFA</color>
@@ -35,14 +32,10 @@
     <color name="divider_dark">#424242</color>
 
     <color name="abuse_color">#d63205</color>
-    <color name="unlink_color">#d63205</color>
 
     <color name="dangerous_permission_color">#c40e72</color>
 
-    <color name="chat_date_color">#454545</color>
     <color name="chat_time_color">#666666</color>
-    <color name="inc_text_color">#FFFFFF</color>
-    <color name="out_text_color">#454545</color>
     <color name="compose_background_color_light">#f4ffffff</color>
     <color name="compose_background_color_dark">#f4000000</color>
     <color name="discuss_bubble_color_light">@android:color/white</color>
@@ -50,11 +43,6 @@
 
     <color name="approve_color">#689627</color>
     <color name="decline_color">#d63205</color>
-
-    <color name="newer_color">#32A304</color>
-    <color name="newer_text_color">#2a8a03</color>
-    <color name="incompatible_color">#EE2200</color>
-    <color name="incompatible_text_color">#d51e00</color>
 
     <color name="color_semitransparent">#baffffff</color>
     <color name="color_semitransparent_black">#cc000000</color>
@@ -161,7 +149,6 @@
         <item name="divider_color">@color/divider_light</item>
 
         <item name="compose_background">@drawable/compose_background_light</item>
-        <item name="discuss_back_repeat">@drawable/discuss_back_light_repeat</item>
         <item name="compose_gradient">@drawable/compose_gradient_light</item>
         <item name="discuss_bubble_color">@color/discuss_bubble_color_light</item>
         <item name="service_background">@drawable/service_background_light</item>

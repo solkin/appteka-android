@@ -11,7 +11,6 @@
     <string name="tomclaw_software">Phần mềm TomClaw</string>
     <string name="app_version">Phiên bản %1$s (%2$d)</string>
     <string name="info">Thông tin</string>
-    <string name="pref_base_title">Cài đặt chính</string>
     <string name="pref_summary_show_system">Hiển thị các ứng dụng hệ thống trong danh sách chung</string>
     <string name="pref_title_show_system">Ứng dụng hệ thống</string>
     <string name="got_it">Rõ ràng</string>
@@ -43,19 +42,13 @@
     <string name="pref_summary_clear_cache">Xóa tất cả các tệp APK được trích xuất trước đó vào thư mục Tải xuống</string>
     <string name="cache_cleared_successfully">Đã xóa bộ nhớ đệm thành công</string>
     <string name="cache_clearing_failed">Lỗi xóa bộ nhớ đệm</string>
-    <string name="write_permission_extract">Để lưu tệp ứng dụng đã giải nén, bạn phải kích hoạt tính năng ghi đĩa.</string>
-    <string name="permission_denied_message">Không thể tiếp tục mà không có sự cho phép cần thiết</string>
     <string name="menu_search">Tìm kiếm</string>
     <string name="run_app">Mở ứng dụng</string>
     <string name="non_launchable_package">Gói này không thể chạy được</string>
     <string name="app_details">Hiển thị chi tiết</string>
     <string name="install">Cài đặt</string>
     <string name="install_app">Cài đặt ứng dụng</string>
-    <string name="write_permission_install">Để cài đặt các ứng dụng mới, bạn phải kích hoạt chức năng ghi đĩa.</string>
     <string name="request_delete_packages">Phải được cấp quyền để xóa ứng dụng</string>
-    <string name="write_permission_select">Để tìm kiếm và chọn các bản phân phối ứng dụng, bạn phải cho phép truy cập đĩa</string>
-    <string name="pref_title_dark_theme">Tông màu sẫm</string>
-    <string name="pref_dark_theme_system">Màu tối trong thiết kế ứng dụng</string>
     <string name="pref_title_theme">Chủ đề</string>
     <string name="pref_summary_theme">Chọn chủ đề ứng dụng</string>
     <string name="pref_title_dynamic_colors">Màu động</string>
@@ -93,9 +86,6 @@
     <string name="update">Nâng cấp</string>
     <string name="abuse">Phàn nàn</string>
     <string name="your_email">E-mail của bạn</string>
-    <string name="thanks_for_attention">Cảm ơn bạn đã giúp đỡ trong việc kiểm duyệt trao đổi</string>
-    <string name="fill_all_fields">Điền vào tất cả các danh mục</string>
-    <string name="unable_to_get_permissions">Không thể lấy được danh sách các quyền ứng dụng cần thiết</string>
     <string name="store_app_update">Nâng cấp</string>
     <string name="store_app_installed">Đã cài đặt</string>
     <string name="feedback_email">Viết cho tác giả</string>
@@ -150,7 +140,6 @@
     <string name="unlink_file">khóa</string>
     <string name="unfile_reason">Lý do…</string>
     <string name="enter_unfile_reason">Vui lòng viết lý do:</string>
-    <string name="fill_reason_field">Phần bắt buộc</string>
     <string name="unable_to_unfile">Không thể thực hiện</string>
     <string name="unlink_of">Khóa %s</string>
     <string name="profile_apps">Ứng dụng người sử dụng</string>
@@ -270,7 +259,6 @@
     <string name="security_safe_short">An toàn</string>
     <string name="security_suspicious_short">Đáng ngờ</string>
     <string name="security_malware_short">Phần mềm độc hại</string>
-    <string name="security_unknown_short">Không xác định</string>
     <string name="security_not_checked_short">Chưa kiểm tra</string>
     <string name="security_info_scanning">Đang quét bảo mật…</string>
     <string name="security_info_scanning_duration">Đang quét với ClamAV, APKiD, Quark-Engine. Có thể mất vài phút tùy thuộc vào kích thước tệp và hàng đợi.</string>
@@ -349,7 +337,6 @@
     <string name="subscribe">Đăng ký</string>
     <string name="unsubscribe">Hủy đăng ký</string>
     <string name="unable_to_change_subscription_state">Không thể thay đổi trạng thái đăng ký</string>
-    <string name="subscriptions_activity">Đăng ký</string>
     <string name="subscribed_date">Đã đăng ký %s</string>
     <string name="tab_feed">Tin tức</string>
     <string name="user_feed">Tin tức người dùng</string>

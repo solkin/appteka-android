@@ -11,7 +11,6 @@
     <string name="tomclaw_software">TomClaw Software</string>
     <string name="app_version">Версия %1$s (%2$d)</string>
     <string name="info">Информация</string>
-    <string name="pref_base_title">Основные настройки</string>
     <string name="pref_summary_show_system">Показывать системные приложения в общем списке</string>
     <string name="pref_title_show_system">Системные приложения</string>
     <string name="got_it">Понятно!</string>
@@ -43,19 +42,13 @@
     <string name="pref_summary_clear_cache">Удалить все ранее извлечённые в папку Downloads APK файлы</string>
     <string name="cache_cleared_successfully">Кеш успешно очищен</string>
     <string name="cache_clearing_failed">Ошибка очистки кеша</string>
-    <string name="write_permission_extract">Чтобы сохранить извлечённый файл приложения, необходимо разрешить запись на диск</string>
-    <string name="permission_denied_message">Невозможно продолжить без требуемого разрешения</string>
     <string name="menu_search">Поиск</string>
     <string name="run_app">Запустить приложение</string>
     <string name="non_launchable_package">Этот пакет нельзя запустить.</string>
     <string name="app_details">Показать детали</string>
     <string name="install">Установить</string>
     <string name="install_app">Установить приложение</string>
-    <string name="write_permission_install">Для установки новых приложений необходимо разрешить запись на диск</string>
     <string name="request_delete_packages">Для удаления приложений необходимо предоставить разрешение</string>
-    <string name="write_permission_select">Для поиска и выбора дистрибутивов приложений необходимо разрешить доступ к диску</string>
-    <string name="pref_title_dark_theme">Тёмная тема</string>
-    <string name="pref_dark_theme_system">Тёмные цвета в оформлении приложения</string>
     <string name="pref_title_theme">Тема</string>
     <string name="pref_summary_theme">Выберите тему приложения</string>
     <string name="pref_title_dynamic_colors">Динамические цвета</string>
@@ -75,7 +68,6 @@
     <string name="pref_category_general_title">Общие</string>
     <string name="pick_apk">Выбрать APK файл</string>
     <string name="pick_installed">Выбрать установленное приложение</string>
-    <string name="go_back">Назад</string>
     <string name="cancel">Отмена</string>
     <string name="upload">Загрузка</string>
     <string name="tab_store">Обменник</string>
@@ -94,9 +86,6 @@
     <string name="update">Обновить</string>
     <string name="abuse">Жалоба</string>
     <string name="your_email">Ваш E-mail</string>
-    <string name="thanks_for_attention">Спасибо за помощь в модерации обменника!</string>
-    <string name="fill_all_fields">Заполните все поля</string>
-    <string name="unable_to_get_permissions">Не удалось получить список требуемых разрешений приложения</string>
     <string name="store_app_update">Обновить</string>
     <string name="store_app_installed">Установлено</string>
     <string name="feedback_email">Написать автору</string>
@@ -151,7 +140,6 @@
     <string name="unlink_file">Заблокировать</string>
     <string name="unfile_reason">Причина…</string>
     <string name="enter_unfile_reason">Пожалуйста, опишите причину:</string>
-    <string name="fill_reason_field">Поле причины является обязательным</string>
     <string name="unable_to_unfile">Не удалось выполнить запрос</string>
     <string name="unlink_of">Блокировка %s</string>
     <string name="profile_apps">Приложения пользователя</string>
@@ -280,7 +268,6 @@
     <string name="security_safe_short">Безопасно</string>
     <string name="security_suspicious_short">Подозрительно</string>
     <string name="security_malware_short">Вирус</string>
-    <string name="security_unknown_short">Неизвестно</string>
     <string name="security_not_checked_short">Не проверено</string>
     <string name="security_info_scanning">Выполняется проверка безопасности…</string>
     <string name="security_info_scanning_duration">Проверка с помощью ClamAV, APKiD, Quark-Engine. Может занять несколько минут в зависимости от размера файла и очереди.</string>
@@ -371,7 +358,6 @@
     <string name="subscribe">Подписаться</string>
     <string name="unsubscribe">Отписаться</string>
     <string name="unable_to_change_subscription_state">Ошибка изменения статуса полписки</string>
-    <string name="subscriptions_activity">Подписки</string>
     <string name="subscribed_date">Подписался %s</string>
     <string name="tab_feed">Лента</string>
     <string name="user_feed">Лента пользователя</string>

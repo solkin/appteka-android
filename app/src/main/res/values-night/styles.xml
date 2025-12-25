@@ -57,7 +57,6 @@
         <item name="divider_color">@color/divider_dark</item>
 
         <item name="compose_background">@drawable/compose_background_dark</item>
-        <item name="discuss_back_repeat">@drawable/discuss_back_dark_repeat</item>
         <item name="compose_gradient">@drawable/compose_gradient_dark</item>
         <item name="discuss_bubble_color">@color/discuss_bubble_color_dark</item>
         <item name="service_background">@drawable/service_background_dark</item>

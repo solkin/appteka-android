@@ -11,7 +11,6 @@
     <string name="tomclaw_software">نەرمەکاڵای تۆمکلاو</string>
     <string name="app_version">وەشانی %1$s (%2$d)</string>
     <string name="info">زانیاری</string>
-    <string name="pref_base_title">ڕێکخستنە بنەڕەتییەکان</string>
     <string name="pref_summary_show_system">بەرنامەکانی سیستەم لە لیستەکەدا پیشان بدە</string>
     <string name="pref_title_show_system">ئەپەکانی سیستەم</string>
     <string name="got_it">تێگەیشتم!</string>
@@ -45,19 +44,13 @@
     <string name="pref_summary_clear_cache">هەموو ئەو فایلانەی APK کە پێشتر دەرهێنراون لە بەڕێوەبەرایەتی دابەزاندنەکان لاببە</string>
     <string name="cache_cleared_successfully">کاش بە سەرکەوتوویی پاککرایەوە</string>
     <string name="cache_clearing_failed">پاککردنەوەی کاش شکستی هێنا</string>
-    <string name="write_permission_extract">بۆ ئەوەی فایلەکەی بەرنامەکە هەڵبگریت پێویستە مۆڵەتی هەڵگرتن بدەیت</string>
-    <string name="permission_denied_message">ناتوانرێت بەبێ مۆڵەتی پێویست بەردەوام بێت</string>
     <string name="menu_search">گەڕان</string>
     <string name="run_app">بەرنامەکە جێبەجێ بکە</string>
     <string name="non_launchable_package">ئەم پاکێجە کارپێناکرێت.</string>
     <string name="app_details">زانیاری پیشاندە</string>
     <string name="install">دامەزراندن</string>
     <string name="install_app">دامەزراندنی بەرنامە</string>
-    <string name="write_permission_install">بۆ ئەوەی بەرنامەکان دابمەزرێنیت پێویستە مۆڵەتی هەڵگرتن بدەیت</string>
     <string name="request_delete_packages">بۆ ئەوەی بەرنامەکان بسڕیتەوە پێویستە مۆڵەت بدەیت</string>
-    <string name="write_permission_select">بۆ ئەوەی سکان و هەڵبژاردنی applications distro پێویستە مۆڵەتی هەڵگرتن بدەیت</string>
-    <string name="pref_title_dark_theme">تەوەرەی تاریک</string>
-    <string name="pref_dark_theme_system">ڕەنگی تۆخ لە شێوەی بەکارهێناندا</string>
     <string name="pref_title_theme">تێما</string>
     <string name="pref_summary_theme">تێمای بەرنامەکە هەڵبژێرە</string>
     <string name="pref_title_dynamic_colors">ڕەنگە داینامیکییەکان</string>
@@ -97,9 +90,6 @@
     <string name="update">نوێکردنەوە</string>
     <string name="abuse">مامەڵەی خراپ</string>
     <string name="your_email">ئیمەیڵەکەت</string>
-    <string name="thanks_for_attention">سوپاس بۆ هاوکاریتان لە فرۆشگا میانڕەوی!</string>
-    <string name="fill_all_fields">هەموو مەیدانەکان پڕ بکەرەوە</string>
-    <string name="unable_to_get_permissions">ناتوانرێت مۆڵەتی پێویستی لیست یان ئەپ\'s بەدەست بهێنرێت</string>
     <string name="store_app_update">نوێکردنەوە</string>
     <string name="store_app_installed">دامەزراوە</string>
     <string name="feedback_email">فیدباک</string>
@@ -155,7 +145,6 @@
     <string name="unlink_file">بلۆک</string>
     <string name="unfile_reason">Reason…</string>
     <string name="enter_unfile_reason">تکایە هۆکارەکەی باس بکە:</string>
-    <string name="fill_reason_field">مەیدانی عەقڵ پێویستە</string>
     <string name="unable_to_unfile">شکستی هێنا لە تەواوکردنی داواکاری</string>
     <string name="unlink_of">بلۆکی %s</string>
     <string name="profile_apps">ئەپەکانی بەکارهێنەر</string>
@@ -278,7 +267,6 @@
     <string name="security_safe_short">سەلامەت</string>
     <string name="security_suspicious_short">گومانلێکراو</string>
     <string name="security_malware_short">مەلوێر</string>
-    <string name="security_unknown_short">نەزانراو</string>
     <string name="security_not_checked_short">پشکنین نەکراو</string>
     <string name="security_info_scanning">سکانی ئاسایش بەردەوامە…</string>
     <string name="security_info_scanning_duration">سکان بە ClamAV, APKiD, Quark-Engine. لەوانەیە چەند خولەکێک بخایەنێت بەپێی قەبارەی فایل و ڕیز.</string>
@@ -361,7 +349,6 @@
     <string name="subscribe">مشترک شوید</string>
     <string name="unsubscribe">لغو اشتراک</string>
     <string name="unable_to_change_subscription_state">نتوانست وضعیت اشتراک را تغییر دهد</string>
-    <string name="subscriptions_activity">اشتراک ها</string>
     <string name="subscribed_date">اشتراک ها %s</string>
     <string name="tab_feed">اخبار</string>
     <string name="user_feed">اخبار کاربران</string>

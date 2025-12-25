@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="forum_url" translatable="false">https://4pda.to/forum/index.php?showtopic=1063912</string>
     <string name="telegram_group_url" translatable="false">https://t.me/appsend_store</string>
     <string name="legal_info_url" translatable="false">https://appteka.store/legal/</string>
 </resources>

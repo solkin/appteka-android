@@ -11,7 +11,6 @@
     <string name="tomclaw_software">TomClaw Software</string>
     <string name="app_version">Version %1$s (%2$d)</string>
     <string name="info">Info</string>
-    <string name="pref_base_title">Base settings</string>
     <string name="pref_summary_show_system">Show system applications in list</string>
     <string name="pref_title_show_system">System apps</string>
     <string name="got_it">Got it!</string>
@@ -45,20 +44,13 @@
     <string name="pref_summary_clear_cache">Remove all previously extracted APK files in Downloads directory</string>
     <string name="cache_cleared_successfully">Cache cleared successfully</string>
     <string name="cache_clearing_failed">Cache clearing failed</string>
-    <string name="write_permission_extract">In order to save application file you will need to grant storage permission</string>
-    <string name="permission_denied_message">Can\'t continue without required permission</string>
     <string name="menu_search">Search</string>
     <string name="run_app">Run application</string>
     <string name="non_launchable_package">This package is not runnable.</string>
     <string name="app_details">Show details</string>
     <string name="install">Install</string>
     <string name="install_app">Install application</string>
-    <string name="write_permission_install">In order to install applications you need to grant storage permissions</string>
     <string name="request_delete_packages">In order to delete applications you need to grant permissions</string>
-    <string name="write_permission_select">In order to scan and select applications distro you need to grant storage permissions</string>
-    <string name="pref_title_dark_theme">Dark theme</string>
-    <string name="pref_dark_theme_system">Dark colors in application appearance</string>
-    
     <!-- Theme settings -->
     <string name="pref_title_theme">Theme</string>
     <string name="pref_summary_theme">Select the app theme</string>
@@ -99,9 +91,6 @@
     <string name="update">Update</string>
     <string name="abuse">Abuse</string>
     <string name="your_email">Your E-mail</string>
-    <string name="thanks_for_attention">Thank you for your assistance in store moderation!</string>
-    <string name="fill_all_fields">Fill in all the fields</string>
-    <string name="unable_to_get_permissions">Unable to get list or app\'s required permissions</string>
     <string name="store_app_update">Update</string>
     <string name="store_app_installed">Installed</string>
     <string name="feedback_email">Feedback</string>
@@ -157,7 +146,6 @@
     <string name="unlink_file">Block</string>
     <string name="unfile_reason">Reason…</string>
     <string name="enter_unfile_reason">Please describe the reason:</string>
-    <string name="fill_reason_field">Reason field is required</string>
     <string name="unable_to_unfile">Failed to complete request</string>
     <string name="unlink_of">Block of %s</string>
     <string name="profile_apps">User apps</string>
@@ -288,7 +276,6 @@
     <string name="security_safe_short">Safe</string>
     <string name="security_suspicious_short">Suspicious</string>
     <string name="security_malware_short">Malware</string>
-    <string name="security_unknown_short">Unknown</string>
     <string name="security_not_checked_short">Non-checked</string>
     <string name="security_info_scanning">Security scan in progress…</string>
     <string name="security_info_scanning_duration">Scanning with ClamAV, APKiD, Quark-Engine. May take a few minutes depending on file size and queue.</string>
@@ -380,7 +367,6 @@
     <string name="subscribe">Subscribe</string>
     <string name="unsubscribe">Unsubscribe</string>
     <string name="unable_to_change_subscription_state">Failed to change subscription state</string>
-    <string name="subscriptions_activity">Subscriptions</string>
     <string name="subscribed_date">Subscribed %s</string>
     <string name="tab_feed">Feed</string>
     <string name="user_feed">User Feed</string>
@@ -398,7 +384,6 @@
     <string name="download_history">Download history</string>
     <string name="pick_apk">Pick apk file on device</string>
     <string name="pick_installed">Pick installed application</string>
-    <string name="go_back">Go Back</string>
     <plurals name="download_apps_count">
         <item quantity="one">%d app were downloaded</item>
         <item quantity="few">%d apps were downloaded</item>
