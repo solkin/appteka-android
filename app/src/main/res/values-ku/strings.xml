@@ -58,6 +58,25 @@
     <string name="write_permission_select">بۆ ئەوەی سکان و هەڵبژاردنی applications distro پێویستە مۆڵەتی هەڵگرتن بدەیت</string>
     <string name="pref_title_dark_theme">تەوەرەی تاریک</string>
     <string name="pref_dark_theme_system">ڕەنگی تۆخ لە شێوەی بەکارهێناندا</string>
+    <string name="pref_title_theme">تێما</string>
+    <string name="pref_summary_theme">تێمای بەرنامەکە هەڵبژێرە</string>
+    <string name="pref_title_dynamic_colors">ڕەنگە داینامیکییەکان</string>
+    <string name="pref_summary_dynamic_colors">ڕەنگەکانی وۆڵپەیپەر لە ئامێرەکانی ئەندرۆید ١٢+ بەکار دەهێنێت (پێویستی بە دەستپێکردنەوەیە)</string>
+    <string name="theme_dialog_title">تێما هەڵبژێرە</string>
+    <string name="theme_system">پێشوەنەکی سیستەم</string>
+    <string name="theme_light">ڕۆشن</string>
+    <string name="theme_dark">تاریک</string>
+    <string name="theme_battery_saver">پاشکەوتی پاتری</string>
+    <string name="restart_now">ئێستا دەستپێکردنەوە</string>
+    <string name="clear_cache_dialog_title">پاککردنەوەی کاش پشتڕاست بکەرەوە</string>
+    <string name="clear_cache_dialog_message">هەموو فایلی APK کە پێشتر لەلایەن %1$s لە بیرگەدا داگیران، لادەبرێن. ناتوانرێت ئەم کارە هەڵبگیرێتەوە. ئایا دەتەوێت بەردەوام بیت؟</string>
+    <string name="clear_cache_dialog_positive">بەڵێ، فایلی بسڕەوە</string>
+    <string name="restart_required_dynamic_colors_short">دەستپێکردنەوە بۆ جێبەجێکردنی گۆڕانکارییەکان.</string>
+    <string name="pref_category_appearance_title">شێوە</string>
+    <string name="pref_category_app_behavior_title">ڕەفتاری بەرنامە</string>
+    <string name="pref_category_general_title">گشتی</string>
+    <string name="pick_apk">فایلی APK هەڵبژێرە</string>
+    <string name="pick_installed">بەرنامەی دامەزراو هەڵبژێرە</string>
     <string name="cancel">ڕەتکردنەوە</string>
     <string name="percent" translatable="false">%d %%</string>
     <string name="upload">بەرزکردنەوە</string>

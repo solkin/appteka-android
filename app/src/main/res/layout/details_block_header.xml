@@ -33,12 +33,14 @@
 
         <com.google.android.material.progressindicator.CircularProgressIndicator
             android:id="@+id/progress_bar"
+            style="@style/Widget.Material3Expressive.CircularProgressIndicator.Wavy"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_gravity="center"
-            android:progress="100"
-            app:indicatorInset="3dp"
-            app:indicatorSize="64dp" />
+            android:max="100"
+            android:progress="0"
+            app:indicatorSize="64dp"
+            tools:progress="60" />
 
     </FrameLayout>
 

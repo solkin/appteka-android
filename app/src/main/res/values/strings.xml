@@ -58,6 +58,26 @@
     <string name="write_permission_select">In order to scan and select applications distro you need to grant storage permissions</string>
     <string name="pref_title_dark_theme">Dark theme</string>
     <string name="pref_dark_theme_system">Dark colors in application appearance</string>
+    
+    <!-- Theme settings -->
+    <string name="pref_title_theme">Theme</string>
+    <string name="pref_summary_theme">Select the app theme</string>
+    <string name="pref_title_dynamic_colors">Dynamic colors</string>
+    <string name="pref_summary_dynamic_colors">Uses wallpaper colors on Android 12+ devices (Restart required)</string>
+    <string name="theme_dialog_title">Select theme</string>
+    <string name="theme_system">System default</string>
+    <string name="theme_light">Light</string>
+    <string name="theme_dark">Dark</string>
+    <string name="theme_battery_saver">Battery saver</string>
+    <string name="restart_now">Restart now</string>
+    <string name="clear_cache_dialog_title">Confirm Cache Clearing</string>
+    <string name="clear_cache_dialog_message">All previously downloaded APKs by %1$s in Storage will be removed. This action cannot be undone. Do you wish to proceed?</string>
+    <string name="clear_cache_dialog_positive">Yes, Delete Files</string>
+    <string name="restart_required_dynamic_colors_short">Restart to apply changes.</string>
+    <string name="pref_category_appearance_title">Appearance</string>
+    <string name="pref_category_app_behavior_key">app_behavior_settings</string>
+    <string name="pref_category_app_behavior_title">App Behavior</string>
+    <string name="pref_category_general_title">General</string>
     <string name="cancel">Cancel</string>
     <string name="percent" translatable="false">%d %%</string>
     <string name="upload">Upload</string>
@@ -369,6 +389,7 @@
     <string name="download_history">Download history</string>
     <string name="pick_apk">Pick apk file on device</string>
     <string name="pick_installed">Pick installed application</string>
+    <string name="go_back">Go Back</string>
     <plurals name="download_apps_count">
         <item quantity="one">%d app were downloaded</item>
         <item quantity="few">%d apps were downloaded</item>

@@ -75,7 +75,7 @@ android {
         enableAnalytics = true
     }
     dependencies {
-        implementation project(path: ':preference-fragment')
+        implementation 'androidx.preference:preference:1.2.1'
         implementation 'com.github.solkin:simple-image-loader:v0.9.6'
         implementation 'com.github.solkin:disk-lru-cache:v1.7'
         //noinspection GradleDependency
@@ -104,7 +104,6 @@ android {
         implementation 'me.zhanghai.android.materialratingbar:library:1.4.0'
         implementation 'com.greysonparrelli.permiso:permiso:0.3.0'
         implementation 'com.github.avito-tech:Konveyor:0.42.2'
-        implementation 'com.github.rubensousa:BottomSheetBuilder:1.6.0'
         debugImplementation 'com.github.chuckerteam.chucker:library:4.2.0'
         releaseImplementation 'com.github.chuckerteam.chucker:library-no-op:4.2.0'
         implementation 'org.androidannotations:androidannotations-api:4.8.0'

@@ -26,7 +26,6 @@ import com.tomclaw.appsend.screen.store.createStoreFragment
 import com.tomclaw.appsend.screen.topics.createTopicsFragment
 import com.tomclaw.appsend.screen.upload.createUploadActivityIntent
 import com.tomclaw.appsend.util.Analytics
-import com.tomclaw.appsend.util.restartIfThemeChanged
 import com.tomclaw.appsend.util.updateTheme
 import javax.inject.Inject
 import kotlin.system.exitProcess
@@ -39,7 +38,6 @@ class HomeActivity : AppCompatActivity(), HomePresenter.HomeRouter {
     @Inject
     lateinit var analytics: Analytics
 
-    private var isDarkTheme: Boolean = false
     private val handler: Handler = Handler(Looper.getMainLooper())
 
     private val postLauncher =
@@ -54,7 +52,7 @@ class HomeActivity : AppCompatActivity(), HomePresenter.HomeRouter {
         Appteka.getComponent()
             .homeComponent(HomeModule(context = this, startAction = intent.action, presenterState))
             .inject(activity = this)
-        isDarkTheme = updateTheme()
+        updateTheme()
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.home_activity)
@@ -171,7 +169,6 @@ class HomeActivity : AppCompatActivity(), HomePresenter.HomeRouter {
 
     override fun onResume() {
         super.onResume()
-        restartIfThemeChanged(isDarkTheme)
     }
 
     override fun onDestroy() {

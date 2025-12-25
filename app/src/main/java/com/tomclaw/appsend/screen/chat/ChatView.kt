@@ -9,20 +9,22 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.ViewFlipper
-import android.widget.ViewSwitcher
 import androidx.appcompat.widget.Toolbar
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.progressindicator.CircularProgressIndicator
 import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
-import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.dto.MessageEntity
+import com.tomclaw.appsend.util.ActionItem
+import com.tomclaw.appsend.util.ActionsAdapter
 import com.tomclaw.appsend.util.clicks
-import com.tomclaw.appsend.util.getAttributedColor
 import com.tomclaw.appsend.util.hideWithAlphaAnimation
 import com.tomclaw.appsend.util.showWithAlphaAnimation
 import com.tomclaw.imageloader.util.centerCrop
@@ -127,8 +129,8 @@ class ChatViewImpl(
     private val errorText: TextView = view.findViewById(R.id.error_text)
     private val recycler: RecyclerView = view.findViewById(R.id.recycler)
     private val messageEdit: EditText = view.findViewById(R.id.message_edit)
-    private val sendSwitcher: ViewSwitcher = view.findViewById(R.id.send_switcher)
-    private val sendButton: View = view.findViewById(R.id.send_button)
+    private val sendButton: MaterialButton = view.findViewById(R.id.send_button)
+    private val sendProgress: CircularProgressIndicator = view.findViewById(R.id.send_progress)
 
     private val navigationRelay = PublishRelay.create<Unit>()
     private val toolbarRelay = PublishRelay.create<Unit>()
@@ -226,11 +228,13 @@ class ChatViewImpl(
     }
 
     override fun showSendButton() {
-        sendSwitcher.displayedChild = 0
+        sendButton.visibility = View.VISIBLE
+        sendProgress.visibility = View.GONE
     }
 
     override fun showSendProgress() {
-        sendSwitcher.displayedChild = 1
+        sendButton.visibility = View.GONE
+        sendProgress.visibility = View.VISIBLE
     }
 
     override fun showSendError() {
@@ -264,36 +268,41 @@ class ChatViewImpl(
         translated: Boolean,
         extended: Boolean,
     ) {
-        val theme = R.style.BottomSheetDialogDark.takeIf { preferences.isDarkTheme() }
-            ?: R.style.BottomSheetDialogLight
-        BottomSheetBuilder(view.context, theme)
-            .setMode(BottomSheetBuilder.MODE_LIST)
-            .setIconTintColor(getAttributedColor(context, R.attr.menu_icons_tint))
-            .setItemTextColor(getAttributedColor(context, R.attr.text_primary_color))
-            .apply {
-                addItem(MENU_REPLY, R.string.reply, R.drawable.ic_reply)
-                addItem(MENU_COPY, R.string.copy, R.drawable.ic_content_copy)
-                when (translated) {
-                    true -> addItem(MENU_TRANSLATE, R.string.original, R.drawable.ic_translate_off)
-                    false -> addItem(MENU_TRANSLATE, R.string.translate, R.drawable.ic_translate)
-                }
-                addItem(MENU_PROFILE, R.string.profile, R.drawable.ic_account)
-                when (extended) {
-                    true -> addItem(MENU_REPORT, R.string.delete, R.drawable.ic_delete)
-                    false -> addItem(MENU_REPORT, R.string.report, R.drawable.ic_alert)
-                }
+        val bottomSheetDialog = BottomSheetDialog(context)
+        val sheetView = View.inflate(context, R.layout.bottom_sheet_actions, null)
+        val actionsRecycler: RecyclerView = sheetView.findViewById(R.id.actions_recycler)
+
+        val actions = mutableListOf<ActionItem>()
+        actions.add(ActionItem(MENU_REPLY, context.getString(R.string.reply), R.drawable.ic_reply))
+        actions.add(ActionItem(MENU_COPY, context.getString(R.string.copy), R.drawable.ic_content_copy))
+        if (translated) {
+            actions.add(ActionItem(MENU_TRANSLATE, context.getString(R.string.original), R.drawable.ic_translate_off))
+        } else {
+            actions.add(ActionItem(MENU_TRANSLATE, context.getString(R.string.translate), R.drawable.ic_translate))
+        }
+        actions.add(ActionItem(MENU_PROFILE, context.getString(R.string.profile), R.drawable.ic_account))
+        if (extended) {
+            actions.add(ActionItem(MENU_REPORT, context.getString(R.string.delete), R.drawable.ic_delete))
+        } else {
+            actions.add(ActionItem(MENU_REPORT, context.getString(R.string.report), R.drawable.ic_alert))
+        }
+
+        val actionsAdapter = ActionsAdapter(actions) { actionId ->
+            bottomSheetDialog.dismiss()
+            when (actionId) {
+                MENU_REPLY -> msgReplyRelay.accept(message)
+                MENU_COPY -> msgCopyRelay.accept(message)
+                MENU_TRANSLATE -> msgTranslateRelay.accept(message)
+                MENU_PROFILE -> openProfileRelay.accept(message)
+                MENU_REPORT -> msgReportRelay.accept(message)
             }
-            .setItemClickListener {
-                when (it.itemId) {
-                    MENU_REPLY -> msgReplyRelay.accept(message)
-                    MENU_COPY -> msgCopyRelay.accept(message)
-                    MENU_TRANSLATE -> msgTranslateRelay.accept(message)
-                    MENU_PROFILE -> openProfileRelay.accept(message)
-                    MENU_REPORT -> msgReportRelay.accept(message)
-                }
-            }
-            .createDialog()
-            .show()
+        }
+
+        actionsRecycler.layoutManager = LinearLayoutManager(context)
+        actionsRecycler.adapter = actionsAdapter
+
+        bottomSheetDialog.setContentView(sheetView)
+        bottomSheetDialog.show()
     }
 
     override fun showReportSuccess() {

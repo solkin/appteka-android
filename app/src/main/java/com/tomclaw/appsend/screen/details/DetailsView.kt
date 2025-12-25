@@ -5,17 +5,19 @@ import android.app.Dialog
 import android.view.View
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
-import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.details.adapter.play.PlaySecurityStatus
-import com.tomclaw.appsend.util.getAttributedColor
+import com.tomclaw.appsend.util.ActionItem
+import com.tomclaw.appsend.util.ActionsAdapter
 import com.tomclaw.appsend.util.hide
 import com.tomclaw.appsend.util.hideWithAlphaAnimation
 import com.tomclaw.appsend.util.show
@@ -182,48 +184,34 @@ class DetailsViewImpl(
     }
 
     override fun showVersionsDialog(items: List<VersionItem>) {
-        val theme = R.style.BottomSheetDialogDark.takeIf { preferences.isDarkTheme() }
-            ?: R.style.BottomSheetDialogLight
-        var bottomSheet: Dialog? = null
-        bottomSheet = BottomSheetBuilder(context, theme)
-            .setMode(BottomSheetBuilder.MODE_LIST)
-            .apply {
-                for (item in items) {
-                    val icon = if (item.compatible) {
-                        if (item.newer) {
-                            setIconTintColorResource(R.color.newer_color)
-                            setItemTextColorResource(R.color.newer_text_color)
-                            R.drawable.ic_new
-                        } else {
-                            setIconTintColor(getAttributedColor(context, R.attr.menu_icons_tint))
-                            setItemTextColor(getAttributedColor(context, R.attr.text_primary_color))
-                            R.drawable.ic_download_circle
-                        }
-                    } else {
-                        setIconTintColorResource(R.color.incompatible_color)
-                        setItemTextColorResource(R.color.incompatible_text_color)
-                        R.drawable.ic_alert_circle
-                    }
-                    addItem(item.versionId, item.title, icon)
-                }
+        val bottomSheetDialog = BottomSheetDialog(context)
+        val sheetView = View.inflate(context, R.layout.bottom_sheet_actions, null)
+        val actionsRecycler: RecyclerView = sheetView.findViewById(R.id.actions_recycler)
+
+        val actions = items.map { item ->
+            val icon = if (item.compatible) {
+                if (item.newer) R.drawable.ic_new else R.drawable.ic_download_circle
+            } else {
+                R.drawable.ic_alert_circle
             }
-            .setItemClickListener { item ->
-                items.find {
-                    it.versionId == item.itemId
-                }?.let {
-                    bottomSheet?.hide()
-                    versionRelay.accept(it)
-                }
+            ActionItem(item.versionId, item.title, icon)
+        }
+
+        val actionsAdapter = ActionsAdapter(actions) { actionId ->
+            bottomSheetDialog.dismiss()
+            items.find { it.versionId == actionId }?.let {
+                versionRelay.accept(it)
             }
-            .createDialog()
-            .apply { show() }
+        }
+
+        actionsRecycler.layoutManager = LinearLayoutManager(context)
+        actionsRecycler.adapter = actionsAdapter
+
+        bottomSheetDialog.setContentView(sheetView)
+        bottomSheetDialog.show()
     }
 
-    @Suppress("DEPRECATION")
     override fun showSecurityInfoDialog(status: PlaySecurityStatus, score: Int?) {
-        val theme = R.style.BottomSheetDialogDark.takeIf { preferences.isDarkTheme() }
-            ?: R.style.BottomSheetDialogLight
-
         val isScanning = status == PlaySecurityStatus.SCANNING
 
         val (statusText, statusIcon, statusColor) = when (status) {
@@ -254,7 +242,7 @@ class DetailsViewImpl(
             )
         }
 
-        val bottomSheet = com.google.android.material.bottomsheet.BottomSheetDialog(context, theme)
+        val bottomSheet = BottomSheetDialog(context)
         val sheetView = android.view.LayoutInflater.from(context)
             .inflate(R.layout.bottom_sheet_security_info, null)
 
@@ -266,7 +254,7 @@ class DetailsViewImpl(
         val toolsTextView = sheetView.findViewById<android.widget.TextView>(R.id.security_tools_text)
 
         statusIconView.setImageResource(statusIcon)
-        statusIconView.setColorFilter(context.resources.getColor(statusColor))
+        statusIconView.setColorFilter(ContextCompat.getColor(context, statusColor))
         statusTextView.text = statusText
 
         if (isScanning) {

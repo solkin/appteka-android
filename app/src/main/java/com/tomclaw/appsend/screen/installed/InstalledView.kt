@@ -12,13 +12,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
-import com.github.rubensousa.bottomsheetbuilder.BottomSheetBuilder
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.installed.adapter.app.AppItem
+import com.tomclaw.appsend.util.ActionItem
+import com.tomclaw.appsend.util.ActionsAdapter
 import com.tomclaw.appsend.util.clicks
-import com.tomclaw.appsend.util.getAttributedColor
 import com.tomclaw.appsend.util.hideWithAlphaAnimation
 import com.tomclaw.appsend.util.showWithAlphaAnimation
 import io.reactivex.rxjava3.core.Observable
@@ -110,6 +111,8 @@ class InstalledViewImpl(
         recycler.itemAnimator?.changeDuration = DURATION_MEDIUM
 
         refresher.setOnRefreshListener { refreshRelay.accept(Unit) }
+
+        retryButton.clicks(retryRelay)
     }
 
     override fun showProgress() {
@@ -135,7 +138,6 @@ class InstalledViewImpl(
         flipper.displayedChild = 2
 
         error.setText(R.string.load_files_error)
-        retryButton.clicks(retryRelay)
     }
 
     override fun showExtractSuccess() {
@@ -147,31 +149,33 @@ class InstalledViewImpl(
     }
 
     override fun showItemDialog(item: AppItem) {
-        val theme = R.style.BottomSheetDialogDark.takeIf { preferences.isDarkTheme() }
-            ?: R.style.BottomSheetDialogLight
-        BottomSheetBuilder(view.context, theme)
-            .setMode(BottomSheetBuilder.MODE_LIST)
-            .setIconTintColor(getAttributedColor(view.context, R.attr.menu_icons_tint))
-            .setItemTextColor(getAttributedColor(view.context, R.attr.text_primary_color))
-            .setMenu(R.menu.installed_app_menu)
-            .setItemClickListener {
-                val id = when (it.itemId) {
-                    R.id.menu_run_app -> MENU_RUN
-                    R.id.menu_share_apk -> MENU_SHARE
-                    R.id.menu_extract_apk -> MENU_EXTRACT
-                    R.id.menu_upload_apk -> MENU_UPLOAD
-                    R.id.menu_bluetooth_apk -> MENU_BLUETOOTH
-                    R.id.menu_find_on_gp -> MENU_FIND_ON_GP
-                    R.id.menu_find_on_store -> MENU_FIND_ON_STORE
-                    R.id.menu_required_permissions -> MENU_PERMISSIONS
-                    R.id.menu_app_details -> MENU_DETAILS
-                    R.id.menu_remove_app -> MENU_REMOVE
-                    else -> return@setItemClickListener
-                }
-                itemMenuRelay.accept(Pair(id, item))
-            }
-            .createDialog()
-            .show()
+        val bottomSheetDialog = BottomSheetDialog(context)
+        val sheetView = View.inflate(context, R.layout.bottom_sheet_actions, null)
+        val actionsRecycler: RecyclerView = sheetView.findViewById(R.id.actions_recycler)
+
+        val actions = listOf(
+            ActionItem(MENU_RUN, context.getString(R.string.run_app), R.drawable.ic_run),
+            ActionItem(MENU_SHARE, context.getString(R.string.share_apk), R.drawable.ic_share),
+            ActionItem(MENU_EXTRACT, context.getString(R.string.extract_apk), R.drawable.ic_floppy),
+            ActionItem(MENU_UPLOAD, context.getString(R.string.upload_apk), R.drawable.ic_cloud_upload),
+            ActionItem(MENU_BLUETOOTH, context.getString(R.string.bluetooth_apk), R.drawable.ic_bluetooth),
+            ActionItem(MENU_FIND_ON_GP, context.getString(R.string.find_on_gp), R.drawable.ic_google_play),
+            ActionItem(MENU_FIND_ON_STORE, context.getString(R.string.find_on_store), R.drawable.ic_store),
+            ActionItem(MENU_PERMISSIONS, context.getString(R.string.required_permissions), R.drawable.ic_lock_open),
+            ActionItem(MENU_DETAILS, context.getString(R.string.app_details), R.drawable.ic_settings),
+            ActionItem(MENU_REMOVE, context.getString(R.string.remove_app), R.drawable.ic_delete)
+        )
+
+        val actionsAdapter = ActionsAdapter(actions) { actionId ->
+            bottomSheetDialog.dismiss()
+            itemMenuRelay.accept(Pair(actionId, item))
+        }
+
+        actionsRecycler.layoutManager = LinearLayoutManager(context)
+        actionsRecycler.adapter = actionsAdapter
+
+        bottomSheetDialog.setContentView(sheetView)
+        bottomSheetDialog.show()
     }
 
     override fun showSnackbar(text: String) {

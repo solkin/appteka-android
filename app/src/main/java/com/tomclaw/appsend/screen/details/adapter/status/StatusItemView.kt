@@ -5,6 +5,7 @@ import android.graphics.PorterDuff
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import com.avito.konveyor.adapter.BaseViewHolder
 import com.avito.konveyor.blueprint.ItemView
 import com.google.android.material.button.MaterialButton
@@ -31,11 +32,9 @@ interface StatusItemView : ItemView {
 
 }
 
-@Suppress("DEPRECATION")
 class StatusItemViewHolder(view: View) : BaseViewHolder(view), StatusItemView {
 
     private val context = view.context
-    private val resources = view.resources
     private val background: View = view.findViewById(R.id.status_back)
     private val icon: ImageView = view.findViewById(R.id.status_icon)
     private val text: TextView = view.findViewById(R.id.status_text)
@@ -50,28 +49,28 @@ class StatusItemViewHolder(view: View) : BaseViewHolder(view), StatusItemView {
     override fun setStatusTypeInfo() {
         setBackgroundColor(R.color.block_info_back_color)
         icon.setImageResource(R.drawable.ic_info)
-        icon.setColorFilter(resources.getColor(R.color.block_info_color))
-        text.setTextColor(resources.getColor(R.color.block_info_text_color))
+        icon.setColorFilter(ContextCompat.getColor(context, R.color.block_info_color))
+        text.setTextColor(ContextCompat.getColor(context, R.color.block_info_text_color))
         actionButton.setRippleColorResource(R.color.block_info_color)
-        actionButton.setTextColor(resources.getColor(R.color.block_info_text_color))
+        actionButton.setTextColor(ContextCompat.getColor(context, R.color.block_info_text_color))
     }
 
     override fun setStatusTypeWarning() {
         setBackgroundColor(R.color.block_warning_back_color)
         icon.setImageResource(R.drawable.ic_warning)
-        icon.setColorFilter(resources.getColor(R.color.block_warning_color))
-        text.setTextColor(resources.getColor(R.color.block_warning_text_color))
+        icon.setColorFilter(ContextCompat.getColor(context, R.color.block_warning_color))
+        text.setTextColor(ContextCompat.getColor(context, R.color.block_warning_text_color))
         actionButton.setRippleColorResource(R.color.block_warning_color)
-        actionButton.setTextColor(resources.getColor(R.color.block_warning_text_color))
+        actionButton.setTextColor(ContextCompat.getColor(context, R.color.block_warning_text_color))
     }
 
     override fun setStatusTypeError() {
         setBackgroundColor(R.color.block_error_back_color)
         icon.setImageResource(R.drawable.ic_error)
-        icon.setColorFilter(resources.getColor(R.color.block_error_color))
-        text.setTextColor(resources.getColor(R.color.block_error_text_color))
+        icon.setColorFilter(ContextCompat.getColor(context, R.color.block_error_color))
+        text.setTextColor(ContextCompat.getColor(context, R.color.block_error_text_color))
         actionButton.setRippleColorResource(R.color.block_error_color)
-        actionButton.setTextColor(resources.getColor(R.color.block_error_text_color))
+        actionButton.setTextColor(ContextCompat.getColor(context, R.color.block_error_text_color))
     }
 
     override fun hideActionButton() {
@@ -88,7 +87,7 @@ class StatusItemViewHolder(view: View) : BaseViewHolder(view), StatusItemView {
     }
 
     private fun setBackgroundColor(colorRes: Int) {
-        val backgroundTintList = ColorStateList.valueOf(resources.getColor(colorRes))
+        val backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(context, colorRes))
         background.backgroundTintList = backgroundTintList
         background.backgroundTintMode = PorterDuff.Mode.SRC_ATOP
     }

@@ -99,8 +99,21 @@
 
     <color name="online_color">#32A304</color>
 
-    <style name="AppTheme" parent="Theme.Material3.Light.NoActionBar">
-        <!-- Material 3 Color Scheme - сохраняем основные и акцентные цвета -->
+    <!-- Surface colors for day/night -->
+    <color name="surface_color_light">#FFFFFF</color>
+    <color name="surface_color_dark">#0d0d0e</color>
+    <color name="surface_container_light">#F5F5F5</color>
+    <color name="surface_container_dark">#1A1A1B</color>
+
+    <!-- Main App Theme - Material3 Expressive with DayNight support -->
+    <style name="AppTheme" parent="Theme.Material3Expressive.DynamicColors.DayNight.NoActionBar">
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">?attr/isLightTheme</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o">?attr/isLightTheme</item>
+
+        <!-- Material 3 Color Scheme - сохраняем оригинальные зелёно-оранжевые цвета -->
         <item name="colorPrimary">@color/primary_color</item>
         <item name="colorOnPrimary">@android:color/white</item>
         <item name="colorPrimaryContainer">@color/primary_container_light</item>
@@ -121,20 +134,17 @@
         <item name="colorErrorContainer">#ffdad6</item>
         <item name="colorOnErrorContainer">#410002</item>
 
-        <item name="colorSurface">@color/light_back_color</item>
+        <item name="colorSurface">@color/surface_color_light</item>
         <item name="colorOnSurface">@color/text_primary_color_light</item>
         <item name="colorSurfaceVariant">#E7E0EC</item>
         <item name="colorOnSurfaceVariant">#49454F</item>
+        <item name="colorSurfaceContainer">@color/surface_container_light</item>
+        <item name="colorSurfaceContainerLow">#F7F2FA</item>
 
         <item name="colorOutline">#79747E</item>
         <item name="colorOutlineVariant">#CAC4D0</item>
 
-        <item name="android:statusBarColor">#efefef</item>
-        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
-        <item name="android:navigationBarColor">@color/bottom_nav_background_light</item>
-        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
-
-        <item name="android:windowBackground">@color/light_back_color</item>
+        <item name="android:windowBackground">@color/surface_color_light</item>
 
         <item name="text_primary_color">@color/text_primary_color_light</item>
         <item name="text_secondary_color">#4e4e4e</item>
@@ -182,96 +192,27 @@
         <item name="reaction_background_active_color">#E8F5E9</item>
         <item name="reaction_border_active_color">@color/primary_color</item>
         <item name="reaction_text_color">?attr/text_secondary_color</item>
+
+        <!-- Preference Theme -->
+        <item name="preferenceTheme">@style/AppPreferenceThemeOverlay</item>
+        <item name="materialCardViewStyle">@style/Widget.Material3.CardView.Elevated</item>
     </style>
 
-    <style name="AppThemeBlack" parent="Theme.Material3.Dark.NoActionBar">
-        <!-- Material 3 Color Scheme - сохраняем основные и акцентные цвета -->
-        <item name="colorPrimary">@color/primary_color</item>
-        <item name="colorOnPrimary">@android:color/white</item>
-        <item name="colorPrimaryContainer">@color/primary_container_dark</item>
-        <item name="colorOnPrimaryContainer">@color/primary_color</item>
-
-        <item name="colorSecondary">@color/accent_color</item>
-        <item name="colorOnSecondary">@android:color/white</item>
-        <item name="colorSecondaryContainer">@color/secondary_container_dark</item>
-        <item name="colorOnSecondaryContainer">@color/accent_color</item>
-
-        <item name="colorTertiary">@color/accent_color</item>
-        <item name="colorOnTertiary">@android:color/white</item>
-        <item name="colorTertiaryContainer">@color/accent_color</item>
-        <item name="colorOnTertiaryContainer">@android:color/white</item>
-
-        <item name="colorError">#d63205</item>
-        <item name="colorOnError">@android:color/white</item>
-        <item name="colorErrorContainer">#93000a</item>
-        <item name="colorOnErrorContainer">#ffdad6</item>
-
-        <item name="colorSurface">@color/dark_back_color</item>
-        <item name="colorOnSurface">@color/text_primary_color_dark</item>
-        <item name="colorSurfaceVariant">#49454F</item>
-        <item name="colorOnSurfaceVariant">#CAC4D0</item>
-
-        <item name="colorOutline">#938F99</item>
-        <item name="colorOutlineVariant">#49454F</item>
-
-        <item name="android:statusBarColor">#1a1a1b</item>
-        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
-        <item name="android:navigationBarColor">@color/bottom_nav_background_dark</item>
-        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">false</item>
-
-        <item name="android:windowBackground">@color/dark_back_color</item>
-
-        <item name="text_primary_color">@color/text_primary_color_dark</item>
-        <item name="text_secondary_color">#B1B1B1</item>
-        <item name="donate_card_background">#151515</item>
-
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-
-        <item name="bottom_bar_background">@color/bottom_nav_background_dark</item>
-
-        <item name="toolbar_background">#202022</item>
-        <item name="search_toolbar_background">#202022</item>
-
-        <item name="divider_color">@color/divider_dark</item>
-
-        <item name="compose_background">@drawable/compose_background_dark</item>
-        <item name="discuss_back_repeat">@drawable/discuss_back_dark_repeat</item>
-        <item name="compose_gradient">@drawable/compose_gradient_dark</item>
-        <item name="discuss_bubble_color">@color/discuss_bubble_color_dark</item>
-        <item name="service_background">@drawable/service_background_dark</item>
-
-        <item name="rating_empty">#ff343434</item>
-        <item name="rating_fill">#ffa1a1a1</item>
-
-        <item name="five_stars">#ff366c4a</item>
-        <item name="four_stars">#ff537d30</item>
-        <item name="three_stars">#ffad9700</item>
-        <item name="two_stars">#ff9d650e</item>
-        <item name="one_stars">#ff902c10</item>
-
-        <item name="menu_icons_tint">@color/icons_grey_dark</item>
-        <item name="semitransparent_color">@color/color_semitransparent_black</item>
-
-        <item name="permissions_container_background">@color/permissions_container_dark_background
-        </item>
-
-        <item name="block_grey_color">@color/block_grey_color_dark</item>
-
-        <item name="feed_outline_color">@color/feed_outline_color_dark</item>
-        <item name="feed_background_color">@color/feed_background_color_dark</item>
-
-        <item name="reaction_background_color">#2A2A2B</item>
-        <item name="reaction_border_color">#3A3A3B</item>
-        <item name="reaction_background_active_color">#1A3A1A</item>
-        <item name="reaction_border_active_color">@color/primary_color</item>
-        <item name="reaction_text_color">?attr/text_secondary_color</item>
+    <!-- Preference Themes -->
+    <style name="AppPreferenceThemeOverlay" parent="@style/PreferenceThemeOverlay">
+        <item name="switchPreferenceCompatStyle">@style/AppSwitchPreference</item>
     </style>
 
-    <style name="AppThemeSemitransparent" parent="AppThemeBlack">
+    <style name="AppSwitchPreference" parent="@style/Preference.SwitchPreferenceCompat.Material">
+        <item name="widgetLayout">@layout/preference_material_switch</item>
+    </style>
+
+    <!-- Semitransparent theme for Gallery -->
+    <style name="AppThemeSemitransparent" parent="AppTheme">
         <item name="android:statusBarColor">#cc000000</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
         <item name="android:windowBackground">@android:color/black</item>
+        <item name="colorSurface">@android:color/black</item>
         <item name="toolbar_background">@android:color/black</item>
     </style>
 
@@ -287,6 +228,12 @@
         <item name="android:autoLink">all</item>
         <item name="android:layout_gravity">left|center_vertical</item>
         <item name="android:singleLine">false</item>
+        <item name="android:textColor">?attr/colorOnSurface</item>
+    </style>
+
+    <style name="Chat.Message.Outgoing" parent="Chat.Message">
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+        <item name="android:textColorLink">?attr/colorOnPrimary</item>
     </style>
 
     <style name="RatingDetailElementSmall" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
@@ -297,31 +244,40 @@
     </style>
 
     <!-- Material 3 Expressive Button Styles -->
-    <style name="MaterialButtonPrimary" parent="@style/Widget.Material3.Button">
+    <style name="MaterialButtonPrimary" parent="@style/Widget.Material3Expressive.Button">
         <item name="textAllCaps">false</item>
-        <item name="cornerRadius">20dp</item>
-        <item name="android:textAppearance">@style/TextAppearance.Material3.LabelLarge</item>
-        <item name="android:minHeight">40dp</item>
-        <item name="android:paddingStart">24dp</item>
-        <item name="android:paddingEnd">24dp</item>
     </style>
 
-    <style name="MaterialButtonSecondary" parent="@style/Widget.Material3.Button.TextButton">
+    <style name="MaterialButtonSecondary" parent="@style/Widget.Material3Expressive.Button.TextButton">
         <item name="textAllCaps">false</item>
-        <item name="cornerRadius">20dp</item>
-        <item name="android:textAppearance">@style/TextAppearance.Material3.LabelLarge</item>
-        <item name="android:minHeight">40dp</item>
-        <item name="android:paddingStart">24dp</item>
-        <item name="android:paddingEnd">24dp</item>
     </style>
 
-    <style name="MaterialButtonSecondaryOutline" parent="@style/Widget.Material3.Button.OutlinedButton">
+    <style name="MaterialButtonSecondaryOutline" parent="@style/Widget.Material3Expressive.Button.OutlinedButton">
         <item name="textAllCaps">false</item>
-        <item name="cornerRadius">20dp</item>
-        <item name="android:textAppearance">@style/TextAppearance.Material3.LabelLarge</item>
-        <item name="android:minHeight">40dp</item>
-        <item name="android:paddingStart">24dp</item>
-        <item name="android:paddingEnd">24dp</item>
+    </style>
+
+    <style name="MaterialButtonElevated" parent="@style/Widget.Material3Expressive.Button.ElevatedButton">
+        <item name="textAllCaps">false</item>
+    </style>
+
+    <style name="MaterialButtonIcon" parent="@style/Widget.Material3Expressive.Button.IconButton">
+        <item name="textAllCaps">false</item>
+    </style>
+
+    <style name="MaterialButtonIconFilled" parent="@style/Widget.Material3Expressive.Button.IconButton.Filled">
+        <item name="textAllCaps">false</item>
+    </style>
+
+    <style name="MaterialButtonIconOutlined" parent="@style/Widget.Material3Expressive.Button.IconButton.Outlined">
+        <item name="textAllCaps">false</item>
+    </style>
+
+    <style name="MaterialButtonIconStandard" parent="@style/Widget.Material3Expressive.Button.IconButton.Standard">
+        <item name="textAllCaps">false</item>
+    </style>
+
+    <style name="MaterialButtonIconTonal" parent="@style/Widget.Material3Expressive.Button.IconButton.Tonal">
+        <item name="textAllCaps">false</item>
     </style>
 
     <!-- Material 3 Expressive Card Styles -->

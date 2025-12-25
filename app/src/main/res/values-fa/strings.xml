@@ -57,6 +57,25 @@
     <string name="write_permission_select">برای جستجو و انتخاب برنامه ها باید مجوزهای ذخیره سازی را فعال کنید</string>
     <string name="pref_title_dark_theme">حالت تاریک</string>
     <string name="pref_dark_theme_system">استفاده از رنگ تاریک برای پس زمینه</string>
+    <string name="pref_title_theme">پوسته</string>
+    <string name="pref_summary_theme">پوسته برنامه را انتخاب کنید</string>
+    <string name="pref_title_dynamic_colors">رنگ‌های پویا</string>
+    <string name="pref_summary_dynamic_colors">استفاده از رنگ‌های پس‌زمینه در دستگاه‌های اندروید ۱۲+ (نیاز به راه‌اندازی مجدد)</string>
+    <string name="theme_dialog_title">انتخاب پوسته</string>
+    <string name="theme_system">پیش‌فرض سیستم</string>
+    <string name="theme_light">روشن</string>
+    <string name="theme_dark">تیره</string>
+    <string name="theme_battery_saver">صرفه‌جویی در باتری</string>
+    <string name="restart_now">اکنون راه‌اندازی مجدد</string>
+    <string name="clear_cache_dialog_title">تأیید پاکسازی حافظه پنهان</string>
+    <string name="clear_cache_dialog_message">همه فایل‌های APK که قبلاً توسط %1$s در حافظه دانلود شده‌اند، حذف خواهند شد. این عمل قابل بازگشت نیست. آیا مایل به ادامه هستید؟</string>
+    <string name="clear_cache_dialog_positive">بله، فایل‌ها را حذف کن</string>
+    <string name="restart_required_dynamic_colors_short">برای اعمال تغییرات، راه‌اندازی مجدد کنید.</string>
+    <string name="pref_category_appearance_title">ظاهر</string>
+    <string name="pref_category_app_behavior_title">رفتار برنامه</string>
+    <string name="pref_category_general_title">عمومی</string>
+    <string name="pick_apk">انتخاب فایل APK</string>
+    <string name="pick_installed">انتخاب برنامه نصب شده</string>
     <string name="cancel">لغو</string>
     <string name="percent" translatable="false">%d %%</string>
     <string name="upload">بارگذاری</string>
