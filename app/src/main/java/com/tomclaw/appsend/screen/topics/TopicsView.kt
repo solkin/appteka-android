@@ -8,6 +8,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
@@ -35,9 +36,15 @@ interface TopicsView {
 
     fun showUnauthorizedError()
 
+    fun stopPullRefreshing()
+
+    fun isPullRefreshing(): Boolean
+
     fun getStartedClicks(): Observable<Unit>
 
     fun retryButtonClicks(): Observable<Unit>
+
+    fun refreshClicks(): Observable<Unit>
 
     fun pinTopicClicks(): Observable<Int>
 
@@ -57,6 +64,7 @@ class TopicsViewImpl(
 
     private val context = view.context
     private val coordinator: CoordinatorLayout = view.findViewById(R.id.coordinator)
+    private val refresher: SwipeRefreshLayout = view.findViewById(R.id.swipe_refresh)
     private val viewFlipper: ViewFlipper = view.findViewById(R.id.view_flipper)
     private val overlayProgress: View = view.findViewById(R.id.overlay_progress)
     private val getStartedButton: View = view.findViewById(R.id.get_started_button)
@@ -66,6 +74,7 @@ class TopicsViewImpl(
 
     private val getStartedRelay = PublishRelay.create<Unit>()
     private val retryButtonRelay = PublishRelay.create<Unit>()
+    private val refreshRelay = PublishRelay.create<Unit>()
     private val pinTopicRelay = PublishRelay.create<Int>()
     private val loginRelay = PublishRelay.create<Unit>()
 
@@ -81,25 +90,37 @@ class TopicsViewImpl(
         getStartedButton.setOnClickListener { getStartedRelay.accept(Unit) }
         retryButton.setOnClickListener { retryButtonRelay.accept(Unit) }
         errorText.setText(R.string.topics_loading_failed)
+
+        refresher.setOnRefreshListener { refreshRelay.accept(Unit) }
     }
 
     override fun showIntro() {
+        refresher.isEnabled = false
         viewFlipper.displayedChild = 0
     }
 
     override fun showProgress() {
+        refresher.isEnabled = false
         viewFlipper.displayedChild = 1
         overlayProgress.showWithAlphaAnimation(animateFully = true)
     }
 
     override fun showContent() {
+        refresher.isEnabled = true
         viewFlipper.displayedChild = 1
         overlayProgress.hideWithAlphaAnimation(animateFully = false)
     }
 
     override fun showError() {
+        refresher.isEnabled = true
         viewFlipper.displayedChild = 2
     }
+
+    override fun stopPullRefreshing() {
+        refresher.isRefreshing = false
+    }
+
+    override fun isPullRefreshing(): Boolean = refresher.isRefreshing
 
     override fun showMessageDialog(topicId: Int, isPinned: Boolean) {
         val bottomSheetDialog = BottomSheetDialog(context)
@@ -151,6 +172,8 @@ class TopicsViewImpl(
     override fun getStartedClicks(): Observable<Unit> = getStartedRelay
 
     override fun retryButtonClicks(): Observable<Unit> = retryButtonRelay
+
+    override fun refreshClicks(): Observable<Unit> = refreshRelay
 
     override fun pinTopicClicks(): Observable<Int> = pinTopicRelay
 

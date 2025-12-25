@@ -69,6 +69,10 @@ class TopicsPresenterImpl(
             loadTopics()
         }
 
+        subscriptions += view.refreshClicks().subscribe {
+            invalidateTopics()
+        }
+
         subscriptions += view.pinTopicClicks().subscribe { topicId ->
             pinTopic(topicId)
         }
@@ -128,12 +132,18 @@ class TopicsPresenterImpl(
         putBoolean(KEY_HAS_MORE, hasMore)
     }
 
+    private fun invalidateTopics() {
+        entities = null
+        isError = false
+        loadTopics()
+    }
+
     private fun loadTopics() {
         subscriptions += topicsInteractor.listTopics()
             .observeOn(schedulers.mainThread())
             .doOnSubscribe {
                 entities = null
-                view?.showProgress()
+                if (view?.isPullRefreshing() == false) view?.showProgress()
             }
             .subscribe(
                 { onLoaded(it.topics, it.hasMore) },
@@ -169,12 +179,14 @@ class TopicsPresenterImpl(
         adapterPresenter.get().onDataSourceChanged(dataSource)
         view?.let {
             it.contentUpdated()
+            it.stopPullRefreshing()
             it.showContent()
         }
     }
 
     private fun onError() {
         this.isError = true
+        view?.stopPullRefreshing()
         view?.showError()
     }
 
