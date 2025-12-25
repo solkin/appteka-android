@@ -47,6 +47,8 @@ interface RateView {
 
     fun showError()
 
+    fun showValidationError(message: String)
+
     fun navigationClicks(): Observable<Unit>
 
     fun ratingChanged(): Observable<Float>
@@ -120,7 +122,10 @@ class RateViewImpl(view: View) : RateView {
     }
 
     override fun setReview(review: String) {
-        this.reviewEdit.setText(review, TextView.BufferType.EDITABLE)
+        val currentText = this.reviewEdit.text?.toString() ?: ""
+        if (currentText != review) {
+            this.reviewEdit.setText(review, TextView.BufferType.EDITABLE)
+        }
     }
 
     override fun enableSubmitButton() {
@@ -141,6 +146,10 @@ class RateViewImpl(view: View) : RateView {
 
     override fun showError() {
         Snackbar.make(scrollView, R.string.review_publish_failed, Snackbar.LENGTH_SHORT).show()
+    }
+
+    override fun showValidationError(message: String) {
+        Snackbar.make(scrollView, message, Snackbar.LENGTH_SHORT).show()
     }
 
     override fun navigationClicks(): Observable<Unit> = navigationRelay

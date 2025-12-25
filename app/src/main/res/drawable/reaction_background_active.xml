@@ -1,26 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ripple xmlns:android="http://schemas.android.com/apk/res/android"
-    android:color="?attr/colorControlHighlight">
-
+    android:color="?android:attr/colorControlHighlight">
     <item android:id="@android:id/mask">
         <shape android:shape="rectangle">
             <solid android:color="#000000" />
             <corners android:radius="12dp" />
         </shape>
     </item>
-
     <item>
         <shape android:shape="rectangle">
-            <!-- Active / selected background -->
-            <solid android:color="?attr/colorSecondaryContainer" />
-
+            <solid android:color="?attr/reaction_background_active_color" />
             <corners android:radius="12dp" />
-
-            <!-- Active border -->
             <stroke
                 android:width="1dp"
-                android:color="?attr/colorSecondary" />
+                android:color="?attr/reaction_border_active_color" />
         </shape>
     </item>
-
 </ripple>
+

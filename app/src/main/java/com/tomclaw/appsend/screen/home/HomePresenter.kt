@@ -10,57 +10,57 @@ import com.tomclaw.appsend.util.getParcelableCompat
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
 
-interface HomePresenter {  
-  
-    fun attachView(view: HomeView)  
-  
-    fun detachView()  
-  
-    fun attachRouter(router: HomeRouter)  
-  
-    fun detachRouter()  
-  
-    fun saveState(): Bundle  
-  
-    fun onBackPressed()  
-  
-    interface HomeRouter {  
-  
-        fun showStoreFragment()  
-  
-        fun showFeedFragment()  
-  
-        fun showTopicsFragment()  
-  
-        fun showProfileFragment()  
-  
-        fun openUploadScreen()  
-  
-        fun openPostScreen()  
-  
-        fun openSearchScreen()  
-  
-        fun openModerationScreen()  
-  
-        fun openInstalledScreen()  
-  
-        fun openDistroScreen()  
-  
-        fun openSettingsScreen()  
-  
-        fun openAboutScreen()  
-  
-        fun openAppScreen(appId: String, title: String)  
-  
-        fun openShareUrlDialog(text: String)  
-  
-        fun leaveScreen()  
-  
-        fun exitApp()  
-  
-    }  
-  
-}  
+interface HomePresenter {
+
+    fun attachView(view: HomeView)
+
+    fun detachView()
+
+    fun attachRouter(router: HomeRouter)
+
+    fun detachRouter()
+
+    fun saveState(): Bundle
+
+    fun onBackPressed()
+
+    interface HomeRouter {
+
+        fun showStoreFragment()
+
+        fun showFeedFragment()
+
+        fun showTopicsFragment()
+
+        fun showProfileFragment()
+
+        fun openUploadScreen()
+
+        fun openPostScreen()
+
+        fun openSearchScreen()
+
+        fun openModerationScreen()
+
+        fun openInstalledScreen()
+
+        fun openDistroScreen()
+
+        fun openSettingsScreen()
+
+        fun openAboutScreen()
+
+        fun openAppScreen(appId: String, title: String)
+
+        fun openShareUrlDialog(text: String)
+
+        fun leaveScreen()
+
+        fun exitApp()
+
+    }
+
+}
 
 class HomePresenterImpl(
     startAction: String?,
@@ -77,8 +77,7 @@ class HomePresenterImpl(
     private var startupLoaded: Boolean = state?.getBoolean(KEY_STARTUP_LOADED) == true
     private var unread: Int = state?.getInt(KEY_UNREAD) ?: 0
     private var feed: Int = state?.getInt(KEY_FEED) ?: 0
-    private var update: AppEntity? =
-        state?.getParcelableCompat(KEY_UPDATE, AppEntity::class.java)
+    private var update: AppEntity? = state?.getParcelableCompat(KEY_UPDATE, AppEntity::class.java)
     private var moderation: ModerationData? =
         state?.getParcelableCompat(KEY_MODERATION, ModerationData::class.java)
     private var status: StatusResponse? =
@@ -89,10 +88,10 @@ class HomePresenterImpl(
     override fun attachView(view: HomeView) {
         this.view = view
 
-        subscriptions += view.storeClicks().subscribe { bindTab(INDEX_STORE) }
-        subscriptions += view.feedClicks().subscribe { bindTab(INDEX_FEED) }
-        subscriptions += view.discussClicks().subscribe { bindTab(INDEX_DISCUSS) }
-        subscriptions += view.profileClicks().subscribe { bindTab(INDEX_PROFILE) }
+        subscriptions += view.storeClicks().subscribe { bindTab(index = INDEX_STORE) }
+        subscriptions += view.feedClicks().subscribe { bindTab(index = INDEX_FEED) }
+        subscriptions += view.discussClicks().subscribe { bindTab(index = INDEX_DISCUSS) }
+        subscriptions += view.profileClicks().subscribe { bindTab(index = INDEX_PROFILE) }
         subscriptions += view.uploadClicks().subscribe { router?.openUploadScreen() }
         subscriptions += view.postClicks().subscribe { router?.openPostScreen() }
         subscriptions += view.updateClicks().subscribe { onUpdateClicks() }
@@ -110,27 +109,153 @@ class HomePresenterImpl(
             bindUnread()
             bindFeed()
             bindUpdate()
-            bindTab(tabIndex) // SINGLE startup bind (NO flicker)
+            bindTab()
         } else {
             loadStartup()
         }
 
-        status?.let { onStatusLoaded(it) } ?: loadStatus()
+        val status = status
+        if (status != null) {
+            onStatusLoaded(status)
+        } else {
+            loadStatus()
+        }
+    }
+
+    private fun bindTab(index: Int = tabIndex) {
+        tabIndex = index
+        when (index) {
+            INDEX_STORE -> {
+                router?.showStoreFragment()
+                view?.showStoreToolbar(canModerate())
+                view?.hideFabButtons()
+                view?.showUploadButton()
+            }
+
+            INDEX_FEED -> {
+                router?.showFeedFragment()
+                view?.showFeedToolbar()
+                view?.hideFabButtons()
+                view?.showPostButton()
+                bindFeed(count = 0)
+            }
+
+            INDEX_DISCUSS -> {
+                router?.showTopicsFragment()
+                view?.showDiscussToolbar()
+                view?.hideFabButtons()
+                bindUnread(count = 0)
+            }
+
+            INDEX_PROFILE -> {
+                router?.showProfileFragment()
+                view?.showProfileToolbar()
+                view?.hideFabButtons()
+            }
+        }
+    }
+
+    private fun canModerate(): Boolean = moderation?.moderator == true
+
+    private fun loadStartup() {
+        subscriptions += interactor.loadStartup()
+            .observeOn(schedulers.mainThread())
+            .subscribe(
+                { onStartupLoaded(response = it) },
+                { }
+            )
+    }
+
+    private fun loadStatus() {
+        subscriptions += interactor.loadStatus()
+            .observeOn(schedulers.mainThread())
+            .subscribe(
+                { onStatusLoaded(response = it) },
+                { }
+            )
+    }
+
+    private fun onStartupLoaded(response: StartupResponse) {
+        startupLoaded = true
+        unread = response.unread
+        feed = response.feed
+        update = response.update
+        moderation = response.moderation
+
+        bindUnread()
+        bindFeed()
+        bindUpdate()
+        bindTab()
+    }
+
+    private fun onStatusLoaded(response: StatusResponse) {
+        status = response
+        if (!response.message.isNullOrBlank()) {
+            view?.showStatusDialog(
+                block = response.block == true,
+                title = response.title,
+                message = response.message,
+            )
+        }
+    }
+
+    private fun bindUnread(count: Int = unread) {
+        unread = count
+        if (unread > 0) {
+            view?.showUnreadBadge(count)
+        } else {
+            view?.hideUnreadBadge()
+        }
+    }
+
+    private fun bindFeed(count: Int = feed) {
+        feed = count
+        if (feed > 0) {
+            view?.showFeedBadge(count)
+        } else {
+            view?.hideFeedBadge()
+        }
+    }
+
+    private fun bindUpdate() {
+        if (update != null) {
+            view?.showUpdateBlock()
+        } else {
+            view?.hideUpdateBlock()
+        }
+    }
+
+    private fun onUpdateClicks() {
+        val update = update ?: return
+        router?.openAppScreen(appId = update.appId, title = update.title)
+    }
+
+    private fun onLaterClicks() {
+        update = null
+        view?.hideUpdateBlock()
+    }
+
+    private fun onShareClicks() {
+        subscriptions += interactor.getUserBrief()
+            .observeOn(schedulers.mainThread())
+            .subscribe(
+                { it.url?.let { url -> router?.openShareUrlDialog(url) } },
+                { }
+            )
     }
 
     override fun detachView() {
-        view = null
-        subscriptions.clear()
+        this.view = null
     }
 
     override fun attachRouter(router: HomePresenter.HomeRouter) {
         this.router = router
         handleAction()
-        // bindTab() REMOVED intentionally to avoid double selection
+        bindTab()
     }
 
     override fun detachRouter() {
-        router = null
+        this.router = null
     }
 
     override fun saveState(): Bundle = Bundle().apply {
@@ -152,107 +277,6 @@ class HomePresenterImpl(
         }
     }
 
-    private fun bindTab(index: Int) {
-        tabIndex = index
-        when (index) {
-            INDEX_STORE -> {
-                router?.showStoreFragment()
-                view?.showStoreToolbar(canModerate())
-                view?.hideFabButtons()
-                view?.showUploadButton()
-            }
-
-            INDEX_FEED -> {
-                router?.showFeedFragment()
-                view?.showFeedToolbar()
-                view?.hideFabButtons()
-                view?.showPostButton()
-                bindFeed(0)
-            }
-
-            INDEX_DISCUSS -> {
-                router?.showTopicsFragment()
-                view?.showDiscussToolbar()
-                view?.hideFabButtons()
-                bindUnread(0)
-            }
-
-            INDEX_PROFILE -> {
-                router?.showProfileFragment()
-                view?.showProfileToolbar()
-                view?.hideFabButtons()
-            }
-        }
-    }
-
-    private fun loadStartup() {
-        subscriptions += interactor.loadStartup()
-            .observeOn(schedulers.mainThread())
-            .subscribe({ onStartupLoaded(it) }, { })
-    }
-
-    private fun loadStatus() {
-        subscriptions += interactor.loadStatus()
-            .observeOn(schedulers.mainThread())
-            .subscribe({ onStatusLoaded(it) }, { })
-    }
-
-    private fun onStartupLoaded(response: StartupResponse) {
-        startupLoaded = true
-        unread = response.unread
-        feed = response.feed
-        update = response.update
-        moderation = response.moderation
-
-        bindUnread()
-        bindFeed()
-        bindUpdate()
-        bindTab(tabIndex)
-    }
-
-    private fun onStatusLoaded(response: StatusResponse) {
-        status = response
-        if (!response.message.isNullOrBlank()) {
-            view?.showStatusDialog(
-                block = response.block == true,
-                title = response.title,
-                message = response.message
-            )
-        }
-    }
-
-    private fun bindUnread(count: Int = unread) {
-        unread = count
-        if (unread > 0) view?.showUnreadBadge(unread) else view?.hideUnreadBadge()
-    }
-
-    private fun bindFeed(count: Int = feed) {
-        feed = count
-        if (feed > 0) view?.showFeedBadge(feed) else view?.hideFeedBadge()
-    }
-
-    private fun bindUpdate() {
-        if (update != null) view?.showUpdateBlock() else view?.hideUpdateBlock()
-    }
-
-    private fun onUpdateClicks() {
-        update?.let { router?.openAppScreen(it.appId, it.title) }
-    }
-
-    private fun onLaterClicks() {
-        update = null
-        view?.hideUpdateBlock()
-    }
-
-    private fun onShareClicks() {
-        subscriptions += interactor.getUserBrief()
-            .observeOn(schedulers.mainThread())
-            .subscribe(
-                { it.url?.let { url -> router?.openShareUrlDialog(url) } },
-                { }
-            )
-    }
-
     private fun handleAction() {
         when (action) {
             ACTION_STORE -> view?.selectStoreTab()
@@ -260,27 +284,25 @@ class HomePresenterImpl(
             ACTION_APPS -> router?.openInstalledScreen()
             ACTION_INSTALL -> router?.openDistroScreen()
         }
-        action = null
+        action = ""
     }
 
-    private fun canModerate(): Boolean = moderation?.moderator == true
 }
 
+private const val KEY_ACTION = "action"
+private const val KEY_TAB_INDEX = "current_tab"
+private const val KEY_STARTUP_LOADED = "startup_loaded"
+private const val KEY_UNREAD = "unread"
+private const val KEY_FEED = "feed"
+private const val KEY_UPDATE = "update"
+private const val KEY_MODERATION = "moderation"
+private const val KEY_STATUS = "status"
+private const val INDEX_STORE = 0
+private const val INDEX_FEED = 1
+private const val INDEX_DISCUSS = 2
+private const val INDEX_PROFILE = 3
 
-private const val KEY_ACTION = "action"  
-private const val KEY_TAB_INDEX = "current_tab"  
-private const val KEY_STARTUP_LOADED = "startup_loaded"  
-private const val KEY_UNREAD = "unread"  
-private const val KEY_FEED = "feed"  
-private const val KEY_UPDATE = "update"  
-private const val KEY_MODERATION = "moderation"  
-private const val KEY_STATUS = "status"  
-private const val INDEX_STORE = 0  
-private const val INDEX_FEED = 1  
-private const val INDEX_DISCUSS = 2  
-private const val INDEX_PROFILE = 3  
-  
-const val ACTION_STORE = "com.tomclaw.appsend.cloud"  
-const val ACTION_DISCUSS = "com.tomclaw.appsend.discuss"  
-const val ACTION_APPS = "com.tomclaw.appsend.apps"  
+const val ACTION_STORE = "com.tomclaw.appsend.cloud"
+const val ACTION_DISCUSS = "com.tomclaw.appsend.discuss"
+const val ACTION_APPS = "com.tomclaw.appsend.apps"
 const val ACTION_INSTALL = "com.tomclaw.appsend.install"

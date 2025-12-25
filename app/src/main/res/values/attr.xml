@@ -1,4 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <attr name="text_primary_color" format="color|reference" />
+    <attr name="text_secondary_color" format="color|reference" />
+    <attr name="donate_card_background" format="color|reference" />
+    <attr name="bottom_bar_background" format="color|reference" />
+    <attr name="toolbar_background" format="color|reference" />
+    <attr name="search_toolbar_background" format="color|reference" />
+    <attr name="permissions_container_background" format="color|reference" />
+    <attr name="rating_empty" format="color|reference" />
+    <attr name="rating_fill" format="color|reference" />
+    <attr name="five_stars" format="color|reference" />
+    <attr name="four_stars" format="color|reference" />
+    <attr name="three_stars" format="color|reference" />
+    <attr name="two_stars" format="color|reference" />
+    <attr name="one_stars" format="color|reference" />
+    <attr name="cardViewStyle" format="reference" />
+    <attr name="divider_color" format="reference" />
+    <attr name="compose_background" format="reference" />
+    <attr name="discuss_back_repeat" format="reference" />
+    <attr name="compose_gradient" format="reference" />
+    <attr name="discuss_bubble_color" format="reference" />
+    <attr name="service_background" format="reference" />
+    <attr name="menu_icons_tint" format="reference" />
+    <attr name="semitransparent_color" format="reference" />
+    <attr name="block_grey_color" format="reference" />
+    <attr name="feed_outline_color" format="reference" />
+    <attr name="feed_background_color" format="reference" />
+    <attr name="reaction_background_color" format="color|reference" />
+    <attr name="reaction_border_color" format="color|reference" />
+    <attr name="reaction_background_active_color" format="color|reference" />
+    <attr name="reaction_border_active_color" format="color|reference" />
+    <attr name="reaction_text_color" format="color|reference" />
+    <declare-styleable name="MaxHeightFrameLayout">
+        <attr name="maxHeight" format="dimension" />
+    </declare-styleable>
+    <declare-styleable name="CircleProgressView">
+        <attr name="min" format="integer" />
+        <attr name="max" format="integer" />
+        <attr name="progress" format="integer" />
+        <attr name="progressbarColor" format="color" />
+        <attr name="progressBarThickness" format="dimension" />
+    </declare-styleable>
 </resources>

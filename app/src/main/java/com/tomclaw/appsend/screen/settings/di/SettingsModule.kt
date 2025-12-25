@@ -1,4 +1,4 @@
-/* package com.tomclaw.appsend.screen.settings.di
+package com.tomclaw.appsend.screen.settings.di
 
 import android.content.Context
 import android.os.Bundle
@@ -53,4 +53,3 @@ class SettingsModule(
 
 }
 
-*/

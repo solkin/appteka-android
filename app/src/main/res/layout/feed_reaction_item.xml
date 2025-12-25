@@ -29,9 +29,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:textColor="?attr/colorOnSurface"
+        android:textColor="?attr/reaction_text_color"
         android:textSize="13sp"
         android:fontFamily="sans-serif-medium"
         tools:text="42" />
 
 </LinearLayout>
+
