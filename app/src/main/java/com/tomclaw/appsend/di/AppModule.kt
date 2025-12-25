@@ -46,6 +46,8 @@ import com.tomclaw.appsend.upload.UploadManager
 import com.tomclaw.appsend.upload.UploadManagerImpl
 import com.tomclaw.appsend.upload.UploadNotifications
 import com.tomclaw.appsend.upload.UploadNotificationsImpl
+import com.tomclaw.appsend.user.ModerationProvider
+import com.tomclaw.appsend.user.ModerationProviderImpl
 import com.tomclaw.appsend.user.SessionStorage
 import com.tomclaw.appsend.user.SessionStorageImpl
 import com.tomclaw.appsend.util.Analytics
@@ -182,6 +184,10 @@ class AppModule(private val app: Application) {
         gson: Gson,
         schedulers: SchedulersFactory
     ): SessionStorage = SessionStorageImpl(app.getDir(USER_DIR, MODE_PRIVATE), gson, schedulers)
+
+    @Provides
+    @Singleton
+    internal fun provideModerationProvider(): ModerationProvider = ModerationProviderImpl()
 
     @Provides
     @Singleton

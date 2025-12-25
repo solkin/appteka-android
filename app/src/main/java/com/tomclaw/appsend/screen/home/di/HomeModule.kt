@@ -9,6 +9,7 @@ import com.tomclaw.appsend.screen.home.HomeInteractor
 import com.tomclaw.appsend.screen.home.HomeInteractorImpl
 import com.tomclaw.appsend.screen.home.HomePresenter
 import com.tomclaw.appsend.screen.home.HomePresenterImpl
+import com.tomclaw.appsend.user.ModerationProvider
 import com.tomclaw.appsend.util.PerActivity
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Module
@@ -26,10 +27,12 @@ class HomeModule(
     @PerActivity
     internal fun providePresenter(
         interactor: HomeInteractor,
+        moderationProvider: ModerationProvider,
         schedulers: SchedulersFactory
     ): HomePresenter = HomePresenterImpl(
         startAction,
         interactor,
+        moderationProvider,
         schedulers,
         state
     )

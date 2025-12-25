@@ -19,7 +19,6 @@ import com.tomclaw.appsend.screen.distro.createDistroActivityIntent
 import com.tomclaw.appsend.screen.feed.createFeedFragment
 import com.tomclaw.appsend.screen.home.di.HomeModule
 import com.tomclaw.appsend.screen.installed.createInstalledActivityIntent
-import com.tomclaw.appsend.screen.moderation.createModerationActivityIntent
 import com.tomclaw.appsend.screen.post.createPostActivityIntent
 import com.tomclaw.appsend.screen.profile.createProfileFragment
 import com.tomclaw.appsend.screen.store.createStoreFragment
@@ -115,11 +114,6 @@ class HomeActivity : AppCompatActivity(), HomePresenter.HomeRouter {
 
     override fun openSearchScreen() {
         val intent = createSearchActivityIntent(this)
-        startActivity(intent)
-    }
-
-    override fun openModerationScreen() {
-        val intent = createModerationActivityIntent(this)
         startActivity(intent)
     }
 

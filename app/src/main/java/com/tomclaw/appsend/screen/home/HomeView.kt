@@ -19,7 +19,7 @@ import io.reactivex.rxjava3.core.Observable
 
 interface HomeView {
 
-    fun showStoreToolbar(canModerate: Boolean)
+    fun showStoreToolbar()
 
     fun showFeedToolbar()
 
@@ -37,9 +37,13 @@ interface HomeView {
 
     fun showFeedBadge(count: Int)
 
+    fun showModerationBadge(count: Int)
+
     fun hideUnreadBadge()
 
     fun hideFeedBadge()
+
+    fun hideModerationBadge()
 
     fun showUpdateBlock()
 
@@ -70,8 +74,6 @@ interface HomeView {
     fun laterClicks(): Observable<Unit>
 
     fun searchClicks(): Observable<Unit>
-
-    fun moderationClicks(): Observable<Unit>
 
     fun profileShareClicks(): Observable<Unit>
 
@@ -110,7 +112,6 @@ class HomeViewImpl(view: View) : HomeView {
     private val updateRelay = PublishRelay.create<Unit>()
     private val laterRelay = PublishRelay.create<Unit>()
     private val searchRelay = PublishRelay.create<Unit>()
-    private val moderationRelay = PublishRelay.create<Unit>()
     private val profileShareRelay = PublishRelay.create<Unit>()
     private val installedRelay = PublishRelay.create<Unit>()
     private val distroRelay = PublishRelay.create<Unit>()
@@ -123,7 +124,6 @@ class HomeViewImpl(view: View) : HomeView {
         toolbar.setOnMenuItemClickListener { item ->
             when (item.itemId) {
                 R.id.menu_search -> searchRelay.accept(Unit)
-                R.id.menu_moderation -> moderationRelay.accept(Unit)
                 R.id.menu_share -> profileShareRelay.accept(Unit)
                 R.id.menu_installed -> installedRelay.accept(Unit)
                 R.id.menu_distro -> distroRelay.accept(Unit)
@@ -157,14 +157,11 @@ class HomeViewImpl(view: View) : HomeView {
         postButton.applyBottomInsetsAsMargin()
     }
 
-    override fun showStoreToolbar(canModerate: Boolean) {
+    override fun showStoreToolbar() {
         with(toolbar) {
             setTitle(R.string.tab_store)
             menu.clear()
             inflateMenu(R.menu.store_menu)
-            if (!canModerate) {
-                menu.removeItem(R.id.menu_moderation)
-            }
             invalidateMenu()
         }
     }
@@ -222,6 +219,13 @@ class HomeViewImpl(view: View) : HomeView {
         }
     }
 
+    override fun showModerationBadge(count: Int) {
+        bottomNavigation.getOrCreateBadge(R.id.nav_profile).apply {
+            number = count
+            isVisible = true
+        }
+    }
+
     override fun hideUnreadBadge() {
         bottomNavigation.getBadge(R.id.nav_discuss)?.apply {
             clearNumber()
@@ -231,6 +235,13 @@ class HomeViewImpl(view: View) : HomeView {
 
     override fun hideFeedBadge() {
         bottomNavigation.getBadge(R.id.nav_feed)?.apply {
+            clearNumber()
+            isVisible = false
+        }
+    }
+
+    override fun hideModerationBadge() {
+        bottomNavigation.getBadge(R.id.nav_profile)?.apply {
             clearNumber()
             isVisible = false
         }
@@ -288,8 +299,6 @@ class HomeViewImpl(view: View) : HomeView {
     override fun laterClicks(): Observable<Unit> = laterRelay
 
     override fun searchClicks(): Observable<Unit> = searchRelay
-
-    override fun moderationClicks(): Observable<Unit> = moderationRelay
 
     override fun profileShareClicks(): Observable<Unit> = profileShareRelay
 

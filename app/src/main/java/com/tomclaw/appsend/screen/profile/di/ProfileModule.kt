@@ -33,10 +33,13 @@ import com.tomclaw.appsend.screen.profile.adapter.review.ReviewItemBlueprint
 import com.tomclaw.appsend.screen.profile.adapter.review.ReviewItemPresenter
 import com.tomclaw.appsend.screen.profile.adapter.reviews.ReviewsItemBlueprint
 import com.tomclaw.appsend.screen.profile.adapter.reviews.ReviewsItemPresenter
+import com.tomclaw.appsend.screen.profile.adapter.moderation.ModerationItemBlueprint
+import com.tomclaw.appsend.screen.profile.adapter.moderation.ModerationItemPresenter
 import com.tomclaw.appsend.screen.profile.adapter.unauthorized.UnauthorizedItemBlueprint
 import com.tomclaw.appsend.screen.profile.adapter.unauthorized.UnauthorizedItemPresenter
 import com.tomclaw.appsend.screen.profile.adapter.uploads.UploadsItemBlueprint
 import com.tomclaw.appsend.screen.profile.adapter.uploads.UploadsItemPresenter
+import com.tomclaw.appsend.user.ModerationProvider
 import com.tomclaw.appsend.util.PerFragment
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
@@ -59,6 +62,7 @@ class ProfileModule(
     internal fun providePresenter(
         interactor: ProfileInteractor,
         converter: ProfileConverter,
+        moderationProvider: ModerationProvider,
         @Named(PROFILE_ADAPTER_PRESENTER) adapterPresenter: Lazy<AdapterPresenter>,
         schedulers: SchedulersFactory
     ): ProfilePresenter = ProfilePresenterImpl(
@@ -66,6 +70,7 @@ class ProfileModule(
         withToolbar,
         interactor,
         converter,
+        moderationProvider,
         adapterPresenter,
         schedulers,
         state
@@ -270,6 +275,19 @@ class ProfileModule(
     internal fun provideFeedItemPresenter(
         presenter: ProfilePresenter,
     ) = FeedItemPresenter(presenter)
+
+    @Provides
+    @IntoSet
+    @PerFragment
+    internal fun provideModerationItemBlueprint(
+        presenter: ModerationItemPresenter
+    ): ItemBlueprint<*, *> = ModerationItemBlueprint(presenter)
+
+    @Provides
+    @PerFragment
+    internal fun provideModerationItemPresenter(
+        presenter: ProfilePresenter,
+    ) = ModerationItemPresenter(presenter)
 
 }
 

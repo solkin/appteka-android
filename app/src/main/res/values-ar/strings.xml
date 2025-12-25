@@ -355,6 +355,15 @@
         <item quantity="many">التطبيق في المفضلة %d</item>
         <item quantity="other">التطبيق في المفضلة %d</item>
     </plurals>
+    <plurals name="moderation_apps_count">
+        <item quantity="zero">%d تطبيق في انتظار المراجعة</item>
+        <item quantity="one">%d تطبيق في انتظار المراجعة</item>
+        <item quantity="two">%d تطبيقان في انتظار المراجعة</item>
+        <item quantity="few">%d تطبيقات في انتظار المراجعة</item>
+        <item quantity="many">%d تطبيق في انتظار المراجعة</item>
+        <item quantity="other">%d تطبيق في انتظار المراجعة</item>
+    </plurals>
+    <string name="no_apps_on_moderation">لا توجد تطبيقات في انتظار المراجعة</string>
     <string name="show_all_ratings">عرض جميع التقييمات</string>
     <string name="reviews_activity">مراجعات المستخدم</string>
     <string name="no_user_activity_yet">لم يكن المستخدم نشطا بعد</string>

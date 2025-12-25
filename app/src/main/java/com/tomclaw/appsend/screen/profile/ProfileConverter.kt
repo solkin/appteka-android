@@ -2,11 +2,13 @@ package com.tomclaw.appsend.screen.profile
 
 import com.avito.konveyor.blueprint.Item
 import com.tomclaw.appsend.dto.AppEntity
+import com.tomclaw.appsend.screen.home.api.ModerationData
 import com.tomclaw.appsend.screen.profile.adapter.app.AppItem
 import com.tomclaw.appsend.screen.profile.adapter.downloads.DownloadsItem
 import com.tomclaw.appsend.screen.profile.adapter.favorites.FavoritesItem
 import com.tomclaw.appsend.screen.profile.adapter.feed.FeedItem
 import com.tomclaw.appsend.screen.profile.adapter.header.HeaderItem
+import com.tomclaw.appsend.screen.profile.adapter.moderation.ModerationItem
 import com.tomclaw.appsend.screen.profile.adapter.placeholder.PlaceholderItem
 import com.tomclaw.appsend.screen.profile.adapter.review.ReviewItem
 import com.tomclaw.appsend.screen.profile.adapter.reviews.ReviewsItem
@@ -22,6 +24,7 @@ interface ProfileConverter {
         profile: Profile,
         grantRoles: List<Int>?,
         uploads: List<AppEntity>?,
+        moderation: ModerationData?,
         isSelf: Boolean,
     ): List<Item>
 
@@ -39,6 +42,7 @@ class ProfileConverterImpl : ProfileConverter {
         profile: Profile,
         grantRoles: List<Int>?,
         uploads: List<AppEntity>?,
+        moderation: ModerationData?,
         isSelf: Boolean,
     ): List<Item> {
         val items = mutableListOf<Item>()
@@ -67,6 +71,15 @@ class ProfileConverterImpl : ProfileConverter {
                     pubsCount = profile.pubsCount,
                 )
             )
+        }
+        if (isSelf && moderation != null && moderation.moderator) {
+            items.add(
+                ModerationItem(
+                    id = id.incrementAndGet(),
+                    count = moderation.count,
+                )
+            )
+            isInactive = false
         }
         if (profile.filesCount > 0) {
             val appItems = convertApps(uploads)

@@ -331,6 +331,11 @@
         <item quantity="one">برنامه مورد علاقه %d</item>
         <item quantity="other">برنامه مورد علاقه %d</item>
     </plurals>
+    <plurals name="moderation_apps_count">
+        <item quantity="one">%d برنامه در انتظار بررسی</item>
+        <item quantity="other">%d برنامه در انتظار بررسی</item>
+    </plurals>
+    <string name="no_apps_on_moderation">هیچ برنامه‌ای در انتظار بررسی نیست</string>
     <string name="show_all_ratings">نمایش همه نظرات</string>
     <string name="reviews_activity">نظرات کاربران</string>
     <string name="no_user_activity_yet">کاربر هنوز آنلاین نیست</string>

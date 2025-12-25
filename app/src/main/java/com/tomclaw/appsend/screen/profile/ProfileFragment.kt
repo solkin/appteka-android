@@ -19,6 +19,7 @@ import com.tomclaw.appsend.screen.downloads.createDownloadsActivityIntent
 import com.tomclaw.appsend.screen.favorite.createFavoriteActivityIntent
 import com.tomclaw.appsend.screen.feed.createFeedActivityIntent
 import com.tomclaw.appsend.screen.home.HomeFragment
+import com.tomclaw.appsend.screen.moderation.createModerationActivityIntent
 import com.tomclaw.appsend.screen.profile.di.PROFILE_ADAPTER_PRESENTER
 import com.tomclaw.appsend.screen.profile.di.ProfileModule
 import com.tomclaw.appsend.screen.reviews.createReviewsActivityIntent
@@ -85,6 +86,11 @@ class ProfileFragment : Fragment(), ProfilePresenter.ProfileRouter, HomeFragment
     override fun onStart() {
         super.onStart()
         presenter.attachRouter(this)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        presenter.onResume()
     }
 
     override fun onStop() {
@@ -169,6 +175,12 @@ class ProfileFragment : Fragment(), ProfilePresenter.ProfileRouter, HomeFragment
     override fun openPublishersScreen(userId: Int) {
         val context = context ?: return
         val intent = createSubscriptionsActivityIntent(context, userId, activeTab = Tab.PUBLISHERS)
+        startActivity(intent)
+    }
+
+    override fun openModerationScreen() {
+        val context = context ?: return
+        val intent = createModerationActivityIntent(context)
         startActivity(intent)
     }
 

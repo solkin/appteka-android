@@ -5,6 +5,7 @@ import com.tomclaw.appsend.dto.AppEntity
 import com.tomclaw.appsend.screen.home.api.ModerationData
 import com.tomclaw.appsend.screen.home.api.StartupResponse
 import com.tomclaw.appsend.screen.home.api.StatusResponse
+import com.tomclaw.appsend.user.ModerationProvider
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.getParcelableCompat
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -40,8 +41,6 @@ interface HomePresenter {
 
         fun openSearchScreen()
 
-        fun openModerationScreen()
-
         fun openInstalledScreen()
 
         fun openDistroScreen()
@@ -69,6 +68,7 @@ interface HomePresenter {
 class HomePresenterImpl(
     startAction: String?,
     private val interactor: HomeInteractor,
+    private val moderationProvider: ModerationProvider,
     private val schedulers: SchedulersFactory,
     state: Bundle?
 ) : HomePresenter {
@@ -101,7 +101,6 @@ class HomePresenterImpl(
         subscriptions += view.updateClicks().subscribe { onUpdateClicks() }
         subscriptions += view.laterClicks().subscribe { onLaterClicks() }
         subscriptions += view.searchClicks().subscribe { router?.openSearchScreen() }
-        subscriptions += view.moderationClicks().subscribe { router?.openModerationScreen() }
         subscriptions += view.profileShareClicks().subscribe { onShareClicks() }
         subscriptions += view.installedClicks().subscribe { router?.openInstalledScreen() }
         subscriptions += view.distroClicks().subscribe { router?.openDistroScreen() }
@@ -110,10 +109,18 @@ class HomePresenterImpl(
         subscriptions += view.exitAppClicks().subscribe { router?.exitApp() }
         subscriptions += view.tabReselectClicks().subscribe { router?.onTabReselected() }
 
+        subscriptions += moderationProvider.observeModerationData()
+            .observeOn(schedulers.mainThread())
+            .subscribe { data ->
+                moderation = data
+                bindModeration()
+            }
+
         if (startupLoaded) {
             bindUnread()
             bindFeed()
             bindUpdate()
+            bindModeration()
             bindTab()
         } else {
             loadStartup()
@@ -134,7 +141,7 @@ class HomePresenterImpl(
         when (index) {
             INDEX_STORE -> {
                 router?.showStoreFragment()
-                view?.showStoreToolbar(canModerate())
+                view?.showStoreToolbar()
                 view?.hideFabButtons()
                 view?.showUploadButton()
             }
@@ -162,8 +169,6 @@ class HomePresenterImpl(
         }
     }
 
-    private fun canModerate(): Boolean = moderation?.moderator == true
-
     private fun loadStartup() {
         subscriptions += interactor.loadStartup()
             .observeOn(schedulers.mainThread())
@@ -189,9 +194,12 @@ class HomePresenterImpl(
         update = response.update
         moderation = response.moderation
 
+        moderationProvider.setModerationData(response.moderation)
+
         bindUnread()
         bindFeed()
         bindUpdate()
+        bindModeration()
         bindTab()
     }
 
@@ -221,6 +229,15 @@ class HomePresenterImpl(
             view?.showFeedBadge(count)
         } else {
             view?.hideFeedBadge()
+        }
+    }
+
+    private fun bindModeration() {
+        val moderationData = moderation
+        if (moderationData != null && moderationData.moderator && moderationData.count > 0) {
+            view?.showModerationBadge(moderationData.count)
+        } else {
+            view?.hideModerationBadge()
         }
     }
 

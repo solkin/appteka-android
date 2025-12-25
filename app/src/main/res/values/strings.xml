@@ -345,6 +345,13 @@
         <item quantity="many">%d apps in user favorite list</item>
         <item quantity="other">%d apps in user favorite list</item>
     </plurals>
+    <plurals name="moderation_apps_count">
+        <item quantity="one">%d app awaiting moderation</item>
+        <item quantity="few">%d apps awaiting moderation</item>
+        <item quantity="many">%d apps awaiting moderation</item>
+        <item quantity="other">%d apps awaiting moderation</item>
+    </plurals>
+    <string name="no_apps_on_moderation">No apps awaiting moderation</string>
     <string name="show_all_ratings">Show all ratings</string>
     <string name="reviews_activity">User reviews</string>
     <string name="no_user_activity_yet">There is no user activity yet</string>

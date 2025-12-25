@@ -325,6 +325,11 @@
         <item quantity="one">%d aplicativo na lista de favoritos do usuário</item>
         <item quantity="other">%d aplicativos na lista de favoritos do usuário</item>
     </plurals>
+    <plurals name="moderation_apps_count">
+        <item quantity="one">%d aplicativo aguardando moderação</item>
+        <item quantity="other">%d aplicativos aguardando moderação</item>
+    </plurals>
+    <string name="no_apps_on_moderation">Nenhum aplicativo aguardando moderação</string>
     <string name="show_all_ratings">Mostrar todas as avaliações</string>
     <string name="reviews_activity">Avaliações de usuários</string>
     <string name="no_user_activity_yet">Ainda não há atividade do usuário</string>

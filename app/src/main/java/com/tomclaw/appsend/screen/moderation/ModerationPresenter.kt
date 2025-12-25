@@ -7,6 +7,7 @@ import com.avito.konveyor.data_source.ListDataSource
 import com.tomclaw.appsend.dto.AppEntity
 import com.tomclaw.appsend.screen.moderation.adapter.ItemListener
 import com.tomclaw.appsend.screen.moderation.adapter.app.AppItem
+import com.tomclaw.appsend.user.ModerationProvider
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.getParcelableArrayListCompat
 import com.tomclaw.appsend.util.retryWhenNonAuthErrors
@@ -44,6 +45,7 @@ interface ModerationPresenter : ItemListener {
 
 class ModerationPresenterImpl(
     private val interactor: ModerationInteractor,
+    private val moderationProvider: ModerationProvider,
     private val adapterPresenter: Lazy<AdapterPresenter>,
     private val appConverter: AppConverter,
     private val schedulers: SchedulersFactory,
@@ -144,10 +146,12 @@ class ModerationPresenterImpl(
             }
 
             items.isNullOrEmpty() -> {
+                moderationProvider.updateModerationCount(0)
                 view?.showPlaceholder()
             }
 
             else -> {
+                moderationProvider.updateModerationCount(items.size)
                 val dataSource = ListDataSource(items)
                 adapterPresenter.get().onDataSourceChanged(dataSource)
                 view?.let {

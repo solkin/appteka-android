@@ -8,6 +8,7 @@ import com.tomclaw.appsend.dto.AppEntity
 import com.tomclaw.appsend.screen.profile.adapter.ItemListener
 import com.tomclaw.appsend.screen.profile.adapter.app.AppItem
 import com.tomclaw.appsend.screen.profile.api.ProfileResponse
+import com.tomclaw.appsend.user.ModerationProvider
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.filterUnauthorizedErrors
 import com.tomclaw.appsend.util.getParcelableArrayListCompat
@@ -32,6 +33,8 @@ interface ProfilePresenter : ItemListener {
 
     fun onAuthorized()
 
+    fun onResume()
+
     interface ProfileRouter {
 
         fun openUserFilesScreen(userId: Int)
@@ -54,6 +57,8 @@ interface ProfilePresenter : ItemListener {
 
         fun openPublishersScreen(userId: Int)
 
+        fun openModerationScreen()
+
         fun leaveScreen()
 
     }
@@ -65,6 +70,7 @@ class ProfilePresenterImpl(
     private val withToolbar: Boolean?,
     private val interactor: ProfileInteractor,
     private val converter: ProfileConverter,
+    private val moderationProvider: ModerationProvider,
     private val adapterPresenter: Lazy<AdapterPresenter>,
     private val schedulers: SchedulersFactory,
     state: Bundle?
@@ -137,6 +143,12 @@ class ProfilePresenterImpl(
         loadProfile()
     }
 
+    override fun onResume() {
+        if (profile != null) {
+            bindProfile()
+        }
+    }
+
     override fun onAppClick(appId: String, title: String?) {
         router?.openDetailsScreen(appId, title)
     }
@@ -158,6 +170,10 @@ class ProfilePresenterImpl(
 
     override fun onUploadsClick(userId: Int) {
         router?.openUserFilesScreen(userId)
+    }
+
+    override fun onModerationClick() {
+        router?.openModerationScreen()
     }
 
     override fun onLoginClick() {
@@ -308,6 +324,7 @@ class ProfilePresenterImpl(
             profile.profile,
             profile.grantRoles,
             uploads,
+            moderation = moderationProvider.getModerationData(),
             isSelf = userId == null,
         )
 

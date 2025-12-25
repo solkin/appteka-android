@@ -327,6 +327,11 @@
         <item quantity="one">%d ئەپ لە لیستی دڵخوازەکانی بەکارهێنەر</item>
         <item quantity="other">%d ئەپەکان لە لیستی دڵخوازەکانی بەکارهێنەر</item>
     </plurals>
+    <plurals name="moderation_apps_count">
+        <item quantity="one">%d ئەپ چاوەڕوانی پشکنین دەکات</item>
+        <item quantity="other">%d ئەپەکان چاوەڕوانی پشکنین دەکەن</item>
+    </plurals>
+    <string name="no_apps_on_moderation">هیچ ئەپێک بۆ پشکنین نییە</string>
     <string name="show_all_ratings">هەموو هەڵسەنگاندنەکان پیشان بدە</string>
     <string name="reviews_activity">پێداچوونەوەی بەکارهێنەران</string>
     <string name="no_user_activity_yet">هێشتا هیچ چالاکیەکی بەکارهێنەر نییە</string>

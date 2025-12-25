@@ -336,6 +336,13 @@
         <item quantity="many">%d приложений в избранном</item>
         <item quantity="other">%d приложений в избранном</item>
     </plurals>
+    <plurals name="moderation_apps_count">
+        <item quantity="one">%d приложение ожидает модерации</item>
+        <item quantity="few">%d приложения ожидают модерации</item>
+        <item quantity="many">%d приложений ожидают модерации</item>
+        <item quantity="other">%d приложений ожидают модерации</item>
+    </plurals>
+    <string name="no_apps_on_moderation">Нет приложений на модерации</string>
     <string name="show_all_ratings">Показать все отзывы</string>
     <string name="reviews_activity">Отзывы пользователя</string>
     <string name="no_user_activity_yet">Пользователь пока не проявил активность</string>

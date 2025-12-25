@@ -8,13 +8,6 @@
         app:iconTint="?android:textColorPrimary"
         app:showAsAction="ifRoom|collapseActionView" />
     <item
-        android:id="@+id/menu_moderation"
-        android:enabled="true"
-        android:icon="@drawable/ic_moderators"
-        android:title="@string/apps_on_moderation"
-        app:iconTint="?android:textColorPrimary"
-        app:showAsAction="ifRoom" />
-    <item
         android:id="@+id/menu_settings"
         android:title="@string/nav_settings" />
     <item

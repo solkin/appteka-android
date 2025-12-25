@@ -14,6 +14,8 @@ interface ItemListener {
 
     fun onUploadsClick(userId: Int)
 
+    fun onModerationClick()
+
     fun onLoginClick()
 
     fun onEditName(name: String?, nameRegex: String?)

@@ -315,6 +315,10 @@
     <plurals name="favorite_apps_count">
         <item quantity="other">用户最喜欢的列表中有 %d 个应用程序</item>
     </plurals>
+    <plurals name="moderation_apps_count">
+        <item quantity="other">%d 个应用等待审核</item>
+    </plurals>
+    <string name="no_apps_on_moderation">没有应用等待审核</string>
     <string name="show_all_ratings">显示所有评分</string>
     <string name="reviews_activity">用户评论</string>
     <string name="no_user_activity_yet">无用户活动</string>

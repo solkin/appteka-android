@@ -322,6 +322,11 @@
         <item quantity="one">पसंदीदा में %d ऐप</item>
         <item quantity="other">पसंदीदा में %d ऐप्स</item>
     </plurals>
+    <plurals name="moderation_apps_count">
+        <item quantity="one">%d ऐप मॉडरेशन की प्रतीक्षा में</item>
+        <item quantity="other">%d ऐप्स मॉडरेशन की प्रतीक्षा में</item>
+    </plurals>
+    <string name="no_apps_on_moderation">मॉडरेशन के लिए कोई ऐप नहीं</string>
     <string name="show_all_ratings">सभी समीक्षाएँ दिखाएँ</string>
     <string name="reviews_activity">उपयोगकर्ता समीक्षाएँ</string>
     <string name="no_user_activity_yet">उपयोगकर्ता अभी तक सक्रिय नहीं था</string>

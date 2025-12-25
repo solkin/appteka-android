@@ -315,6 +315,10 @@
     <plurals name="favorite_apps_count">
         <item quantity="other">%d ứng dụng trong mục yêu thích</item>
     </plurals>
+    <plurals name="moderation_apps_count">
+        <item quantity="other">%d ứng dụng đang chờ kiểm duyệt</item>
+    </plurals>
+    <string name="no_apps_on_moderation">Không có ứng dụng nào chờ kiểm duyệt</string>
     <string name="show_all_ratings">Hiển thị tất cả các đánh giá</string>
     <string name="reviews_activity">Đánh Giá Của Người Dùng</string>
     <string name="no_user_activity_yet">Người dùng chưa làm gì cả</string>
