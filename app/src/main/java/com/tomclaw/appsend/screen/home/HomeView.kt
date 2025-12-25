@@ -85,6 +85,8 @@ interface HomeView {
 
     fun exitAppClicks(): Observable<Unit>
 
+    fun storeReselectClicks(): Observable<Unit>
+
 }
 
 class HomeViewImpl(view: View) : HomeView {
@@ -115,6 +117,7 @@ class HomeViewImpl(view: View) : HomeView {
     private val settingsRelay = PublishRelay.create<Unit>()
     private val aboutRelay = PublishRelay.create<Unit>()
     private val exitAppRelay = PublishRelay.create<Unit>()
+    private val storeReselectRelay = PublishRelay.create<Unit>()
 
     init {
         toolbar.setOnMenuItemClickListener { item ->
@@ -138,6 +141,12 @@ class HomeViewImpl(view: View) : HomeView {
                 R.id.nav_profile -> profileRelay.accept(Unit)
             }
             true
+        }
+
+        bottomNavigation.setOnItemReselectedListener { item: MenuItem ->
+            when (item.itemId) {
+                R.id.nav_store -> storeReselectRelay.accept(Unit)
+            }
         }
 
         uploadButton.clicks(uploadRelay)
@@ -297,5 +306,7 @@ class HomeViewImpl(view: View) : HomeView {
     override fun aboutClicks(): Observable<Unit> = aboutRelay
 
     override fun exitAppClicks(): Observable<Unit> = exitAppRelay
+
+    override fun storeReselectClicks(): Observable<Unit> = storeReselectRelay
 
 }

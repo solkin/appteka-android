@@ -223,6 +223,11 @@ class HomeActivity : AppCompatActivity(), HomePresenter.HomeRouter {
         exitProcess(0)
     }
 
+    override fun invalidateStore() {
+        val fragment = supportFragmentManager.findFragmentById(R.id.frame) as? HomeFragment
+        fragment?.invalidateAndScrollToTop()
+    }
+
 }
 
 fun createHomeActivityIntent(

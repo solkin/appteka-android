@@ -60,6 +60,8 @@ interface HomePresenter {
 
         fun exitApp()
 
+        fun invalidateStore()
+
     }
 
 }
@@ -106,6 +108,7 @@ class HomePresenterImpl(
         subscriptions += view.settingsClicks().subscribe { router?.openSettingsScreen() }
         subscriptions += view.aboutClicks().subscribe { router?.openAboutScreen() }
         subscriptions += view.exitAppClicks().subscribe { router?.exitApp() }
+        subscriptions += view.storeReselectClicks().subscribe { router?.invalidateStore() }
 
         if (startupLoaded) {
             bindUnread()

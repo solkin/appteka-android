@@ -4,4 +4,5 @@ import android.content.Intent
 
 interface HomeFragment {
     fun handleEvent(data: Intent?)
+    fun invalidateAndScrollToTop() {}
 }

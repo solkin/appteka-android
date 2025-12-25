@@ -36,6 +36,8 @@ interface StorePresenter : ItemListener {
 
     fun invalidateApps()
 
+    fun scrollToTop()
+
     interface StoreRouter {
 
         fun openAppScreen(appId: String, title: String)
@@ -174,6 +176,10 @@ class StorePresenterImpl(
 
     override fun onUpdate() {
         view?.contentUpdated()
+    }
+
+    override fun scrollToTop() {
+        view?.scrollToTop()
     }
 
     override fun onItemClick(item: Item) {

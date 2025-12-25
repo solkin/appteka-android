@@ -97,6 +97,11 @@ class StoreFragment : Fragment(), StorePresenter.StoreRouter, HomeFragment {
         presenter.invalidateApps()
     }
 
+    override fun invalidateAndScrollToTop() {
+        presenter.scrollToTop()
+        presenter.invalidateApps()
+    }
+
 }
 
 fun createStoreFragment(): StoreFragment = StoreFragment()
