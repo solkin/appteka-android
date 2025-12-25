@@ -69,8 +69,10 @@ class StorePresenterImpl(
     private var category: CategoryItem? =
         state?.getParcelableCompat(KEY_CATEGORY_ID, CategoryItem::class.java)
 
-    private var dropdownItems: List<CategoryDropdownItem> = emptyList()
-    private var selectedPosition: Int = 0
+    private var dropdownItems: List<CategoryDropdownItem> =
+        state?.getParcelableArrayListCompat(KEY_DROPDOWN_ITEMS, CategoryDropdownItem::class.java)
+            ?: emptyList()
+    private var selectedPosition: Int = state?.getInt(KEY_SELECTED_POSITION) ?: 0
 
     override fun attachView(view: StoreView) {
         this.view = view
@@ -86,8 +88,19 @@ class StorePresenterImpl(
             onCategoryPositionSelected(position)
         }
 
-        // Load categories first, then load apps
-        loadCategories()
+        if (dropdownItems.isNotEmpty()) {
+            // Restore from saved state synchronously
+            view.showCategories(dropdownItems)
+            view.setSelectedCategory(dropdownItems[selectedPosition])
+            if (isError) {
+                onError()
+            } else {
+                items?.let { bindItems() } ?: loadApps()
+            }
+        } else {
+            // Load categories first, then load apps
+            loadCategories()
+        }
     }
 
     override fun detachView() {
@@ -107,6 +120,8 @@ class StorePresenterImpl(
         putParcelableArrayList(KEY_APPS, items?.let { ArrayList(items.orEmpty()) })
         putBoolean(KEY_ERROR, isError)
         putParcelable(KEY_CATEGORY_ID, category)
+        putParcelableArrayList(KEY_DROPDOWN_ITEMS, ArrayList(dropdownItems))
+        putInt(KEY_SELECTED_POSITION, selectedPosition)
     }
 
     override fun invalidateApps() {
@@ -252,3 +267,5 @@ class StorePresenterImpl(
 private const val KEY_APPS = "apps"
 private const val KEY_ERROR = "error"
 private const val KEY_CATEGORY_ID = "category"
+private const val KEY_DROPDOWN_ITEMS = "dropdown_items"
+private const val KEY_SELECTED_POSITION = "selected_position"

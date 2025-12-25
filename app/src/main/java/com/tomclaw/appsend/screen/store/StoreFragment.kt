@@ -15,6 +15,8 @@ import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.screen.home.HomeFragment
 import com.tomclaw.appsend.screen.store.di.StoreModule
 import com.tomclaw.appsend.util.Analytics
+import com.tomclaw.appsend.util.ZipParcelable
+import com.tomclaw.appsend.util.getParcelableCompat
 import javax.inject.Inject
 
 class StoreFragment : Fragment(), StorePresenter.StoreRouter, HomeFragment {
@@ -35,7 +37,9 @@ class StoreFragment : Fragment(), StorePresenter.StoreRouter, HomeFragment {
     lateinit var analytics: Analytics
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
+        val compressedPresenterState: ZipParcelable? =
+            savedInstanceState?.getParcelableCompat(KEY_PRESENTER_STATE, ZipParcelable::class.java)
+        val presenterState: Bundle? = compressedPresenterState?.restore()
         Appteka.getComponent()
             .storeComponent(StoreModule(requireContext(), presenterState))
             .inject(fragment = this)
@@ -79,7 +83,7 @@ class StoreFragment : Fragment(), StorePresenter.StoreRouter, HomeFragment {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putBundle(KEY_PRESENTER_STATE, presenter.saveState())
+        outState.putParcelable(KEY_PRESENTER_STATE, ZipParcelable(presenter.saveState()))
     }
 
     override fun openAppScreen(appId: String, title: String) {

@@ -1,6 +1,7 @@
 package com.tomclaw.appsend.screen.store
 
 import android.content.Context
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,13 +12,15 @@ import android.widget.TextView
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.categories.CategoryItem
 import com.tomclaw.appsend.util.svgToDrawable
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class CategoryDropdownItem(
     val id: Int,
     val title: String,
     val iconSvg: String?,
     val iconRes: Int
-)
+) : Parcelable
 
 class CategoryDropdownAdapter(
     context: Context,
