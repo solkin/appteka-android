@@ -9,6 +9,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.util.applyBottomInsets
+import com.tomclaw.appsend.util.applyBottomInsetsAsMargin
 import com.tomclaw.appsend.util.clicks
 import com.tomclaw.appsend.util.hide
 import com.tomclaw.appsend.util.show
@@ -140,6 +142,11 @@ class HomeViewImpl(view: View) : HomeView {
         postButton.clicks(postRelay)
         updateButton.clicks(updateRelay)
         laterButton.clicks(laterRelay)
+
+        // Apply edge-to-edge insets
+        bottomNavigation.applyBottomInsets()
+        uploadButton.applyBottomInsetsAsMargin()
+        postButton.applyBottomInsetsAsMargin()
     }
 
     override fun showStoreToolbar(canModerate: Boolean) {

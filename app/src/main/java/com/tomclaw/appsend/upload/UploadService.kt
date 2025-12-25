@@ -1,8 +1,10 @@
 package com.tomclaw.appsend.upload
 
+import android.app.Notification
 import android.app.Service
 import android.content.Context
 import android.content.Intent
+import android.content.pm.ServiceInfo
 import android.os.Binder
 import android.os.Build
 import android.os.IBinder
@@ -53,10 +55,10 @@ class UploadService : Service() {
                 apk = apk,
                 info = info,
                 start = { notificationId, notification ->
-                    startForeground(notificationId, notification)
+                    startForegroundCompat(notificationId, notification)
                 },
                 stop = {
-                    stopForeground()
+                    stopForegroundCompat()
                 },
                 observable = relay,
             )
@@ -66,8 +68,20 @@ class UploadService : Service() {
         return true
     }
 
+    private fun startForegroundCompat(notificationId: Int, notification: Notification) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+            startForeground(
+                notificationId,
+                notification,
+                ServiceInfo.FOREGROUND_SERVICE_TYPE_DATA_SYNC
+            )
+        } else {
+            startForeground(notificationId, notification)
+        }
+    }
+
     @Suppress("DEPRECATION")
-    private fun Service.stopForeground() {
+    private fun Service.stopForegroundCompat() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             stopForeground(STOP_FOREGROUND_REMOVE)
         } else {
@@ -77,7 +91,7 @@ class UploadService : Service() {
 
     override fun onDestroy() {
         println("[upload service] onDestroy")
-        stopForeground()
+        stopForegroundCompat()
     }
 
     override fun onBind(intent: Intent): IBinder {

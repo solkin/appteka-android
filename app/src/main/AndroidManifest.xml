@@ -10,6 +10,8 @@
         android:name="android.permission.REQUEST_DELETE_PACKAGES"
         tools:remove="android:maxSdkVersion" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission
         android:name="android.permission.QUERY_ALL_PACKAGES"
         tools:ignore="QueryAllPackagesPermission" />
@@ -22,7 +24,8 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:enableOnBackInvokedCallback="true">
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
@@ -141,9 +144,13 @@
         <activity android:name=".screen.unpublish.UnpublishActivity" />
         <activity android:name=".screen.uploads.UploadsActivity" />
 
-        <service android:name=".download.DownloadService" />
+        <service
+            android:name=".download.DownloadService"
+            android:foregroundServiceType="dataSync" />
 
-        <service android:name=".upload.UploadService" />
+        <service
+            android:name=".upload.UploadService"
+            android:foregroundServiceType="dataSync" />
 
         <provider
             android:name="androidx.startup.InitializationProvider"
