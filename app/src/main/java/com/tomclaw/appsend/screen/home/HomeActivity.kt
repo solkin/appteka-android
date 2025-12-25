@@ -39,6 +39,7 @@ class HomeActivity : AppCompatActivity(), HomePresenter.HomeRouter {
     lateinit var analytics: Analytics
 
     private val handler: Handler = Handler(Looper.getMainLooper())
+    private var pendingFragmentRunnable: Runnable? = null
 
     private val postLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -147,14 +148,18 @@ class HomeActivity : AppCompatActivity(), HomePresenter.HomeRouter {
     }
 
     private fun replaceFragment(fragment: Fragment, index: Int) {
-        val pendingRunnable = Runnable {
-            supportFragmentManager
-                .beginTransaction()
-                .setCustomAnimations(0, 0)
-                .replace(R.id.frame, fragment, "fragment$index")
-                .commit()
+        pendingFragmentRunnable?.let { handler.removeCallbacks(it) }
+        val runnable = Runnable {
+            if (!isFinishing && !supportFragmentManager.isStateSaved) {
+                supportFragmentManager
+                    .beginTransaction()
+                    .setCustomAnimations(0, 0)
+                    .replace(R.id.frame, fragment, "fragment$index")
+                    .commitAllowingStateLoss()
+            }
         }
-        handler.post(pendingRunnable)
+        pendingFragmentRunnable = runnable
+        handler.post(runnable)
     }
 
     override fun onStart() {
@@ -163,6 +168,8 @@ class HomeActivity : AppCompatActivity(), HomePresenter.HomeRouter {
     }
 
     override fun onStop() {
+        pendingFragmentRunnable?.let { handler.removeCallbacks(it) }
+        pendingFragmentRunnable = null
         presenter.detachRouter()
         super.onStop()
     }
