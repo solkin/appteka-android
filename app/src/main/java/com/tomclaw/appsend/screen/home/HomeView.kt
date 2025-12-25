@@ -85,7 +85,7 @@ interface HomeView {
 
     fun exitAppClicks(): Observable<Unit>
 
-    fun storeReselectClicks(): Observable<Unit>
+    fun tabReselectClicks(): Observable<Unit>
 
 }
 
@@ -117,7 +117,7 @@ class HomeViewImpl(view: View) : HomeView {
     private val settingsRelay = PublishRelay.create<Unit>()
     private val aboutRelay = PublishRelay.create<Unit>()
     private val exitAppRelay = PublishRelay.create<Unit>()
-    private val storeReselectRelay = PublishRelay.create<Unit>()
+    private val tabReselectRelay = PublishRelay.create<Unit>()
 
     init {
         toolbar.setOnMenuItemClickListener { item ->
@@ -143,11 +143,7 @@ class HomeViewImpl(view: View) : HomeView {
             true
         }
 
-        bottomNavigation.setOnItemReselectedListener { item: MenuItem ->
-            when (item.itemId) {
-                R.id.nav_store -> storeReselectRelay.accept(Unit)
-            }
-        }
+        bottomNavigation.setOnItemReselectedListener { tabReselectRelay.accept(Unit) }
 
         uploadButton.clicks(uploadRelay)
         postButton.clicks(postRelay)
@@ -307,6 +303,6 @@ class HomeViewImpl(view: View) : HomeView {
 
     override fun exitAppClicks(): Observable<Unit> = exitAppRelay
 
-    override fun storeReselectClicks(): Observable<Unit> = storeReselectRelay
+    override fun tabReselectClicks(): Observable<Unit> = tabReselectRelay
 
 }

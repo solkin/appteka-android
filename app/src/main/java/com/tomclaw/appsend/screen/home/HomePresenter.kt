@@ -60,7 +60,7 @@ interface HomePresenter {
 
         fun exitApp()
 
-        fun invalidateStore()
+        fun onTabReselected()
 
     }
 
@@ -108,7 +108,7 @@ class HomePresenterImpl(
         subscriptions += view.settingsClicks().subscribe { router?.openSettingsScreen() }
         subscriptions += view.aboutClicks().subscribe { router?.openAboutScreen() }
         subscriptions += view.exitAppClicks().subscribe { router?.exitApp() }
-        subscriptions += view.storeReselectClicks().subscribe { router?.invalidateStore() }
+        subscriptions += view.tabReselectClicks().subscribe { router?.onTabReselected() }
 
         if (startupLoaded) {
             bindUnread()

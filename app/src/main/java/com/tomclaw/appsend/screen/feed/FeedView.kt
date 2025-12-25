@@ -44,6 +44,8 @@ interface FeedView {
 
     fun scrollTo(position: Int)
 
+    fun scrollToBottom()
+
     fun showPlaceholder()
 
     fun showError()
@@ -151,6 +153,13 @@ class FeedViewImpl(
 
     override fun scrollTo(position: Int) {
         recycler.scrollToPosition(position)
+    }
+
+    override fun scrollToBottom() {
+        val itemCount = adapter.itemCount
+        if (itemCount > 0) {
+            recycler.scrollToPosition(itemCount - 1)
+        }
     }
 
     override fun showPostMenu(actions: List<MenuAction>) {

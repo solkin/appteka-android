@@ -154,6 +154,10 @@ class FeedFragment : Fragment(), FeedPresenter.FeedRouter, HomeFragment {
         presenter.invalidate(postId?.takeIf { it != 0 })
     }
 
+    override fun onReselect() {
+        presenter.scrollToBottom()
+    }
+
 }
 
 fun createFeedFragment(): FeedFragment = FeedFragment()

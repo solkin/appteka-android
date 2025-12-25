@@ -97,7 +97,7 @@ class StoreFragment : Fragment(), StorePresenter.StoreRouter, HomeFragment {
         presenter.invalidateApps()
     }
 
-    override fun invalidateAndScrollToTop() {
+    override fun onReselect() {
         presenter.scrollToTop()
         presenter.invalidateApps()
     }

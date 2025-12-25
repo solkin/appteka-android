@@ -38,6 +38,8 @@ interface FeedPresenter : ItemListener {
 
     fun invalidate(offsetId: Int? = null)
 
+    fun scrollToBottom()
+
     interface FeedRouter {
 
         fun openProfileScreen(userId: Int)
@@ -290,6 +292,10 @@ class FeedPresenterImpl(
 
     override fun onUpdate() {
         view?.contentUpdated()
+    }
+
+    override fun scrollToBottom() {
+        view?.scrollToBottom()
     }
 
     override fun onItemClick(item: Item) {
