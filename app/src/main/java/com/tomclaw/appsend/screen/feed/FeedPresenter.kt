@@ -296,6 +296,9 @@ class FeedPresenterImpl(
 
     override fun scrollToBottom() {
         view?.scrollToBottom()
+        items?.lastOrNull()?.let { lastItem ->
+            onFeedRead(postId = lastItem.id.toInt())
+        }
     }
 
     override fun onItemClick(item: Item) {
