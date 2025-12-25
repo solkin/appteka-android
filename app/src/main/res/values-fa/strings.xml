@@ -108,7 +108,15 @@
     <string name="update_description">آخرین نسخه فروشگاه Appteka را به صورت رایگان دانلود کنید</string>
     <string name="later">بعدا</string>
     <string name="telegram_group">گروه تلگرام</string>
-    <string name="forum_4pda">انجمن 4pda</string>
+    <string name="telegram_subtitle">به جامعه ما بپیوندید</string>
+    <string name="source_code">کد منبع</string>
+    <string name="source_code_subtitle">مشاهده در GitHub</string>
+    <string name="contributors_subtitle">با تیم آشنا شوید</string>
+    <string name="feedback_subtitle">support@appteka.store</string>
+    <string name="legal_subtitle">سیاست حفظ حریم خصوصی و شرایط</string>
+    <string name="links">لینک‌ها</string>
+    <string name="support">پشتیبانی</string>
+    <string name="legal">حقوقی</string>
     <string name="get_started">شروع کنید</string>
     <string name="discuss_intro_text">گفتگو درباره برنامه مورد نظر خود را پیدا کنید
 نظرات خود را درباره بازی های جدید با دیگران به اشتراک بگذارید
@@ -339,6 +347,7 @@
     <string name="reviews_activity">نظرات کاربران</string>
     <string name="no_user_activity_yet">کاربر هنوز آنلاین نیست</string>
     <string name="legal_info">اطلاعات حقوقی</string>
+    <string name="contributors">مشارکت‌کنندگان</string>
     <string name="translate">ترجمه کردن</string>
     <string name="original">اصلی</string>
     <string name="wait">صبر کن…</string>

@@ -109,7 +109,15 @@
     <string name="update_description">قم بتنزيل أحدث إصدار من Appteka مجانًا!</string>
     <string name="later">لاحقاً</string>
     <string name="telegram_group">مجموعة تليجرام</string>
-    <string name="forum_4pda">ناقش على 4pda</string>
+    <string name="telegram_subtitle">انضم إلى مجتمعنا</string>
+    <string name="source_code">كود المصدر</string>
+    <string name="source_code_subtitle">عرض على GitHub</string>
+    <string name="contributors_subtitle">تعرف على الفريق</string>
+    <string name="feedback_subtitle">support@appteka.store</string>
+    <string name="legal_subtitle">سياسة الخصوصية والشروط</string>
+    <string name="links">روابط</string>
+    <string name="support">الدعم</string>
+    <string name="legal">قانوني</string>
     <string name="get_started">البدء</string>
     <string name="discuss_intro_text">ابحث عن البرنامج وناقشه?\nمشاركة انطباعات اللعبة الجديدة?\nيتم إنشاء المناقشات لهذا الغرض!</string>
     <string name="tab_discuss">مناقشات</string>
@@ -363,6 +371,7 @@
     <string name="reviews_activity">مراجعات المستخدم</string>
     <string name="no_user_activity_yet">لم يكن المستخدم نشطا بعد</string>
     <string name="legal_info">معلومات قانونية</string>
+    <string name="contributors">المساهمون</string>
     <string name="translate">يترجم</string>
     <string name="original">إبداعي</string>
     <string name="wait">انتظر…</string>

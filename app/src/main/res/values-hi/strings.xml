@@ -105,7 +105,15 @@
     <string name="update_description">एपटेका के नवीनतम संस्करण में अपग्रेड करें!</string>
     <string name="later">बाद में</string>
     <string name="telegram_group">टेलीग्राम समूह</string>
-    <string name="forum_4pda"> फोरम पर चर्चा करें 4pda.to</string>
+    <string name="telegram_subtitle">हमारे समुदाय में शामिल हों</string>
+    <string name="source_code">सोर्स कोड</string>
+    <string name="source_code_subtitle">GitHub पर देखें</string>
+    <string name="contributors_subtitle">टीम से मिलें</string>
+    <string name="feedback_subtitle">support@appteka.store</string>
+    <string name="legal_subtitle">गोपनीयता नीति और शर्तें</string>
+    <string name="links">लिंक</string>
+    <string name="support">सहायता</string>
+    <string name="legal">कानूनी</string>
     <string name="get_started">शुरू</string>
     <string name="discuss_intro_text">कार्यक्रम खोजें और चर्चा करें?\nनए गेम के बारे में अपने विचार साझा करें?\nइसके लिए चर्चाएं बनाई गई हैं!</string>
     <string name="tab_discuss">विचार विमर्श</string>
@@ -330,6 +338,7 @@
     <string name="reviews_activity">उपयोगकर्ता समीक्षाएँ</string>
     <string name="no_user_activity_yet">उपयोगकर्ता अभी तक सक्रिय नहीं था</string>
     <string name="legal_info">कानूनी जानकारी</string>
+    <string name="contributors">योगदानकर्ता</string>
     <string name="translate">अनुवाद</string>
     <string name="original">मूल</string>
     <string name="wait">इंतज़ार…</string>

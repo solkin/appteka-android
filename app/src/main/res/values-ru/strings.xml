@@ -106,7 +106,15 @@
     <string name="update_description">Обновитесь до самой свежей версии Appteka!</string>
     <string name="later">Позже</string>
     <string name="telegram_group">Группа в Telegram</string>
-    <string name="forum_4pda">Обсудить на 4pda</string>
+    <string name="telegram_subtitle">Присоединяйтесь к сообществу</string>
+    <string name="source_code">Исходный код</string>
+    <string name="source_code_subtitle">Открыть на GitHub</string>
+    <string name="contributors_subtitle">Познакомьтесь с командой</string>
+    <string name="feedback_subtitle">support@appteka.store</string>
+    <string name="legal_subtitle">Политика конфиденциальности и условия</string>
+    <string name="links">Ссылки</string>
+    <string name="support">Поддержка</string>
+    <string name="legal">Юридическая информация</string>
     <string name="get_started">Начать</string>
     <string name="discuss_intro_text">Найти, обсудить программу?\nПоделиться впечатлениями от новой игры?\nОбсуждения созданы для этого!</string>
     <string name="tab_discuss">Обсуждения</string>
@@ -345,6 +353,7 @@
     <string name="reviews_activity">Отзывы пользователя</string>
     <string name="no_user_activity_yet">Пользователь пока не проявил активность</string>
     <string name="legal_info">Правовая информация</string>
+    <string name="contributors">Контрибьюторы</string>
     <string name="translate">Перевести</string>
     <string name="original">Оригинал</string>
     <string name="wait">Подождите…</string>

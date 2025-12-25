@@ -111,7 +111,15 @@
     <string name="update_description">Download the latest version of Appteka for free!</string>
     <string name="later">Later</string>
     <string name="telegram_group">Telegram group</string>
-    <string name="forum_4pda">Discuss on 4pda</string>
+    <string name="telegram_subtitle">Join our community</string>
+    <string name="source_code">Source code</string>
+    <string name="source_code_subtitle">View on GitHub</string>
+    <string name="contributors_subtitle">Meet the team</string>
+    <string name="feedback_subtitle">support@appteka.store</string>
+    <string name="legal_subtitle">Privacy policy and terms</string>
+    <string name="links">Links</string>
+    <string name="support">Support</string>
+    <string name="legal">Legal</string>
     <string name="get_started">Get Started</string>
     <string name="discuss_intro_text">Find, discuss the program?\nShare the impressions of the new game?\nDiscussions are created for this!</string>
     <string name="tab_discuss">Discussions</string>
@@ -354,6 +362,7 @@
     <string name="reviews_activity">User reviews</string>
     <string name="no_user_activity_yet">There is no user activity yet</string>
     <string name="legal_info">Legal Info</string>
+    <string name="contributors">Contributors</string>
     <string name="translate">Translate</string>
     <string name="original">Original</string>
     <string name="wait">Wait…</string>

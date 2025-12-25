@@ -24,11 +24,13 @@ interface AboutPresenter {
 
         fun openFeedbackEmail(addr: String, subject: String, text: String)
 
-        fun openForumDiscussLink()
+        fun openSourceCodeLink()
 
         fun openTelegramGroupLink()
 
         fun openLegalInfoLink()
+
+        fun openContributorLink(url: String)
 
         fun leaveScreen()
     }
@@ -60,9 +62,15 @@ class AboutPresenterImpl(
                 text = ""
             )
         }
-        subscriptions += view.forumDiscussClicks().subscribe { router?.openForumDiscussLink() }
+        subscriptions += view.sourceCodeClicks().subscribe { router?.openSourceCodeLink() }
         subscriptions += view.telegramGroupClicks().subscribe { router?.openTelegramGroupLink() }
         subscriptions += view.legalInfoClicks().subscribe { router?.openLegalInfoLink() }
+        subscriptions += view.contributorsClicks().subscribe {
+            view.showContributorsDialog(resourceProvider.getContributors())
+        }
+        subscriptions += view.contributorClicks().subscribe { contributor ->
+            router?.openContributorLink(contributor.url)
+        }
     }
 
     private fun bindData() {
@@ -70,6 +78,7 @@ class AboutPresenterImpl(
     }
 
     override fun detachView() {
+        subscriptions.clear()
         this.view = null
     }
 

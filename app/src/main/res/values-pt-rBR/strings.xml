@@ -107,7 +107,15 @@
     <string name="update_description">Baixe a versão mais recente do Appteka gratuitamente!</string>
     <string name="later">Mais tarde</string>
     <string name="telegram_group">Grupo do Telegram</string>
-    <string name="forum_4pda">Discuta sobre 4pda</string>
+    <string name="telegram_subtitle">Junte-se à nossa comunidade</string>
+    <string name="source_code">Código-fonte</string>
+    <string name="source_code_subtitle">Ver no GitHub</string>
+    <string name="contributors_subtitle">Conheça a equipe</string>
+    <string name="feedback_subtitle">support@appteka.store</string>
+    <string name="legal_subtitle">Política de privacidade e termos</string>
+    <string name="links">Links</string>
+    <string name="support">Suporte</string>
+    <string name="legal">Jurídico</string>
     <string name="get_started">Comece</string>
     <string name="discuss_intro_text">Encontrar, discutir o programa?\nCompartilhar as impressões do novo jogo?\nDiscussões são criadas para isso!</string>
     <string name="tab_discuss">Discussões</string>
@@ -333,6 +341,7 @@
     <string name="reviews_activity">Avaliações de usuários</string>
     <string name="no_user_activity_yet">Ainda não há atividade do usuário</string>
     <string name="legal_info">Informações legais</string>
+    <string name="contributors">Colaboradores</string>
     <string name="translate">Traduzir</string>
     <string name="original">Original</string>
     <string name="wait">Espere…</string>

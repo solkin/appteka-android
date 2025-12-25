@@ -105,7 +105,15 @@
     <string name="update_description">更新到Appteka最新版本!</string>
     <string name="later">之后</string>
     <string name="telegram_group">Telegram群组</string>
-    <string name="forum_4pda">4pda 讨论串</string>
+    <string name="telegram_subtitle">加入我们的社区</string>
+    <string name="source_code">源代码</string>
+    <string name="source_code_subtitle">在 GitHub 上查看</string>
+    <string name="contributors_subtitle">认识团队</string>
+    <string name="feedback_subtitle">support@appteka.store</string>
+    <string name="legal_subtitle">隐私政策和条款</string>
+    <string name="links">链接</string>
+    <string name="support">支持</string>
+    <string name="legal">法律信息</string>
     <string name="get_started">开始</string>
     <string name="discuss_intro_text">查找并讨论该程序？\n分享您对新游戏的印象？\n为此创建讨论！</string>
     <string name="tab_discuss">讨论</string>
@@ -323,6 +331,7 @@
     <string name="reviews_activity">用户评论</string>
     <string name="no_user_activity_yet">无用户活动</string>
     <string name="legal_info">法律信息</string>
+    <string name="contributors">贡献者</string>
     <string name="translate">翻译</string>
     <string name="original">恢复原文</string>
     <string name="wait">稍等一会…</string>

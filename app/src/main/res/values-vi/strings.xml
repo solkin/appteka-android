@@ -105,7 +105,15 @@
     <string name="update_description">Nâng cấp appteka lên phiên bản mới nhất!</string>
     <string name="later">Sau</string>
     <string name="telegram_group">Nhóm ở Telegram</string>
-    <string name="forum_4pda">Thảo luận ở 4pda</string>
+    <string name="telegram_subtitle">Tham gia cộng đồng của chúng tôi</string>
+    <string name="source_code">Mã nguồn</string>
+    <string name="source_code_subtitle">Xem trên GitHub</string>
+    <string name="contributors_subtitle">Gặp gỡ đội ngũ</string>
+    <string name="feedback_subtitle">support@appteka.store</string>
+    <string name="legal_subtitle">Chính sách bảo mật và điều khoản</string>
+    <string name="links">Liên kết</string>
+    <string name="support">Hỗ trợ</string>
+    <string name="legal">Pháp lý</string>
     <string name="get_started">Bắt đầu</string>
     <string name="discuss_intro_text">Tìm và thảo luận về chương trình?\nChia sẻ cảm xúc về chò chơi mới,\nthảo luận về quá trình thực hiện tạo ra chò chơi này</string>
     <string name="tab_discuss">Bàn luận</string>
@@ -323,6 +331,7 @@
     <string name="reviews_activity">Đánh Giá Của Người Dùng</string>
     <string name="no_user_activity_yet">Người dùng chưa làm gì cả</string>
     <string name="legal_info">Thông tin pháp lý</string>
+    <string name="contributors">Cộng tác viên</string>
     <string name="translate">Dịch</string>
     <string name="original">Nguyên bản</string>
     <string name="wait">Chờ đợi…</string>

@@ -109,7 +109,15 @@
     <string name="update_description">نوێترین وەشانی Appteka بە خۆڕایی دابەزێنە!</string>
     <string name="later">دواتر</string>
     <string name="telegram_group">گروپی تێلێگرام</string>
-    <string name="forum_4pda">لە 4pda گفتوگۆ بکەن</string>
+    <string name="telegram_subtitle">بەشداربە لە کۆمەڵگەکەمان</string>
+    <string name="source_code">کۆدی سەرچاوە</string>
+    <string name="source_code_subtitle">لە GitHub ببینە</string>
+    <string name="contributors_subtitle">تیمەکە بناسە</string>
+    <string name="feedback_subtitle">support@appteka.store</string>
+    <string name="legal_subtitle">سیاسەتی تایبەتمەندی و مەرجەکان</string>
+    <string name="links">لینکەکان</string>
+    <string name="support">پشتگیری</string>
+    <string name="legal">یاسایی</string>
     <string name="get_started">دەست پێبکە</string>
     <string name="discuss_intro_text">بدۆزەرەوە، گفتوگۆ لەسەر بەرنامەکە بکە؟\nسەرنجەکانی یارییە نوێیەکە هاوبەش بکە؟\nباسەکان بۆ ئەمە دروست دەکرێن!</string>
     <string name="tab_discuss">گفتوگۆکان</string>
@@ -335,6 +343,7 @@
     <string name="reviews_activity">پێداچوونەوەی بەکارهێنەران</string>
     <string name="no_user_activity_yet">هێشتا هیچ چالاکیەکی بەکارهێنەر نییە</string>
     <string name="legal_info">زانیاری یاسایی</string>
+    <string name="contributors">بەشداربووان</string>
     <string name="translate">وەرگێڕان</string>
     <string name="original">ڕەسەن</string>
     <string name="wait">صبر کن…</string>
