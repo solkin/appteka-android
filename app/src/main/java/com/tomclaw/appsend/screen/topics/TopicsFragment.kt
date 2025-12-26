@@ -17,6 +17,8 @@ import com.tomclaw.appsend.screen.chat.createChatActivityIntent
 import com.tomclaw.appsend.screen.home.HomeFragment
 import com.tomclaw.appsend.screen.topics.di.TopicsModule
 import com.tomclaw.appsend.util.Analytics
+import com.tomclaw.appsend.util.ZipParcelable
+import com.tomclaw.appsend.util.getParcelableCompat
 import javax.inject.Inject
 
 class TopicsFragment : Fragment(), TopicsPresenter.TopicsRouter, HomeFragment {
@@ -37,7 +39,9 @@ class TopicsFragment : Fragment(), TopicsPresenter.TopicsRouter, HomeFragment {
     lateinit var analytics: Analytics
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
+        val compressedPresenterState: ZipParcelable? =
+            savedInstanceState?.getParcelableCompat(KEY_PRESENTER_STATE, ZipParcelable::class.java)
+        val presenterState: Bundle? = compressedPresenterState?.restore()
         Appteka.getComponent()
             .topicsComponent(TopicsModule(requireContext(), presenterState))
             .inject(fragment = this)
@@ -81,7 +85,7 @@ class TopicsFragment : Fragment(), TopicsPresenter.TopicsRouter, HomeFragment {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putBundle(KEY_PRESENTER_STATE, presenter.saveState())
+        outState.putParcelable(KEY_PRESENTER_STATE, ZipParcelable(presenter.saveState()))
     }
 
     override fun showChatScreen(entity: TopicEntity) {

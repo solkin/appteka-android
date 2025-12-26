@@ -15,6 +15,8 @@ import com.tomclaw.appsend.screen.chat.di.ChatModule
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.screen.profile.createProfileActivityIntent
 import com.tomclaw.appsend.util.Analytics
+import com.tomclaw.appsend.util.ZipParcelable
+import com.tomclaw.appsend.util.getParcelableCompat
 import com.tomclaw.appsend.util.updateTheme
 import javax.inject.Inject
 
@@ -42,7 +44,9 @@ class ChatActivity : AppCompatActivity(), ChatPresenter.ChatRouter {
         val topicId = intent.getIntExtra(EXTRA_TOPIC_ID, 0).takeIf { it != 0 }
             ?: topicEntity?.topicId ?: throw IllegalArgumentException("Topic ID must be provided")
 
-        val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
+        val compressedPresenterState: ZipParcelable? =
+            savedInstanceState?.getParcelableCompat(KEY_PRESENTER_STATE, ZipParcelable::class.java)
+        val presenterState: Bundle? = compressedPresenterState?.restore()
         Appteka.getComponent()
             .chatComponent(ChatModule(this, topicEntity, topicId, presenterState))
             .inject(activity = this)
@@ -79,7 +83,7 @@ class ChatActivity : AppCompatActivity(), ChatPresenter.ChatRouter {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putBundle(KEY_PRESENTER_STATE, presenter.saveState())
+        outState.putParcelable(KEY_PRESENTER_STATE, ZipParcelable(presenter.saveState()))
     }
 
     override fun openProfileScreen(userId: Int) {
