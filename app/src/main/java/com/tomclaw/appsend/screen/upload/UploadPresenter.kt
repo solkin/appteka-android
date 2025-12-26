@@ -93,6 +93,7 @@ class UploadPresenterImpl(
     private val categoriesInteractor: CategoriesInteractor,
     private val categoryConverter: CategoryConverter,
     private val uploadConverter: UploadConverter,
+    private val descriptionValidator: DescriptionValidator,
     private val adapterPresenter: Lazy<AdapterPresenter>,
     private val uploadManager: UploadManager,
     private val packageInfoProvider: PackageInfoProvider,
@@ -481,6 +482,7 @@ class UploadPresenterImpl(
         val category = category ?: return false
         val checkExist = checkExist ?: return false
         description.ifBlank { null } ?: return false
+        if (!descriptionValidator.isValid(description)) return false
 
         val info = UploadInfo(
             checkExist,

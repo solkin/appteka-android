@@ -43,7 +43,8 @@ interface UploadConverter {
 }
 
 class UploadConverterImpl(
-    private val resourceProvider: UploadResourceProvider
+    private val resourceProvider: UploadResourceProvider,
+    private val descriptionValidator: DescriptionValidator
 ) : UploadConverter {
 
     override fun convert(
@@ -124,10 +125,13 @@ class UploadConverterImpl(
                 errorRequiredField = highlightErrors && category == null
             )
             items += WhatsNewItem(id++, text = whatsNew)
+            val descriptionBlank = description.isBlank()
+            val descriptionTooShort = !descriptionBlank && !descriptionValidator.isValid(description)
             items += DescriptionItem(
                 id++,
                 text = description,
-                errorRequiredField = highlightErrors && description.isBlank()
+                errorRequiredField = highlightErrors && descriptionBlank,
+                errorMinLength = highlightErrors && descriptionTooShort
             )
             items += ExclusiveItem(id++, value = exclusive)
             items += OpenSourceItem(id++, value = openSource, url = sourceUrl)

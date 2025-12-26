@@ -287,6 +287,7 @@
     <string name="security_info_tools">Scanned with: ClamAV, APKiD, Quark-Engine</string>
     <string name="open_source_short">Open Source</string>
     <string name="required_field">Required field</string>
+    <string name="description_min_length_error">Description must be at least %d characters</string>
     <string name="category_not_set">Category not set</string>
     <string name="mark_favorite">Mark as favorite</string>
     <string name="unmark_favorite">Remove from favorite</string>

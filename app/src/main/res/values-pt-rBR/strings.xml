@@ -276,6 +276,7 @@
     <string name="security_info_tools">Verificado com: ClamAV, APKiD, Quark-Engine</string>
     <string name="open_source_short">Código aberto</string>
     <string name="required_field">Campo obrigatório</string>
+    <string name="description_min_length_error">A descrição deve ter pelo menos %d caracteres</string>
     <string name="category_not_set">Categoria não definida</string>
     <string name="mark_favorite">Marcar como favorito</string>
     <string name="unmark_favorite">Remover dos favoritos</string>

@@ -270,6 +270,7 @@
     <string name="security_info_tools">扫描工具: ClamAV, APKiD, Quark-Engine</string>
     <string name="open_source_short">开源</string>
     <string name="required_field">必填字段</string>
+    <string name="description_min_length_error">描述至少需要 %d 个字符</string>
     <string name="category_not_set">未指定类别</string>
     <string name="mark_favorite">添加到收藏夹</string>
     <string name="unmark_favorite">从收藏夹中删除</string>

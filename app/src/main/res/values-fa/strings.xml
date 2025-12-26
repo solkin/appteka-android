@@ -282,6 +282,7 @@
     <string name="security_info_tools">اسکن شده با: ClamAV, APKiD, Quark-Engine</string>
     <string name="open_source_short">متن باز</string>
     <string name="required_field">جایگاه لازم</string>
+    <string name="description_min_length_error">توضیحات باید حداقل %d کاراکتر باشد</string>
     <string name="category_not_set">دسته بندی نشده</string>
     <string name="mark_favorite">علامت گذاری به عنوان مورد دلخواه</string>
     <string name="unmark_favorite">حذف از موارد دلخواه</string>

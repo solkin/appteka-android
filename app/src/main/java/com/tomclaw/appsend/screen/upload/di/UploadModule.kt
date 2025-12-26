@@ -13,6 +13,8 @@ import com.tomclaw.appsend.core.PackageInfoProvider
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.core.StreamsProvider
 import com.tomclaw.appsend.di.APPS_DIR
+import com.tomclaw.appsend.screen.upload.DescriptionValidator
+import com.tomclaw.appsend.screen.upload.DescriptionValidatorImpl
 import com.tomclaw.appsend.screen.upload.UploadConverter
 import com.tomclaw.appsend.screen.upload.UploadConverterImpl
 import com.tomclaw.appsend.screen.upload.UploadInteractor
@@ -81,6 +83,7 @@ class UploadModule(
         categoriesInteractor: CategoriesInteractor,
         categoryConverter: CategoryConverter,
         uploadConverter: UploadConverter,
+        descriptionValidator: DescriptionValidator,
         @Named(UPLOAD_ADAPTER_PRESENTER) adapterPresenter: Lazy<AdapterPresenter>,
         uploadManager: UploadManager,
         packageInfoProvider: PackageInfoProvider,
@@ -94,6 +97,7 @@ class UploadModule(
         categoriesInteractor,
         categoryConverter,
         uploadConverter,
+        descriptionValidator,
         adapterPresenter,
         uploadManager,
         packageInfoProvider,
@@ -133,10 +137,17 @@ class UploadModule(
 
     @Provides
     @PerActivity
+    internal fun provideDescriptionValidator(): DescriptionValidator {
+        return DescriptionValidatorImpl()
+    }
+
+    @Provides
+    @PerActivity
     internal fun provideUploadConverterProvider(
-        resourceProvider: UploadResourceProvider
+        resourceProvider: UploadResourceProvider,
+        descriptionValidator: DescriptionValidator
     ): UploadConverter {
-        return UploadConverterImpl(resourceProvider)
+        return UploadConverterImpl(resourceProvider, descriptionValidator)
     }
 
     @Provides

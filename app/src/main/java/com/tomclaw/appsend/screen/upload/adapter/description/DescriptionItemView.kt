@@ -14,7 +14,9 @@ interface DescriptionItemView : ItemView {
 
     fun showRequiredFieldError()
 
-    fun hideRequiredFieldError()
+    fun showMinLengthError(minLength: Int)
+
+    fun hideError()
 
     fun setOnTextChangedListener(listener: ((String) -> Unit)?)
 
@@ -49,7 +51,11 @@ class DescriptionItemViewHolder(view: View) : BaseViewHolder(view), DescriptionI
         descriptionEdit.error = resources.getString(R.string.required_field)
     }
 
-    override fun hideRequiredFieldError() {
+    override fun showMinLengthError(minLength: Int) {
+        descriptionEdit.error = resources.getString(R.string.description_min_length_error, minLength)
+    }
+
+    override fun hideError() {
         descriptionEdit.error = null
     }
 

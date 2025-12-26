@@ -278,6 +278,7 @@
     <string name="security_info_tools">سکان کراوە بە: ClamAV, APKiD, Quark-Engine</string>
     <string name="open_source_short">سەرچاوەی كراوە</string>
     <string name="required_field">مەیدانی پێویست</string>
+    <string name="description_min_length_error">پێویستە وەسف لانیکەم %d پیت بێت</string>
     <string name="category_not_set">پۆل دانەنراوە</string>
     <string name="mark_favorite">وەک دڵخواز مارک بکە</string>
     <string name="unmark_favorite">لە دڵخواز دەربهێنە</string>

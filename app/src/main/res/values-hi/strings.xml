@@ -273,6 +273,7 @@
     <string name="security_info_tools">स्कैन किया गया: ClamAV, APKiD, Quark-Engine</string>
     <string name="open_source_short">Open Source</string>
     <string name="required_field">भरने के लिए आवश्यक वस्तु</string>
+    <string name="description_min_length_error">विवरण कम से कम %d अक्षर का होना चाहिए</string>
     <string name="category_not_set">श्रेणी निर्दिष्ट नहीं है</string>
     <string name="mark_favorite">पसंदीदा में जोड़े</string>
     <string name="unmark_favorite">पसंदीदा से हटाएँ</string>

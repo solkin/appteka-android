@@ -270,6 +270,7 @@
     <string name="security_info_tools">Đã quét với: ClamAV, APKiD, Quark-Engine</string>
     <string name="open_source_short">Mã nguồn mở</string>
     <string name="required_field">Mục bắt buộc</string>
+    <string name="description_min_length_error">Mô tả phải có ít nhất %d ký tự</string>
     <string name="category_not_set">Danh mục không được chỉ định</string>
     <string name="mark_favorite">Thêm vào mục yêu thích</string>
     <string name="unmark_favorite">Xóa khỏi mục yêu thích</string>
