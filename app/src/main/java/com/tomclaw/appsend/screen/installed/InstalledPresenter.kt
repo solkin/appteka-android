@@ -110,7 +110,7 @@ class InstalledPresenterImpl(
 
                 MENU_SHARE -> {
                     app.path ?: return@subscribe
-                    router?.openShareApk(path = app.path)
+                    copyAndShareApk(app, bluetooth = false)
                 }
 
                 MENU_EXTRACT -> {
@@ -124,7 +124,7 @@ class InstalledPresenterImpl(
 
                 MENU_BLUETOOTH -> {
                     app.path ?: return@subscribe
-                    router?.openShareBluetooth(path = app.path)
+                    copyAndShareApk(app, bluetooth = true)
                 }
 
                 MENU_FIND_ON_GP -> {
@@ -330,6 +330,26 @@ class InstalledPresenterImpl(
 
     private fun fileName(label: String, version: String, packageName: String): String {
         return escapeFileSymbols("$label-$version-$packageName")
+    }
+
+    private fun copyAndShareApk(app: AppItem, bluetooth: Boolean) {
+        val path = app.path ?: return
+        val fileName = fileName(app.title, app.version, app.packageName)
+        subscriptions += interactor
+            .copyToCache(source = path, fileName = fileName)
+            .observeOn(schedulers.mainThread())
+            .doOnSubscribe { view?.showProgress() }
+            .doAfterTerminate { onReady() }
+            .subscribe(
+                { cachedPath ->
+                    if (bluetooth) {
+                        router?.openShareBluetooth(path = cachedPath)
+                    } else {
+                        router?.openShareApk(path = cachedPath)
+                    }
+                },
+                { view?.showExtractError() }
+            )
     }
 
 }

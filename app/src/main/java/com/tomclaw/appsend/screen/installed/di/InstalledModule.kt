@@ -26,11 +26,14 @@ import com.tomclaw.appsend.screen.installed.adapter.app.AppItemBlueprint
 import com.tomclaw.appsend.screen.installed.adapter.app.AppItemPresenter
 import com.tomclaw.appsend.util.PerActivity
 import com.tomclaw.appsend.util.SchedulersFactory
+import com.tomclaw.appsend.di.APPS_DIR
 import dagger.Lazy
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoSet
+import java.io.File
 import java.util.Locale
+import javax.inject.Named
 
 @Module
 class InstalledModule(
@@ -62,12 +65,14 @@ class InstalledModule(
     internal fun provideInteractor(
         api: StoreApi,
         locale: Locale,
+        @Named(APPS_DIR) appsDir: File,
         streamsProvider: StreamsProvider,
         infoProvider: InstalledInfoProvider,
         schedulers: SchedulersFactory
     ): InstalledInteractor = InstalledInteractorImpl(
         api,
         locale,
+        appsDir,
         streamsProvider,
         infoProvider,
         schedulers
