@@ -71,6 +71,7 @@ class ChatPresenterImpl(
     private var translation: MutableMap<Int, TranslationEntity> =
         state?.getParcelableArrayListCompat(KEY_TRANSLATION, TranslationEntity::class.java)
             .orEmpty().associateBy { it.msgId }.toMutableMap()
+    private var pendingScrollToBottom: Boolean = state?.getBoolean(KEY_PENDING_SCROLL) == true
 
     private val journal = HashSet<Int>()
 
@@ -151,6 +152,11 @@ class ChatPresenterImpl(
                         bindHistory()
 
                         view.contentRangeInserted(0, 1)
+
+                        if (pendingScrollToBottom) {
+                            pendingScrollToBottom = false
+                            view.scrollBottom()
+                        }
                     }
 
                     readTopic()
@@ -215,6 +221,7 @@ class ChatPresenterImpl(
     override fun saveState() = Bundle().apply {
         putParcelable(KEY_TOPIC, topic)
         putBoolean(KEY_ERROR, isError)
+        putBoolean(KEY_PENDING_SCROLL, pendingScrollToBottom)
         history?.let { putParcelableArrayList(KEY_HISTORY, ArrayList(it)) }
         putParcelableArrayList(KEY_TRANSLATION, ArrayList(translation.values))
     }
@@ -233,7 +240,7 @@ class ChatPresenterImpl(
     private fun onMessageSent() {
         messageText = ""
         view?.setMessageText(messageText)
-        view?.scrollBottom()
+        pendingScrollToBottom = true
 
         invalidateMenu()
     }
@@ -464,5 +471,6 @@ private const val KEY_ERROR = "error"
 private const val KEY_MESSAGE = "message"
 private const val KEY_HISTORY = "history"
 private const val KEY_TRANSLATION = "translation"
+private const val KEY_PENDING_SCROLL = "pending_scroll"
 
 private const val ROLE_ADMIN = 200
