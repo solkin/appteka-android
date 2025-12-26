@@ -285,6 +285,11 @@
     <string name="security_info_unknown">Unable to verify — Security scan failed</string>
     <string name="security_info_score">Risk Score: %d%%</string>
     <string name="security_info_tools">Scanned with: ClamAV, APKiD, Quark-Engine</string>
+    <string name="security_warning_malware_title">Malware Detected</string>
+    <string name="security_warning_malware_message">This application has been flagged as malware by our security scan. Downloading and installing it may harm your device or compromise your personal data. Are you sure you want to proceed?</string>
+    <string name="security_warning_suspicious_title">Suspicious Application</string>
+    <string name="security_warning_suspicious_message">This application has been flagged as suspicious by our security scan. It may contain potentially harmful code. Are you sure you want to proceed?</string>
+    <string name="security_warning_download_anyway">Download Anyway</string>
     <string name="open_source_short">Open Source</string>
     <string name="required_field">Required field</string>
     <string name="description_min_length_error">Description must be at least %d characters</string>

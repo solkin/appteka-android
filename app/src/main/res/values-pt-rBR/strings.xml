@@ -274,6 +274,11 @@
     <string name="security_info_unknown">Não foi possível verificar — Verificação falhou</string>
     <string name="security_info_score">Pontuação de Risco: %d%%</string>
     <string name="security_info_tools">Verificado com: ClamAV, APKiD, Quark-Engine</string>
+    <string name="security_warning_malware_title">Malware Detectado</string>
+    <string name="security_warning_malware_message">Este aplicativo foi identificado como malware pela nossa verificação de segurança. Baixá-lo e instalá-lo pode danificar seu dispositivo ou comprometer seus dados pessoais. Tem certeza de que deseja continuar?</string>
+    <string name="security_warning_suspicious_title">Aplicativo Suspeito</string>
+    <string name="security_warning_suspicious_message">Este aplicativo foi identificado como suspeito pela nossa verificação de segurança. Ele pode conter código potencialmente prejudicial. Tem certeza de que deseja continuar?</string>
+    <string name="security_warning_download_anyway">Baixar Mesmo Assim</string>
     <string name="open_source_short">Código aberto</string>
     <string name="required_field">Campo obrigatório</string>
     <string name="description_min_length_error">A descrição deve ter pelo menos %d caracteres</string>

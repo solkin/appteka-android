@@ -2,8 +2,8 @@ package com.tomclaw.appsend.screen.details
 
 import android.annotation.SuppressLint
 import android.app.Dialog
+import android.content.Context
 import android.view.View
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
@@ -58,6 +59,8 @@ interface DetailsView {
 
     fun showDeletionDialog()
 
+    fun showSecurityWarningDialog(title: String, message: String, downloadButton: String)
+
     fun navigationClicks(): Observable<Unit>
 
     fun swipeRefresh(): Observable<Unit>
@@ -84,6 +87,8 @@ interface DetailsView {
 
     fun loginClicks(): Observable<Unit>
 
+    fun securityDownloadConfirmClicks(): Observable<Unit>
+
     fun onDismiss()
 
 }
@@ -97,12 +102,12 @@ data class VersionItem(
 )
 
 class DetailsViewImpl(
+    private val context: Context,
     view: View,
     private val preferences: DetailsPreferencesProvider,
     private val adapter: SimpleRecyclerAdapter
 ) : DetailsView {
 
-    private val context = view.context
     private val toolbar: Toolbar = view.findViewById(R.id.toolbar)
     private val swipeRefresh: SwipeRefreshLayout = view.findViewById(R.id.swipe_refresh)
     private val recycler: RecyclerView = view.findViewById(R.id.recycler)
@@ -126,6 +131,7 @@ class DetailsViewImpl(
     private val moderationRelay = PublishRelay.create<Boolean>()
     private val favoriteRelay = PublishRelay.create<Boolean>()
     private val loginRelay = PublishRelay.create<Unit>()
+    private val securityDownloadConfirmRelay = PublishRelay.create<Unit>()
 
     private val layoutManager: LinearLayoutManager
 
@@ -339,13 +345,26 @@ class DetailsViewImpl(
 
     override fun showDeletionDialog() {
         dialog?.dismiss()
-        dialog = AlertDialog.Builder(context)
+        dialog = MaterialAlertDialogBuilder(context)
             .setTitle(context.resources.getString(R.string.delete_app_title))
             .setMessage(context.resources.getString(R.string.delete_app_message))
             .setNegativeButton(R.string.yes) { _, _ ->
                 deleteRelay.accept(true)
             }
             .setPositiveButton(R.string.no, null)
+            .create()
+        dialog?.show()
+    }
+
+    override fun showSecurityWarningDialog(title: String, message: String, downloadButton: String) {
+        dialog?.dismiss()
+        dialog = MaterialAlertDialogBuilder(context)
+            .setTitle(title)
+            .setMessage(message)
+            .setNegativeButton(downloadButton) { _, _ ->
+                securityDownloadConfirmRelay.accept(Unit)
+            }
+            .setPositiveButton(R.string.cancel, null)
             .create()
         dialog?.show()
     }
@@ -375,6 +394,8 @@ class DetailsViewImpl(
     override fun favoriteClicks(): Observable<Boolean> = favoriteRelay
 
     override fun loginClicks(): Observable<Unit> = loginRelay
+
+    override fun securityDownloadConfirmClicks(): Observable<Unit> = securityDownloadConfirmRelay
 
     override fun onDismiss() {
         dialog?.dismiss()

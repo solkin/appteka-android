@@ -268,6 +268,11 @@
     <string name="security_info_unknown">Không thể xác minh — Quét bảo mật thất bại</string>
     <string name="security_info_score">Điểm rủi ro: %d%%</string>
     <string name="security_info_tools">Đã quét với: ClamAV, APKiD, Quark-Engine</string>
+    <string name="security_warning_malware_title">Phát hiện phần mềm độc hại</string>
+    <string name="security_warning_malware_message">Ứng dụng này đã bị gắn cờ là phần mềm độc hại bởi quá trình quét bảo mật của chúng tôi. Tải xuống và cài đặt có thể gây hại cho thiết bị của bạn hoặc làm lộ dữ liệu cá nhân. Bạn có chắc chắn muốn tiếp tục?</string>
+    <string name="security_warning_suspicious_title">Ứng dụng đáng ngờ</string>
+    <string name="security_warning_suspicious_message">Ứng dụng này đã bị gắn cờ là đáng ngờ bởi quá trình quét bảo mật của chúng tôi. Nó có thể chứa mã độc hại tiềm ẩn. Bạn có chắc chắn muốn tiếp tục?</string>
+    <string name="security_warning_download_anyway">Vẫn tải xuống</string>
     <string name="open_source_short">Mã nguồn mở</string>
     <string name="required_field">Mục bắt buộc</string>
     <string name="description_min_length_error">Mô tả phải có ít nhất %d ký tự</string>

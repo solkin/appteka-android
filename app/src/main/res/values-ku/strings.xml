@@ -276,6 +276,11 @@
     <string name="security_info_unknown">پشتڕاستکردنەوە نەکرا — سکانی ئاسایش شکستی هێنا</string>
     <string name="security_info_score">ڕێژەی مەترسی: %d%%</string>
     <string name="security_info_tools">سکان کراوە بە: ClamAV, APKiD, Quark-Engine</string>
+    <string name="security_warning_malware_title">مەلوێر دۆزرایەوە</string>
+    <string name="security_warning_malware_message">ئەم بەرنامەیە وەک مەلوێر دەستنیشان کراوە لەلایەن سکانی ئاسایشی ئێمەوە. داگرتن و دامەزراندنی ئەم بەرنامەیە لەوانەیە زیان بە ئامێرەکەت بگەیەنێت یان زانیاری کەسیەکەت لە مەترسیدا بخات. ئایا دڵنیایت کە دەتەوێت بەردەوام بیت؟</string>
+    <string name="security_warning_suspicious_title">بەرنامەی گومانلێکراو</string>
+    <string name="security_warning_suspicious_message">ئەم بەرنامەیە وەک گومانلێکراو دەستنیشان کراوە لەلایەن سکانی ئاسایشی ئێمەوە. لەوانەیە کۆدی زیانبەخشی تێدا بێت. ئایا دڵنیایت کە دەتەوێت بەردەوام بیت؟</string>
+    <string name="security_warning_download_anyway">بە هەر حاڵ داگرە</string>
     <string name="open_source_short">سەرچاوەی كراوە</string>
     <string name="required_field">مەیدانی پێویست</string>
     <string name="description_min_length_error">پێویستە وەسف لانیکەم %d پیت بێت</string>

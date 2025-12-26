@@ -280,6 +280,11 @@
     <string name="security_info_unknown">تأیید نشد — اسکن امنیتی ناموفق بود</string>
     <string name="security_info_score">امتیاز ریسک: %d%%</string>
     <string name="security_info_tools">اسکن شده با: ClamAV, APKiD, Quark-Engine</string>
+    <string name="security_warning_malware_title">بدافزار شناسایی شد</string>
+    <string name="security_warning_malware_message">این برنامه توسط اسکن امنیتی ما به عنوان بدافزار شناسایی شده است. دانلود و نصب آن ممکن است به دستگاه شما آسیب برساند یا اطلاعات شخصی شما را به خطر بیندازد. آیا مطمئن هستید که می‌خواهید ادامه دهید؟</string>
+    <string name="security_warning_suspicious_title">برنامه مشکوک</string>
+    <string name="security_warning_suspicious_message">این برنامه توسط اسکن امنیتی ما به عنوان مشکوک شناسایی شده است. ممکن است حاوی کد بالقوه مضر باشد. آیا مطمئن هستید که می‌خواهید ادامه دهید؟</string>
+    <string name="security_warning_download_anyway">به هر حال دانلود کن</string>
     <string name="open_source_short">متن باز</string>
     <string name="required_field">جایگاه لازم</string>
     <string name="description_min_length_error">توضیحات باید حداقل %d کاراکتر باشد</string>

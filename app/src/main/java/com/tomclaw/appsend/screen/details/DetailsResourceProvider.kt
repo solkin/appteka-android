@@ -77,6 +77,16 @@ interface DetailsResourceProvider {
 
     fun securityScanErrorText(): String
 
+    fun securityWarningMalwareTitle(): String
+
+    fun securityWarningMalwareMessage(): String
+
+    fun securityWarningSuspiciousTitle(): String
+
+    fun securityWarningSuspiciousMessage(): String
+
+    fun securityWarningDownloadAnyway(): String
+
 }
 
 class DetailsResourceProviderImpl(
@@ -221,6 +231,26 @@ class DetailsResourceProviderImpl(
 
     override fun securityScanErrorText(): String {
         return resources.getString(R.string.security_scan_error)
+    }
+
+    override fun securityWarningMalwareTitle(): String {
+        return resources.getString(R.string.security_warning_malware_title)
+    }
+
+    override fun securityWarningMalwareMessage(): String {
+        return resources.getString(R.string.security_warning_malware_message)
+    }
+
+    override fun securityWarningSuspiciousTitle(): String {
+        return resources.getString(R.string.security_warning_suspicious_title)
+    }
+
+    override fun securityWarningSuspiciousMessage(): String {
+        return resources.getString(R.string.security_warning_suspicious_message)
+    }
+
+    override fun securityWarningDownloadAnyway(): String {
+        return resources.getString(R.string.security_warning_download_anyway)
     }
 
 }

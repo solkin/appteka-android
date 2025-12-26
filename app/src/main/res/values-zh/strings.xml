@@ -268,6 +268,11 @@
     <string name="security_info_unknown">无法验证 — 安全扫描失败</string>
     <string name="security_info_score">风险评分: %d%%</string>
     <string name="security_info_tools">扫描工具: ClamAV, APKiD, Quark-Engine</string>
+    <string name="security_warning_malware_title">检测到恶意软件</string>
+    <string name="security_warning_malware_message">此应用程序已被我们的安全扫描标记为恶意软件。下载和安装可能会损害您的设备或泄露您的个人数据。您确定要继续吗？</string>
+    <string name="security_warning_suspicious_title">可疑应用程序</string>
+    <string name="security_warning_suspicious_message">此应用程序已被我们的安全扫描标记为可疑。它可能包含潜在有害代码。您确定要继续吗？</string>
+    <string name="security_warning_download_anyway">仍然下载</string>
     <string name="open_source_short">开源</string>
     <string name="required_field">必填字段</string>
     <string name="description_min_length_error">描述至少需要 %d 个字符</string>

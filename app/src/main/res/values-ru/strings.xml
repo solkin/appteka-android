@@ -277,6 +277,11 @@
     <string name="security_info_unknown">Не удалось проверить — Сканирование не выполнено</string>
     <string name="security_info_score">Уровень риска: %d%%</string>
     <string name="security_info_tools">Проверено: ClamAV, APKiD, Quark-Engine</string>
+    <string name="security_warning_malware_title">Обнаружено вредоносное ПО</string>
+    <string name="security_warning_malware_message">Это приложение было определено как вредоносное нашей проверкой безопасности. Загрузка и установка могут нанести вред вашему устройству или скомпрометировать личные данные. Вы уверены, что хотите продолжить?</string>
+    <string name="security_warning_suspicious_title">Подозрительное приложение</string>
+    <string name="security_warning_suspicious_message">Это приложение было отмечено как подозрительное нашей проверкой безопасности. Оно может содержать потенциально опасный код. Вы уверены, что хотите продолжить?</string>
+    <string name="security_warning_download_anyway">Скачать всё равно</string>
     <string name="open_source_short">Open Source</string>
     <string name="required_field">Обязательное поле</string>
     <string name="description_min_length_error">Описание должно содержать минимум %d символов</string>

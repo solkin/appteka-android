@@ -131,7 +131,7 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
         setContentView(R.layout.details_activity)
 
         val adapter = SimpleRecyclerAdapter(adapterPresenter, binder)
-        val view = DetailsViewImpl(window.decorView, preferences, adapter)
+        val view = DetailsViewImpl(this, window.decorView, preferences, adapter)
 
         presenter.attachView(view)
 

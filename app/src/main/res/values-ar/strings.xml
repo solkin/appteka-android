@@ -288,6 +288,11 @@
     <string name="security_info_unknown">تعذر التحقق — فشل فحص الأمان</string>
     <string name="security_info_score">درجة المخاطر: %d%%</string>
     <string name="security_info_tools">تم الفحص بواسطة: ClamAV, APKiD, Quark-Engine</string>
+    <string name="security_warning_malware_title">تم اكتشاف برنامج ضار</string>
+    <string name="security_warning_malware_message">تم تحديد هذا التطبيق كبرنامج ضار من خلال فحص الأمان لدينا. قد يؤدي تنزيله وتثبيته إلى إلحاق الضرر بجهازك أو تعريض بياناتك الشخصية للخطر. هل أنت متأكد أنك تريد المتابعة؟</string>
+    <string name="security_warning_suspicious_title">تطبيق مشبوه</string>
+    <string name="security_warning_suspicious_message">تم تحديد هذا التطبيق كمشبوه من خلال فحص الأمان لدينا. قد يحتوي على كود ضار محتمل. هل أنت متأكد أنك تريد المتابعة؟</string>
+    <string name="security_warning_download_anyway">تنزيل على أي حال</string>
     <string name="open_source_short">مصدر مفتوح</string>
     <string name="required_field">يتطلب حقلا</string>
     <string name="description_min_length_error">يجب أن يحتوي الوصف على %d حرف على الأقل</string>
