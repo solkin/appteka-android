@@ -1,5 +1,6 @@
 package com.tomclaw.appsend.screen.distro
 
+import android.net.Uri
 import android.os.Bundle
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.blueprint.Item
@@ -8,8 +9,10 @@ import com.tomclaw.appsend.screen.distro.adapter.ItemListener
 import com.tomclaw.appsend.screen.distro.adapter.apk.ApkItem
 import com.tomclaw.appsend.upload.UploadApk
 import com.tomclaw.appsend.upload.UploadPackage
+import com.tomclaw.appsend.util.FileHelper.escapeFileSymbols
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.getParcelableArrayListCompat
+import com.tomclaw.appsend.util.getParcelableCompat
 import dagger.Lazy
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
@@ -34,6 +37,8 @@ interface DistroPresenter : ItemListener {
 
     fun invalidateApps()
 
+    fun saveFile(target: Uri)
+
     interface DistroRouter {
 
         fun installApp(path: String)
@@ -51,6 +56,8 @@ interface DistroPresenter : ItemListener {
         fun openPermissionsScreen(permissions: List<String>)
 
         fun requestStoragePermissions(callback: (Boolean) -> Unit)
+
+        fun requestSaveFile(fileName: String, fileType: String)
 
         fun leaveScreen()
 
@@ -76,6 +83,8 @@ class DistroPresenterImpl(
         state?.getParcelableArrayListCompat(KEY_APPS, ApkItem::class.java)
     private var filter: String? = state?.getString(KEY_FILTER).takeIf { !it.isNullOrBlank() }
     private var isError: Boolean = state?.getBoolean(KEY_ERROR) == true
+    private var extractItem: ApkItem? =
+        state?.getParcelableCompat(KEY_EXTRACT_ITEM, ApkItem::class.java)
 
     override fun attachView(view: DistroView) {
         this.view = view
@@ -92,6 +101,10 @@ class DistroPresenterImpl(
 
                 MENU_SHARE -> {
                     router?.openShareApk(app.path)
+                }
+
+                MENU_EXTRACT -> {
+                    requestExtractApk(app)
                 }
 
                 MENU_UPLOAD -> {
@@ -169,6 +182,7 @@ class DistroPresenterImpl(
         putParcelableArrayList(KEY_APPS, items?.let { ArrayList(items.orEmpty()) })
         putString(KEY_FILTER, filter)
         putBoolean(KEY_ERROR, isError)
+        putParcelable(KEY_EXTRACT_ITEM, extractItem)
     }
 
     override fun invalidateApps() {
@@ -262,8 +276,42 @@ class DistroPresenterImpl(
         view?.showItemDialog(app)
     }
 
+    private fun requestExtractApk(app: ApkItem) {
+        extractItem = app
+        router?.requestSaveFile(
+            fileName = fileName(
+                label = app.title,
+                version = app.version,
+                packageName = app.packageName
+            ),
+            fileType = "application/vnd.android.package-archive"
+        )
+    }
+
+    override fun saveFile(target: Uri) {
+        val item = extractItem ?: return
+        extractItem = null
+        subscriptions += interactor
+            .copyFile(
+                source = item.path,
+                target,
+            )
+            .observeOn(schedulers.mainThread())
+            .doOnSubscribe { view?.showProgress() }
+            .doAfterTerminate { onReady() }
+            .subscribe(
+                { view?.showExtractSuccess() },
+                { view?.showExtractError() }
+            )
+    }
+
+    private fun fileName(label: String, version: String, packageName: String): String {
+        return escapeFileSymbols("$label-$version-$packageName")
+    }
+
 }
 
 private const val KEY_APPS = "apps"
 private const val KEY_FILTER = "filter"
 private const val KEY_ERROR = "error"
+private const val KEY_EXTRACT_ITEM = "extract_item"

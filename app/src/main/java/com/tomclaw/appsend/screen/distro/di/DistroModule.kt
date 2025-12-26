@@ -8,6 +8,7 @@ import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.adapter.SimpleAdapterPresenter
 import com.avito.konveyor.blueprint.ItemBlueprint
 import com.tomclaw.appsend.core.PackageInfoProvider
+import com.tomclaw.appsend.core.StreamsProvider
 import com.tomclaw.appsend.di.APPS_DIR
 import com.tomclaw.appsend.screen.distro.ApkConverter
 import com.tomclaw.appsend.screen.distro.ApkConverterImpl
@@ -60,9 +61,11 @@ class DistroModule(
     @PerActivity
     internal fun provideInteractor(
         infoProvider: DistroInfoProvider,
+        streamsProvider: StreamsProvider,
         schedulers: SchedulersFactory
     ): DistroInteractor = DistroInteractorImpl(
         infoProvider,
+        streamsProvider,
         schedulers
     )
 

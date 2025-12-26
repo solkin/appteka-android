@@ -1,12 +1,10 @@
 package com.tomclaw.appsend.screen.distro
 
 import android.annotation.SuppressLint
-import android.text.Html
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import android.widget.ViewFlipper
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.widget.SearchView
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -41,7 +39,7 @@ interface DistroView {
 
     fun showError()
 
-    fun showExtractSuccess(path: String)
+    fun showExtractSuccess()
 
     fun showExtractError()
 
@@ -145,18 +143,8 @@ class DistroViewImpl(
         error.setText(R.string.load_files_error)
     }
 
-    override fun showExtractSuccess(path: String) {
-        val alertDialog = AlertDialog.Builder(context)
-            .setTitle(R.string.success)
-            .setMessage(
-                Html.fromHtml(context.getString(R.string.app_extract_success, path))
-            )
-            .setPositiveButton(
-                R.string.yes
-            ) { _, _ -> shareExtractedRelay.accept(path) }
-            .setNegativeButton(R.string.no, null)
-            .create()
-        alertDialog.show()
+    override fun showExtractSuccess() {
+        showSnackbar(context.resources.getString(R.string.app_extract_success))
     }
 
     override fun showExtractError() {
@@ -169,8 +157,9 @@ class DistroViewImpl(
         val actionsRecycler: RecyclerView = sheetView.findViewById(R.id.actions_recycler)
 
         val actions = listOf(
-            ActionItem(MENU_INSTALL, context.getString(R.string.install_app), R.drawable.ic_install),
+            ActionItem(MENU_INSTALL, context.getString(R.string.install_app), R.drawable.ic_get_app),
             ActionItem(MENU_SHARE, context.getString(R.string.share_apk), R.drawable.ic_share),
+            ActionItem(MENU_EXTRACT, context.getString(R.string.extract_apk), R.drawable.ic_floppy),
             ActionItem(MENU_UPLOAD, context.getString(R.string.upload_apk), R.drawable.ic_cloud_upload),
             ActionItem(MENU_BLUETOOTH, context.getString(R.string.bluetooth_apk), R.drawable.ic_bluetooth),
             ActionItem(MENU_FIND_ON_GP, context.getString(R.string.find_on_gp), R.drawable.ic_google_play),
@@ -226,11 +215,12 @@ class DistroViewImpl(
 
 const val MENU_INSTALL = 1
 const val MENU_SHARE = 2
-const val MENU_UPLOAD = 3
-const val MENU_BLUETOOTH = 4
-const val MENU_FIND_ON_GP = 5
-const val MENU_FIND_ON_STORE = 6
-const val MENU_PERMISSIONS = 7
-const val MENU_REMOVE = 8
+const val MENU_EXTRACT = 3
+const val MENU_UPLOAD = 4
+const val MENU_BLUETOOTH = 5
+const val MENU_FIND_ON_GP = 6
+const val MENU_FIND_ON_STORE = 7
+const val MENU_PERMISSIONS = 8
+const val MENU_REMOVE = 9
 
 private const val DURATION_MEDIUM = 300L

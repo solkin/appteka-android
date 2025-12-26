@@ -1,5 +1,7 @@
 package com.tomclaw.appsend.screen.distro
 
+import android.net.Uri
+import com.tomclaw.appsend.core.StreamsProvider
 import com.tomclaw.appsend.upload.UploadApk
 import com.tomclaw.appsend.upload.UploadPackage
 import com.tomclaw.appsend.util.SchedulersFactory
@@ -17,10 +19,13 @@ interface DistroInteractor {
 
     fun removeApk(path: String): Observable<Unit>
 
+    fun copyFile(source: String, target: Uri): Observable<Unit>
+
 }
 
 class DistroInteractorImpl(
     private val infoProvider: DistroInfoProvider,
+    private val streamsProvider: StreamsProvider,
     private val schedulers: SchedulersFactory
 ) : DistroInteractor {
 
@@ -47,6 +52,26 @@ class DistroInteractorImpl(
             .create {
                 File(path).delete()
                 it.onSuccess(Unit)
+            }
+            .toObservable()
+            .subscribeOn(schedulers.io())
+    }
+
+    override fun copyFile(source: String, target: Uri): Observable<Unit> {
+        return Single
+            .create { emitter ->
+                try {
+                    val srcFile = File(source)
+                    streamsProvider.openInputStream(Uri.fromFile(srcFile))?.let { input ->
+                        streamsProvider.openOutputStream(target)?.let { output ->
+                            input.copyTo(output)
+                            output.flush()
+                            emitter.onSuccess(Unit)
+                        } ?: emitter.onError(Throwable("Output stream opening error"))
+                    } ?: emitter.onError(Throwable("Input stream opening error"))
+                } catch (ex: Throwable) {
+                    emitter.onError(ex)
+                }
             }
             .toObservable()
             .subscribeOn(schedulers.io())
