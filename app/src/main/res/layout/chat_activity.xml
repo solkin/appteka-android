@@ -107,7 +107,7 @@
                             android:layout_width="match_parent"
                             android:visibility="gone"
                             android:indeterminate="true"
-                            style="@style/Widget.Material3Expressive.CircularProgressIndicator.Wavy"
+                            style="@style/Widget.Material3Expressive.CircularProgressIndicator"
                             android:id="@+id/send_progress" />
 
                     </FrameLayout>
