@@ -3,7 +3,7 @@ package com.tomclaw.appsend.screen.home
 import android.view.MenuItem
 import android.view.View
 import android.widget.Button
-import androidx.appcompat.app.AlertDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import androidx.appcompat.widget.Toolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -269,16 +269,15 @@ class HomeViewImpl(view: View) : HomeView {
     }
 
     override fun showStatusDialog(block: Boolean, title: String?, message: String) {
-        AlertDialog.Builder(context)
+        MaterialAlertDialogBuilder(context)
             .setTitle(title)
             .setMessage(message)
             .setCancelable(!block)
-            .setPositiveButton(R.string.ok) { dialog, which ->
+            .setPositiveButton(R.string.ok) { _, _ ->
                 if (block) {
                     exitAppRelay.accept(Unit)
                 }
             }
-            .create()
             .show()
     }
 

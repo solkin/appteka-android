@@ -1,6 +1,7 @@
 package com.tomclaw.appsend.screen.profile
 
 import android.annotation.SuppressLint
+import android.content.DialogInterface
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -188,7 +189,7 @@ class ProfileViewImpl(
                 override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
                 override fun afterTextChanged(s: Editable?) {
                     dialog
-                        .getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE)
+                        .getButton(DialogInterface.BUTTON_POSITIVE)
                         .isEnabled = s.toString().matches(nameRegex.toRegex())
                 }
             })

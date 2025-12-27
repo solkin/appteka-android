@@ -2,28 +2,32 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="4dp"
+    android:layout_marginVertical="4dp">
 
-    <androidx.cardview.widget.CardView
+    <com.google.android.material.card.MaterialCardView
         android:id="@+id/screenshot_card"
+        style="@style/Widget.Material3.CardView.Outlined"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:layout_margin="8dp"
-        android:foreground="?android:attr/selectableItemBackground"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="4dp">
+        android:clickable="true"
+        android:focusable="true"
+        app:cardCornerRadius="12dp"
+        app:strokeColor="?attr/colorOutlineVariant"
+        app:strokeWidth="1dp">
 
         <ImageView
             android:id="@+id/screenshot"
             android:layout_width="@dimen/screenshot_width"
             android:layout_height="@dimen/screenshot_height"
             android:layout_gravity="center_vertical"
-            android:contentDescription="@string/app_icon"
+            android:background="?attr/colorSurfaceContainerLow"
+            android:contentDescription="@string/add_screenshot"
             android:minWidth="85dp"
-            android:scaleType="centerCrop"
-            android:src="@color/grey" />
+            android:scaleType="centerCrop" />
 
-    </androidx.cardview.widget.CardView>
+    </com.google.android.material.card.MaterialCardView>
 
 </FrameLayout>
