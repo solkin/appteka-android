@@ -1,7 +1,9 @@
 package com.tomclaw.appsend.util.bdui
 
+import android.content.Context
 import android.graphics.Color
 import android.view.View
+import android.view.animation.AnimationUtils
 import android.widget.CompoundButton
 import android.widget.ImageView
 import android.widget.ProgressBar
@@ -12,6 +14,7 @@ import com.google.android.material.chip.Chip
 import com.google.android.material.progressindicator.BaseProgressIndicator
 import com.google.android.material.slider.Slider
 import com.google.android.material.textfield.TextInputLayout
+import com.tomclaw.appsend.R
 import com.tomclaw.appsend.util.bdui.model.transform.BduiBatchTransform
 import com.tomclaw.appsend.util.bdui.model.transform.BduiPropertyTransform
 import com.tomclaw.appsend.util.bdui.model.transform.BduiTransform
@@ -21,6 +24,7 @@ import com.tomclaw.appsend.util.bdui.model.transform.BduiTransform
  * Supports both regular View components and hidden value storage.
  */
 class BduiTransformHandler(
+    private val context: Context,
     private val viewRegistry: BduiViewRegistry,
     private val hiddenStorage: BduiHiddenStorage
 ) {
@@ -86,6 +90,8 @@ class BduiTransformHandler(
             "displayedChild" -> applyDisplayedChild(view, value)
             "autoStart" -> applyAutoStart(view, value)
             "flipInterval" -> applyFlipInterval(view, value)
+            "inAnimation" -> applyInAnimation(view, value)
+            "outAnimation" -> applyOutAnimation(view, value)
         }
     }
 
@@ -251,6 +257,39 @@ class BduiTransformHandler(
         when (view) {
             is ViewFlipper -> view.flipInterval = interval
         }
+    }
+
+    private fun applyInAnimation(view: View, value: Any) {
+        when (view) {
+            is ViewFlipper -> {
+                getAnimation(value.toString())?.let { anim ->
+                    view.inAnimation = anim
+                }
+            }
+        }
+    }
+
+    private fun applyOutAnimation(view: View, value: Any) {
+        when (view) {
+            is ViewFlipper -> {
+                getAnimation(value.toString())?.let { anim ->
+                    view.outAnimation = anim
+                }
+            }
+        }
+    }
+
+    private fun getAnimation(name: String): android.view.animation.Animation? {
+        val animRes = when (name.lowercase()) {
+            "fade_in" -> android.R.anim.fade_in
+            "fade_out" -> android.R.anim.fade_out
+            "slide_in_left" -> android.R.anim.slide_in_left
+            "slide_out_right" -> android.R.anim.slide_out_right
+            "slide_in_right" -> R.anim.slide_in_right
+            "slide_out_left" -> R.anim.slide_out_left
+            else -> return null
+        }
+        return AnimationUtils.loadAnimation(context, animRes)
     }
 }
 

@@ -5,7 +5,6 @@ import com.tomclaw.appsend.util.bdui.model.BduiBackgroundStyle
 import com.tomclaw.appsend.util.bdui.model.BduiImageStyle
 import com.tomclaw.appsend.util.bdui.model.BduiLayoutParams
 import com.tomclaw.appsend.util.bdui.model.BduiNode
-import com.tomclaw.appsend.util.bdui.model.BduiTextStyle
 import com.tomclaw.appsend.util.bdui.model.action.BduiAction
 
 /**
@@ -57,8 +56,20 @@ data class BduiTextComponent(
     override val action: BduiAction? = null,
     @SerializedName("text")
     val text: String? = null,
+    @SerializedName("textSize")
+    val textSize: Int? = null,              // Text size in sp
+    @SerializedName("textColor")
+    val textColor: String? = null,          // "#RRGGBB" or "#AARRGGBB"
     @SerializedName("textStyle")
-    val textStyle: BduiTextStyle? = null,
+    val textStyle: String? = null,          // "normal", "bold", "italic", "bold|italic"
+    @SerializedName("gravity")
+    val gravity: String? = null,            // "start", "center", "end", "center_horizontal"
+    @SerializedName("maxLines")
+    val maxLines: Int? = null,
+    @SerializedName("lineHeight")
+    val lineHeight: Int? = null,            // Line height in sp
+    @SerializedName("letterSpacing")
+    val letterSpacing: Float? = null,       // Letter spacing in em
     @SerializedName("selectable")
     val selectable: Boolean = false,
     @SerializedName("autoLink")

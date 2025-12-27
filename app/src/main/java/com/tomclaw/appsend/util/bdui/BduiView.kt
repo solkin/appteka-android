@@ -76,7 +76,7 @@ class BduiView @JvmOverloads constructor(
         this.actionListener = listener
 
         refResolver = BduiRefResolver(this)
-        transformHandler = BduiTransformHandler(viewRegistry, hiddenStorage)
+        transformHandler = BduiTransformHandler(context, viewRegistry, hiddenStorage)
         actionHandler = BduiActionHandler(
             transformHandler = transformHandler,
             refResolver = refResolver,

@@ -1,6 +1,7 @@
 package com.tomclaw.appsend.screen.bdui
 
 import android.os.Bundle
+import android.util.Log
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.bdui.model.BduiNode
 import com.tomclaw.appsend.util.bdui.model.action.BduiRpcResponse
@@ -143,6 +144,7 @@ class BduiScreenPresenterImpl(
                     view?.showContent(loadedSchema)
                 },
                 { error ->
+                    Log.e("BduiScreen", "Failed to load schema from: $url", error)
                     isLoading = false
                     isError = true
                     view?.showError()

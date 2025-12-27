@@ -35,7 +35,6 @@ import com.tomclaw.appsend.util.bdui.BduiActionHandler
 import com.tomclaw.appsend.util.bdui.BduiViewRegistry
 import com.tomclaw.appsend.util.bdui.model.BduiLayoutParams
 import com.tomclaw.appsend.util.bdui.model.BduiNode
-import com.tomclaw.appsend.util.bdui.model.BduiTextStyle
 import com.tomclaw.appsend.util.bdui.model.component.BduiButtonComponent
 import com.tomclaw.appsend.util.bdui.model.component.BduiCardComponent
 import com.tomclaw.appsend.util.bdui.model.component.BduiCheckboxComponent
@@ -122,7 +121,31 @@ class BduiComponentFactory(
     private fun createText(component: BduiTextComponent): View {
         return TextView(context).apply {
             text = component.text
-            component.textStyle?.let { applyTextStyle(this, it) }
+            
+            // Apply text properties
+            component.textSize?.let { setTextSize(android.util.TypedValue.COMPLEX_UNIT_SP, it.toFloat()) }
+            component.textColor?.let { setTextColor(parseColor(it)) }
+            component.textStyle?.let { style ->
+                val typeStyle = when (style.lowercase()) {
+                    "bold" -> android.graphics.Typeface.BOLD
+                    "italic" -> android.graphics.Typeface.ITALIC
+                    "bold_italic", "bold|italic" -> android.graphics.Typeface.BOLD_ITALIC
+                    else -> android.graphics.Typeface.NORMAL
+                }
+                setTypeface(typeface, typeStyle)
+            }
+            component.gravity?.let { gravity = parseGravity(it) }
+            component.maxLines?.let { 
+                maxLines = it
+                ellipsize = android.text.TextUtils.TruncateAt.END
+            }
+            component.lineHeight?.let { 
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+                    lineHeight = (it * context.resources.displayMetrics.scaledDensity).toInt()
+                }
+            }
+            component.letterSpacing?.let { letterSpacing = it }
+            
             isClickable = component.selectable
             setTextIsSelectable(component.selectable)
             if (component.autoLink) {
@@ -629,44 +652,6 @@ class BduiComponentFactory(
         }
     }
 
-    private fun applyTextStyle(textView: TextView, style: BduiTextStyle) {
-        style.textSize?.let { textView.textSize = it.toFloat() }
-        style.textColor?.let { color ->
-            try {
-                textView.setTextColor(Color.parseColor(color))
-            } catch (e: IllegalArgumentException) {
-                // Invalid color
-            }
-        }
-        style.fontWeight?.let { weight ->
-            textView.typeface = when (weight) {
-                "bold" -> Typeface.DEFAULT_BOLD
-                "medium" -> Typeface.create(Typeface.DEFAULT, Typeface.BOLD)
-                "light" -> Typeface.create(Typeface.DEFAULT, Typeface.NORMAL)
-                else -> Typeface.DEFAULT
-            }
-        }
-        style.maxLines?.let { textView.maxLines = it }
-        style.ellipsize?.let { ellipsize ->
-            textView.ellipsize = when (ellipsize) {
-                "start" -> TextUtils.TruncateAt.START
-                "middle" -> TextUtils.TruncateAt.MIDDLE
-                "end" -> TextUtils.TruncateAt.END
-                "marquee" -> TextUtils.TruncateAt.MARQUEE
-                else -> null
-            }
-        }
-        style.textAlign?.let { align ->
-            textView.gravity = when (align) {
-                "center" -> Gravity.CENTER
-                "end" -> Gravity.END
-                else -> Gravity.START
-            }
-        }
-        style.textAllCaps?.let { textView.isAllCaps = it }
-        style.includeFontPadding?.let { textView.includeFontPadding = it }
-    }
-
     private fun getButtonStyleAttr(variant: String): Int {
         return when (variant) {
             "secondary" -> com.google.android.material.R.attr.materialButtonOutlinedStyle
@@ -695,6 +680,34 @@ class BduiComponentFactory(
 
     private fun dpToPx(dp: Int): Int {
         return (dp * context.resources.displayMetrics.density).toInt()
+    }
+
+    private fun parseColor(color: String): Int {
+        return try {
+            Color.parseColor(color)
+        } catch (e: IllegalArgumentException) {
+            Color.BLACK
+        }
+    }
+
+    private fun parseGravity(gravity: String): Int {
+        var result = 0
+        gravity.split("|").forEach { part ->
+            result = result or when (part.trim().lowercase()) {
+                "center" -> android.view.Gravity.CENTER
+                "center_horizontal" -> android.view.Gravity.CENTER_HORIZONTAL
+                "center_vertical" -> android.view.Gravity.CENTER_VERTICAL
+                "start", "left" -> android.view.Gravity.START
+                "end", "right" -> android.view.Gravity.END
+                "top" -> android.view.Gravity.TOP
+                "bottom" -> android.view.Gravity.BOTTOM
+                "fill" -> android.view.Gravity.FILL
+                "fill_horizontal" -> android.view.Gravity.FILL_HORIZONTAL
+                "fill_vertical" -> android.view.Gravity.FILL_VERTICAL
+                else -> 0
+            }
+        }
+        return if (result == 0) android.view.Gravity.START else result
     }
 }
 

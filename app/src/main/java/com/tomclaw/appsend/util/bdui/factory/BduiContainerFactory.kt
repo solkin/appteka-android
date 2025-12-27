@@ -138,6 +138,8 @@ class BduiContainerFactory(
             "fade_out" -> android.R.anim.fade_out
             "slide_in_left" -> android.R.anim.slide_in_left
             "slide_out_right" -> android.R.anim.slide_out_right
+            "slide_in_right" -> com.tomclaw.appsend.R.anim.slide_in_right
+            "slide_out_left" -> com.tomclaw.appsend.R.anim.slide_out_left
             else -> return null
         }
         return AnimationUtils.loadAnimation(context, animRes)

@@ -50,12 +50,15 @@ class MyActivity : AppCompatActivity(), BduiActionListener {
     @Inject
     lateinit var schedulersFactory: SchedulersFactory
     
+    @Inject
+    lateinit var preferencesStorage: BduiPreferencesStorage
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_my)
         
         val bduiView = findViewById<BduiView>(R.id.bdui_view)
-        bduiView.initialize(schedulersFactory, this)
+        bduiView.initialize(schedulersFactory, preferencesStorage, this)
         
         // Parse and render schema from server
         val schema = BduiJsonParser.parseNode(jsonFromServer)
@@ -212,18 +215,16 @@ These headers allow the server to:
           "id": "title",
           "type": "text",
           "text": "Summer Sale!",
-          "textStyle": { 
-            "textSize": 24, 
-            "fontWeight": "bold",
-            "textAlign": "center" 
-          },
+          "textSize": 24,
+          "textStyle": "bold",
+          "gravity": "center",
           "layoutParams": { "margin": { "top": 16, "bottom": 8 } }
         },
         {
           "id": "description",
           "type": "text",
           "text": "Get 50% off on all items. Limited time offer!",
-          "textStyle": { "textAlign": "center" },
+          "gravity": "center",
           "layoutParams": { "margin": { "bottom": 24 } }
         },
         {
@@ -387,14 +388,16 @@ Displays one child at a time, supports animated switching between children. Anal
 | `displayedChild` | number | `0` | Index of the child to display |
 | `autoStart` | boolean | `false` | Auto-start flipping animation |
 | `flipInterval` | number | `3000` | Interval between flips in ms |
-| `inAnimation` | string | - | In animation: `"fade_in"`, `"slide_in_left"` |
-| `outAnimation` | string | - | Out animation: `"fade_out"`, `"slide_out_right"` |
+| `inAnimation` | string | - | In animation: `"fade_in"`, `"slide_in_left"`, `"slide_in_right"` |
+| `outAnimation` | string | - | Out animation: `"fade_out"`, `"slide_out_left"`, `"slide_out_right"` |
 | `children` | array | - | Child nodes |
 
 **Transformable properties:**
 - `displayedChild` - switch to a specific child by index
 - `autoStart` - start/stop auto-flipping
 - `flipInterval` - change flip interval
+- `inAnimation` - change in animation dynamically
+- `outAnimation` - change out animation dynamically
 
 ```json
 {
@@ -532,32 +535,25 @@ Flow:
 | Field | Type | Description |
 |-------|------|-------------|
 | `text` | string | Text content |
-| `textStyle` | object | Text styling |
+| `textSize` | number | Text size in sp |
+| `textColor` | string | Color (`#RRGGBB` or `#AARRGGBB`) |
+| `textStyle` | string | `"normal"`, `"bold"`, `"italic"`, `"bold\|italic"` |
+| `gravity` | string | `"start"`, `"center"`, `"end"`, `"center_horizontal"` |
+| `maxLines` | number | Maximum lines |
+| `lineHeight` | number | Line height in sp |
+| `letterSpacing` | number | Letter spacing in em |
 | `selectable` | boolean | Allow text selection |
 | `autoLink` | boolean | Auto-link URLs, emails |
-
-**TextStyle object:**
-
-| Field | Type | Description |
-|-------|------|-------------|
-| `textSize` | number | Size in sp |
-| `textColor` | string | Color (#RRGGBB) |
-| `fontWeight` | string | `"normal"`, `"bold"`, `"medium"`, `"light"` |
-| `textAlign` | string | `"start"`, `"center"`, `"end"` |
-| `maxLines` | number | Maximum lines |
-| `ellipsize` | string | `"start"`, `"middle"`, `"end"`, `"marquee"` |
 
 ```json
 {
   "id": "title",
   "type": "text",
   "text": "Hello World",
-  "textStyle": {
-    "textSize": 18,
-    "textColor": "#333333",
-    "fontWeight": "bold",
-    "textAlign": "center"
-  }
+  "textSize": 18,
+  "textColor": "#333333",
+  "textStyle": "bold",
+  "gravity": "center"
 }
 ```
 
@@ -1463,11 +1459,9 @@ A complete example of an "Update Available" screen with Material 3 Expressive st
               "id": "title",
               "type": "text",
               "text": "A New Version is Here!",
-              "textStyle": {
-                "textSize": 28,
-                "fontWeight": "bold",
-                "textAlignment": "center"
-              },
+              "textSize": 28,
+              "textStyle": "bold",
+              "gravity": "center",
               "layoutParams": {
                 "width": "match_parent",
                 "margin": { "bottom": 8 }
@@ -1477,11 +1471,9 @@ A complete example of an "Update Available" screen with Material 3 Expressive st
               "id": "version_text",
               "type": "text",
               "text": "Version 3.5.0",
-              "textStyle": {
-                "textSize": 16,
-                "textColor": "#6750A4",
-                "textAlignment": "center"
-              },
+              "textSize": 16,
+              "textColor": "#6750A4",
+              "gravity": "center",
               "layoutParams": {
                 "width": "match_parent",
                 "margin": { "bottom": 24 }
@@ -1491,11 +1483,9 @@ A complete example of an "Update Available" screen with Material 3 Expressive st
               "id": "description",
               "type": "text",
               "text": "We've been working hard to bring you an amazing update with new features and improvements!",
-              "textStyle": {
-                "textSize": 16,
-                "textAlignment": "center",
-                "textColor": "?android:attr/textColorSecondary"
-              },
+              "textSize": 16,
+              "textColor": "#757575",
+              "gravity": "center",
               "layoutParams": {
                 "width": "match_parent",
                 "margin": { "bottom": 32 }
@@ -1524,10 +1514,8 @@ A complete example of an "Update Available" screen with Material 3 Expressive st
                       "id": "features_title",
                       "type": "text",
                       "text": "What's New",
-                      "textStyle": {
-                        "textSize": 18,
-                        "fontWeight": "bold"
-                      },
+                      "textSize": 18,
+                      "textStyle": "bold",
                       "layoutParams": { "margin": { "bottom": 16 } }
                     },
                     {
@@ -1553,7 +1541,7 @@ A complete example of an "Update Available" screen with Material 3 Expressive st
                           "id": "feature_1_text",
                           "type": "text",
                           "text": "Enhanced security and privacy",
-                          "textStyle": { "textSize": 14 },
+                          "textSize": 14,
                           "layoutParams": { "gravity": "center_vertical" }
                         }
                       ]
@@ -1581,7 +1569,7 @@ A complete example of an "Update Available" screen with Material 3 Expressive st
                           "id": "feature_2_text",
                           "type": "text",
                           "text": "Faster performance",
-                          "textStyle": { "textSize": 14 },
+                          "textSize": 14,
                           "layoutParams": { "gravity": "center_vertical" }
                         }
                       ]
@@ -1606,7 +1594,7 @@ A complete example of an "Update Available" screen with Material 3 Expressive st
                           "id": "feature_3_text",
                           "type": "text",
                           "text": "Fresh new design",
-                          "textStyle": { "textSize": 14 },
+                          "textSize": 14,
                           "layoutParams": { "gravity": "center_vertical" }
                         }
                       ]
@@ -1665,6 +1653,303 @@ A complete example of an "Update Available" screen with Material 3 Expressive st
 }
 ```
 
+### Two-Step Survey
+
+A complete multi-step survey example with step navigation, brand selection chips, feature checkboxes, and RPC submission:
+
+```json
+{
+  "id": "survey_root",
+  "type": "linear",
+  "orientation": "vertical",
+  "layoutParams": {
+    "width": "match_parent",
+    "height": "match_parent"
+  },
+  "children": [
+    {
+      "id": "selectedBrand",
+      "type": "hidden",
+      "value": ""
+    },
+    {
+      "id": "selectedFeatures",
+      "type": "hidden",
+      "value": ""
+    },
+    {
+      "id": "toolbar",
+      "type": "toolbar",
+      "title": "Phone Preferences",
+      "navigationIcon": "ic_arrow_back",
+      "layoutParams": {
+        "width": "match_parent",
+        "height": "wrap_content"
+      },
+      "navigationAction": {
+        "type": "callback",
+        "name": "back"
+      }
+    },
+    {
+      "id": "stepsFlipper",
+      "type": "flipper",
+      "displayedChild": 0,
+      "inAnimation": "slide_in_right",
+      "outAnimation": "slide_out_left",
+      "layoutParams": {
+        "width": "match_parent",
+        "height": "0dp",
+        "weight": 1
+      },
+      "children": [
+        {
+          "id": "step1",
+          "type": "scroll",
+          "layoutParams": {
+            "width": "match_parent",
+            "height": "match_parent"
+          },
+          "children": [
+            {
+              "id": "step1Content",
+              "type": "linear",
+              "orientation": "vertical",
+              "layoutParams": {
+                "width": "match_parent",
+                "height": "wrap_content",
+                "padding": { "left": 24, "right": 24, "top": 32, "bottom": 24 }
+              },
+              "children": [
+                {
+                  "id": "step1Number",
+                  "type": "text",
+                  "text": "Step 1 of 2",
+                  "textSize": 14,
+                  "textColor": "#6750A4",
+                  "layoutParams": { "width": "match_parent", "margin": { "bottom": 8 } }
+                },
+                {
+                  "id": "step1Title",
+                  "type": "text",
+                  "text": "Which phone brand do you prefer?",
+                  "textSize": 24,
+                  "textStyle": "bold",
+                  "layoutParams": { "width": "match_parent", "margin": { "bottom": 8 } }
+                },
+                {
+                  "id": "step1Subtitle",
+                  "type": "text",
+                  "text": "Select one option",
+                  "textSize": 14,
+                  "textColor": "#79747E",
+                  "layoutParams": { "width": "match_parent", "margin": { "bottom": 24 } }
+                },
+                {
+                  "id": "brandGroup",
+                  "type": "chip_group",
+                  "singleSelection": true,
+                  "chips": [
+                    { "id": "chipSamsung", "text": "Samsung" },
+                    { "id": "chipApple", "text": "Apple" },
+                    { "id": "chipGoogle", "text": "Google Pixel" },
+                    { "id": "chipXiaomi", "text": "Xiaomi" },
+                    { "id": "chipOnePlus", "text": "OnePlus" },
+                    { "id": "chipOther", "text": "Other" }
+                  ],
+                  "layoutParams": { "width": "match_parent" }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "step2",
+          "type": "scroll",
+          "layoutParams": {
+            "width": "match_parent",
+            "height": "match_parent"
+          },
+          "children": [
+            {
+              "id": "step2Content",
+              "type": "linear",
+              "orientation": "vertical",
+              "layoutParams": {
+                "width": "match_parent",
+                "height": "wrap_content",
+                "padding": { "left": 24, "right": 24, "top": 32, "bottom": 24 }
+              },
+              "children": [
+                {
+                  "id": "step2Number",
+                  "type": "text",
+                  "text": "Step 2 of 2",
+                  "textSize": 14,
+                  "textColor": "#6750A4",
+                  "layoutParams": { "width": "match_parent", "margin": { "bottom": 8 } }
+                },
+                {
+                  "id": "step2Title",
+                  "type": "text",
+                  "text": "What features matter most?",
+                  "textSize": 24,
+                  "textStyle": "bold",
+                  "layoutParams": { "width": "match_parent", "margin": { "bottom": 8 } }
+                },
+                {
+                  "id": "step2Subtitle",
+                  "type": "text",
+                  "text": "Select all that apply",
+                  "textSize": 14,
+                  "textColor": "#79747E",
+                  "layoutParams": { "width": "match_parent", "margin": { "bottom": 24 } }
+                },
+                {
+                  "id": "checkCamera",
+                  "type": "checkbox",
+                  "text": "Camera Quality",
+                  "layoutParams": { "width": "match_parent", "margin": { "bottom": 8 } }
+                },
+                {
+                  "id": "checkBattery",
+                  "type": "checkbox",
+                  "text": "Battery Life",
+                  "layoutParams": { "width": "match_parent", "margin": { "bottom": 8 } }
+                },
+                {
+                  "id": "checkPerformance",
+                  "type": "checkbox",
+                  "text": "Performance",
+                  "layoutParams": { "width": "match_parent", "margin": { "bottom": 8 } }
+                },
+                {
+                  "id": "checkPrice",
+                  "type": "checkbox",
+                  "text": "Price",
+                  "layoutParams": { "width": "match_parent", "margin": { "bottom": 8 } }
+                },
+                {
+                  "id": "checkDesign",
+                  "type": "checkbox",
+                  "text": "Design",
+                  "layoutParams": { "width": "match_parent" }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "buttonContainer",
+      "type": "linear",
+      "orientation": "horizontal",
+      "layoutParams": {
+        "width": "match_parent",
+        "height": "wrap_content",
+        "padding": { "all": 24 }
+      },
+      "children": [
+        {
+          "id": "btnBack",
+          "type": "button",
+          "text": "Back",
+          "variant": "outlined",
+          "layoutParams": {
+            "width": "0dp",
+            "weight": 1,
+            "margin": { "end": 8 },
+            "visibility": "invisible"
+          },
+          "action": {
+            "type": "sequence",
+            "actions": [
+              {
+                "type": "transform",
+                "transform": {
+                  "type": "batch",
+                  "transforms": [
+                    { "type": "property", "id": "stepsFlipper", "property": "inAnimation", "value": "slide_in_left" },
+                    { "type": "property", "id": "stepsFlipper", "property": "outAnimation", "value": "slide_out_right" }
+                  ]
+                }
+              },
+              {
+                "type": "transform",
+                "transform": {
+                  "type": "property",
+                  "id": "stepsFlipper",
+                  "property": "displayedChild",
+                  "value": 0
+                }
+              },
+              {
+                "type": "transform",
+                "transform": {
+                  "type": "batch",
+                  "transforms": [
+                    { "type": "property", "id": "stepsFlipper", "property": "inAnimation", "value": "slide_in_right" },
+                    { "type": "property", "id": "stepsFlipper", "property": "outAnimation", "value": "slide_out_left" },
+                    { "type": "property", "id": "btnBack", "property": "visibility", "value": "invisible" },
+                    { "type": "property", "id": "btnNext", "property": "text", "value": "Next" }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "id": "btnNext",
+          "type": "button",
+          "text": "Next",
+          "variant": "primary",
+          "layoutParams": {
+            "width": "0dp",
+            "weight": 1,
+            "margin": { "start": 8 }
+          },
+          "action": {
+            "type": "sequence",
+            "actions": [
+              {
+                "type": "transform",
+                "transform": {
+                  "type": "property",
+                  "id": "stepsFlipper",
+                  "property": "displayedChild",
+                  "value": 1
+                }
+              },
+              {
+                "type": "transform",
+                "transform": {
+                  "type": "property",
+                  "id": "btnBack",
+                  "property": "visibility",
+                  "value": "visible"
+                }
+              },
+              {
+                "type": "transform",
+                "transform": {
+                  "type": "property",
+                  "id": "btnNext",
+                  "property": "text",
+                  "value": "Submit"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
+```
+
+**Note:** This basic example navigates to step 2 on any "Next" click. For more advanced logic (e.g., submit on step 2, conditional navigation), use `hidden` components with reactive actions or server-side RPC responses.
+
 ### Login Form
 
 ```json
@@ -1682,7 +1967,8 @@ A complete example of an "Update Available" screen with Material 3 Expressive st
       "id": "title",
       "type": "text",
       "text": "Login",
-      "textStyle": { "textSize": 24, "fontWeight": "bold" },
+      "textSize": 24,
+      "textStyle": "bold",
       "layoutParams": { "margin": { "bottom": 24 } }
     },
     {
@@ -1718,7 +2004,7 @@ A complete example of an "Update Available" screen with Material 3 Expressive st
       "id": "error_text",
       "type": "text",
       "text": "",
-      "textStyle": { "textColor": "#D32F2F" },
+      "textColor": "#D32F2F",
       "layoutParams": { 
         "visibility": "gone",
         "margin": { "bottom": 16 } 
