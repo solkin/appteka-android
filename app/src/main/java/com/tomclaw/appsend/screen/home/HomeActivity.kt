@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.about.createAboutActivityIntent
+import com.tomclaw.appsend.screen.bdui.createBduiScreenActivityIntent
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.screen.distro.createDistroActivityIntent
 import com.tomclaw.appsend.screen.feed.createFeedFragment
@@ -203,6 +204,11 @@ class HomeActivity : AppCompatActivity(), HomePresenter.HomeRouter {
         }
         val chooser = Intent.createChooser(intent, resources.getText(R.string.send_url_to))
         startActivity(chooser)
+    }
+
+    override fun openBduiScreen(url: String, title: String?) {
+        val intent = createBduiScreenActivityIntent(this, url, title)
+        startActivity(intent)
     }
 
     override fun setBackCallbackEnabled(enabled: Boolean) {

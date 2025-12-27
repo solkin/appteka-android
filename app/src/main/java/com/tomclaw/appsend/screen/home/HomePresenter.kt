@@ -53,6 +53,8 @@ interface HomePresenter {
 
         fun openShareUrlDialog(text: String)
 
+        fun openBduiScreen(url: String, title: String?)
+
         fun setBackCallbackEnabled(enabled: Boolean)
 
         fun leaveScreen()
@@ -201,6 +203,11 @@ class HomePresenterImpl(
         bindUpdate()
         bindModeration()
         bindTab()
+
+        // Handle BDUI screen if present (only show once per session)
+        response.bdui?.let { bdui ->
+            router?.openBduiScreen(bdui.url, bdui.title)
+        }
     }
 
     private fun onStatusLoaded(response: StatusResponse) {

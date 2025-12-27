@@ -15,4 +15,18 @@ data class StartupResponse(
     val feed: Int,
     @SerializedName("moderation")
     val moderation: ModerationData?,
+    @SerializedName("bdui")
+    val bdui: StartupBdui?,
+) : Parcelable
+
+/**
+ * BDUI screen configuration from startup response.
+ * When present, the app should open a BDUI screen with the specified parameters.
+ */
+@Parcelize
+data class StartupBdui(
+    @SerializedName("url")
+    val url: String,
+    @SerializedName("title")
+    val title: String?,
 ) : Parcelable
