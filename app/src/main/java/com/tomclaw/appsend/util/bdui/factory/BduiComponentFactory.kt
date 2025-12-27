@@ -105,7 +105,13 @@ class BduiComponentFactory(
         }
 
         view?.let {
-            applyLayoutParams(it, component.layoutParams, parent)
+            // Toolbar gets special default layout params (match_parent width)
+            val effectiveLayoutParams = if (component is BduiToolbarComponent && component.layoutParams == null) {
+                BduiLayoutParams(width = "match_parent", height = "wrap_content")
+            } else {
+                component.layoutParams
+            }
+            applyLayoutParams(it, effectiveLayoutParams, parent)
             setupAction(it, component)
             viewRegistry.registerView(component.id, it)
         }
@@ -423,6 +429,17 @@ class BduiComponentFactory(
 
     private fun createToolbar(component: BduiToolbarComponent): View {
         return MaterialToolbar(context).apply {
+            // Set default minimum height for toolbar
+            val actionBarTypedArray = context.obtainStyledAttributes(intArrayOf(android.R.attr.actionBarSize))
+            minimumHeight = actionBarTypedArray.getDimensionPixelSize(0, 0)
+            actionBarTypedArray.recycle()
+
+            // Apply default background from theme
+            val typedArray = context.obtainStyledAttributes(intArrayOf(R.attr.toolbar_background))
+            val toolbarBackground = typedArray.getColor(0, Color.TRANSPARENT)
+            typedArray.recycle()
+            setBackgroundColor(toolbarBackground)
+
             // Title and subtitle
             title = component.title
             subtitle = component.subtitle
@@ -431,18 +448,37 @@ class BduiComponentFactory(
 
             // Navigation icon
             component.navigationIcon?.let { iconName ->
-                val iconRes = getDrawableResource(iconName)
-                if (iconRes != 0) {
-                    setNavigationIcon(iconRes)
+                // Use themed homeAsUpIndicator if standard back icon is requested
+                if (iconName == "ic_arrow_back" || iconName == "back" || iconName == "home") {
+                    val navTypedArray = context.obtainStyledAttributes(intArrayOf(android.R.attr.homeAsUpIndicator))
+                    val homeAsUpIndicator = navTypedArray.getDrawable(0)
+                    navTypedArray.recycle()
+                    navigationIcon = homeAsUpIndicator
+                } else {
+                    val iconRes = getDrawableResource(iconName)
+                    if (iconRes != 0) {
+                        setNavigationIcon(iconRes)
+                    }
                 }
             }
 
-            // Navigation icon tint
+            // Navigation icon tint (if not using themed icon)
             component.navigationIconTint?.let { tint ->
                 try {
                     setNavigationIconTint(Color.parseColor(tint))
                 } catch (e: IllegalArgumentException) {
                     // Invalid color
+                }
+            } ?: run {
+                // Apply default tint from theme if custom icon was set (not homeAsUpIndicator)
+                if (component.navigationIcon != null && 
+                    component.navigationIcon != "ic_arrow_back" && 
+                    component.navigationIcon != "back" && 
+                    component.navigationIcon != "home") {
+                    val tintTypedArray = context.obtainStyledAttributes(intArrayOf(android.R.attr.textColorPrimary))
+                    val defaultTint = tintTypedArray.getColor(0, Color.BLACK)
+                    tintTypedArray.recycle()
+                    setNavigationIconTint(defaultTint)
                 }
             }
 
@@ -456,7 +492,7 @@ class BduiComponentFactory(
                 }
             }
 
-            // Background color
+            // Background color (override default if specified)
             component.backgroundColor?.let { bgColor ->
                 try {
                     setBackgroundColor(Color.parseColor(bgColor))
@@ -491,13 +527,9 @@ class BduiComponentFactory(
                 }
             }
 
-            // Content insets
-            component.contentInsetStart?.let { inset ->
-                contentInsetStartWithNavigation = dpToPx(inset)
-            }
-            component.contentInsetEnd?.let { inset ->
-                contentInsetEndWithActions = dpToPx(inset)
-            }
+            // Content insets - only override if explicitly specified
+            component.contentInsetStart?.let { contentInsetStartWithNavigation = dpToPx(it) }
+            component.contentInsetEnd?.let { contentInsetEndWithActions = dpToPx(it) }
 
             // Menu items
             component.menu?.let { menuItems ->

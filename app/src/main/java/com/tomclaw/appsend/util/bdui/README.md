@@ -1231,6 +1231,10 @@ A complete example of an "Update Available" screen with Material 3 Expressive st
       "type": "toolbar",
       "title": "Update Available",
       "navigationIcon": "ic_arrow_back",
+      "layoutParams": {
+        "width": "match_parent",
+        "height": "wrap_content"
+      },
       "action": {
         "type": "callback",
         "name": "back"
