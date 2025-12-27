@@ -30,6 +30,10 @@ interface BduiScreenPresenter {
 
         fun handleRoute(screen: String, params: Map<String, Any>?)
 
+        fun handleOpenUrl(url: String, external: Boolean)
+
+        fun handleShare(text: String, title: String?)
+
     }
 
 }
@@ -65,6 +69,19 @@ class BduiScreenPresenterImpl(
 
         subscriptions += view.routeEvents().subscribe { event ->
             router?.handleRoute(event.screen, event.params)
+        }
+
+        subscriptions += view.openUrlEvents().subscribe { event ->
+            router?.handleOpenUrl(event.url, event.external)
+        }
+
+        subscriptions += view.shareEvents().subscribe { event ->
+            router?.handleShare(event.text, event.title)
+        }
+
+        subscriptions += view.reloadEvents().subscribe {
+            schema = null
+            loadSchema()
         }
 
         subscriptions += view.rpcRequests()

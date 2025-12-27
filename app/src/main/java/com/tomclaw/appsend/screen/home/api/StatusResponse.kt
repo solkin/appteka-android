@@ -12,4 +12,6 @@ data class StatusResponse(
     val title: String?,
     @SerializedName("message")
     val message: String?,
+    @SerializedName("bdui")
+    val bdui: StartupBdui?,
 ) : Parcelable

@@ -94,6 +94,166 @@ data class BduiRouteAction(
 }
 
 /**
+ * Open URL action - opens a URL in browser or in-app WebView.
+ */
+data class BduiOpenUrlAction(
+    @SerializedName("type")
+    override val type: String = TYPE,
+    @SerializedName("url")
+    val url: String,
+    @SerializedName("external")
+    val external: Boolean = true
+) : BduiAction {
+    companion object {
+        const val TYPE = "open_url"
+    }
+}
+
+/**
+ * Snackbar action - shows a snackbar message.
+ */
+data class BduiSnackbarAction(
+    @SerializedName("type")
+    override val type: String = TYPE,
+    @SerializedName("message")
+    val message: String,
+    @SerializedName("duration")
+    val duration: String = "short",
+    @SerializedName("actionText")
+    val actionText: String? = null,
+    @SerializedName("action")
+    val action: BduiAction? = null
+) : BduiAction {
+    companion object {
+        const val TYPE = "snackbar"
+    }
+}
+
+/**
+ * Copy action - copies text to clipboard.
+ */
+data class BduiCopyAction(
+    @SerializedName("type")
+    override val type: String = TYPE,
+    @SerializedName("text")
+    val text: String,
+    @SerializedName("label")
+    val label: String = "Copied text"
+) : BduiAction {
+    companion object {
+        const val TYPE = "copy"
+    }
+}
+
+/**
+ * Share action - shares content via system share dialog.
+ */
+data class BduiShareAction(
+    @SerializedName("type")
+    override val type: String = TYPE,
+    @SerializedName("text")
+    val text: String,
+    @SerializedName("title")
+    val title: String? = null
+) : BduiAction {
+    companion object {
+        const val TYPE = "share"
+    }
+}
+
+/**
+ * Delay action - delays execution of the next action in a sequence.
+ */
+data class BduiDelayAction(
+    @SerializedName("type")
+    override val type: String = TYPE,
+    @SerializedName("duration")
+    val duration: Long
+) : BduiAction {
+    companion object {
+        const val TYPE = "delay"
+    }
+}
+
+/**
+ * Store action - saves a value to SharedPreferences.
+ */
+data class BduiStoreAction(
+    @SerializedName("type")
+    override val type: String = TYPE,
+    @SerializedName("key")
+    val key: String,
+    @SerializedName("value")
+    val value: Any?
+) : BduiAction {
+    companion object {
+        const val TYPE = "store"
+    }
+}
+
+/**
+ * Load action - loads a value from SharedPreferences into a hidden component.
+ */
+data class BduiLoadAction(
+    @SerializedName("type")
+    override val type: String = TYPE,
+    @SerializedName("key")
+    val key: String,
+    @SerializedName("targetId")
+    val targetId: String,
+    @SerializedName("defaultValue")
+    val defaultValue: Any? = null
+) : BduiAction {
+    companion object {
+        const val TYPE = "load"
+    }
+}
+
+/**
+ * Reload action - reloads the current BDUI screen.
+ */
+data class BduiReloadAction(
+    @SerializedName("type")
+    override val type: String = TYPE
+) : BduiAction {
+    companion object {
+        const val TYPE = "reload"
+    }
+}
+
+/**
+ * Focus action - sets focus on a component.
+ */
+data class BduiFocusAction(
+    @SerializedName("type")
+    override val type: String = TYPE,
+    @SerializedName("id")
+    val id: String,
+    @SerializedName("showKeyboard")
+    val showKeyboard: Boolean = true
+) : BduiAction {
+    companion object {
+        const val TYPE = "focus"
+    }
+}
+
+/**
+ * Scroll to action - scrolls to a component.
+ */
+data class BduiScrollToAction(
+    @SerializedName("type")
+    override val type: String = TYPE,
+    @SerializedName("id")
+    val id: String,
+    @SerializedName("smooth")
+    val smooth: Boolean = true
+) : BduiAction {
+    companion object {
+        const val TYPE = "scroll_to"
+    }
+}
+
+/**
  * Response from RPC request containing a single action to execute.
  */
 data class BduiRpcResponse(

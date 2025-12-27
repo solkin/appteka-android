@@ -1,11 +1,18 @@
 package com.tomclaw.appsend.screen.bdui
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
+import android.widget.ScrollView
 import android.widget.ViewFlipper
 import androidx.appcompat.widget.Toolbar
+import androidx.core.widget.NestedScrollView
 import com.google.android.material.appbar.AppBarLayout
 import com.google.android.material.button.MaterialButton
+import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.util.SchedulersFactory
@@ -37,6 +44,12 @@ interface BduiScreenView {
 
     fun routeEvents(): Observable<BduiRouteEvent>
 
+    fun openUrlEvents(): Observable<BduiOpenUrlEvent>
+
+    fun shareEvents(): Observable<BduiShareEvent>
+
+    fun reloadEvents(): Observable<Unit>
+
 }
 
 data class BduiCallbackEvent(
@@ -55,11 +68,23 @@ data class BduiRouteEvent(
     val params: Map<String, Any>?
 )
 
+data class BduiOpenUrlEvent(
+    val url: String,
+    val external: Boolean
+)
+
+data class BduiShareEvent(
+    val text: String,
+    val title: String?
+)
+
 class BduiScreenViewImpl(
     view: View,
-    private val schedulersFactory: SchedulersFactory
+    schedulersFactory: SchedulersFactory,
+    preferencesStorage: com.tomclaw.appsend.util.bdui.BduiPreferencesStorage
 ) : BduiScreenView, BduiActionListener {
 
+    private val context: Context = view.context
     private val toolbarContainer: AppBarLayout = view.findViewById(R.id.toolbar_container)
     private val toolbar: Toolbar = view.findViewById(R.id.toolbar)
     private val viewFlipper: ViewFlipper = view.findViewById(R.id.view_flipper)
@@ -73,6 +98,9 @@ class BduiScreenViewImpl(
     private val callbackRelay = PublishRelay.create<BduiCallbackEvent>()
     private val rpcRelay = PublishRelay.create<BduiRpcRequest>()
     private val routeRelay = PublishRelay.create<BduiRouteEvent>()
+    private val openUrlRelay = PublishRelay.create<BduiOpenUrlEvent>()
+    private val shareRelay = PublishRelay.create<BduiShareEvent>()
+    private val reloadRelay = PublishRelay.create<Unit>()
 
     init {
         val typedArray = view.context.obtainStyledAttributes(intArrayOf(android.R.attr.actionBarSize))
@@ -82,7 +110,7 @@ class BduiScreenViewImpl(
         toolbar.setNavigationOnClickListener { navigationRelay.accept(Unit) }
         retryButton.setOnClickListener { retryRelay.accept(Unit) }
 
-        bduiView.initialize(schedulersFactory, this)
+        bduiView.initialize(schedulersFactory, preferencesStorage, this)
     }
 
     override fun showLoading() {
@@ -122,6 +150,12 @@ class BduiScreenViewImpl(
 
     override fun routeEvents(): Observable<BduiRouteEvent> = routeRelay
 
+    override fun openUrlEvents(): Observable<BduiOpenUrlEvent> = openUrlRelay
+
+    override fun shareEvents(): Observable<BduiShareEvent> = shareRelay
+
+    override fun reloadEvents(): Observable<Unit> = reloadRelay
+
     // BduiActionListener implementation
 
     override fun onCallback(name: String, data: Any?) {
@@ -149,6 +183,81 @@ class BduiScreenViewImpl(
 
     override fun onRoute(screen: String, params: Map<String, Any>?) {
         routeRelay.accept(BduiRouteEvent(screen, params))
+    }
+
+    override fun onOpenUrl(url: String, external: Boolean) {
+        openUrlRelay.accept(BduiOpenUrlEvent(url, external))
+    }
+
+    override fun onSnackbar(message: String, duration: String, actionText: String?, onAction: () -> Unit) {
+        val snackbarDuration = when (duration) {
+            "long" -> Snackbar.LENGTH_LONG
+            "indefinite" -> Snackbar.LENGTH_INDEFINITE
+            else -> Snackbar.LENGTH_SHORT
+        }
+        val snackbar = Snackbar.make(bduiView, message, snackbarDuration)
+        actionText?.let {
+            snackbar.setAction(it) { onAction() }
+        }
+        snackbar.show()
+    }
+
+    override fun onCopy(text: String, label: String) {
+        val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clip = ClipData.newPlainText(label, text)
+        clipboard.setPrimaryClip(clip)
+    }
+
+    override fun onShare(text: String, title: String?) {
+        shareRelay.accept(BduiShareEvent(text, title))
+    }
+
+    override fun onReload() {
+        reloadRelay.accept(Unit)
+    }
+
+    override fun onFocus(id: String, showKeyboard: Boolean) {
+        val targetView = bduiView.findBduiViewById(id) ?: return
+        targetView.requestFocus()
+        if (showKeyboard) {
+            val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.showSoftInput(targetView, InputMethodManager.SHOW_IMPLICIT)
+        }
+    }
+
+    override fun onScrollTo(id: String, smooth: Boolean) {
+        val targetView = bduiView.findBduiViewById(id) ?: return
+        val scrollParent = findScrollParent(targetView)
+        scrollParent?.let { scroll ->
+            val location = IntArray(2)
+            targetView.getLocationInWindow(location)
+            val scrollLocation = IntArray(2)
+            scroll.getLocationInWindow(scrollLocation)
+            val scrollY = location[1] - scrollLocation[1]
+            
+            if (smooth) {
+                when (scroll) {
+                    is NestedScrollView -> scroll.smoothScrollTo(0, scrollY)
+                    is ScrollView -> scroll.smoothScrollTo(0, scrollY)
+                }
+            } else {
+                when (scroll) {
+                    is NestedScrollView -> scroll.scrollTo(0, scrollY)
+                    is ScrollView -> scroll.scrollTo(0, scrollY)
+                }
+            }
+        }
+    }
+
+    private fun findScrollParent(view: View): ViewGroup? {
+        var parent = view.parent
+        while (parent != null) {
+            if (parent is NestedScrollView || parent is ScrollView) {
+                return parent as ViewGroup
+            }
+            parent = parent.parent
+        }
+        return null
     }
 
     companion object {

@@ -9,10 +9,20 @@ import com.google.gson.JsonParseException
 import com.tomclaw.appsend.util.bdui.model.BduiNode
 import com.tomclaw.appsend.util.bdui.model.action.BduiAction
 import com.tomclaw.appsend.util.bdui.model.action.BduiCallbackAction
+import com.tomclaw.appsend.util.bdui.model.action.BduiCopyAction
+import com.tomclaw.appsend.util.bdui.model.action.BduiDelayAction
+import com.tomclaw.appsend.util.bdui.model.action.BduiFocusAction
+import com.tomclaw.appsend.util.bdui.model.action.BduiLoadAction
+import com.tomclaw.appsend.util.bdui.model.action.BduiOpenUrlAction
+import com.tomclaw.appsend.util.bdui.model.action.BduiReloadAction
 import com.tomclaw.appsend.util.bdui.model.action.BduiRouteAction
 import com.tomclaw.appsend.util.bdui.model.action.BduiRpcAction
 import com.tomclaw.appsend.util.bdui.model.action.BduiRpcResponse
+import com.tomclaw.appsend.util.bdui.model.action.BduiScrollToAction
 import com.tomclaw.appsend.util.bdui.model.action.BduiSequenceAction
+import com.tomclaw.appsend.util.bdui.model.action.BduiShareAction
+import com.tomclaw.appsend.util.bdui.model.action.BduiSnackbarAction
+import com.tomclaw.appsend.util.bdui.model.action.BduiStoreAction
 import com.tomclaw.appsend.util.bdui.model.action.BduiTransformAction
 import com.tomclaw.appsend.util.bdui.model.component.BduiButtonComponent
 import com.tomclaw.appsend.util.bdui.model.component.BduiCardComponent
@@ -169,6 +179,16 @@ class BduiActionDeserializer : JsonDeserializer<BduiAction> {
             BduiTransformAction.TYPE -> BduiTransformAction::class.java
             BduiSequenceAction.TYPE -> BduiSequenceAction::class.java
             BduiRouteAction.TYPE -> BduiRouteAction::class.java
+            BduiOpenUrlAction.TYPE -> BduiOpenUrlAction::class.java
+            BduiSnackbarAction.TYPE -> BduiSnackbarAction::class.java
+            BduiCopyAction.TYPE -> BduiCopyAction::class.java
+            BduiShareAction.TYPE -> BduiShareAction::class.java
+            BduiDelayAction.TYPE -> BduiDelayAction::class.java
+            BduiStoreAction.TYPE -> BduiStoreAction::class.java
+            BduiLoadAction.TYPE -> BduiLoadAction::class.java
+            BduiReloadAction.TYPE -> BduiReloadAction::class.java
+            BduiFocusAction.TYPE -> BduiFocusAction::class.java
+            BduiScrollToAction.TYPE -> BduiScrollToAction::class.java
             else -> throw JsonParseException("Unknown BduiAction type: $type")
         }
 

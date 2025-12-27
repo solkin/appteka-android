@@ -2,6 +2,7 @@ package com.tomclaw.appsend.screen.bdui
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.tomclaw.appsend.Appteka
@@ -58,6 +59,9 @@ class BduiScreenActivity : AppCompatActivity(), BduiScreenPresenter.BduiScreenRo
     lateinit var schedulersFactory: SchedulersFactory
 
     @Inject
+    lateinit var preferencesStorage: com.tomclaw.appsend.util.bdui.BduiPreferencesStorage
+
+    @Inject
     lateinit var analytics: Analytics
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -74,7 +78,7 @@ class BduiScreenActivity : AppCompatActivity(), BduiScreenPresenter.BduiScreenRo
         super.onCreate(savedInstanceState)
         setContentView(R.layout.bdui_screen_activity)
 
-        val view = BduiScreenViewImpl(window.decorView, schedulersFactory)
+        val view = BduiScreenViewImpl(window.decorView, schedulersFactory, preferencesStorage)
 
         presenter.attachView(view)
 
@@ -132,6 +136,22 @@ class BduiScreenActivity : AppCompatActivity(), BduiScreenPresenter.BduiScreenRo
     override fun handleRoute(screen: String, params: Map<String, Any>?) {
         val intent = createRouteIntent(screen, params) ?: return
         startActivity(intent)
+    }
+
+    override fun handleOpenUrl(url: String, external: Boolean) {
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        startActivity(intent)
+    }
+
+    override fun handleShare(text: String, title: String?) {
+        val intent = Intent().apply {
+            action = Intent.ACTION_SEND
+            putExtra(Intent.EXTRA_TEXT, text)
+            type = "text/plain"
+        }
+        val chooserTitle = title ?: getString(R.string.share)
+        val chooser = Intent.createChooser(intent, chooserTitle)
+        startActivity(chooser)
     }
 
     private fun createRouteIntent(screen: String, params: Map<String, Any>?): Intent? {

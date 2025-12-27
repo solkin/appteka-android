@@ -1110,6 +1110,195 @@ class MyBduiActivity : BduiScreenActivity() {
 }
 ```
 
+#### Open URL Action (`type: "open_url"`)
+
+Opens a URL in the browser.
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `url` | string | - | URL to open (supports refs) |
+| `external` | boolean | `true` | Open in external browser |
+
+```json
+{
+  "type": "open_url",
+  "url": "https://example.com"
+}
+```
+
+#### Snackbar Action (`type: "snackbar"`)
+
+Shows a snackbar message.
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `message` | string | - | Message to display |
+| `duration` | string | `"short"` | `"short"`, `"long"`, `"indefinite"` |
+| `actionText` | string | - | Optional action button text |
+| `action` | action | - | Action to execute when button clicked |
+
+```json
+{
+  "type": "snackbar",
+  "message": "Item saved successfully",
+  "duration": "short"
+}
+```
+
+```json
+{
+  "type": "snackbar",
+  "message": "Connection lost",
+  "duration": "indefinite",
+  "actionText": "Retry",
+  "action": {
+    "type": "callback",
+    "name": "retry"
+  }
+}
+```
+
+#### Copy Action (`type: "copy"`)
+
+Copies text to clipboard.
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `text` | string | - | Text to copy (supports refs) |
+| `label` | string | `"Copied text"` | Clipboard label |
+
+```json
+{
+  "type": "copy",
+  "text": { "type": "ref", "id": "promo_code", "property": "text" }
+}
+```
+
+#### Share Action (`type: "share"`)
+
+Opens system share dialog.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `text` | string | Text to share (supports refs) |
+| `title` | string | Optional chooser title |
+
+```json
+{
+  "type": "share",
+  "text": "Check out this app: https://example.com/app",
+  "title": "Share via"
+}
+```
+
+#### Delay Action (`type: "delay"`)
+
+Delays execution of the next action in a sequence.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `duration` | number | Delay in milliseconds |
+
+```json
+{
+  "type": "sequence",
+  "actions": [
+    {
+      "type": "transform",
+      "transform": { "type": "property", "id": "status", "property": "text", "value": "Processing..." }
+    },
+    {
+      "type": "delay",
+      "duration": 2000
+    },
+    {
+      "type": "transform",
+      "transform": { "type": "property", "id": "status", "property": "text", "value": "Done!" }
+    }
+  ]
+}
+```
+
+#### Store Action (`type: "store"`)
+
+Saves a value to SharedPreferences (persists across sessions).
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `key` | string | Storage key |
+| `value` | any | Value to store (supports refs) |
+
+```json
+{
+  "type": "store",
+  "key": "user_preference",
+  "value": { "type": "ref", "id": "preference_switch", "property": "checked" }
+}
+```
+
+#### Load Action (`type: "load"`)
+
+Loads a value from SharedPreferences into a hidden component.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `key` | string | Storage key |
+| `targetId` | string | ID of hidden component to store value |
+| `defaultValue` | any | Default value if key not found |
+
+```json
+{
+  "type": "load",
+  "key": "user_preference",
+  "targetId": "saved_preference",
+  "defaultValue": true
+}
+```
+
+#### Reload Action (`type: "reload"`)
+
+Reloads the current BDUI screen from the server.
+
+```json
+{
+  "type": "reload"
+}
+```
+
+#### Focus Action (`type: "focus"`)
+
+Sets focus on a component.
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `id` | string | - | Component ID |
+| `showKeyboard` | boolean | `true` | Show soft keyboard |
+
+```json
+{
+  "type": "focus",
+  "id": "email_input",
+  "showKeyboard": true
+}
+```
+
+#### Scroll To Action (`type: "scroll_to"`)
+
+Scrolls to a component.
+
+| Field | Type | Default | Description |
+|-------|------|---------|-------------|
+| `id` | string | - | Component ID |
+| `smooth` | boolean | `true` | Smooth scroll animation |
+
+```json
+{
+  "type": "scroll_to",
+  "id": "error_message",
+  "smooth": true
+}
+```
+
 ---
 
 ### Transforms

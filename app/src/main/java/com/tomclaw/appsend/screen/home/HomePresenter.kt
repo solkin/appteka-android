@@ -219,6 +219,11 @@ class HomePresenterImpl(
                 message = response.message,
             )
         }
+
+        // Handle BDUI screen from StandBy if present
+        response.bdui?.let { bdui ->
+            router?.openBduiScreen(bdui.url, bdui.title)
+        }
     }
 
     private fun bindUnread(count: Int = unread) {

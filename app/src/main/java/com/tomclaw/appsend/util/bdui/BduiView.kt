@@ -20,9 +20,6 @@ import com.tomclaw.appsend.util.bdui.factory.BduiContainerFactory
 import com.tomclaw.appsend.util.bdui.factory.BduiLayoutParamsFactory
 import com.tomclaw.appsend.util.bdui.model.BduiNode
 import com.tomclaw.appsend.util.bdui.model.action.BduiAction
-import com.tomclaw.appsend.util.bdui.model.action.BduiRpcAction
-import com.tomclaw.appsend.util.bdui.model.action.BduiRpcResponse
-import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 
 /**
@@ -67,10 +64,12 @@ class BduiView @JvmOverloads constructor(
      * Must be called before render().
      *
      * @param schedulersFactory Factory for RxJava schedulers
+     * @param preferencesStorage Storage for BDUI preferences (store/load actions)
      * @param listener Listener for handling callbacks and RPC requests
      */
     fun initialize(
         schedulersFactory: SchedulersFactory,
+        preferencesStorage: BduiPreferencesStorage,
         listener: BduiActionListener
     ) {
         this.schedulersFactory = schedulersFactory
@@ -81,6 +80,7 @@ class BduiView @JvmOverloads constructor(
         actionHandler = BduiActionHandler(
             transformHandler = transformHandler,
             refResolver = refResolver,
+            preferencesStorage = preferencesStorage,
             listener = listener,
             schedulers = schedulersFactory
         )
