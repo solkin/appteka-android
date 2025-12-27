@@ -76,13 +76,16 @@
 
         <TextView
             android:id="@+id/app_size"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginTop="2dp"
             android:textAppearance="?attr/textAppearanceLabelMedium"
             android:textColor="?attr/colorOnSurfaceVariant"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/app_icon"
+            app:layout_constraintEnd_toStartOf="@id/discard_button"
+            app:layout_constraintStart_toEndOf="@id/app_icon"
+            app:layout_constraintTop_toBottomOf="@id/app_package"
             tools:text="3.1 MB" />
 
         <com.google.android.material.button.MaterialButton

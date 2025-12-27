@@ -73,6 +73,15 @@ android {
         offline = { applicationVariant -> false }
         enableAnalytics = true
     }
+
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            def versionName = variant.versionName
+            def versionCode = variant.versionCode
+            outputFileName = "appteka-${versionName}-${versionCode}.apk"
+        }
+    }
+
     dependencies {
         implementation 'androidx.preference:preference-ktx:1.2.1'
         implementation 'com.github.solkin:simple-image-loader:v0.9.6'
