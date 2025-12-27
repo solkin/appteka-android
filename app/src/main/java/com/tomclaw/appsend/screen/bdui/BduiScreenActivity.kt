@@ -149,7 +149,7 @@ class BduiScreenActivity : AppCompatActivity(), BduiScreenPresenter.BduiScreenRo
             putExtra(Intent.EXTRA_TEXT, text)
             type = "text/plain"
         }
-        val chooserTitle = title ?: getString(R.string.share)
+        val chooserTitle = title ?: getString(R.string.send_to)
         val chooser = Intent.createChooser(intent, chooserTitle)
         startActivity(chooser)
     }
