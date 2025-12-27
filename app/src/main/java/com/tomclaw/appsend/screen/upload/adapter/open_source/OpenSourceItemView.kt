@@ -3,11 +3,12 @@ package com.tomclaw.appsend.screen.upload.adapter.open_source
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import android.widget.CheckBox
 import android.widget.EditText
 import androidx.core.view.isVisible
 import com.avito.konveyor.adapter.BaseViewHolder
 import com.avito.konveyor.blueprint.ItemView
+import com.google.android.material.materialswitch.MaterialSwitch
+import com.google.android.material.textfield.TextInputLayout
 import com.tomclaw.appsend.R
 
 interface OpenSourceItemView : ItemView {
@@ -24,26 +25,27 @@ interface OpenSourceItemView : ItemView {
 
 class OpenSourceItemViewHolder(view: View) : BaseViewHolder(view), OpenSourceItemView {
 
-    private val openSourceCheckBox: CheckBox = view.findViewById(R.id.open_source)
+    private val openSourceSwitch: MaterialSwitch = view.findViewById(R.id.open_source)
+    private val sourceUrlLayout: TextInputLayout = view.findViewById(R.id.source_url_layout)
     private val sourceUrlEdit: EditText = view.findViewById(R.id.source_url)
 
     private var openSourceChangedListener: ((Boolean, String) -> Unit)? = null
 
     init {
-        openSourceCheckBox.setOnCheckedChangeListener { _, isChecked ->
+        openSourceSwitch.setOnCheckedChangeListener { _, isChecked ->
             openSourceChangedListener?.invoke(isChecked, sourceUrlEdit.text.toString())
         }
         sourceUrlEdit.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
             override fun afterTextChanged(s: Editable?) {
-                openSourceChangedListener?.invoke(openSourceCheckBox.isChecked, s.toString())
+                openSourceChangedListener?.invoke(openSourceSwitch.isChecked, s.toString())
             }
         })
     }
 
     override fun setOpenSource(value: Boolean) {
-        openSourceCheckBox.isChecked = value
+        openSourceSwitch.isChecked = value
     }
 
     override fun setUrl(uri: String) {
@@ -51,7 +53,7 @@ class OpenSourceItemViewHolder(view: View) : BaseViewHolder(view), OpenSourceIte
     }
 
     override fun setUrlVisible(visible: Boolean) {
-        sourceUrlEdit.isVisible = visible
+        sourceUrlLayout.isVisible = visible
     }
 
     override fun setOnOpenSourceChangedListener(listener: ((Boolean, String) -> Unit)?) {

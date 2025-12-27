@@ -129,6 +129,8 @@ class UploadPresenterImpl(
     private var sourceUrl: String =
         state?.getString(KEY_SOURCE_URL) ?: startInfo?.sourceUrl.orEmpty()
     private var highlightErrors: Boolean = state?.getBoolean(KEY_HIGHLIGHT_ERRORS) == true
+    private var selectedPrefillVersion: VersionItem? = null
+    private var isPrefillLoading: Boolean = false
 
     private val items = ArrayList<Item>()
 
@@ -338,6 +340,7 @@ class UploadPresenterImpl(
             openSource,
             sourceUrl,
             highlightErrors,
+            selectedPrefillVersion,
         )
     }
 
@@ -382,6 +385,7 @@ class UploadPresenterImpl(
     }
 
     private fun clearForm() {
+        screenshots = ArrayList()
         category = null
         whatsNew = ""
         description = ""
@@ -389,6 +393,7 @@ class UploadPresenterImpl(
         openSource = false
         sourceUrl = ""
         highlightErrors = false
+        selectedPrefillVersion = null
         bindForm()
     }
 
@@ -518,6 +523,64 @@ class UploadPresenterImpl(
     override fun onScreenshotDelete(item: ScreenImageItem) {
         screenshots.remove(screenshots.first { it.original == item.original })
         bindForm()
+    }
+
+    override fun onPrefillVersionSelected(version: VersionItem?) {
+        if (version == null) {
+            // Clear prefill - reset to empty form (but keep whatsNew as is)
+            selectedPrefillVersion = null
+            screenshots = ArrayList()
+            category = null
+            description = ""
+            exclusive = false
+            openSource = false
+            sourceUrl = ""
+            bindForm()
+            return
+        }
+
+        if (isPrefillLoading) return
+        isPrefillLoading = true
+        selectedPrefillVersion = version
+
+        subscriptions += interactor.loadVersionMeta(version.appId)
+            .observeOn(schedulers.mainThread())
+            .retryWhenNonAuthErrors()
+            .doOnSubscribe { view?.showProgress() }
+            .doAfterTerminate {
+                isPrefillLoading = false
+                view?.showContent()
+            }
+            .subscribe(
+                { details -> onPrefillMetaLoaded(details) },
+                { onPrefillMetaError() }
+            )
+    }
+
+    private fun onPrefillMetaLoaded(details: com.tomclaw.appsend.screen.details.api.Details) {
+        details.meta?.let { meta ->
+            this.screenshots = meta.screenshots?.map {
+                UploadScreenshot(
+                    it.scrId,
+                    it.original.toUri(),
+                    it.preview.toUri(),
+                    it.width,
+                    it.height
+                )
+            }?.let { ArrayList(it) } ?: ArrayList()
+            this.category = meta.category?.let { categoryConverter.convert(it) }
+            // Note: whatsNew is NOT prefilled as per requirements
+            this.description = meta.description.orEmpty()
+            this.exclusive = meta.exclusive == true
+            this.openSource = meta.openSource ?: !meta.sourceUrl.isNullOrEmpty()
+            this.sourceUrl = meta.sourceUrl.orEmpty()
+        }
+        bindForm()
+    }
+
+    private fun onPrefillMetaError() {
+        selectedPrefillVersion = null
+        view?.showError()
     }
 
     private fun loadCategories() {

@@ -119,6 +119,7 @@
     <string name="message_report_sent">感谢您帮助讨论组维护!</string>
     <string name="exclusive_short">独家的</string>
     <string name="exclusive">独家应用程序（Google Play 上不提供）</string>
+    <string name="exclusive_description">应用在 Google Play 上不可用</string>
     <string name="description">描述</string>
     <string name="edit_meta">更改说明</string>
     <string name="ratings">评分</string>
@@ -221,7 +222,8 @@
     <string name="discuss_description">在内置通讯工具中与其他用户讨论该应用</string>
     <string name="select_category">选择一个类别</string>
     <string name="whats_new">该版本的更新内容</string>
-    <string name="open_source">开源应用程序代码</string>
+    <string name="open_source">Open Source</string>
+    <string name="open_source_description">源代码公开可用</string>
     <string name="source_code_url">源代码链接</string>
     <string name="other_versions_title">其他版本</string>
     <string name="check_uploaded_versions">查看历史版本</string>
@@ -367,4 +369,7 @@
     <plurals name="download_apps_count">
         <item quantity="other">%d 个应用已被下载</item>
     </plurals>
+    <string name="prefill_from_version">从版本填充</string>
+    <string name="prefill_none">不填充</string>
+    <string name="prefill_hint">从以前的版本复制描述、截图和设置</string>
 </resources>

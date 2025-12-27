@@ -119,6 +119,7 @@
     <string name="message_report_sent">Спасибо за помощь в модерации обсуждений!</string>
     <string name="exclusive_short">Эксклюзив</string>
     <string name="exclusive">Эксклюзивное приложение (не представлено в Google Play)</string>
+    <string name="exclusive_description">Приложение отсутствует в Google Play</string>
     <string name="description">Описание</string>
     <string name="edit_meta">Изменить описание</string>
     <string name="ratings">Отзывы</string>
@@ -221,7 +222,8 @@
     <string name="discuss_description">Обсудите приложение с\u00A0другими пользователями во\u00A0встроенном мессенджере</string>
     <string name="select_category">Выберите категорию</string>
     <string name="whats_new">Что нового в этой версии</string>
-    <string name="open_source">Открытый исходный код приложения</string>
+    <string name="open_source">Open Source</string>
+    <string name="open_source_description">Исходный код доступен публично</string>
     <string name="source_code_url">Ссылка на исходный код</string>
     <string name="other_versions_title">Другие версии</string>
     <string name="check_uploaded_versions">Посмотреть загруженные версии</string>
@@ -394,4 +396,7 @@
         <item quantity="many">%d приложений было скачано</item>
         <item quantity="other">%d приложений было скачано</item>
     </plurals>
+    <string name="prefill_from_version">Заполнить из версии</string>
+    <string name="prefill_none">Не заполнять</string>
+    <string name="prefill_hint">Скопировать описание, скриншоты и настройки из предыдущей версии</string>
 </resources>

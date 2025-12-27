@@ -4,6 +4,7 @@ import android.net.Uri
 import androidx.core.net.toFile
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.core.StreamsProvider
+import com.tomclaw.appsend.screen.details.api.Details
 import com.tomclaw.appsend.screen.upload.api.CheckExistResponse
 import com.tomclaw.appsend.util.SchedulersFactory
 import io.reactivex.rxjava3.core.Observable
@@ -19,6 +20,8 @@ interface UploadInteractor {
     fun calculateSha1(file: String): Observable<String>
 
     fun checkExist(sha1: String, packageName: String, size: Long): Observable<CheckExistResponse>
+
+    fun loadVersionMeta(appId: String): Observable<Details>
 
     fun uriToFile(uri: Uri): Observable<File>
 
@@ -61,6 +64,18 @@ class UploadInteractorImpl(
                 sha1 = sha1,
                 packageName = packageName,
                 size = size,
+                locale = locale.language,
+            )
+            .map { it.result }
+            .toObservable()
+            .subscribeOn(schedulers.io())
+    }
+
+    override fun loadVersionMeta(appId: String): Observable<Details> {
+        return api
+            .getInfo(
+                appId = appId,
+                packageName = null,
                 locale = locale.language,
             )
             .map { it.result }

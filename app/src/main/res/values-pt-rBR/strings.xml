@@ -122,6 +122,7 @@
     <string name="reply_form" translatable="false">&gt; %s\n</string>
     <string name="exclusive_short">Exclusivo</string>
     <string name="exclusive">Aplicativo exclusivo (não está presente no Google Play)</string>
+    <string name="exclusive_description">Aplicativo não disponível no Google Play</string>
     <string name="description">Descrição</string>
     <string name="edit_meta">Editar descrição</string>
     <string name="ratings">Avaliações</string>
@@ -224,7 +225,8 @@
     <string name="discuss_description">Discutir aplicação com outros usuários no\u00A0mensageiro incorporado</string>
     <string name="select_category">Selecionar categoria</string>
     <string name="whats_new">O que há de novo nesta versão</string>
-    <string name="open_source">Aplicativo de código aberto</string>
+    <string name="open_source">Open Source</string>
+    <string name="open_source_description">Código-fonte disponível publicamente</string>
     <string name="source_code_url">URL do código-fonte</string>
     <string name="other_versions_title">Outras versões</string>
     <string name="check_uploaded_versions">Verificar versões carregadas</string>
@@ -379,4 +381,7 @@
         <item quantity="one">%d aplicativo foram baixados</item>
         <item quantity="other">%d aplicativos foram baixados</item>
     </plurals>
+    <string name="prefill_from_version">Preencher a partir da versão</string>
+    <string name="prefill_none">Não preencher</string>
+    <string name="prefill_hint">Copiar descrição, capturas de tela e configurações de uma versão anterior</string>
 </resources>

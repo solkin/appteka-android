@@ -124,6 +124,7 @@
     <string name="reply_form" translatable="false">&gt; %s\n</string>
     <string name="exclusive_short">حصري</string>
     <string name="exclusive">تطبيق حصري (غير موجود في Google Play)</string>
+    <string name="exclusive_description">التطبيق غير متوفر في Google Play</string>
     <string name="description">الوصف</string>
     <string name="edit_meta">تعديل الوصف</string>
     <string name="ratings">التقييمات</string>
@@ -226,7 +227,8 @@
     <string name="discuss_description">ناقش التطبيق مع المستخدمين الآخرين in\u00A0رسالة مدمجة</string>
     <string name="select_category">تحديد النوع</string>
     <string name="whats_new">ما هو الجديد في هذا الإصدار</string>
-    <string name="open_source">البرمجيات مفتوحة المصدر</string>
+    <string name="open_source">Open Source</string>
+    <string name="open_source_description">الكود المصدري متاح للعموم</string>
     <string name="source_code_url">عنوان URL لرمز المصدر</string>
     <string name="other_versions_title">اصدارات اخرى</string>
     <string name="check_uploaded_versions">التحقق من الإصدارات التي تم تحميلها</string>
@@ -417,4 +419,7 @@
         <item quantity="many">%d تم تنزيل التطبيقات</item>
         <item quantity="other">%d تم تنزيل التطبيقات</item>
     </plurals>
+    <string name="prefill_from_version">ملء من الإصدار</string>
+    <string name="prefill_none">عدم الملء</string>
+    <string name="prefill_hint">نسخ الوصف ولقطات الشاشة والإعدادات من إصدار سابق</string>
 </resources>

@@ -31,4 +31,6 @@ interface ItemListener {
 
     fun onScreenshotDelete(item: ScreenImageItem)
 
+    fun onPrefillVersionSelected(version: VersionItem?)
+
 }

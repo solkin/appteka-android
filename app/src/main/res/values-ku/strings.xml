@@ -124,6 +124,7 @@
     <string name="reply_form" translatable="false">&gt; %s\n</string>
     <string name="exclusive_short">تایبەت</string>
     <string name="exclusive">ئەپی تایبەت (لە گووگڵ پلەیدا ئامادە نابێت)</string>
+    <string name="exclusive_description">ئەپەکە لە Google Play بەردەست نییە</string>
     <string name="description">وەسف</string>
     <string name="edit_meta">دەستکاری وەسف</string>
     <string name="ratings">هەڵسەنگاندنەکان</string>
@@ -226,7 +227,8 @@
     <string name="discuss_description">باسی بەرنامە لەگەڵ بەکارهێنەرانی تر بکە لە\u00A0embedded messenger</string>
     <string name="select_category">بەشێک دیاری بکە</string>
     <string name="whats_new">چی نوێیە لەم وەشانەیدا</string>
-    <string name="open_source">نەرمەکاڵای سەرچاوە کراوە</string>
+    <string name="open_source">Open Source</string>
+    <string name="open_source_description">کۆدی سەرچاوە بۆ گشتی بەردەستە</string>
     <string name="source_code_url">URL کۆدی سەرچاوە</string>
     <string name="other_versions_title">وەشانی تر</string>
     <string name="check_uploaded_versions">وەشانی بارکراو بپشکنە</string>
@@ -381,4 +383,7 @@
         <item quantity="one">%d ئەپەکە دابەزێندرا</item>
         <item quantity="other">%d ئەپەکان دابەزێنران</item>
     </plurals>
+    <string name="prefill_from_version">پڕکردنەوە لە وەشانی</string>
+    <string name="prefill_none">پڕ مەکە</string>
+    <string name="prefill_hint">کۆپی کردنی وەسف و وێنە و ڕێکخستنەکان لە وەشانی پێشوو</string>
 </resources>

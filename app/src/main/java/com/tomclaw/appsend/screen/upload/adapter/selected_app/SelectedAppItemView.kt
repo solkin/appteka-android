@@ -29,21 +29,20 @@ interface SelectedAppItemView : ItemView {
 
 }
 
-class SelectedAppItemViewHolder(view: View) : BaseViewHolder(view), SelectedAppItemView {
+class SelectedAppItemViewHolder(private val cardView: View) : BaseViewHolder(cardView), SelectedAppItemView {
 
-    private val appInfo: View = view.findViewById(R.id.app_info)
-    private val appIcon: ImageView = view.findViewById(R.id.app_icon)
-    private val appLabel: TextView = view.findViewById(R.id.app_label)
-    private val appPackage: TextView = view.findViewById(R.id.app_package)
-    private val appVersion: TextView = view.findViewById(R.id.app_version)
-    private val appSize: TextView = view.findViewById(R.id.app_size)
-    private val discardButton: View = view.findViewById(R.id.discard_button)
+    private val appIcon: ImageView = cardView.findViewById(R.id.app_icon)
+    private val appLabel: TextView = cardView.findViewById(R.id.app_label)
+    private val appPackage: TextView = cardView.findViewById(R.id.app_package)
+    private val appVersion: TextView = cardView.findViewById(R.id.app_version)
+    private val appSize: TextView = cardView.findViewById(R.id.app_size)
+    private val discardButton: View = cardView.findViewById(R.id.discard_button)
 
     private var clickListener: (() -> Unit)? = null
     private var discardListener: (() -> Unit)? = null
 
     init {
-        appInfo.setOnClickListener { clickListener?.invoke() }
+        cardView.setOnClickListener { clickListener?.invoke() }
         discardButton.setOnClickListener { discardListener?.invoke() }
     }
 

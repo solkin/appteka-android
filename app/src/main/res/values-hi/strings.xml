@@ -119,6 +119,7 @@
     <string name="message_report_sent">चर्चाओं को मॉडरेट करने में आपकी मदद के लिए धन्यवाद!</string>
     <string name="exclusive_short">अनन्य</string>
     <string name="exclusive">विशेष ऑफर (Google Play पर उपलब्ध नहीं)</string>
+    <string name="exclusive_description">ऐप Google Play पर उपलब्ध नहीं है</string>
     <string name="description">विवरण</string>
     <string name="edit_meta">विवरण बदलें</string>
     <string name="ratings">आवेदन के बारे में समीक्षा</string>
@@ -221,7 +222,8 @@
     <string name="discuss_description">फोन ऐप पर चर्चा करें\u00A0अन्य उपयोगकर्ताओं के साथ\u00A0अंतर्निहित मैसेंजर में</string>
     <string name="select_category">श्रेणी चुनना</string>
     <string name="whats_new">इस संस्करण में नया क्या है</string>
-    <string name="open_source">ओपन सोर्स एप्लिकेशन कोड</string>
+    <string name="open_source">Open Source</string>
+    <string name="open_source_description">स्रोत कोड सार्वजनिक रूप से उपलब्ध है</string>
     <string name="source_code_url">स्रोत कोड लिंक</string>
     <string name="other_versions_title">अन्य संस्करण</string>
     <string name="check_uploaded_versions">डाउनलोड किए गए संस्करण देखें</string>
@@ -376,4 +378,7 @@
         <item quantity="one">%d ऐप डाउनलोड हो गया है</item>
         <item quantity="other">%d ऐप्स डाउनलोड किए गए</item>
     </plurals>
+    <string name="prefill_from_version">संस्करण से भरें</string>
+    <string name="prefill_none">न भरें</string>
+    <string name="prefill_hint">पिछले संस्करण से विवरण, स्क्रीनशॉट और सेटिंग्स कॉपी करें</string>
 </resources>

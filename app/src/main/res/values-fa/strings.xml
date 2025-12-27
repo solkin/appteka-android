@@ -125,6 +125,7 @@
     <string name="reply_form" translatable="false">&gt; %s\n</string>
     <string name="exclusive_short">انحصاری</string>
     <string name="exclusive">برنامه انحصاری (در فروشگاه گوگل پلی وجود ندارد)</string>
+    <string name="exclusive_description">برنامه در Google Play موجود نیست</string>
     <string name="description">توضیحات</string>
     <string name="edit_meta">ویرایش توضیحات</string>
     <string name="ratings">رتبه بندی ها</string>
@@ -230,7 +231,8 @@
     <string name="discuss_description">با سایر کاربران در پیام رسان داخلی Appteka درباره برنامه گفتگو کنید</string>
     <string name="select_category">انتخاب دسته بندی</string>
     <string name="whats_new">ویژگی های جدید در این نسخه</string>
-    <string name="open_source">نرم افزار متن باز</string>
+    <string name="open_source">Open Source</string>
+    <string name="open_source_description">کد منبع به صورت عمومی در دسترس است</string>
     <string name="source_code_url">نشانی کد منبع</string>
     <string name="other_versions_title">نسخه های دیگر</string>
     <string name="check_uploaded_versions">بررسی نسخه های بارگذاری شده</string>
@@ -385,4 +387,7 @@
         <item quantity="one">%d برنامه دانلود شد</item>
         <item quantity="other">%d برنامه ها دانلود شده اند</item>
     </plurals>
+    <string name="prefill_from_version">پر کردن از نسخه</string>
+    <string name="prefill_none">پر نکردن</string>
+    <string name="prefill_hint">کپی توضیحات، تصاویر و تنظیمات از نسخه قبلی</string>
 </resources>

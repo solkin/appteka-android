@@ -8,35 +8,33 @@
     android:paddingTop="16dp">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/selector_back"
+        android:id="@+id/prefill_version_layout"
         style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/select_category"
+        android:hint="@string/prefill_from_version"
         app:boxCornerRadiusBottomEnd="16dp"
         app:boxCornerRadiusBottomStart="16dp"
         app:boxCornerRadiusTopEnd="16dp"
         app:boxCornerRadiusTopStart="16dp"
-        app:startIconDrawable="@drawable/ic_category">
+        app:startIconDrawable="@drawable/ic_history">
 
         <AutoCompleteTextView
-            android:id="@+id/category_dropdown"
+            android:id="@+id/prefill_version_dropdown"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="none"
-            android:text="@string/category_not_defined" />
+            android:inputType="none" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
-        android:id="@+id/required_field_error"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="4dp"
         android:paddingTop="6dp"
-        android:text="@string/required_field"
+        android:text="@string/prefill_hint"
         android:textAppearance="?attr/textAppearanceLabelSmall"
-        android:textColor="?attr/colorError"
-        android:visibility="gone" />
+        android:textColor="?attr/colorOnSurfaceVariant" />
 
 </LinearLayout>
+

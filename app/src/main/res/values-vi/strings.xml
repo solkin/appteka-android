@@ -119,6 +119,7 @@
     <string name="message_report_sent">Cảm ơn sự giúp đỡ của bạn trong việc kiểm duyệt các cuộc thảo luận.</string>
     <string name="exclusive_short">Đặc biệt</string>
     <string name="exclusive">Ứng dụng đặc biệt (không có trong kho ứng dụng Google play)</string>
+    <string name="exclusive_description">Ứng dụng không có trên Google Play</string>
     <string name="description">Thông tin</string>
     <string name="edit_meta">Thay đổi thông tin</string>
     <string name="ratings">Đánh giá</string>
@@ -221,7 +222,8 @@
     <string name="discuss_description">Thảo luận về ứng dụng\u00A0người dùng khác\u00A0trình nhắn tin tích hợp</string>
     <string name="select_category">Chọn danh mục</string>
     <string name="whats_new">Phiên bản này có gì mới</string>
-    <string name="open_source">Mở ứng dụng mật khẩu nguồn</string>
+    <string name="open_source">Open Source</string>
+    <string name="open_source_description">Mã nguồn có sẵn công khai</string>
     <string name="source_code_url">Liên kết mật khẩu nguồn</string>
     <string name="other_versions_title">Phiên bản khác</string>
     <string name="check_uploaded_versions">Xem các phiên bản đã tải xuống</string>
@@ -367,4 +369,7 @@
     <plurals name="download_apps_count">
         <item quantity="other">%d các ứng dụng đã được tải xuống</item>
     </plurals>
+    <string name="prefill_from_version">Điền từ phiên bản</string>
+    <string name="prefill_none">Không điền</string>
+    <string name="prefill_hint">Sao chép mô tả, ảnh chụp màn hình và cài đặt từ phiên bản trước</string>
 </resources>

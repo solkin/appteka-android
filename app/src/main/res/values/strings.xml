@@ -125,6 +125,7 @@
     <string name="reply_form" translatable="false">&gt; %s\n</string>
     <string name="exclusive_short">Exclusive</string>
     <string name="exclusive">Exclusive app (do not present in Google Play)</string>
+    <string name="exclusive_description">App not available in Google Play</string>
     <string name="description">Description</string>
     <string name="edit_meta">Edit Description</string>
     <string name="ratings">Ratings</string>
@@ -229,7 +230,8 @@
     <string name="discuss_description">Discuss application with other users in\u00A0embedded messenger</string>
     <string name="select_category">Select category</string>
     <string name="whats_new">What\'s new in this version</string>
-    <string name="open_source">Open Source software</string>
+    <string name="open_source">Open Source</string>
+    <string name="open_source_description">Source code is publicly available</string>
     <string name="source_code_url">Source code URL</string>
     <string name="other_versions_title">Other versions</string>
     <string name="check_uploaded_versions">Check uploaded versions</string>
@@ -405,4 +407,7 @@
         <item quantity="many">%d apps were downloaded</item>
         <item quantity="other">%d apps were downloaded</item>
     </plurals>
+    <string name="prefill_from_version">Prefill from version</string>
+    <string name="prefill_none">Do not prefill</string>
+    <string name="prefill_hint">Copy description, screenshots and settings from a previous version</string>
 </resources>

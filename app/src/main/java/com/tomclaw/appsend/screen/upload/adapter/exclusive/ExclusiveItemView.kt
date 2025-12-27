@@ -1,9 +1,9 @@
 package com.tomclaw.appsend.screen.upload.adapter.exclusive
 
 import android.view.View
-import android.widget.CheckBox
 import com.avito.konveyor.adapter.BaseViewHolder
 import com.avito.konveyor.blueprint.ItemView
+import com.google.android.material.materialswitch.MaterialSwitch
 import com.tomclaw.appsend.R
 
 interface ExclusiveItemView : ItemView {
@@ -14,21 +14,20 @@ interface ExclusiveItemView : ItemView {
 
 }
 
-@Suppress("DEPRECATION")
 class ExclusiveItemViewHolder(view: View) : BaseViewHolder(view), ExclusiveItemView {
 
-    private val exclusiveCheckBox: CheckBox = view.findViewById(R.id.exclusive)
+    private val exclusiveSwitch: MaterialSwitch = view.findViewById(R.id.exclusive)
 
     private var exclusiveChangedListener: ((Boolean) -> Unit)? = null
 
     init {
-        exclusiveCheckBox.setOnCheckedChangeListener { _, isChecked ->
+        exclusiveSwitch.setOnCheckedChangeListener { _, isChecked ->
             exclusiveChangedListener?.invoke(isChecked)
         }
     }
 
     override fun setExclusive(value: Boolean) {
-        exclusiveCheckBox.isChecked = value
+        exclusiveSwitch.isChecked = value
     }
 
     override fun setOnExclusiveChangedListener(listener: ((Boolean) -> Unit)?) {
