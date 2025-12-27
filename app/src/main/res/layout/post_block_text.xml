@@ -1,40 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="12dp"
-    android:layout_marginTop="12dp"
-    android:layout_marginEnd="12dp"
-    android:orientation="vertical">
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-black"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
-        android:paddingBottom="6dp"
-        android:text="@string/input_post_text"
-        android:textColor="?attr/text_primary_color"
-        android:textSize="15sp" />
+    android:orientation="vertical"
+    android:paddingHorizontal="16dp"
+    android:paddingTop="16dp">
 
     <com.google.android.material.textfield.TextInputLayout
+        style="@style/MaterialTextInputExpressive"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginEnd="4dp"
-        style="@style/MaterialTextInputExpressive"
-        android:hint="@string/post_text">
+        android:hint="@string/post_text"
+        app:counterEnabled="true"
+        app:counterMaxLength="700">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            style="@style/Widget.Material3.TextInputEditText.OutlinedBox"
+            android:gravity="top"
             android:inputType="textCapSentences|textMultiLine"
-            android:minLines="3"
             android:maxLength="700"
-            android:gravity="top" />
+            android:minLines="3" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
