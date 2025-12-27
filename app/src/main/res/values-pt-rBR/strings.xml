@@ -219,6 +219,8 @@
     <string name="edit_feedback">Editar feedback</string>
     <string name="details_error_title">Algo deu errado</string>
     <string name="details_error_subtitle">Você pode tentar novamente</string>
+    <string name="error_occurred">Ocorreu um erro</string>
+    <string name="check_connection">Verifique sua conexão e tente novamente</string>
     <string name="discuss_description">Discutir aplicação com outros usuários no\u00A0mensageiro incorporado</string>
     <string name="select_category">Selecionar categoria</string>
     <string name="whats_new">O que há de novo nesta versão</string>

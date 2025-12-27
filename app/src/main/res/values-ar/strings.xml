@@ -221,6 +221,8 @@
     <string name="edit_feedback">تعديل ردود الفعل</string>
     <string name="details_error_title">هناك خطأ ما</string>
     <string name="details_error_subtitle">يمكنك إعادة المحاولة</string>
+    <string name="error_occurred">حدث خطأ</string>
+    <string name="check_connection">تحقق من اتصالك وحاول مرة أخرى</string>
     <string name="discuss_description">ناقش التطبيق مع المستخدمين الآخرين in\u00A0رسالة مدمجة</string>
     <string name="select_category">تحديد النوع</string>
     <string name="whats_new">ما هو الجديد في هذا الإصدار</string>

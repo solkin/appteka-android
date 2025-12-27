@@ -221,6 +221,8 @@
     <string name="edit_feedback">دەستکاریکردنی فیدباک</string>
     <string name="details_error_title">هەندێ شت بە هەڵە ڕۆیشت</string>
     <string name="details_error_subtitle">دەتوانیت هەوڵی دووبارە بدەیتەوە</string>
+    <string name="error_occurred">هەڵەیەک ڕوویدا</string>
+    <string name="check_connection">پەیوەندیەکەت بپشکنە و دووبارە هەوڵ بدەوە</string>
     <string name="discuss_description">باسی بەرنامە لەگەڵ بەکارهێنەرانی تر بکە لە\u00A0embedded messenger</string>
     <string name="select_category">بەشێک دیاری بکە</string>
     <string name="whats_new">چی نوێیە لەم وەشانەیدا</string>

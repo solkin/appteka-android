@@ -8,6 +8,8 @@ import com.tomclaw.appsend.screen.about.di.AboutComponent
 import com.tomclaw.appsend.screen.about.di.AboutModule
 import com.tomclaw.appsend.screen.agreement.di.AgreementComponent
 import com.tomclaw.appsend.screen.agreement.di.AgreementModule
+import com.tomclaw.appsend.screen.bdui.di.BduiScreenComponent
+import com.tomclaw.appsend.screen.bdui.di.BduiScreenModule
 import com.tomclaw.appsend.screen.auth.request_code.di.RequestCodeComponent
 import com.tomclaw.appsend.screen.auth.request_code.di.RequestCodeModule
 import com.tomclaw.appsend.screen.auth.verify_code.di.VerifyCodeComponent
@@ -118,6 +120,8 @@ interface AppComponent {
     fun ratingsComponent(module: RatingsModule): RatingsComponent
 
     fun agreementComponent(module: AgreementModule): AgreementComponent
+
+    fun bduiScreenComponent(module: BduiScreenModule): BduiScreenComponent
 
     fun aboutComponent(module: AboutModule): AboutComponent
 

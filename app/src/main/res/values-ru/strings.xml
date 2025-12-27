@@ -212,6 +212,8 @@
     <string name="edit_feedback">Изменить отзыв</string>
     <string name="details_error_title">Что-то пошло не так</string>
     <string name="details_error_subtitle">Попробуйте ещё раз</string>
+    <string name="error_occurred">Произошла ошибка</string>
+    <string name="check_connection">Проверьте подключение и попробуйте снова</string>
     <string name="downloading_channel_name">Скачивание приложения</string>
     <string name="install_channel_name">Установка приложения</string>
     <string name="downloading_channel_description">Отображение прогресса скачивания приложений</string>

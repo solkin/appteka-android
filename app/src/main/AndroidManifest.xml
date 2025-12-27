@@ -143,6 +143,7 @@
         <activity android:name=".screen.unlink.UnlinkActivity" />
         <activity android:name=".screen.unpublish.UnpublishActivity" />
         <activity android:name=".screen.uploads.UploadsActivity" />
+        <activity android:name=".screen.bdui.BduiScreenActivity" />
 
         <service
             android:name=".download.DownloadService"

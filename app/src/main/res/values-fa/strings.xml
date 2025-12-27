@@ -225,6 +225,8 @@
     <string name="edit_feedback">ویرایش بازخورد</string>
     <string name="details_error_title">مشکلی پیش آمد</string>
     <string name="details_error_subtitle">می توانید دوباره امتحان کنید</string>
+    <string name="error_occurred">خطایی رخ داد</string>
+    <string name="check_connection">اتصال خود را بررسی کنید و دوباره امتحان کنید</string>
     <string name="discuss_description">با سایر کاربران در پیام رسان داخلی Appteka درباره برنامه گفتگو کنید</string>
     <string name="select_category">انتخاب دسته بندی</string>
     <string name="whats_new">ویژگی های جدید در این نسخه</string>
