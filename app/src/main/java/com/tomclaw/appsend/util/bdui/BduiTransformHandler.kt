@@ -26,6 +26,12 @@ class BduiTransformHandler(
 ) {
 
     /**
+     * Callback for executing actions triggered by hidden component transforms.
+     * Set this after ActionHandler is created to enable reactive hidden components.
+     */
+    var onHiddenAction: ((com.tomclaw.appsend.util.bdui.model.action.BduiAction) -> Unit)? = null
+
+    /**
      * Applies a transform to the UI.
      * Handles both single property transforms and batch transforms.
      */
@@ -45,6 +51,10 @@ class BduiTransformHandler(
         if (hiddenStorage.hasHidden(id)) {
             if (property == "value") {
                 hiddenStorage.setHiddenValue(id, value)
+            }
+            // Trigger action if hidden has one (reactive hidden)
+            hiddenStorage.getHiddenAction(id)?.let { action ->
+                onHiddenAction?.invoke(action)
             }
             return
         }
@@ -255,7 +265,7 @@ interface BduiViewRegistry {
 }
 
 /**
- * Storage for hidden component values.
+ * Storage for hidden component values and their actions.
  */
 interface BduiHiddenStorage {
     fun hasHidden(id: String): Boolean
@@ -263,5 +273,9 @@ interface BduiHiddenStorage {
     fun setHiddenValue(id: String, value: Any?)
     fun removeHidden(id: String)
     fun clear()
+
+    // Action support for reactive hidden components
+    fun registerHidden(id: String, value: Any?, action: com.tomclaw.appsend.util.bdui.model.action.BduiAction?)
+    fun getHiddenAction(id: String): com.tomclaw.appsend.util.bdui.model.action.BduiAction?
 }
 

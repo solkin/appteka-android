@@ -442,7 +442,14 @@ Displays one child at a time, supports animated switching between children. Anal
 
 #### Hidden (`type: "hidden"`)
 
-Stores data without rendering. Used for form state, IDs, etc.
+Stores data without rendering. Used for form state, IDs, triggers, etc.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `value` | any | Stored value |
+| `action` | BduiAction | Action to execute when value is transformed (reactive) |
+
+**Basic usage - store data:**
 
 ```json
 {
@@ -451,6 +458,73 @@ Stores data without rendering. Used for form state, IDs, etc.
   "value": "12345"
 }
 ```
+
+**Reactive hidden - trigger action on transform:**
+
+When any component transforms the hidden's value, its action is automatically executed.
+
+```json
+{
+  "id": "search_trigger",
+  "type": "hidden",
+  "value": null,
+  "action": {
+    "type": "rpc",
+    "endpoint": "/api/search",
+    "method": "POST",
+    "payload": {
+      "query": { "type": "ref", "id": "search_trigger", "property": "value" }
+    }
+  }
+}
+```
+
+**Example: Form validation with reactive hidden:**
+
+```json
+[
+  {
+    "id": "form_valid",
+    "type": "hidden",
+    "value": false,
+    "action": {
+      "type": "transform",
+      "transform": {
+        "type": "property",
+        "id": "submit_button",
+        "property": "enabled",
+        "value": { "type": "ref", "id": "form_valid", "property": "value" }
+      }
+    }
+  },
+  {
+    "id": "terms_checkbox",
+    "type": "checkbox",
+    "text": "I agree to terms",
+    "action": {
+      "type": "transform",
+      "transform": {
+        "type": "property",
+        "id": "form_valid",
+        "property": "value",
+        "value": { "type": "ref", "id": "terms_checkbox", "property": "checked" }
+      }
+    }
+  },
+  {
+    "id": "submit_button",
+    "type": "button",
+    "text": "Submit",
+    "enabled": false
+  }
+]
+```
+
+Flow:
+1. User checks the checkbox → checkbox's action triggers
+2. Transform changes `form_valid.value` to `true`
+3. Reactive hidden executes its action
+4. Submit button becomes enabled
 
 #### Text (`type: "text"`)
 

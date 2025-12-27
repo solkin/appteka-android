@@ -30,8 +30,8 @@ class BduiRenderer(
     override fun render(node: BduiNode, parent: ViewGroup): View? {
         return when (node) {
             is BduiHiddenComponent -> {
-                // Hidden components don't create views, just store the value
-                hiddenStorage.setHiddenValue(node.id, node.value)
+                // Hidden components don't create views, just store the value and action
+                hiddenStorage.registerHidden(node.id, node.value, node.action)
                 null
             }
             is BduiContainer -> {

@@ -85,6 +85,12 @@ class BduiView @JvmOverloads constructor(
             schedulers = schedulersFactory
         )
 
+        // Connect reactive hidden components: when hidden is transformed, execute its action
+        transformHandler.onHiddenAction = { action ->
+            val disposable = actionHandler.execute(action).subscribe({}, {})
+            disposables.add(disposable)
+        }
+
         val layoutParamsFactory = BduiLayoutParamsFactory(context)
 
         val componentFactory = BduiComponentFactory(
@@ -321,9 +327,11 @@ class BduiViewRegistryImpl : BduiViewRegistry {
 
 /**
  * Implementation of BduiHiddenStorage using a HashMap.
+ * Supports both value storage and action triggers for reactive hidden components.
  */
 class BduiHiddenStorageImpl : BduiHiddenStorage {
     private val values = mutableMapOf<String, Any?>()
+    private val actions = mutableMapOf<String, com.tomclaw.appsend.util.bdui.model.action.BduiAction?>()
 
     override fun hasHidden(id: String): Boolean = values.containsKey(id)
 
@@ -335,10 +343,19 @@ class BduiHiddenStorageImpl : BduiHiddenStorage {
 
     override fun removeHidden(id: String) {
         values.remove(id)
+        actions.remove(id)
     }
 
     override fun clear() {
         values.clear()
+        actions.clear()
     }
+
+    override fun registerHidden(id: String, value: Any?, action: com.tomclaw.appsend.util.bdui.model.action.BduiAction?) {
+        values[id] = value
+        actions[id] = action
+    }
+
+    override fun getHiddenAction(id: String): com.tomclaw.appsend.util.bdui.model.action.BduiAction? = actions[id]
 }
 
