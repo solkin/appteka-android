@@ -77,6 +77,23 @@ data class BduiSequenceAction(
 }
 
 /**
+ * Route action - navigates to a screen within the app.
+ * The host Activity handles the actual navigation.
+ */
+data class BduiRouteAction(
+    @SerializedName("type")
+    override val type: String = TYPE,
+    @SerializedName("screen")
+    val screen: String,
+    @SerializedName("params")
+    val params: Map<String, Any>? = null
+) : BduiAction {
+    companion object {
+        const val TYPE = "route"
+    }
+}
+
+/**
  * Response from RPC request containing a single action to execute.
  */
 data class BduiRpcResponse(

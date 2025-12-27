@@ -3,6 +3,7 @@ package com.tomclaw.appsend.util.bdui
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.bdui.model.action.BduiAction
 import com.tomclaw.appsend.util.bdui.model.action.BduiCallbackAction
+import com.tomclaw.appsend.util.bdui.model.action.BduiRouteAction
 import com.tomclaw.appsend.util.bdui.model.action.BduiRpcAction
 import com.tomclaw.appsend.util.bdui.model.action.BduiRpcResponse
 import com.tomclaw.appsend.util.bdui.model.action.BduiSequenceAction
@@ -40,6 +41,7 @@ class BduiActionHandler(
             is BduiCallbackAction -> executeCallback(action)
             is BduiTransformAction -> executeTransform(action)
             is BduiSequenceAction -> executeSequence(action)
+            is BduiRouteAction -> executeRoute(action)
         }
     }
 
@@ -69,6 +71,12 @@ class BduiActionHandler(
             .concatMapCompletable { execute(it) }
     }
 
+    private fun executeRoute(action: BduiRouteAction): Completable {
+        return Completable.fromAction {
+            listener.onRoute(action.screen, action.params)
+        }.subscribeOn(schedulers.mainThread())
+    }
+
     // ========================================================================
     // Ref Resolution
     // ========================================================================
@@ -79,6 +87,7 @@ class BduiActionHandler(
             is BduiCallbackAction -> resolveRefsInCallbackAction(action)
             is BduiTransformAction -> resolveRefsInTransformAction(action)
             is BduiSequenceAction -> resolveRefsInSequenceAction(action)
+            is BduiRouteAction -> resolveRefsInRouteAction(action)
         }
     }
 
@@ -106,6 +115,13 @@ class BduiActionHandler(
         )
     }
 
+    @Suppress("UNCHECKED_CAST")
+    private fun resolveRefsInRouteAction(action: BduiRouteAction): BduiRouteAction {
+        return action.copy(
+            params = refResolver.resolve(action.params) as? Map<String, Any>
+        )
+    }
+
     private fun resolveRefsInTransform(transform: BduiTransform): BduiTransform {
         return when (transform) {
             is BduiPropertyTransform -> transform.copy(
@@ -119,7 +135,7 @@ class BduiActionHandler(
 }
 
 /**
- * Listener interface for handling BDUI action callbacks and RPC requests.
+ * Listener interface for handling BDUI action callbacks, RPC requests, and navigation.
  * Implemented by the host Activity/Fragment or Presenter.
  */
 interface BduiActionListener {
@@ -140,5 +156,14 @@ interface BduiActionListener {
      * @return Single emitting the server response containing the next action
      */
     fun onRpcRequest(action: BduiRpcAction): Single<BduiRpcResponse>
+
+    /**
+     * Called when a route action is executed.
+     * The implementation should navigate to the specified screen.
+     *
+     * @param screen Screen name/identifier
+     * @param params Optional parameters for the target screen (with refs already resolved)
+     */
+    fun onRoute(screen: String, params: Map<String, Any>?)
 }
 

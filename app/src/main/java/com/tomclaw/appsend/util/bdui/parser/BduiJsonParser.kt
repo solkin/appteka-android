@@ -9,6 +9,7 @@ import com.google.gson.JsonParseException
 import com.tomclaw.appsend.util.bdui.model.BduiNode
 import com.tomclaw.appsend.util.bdui.model.action.BduiAction
 import com.tomclaw.appsend.util.bdui.model.action.BduiCallbackAction
+import com.tomclaw.appsend.util.bdui.model.action.BduiRouteAction
 import com.tomclaw.appsend.util.bdui.model.action.BduiRpcAction
 import com.tomclaw.appsend.util.bdui.model.action.BduiRpcResponse
 import com.tomclaw.appsend.util.bdui.model.action.BduiSequenceAction
@@ -167,6 +168,7 @@ class BduiActionDeserializer : JsonDeserializer<BduiAction> {
             BduiCallbackAction.TYPE -> BduiCallbackAction::class.java
             BduiTransformAction.TYPE -> BduiTransformAction::class.java
             BduiSequenceAction.TYPE -> BduiSequenceAction::class.java
+            BduiRouteAction.TYPE -> BduiRouteAction::class.java
             else -> throw JsonParseException("Unknown BduiAction type: $type")
         }
 

@@ -6,7 +6,31 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.screen.about.createAboutActivityIntent
+import com.tomclaw.appsend.screen.agreement.createAgreementActivityIntent
+import com.tomclaw.appsend.screen.auth.request_code.createRequestCodeActivityIntent
 import com.tomclaw.appsend.screen.bdui.di.BduiScreenModule
+import com.tomclaw.appsend.screen.chat.createChatActivityIntent
+import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
+import com.tomclaw.appsend.screen.distro.createDistroActivityIntent
+import com.tomclaw.appsend.screen.downloads.createDownloadsActivityIntent
+import com.tomclaw.appsend.screen.favorite.createFavoriteActivityIntent
+import com.tomclaw.appsend.screen.feed.createFeedActivityIntent
+import com.tomclaw.appsend.screen.home.createHomeActivityIntent
+import com.tomclaw.appsend.screen.installed.createInstalledActivityIntent
+import com.tomclaw.appsend.screen.moderation.createModerationActivityIntent
+import com.tomclaw.appsend.screen.permissions.createPermissionsActivityIntent
+import com.tomclaw.appsend.screen.post.createPostActivityIntent
+import com.tomclaw.appsend.screen.profile.createProfileActivityIntent
+import com.tomclaw.appsend.screen.ratings.createRatingsActivityIntent
+import com.tomclaw.appsend.screen.reviews.createReviewsActivityIntent
+import com.tomclaw.appsend.screen.search.createSearchActivityIntent
+import com.tomclaw.appsend.screen.settings.createSettingsActivityIntent
+import com.tomclaw.appsend.screen.subscriptions.Tab
+import com.tomclaw.appsend.screen.subscriptions.createSubscriptionsActivityIntent
+import com.tomclaw.appsend.screen.unlink.createUnlinkActivityIntent
+import com.tomclaw.appsend.screen.unpublish.createUnpublishActivityIntent
+import com.tomclaw.appsend.screen.uploads.createUploadsActivityIntent
 import com.tomclaw.appsend.util.Analytics
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.updateTheme
@@ -103,6 +127,191 @@ class BduiScreenActivity : AppCompatActivity(), BduiScreenPresenter.BduiScreenRo
                 // Unknown callback - could be logged or handled by subclass
             }
         }
+    }
+
+    override fun handleRoute(screen: String, params: Map<String, Any>?) {
+        val intent = createRouteIntent(screen, params) ?: return
+        startActivity(intent)
+    }
+
+    private fun createRouteIntent(screen: String, params: Map<String, Any>?): Intent? {
+        return when (screen) {
+            SCREEN_HOME -> createHomeActivityIntent(this)
+
+            SCREEN_DISTRO -> createDistroActivityIntent(this)
+
+            SCREEN_INSTALLED -> createInstalledActivityIntent(
+                context = this,
+                picker = params?.getBoolean("picker") ?: false
+            )
+
+            SCREEN_DETAILS -> createDetailsActivityIntent(
+                context = this,
+                appId = params?.getString("appId"),
+                packageName = params?.getString("packageName"),
+                label = params?.getString("label") ?: "",
+                moderation = params?.getBoolean("moderation") ?: false,
+                finishOnly = params?.getBoolean("finishOnly") ?: false
+            )
+
+            SCREEN_CHAT -> {
+                val topicId = params?.getInt("topicId") ?: return null
+                createChatActivityIntent(
+                    context = this,
+                    topicId = topicId,
+                    title = params.getString("title")
+                )
+            }
+
+            SCREEN_SEARCH -> createSearchActivityIntent(this)
+
+            SCREEN_UNPUBLISH -> {
+                val appId = params?.getString("appId") ?: return null
+                createUnpublishActivityIntent(
+                    context = this,
+                    appId = appId,
+                    label = params.getString("label")
+                )
+            }
+
+            SCREEN_UNLINK -> {
+                val appId = params?.getString("appId") ?: return null
+                createUnlinkActivityIntent(
+                    context = this,
+                    appId = appId,
+                    label = params.getString("label")
+                )
+            }
+
+            SCREEN_PROFILE -> {
+                val userId = params?.getInt("userId") ?: return null
+                createProfileActivityIntent(this, userId)
+            }
+
+            SCREEN_REQUEST_CODE -> createRequestCodeActivityIntent(this)
+
+            SCREEN_FEED -> {
+                val userId = params?.getInt("userId") ?: return null
+                createFeedActivityIntent(this, userId)
+            }
+
+            SCREEN_AGREEMENT -> createAgreementActivityIntent(this)
+
+            SCREEN_POST -> createPostActivityIntent(this)
+
+            SCREEN_MODERATION -> createModerationActivityIntent(this)
+
+            SCREEN_PERMISSIONS -> {
+                val permissions = params?.getStringList("permissions") ?: return null
+                createPermissionsActivityIntent(this, permissions)
+            }
+
+            SCREEN_FAVORITE -> {
+                val userId = params?.getInt("userId") ?: return null
+                createFavoriteActivityIntent(this, userId)
+            }
+
+            SCREEN_RATINGS -> {
+                val appId = params?.getString("appId") ?: return null
+                createRatingsActivityIntent(this, appId)
+            }
+
+            SCREEN_UPLOADS -> {
+                val userId = params?.getInt("userId") ?: return null
+                createUploadsActivityIntent(this, userId)
+            }
+
+            SCREEN_DOWNLOADS -> {
+                val userId = params?.getInt("userId") ?: return null
+                createDownloadsActivityIntent(this, userId)
+            }
+
+            SCREEN_SUBSCRIPTIONS -> {
+                val userId = params?.getInt("userId") ?: return null
+                val tabName = params.getString("tab") ?: "subscribers"
+                val tab = try {
+                    Tab.valueOf(tabName.uppercase())
+                } catch (e: IllegalArgumentException) {
+                    Tab.SUBSCRIBERS
+                }
+                createSubscriptionsActivityIntent(this, userId, tab)
+            }
+
+            SCREEN_REVIEWS -> {
+                val userId = params?.getInt("userId") ?: return null
+                createReviewsActivityIntent(this, userId)
+            }
+
+            SCREEN_ABOUT -> createAboutActivityIntent(this)
+
+            SCREEN_SETTINGS -> createSettingsActivityIntent(this)
+
+            SCREEN_BDUI -> {
+                val url = params?.getString("url") ?: return null
+                createBduiScreenActivityIntent(
+                    context = this,
+                    url = url,
+                    title = params.getString("title")
+                )
+            }
+
+            else -> null
+        }
+    }
+
+    private fun Map<String, Any>.getString(key: String): String? {
+        return this[key]?.toString()
+    }
+
+    private fun Map<String, Any>.getInt(key: String): Int? {
+        return when (val value = this[key]) {
+            is Number -> value.toInt()
+            is String -> value.toIntOrNull()
+            else -> null
+        }
+    }
+
+    private fun Map<String, Any>.getBoolean(key: String): Boolean {
+        return when (val value = this[key]) {
+            is Boolean -> value
+            is String -> value.toBoolean()
+            else -> false
+        }
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    private fun Map<String, Any>.getStringList(key: String): List<String>? {
+        return when (val value = this[key]) {
+            is List<*> -> value.filterIsInstance<String>()
+            else -> null
+        }
+    }
+
+    companion object {
+        const val SCREEN_HOME = "home"
+        const val SCREEN_DISTRO = "distro"
+        const val SCREEN_INSTALLED = "installed"
+        const val SCREEN_DETAILS = "details"
+        const val SCREEN_CHAT = "chat"
+        const val SCREEN_SEARCH = "search"
+        const val SCREEN_UNPUBLISH = "unpublish"
+        const val SCREEN_UNLINK = "unlink"
+        const val SCREEN_PROFILE = "profile"
+        const val SCREEN_REQUEST_CODE = "request_code"
+        const val SCREEN_FEED = "feed"
+        const val SCREEN_AGREEMENT = "agreement"
+        const val SCREEN_POST = "post"
+        const val SCREEN_MODERATION = "moderation"
+        const val SCREEN_PERMISSIONS = "permissions"
+        const val SCREEN_FAVORITE = "favorite"
+        const val SCREEN_RATINGS = "ratings"
+        const val SCREEN_UPLOADS = "uploads"
+        const val SCREEN_DOWNLOADS = "downloads"
+        const val SCREEN_SUBSCRIPTIONS = "subscriptions"
+        const val SCREEN_REVIEWS = "reviews"
+        const val SCREEN_ABOUT = "about"
+        const val SCREEN_SETTINGS = "settings"
+        const val SCREEN_BDUI = "bdui"
     }
 
 }

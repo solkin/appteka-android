@@ -28,6 +28,8 @@ interface BduiScreenPresenter {
 
         fun handleCallback(name: String, data: Any?)
 
+        fun handleRoute(screen: String, params: Map<String, Any>?)
+
     }
 
 }
@@ -59,6 +61,10 @@ class BduiScreenPresenterImpl(
 
         subscriptions += view.callbackEvents().subscribe { event ->
             router?.handleCallback(event.name, event.data)
+        }
+
+        subscriptions += view.routeEvents().subscribe { event ->
+            router?.handleRoute(event.screen, event.params)
         }
 
         subscriptions += view.rpcRequests()

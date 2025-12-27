@@ -100,9 +100,10 @@ startActivity(intent)
 
 - **Loading State**: Shows Material 3 Wavy CircularProgressIndicator while loading
 - **Error Handling**: Displays error view with retry button on failure
-- **Toolbar**: Configurable title with back navigation
+- **Smart Toolbar**: Shows during loading/error, hides when content is displayed (BDUI can provide its own Toolbar component)
 - **RPC Support**: Automatically handles RPC actions from the schema
 - **Built-in Callbacks**: Common callbacks are handled automatically
+- **Route Support**: Navigate to any app screen via route actions
 
 ### Built-in Callbacks
 
@@ -993,6 +994,122 @@ Executes multiple actions sequentially.
 }
 ```
 
+#### Route Action (`type: "route"`)
+
+Navigates to a screen within the app. The host Activity handles the actual navigation.
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `screen` | string | Screen name/identifier |
+| `params` | object | Optional parameters for the target screen (supports refs) |
+
+```json
+{
+  "type": "route",
+  "screen": "details",
+  "params": {
+    "appId": "com.example.app",
+    "label": "My Application"
+  }
+}
+```
+
+**With dynamic params using refs:**
+
+```json
+{
+  "type": "route",
+  "screen": "profile",
+  "params": {
+    "userId": { "type": "ref", "id": "user_id", "property": "value" }
+  }
+}
+```
+
+**Supported Screens:**
+
+The following screens are supported out of the box in `BduiScreenActivity`:
+
+| Screen | Parameters | Description |
+|--------|------------|-------------|
+| `home` | - | Main home screen |
+| `distro` | - | Distribution screen |
+| `installed` | `picker`: boolean | Installed apps list |
+| `details` | `appId`: string, `packageName`: string, `label`: string (required), `moderation`: boolean, `finishOnly`: boolean | App details page |
+| `chat` | `topicId`: int (required), `title`: string | Chat screen |
+| `search` | - | Search screen |
+| `unpublish` | `appId`: string (required), `label`: string | Unpublish app dialog |
+| `unlink` | `appId`: string (required), `label`: string | Unlink app dialog |
+| `profile` | `userId`: int (required) | User profile |
+| `request_code` | - | Auth request code screen |
+| `feed` | `userId`: int (required) | User's feed |
+| `agreement` | - | User agreement |
+| `post` | - | Create post screen |
+| `moderation` | - | Moderation queue |
+| `permissions` | `permissions`: string[] (required) | Permissions info |
+| `favorite` | `userId`: int (required) | User's favorites |
+| `ratings` | `appId`: string (required) | App ratings |
+| `uploads` | `userId`: int (required) | User's uploads |
+| `downloads` | `userId`: int (required) | User's downloads |
+| `subscriptions` | `userId`: int (required), `tab`: string (`"subscribers"` or `"subscriptions"`) | User's subscriptions |
+| `reviews` | `userId`: int (required) | User's reviews |
+| `about` | - | About screen |
+| `settings` | - | Settings screen |
+| `bdui` | `url`: string (required), `title`: string | Open another BDUI screen |
+
+**Examples:**
+
+```json
+{
+  "type": "route",
+  "screen": "details",
+  "params": {
+    "appId": "abc123",
+    "label": "My App"
+  }
+}
+```
+
+```json
+{
+  "type": "route",
+  "screen": "profile",
+  "params": {
+    "userId": 12345
+  }
+}
+```
+
+```json
+{
+  "type": "route",
+  "screen": "bdui",
+  "params": {
+    "url": "https://api.example.com/bdui/promo.json",
+    "title": "Special Offer"
+  }
+}
+```
+
+**Extending routes in subclass:**
+
+If you need to handle additional screens, extend `BduiScreenActivity`:
+
+```kotlin
+class MyBduiActivity : BduiScreenActivity() {
+
+    override fun handleRoute(screen: String, params: Map<String, Any>?) {
+        when (screen) {
+            "custom_screen" -> {
+                val customParam = params?.get("customParam") as? String ?: return
+                startActivity(CustomActivity.createIntent(this, customParam))
+            }
+            else -> super.handleRoute(screen, params)
+        }
+    }
+}
+```
+
 ---
 
 ### Transforms
@@ -1094,6 +1211,266 @@ Available properties for reading:
 ---
 
 ## Examples
+
+### Update Available Screen
+
+A complete example of an "Update Available" screen with Material 3 Expressive styling, Toolbar, and route actions:
+
+```json
+{
+  "id": "update_screen",
+  "type": "linear",
+  "orientation": "vertical",
+  "layoutParams": {
+    "width": "match_parent",
+    "height": "match_parent"
+  },
+  "children": [
+    {
+      "id": "toolbar",
+      "type": "toolbar",
+      "title": "Update Available",
+      "navigationIcon": "ic_arrow_back",
+      "action": {
+        "type": "callback",
+        "name": "back"
+      }
+    },
+    {
+      "id": "content_scroll",
+      "type": "scroll",
+      "layoutParams": {
+        "width": "match_parent",
+        "height": "0dp",
+        "weight": 1
+      },
+      "children": [
+        {
+          "id": "content",
+          "type": "linear",
+          "orientation": "vertical",
+          "layoutParams": {
+            "width": "match_parent",
+            "height": "wrap_content",
+            "padding": { "all": 24 }
+          },
+          "children": [
+            {
+              "id": "rocket_icon",
+              "type": "image",
+              "src": "<svg viewBox='0 0 48 48' fill='none'><defs><linearGradient id='g1' x1='0%' y1='0%' x2='100%' y2='100%'><stop offset='0%' stop-color='#6750A4'/><stop offset='100%' stop-color='#D0BCFF'/></linearGradient></defs><circle cx='24' cy='24' r='22' fill='url(#g1)'/><path d='M24 12c-2 4-3 8-3 12s1 8 3 12c2-4 3-8 3-12s-1-8-3-12z' fill='white'/><path d='M18 24c0-3 2.5-6 6-6s6 3 6 6-2.5 6-6 6-6-3-6-6z' fill='white'/><circle cx='24' cy='24' r='3' fill='#6750A4'/></svg>",
+              "layoutParams": {
+                "width": "120dp",
+                "height": "120dp",
+                "gravity": "center_horizontal",
+                "margin": { "bottom": 24 }
+              }
+            },
+            {
+              "id": "title",
+              "type": "text",
+              "text": "A New Version is Here!",
+              "textStyle": {
+                "textSize": 28,
+                "fontWeight": "bold",
+                "textAlignment": "center"
+              },
+              "layoutParams": {
+                "width": "match_parent",
+                "margin": { "bottom": 8 }
+              }
+            },
+            {
+              "id": "version_text",
+              "type": "text",
+              "text": "Version 3.5.0",
+              "textStyle": {
+                "textSize": 16,
+                "textColor": "#6750A4",
+                "textAlignment": "center"
+              },
+              "layoutParams": {
+                "width": "match_parent",
+                "margin": { "bottom": 24 }
+              }
+            },
+            {
+              "id": "description",
+              "type": "text",
+              "text": "We've been working hard to bring you an amazing update with new features and improvements!",
+              "textStyle": {
+                "textSize": 16,
+                "textAlignment": "center",
+                "textColor": "?android:attr/textColorSecondary"
+              },
+              "layoutParams": {
+                "width": "match_parent",
+                "margin": { "bottom": 32 }
+              }
+            },
+            {
+              "id": "features_card",
+              "type": "card",
+              "cornerRadius": 16,
+              "elevation": 2,
+              "layoutParams": {
+                "width": "match_parent",
+                "margin": { "bottom": 24 }
+              },
+              "children": [
+                {
+                  "id": "features_container",
+                  "type": "linear",
+                  "orientation": "vertical",
+                  "layoutParams": {
+                    "width": "match_parent",
+                    "padding": { "all": 16 }
+                  },
+                  "children": [
+                    {
+                      "id": "features_title",
+                      "type": "text",
+                      "text": "What's New",
+                      "textStyle": {
+                        "textSize": 18,
+                        "fontWeight": "bold"
+                      },
+                      "layoutParams": { "margin": { "bottom": 16 } }
+                    },
+                    {
+                      "id": "feature_1",
+                      "type": "linear",
+                      "orientation": "horizontal",
+                      "layoutParams": {
+                        "width": "match_parent",
+                        "margin": { "bottom": 12 }
+                      },
+                      "children": [
+                        {
+                          "id": "feature_1_icon",
+                          "type": "image",
+                          "src": "<svg viewBox='0 0 24 24'><path fill='#6750A4' d='M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3zm-1.06 13.54L7.4 12l1.41-1.41 2.12 2.12 4.24-4.24 1.41 1.41-5.64 5.66z'/></svg>",
+                          "layoutParams": {
+                            "width": "24dp",
+                            "height": "24dp",
+                            "margin": { "end": 12 }
+                          }
+                        },
+                        {
+                          "id": "feature_1_text",
+                          "type": "text",
+                          "text": "Enhanced security and privacy",
+                          "textStyle": { "textSize": 14 },
+                          "layoutParams": { "gravity": "center_vertical" }
+                        }
+                      ]
+                    },
+                    {
+                      "id": "feature_2",
+                      "type": "linear",
+                      "orientation": "horizontal",
+                      "layoutParams": {
+                        "width": "match_parent",
+                        "margin": { "bottom": 12 }
+                      },
+                      "children": [
+                        {
+                          "id": "feature_2_icon",
+                          "type": "image",
+                          "src": "<svg viewBox='0 0 24 24'><path fill='#6750A4' d='M13 2.05v2.02c3.95.49 7 3.85 7 7.93 0 3.21-1.92 6-4.72 7.28L13 17v5h5l-1.22-1.22C19.91 19.07 22 15.76 22 12c0-5.18-3.95-9.45-9-9.95zM11 2.05C5.94 2.55 2 6.81 2 12c0 3.76 2.09 7.07 5.22 8.78L6 22h5v-5l-2.28 2.28C6.92 18 5 15.21 5 12c0-4.08 3.05-7.44 7-7.93V2.05z'/></svg>",
+                          "layoutParams": {
+                            "width": "24dp",
+                            "height": "24dp",
+                            "margin": { "end": 12 }
+                          }
+                        },
+                        {
+                          "id": "feature_2_text",
+                          "type": "text",
+                          "text": "Faster performance",
+                          "textStyle": { "textSize": 14 },
+                          "layoutParams": { "gravity": "center_vertical" }
+                        }
+                      ]
+                    },
+                    {
+                      "id": "feature_3",
+                      "type": "linear",
+                      "orientation": "horizontal",
+                      "layoutParams": { "width": "match_parent" },
+                      "children": [
+                        {
+                          "id": "feature_3_icon",
+                          "type": "image",
+                          "src": "<svg viewBox='0 0 24 24'><path fill='#6750A4' d='M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8zm-5.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 9 6.5 9 8 9.67 8 10.5 7.33 12 6.5 12zm3-4C8.67 8 8 7.33 8 6.5S8.67 5 9.5 5s1.5.67 1.5 1.5S10.33 8 9.5 8zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 5 14.5 5s1.5.67 1.5 1.5S15.33 8 14.5 8zm3 4c-.83 0-1.5-.67-1.5-1.5S16.67 9 17.5 9s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z'/></svg>",
+                          "layoutParams": {
+                            "width": "24dp",
+                            "height": "24dp",
+                            "margin": { "end": 12 }
+                          }
+                        },
+                        {
+                          "id": "feature_3_text",
+                          "type": "text",
+                          "text": "Fresh new design",
+                          "textStyle": { "textSize": 14 },
+                          "layoutParams": { "gravity": "center_vertical" }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "button_container",
+      "type": "linear",
+      "orientation": "vertical",
+      "layoutParams": {
+        "width": "match_parent",
+        "padding": { "all": 24 }
+      },
+      "children": [
+        {
+          "id": "update_button",
+          "type": "button",
+          "text": "Update Now",
+          "variant": "primary",
+          "enabled": true,
+          "layoutParams": {
+            "width": "match_parent",
+            "margin": { "bottom": 12 }
+          },
+          "action": {
+            "type": "route",
+            "screen": "details",
+            "params": {
+              "appId": "self",
+              "label": "Appteka"
+            }
+          }
+        },
+        {
+          "id": "later_button",
+          "type": "button",
+          "text": "Maybe Later",
+          "variant": "text",
+          "enabled": true,
+          "layoutParams": { "width": "match_parent" },
+          "action": {
+            "type": "callback",
+            "name": "close"
+          }
+        }
+      ]
+    }
+  ]
+}
+```
 
 ### Login Form
 
