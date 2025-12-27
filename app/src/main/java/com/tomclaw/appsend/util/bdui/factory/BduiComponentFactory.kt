@@ -280,11 +280,15 @@ class BduiComponentFactory(
     }
 
     private fun createInput(component: BduiInputComponent): View {
-        val styleAttr = when (component.variant ?: "outlined") {
-            "filled" -> com.google.android.material.R.attr.textInputFilledStyle
-            else -> com.google.android.material.R.attr.textInputOutlinedStyle
+        val isFilled = (component.variant ?: "outlined") == "filled"
+        val styleRes = if (isFilled) {
+            com.google.android.material.R.style.Widget_Material3_TextInputLayout_FilledBox
+        } else {
+            R.style.MaterialTextInputExpressive
         }
-        return TextInputLayout(context, null, styleAttr).apply {
+        val themedContext = android.view.ContextThemeWrapper(context, styleRes)
+        
+        val textInputLayout = TextInputLayout(themedContext).apply {
             hint = component.hint
             helperText = component.helperText
             error = component.error
@@ -292,14 +296,21 @@ class BduiComponentFactory(
             component.startIcon?.let { setStartIconDrawable(getDrawableResource(it)) }
             component.endIcon?.let { setEndIconDrawable(getDrawableResource(it)) }
             component.maxLength?.let { counterMaxLength = it; isCounterEnabled = true }
-
-            val editText = TextInputEditText(context).apply {
-                setText(component.text)
-                inputType = getInputType(component.inputType ?: "text", component.maxLines ?: 1)
-                maxLines = component.maxLines ?: 1
-            }
-            addView(editText)
         }
+
+        val editText = TextInputEditText(themedContext).apply {
+            id = View.generateViewId()
+            layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+            setText(component.text)
+            inputType = getInputType(component.inputType ?: "text", component.maxLines ?: 1)
+            maxLines = component.maxLines ?: 1
+        }
+        textInputLayout.addView(editText)
+        
+        return textInputLayout
     }
 
     private fun createSwitch(component: BduiSwitchComponent): View {
@@ -666,7 +677,7 @@ class BduiComponentFactory(
         val multiline = if (maxLines > 1) InputType.TYPE_TEXT_FLAG_MULTI_LINE else 0
         return when (type) {
             "number" -> InputType.TYPE_CLASS_NUMBER
-            "email" -> InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
+            "email" -> InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS
             "password" -> InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
             "phone" -> InputType.TYPE_CLASS_PHONE
             "multiline" -> InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_FLAG_MULTI_LINE
