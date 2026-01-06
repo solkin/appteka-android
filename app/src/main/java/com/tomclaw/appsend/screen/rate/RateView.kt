@@ -100,7 +100,7 @@ class RateViewImpl(view: View) : RateView {
         icon.fetch(url.orEmpty()) {
             centerCrop()
             withPlaceholder(R.drawable.app_placeholder)
-            placeholder = {
+            placeholderHandler {
                 with(it.get()) {
                     scaleType = ImageView.ScaleType.CENTER_CROP
                     setImageResource(R.drawable.app_placeholder)

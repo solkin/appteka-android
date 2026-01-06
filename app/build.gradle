@@ -84,7 +84,7 @@ android {
 
     dependencies {
         implementation 'androidx.preference:preference-ktx:1.2.1'
-        implementation 'com.github.solkin:simple-image-loader:v0.9.6'
+        implementation 'com.github.solkin:simple-image-loader:v1.0.0'
         implementation 'com.github.solkin:disk-lru-cache:v1.7'
         //noinspection GradleDependency
         implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"

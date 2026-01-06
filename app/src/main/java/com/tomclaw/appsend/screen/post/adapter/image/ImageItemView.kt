@@ -43,7 +43,7 @@ class ImageItemViewHolder(view: View) : BaseViewHolder(view), ImageItemView {
 
         image.fetch(item.preview.toString()) {
             centerCrop()
-            placeholder = {
+            placeholderHandler {
                 with(it.get()) {
                     setImageDrawable(null)
                 }

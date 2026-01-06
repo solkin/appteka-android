@@ -43,7 +43,7 @@ class ReactionsAdapter(
             }
             icon.fetch(item.url) {
                 centerCrop()
-                placeholder = {
+                placeholderHandler {
                     with(it.get()) {
                         setImageDrawable(null)
                     }

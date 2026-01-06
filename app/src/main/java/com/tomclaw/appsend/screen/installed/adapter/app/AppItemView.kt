@@ -60,7 +60,7 @@ class AppItemViewHolder(view: View) : BaseViewHolder(view), AppItemView {
         icon.fetch(url.orEmpty()) {
             centerCrop()
             withPlaceholder(R.drawable.app_placeholder)
-            placeholder = {
+            placeholderHandler {
                 with(it.get()) {
                     scaleType = ImageView.ScaleType.CENTER_CROP
                     setImageResource(R.drawable.app_placeholder)

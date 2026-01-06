@@ -34,7 +34,7 @@ class ScreenshotsAdapter(
 
             image.fetch(item.preview) {
                 centerCrop()
-                placeholder = {
+                placeholderHandler {
                     with(it.get()) {
                         setImageDrawable(null)
                     }
