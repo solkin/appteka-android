@@ -15,11 +15,15 @@ fun Parcel.readBool(): Boolean {
 }
 
 fun <T : Parcelable> Bundle.getParcelableCompat(key: String, clazz: Class<T>): T? {
-    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-        getParcelable(key, clazz)
-    } else {
-        @Suppress("DEPRECATION")
-        getParcelable(key)
+    return try {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            getParcelable(key, clazz)
+        } else {
+            @Suppress("DEPRECATION")
+            getParcelable(key)
+        }
+    } catch (e: Exception) {
+        null
     }
 }
 
@@ -27,11 +31,15 @@ fun <T : Parcelable> Bundle.getParcelableArrayListCompat(
     key: String,
     clazz: Class<T>
 ): ArrayList<T>? {
-    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-        getParcelableArrayList(key, clazz)
-    } else {
-        @Suppress("DEPRECATION")
-        getParcelableArrayList(key)
+    return try {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            getParcelableArrayList(key, clazz)
+        } else {
+            @Suppress("DEPRECATION")
+            getParcelableArrayList(key)
+        }
+    } catch (e: Exception) {
+        null
     }
 }
 
