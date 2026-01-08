@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.feed.api.Reaction
 import com.tomclaw.appsend.util.bind
-import com.tomclaw.imageloader.util.centerCrop
 import com.tomclaw.imageloader.util.fetch
 
 class ReactionsAdapter(
@@ -43,10 +42,8 @@ class ReactionsAdapter(
             }
             icon.fetch(item.url) {
                 centerCrop()
-                placeholderHandler {
-                    with(it.get()) {
-                        setImageDrawable(null)
-                    }
+                onLoading { imageView ->
+                    imageView.setImageDrawable(null)
                 }
             }
             count.bind(value = if ((item.count ?: 0) > 0) item.count.toString() else "")

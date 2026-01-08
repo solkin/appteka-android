@@ -27,9 +27,7 @@ import com.tomclaw.appsend.util.ActionsAdapter
 import com.tomclaw.appsend.util.clicks
 import com.tomclaw.appsend.util.hideWithAlphaAnimation
 import com.tomclaw.appsend.util.showWithAlphaAnimation
-import com.tomclaw.imageloader.util.centerCrop
 import com.tomclaw.imageloader.util.fetch
-import com.tomclaw.imageloader.util.withPlaceholder
 import io.reactivex.rxjava3.core.Observable
 
 interface ChatView {
@@ -185,12 +183,10 @@ class ChatViewImpl(
     override fun setIcon(url: String?) {
         icon.fetch(url.orEmpty()) {
             centerCrop()
-            withPlaceholder(R.drawable.app_placeholder)
-            placeholderHandler {
-                with(it.get()) {
-                    scaleType = ImageView.ScaleType.CENTER_CROP
-                    setImageResource(R.drawable.app_placeholder)
-                }
+            placeholder(drawableRes = R.drawable.app_placeholder)
+            onLoading { imageView ->
+                imageView.scaleType = ImageView.ScaleType.CENTER_CROP
+                imageView.setImageResource(R.drawable.app_placeholder)
             }
         }
     }
@@ -274,17 +270,53 @@ class ChatViewImpl(
 
         val actions = mutableListOf<ActionItem>()
         actions.add(ActionItem(MENU_REPLY, context.getString(R.string.reply), R.drawable.ic_reply))
-        actions.add(ActionItem(MENU_COPY, context.getString(R.string.copy), R.drawable.ic_content_copy))
+        actions.add(
+            ActionItem(
+                MENU_COPY,
+                context.getString(R.string.copy),
+                R.drawable.ic_content_copy
+            )
+        )
         if (translated) {
-            actions.add(ActionItem(MENU_TRANSLATE, context.getString(R.string.original), R.drawable.ic_translate_off))
+            actions.add(
+                ActionItem(
+                    MENU_TRANSLATE,
+                    context.getString(R.string.original),
+                    R.drawable.ic_translate_off
+                )
+            )
         } else {
-            actions.add(ActionItem(MENU_TRANSLATE, context.getString(R.string.translate), R.drawable.ic_translate))
+            actions.add(
+                ActionItem(
+                    MENU_TRANSLATE,
+                    context.getString(R.string.translate),
+                    R.drawable.ic_translate
+                )
+            )
         }
-        actions.add(ActionItem(MENU_PROFILE, context.getString(R.string.profile), R.drawable.ic_account))
+        actions.add(
+            ActionItem(
+                MENU_PROFILE,
+                context.getString(R.string.profile),
+                R.drawable.ic_account
+            )
+        )
         if (extended) {
-            actions.add(ActionItem(MENU_REPORT, context.getString(R.string.delete), R.drawable.ic_delete))
+            actions.add(
+                ActionItem(
+                    MENU_REPORT,
+                    context.getString(R.string.delete),
+                    R.drawable.ic_delete
+                )
+            )
         } else {
-            actions.add(ActionItem(MENU_REPORT, context.getString(R.string.report), R.drawable.ic_alert))
+            actions.add(
+                ActionItem(
+                    MENU_REPORT,
+                    context.getString(R.string.report),
+                    R.drawable.ic_alert
+                )
+            )
         }
 
         val actionsAdapter = ActionsAdapter(actions) { actionId ->

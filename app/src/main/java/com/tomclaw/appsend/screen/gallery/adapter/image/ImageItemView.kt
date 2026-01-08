@@ -27,23 +27,17 @@ class ImageItemViewHolder(view: View) : BaseViewHolder(view), ImageItemView {
         image.setImageResource(R.drawable.ic_cloud)
         image.scaleType = ImageView.ScaleType.CENTER_INSIDE
         image.fetch(uri) {
-            placeholderHandler {
-                with(it.get()) {
-                    image.scaleType = ImageView.ScaleType.CENTER_INSIDE
-                    image.setImageResource(R.drawable.ic_cloud)
-                }
+            onLoading { imageView ->
+                imageView.scaleType = ImageView.ScaleType.CENTER_INSIDE
+                imageView.setImageResource(R.drawable.ic_cloud)
             }
-            successHandler { viewHolder, result ->
-                with(viewHolder.get()) {
-                    image.scaleType = ImageView.ScaleType.MATRIX
-                    setImageDrawable(result.getDrawable())
-                }
+            onSuccess { imageView, drawable ->
+                imageView.scaleType = ImageView.ScaleType.MATRIX
+                imageView.setImageDrawable(drawable)
             }
-            errorHandler {
-                with(it.get()) {
-                    image.scaleType = ImageView.ScaleType.CENTER_INSIDE
-                    image.setImageResource(R.drawable.ic_error)
-                }
+            onError { imageView, _ ->
+                imageView.scaleType = ImageView.ScaleType.CENTER_INSIDE
+                imageView.setImageResource(R.drawable.ic_error)
             }
         }
     }

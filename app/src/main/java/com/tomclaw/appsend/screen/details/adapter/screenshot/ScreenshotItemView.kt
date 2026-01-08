@@ -5,7 +5,6 @@ import android.widget.ImageView
 import com.avito.konveyor.adapter.BaseViewHolder
 import com.avito.konveyor.blueprint.ItemView
 import com.tomclaw.appsend.R
-import com.tomclaw.imageloader.util.centerCrop
 import com.tomclaw.imageloader.util.fetch
 
 interface ScreenshotItemView : ItemView {
@@ -34,10 +33,8 @@ class ScreenshotItemViewHolder(view: View) : BaseViewHolder(view), ScreenshotIte
 
         image.fetch(item.preview.toString()) {
             centerCrop()
-            placeholderHandler {
-                with(it.get()) {
-                    setImageDrawable(null)
-                }
+            onLoading { imageView ->
+                imageView.setImageDrawable(null)
             }
         }
     }

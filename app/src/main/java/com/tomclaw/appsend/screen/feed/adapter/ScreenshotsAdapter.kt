@@ -7,7 +7,6 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.dto.Screenshot
-import com.tomclaw.imageloader.util.centerCrop
 import com.tomclaw.imageloader.util.fetch
 
 class ScreenshotsAdapter(
@@ -34,10 +33,8 @@ class ScreenshotsAdapter(
 
             image.fetch(item.preview) {
                 centerCrop()
-                placeholderHandler {
-                    with(it.get()) {
-                        setImageDrawable(null)
-                    }
+                onLoading { imageView ->
+                    imageView.setImageDrawable(null)
                 }
             }
         }

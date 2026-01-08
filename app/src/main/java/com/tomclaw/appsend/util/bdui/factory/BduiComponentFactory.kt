@@ -63,9 +63,7 @@ import android.view.MenuItem
 import androidx.core.view.MenuCompat
 import com.caverock.androidsvg.SVG
 import com.tomclaw.appsend.util.svgToDrawable
-import com.tomclaw.imageloader.util.centerCrop
 import com.tomclaw.imageloader.util.fetch
-import com.tomclaw.imageloader.util.withPlaceholder
 
 /**
  * Factory for creating Android Views from BDUI component models.
@@ -247,7 +245,7 @@ class BduiComponentFactory(
                                 centerCrop()
                             }
                             if (placeholderRes != 0) {
-                                withPlaceholder(placeholderRes)
+                                placeholder(placeholderRes)
                             }
                         }
                     }

@@ -6,7 +6,6 @@ import androidx.core.view.isVisible
 import com.avito.konveyor.adapter.BaseViewHolder
 import com.avito.konveyor.blueprint.ItemView
 import com.tomclaw.appsend.R
-import com.tomclaw.imageloader.util.centerCrop
 import com.tomclaw.imageloader.util.fetch
 
 interface ScreenImageItemView : ItemView {
@@ -43,10 +42,8 @@ class ScreenImageItemViewHolder(view: View) : BaseViewHolder(view), ScreenImageI
 
         image.fetch(item.preview.toString()) {
             centerCrop()
-            placeholderHandler {
-                with(it.get()) {
-                    setImageDrawable(null)
-                }
+            onLoading { imageView ->
+                imageView.setImageDrawable(null)
             }
         }
     }

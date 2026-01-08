@@ -17,9 +17,7 @@ import com.tomclaw.appsend.util.scaleWithAnimation
 import com.tomclaw.appsend.util.show
 import com.tomclaw.appsend.view.UserIconView
 import com.tomclaw.appsend.view.UserIconViewImpl
-import com.tomclaw.imageloader.util.centerCrop
 import com.tomclaw.imageloader.util.fetch
-import com.tomclaw.imageloader.util.withPlaceholder
 
 
 interface HeaderItemView : ItemView {
@@ -93,12 +91,10 @@ class HeaderItemViewHolder(view: View) : BaseViewHolder(view), HeaderItemView {
     override fun setAppIcon(url: String?) {
         appIcon.fetch(url.orEmpty()) {
             centerCrop()
-            withPlaceholder(R.drawable.app_placeholder)
-            placeholderHandler {
-                with(it.get()) {
-                    scaleType = ImageView.ScaleType.CENTER_CROP
-                    setImageResource(R.drawable.app_placeholder)
-                }
+            placeholder(R.drawable.app_placeholder)
+            onLoading { imageView ->
+                imageView.scaleType = ImageView.ScaleType.CENTER_CROP
+                imageView.setImageResource(R.drawable.app_placeholder)
             }
         }
     }

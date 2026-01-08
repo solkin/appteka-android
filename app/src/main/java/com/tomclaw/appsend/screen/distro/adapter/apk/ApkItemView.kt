@@ -9,9 +9,7 @@ import com.tomclaw.appsend.R
 import com.tomclaw.appsend.util.bind
 import com.tomclaw.appsend.util.hide
 import com.tomclaw.appsend.util.show
-import com.tomclaw.imageloader.util.centerCrop
 import com.tomclaw.imageloader.util.fetch
-import com.tomclaw.imageloader.util.withPlaceholder
 
 interface ApkItemView : ItemView {
 
@@ -54,12 +52,10 @@ class ApkItemViewHolder(view: View) : BaseViewHolder(view), ApkItemView {
     override fun setIcon(url: String?) {
         icon.fetch(url.orEmpty()) {
             centerCrop()
-            withPlaceholder(R.drawable.app_placeholder)
-            placeholderHandler {
-                with(it.get()) {
-                    scaleType = ImageView.ScaleType.CENTER_CROP
-                    setImageResource(R.drawable.app_placeholder)
-                }
+            placeholder(R.drawable.app_placeholder)
+            onLoading { imageView ->
+                imageView.scaleType = ImageView.ScaleType.CENTER_CROP
+                imageView.setImageResource(R.drawable.app_placeholder)
             }
         }
     }
