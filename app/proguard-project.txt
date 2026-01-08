@@ -26,6 +26,12 @@
   <init>(...);
 }
 
+# Parcelable
+-keepnames class * implements android.os.Parcelable
+-keepclassmembers class * implements android.os.Parcelable {
+  public static final ** CREATOR;
+}
+
 # Retrofit
 -dontnote retrofit2.Platform
 -keepattributes Signature
