@@ -381,4 +381,16 @@
     <string name="prefill_from_version">संस्करण से भरें</string>
     <string name="prefill_none">न भरें</string>
     <string name="prefill_hint">पिछले संस्करण से विवरण, स्क्रीनशॉट और सेटिंग्स कॉपी करें</string>
+    <string name="change_email_title">ईमेल बदलें</string>
+    <string name="change_email_description">अपना नया ईमेल पता दर्ज करें। हम परिवर्तन की पुष्टि के लिए आपको एक सत्यापन कोड भेजेंगे।</string>
+    <string name="new_email_hint">नया ईमेल पता</string>
+    <string name="send_code_button">कोड भेजें</string>
+    <string name="verification_code_hint">सत्यापन कोड</string>
+    <string name="confirm_email_change_button">परिवर्तन की पुष्टि करें</string>
+    <string name="code_sent_to_email">%s पर सत्यापन कोड भेजा गया</string>
+    <string name="invalid_email_format">कृपया एक मान्य ईमेल पता दर्ज करें</string>
+    <string name="invalid_code_format">अमान्य सत्यापन कोड</string>
+    <string name="email_already_taken">यह ईमेल पहले से किसी अन्य खाते द्वारा उपयोग किया जा रहा है</string>
+    <string name="error_changing_email">ईमेल बदलने में विफल</string>
+    <string name="email_changed_success">ईमेल सफलतापूर्वक बदला गया</string>
 </resources>

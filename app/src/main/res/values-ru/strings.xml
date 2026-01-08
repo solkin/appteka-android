@@ -399,4 +399,16 @@
     <string name="prefill_from_version">Заполнить из версии</string>
     <string name="prefill_none">Не заполнять</string>
     <string name="prefill_hint">Скопировать описание, скриншоты и настройки из предыдущей версии</string>
+    <string name="change_email_title">Изменить Email</string>
+    <string name="change_email_description">Введите новый адрес электронной почты. Мы отправим вам код подтверждения.</string>
+    <string name="new_email_hint">Новый email адрес</string>
+    <string name="send_code_button">Отправить код</string>
+    <string name="verification_code_hint">Код подтверждения</string>
+    <string name="confirm_email_change_button">Подтвердить</string>
+    <string name="code_sent_to_email">Код подтверждения отправлен на %s</string>
+    <string name="invalid_email_format">Введите корректный email адрес</string>
+    <string name="invalid_code_format">Неверный код подтверждения</string>
+    <string name="email_already_taken">Этот email уже используется другим аккаунтом</string>
+    <string name="error_changing_email">Не удалось изменить email</string>
+    <string name="email_changed_success">Email успешно изменён</string>
 </resources>

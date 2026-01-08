@@ -372,4 +372,16 @@
     <string name="prefill_from_version">从版本填充</string>
     <string name="prefill_none">不填充</string>
     <string name="prefill_hint">从以前的版本复制描述、截图和设置</string>
+    <string name="change_email_title">更改邮箱</string>
+    <string name="change_email_description">输入您的新邮箱地址。我们将向您发送验证码以确认更改。</string>
+    <string name="new_email_hint">新邮箱地址</string>
+    <string name="send_code_button">发送验证码</string>
+    <string name="verification_code_hint">验证码</string>
+    <string name="confirm_email_change_button">确认更改</string>
+    <string name="code_sent_to_email">验证码已发送至 %s</string>
+    <string name="invalid_email_format">请输入有效的邮箱地址</string>
+    <string name="invalid_code_format">验证码无效</string>
+    <string name="email_already_taken">此邮箱已被其他账户使用</string>
+    <string name="error_changing_email">更改邮箱失败</string>
+    <string name="email_changed_success">邮箱更改成功</string>
 </resources>

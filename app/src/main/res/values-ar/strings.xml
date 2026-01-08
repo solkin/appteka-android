@@ -422,4 +422,16 @@
     <string name="prefill_from_version">ملء من الإصدار</string>
     <string name="prefill_none">عدم الملء</string>
     <string name="prefill_hint">نسخ الوصف ولقطات الشاشة والإعدادات من إصدار سابق</string>
+    <string name="change_email_title">تغيير البريد الإلكتروني</string>
+    <string name="change_email_description">أدخل عنوان بريدك الإلكتروني الجديد. سنرسل لك رمز التحقق لتأكيد التغيير.</string>
+    <string name="new_email_hint">عنوان البريد الإلكتروني الجديد</string>
+    <string name="send_code_button">إرسال الرمز</string>
+    <string name="verification_code_hint">رمز التحقق</string>
+    <string name="confirm_email_change_button">تأكيد التغيير</string>
+    <string name="code_sent_to_email">تم إرسال رمز التحقق إلى %s</string>
+    <string name="invalid_email_format">يرجى إدخال عنوان بريد إلكتروني صالح</string>
+    <string name="invalid_code_format">رمز التحقق غير صالح</string>
+    <string name="email_already_taken">هذا البريد الإلكتروني مستخدم بالفعل من قبل حساب آخر</string>
+    <string name="error_changing_email">فشل تغيير البريد الإلكتروني</string>
+    <string name="email_changed_success">تم تغيير البريد الإلكتروني بنجاح</string>
 </resources>

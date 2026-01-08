@@ -386,4 +386,16 @@
     <string name="prefill_from_version">پڕکردنەوە لە وەشانی</string>
     <string name="prefill_none">پڕ مەکە</string>
     <string name="prefill_hint">کۆپی کردنی وەسف و وێنە و ڕێکخستنەکان لە وەشانی پێشوو</string>
+    <string name="change_email_title">گۆڕینی ئیمەیل</string>
+    <string name="change_email_description">ناونیشانی ئیمەیلی نوێت بنووسە. ئێمە کۆدی پشتڕاستکردنەوە بۆت دەنێرین بۆ دڵنیابوون لە گۆڕانکارییەکە.</string>
+    <string name="new_email_hint">ناونیشانی ئیمەیلی نوێ</string>
+    <string name="send_code_button">ناردنی کۆد</string>
+    <string name="verification_code_hint">کۆدی پشتڕاستکردنەوە</string>
+    <string name="confirm_email_change_button">دڵنیاکردنەوەی گۆڕانکاری</string>
+    <string name="code_sent_to_email">کۆدی پشتڕاستکردنەوە نێردرا بۆ %s</string>
+    <string name="invalid_email_format">تکایە ناونیشانی ئیمەیلێکی دروست بنووسە</string>
+    <string name="invalid_code_format">کۆدی پشتڕاستکردنەوە نادروستە</string>
+    <string name="email_already_taken">ئەم ئیمەیلە پێشتر لەلایەن هەژمارێکی تر بەکارهاتووە</string>
+    <string name="error_changing_email">گۆڕینی ئیمەیل سەرکەوتوو نەبوو</string>
+    <string name="email_changed_success">ئیمەیل بە سەرکەوتوویی گۆڕدرا</string>
 </resources>

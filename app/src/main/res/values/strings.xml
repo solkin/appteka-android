@@ -410,4 +410,16 @@
     <string name="prefill_from_version">Prefill from version</string>
     <string name="prefill_none">Do not prefill</string>
     <string name="prefill_hint">Copy description, screenshots and settings from a previous version</string>
+    <string name="change_email_title">Change Email</string>
+    <string name="change_email_description">Enter your new email address. We will send you a verification code to confirm the change.</string>
+    <string name="new_email_hint">New email address</string>
+    <string name="send_code_button">Send Code</string>
+    <string name="verification_code_hint">Verification code</string>
+    <string name="confirm_email_change_button">Confirm Change</string>
+    <string name="code_sent_to_email">A verification code has been sent to %s</string>
+    <string name="invalid_email_format">Please enter a valid email address</string>
+    <string name="invalid_code_format">Invalid verification code</string>
+    <string name="email_already_taken">This email is already used by another account</string>
+    <string name="error_changing_email">Failed to change email</string>
+    <string name="email_changed_success">Email successfully changed</string>
 </resources>

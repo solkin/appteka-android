@@ -20,6 +20,8 @@ interface ItemListener {
 
     fun onEditName(name: String?, nameRegex: String?)
 
+    fun onEditEmail()
+
     fun onNextPage(last: AppItem, param: (List<AppItem>) -> Unit)
 
     fun onFeedClick()

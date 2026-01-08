@@ -9,6 +9,7 @@ import kotlinx.parcelize.Parcelize
 data class HeaderItem(
     override val id: Long,
     val userName: String?,
+    val userEmail: String?,
     val userIcon: UserIcon,
     val joinTime: Long,
     val lastSeen: Long,

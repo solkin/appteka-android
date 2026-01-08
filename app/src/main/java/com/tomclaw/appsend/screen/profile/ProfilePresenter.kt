@@ -59,6 +59,8 @@ interface ProfilePresenter : ItemListener {
 
         fun openModerationScreen()
 
+        fun openChangeEmailScreen()
+
         fun leaveScreen()
 
     }
@@ -182,6 +184,10 @@ class ProfilePresenterImpl(
 
     override fun onEditName(name: String?, nameRegex: String?) {
         view?.showEditNameDialog(name.orEmpty(), nameRegex)
+    }
+
+    override fun onEditEmail() {
+        router?.openChangeEmailScreen()
     }
 
     override fun onNextPage(last: AppItem, param: (List<AppItem>) -> Unit) {
@@ -318,6 +324,7 @@ class ProfilePresenterImpl(
 
     private fun bindProfile() {
         val profile = this.profile ?: return
+        val isSelf = userId == null
 
         items.clear()
         items += converter.convertProfile(
@@ -325,7 +332,7 @@ class ProfilePresenterImpl(
             profile.grantRoles,
             uploads,
             moderation = moderationProvider.getModerationData(),
-            isSelf = userId == null,
+            isSelf = isSelf,
         )
 
         bindItems()

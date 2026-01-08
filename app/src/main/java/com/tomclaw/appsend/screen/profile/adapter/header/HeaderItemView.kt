@@ -20,6 +20,8 @@ interface HeaderItemView : ItemView {
 
     fun setUserName(name: String)
 
+    fun setUserEmail(email: String?)
+
     fun setUserDescription(value: String)
 
     fun setUserOnline(online: Boolean)
@@ -34,7 +36,11 @@ interface HeaderItemView : ItemView {
 
     fun showUserNameEditIcon()
 
+    fun showUserEmailEditIcon()
+
     fun setOnNameClickListener(listener: (() -> Unit)?)
+
+    fun setOnEmailClickListener(listener: (() -> Unit)?)
 
     fun setOnSubscribeClickListener(listener: (() -> Unit)?)
 
@@ -47,12 +53,14 @@ class HeaderItemViewHolder(private val view: View) : BaseViewHolder(view), Heade
     private val resources = view.resources
     private val userIcon: UserIconView = UserIconViewImpl(view.findViewById(R.id.user_icon))
     private val userName: TextView = view.findViewById(R.id.user_name)
+    private val userEmail: TextView = view.findViewById(R.id.user_email)
     private val userDescription: TextView = view.findViewById(R.id.user_description)
     private val userOnline: View = view.findViewById(R.id.user_online)
     private val subscribeButton: View = view.findViewById(R.id.subscribe_button)
     private val unsubscribeButton: View = view.findViewById(R.id.unsubscribe_button)
 
     private var nameClickListener: (() -> Unit)? = null
+    private var emailClickListener: (() -> Unit)? = null
     private var subscribeClickListener: (() -> Unit)? = null
     private var unsubscribeClickListener: (() -> Unit)? = null
 
@@ -66,6 +74,15 @@ class HeaderItemViewHolder(private val view: View) : BaseViewHolder(view), Heade
 
     override fun setUserName(name: String) {
         userName.bind(name)
+    }
+
+    override fun setUserEmail(email: String?) {
+        if (!email.isNullOrBlank()) {
+            userEmail.text = email
+            userEmail.show()
+        } else {
+            userEmail.hide()
+        }
     }
 
     override fun setUserOnline(online: Boolean) {
@@ -97,10 +114,25 @@ class HeaderItemViewHolder(private val view: View) : BaseViewHolder(view), Heade
         )
     }
 
+    override fun showUserEmailEditIcon() {
+        userEmail.setCompoundDrawablesWithIntrinsicBounds(
+            null,
+            null,
+            ResourcesCompat.getDrawable(resources, R.drawable.ic_email_edit_small, null),
+            null
+        )
+    }
+
     override fun setOnNameClickListener(listener: (() -> Unit)?) {
         this.nameClickListener = listener
 
         userName.setOnClickListener(listener?.let { { nameClickListener?.invoke() } })
+    }
+
+    override fun setOnEmailClickListener(listener: (() -> Unit)?) {
+        this.emailClickListener = listener
+
+        userEmail.setOnClickListener(listener?.let { { emailClickListener?.invoke() } })
     }
 
     override fun setOnSubscribeClickListener(listener: (() -> Unit)?) {
@@ -117,6 +149,7 @@ class HeaderItemViewHolder(private val view: View) : BaseViewHolder(view), Heade
 
     override fun onUnbind() {
         this.nameClickListener = null
+        this.emailClickListener = null
         this.subscribeClickListener = null
         this.unsubscribeClickListener = null
     }

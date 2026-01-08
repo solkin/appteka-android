@@ -12,6 +12,8 @@ data class Profile(
     val userId: Int = 0,
     @SerializedName("name")
     val name: String? = null,
+    @SerializedName("email")
+    val email: String? = null,
     @SerializedName("name_regex")
     val nameRegex: String? = null,
     @SerializedName("user_icon")

@@ -14,6 +14,8 @@ import com.tomclaw.appsend.screen.auth.request_code.di.RequestCodeComponent
 import com.tomclaw.appsend.screen.auth.request_code.di.RequestCodeModule
 import com.tomclaw.appsend.screen.auth.verify_code.di.VerifyCodeComponent
 import com.tomclaw.appsend.screen.auth.verify_code.di.VerifyCodeModule
+import com.tomclaw.appsend.screen.change_email.di.ChangeEmailComponent
+import com.tomclaw.appsend.screen.change_email.di.ChangeEmailModule
 import com.tomclaw.appsend.screen.chat.di.ChatComponent
 import com.tomclaw.appsend.screen.chat.di.ChatModule
 import com.tomclaw.appsend.screen.details.di.DetailsComponent
@@ -106,6 +108,8 @@ interface AppComponent {
     fun requestCodeComponent(module: RequestCodeModule): RequestCodeComponent
 
     fun verifyCodeComponent(module: VerifyCodeModule): VerifyCodeComponent
+
+    fun changeEmailComponent(module: ChangeEmailModule): ChangeEmailComponent
 
     fun permissionsComponent(module: PermissionsModule): PermissionsComponent
 

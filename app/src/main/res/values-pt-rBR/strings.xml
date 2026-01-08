@@ -384,4 +384,16 @@
     <string name="prefill_from_version">Preencher a partir da versão</string>
     <string name="prefill_none">Não preencher</string>
     <string name="prefill_hint">Copiar descrição, capturas de tela e configurações de uma versão anterior</string>
+    <string name="change_email_title">Alterar Email</string>
+    <string name="change_email_description">Digite seu novo endereço de email. Enviaremos um código de verificação para confirmar a alteração.</string>
+    <string name="new_email_hint">Novo endereço de email</string>
+    <string name="send_code_button">Enviar código</string>
+    <string name="verification_code_hint">Código de verificação</string>
+    <string name="confirm_email_change_button">Confirmar alteração</string>
+    <string name="code_sent_to_email">O código de verificação foi enviado para %s</string>
+    <string name="invalid_email_format">Por favor, insira um endereço de email válido</string>
+    <string name="invalid_code_format">Código de verificação inválido</string>
+    <string name="email_already_taken">Este email já está sendo usado por outra conta</string>
+    <string name="error_changing_email">Falha ao alterar o email</string>
+    <string name="email_changed_success">Email alterado com sucesso</string>
 </resources>

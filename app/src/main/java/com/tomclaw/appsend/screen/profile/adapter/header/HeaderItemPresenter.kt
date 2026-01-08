@@ -19,6 +19,7 @@ class HeaderItemPresenter(
             ?: item.userIcon.label[locale.language]
             ?: item.userIcon.label[DEFAULT_LOCALE].orEmpty()
         view.setUserName(name)
+        view.setUserEmail(item.userEmail)
 
         val onlineGap = TimeUnit.MINUTES.toMillis(15)
         val currentTime = System.currentTimeMillis()
@@ -33,6 +34,10 @@ class HeaderItemPresenter(
         if (item.isSelf) {
             view.showUserNameEditIcon()
             view.setOnNameClickListener { listener.onEditName(name, item.nameRegex) }
+            if (!item.userEmail.isNullOrBlank()) {
+                view.showUserEmailEditIcon()
+                view.setOnEmailClickListener { listener.onEditEmail() }
+            }
             view.hideSubscribeButton()
             view.hideUnsubscribeButton()
         } else {

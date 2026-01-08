@@ -14,6 +14,7 @@ import com.avito.konveyor.adapter.SimpleRecyclerAdapter
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.auth.request_code.createRequestCodeActivityIntent
+import com.tomclaw.appsend.screen.change_email.createChangeEmailActivityIntent
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.screen.downloads.createDownloadsActivityIntent
 import com.tomclaw.appsend.screen.favorite.createFavoriteActivityIntent
@@ -181,6 +182,12 @@ class ProfileFragment : Fragment(), ProfilePresenter.ProfileRouter, HomeFragment
     override fun openModerationScreen() {
         val context = context ?: return
         val intent = createModerationActivityIntent(context)
+        startActivity(intent)
+    }
+
+    override fun openChangeEmailScreen() {
+        val context = context ?: return
+        val intent = createChangeEmailActivityIntent(context)
         startActivity(intent)
     }
 

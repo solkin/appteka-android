@@ -390,4 +390,16 @@
     <string name="prefill_from_version">پر کردن از نسخه</string>
     <string name="prefill_none">پر نکردن</string>
     <string name="prefill_hint">کپی توضیحات، تصاویر و تنظیمات از نسخه قبلی</string>
+    <string name="change_email_title">تغییر ایمیل</string>
+    <string name="change_email_description">آدرس ایمیل جدید خود را وارد کنید. ما یک کد تأیید برای تأیید تغییر ارسال خواهیم کرد.</string>
+    <string name="new_email_hint">آدرس ایمیل جدید</string>
+    <string name="send_code_button">ارسال کد</string>
+    <string name="verification_code_hint">کد تأیید</string>
+    <string name="confirm_email_change_button">تأیید تغییر</string>
+    <string name="code_sent_to_email">کد تأیید به %s ارسال شد</string>
+    <string name="invalid_email_format">لطفاً یک آدرس ایمیل معتبر وارد کنید</string>
+    <string name="invalid_code_format">کد تأیید نامعتبر است</string>
+    <string name="email_already_taken">این ایمیل قبلاً توسط حساب دیگری استفاده شده است</string>
+    <string name="error_changing_email">تغییر ایمیل ناموفق بود</string>
+    <string name="email_changed_success">ایمیل با موفقیت تغییر کرد</string>
 </resources>

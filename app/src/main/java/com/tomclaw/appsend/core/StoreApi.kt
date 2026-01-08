@@ -251,6 +251,19 @@ interface StoreApi {
         @Query("guid") guid: String?,
     ): Single<StoreResponse<VerifyCodeResponse>>
 
+    @FormUrlEncoded
+    @POST("1/auth/request")
+    fun requestEmailChange(
+        @Field("email") email: String,
+    ): Single<StoreResponse<RequestCodeResponse>>
+
+    @FormUrlEncoded
+    @POST("1/auth/verify")
+    fun verifyEmailChange(
+        @Field("request_id") requestId: String,
+        @Field("code") code: String,
+    ): Single<StoreResponse<VerifyCodeResponse>>
+
     @GET("2/user/profile")
     fun getProfile(
         @Query("user_id") userId: Int?,
