@@ -43,6 +43,10 @@ class DownloadService : Service() {
 
         println("[download service] onStartCommand(label = $label, version = $version, appId = $appId, url = $url)")
 
+        // Start foreground immediately to avoid ForegroundServiceStartNotAllowedException on Android 12+
+        val initialNotification = notifications.createInitialNotification(label)
+        startForegroundCompat(DOWNLOAD_NOTIFICATION_ID, initialNotification)
+
         val relay = downloadManager.status(appId)
 
         val file = downloadManager.download(label, version, appId, url)
@@ -52,9 +56,6 @@ class DownloadService : Service() {
             label = label,
             icon = icon,
             file = file,
-            start = { notificationId, notification ->
-                startForegroundCompat(notificationId, notification)
-            },
             stop = {
                 stopForegroundCompat()
             },

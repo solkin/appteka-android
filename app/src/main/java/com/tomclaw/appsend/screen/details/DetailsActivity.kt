@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
 import com.avito.konveyor.ItemBinder
 import com.avito.konveyor.adapter.AdapterPresenter
@@ -377,7 +378,7 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
         url: String
     ) {
         val intent = createDownloadIntent(context = this, label, version, icon, appId, url)
-        startService(intent)
+        ContextCompat.startForegroundService(this, intent)
         analytics.trackEvent("details-download-app")
     }
 

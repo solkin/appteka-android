@@ -28,12 +28,13 @@ import io.reactivex.rxjava3.disposables.Disposable
 
 interface UploadNotifications {
 
+    fun createInitialNotification(label: String): Notification
+
     fun subscribe(
         id: String,
         pkg: UploadPackage,
         apk: UploadApk,
         info: UploadInfo,
-        start: (Int, Notification) -> Unit,
         stop: () -> Unit,
         observable: Observable<UploadState>
     )
@@ -60,12 +61,24 @@ class UploadNotificationsImpl(private val context: Context) : UploadNotification
         }
     }
 
+    override fun createInitialNotification(label: String): Notification {
+        return NotificationCompat.Builder(context, CHANNEL_UPLOADING)
+            .setContentTitle(label)
+            .setContentText(context.getString(R.string.waiting_for_upload))
+            .setSmallIcon(android.R.drawable.stat_sys_upload)
+            .setSilent(true)
+            .setOngoing(true)
+            .setProgress(100, 0, true)
+            .setColor(getColor(R.color.primary_color, context))
+            .setGroup(GROUP_NOTIFICATIONS)
+            .build()
+    }
+
     override fun subscribe(
         id: String,
         pkg: UploadPackage,
         apk: UploadApk,
         info: UploadInfo,
-        start: (Int, Notification) -> Unit,
         stop: () -> Unit,
         observable: Observable<UploadState>
     ) {
@@ -158,10 +171,6 @@ class UploadNotificationsImpl(private val context: Context) : UploadNotification
                         .setOngoing(true)
                         .build()
                     notificationManager.notify(UPLOAD_NOTIFICATION_ID, notification)
-                    start(
-                        UPLOAD_NOTIFICATION_ID,
-                        notification
-                    )
                 }
 
                 else -> {

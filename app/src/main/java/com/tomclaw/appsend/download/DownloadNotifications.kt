@@ -28,12 +28,13 @@ import java.io.File
 
 interface DownloadNotifications {
 
+    fun createInitialNotification(label: String): Notification
+
     fun subscribe(
         appId: String,
         label: String,
         icon: String?,
         file: File,
-        start: (Int, Notification) -> Unit,
         stop: () -> Unit,
         observable: Observable<Int>
     )
@@ -62,12 +63,24 @@ class DownloadNotificationsImpl(
         }
     }
 
+    override fun createInitialNotification(label: String): Notification {
+        return NotificationCompat.Builder(context, CHANNEL_DOWNLOADING)
+            .setContentTitle(label)
+            .setContentText(context.getString(R.string.waiting_for_download))
+            .setSmallIcon(android.R.drawable.stat_sys_download)
+            .setSilent(true)
+            .setOngoing(true)
+            .setProgress(100, 0, true)
+            .setColor(getColor(R.color.primary_color, context))
+            .setGroup(GROUP_NOTIFICATIONS)
+            .build()
+    }
+
     override fun subscribe(
         appId: String,
         label: String,
         icon: String?,
         file: File,
-        start: (Int, Notification) -> Unit,
         stop: () -> Unit,
         observable: Observable<Int>
     ) {
@@ -157,10 +170,6 @@ class DownloadNotificationsImpl(
                         .setOngoing(true)
                         .build()
                     notificationManager.notify(DOWNLOAD_NOTIFICATION_ID, notification)
-                    start(
-                        DOWNLOAD_NOTIFICATION_ID,
-                        notification
-                    )
                 }
 
                 else -> {

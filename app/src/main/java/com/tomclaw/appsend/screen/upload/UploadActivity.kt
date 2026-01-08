@@ -10,6 +10,7 @@ import android.view.inputmethod.InputMethodManager
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.avito.konveyor.ItemBinder
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
@@ -156,7 +157,7 @@ class UploadActivity : AppCompatActivity(), UploadPresenter.UploadRouter {
 
     override fun startUpload(pkg: UploadPackage, apk: UploadApk?, info: UploadInfo) {
         val intent = createUploadIntent(context = this, pkg, apk, info)
-        startService(intent)
+        ContextCompat.startForegroundService(this, intent)
         analytics.trackEvent("upload-start")
     }
 

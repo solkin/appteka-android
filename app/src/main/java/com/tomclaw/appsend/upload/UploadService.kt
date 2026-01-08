@@ -46,6 +46,12 @@ class UploadService : Service() {
 
         val id = pkg.uniqueId
 
+        // Start foreground immediately to avoid ForegroundServiceStartNotAllowedException on Android 12+
+        val label = apk?.packageInfo?.applicationInfo?.loadLabel(packageManager)?.toString()
+            ?: pkg.uniqueId
+        val initialNotification = notifications.createInitialNotification(label)
+        startForegroundCompat(UPLOAD_NOTIFICATION_ID, initialNotification)
+
         val relay = uploadManager.status(id)
 
         if (info.checkExist.file == null && apk != null) {
@@ -54,9 +60,6 @@ class UploadService : Service() {
                 pkg = pkg,
                 apk = apk,
                 info = info,
-                start = { notificationId, notification ->
-                    startForegroundCompat(notificationId, notification)
-                },
                 stop = {
                     stopForegroundCompat()
                 },
