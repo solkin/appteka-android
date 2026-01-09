@@ -12,5 +12,6 @@ data class DistroAppEntity(
     val verCode: Long,
     val lastModified: Long,
     val size: Long,
-    val path: String,
+    val path: String?,
+    val fileName: String,
 ) : Parcelable

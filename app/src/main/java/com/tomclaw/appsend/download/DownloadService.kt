@@ -49,13 +49,15 @@ class DownloadService : Service() {
 
         val relay = downloadManager.status(appId)
 
-        val file = downloadManager.download(label, version, appId, url)
+        downloadManager.download(label, version, appId, url)
 
         notifications.subscribe(
             appId = appId,
             label = label,
             icon = icon,
-            file = file,
+            installUri = {
+                downloadManager.getInstallUri(label, version, appId)
+            },
             stop = {
                 stopForegroundCompat()
             },

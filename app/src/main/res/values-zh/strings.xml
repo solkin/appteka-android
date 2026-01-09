@@ -49,6 +49,10 @@
     <string name="install">安装</string>
     <string name="install_app">安装应用程序</string>
     <string name="request_delete_packages">必须获得删除应用程序的权限</string>
+    <string name="write_permission_download">下载应用需要存储权限</string>
+    <string name="write_permission_share">分享应用需要存储权限</string>
+    <string name="write_permission_clear_cache">清除缓存需要存储权限</string>
+    <string name="write_permission_view_downloads">查看下载需要存储权限</string>
     <string name="pref_title_theme">主题</string>
     <string name="pref_summary_theme">选择应用主题</string>
     <string name="pref_title_dynamic_colors">动态颜色</string>

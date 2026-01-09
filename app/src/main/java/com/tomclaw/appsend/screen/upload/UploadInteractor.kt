@@ -1,5 +1,6 @@
 package com.tomclaw.appsend.screen.upload
 
+import android.content.Context
 import android.net.Uri
 import androidx.core.net.toFile
 import com.tomclaw.appsend.core.StoreApi
@@ -30,7 +31,7 @@ interface UploadInteractor {
 class UploadInteractorImpl(
     private val api: StoreApi,
     private val locale: Locale,
-    private val appsDir: File,
+    private val context: Context,
     private val streamsProvider: StreamsProvider,
     private val schedulers: SchedulersFactory
 ) : UploadInteractor {
@@ -91,7 +92,7 @@ class UploadInteractorImpl(
                     return@create
                 }
                 try {
-                    val temp = File.createTempFile("pick", ".tmp", appsDir)
+                    val temp = File.createTempFile("pick", ".tmp", context.cacheDir)
                     temp.deleteOnExit()
                     val target = Uri.fromFile(temp)
                     streamsProvider.openInputStream(uri)?.let { input ->

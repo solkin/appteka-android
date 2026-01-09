@@ -49,6 +49,10 @@
     <string name="install">स्थापित करना</string>
     <string name="install_app">ऐप इंस्टॉल करें</string>
     <string name="request_delete_packages">एप्लिकेशन हटाने के लिए, आपको अनुमति देनी होगी । </string>
+    <string name="write_permission_download">ऐप्स डाउनलोड करने के लिए स्टोरेज अनुमति आवश्यक है</string>
+    <string name="write_permission_share">ऐप्स साझा करने के लिए स्टोरेज अनुमति आवश्यक है</string>
+    <string name="write_permission_clear_cache">कैश साफ करने के लिए स्टोरेज अनुमति आवश्यक है</string>
+    <string name="write_permission_view_downloads">डाउनलोड देखने के लिए स्टोरेज अनुमति आवश्यक है</string>
     <string name="pref_title_theme">थीम</string>
     <string name="pref_summary_theme">ऐप थीम चुनें</string>
     <string name="pref_title_dynamic_colors">डायनामिक रंग</string>

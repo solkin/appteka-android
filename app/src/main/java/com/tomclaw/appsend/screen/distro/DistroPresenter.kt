@@ -96,11 +96,11 @@ class DistroPresenterImpl(
             val app = items?.find { it.id == pair.second.id } ?: return@subscribe
             when (pair.first) {
                 MENU_INSTALL -> {
-                    router?.installApp(app.path)
+                    app.path?.let { router?.installApp(it) }
                 }
 
                 MENU_SHARE -> {
-                    router?.openShareApk(app.path)
+                    app.path?.let { router?.openShareApk(it) }
                 }
 
                 MENU_EXTRACT -> {
@@ -108,33 +108,37 @@ class DistroPresenterImpl(
                 }
 
                 MENU_UPLOAD -> {
-                    interactor.getPackageUploadInfo(app.path)?.let { uploadInfo ->
+                    interactor.getPackageUploadInfo(app.fileName)?.let { uploadInfo ->
                         router?.openUploadScreen(uploadInfo.first, uploadInfo.second)
                     }
                 }
 
                 MENU_BLUETOOTH -> {
-                    router?.openShareBluetooth(app.path)
+                    app.path?.let { router?.openShareBluetooth(it) }
                 }
 
                 MENU_FIND_ON_GP -> {
-                    router?.searchGooglePlay(app.packageName)
+                    if (app.packageName.isNotEmpty()) {
+                        router?.searchGooglePlay(app.packageName)
+                    }
                 }
 
                 MENU_FIND_ON_STORE -> {
-                    router?.searchAppteka(app.packageName, app.title)
+                    if (app.packageName.isNotEmpty()) {
+                        router?.searchAppteka(app.packageName, app.title)
+                    }
                 }
 
                 MENU_PERMISSIONS -> {
-                    router?.openPermissionsScreen(interactor.getPackagePermissions(app.path))
+                    router?.openPermissionsScreen(interactor.getPackagePermissions(app.fileName))
                 }
 
                 MENU_REMOVE -> {
                     subscriptions += interactor
-                        .removeApk(app.path)
+                        .removeApk(app.fileName)
                         .observeOn(schedulers.mainThread())
                         .subscribe({
-                            items = items?.filter { it.path != app.path }
+                            items = items?.filter { it.fileName != app.fileName }
                             onReady()
                         }, { })
                 }
@@ -291,9 +295,10 @@ class DistroPresenterImpl(
     override fun saveFile(target: Uri) {
         val item = extractItem ?: return
         extractItem = null
+        val path = item.path ?: return
         subscriptions += interactor
             .copyFile(
-                source = item.path,
+                source = path,
                 target,
             )
             .observeOn(schedulers.mainThread())

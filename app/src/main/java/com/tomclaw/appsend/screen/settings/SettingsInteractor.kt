@@ -3,10 +3,10 @@ package com.tomclaw.appsend.screen.settings
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
+import com.tomclaw.appsend.download.ApkStorage
 import com.tomclaw.appsend.util.SchedulersFactory
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
-import java.io.File
 
 interface SettingsInteractor {
 
@@ -23,7 +23,7 @@ data class PreferenceChange(
 
 class SettingsInteractorImpl(
     private val context: Context,
-    private val appsDir: File,
+    private val apkStorage: ApkStorage,
     private val resourceProvider: SettingsResourceProvider,
     private val schedulers: SchedulersFactory
 ) : SettingsInteractor {
@@ -31,10 +31,7 @@ class SettingsInteractorImpl(
     private val preferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
 
     override fun clearCache(): Completable = Completable.fromAction {
-        val files = appsDir.listFiles { file ->
-            file.name.endsWith(".apk")
-        } ?: emptyArray()
-        files.forEach { it.delete() }
+        apkStorage.clearAll()
     }
         .subscribeOn(schedulers.io())
 

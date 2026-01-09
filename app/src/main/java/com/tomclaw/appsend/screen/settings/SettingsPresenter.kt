@@ -1,6 +1,7 @@
 package com.tomclaw.appsend.screen.settings
 
 import android.os.Bundle
+import com.tomclaw.appsend.download.ApkStorage
 import com.tomclaw.appsend.util.Analytics
 import com.tomclaw.appsend.util.SchedulersFactory
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -26,12 +27,15 @@ interface SettingsPresenter {
 
         fun setResultOk()
 
+        fun requestStoragePermissions(callback: (Boolean) -> Unit)
+
     }
 
 }
 
 class SettingsPresenterImpl(
     private val settingsInteractor: SettingsInteractor,
+    private val apkStorage: ApkStorage,
     private val resourceProvider: SettingsResourceProvider,
     private val analytics: Analytics,
     private val schedulers: SchedulersFactory,
@@ -73,6 +77,18 @@ class SettingsPresenterImpl(
     override fun saveState() = Bundle()
 
     private fun clearCache() {
+        if (apkStorage.isPermissionRequired()) {
+            router?.requestStoragePermissions { granted ->
+                if (granted) {
+                    doClearCache()
+                }
+            }
+        } else {
+            doClearCache()
+        }
+    }
+
+    private fun doClearCache() {
         subscriptions += settingsInteractor.clearCache()
             .observeOn(schedulers.mainThread())
             .subscribe(

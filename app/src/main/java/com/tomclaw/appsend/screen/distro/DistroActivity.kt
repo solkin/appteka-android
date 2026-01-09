@@ -22,6 +22,7 @@ import com.greysonparrelli.permiso.Permiso.IOnPermissionResult
 import com.greysonparrelli.permiso.Permiso.IOnRationaleProvided
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.download.ApkStorage
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.screen.distro.di.DistroModule
 import com.tomclaw.appsend.screen.permissions.createPermissionsActivityIntent
@@ -50,6 +51,9 @@ class DistroActivity : AppCompatActivity(), DistroPresenter.DistroRouter {
 
     @Inject
     lateinit var preferences: DistroPreferencesProvider
+
+    @Inject
+    lateinit var apkStorage: ApkStorage
 
     private val invalidateDetailsResultLauncher =
         registerForActivityResult(StartActivityForResult()) { result ->
@@ -207,8 +211,24 @@ class DistroActivity : AppCompatActivity(), DistroPresenter.DistroRouter {
     }
 
     override fun requestStoragePermissions(callback: (Boolean) -> Unit) {
-        // Storage permissions was deprecated by Google; content was moved to the internal storage
-        callback(true)
+        if (!apkStorage.isPermissionRequired()) {
+            callback(true)
+            return
+        }
+        Permiso.getInstance().requestPermissions(object : IOnPermissionResult {
+            override fun onPermissionResult(resultSet: Permiso.ResultSet) {
+                callback(resultSet.isPermissionGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE))
+            }
+
+            override fun onRationaleRequested(
+                callback: IOnRationaleProvided,
+                vararg permissions: String
+            ) {
+                val title: String = getString(R.string.app_name)
+                val message: String = getString(R.string.write_permission_view_downloads)
+                Permiso.getInstance().showRationaleInDialog(title, message, null, callback)
+            }
+        }, Manifest.permission.WRITE_EXTERNAL_STORAGE)
     }
 
     override fun requestSaveFile(fileName: String, fileType: String) {

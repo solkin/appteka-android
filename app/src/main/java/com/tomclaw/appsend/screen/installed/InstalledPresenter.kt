@@ -5,6 +5,7 @@ import android.os.Bundle
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.blueprint.Item
 import com.avito.konveyor.data_source.ListDataSource
+import com.tomclaw.appsend.download.ApkStorage
 import com.tomclaw.appsend.screen.installed.adapter.ItemListener
 import com.tomclaw.appsend.screen.installed.adapter.app.AppItem
 import com.tomclaw.appsend.screen.installed.api.UpdateEntity
@@ -49,9 +50,9 @@ interface InstalledPresenter : ItemListener {
 
         fun launchApp(packageName: String)
 
-        fun openShareApk(path: String)
+        fun openShareApk(uri: Uri, fileName: String)
 
-        fun openShareBluetooth(path: String)
+        fun openShareBluetooth(uri: Uri, fileName: String)
 
         fun openUploadScreen(pkg: UploadPackage, apk: UploadApk)
 
@@ -67,6 +68,8 @@ interface InstalledPresenter : ItemListener {
 
         fun requestSaveFile(fileName: String, fileType: String)
 
+        fun requestStoragePermissions(callback: (Boolean) -> Unit)
+
         fun leaveScreen(path: String? = null)
 
     }
@@ -77,6 +80,7 @@ class InstalledPresenterImpl(
     private val picker: Boolean,
     private val preferencesProvider: InstalledPreferencesProvider,
     private val interactor: InstalledInteractor,
+    private val apkStorage: ApkStorage,
     private val adapterPresenter: Lazy<AdapterPresenter>,
     private val appConverter: AppConverter,
     private val schedulers: SchedulersFactory,
@@ -334,18 +338,31 @@ class InstalledPresenterImpl(
 
     private fun copyAndShareApk(app: AppItem, bluetooth: Boolean) {
         val path = app.path ?: return
+        if (apkStorage.isPermissionRequired()) {
+            router?.requestStoragePermissions { granted ->
+                if (granted) {
+                    doCopyAndShareApk(path, app, bluetooth)
+                }
+            }
+        } else {
+            doCopyAndShareApk(path, app, bluetooth)
+        }
+    }
+
+    private fun doCopyAndShareApk(path: String, app: AppItem, bluetooth: Boolean) {
         val fileName = fileName(app.title, app.version, app.packageName)
+        val displayName = "$fileName.apk"
         subscriptions += interactor
-            .copyToCache(source = path, fileName = fileName)
+            .copyToStorage(source = path, fileName = fileName)
             .observeOn(schedulers.mainThread())
             .doOnSubscribe { view?.showProgress() }
             .doAfterTerminate { onReady() }
             .subscribe(
-                { cachedPath ->
+                { uri ->
                     if (bluetooth) {
-                        router?.openShareBluetooth(path = cachedPath)
+                        router?.openShareBluetooth(uri = uri, fileName = displayName)
                     } else {
-                        router?.openShareApk(path = cachedPath)
+                        router?.openShareApk(uri = uri, fileName = displayName)
                     }
                 },
                 { view?.showExtractError() }

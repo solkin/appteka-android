@@ -35,10 +35,14 @@ import com.tomclaw.appsend.core.TimeProviderImpl
 import com.tomclaw.appsend.core.UserAgentInterceptor
 import com.tomclaw.appsend.core.UserAgentProvider
 import com.tomclaw.appsend.core.UserAgentProviderImpl
+import com.tomclaw.appsend.download.ApkStorage
 import com.tomclaw.appsend.download.DownloadManager
 import com.tomclaw.appsend.download.DownloadManagerImpl
 import com.tomclaw.appsend.download.DownloadNotifications
 import com.tomclaw.appsend.download.DownloadNotificationsImpl
+import com.tomclaw.appsend.download.LegacyApkStorage
+import com.tomclaw.appsend.download.MediaStoreApkStorage
+import android.os.Build
 import com.tomclaw.appsend.events.EventsInteractor
 import com.tomclaw.appsend.events.EventsInteractorImpl
 import com.tomclaw.appsend.screen.feed.api.PostDeserializer
@@ -92,16 +96,12 @@ class AppModule(private val app: Application) {
 
     @Provides
     @Singleton
-    @Named(APPS_DIR)
-    fun provideAppsDir(): File = File(app.cacheDir, APPS_DIR).apply {
-        mkdirs()
-        walkTopDown()
-            .map { file ->
-                file.takeIf { it.extension.equals("tmp", ignoreCase = true) }
-            }
-            .filterNotNull()
-            .toList()
-            .forEach { it.delete() }
+    internal fun provideApkStorage(context: Context): ApkStorage {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            MediaStoreApkStorage(context)
+        } else {
+            LegacyApkStorage(context)
+        }
     }
 
     @Provides
@@ -231,9 +231,9 @@ class AppModule(private val app: Application) {
     @Provides
     @Singleton
     internal fun provideDownloadManager(
-        @Named(APPS_DIR) appsDir: File,
+        apkStorage: ApkStorage,
         cookieJar: CookieJar,
-    ): DownloadManager = DownloadManagerImpl(appsDir, cookieJar)
+    ): DownloadManager = DownloadManagerImpl(apkStorage, cookieJar)
 
     @Provides
     @Singleton
@@ -308,4 +308,3 @@ class AppModule(private val app: Application) {
 const val TIME_FORMATTER = "TimeFormatter"
 const val DATE_FORMATTER = "DateFormatter"
 const val USER_DIR = "user"
-const val APPS_DIR = "apps"

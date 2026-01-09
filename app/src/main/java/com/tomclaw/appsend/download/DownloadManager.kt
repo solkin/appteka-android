@@ -1,13 +1,12 @@
 package com.tomclaw.appsend.download
 
+import android.net.Uri
 import com.jakewharton.rxrelay3.BehaviorRelay
 import com.tomclaw.appsend.util.safeClose
 import io.reactivex.rxjava3.core.Observable
 import okhttp3.CookieJar
 import okhttp3.HttpUrl.Companion.toHttpUrlOrNull
 import java.io.BufferedInputStream
-import java.io.File
-import java.io.FileOutputStream
 import java.io.IOException
 import java.io.InputStream
 import java.io.InterruptedIOException
@@ -22,9 +21,11 @@ interface DownloadManager {
 
     fun status(appId: String): Observable<Int>
 
-    fun download(label: String, version: String, appId: String, url: String): File
+    fun download(label: String, version: String, appId: String, url: String): String
 
-    fun targetFile(label: String, version: String, appId: String): File
+    fun getInstallUri(label: String, version: String, appId: String): Uri?
+
+    fun exists(label: String, version: String, appId: String): Boolean
 
     fun cancel(appId: String)
 
@@ -32,7 +33,7 @@ interface DownloadManager {
 
 
 class DownloadManagerImpl(
-    private val dir: File,
+    private val apkStorage: ApkStorage,
     private val cookieJar: CookieJar,
 ) : DownloadManager {
 
@@ -64,20 +65,22 @@ class DownloadManagerImpl(
         }
     }
 
-    override fun download(label: String, version: String, appId: String, url: String): File {
-        val tmpFile = tempFile(label, version, appId)
-        val targetFile = targetFile(label, version, appId)
+    override fun download(label: String, version: String, appId: String, url: String): String {
+        val fileName = fileName(label, version, appId)
         val relay = relays[appId] ?: BehaviorRelay.create()
-        if (targetFile.exists()) {
+
+        if (apkStorage.exists(fileName)) {
             relay.accept(COMPLETED)
-            return targetFile
+            relays[appId] = relay
+            return fileName
         }
+
         relay.accept(AWAIT)
         downloads[appId] = executor.submit {
             relay.accept(STARTED)
             val success = downloadBlocking(
                 url = url,
-                file = tmpFile,
+                fileName = fileName,
                 progressCallback = { percent ->
                     relay.accept(percent)
                 },
@@ -86,23 +89,25 @@ class DownloadManagerImpl(
                 },
             )
             if (success) {
-                tmpFile.renameTo(targetFile)
+                apkStorage.commit(fileName)
                 relay.accept(COMPLETED)
+            } else {
+                apkStorage.deleteTmp(fileName)
             }
             downloads.remove(appId)
         }
         relays[appId] = relay
-        return targetFile
+        return fileName
     }
 
-    override fun targetFile(label: String, version: String, appId: String): File {
+    override fun getInstallUri(label: String, version: String, appId: String): Uri? {
         val fileName = fileName(label, version, appId)
-        return File(dir, "$fileName.apk")
+        return apkStorage.getInstallUri(fileName)
     }
 
-    private fun tempFile(label: String, version: String, appId: String): File {
+    override fun exists(label: String, version: String, appId: String): Boolean {
         val fileName = fileName(label, version, appId)
-        return File(dir, "$fileName.apk.tmp")
+        return apkStorage.exists(fileName)
     }
 
     private fun fileName(label: String, version: String, appId: String): String {
@@ -116,7 +121,7 @@ class DownloadManagerImpl(
 
     private fun downloadBlocking(
         url: String,
-        file: File,
+        fileName: String,
         progressCallback: (Int) -> Unit,
         errorCallback: (Throwable) -> Unit
     ): Boolean {
@@ -129,7 +134,7 @@ class DownloadManagerImpl(
             connection = u.openConnection() as HttpURLConnection
 
             val httpUrl = url.toHttpUrlOrNull()
-                ?: throw IllegalArgumentException("Invalid upload screenshot URL")
+                ?: throw IllegalArgumentException("Invalid download URL")
 
             val cookies = cookieJar.loadForRequest(httpUrl)
                 .map { it.toString() }
@@ -157,11 +162,9 @@ class DownloadManagerImpl(
                 errorCallback(IOException("ContentLength is not defined"))
                 return false
             }
-            file.parentFile?.mkdirs()
-            if (file.exists()) {
-                file.delete()
-            }
-            output = FileOutputStream(file)
+
+            output = apkStorage.openWrite(fileName)
+
             var cache: Int
             var read: Long = 0
             var percent = 0

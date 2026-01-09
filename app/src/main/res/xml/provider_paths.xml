@@ -3,7 +3,10 @@
     <external-path
         name="external_files"
         path="." />
+    <external-path
+        name="downloads_appteka"
+        path="Download/Appteka/" />
     <cache-path
-        name="apps"
-        path="apps/" />
+        name="apk_cache"
+        path="apk_cache/" />
 </paths>

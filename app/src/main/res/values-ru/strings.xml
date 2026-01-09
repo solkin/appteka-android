@@ -49,6 +49,10 @@
     <string name="install">Установить</string>
     <string name="install_app">Установить приложение</string>
     <string name="request_delete_packages">Для удаления приложений необходимо предоставить разрешение</string>
+    <string name="write_permission_download">Для загрузки приложений требуется разрешение на запись</string>
+    <string name="write_permission_share">Для обмена приложениями требуется разрешение на запись</string>
+    <string name="write_permission_clear_cache">Для очистки кэша требуется разрешение на запись</string>
+    <string name="write_permission_view_downloads">Для просмотра загрузок требуется разрешение на запись</string>
     <string name="pref_title_theme">Тема</string>
     <string name="pref_summary_theme">Выберите тему приложения</string>
     <string name="pref_title_dynamic_colors">Динамические цвета</string>

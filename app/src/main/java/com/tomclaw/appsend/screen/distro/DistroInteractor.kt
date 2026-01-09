@@ -2,6 +2,7 @@ package com.tomclaw.appsend.screen.distro
 
 import android.net.Uri
 import com.tomclaw.appsend.core.StreamsProvider
+import com.tomclaw.appsend.download.ApkStorage
 import com.tomclaw.appsend.upload.UploadApk
 import com.tomclaw.appsend.upload.UploadPackage
 import com.tomclaw.appsend.util.SchedulersFactory
@@ -13,11 +14,11 @@ interface DistroInteractor {
 
     fun listDistroApps(): Observable<List<DistroAppEntity>>
 
-    fun getPackagePermissions(path: String): List<String>
+    fun getPackagePermissions(fileName: String): List<String>
 
-    fun getPackageUploadInfo(packageName: String): Pair<UploadPackage, UploadApk>?
+    fun getPackageUploadInfo(fileName: String): Pair<UploadPackage, UploadApk>?
 
-    fun removeApk(path: String): Observable<Unit>
+    fun removeApk(fileName: String): Observable<Unit>
 
     fun copyFile(source: String, target: Uri): Observable<Unit>
 
@@ -25,6 +26,7 @@ interface DistroInteractor {
 
 class DistroInteractorImpl(
     private val infoProvider: DistroInfoProvider,
+    private val apkStorage: ApkStorage,
     private val streamsProvider: StreamsProvider,
     private val schedulers: SchedulersFactory
 ) : DistroInteractor {
@@ -39,18 +41,18 @@ class DistroInteractorImpl(
             .subscribeOn(schedulers.io())
     }
 
-    override fun getPackagePermissions(path: String): List<String> {
-        return infoProvider.getPackagePermissions(path)
+    override fun getPackagePermissions(fileName: String): List<String> {
+        return infoProvider.getPackagePermissions(fileName)
     }
 
-    override fun getPackageUploadInfo(packageName: String): Pair<UploadPackage, UploadApk>? {
-        return infoProvider.getPackageUploadInfo(packageName)
+    override fun getPackageUploadInfo(fileName: String): Pair<UploadPackage, UploadApk>? {
+        return infoProvider.getPackageUploadInfo(fileName)
     }
 
-    override fun removeApk(path: String): Observable<Unit> {
+    override fun removeApk(fileName: String): Observable<Unit> {
         return Single
             .create {
-                File(path).delete()
+                apkStorage.delete(fileName)
                 it.onSuccess(Unit)
             }
             .toObservable()

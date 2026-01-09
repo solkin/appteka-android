@@ -49,6 +49,10 @@
     <string name="install">Cài đặt</string>
     <string name="install_app">Cài đặt ứng dụng</string>
     <string name="request_delete_packages">Phải được cấp quyền để xóa ứng dụng</string>
+    <string name="write_permission_download">Cần cấp quyền lưu trữ để tải ứng dụng</string>
+    <string name="write_permission_share">Cần cấp quyền lưu trữ để chia sẻ ứng dụng</string>
+    <string name="write_permission_clear_cache">Cần cấp quyền lưu trữ để xóa bộ nhớ đệm</string>
+    <string name="write_permission_view_downloads">Cần cấp quyền lưu trữ để xem tải xuống</string>
     <string name="pref_title_theme">Chủ đề</string>
     <string name="pref_summary_theme">Chọn chủ đề ứng dụng</string>
     <string name="pref_title_dynamic_colors">Màu động</string>

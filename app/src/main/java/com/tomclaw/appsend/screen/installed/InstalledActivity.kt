@@ -23,6 +23,7 @@ import com.greysonparrelli.permiso.Permiso.IOnPermissionResult
 import com.greysonparrelli.permiso.Permiso.IOnRationaleProvided
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.download.ApkStorage
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.screen.installed.di.InstalledModule
 import com.tomclaw.appsend.screen.permissions.createPermissionsActivityIntent
@@ -50,6 +51,9 @@ class InstalledActivity : AppCompatActivity(), InstalledPresenter.InstalledRoute
 
     @Inject
     lateinit var preferences: InstalledPreferencesProvider
+
+    @Inject
+    lateinit var apkStorage: ApkStorage
 
     private val invalidateDetailsResultLauncher =
         registerForActivityResult(StartActivityForResult()) { result ->
@@ -183,14 +187,12 @@ class InstalledActivity : AppCompatActivity(), InstalledPresenter.InstalledRoute
         analytics.trackEvent("installed-launch-app")
     }
 
-    override fun openShareApk(path: String) {
-        val file = File(path)
-        val uri = createFileExternalUri(file)
+    override fun openShareApk(uri: Uri, fileName: String) {
         val intent = Intent()
             .setAction(Intent.ACTION_SEND)
-            .putExtra(Intent.EXTRA_TEXT, file.getName())
+            .putExtra(Intent.EXTRA_TEXT, fileName)
             .putExtra(Intent.EXTRA_STREAM, uri)
-            .setType("application/zip")
+            .setType("application/vnd.android.package-archive")
         grantUriPermission(uri)
         startActivity(
             Intent.createChooser(
@@ -201,14 +203,12 @@ class InstalledActivity : AppCompatActivity(), InstalledPresenter.InstalledRoute
         analytics.trackEvent("installed-share-apk")
     }
 
-    override fun openShareBluetooth(path: String) {
-        val file = File(path)
-        val uri = createFileExternalUri(file)
+    override fun openShareBluetooth(uri: Uri, fileName: String) {
         val intent = Intent()
             .setAction(Intent.ACTION_SEND)
-            .putExtra(Intent.EXTRA_TEXT, file.name)
+            .putExtra(Intent.EXTRA_TEXT, fileName)
             .putExtra(Intent.EXTRA_STREAM, uri)
-            .setType("application/zip")
+            .setType("application/vnd.android.package-archive")
             .setPackage("com.android.bluetooth")
         grantUriPermission(uri)
         startActivity(
@@ -259,6 +259,27 @@ class InstalledActivity : AppCompatActivity(), InstalledPresenter.InstalledRoute
         } else {
             onRemoveAppPermitted(packageName)
         }
+    }
+
+    override fun requestStoragePermissions(callback: (Boolean) -> Unit) {
+        if (!apkStorage.isPermissionRequired()) {
+            callback(true)
+            return
+        }
+        Permiso.getInstance().requestPermissions(object : IOnPermissionResult {
+            override fun onPermissionResult(resultSet: Permiso.ResultSet) {
+                callback(resultSet.isPermissionGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE))
+            }
+
+            override fun onRationaleRequested(
+                callback: IOnRationaleProvided,
+                vararg permissions: String
+            ) {
+                val title: String = getString(R.string.app_name)
+                val message: String = getString(R.string.write_permission_share)
+                Permiso.getInstance().showRationaleInDialog(title, message, null, callback)
+            }
+        }, Manifest.permission.WRITE_EXTERNAL_STORAGE)
     }
 
     override fun requestSaveFile(fileName: String, fileType: String) {

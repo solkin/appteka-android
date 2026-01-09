@@ -22,6 +22,7 @@ class ApkConverterImpl : ApkConverter {
             size = appEntity.size,
             lastModified = appEntity.lastModified,
             path = appEntity.path,
+            fileName = appEntity.fileName,
             packageName = appEntity.packageName,
             isNew = (TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()) - appEntity.lastModified) <
                     TimeUnit.DAYS.toSeconds(1),

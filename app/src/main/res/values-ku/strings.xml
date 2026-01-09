@@ -51,6 +51,10 @@
     <string name="install">دامەزراندن</string>
     <string name="install_app">دامەزراندنی بەرنامە</string>
     <string name="request_delete_packages">بۆ ئەوەی بەرنامەکان بسڕیتەوە پێویستە مۆڵەت بدەیت</string>
+    <string name="write_permission_download">بۆ داگرتنی بەرنامەکان پێویستی بە مۆڵەتی کۆگا هەیە</string>
+    <string name="write_permission_share">بۆ هاوبەشکردنی بەرنامەکان پێویستی بە مۆڵەتی کۆگا هەیە</string>
+    <string name="write_permission_clear_cache">بۆ پاککردنەوەی کاش پێویستی بە مۆڵەتی کۆگا هەیە</string>
+    <string name="write_permission_view_downloads">بۆ بینینی داگرتنەکان پێویستی بە مۆڵەتی کۆگا هەیە</string>
     <string name="pref_title_theme">تێما</string>
     <string name="pref_summary_theme">تێمای بەرنامەکە هەڵبژێرە</string>
     <string name="pref_title_dynamic_colors">ڕەنگە داینامیکییەکان</string>

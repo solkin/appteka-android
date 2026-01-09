@@ -12,7 +12,6 @@ import com.tomclaw.appsend.categories.CategoryConverterImpl
 import com.tomclaw.appsend.core.PackageInfoProvider
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.core.StreamsProvider
-import com.tomclaw.appsend.di.APPS_DIR
 import com.tomclaw.appsend.screen.upload.DescriptionValidator
 import com.tomclaw.appsend.screen.upload.DescriptionValidatorImpl
 import com.tomclaw.appsend.screen.upload.UploadConverter
@@ -65,7 +64,6 @@ import dagger.Lazy
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoSet
-import java.io.File
 import java.util.Locale
 import javax.inject.Named
 
@@ -113,10 +111,9 @@ class UploadModule(
     internal fun provideInteractor(
         api: StoreApi,
         locale: Locale,
-        @Named(APPS_DIR) appsDir: File,
         streamsProvider: StreamsProvider,
         schedulers: SchedulersFactory
-    ): UploadInteractor = UploadInteractorImpl(api, locale, appsDir, streamsProvider, schedulers)
+    ): UploadInteractor = UploadInteractorImpl(api, locale, context, streamsProvider, schedulers)
 
     @Provides
     @PerActivity

@@ -14,8 +14,13 @@ import androidx.preference.PreferenceManager
 import androidx.preference.SwitchPreferenceCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import android.Manifest
+import com.greysonparrelli.permiso.Permiso
+import com.greysonparrelli.permiso.Permiso.IOnPermissionResult
+import com.greysonparrelli.permiso.Permiso.IOnRationaleProvided
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.download.ApkStorage
 import com.tomclaw.appsend.screen.settings.di.SettingsModule
 import com.tomclaw.appsend.util.applyTheme
 import javax.inject.Inject
@@ -26,6 +31,9 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
     @Inject
     lateinit var presenter: SettingsPresenter
+
+    @Inject
+    lateinit var apkStorage: ApkStorage
 
     private lateinit var settingsView: SettingsView
 
@@ -80,8 +88,20 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
     override fun onResume() {
         super.onResume()
+        Permiso.getInstance().setActivity(requireActivity())
         PreferenceManager.getDefaultSharedPreferences(requireContext())
             .registerOnSharedPreferenceChangeListener(this)
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        @Suppress("DEPRECATION")
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        Permiso.getInstance().onRequestPermissionResult(requestCode, permissions, grantResults)
     }
 
     override fun onPause() {
@@ -255,6 +275,27 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
     override fun setResultOk() {
         requireActivity().setResult(android.app.Activity.RESULT_OK)
+    }
+
+    override fun requestStoragePermissions(callback: (Boolean) -> Unit) {
+        if (!apkStorage.isPermissionRequired()) {
+            callback(true)
+            return
+        }
+        Permiso.getInstance().requestPermissions(object : IOnPermissionResult {
+            override fun onPermissionResult(resultSet: Permiso.ResultSet) {
+                callback(resultSet.isPermissionGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE))
+            }
+
+            override fun onRationaleRequested(
+                callback: IOnRationaleProvided,
+                vararg permissions: String
+            ) {
+                val title: String = getString(R.string.app_name)
+                val message: String = getString(R.string.write_permission_clear_cache)
+                Permiso.getInstance().showRationaleInDialog(title, message, null, callback)
+            }
+        }, Manifest.permission.WRITE_EXTERNAL_STORAGE)
     }
 
 }

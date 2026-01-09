@@ -49,6 +49,10 @@
     <string name="install">Instalar</string>
     <string name="install_app">Instalar aplicativo</string>
     <string name="request_delete_packages">Para excluir os aplicativos, você precisa conceder a permissão</string>
+    <string name="write_permission_download">Permissão de armazenamento é necessária para baixar apps</string>
+    <string name="write_permission_share">Permissão de armazenamento é necessária para compartilhar apps</string>
+    <string name="write_permission_clear_cache">Permissão de armazenamento é necessária para limpar o cache</string>
+    <string name="write_permission_view_downloads">Permissão de armazenamento é necessária para ver downloads</string>
     <string name="pref_title_theme">Tema</string>
     <string name="pref_summary_theme">Selecione o tema do aplicativo</string>
     <string name="pref_title_dynamic_colors">Cores dinâmicas</string>

@@ -2,14 +2,13 @@ package com.tomclaw.appsend.screen.distro.di
 
 import android.content.Context
 import android.os.Bundle
-import android.os.Environment
 import com.avito.konveyor.ItemBinder
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.adapter.SimpleAdapterPresenter
 import com.avito.konveyor.blueprint.ItemBlueprint
 import com.tomclaw.appsend.core.PackageInfoProvider
 import com.tomclaw.appsend.core.StreamsProvider
-import com.tomclaw.appsend.di.APPS_DIR
+import com.tomclaw.appsend.download.ApkStorage
 import com.tomclaw.appsend.screen.distro.ApkConverter
 import com.tomclaw.appsend.screen.distro.ApkConverterImpl
 import com.tomclaw.appsend.screen.distro.DistroInfoProvider
@@ -30,9 +29,7 @@ import dagger.Lazy
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoSet
-import java.io.File
 import java.util.Locale
-import javax.inject.Named
 
 @Module
 class DistroModule(
@@ -61,10 +58,12 @@ class DistroModule(
     @PerActivity
     internal fun provideInteractor(
         infoProvider: DistroInfoProvider,
+        apkStorage: ApkStorage,
         streamsProvider: StreamsProvider,
         schedulers: SchedulersFactory
     ): DistroInteractor = DistroInteractorImpl(
         infoProvider,
+        apkStorage,
         streamsProvider,
         schedulers
     )
@@ -78,11 +77,11 @@ class DistroModule(
     @Provides
     @PerActivity
     internal fun provideDistroInfoProvider(
-        @Named(APPS_DIR) appsDir: File,
+        apkStorage: ApkStorage,
         packageInfoProvider: PackageInfoProvider,
     ): DistroInfoProvider {
         return DistroInfoProviderImpl(
-            rootDir = appsDir,
+            apkStorage = apkStorage,
             packageInfoProvider = packageInfoProvider
         )
     }

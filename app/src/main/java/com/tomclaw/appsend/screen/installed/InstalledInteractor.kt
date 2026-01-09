@@ -3,6 +3,7 @@ package com.tomclaw.appsend.screen.installed
 import android.net.Uri
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.core.StreamsProvider
+import com.tomclaw.appsend.download.ApkStorage
 import com.tomclaw.appsend.screen.installed.api.CheckUpdatesRequest
 import com.tomclaw.appsend.screen.installed.api.UpdateEntity
 import com.tomclaw.appsend.upload.UploadApk
@@ -25,14 +26,14 @@ interface InstalledInteractor {
 
     fun copyFile(source: String, target: Uri): Observable<Unit>
 
-    fun copyToCache(source: String, fileName: String): Observable<String>
+    fun copyToStorage(source: String, fileName: String): Observable<Uri>
 
 }
 
 class InstalledInteractorImpl(
     private val api: StoreApi,
     private val locale: Locale,
-    private val appsDir: File,
+    private val apkStorage: ApkStorage,
     private val streamsProvider: StreamsProvider,
     private val infoProvider: InstalledInfoProvider,
     private val schedulers: SchedulersFactory
@@ -91,19 +92,19 @@ class InstalledInteractorImpl(
             .subscribeOn(schedulers.io())
     }
 
-    override fun copyToCache(source: String, fileName: String): Observable<String> {
+    override fun copyToStorage(source: String, fileName: String): Observable<Uri> {
         return Single
             .create { emitter ->
                 try {
                     val srcFile = File(source)
-                    val destFile = File(appsDir, "$fileName.apk")
                     srcFile.inputStream().use { input ->
-                        destFile.outputStream().use { output ->
-                            input.copyTo(output)
-                            output.flush()
+                        val uri = apkStorage.copyToStorage(input, fileName)
+                        if (uri != null) {
+                            emitter.onSuccess(uri)
+                        } else {
+                            emitter.onError(Throwable("Failed to copy to storage"))
                         }
                     }
-                    emitter.onSuccess(destFile.absolutePath)
                 } catch (ex: Throwable) {
                     emitter.onError(ex)
                 }

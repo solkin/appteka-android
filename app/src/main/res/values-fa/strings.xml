@@ -50,6 +50,10 @@
     <string name="install">نصب</string>
     <string name="install_app">نصب برنامه</string>
     <string name="request_delete_packages">برای حذف برنامه ها باید مجوزها را اعطا کنید</string>
+    <string name="write_permission_download">برای دانلود برنامه‌ها به مجوز ذخیره‌سازی نیاز است</string>
+    <string name="write_permission_share">برای اشتراک‌گذاری برنامه‌ها به مجوز ذخیره‌سازی نیاز است</string>
+    <string name="write_permission_clear_cache">برای پاک کردن حافظه پنهان به مجوز ذخیره‌سازی نیاز است</string>
+    <string name="write_permission_view_downloads">برای مشاهده دانلودها به مجوز ذخیره‌سازی نیاز است</string>
     <string name="pref_title_theme">پوسته</string>
     <string name="pref_summary_theme">پوسته برنامه را انتخاب کنید</string>
     <string name="pref_title_dynamic_colors">رنگ‌های پویا</string>

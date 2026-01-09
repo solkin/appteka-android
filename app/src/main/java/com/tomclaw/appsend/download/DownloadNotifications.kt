@@ -10,6 +10,7 @@ import android.app.PendingIntent.FLAG_IMMUTABLE
 import android.content.Context
 import android.content.Context.NOTIFICATION_SERVICE
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.graphics.drawable.toBitmap
@@ -19,12 +20,10 @@ import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.util.NotificationIconHolder
 import com.tomclaw.appsend.util.crc32
 import com.tomclaw.appsend.util.getColor
-import com.tomclaw.appsend.util.openFileIntent
 import com.tomclaw.imageloader.SimpleImageLoader.imageLoader
 import com.tomclaw.imageloader.core.Handlers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.Disposable
-import java.io.File
 
 interface DownloadNotifications {
 
@@ -34,7 +33,7 @@ interface DownloadNotifications {
         appId: String,
         label: String,
         icon: String?,
-        file: File,
+        installUri: () -> Uri?,
         stop: () -> Unit,
         observable: Observable<Int>
     )
@@ -80,7 +79,7 @@ class DownloadNotificationsImpl(
         appId: String,
         label: String,
         icon: String?,
-        file: File,
+        installUri: () -> Uri?,
         stop: () -> Unit,
         observable: Observable<Int>
     ) {
@@ -134,24 +133,27 @@ class DownloadNotificationsImpl(
 
                 COMPLETED -> {
                     notificationManager.cancel(notificationId)
-                    val installIntent = getInstallIntent(file)
-                    val installNotificationBuilder =
-                        NotificationCompat.Builder(context, CHANNEL_INSTALL)
-                            .setContentTitle(label)
-                            .setContentText(context.getString(R.string.tap_to_install))
-                            .setSmallIcon(android.R.drawable.stat_sys_download_done)
-                            .setGroup(GROUP_NOTIFICATIONS)
-                            .setOngoing(false)
-                            .setAutoCancel(true)
-                            .setColor(getColor(R.color.primary_color, context))
-                            .setContentIntent(installIntent)
-                    val installIconHolder = NotificationIconHolder(
-                        resources = context.resources,
-                        notificationBuilder = installNotificationBuilder
-                    )
-                    icon?.run { context.imageLoader().load(installIconHolder, icon, handlers) }
-                    val notification = installNotificationBuilder.build()
-                    notificationManager.notify(notificationId, notification)
+                    val uri = installUri()
+                    if (uri != null) {
+                        val installIntent = getInstallIntent(uri)
+                        val installNotificationBuilder =
+                            NotificationCompat.Builder(context, CHANNEL_INSTALL)
+                                .setContentTitle(label)
+                                .setContentText(context.getString(R.string.tap_to_install))
+                                .setSmallIcon(android.R.drawable.stat_sys_download_done)
+                                .setGroup(GROUP_NOTIFICATIONS)
+                                .setOngoing(false)
+                                .setAutoCancel(true)
+                                .setColor(getColor(R.color.primary_color, context))
+                                .setContentIntent(installIntent)
+                        val installIconHolder = NotificationIconHolder(
+                            resources = context.resources,
+                            notificationBuilder = installNotificationBuilder
+                        )
+                        icon?.run { context.imageLoader().load(installIconHolder, icon, handlers) }
+                        val notification = installNotificationBuilder.build()
+                        notificationManager.notify(notificationId, notification)
+                    }
                     stop()
                     disposable?.dispose()
                 }
@@ -201,13 +203,14 @@ class DownloadNotificationsImpl(
     }
 
     @SuppressLint("UnspecifiedImmutableFlag")
-    private fun getInstallIntent(file: File): PendingIntent {
+    private fun getInstallIntent(uri: Uri): PendingIntent {
+        val intent = Intent(Intent.ACTION_VIEW).apply {
+            setDataAndType(uri, APK_MIME_TYPE)
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_GRANT_READ_URI_PERMISSION
+        }
         return PendingIntent.getActivity(
             context, 0,
-            context.openFileIntent(
-                filePath = file.absolutePath,
-                type = "application/vnd.android.package-archive"
-            ),
+            intent,
             FLAG_CANCEL_CURRENT or FLAG_IMMUTABLE
         )
     }
@@ -232,3 +235,5 @@ const val DOWNLOAD_NOTIFICATION_ID = 1
 const val GROUP_NOTIFICATIONS = BuildConfig.APPLICATION_ID + ".NOTIFICATIONS"
 const val CHANNEL_DOWNLOADING = "downloading_channel_id"
 const val CHANNEL_INSTALL = "install_channel_id"
+
+private const val APK_MIME_TYPE = "application/vnd.android.package-archive"

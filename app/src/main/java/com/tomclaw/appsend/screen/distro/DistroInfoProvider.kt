@@ -1,79 +1,74 @@
 package com.tomclaw.appsend.screen.distro
 
 import com.tomclaw.appsend.core.PackageInfoProvider
+import com.tomclaw.appsend.download.ApkInfo
+import com.tomclaw.appsend.download.ApkStorage
 import com.tomclaw.appsend.upload.UploadApk
 import com.tomclaw.appsend.upload.UploadPackage
 import com.tomclaw.appsend.util.createApkIconURI
 import com.tomclaw.appsend.util.versionCodeCompat
-import java.io.File
 
 interface DistroInfoProvider {
 
     fun getApkItems(): List<DistroAppEntity>
 
-    fun getPackagePermissions(path: String): List<String>
+    fun getPackagePermissions(fileName: String): List<String>
 
-    fun getPackageUploadInfo(path: String): Pair<UploadPackage, UploadApk>?
+    fun getPackageUploadInfo(fileName: String): Pair<UploadPackage, UploadApk>?
 
 }
 
 class DistroInfoProviderImpl(
-    private val rootDir: File,
+    private val apkStorage: ApkStorage,
     private val packageInfoProvider: PackageInfoProvider,
 ) : DistroInfoProvider {
 
     override fun getApkItems(): List<DistroAppEntity> {
-        return rootDir
-            .walkTopDown()
-            .map { file ->
-                if (file.extension.equals(APK_EXTENSION, ignoreCase = true)) {
-                    processApk(file)
-                } else {
-                    null
-                }
-            }
-            .filterNotNull()
-            .toList()
+        return apkStorage.listApkFiles()
+            .map { apkInfo -> processApk(apkInfo) }
     }
 
-    override fun getPackagePermissions(path: String) =
-        packageInfoProvider.getPackagePermissions(path)
-
-    private fun processApk(file: File): DistroAppEntity? {
-        if (!file.exists()) return null
-        return packageInfoProvider.getPackageInfo(file.absolutePath)?.let { packageInfo ->
-            packageInfo.applicationInfo?.let { info ->
-                DistroAppEntity(
-                    packageName = info.packageName ?: "",
-                    label = packageInfoProvider.getApplicationLabel(info),
-                    icon = createApkIconURI(file.path),
-                    verName = packageInfo.versionName.orEmpty(), // versionName nullable
-                    verCode = packageInfo.versionCodeCompat(),
-                    lastModified = file.lastModified(),
-                    size = file.length(),
-                    path = file.path,
-                )
-            }
-        }
+    override fun getPackagePermissions(fileName: String): List<String> {
+        val path = apkStorage.getFilePath(fileName) ?: return emptyList()
+        return packageInfoProvider.getPackagePermissions(path)
     }
 
-    override fun getPackageUploadInfo(path: String): Pair<UploadPackage, UploadApk>? {
+    private fun processApk(apkInfo: ApkInfo): DistroAppEntity {
+        val path = apkStorage.getFilePath(apkInfo.fileName)
+        val packageInfo = path?.let { packageInfoProvider.getPackageInfo(it) }
+        val appInfo = packageInfo?.applicationInfo
+
+        return DistroAppEntity(
+            packageName = appInfo?.packageName ?: "",
+            label = appInfo?.let { packageInfoProvider.getApplicationLabel(it) }
+                ?: apkInfo.fileName,
+            icon = path?.let { createApkIconURI(it) },
+            verName = packageInfo?.versionName.orEmpty(),
+            verCode = packageInfo?.versionCodeCompat() ?: 0,
+            lastModified = apkInfo.lastModified,
+            size = apkInfo.size,
+            path = path,
+            fileName = apkInfo.fileName,
+        )
+    }
+
+    override fun getPackageUploadInfo(fileName: String): Pair<UploadPackage, UploadApk>? {
+        val path = apkStorage.getFilePath(fileName) ?: return null
+        val apkInfo = apkStorage.listApkFiles().find { it.fileName == fileName } ?: return null
         val packageInfo = packageInfoProvider.getPackageInfo(path) ?: return null
-        val file = File(path)
+
         val pkg = UploadPackage(
-            uniqueId = file.path,
+            uniqueId = fileName,
             sha1 = null,
             packageName = packageInfo.packageName,
-            size = file.length()
+            size = apkInfo.size
         )
         val apk = UploadApk(
-            path = file.path,
+            path = path,
             version = packageInfo.versionName.orEmpty(),
-            size = file.length(),
+            size = apkInfo.size,
             packageInfo = packageInfo
         )
         return Pair(pkg, apk)
     }
 }
-
-const val APK_EXTENSION = "apk"

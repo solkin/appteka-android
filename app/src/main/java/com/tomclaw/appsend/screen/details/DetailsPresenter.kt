@@ -1,5 +1,6 @@
 package com.tomclaw.appsend.screen.details
 
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import com.avito.konveyor.adapter.AdapterPresenter
@@ -32,7 +33,6 @@ import com.tomclaw.appsend.util.retryWhenNonAuthErrors
 import dagger.Lazy
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
-import java.io.File
 
 interface DetailsPresenter : ItemListener {
 
@@ -68,7 +68,7 @@ interface DetailsPresenter : ItemListener {
 
         fun launchApp(packageName: String)
 
-        fun installApp(file: File)
+        fun installApp(uri: Uri)
 
         fun removeApp(packageName: String)
 
@@ -137,7 +137,6 @@ class DetailsPresenterImpl(
     private var details: Details? = state?.getParcelableCompat(KEY_DETAILS, Details::class.java)
     private var installedVersionCode: Int = state?.getInt(KEY_INSTALLED_VERSION) ?: NOT_INSTALLED
     private var downloadState: Int = state?.getInt(KEY_DOWNLOAD_STATE) ?: IDLE
-    private var targetFile: File? = state?.getString(KEY_TARGET_FILE)?.let { File(it) }
     private var needInstall: Boolean = state?.getBoolean(KEY_NEED_INSTALL) == true
     private var isFavorite: Boolean = state?.getBoolean(KEY_IS_FAVORITE) == true
     private var translationData: TranslationResponse? =
@@ -256,7 +255,6 @@ class DetailsPresenterImpl(
         putParcelable(KEY_DETAILS, details)
         putInt(KEY_INSTALLED_VERSION, installedVersionCode)
         putInt(KEY_DOWNLOAD_STATE, downloadState)
-        putString(KEY_TARGET_FILE, targetFile?.absolutePath)
         putBoolean(KEY_NEED_INSTALL, needInstall)
         putBoolean(KEY_IS_FAVORITE, isFavorite)
         putParcelable(KEY_TRANSLATION_DATA, translationData)
@@ -347,11 +345,18 @@ class DetailsPresenterImpl(
     }
 
     private fun tryInstall(): Boolean {
-        val file = targetFile ?: return false
-        if (needInstall && downloadState == COMPLETED && file.exists()) {
-            router?.installApp(file)
-            needInstall = false
-            return true
+        val details = details ?: return false
+        if (needInstall && downloadState == COMPLETED) {
+            val uri = downloadManager.getInstallUri(
+                label = details.info.label.orEmpty(),
+                version = details.info.version,
+                appId = details.info.appId
+            )
+            if (uri != null) {
+                router?.installApp(uri)
+                needInstall = false
+                return true
+            }
         }
         return false
     }
@@ -507,12 +512,6 @@ class DetailsPresenterImpl(
             url = details.link
         )
 
-        val file = downloadManager.targetFile(
-            label = details.info.label.orEmpty(),
-            version = details.info.version,
-            appId = details.info.appId
-        )
-        this.targetFile = file
         if (tryInstall()) {
             return
         }
@@ -698,7 +697,6 @@ class DetailsPresenterImpl(
 private const val KEY_DETAILS = "details"
 private const val KEY_INSTALLED_VERSION = "versionCode"
 private const val KEY_DOWNLOAD_STATE = "downloadState"
-private const val KEY_TARGET_FILE = "targetFile"
 private const val KEY_NEED_INSTALL = "needInstall"
 private const val KEY_IS_FAVORITE = "isFavorite"
 private const val KEY_TRANSLATION_DATA = "translation"

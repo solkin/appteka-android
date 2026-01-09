@@ -10,6 +10,7 @@ import com.tomclaw.appsend.categories.CategoryConverter
 import com.tomclaw.appsend.categories.CategoryConverterImpl
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.core.StreamsProvider
+import com.tomclaw.appsend.download.ApkStorage
 import com.tomclaw.appsend.screen.installed.AppConverter
 import com.tomclaw.appsend.screen.installed.AppConverterImpl
 import com.tomclaw.appsend.screen.installed.AppsResourceProvider
@@ -26,14 +27,11 @@ import com.tomclaw.appsend.screen.installed.adapter.app.AppItemBlueprint
 import com.tomclaw.appsend.screen.installed.adapter.app.AppItemPresenter
 import com.tomclaw.appsend.util.PerActivity
 import com.tomclaw.appsend.util.SchedulersFactory
-import com.tomclaw.appsend.di.APPS_DIR
 import dagger.Lazy
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoSet
-import java.io.File
 import java.util.Locale
-import javax.inject.Named
 
 @Module
 class InstalledModule(
@@ -47,6 +45,7 @@ class InstalledModule(
     internal fun providePresenter(
         preferencesProvider: InstalledPreferencesProvider,
         interactor: InstalledInteractor,
+        apkStorage: ApkStorage,
         adapterPresenter: Lazy<AdapterPresenter>,
         appConverter: AppConverter,
         schedulers: SchedulersFactory
@@ -54,6 +53,7 @@ class InstalledModule(
         picker,
         preferencesProvider,
         interactor,
+        apkStorage,
         adapterPresenter,
         appConverter,
         schedulers,
@@ -65,14 +65,14 @@ class InstalledModule(
     internal fun provideInteractor(
         api: StoreApi,
         locale: Locale,
-        @Named(APPS_DIR) appsDir: File,
+        apkStorage: ApkStorage,
         streamsProvider: StreamsProvider,
         infoProvider: InstalledInfoProvider,
         schedulers: SchedulersFactory
     ): InstalledInteractor = InstalledInteractorImpl(
         api,
         locale,
-        appsDir,
+        apkStorage,
         streamsProvider,
         infoProvider,
         schedulers

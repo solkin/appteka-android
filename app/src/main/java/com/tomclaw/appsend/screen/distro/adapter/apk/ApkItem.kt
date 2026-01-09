@@ -13,6 +13,7 @@ class ApkItem(
     val size: Long,
     val lastModified: Long,
     val packageName: String,
-    val path: String,
+    val path: String?,
+    val fileName: String,
     var isNew: Boolean,
 ) : Item, Parcelable

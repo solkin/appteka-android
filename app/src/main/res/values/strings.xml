@@ -51,6 +51,10 @@
     <string name="install">Install</string>
     <string name="install_app">Install application</string>
     <string name="request_delete_packages">In order to delete applications you need to grant permissions</string>
+    <string name="write_permission_download">Storage permission is required to download apps</string>
+    <string name="write_permission_share">Storage permission is required to share apps</string>
+    <string name="write_permission_clear_cache">Storage permission is required to clear cache</string>
+    <string name="write_permission_view_downloads">Storage permission is required to view downloads</string>
     <!-- Theme settings -->
     <string name="pref_title_theme">Theme</string>
     <string name="pref_summary_theme">Select the app theme</string>

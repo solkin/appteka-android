@@ -51,6 +51,10 @@
     <string name="install">تثبيت</string>
     <string name="install_app">تثبيت التطبيق</string>
     <string name="request_delete_packages">من أجل حذف التطبيقات تحتاج إلى منح الأذونات</string>
+    <string name="write_permission_download">إذن التخزين مطلوب لتنزيل التطبيقات</string>
+    <string name="write_permission_share">إذن التخزين مطلوب لمشاركة التطبيقات</string>
+    <string name="write_permission_clear_cache">إذن التخزين مطلوب لمسح ذاكرة التخزين المؤقت</string>
+    <string name="write_permission_view_downloads">إذن التخزين مطلوب لعرض التنزيلات</string>
     <string name="pref_title_theme">السمة</string>
     <string name="pref_summary_theme">اختر سمة التطبيق</string>
     <string name="pref_title_dynamic_colors">الألوان الديناميكية</string>
