@@ -6,11 +6,15 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.Intent.ACTION_VIEW
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -23,6 +27,7 @@ import com.greysonparrelli.permiso.Permiso.IOnPermissionResult
 import com.greysonparrelli.permiso.Permiso.IOnRationaleProvided
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.download.ApkStorage
 import com.tomclaw.appsend.download.createDownloadIntent
 import com.tomclaw.appsend.screen.auth.request_code.createRequestCodeActivityIntent
 import com.tomclaw.appsend.screen.chat.createChatActivityIntent
@@ -41,9 +46,7 @@ import com.tomclaw.appsend.screen.upload.createUploadActivityIntent
 import com.tomclaw.appsend.upload.UploadPackage
 import com.tomclaw.appsend.user.api.UserBrief
 import com.tomclaw.appsend.util.Analytics
-import com.tomclaw.appsend.util.openFileIntent
 import com.tomclaw.appsend.util.updateTheme
-import java.io.File
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -65,6 +68,9 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
     @Inject
     lateinit var analytics: Analytics
 
+    @Inject
+    lateinit var apkStorage: ApkStorage
+
     private val invalidateDetailsResultLauncher =
         registerForActivityResult(StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
@@ -77,6 +83,20 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
             if (result.resultCode == RESULT_OK) {
                 presenter.onBackPressed()
             }
+        }
+
+    private var pendingDownload: DownloadParams? = null
+
+    private val notificationPermissionLauncher =
+        registerForActivityResult(ActivityResultContracts.RequestPermission()) { _ ->
+            // Start download regardless of permission result - notifications just won't show
+            // Delay is needed to let the system apply the permission before starting foreground service
+            Handler(Looper.getMainLooper()).postDelayed({
+                pendingDownload?.let { params ->
+                    doStartDownload(params.label, params.version, params.icon, params.appId, params.url)
+                }
+                pendingDownload = null
+            }, PERMISSION_APPLY_DELAY)
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -212,8 +232,28 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
     }
 
     override fun requestStoragePermissions(callback: () -> Unit) {
-        // Storage permissions was deprecated by Google; content was moved to the internal storage
-        callback()
+        if (!apkStorage.isPermissionRequired()) {
+            callback()
+            return
+        }
+        Permiso.getInstance().requestPermissions(object : IOnPermissionResult {
+            override fun onPermissionResult(resultSet: Permiso.ResultSet) {
+                if (resultSet.isPermissionGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    callback()
+                } else {
+                    presenter.showSnackbar(getString(R.string.write_permission_download))
+                }
+            }
+
+            override fun onRationaleRequested(
+                callback: IOnRationaleProvided,
+                vararg permissions: String
+            ) {
+                val title: String = getString(R.string.app_name)
+                val message: String = getString(R.string.write_permission_download)
+                Permiso.getInstance().showRationaleInDialog(title, message, null, callback)
+            }
+        }, Manifest.permission.WRITE_EXTERNAL_STORAGE)
     }
 
     override fun openPermissionsScreen(permissions: List<String>) {
@@ -241,11 +281,11 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
         analytics.trackEvent("details-launch-app")
     }
 
-    override fun installApp(file: File) {
-        val intent = openFileIntent(
-            filePath = file.absolutePath,
-            type = "application/vnd.android.package-archive"
-        )
+    override fun installApp(uri: Uri) {
+        val intent = Intent(Intent.ACTION_VIEW).apply {
+            setDataAndType(uri, APK_MIME_TYPE)
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_GRANT_READ_URI_PERMISSION
+        }
         startActivity(intent)
         analytics.trackEvent("details-install-app")
     }
@@ -377,10 +417,36 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
         appId: String,
         url: String
     ) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            val permission = Manifest.permission.POST_NOTIFICATIONS
+            if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+                pendingDownload = DownloadParams(label, version, icon, appId, url)
+                notificationPermissionLauncher.launch(permission)
+                return
+            }
+        }
+        doStartDownload(label, version, icon, appId, url)
+    }
+
+    private fun doStartDownload(
+        label: String,
+        version: String,
+        icon: String?,
+        appId: String,
+        url: String
+    ) {
         val intent = createDownloadIntent(context = this, label, version, icon, appId, url)
         ContextCompat.startForegroundService(this, intent)
         analytics.trackEvent("details-download-app")
     }
+
+    private data class DownloadParams(
+        val label: String,
+        val version: String,
+        val icon: String?,
+        val appId: String,
+        val url: String
+    )
 
     override fun openShare(title: String, text: String) {
         val intent = Intent()
@@ -430,3 +496,5 @@ private const val EXTRA_LABEL = "label"
 private const val EXTRA_MODERATION = "moderation"
 private const val EXTRA_FINISH_ONLY = "finishOnly"
 private const val KEY_PRESENTER_STATE = "presenter_state"
+private const val APK_MIME_TYPE = "application/vnd.android.package-archive"
+private const val PERMISSION_APPLY_DELAY = 100L
