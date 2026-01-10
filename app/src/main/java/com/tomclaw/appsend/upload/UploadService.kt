@@ -54,7 +54,7 @@ class UploadService : Service() {
 
         val relay = uploadManager.status(id)
 
-        if (info.checkExist.file == null && apk != null) {
+        if (apk != null) {
             notifications.subscribe(
                 id = id,
                 pkg = pkg,
@@ -65,6 +65,20 @@ class UploadService : Service() {
                 },
                 observable = relay,
             )
+        } else {
+            // Subscribe to status changes even when apk is null to handle foreground notification
+            relay.subscribe { state ->
+                when (state.status) {
+                    UploadStatus.COMPLETED,
+                    UploadStatus.ERROR,
+                    UploadStatus.IDLE -> {
+                        stopForegroundCompat()
+                    }
+                    else -> {
+                        // Keep foreground notification for other states
+                    }
+                }
+            }
         }
 
         uploadManager.upload(id, pkg, apk, info)

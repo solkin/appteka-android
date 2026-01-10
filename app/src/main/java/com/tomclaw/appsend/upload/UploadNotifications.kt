@@ -121,6 +121,7 @@ class UploadNotificationsImpl(private val context: Context) : UploadNotification
                 }
 
                 UploadStatus.ERROR -> {
+                    notificationManager.cancel(UPLOAD_NOTIFICATION_ID)
                     val notification = notificationBuilder
                         .setContentText(context.getString(R.string.upload_failed))
                         .setSmallIcon(android.R.drawable.stat_sys_warning)
@@ -135,6 +136,7 @@ class UploadNotificationsImpl(private val context: Context) : UploadNotification
 
                 UploadStatus.COMPLETED -> {
                     notificationManager.cancel(notificationId)
+                    notificationManager.cancel(UPLOAD_NOTIFICATION_ID)
                     val uploadedIntent = state.result?.let { getOpenDetailsIntent(it.appId, label) }
                     val uploadedNotificationBuilder =
                         NotificationCompat.Builder(context, CHANNEL_UPLOADED)
@@ -159,6 +161,7 @@ class UploadNotificationsImpl(private val context: Context) : UploadNotification
 
                 UploadStatus.IDLE -> {
                     notificationManager.cancel(notificationId)
+                    notificationManager.cancel(UPLOAD_NOTIFICATION_ID)
                     stop()
                     disposable?.dispose()
                 }
