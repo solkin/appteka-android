@@ -15,6 +15,8 @@ import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.filterUnauthorizedErrors
 import com.tomclaw.appsend.util.getParcelableArrayListCompat
 import com.tomclaw.appsend.util.getParcelableCompat
+import com.tomclaw.bananalytics.Bananalytics
+import com.tomclaw.bananalytics.api.BreadcrumbCategory
 import dagger.Lazy
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
@@ -50,6 +52,7 @@ interface ChatPresenter : ItemListener {
 class ChatPresenterImpl(
     topicEntity: TopicEntity?,
     private val topicId: Int,
+    private val bananalytics: Bananalytics,
     private val converter: MessageConverter,
     private val chatInteractor: ChatInteractor,
     private val eventsInteractor: EventsInteractor,
@@ -227,6 +230,7 @@ class ChatPresenterImpl(
     }
 
     private fun sendMessage() {
+        bananalytics.leaveBreadcrumb("Send message", BreadcrumbCategory.USER_ACTION)
         subscriptions += chatInteractor.sendMessage(topicId, messageText, null)
             .observeOn(schedulers.mainThread())
             .doOnSubscribe { view?.showSendProgress() }
@@ -246,6 +250,8 @@ class ChatPresenterImpl(
     }
 
     private fun onMessageSendingError(ex: Throwable) {
+        bananalytics.leaveBreadcrumb("Message send error: ${ex.message}", BreadcrumbCategory.ERROR)
+        bananalytics.trackException(ex, mapOf("action" to "send_message", "topicId" to topicId.toString()))
         ex.filterUnauthorizedErrors(
             authError = { view?.showUnauthorizedError() },
             other = { view?.showSendError() }

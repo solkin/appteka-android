@@ -30,6 +30,8 @@ import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.filterUnauthorizedErrors
 import com.tomclaw.appsend.util.getParcelableCompat
 import com.tomclaw.appsend.util.retryWhenNonAuthErrors
+import com.tomclaw.bananalytics.Bananalytics
+import com.tomclaw.bananalytics.api.BreadcrumbCategory
 import dagger.Lazy
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
@@ -121,6 +123,7 @@ class DetailsPresenterImpl(
     private val packageName: String?,
     private val moderation: Boolean,
     private val finishOnly: Boolean,
+    private val bananalytics: Bananalytics,
     private val interactor: DetailsInteractor,
     private val resourceProvider: DetailsResourceProvider,
     private val adapterPresenter: Lazy<AdapterPresenter>,
@@ -419,6 +422,7 @@ class DetailsPresenterImpl(
     }
 
     private fun deleteFromStore() {
+        bananalytics.leaveBreadcrumb("Delete from store", BreadcrumbCategory.USER_ACTION)
         val details = details ?: return
         subscriptions += interactor.deleteApplication(details.info.appId)
             .toObservable()
@@ -439,6 +443,8 @@ class DetailsPresenterImpl(
     }
 
     private fun onLoadingError(ex: Throwable) {
+        bananalytics.leaveBreadcrumb("Loading error: ${ex.message}", BreadcrumbCategory.ERROR)
+        bananalytics.trackException(ex, mapOf("screen" to "details", "appId" to appId.orEmpty()))
         ex.filterUnauthorizedErrors({ view?.showUnauthorizedError() }) {
             view?.hideMenu()
             view?.showContent()
@@ -476,6 +482,7 @@ class DetailsPresenterImpl(
     }
 
     override fun onInstallClick() {
+        bananalytics.leaveBreadcrumb("Install clicked", BreadcrumbCategory.USER_ACTION)
         val security = details?.security
         if (security?.status == SECURITY_STATUS_COMPLETED) {
             when (security.verdict) {
@@ -518,10 +525,12 @@ class DetailsPresenterImpl(
     }
 
     override fun onLaunchClick(packageName: String) {
+        bananalytics.leaveBreadcrumb("Launch app: $packageName", BreadcrumbCategory.USER_ACTION)
         router?.launchApp(packageName)
     }
 
     override fun onRemoveClick(packageName: String) {
+        bananalytics.leaveBreadcrumb("Remove app: $packageName", BreadcrumbCategory.USER_ACTION)
         router?.removeApp(packageName)
     }
 
@@ -530,6 +539,7 @@ class DetailsPresenterImpl(
     }
 
     override fun onDiscussClick() {
+        bananalytics.leaveBreadcrumb("Open discussion", BreadcrumbCategory.USER_ACTION)
         val details = details ?: return
         if (details.topicId != null) {
             router?.openChatScreen(details.topicId, details.info.label)
@@ -597,6 +607,7 @@ class DetailsPresenterImpl(
     }
 
     override fun onRateClick(rating: Float, review: String?) {
+        bananalytics.leaveBreadcrumb("Rate app", BreadcrumbCategory.USER_ACTION)
         val details = details ?: return
         subscriptions += interactor.getUserBrief()
             .toObservable()

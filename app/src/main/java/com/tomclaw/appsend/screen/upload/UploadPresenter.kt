@@ -28,6 +28,8 @@ import com.tomclaw.appsend.util.filterUnauthorizedErrors
 import com.tomclaw.appsend.util.getParcelableArrayListCompat
 import com.tomclaw.appsend.util.getParcelableCompat
 import com.tomclaw.appsend.util.retryWhenNonAuthErrors
+import com.tomclaw.bananalytics.Bananalytics
+import com.tomclaw.bananalytics.api.BreadcrumbCategory
 import dagger.Lazy
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -89,6 +91,7 @@ class UploadPresenterImpl(
     startPackage: UploadPackage?,
     startApkInfo: UploadApk?,
     startInfo: UploadInfo?,
+    private val bananalytics: Bananalytics,
     private val interactor: UploadInteractor,
     private val categoriesInteractor: CategoriesInteractor,
     private val categoryConverter: CategoryConverter,
@@ -469,6 +472,7 @@ class UploadPresenterImpl(
     }
 
     override fun onSubmitClick() {
+        bananalytics.leaveBreadcrumb("Submit upload clicked", BreadcrumbCategory.USER_ACTION)
         highlightErrors = true
         val uploadStarted = startUpload()
         if (!uploadStarted) {

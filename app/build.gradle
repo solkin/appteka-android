@@ -3,7 +3,6 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-kapt'
     id 'kotlin-parcelize'
-    id 'io.appmetrica.analytics'
 }
 
 android {
@@ -23,8 +22,8 @@ android {
         applicationId "com.tomclaw.appsend"
         minSdkVersion 21
         targetSdkVersion 35
-        versionCode project.hasProperty("versionCode") ? Integer.parseInt(project.versionCode) : 956
-        versionName = "18.1"
+        versionCode project.hasProperty("versionCode") ? Integer.parseInt(project.versionCode) : 961
+        versionName = "18.2"
     }
 
     buildTypes {
@@ -67,13 +66,6 @@ android {
         jvmTarget = '17'
     }
 
-    appmetrica {
-        postApiKey = "fdc69a9d-4a65-41ac-bcd2-6b8eb46bda79"
-        mappingBuildTypes = ['release']
-        offline = { applicationVariant -> false }
-        enableAnalytics = true
-    }
-
     applicationVariants.all { variant ->
         variant.outputs.all {
             def versionName = variant.versionName
@@ -83,6 +75,7 @@ android {
     }
 
     dependencies {
+        implementation project(':bananalytics')
         implementation 'androidx.preference:preference-ktx:1.2.1'
         implementation 'com.github.solkin:simple-image-loader:v1.2.0'
         implementation 'com.github.solkin:disk-lru-cache:v1.7'
@@ -116,6 +109,5 @@ android {
         releaseImplementation 'com.github.chuckerteam.chucker:library-no-op:4.2.0'
         implementation 'org.androidannotations:androidannotations-api:4.8.0'
         testImplementation 'junit:junit:4.13.2'
-        implementation 'io.appmetrica.analytics:analytics:7.14.0'
     }
 }

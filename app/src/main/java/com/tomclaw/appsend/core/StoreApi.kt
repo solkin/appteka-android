@@ -1,7 +1,5 @@
 package com.tomclaw.appsend.core
 
-import com.tomclaw.appsend.analytics.api.SubmitEventsRequest
-import com.tomclaw.appsend.analytics.api.SubmitEventsResponse
 import com.tomclaw.appsend.categories.CategoriesResponse
 import com.tomclaw.appsend.dto.StoreResponse
 import com.tomclaw.appsend.events.EventsResponse
@@ -316,12 +314,6 @@ interface StoreApi {
     fun unsubscribe(
         @Query("pub_id") pubId: Int,
     ): Single<StoreResponse<UnsubscribeResponse>>
-
-    @Headers("Content-Type: application/json")
-    @POST("1/events/submit")
-    fun submitEvents(
-        @Body body: SubmitEventsRequest,
-    ): Single<StoreResponse<SubmitEventsResponse>>
 
     @GET("1/feed/subscribers/list")
     fun getSubscribersList(

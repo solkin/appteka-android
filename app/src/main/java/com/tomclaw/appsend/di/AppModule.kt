@@ -1,21 +1,25 @@
 package com.tomclaw.appsend.di
 
 import android.app.Application
+import com.tomclaw.appsend.BuildConfig
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.pm.PackageManager
 import com.chuckerteam.chucker.api.ChuckerInterceptor
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.tomclaw.appsend.analytics.Bananalytics
-import com.tomclaw.appsend.analytics.BananalyticsImpl
-import com.tomclaw.appsend.analytics.EnvironmentProvider
 import com.tomclaw.appsend.analytics.EnvironmentProviderImpl
+import com.tomclaw.bananalytics.Bananalytics
+import com.tomclaw.bananalytics.BananalyticsConfig
+import com.tomclaw.bananalytics.BananalyticsImpl
+import com.tomclaw.bananalytics.EnvironmentProvider
 import com.tomclaw.appsend.categories.CategoriesInteractor
 import com.tomclaw.appsend.categories.CategoriesInteractorImpl
 import com.tomclaw.appsend.core.AppInfoProvider
 import com.tomclaw.appsend.core.AppInfoProviderImpl
 import com.tomclaw.appsend.core.AppInfoInterceptor
+import com.tomclaw.appsend.core.BANANALYTICS_API_KEY
+import com.tomclaw.appsend.core.BANANALYTICS_URL
 import com.tomclaw.appsend.core.DeviceIdInterceptor
 import com.tomclaw.appsend.core.DeviceIdProvider
 import com.tomclaw.appsend.core.DeviceIdProviderImpl
@@ -164,12 +168,23 @@ class AppModule(private val app: Application) {
 
     @Provides
     @Singleton
+    internal fun provideBananalyticsConfig(): BananalyticsConfig = BananalyticsConfig(
+        baseUrl = BANANALYTICS_URL,
+        apiKey = BANANALYTICS_API_KEY,
+    )
+
+    @Provides
+    @Singleton
     internal fun provideBananalytics(
         @Named(USER_DIR) filesDir: File,
+        config: BananalyticsConfig,
         environmentProvider: EnvironmentProvider,
-        api: StoreApi,
-        logger: Logger,
-    ): Bananalytics = BananalyticsImpl(filesDir, environmentProvider, api, logger)
+    ): Bananalytics = BananalyticsImpl(
+        filesDir = filesDir,
+        config = config,
+        environmentProvider = environmentProvider,
+        isDebug = BuildConfig.DEBUG
+    )
 
     @Provides
     @Singleton
@@ -214,7 +229,7 @@ class AppModule(private val app: Application) {
     @Singleton
     internal fun provideAnalytics(
         bananalytics: Bananalytics
-    ): Analytics = AnalyticsImpl(app, bananalytics)
+    ): Analytics = AnalyticsImpl(bananalytics)
 
     @Provides
     @Singleton

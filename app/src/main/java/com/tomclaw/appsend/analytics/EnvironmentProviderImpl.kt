@@ -1,16 +1,11 @@
 package com.tomclaw.appsend.analytics
 
 import android.os.Build
-import com.tomclaw.appsend.analytics.api.Environment
 import com.tomclaw.appsend.core.AppInfoProvider
 import com.tomclaw.appsend.core.DeviceIdProvider
+import com.tomclaw.bananalytics.EnvironmentProvider
+import com.tomclaw.bananalytics.api.Environment
 import java.util.Locale
-
-interface EnvironmentProvider {
-
-    fun environment(): Environment
-
-}
 
 class EnvironmentProviderImpl(
     private val locale: Locale,
@@ -28,5 +23,4 @@ class EnvironmentProviderImpl(
         country = locale.country,
         language = locale.language,
     )
-
 }

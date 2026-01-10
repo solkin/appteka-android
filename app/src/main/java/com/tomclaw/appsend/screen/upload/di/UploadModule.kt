@@ -60,6 +60,7 @@ import com.tomclaw.appsend.upload.UploadManager
 import com.tomclaw.appsend.upload.UploadPackage
 import com.tomclaw.appsend.util.PerActivity
 import com.tomclaw.appsend.util.SchedulersFactory
+import com.tomclaw.bananalytics.Bananalytics
 import dagger.Lazy
 import dagger.Module
 import dagger.Provides
@@ -79,6 +80,7 @@ class UploadModule(
     @Provides
     @PerActivity
     internal fun providePresenter(
+        bananalytics: Bananalytics,
         interactor: UploadInteractor,
         categoriesInteractor: CategoriesInteractor,
         categoryConverter: CategoryConverter,
@@ -93,6 +95,7 @@ class UploadModule(
         pkg,
         apk,
         meta,
+        bananalytics,
         interactor,
         categoriesInteractor,
         categoryConverter,

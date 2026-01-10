@@ -1,4 +1,4 @@
-package com.tomclaw.appsend.analytics.api
+package com.tomclaw.bananalytics.api
 
 import com.google.gson.annotations.SerializedName
 

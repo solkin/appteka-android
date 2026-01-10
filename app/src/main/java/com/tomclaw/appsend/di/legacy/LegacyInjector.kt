@@ -4,6 +4,7 @@ import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.core.MigrationManager
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.util.Analytics
+import com.tomclaw.bananalytics.Bananalytics
 import okhttp3.OkHttpClient
 import javax.inject.Inject
 
@@ -17,6 +18,9 @@ class LegacyInjector {
 
     @Inject
     lateinit var analytics: Analytics
+
+    @Inject
+    lateinit var bananalytics: Bananalytics
 
     @Inject
     lateinit var migration: MigrationManager

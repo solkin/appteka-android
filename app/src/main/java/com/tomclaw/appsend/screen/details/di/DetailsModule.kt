@@ -58,6 +58,7 @@ import com.tomclaw.appsend.screen.details.adapter.whats_new.WhatsNewItemPresente
 import com.tomclaw.appsend.util.PackageObserver
 import com.tomclaw.appsend.util.PerActivity
 import com.tomclaw.appsend.util.SchedulersFactory
+import com.tomclaw.bananalytics.Bananalytics
 import dagger.Lazy
 import dagger.Module
 import dagger.Provides
@@ -79,6 +80,7 @@ class DetailsModule(
     @Provides
     @PerActivity
     internal fun providePresenter(
+        bananalytics: Bananalytics,
         interactor: DetailsInteractor,
         resourceProvider: DetailsResourceProvider,
         @Named(DETAILS_ADAPTER_PRESENTER) adapterPresenter: Lazy<AdapterPresenter>,
@@ -91,6 +93,7 @@ class DetailsModule(
         packageName,
         moderation,
         finishOnly,
+        bananalytics,
         interactor,
         resourceProvider,
         adapterPresenter,
@@ -104,10 +107,11 @@ class DetailsModule(
     @Provides
     @PerActivity
     internal fun provideInteractor(
+        bananalytics: Bananalytics,
         api: StoreApi,
         locale: Locale,
         schedulers: SchedulersFactory
-    ): DetailsInteractor = DetailsInteractorImpl(api, locale, schedulers)
+    ): DetailsInteractor = DetailsInteractorImpl(bananalytics, api, locale, schedulers)
 
     @Provides
     @PerActivity

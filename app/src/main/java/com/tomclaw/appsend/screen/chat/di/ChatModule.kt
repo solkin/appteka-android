@@ -27,6 +27,7 @@ import com.tomclaw.appsend.screen.chat.adapter.outgoing.OutgoingMsgItemBlueprint
 import com.tomclaw.appsend.screen.chat.adapter.outgoing.OutgoingMsgItemPresenter
 import com.tomclaw.appsend.util.PerActivity
 import com.tomclaw.appsend.util.SchedulersFactory
+import com.tomclaw.bananalytics.Bananalytics
 import dagger.Lazy
 import dagger.Module
 import dagger.Provides
@@ -46,6 +47,7 @@ class ChatModule(
     @Provides
     @PerActivity
     internal fun providePresenter(
+        bananalytics: Bananalytics,
         converter: MessageConverter,
         chatInteractor: ChatInteractor,
         eventsInteractor: EventsInteractor,
@@ -55,6 +57,7 @@ class ChatModule(
     ): ChatPresenter = ChatPresenterImpl(
         topicEntity,
         topicId,
+        bananalytics,
         converter,
         chatInteractor,
         eventsInteractor,

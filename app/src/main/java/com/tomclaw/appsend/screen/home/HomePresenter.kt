@@ -8,6 +8,8 @@ import com.tomclaw.appsend.screen.home.api.StatusResponse
 import com.tomclaw.appsend.user.ModerationProvider
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.getParcelableCompat
+import com.tomclaw.bananalytics.Bananalytics
+import com.tomclaw.bananalytics.api.BreadcrumbCategory
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
 
@@ -69,6 +71,7 @@ interface HomePresenter {
 
 class HomePresenterImpl(
     startAction: String?,
+    private val bananalytics: Bananalytics,
     private val interactor: HomeInteractor,
     private val moderationProvider: ModerationProvider,
     private val schedulers: SchedulersFactory,
@@ -138,6 +141,14 @@ class HomePresenterImpl(
 
     private fun bindTab(index: Int = tabIndex) {
         tabIndex = index
+        val tabName = when (index) {
+            INDEX_STORE -> "Store"
+            INDEX_FEED -> "Feed"
+            INDEX_DISCUSS -> "Discuss"
+            INDEX_PROFILE -> "Profile"
+            else -> "Unknown"
+        }
+        bananalytics.leaveBreadcrumb("Tab: $tabName", BreadcrumbCategory.USER_ACTION)
         // Enable back callback only when not on Store tab (to switch to Store first)
         router?.setBackCallbackEnabled(index != INDEX_STORE)
         when (index) {

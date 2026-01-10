@@ -12,6 +12,7 @@ import com.tomclaw.appsend.screen.home.HomePresenterImpl
 import com.tomclaw.appsend.user.ModerationProvider
 import com.tomclaw.appsend.util.PerActivity
 import com.tomclaw.appsend.util.SchedulersFactory
+import com.tomclaw.bananalytics.Bananalytics
 import dagger.Module
 import dagger.Provides
 import java.util.Locale
@@ -26,11 +27,13 @@ class HomeModule(
     @Provides
     @PerActivity
     internal fun providePresenter(
+        bananalytics: Bananalytics,
         interactor: HomeInteractor,
         moderationProvider: ModerationProvider,
         schedulers: SchedulersFactory
     ): HomePresenter = HomePresenterImpl(
         startAction,
+        bananalytics,
         interactor,
         moderationProvider,
         schedulers,

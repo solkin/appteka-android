@@ -10,6 +10,8 @@ import com.tomclaw.appsend.screen.details.api.RequestScanResponse
 import com.tomclaw.appsend.screen.details.api.TranslationResponse
 import com.tomclaw.appsend.user.api.UserBrief
 import com.tomclaw.appsend.util.SchedulersFactory
+import com.tomclaw.bananalytics.Bananalytics
+import com.tomclaw.bananalytics.api.BreadcrumbCategory
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import java.util.Locale
@@ -38,12 +40,14 @@ interface DetailsInteractor {
 }
 
 class DetailsInteractorImpl(
+    private val bananalytics: Bananalytics,
     private val api: StoreApi,
     private val locale: Locale,
     private val schedulers: SchedulersFactory
 ) : DetailsInteractor {
 
     override fun loadDetails(appId: String?, packageName: String?): Observable<Details> {
+        bananalytics.leaveBreadcrumb("Load details: $appId", BreadcrumbCategory.NETWORK)
         return api
             .getInfo(
                 appId = appId,
@@ -70,6 +74,7 @@ class DetailsInteractorImpl(
     }
 
     override fun deleteApplication(appId: String): Single<DeletionResponse> {
+        bananalytics.leaveBreadcrumb("Delete app: $appId", BreadcrumbCategory.NETWORK)
         return api.deleteApplication(appId = appId)
             .map { it.result }
             .subscribeOn(schedulers.io())

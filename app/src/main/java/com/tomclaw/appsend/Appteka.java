@@ -1,11 +1,10 @@
 package com.tomclaw.appsend;
 
-import static java.util.Collections.singletonList;
-
 import java.util.Arrays;
 
 import android.app.Application;
 
+import com.tomclaw.appsend.analytics.AnalyticsActivityCallback;
 import com.tomclaw.appsend.di.AppComponent;
 import com.tomclaw.appsend.di.AppModule;
 import com.tomclaw.appsend.di.DaggerAppComponent;
@@ -57,6 +56,10 @@ public class Appteka extends Application {
         injector.getMigration();
 
         injector.analytics.register();
+
+        registerActivityLifecycleCallbacks(
+                new AnalyticsActivityCallback(injector.bananalytics)
+        );
     }
 
     public static AppComponent getComponent() {

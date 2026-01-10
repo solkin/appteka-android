@@ -12,6 +12,7 @@ import com.tomclaw.appsend.screen.rate.RateResourceProviderImpl
 import com.tomclaw.appsend.user.api.UserBrief
 import com.tomclaw.appsend.util.PerActivity
 import com.tomclaw.appsend.util.SchedulersFactory
+import com.tomclaw.bananalytics.Bananalytics
 import dagger.Module
 import dagger.Provides
 import java.util.Locale
@@ -29,6 +30,7 @@ class RateModule(
     @Provides
     @PerActivity
     internal fun providePresenter(
+        bananalytics: Bananalytics,
         interactor: RateInteractor,
         locale: Locale,
         resourceProvider: RateResourceProvider,
@@ -38,6 +40,7 @@ class RateModule(
         userBrief,
         startRating,
         startReview,
+        bananalytics,
         interactor,
         locale,
         resourceProvider,

@@ -4,6 +4,8 @@ import android.os.Bundle
 import com.tomclaw.appsend.categories.DEFAULT_LOCALE
 import com.tomclaw.appsend.user.api.UserBrief
 import com.tomclaw.appsend.util.SchedulersFactory
+import com.tomclaw.bananalytics.Bananalytics
+import com.tomclaw.bananalytics.api.BreadcrumbCategory
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
 import java.util.Locale
@@ -35,6 +37,7 @@ class RatePresenterImpl(
     private val userBrief: UserBrief,
     startRating: Float,
     startReview: String,
+    private val bananalytics: Bananalytics,
     private val interactor: RateInteractor,
     private val locale: Locale,
     private val resourceProvider: RateResourceProvider,
@@ -94,6 +97,7 @@ class RatePresenterImpl(
     }
 
     private fun onSubmitReview() {
+        bananalytics.leaveBreadcrumb("Submit review: rating=$rating", BreadcrumbCategory.USER_ACTION)
         // Validate before submitting
         if (!isValidForSubmit()) {
             if (rating < 4) {
@@ -118,6 +122,7 @@ class RatePresenterImpl(
     }
 
     private fun onReviewSubmitError() {
+        bananalytics.leaveBreadcrumb("Review submit error", BreadcrumbCategory.ERROR)
         view?.showContent()
         view?.showError()
     }
