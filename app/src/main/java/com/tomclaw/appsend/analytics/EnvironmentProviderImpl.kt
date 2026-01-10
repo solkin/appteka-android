@@ -16,6 +16,7 @@ class EnvironmentProviderImpl(
     override fun environment() = Environment(
         packageName = infoProvider.getPackageName(),
         appVersion = infoProvider.getVersionCode(),
+        appVersionName = infoProvider.getVersionName(),
         deviceId = idProvider.getDeviceId(),
         osVersion = Build.VERSION.SDK_INT,
         manufacturer = Build.MANUFACTURER,

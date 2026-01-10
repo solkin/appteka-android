@@ -42,7 +42,6 @@ class BananalyticsImpl(
     // === Lifecycle ===
 
     override fun install() {
-        Log.d(LOG_TAG, "Installing bananalytics (isDebug=$isDebug)")
         Thread.setDefaultUncaughtExceptionHandler(crashHandler)
         log("Crash handler installed")
 

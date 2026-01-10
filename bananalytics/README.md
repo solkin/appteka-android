@@ -124,6 +124,7 @@ Content-Type: application/json
   "environment": {
     "package_name": "com.example.app",
     "app_version": 123,
+    "app_version_name": "1.2.3",
     "device_id": "uuid-string",
     "os_version": 34,
     "manufacturer": "Google",
@@ -171,6 +172,7 @@ Content-Type: application/json
   "environment": {
     "package_name": "com.example.app",
     "app_version": 123,
+    "app_version_name": "1.2.3",
     "device_id": "uuid-string",
     "os_version": 34,
     "manufacturer": "Google",
@@ -216,6 +218,7 @@ Content-Type: application/json
 |-------|------|-------------|
 | `package_name` | string | Application package name |
 | `app_version` | long | Version code |
+| `app_version_name` | string | Version name (e.g., "1.2.3") |
 | `device_id` | string | Unique device identifier |
 | `os_version` | int | Android SDK version |
 | `manufacturer` | string | Device manufacturer |
