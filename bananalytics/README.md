@@ -121,6 +121,7 @@ Content-Type: application/json
 **Request:**
 ```json
 {
+  "session_id": "550e8400-e29b-41d4-a716-446655440000",
   "environment": {
     "package_name": "com.example.app",
     "app_version": 123,
@@ -169,6 +170,7 @@ Content-Type: application/json
 **Request:**
 ```json
 {
+  "session_id": "550e8400-e29b-41d4-a716-446655440000",
   "environment": {
     "package_name": "com.example.app",
     "app_version": 123,

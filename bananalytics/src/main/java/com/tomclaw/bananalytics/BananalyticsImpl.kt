@@ -17,6 +17,7 @@ import java.io.IOException
 import java.io.PrintWriter
 import java.io.StringWriter
 import java.util.Collections
+import java.util.UUID
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 
@@ -27,6 +28,7 @@ class BananalyticsImpl(
     private val isDebug: Boolean = false
 ) : Bananalytics {
 
+    private val sessionId: String = UUID.randomUUID().toString()
     private val gson = Gson()
     private val storage = EventStorage(filesDir, gson)
     private val breadcrumbBuffer = BreadcrumbBuffer()
@@ -122,6 +124,7 @@ class BananalyticsImpl(
 
         try {
             val request = SubmitCrashesRequest(
+                sessionId = sessionId,
                 environment = environmentProvider.environment(),
                 crashes = crashes
             )
@@ -158,6 +161,7 @@ class BananalyticsImpl(
                     log("Sending batch of ${events.size} events")
                     try {
                         val request = SubmitEventsRequest(
+                            sessionId = sessionId,
                             environment = environmentProvider.environment(),
                             events = events
                         )
