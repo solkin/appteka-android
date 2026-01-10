@@ -6,6 +6,7 @@ import java.io.PrintWriter
 import java.io.StringWriter
 
 internal class CrashHandler(
+    private val sessionId: String,
     private val storage: EventStorage,
     private val breadcrumbBuffer: BreadcrumbBuffer,
     private val environmentProvider: () -> Environment
@@ -17,6 +18,7 @@ internal class CrashHandler(
     override fun uncaughtException(thread: Thread, throwable: Throwable) {
         try {
             val crash = CrashReport(
+                sessionId = sessionId,
                 timestamp = System.currentTimeMillis(),
                 threadName = thread.name,
                 stacktrace = throwable.toStackTraceString(),

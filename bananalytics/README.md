@@ -135,6 +135,7 @@ Content-Type: application/json
   },
   "events": [
     {
+      "session_id": "550e8400-e29b-41d4-a716-446655440000",
       "name": "button_click",
       "tags": {
         "screen": "home"
@@ -184,6 +185,7 @@ Content-Type: application/json
   },
   "crashes": [
     {
+      "session_id": "550e8400-e29b-41d4-a716-446655440000",
       "timestamp": 1704067199000,
       "thread": "main",
       "stacktrace": "java.lang.NullPointerException: Attempt to invoke...",
@@ -232,6 +234,7 @@ Content-Type: application/json
 
 | Field | Type | Description |
 |-------|------|-------------|
+| `session_id` | string | Session UUID when event occurred |
 | `name` | string | Event name (underscores, no dashes) |
 | `tags` | Map<string, string> | String key-value pairs |
 | `fields` | Map<string, double> | Numeric key-value pairs |
@@ -241,6 +244,7 @@ Content-Type: application/json
 
 | Field | Type | Description |
 |-------|------|-------------|
+| `session_id` | string | Session UUID when crash occurred |
 | `timestamp` | long | Unix timestamp (ms) |
 | `thread` | string | Thread name where crash occurred |
 | `stacktrace` | string | Full stack trace |

@@ -36,6 +36,7 @@ class BananalyticsImpl(
     private val executor: Executor = Executors.newSingleThreadExecutor()
 
     private val crashHandler = CrashHandler(
+        sessionId = sessionId,
         storage = storage,
         breadcrumbBuffer = breadcrumbBuffer,
         environmentProvider = { environmentProvider.environment() }
@@ -71,6 +72,7 @@ class BananalyticsImpl(
     ) {
         executor.execute {
             val event = AnalyticsEvent(
+                sessionId = sessionId,
                 name = name.replace("-", "_"),
                 tags = tags,
                 fields = fields,
@@ -92,6 +94,7 @@ class BananalyticsImpl(
     override fun trackException(throwable: Throwable, context: Map<String, String>) {
         executor.execute {
             val crash = CrashReport(
+                sessionId = sessionId,
                 timestamp = System.currentTimeMillis(),
                 threadName = Thread.currentThread().name,
                 stacktrace = throwable.toStackTraceString(),
