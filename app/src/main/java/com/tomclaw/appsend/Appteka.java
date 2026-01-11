@@ -8,8 +8,6 @@ import com.tomclaw.appsend.analytics.AnalyticsActivityCallback;
 import com.tomclaw.appsend.di.AppComponent;
 import com.tomclaw.appsend.di.AppModule;
 import com.tomclaw.appsend.di.DaggerAppComponent;
-import com.tomclaw.appsend.di.legacy.LegacyInjector;
-import com.tomclaw.appsend.di.legacy.LegacyModule;
 import com.tomclaw.appsend.util.ApkIconLoader;
 import com.tomclaw.appsend.util.AppIconLoader;
 import com.tomclaw.appsend.util.SvgDecoder;
@@ -38,8 +36,6 @@ public class Appteka extends Application {
 
     private static AppComponent component;
 
-    private final LegacyInjector injector = new LegacyInjector();
-
     @Override
     public void onCreate() {
         super.onCreate();
@@ -49,14 +45,12 @@ public class Appteka extends Application {
         ThemesKt.initTheme(this);
         initImageLoader();
 
-        component.legacyComponent(new LegacyModule()).inject(injector);
+        component.migrationManager();
 
-        injector.getMigration();
-
-        injector.analytics.register();
+        component.analytics().register();
 
         registerActivityLifecycleCallbacks(
-                new AnalyticsActivityCallback(injector.bananalytics)
+                new AnalyticsActivityCallback(component.bananalytics())
         );
     }
 

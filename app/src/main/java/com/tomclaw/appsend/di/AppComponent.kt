@@ -1,9 +1,10 @@
 package com.tomclaw.appsend.di
 
-import com.tomclaw.appsend.di.legacy.LegacyComponent
-import com.tomclaw.appsend.di.legacy.LegacyModule
+import com.tomclaw.appsend.core.MigrationManager
 import com.tomclaw.appsend.download.di.DownloadServiceComponent
 import com.tomclaw.appsend.download.di.DownloadServiceModule
+import com.tomclaw.appsend.util.Analytics
+import com.tomclaw.bananalytics.Bananalytics
 import com.tomclaw.appsend.screen.about.di.AboutComponent
 import com.tomclaw.appsend.screen.about.di.AboutModule
 import com.tomclaw.appsend.screen.agreement.di.AgreementComponent
@@ -149,6 +150,10 @@ interface AppComponent {
 
     fun uploadsComponent(module: UploadsModule): UploadsComponent
 
-    fun legacyComponent(module: LegacyModule): LegacyComponent
+    fun analytics(): Analytics
+
+    fun bananalytics(): Bananalytics
+
+    fun migrationManager(): MigrationManager
 
 }
