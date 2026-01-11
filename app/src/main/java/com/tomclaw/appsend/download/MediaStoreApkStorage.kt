@@ -38,9 +38,9 @@ class MediaStoreApkStorage(
         val displayName = "$fileName.$APK_EXTENSION.tmp"
         val contentValues = ContentValues().apply {
             put(MediaStore.Downloads.DISPLAY_NAME, displayName)
-            put(MediaStore.Downloads.MIME_TYPE, APK_MIME_TYPE)
+            put(MediaStore.Downloads.MIME_TYPE, TMP_MIME_TYPE)
             put(MediaStore.Downloads.RELATIVE_PATH, "$DOWNLOAD_DIR/$APPTEKA_DIR")
-            put(MediaStore.Downloads.IS_PENDING, 1)
+            // Don't use IS_PENDING for tmp files - they need to survive app restart for resume
         }
 
         val uri = contentResolver.insert(MediaStore.Downloads.EXTERNAL_CONTENT_URI, contentValues)
@@ -54,13 +54,13 @@ class MediaStoreApkStorage(
     }
 
     override fun commit(fileName: String): Boolean {
-        // Use stored pending URI (more reliable than querying)
+        // Use stored URI (more reliable than querying)
         val tmpUri = pendingUris.remove(fileName)
 
         if (tmpUri == null) {
             // Fallback to query if URI not found in cache
             val tmpName = "$fileName.$APK_EXTENSION.tmp"
-            val foundUri = findFileUri(tmpName, includePending = true) ?: return false
+            val foundUri = findFileUri(tmpName) ?: return false
             return commitUri(foundUri, fileName)
         }
 
@@ -71,7 +71,7 @@ class MediaStoreApkStorage(
         val finalName = "$fileName.$APK_EXTENSION"
         val updateValues = ContentValues().apply {
             put(MediaStore.Downloads.DISPLAY_NAME, finalName)
-            put(MediaStore.Downloads.IS_PENDING, 0)
+            put(MediaStore.Downloads.MIME_TYPE, APK_MIME_TYPE)
         }
 
         // Delete existing target file if exists
@@ -108,13 +108,14 @@ class MediaStoreApkStorage(
         if (storedUri != null) {
             return contentResolver.delete(storedUri, null, null) > 0
         }
-        // Fallback to query
-        val uri = findFileUri("$fileName.$APK_EXTENSION.tmp", includePending = true) ?: return false
+        // Fallback to query (tmp files are not pending, so no need for includePending)
+        val uri = findFileUri("$fileName.$APK_EXTENSION.tmp") ?: return false
         return contentResolver.delete(uri, null, null) > 0
     }
 
     override fun getTmpSize(fileName: String): Long {
-        val uri = findFileUri("$fileName.$APK_EXTENSION.tmp", includePending = true)
+        // Tmp files are not pending, so no need for includePending
+        val uri = findFileUri("$fileName.$APK_EXTENSION.tmp")
             ?: return 0L
 
         val projection = arrayOf(MediaStore.Downloads.SIZE)
@@ -128,7 +129,8 @@ class MediaStoreApkStorage(
     }
 
     override fun openAppend(fileName: String): OutputStream {
-        val uri = findFileUri("$fileName.$APK_EXTENSION.tmp", includePending = true)
+        // Tmp files are not pending, so no need for includePending
+        val uri = findFileUri("$fileName.$APK_EXTENSION.tmp")
         
         if (uri == null) {
             // No existing tmp file, create new one
@@ -318,3 +320,4 @@ private const val DOWNLOAD_DIR = "Download"
 private const val CACHE_DIR = "apk_cache"
 private const val APK_EXTENSION = "apk"
 private const val APK_MIME_TYPE = "application/vnd.android.package-archive"
+private const val TMP_MIME_TYPE = "application/octet-stream"
