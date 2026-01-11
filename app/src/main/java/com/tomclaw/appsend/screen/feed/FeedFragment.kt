@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment
 import com.avito.konveyor.ItemBinder
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
-import com.tomclaw.appsend.Appteka
+import com.tomclaw.appsend.appComponent
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.auth.request_code.createRequestCodeActivityIntent
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
@@ -58,7 +58,7 @@ class FeedFragment : Fragment(), FeedPresenter.FeedRouter, HomeFragment {
         val compressedPresenterState: ZipParcelable? =
             savedInstanceState?.getParcelableCompat(KEY_PRESENTER_STATE, ZipParcelable::class.java)
         val presenterState: Bundle? = compressedPresenterState?.restore()
-        Appteka.getComponent()
+        requireContext().appComponent
             .feedComponent(
                 FeedModule(
                     requireContext(),

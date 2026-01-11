@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.avito.konveyor.ItemBinder
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
-import com.tomclaw.appsend.Appteka
+import com.tomclaw.appsend.appComponent
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.profile.createProfileActivityIntent
 import com.tomclaw.appsend.screen.ratings.di.RatingsModule
@@ -33,7 +33,7 @@ class RatingsActivity : AppCompatActivity(), RatingsPresenter.RatingsRouter {
         val appId = intent.getStringExtra(EXTRA_APP_ID)
             ?: throw IllegalArgumentException("App ID must be provided")
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
-        Appteka.getComponent()
+        appComponent
             .ratingsComponent(RatingsModule(this, appId, presenterState))
             .inject(activity = this)
         updateTheme()

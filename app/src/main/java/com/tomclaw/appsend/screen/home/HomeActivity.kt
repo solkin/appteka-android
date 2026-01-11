@@ -9,7 +9,7 @@ import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import com.tomclaw.appsend.Appteka
+import com.tomclaw.appsend.appComponent
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.about.createAboutActivityIntent
 import com.tomclaw.appsend.screen.bdui.createBduiScreenActivityIntent
@@ -56,7 +56,7 @@ class HomeActivity : AppCompatActivity(), HomePresenter.HomeRouter {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
-        Appteka.getComponent()
+        appComponent
             .homeComponent(HomeModule(context = this, startAction = intent.action, presenterState))
             .inject(activity = this)
         updateTheme()

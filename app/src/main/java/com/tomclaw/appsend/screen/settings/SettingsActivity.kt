@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.tomclaw.appsend.Appteka
+import com.tomclaw.appsend.appComponent
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.settings.di.SettingsActivityModule
 import com.tomclaw.appsend.util.Analytics
@@ -17,7 +17,7 @@ class SettingsActivity : AppCompatActivity() {
     lateinit var analytics: Analytics
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        Appteka.getComponent()
+        appComponent
             .settingsActivityComponent(SettingsActivityModule(context = this))
             .inject(activity = this)
 

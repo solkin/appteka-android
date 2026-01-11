@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.avito.konveyor.ItemBinder
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
-import com.tomclaw.appsend.Appteka
+import com.tomclaw.appsend.appComponent
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.gallery.di.GalleryModule
 import com.tomclaw.appsend.util.Analytics
@@ -46,7 +46,7 @@ class GalleryActivity : AppCompatActivity(), GalleryPresenter.GalleryRouter {
         val startIndex = intent.getIntExtra(EXTRA_START_INDEX, 0)
 
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
-        Appteka.getComponent()
+        appComponent
             .galleryComponent(GalleryModule(this, items, startIndex, presenterState))
             .inject(activity = this)
         setTheme(R.style.AppThemeSemitransparent)

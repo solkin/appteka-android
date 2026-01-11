@@ -1,7 +1,6 @@
 package com.tomclaw.appsend.user
 
 import com.google.gson.Gson
-import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.util.SchedulersFactory
 import io.reactivex.rxjava3.core.Single
 import java.io.File

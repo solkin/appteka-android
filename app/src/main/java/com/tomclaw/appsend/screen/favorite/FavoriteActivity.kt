@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.avito.konveyor.ItemBinder
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
-import com.tomclaw.appsend.Appteka
+import com.tomclaw.appsend.appComponent
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.screen.favorite.di.FavoriteModule
@@ -40,7 +40,7 @@ class FavoriteActivity : AppCompatActivity(), FavoritePresenter.FavoriteRouter {
     override fun onCreate(savedInstanceState: Bundle?) {
         val userId = intent.getIntExtra(EXTRA_USER_ID, 0)
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
-        Appteka.getComponent()
+        appComponent
             .favoriteComponent(FavoriteModule(this, userId, presenterState))
             .inject(activity = this)
         updateTheme()

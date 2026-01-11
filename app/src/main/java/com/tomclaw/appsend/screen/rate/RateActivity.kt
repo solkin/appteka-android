@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.tomclaw.appsend.Appteka
+import com.tomclaw.appsend.appComponent
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.rate.di.RateModule
 import com.tomclaw.appsend.user.api.UserBrief
@@ -33,7 +33,7 @@ class RateActivity : AppCompatActivity(), RatePresenter.RateRouter {
         val review = intent.getStringExtra(EXTRA_REVIEW).orEmpty()
 
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
-        Appteka.getComponent()
+        appComponent
             .rateComponent(RateModule(this, appId, userBrief, rating, review, presenterState))
             .inject(activity = this)
         updateTheme()

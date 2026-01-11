@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import com.avito.konveyor.ItemBinder
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
-import com.tomclaw.appsend.Appteka
+import com.tomclaw.appsend.appComponent
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.screen.home.HomeFragment
@@ -40,7 +40,7 @@ class StoreFragment : Fragment(), StorePresenter.StoreRouter, HomeFragment {
         val compressedPresenterState: ZipParcelable? =
             savedInstanceState?.getParcelableCompat(KEY_PRESENTER_STATE, ZipParcelable::class.java)
         val presenterState: Bundle? = compressedPresenterState?.restore()
-        Appteka.getComponent()
+        requireContext().appComponent
             .storeComponent(StoreModule(requireContext(), presenterState))
             .inject(fragment = this)
 

@@ -1,6 +1,7 @@
 package com.tomclaw.appsend.screen.upload.di
 
 import android.content.Context
+import android.content.pm.PackageManager
 import android.os.Bundle
 import com.avito.konveyor.ItemBinder
 import com.avito.konveyor.adapter.AdapterPresenter
@@ -200,8 +201,9 @@ class UploadModule(
     @PerActivity
     internal fun provideSelectedAppItemPresenter(
         presenter: UploadPresenter,
-        resourceProvider: SelectedAppResourceProvider
-    ) = SelectedAppItemPresenter(presenter, resourceProvider)
+        resourceProvider: SelectedAppResourceProvider,
+        packageManager: PackageManager,
+    ) = SelectedAppItemPresenter(presenter, resourceProvider, packageManager)
 
     @Provides
     @PerActivity

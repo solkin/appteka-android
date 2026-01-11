@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.avito.konveyor.ItemBinder
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
-import com.tomclaw.appsend.Appteka
+import com.tomclaw.appsend.appComponent
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.screen.reviews.di.ReviewsModule
@@ -40,7 +40,7 @@ class ReviewsActivity : AppCompatActivity(), ReviewsPresenter.ReviewsRouter {
     override fun onCreate(savedInstanceState: Bundle?) {
         val userId = intent.getIntExtra(EXTRA_USER_ID, 0)
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
-        Appteka.getComponent()
+        appComponent
             .reviewsComponent(ReviewsModule(this, userId, presenterState))
             .inject(activity = this)
         updateTheme()

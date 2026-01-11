@@ -25,7 +25,7 @@ import com.avito.konveyor.adapter.SimpleRecyclerAdapter
 import com.greysonparrelli.permiso.Permiso
 import com.greysonparrelli.permiso.Permiso.IOnPermissionResult
 import com.greysonparrelli.permiso.Permiso.IOnRationaleProvided
-import com.tomclaw.appsend.Appteka
+import com.tomclaw.appsend.appComponent
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.download.ApkStorage
 import com.tomclaw.appsend.download.createDownloadIntent
@@ -133,7 +133,7 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
             ?: throw IllegalArgumentException("appId or packageName must be provided")
 
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
-        Appteka.getComponent()
+        appComponent
             .detailsComponent(
                 DetailsModule(
                     appId,

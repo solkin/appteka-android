@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.avito.konveyor.ItemBinder
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
-import com.tomclaw.appsend.Appteka
+import com.tomclaw.appsend.appComponent
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.search.di.SearchModule
 import com.tomclaw.appsend.util.updateTheme
@@ -30,7 +30,7 @@ class SearchActivity : AppCompatActivity(), SearchPresenter.SearchRouter {
         super.onCreate(savedInstanceState)
 
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
-        Appteka.getComponent()
+        appComponent
             .searchComponent(SearchModule(context = this, presenterState))
             .inject(activity = this)
 

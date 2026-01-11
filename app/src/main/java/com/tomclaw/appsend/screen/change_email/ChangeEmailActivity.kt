@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.tomclaw.appsend.Appteka
+import com.tomclaw.appsend.appComponent
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.change_email.di.ChangeEmailModule
 import com.tomclaw.appsend.util.Analytics
@@ -21,7 +21,7 @@ class ChangeEmailActivity : AppCompatActivity(), ChangeEmailPresenter.ChangeEmai
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
-        Appteka.getComponent()
+        appComponent
             .changeEmailComponent(ChangeEmailModule(this, presenterState))
             .inject(activity = this)
         updateTheme()

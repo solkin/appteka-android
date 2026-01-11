@@ -6,7 +6,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.tomclaw.appsend.Appteka
+import com.tomclaw.appsend.appComponent
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.about.di.AboutModule
 import com.tomclaw.appsend.util.Analytics
@@ -24,7 +24,7 @@ class AboutActivity : AppCompatActivity(), AboutPresenter.AboutRouter {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
-        Appteka.getComponent()
+        appComponent
             .aboutComponent(AboutModule(context = this, presenterState))
             .inject(activity = this)
         updateTheme()

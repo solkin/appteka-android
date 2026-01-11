@@ -8,7 +8,7 @@ import android.content.pm.ServiceInfo
 import android.os.Binder
 import android.os.Build
 import android.os.IBinder
-import com.tomclaw.appsend.Appteka
+import com.tomclaw.appsend.appComponent
 import com.tomclaw.appsend.upload.di.UploadServiceModule
 import com.tomclaw.appsend.util.getParcelableExtraCompat
 import javax.inject.Inject
@@ -24,7 +24,7 @@ class UploadService : Service() {
     override fun onCreate() {
         super.onCreate()
         println("[upload service] onCreate")
-        Appteka.getComponent()
+        appComponent
             .uploadServiceComponent(UploadServiceModule(this))
             .inject(service = this)
     }

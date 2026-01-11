@@ -18,7 +18,7 @@ import android.Manifest
 import com.greysonparrelli.permiso.Permiso
 import com.greysonparrelli.permiso.Permiso.IOnPermissionResult
 import com.greysonparrelli.permiso.Permiso.IOnRationaleProvided
-import com.tomclaw.appsend.Appteka
+import com.tomclaw.appsend.appComponent
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.download.ApkStorage
 import com.tomclaw.appsend.screen.settings.di.SettingsModule
@@ -39,7 +39,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
-        Appteka.getComponent()
+        requireContext().appComponent
             .settingsComponent(SettingsModule(requireContext(), presenterState))
             .inject(fragment = this)
 

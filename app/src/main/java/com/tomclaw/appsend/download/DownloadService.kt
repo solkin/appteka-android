@@ -8,7 +8,7 @@ import android.content.pm.ServiceInfo
 import android.os.Binder
 import android.os.Build
 import android.os.IBinder
-import com.tomclaw.appsend.Appteka
+import com.tomclaw.appsend.appComponent
 import com.tomclaw.appsend.download.di.DownloadServiceModule
 import javax.inject.Inject
 
@@ -23,7 +23,7 @@ class DownloadService : Service() {
     override fun onCreate() {
         super.onCreate()
         println("[download service] onCreate")
-        Appteka.getComponent()
+        appComponent
             .downloadServiceComponent(DownloadServiceModule(this))
             .inject(service = this)
     }

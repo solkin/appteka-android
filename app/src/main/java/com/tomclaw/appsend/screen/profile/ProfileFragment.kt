@@ -11,7 +11,7 @@ import androidx.fragment.app.Fragment
 import com.avito.konveyor.ItemBinder
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
-import com.tomclaw.appsend.Appteka
+import com.tomclaw.appsend.appComponent
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.auth.request_code.createRequestCodeActivityIntent
 import com.tomclaw.appsend.screen.change_email.createChangeEmailActivityIntent
@@ -58,7 +58,7 @@ class ProfileFragment : Fragment(), ProfilePresenter.ProfileRouter, HomeFragment
         val withToolbar = arguments?.getBoolean(ARG_WITH_TOOLBAR, false)
 
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
-        Appteka.getComponent()
+        requireContext().appComponent
             .profileComponent(ProfileModule(userId, withToolbar, presenterState))
             .inject(fragment = this)
 

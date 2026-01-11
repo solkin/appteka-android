@@ -21,7 +21,7 @@ import com.avito.konveyor.adapter.SimpleRecyclerAdapter
 import com.greysonparrelli.permiso.Permiso
 import com.greysonparrelli.permiso.Permiso.IOnPermissionResult
 import com.greysonparrelli.permiso.Permiso.IOnRationaleProvided
-import com.tomclaw.appsend.Appteka
+import com.tomclaw.appsend.appComponent
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.download.ApkStorage
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
@@ -76,7 +76,7 @@ class InstalledActivity : AppCompatActivity(), InstalledPresenter.InstalledRoute
 
         val picker = intent.getBooleanExtra(EXTRA_PICKER, false)
 
-        Appteka.getComponent()
+        appComponent
             .installedComponent(InstalledModule(this, picker, presenterState))
             .inject(activity = this)
         updateTheme()

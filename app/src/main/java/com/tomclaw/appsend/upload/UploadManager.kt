@@ -282,7 +282,7 @@ class UploadManagerImpl(
     ): UploadResponse? {
         val packageManager = context.packageManager
         val apk = File(path)
-        val label = packageInfo.getLabel()
+        val label = packageInfo.getLabel(packageManager)
         val icon = PackageHelper.getPackageIconPng(
             packageInfo.applicationInfo,
             packageManager

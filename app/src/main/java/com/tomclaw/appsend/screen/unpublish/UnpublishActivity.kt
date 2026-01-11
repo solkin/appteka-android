@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.tomclaw.appsend.Appteka
+import com.tomclaw.appsend.appComponent
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.unpublish.di.UnpublishModule
 import javax.inject.Inject
@@ -20,7 +20,7 @@ class UnpublishActivity : AppCompatActivity(), UnpublishPresenter.UnpublishRoute
         val label = intent.getStringExtra(EXTRA_LABEL).orEmpty()
 
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
-        Appteka.getComponent()
+        appComponent
                 .unpublishComponent(UnpublishModule(this, appId, presenterState))
                 .inject(activity = this)
 

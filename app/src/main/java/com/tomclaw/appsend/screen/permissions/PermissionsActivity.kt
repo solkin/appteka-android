@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.avito.konveyor.ItemBinder
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
-import com.tomclaw.appsend.Appteka
+import com.tomclaw.appsend.appComponent
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.permissions.di.PermissionsModule
 import com.tomclaw.appsend.util.Analytics
@@ -32,7 +32,7 @@ class PermissionsActivity : AppCompatActivity(), PermissionsPresenter.Permission
         val permissions = intent?.getStringArrayListExtra(EXTRA_PERMISSIONS)
             ?: throw IllegalArgumentException("Permissions list is required")
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
-        Appteka.getComponent()
+        appComponent
             .permissionsComponent(PermissionsModule(this, permissions, presenterState))
             .inject(activity = this)
         updateTheme()

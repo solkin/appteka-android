@@ -84,7 +84,7 @@ class UploadNotificationsImpl(private val context: Context) : UploadNotification
     ) {
         val notificationId = id.crc32()
 
-        val label = apk.packageInfo.getLabel()
+        val label = apk.packageInfo.getLabel(context.packageManager)
 
         val uploadingIntent = getOpenUploadIntent(pkg, apk, info)
 

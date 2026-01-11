@@ -10,7 +10,7 @@ import androidx.fragment.app.Fragment
 import com.avito.konveyor.ItemBinder
 import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
-import com.tomclaw.appsend.Appteka
+import com.tomclaw.appsend.appComponent
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.profile.createProfileActivityIntent
 import com.tomclaw.appsend.screen.users.di.SubscribersModule
@@ -40,7 +40,7 @@ class UsersFragment : Fragment(), UsersPresenter.SubscribersRouter {
         val type = UsersType.valueOf(name)
 
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
-        Appteka.getComponent()
+        requireContext().appComponent
             .subscribersComponent(SubscribersModule(context, type, userId, presenterState))
             .inject(fragment = this)
 

@@ -4,7 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.tomclaw.appsend.Appteka
+import com.tomclaw.appsend.appComponent
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.subscriptions.di.SubscriptionsModule
 import com.tomclaw.appsend.util.updateTheme
@@ -22,7 +22,7 @@ class SubscriptionsActivity : AppCompatActivity(), SubscriptionsPresenter.Subscr
         val activeTab = Tab.valueOf(name)
 
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
-        Appteka.getComponent()
+        appComponent
             .subscriptionsComponent(SubscriptionsModule(userId, presenterState))
             .inject(activity = this)
         updateTheme()
