@@ -48,8 +48,8 @@ class Appteka : Application() {
                     UrlLoader(),
                     FileLoader(assets),
                     ContentLoader(contentResolver),
-                    AppIconLoader(packageManager),
-                    ApkIconLoader(packageManager)
+                    AppIconLoader(this, packageManager),
+                    ApkIconLoader(this, packageManager)
                 ),
                 memoryCache = MemoryCacheImpl(),
                 mainExecutor = MainExecutorImpl(),

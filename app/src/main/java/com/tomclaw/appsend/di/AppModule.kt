@@ -66,6 +66,7 @@ import com.tomclaw.appsend.util.LoggerImpl
 import com.tomclaw.appsend.util.PackageObserver
 import com.tomclaw.appsend.util.PackageObserverImpl
 import com.tomclaw.appsend.util.SchedulersFactory
+import com.tomclaw.appsend.util.SchedulersFactoryImpl
 import dagger.Module
 import dagger.Provides
 import okhttp3.CookieJar
@@ -90,8 +91,7 @@ class AppModule(private val app: Application) {
 
     @Provides
     @Singleton
-    internal fun provideSchedulersFactory(): SchedulersFactory =
-        SchedulersFactory.SchedulersFactoryImpl()
+    internal fun provideSchedulersFactory(): SchedulersFactory = SchedulersFactoryImpl()
 
     @Provides
     @Singleton

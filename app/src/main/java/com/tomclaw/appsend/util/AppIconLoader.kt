@@ -1,12 +1,16 @@
 package com.tomclaw.appsend.util
 
+import android.content.Context
 import android.content.pm.PackageManager
 import com.tomclaw.imageloader.core.Loader
 import java.io.File
 import java.io.FileOutputStream
 import java.net.URI
 
-class AppIconLoader(private val packageManager: PackageManager) : Loader {
+class AppIconLoader(
+    private val context: Context,
+    private val packageManager: PackageManager
+) : Loader {
 
     override val schemes: List<String>
         get() = listOf("app")
@@ -16,7 +20,7 @@ class AppIconLoader(private val packageManager: PackageManager) : Loader {
             val packageName = parseUri(uriString)
             val packageInfo = packageManager.getPackageInfo(packageName, 0)
             val data = PackageHelper.getPackageIconPng(
-                packageInfo.applicationInfo, packageManager
+                packageInfo.applicationInfo, packageManager, context
             )
             FileOutputStream(file).use { output ->
                 output.write(data)

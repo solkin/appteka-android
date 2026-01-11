@@ -285,7 +285,8 @@ class UploadManagerImpl(
         val label = packageInfo.getLabel(packageManager)
         val icon = PackageHelper.getPackageIconPng(
             packageInfo.applicationInfo,
-            packageManager
+            packageManager,
+            context
         )
         val size = apk.length() + icon.size
         val apkName = packageInfo.packageName.md5() + ".apk"
