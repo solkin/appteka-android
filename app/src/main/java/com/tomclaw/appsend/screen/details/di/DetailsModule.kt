@@ -295,7 +295,8 @@ class DetailsModule(
     @PerActivity
     internal fun provideUserRateItemPresenter(
         presenter: DetailsPresenter,
-    ) = UserRateItemPresenter(presenter)
+        schedulers: SchedulersFactory,
+    ) = UserRateItemPresenter(presenter, schedulers)
 
     @Provides
     @IntoSet
