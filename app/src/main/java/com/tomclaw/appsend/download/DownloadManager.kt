@@ -78,7 +78,7 @@ class DownloadManagerImpl(
         relay.accept(AWAIT)
         downloads[appId] = executor.submit {
             relay.accept(STARTED)
-            val success = downloadBlocking(
+            val result = downloadBlocking(
                 url = url,
                 fileName = fileName,
                 progressCallback = { percent ->
@@ -88,11 +88,19 @@ class DownloadManagerImpl(
                     relay.accept(ERROR)
                 },
             )
-            if (success) {
-                apkStorage.commit(fileName)
-                relay.accept(COMPLETED)
-            } else {
-                apkStorage.deleteTmp(fileName)
+            when (result) {
+                DownloadResult.SUCCESS -> {
+                    apkStorage.commit(fileName)
+                    relay.accept(COMPLETED)
+                }
+                DownloadResult.INTERRUPTED -> {
+                    // Keep tmp file for resume - don't delete
+                    relay.accept(IDLE)
+                }
+                DownloadResult.ERROR -> {
+                    // Keep tmp file for resume - don't delete
+                    // relay already has ERROR from errorCallback
+                }
             }
             downloads.remove(appId)
         }
@@ -116,6 +124,7 @@ class DownloadManagerImpl(
 
     override fun cancel(appId: String) {
         downloads.remove(appId)?.cancel(true)
+        // Keep tmp file for resume - don't delete
         relays[appId]?.accept(IDLE)
     }
 
@@ -124,7 +133,7 @@ class DownloadManagerImpl(
         fileName: String,
         progressCallback: (Int) -> Unit,
         errorCallback: (Throwable) -> Unit
-    ): Boolean {
+    ): DownloadResult {
         var connection: HttpURLConnection? = null
         var input: InputStream? = null
         var output: OutputStream? = null
@@ -141,35 +150,80 @@ class DownloadManagerImpl(
                 .takeIf { it.isNotEmpty() }
                 ?.reduce { acc, cookie -> "$acc;$cookie" }
 
+            // Check for existing partial file for resume
+            val downloadedBytes = apkStorage.getTmpSize(fileName)
+            println("[download] Existing partial file size: $downloadedBytes bytes")
+
             with(connection) {
                 setRequestProperty("Cookie", cookies)
                 connectTimeout = TimeUnit.SECONDS.toMillis(30).toInt()
                 requestMethod = GET
                 useCaches = false
                 doInput = true
-                doOutput = true
                 instanceFollowRedirects = false
+                
+                // Request resume if partial file exists
+                if (downloadedBytes > 0) {
+                    setRequestProperty("Range", "bytes=$downloadedBytes-")
+                    println("[download] Requesting resume from byte $downloadedBytes")
+                }
             }
             connection.connect()
             val responseCode = connection.responseCode
-            input = if (responseCode >= SC_BAD_REQUEST) {
-                BufferedInputStream(connection.errorStream)
-            } else {
-                BufferedInputStream(connection.inputStream)
+            
+            // HTTP 206 = Partial Content (server supports resume)
+            // HTTP 200 = OK (server doesn't support resume, start from beginning)
+            val isResumable = responseCode == SC_PARTIAL_CONTENT
+            val startByte = if (isResumable) downloadedBytes else 0L
+            
+            if (isResumable) {
+                println("[download] Server supports resume, continuing from byte $startByte")
+            } else if (downloadedBytes > 0) {
+                println("[download] Server doesn't support resume (HTTP $responseCode), starting from beginning")
             }
-            val total = connection.contentLength
+            
+            if (responseCode >= SC_BAD_REQUEST) {
+                input = BufferedInputStream(connection.errorStream)
+                errorCallback(IOException("HTTP error: $responseCode"))
+                return DownloadResult.ERROR
+            }
+            
+            input = BufferedInputStream(connection.inputStream)
+            
+            // Get total size: Content-Length for 200, Content-Range for 206
+            val contentLength = connection.contentLength.toLong()
+            val total = if (isResumable) {
+                // Parse Content-Range: "bytes 1000-9999/10000"
+                connection.getHeaderField("Content-Range")
+                    ?.substringAfter("/")?.toLongOrNull()
+                    ?: (startByte + contentLength)
+            } else {
+                contentLength
+            }
+            
             if (total <= 0) {
                 errorCallback(IOException("ContentLength is not defined"))
-                return false
+                return DownloadResult.ERROR
             }
 
-            output = apkStorage.openWrite(fileName)
+            // Open for writing or appending
+            output = if (isResumable && startByte > 0) {
+                apkStorage.openAppend(fileName)
+            } else {
+                apkStorage.openWrite(fileName)
+            }
 
             var cache: Int
-            var read: Long = 0
-            var percent = 0
+            var read = startByte
+            var percent = (100 * read / total).toInt()
             var progressUpdateTime = 0L
             val buffer = ByteArray(BUFFER_SIZE)
+            
+            // Report initial progress for resumed downloads
+            if (startByte > 0) {
+                progressCallback(percent)
+            }
+            
             while (input.read(buffer).also { cache = it } != -1) {
                 output.write(buffer, 0, cache)
                 output.flush()
@@ -184,20 +238,22 @@ class DownloadManagerImpl(
                 }
             }
             progressCallback(100)
-            return true
+            return DownloadResult.SUCCESS
         } catch (ex: InterruptedIOException) {
-            println("[download] IO interruption while application downloading\n$ex")
+            println("[download] IO interruption - partial file saved for resume\n$ex")
+            return DownloadResult.INTERRUPTED
         } catch (ex: InterruptedException) {
-            println("[download] Interruption while application downloading\n$ex")
+            println("[download] Interrupted - partial file saved for resume\n$ex")
+            return DownloadResult.INTERRUPTED
         } catch (ex: Throwable) {
             println("[download] Exception while application downloading\n$ex")
             errorCallback(ex)
+            return DownloadResult.ERROR
         } finally {
             connection?.disconnect()
             input.safeClose()
             output.safeClose()
         }
-        return false
     }
 
     private fun escapeFileSymbols(name: String): String {
@@ -212,6 +268,7 @@ class DownloadManagerImpl(
 
 const val GET = "GET"
 const val SC_BAD_REQUEST = 400
+const val SC_PARTIAL_CONTENT = 206
 
 const val IDLE: Int = -30
 const val AWAIT: Int = -10
@@ -222,3 +279,9 @@ const val ERROR: Int = -40
 private const val BUFFER_SIZE = 1 * 1024 * 1024
 
 private val RESERVED_CHARS = arrayOf("|", "\\", "/", "?", "*", "<", "\"", ":", ">")
+
+enum class DownloadResult {
+    SUCCESS,
+    INTERRUPTED,
+    ERROR
+}

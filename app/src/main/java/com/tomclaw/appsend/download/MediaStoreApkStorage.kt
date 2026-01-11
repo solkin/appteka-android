@@ -113,6 +113,36 @@ class MediaStoreApkStorage(
         return contentResolver.delete(uri, null, null) > 0
     }
 
+    override fun getTmpSize(fileName: String): Long {
+        val uri = findFileUri("$fileName.$APK_EXTENSION.tmp", includePending = true)
+            ?: return 0L
+
+        val projection = arrayOf(MediaStore.Downloads.SIZE)
+        return contentResolver.query(uri, projection, null, null, null)?.use { cursor ->
+            if (cursor.moveToFirst()) {
+                cursor.getLong(cursor.getColumnIndexOrThrow(MediaStore.Downloads.SIZE))
+            } else {
+                0L
+            }
+        } ?: 0L
+    }
+
+    override fun openAppend(fileName: String): OutputStream {
+        val uri = findFileUri("$fileName.$APK_EXTENSION.tmp", includePending = true)
+        
+        if (uri == null) {
+            // No existing tmp file, create new one
+            return openWrite(fileName)
+        }
+        
+        // Store URI for later use in commit()
+        pendingUris[fileName] = uri
+        
+        // Open in write-append mode
+        return contentResolver.openOutputStream(uri, "wa")
+            ?: throw IllegalStateException("Failed to open append stream for $uri")
+    }
+
     override fun listApkFiles(): List<ApkInfo> {
         val projection = arrayOf(
             MediaStore.Downloads._ID,

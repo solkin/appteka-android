@@ -76,6 +76,21 @@ interface ApkStorage {
     fun deleteTmp(fileName: String): Boolean
 
     /**
+     * Get size of temporary file (for resume download).
+     * @param fileName target file name (without extension)
+     * @return size in bytes or 0 if file doesn't exist
+     */
+    fun getTmpSize(fileName: String): Long
+
+    /**
+     * Open output stream for appending to existing temporary file (for resume download).
+     * If temporary file doesn't exist, creates a new one.
+     * @param fileName target file name (without extension)
+     * @return output stream in append mode
+     */
+    fun openAppend(fileName: String): OutputStream
+
+    /**
      * List all APK files in storage.
      * @return list of APK file information
      */

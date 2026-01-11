@@ -90,6 +90,17 @@ class LegacyApkStorage(
         return getTmpFile(fileName).delete()
     }
 
+    override fun getTmpSize(fileName: String): Long {
+        val tmpFile = getTmpFile(fileName)
+        return if (tmpFile.exists()) tmpFile.length() else 0L
+    }
+
+    override fun openAppend(fileName: String): OutputStream {
+        val tmpFile = getTmpFile(fileName)
+        tmpFile.parentFile?.mkdirs()
+        return FileOutputStream(tmpFile, true) // append = true
+    }
+
     override fun listApkFiles(): List<ApkInfo> {
         val files = appsDir.listFiles { file ->
             file.extension.equals(APK_EXTENSION, ignoreCase = true)
