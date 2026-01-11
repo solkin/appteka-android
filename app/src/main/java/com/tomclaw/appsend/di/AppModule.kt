@@ -49,6 +49,8 @@ import com.tomclaw.appsend.download.MediaStoreApkStorage
 import android.os.Build
 import com.tomclaw.appsend.events.EventsInteractor
 import com.tomclaw.appsend.events.EventsInteractorImpl
+import com.tomclaw.appsend.screen.details.DetailsDeepLinkParser
+import com.tomclaw.appsend.screen.details.DetailsDeepLinkParserImpl
 import com.tomclaw.appsend.screen.feed.api.PostDeserializer
 import com.tomclaw.appsend.screen.feed.api.PostEntity
 import com.tomclaw.appsend.upload.UploadManager
@@ -317,6 +319,10 @@ class AppModule(private val app: Application) {
     @Singleton
     internal fun providePackageInfoProvider(packageManager: PackageManager): PackageInfoProvider =
         PackageInfoProviderImpl(packageManager)
+
+    @Provides
+    @Singleton
+    internal fun provideDetailsDeepLinkParser(): DetailsDeepLinkParser = DetailsDeepLinkParserImpl()
 
 }
 

@@ -1,6 +1,7 @@
 package com.tomclaw.appsend.di
 
 import com.tomclaw.appsend.core.MigrationManager
+import com.tomclaw.appsend.screen.details.DetailsDeepLinkParser
 import com.tomclaw.appsend.download.di.DownloadServiceComponent
 import com.tomclaw.appsend.download.di.DownloadServiceModule
 import com.tomclaw.appsend.util.Analytics
@@ -155,5 +156,7 @@ interface AppComponent {
     fun bananalytics(): Bananalytics
 
     fun migrationManager(): MigrationManager
+
+    fun detailsDeepLinkParser(): DetailsDeepLinkParser
 
 }

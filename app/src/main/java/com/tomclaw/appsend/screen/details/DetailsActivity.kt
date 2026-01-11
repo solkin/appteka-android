@@ -71,6 +71,10 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
     @Inject
     lateinit var apkStorage: ApkStorage
 
+    private val deepLinkParser: DetailsDeepLinkParser by lazy {
+        appComponent.detailsDeepLinkParser()
+    }
+
     private val invalidateDetailsResultLauncher =
         registerForActivityResult(StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
@@ -100,27 +104,19 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
         var appId: String? = null
         var packageName: String? = null
         var moderation = false
         var finishOnly = false
 
         val data = intent.data
-        if (data != null && data.host != null) {
-            if (data.host == "appteka.store") {
-                val path = data.pathSegments
-                if (path.size == 2) {
-                    when (path[0]) {
-                        "app" -> appId = path[1]
-                        "package" -> packageName = path[1]
-                        else -> throw IllegalArgumentException("Unsupported URL type")
-                    }
-                }
-            } else if (data.host == "appsend.store") {
-                appId = data.getQueryParameter("id")
-                packageName = data.getQueryParameter("package")
-            } else if (data.host == "play.google.com") {
-                packageName = data.getQueryParameter("id")
+        if (data != null) {
+            when (val deepLink = deepLinkParser.parse(data)) {
+                is DetailsDeepLink.ByAppId -> appId = deepLink.appId
+                is DetailsDeepLink.ByPackageName -> packageName = deepLink.packageName
+                is DetailsDeepLink.Invalid -> return navigateToStore()
             }
         } else {
             appId = intent.getStringExtra(EXTRA_APP_ID)
@@ -128,9 +124,10 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
             moderation = intent.getBooleanExtra(EXTRA_MODERATION, false)
             finishOnly = intent.getBooleanExtra(EXTRA_FINISH_ONLY, false)
         }
-        appId
-            ?: packageName
-            ?: throw IllegalArgumentException("appId or packageName must be provided")
+
+        if (appId == null && packageName == null) {
+            return navigateToStore()
+        }
 
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
         appComponent
@@ -147,8 +144,6 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
             .inject(activity = this)
         updateTheme()
         Permiso.getInstance().setActivity(this)
-
-        super.onCreate(savedInstanceState)
         setContentView(R.layout.details_activity)
 
         val adapter = SimpleRecyclerAdapter(adapterPresenter, binder)
@@ -190,7 +185,9 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
 
     override fun onStart() {
         super.onStart()
-        presenter.attachRouter(this)
+        if (::presenter.isInitialized) {
+            presenter.attachRouter(this)
+        }
     }
 
     override fun onResume() {
@@ -199,18 +196,24 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
     }
 
     override fun onStop() {
-        presenter.detachRouter()
+        if (::presenter.isInitialized) {
+            presenter.detachRouter()
+        }
         super.onStop()
     }
 
     override fun onDestroy() {
-        presenter.detachView()
+        if (::presenter.isInitialized) {
+            presenter.detachView()
+        }
         super.onDestroy()
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putBundle(KEY_PRESENTER_STATE, presenter.saveState())
+        if (::presenter.isInitialized) {
+            outState.putBundle(KEY_PRESENTER_STATE, presenter.saveState())
+        }
     }
 
     override fun onRequestPermissionsResult(
@@ -391,9 +394,14 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
     }
 
     override fun openStoreScreen() {
+        navigateToStore()
+    }
+
+    private fun navigateToStore() {
         val intent = createHomeActivityIntent(context = this)
             .setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         startActivity(intent)
+        finish()
     }
 
     override fun openGooglePlay(packageName: String) {
