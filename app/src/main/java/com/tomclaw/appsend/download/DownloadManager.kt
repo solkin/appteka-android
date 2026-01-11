@@ -41,6 +41,7 @@ class DownloadManagerImpl(
 
     private val relays = HashMap<String, BehaviorRelay<Int>>()
     private val downloads = HashMap<String, Future<*>>()
+    private val fileNames = HashMap<String, String>()
 
     override fun status(appId: String): Observable<Int> {
         val relay = relays[appId] ?: let {
@@ -76,6 +77,7 @@ class DownloadManagerImpl(
         }
 
         relay.accept(AWAIT)
+        fileNames[appId] = fileName
         downloads[appId] = executor.submit {
             relay.accept(STARTED)
             val result = downloadBlocking(
@@ -92,6 +94,7 @@ class DownloadManagerImpl(
                 DownloadResult.SUCCESS -> {
                     apkStorage.commit(fileName)
                     relay.accept(COMPLETED)
+                    fileNames.remove(appId)
                 }
                 DownloadResult.INTERRUPTED -> {
                     // Keep tmp file for resume - don't delete
@@ -124,7 +127,10 @@ class DownloadManagerImpl(
 
     override fun cancel(appId: String) {
         downloads.remove(appId)?.cancel(true)
-        // Keep tmp file for resume - don't delete
+        // Delete tmp file on explicit user cancel
+        fileNames.remove(appId)?.let { fileName ->
+            apkStorage.deleteTmp(fileName)
+        }
         relays[appId]?.accept(IDLE)
     }
 
