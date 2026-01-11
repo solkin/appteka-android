@@ -8,7 +8,7 @@ import java.util.Locale
 
 interface SearchInteractor {
 
-    fun searchApps(query: String, offsetAppId: String? = null): Observable<List<AppEntity>>
+    fun searchApps(query: String, offset: Int = 0): Observable<List<AppEntity>>
 
 }
 
@@ -18,10 +18,10 @@ class SearchInteractorImpl(
     private val schedulers: SchedulersFactory
 ) : SearchInteractor {
 
-    override fun searchApps(query: String, offsetAppId: String?): Observable<List<AppEntity>> {
+    override fun searchApps(query: String, offset: Int): Observable<List<AppEntity>> {
         return api.searchApps(
             query = query,
-            appId = offsetAppId,
+            offset = offset.takeIf { it > 0 },
             locale = locale.language
         )
             .map { list ->

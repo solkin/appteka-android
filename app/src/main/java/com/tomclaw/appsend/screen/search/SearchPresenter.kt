@@ -144,13 +144,13 @@ class SearchPresenterImpl(
             )
     }
 
-    private fun loadMore(offsetAppId: String) {
+    private fun loadMore(offset: Int) {
         val currentQuery = query.trim()
         if (currentQuery.isEmpty()) {
             return
         }
 
-        subscriptions += searchInteractor.searchApps(currentQuery, offsetAppId)
+        subscriptions += searchInteractor.searchApps(currentQuery, offset)
             .observeOn(schedulers.mainThread())
             .retryWhenNonAuthErrors()
             .subscribe(
@@ -216,8 +216,8 @@ class SearchPresenterImpl(
     }
 
     override fun onLoadMore(item: Item) {
-        val app = items?.find { it.id == item.id } ?: return
-        loadMore(app.appId)
+        val offset = items?.size ?: return
+        loadMore(offset)
     }
 
 }

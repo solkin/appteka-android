@@ -83,7 +83,7 @@ interface StoreApi {
     @GET("1/app/search")
     fun searchApps(
         @Query("query") query: String,
-        @Query("app_id") appId: String?,
+        @Query("offset") offset: Int?,
         @Query("locale") locale: String
     ): Single<StoreResponse<AppsListResponse>>
 
