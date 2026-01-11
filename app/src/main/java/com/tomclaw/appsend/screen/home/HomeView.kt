@@ -12,6 +12,7 @@ import com.tomclaw.appsend.R
 import com.tomclaw.appsend.util.applyBottomInsets
 import com.tomclaw.appsend.util.applyBottomInsetsAsMargin
 import com.tomclaw.appsend.util.applyBottomMarginForView
+import com.tomclaw.appsend.util.applyTopInsets
 import com.tomclaw.appsend.util.clicks
 import com.tomclaw.appsend.util.hide
 import com.tomclaw.appsend.util.show
@@ -94,6 +95,7 @@ interface HomeView {
 class HomeViewImpl(view: View) : HomeView {
 
     private val context = view.context
+    private val coordinator: View = view.findViewById(R.id.coordinator)
     private val toolbar: Toolbar = view.findViewById(R.id.toolbar)
     private val updateBlock: View = view.findViewById(R.id.update_block)
     private val frameLayout: View = view.findViewById(R.id.frame)
@@ -151,6 +153,7 @@ class HomeViewImpl(view: View) : HomeView {
         laterButton.clicks(laterRelay)
 
         // Apply edge-to-edge insets
+        coordinator.applyTopInsets()
         bottomNavigation.applyBottomInsets()
         frameLayout.applyBottomMarginForView(bottomNavigation)
         uploadButton.applyBottomInsetsAsMargin()

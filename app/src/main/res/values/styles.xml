@@ -185,6 +185,7 @@
         <!-- Preference Theme -->
         <item name="preferenceTheme">@style/AppPreferenceThemeOverlay</item>
         <item name="materialCardViewStyle">@style/Widget.Material3.CardView.Elevated</item>
+        <item name="appBarLayoutStyle">@style/AppBarLayoutStyle</item>
     </style>
 
     <!-- Preference Themes -->
@@ -206,6 +207,12 @@
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.Material3.ActionBar" />
+
+    <!-- AppBarLayout style to prevent status bar flicker during scroll -->
+    <style name="AppBarLayoutStyle" parent="Widget.Material3.AppBarLayout">
+        <item name="elevation">0dp</item>
+        <item name="android:stateListAnimator">@null</item>
+    </style>
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.Material3" />
 
