@@ -51,6 +51,8 @@ import com.tomclaw.appsend.events.EventsInteractor
 import com.tomclaw.appsend.events.EventsInteractorImpl
 import com.tomclaw.appsend.screen.details.DetailsDeepLinkParser
 import com.tomclaw.appsend.screen.details.DetailsDeepLinkParserImpl
+import com.tomclaw.appsend.screen.profile.ProfileDeepLinkParser
+import com.tomclaw.appsend.screen.profile.ProfileDeepLinkParserImpl
 import com.tomclaw.appsend.screen.feed.api.PostDeserializer
 import com.tomclaw.appsend.screen.feed.api.PostEntity
 import com.tomclaw.appsend.upload.UploadManager
@@ -323,6 +325,10 @@ class AppModule(private val app: Application) {
     @Provides
     @Singleton
     internal fun provideDetailsDeepLinkParser(): DetailsDeepLinkParser = DetailsDeepLinkParserImpl()
+
+    @Provides
+    @Singleton
+    internal fun provideProfileDeepLinkParser(): ProfileDeepLinkParser = ProfileDeepLinkParserImpl()
 
 }
 

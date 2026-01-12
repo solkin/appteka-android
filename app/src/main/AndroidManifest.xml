@@ -124,7 +124,8 @@
             android:exported="true"
             android:label="@string/profile"
             android:windowSoftInputMode="stateHidden">
-            <intent-filter android:autoVerify="true"
+            <intent-filter
+                android:autoVerify="true"
                 tools:targetApi="23">
                 <action android:name="android.intent.action.VIEW" />
 
@@ -133,10 +134,21 @@
 
                 <data android:scheme="http" />
                 <data android:scheme="https" />
-                <data android:host="appsend.store" />
                 <data android:host="appteka.store" />
-                <data android:host="appteka.org" />
                 <data android:pathPrefix="/profile" />
+            </intent-filter>
+            <intent-filter
+                android:autoVerify="true"
+                tools:targetApi="23">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="http" />
+                <data android:scheme="https" />
+                <data android:host="appteka.store" />
+                <data android:pathPrefix="/user" />
             </intent-filter>
         </activity>
         <activity android:name=".screen.reviews.ReviewsActivity" />

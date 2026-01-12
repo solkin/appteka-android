@@ -6,36 +6,39 @@ import android.os.Bundle
 import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.appComponent
 import com.tomclaw.appsend.screen.home.createHomeActivityIntent
 import com.tomclaw.appsend.util.updateTheme
 
 class ProfileActivity : AppCompatActivity() {
 
+    private val deepLinkParser: ProfileDeepLinkParser by lazy {
+        appComponent.profileDeepLinkParser()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        var userId = intent.getIntExtra(EXTRA_USER_ID, 0)
+        super.onCreate(savedInstanceState)
+
+        var userId: Int
         var isShowHomeOnFinish = false
 
         val data = intent.data
-        if (data != null && data.host != null) {
-            if (data.host == "appteka.store" || data.host == "appteka.org") {
-                val path = data.pathSegments
-                if (path.size == 2) {
-                    userId = path[1].toInt()
+        if (data != null) {
+            when (val deepLink = deepLinkParser.parse(data)) {
+                is ProfileDeepLink.ByUserId -> {
+                    userId = deepLink.userId
                     isShowHomeOnFinish = true
                 }
-            } else if (data.host == "appsend.store") {
-                userId = data.getQueryParameter("id")?.toInt() ?: 0
-                isShowHomeOnFinish = true
+                is ProfileDeepLink.Invalid -> return navigateToStore()
+            }
+        } else {
+            userId = intent.getIntExtra(EXTRA_USER_ID, 0)
+            if (userId == 0) {
+                return navigateToStore()
             }
         }
 
-        if (userId == 0) {
-            throw IllegalArgumentException("user ID must be provided")
-        }
-
         updateTheme()
-
-        super.onCreate(savedInstanceState)
         setContentView(R.layout.profile_activity)
 
         if (savedInstanceState == null) {
@@ -57,6 +60,10 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun leaveScreen() {
+        navigateToStore()
+    }
+
+    private fun navigateToStore() {
         val intent = createHomeActivityIntent(context = this).apply {
             setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         }
