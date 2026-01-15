@@ -3,6 +3,8 @@ package com.tomclaw.appsend.screen.details
 import android.net.Uri
 import com.avito.konveyor.blueprint.Item
 import com.tomclaw.appsend.categories.DEFAULT_LOCALE
+import com.tomclaw.appsend.screen.details.adapter.abi.AbiItem
+import com.tomclaw.appsend.screen.details.adapter.abi.AbiResourceProvider
 import com.tomclaw.appsend.screen.details.adapter.controls.ControlsItem
 import com.tomclaw.appsend.screen.details.adapter.description.DescriptionItem
 import com.tomclaw.appsend.screen.details.adapter.discuss.DiscussItem
@@ -57,6 +59,7 @@ interface DetailsConverter {
 
 class DetailsConverterImpl(
     private val resourceProvider: DetailsResourceProvider,
+    private val abiResourceProvider: AbiResourceProvider,
     private val locale: Locale
 ) : DetailsConverter {
 
@@ -212,6 +215,13 @@ class DetailsConverterImpl(
             sourceUrl = details.meta?.sourceUrl,
             translationState = translationState,
         )
+        if (!details.info.abi.isNullOrEmpty()) {
+            items += AbiItem(
+                id = id++,
+                abiList = details.info.abi,
+                isCompatible = abiResourceProvider.checkCompatibility(details.info.abi),
+            )
+        }
         if (!details.info.permissions.isNullOrEmpty()) {
             items += PermissionsItem(
                 id = id++,

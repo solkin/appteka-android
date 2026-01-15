@@ -415,4 +415,17 @@
     <string name="email_already_taken">Этот email уже используется другим аккаунтом</string>
     <string name="error_changing_email">Не удалось изменить email</string>
     <string name="email_changed_success">Email успешно изменён</string>
+    <string name="supported_architectures">Поддерживаемые архитектуры</string>
+    <string name="abi_universal">Универсальное</string>
+    <string name="abi_arm64">ARM64</string>
+    <string name="abi_arm32">ARM32</string>
+    <string name="abi_arm">ARM</string>
+    <string name="abi_x86_64">x86–64</string>
+    <string name="abi_x86">x86</string>
+    <string name="abi_mips64">MIPS64</string>
+    <string name="abi_mips">MIPS</string>
+    <string name="abi_compatible">Совместимо с вашим устройством</string>
+    <string name="abi_incompatible">Не совместимо с вашим устройством</string>
+    <string name="abi_warning_title">Несовместимая архитектура</string>
+    <string name="abi_warning_message">Это приложение может работать некорректно на вашем устройстве, так как оно собрано для другой архитектуры процессора. Хотите всё равно скачать?</string>
 </resources>

@@ -87,6 +87,10 @@ interface DetailsResourceProvider {
 
     fun securityWarningDownloadAnyway(): String
 
+    fun abiWarningTitle(): String
+
+    fun abiWarningMessage(): String
+
 }
 
 class DetailsResourceProviderImpl(
@@ -251,6 +255,14 @@ class DetailsResourceProviderImpl(
 
     override fun securityWarningDownloadAnyway(): String {
         return resources.getString(R.string.security_warning_download_anyway)
+    }
+
+    override fun abiWarningTitle(): String {
+        return resources.getString(R.string.abi_warning_title)
+    }
+
+    override fun abiWarningMessage(): String {
+        return resources.getString(R.string.abi_warning_message)
     }
 
 }

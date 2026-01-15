@@ -9,6 +9,7 @@ import com.avito.konveyor.data_source.ListDataSource
 import com.tomclaw.appsend.download.COMPLETED
 import com.tomclaw.appsend.download.DownloadManager
 import com.tomclaw.appsend.download.IDLE
+import com.tomclaw.appsend.screen.details.adapter.abi.AbiResourceProvider
 import com.tomclaw.appsend.screen.details.adapter.ItemListener
 import com.tomclaw.appsend.screen.details.adapter.play.PlaySecurityStatus
 import com.tomclaw.appsend.screen.details.adapter.screenshot.ScreenshotItem
@@ -126,6 +127,7 @@ class DetailsPresenterImpl(
     private val bananalytics: Bananalytics,
     private val interactor: DetailsInteractor,
     private val resourceProvider: DetailsResourceProvider,
+    private val abiResourceProvider: AbiResourceProvider,
     private val adapterPresenter: Lazy<AdapterPresenter>,
     private val detailsConverter: DetailsConverter,
     private val packageObserver: PackageObserver,
@@ -225,6 +227,9 @@ class DetailsPresenterImpl(
             router?.openLoginScreen()
         }
         subscriptions += view.securityDownloadConfirmClicks().subscribe {
+            router?.requestStoragePermissions { onInstallBypassingAbiCheck() }
+        }
+        subscriptions += view.abiDownloadConfirmClicks().subscribe {
             router?.requestStoragePermissions { onInstall() }
         }
 
@@ -504,7 +509,20 @@ class DetailsPresenterImpl(
                 }
             }
         }
-        router?.requestStoragePermissions { onInstall() }
+        router?.requestStoragePermissions { onInstallBypassingAbiCheck() }
+    }
+
+    private fun onInstallBypassingAbiCheck() {
+        val abiList = details?.info?.abi
+        if (!abiList.isNullOrEmpty() && !abiResourceProvider.checkCompatibility(abiList)) {
+            view?.showAbiWarningDialog(
+                title = resourceProvider.abiWarningTitle(),
+                message = resourceProvider.abiWarningMessage(),
+                downloadButton = resourceProvider.securityWarningDownloadAnyway()
+            )
+            return
+        }
+        onInstall()
     }
 
     private fun onInstall() {

@@ -11,6 +11,10 @@ import com.tomclaw.appsend.di.DATE_FORMATTER
 import com.tomclaw.appsend.download.DownloadManager
 import com.tomclaw.appsend.screen.details.DetailsConverter
 import com.tomclaw.appsend.screen.details.DetailsConverterImpl
+import com.tomclaw.appsend.screen.details.adapter.abi.AbiItemBlueprint
+import com.tomclaw.appsend.screen.details.adapter.abi.AbiItemPresenter
+import com.tomclaw.appsend.screen.details.adapter.abi.AbiResourceProvider
+import com.tomclaw.appsend.screen.details.adapter.abi.AbiResourceProviderImpl
 import com.tomclaw.appsend.screen.details.DetailsInteractor
 import com.tomclaw.appsend.screen.details.DetailsInteractorImpl
 import com.tomclaw.appsend.screen.details.DetailsPreferencesProvider
@@ -83,6 +87,7 @@ class DetailsModule(
         bananalytics: Bananalytics,
         interactor: DetailsInteractor,
         resourceProvider: DetailsResourceProvider,
+        abiResourceProvider: AbiResourceProvider,
         @Named(DETAILS_ADAPTER_PRESENTER) adapterPresenter: Lazy<AdapterPresenter>,
         detailsConverter: DetailsConverter,
         packageObserver: PackageObserver,
@@ -96,6 +101,7 @@ class DetailsModule(
         bananalytics,
         interactor,
         resourceProvider,
+        abiResourceProvider,
         adapterPresenter,
         detailsConverter,
         packageObserver,
@@ -123,8 +129,15 @@ class DetailsModule(
     @PerActivity
     internal fun provideDetailsConverterProvider(
         resourceProvider: DetailsResourceProvider,
+        abiResourceProvider: AbiResourceProvider,
         locale: Locale,
-    ): DetailsConverter = DetailsConverterImpl(resourceProvider, locale)
+    ): DetailsConverter = DetailsConverterImpl(resourceProvider, abiResourceProvider, locale)
+
+    @Provides
+    @PerActivity
+    internal fun provideAbiResourceProvider(): AbiResourceProvider {
+        return AbiResourceProviderImpl(context.resources)
+    }
 
     @Provides
     @Named(DETAILS_ADAPTER_PRESENTER)
@@ -229,6 +242,19 @@ class DetailsModule(
         presenter: DetailsPresenter,
         resourceProvider: DescriptionResourceProvider
     ) = DescriptionItemPresenter(presenter, resourceProvider)
+
+    @Provides
+    @IntoSet
+    @PerActivity
+    internal fun provideAbiItemBlueprint(
+        presenter: AbiItemPresenter
+    ): ItemBlueprint<*, *> = AbiItemBlueprint(presenter)
+
+    @Provides
+    @PerActivity
+    internal fun provideAbiItemPresenter(
+        resourceProvider: AbiResourceProvider
+    ) = AbiItemPresenter(resourceProvider)
 
     @Provides
     @IntoSet

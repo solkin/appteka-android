@@ -426,4 +426,17 @@
     <string name="email_already_taken">This email is already used by another account</string>
     <string name="error_changing_email">Failed to change email</string>
     <string name="email_changed_success">Email successfully changed</string>
+    <string name="supported_architectures">Supported architectures</string>
+    <string name="abi_universal">Universal</string>
+    <string name="abi_arm64">ARM64</string>
+    <string name="abi_arm32">ARM32</string>
+    <string name="abi_arm">ARM</string>
+    <string name="abi_x86_64">x86–64</string>
+    <string name="abi_x86">x86</string>
+    <string name="abi_mips64">MIPS64</string>
+    <string name="abi_mips">MIPS</string>
+    <string name="abi_compatible">Compatible with your device</string>
+    <string name="abi_incompatible">Not compatible with your device</string>
+    <string name="abi_warning_title">Incompatible Architecture</string>
+    <string name="abi_warning_message">This application may not work correctly on your device because it was built for a different processor architecture. Do you want to download it anyway?</string>
 </resources>

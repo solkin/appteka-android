@@ -402,4 +402,17 @@
     <string name="email_already_taken">ئەم ئیمەیلە پێشتر لەلایەن هەژمارێکی تر بەکارهاتووە</string>
     <string name="error_changing_email">گۆڕینی ئیمەیل سەرکەوتوو نەبوو</string>
     <string name="email_changed_success">ئیمەیل بە سەرکەوتوویی گۆڕدرا</string>
+    <string name="supported_architectures">ئەرکیتەکچەرە پشتیوانییەکان</string>
+    <string name="abi_universal">جیھانی</string>
+    <string name="abi_arm64">ARM64</string>
+    <string name="abi_arm32">ARM32</string>
+    <string name="abi_arm">ARM</string>
+    <string name="abi_x86_64">x86–64</string>
+    <string name="abi_x86">x86</string>
+    <string name="abi_mips64">MIPS64</string>
+    <string name="abi_mips">MIPS</string>
+    <string name="abi_compatible">گونجاوە بۆ ئامێرەکەت</string>
+    <string name="abi_incompatible">گونجاو نییە بۆ ئامێرەکەت</string>
+    <string name="abi_warning_title">ئەرکیتەکچەری ناگونجاو</string>
+    <string name="abi_warning_message">ئەم بەرنامەیە لەوانەیە بە دروستی کار نەکات لەسەر ئامێرەکەت چونکە بۆ ئەرکیتەکچەری پڕۆسێسەری جیاواز دروستکراوە. ئایا دەتەوێت بیدەزنیت؟</string>
 </resources>

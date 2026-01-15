@@ -406,4 +406,17 @@
     <string name="email_already_taken">این ایمیل قبلاً توسط حساب دیگری استفاده شده است</string>
     <string name="error_changing_email">تغییر ایمیل ناموفق بود</string>
     <string name="email_changed_success">ایمیل با موفقیت تغییر کرد</string>
+    <string name="supported_architectures">معماری‌های پشتیبانی شده</string>
+    <string name="abi_universal">جهانی</string>
+    <string name="abi_arm64">ARM64</string>
+    <string name="abi_arm32">ARM32</string>
+    <string name="abi_arm">ARM</string>
+    <string name="abi_x86_64">x86–64</string>
+    <string name="abi_x86">x86</string>
+    <string name="abi_mips64">MIPS64</string>
+    <string name="abi_mips">MIPS</string>
+    <string name="abi_compatible">سازگار با دستگاه شما</string>
+    <string name="abi_incompatible">ناسازگار با دستگاه شما</string>
+    <string name="abi_warning_title">معماری ناسازگار</string>
+    <string name="abi_warning_message">این برنامه ممکن است به درستی روی دستگاه شما کار نکند زیرا برای معماری پردازنده متفاوتی ساخته شده است. آیا می‌خواهید آن را دانلود کنید؟</string>
 </resources>

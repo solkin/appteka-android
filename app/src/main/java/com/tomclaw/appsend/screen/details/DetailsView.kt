@@ -61,6 +61,8 @@ interface DetailsView {
 
     fun showSecurityWarningDialog(title: String, message: String, downloadButton: String)
 
+    fun showAbiWarningDialog(title: String, message: String, downloadButton: String)
+
     fun navigationClicks(): Observable<Unit>
 
     fun swipeRefresh(): Observable<Unit>
@@ -88,6 +90,8 @@ interface DetailsView {
     fun loginClicks(): Observable<Unit>
 
     fun securityDownloadConfirmClicks(): Observable<Unit>
+
+    fun abiDownloadConfirmClicks(): Observable<Unit>
 
     fun onDismiss()
 
@@ -132,6 +136,7 @@ class DetailsViewImpl(
     private val favoriteRelay = PublishRelay.create<Boolean>()
     private val loginRelay = PublishRelay.create<Unit>()
     private val securityDownloadConfirmRelay = PublishRelay.create<Unit>()
+    private val abiDownloadConfirmRelay = PublishRelay.create<Unit>()
 
     private val layoutManager: LinearLayoutManager
 
@@ -369,6 +374,19 @@ class DetailsViewImpl(
         dialog?.show()
     }
 
+    override fun showAbiWarningDialog(title: String, message: String, downloadButton: String) {
+        dialog?.dismiss()
+        dialog = MaterialAlertDialogBuilder(context)
+            .setTitle(title)
+            .setMessage(message)
+            .setNegativeButton(downloadButton) { _, _ ->
+                abiDownloadConfirmRelay.accept(Unit)
+            }
+            .setPositiveButton(R.string.cancel, null)
+            .create()
+        dialog?.show()
+    }
+
     override fun navigationClicks(): Observable<Unit> = navigationRelay
 
     override fun swipeRefresh(): Observable<Unit> = refreshRelay
@@ -396,6 +414,8 @@ class DetailsViewImpl(
     override fun loginClicks(): Observable<Unit> = loginRelay
 
     override fun securityDownloadConfirmClicks(): Observable<Unit> = securityDownloadConfirmRelay
+
+    override fun abiDownloadConfirmClicks(): Observable<Unit> = abiDownloadConfirmRelay
 
     override fun onDismiss() {
         dialog?.dismiss()

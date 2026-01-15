@@ -388,4 +388,17 @@
     <string name="email_already_taken">Email này đã được sử dụng bởi tài khoản khác</string>
     <string name="error_changing_email">Không thể thay đổi email</string>
     <string name="email_changed_success">Thay đổi email thành công</string>
+    <string name="supported_architectures">Kiến trúc được hỗ trợ</string>
+    <string name="abi_universal">Đa năng</string>
+    <string name="abi_arm64">ARM64</string>
+    <string name="abi_arm32">ARM32</string>
+    <string name="abi_arm">ARM</string>
+    <string name="abi_x86_64">x86–64</string>
+    <string name="abi_x86">x86</string>
+    <string name="abi_mips64">MIPS64</string>
+    <string name="abi_mips">MIPS</string>
+    <string name="abi_compatible">Tương thích với thiết bị của bạn</string>
+    <string name="abi_incompatible">Không tương thích với thiết bị của bạn</string>
+    <string name="abi_warning_title">Kiến trúc không tương thích</string>
+    <string name="abi_warning_message">Ứng dụng này có thể không hoạt động đúng trên thiết bị của bạn vì nó được xây dựng cho kiến trúc bộ xử lý khác. Bạn có muốn tải xuống không?</string>
 </resources>

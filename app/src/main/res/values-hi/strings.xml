@@ -397,4 +397,17 @@
     <string name="email_already_taken">यह ईमेल पहले से किसी अन्य खाते द्वारा उपयोग किया जा रहा है</string>
     <string name="error_changing_email">ईमेल बदलने में विफल</string>
     <string name="email_changed_success">ईमेल सफलतापूर्वक बदला गया</string>
+    <string name="supported_architectures">समर्थित आर्किटेक्चर</string>
+    <string name="abi_universal">सार्वभौमिक</string>
+    <string name="abi_arm64">ARM64</string>
+    <string name="abi_arm32">ARM32</string>
+    <string name="abi_arm">ARM</string>
+    <string name="abi_x86_64">x86–64</string>
+    <string name="abi_x86">x86</string>
+    <string name="abi_mips64">MIPS64</string>
+    <string name="abi_mips">MIPS</string>
+    <string name="abi_compatible">आपके डिवाइस के साथ संगत</string>
+    <string name="abi_incompatible">आपके डिवाइस के साथ संगत नहीं</string>
+    <string name="abi_warning_title">असंगत आर्किटेक्चर</string>
+    <string name="abi_warning_message">यह एप्लिकेशन आपके डिवाइस पर सही तरीके से काम नहीं कर सकता क्योंकि यह एक अलग प्रोसेसर आर्किटेक्चर के लिए बनाया गया था। क्या आप फिर भी इसे डाउनलोड करना चाहते हैं?</string>
 </resources>

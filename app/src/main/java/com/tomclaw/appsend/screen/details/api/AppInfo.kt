@@ -47,6 +47,8 @@ data class AppInfo(
     val userName: String? = null,
     @SerializedName("user_icon")
     val userIcon: UserIcon?,
+    @SerializedName("abi")
+    val abi: List<String>?,
 ) : Parcelable
 
 const val STATUS_NORMAL = 0
