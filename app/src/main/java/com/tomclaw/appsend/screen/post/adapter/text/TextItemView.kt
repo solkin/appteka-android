@@ -50,7 +50,9 @@ class TextItemViewHolder(view: View) : BaseViewHolder(view), TextItemView {
     }
 
     override fun setText(text: String) {
-        textEdit.setText(text)
+        if (textEdit.text.toString() != text) {
+            textEdit.setText(text)
+        }
     }
 
     override fun showRequiredFieldError() {

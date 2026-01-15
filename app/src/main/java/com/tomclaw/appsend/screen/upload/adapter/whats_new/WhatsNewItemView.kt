@@ -38,7 +38,9 @@ class WhatsNewItemViewHolder(view: View) : BaseViewHolder(view), WhatsNewItemVie
     }
 
     override fun setText(text: String) {
-        whatsNewEdit.setText(text)
+        if (whatsNewEdit.text.toString() != text) {
+            whatsNewEdit.setText(text)
+        }
     }
 
     override fun setOnTextChangedListener(listener: ((String) -> Unit)?) {

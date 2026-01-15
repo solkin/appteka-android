@@ -44,7 +44,9 @@ class DescriptionItemViewHolder(view: View) : BaseViewHolder(view), DescriptionI
     }
 
     override fun setText(text: String) {
-        descriptionEdit.setText(text)
+        if (descriptionEdit.text.toString() != text) {
+            descriptionEdit.setText(text)
+        }
     }
 
     override fun showRequiredFieldError() {
