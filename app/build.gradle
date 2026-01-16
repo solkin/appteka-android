@@ -23,7 +23,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 35
         versionCode project.hasProperty("versionCode") ? Integer.parseInt(project.versionCode) : 975
-        versionName = "18.2"
+        versionName = "18.3"
     }
 
     buildTypes {
