@@ -429,4 +429,6 @@
     <string name="abi_incompatible">Не совместимо с вашим устройством</string>
     <string name="abi_warning_title">Несовместимая архитектура</string>
     <string name="abi_warning_message">Это приложение может работать некорректно на вашем устройстве, так как оно собрано для другой архитектуры процессора. Хотите всё равно скачать?</string>
+    <string name="official_developer">Официальный разработчик</string>
+    <string name="official_short">Официально</string>
 </resources>

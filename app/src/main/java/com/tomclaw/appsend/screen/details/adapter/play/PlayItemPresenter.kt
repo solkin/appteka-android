@@ -29,6 +29,8 @@ class PlayItemPresenter(
 
         if (item.openSource) view.showOpenSource() else view.hideOpenSource()
 
+        if (item.official) view.showOfficial() else view.hideOfficial()
+
         item.category?.let {
             val title = it.name[locale.language] ?: it.name[DEFAULT_LOCALE].orEmpty()
             view.showCategory(it.icon, title)

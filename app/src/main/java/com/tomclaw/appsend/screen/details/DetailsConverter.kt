@@ -128,6 +128,7 @@ class DetailsConverterImpl(
             size = details.info.size,
             exclusive = details.meta?.exclusive == true,
             openSource = details.meta?.sourceUrl?.isNotEmpty() == true,
+            official = details.developer?.isOfficial == true,
             category = details.meta?.category,
             osVersion = details.info.androidVersion,
             minSdk = details.info.sdkVersion,

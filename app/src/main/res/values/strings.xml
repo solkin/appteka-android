@@ -440,4 +440,6 @@
     <string name="abi_incompatible">Not compatible with your device</string>
     <string name="abi_warning_title">Incompatible Architecture</string>
     <string name="abi_warning_message">This application may not work correctly on your device because it was built for a different processor architecture. Do you want to download it anyway?</string>
+    <string name="official_developer">Official developer</string>
+    <string name="official_short">Official</string>
 </resources>

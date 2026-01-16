@@ -34,6 +34,8 @@ data class Details(
     val security: Security?,
     @SerializedName("translation")
     val translation: TranslationResponse?,
+    @SerializedName("developer")
+    val developer: Developer?,
 ) : Parcelable
 
 const val ACTION_UNLINK = "unlink"

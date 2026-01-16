@@ -14,6 +14,7 @@ data class PlayItem(
     val size: Long,
     val exclusive: Boolean,
     val openSource: Boolean,
+    val official: Boolean,
     val category: Category?,
     val osVersion: String?,
     val minSdk: Int?,
