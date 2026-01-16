@@ -173,6 +173,7 @@
     <string name="status_on_moderation">मॉडरेशन के तहत</string>
     <string name="delete">निकालें</string>
     <string name="error_rating_deletion">समीक्षा हटाने में विफल</string>
+    <string name="error_download_deletion">इतिहास से हटाने में असमर्थ</string>
     <string name="unpublish_file">प्रकाशन से हटाएँ</string>
     <string name="unpublish_of">प्रकाशन से हटना %s</string>
     <string name="delete_app_title">एक्सचेंजर से हटाना</string>

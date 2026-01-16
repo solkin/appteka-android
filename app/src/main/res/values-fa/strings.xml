@@ -179,6 +179,7 @@
     <string name="status_on_moderation">تحت بررسی</string>
     <string name="delete">حذف</string>
     <string name="error_rating_deletion">رتبه بندی حذف نشد</string>
+    <string name="error_download_deletion">حذف از تاریخچه امکان‌پذیر نیست</string>
     <string name="unpublish_file">حذف انتشار</string>
     <string name="unpublish_of">حذف انتشار %s</string>
     <string name="delete_app_title">حذف از فروشگاه</string>

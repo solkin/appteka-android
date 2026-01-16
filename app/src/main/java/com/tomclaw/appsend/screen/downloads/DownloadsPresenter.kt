@@ -7,11 +7,14 @@ import com.avito.konveyor.data_source.ListDataSource
 import com.tomclaw.appsend.dto.AppEntity
 import com.tomclaw.appsend.screen.downloads.adapter.ItemListener
 import com.tomclaw.appsend.screen.downloads.adapter.app.AppItem
+import com.tomclaw.appsend.user.api.UserBrief
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.getParcelableArrayListCompat
+import com.tomclaw.appsend.util.getParcelableCompat
 import com.tomclaw.appsend.util.retryWhenNonAuthErrors
 import dagger.Lazy
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.kotlin.Observables
 import io.reactivex.rxjava3.kotlin.plusAssign
 
 interface DownloadsPresenter : ItemListener {
@@ -43,6 +46,7 @@ interface DownloadsPresenter : ItemListener {
 }
 
 class DownloadsPresenterImpl(
+    private val userId: Int,
     private val interactor: DownloadsInteractor,
     private val adapterPresenter: Lazy<AdapterPresenter>,
     private val appConverter: AppConverter,
@@ -58,6 +62,7 @@ class DownloadsPresenterImpl(
     private var items: List<AppItem>? =
         state?.getParcelableArrayListCompat(KEY_APPS, AppItem::class.java)
     private var isError: Boolean = state?.getBoolean(KEY_ERROR) == true
+    private var brief: UserBrief? = state?.getParcelableCompat(KEY_BRIEF, UserBrief::class.java)
 
     override fun attachView(view: DownloadsView) {
         this.view = view
@@ -96,6 +101,7 @@ class DownloadsPresenterImpl(
     override fun saveState() = Bundle().apply {
         putParcelableArrayList(KEY_APPS, items?.let { ArrayList(items.orEmpty()) })
         putBoolean(KEY_ERROR, isError)
+        putParcelable(KEY_BRIEF, brief)
     }
 
     override fun invalidateApps() {
@@ -104,12 +110,20 @@ class DownloadsPresenterImpl(
     }
 
     private fun loadApps() {
-        subscriptions += interactor.listApps()
+        subscriptions += Observables
+            .zip(
+                interactor.listApps(offsetAppId = null),
+                interactor.getUserBrief()
+            )
             .observeOn(schedulers.mainThread())
             .doOnSubscribe { if (view?.isPullRefreshing() == false) view?.showProgress() }
+            .retryWhenNonAuthErrors()
             .doAfterTerminate { onReady() }
             .subscribe(
-                { onLoaded(it) },
+                {
+                    onBriefLoaded(it.second.userBrief)
+                    onLoaded(it.first)
+                },
                 {
                     it.printStackTrace()
                     onError()
@@ -128,15 +142,24 @@ class DownloadsPresenterImpl(
             )
     }
 
+    private fun onBriefLoaded(brief: UserBrief?) {
+        this.brief = brief
+    }
+
     private fun onLoaded(entities: List<AppEntity>) {
         isError = false
+        val showMenu = isCurrentUserOwner()
         val newItems = entities
-            .map { appConverter.convert(it) }
+            .map { appConverter.convert(it).apply { this.showMenu = showMenu } }
             .toList()
             .apply { if (isNotEmpty()) last().hasMore = true }
         this.items = this.items
             ?.apply { if (isNotEmpty()) last().hasProgress = false }
             ?.plus(newItems) ?: newItems
+    }
+
+    private fun isCurrentUserOwner(): Boolean {
+        return brief?.let { it.userId == userId } == true
     }
 
     private fun onReady() {
@@ -191,6 +214,23 @@ class DownloadsPresenterImpl(
         router?.openAppScreen(app.appId, app.title)
     }
 
+    override fun onDeleteClick(item: Item) {
+        val app = items?.find { it.id == item.id } ?: return
+        subscriptions += interactor.deleteDownloaded(app.appId)
+            .observeOn(schedulers.mainThread())
+            .retryWhenNonAuthErrors()
+            .doAfterTerminate { onReady() }
+            .subscribe(
+                { onAppDeleted(item) },
+                { view?.showDownloadRemovalFailed() }
+            )
+    }
+
+    private fun onAppDeleted(item: Item) {
+        this.items = items?.filter { it.id != item.id }
+        onReady()
+    }
+
     override fun onRetryClick(item: Item) {
         val app = items?.find { it.id == item.id } ?: return
         if (items?.isNotEmpty() == true) {
@@ -214,3 +254,4 @@ class DownloadsPresenterImpl(
 
 private const val KEY_APPS = "apps"
 private const val KEY_ERROR = "error"
+private const val KEY_BRIEF = "brief"

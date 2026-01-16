@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.avito.konveyor.adapter.SimpleRecyclerAdapter
+import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.util.clicks
@@ -28,6 +29,8 @@ interface DownloadsView {
     fun showPlaceholder()
 
     fun showError()
+
+    fun showDownloadRemovalFailed()
 
     fun stopPullRefreshing()
 
@@ -95,6 +98,10 @@ class DownloadsViewImpl(
 
         error.setText(R.string.load_files_error)
         retryButton.clicks(retryRelay)
+    }
+
+    override fun showDownloadRemovalFailed() {
+        Snackbar.make(recycler, R.string.error_download_deletion, Snackbar.LENGTH_LONG).show()
     }
 
     @SuppressLint("NotifyDataSetChanged")

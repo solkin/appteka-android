@@ -18,6 +18,7 @@ import com.tomclaw.appsend.screen.details.api.Details
 import com.tomclaw.appsend.screen.details.api.MarkFavoriteResponse
 import com.tomclaw.appsend.screen.details.api.ModerationDecisionResponse
 import com.tomclaw.appsend.screen.details.api.TranslationResponse
+import com.tomclaw.appsend.screen.downloads.api.DeleteDownloadedResponse
 import com.tomclaw.appsend.screen.downloads.api.DownloadsResponse
 import com.tomclaw.appsend.screen.favorite.api.FavoriteResponse
 import com.tomclaw.appsend.screen.feed.api.DeletePostResponse
@@ -379,6 +380,11 @@ interface StoreApi {
         @Query("app_id") appId: String?,
         @Query("locale") locale: String
     ): Single<StoreResponse<DownloadsResponse>>
+
+    @DELETE("1/user/downloaded/delete")
+    fun deleteDownloaded(
+        @Query("app_id") appId: String
+    ): Single<StoreResponse<DeleteDownloadedResponse>>
 
     @FormUrlEncoded
     @POST("1/app/unlink")

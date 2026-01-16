@@ -5,10 +5,15 @@ import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.avito.konveyor.adapter.BaseViewHolder
 import com.avito.konveyor.blueprint.ItemView
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.categories.CategoryItem
+import com.tomclaw.appsend.util.ActionItem
+import com.tomclaw.appsend.util.ActionsAdapter
 import com.tomclaw.appsend.util.bind
 import com.tomclaw.appsend.util.hide
 import com.tomclaw.appsend.util.show
@@ -49,9 +54,15 @@ interface AppItemView : ItemView {
 
     fun setCategory(category: CategoryItem?)
 
+    fun showMenu()
+
+    fun hideMenu()
+
     fun setOnClickListener(listener: (() -> Unit)?)
 
     fun setOnRetryListener(listener: (() -> Unit)?)
+
+    fun setOnDeleteClickListener(listener: (() -> Unit)?)
 
     fun setClickable(clickable: Boolean)
 
@@ -77,13 +88,41 @@ class AppItemViewHolder(view: View) : BaseViewHolder(view), AppItemView {
     private val categoryIcon: ImageView = view.findViewById(R.id.app_category_icon)
     private val error: View = view.findViewById(R.id.error_view)
     private val retryButton: View = view.findViewById(R.id.button_retry)
+    private val menuView: View = view.findViewById(R.id.app_menu)
 
     private var clickListener: (() -> Unit)? = null
     private var retryListener: (() -> Unit)? = null
+    private var deleteClickListener: (() -> Unit)? = null
 
     init {
         view.setOnClickListener { clickListener?.invoke() }
         retryButton.setOnClickListener { retryListener?.invoke() }
+        menuView.setOnClickListener { showAppDialog() }
+    }
+
+    private fun showAppDialog() {
+        val bottomSheetDialog = BottomSheetDialog(context)
+        val sheetView = View.inflate(context, R.layout.bottom_sheet_actions, null)
+        val actionsRecycler: RecyclerView = sheetView.findViewById(R.id.actions_recycler)
+
+        val actions = listOf(
+            ActionItem(MENU_OPEN, context.getString(R.string.open), R.drawable.ic_info),
+            ActionItem(MENU_DELETE, context.getString(R.string.delete), R.drawable.ic_delete)
+        )
+
+        val actionsAdapter = ActionsAdapter(actions) { actionId ->
+            bottomSheetDialog.dismiss()
+            when (actionId) {
+                MENU_OPEN -> clickListener?.invoke()
+                MENU_DELETE -> deleteClickListener?.invoke()
+            }
+        }
+
+        actionsRecycler.layoutManager = LinearLayoutManager(context)
+        actionsRecycler.adapter = actionsAdapter
+
+        bottomSheetDialog.setContentView(sheetView)
+        bottomSheetDialog.show()
     }
 
     override fun setIcon(url: String?) {
@@ -168,6 +207,14 @@ class AppItemViewHolder(view: View) : BaseViewHolder(view), AppItemView {
         }
     }
 
+    override fun showMenu() {
+        menuView.show()
+    }
+
+    override fun hideMenu() {
+        menuView.hide()
+    }
+
     override fun setOnClickListener(listener: (() -> Unit)?) {
         this.clickListener = listener
     }
@@ -180,9 +227,17 @@ class AppItemViewHolder(view: View) : BaseViewHolder(view), AppItemView {
         this.retryListener = listener
     }
 
+    override fun setOnDeleteClickListener(listener: (() -> Unit)?) {
+        this.deleteClickListener = listener
+    }
+
     override fun onUnbind() {
         this.clickListener = null
         this.retryListener = null
+        this.deleteClickListener = null
     }
 
 }
+
+private const val MENU_OPEN = 1
+private const val MENU_DELETE = 2

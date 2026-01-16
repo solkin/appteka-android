@@ -43,6 +43,7 @@ class DownloadsModule(
         appConverter: AppConverter,
         schedulers: SchedulersFactory
     ): DownloadsPresenter = DownloadsPresenterImpl(
+        userId,
         interactor,
         adapterPresenter,
         appConverter,

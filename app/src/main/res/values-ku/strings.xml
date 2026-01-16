@@ -178,6 +178,7 @@
     <string name="status_on_moderation">لەسەر میانڕەوی</string>
     <string name="delete">سڕینەوە</string>
     <string name="error_rating_deletion">ناتوانرێت ڕیتینگ بسڕدرێتەوە</string>
+    <string name="error_download_deletion">ناتوانرێت لە مێژوو بسڕدرێتەوە</string>
     <string name="unpublish_file">لە بڵاوکردنەوە دەربهێنە</string>
     <string name="unpublish_of">لە بڵاوکردنەوەی %s دەربهێنە</string>
     <string name="delete_app_title">لە فرۆشگا بسڕەوە</string>

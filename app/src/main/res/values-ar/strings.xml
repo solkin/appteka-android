@@ -178,6 +178,7 @@
     <string name="status_on_moderation">انتظار للمراجعة</string>
     <string name="delete">حذف</string>
     <string name="error_rating_deletion">غير قادر على حذف التقييم</string>
+    <string name="error_download_deletion">غير قادر على الحذف من السجل</string>
     <string name="unpublish_file">إزالة من النشر</string>
     <string name="unpublish_of">إزالة من النشر %s</string>
     <string name="delete_app_title">حذف من المتجر</string>

@@ -181,6 +181,7 @@
     <string name="status_on_moderation">On Moderation</string>
     <string name="delete">Delete</string>
     <string name="error_rating_deletion">Unable to delete rating</string>
+    <string name="error_download_deletion">Unable to delete from history</string>
     <string name="unpublish_file">Remove from publication</string>
     <string name="unpublish_of">Remove from publication of %s</string>
     <string name="delete_app_title">Delete from store</string>

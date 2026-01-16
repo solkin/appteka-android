@@ -173,6 +173,7 @@
     <string name="status_on_moderation">Kiểm duyệt</string>
     <string name="delete">Xóa</string>
     <string name="error_rating_deletion">Không thể xóa bình luận</string>
+    <string name="error_download_deletion">Không thể xóa khỏi lịch sử</string>
     <string name="unpublish_file">Dỡ khỏi mục đã đăng</string>
     <string name="unpublish_of">Dỡ khỏi mục đã đăng %s</string>
     <string name="delete_app_title">Xóa khỏi phần trao đổi</string>

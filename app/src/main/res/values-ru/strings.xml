@@ -173,6 +173,7 @@
     <string name="status_on_moderation">На модерации</string>
     <string name="delete">Удалить</string>
     <string name="error_rating_deletion">Не удалось удалить отзыв</string>
+    <string name="error_download_deletion">Не удалось удалить из истории</string>
     <string name="unpublish_file">Снять с публикации</string>
     <string name="unpublish_of">Снятие с публикации %s</string>
     <string name="delete_app_title">Удаление из обменника</string>

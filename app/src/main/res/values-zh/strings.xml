@@ -173,6 +173,7 @@
     <string name="status_on_moderation">审核中</string>
     <string name="delete">删除</string>
     <string name="error_rating_deletion">删除评分失败</string>
+    <string name="error_download_deletion">无法从历史记录中删除</string>
     <string name="unpublish_file">从已发布中删除</string>
     <string name="unpublish_of">从已发布的 %s 中删除</string>
     <string name="delete_app_title">从Appteka商店中删除</string>

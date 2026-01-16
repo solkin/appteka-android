@@ -176,6 +176,7 @@
     <string name="status_on_moderation">Sobre moderação</string>
     <string name="delete">Excluir</string>
     <string name="error_rating_deletion">Não é possível excluir a classificação</string>
+    <string name="error_download_deletion">Não é possível excluir do histórico</string>
     <string name="unpublish_file">Remover da publicação</string>
     <string name="unpublish_of">Remover da publicação %s</string>
     <string name="delete_app_title">Excluir da loja</string>
