@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">ئاپتێکا</string>
+    <string name="app_name" translatable="false">Appteka</string>
     <string name="bytes">%d ب</string>
     <string name="kibibytes">%.1f کیلۆبایت</string>
     <string name="mibibytes">%.1f مێگابایت</string>
