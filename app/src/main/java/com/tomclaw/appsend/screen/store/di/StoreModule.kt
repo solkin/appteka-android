@@ -10,6 +10,8 @@ import com.tomclaw.appsend.categories.CategoriesInteractor
 import com.tomclaw.appsend.categories.CategoryConverter
 import com.tomclaw.appsend.categories.CategoryConverterImpl
 import com.tomclaw.appsend.core.StoreApi
+import com.tomclaw.appsend.screen.details.adapter.abi.AbiResourceProvider
+import com.tomclaw.appsend.screen.details.adapter.abi.AbiResourceProviderImpl
 import com.tomclaw.appsend.screen.store.AppConverter
 import com.tomclaw.appsend.screen.store.AppConverterImpl
 import com.tomclaw.appsend.screen.store.AppsResourceProvider
@@ -89,8 +91,15 @@ class StoreModule(
         resourceProvider: AppsResourceProvider,
         categoryConverter: CategoryConverter,
         packageObserver: PackageObserver,
+        abiResourceProvider: AbiResourceProvider,
     ): AppConverter {
-        return AppConverterImpl(resourceProvider, categoryConverter, packageObserver)
+        return AppConverterImpl(resourceProvider, categoryConverter, packageObserver, abiResourceProvider)
+    }
+
+    @Provides
+    @PerFragment
+    internal fun provideAbiResourceProvider(): AbiResourceProvider {
+        return AbiResourceProviderImpl(context.resources)
     }
 
     @Provides

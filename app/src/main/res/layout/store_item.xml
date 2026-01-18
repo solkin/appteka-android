@@ -128,6 +128,18 @@
                     android:src="@drawable/ic_open_source"
                     app:tint="?text_secondary_color" />
 
+                <ImageView
+                    android:id="@+id/abi_incompatible"
+                    android:layout_width="wrap_content"
+                    android:layout_height="16dp"
+                    android:contentDescription="@string/abi_incompatible"
+                    android:paddingStart="-4dp"
+                    android:paddingLeft="-4dp"
+                    android:src="@drawable/ic_alert_circle"
+                    android:visibility="gone"
+                    app:tint="@color/abi_incompatible_color"
+                    tools:visibility="visible" />
+
             </LinearLayout>
 
             <LinearLayout

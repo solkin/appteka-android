@@ -47,6 +47,10 @@ interface AppItemView : ItemView {
 
     fun hideOpenSourceBadge()
 
+    fun showAbiIncompatibleBadge()
+
+    fun hideAbiIncompatibleBadge()
+
     fun setCategory(category: CategoryItem?)
 
     fun setOnClickListener(listener: (() -> Unit)?)
@@ -68,6 +72,7 @@ class AppItemViewHolder(view: View) : BaseViewHolder(view), AppItemView {
     private val ratingIcon: View = view.findViewById(R.id.rating_icon)
     private val downloads: TextView = view.findViewById(R.id.app_downloads)
     private val openSource: View = view.findViewById(R.id.open_source)
+    private val abiIncompatible: View = view.findViewById(R.id.abi_incompatible)
     private val badge: View = view.findViewById(R.id.badge_new)
     private val progress: View = view.findViewById(R.id.item_progress)
     private val statusContainer: View = view.findViewById(R.id.app_badge)
@@ -156,6 +161,14 @@ class AppItemViewHolder(view: View) : BaseViewHolder(view), AppItemView {
 
     override fun hideOpenSourceBadge() {
         this.openSource.hide()
+    }
+
+    override fun showAbiIncompatibleBadge() {
+        this.abiIncompatible.show()
+    }
+
+    override fun hideAbiIncompatibleBadge() {
+        this.abiIncompatible.hide()
     }
 
     override fun setCategory(category: CategoryItem?) {

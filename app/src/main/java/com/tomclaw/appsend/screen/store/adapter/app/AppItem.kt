@@ -19,6 +19,7 @@ class AppItem(
     val category: CategoryItem?,
     val exclusive: Boolean,
     val openSource: Boolean,
+    val isAbiCompatible: Boolean,
     var isInstalled: Boolean = false,
     var isUpdatable: Boolean = false,
     var isNew: Boolean = false,

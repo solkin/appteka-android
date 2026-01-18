@@ -25,6 +25,7 @@ class AppItemPresenter(
         view.setDownloads(item.downloads)
         view.setCategory(item.category)
         if (item.openSource) view.showOpenSourceBadge() else view.hideOpenSourceBadge()
+        if (!item.isAbiCompatible) view.showAbiIncompatibleBadge() else view.hideAbiIncompatibleBadge()
         if (item.hasProgress) view.showProgress() else view.hideProgress()
         if (item.hasError) view.showError() else view.hideError()
         view.setOnClickListener { listener.onItemClick(item) }

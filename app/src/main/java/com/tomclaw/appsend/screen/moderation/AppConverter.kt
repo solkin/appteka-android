@@ -2,6 +2,7 @@ package com.tomclaw.appsend.screen.moderation
 
 import com.tomclaw.appsend.categories.CategoryConverter
 import com.tomclaw.appsend.dto.AppEntity
+import com.tomclaw.appsend.screen.details.adapter.abi.AbiResourceProvider
 import com.tomclaw.appsend.screen.moderation.adapter.app.AppItem
 
 interface AppConverter {
@@ -12,12 +13,14 @@ interface AppConverter {
 
 class AppConverterImpl(
     private val resourceProvider: AppsResourceProvider,
-    private val categoryConverter: CategoryConverter
+    private val categoryConverter: CategoryConverter,
+    private val abiResourceProvider: AbiResourceProvider
 ) : AppConverter {
 
     private var id: Long = 1
 
     override fun convert(appEntity: AppEntity): AppItem {
+        val isAbiCompatible = appEntity.abi?.let { abiResourceProvider.checkCompatibility(it) } ?: true
         return AppItem(
             id = id++,
             appId = appEntity.appId,
@@ -29,6 +32,7 @@ class AppConverterImpl(
             downloads = appEntity.downloads,
             category = appEntity.category?.let { categoryConverter.convert(it) },
             openSource = !appEntity.sourceUrl.isNullOrEmpty(),
+            isAbiCompatible = isAbiCompatible,
         )
     }
 

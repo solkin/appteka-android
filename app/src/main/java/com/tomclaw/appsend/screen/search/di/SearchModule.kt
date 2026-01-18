@@ -13,6 +13,8 @@ import com.tomclaw.appsend.screen.search.SearchInteractor
 import com.tomclaw.appsend.screen.search.SearchInteractorImpl
 import com.tomclaw.appsend.screen.search.SearchPresenter
 import com.tomclaw.appsend.screen.search.SearchPresenterImpl
+import com.tomclaw.appsend.screen.details.adapter.abi.AbiResourceProvider
+import com.tomclaw.appsend.screen.details.adapter.abi.AbiResourceProviderImpl
 import com.tomclaw.appsend.screen.store.AppConverter
 import com.tomclaw.appsend.screen.store.AppConverterImpl
 import com.tomclaw.appsend.screen.store.AppsResourceProvider
@@ -80,8 +82,15 @@ class SearchModule(
         resourceProvider: AppsResourceProvider,
         categoryConverter: CategoryConverter,
         packageObserver: PackageObserver,
+        abiResourceProvider: AbiResourceProvider,
     ): AppConverter {
-        return AppConverterImpl(resourceProvider, categoryConverter, packageObserver)
+        return AppConverterImpl(resourceProvider, categoryConverter, packageObserver, abiResourceProvider)
+    }
+
+    @Provides
+    @PerActivity
+    internal fun provideAbiResourceProvider(): AbiResourceProvider {
+        return AbiResourceProviderImpl(context.resources)
     }
 
     @Provides

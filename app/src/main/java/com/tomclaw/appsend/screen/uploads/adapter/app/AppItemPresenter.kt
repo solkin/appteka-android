@@ -56,6 +56,7 @@ class AppItemPresenter(
         view.setStatus(statusText, isPublished)
         if (item.isNew) view.showBadge() else view.hideBadge()
         if (item.openSource) view.showOpenSourceBadge() else view.hideOpenSourceBadge()
+        if (!item.isAbiCompatible) view.showAbiIncompatibleBadge() else view.hideAbiIncompatibleBadge()
         if (item.hasProgress) view.showProgress() else view.hideProgress()
         if (item.hasError) view.showError() else view.hideError()
         if (clickable) {

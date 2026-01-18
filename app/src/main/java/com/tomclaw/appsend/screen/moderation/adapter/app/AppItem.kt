@@ -17,6 +17,7 @@ class AppItem(
     val downloads: Int,
     val category: CategoryItem?,
     val openSource: Boolean,
+    val isAbiCompatible: Boolean,
     var hasMore: Boolean = false,
     var hasError: Boolean = false,
     var hasProgress: Boolean = false,

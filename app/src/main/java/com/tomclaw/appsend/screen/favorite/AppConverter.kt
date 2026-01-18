@@ -2,6 +2,7 @@ package com.tomclaw.appsend.screen.favorite
 
 import com.tomclaw.appsend.categories.CategoryConverter
 import com.tomclaw.appsend.dto.AppEntity
+import com.tomclaw.appsend.screen.details.adapter.abi.AbiResourceProvider
 import com.tomclaw.appsend.screen.favorite.adapter.app.AppItem
 import com.tomclaw.appsend.util.NOT_INSTALLED
 import com.tomclaw.appsend.util.PackageObserver
@@ -16,13 +17,15 @@ interface AppConverter {
 class AppConverterImpl(
     private val resourceProvider: AppsResourceProvider,
     private val categoryConverter: CategoryConverter,
-    private val packageObserver: PackageObserver
+    private val packageObserver: PackageObserver,
+    private val abiResourceProvider: AbiResourceProvider
 ) : AppConverter {
 
     private var id: Long = 1
 
     override fun convert(appEntity: AppEntity): AppItem {
         val installedVersionCode = packageObserver.pickInstalledVersionCode(appEntity.packageName)
+        val isAbiCompatible = appEntity.abi?.let { abiResourceProvider.checkCompatibility(it) } ?: true
         return AppItem(
             id = id++,
             appId = appEntity.appId,
@@ -36,6 +39,7 @@ class AppConverterImpl(
             category = appEntity.category?.let { categoryConverter.convert(it) },
             exclusive = appEntity.exclusive,
             openSource = !appEntity.sourceUrl.isNullOrEmpty(),
+            isAbiCompatible = isAbiCompatible,
             isInstalled = installedVersionCode != NOT_INSTALLED,
             isUpdatable = installedVersionCode < appEntity.verCode,
             isNew = (TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()) - appEntity.time) <

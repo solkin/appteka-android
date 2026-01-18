@@ -35,4 +35,6 @@ data class AppEntity(
     val exclusive: Boolean,
     @SerializedName("source_url")
     val sourceUrl: String?,
+    @SerializedName("abi")
+    val abi: List<String>?,
 ) : Parcelable
