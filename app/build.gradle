@@ -105,8 +105,8 @@ android {
         implementation 'me.zhanghai.android.materialratingbar:library:1.4.0'
         implementation 'com.greysonparrelli.permiso:permiso:0.3.0'
         implementation 'com.github.avito-tech:Konveyor:0.42.2'
-        debugImplementation 'com.github.chuckerteam.chucker:library:4.2.0'
-        releaseImplementation 'com.github.chuckerteam.chucker:library-no-op:4.2.0'
+        debugImplementation 'com.github.chuckerteam.chucker:library:4.3.0'
+        releaseImplementation 'com.github.chuckerteam.chucker:library-no-op:4.3.0'
         implementation 'org.androidannotations:androidannotations-api:4.8.0'
         testImplementation 'junit:junit:4.13.2'
     }
