@@ -7,7 +7,6 @@ import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.adapter.SimpleAdapterPresenter
 import com.avito.konveyor.blueprint.ItemBlueprint
 import com.tomclaw.appsend.core.StoreApi
-import com.tomclaw.appsend.events.EventsInteractor
 import com.tomclaw.appsend.screen.topics.TopicConverter
 import com.tomclaw.appsend.screen.topics.TopicConverterImpl
 import com.tomclaw.appsend.screen.topics.TopicsInteractor
@@ -39,14 +38,12 @@ class TopicsModule(
         converter: TopicConverter,
         preferences: TopicsPreferencesProvider,
         topicsInteractor: TopicsInteractor,
-        eventsInteractor: EventsInteractor,
         adapterPresenter: Lazy<AdapterPresenter>,
         schedulers: SchedulersFactory
     ): TopicsPresenter = TopicsPresenterImpl(
         converter,
         preferences,
         topicsInteractor,
-        eventsInteractor,
         adapterPresenter,
         schedulers,
         state

@@ -47,8 +47,6 @@ import com.tomclaw.appsend.download.DownloadNotificationsImpl
 import com.tomclaw.appsend.download.LegacyApkStorage
 import com.tomclaw.appsend.download.MediaStoreApkStorage
 import android.os.Build
-import com.tomclaw.appsend.events.EventsInteractor
-import com.tomclaw.appsend.events.EventsInteractorImpl
 import com.tomclaw.appsend.screen.details.DetailsDeepLinkParser
 import com.tomclaw.appsend.screen.details.DetailsDeepLinkParserImpl
 import com.tomclaw.appsend.screen.profile.ProfileDeepLinkParser
@@ -210,13 +208,6 @@ class AppModule(private val app: Application) {
     @Provides
     @Singleton
     internal fun provideModerationProvider(): ModerationProvider = ModerationProviderImpl()
-
-    @Provides
-    @Singleton
-    internal fun provideEventsInteractor(
-        api: StoreApi,
-        schedulers: SchedulersFactory
-    ): EventsInteractor = EventsInteractorImpl(api, schedulers)
 
     @Provides
     @Singleton

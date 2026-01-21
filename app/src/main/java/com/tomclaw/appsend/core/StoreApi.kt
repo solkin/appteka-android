@@ -2,7 +2,6 @@ package com.tomclaw.appsend.core
 
 import com.tomclaw.appsend.categories.CategoriesResponse
 import com.tomclaw.appsend.dto.StoreResponse
-import com.tomclaw.appsend.events.EventsResponse
 import com.tomclaw.appsend.screen.auth.request_code.api.RequestCodeResponse
 import com.tomclaw.appsend.screen.auth.verify_code.api.VerifyCodeResponse
 import com.tomclaw.appsend.screen.chat.api.HistoryResponse
@@ -116,12 +115,6 @@ interface StoreApi {
         @Query("from") from: Int,
         @Query("till") till: Int
     ): Single<StoreResponse<HistoryResponse>>
-
-    @GET("2/chat/fetch")
-    fun getEvents(
-        @Query("time") time: Long,
-        @Query("nodelay") noDelay: Boolean
-    ): Single<StoreResponse<EventsResponse>>
 
     @GET("1/user/brief")
     fun getUserBrief(

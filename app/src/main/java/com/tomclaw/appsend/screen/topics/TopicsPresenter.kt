@@ -5,7 +5,6 @@ import com.avito.konveyor.adapter.AdapterPresenter
 import com.avito.konveyor.blueprint.Item
 import com.avito.konveyor.data_source.ListDataSource
 import com.tomclaw.appsend.dto.TopicEntity
-import com.tomclaw.appsend.events.EventsInteractor
 import com.tomclaw.appsend.screen.topics.adapter.ItemListener
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.filterUnauthorizedErrors
@@ -29,6 +28,8 @@ interface TopicsPresenter : ItemListener {
 
     fun scrollToTop()
 
+    fun invalidate()
+
     interface TopicsRouter {
 
         fun showChatScreen(entity: TopicEntity)
@@ -43,7 +44,6 @@ class TopicsPresenterImpl(
     private val converter: TopicConverter,
     private val preferences: TopicsPreferencesProvider,
     private val topicsInteractor: TopicsInteractor,
-    private val eventsInteractor: EventsInteractor,
     private val adapterPresenter: Lazy<AdapterPresenter>,
     private val schedulers: SchedulersFactory,
     state: Bundle?
@@ -92,27 +92,6 @@ class TopicsPresenterImpl(
                 entities?.let { bindEntities() } ?: loadTopics()
             }
         }
-
-        subscriptions += eventsInteractor.subscribeOnEvents()
-            .observeOn(schedulers.mainThread())
-            .subscribe { response ->
-                println("[polling] event received (topics)")
-                response.topics?.let { topics ->
-                    val isInvalidateTopics = response.invalidateTopics == true
-                    val topItems = ArrayList(topics)
-                    val filteredEntities = ArrayList(
-                        entities?.takeUnless { isInvalidateTopics } ?: emptyList()
-                    )
-                    topics.forEach { topic ->
-                        filteredEntities.removeAll { it.topicId == topic.topicId }
-                    }
-                    val newEntities = topItems + filteredEntities
-                    entities = newEntities
-                    hasMore = hasMore || isInvalidateTopics
-
-                    bindEntities()
-                }
-            }
     }
 
     override fun detachView() {
@@ -136,6 +115,12 @@ class TopicsPresenterImpl(
 
     override fun scrollToTop() {
         view?.scrollToTop()
+    }
+
+    override fun invalidate() {
+        if (!preferences.isShowIntro()) {
+            invalidateTopics()
+        }
     }
 
     private fun invalidateTopics() {
@@ -198,13 +183,21 @@ class TopicsPresenterImpl(
 
     private fun pinTopic(topicId: Int) {
         subscriptions += topicsInteractor.pinTopic(topicId)
+            .flatMap { topicsInteractor.listTopics() }
             .observeOn(schedulers.mainThread())
-            .subscribe({ }, { ex ->
-                ex.filterUnauthorizedErrors(
-                    authError = { view?.showUnauthorizedError() },
-                    other = { view?.showPinFailed() }
-                )
-            })
+            .subscribe(
+                { response ->
+                    entities = response.topics
+                    hasMore = response.hasMore
+                    bindEntities()
+                },
+                { ex ->
+                    ex.filterUnauthorizedErrors(
+                        authError = { view?.showUnauthorizedError() },
+                        other = { view?.showPinFailed() }
+                    )
+                }
+            )
     }
 
     override fun onItemClick(item: Item) {

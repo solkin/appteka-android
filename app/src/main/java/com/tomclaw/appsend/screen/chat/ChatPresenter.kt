@@ -6,7 +6,6 @@ import com.avito.konveyor.blueprint.Item
 import com.avito.konveyor.data_source.ListDataSource
 import com.tomclaw.appsend.dto.MessageEntity
 import com.tomclaw.appsend.dto.TopicEntity
-import com.tomclaw.appsend.events.EventsInteractor
 import com.tomclaw.appsend.screen.chat.adapter.ItemListener
 import com.tomclaw.appsend.screen.chat.api.MsgTranslateResponse
 import com.tomclaw.appsend.screen.chat.api.TranslationEntity
@@ -55,7 +54,6 @@ class ChatPresenterImpl(
     private val bananalytics: Bananalytics,
     private val converter: MessageConverter,
     private val chatInteractor: ChatInteractor,
-    private val eventsInteractor: EventsInteractor,
     private val resourceProvider: ChatResourceProvider,
     private val adapterPresenter: Lazy<AdapterPresenter>,
     private val schedulers: SchedulersFactory,
@@ -74,7 +72,6 @@ class ChatPresenterImpl(
     private var translation: MutableMap<Int, TranslationEntity> =
         state?.getParcelableArrayListCompat(KEY_TRANSLATION, TranslationEntity::class.java)
             .orEmpty().associateBy { it.msgId }.toMutableMap()
-    private var pendingScrollToBottom: Boolean = state?.getBoolean(KEY_PENDING_SCROLL) == true
 
     private val journal = HashSet<Int>()
 
@@ -142,63 +139,6 @@ class ChatPresenterImpl(
             }
         }
 
-        subscriptions += eventsInteractor.subscribeOnEvents()
-            .observeOn(schedulers.mainThread())
-            .subscribe { response ->
-                println("[polling] event received (chat)")
-                response.messages?.let { messages ->
-                    val countBefore = history?.size ?: 0
-                    mergeHistory(messages.filter { it.topicId == topicId })
-                    val countAfter = history?.size ?: 0
-
-                    if (countAfter > countBefore) {
-                        bindHistory()
-
-                        view.contentRangeInserted(0, 1)
-
-                        if (pendingScrollToBottom) {
-                            pendingScrollToBottom = false
-                            view.scrollBottom()
-                        }
-                    }
-
-                    readTopic()
-                    invalidateMenu()
-                }
-                response.deleted?.let { messages ->
-                    val deletedIndexes = ArrayList<Int>()
-
-                    messages
-                        .filter { it.topicId == topicId }
-                        .forEach { delMsg ->
-                            history
-                                ?.binarySearch { it.msgId.compareTo(delMsg.msgId) }
-                                ?.takeIf { it >= 0 }
-                                ?.let { deletedIndexes += it }
-                        }
-
-                    val mutableHistory = history?.toMutableList()
-                    deletedIndexes.forEach { index ->
-                        mutableHistory?.removeAt(index)
-                    }
-                    history = mutableHistory
-
-                    val items = bindHistory()
-
-                    deletedIndexes.forEach { index ->
-                        view.contentItemRemoved(items.size - index)
-                    }
-
-                    invalidateMenu()
-                }
-                response.topics?.let { topics ->
-                    topics.find { it.topicId == topicId }?.let { newTopic ->
-                        topic = newTopic
-
-                        invalidateMenu()
-                    }
-                }
-            }
     }
 
     private fun bindHistory(): List<Item> {
@@ -224,7 +164,6 @@ class ChatPresenterImpl(
     override fun saveState() = Bundle().apply {
         putParcelable(KEY_TOPIC, topic)
         putBoolean(KEY_ERROR, isError)
-        putBoolean(KEY_PENDING_SCROLL, pendingScrollToBottom)
         history?.let { putParcelableArrayList(KEY_HISTORY, ArrayList(it)) }
         putParcelableArrayList(KEY_TRANSLATION, ArrayList(translation.values))
     }
@@ -244,9 +183,24 @@ class ChatPresenterImpl(
     private fun onMessageSent() {
         messageText = ""
         view?.setMessageText(messageText)
-        pendingScrollToBottom = true
 
-        invalidateMenu()
+        reloadHistory()
+    }
+
+    private fun reloadHistory() {
+        subscriptions += chatInteractor.loadHistory(topicId, 0, -1)
+            .observeOn(schedulers.mainThread())
+            .subscribe(
+                { messages ->
+                    history = messages
+                    bindHistory()
+                    view?.contentUpdated()
+                    view?.scrollBottom()
+                    invalidateMenu()
+                    readTopic()
+                },
+                { }
+            )
     }
 
     private fun onMessageSendingError(ex: Throwable) {
@@ -383,9 +337,14 @@ class ChatPresenterImpl(
 
     private fun pinTopic() {
         subscriptions += chatInteractor.pinTopic(topicId)
+            .flatMap { chatInteractor.getTopic(topicId) }
             .observeOn(schedulers.mainThread())
             .subscribe(
-                { }, { it.filterUnauthorizedErrors({ view?.showUnauthorizedError() }, {}) }
+                { newTopic ->
+                    topic = newTopic
+                    invalidateMenu()
+                },
+                { it.filterUnauthorizedErrors({ view?.showUnauthorizedError() }, {}) }
             )
     }
 
@@ -477,6 +436,5 @@ private const val KEY_ERROR = "error"
 private const val KEY_MESSAGE = "message"
 private const val KEY_HISTORY = "history"
 private const val KEY_TRANSLATION = "translation"
-private const val KEY_PENDING_SCROLL = "pending_scroll"
 
 private const val ROLE_ADMIN = 200

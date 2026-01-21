@@ -73,6 +73,11 @@ class TopicsFragment : Fragment(), TopicsPresenter.TopicsRouter, HomeFragment {
         presenter.attachRouter(this)
     }
 
+    override fun onResume() {
+        super.onResume()
+        presenter.invalidate()
+    }
+
     override fun onStop() {
         presenter.detachRouter()
         super.onStop()

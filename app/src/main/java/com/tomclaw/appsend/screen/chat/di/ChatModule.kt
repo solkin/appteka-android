@@ -10,7 +10,6 @@ import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.di.DATE_FORMATTER
 import com.tomclaw.appsend.di.TIME_FORMATTER
 import com.tomclaw.appsend.dto.TopicEntity
-import com.tomclaw.appsend.events.EventsInteractor
 import com.tomclaw.appsend.screen.chat.ChatInteractor
 import com.tomclaw.appsend.screen.chat.ChatInteractorImpl
 import com.tomclaw.appsend.screen.chat.ChatPreferencesProvider
@@ -50,7 +49,6 @@ class ChatModule(
         bananalytics: Bananalytics,
         converter: MessageConverter,
         chatInteractor: ChatInteractor,
-        eventsInteractor: EventsInteractor,
         resourceProvider: ChatResourceProvider,
         adapterPresenter: Lazy<AdapterPresenter>,
         schedulers: SchedulersFactory
@@ -60,7 +58,6 @@ class ChatModule(
         bananalytics,
         converter,
         chatInteractor,
-        eventsInteractor,
         resourceProvider,
         adapterPresenter,
         schedulers,
