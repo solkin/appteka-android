@@ -78,7 +78,7 @@ android {
         implementation 'com.github.solkin:bananalytics-android:v1.0.0'
         implementation 'androidx.preference:preference-ktx:1.2.1'
         implementation 'com.github.solkin:simple-image-loader:v1.2.0'
-        implementation 'com.github.solkin:disk-lru-cache:v1.7'
+        implementation 'com.github.solkin:disk-lru-cache:v1.8'
         //noinspection GradleDependency
         implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
         implementation 'androidx.core:core-ktx:1.17.0'
