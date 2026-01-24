@@ -5,12 +5,21 @@ plugins {
 }
 
 android {
+
     signingConfigs {
         release {
-            if (project.hasProperty("storeFile")) storeFile file("$rootDir/" + project.storeFile)
-            if (project.hasProperty("storePassword")) storePassword project.storePassword
-            if (project.hasProperty("keyAlias")) keyAlias project.keyAlias
-            if (project.hasProperty("keyPassword")) keyPassword project.keyPassword
+            if (project.hasProperty("storeFile")) {
+                storeFile file("$rootDir/" + project.storeFile)
+            }
+            if (project.hasProperty("storePassword")) {
+                storePassword project.storePassword
+            }
+            if (project.hasProperty("keyAlias")) {
+                keyAlias project.keyAlias
+            }
+            if (project.hasProperty("keyPassword")) {
+                keyPassword project.keyPassword
+            }
         }
     }
 
@@ -21,23 +30,31 @@ android {
         applicationId "com.tomclaw.appsend"
         minSdkVersion 21
         targetSdkVersion 35
-        versionCode project.hasProperty("versionCode") ? Integer.parseInt(project.versionCode) : 977
+        versionCode project.hasProperty("versionCode")
+                ? Integer.parseInt(project.versionCode)
+                : 977
         versionName = "18.3"
     }
 
     buildTypes {
+
         release {
             minifyEnabled true
-            debuggable false
-            shrinkResources = true
-            signingConfig = signingConfigs.release
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-project.txt'
+            shrinkResources true
+            signingConfig signingConfigs.release
+            proguardFiles(
+                getDefaultProguardFile('proguard-android-optimize.txt'),
+                'proguard-project.txt'
+            )
         }
+
         debug {
-            debuggable true
-            signingConfig = signingConfigs.debug
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-project.txt'
+            signingConfig signingConfigs.debug
+            proguardFiles(
+                getDefaultProguardFile('proguard-android-optimize.txt'),
+                'proguard-project.txt'
+            )
         }
     }
 
