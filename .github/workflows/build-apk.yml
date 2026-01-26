@@ -13,7 +13,7 @@ jobs:
 
     strategy:
       matrix:
-        build_type: [debug, release]
+        build_type: [debug]
 
     steps:
       - name: Checkout repository
@@ -29,7 +29,14 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Build APK
-        run: ./gradlew assemble${{ matrix.build_type }} -PstoreFile=${{ secrets.STORE_FILE }} -PstorePassword=${{ secrets.STORE_PASSWORD }} -PkeyAlias=${{ secrets.KEY_ALIAS }} -PkeyPassword=${{ secrets.KEY_PASSWORD }}
+        run: ./gradlew assemble${{ matrix.build_type }} --warning-mode all
+
+      - name: Upload Gradle Problem Report
+        uses: actions/upload-artifact@v6
+        with:
+          name: gradle-problem-report-${{ matrix.build_type }}-${{ github.run_id }}
+          path: build/reports/problems/
+          if-no-files-found: warn
 
       - name: Upload APK
         uses: actions/upload-artifact@v6
