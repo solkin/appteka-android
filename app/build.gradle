@@ -1,10 +1,20 @@
 plugins {
     id 'com.android.application'
-    id 'com.google.devtools.ksp'
     id 'kotlin-parcelize'
+    id 'com.google.devtools.ksp'
 }
 
 android {
+    namespace = 'com.tomclaw.appsend'
+    compileSdk = 36
+
+    defaultConfig {
+        applicationId "com.tomclaw.appsend"
+        minSdkVersion 21
+        targetSdkVersion 35
+        versionCode project.hasProperty("versionCode") ? Integer.parseInt(project.versionCode) : 977
+        versionName = "18.3"
+    }
 
     signingConfigs {
         release {
@@ -23,45 +33,34 @@ android {
         }
     }
 
-    compileSdk = 36
-    namespace = 'com.tomclaw.appsend'
-
-    defaultConfig {
-        applicationId "com.tomclaw.appsend"
-        minSdkVersion 21
-        targetSdkVersion 35
-        versionCode project.hasProperty("versionCode")
-                ? Integer.parseInt(project.versionCode)
-                : 977
-        versionName = "18.3"
-    }
-
     buildTypes {
-
         release {
             minifyEnabled true
-            shrinkResources true
-            signingConfig signingConfigs.release
-            proguardFiles(
-                getDefaultProguardFile('proguard-android-optimize.txt'),
-                'proguard-project.txt'
-            )
+            debuggable false
+            shrinkResources = true
+            jniDebuggable false
+            signingConfig = signingConfigs.release
+            proguardFiles(getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-project.txt')
         }
-
         debug {
+            debuggable true
+            shrinkResources = false
+            jniDebuggable true
+            signingConfig = signingConfigs.debug
             minifyEnabled false
-            signingConfig signingConfigs.debug
-            proguardFiles(
-                getDefaultProguardFile('proguard-android-optimize.txt'),
-                'proguard-project.txt'
-            )
+            proguardFiles(getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-project.txt')
         }
+    }
+    
+    dependenciesInfo {
+        includeInApk = false
+        includeInBundle = false
     }
 
     buildFeatures {
         buildConfig = true
     }
-
+    
     lint {
         abortOnError = false
     }
@@ -69,6 +68,7 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
         targetCompatibility JavaVersion.VERSION_17
+        coreLibraryDesugaringEnabled false
     }
 }
 
@@ -76,55 +76,60 @@ androidComponents {
     onVariants(selector()) { variant ->
         def vName = android.defaultConfig.versionName
         def vCode = android.defaultConfig.versionCode
-
         variant.outputs.forEach { output ->
-            output.outputFileName.set(
-                "appteka-${vName}-${vCode}.apk"
-            )
+            output.outputFileName.set("appteka-${vName}-${vCode}.apk")
         }
     }
 }
 
 dependencies {
-
+    // Standard Libraries
     implementation 'com.github.solkin:bananalytics-android:v1.0.0'
     implementation 'androidx.preference:preference-ktx:1.2.1'
     implementation 'com.github.solkin:simple-image-loader:v1.2.0'
-    implementation 'com.github.solkin:disk-lru-cache:v1.7'
+    implementation 'com.github.solkin:disk-lru-cache:v1.8'
 
+    // AndroidX Core & UI
     implementation 'androidx.core:core-ktx:1.17.0'
     implementation 'androidx.appcompat:appcompat:1.7.1'
     implementation 'androidx.recyclerview:recyclerview:1.4.0'
     implementation 'androidx.startup:startup-runtime:1.2.0'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.2.0'
     implementation 'androidx.annotation:annotation:1.9.1'
-
+    
+    ksp 'androidx.annotation:annotation:1.9.1'
     implementation 'com.google.android.material:material:1.14.0-alpha08'
     implementation 'com.google.code.gson:gson:2.13.2'
-
-    // Dagger with KSP
+    
+    // Dagger & KSP
     implementation 'com.google.dagger:dagger:2.59'
     ksp 'com.google.dagger:dagger-compiler:2.59'
+    
+    implementation 'org.jetbrains.kotlin:kotlin-parcelize-runtime'
 
+    // RxJava
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.2'
     implementation 'io.reactivex.rxjava3:rxjava:3.1.12'
     implementation 'io.reactivex.rxjava3:rxkotlin:3.0.1'
     implementation 'com.jakewharton.rxrelay3:rxrelay:3.0.1'
 
+    // Networking
     implementation 'com.squareup.okhttp3:okhttp:5.3.2'
     implementation 'com.squareup.retrofit2:retrofit:3.0.0'
     implementation 'com.squareup.retrofit2:converter-gson:3.0.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava3:3.0.0'
 
+    // Utilities & UI Helpers
     implementation 'com.caverock:androidsvg-aar:1.4'
     implementation 'me.zhanghai.android.materialratingbar:library:1.4.0'
     implementation 'com.greysonparrelli.permiso:permiso:0.3.0'
     implementation 'com.github.avito-tech:Konveyor:0.42.2'
-
-    debugImplementation 'com.github.chuckerteam.chucker:library:4.3.0'
-    releaseImplementation 'com.github.chuckerteam.chucker:library-no-op:4.3.0'
-
+    
+    // AndroidAnnotations
     implementation 'org.androidannotations:androidannotations-api:4.8.0'
 
+    // Debug & Test
+    debugImplementation 'com.github.chuckerteam.chucker:library:4.3.0'
+    releaseImplementation 'com.github.chuckerteam.chucker:library-no-op:4.3.0'
     testImplementation 'junit:junit:4.13.2'
 }
