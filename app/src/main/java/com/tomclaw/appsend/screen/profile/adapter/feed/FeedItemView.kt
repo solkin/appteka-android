@@ -2,8 +2,8 @@ package com.tomclaw.appsend.screen.profile.adapter.feed
 
 import android.view.View
 import android.widget.TextView
-import com.avito.konveyor.adapter.BaseViewHolder
-import com.avito.konveyor.blueprint.ItemView
+import com.tomclaw.appsend.util.adapter.BaseItemViewHolder
+import com.tomclaw.appsend.util.adapter.ItemView
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.util.bind
 import com.tomclaw.appsend.util.getAttributedColor
@@ -25,7 +25,7 @@ interface FeedItemView : ItemView {
 
 }
 
-class FeedItemViewHolder(view: View) : BaseViewHolder(view), FeedItemView {
+class FeedItemViewHolder(view: View) : BaseItemViewHolder(view), FeedItemView {
 
     private val context = view.context
     private val feedBlockView: View = view.findViewById(R.id.feed_block)

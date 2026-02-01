@@ -2,8 +2,8 @@ package com.tomclaw.appsend.screen.upload.adapter.category
 
 import android.view.View
 import android.widget.AutoCompleteTextView
-import com.avito.konveyor.adapter.BaseViewHolder
-import com.avito.konveyor.blueprint.ItemView
+import com.tomclaw.appsend.util.adapter.BaseItemViewHolder
+import com.tomclaw.appsend.util.adapter.ItemView
 import com.google.android.material.textfield.TextInputLayout
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.categories.CategoryItem
@@ -23,7 +23,7 @@ interface SelectCategoryItemView : ItemView {
 
 }
 
-class SelectCategoryItemViewHolder(view: View) : BaseViewHolder(view), SelectCategoryItemView {
+class SelectCategoryItemViewHolder(view: View) : BaseItemViewHolder(view), SelectCategoryItemView {
 
     private val context = view.context
     private val selectorLayout: TextInputLayout = view.findViewById(R.id.selector_back)

@@ -1,6 +1,6 @@
 package com.tomclaw.appsend.screen.chat
 
-import com.avito.konveyor.blueprint.Item
+import com.tomclaw.appsend.util.adapter.Item
 import com.tomclaw.appsend.dto.MessageEntity
 import com.tomclaw.appsend.screen.chat.adapter.MsgAttachment
 import com.tomclaw.appsend.screen.chat.adapter.incoming.IncomingMsgItem

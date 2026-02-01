@@ -7,8 +7,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.avito.konveyor.adapter.BaseViewHolder
-import com.avito.konveyor.blueprint.ItemView
+import com.tomclaw.appsend.util.adapter.BaseItemViewHolder
+import com.tomclaw.appsend.util.adapter.ItemView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.categories.CategoryItem
@@ -72,7 +72,7 @@ interface AppItemView : ItemView {
 
 }
 
-class AppItemViewHolder(view: View) : BaseViewHolder(view), AppItemView {
+class AppItemViewHolder(view: View) : BaseItemViewHolder(view), AppItemView {
 
     private val context = view.context
     private val icon: ImageView = view.findViewById(R.id.app_icon)

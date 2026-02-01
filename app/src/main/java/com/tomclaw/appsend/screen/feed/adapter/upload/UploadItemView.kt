@@ -8,8 +8,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.avito.konveyor.adapter.BaseViewHolder
-import com.avito.konveyor.blueprint.ItemView
+import com.tomclaw.appsend.util.adapter.BaseItemViewHolder
+import com.tomclaw.appsend.util.adapter.ItemView
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.dto.Screenshot
 import com.tomclaw.appsend.dto.UserIcon
@@ -69,7 +69,7 @@ class UploadItemViewHolder(
     view: View,
     private val adapter: ScreenshotsAdapter,
     private val reactionsAdapter: ReactionsAdapter,
-) : BaseViewHolder(view), UploadItemView {
+) : BaseItemViewHolder(view), UploadItemView {
 
     private val userIcon: UserIconView = UserIconViewImpl(view.findViewById(R.id.member_icon))
     private val userName: TextView = view.findViewById(R.id.user_name)

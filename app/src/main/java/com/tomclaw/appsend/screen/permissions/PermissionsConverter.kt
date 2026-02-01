@@ -1,6 +1,6 @@
 package com.tomclaw.appsend.screen.permissions
 
-import com.avito.konveyor.blueprint.Item
+import com.tomclaw.appsend.util.adapter.Item
 import com.tomclaw.appsend.screen.permissions.adapter.safe.SafePermissionItem
 import com.tomclaw.appsend.screen.permissions.adapter.unsafe.UnsafePermissionItem
 

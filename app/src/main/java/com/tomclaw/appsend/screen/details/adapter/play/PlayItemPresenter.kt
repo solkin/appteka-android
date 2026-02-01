@@ -1,7 +1,7 @@
 package com.tomclaw.appsend.screen.details.adapter.play
 
 import android.os.Build
-import com.avito.konveyor.blueprint.ItemPresenter
+import com.tomclaw.appsend.util.adapter.ItemPresenter
 import com.tomclaw.appsend.categories.DEFAULT_LOCALE
 import com.tomclaw.appsend.screen.details.adapter.ItemListener
 import java.util.Locale

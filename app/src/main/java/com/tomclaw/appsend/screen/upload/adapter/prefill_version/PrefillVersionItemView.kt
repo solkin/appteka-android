@@ -3,8 +3,8 @@ package com.tomclaw.appsend.screen.upload.adapter.prefill_version
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.AutoCompleteTextView
-import com.avito.konveyor.adapter.BaseViewHolder
-import com.avito.konveyor.blueprint.ItemView
+import com.tomclaw.appsend.util.adapter.BaseItemViewHolder
+import com.tomclaw.appsend.util.adapter.ItemView
 import com.google.android.material.textfield.TextInputLayout
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.upload.adapter.other_versions.VersionItem
@@ -17,7 +17,7 @@ interface PrefillVersionItemView : ItemView {
 
 }
 
-class PrefillVersionItemViewHolder(view: View) : BaseViewHolder(view), PrefillVersionItemView {
+class PrefillVersionItemViewHolder(view: View) : BaseItemViewHolder(view), PrefillVersionItemView {
 
     private val context = view.context
     private val textInputLayout: TextInputLayout = view.findViewById(R.id.prefill_version_layout)

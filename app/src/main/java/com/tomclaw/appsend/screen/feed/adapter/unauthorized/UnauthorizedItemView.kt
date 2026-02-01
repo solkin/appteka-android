@@ -2,8 +2,8 @@ package com.tomclaw.appsend.screen.feed.adapter.unauthorized
 
 import android.view.View
 import android.widget.TextView
-import com.avito.konveyor.adapter.BaseViewHolder
-import com.avito.konveyor.blueprint.ItemView
+import com.tomclaw.appsend.util.adapter.BaseItemViewHolder
+import com.tomclaw.appsend.util.adapter.ItemView
 import com.tomclaw.appsend.R
 
 interface UnauthorizedItemView : ItemView {
@@ -12,7 +12,7 @@ interface UnauthorizedItemView : ItemView {
 
 }
 
-class UnauthorizedItemViewHolder(view: View) : BaseViewHolder(view), UnauthorizedItemView {
+class UnauthorizedItemViewHolder(view: View) : BaseItemViewHolder(view), UnauthorizedItemView {
 
     private val loginButton: TextView = view.findViewById(R.id.login_button)
 

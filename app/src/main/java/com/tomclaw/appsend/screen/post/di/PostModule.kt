@@ -2,10 +2,10 @@ package com.tomclaw.appsend.screen.post.di
 
 import android.content.Context
 import android.os.Bundle
-import com.avito.konveyor.ItemBinder
-import com.avito.konveyor.adapter.AdapterPresenter
-import com.avito.konveyor.adapter.SimpleAdapterPresenter
-import com.avito.konveyor.blueprint.ItemBlueprint
+import com.tomclaw.appsend.util.adapter.ItemBinder
+import com.tomclaw.appsend.util.adapter.AdapterPresenter
+import com.tomclaw.appsend.util.adapter.SimpleAdapterPresenter
+import com.tomclaw.appsend.util.adapter.ItemBlueprint
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.screen.post.PostConverter
 import com.tomclaw.appsend.screen.post.PostConverterImpl
@@ -90,14 +90,14 @@ class PostModule(
     @PerActivity
     @Named(POST_ADAPTER_PRESENTER)
     internal fun providePostAdapterPresenter(binder: ItemBinder): AdapterPresenter {
-        return SimpleAdapterPresenter(binder, binder)
+        return SimpleAdapterPresenter(binder)
     }
 
     @Provides
     @PerActivity
     @Named(SCREENSHOT_ADAPTER_PRESENTER)
     internal fun provideScreenshotAdapterPresenter(binder: ItemBinder): AdapterPresenter {
-        return SimpleAdapterPresenter(binder, binder)
+        return SimpleAdapterPresenter(binder)
     }
 
     @Provides

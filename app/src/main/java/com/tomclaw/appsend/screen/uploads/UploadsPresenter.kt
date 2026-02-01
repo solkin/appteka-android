@@ -1,9 +1,8 @@
 package com.tomclaw.appsend.screen.uploads
 
 import android.os.Bundle
-import com.avito.konveyor.adapter.AdapterPresenter
-import com.avito.konveyor.blueprint.Item
-import com.avito.konveyor.data_source.ListDataSource
+import com.tomclaw.appsend.util.adapter.AdapterPresenter
+import com.tomclaw.appsend.util.adapter.Item
 import com.tomclaw.appsend.dto.AppEntity
 import com.tomclaw.appsend.screen.uploads.adapter.ItemListener
 import com.tomclaw.appsend.screen.uploads.adapter.app.AppItem
@@ -151,8 +150,7 @@ class UploadsPresenterImpl(
             }
 
             else -> {
-                val dataSource = ListDataSource(items)
-                adapterPresenter.get().onDataSourceChanged(dataSource)
+                adapterPresenter.get().onDataSourceChanged(items)
                 view?.let {
                     it.contentUpdated()
                     if (it.isPullRefreshing()) {

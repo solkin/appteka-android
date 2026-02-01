@@ -1,9 +1,8 @@
 package com.tomclaw.appsend.screen.chat
 
 import android.os.Bundle
-import com.avito.konveyor.adapter.AdapterPresenter
-import com.avito.konveyor.blueprint.Item
-import com.avito.konveyor.data_source.ListDataSource
+import com.tomclaw.appsend.util.adapter.AdapterPresenter
+import com.tomclaw.appsend.util.adapter.Item
 import com.tomclaw.appsend.dto.MessageEntity
 import com.tomclaw.appsend.dto.TopicEntity
 import com.tomclaw.appsend.screen.chat.adapter.ItemListener
@@ -143,8 +142,7 @@ class ChatPresenterImpl(
 
     private fun bindHistory(): List<Item> {
         val items = convertHistory()
-        val dataSource = ListDataSource(items)
-        adapterPresenter.get().onDataSourceChanged(dataSource)
+        adapterPresenter.get().onDataSourceChanged(items)
         return items
     }
 
@@ -399,8 +397,7 @@ class ChatPresenterImpl(
 
         val items = convertHistory()
 
-        val dataSource = ListDataSource(items)
-        adapterPresenter.get().onDataSourceChanged(dataSource)
+        adapterPresenter.get().onDataSourceChanged(items)
 
         view?.contentRangeInserted(countBefore, list.size)
         view?.showContent()

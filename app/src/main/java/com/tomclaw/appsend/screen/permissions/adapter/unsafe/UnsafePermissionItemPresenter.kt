@@ -1,6 +1,6 @@
 package com.tomclaw.appsend.screen.permissions.adapter.unsafe
 
-import com.avito.konveyor.blueprint.ItemPresenter
+import com.tomclaw.appsend.util.adapter.ItemPresenter
 import com.tomclaw.appsend.screen.permissions.PermissionsResourceProvider
 
 class UnsafePermissionItemPresenter(

@@ -3,8 +3,8 @@ package com.tomclaw.appsend.screen.details.adapter.user_review
 import android.view.View
 import android.widget.RatingBar
 import android.widget.TextView
-import com.avito.konveyor.adapter.BaseViewHolder
-import com.avito.konveyor.blueprint.ItemView
+import com.tomclaw.appsend.util.adapter.BaseItemViewHolder
+import com.tomclaw.appsend.util.adapter.ItemView
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.dto.UserIcon
 import com.tomclaw.appsend.util.bind
@@ -27,7 +27,7 @@ interface UserReviewItemView : ItemView {
 
 }
 
-class UserReviewItemViewHolder(view: View) : BaseViewHolder(view), UserReviewItemView {
+class UserReviewItemViewHolder(view: View) : BaseItemViewHolder(view), UserReviewItemView {
 
     private val memberIcon: UserIconView = UserIconViewImpl(view.findViewById(R.id.member_icon))
     private val memberName: TextView = view.findViewById(R.id.member_name)

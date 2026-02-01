@@ -1,6 +1,6 @@
 package com.tomclaw.appsend.screen.upload.adapter.description
 
-import com.avito.konveyor.blueprint.ItemPresenter
+import com.tomclaw.appsend.util.adapter.ItemPresenter
 import com.tomclaw.appsend.screen.upload.DescriptionValidatorImpl.Companion.MIN_DESCRIPTION_LENGTH
 import com.tomclaw.appsend.screen.upload.adapter.ItemListener
 

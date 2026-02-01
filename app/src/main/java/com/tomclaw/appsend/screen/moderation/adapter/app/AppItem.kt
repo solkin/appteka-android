@@ -1,7 +1,7 @@
 package com.tomclaw.appsend.screen.moderation.adapter.app
 
 import android.os.Parcelable
-import com.avito.konveyor.blueprint.Item
+import com.tomclaw.appsend.util.adapter.Item
 import com.tomclaw.appsend.categories.CategoryItem
 import kotlinx.parcelize.Parcelize
 

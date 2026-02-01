@@ -1,8 +1,8 @@
 package com.tomclaw.appsend.screen.upload.adapter.select_app
 
 import android.view.View
-import com.avito.konveyor.adapter.BaseViewHolder
-import com.avito.konveyor.blueprint.ItemView
+import com.tomclaw.appsend.util.adapter.BaseItemViewHolder
+import com.tomclaw.appsend.util.adapter.ItemView
 
 interface SelectAppItemView : ItemView {
 
@@ -10,7 +10,7 @@ interface SelectAppItemView : ItemView {
 
 }
 
-class SelectAppItemViewHolder(view: View) : BaseViewHolder(view), SelectAppItemView {
+class SelectAppItemViewHolder(view: View) : BaseItemViewHolder(view), SelectAppItemView {
 
     private var clickListener: (() -> Unit)? = null
 

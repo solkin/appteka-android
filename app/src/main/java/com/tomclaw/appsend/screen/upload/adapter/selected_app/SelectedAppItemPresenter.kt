@@ -1,7 +1,7 @@
 package com.tomclaw.appsend.screen.upload.adapter.selected_app
 
 import android.content.pm.PackageManager
-import com.avito.konveyor.blueprint.ItemPresenter
+import com.tomclaw.appsend.util.adapter.ItemPresenter
 import com.tomclaw.appsend.screen.upload.adapter.ItemListener
 import com.tomclaw.appsend.util.createApkIconURI
 import com.tomclaw.appsend.util.getLabel

@@ -6,8 +6,8 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.isVisible
-import com.avito.konveyor.adapter.BaseViewHolder
-import com.avito.konveyor.blueprint.ItemView
+import com.tomclaw.appsend.util.adapter.BaseItemViewHolder
+import com.tomclaw.appsend.util.adapter.ItemView
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.dto.UserIcon
@@ -46,7 +46,7 @@ interface HeaderItemView : ItemView {
 
 }
 
-class HeaderItemViewHolder(view: View) : BaseViewHolder(view), HeaderItemView {
+class HeaderItemViewHolder(view: View) : BaseItemViewHolder(view), HeaderItemView {
 
     private val progressBar: CircularProgressIndicator = view.findViewById(R.id.progress_bar)
     private val appIcon: ImageView = view.findViewById(R.id.app_icon)

@@ -2,8 +2,8 @@ package com.tomclaw.appsend.screen.upload.adapter.other_versions
 
 import android.view.View
 import android.widget.TextView
-import com.avito.konveyor.adapter.BaseViewHolder
-import com.avito.konveyor.blueprint.ItemView
+import com.tomclaw.appsend.util.adapter.BaseItemViewHolder
+import com.tomclaw.appsend.util.adapter.ItemView
 import com.tomclaw.appsend.R
 
 interface OtherVersionsItemView : ItemView {
@@ -15,7 +15,7 @@ interface OtherVersionsItemView : ItemView {
 }
 
 @Suppress("DEPRECATION")
-class OtherVersionsItemViewHolder(view: View) : BaseViewHolder(view), OtherVersionsItemView {
+class OtherVersionsItemViewHolder(view: View) : BaseItemViewHolder(view), OtherVersionsItemView {
 
     private val resources = view.resources
     private val otherVersionsText: TextView = view.findViewById(R.id.other_versions_text)

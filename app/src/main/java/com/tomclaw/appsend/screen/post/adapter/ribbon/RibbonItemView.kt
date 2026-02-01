@@ -5,9 +5,9 @@ import android.view.View
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.avito.konveyor.adapter.BaseViewHolder
-import com.avito.konveyor.adapter.SimpleRecyclerAdapter
-import com.avito.konveyor.blueprint.ItemView
+import com.tomclaw.appsend.util.adapter.BaseItemViewHolder
+import com.tomclaw.appsend.util.adapter.SimpleRecyclerAdapter
+import com.tomclaw.appsend.util.adapter.ItemView
 import com.tomclaw.appsend.R
 
 interface RibbonItemView : ItemView {
@@ -19,7 +19,7 @@ interface RibbonItemView : ItemView {
 class RibbonItemViewHolder(
     view: View,
     private val adapter: SimpleRecyclerAdapter,
-) : BaseViewHolder(view), RibbonItemView {
+) : BaseItemViewHolder(view), RibbonItemView {
 
     private val recycler: RecyclerView = view.findViewById(R.id.recycler)
 

@@ -1,6 +1,6 @@
 package com.tomclaw.appsend.screen.installed.adapter.app
 
-import com.avito.konveyor.blueprint.ItemPresenter
+import com.tomclaw.appsend.util.adapter.ItemPresenter
 import com.tomclaw.appsend.screen.installed.AppsResourceProvider
 import com.tomclaw.appsend.screen.installed.adapter.ItemListener
 

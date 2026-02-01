@@ -2,8 +2,8 @@ package com.tomclaw.appsend.screen.profile.adapter.downloads
 
 import android.view.View
 import android.widget.TextView
-import com.avito.konveyor.adapter.BaseViewHolder
-import com.avito.konveyor.blueprint.ItemView
+import com.tomclaw.appsend.util.adapter.BaseItemViewHolder
+import com.tomclaw.appsend.util.adapter.ItemView
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.util.bind
 
@@ -15,7 +15,7 @@ interface DownloadsItemView : ItemView {
 
 }
 
-class DownloadsItemViewHolder(view: View) : BaseViewHolder(view), DownloadsItemView {
+class DownloadsItemViewHolder(view: View) : BaseItemViewHolder(view), DownloadsItemView {
 
     private val context = view.context
     private val subtitle: TextView = view.findViewById(R.id.subtitle)

@@ -4,8 +4,8 @@ import android.text.method.LinkMovementMethod
 import android.view.View
 import android.widget.TextView
 import androidx.core.view.isVisible
-import com.avito.konveyor.adapter.BaseViewHolder
-import com.avito.konveyor.blueprint.ItemView
+import com.tomclaw.appsend.util.adapter.BaseItemViewHolder
+import com.tomclaw.appsend.util.adapter.ItemView
 import com.google.android.material.R.style.Widget_Material3_CircularProgressIndicator_ExtraSmall
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.progressindicator.CircularProgressIndicatorSpec
@@ -44,7 +44,7 @@ interface DescriptionItemView : ItemView {
 
 }
 
-class DescriptionItemViewHolder(view: View) : BaseViewHolder(view), DescriptionItemView {
+class DescriptionItemViewHolder(view: View) : BaseItemViewHolder(view), DescriptionItemView {
 
     private val context = view.context
     private val descriptionTitle: View = view.findViewById(R.id.description_title)

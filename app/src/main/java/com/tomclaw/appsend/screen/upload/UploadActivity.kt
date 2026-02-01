@@ -16,9 +16,9 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import com.avito.konveyor.ItemBinder
-import com.avito.konveyor.adapter.AdapterPresenter
-import com.avito.konveyor.adapter.SimpleRecyclerAdapter
+import com.tomclaw.appsend.util.adapter.ItemBinder
+import com.tomclaw.appsend.util.adapter.AdapterPresenter
+import com.tomclaw.appsend.util.adapter.SimpleRecyclerAdapter
 import com.tomclaw.appsend.appComponent
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.agreement.createAgreementActivityIntent

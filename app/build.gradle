@@ -12,7 +12,7 @@ android {
         applicationId "com.tomclaw.appsend"
         minSdkVersion 21
         targetSdkVersion 35
-        versionCode project.hasProperty("versionCode") ? Integer.parseInt(project.versionCode) : 977
+        versionCode project.hasProperty("versionCode") ? Integer.parseInt(project.versionCode) : 981
         versionName = "18.3"
     }
 
@@ -122,8 +122,9 @@ dependencies {
     // Utilities & UI Helpers
     implementation 'com.caverock:androidsvg-aar:1.4'
     implementation 'me.zhanghai.android.materialratingbar:library:1.4.0'
-    implementation 'com.greysonparrelli.permiso:permiso:0.3.0'
-    implementation 'com.github.avito-tech:Konveyor:0.42.2'
+    implementation('com.greysonparrelli.permiso:permiso:0.3.0') {
+        exclude group: 'com.android.support', module: 'support-v4'
+    }
     
     // AndroidAnnotations
     implementation 'org.androidannotations:androidannotations-api:4.8.0'

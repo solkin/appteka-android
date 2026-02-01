@@ -2,8 +2,8 @@ package com.tomclaw.appsend.screen.chat.adapter.incoming
 
 import android.view.View
 import android.widget.TextView
-import com.avito.konveyor.adapter.BaseViewHolder
-import com.avito.konveyor.blueprint.ItemView
+import com.tomclaw.appsend.util.adapter.BaseItemViewHolder
+import com.tomclaw.appsend.util.adapter.ItemView
 import com.google.android.material.card.MaterialCardView
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.dto.UserIcon
@@ -26,7 +26,7 @@ interface IncomingMsgItemView : ItemView {
 
 }
 
-class IncomingMsgItemViewHolder(view: View) : BaseViewHolder(view), IncomingMsgItemView {
+class IncomingMsgItemViewHolder(view: View) : BaseItemViewHolder(view), IncomingMsgItemView {
 
     private val dateView: TextView = view.findViewById(R.id.message_date)
     private val memberIconContainer: View = view.findViewById(R.id.member_icon)

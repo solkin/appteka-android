@@ -4,8 +4,8 @@ import android.view.View
 import android.widget.ProgressBar
 import android.widget.RatingBar
 import android.widget.TextView
-import com.avito.konveyor.adapter.BaseViewHolder
-import com.avito.konveyor.blueprint.ItemView
+import com.tomclaw.appsend.util.adapter.BaseItemViewHolder
+import com.tomclaw.appsend.util.adapter.ItemView
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.util.bind
 
@@ -19,7 +19,7 @@ interface ScoresItemView : ItemView {
 
 }
 
-class ScoresItemViewHolder(view: View) : BaseViewHolder(view), ScoresItemView {
+class ScoresItemViewHolder(view: View) : BaseItemViewHolder(view), ScoresItemView {
 
     private val ratingScore: TextView = view.findViewById(R.id.rating_score)
     private val ratingIndicator: RatingBar = view.findViewById(R.id.small_rating_indicator)

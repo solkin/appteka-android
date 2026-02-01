@@ -3,8 +3,8 @@ package com.tomclaw.appsend.screen.distro.adapter.apk
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import com.avito.konveyor.adapter.BaseViewHolder
-import com.avito.konveyor.blueprint.ItemView
+import com.tomclaw.appsend.util.adapter.BaseItemViewHolder
+import com.tomclaw.appsend.util.adapter.ItemView
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.util.bind
 import com.tomclaw.appsend.util.hide
@@ -33,7 +33,7 @@ interface ApkItemView : ItemView {
 
 }
 
-class ApkItemViewHolder(view: View) : BaseViewHolder(view), ApkItemView {
+class ApkItemViewHolder(view: View) : BaseItemViewHolder(view), ApkItemView {
 
     private val icon: ImageView = view.findViewById(R.id.app_icon)
     private val title: TextView = view.findViewById(R.id.app_name)

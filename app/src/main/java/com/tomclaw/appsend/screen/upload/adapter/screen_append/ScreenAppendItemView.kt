@@ -1,8 +1,8 @@
 package com.tomclaw.appsend.screen.upload.adapter.screen_append
 
 import android.view.View
-import com.avito.konveyor.adapter.BaseViewHolder
-import com.avito.konveyor.blueprint.ItemView
+import com.tomclaw.appsend.util.adapter.BaseItemViewHolder
+import com.tomclaw.appsend.util.adapter.ItemView
 import com.tomclaw.appsend.R
 
 interface ScreenAppendItemView : ItemView {
@@ -11,7 +11,7 @@ interface ScreenAppendItemView : ItemView {
 
 }
 
-class ScreenAppendItemViewHolder(view: View) : BaseViewHolder(view), ScreenAppendItemView {
+class ScreenAppendItemViewHolder(view: View) : BaseItemViewHolder(view), ScreenAppendItemView {
 
     private val appendScreenButton: View = view.findViewById(R.id.screen_append)
 

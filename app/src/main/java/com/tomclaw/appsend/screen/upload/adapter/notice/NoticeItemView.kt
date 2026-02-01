@@ -6,8 +6,8 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import com.avito.konveyor.adapter.BaseViewHolder
-import com.avito.konveyor.blueprint.ItemView
+import com.tomclaw.appsend.util.adapter.BaseItemViewHolder
+import com.tomclaw.appsend.util.adapter.ItemView
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.util.bind
 
@@ -25,7 +25,7 @@ interface NoticeItemView : ItemView {
 
 }
 
-class NoticeItemViewHolder(view: View) : BaseViewHolder(view), NoticeItemView {
+class NoticeItemViewHolder(view: View) : BaseItemViewHolder(view), NoticeItemView {
 
     private val context = view.context
     private val background: View = view.findViewById(R.id.notice_back)

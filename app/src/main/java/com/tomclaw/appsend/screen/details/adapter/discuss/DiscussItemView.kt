@@ -2,8 +2,8 @@ package com.tomclaw.appsend.screen.details.adapter.discuss
 
 import android.view.View
 import android.widget.TextView
-import com.avito.konveyor.adapter.BaseViewHolder
-import com.avito.konveyor.blueprint.ItemView
+import com.tomclaw.appsend.util.adapter.BaseItemViewHolder
+import com.tomclaw.appsend.util.adapter.ItemView
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.util.bind
 import com.tomclaw.appsend.util.hide
@@ -19,7 +19,7 @@ interface DiscussItemView : ItemView {
 
 }
 
-class DiscussItemViewHolder(view: View) : BaseViewHolder(view), DiscussItemView {
+class DiscussItemViewHolder(view: View) : BaseItemViewHolder(view), DiscussItemView {
 
     private val msgCountView: TextView = view.findViewById(R.id.msg_count)
     private val noMsgIndicatorView: View = view.findViewById(R.id.no_msg_indicator)

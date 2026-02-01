@@ -4,8 +4,8 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat.getDrawable
-import com.avito.konveyor.adapter.BaseViewHolder
-import com.avito.konveyor.blueprint.ItemView
+import com.tomclaw.appsend.util.adapter.BaseItemViewHolder
+import com.tomclaw.appsend.util.adapter.ItemView
 import com.google.android.material.card.MaterialCardView
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.dto.UserIcon
@@ -34,7 +34,7 @@ interface OutgoingMsgItemView : ItemView {
 
 }
 
-class OutgoingMsgItemViewHolder(view: View) : BaseViewHolder(view), OutgoingMsgItemView {
+class OutgoingMsgItemViewHolder(view: View) : BaseItemViewHolder(view), OutgoingMsgItemView {
 
     private val resources = view.resources
     private val dateView: TextView = view.findViewById(R.id.message_date)

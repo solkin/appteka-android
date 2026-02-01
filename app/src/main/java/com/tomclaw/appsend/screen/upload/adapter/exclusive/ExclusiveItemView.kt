@@ -1,8 +1,8 @@
 package com.tomclaw.appsend.screen.upload.adapter.exclusive
 
 import android.view.View
-import com.avito.konveyor.adapter.BaseViewHolder
-import com.avito.konveyor.blueprint.ItemView
+import com.tomclaw.appsend.util.adapter.BaseItemViewHolder
+import com.tomclaw.appsend.util.adapter.ItemView
 import com.google.android.material.materialswitch.MaterialSwitch
 import com.tomclaw.appsend.R
 
@@ -14,7 +14,7 @@ interface ExclusiveItemView : ItemView {
 
 }
 
-class ExclusiveItemViewHolder(view: View) : BaseViewHolder(view), ExclusiveItemView {
+class ExclusiveItemViewHolder(view: View) : BaseItemViewHolder(view), ExclusiveItemView {
 
     private val exclusiveSwitch: MaterialSwitch = view.findViewById(R.id.exclusive)
 

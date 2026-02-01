@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.avito.konveyor.adapter.SimpleRecyclerAdapter
+import com.tomclaw.appsend.util.adapter.SimpleRecyclerAdapter
 import com.google.android.material.textfield.TextInputLayout
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R

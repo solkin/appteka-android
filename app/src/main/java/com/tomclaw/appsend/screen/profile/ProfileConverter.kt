@@ -1,6 +1,6 @@
 package com.tomclaw.appsend.screen.profile
 
-import com.avito.konveyor.blueprint.Item
+import com.tomclaw.appsend.util.adapter.Item
 import com.tomclaw.appsend.dto.AppEntity
 import com.tomclaw.appsend.screen.home.api.ModerationData
 import com.tomclaw.appsend.screen.profile.adapter.app.AppItem

@@ -3,8 +3,8 @@ package com.tomclaw.appsend.screen.details.adapter.permissions
 import android.view.View
 import android.widget.TextView
 import androidx.core.view.isVisible
-import com.avito.konveyor.adapter.BaseViewHolder
-import com.avito.konveyor.blueprint.ItemView
+import com.tomclaw.appsend.util.adapter.BaseItemViewHolder
+import com.tomclaw.appsend.util.adapter.ItemView
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.util.bind
 
@@ -23,7 +23,7 @@ interface PermissionsItemView : ItemView {
 
 }
 
-class PermissionsItemViewHolder(view: View) : BaseViewHolder(view), PermissionsItemView {
+class PermissionsItemViewHolder(view: View) : BaseItemViewHolder(view), PermissionsItemView {
 
     private val accessNetwork: View = view.findViewById(R.id.access_network)
     private val accessCalls: View = view.findViewById(R.id.access_calls)

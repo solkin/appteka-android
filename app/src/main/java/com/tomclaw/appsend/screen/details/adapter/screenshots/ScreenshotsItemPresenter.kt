@@ -1,8 +1,7 @@
 package com.tomclaw.appsend.screen.details.adapter.screenshots
 
-import com.avito.konveyor.adapter.AdapterPresenter
-import com.avito.konveyor.blueprint.ItemPresenter
-import com.avito.konveyor.data_source.ListDataSource
+import com.tomclaw.appsend.util.adapter.AdapterPresenter
+import com.tomclaw.appsend.util.adapter.ItemPresenter
 import com.tomclaw.appsend.screen.details.adapter.ItemListener
 import com.tomclaw.appsend.screen.details.adapter.screenshot.ScreenshotItem
 
@@ -15,8 +14,7 @@ class ScreenshotsItemPresenter(
 
     override fun bindView(view: ScreenshotsItemView, item: ScreenshotsItem, position: Int) {
         screenshots = item.items
-        val dataSource = ListDataSource(item.items)
-        adapterPresenter.get().onDataSourceChanged(dataSource)
+        adapterPresenter.get().onDataSourceChanged(item.items)
         view.notifyChanged()
     }
 

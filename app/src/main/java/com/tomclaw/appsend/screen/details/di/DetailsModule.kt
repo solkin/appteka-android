@@ -2,10 +2,10 @@ package com.tomclaw.appsend.screen.details.di
 
 import android.content.Context
 import android.os.Bundle
-import com.avito.konveyor.ItemBinder
-import com.avito.konveyor.adapter.AdapterPresenter
-import com.avito.konveyor.adapter.SimpleAdapterPresenter
-import com.avito.konveyor.blueprint.ItemBlueprint
+import com.tomclaw.appsend.util.adapter.ItemBinder
+import com.tomclaw.appsend.util.adapter.AdapterPresenter
+import com.tomclaw.appsend.util.adapter.SimpleAdapterPresenter
+import com.tomclaw.appsend.util.adapter.ItemBlueprint
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.di.DATE_FORMATTER
 import com.tomclaw.appsend.download.DownloadManager
@@ -143,14 +143,14 @@ class DetailsModule(
     @Named(DETAILS_ADAPTER_PRESENTER)
     @PerActivity
     internal fun provideDetailsAdapterPresenter(binder: ItemBinder): AdapterPresenter {
-        return SimpleAdapterPresenter(binder, binder)
+        return SimpleAdapterPresenter(binder)
     }
 
     @Provides
     @Named(SCREENSHOT_ADAPTER_PRESENTER)
     @PerActivity
     internal fun provideScreenshotAdapterPresenter(binder: ItemBinder): AdapterPresenter {
-        return SimpleAdapterPresenter(binder, binder)
+        return SimpleAdapterPresenter(binder)
     }
 
     @Provides

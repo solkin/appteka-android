@@ -2,8 +2,8 @@ package com.tomclaw.appsend.screen.details.adapter.user_rate
 
 import android.view.View
 import android.widget.RatingBar
-import com.avito.konveyor.adapter.BaseViewHolder
-import com.avito.konveyor.blueprint.ItemView
+import com.tomclaw.appsend.util.adapter.BaseItemViewHolder
+import com.tomclaw.appsend.util.adapter.ItemView
 import com.tomclaw.appsend.R
 
 interface UserRateItemView : ItemView {
@@ -14,7 +14,7 @@ interface UserRateItemView : ItemView {
 
 }
 
-class UserRateItemViewHolder(view: View) : BaseViewHolder(view), UserRateItemView {
+class UserRateItemViewHolder(view: View) : BaseItemViewHolder(view), UserRateItemView {
 
     private val ratingView: RatingBar = view.findViewById(R.id.rating_view)
     private val feedbackButton: View = view.findViewById(R.id.feedback_button)

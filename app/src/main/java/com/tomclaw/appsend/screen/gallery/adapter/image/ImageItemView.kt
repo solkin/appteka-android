@@ -3,8 +3,8 @@ package com.tomclaw.appsend.screen.gallery.adapter.image
 import android.net.Uri
 import android.view.View
 import android.widget.ImageView
-import com.avito.konveyor.adapter.BaseViewHolder
-import com.avito.konveyor.blueprint.ItemView
+import com.tomclaw.appsend.util.adapter.BaseItemViewHolder
+import com.tomclaw.appsend.util.adapter.ItemView
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.view.ZoomImageView
 import com.tomclaw.imageloader.util.fetch
@@ -15,7 +15,7 @@ interface ImageItemView : ItemView {
 
 }
 
-class ImageItemViewHolder(view: View) : BaseViewHolder(view), ImageItemView {
+class ImageItemViewHolder(view: View) : BaseItemViewHolder(view), ImageItemView {
 
     private val image: ZoomImageView = view.findViewById(R.id.gallery_image)
 

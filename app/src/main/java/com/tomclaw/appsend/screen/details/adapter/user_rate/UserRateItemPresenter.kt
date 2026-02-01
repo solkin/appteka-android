@@ -1,6 +1,6 @@
 package com.tomclaw.appsend.screen.details.adapter.user_rate
 
-import com.avito.konveyor.blueprint.ItemPresenter
+import com.tomclaw.appsend.util.adapter.ItemPresenter
 import com.tomclaw.appsend.screen.details.adapter.ItemListener
 import com.tomclaw.appsend.util.SchedulersFactory
 import io.reactivex.rxjava3.core.Completable

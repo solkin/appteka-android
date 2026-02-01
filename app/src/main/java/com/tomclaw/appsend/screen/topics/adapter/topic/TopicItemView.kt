@@ -3,8 +3,8 @@ package com.tomclaw.appsend.screen.topics.adapter.topic
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import com.avito.konveyor.adapter.BaseViewHolder
-import com.avito.konveyor.blueprint.ItemView
+import com.tomclaw.appsend.util.adapter.BaseItemViewHolder
+import com.tomclaw.appsend.util.adapter.ItemView
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.dto.UserIcon
 import com.tomclaw.appsend.util.bind
@@ -42,7 +42,7 @@ interface TopicItemView : ItemView {
 
 }
 
-class TopicItemViewHolder(view: View) : BaseViewHolder(view), TopicItemView {
+class TopicItemViewHolder(view: View) : BaseItemViewHolder(view), TopicItemView {
 
     private val icon: ImageView = view.findViewById(R.id.topic_icon)
     private val title: TextView = view.findViewById(R.id.topic_title)

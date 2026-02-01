@@ -5,8 +5,8 @@ import android.view.View
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.avito.konveyor.adapter.BaseViewHolder
-import com.avito.konveyor.blueprint.ItemView
+import com.tomclaw.appsend.util.adapter.BaseItemViewHolder
+import com.tomclaw.appsend.util.adapter.ItemView
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.feed.adapter.ReactionsAdapter
 import com.tomclaw.appsend.screen.feed.api.Reaction
@@ -27,7 +27,7 @@ interface ReactionsItemView : ItemView {
 class ReactionsItemViewHolder(
     view: View,
     val reactionsAdapter: ReactionsAdapter,
-) : BaseViewHolder(view), ReactionsItemView {
+) : BaseItemViewHolder(view), ReactionsItemView {
 
     private val reactions: RecyclerView = view.findViewById(R.id.reactions)
 

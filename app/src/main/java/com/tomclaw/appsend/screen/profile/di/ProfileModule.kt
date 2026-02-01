@@ -2,10 +2,10 @@ package com.tomclaw.appsend.screen.profile.di
 
 import android.content.Context
 import android.os.Bundle
-import com.avito.konveyor.ItemBinder
-import com.avito.konveyor.adapter.AdapterPresenter
-import com.avito.konveyor.adapter.SimpleAdapterPresenter
-import com.avito.konveyor.blueprint.ItemBlueprint
+import com.tomclaw.appsend.util.adapter.ItemBinder
+import com.tomclaw.appsend.util.adapter.AdapterPresenter
+import com.tomclaw.appsend.util.adapter.SimpleAdapterPresenter
+import com.tomclaw.appsend.util.adapter.ItemBlueprint
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.core.TimeProvider
 import com.tomclaw.appsend.di.DATE_FORMATTER
@@ -91,21 +91,21 @@ class ProfileModule(
     @Named(PROFILE_ADAPTER_PRESENTER)
     @PerFragment
     internal fun provideProfileAdapterPresenter(binder: ItemBinder): AdapterPresenter {
-        return SimpleAdapterPresenter(binder, binder)
+        return SimpleAdapterPresenter(binder)
     }
 
     @Provides
     @Named(UPLOADS_ADAPTER_PRESENTER)
     @PerFragment
     internal fun provideUploadsAdapterPresenter(binder: ItemBinder): AdapterPresenter {
-        return SimpleAdapterPresenter(binder, binder)
+        return SimpleAdapterPresenter(binder)
     }
 
     @Provides
     @Named(RATINGS_ADAPTER_PRESENTER)
     @PerFragment
     internal fun provideRatingsAdapterPresenter(binder: ItemBinder): AdapterPresenter {
-        return SimpleAdapterPresenter(binder, binder)
+        return SimpleAdapterPresenter(binder)
     }
 
     @Provides

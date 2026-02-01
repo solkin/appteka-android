@@ -3,10 +3,10 @@ package com.tomclaw.appsend.screen.upload.di
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
-import com.avito.konveyor.ItemBinder
-import com.avito.konveyor.adapter.AdapterPresenter
-import com.avito.konveyor.adapter.SimpleAdapterPresenter
-import com.avito.konveyor.blueprint.ItemBlueprint
+import com.tomclaw.appsend.util.adapter.ItemBinder
+import com.tomclaw.appsend.util.adapter.AdapterPresenter
+import com.tomclaw.appsend.util.adapter.SimpleAdapterPresenter
+import com.tomclaw.appsend.util.adapter.ItemBlueprint
 import com.tomclaw.appsend.categories.CategoriesInteractor
 import com.tomclaw.appsend.categories.CategoryConverter
 import com.tomclaw.appsend.categories.CategoryConverterImpl
@@ -157,14 +157,14 @@ class UploadModule(
     @PerActivity
     @Named(UPLOAD_ADAPTER_PRESENTER)
     internal fun provideUploadAdapterPresenter(binder: ItemBinder): AdapterPresenter {
-        return SimpleAdapterPresenter(binder, binder)
+        return SimpleAdapterPresenter(binder)
     }
 
     @Provides
     @PerActivity
     @Named(SCREENSHOT_ADAPTER_PRESENTER)
     internal fun provideScreenshotAdapterPresenter(binder: ItemBinder): AdapterPresenter {
-        return SimpleAdapterPresenter(binder, binder)
+        return SimpleAdapterPresenter(binder)
     }
 
     @Provides

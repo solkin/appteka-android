@@ -1,6 +1,6 @@
 package com.tomclaw.appsend.screen.profile.adapter.placeholder
 
-import com.avito.konveyor.blueprint.ItemPresenter
+import com.tomclaw.appsend.util.adapter.ItemPresenter
 
 class PlaceholderItemPresenter : ItemPresenter<PlaceholderItemView, PlaceholderItem> {
 

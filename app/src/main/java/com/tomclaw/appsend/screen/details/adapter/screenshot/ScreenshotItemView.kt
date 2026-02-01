@@ -2,8 +2,8 @@ package com.tomclaw.appsend.screen.details.adapter.screenshot
 
 import android.view.View
 import android.widget.ImageView
-import com.avito.konveyor.adapter.BaseViewHolder
-import com.avito.konveyor.blueprint.ItemView
+import com.tomclaw.appsend.util.adapter.BaseItemViewHolder
+import com.tomclaw.appsend.util.adapter.ItemView
 import com.tomclaw.appsend.R
 import com.tomclaw.imageloader.util.fetch
 
@@ -15,7 +15,7 @@ interface ScreenshotItemView : ItemView {
 
 }
 
-class ScreenshotItemViewHolder(view: View) : BaseViewHolder(view), ScreenshotItemView {
+class ScreenshotItemViewHolder(view: View) : BaseItemViewHolder(view), ScreenshotItemView {
 
     private val card: View = view.findViewById(R.id.screenshot_card)
     private val image: ImageView = view.findViewById(R.id.screenshot)

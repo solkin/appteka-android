@@ -1,8 +1,7 @@
 package com.tomclaw.appsend.screen.profile.adapter.uploads
 
-import com.avito.konveyor.adapter.AdapterPresenter
-import com.avito.konveyor.blueprint.ItemPresenter
-import com.avito.konveyor.data_source.ListDataSource
+import com.tomclaw.appsend.util.adapter.AdapterPresenter
+import com.tomclaw.appsend.util.adapter.ItemPresenter
 import com.tomclaw.appsend.screen.profile.adapter.ItemListener
 import com.tomclaw.appsend.screen.profile.adapter.app.AppItem
 
@@ -29,8 +28,7 @@ class UploadsItemPresenter(
     }
 
     private fun onUploadsChanged(view: UploadsItemView) {
-        val dataSource = ListDataSource(uploads)
-        adapterPresenter.get().onDataSourceChanged(dataSource)
+        adapterPresenter.get().onDataSourceChanged(uploads)
         view.notifyChanged()
     }
 

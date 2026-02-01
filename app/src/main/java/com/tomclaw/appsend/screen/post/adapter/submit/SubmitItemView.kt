@@ -2,8 +2,8 @@ package com.tomclaw.appsend.screen.post.adapter.submit
 
 import android.view.View
 import android.widget.Button
-import com.avito.konveyor.adapter.BaseViewHolder
-import com.avito.konveyor.blueprint.ItemView
+import com.tomclaw.appsend.util.adapter.BaseItemViewHolder
+import com.tomclaw.appsend.util.adapter.ItemView
 import com.tomclaw.appsend.R
 
 interface SubmitItemView : ItemView {
@@ -12,7 +12,7 @@ interface SubmitItemView : ItemView {
 
 }
 
-class SubmitItemViewHolder(view: View) : BaseViewHolder(view), SubmitItemView {
+class SubmitItemViewHolder(view: View) : BaseItemViewHolder(view), SubmitItemView {
 
     private val submitButton: Button = view.findViewById(R.id.submit_button)
 

@@ -4,8 +4,8 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import com.avito.konveyor.adapter.BaseViewHolder
-import com.avito.konveyor.blueprint.ItemView
+import com.tomclaw.appsend.util.adapter.BaseItemViewHolder
+import com.tomclaw.appsend.util.adapter.ItemView
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.util.bind
 import com.tomclaw.appsend.util.getAttributedColor
@@ -65,7 +65,7 @@ interface PlayItemView : ItemView {
 
 }
 
-class PlayItemViewHolder(view: View) : BaseViewHolder(view), PlayItemView {
+class PlayItemViewHolder(view: View) : BaseItemViewHolder(view), PlayItemView {
 
     private val context = view.context
     private val ratingContainer: View = view.findViewById(R.id.rating_container)

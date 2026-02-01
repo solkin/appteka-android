@@ -1,9 +1,8 @@
 package com.tomclaw.appsend.screen.profile
 
 import android.os.Bundle
-import com.avito.konveyor.adapter.AdapterPresenter
-import com.avito.konveyor.blueprint.Item
-import com.avito.konveyor.data_source.ListDataSource
+import com.tomclaw.appsend.util.adapter.AdapterPresenter
+import com.tomclaw.appsend.util.adapter.Item
 import com.tomclaw.appsend.dto.AppEntity
 import com.tomclaw.appsend.screen.profile.adapter.ItemListener
 import com.tomclaw.appsend.screen.profile.adapter.app.AppItem
@@ -358,8 +357,7 @@ class ProfilePresenterImpl(
     }
 
     private fun bindItems() {
-        val dataSource = ListDataSource(items)
-        adapterPresenter.get().onDataSourceChanged(dataSource)
+        adapterPresenter.get().onDataSourceChanged(items)
     }
 
 }

@@ -2,8 +2,7 @@ package com.tomclaw.appsend.screen.gallery
 
 import android.net.Uri
 import android.os.Bundle
-import com.avito.konveyor.adapter.AdapterPresenter
-import com.avito.konveyor.data_source.ListDataSource
+import com.tomclaw.appsend.util.adapter.AdapterPresenter
 import com.tomclaw.appsend.screen.gallery.adapter.image.ImageItem
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.crc32
@@ -111,12 +110,10 @@ class GalleryPresenterImpl(
     }
 
     private fun bindItems() {
-        val dataSource = ListDataSource(
-            items.mapIndexed { index, item ->
-                ImageItem(index.toLong(), item.uri)
-            }
-        )
-        adapterPresenter.get().onDataSourceChanged(dataSource)
+        val imageItems = items.mapIndexed { index, item ->
+            ImageItem(index.toLong(), item.uri)
+        }
+        adapterPresenter.get().onDataSourceChanged(imageItems)
 
         view?.setCurrentIndex(pageIndex)
         bindPageIndex()

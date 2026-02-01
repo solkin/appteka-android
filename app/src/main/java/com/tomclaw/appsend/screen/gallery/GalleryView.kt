@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.view.View
 import androidx.appcompat.widget.Toolbar
 import androidx.viewpager2.widget.ViewPager2
-import com.avito.konveyor.adapter.SimpleRecyclerAdapter
+import com.tomclaw.appsend.util.adapter.SimpleRecyclerAdapter
 import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R

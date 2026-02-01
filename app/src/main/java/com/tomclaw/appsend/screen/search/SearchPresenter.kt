@@ -1,9 +1,8 @@
 package com.tomclaw.appsend.screen.search
 
 import android.os.Bundle
-import com.avito.konveyor.adapter.AdapterPresenter
-import com.avito.konveyor.blueprint.Item
-import com.avito.konveyor.data_source.ListDataSource
+import com.tomclaw.appsend.util.adapter.AdapterPresenter
+import com.tomclaw.appsend.util.adapter.Item
 import com.tomclaw.appsend.dto.AppEntity
 import com.tomclaw.appsend.screen.store.AppConverter
 import com.tomclaw.appsend.screen.store.adapter.app.AppItem
@@ -186,8 +185,7 @@ class SearchPresenterImpl(
             }
 
             else -> {
-                val dataSource = ListDataSource(items)
-                adapterPresenter.get().onDataSourceChanged(dataSource)
+                adapterPresenter.get().onDataSourceChanged(items)
                 view?.let {
                     it.contentUpdated()
                     if (it.isPullRefreshing()) {

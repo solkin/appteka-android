@@ -2,8 +2,8 @@ package com.tomclaw.appsend.screen.profile.adapter.moderation
 
 import android.view.View
 import android.widget.TextView
-import com.avito.konveyor.adapter.BaseViewHolder
-import com.avito.konveyor.blueprint.ItemView
+import com.tomclaw.appsend.util.adapter.BaseItemViewHolder
+import com.tomclaw.appsend.util.adapter.ItemView
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.util.bind
 import com.tomclaw.appsend.util.hide
@@ -23,7 +23,7 @@ interface ModerationItemView : ItemView {
 
 }
 
-class ModerationItemViewHolder(view: View) : BaseViewHolder(view), ModerationItemView {
+class ModerationItemViewHolder(view: View) : BaseItemViewHolder(view), ModerationItemView {
 
     private val context = view.context
     private val subtitle: TextView = view.findViewById(R.id.subtitle)

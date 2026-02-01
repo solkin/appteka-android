@@ -1,6 +1,6 @@
 package com.tomclaw.appsend.screen.feed.adapter.unauthorized
 
-import com.avito.konveyor.blueprint.ItemPresenter
+import com.tomclaw.appsend.util.adapter.ItemPresenter
 import com.tomclaw.appsend.screen.feed.adapter.ItemListener
 
 class UnauthorizedItemPresenter(

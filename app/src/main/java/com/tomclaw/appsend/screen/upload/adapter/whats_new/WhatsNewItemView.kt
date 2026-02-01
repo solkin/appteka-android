@@ -4,8 +4,8 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
-import com.avito.konveyor.adapter.BaseViewHolder
-import com.avito.konveyor.blueprint.ItemView
+import com.tomclaw.appsend.util.adapter.BaseItemViewHolder
+import com.tomclaw.appsend.util.adapter.ItemView
 import com.tomclaw.appsend.R
 
 interface WhatsNewItemView : ItemView {
@@ -17,7 +17,7 @@ interface WhatsNewItemView : ItemView {
 }
 
 @Suppress("DEPRECATION")
-class WhatsNewItemViewHolder(view: View) : BaseViewHolder(view), WhatsNewItemView {
+class WhatsNewItemViewHolder(view: View) : BaseItemViewHolder(view), WhatsNewItemView {
 
     private val whatsNewEdit: EditText = view.findViewById(R.id.whats_new)
 

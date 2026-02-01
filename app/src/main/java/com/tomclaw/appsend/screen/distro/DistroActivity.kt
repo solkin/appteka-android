@@ -14,9 +14,9 @@ import androidx.activity.result.contract.ActivityResultContracts.StartActivityFo
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
-import com.avito.konveyor.ItemBinder
-import com.avito.konveyor.adapter.AdapterPresenter
-import com.avito.konveyor.adapter.SimpleRecyclerAdapter
+import com.tomclaw.appsend.util.adapter.ItemBinder
+import com.tomclaw.appsend.util.adapter.AdapterPresenter
+import com.tomclaw.appsend.util.adapter.SimpleRecyclerAdapter
 import com.greysonparrelli.permiso.Permiso
 import com.greysonparrelli.permiso.Permiso.IOnPermissionResult
 import com.greysonparrelli.permiso.Permiso.IOnRationaleProvided

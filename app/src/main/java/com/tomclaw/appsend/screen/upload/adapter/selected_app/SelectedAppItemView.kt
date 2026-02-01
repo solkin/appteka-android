@@ -3,8 +3,8 @@ package com.tomclaw.appsend.screen.upload.adapter.selected_app
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
-import com.avito.konveyor.adapter.BaseViewHolder
-import com.avito.konveyor.blueprint.ItemView
+import com.tomclaw.appsend.util.adapter.BaseItemViewHolder
+import com.tomclaw.appsend.util.adapter.ItemView
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.util.bind
 import com.tomclaw.imageloader.util.fetch
@@ -27,7 +27,7 @@ interface SelectedAppItemView : ItemView {
 
 }
 
-class SelectedAppItemViewHolder(private val cardView: View) : BaseViewHolder(cardView), SelectedAppItemView {
+class SelectedAppItemViewHolder(private val cardView: View) : BaseItemViewHolder(cardView), SelectedAppItemView {
 
     private val appIcon: ImageView = cardView.findViewById(R.id.app_icon)
     private val appLabel: TextView = cardView.findViewById(R.id.app_label)

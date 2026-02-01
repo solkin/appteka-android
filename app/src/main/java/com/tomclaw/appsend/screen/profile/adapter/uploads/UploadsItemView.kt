@@ -7,9 +7,9 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.SCROLL_STATE_IDLE
-import com.avito.konveyor.adapter.BaseViewHolder
-import com.avito.konveyor.adapter.SimpleRecyclerAdapter
-import com.avito.konveyor.blueprint.ItemView
+import com.tomclaw.appsend.util.adapter.BaseItemViewHolder
+import com.tomclaw.appsend.util.adapter.SimpleRecyclerAdapter
+import com.tomclaw.appsend.util.adapter.ItemView
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.util.bind
 
@@ -30,7 +30,7 @@ interface UploadsItemView : ItemView {
 class UploadsItemViewHolder(
     view: View,
     private val adapter: SimpleRecyclerAdapter,
-) : BaseViewHolder(view), UploadsItemView {
+) : BaseItemViewHolder(view), UploadsItemView {
 
     private val context = view.context
     private val uploadsBlock: View = view.findViewById(R.id.uploads_block)

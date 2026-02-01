@@ -1,8 +1,7 @@
 package com.tomclaw.appsend.screen.permissions
 
 import android.os.Bundle
-import com.avito.konveyor.adapter.AdapterPresenter
-import com.avito.konveyor.data_source.ListDataSource
+import com.tomclaw.appsend.util.adapter.AdapterPresenter
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -75,8 +74,7 @@ class PermissionsPresenterImpl(
 
     private fun bindPermissions() {
         val items = permissions.map { converter.convert(it) }
-        val dataSource = ListDataSource(items)
-        adapterPresenter.get().onDataSourceChanged(dataSource)
+        adapterPresenter.get().onDataSourceChanged(items)
         view?.contentUpdated()
     }
 

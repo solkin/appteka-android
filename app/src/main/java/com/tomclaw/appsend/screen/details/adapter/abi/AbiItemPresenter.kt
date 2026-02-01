@@ -1,6 +1,6 @@
 package com.tomclaw.appsend.screen.details.adapter.abi
 
-import com.avito.konveyor.blueprint.ItemPresenter
+import com.tomclaw.appsend.util.adapter.ItemPresenter
 
 class AbiItemPresenter(
     private val resourceProvider: AbiResourceProvider,

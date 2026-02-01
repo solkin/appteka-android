@@ -2,9 +2,8 @@ package com.tomclaw.appsend.screen.feed
 
 import android.os.Bundle
 import androidx.core.net.toUri
-import com.avito.konveyor.adapter.AdapterPresenter
-import com.avito.konveyor.blueprint.Item
-import com.avito.konveyor.data_source.ListDataSource
+import com.tomclaw.appsend.util.adapter.AdapterPresenter
+import com.tomclaw.appsend.util.adapter.Item
 import com.tomclaw.appsend.dto.Screenshot
 import com.tomclaw.appsend.screen.feed.adapter.FeedItem
 import com.tomclaw.appsend.screen.feed.adapter.ItemListener
@@ -136,8 +135,7 @@ class FeedPresenterImpl(
         items = null
         error = ERROR_NO
 
-        val dataSource = ListDataSource(emptyList<FeedItem>())
-        adapterPresenter.get().onDataSourceChanged(dataSource)
+        adapterPresenter.get().onDataSourceChanged(emptyList<FeedItem>())
         view?.contentUpdated()
 
         if (offsetId != null) {
@@ -243,8 +241,7 @@ class FeedPresenterImpl(
             return
         }
 
-        val dataSource = ListDataSource(items)
-        adapterPresenter.get().onDataSourceChanged(dataSource)
+        adapterPresenter.get().onDataSourceChanged(items)
 
         view?.let { view ->
             view.showContent()

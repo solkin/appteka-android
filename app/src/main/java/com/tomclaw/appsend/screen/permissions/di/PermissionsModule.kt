@@ -3,10 +3,10 @@ package com.tomclaw.appsend.screen.permissions.di
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
-import com.avito.konveyor.ItemBinder
-import com.avito.konveyor.adapter.AdapterPresenter
-import com.avito.konveyor.adapter.SimpleAdapterPresenter
-import com.avito.konveyor.blueprint.ItemBlueprint
+import com.tomclaw.appsend.util.adapter.ItemBinder
+import com.tomclaw.appsend.util.adapter.AdapterPresenter
+import com.tomclaw.appsend.util.adapter.SimpleAdapterPresenter
+import com.tomclaw.appsend.util.adapter.ItemBlueprint
 import com.tomclaw.appsend.screen.permissions.PermissionInfoProvider
 import com.tomclaw.appsend.screen.permissions.PermissionInfoProviderImpl
 import com.tomclaw.appsend.screen.permissions.PermissionsConverter
@@ -69,7 +69,7 @@ class PermissionsModule(
     @Provides
     @PerActivity
     internal fun provideAdapterPresenter(binder: ItemBinder): AdapterPresenter {
-        return SimpleAdapterPresenter(binder, binder)
+        return SimpleAdapterPresenter(binder)
     }
 
     @Provides

@@ -1,8 +1,8 @@
 package com.tomclaw.appsend.screen.details.adapter.controls
 
 import android.view.View
-import com.avito.konveyor.adapter.BaseViewHolder
-import com.avito.konveyor.blueprint.ItemView
+import com.tomclaw.appsend.util.adapter.BaseItemViewHolder
+import com.tomclaw.appsend.util.adapter.ItemView
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.util.disable
 import com.tomclaw.appsend.util.enable
@@ -43,7 +43,7 @@ interface ControlsItemView : ItemView {
 
 }
 
-class ControlsItemViewHolder(view: View) : BaseViewHolder(view), ControlsItemView {
+class ControlsItemViewHolder(view: View) : BaseItemViewHolder(view), ControlsItemView {
 
     private val installButton: View = view.findViewById(R.id.install_button)
     private val updateButton: View = view.findViewById(R.id.update_button)

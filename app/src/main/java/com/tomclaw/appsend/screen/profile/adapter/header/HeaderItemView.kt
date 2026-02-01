@@ -4,8 +4,8 @@ import android.view.View
 import android.widget.TextView
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
-import com.avito.konveyor.adapter.BaseViewHolder
-import com.avito.konveyor.blueprint.ItemView
+import com.tomclaw.appsend.util.adapter.BaseItemViewHolder
+import com.tomclaw.appsend.util.adapter.ItemView
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.dto.UserIcon
 import com.tomclaw.appsend.util.bind
@@ -48,7 +48,7 @@ interface HeaderItemView : ItemView {
 
 }
 
-class HeaderItemViewHolder(private val view: View) : BaseViewHolder(view), HeaderItemView {
+class HeaderItemViewHolder(private val view: View) : BaseItemViewHolder(view), HeaderItemView {
 
     private val resources = view.resources
     private val userIcon: UserIconView = UserIconViewImpl(view.findViewById(R.id.user_icon))

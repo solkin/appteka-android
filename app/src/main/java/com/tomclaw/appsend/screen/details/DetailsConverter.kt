@@ -1,7 +1,7 @@
 package com.tomclaw.appsend.screen.details
 
 import android.net.Uri
-import com.avito.konveyor.blueprint.Item
+import com.tomclaw.appsend.util.adapter.Item
 import com.tomclaw.appsend.categories.DEFAULT_LOCALE
 import com.tomclaw.appsend.screen.details.adapter.abi.AbiItem
 import com.tomclaw.appsend.screen.details.adapter.abi.AbiResourceProvider

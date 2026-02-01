@@ -6,9 +6,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.avito.konveyor.adapter.BaseViewHolder
-import com.avito.konveyor.adapter.SimpleRecyclerAdapter
-import com.avito.konveyor.blueprint.ItemView
+import com.tomclaw.appsend.util.adapter.BaseItemViewHolder
+import com.tomclaw.appsend.util.adapter.SimpleRecyclerAdapter
+import com.tomclaw.appsend.util.adapter.ItemView
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.util.bind
 
@@ -25,7 +25,7 @@ interface ReviewsItemView : ItemView {
 class ReviewsItemViewHolder(
     view: View,
     private val adapter: SimpleRecyclerAdapter,
-) : BaseViewHolder(view), ReviewsItemView {
+) : BaseItemViewHolder(view), ReviewsItemView {
 
     private val ratingsBlock: View = view.findViewById(R.id.ratings_block)
     private val ratingsCountText: TextView = view.findViewById(R.id.ratings_count)

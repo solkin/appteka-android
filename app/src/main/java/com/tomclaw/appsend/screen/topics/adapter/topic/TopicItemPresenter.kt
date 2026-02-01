@@ -1,6 +1,6 @@
 package com.tomclaw.appsend.screen.topics.adapter.topic
 
-import com.avito.konveyor.blueprint.ItemPresenter
+import com.tomclaw.appsend.util.adapter.ItemPresenter
 import com.tomclaw.appsend.screen.topics.adapter.ItemListener
 
 class TopicItemPresenter(

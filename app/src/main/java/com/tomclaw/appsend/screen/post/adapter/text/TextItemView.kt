@@ -6,8 +6,8 @@ import android.text.InputFilter.LengthFilter
 import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
-import com.avito.konveyor.adapter.BaseViewHolder
-import com.avito.konveyor.blueprint.ItemView
+import com.tomclaw.appsend.util.adapter.BaseItemViewHolder
+import com.tomclaw.appsend.util.adapter.ItemView
 import com.tomclaw.appsend.R
 
 interface TextItemView : ItemView {
@@ -24,7 +24,7 @@ interface TextItemView : ItemView {
 
 }
 
-class TextItemViewHolder(view: View) : BaseViewHolder(view), TextItemView {
+class TextItemViewHolder(view: View) : BaseItemViewHolder(view), TextItemView {
 
     private val resources = view.resources
     private val textEdit: EditText = view.findViewById(R.id.text)

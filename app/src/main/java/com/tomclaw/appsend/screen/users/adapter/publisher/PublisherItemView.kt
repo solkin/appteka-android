@@ -4,8 +4,8 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.TextView
-import com.avito.konveyor.adapter.BaseViewHolder
-import com.avito.konveyor.blueprint.ItemView
+import com.tomclaw.appsend.util.adapter.BaseItemViewHolder
+import com.tomclaw.appsend.util.adapter.ItemView
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.dto.UserIcon
 import com.tomclaw.appsend.util.bind
@@ -30,7 +30,7 @@ interface PublisherItemView : ItemView {
 
 }
 
-class PublisherItemViewHolder(view: View) : BaseViewHolder(view), PublisherItemView {
+class PublisherItemViewHolder(view: View) : BaseItemViewHolder(view), PublisherItemView {
 
     private val userIcon: UserIconView = UserIconViewImpl(view.findViewById(R.id.member_icon))
     private val userName: TextView = view.findViewById(R.id.user_name)

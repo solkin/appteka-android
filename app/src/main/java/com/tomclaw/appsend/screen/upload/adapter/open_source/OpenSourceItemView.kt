@@ -5,8 +5,8 @@ import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
 import androidx.core.view.isVisible
-import com.avito.konveyor.adapter.BaseViewHolder
-import com.avito.konveyor.blueprint.ItemView
+import com.tomclaw.appsend.util.adapter.BaseItemViewHolder
+import com.tomclaw.appsend.util.adapter.ItemView
 import com.google.android.material.materialswitch.MaterialSwitch
 import com.google.android.material.textfield.TextInputLayout
 import com.tomclaw.appsend.R
@@ -23,7 +23,7 @@ interface OpenSourceItemView : ItemView {
 
 }
 
-class OpenSourceItemViewHolder(view: View) : BaseViewHolder(view), OpenSourceItemView {
+class OpenSourceItemViewHolder(view: View) : BaseItemViewHolder(view), OpenSourceItemView {
 
     private val openSourceSwitch: MaterialSwitch = view.findViewById(R.id.open_source)
     private val sourceUrlLayout: TextInputLayout = view.findViewById(R.id.source_url_layout)

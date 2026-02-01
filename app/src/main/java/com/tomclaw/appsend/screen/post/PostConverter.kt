@@ -1,6 +1,6 @@
 package com.tomclaw.appsend.screen.post
 
-import com.avito.konveyor.blueprint.Item
+import com.tomclaw.appsend.util.adapter.Item
 import com.tomclaw.appsend.screen.post.adapter.append.AppendItem
 import com.tomclaw.appsend.screen.post.adapter.image.ImageItem
 import com.tomclaw.appsend.screen.post.adapter.reactions.ReactionsItem

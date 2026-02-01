@@ -1,6 +1,6 @@
 package com.tomclaw.appsend.screen.details.adapter.description
 
-import com.avito.konveyor.blueprint.ItemPresenter
+import com.tomclaw.appsend.util.adapter.ItemPresenter
 import com.tomclaw.appsend.screen.details.TRANSLATION_ORIGINAL
 import com.tomclaw.appsend.screen.details.TRANSLATION_PROGRESS
 import com.tomclaw.appsend.screen.details.TRANSLATION_TRANSLATED

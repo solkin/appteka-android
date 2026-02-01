@@ -6,8 +6,8 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import com.avito.konveyor.adapter.BaseViewHolder
-import com.avito.konveyor.blueprint.ItemView
+import com.tomclaw.appsend.util.adapter.BaseItemViewHolder
+import com.tomclaw.appsend.util.adapter.ItemView
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.tomclaw.appsend.R
@@ -39,7 +39,7 @@ interface SecurityItemView : ItemView {
 
 }
 
-class SecurityItemViewHolder(view: View) : BaseViewHolder(view), SecurityItemView {
+class SecurityItemViewHolder(view: View) : BaseItemViewHolder(view), SecurityItemView {
 
     private val context = view.context
     private val background: View = view.findViewById(R.id.security_back)

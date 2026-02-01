@@ -2,8 +2,8 @@ package com.tomclaw.appsend.screen.profile.adapter.favorites
 
 import android.view.View
 import android.widget.TextView
-import com.avito.konveyor.adapter.BaseViewHolder
-import com.avito.konveyor.blueprint.ItemView
+import com.tomclaw.appsend.util.adapter.BaseItemViewHolder
+import com.tomclaw.appsend.util.adapter.ItemView
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.util.bind
 
@@ -15,7 +15,7 @@ interface FavoritesItemView : ItemView {
 
 }
 
-class FavoritesItemViewHolder(view: View) : BaseViewHolder(view), FavoritesItemView {
+class FavoritesItemViewHolder(view: View) : BaseItemViewHolder(view), FavoritesItemView {
 
     private val context = view.context
     private val subtitle: TextView = view.findViewById(R.id.subtitle)

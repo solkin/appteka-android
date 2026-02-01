@@ -1,6 +1,6 @@
 package com.tomclaw.appsend.screen.upload.adapter.screen_append
 
-import com.avito.konveyor.blueprint.ItemPresenter
+import com.tomclaw.appsend.util.adapter.ItemPresenter
 import com.tomclaw.appsend.screen.upload.adapter.ItemListener
 
 class ScreenAppendItemPresenter(

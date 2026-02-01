@@ -4,8 +4,8 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import com.avito.konveyor.adapter.BaseViewHolder
-import com.avito.konveyor.blueprint.ItemView
+import com.tomclaw.appsend.util.adapter.BaseItemViewHolder
+import com.tomclaw.appsend.util.adapter.ItemView
 import com.tomclaw.appsend.R
 
 interface AbiItemView : ItemView {
@@ -16,7 +16,7 @@ interface AbiItemView : ItemView {
 
 }
 
-class AbiItemViewHolder(view: View) : BaseViewHolder(view), AbiItemView {
+class AbiItemViewHolder(view: View) : BaseItemViewHolder(view), AbiItemView {
 
     private val architecturesText: TextView = view.findViewById(R.id.architectures_text)
     private val compatibilityText: TextView = view.findViewById(R.id.compatibility_text)

@@ -2,9 +2,8 @@ package com.tomclaw.appsend.screen.installed
 
 import android.net.Uri
 import android.os.Bundle
-import com.avito.konveyor.adapter.AdapterPresenter
-import com.avito.konveyor.blueprint.Item
-import com.avito.konveyor.data_source.ListDataSource
+import com.tomclaw.appsend.util.adapter.AdapterPresenter
+import com.tomclaw.appsend.util.adapter.Item
 import com.tomclaw.appsend.download.ApkStorage
 import com.tomclaw.appsend.screen.installed.adapter.ItemListener
 import com.tomclaw.appsend.screen.installed.adapter.app.AppItem
@@ -257,8 +256,7 @@ class InstalledPresenterImpl(
             }
 
             else -> {
-                val dataSource = ListDataSource(items)
-                adapterPresenter.get().onDataSourceChanged(dataSource)
+                adapterPresenter.get().onDataSourceChanged(items)
                 view?.let {
                     it.contentUpdated()
                     if (it.isPullRefreshing()) {

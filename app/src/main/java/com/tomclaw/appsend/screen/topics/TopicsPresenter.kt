@@ -1,9 +1,8 @@
 package com.tomclaw.appsend.screen.topics
 
 import android.os.Bundle
-import com.avito.konveyor.adapter.AdapterPresenter
-import com.avito.konveyor.blueprint.Item
-import com.avito.konveyor.data_source.ListDataSource
+import com.tomclaw.appsend.util.adapter.AdapterPresenter
+import com.tomclaw.appsend.util.adapter.Item
 import com.tomclaw.appsend.dto.TopicEntity
 import com.tomclaw.appsend.screen.topics.adapter.ItemListener
 import com.tomclaw.appsend.util.SchedulersFactory
@@ -166,8 +165,7 @@ class TopicsPresenterImpl(
             .map { converter.convert(it) }
             .apply { if (isNotEmpty()) last().hasMore = hasMore }
 
-        val dataSource = ListDataSource(items)
-        adapterPresenter.get().onDataSourceChanged(dataSource)
+        adapterPresenter.get().onDataSourceChanged(items)
         view?.let {
             it.contentUpdated()
             it.stopPullRefreshing()

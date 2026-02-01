@@ -4,8 +4,8 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.widget.EditText
-import com.avito.konveyor.adapter.BaseViewHolder
-import com.avito.konveyor.blueprint.ItemView
+import com.tomclaw.appsend.util.adapter.BaseItemViewHolder
+import com.tomclaw.appsend.util.adapter.ItemView
 import com.tomclaw.appsend.R
 
 interface DescriptionItemView : ItemView {
@@ -22,7 +22,7 @@ interface DescriptionItemView : ItemView {
 
 }
 
-class DescriptionItemViewHolder(view: View) : BaseViewHolder(view), DescriptionItemView {
+class DescriptionItemViewHolder(view: View) : BaseItemViewHolder(view), DescriptionItemView {
 
     private val resources = view.resources
     private val descriptionEdit: EditText = view.findViewById(R.id.description)

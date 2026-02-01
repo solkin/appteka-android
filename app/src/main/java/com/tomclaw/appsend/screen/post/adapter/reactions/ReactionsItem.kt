@@ -1,6 +1,6 @@
 package com.tomclaw.appsend.screen.post.adapter.reactions
 
-import com.avito.konveyor.blueprint.Item
+import com.tomclaw.appsend.util.adapter.Item
 import com.tomclaw.appsend.screen.feed.api.Reaction
 
 data class ReactionsItem(

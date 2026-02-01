@@ -1,7 +1,7 @@
 package com.tomclaw.appsend.screen.profile.adapter.favorites
 
 import android.os.Parcelable
-import com.avito.konveyor.blueprint.Item
+import com.tomclaw.appsend.util.adapter.Item
 import kotlinx.parcelize.Parcelize
 
 @Parcelize

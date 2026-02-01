@@ -1,7 +1,7 @@
 package com.tomclaw.appsend.screen.upload
 
 import android.os.Build
-import com.avito.konveyor.blueprint.Item
+import com.tomclaw.appsend.util.adapter.Item
 import com.tomclaw.appsend.categories.CategoryItem
 import com.tomclaw.appsend.screen.upload.adapter.category.SelectCategoryItem
 import com.tomclaw.appsend.screen.upload.adapter.description.DescriptionItem

@@ -1,6 +1,6 @@
 package com.tomclaw.appsend.screen.chat.adapter
 
-import com.avito.konveyor.blueprint.Item
+import com.tomclaw.appsend.util.adapter.Item
 
 interface ItemListener {
 

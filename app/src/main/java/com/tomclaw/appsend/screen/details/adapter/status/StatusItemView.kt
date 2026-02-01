@@ -6,8 +6,8 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import com.avito.konveyor.adapter.BaseViewHolder
-import com.avito.konveyor.blueprint.ItemView
+import com.tomclaw.appsend.util.adapter.BaseItemViewHolder
+import com.tomclaw.appsend.util.adapter.ItemView
 import com.google.android.material.button.MaterialButton
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.util.bind
@@ -32,7 +32,7 @@ interface StatusItemView : ItemView {
 
 }
 
-class StatusItemViewHolder(view: View) : BaseViewHolder(view), StatusItemView {
+class StatusItemViewHolder(view: View) : BaseItemViewHolder(view), StatusItemView {
 
     private val context = view.context
     private val background: View = view.findViewById(R.id.status_back)

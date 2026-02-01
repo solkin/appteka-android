@@ -1,6 +1,6 @@
 package com.tomclaw.appsend.screen.reviews.adapter.review
 
-import com.avito.konveyor.blueprint.ItemPresenter
+import com.tomclaw.appsend.util.adapter.ItemPresenter
 import com.tomclaw.appsend.screen.reviews.adapter.ItemListener
 import java.text.DateFormat
 
