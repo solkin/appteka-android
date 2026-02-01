@@ -76,6 +76,13 @@ class DownloadManagerImpl(
             return fileName
         }
 
+        // Check if download is already in progress
+        val existingDownload = downloads[appId]
+        if (existingDownload != null && !existingDownload.isDone) {
+            relays[appId] = relay
+            return fileName
+        }
+
         relay.accept(AWAIT)
         fileNames[appId] = fileName
         downloads[appId] = executor.submit {
@@ -92,9 +99,13 @@ class DownloadManagerImpl(
             )
             when (result) {
                 DownloadResult.SUCCESS -> {
-                    apkStorage.commit(fileName)
-                    relay.accept(COMPLETED)
-                    fileNames.remove(appId)
+                    val committed = apkStorage.commit(fileName)
+                    if (committed) {
+                        relay.accept(COMPLETED)
+                        fileNames.remove(appId)
+                    } else {
+                        relay.accept(ERROR)
+                    }
                 }
                 DownloadResult.INTERRUPTED -> {
                     // Keep tmp file for resume - don't delete
@@ -144,7 +155,6 @@ class DownloadManagerImpl(
         var input: InputStream? = null
         var output: OutputStream? = null
         try {
-            println("[download] " + String.format("Download app url: %s", url))
             val u = URL(url)
             connection = u.openConnection() as HttpURLConnection
 
@@ -158,7 +168,6 @@ class DownloadManagerImpl(
 
             // Check for existing partial file for resume
             val downloadedBytes = apkStorage.getTmpSize(fileName)
-            println("[download] Existing partial file size: $downloadedBytes bytes")
 
             with(connection) {
                 setRequestProperty("Cookie", cookies)
@@ -171,7 +180,6 @@ class DownloadManagerImpl(
                 // Request resume if partial file exists
                 if (downloadedBytes > 0) {
                     setRequestProperty("Range", "bytes=$downloadedBytes-")
-                    println("[download] Requesting resume from byte $downloadedBytes")
                 }
             }
             connection.connect()
@@ -181,12 +189,6 @@ class DownloadManagerImpl(
             // HTTP 200 = OK (server doesn't support resume, start from beginning)
             val isResumable = responseCode == SC_PARTIAL_CONTENT
             val startByte = if (isResumable) downloadedBytes else 0L
-            
-            if (isResumable) {
-                println("[download] Server supports resume, continuing from byte $startByte")
-            } else if (downloadedBytes > 0) {
-                println("[download] Server doesn't support resume (HTTP $responseCode), starting from beginning")
-            }
             
             if (responseCode >= SC_BAD_REQUEST) {
                 input = BufferedInputStream(connection.errorStream)

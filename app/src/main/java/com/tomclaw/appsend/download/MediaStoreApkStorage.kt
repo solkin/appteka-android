@@ -30,6 +30,9 @@ class MediaStoreApkStorage(
 
     // Store pending URIs to use in commit() - more reliable than querying
     private val pendingUris = mutableMapOf<String, Uri>()
+    
+    // Store committed URIs for immediate access after commit (MediaStore indexing is async)
+    private val committedUris = mutableMapOf<String, Uri>()
 
     override fun openWrite(fileName: String): OutputStream {
         // Delete existing files first
@@ -58,7 +61,7 @@ class MediaStoreApkStorage(
         val tmpUri = pendingUris.remove(fileName)
 
         if (tmpUri == null) {
-            // Fallback to query if URI not found in cache
+            // Fallback to query if URI not found in cache (e.g., app restart during download)
             val tmpName = "$fileName.$APK_EXTENSION.tmp"
             val foundUri = findFileUri(tmpName) ?: return false
             return commitUri(foundUri, fileName)
@@ -77,8 +80,16 @@ class MediaStoreApkStorage(
         // Delete existing target file if exists
         delete(fileName)
 
-        val updated = contentResolver.update(uri, updateValues, null, null)
-        return updated > 0
+        return try {
+            val updated = contentResolver.update(uri, updateValues, null, null)
+            if (updated > 0) {
+                // Cache URI for immediate access (MediaStore indexing is async)
+                committedUris[fileName] = uri
+            }
+            updated > 0
+        } catch (ex: Throwable) {
+            false
+        }
     }
 
     override fun openRead(fileName: String): InputStream? {
@@ -87,14 +98,24 @@ class MediaStoreApkStorage(
     }
 
     override fun getInstallUri(fileName: String): Uri? {
+        // First check cached URI (MediaStore indexing is async, query may fail right after commit)
+        committedUris[fileName]?.let { return it }
+        
         return findFileUri("$fileName.$APK_EXTENSION")
     }
 
     override fun exists(fileName: String): Boolean {
+        // Check cached URI first (MediaStore indexing is async)
+        if (committedUris.containsKey(fileName)) {
+            return true
+        }
         return findFileUri("$fileName.$APK_EXTENSION") != null
     }
 
     override fun delete(fileName: String): Boolean {
+        // Remove from committed URIs cache
+        committedUris.remove(fileName)
+        
         // Also delete cached copy
         File(cacheDir, "$fileName.$APK_EXTENSION").delete()
 
@@ -199,6 +220,9 @@ class MediaStoreApkStorage(
         val selection = "${MediaStore.Downloads.RELATIVE_PATH} = ? AND ${MediaStore.Downloads.DISPLAY_NAME} LIKE ?"
         val selectionArgs = arrayOf("$DOWNLOAD_DIR/$APPTEKA_DIR/", "%.$APK_EXTENSION")
 
+        // Clear committed URIs cache
+        committedUris.clear()
+        
         // Clear cache directory
         cacheDir.listFiles()?.forEach { it.delete() }
 
