@@ -1,3 +1,5 @@
 package com.tomclaw.appsend.screen.rate.api
 
-class SubmitReviewResponse
+import com.tomclaw.appsend.dto.ApiResponse
+
+class SubmitReviewResponse : ApiResponse

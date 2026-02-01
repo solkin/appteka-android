@@ -1,3 +1,5 @@
 package com.tomclaw.appsend.screen.profile.api
 
-class SetUserNameResponse
+import com.tomclaw.appsend.dto.ApiResponse
+
+class SetUserNameResponse : ApiResponse

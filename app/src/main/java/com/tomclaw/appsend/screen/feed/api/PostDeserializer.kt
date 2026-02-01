@@ -33,8 +33,8 @@ class PostDeserializer(private val gson: Gson) : JsonDeserializer<PostEntity> {
         }
         val user = gson.fromJson(obj["user"].asJsonObject, UserBrief::class.java)
         val actions = obj["actions"]?.let { actionsArray ->
-            val type = object : TypeToken<List<String>>() {}.type
-            gson.fromJson<List<String>>(actionsArray.asJsonArray, type)
+            val actionsType = object : TypeToken<List<String>>() {}.type
+            gson.fromJson<List<String>>(actionsArray.asJsonArray, actionsType)
         }
         return PostEntity(postId, time, type, payload, reacts, user, actions)
     }

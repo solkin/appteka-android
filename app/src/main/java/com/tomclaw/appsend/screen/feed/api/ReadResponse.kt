@@ -1,3 +1,5 @@
 package com.tomclaw.appsend.screen.feed.api
 
-class ReadResponse
+import com.tomclaw.appsend.dto.ApiResponse
+
+class ReadResponse : ApiResponse

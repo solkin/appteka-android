@@ -1,3 +1,5 @@
 package com.tomclaw.appsend.screen.chat.api
 
-class ReportMessageResponse
+import com.tomclaw.appsend.dto.ApiResponse
+
+class ReportMessageResponse : ApiResponse

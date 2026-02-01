@@ -1,3 +1,5 @@
 package com.tomclaw.appsend.screen.chat.api
 
-class ReadTopicResponse
+import com.tomclaw.appsend.dto.ApiResponse
+
+class ReadTopicResponse : ApiResponse

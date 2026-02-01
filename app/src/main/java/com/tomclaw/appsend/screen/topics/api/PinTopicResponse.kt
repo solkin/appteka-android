@@ -1,3 +1,5 @@
 package com.tomclaw.appsend.screen.topics.api
 
-class PinTopicResponse
+import com.tomclaw.appsend.dto.ApiResponse
+
+class PinTopicResponse : ApiResponse

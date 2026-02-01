@@ -1,3 +1,5 @@
 package com.tomclaw.appsend.screen.details.api
 
-class ModerationDecisionResponse
+import com.tomclaw.appsend.dto.ApiResponse
+
+class ModerationDecisionResponse : ApiResponse

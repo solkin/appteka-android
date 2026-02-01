@@ -1,3 +1,5 @@
 package com.tomclaw.appsend.screen.profile.api
 
-class UnsubscribeResponse
+import com.tomclaw.appsend.dto.ApiResponse
+
+class UnsubscribeResponse : ApiResponse

@@ -1,3 +1,5 @@
 package com.tomclaw.appsend.upload
 
-class SetMetaResponse
+import com.tomclaw.appsend.dto.ApiResponse
+
+class SetMetaResponse : ApiResponse

@@ -1,3 +1,5 @@
 package com.tomclaw.appsend.screen.ratings.api
 
-class DeleteRatingResponse
+import com.tomclaw.appsend.dto.ApiResponse
+
+class DeleteRatingResponse : ApiResponse

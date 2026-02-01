@@ -1,3 +1,5 @@
 package com.tomclaw.appsend.screen.feed.api
 
-class DeletePostResponse
+import com.tomclaw.appsend.dto.ApiResponse
+
+class DeletePostResponse : ApiResponse

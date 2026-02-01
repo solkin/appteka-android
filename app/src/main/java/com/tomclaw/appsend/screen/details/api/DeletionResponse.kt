@@ -1,3 +1,5 @@
 package com.tomclaw.appsend.screen.details.api
 
-class DeletionResponse
+import com.tomclaw.appsend.dto.ApiResponse
+
+class DeletionResponse : ApiResponse
