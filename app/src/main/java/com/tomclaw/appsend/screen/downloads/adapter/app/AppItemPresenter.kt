@@ -60,11 +60,11 @@ class AppItemPresenter(
         if (item.hasProgress) view.showProgress() else view.hideProgress()
         if (item.hasError) view.showError() else view.hideError()
         if (item.showMenu) view.showMenu() else view.hideMenu()
+        view.setClickable(clickable)
         if (clickable) {
             view.setOnClickListener { listener.onItemClick(item) }
         } else {
             view.setOnClickListener(null)
-            view.setClickable(false)
         }
         view.setOnRetryListener { listener.onRetryClick(item) }
         view.setOnDeleteClickListener { listener.onDeleteClick(item) }

@@ -59,11 +59,11 @@ class AppItemPresenter(
         if (!item.isAbiCompatible) view.showAbiIncompatibleBadge() else view.hideAbiIncompatibleBadge()
         if (item.hasProgress) view.showProgress() else view.hideProgress()
         if (item.hasError) view.showError() else view.hideError()
+        view.setClickable(clickable)
         if (clickable) {
             view.setOnClickListener { listener.onItemClick(item) }
         } else {
             view.setOnClickListener(null)
-            view.setClickable(false)
         }
         view.setOnRetryListener { listener.onRetryClick(item) }
     }

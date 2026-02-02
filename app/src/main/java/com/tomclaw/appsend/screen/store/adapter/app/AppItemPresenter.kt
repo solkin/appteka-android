@@ -57,11 +57,11 @@ class AppItemPresenter(
         view.setCategory(item.category)
         if (item.openSource) view.showOpenSourceBadge() else view.hideOpenSourceBadge()
         if (!item.isAbiCompatible) view.showAbiIncompatibleBadge() else view.hideAbiIncompatibleBadge()
+        view.setClickable(clickable)
         if (clickable) {
             view.setOnClickListener { listener.onItemClick(item) }
         } else {
             view.setOnClickListener(null)
-            view.setClickable(false)
         }
     }
 
