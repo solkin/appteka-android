@@ -102,6 +102,8 @@ interface ChatView {
 
     fun msgReportClicks(): Observable<MessageEntity>
 
+    fun msgDeleteClicks(): Observable<MessageEntity>
+
     fun pinChatClicks(): Observable<Unit>
 
     fun loginClicks(): Observable<Unit>
@@ -140,6 +142,7 @@ class ChatViewImpl(
     private val msgTranslateRelay = PublishRelay.create<MessageEntity>()
     private val openProfileRelay = PublishRelay.create<MessageEntity>()
     private val msgReportRelay = PublishRelay.create<MessageEntity>()
+    private val msgDeleteRelay = PublishRelay.create<MessageEntity>()
     private val pinChatRelay = PublishRelay.create<Unit>()
     private val loginRelay = PublishRelay.create<Unit>()
 
@@ -304,7 +307,7 @@ class ChatViewImpl(
         if (extended) {
             actions.add(
                 ActionItem(
-                    MENU_REPORT,
+                    MENU_DELETE,
                     context.getString(R.string.delete),
                     R.drawable.ic_delete
                 )
@@ -327,6 +330,7 @@ class ChatViewImpl(
                 MENU_TRANSLATE -> msgTranslateRelay.accept(message)
                 MENU_PROFILE -> openProfileRelay.accept(message)
                 MENU_REPORT -> msgReportRelay.accept(message)
+                MENU_DELETE -> msgDeleteRelay.accept(message)
             }
         }
 
@@ -410,6 +414,8 @@ class ChatViewImpl(
 
     override fun msgReportClicks(): Observable<MessageEntity> = msgReportRelay
 
+    override fun msgDeleteClicks(): Observable<MessageEntity> = msgDeleteRelay
+
     override fun pinChatClicks(): Observable<Unit> = pinChatRelay
 
     override fun loginClicks(): Observable<Unit> = loginRelay
@@ -421,4 +427,5 @@ private const val MENU_COPY = 2
 private const val MENU_TRANSLATE = 3
 private const val MENU_PROFILE = 4
 private const val MENU_REPORT = 5
+private const val MENU_DELETE = 6
 private const val DURATION_MEDIUM = 300L

@@ -9,6 +9,7 @@ import com.tomclaw.appsend.screen.chat.adapter.ItemListener
 import com.tomclaw.appsend.screen.chat.api.MsgTranslateResponse
 import com.tomclaw.appsend.screen.chat.api.TranslationEntity
 import com.tomclaw.appsend.screen.topics.COMMON_QNA_TOPIC_ICON
+import com.tomclaw.appsend.user.api.UserBrief
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.filterUnauthorizedErrors
 import com.tomclaw.appsend.util.getParcelableArrayListCompat
@@ -17,6 +18,7 @@ import com.tomclaw.bananalytics.Bananalytics
 import com.tomclaw.bananalytics.api.BreadcrumbCategory
 import dagger.Lazy
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.kotlin.Observables
 import io.reactivex.rxjava3.kotlin.plusAssign
 
 interface ChatPresenter : ItemListener {
@@ -71,6 +73,8 @@ class ChatPresenterImpl(
     private var translation: MutableMap<Int, TranslationEntity> =
         state?.getParcelableArrayListCompat(KEY_TRANSLATION, TranslationEntity::class.java)
             .orEmpty().associateBy { it.msgId }.toMutableMap()
+    private var userBrief: UserBrief? =
+        state?.getParcelableCompat(KEY_USER_BRIEF, UserBrief::class.java)
 
     private val journal = HashSet<Int>()
 
@@ -105,6 +109,9 @@ class ChatPresenterImpl(
         }
         subscriptions += view.msgReportClicks().subscribe { message ->
             reportMessage(message.msgId)
+        }
+        subscriptions += view.msgDeleteClicks().subscribe { message ->
+            deleteMessage(message.msgId)
         }
         subscriptions += view.pinChatClicks().subscribe {
             pinTopic()
@@ -164,6 +171,7 @@ class ChatPresenterImpl(
         putBoolean(KEY_ERROR, isError)
         history?.let { putParcelableArrayList(KEY_HISTORY, ArrayList(it)) }
         putParcelableArrayList(KEY_TRANSLATION, ArrayList(translation.values))
+        putParcelable(KEY_USER_BRIEF, userBrief)
     }
 
     private fun sendMessage() {
@@ -245,12 +253,19 @@ class ChatPresenterImpl(
     }
 
     private fun loadHistory() {
-        subscriptions += chatInteractor.loadHistory(topicId, 0, -1)
-            .map { mergeHistory(it) }
+        subscriptions += Observables
+            .zip(
+                chatInteractor.loadHistory(topicId, 0, -1),
+                chatInteractor.getUserBrief()
+            )
             .observeOn(schedulers.mainThread())
             .doOnSubscribe { view?.showProgress() }
             .subscribe(
-                { onHistoryLoaded() },
+                { (messages, briefWrapper) ->
+                    userBrief = briefWrapper.userBrief
+                    mergeHistory(messages)
+                    onHistoryLoaded()
+                },
                 { onTopicError() }
             )
     }
@@ -282,6 +297,27 @@ class ChatPresenterImpl(
                     )
                 }
             )
+    }
+
+    private fun deleteMessage(msgId: Int) {
+        subscriptions += chatInteractor.reportMessage(msgId)
+            .observeOn(schedulers.mainThread())
+            .subscribe(
+                { onMessageDeleted(msgId) },
+                {
+                    it.filterUnauthorizedErrors(
+                        authError = { view?.showUnauthorizedError() },
+                        other = { view?.showReportFailed() }
+                    )
+                }
+            )
+    }
+
+    private fun onMessageDeleted(msgId: Int) {
+        history = history?.filter { it.msgId != msgId }
+        translation.remove(msgId)
+        bindHistory()
+        view?.contentUpdated()
     }
 
     private fun translateMessage(msg: MessageEntity) {
@@ -364,18 +400,12 @@ class ChatPresenterImpl(
             it.msgId == item.id.toInt()
         } ?: return
         val translated = translation[message.msgId]?.translated == true
-        subscriptions += chatInteractor.getUserBrief()
-            .observeOn(schedulers.mainThread())
-            .subscribe(
-                { userData ->
-                    if (userData.role >= ROLE_ADMIN || userData.userId == message.userId) {
-                        view?.showExtendedMessageDialog(message, translated)
-                    } else {
-                        view?.showBaseMessageDialog(message, translated)
-                    }
-                },
-                { view?.showBaseMessageDialog(message, translated) }
-            )
+        val userData = userBrief
+        if (userData != null && (userData.role >= ROLE_ADMIN || userData.userId == message.userId)) {
+            view?.showExtendedMessageDialog(message, translated)
+        } else {
+            view?.showBaseMessageDialog(message, translated)
+        }
     }
 
     override fun onLoadMore(msgId: Int) {
@@ -433,5 +463,6 @@ private const val KEY_ERROR = "error"
 private const val KEY_MESSAGE = "message"
 private const val KEY_HISTORY = "history"
 private const val KEY_TRANSLATION = "translation"
+private const val KEY_USER_BRIEF = "user_brief"
 
 private const val ROLE_ADMIN = 200

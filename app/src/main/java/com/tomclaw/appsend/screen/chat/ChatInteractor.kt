@@ -14,9 +14,13 @@ import io.reactivex.rxjava3.core.Observable
 import java.util.Locale
 import java.util.UUID
 
+data class UserBriefWrapper(
+    val userBrief: UserBrief?
+)
+
 interface ChatInteractor {
 
-    fun getUserBrief(): Observable<UserBrief>
+    fun getUserBrief(): Observable<UserBriefWrapper>
 
     fun getTopic(topicId: Int): Observable<TopicEntity>
 
@@ -44,10 +48,11 @@ class ChatInteractorImpl(
     private val schedulers: SchedulersFactory
 ) : ChatInteractor {
 
-    override fun getUserBrief(): Observable<UserBrief> {
+    override fun getUserBrief(): Observable<UserBriefWrapper> {
         return api
             .getUserBrief(userId = null)
-            .map { it.result }
+            .map { UserBriefWrapper(it.result) }
+            .onErrorReturn { UserBriefWrapper(userBrief = null) }
             .toObservable()
             .subscribeOn(schedulers.io())
     }
