@@ -313,12 +313,17 @@ class UploadViewImpl(
     }
 
     override fun setAppIcon(url: String?) {
-        appIcon.fetch(url.orEmpty()) {
-            centerCrop()
-            placeholder(R.drawable.app_placeholder)
-            onLoading { imageView ->
-                imageView.scaleType = ImageView.ScaleType.CENTER_CROP
-                imageView.setImageResource(R.drawable.app_placeholder)
+        if (url.isNullOrEmpty()) {
+            appIcon.scaleType = ImageView.ScaleType.CENTER_CROP
+            appIcon.setImageResource(R.drawable.app_placeholder)
+        } else {
+            appIcon.fetch(url) {
+                centerCrop()
+                placeholder(R.drawable.app_placeholder)
+                onLoading { imageView ->
+                    imageView.scaleType = ImageView.ScaleType.CENTER_CROP
+                    imageView.setImageResource(R.drawable.app_placeholder)
+                }
             }
         }
     }

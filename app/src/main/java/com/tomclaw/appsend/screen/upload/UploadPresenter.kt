@@ -357,11 +357,12 @@ class UploadPresenterImpl(
     }
 
     private fun bindUploadAppIcon() {
-        when {
+        val iconUrl = when {
             apk?.packageInfo != null -> createApkIconURI(apk?.path.orEmpty())
             checkExist?.file?.icon != null -> checkExist?.file?.icon
             else -> null
-        }?.let { view?.setAppIcon(it) }
+        }
+        view?.setAppIcon(iconUrl)
     }
 
     private fun onPackageChanged(pkg: UploadPackage?, apk: UploadApk?) {
