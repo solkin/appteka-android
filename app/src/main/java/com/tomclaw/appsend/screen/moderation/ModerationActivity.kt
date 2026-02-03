@@ -12,6 +12,8 @@ import com.tomclaw.appsend.appComponent
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.screen.moderation.di.ModerationModule
+import com.tomclaw.appsend.util.ZipParcelable
+import com.tomclaw.appsend.util.getParcelableCompat
 import com.tomclaw.appsend.util.updateTheme
 import javax.inject.Inject
 
@@ -34,7 +36,9 @@ class ModerationActivity : AppCompatActivity(), ModerationPresenter.ModerationRo
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
+        val presenterState = savedInstanceState
+            ?.getParcelableCompat(KEY_PRESENTER_STATE, ZipParcelable::class.java)
+            ?.restore()
         appComponent
             .moderationComponent(ModerationModule(this, presenterState))
             .inject(activity = this)
@@ -66,7 +70,7 @@ class ModerationActivity : AppCompatActivity(), ModerationPresenter.ModerationRo
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putBundle(KEY_PRESENTER_STATE, presenter.saveState())
+        outState.putParcelable(KEY_PRESENTER_STATE, ZipParcelable(presenter.saveState()))
     }
 
     override fun openAppModerationScreen(appId: String, title: String) {

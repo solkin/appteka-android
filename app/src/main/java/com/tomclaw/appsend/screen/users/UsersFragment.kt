@@ -15,6 +15,8 @@ import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.profile.createProfileActivityIntent
 import com.tomclaw.appsend.screen.users.di.SubscribersModule
 import com.tomclaw.appsend.util.Analytics
+import com.tomclaw.appsend.util.ZipParcelable
+import com.tomclaw.appsend.util.getParcelableCompat
 import javax.inject.Inject
 
 class UsersFragment : Fragment(), UsersPresenter.SubscribersRouter {
@@ -39,7 +41,9 @@ class UsersFragment : Fragment(), UsersPresenter.SubscribersRouter {
             ?: throw IllegalArgumentException("User ID must be provided")
         val type = UsersType.valueOf(name)
 
-        val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
+        val presenterState = savedInstanceState
+            ?.getParcelableCompat(KEY_PRESENTER_STATE, ZipParcelable::class.java)
+            ?.restore()
         requireContext().appComponent
             .subscribersComponent(SubscribersModule(context, type, userId, presenterState))
             .inject(fragment = this)
@@ -83,7 +87,7 @@ class UsersFragment : Fragment(), UsersPresenter.SubscribersRouter {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putBundle(KEY_PRESENTER_STATE, presenter.saveState())
+        outState.putParcelable(KEY_PRESENTER_STATE, ZipParcelable(presenter.saveState()))
     }
 
     override fun openProfileScreen(userId: Int) {

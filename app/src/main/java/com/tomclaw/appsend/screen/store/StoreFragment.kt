@@ -37,9 +37,9 @@ class StoreFragment : Fragment(), StorePresenter.StoreRouter, HomeFragment {
     lateinit var analytics: Analytics
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val compressedPresenterState: ZipParcelable? =
-            savedInstanceState?.getParcelableCompat(KEY_PRESENTER_STATE, ZipParcelable::class.java)
-        val presenterState: Bundle? = compressedPresenterState?.restore()
+        val presenterState = savedInstanceState
+            ?.getParcelableCompat(KEY_PRESENTER_STATE, ZipParcelable::class.java)
+            ?.restore()
         requireContext().appComponent
             .storeComponent(StoreModule(requireContext(), presenterState))
             .inject(fragment = this)

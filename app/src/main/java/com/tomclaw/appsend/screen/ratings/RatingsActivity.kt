@@ -12,6 +12,8 @@ import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.profile.createProfileActivityIntent
 import com.tomclaw.appsend.screen.ratings.di.RatingsModule
 import com.tomclaw.appsend.util.Analytics
+import com.tomclaw.appsend.util.ZipParcelable
+import com.tomclaw.appsend.util.getParcelableCompat
 import com.tomclaw.appsend.util.updateTheme
 import javax.inject.Inject
 
@@ -32,7 +34,9 @@ class RatingsActivity : AppCompatActivity(), RatingsPresenter.RatingsRouter {
     override fun onCreate(savedInstanceState: Bundle?) {
         val appId = intent.getStringExtra(EXTRA_APP_ID)
             ?: throw IllegalArgumentException("App ID must be provided")
-        val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
+        val presenterState = savedInstanceState
+            ?.getParcelableCompat(KEY_PRESENTER_STATE, ZipParcelable::class.java)
+            ?.restore()
         appComponent
             .ratingsComponent(RatingsModule(this, appId, presenterState))
             .inject(activity = this)
@@ -68,7 +72,7 @@ class RatingsActivity : AppCompatActivity(), RatingsPresenter.RatingsRouter {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putBundle(KEY_PRESENTER_STATE, presenter.saveState())
+        outState.putParcelable(KEY_PRESENTER_STATE, ZipParcelable(presenter.saveState()))
     }
 
     override fun openUserProfile(userId: Int) {

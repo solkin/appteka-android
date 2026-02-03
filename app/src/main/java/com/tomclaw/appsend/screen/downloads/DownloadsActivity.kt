@@ -13,6 +13,8 @@ import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.screen.downloads.di.DownloadsModule
 import com.tomclaw.appsend.util.Analytics
+import com.tomclaw.appsend.util.ZipParcelable
+import com.tomclaw.appsend.util.getParcelableCompat
 import com.tomclaw.appsend.util.updateTheme
 import javax.inject.Inject
 
@@ -39,7 +41,9 @@ class DownloadsActivity : AppCompatActivity(), DownloadsPresenter.DownloadsRoute
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val userId = intent.getIntExtra(EXTRA_USER_ID, 0)
-        val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
+        val presenterState = savedInstanceState
+            ?.getParcelableCompat(KEY_PRESENTER_STATE, ZipParcelable::class.java)
+            ?.restore()
         appComponent
             .downloadComponent(DownloadsModule(this, userId, presenterState))
             .inject(activity = this)
@@ -75,7 +79,7 @@ class DownloadsActivity : AppCompatActivity(), DownloadsPresenter.DownloadsRoute
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putBundle(KEY_PRESENTER_STATE, presenter.saveState())
+        outState.putParcelable(KEY_PRESENTER_STATE, ZipParcelable(presenter.saveState()))
     }
 
     override fun openAppScreen(appId: String, title: String) {

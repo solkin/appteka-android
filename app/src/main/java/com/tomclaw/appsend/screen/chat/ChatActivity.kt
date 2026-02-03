@@ -44,9 +44,9 @@ class ChatActivity : AppCompatActivity(), ChatPresenter.ChatRouter {
         val topicId = intent.getIntExtra(EXTRA_TOPIC_ID, 0).takeIf { it != 0 }
             ?: topicEntity?.topicId ?: throw IllegalArgumentException("Topic ID must be provided")
 
-        val compressedPresenterState: ZipParcelable? =
-            savedInstanceState?.getParcelableCompat(KEY_PRESENTER_STATE, ZipParcelable::class.java)
-        val presenterState: Bundle? = compressedPresenterState?.restore()
+        val presenterState = savedInstanceState
+            ?.getParcelableCompat(KEY_PRESENTER_STATE, ZipParcelable::class.java)
+            ?.restore()
         appComponent
             .chatComponent(ChatModule(this, topicEntity, topicId, presenterState))
             .inject(activity = this)

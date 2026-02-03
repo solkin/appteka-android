@@ -11,6 +11,8 @@ import com.tomclaw.appsend.util.adapter.SimpleRecyclerAdapter
 import com.tomclaw.appsend.appComponent
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.search.di.SearchModule
+import com.tomclaw.appsend.util.ZipParcelable
+import com.tomclaw.appsend.util.getParcelableCompat
 import com.tomclaw.appsend.util.updateTheme
 import javax.inject.Inject
 
@@ -29,7 +31,9 @@ class SearchActivity : AppCompatActivity(), SearchPresenter.SearchRouter {
         updateTheme()
         super.onCreate(savedInstanceState)
 
-        val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
+        val presenterState = savedInstanceState
+            ?.getParcelableCompat(KEY_PRESENTER_STATE, ZipParcelable::class.java)
+            ?.restore()
         appComponent
             .searchComponent(SearchModule(context = this, presenterState))
             .inject(activity = this)
@@ -79,7 +83,7 @@ class SearchActivity : AppCompatActivity(), SearchPresenter.SearchRouter {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putBundle(KEY_PRESENTER_STATE, presenter.saveState())
+        outState.putParcelable(KEY_PRESENTER_STATE, ZipParcelable(presenter.saveState()))
     }
 
     override fun onOptionsItemSelected(item: android.view.MenuItem): Boolean {

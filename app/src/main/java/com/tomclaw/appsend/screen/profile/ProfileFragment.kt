@@ -28,6 +28,8 @@ import com.tomclaw.appsend.screen.subscriptions.Tab
 import com.tomclaw.appsend.screen.subscriptions.createSubscriptionsActivityIntent
 import com.tomclaw.appsend.screen.uploads.createUploadsActivityIntent
 import com.tomclaw.appsend.util.Analytics
+import com.tomclaw.appsend.util.ZipParcelable
+import com.tomclaw.appsend.util.getParcelableCompat
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -57,7 +59,9 @@ class ProfileFragment : Fragment(), ProfilePresenter.ProfileRouter, HomeFragment
         val userId = arguments?.getInt(ARG_USER_ID)
         val withToolbar = arguments?.getBoolean(ARG_WITH_TOOLBAR, false)
 
-        val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
+        val presenterState = savedInstanceState
+            ?.getParcelableCompat(KEY_PRESENTER_STATE, ZipParcelable::class.java)
+            ?.restore()
         requireContext().appComponent
             .profileComponent(ProfileModule(userId, withToolbar, presenterState))
             .inject(fragment = this)
@@ -106,7 +110,7 @@ class ProfileFragment : Fragment(), ProfilePresenter.ProfileRouter, HomeFragment
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putBundle(KEY_PRESENTER_STATE, presenter.saveState())
+        outState.putParcelable(KEY_PRESENTER_STATE, ZipParcelable(presenter.saveState()))
     }
 
     override fun openUserFilesScreen(userId: Int) {

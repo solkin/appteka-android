@@ -39,9 +39,9 @@ class TopicsFragment : Fragment(), TopicsPresenter.TopicsRouter, HomeFragment {
     lateinit var analytics: Analytics
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val compressedPresenterState: ZipParcelable? =
-            savedInstanceState?.getParcelableCompat(KEY_PRESENTER_STATE, ZipParcelable::class.java)
-        val presenterState: Bundle? = compressedPresenterState?.restore()
+        val presenterState = savedInstanceState
+            ?.getParcelableCompat(KEY_PRESENTER_STATE, ZipParcelable::class.java)
+            ?.restore()
         requireContext().appComponent
             .topicsComponent(TopicsModule(requireContext(), presenterState))
             .inject(fragment = this)
