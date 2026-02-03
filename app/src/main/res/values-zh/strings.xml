@@ -402,4 +402,16 @@
     <string name="abi_incompatible">与您的设备不兼容</string>
     <string name="abi_warning_title">架构不兼容</string>
     <string name="abi_warning_message">此应用程序可能无法在您的设备上正常运行，因为它是为不同的处理器架构构建的。您仍要下载吗？</string>
+    <string name="save">保存</string>
+    <!-- Proxy settings -->
+    <string name="pref_category_network_title">网络</string>
+    <string name="pref_title_proxy_enabled">使用代理</string>
+    <string name="pref_summary_proxy_enabled">通过代理服务器路由流量</string>
+    <string name="pref_title_proxy_settings">代理设置</string>
+    <string name="pref_summary_proxy_settings">配置代理主机和端口</string>
+    <string name="proxy_settings_dialog_title">代理设置</string>
+    <string name="proxy_host_hint">主机（例如 proxy.example.com）</string>
+    <string name="proxy_port_hint">端口（例如 8080）</string>
+    <string name="proxy_type_label">代理类型</string>
+    <string name="proxy_settings_invalid">代理设置无效</string>
 </resources>

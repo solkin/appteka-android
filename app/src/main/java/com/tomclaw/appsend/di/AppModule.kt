@@ -1,42 +1,38 @@
 package com.tomclaw.appsend.di
 
 import android.app.Application
-import com.tomclaw.appsend.BuildConfig
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.content.pm.PackageManager
-import com.chuckerteam.chucker.api.ChuckerInterceptor
+import android.os.Build
 import com.google.gson.Gson
+import com.tomclaw.appsend.BuildConfig
 import com.google.gson.GsonBuilder
 import com.tomclaw.appsend.analytics.EnvironmentProviderImpl
-import com.tomclaw.bananalytics.Bananalytics
-import com.tomclaw.bananalytics.BananalyticsConfig
-import com.tomclaw.bananalytics.BananalyticsImpl
-import com.tomclaw.bananalytics.EnvironmentProvider
 import com.tomclaw.appsend.categories.CategoriesInteractor
 import com.tomclaw.appsend.categories.CategoriesInteractorImpl
+import com.tomclaw.appsend.core.ApiHolder
 import com.tomclaw.appsend.core.AppInfoProvider
 import com.tomclaw.appsend.core.AppInfoProviderImpl
-import com.tomclaw.appsend.core.AppInfoInterceptor
 import com.tomclaw.appsend.core.BANANALYTICS_API_KEY
 import com.tomclaw.appsend.core.BANANALYTICS_URL
-import com.tomclaw.appsend.core.DeviceIdInterceptor
 import com.tomclaw.appsend.core.DeviceIdProvider
 import com.tomclaw.appsend.core.DeviceIdProviderImpl
-import com.tomclaw.appsend.core.HOST_URL
+import com.tomclaw.appsend.core.HttpClientHolder
+import com.tomclaw.appsend.core.HttpClientHolderImpl
 import com.tomclaw.appsend.core.MigrationManager
 import com.tomclaw.appsend.core.MigrationManagerImpl
 import com.tomclaw.appsend.core.PackageInfoProvider
 import com.tomclaw.appsend.core.PackageInfoProviderImpl
 import com.tomclaw.appsend.core.PersistentCookieJar
-import com.tomclaw.appsend.core.STAND_BY_HOST_URL
+import com.tomclaw.appsend.core.ProxyConfigProvider
+import com.tomclaw.appsend.core.ProxyConfigProviderImpl
 import com.tomclaw.appsend.core.StandByApi
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.core.StreamsProvider
 import com.tomclaw.appsend.core.StreamsProviderImpl
 import com.tomclaw.appsend.core.TimeProvider
 import com.tomclaw.appsend.core.TimeProviderImpl
-import com.tomclaw.appsend.core.UserAgentInterceptor
 import com.tomclaw.appsend.core.UserAgentProvider
 import com.tomclaw.appsend.core.UserAgentProviderImpl
 import com.tomclaw.appsend.download.ApkStorage
@@ -46,13 +42,10 @@ import com.tomclaw.appsend.download.DownloadNotifications
 import com.tomclaw.appsend.download.DownloadNotificationsImpl
 import com.tomclaw.appsend.download.LegacyApkStorage
 import com.tomclaw.appsend.download.MediaStoreApkStorage
-import android.os.Build
 import com.tomclaw.appsend.screen.details.DetailsDeepLinkParser
 import com.tomclaw.appsend.screen.details.DetailsDeepLinkParserImpl
 import com.tomclaw.appsend.screen.profile.ProfileDeepLinkParser
 import com.tomclaw.appsend.screen.profile.ProfileDeepLinkParserImpl
-import com.tomclaw.appsend.screen.feed.api.PostDeserializer
-import com.tomclaw.appsend.screen.feed.api.PostEntity
 import com.tomclaw.appsend.upload.UploadManager
 import com.tomclaw.appsend.upload.UploadManagerImpl
 import com.tomclaw.appsend.upload.UploadNotifications
@@ -69,18 +62,18 @@ import com.tomclaw.appsend.util.PackageObserver
 import com.tomclaw.appsend.util.PackageObserverImpl
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.SchedulersFactoryImpl
+import com.tomclaw.bananalytics.Bananalytics
+import com.tomclaw.bananalytics.BananalyticsConfig
+import com.tomclaw.bananalytics.BananalyticsImpl
+import com.tomclaw.bananalytics.EnvironmentProvider
 import dagger.Module
 import dagger.Provides
 import okhttp3.CookieJar
 import okhttp3.OkHttpClient
-import retrofit2.Retrofit
-import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory
-import retrofit2.converter.gson.GsonConverterFactory
 import java.io.File
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.Locale
-import java.util.concurrent.TimeUnit
 import javax.inject.Named
 import javax.inject.Singleton
 
@@ -243,16 +236,18 @@ class AppModule(private val app: Application) {
     internal fun provideDownloadManager(
         apkStorage: ApkStorage,
         cookieJar: CookieJar,
-    ): DownloadManager = DownloadManagerImpl(apkStorage, cookieJar)
+        proxyConfigProvider: ProxyConfigProvider,
+    ): DownloadManager = DownloadManagerImpl(apkStorage, cookieJar, proxyConfigProvider)
 
     @Provides
     @Singleton
     internal fun provideUploadManager(
         context: Context,
         cookieJar: CookieJar,
+        proxyConfigProvider: ProxyConfigProvider,
         api: StoreApi,
         gson: Gson
-    ): UploadManager = UploadManagerImpl(context, cookieJar, api, gson)
+    ): UploadManager = UploadManagerImpl(context, cookieJar, proxyConfigProvider, api, gson)
 
     @Provides
     @Singleton
@@ -262,51 +257,55 @@ class AppModule(private val app: Application) {
 
     @Provides
     @Singleton
-    internal fun provideHttClient(
+    internal fun provideProxyConfigProvider(): ProxyConfigProvider =
+        ProxyConfigProviderImpl(app)
+
+    @Provides
+    @Singleton
+    internal fun provideHttpClientHolder(
         cookieJar: CookieJar,
         userAgentProvider: UserAgentProvider,
         deviceIdProvider: DeviceIdProvider,
         appInfoProvider: AppInfoProvider,
-    ): OkHttpClient = OkHttpClient.Builder()
-        .readTimeout(2, TimeUnit.MINUTES)
-        .connectTimeout(20, TimeUnit.SECONDS)
-        .addInterceptor(UserAgentInterceptor(userAgentProvider.getUserAgent()))
-        .addInterceptor(DeviceIdInterceptor(deviceIdProvider.getDeviceId()))
-        .addInterceptor(AppInfoInterceptor(appInfoProvider))
-        .addInterceptor(ChuckerInterceptor.Builder(app).build())
-        .cookieJar(cookieJar)
-        .build()
+        proxyConfigProvider: ProxyConfigProvider,
+    ): HttpClientHolderImpl = HttpClientHolderImpl(
+        app = app,
+        cookieJar = cookieJar,
+        userAgentProvider = userAgentProvider,
+        deviceIdProvider = deviceIdProvider,
+        appInfoProvider = appInfoProvider,
+        proxyConfigProvider = proxyConfigProvider
+    )
 
     @Provides
     @Singleton
-    internal fun provideStoreApi(client: OkHttpClient, gson: Gson): StoreApi = Retrofit.Builder()
-        .client(client)
-        .baseUrl("$HOST_URL/api/")
-        .addConverterFactory(
-            GsonConverterFactory.create(
-                gson.newBuilder()
-                    .registerTypeAdapter(PostEntity::class.java, PostDeserializer(gson))
-                    .create()
-            )
-        )
-        .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-        .build()
-        .create(StoreApi::class.java)
+    internal fun provideHttpClientHolderInterface(
+        holder: HttpClientHolderImpl
+    ): HttpClientHolder = holder
 
     @Provides
     @Singleton
-    internal fun provideStandByApi(client: OkHttpClient): StandByApi = Retrofit.Builder()
-        .client(client)
-        .baseUrl("$STAND_BY_HOST_URL/api/appteka/")
-        .addConverterFactory(GsonConverterFactory.create())
-        .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-        .build()
-        .create(StandByApi::class.java)
+    internal fun provideOkHttpClient(holder: HttpClientHolder): OkHttpClient = holder.getClient()
 
     @Provides
     @Singleton
-    internal fun provideStreamsProvider(client: OkHttpClient): StreamsProvider =
-        StreamsProviderImpl(context = app, client)
+    internal fun provideApiHolder(
+        httpClientHolder: HttpClientHolder,
+        gson: Gson
+    ): ApiHolder = ApiHolder(httpClientHolder, gson)
+
+    @Provides
+    @Singleton
+    internal fun provideStoreApi(apiHolder: ApiHolder): StoreApi = apiHolder.storeApi
+
+    @Provides
+    @Singleton
+    internal fun provideStandByApi(apiHolder: ApiHolder): StandByApi = apiHolder.standByApi
+
+    @Provides
+    @Singleton
+    internal fun provideStreamsProvider(httpClientHolder: HttpClientHolder): StreamsProvider =
+        StreamsProviderImpl(context = app, httpClientHolder)
 
     @Provides
     @Singleton

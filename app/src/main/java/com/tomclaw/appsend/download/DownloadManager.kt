@@ -2,6 +2,7 @@ package com.tomclaw.appsend.download
 
 import android.net.Uri
 import com.jakewharton.rxrelay3.BehaviorRelay
+import com.tomclaw.appsend.core.ProxyConfigProvider
 import com.tomclaw.appsend.util.safeClose
 import io.reactivex.rxjava3.core.Observable
 import okhttp3.CookieJar
@@ -12,6 +13,7 @@ import java.io.InputStream
 import java.io.InterruptedIOException
 import java.io.OutputStream
 import java.net.HttpURLConnection
+import java.net.Proxy
 import java.net.URL
 import java.util.concurrent.Executors
 import java.util.concurrent.Future
@@ -35,6 +37,7 @@ interface DownloadManager {
 class DownloadManagerImpl(
     private val apkStorage: ApkStorage,
     private val cookieJar: CookieJar,
+    private val proxyConfigProvider: ProxyConfigProvider,
 ) : DownloadManager {
 
     private val executor = Executors.newSingleThreadExecutor()
@@ -156,7 +159,12 @@ class DownloadManagerImpl(
         var output: OutputStream? = null
         try {
             val u = URL(url)
-            connection = u.openConnection() as HttpURLConnection
+            val proxy: Proxy? = proxyConfigProvider.getProxyConfig().toProxy()
+            connection = if (proxy != null) {
+                u.openConnection(proxy) as HttpURLConnection
+            } else {
+                u.openConnection() as HttpURLConnection
+            }
 
             val httpUrl = url.toHttpUrlOrNull()
                 ?: throw IllegalArgumentException("Invalid download URL")

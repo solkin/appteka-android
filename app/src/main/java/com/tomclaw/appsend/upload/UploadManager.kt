@@ -9,6 +9,7 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.jakewharton.rxrelay3.BehaviorRelay
 import com.tomclaw.appsend.core.HOST_URL
+import com.tomclaw.appsend.core.ProxyConfigProvider
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.dto.StoreResponse
 import com.tomclaw.appsend.util.MultipartStream
@@ -28,6 +29,7 @@ import java.io.InputStreamReader
 import java.io.InterruptedIOException
 import java.lang.reflect.Type
 import java.net.HttpURLConnection
+import java.net.Proxy
 import java.net.URL
 import java.util.UUID
 import java.util.concurrent.Executors
@@ -48,6 +50,7 @@ interface UploadManager {
 class UploadManagerImpl(
     private val context: Context,
     private val cookieJar: CookieJar,
+    private val proxyConfigProvider: ProxyConfigProvider,
     private val api: StoreApi,
     private val gson: Gson
 ) : UploadManager {
@@ -376,7 +379,13 @@ class UploadManagerImpl(
     }
 
     private fun openMultipartConnection(url: String, boundary: String): HttpURLConnection {
-        val connection: HttpURLConnection = URL(url).openConnection() as HttpURLConnection
+        val u = URL(url)
+        val proxy: Proxy? = proxyConfigProvider.getProxyConfig().toProxy()
+        val connection: HttpURLConnection = if (proxy != null) {
+            u.openConnection(proxy) as HttpURLConnection
+        } else {
+            u.openConnection() as HttpURLConnection
+        }
 
         val httpUrl = url.toHttpUrlOrNull()
             ?: throw IllegalArgumentException("Invalid upload screenshot URL")

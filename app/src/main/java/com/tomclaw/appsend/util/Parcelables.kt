@@ -16,6 +16,7 @@ fun Parcel.readBool(): Boolean {
 
 fun <T : Parcelable> Bundle.getParcelableCompat(key: String, clazz: Class<T>): T? {
     return try {
+        classLoader = clazz.classLoader
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             getParcelable(key, clazz)
         } else {
@@ -32,6 +33,7 @@ fun <T : Parcelable> Bundle.getParcelableArrayListCompat(
     clazz: Class<T>
 ): ArrayList<T>? {
     return try {
+        classLoader = clazz.classLoader
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             getParcelableArrayList(key, clazz)
         } else {

@@ -416,4 +416,16 @@
     <string name="abi_incompatible">گونجاو نییە بۆ ئامێرەکەت</string>
     <string name="abi_warning_title">ئەرکیتەکچەری ناگونجاو</string>
     <string name="abi_warning_message">ئەم بەرنامەیە لەوانەیە بە دروستی کار نەکات لەسەر ئامێرەکەت چونکە بۆ ئەرکیتەکچەری پڕۆسێسەری جیاواز دروستکراوە. ئایا دەتەوێت بیدەزنیت؟</string>
+    <string name="save">پاشەکەوتکردن</string>
+    <!-- Proxy settings -->
+    <string name="pref_category_network_title">تۆڕ</string>
+    <string name="pref_title_proxy_enabled">بەکارهێنانی پڕۆکسی</string>
+    <string name="pref_summary_proxy_enabled">ناردنی هاتوچۆ بە ڕێگای سێرڤەری پڕۆکسی</string>
+    <string name="pref_title_proxy_settings">ڕێکخستنەکانی پڕۆکسی</string>
+    <string name="pref_summary_proxy_settings">ڕێکخستنی هۆست و پۆرتی پڕۆکسی</string>
+    <string name="proxy_settings_dialog_title">ڕێکخستنەکانی پڕۆکسی</string>
+    <string name="proxy_host_hint">هۆست (نم. proxy.example.com)</string>
+    <string name="proxy_port_hint">پۆرت (نم. 8080)</string>
+    <string name="proxy_type_label">جۆری پڕۆکسی</string>
+    <string name="proxy_settings_invalid">ڕێکخستنەکانی پڕۆکسی نادروستە</string>
 </resources>

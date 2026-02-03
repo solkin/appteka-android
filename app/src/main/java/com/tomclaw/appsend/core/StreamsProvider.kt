@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.content.ContentResolver
 import android.content.Context
 import android.net.Uri
-import okhttp3.OkHttpClient
 import okhttp3.Request
 import java.io.InputStream
 import java.io.OutputStream
@@ -19,7 +18,7 @@ interface StreamsProvider {
 
 class StreamsProviderImpl(
     private val context: Context,
-    private val client: OkHttpClient,
+    private val httpClientHolder: HttpClientHolder,
 ) : StreamsProvider {
 
     @SuppressLint("Recycle")
@@ -31,7 +30,7 @@ class StreamsProviderImpl(
             SCHEME_HTTP,
             SCHEME_HTTPS -> {
                 val request: Request = Request.Builder().url(uri.toString()).build()
-                client.newCall(request).execute().let { response ->
+                httpClientHolder.getClient().newCall(request).execute().let { response ->
                     return response.body.byteStream()
                 }
             }

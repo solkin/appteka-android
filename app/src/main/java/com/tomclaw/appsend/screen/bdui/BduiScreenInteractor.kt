@@ -1,5 +1,6 @@
 package com.tomclaw.appsend.screen.bdui
 
+import com.tomclaw.appsend.core.HttpClientHolder
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.bdui.model.BduiNode
 import com.tomclaw.appsend.util.bdui.model.action.BduiRpcAction
@@ -7,7 +8,6 @@ import com.tomclaw.appsend.util.bdui.model.action.BduiRpcResponse
 import com.tomclaw.appsend.util.bdui.parser.BduiJsonParser
 import io.reactivex.rxjava3.core.Single
 import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 
@@ -20,7 +20,7 @@ interface BduiScreenInteractor {
 }
 
 class BduiScreenInteractorImpl(
-    private val httpClient: OkHttpClient,
+    private val httpClientHolder: HttpClientHolder,
     private val schedulers: SchedulersFactory
 ) : BduiScreenInteractor {
 
@@ -33,7 +33,7 @@ class BduiScreenInteractorImpl(
                         .get()
                         .build()
 
-                    val response = httpClient.newCall(request).execute()
+                    val response = httpClientHolder.getClient().newCall(request).execute()
 
                     if (response.isSuccessful) {
                         val json = response.body?.string()
@@ -81,7 +81,7 @@ class BduiScreenInteractorImpl(
                         else -> requestBuilder.get()
                     }
 
-                    val response = httpClient.newCall(requestBuilder.build()).execute()
+                    val response = httpClientHolder.getClient().newCall(requestBuilder.build()).execute()
 
                     if (response.isSuccessful) {
                         val json = response.body?.string()

@@ -414,4 +414,16 @@
     <string name="abi_incompatible">Incompatível com seu dispositivo</string>
     <string name="abi_warning_title">Arquitetura incompatível</string>
     <string name="abi_warning_message">Este aplicativo pode não funcionar corretamente no seu dispositivo porque foi criado para uma arquitetura de processador diferente. Deseja baixá-lo mesmo assim?</string>
+    <string name="save">Salvar</string>
+    <!-- Proxy settings -->
+    <string name="pref_category_network_title">Rede</string>
+    <string name="pref_title_proxy_enabled">Usar Proxy</string>
+    <string name="pref_summary_proxy_enabled">Rotear tráfego pelo servidor proxy</string>
+    <string name="pref_title_proxy_settings">Configurações de Proxy</string>
+    <string name="pref_summary_proxy_settings">Configurar host e porta do proxy</string>
+    <string name="proxy_settings_dialog_title">Configurações de Proxy</string>
+    <string name="proxy_host_hint">Host (ex: proxy.example.com)</string>
+    <string name="proxy_port_hint">Porta (ex: 8080)</string>
+    <string name="proxy_type_label">Tipo de proxy</string>
+    <string name="proxy_settings_invalid">Configurações de proxy inválidas</string>
 </resources>

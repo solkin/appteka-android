@@ -402,4 +402,16 @@
     <string name="abi_incompatible">Không tương thích với thiết bị của bạn</string>
     <string name="abi_warning_title">Kiến trúc không tương thích</string>
     <string name="abi_warning_message">Ứng dụng này có thể không hoạt động đúng trên thiết bị của bạn vì nó được xây dựng cho kiến trúc bộ xử lý khác. Bạn có muốn tải xuống không?</string>
+    <string name="save">Lưu</string>
+    <!-- Proxy settings -->
+    <string name="pref_category_network_title">Mạng</string>
+    <string name="pref_title_proxy_enabled">Sử dụng Proxy</string>
+    <string name="pref_summary_proxy_enabled">Định tuyến lưu lượng qua máy chủ proxy</string>
+    <string name="pref_title_proxy_settings">Cài đặt Proxy</string>
+    <string name="pref_summary_proxy_settings">Cấu hình máy chủ và cổng proxy</string>
+    <string name="proxy_settings_dialog_title">Cài đặt Proxy</string>
+    <string name="proxy_host_hint">Máy chủ (ví dụ: proxy.example.com)</string>
+    <string name="proxy_port_hint">Cổng (ví dụ: 8080)</string>
+    <string name="proxy_type_label">Loại proxy</string>
+    <string name="proxy_settings_invalid">Cài đặt proxy không hợp lệ</string>
 </resources>

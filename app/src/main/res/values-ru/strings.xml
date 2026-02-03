@@ -431,4 +431,16 @@
     <string name="abi_warning_message">Это приложение может работать некорректно на вашем устройстве, так как оно собрано для другой архитектуры процессора. Хотите всё равно скачать?</string>
     <string name="official_developer">Официальный разработчик</string>
     <string name="official_short">Официально</string>
+    <string name="save">Сохранить</string>
+    <!-- Proxy settings -->
+    <string name="pref_category_network_title">Сеть</string>
+    <string name="pref_title_proxy_enabled">Использовать прокси</string>
+    <string name="pref_summary_proxy_enabled">Направлять трафик через прокси-сервер</string>
+    <string name="pref_title_proxy_settings">Настройки прокси</string>
+    <string name="pref_summary_proxy_settings">Настроить хост и порт прокси</string>
+    <string name="proxy_settings_dialog_title">Настройки прокси</string>
+    <string name="proxy_host_hint">Хост (например, proxy.example.com)</string>
+    <string name="proxy_port_hint">Порт (например, 8080)</string>
+    <string name="proxy_type_label">Тип прокси</string>
+    <string name="proxy_settings_invalid">Неверные настройки прокси</string>
 </resources>

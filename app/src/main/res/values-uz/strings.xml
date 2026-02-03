@@ -390,4 +390,16 @@
     <string name="abi_warning_message">Ushbu ilova qurilmangizda to\'g\'ri ishlamasligi mumkin, chunki u boshqa protsessor arxitekturasi uchun yaratilgan. Uni baribir yuklab olmoqchimisiz?</string>
     <string name="official_developer">Rasmiy ishlab chiquvchi</string>
     <string name="official_short">Rasmiy</string>
+    <string name="save">Saqlash</string>
+    <!-- Proxy settings -->
+    <string name="pref_category_network_title">Tarmoq</string>
+    <string name="pref_title_proxy_enabled">Proksi ishlatish</string>
+    <string name="pref_summary_proxy_enabled">Trafikni proksi-server orqali yo\'naltirish</string>
+    <string name="pref_title_proxy_settings">Proksi sozlamalari</string>
+    <string name="pref_summary_proxy_settings">Proksi host va portini sozlash</string>
+    <string name="proxy_settings_dialog_title">Proksi sozlamalari</string>
+    <string name="proxy_host_hint">Host (masalan, proxy.example.com)</string>
+    <string name="proxy_port_hint">Port (masalan, 8080)</string>
+    <string name="proxy_type_label">Proksi turi</string>
+    <string name="proxy_settings_invalid">Noto\'g\'ri proksi sozlamalari</string>
 </resources>

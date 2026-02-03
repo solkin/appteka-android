@@ -1,11 +1,16 @@
 package com.tomclaw.appsend.screen.settings
 
+import android.Manifest
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Build
 import android.os.Bundle
+import android.text.Editable
 import android.text.TextUtils
-import android.widget.Toast
+import android.text.TextWatcher
+import android.view.LayoutInflater
+import android.widget.EditText
+import android.widget.RadioGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.Preference
@@ -14,12 +19,15 @@ import androidx.preference.PreferenceManager
 import androidx.preference.SwitchPreferenceCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
-import android.Manifest
 import com.greysonparrelli.permiso.Permiso
 import com.greysonparrelli.permiso.Permiso.IOnPermissionResult
 import com.greysonparrelli.permiso.Permiso.IOnRationaleProvided
-import com.tomclaw.appsend.appComponent
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.appComponent
+import com.tomclaw.appsend.core.ProxyAddressParser
+import com.tomclaw.appsend.core.ProxyConfig
+import com.tomclaw.appsend.core.ProxyConfigProvider
+import com.tomclaw.appsend.core.ProxyType
 import com.tomclaw.appsend.download.ApkStorage
 import com.tomclaw.appsend.screen.settings.di.SettingsModule
 import com.tomclaw.appsend.util.applyTheme
@@ -34,6 +42,9 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
     @Inject
     lateinit var apkStorage: ApkStorage
+
+    @Inject
+    lateinit var proxyConfigProvider: ProxyConfigProvider
 
     private lateinit var settingsView: SettingsView
 
@@ -51,6 +62,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
         setupDynamicColorsPreference()
         setupSortOrderPreference()
         setupClearCachePreference()
+        setupProxyPreferences()
     }
 
     private fun setupThemePreference() {
@@ -84,6 +96,123 @@ class SettingsFragment : PreferenceFragmentCompat(),
             (settingsView as SettingsViewImpl).onClearCacheClick()
             true
         }
+    }
+
+    private fun setupProxyPreferences() {
+        findPreference<SwitchPreferenceCompat>(getString(R.string.pref_proxy_enabled))?.let { pref ->
+            val config = proxyConfigProvider.getProxyConfig()
+            pref.isChecked = config.enabled
+            pref.setOnPreferenceChangeListener { _, newValue ->
+                val enabled = newValue as Boolean
+                val currentConfig = proxyConfigProvider.getProxyConfig()
+                proxyConfigProvider.setProxyConfig(currentConfig.copy(enabled = enabled))
+                updateProxySettingsSummary()
+                true
+            }
+        }
+
+        findPreference<Preference>(getString(R.string.pref_proxy_settings))?.let { pref ->
+            updateProxySettingsSummary()
+            pref.setOnPreferenceClickListener {
+                showProxySettingsDialog()
+                true
+            }
+        }
+    }
+
+    private fun updateProxySettingsSummary() {
+        findPreference<Preference>(getString(R.string.pref_proxy_settings))?.let { pref ->
+            val config = proxyConfigProvider.getProxyConfig()
+            pref.summary = if (config.host.isNotBlank() && config.port > 0) {
+                "${config.type.name}: ${config.host}:${config.port}"
+            } else {
+                getString(R.string.pref_summary_proxy_settings)
+            }
+        }
+    }
+
+    private fun showProxySettingsDialog() {
+        val dialogView = LayoutInflater.from(requireContext())
+            .inflate(R.layout.dialog_proxy_settings, null)
+
+        val hostInput = dialogView.findViewById<EditText>(R.id.proxy_host_input)
+        val portInput = dialogView.findViewById<EditText>(R.id.proxy_port_input)
+        val typeGroup = dialogView.findViewById<RadioGroup>(R.id.proxy_type_group)
+
+        val config = proxyConfigProvider.getProxyConfig()
+        hostInput.setText(config.host)
+        if (config.port > 0) {
+            portInput.setText(config.port.toString())
+        }
+        typeGroup.check(
+            when (config.type) {
+                ProxyType.SOCKS -> R.id.proxy_type_socks
+                else -> R.id.proxy_type_http
+            }
+        )
+
+        // Add TextWatcher to parse proxy address on paste
+        var isUpdating = false
+        hostInput.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: Editable?) {
+                if (isUpdating) return
+                val text = s?.toString() ?: return
+
+                val parsed = ProxyAddressParser.parse(text) ?: return
+
+                isUpdating = true
+                hostInput.setText(parsed.host)
+                hostInput.setSelection(parsed.host.length)
+
+                parsed.port?.let { port ->
+                    portInput.setText(port.toString())
+                }
+
+                parsed.type?.let { type ->
+                    typeGroup.check(
+                        when (type) {
+                            ProxyType.SOCKS -> R.id.proxy_type_socks
+                            ProxyType.HTTP -> R.id.proxy_type_http
+                        }
+                    )
+                }
+                isUpdating = false
+            }
+        })
+
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.proxy_settings_dialog_title)
+            .setView(dialogView)
+            .setPositiveButton(R.string.save) { _, _ ->
+                val host = hostInput.text.toString().trim()
+                val portText = portInput.text.toString().trim()
+                val port = portText.toIntOrNull() ?: 0
+                val type = when (typeGroup.checkedRadioButtonId) {
+                    R.id.proxy_type_socks -> ProxyType.SOCKS
+                    else -> ProxyType.HTTP
+                }
+
+                val newConfig = proxyConfigProvider.getProxyConfig().copy(
+                    host = host,
+                    port = port,
+                    type = type
+                )
+
+                if (newConfig.isValid()) {
+                    proxyConfigProvider.setProxyConfig(newConfig)
+                    updateProxySettingsSummary()
+                } else {
+                    Snackbar.make(
+                        requireView(),
+                        R.string.proxy_settings_invalid,
+                        Snackbar.LENGTH_SHORT
+                    ).show()
+                }
+            }
+            .setNegativeButton(R.string.cancel, null)
+            .show()
     }
 
     override fun onResume() {

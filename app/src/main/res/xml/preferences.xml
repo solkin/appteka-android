@@ -46,6 +46,28 @@
     </PreferenceCategory>
 
     <PreferenceCategory
+        android:title="@string/pref_category_network_title"
+        app:useMaterialThemeColors="true">
+
+        <SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="@string/pref_proxy_enabled"
+            android:title="@string/pref_title_proxy_enabled"
+            android:summary="@string/pref_summary_proxy_enabled"
+            app:useMaterialThemeColors="true"
+            android:icon="@drawable/ic_proxy" />
+
+        <Preference
+            android:key="@string/pref_proxy_settings"
+            android:title="@string/pref_title_proxy_settings"
+            android:summary="@string/pref_summary_proxy_settings"
+            android:dependency="@string/pref_proxy_enabled"
+            app:useMaterialThemeColors="true"
+            android:icon="@drawable/ic_proxy_settings" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
         android:title="@string/pref_category_general_title"
         app:useMaterialThemeColors="true">
         

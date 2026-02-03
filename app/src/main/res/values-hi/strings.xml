@@ -411,4 +411,16 @@
     <string name="abi_incompatible">आपके डिवाइस के साथ संगत नहीं</string>
     <string name="abi_warning_title">असंगत आर्किटेक्चर</string>
     <string name="abi_warning_message">यह एप्लिकेशन आपके डिवाइस पर सही तरीके से काम नहीं कर सकता क्योंकि यह एक अलग प्रोसेसर आर्किटेक्चर के लिए बनाया गया था। क्या आप फिर भी इसे डाउनलोड करना चाहते हैं?</string>
+    <string name="save">सहेजें</string>
+    <!-- Proxy settings -->
+    <string name="pref_category_network_title">नेटवर्क</string>
+    <string name="pref_title_proxy_enabled">प्रॉक्सी का उपयोग करें</string>
+    <string name="pref_summary_proxy_enabled">ट्रैफ़िक को प्रॉक्सी सर्वर के माध्यम से रूट करें</string>
+    <string name="pref_title_proxy_settings">प्रॉक्सी सेटिंग्स</string>
+    <string name="pref_summary_proxy_settings">प्रॉक्सी होस्ट और पोर्ट कॉन्फ़िगर करें</string>
+    <string name="proxy_settings_dialog_title">प्रॉक्सी सेटिंग्स</string>
+    <string name="proxy_host_hint">होस्ट (जैसे proxy.example.com)</string>
+    <string name="proxy_port_hint">पोर्ट (जैसे 8080)</string>
+    <string name="proxy_type_label">प्रॉक्सी प्रकार</string>
+    <string name="proxy_settings_invalid">अमान्य प्रॉक्सी सेटिंग्स</string>
 </resources>

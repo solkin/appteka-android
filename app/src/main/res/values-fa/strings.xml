@@ -442,4 +442,16 @@
     <string name="abi_warning_message">این برنامه ممکن است به درستی روی دستگاه شما کار نکند زیرا برای معماری پردازنده متفاوتی ساخته شده است. آیا می‌خواهید آن را دانلود کنید؟</string>
     <string name="official_developer">توسعه دهنده رسمی</string>
     <string name="official_short">رسمی</string>
+    <string name="save">ذخیره</string>
+    <!-- Proxy settings -->
+    <string name="pref_category_network_title">شبکه</string>
+    <string name="pref_title_proxy_enabled">استفاده از پروکسی</string>
+    <string name="pref_summary_proxy_enabled">هدایت ترافیک از طریق سرور پروکسی</string>
+    <string name="pref_title_proxy_settings">تنظیمات پروکسی</string>
+    <string name="pref_summary_proxy_settings">پیکربندی میزبان و پورت پروکسی</string>
+    <string name="proxy_settings_dialog_title">تنظیمات پروکسی</string>
+    <string name="proxy_host_hint">میزبان (مثلا proxy.example.com)</string>
+    <string name="proxy_port_hint">پورت (مثلا 8080)</string>
+    <string name="proxy_type_label">نوع پروکسی</string>
+    <string name="proxy_settings_invalid">تنظیمات پروکسی نامعتبر است</string>
 </resources>

@@ -442,4 +442,20 @@
     <string name="abi_warning_message">This application may not work correctly on your device because it was built for a different processor architecture. Do you want to download it anyway?</string>
     <string name="official_developer">Official developer</string>
     <string name="official_short">Official</string>
+    <string name="save">Save</string>
+    <!-- Proxy settings -->
+    <string name="pref_category_network_title">Network</string>
+    <string name="pref_proxy_enabled" translatable="false">pref_proxy_enabled</string>
+    <string name="pref_proxy_settings" translatable="false">pref_proxy_settings</string>
+    <string name="pref_title_proxy_enabled">Use Proxy</string>
+    <string name="pref_summary_proxy_enabled">Route traffic through proxy server</string>
+    <string name="pref_title_proxy_settings">Proxy Settings</string>
+    <string name="pref_summary_proxy_settings">Configure proxy host and port</string>
+    <string name="proxy_settings_dialog_title">Proxy Settings</string>
+    <string name="proxy_host_hint">Host (e.g. proxy.example.com)</string>
+    <string name="proxy_port_hint">Port (e.g. 8080)</string>
+    <string name="proxy_type_label">Proxy type</string>
+    <string name="proxy_type_http" translatable="false">HTTP</string>
+    <string name="proxy_type_socks" translatable="false">SOCKS</string>
+    <string name="proxy_settings_invalid">Invalid proxy settings</string>
 </resources>

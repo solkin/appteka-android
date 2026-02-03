@@ -452,4 +452,16 @@
     <string name="abi_incompatible">غير متوافق مع جهازك</string>
     <string name="abi_warning_title">معمارية غير متوافقة</string>
     <string name="abi_warning_message">قد لا يعمل هذا التطبيق بشكل صحيح على جهازك لأنه مصمم لمعمارية معالج مختلفة. هل تريد تنزيله على أي حال؟</string>
+    <string name="save">حفظ</string>
+    <!-- Proxy settings -->
+    <string name="pref_category_network_title">الشبكة</string>
+    <string name="pref_title_proxy_enabled">استخدام البروكسي</string>
+    <string name="pref_summary_proxy_enabled">توجيه حركة المرور عبر خادم البروكسي</string>
+    <string name="pref_title_proxy_settings">إعدادات البروكسي</string>
+    <string name="pref_summary_proxy_settings">تكوين مضيف ومنفذ البروكسي</string>
+    <string name="proxy_settings_dialog_title">إعدادات البروكسي</string>
+    <string name="proxy_host_hint">المضيف (مثل proxy.example.com)</string>
+    <string name="proxy_port_hint">المنفذ (مثل 8080)</string>
+    <string name="proxy_type_label">نوع البروكسي</string>
+    <string name="proxy_settings_invalid">إعدادات البروكسي غير صالحة</string>
 </resources>
