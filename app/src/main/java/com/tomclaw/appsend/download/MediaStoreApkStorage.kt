@@ -42,7 +42,7 @@ class MediaStoreApkStorage(
         val contentValues = ContentValues().apply {
             put(MediaStore.Downloads.DISPLAY_NAME, displayName)
             put(MediaStore.Downloads.MIME_TYPE, TMP_MIME_TYPE)
-            put(MediaStore.Downloads.RELATIVE_PATH, "$DOWNLOAD_DIR/$APPTEKA_DIR")
+            put(MediaStore.Downloads.RELATIVE_PATH, "$DOWNLOAD_DIR/$APPTEKA_DIR/")
             // Don't use IS_PENDING for tmp files - they need to survive app restart for resume
         }
 
@@ -83,12 +83,28 @@ class MediaStoreApkStorage(
         return try {
             val updated = contentResolver.update(uri, updateValues, null, null)
             if (updated > 0) {
-                // Cache URI for immediate access (MediaStore indexing is async)
+                // Cache URI for immediate access
                 committedUris[fileName] = uri
+                // Wait for MediaStore indexing to complete (async operation)
+                // Verify file is accessible before returning success
+                waitForFileAccess(uri)
             }
             updated > 0
         } catch (ex: Throwable) {
             false
+        }
+    }
+
+    private fun waitForFileAccess(uri: Uri) {
+        repeat(INDEXING_RETRY_COUNT) { attempt ->
+            try {
+                contentResolver.openInputStream(uri)?.close()
+                return
+            } catch (ex: SecurityException) {
+                if (attempt < INDEXING_RETRY_COUNT - 1) {
+                    Thread.sleep(INDEXING_RETRY_DELAY_MS)
+                }
+            }
         }
     }
 
@@ -99,9 +115,20 @@ class MediaStoreApkStorage(
 
     override fun getInstallUri(fileName: String): Uri? {
         // First check cached URI (MediaStore indexing is async, query may fail right after commit)
-        committedUris[fileName]?.let { return it }
-        
-        return findFileUri("$fileName.$APK_EXTENSION")
+        val uri = committedUris[fileName] ?: findFileUri("$fileName.$APK_EXTENSION")
+        if (uri == null) return null
+
+        // Verify file is accessible before returning URI
+        // MediaStore indexing is async, file may not be ready immediately after commit
+        return try {
+            contentResolver.openInputStream(uri)?.close()
+            uri
+        } catch (ex: SecurityException) {
+            // File not yet accessible, clear from cache and return null
+            // Next call will retry after MediaStore finishes indexing
+            committedUris.remove(fileName)
+            null
+        }
     }
 
     override fun exists(fileName: String): Boolean {
@@ -237,7 +264,7 @@ class MediaStoreApkStorage(
         val contentValues = ContentValues().apply {
             put(MediaStore.Downloads.DISPLAY_NAME, "$fileName.$APK_EXTENSION")
             put(MediaStore.Downloads.MIME_TYPE, APK_MIME_TYPE)
-            put(MediaStore.Downloads.RELATIVE_PATH, "$DOWNLOAD_DIR/$APPTEKA_DIR")
+            put(MediaStore.Downloads.RELATIVE_PATH, "$DOWNLOAD_DIR/$APPTEKA_DIR/")
             put(MediaStore.Downloads.IS_PENDING, 1)
         }
 
@@ -345,3 +372,5 @@ private const val CACHE_DIR = "apk_cache"
 private const val APK_EXTENSION = "apk"
 private const val APK_MIME_TYPE = "application/vnd.android.package-archive"
 private const val TMP_MIME_TYPE = "application/octet-stream"
+private const val INDEXING_RETRY_COUNT = 8
+private const val INDEXING_RETRY_DELAY_MS = 250L
