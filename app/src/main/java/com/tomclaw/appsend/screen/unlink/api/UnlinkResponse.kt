@@ -1,3 +1,5 @@
 package com.tomclaw.appsend.screen.unlink.api
 
-class UnlinkResponse()
+import com.tomclaw.appsend.dto.ApiResponse
+
+class UnlinkResponse : ApiResponse

@@ -1,3 +1,5 @@
 package com.tomclaw.appsend.screen.unpublish.api
 
-class UnpublishResponse()
+import com.tomclaw.appsend.dto.ApiResponse
+
+class UnpublishResponse : ApiResponse
