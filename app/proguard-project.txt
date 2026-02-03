@@ -13,18 +13,9 @@
   public *;
 }
 
-# Unobfuscatable
--keep class com.tomclaw.appsend.util.Unobfuscatable
--keep class * implements com.tomclaw.appsend.util.Unobfuscatable
--keepclassmembernames class * implements com.tomclaw.appsend.util.Unobfuscatable {
-  !transient <fields>;
-}
--keepnames class * implements com.tomclaw.appsend.util.Unobfuscatable {
-  !transient <fields>;
-}
--keepclassmembers class * implements com.tomclaw.appsend.util.Unobfuscatable {
-  <init>(...);
-}
+# Adapter items and API responses
+-keep class * implements com.tomclaw.appsend.util.adapter.Item { *; }
+-keep class * implements com.tomclaw.appsend.dto.ApiResponse { *; }
 
 # Parcelable (including kotlinx.parcelize support)
 -keep class * implements android.os.Parcelable {

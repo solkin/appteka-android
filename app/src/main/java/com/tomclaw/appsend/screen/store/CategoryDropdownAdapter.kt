@@ -11,7 +11,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.categories.CategoryItem
-import com.tomclaw.appsend.util.Unobfuscatable
 import com.tomclaw.appsend.util.svgToDrawable
 import kotlinx.parcelize.Parcelize
 
@@ -21,7 +20,7 @@ data class CategoryDropdownItem(
     val title: String,
     val iconSvg: String?,
     val iconRes: Int
-) : Parcelable, Unobfuscatable
+) : Parcelable
 
 class CategoryDropdownAdapter(
     context: Context,
