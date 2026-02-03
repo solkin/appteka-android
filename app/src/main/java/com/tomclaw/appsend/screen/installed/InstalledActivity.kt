@@ -11,16 +11,16 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.net.toUri
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.tomclaw.appsend.util.adapter.ItemBinder
 import com.tomclaw.appsend.util.adapter.AdapterPresenter
 import com.tomclaw.appsend.util.adapter.SimpleRecyclerAdapter
-import com.greysonparrelli.permiso.Permiso
-import com.greysonparrelli.permiso.Permiso.IOnPermissionResult
-import com.greysonparrelli.permiso.Permiso.IOnRationaleProvided
 import com.tomclaw.appsend.appComponent
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.download.ApkStorage
@@ -71,6 +71,27 @@ class InstalledActivity : AppCompatActivity(), InstalledPresenter.InstalledRoute
             }
         }
 
+    private var pendingStoragePermissionCallback: ((Boolean) -> Unit)? = null
+    private var pendingDeletePackageName: String? = null
+
+    private val storagePermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { granted ->
+        pendingStoragePermissionCallback?.invoke(granted)
+        pendingStoragePermissionCallback = null
+    }
+
+    private val deletePackagePermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { granted ->
+        if (granted) {
+            pendingDeletePackageName?.let { onRemoveAppPermitted(it) }
+        } else {
+            presenter.showSnackbar(getString(R.string.request_delete_packages))
+        }
+        pendingDeletePackageName = null
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
 
@@ -80,7 +101,6 @@ class InstalledActivity : AppCompatActivity(), InstalledPresenter.InstalledRoute
             .installedComponent(InstalledModule(this, picker, presenterState))
             .inject(activity = this)
         updateTheme()
-        Permiso.getInstance().setActivity(this)
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.installed_activity)
@@ -104,11 +124,6 @@ class InstalledActivity : AppCompatActivity(), InstalledPresenter.InstalledRoute
         presenter.attachRouter(this)
     }
 
-    override fun onResume() {
-        super.onResume()
-        Permiso.getInstance().setActivity(this)
-    }
-
     override fun onStop() {
         presenter.detachRouter()
         super.onStop()
@@ -122,15 +137,6 @@ class InstalledActivity : AppCompatActivity(), InstalledPresenter.InstalledRoute
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putBundle(KEY_PRESENTER_STATE, presenter.saveState())
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        Permiso.getInstance().onRequestPermissionResult(requestCode, permissions, grantResults)
     }
 
     override fun openAppScreen(appId: String, title: String) {
@@ -238,24 +244,32 @@ class InstalledActivity : AppCompatActivity(), InstalledPresenter.InstalledRoute
 
     override fun removeApp(packageName: String) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            Permiso.getInstance().requestPermissions(object : IOnPermissionResult {
-                override fun onPermissionResult(resultSet: Permiso.ResultSet) {
-                    if (resultSet.isPermissionGranted(Manifest.permission.REQUEST_DELETE_PACKAGES)) {
-                        onRemoveAppPermitted(packageName)
-                    } else {
-                        presenter.showSnackbar(getString(R.string.request_delete_packages))
-                    }
+            val permission = Manifest.permission.REQUEST_DELETE_PACKAGES
+            when {
+                ContextCompat.checkSelfPermission(
+                    this,
+                    permission
+                ) == PackageManager.PERMISSION_GRANTED -> {
+                    onRemoveAppPermitted(packageName)
                 }
 
-                override fun onRationaleRequested(
-                    callback: IOnRationaleProvided,
-                    vararg permissions: String
-                ) {
-                    val title: String = getString(R.string.app_name)
-                    val message: String = getString(R.string.request_delete_packages)
-                    Permiso.getInstance().showRationaleInDialog(title, message, null, callback)
+                shouldShowRequestPermissionRationale(permission) -> {
+                    MaterialAlertDialogBuilder(this)
+                        .setTitle(R.string.app_name)
+                        .setMessage(R.string.request_delete_packages)
+                        .setPositiveButton(R.string.ok) { _, _ ->
+                            pendingDeletePackageName = packageName
+                            deletePackagePermissionLauncher.launch(permission)
+                        }
+                        .setNegativeButton(R.string.cancel, null)
+                        .show()
                 }
-            }, Manifest.permission.REQUEST_DELETE_PACKAGES)
+
+                else -> {
+                    pendingDeletePackageName = packageName
+                    deletePackagePermissionLauncher.launch(permission)
+                }
+            }
         } else {
             onRemoveAppPermitted(packageName)
         }
@@ -266,20 +280,34 @@ class InstalledActivity : AppCompatActivity(), InstalledPresenter.InstalledRoute
             callback(true)
             return
         }
-        Permiso.getInstance().requestPermissions(object : IOnPermissionResult {
-            override fun onPermissionResult(resultSet: Permiso.ResultSet) {
-                callback(resultSet.isPermissionGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE))
+        val permission = Manifest.permission.WRITE_EXTERNAL_STORAGE
+        when {
+            ContextCompat.checkSelfPermission(
+                this,
+                permission
+            ) == PackageManager.PERMISSION_GRANTED -> {
+                callback(true)
             }
 
-            override fun onRationaleRequested(
-                callback: IOnRationaleProvided,
-                vararg permissions: String
-            ) {
-                val title: String = getString(R.string.app_name)
-                val message: String = getString(R.string.write_permission_share)
-                Permiso.getInstance().showRationaleInDialog(title, message, null, callback)
+            shouldShowRequestPermissionRationale(permission) -> {
+                MaterialAlertDialogBuilder(this)
+                    .setTitle(R.string.app_name)
+                    .setMessage(R.string.write_permission_share)
+                    .setPositiveButton(R.string.ok) { _, _ ->
+                        pendingStoragePermissionCallback = callback
+                        storagePermissionLauncher.launch(permission)
+                    }
+                    .setNegativeButton(R.string.cancel) { _, _ ->
+                        callback(false)
+                    }
+                    .show()
             }
-        }, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+
+            else -> {
+                pendingStoragePermissionCallback = callback
+                storagePermissionLauncher.launch(permission)
+            }
+        }
     }
 
     override fun requestSaveFile(fileName: String, fileType: String) {

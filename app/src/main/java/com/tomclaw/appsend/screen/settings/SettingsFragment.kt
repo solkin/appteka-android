@@ -3,6 +3,7 @@ package com.tomclaw.appsend.screen.settings
 import android.Manifest
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
@@ -14,18 +15,16 @@ import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.RadioGroup
 import android.widget.TextView
-import androidx.core.content.ContextCompat
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.content.ContextCompat
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import androidx.preference.SwitchPreferenceCompat
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
-import com.greysonparrelli.permiso.Permiso
-import com.greysonparrelli.permiso.Permiso.IOnPermissionResult
-import com.greysonparrelli.permiso.Permiso.IOnRationaleProvided
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.appComponent
 import com.tomclaw.appsend.core.ProxyAddressParser
@@ -58,6 +57,15 @@ class SettingsFragment : PreferenceFragmentCompat(),
     lateinit var proxyChecker: ProxyChecker
 
     private lateinit var settingsView: SettingsView
+
+    private var pendingStoragePermissionCallback: ((Boolean) -> Unit)? = null
+
+    private val storagePermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { granted ->
+        pendingStoragePermissionCallback?.invoke(granted)
+        pendingStoragePermissionCallback = null
+    }
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
@@ -284,20 +292,8 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
     override fun onResume() {
         super.onResume()
-        Permiso.getInstance().setActivity(requireActivity())
         PreferenceManager.getDefaultSharedPreferences(requireContext())
             .registerOnSharedPreferenceChangeListener(this)
-    }
-
-    @Deprecated("Deprecated in Java")
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
-        @Suppress("DEPRECATION")
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        Permiso.getInstance().onRequestPermissionResult(requestCode, permissions, grantResults)
     }
 
     override fun onPause() {
@@ -478,20 +474,34 @@ class SettingsFragment : PreferenceFragmentCompat(),
             callback(true)
             return
         }
-        Permiso.getInstance().requestPermissions(object : IOnPermissionResult {
-            override fun onPermissionResult(resultSet: Permiso.ResultSet) {
-                callback(resultSet.isPermissionGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE))
+        val permission = Manifest.permission.WRITE_EXTERNAL_STORAGE
+        when {
+            ContextCompat.checkSelfPermission(
+                requireContext(),
+                permission
+            ) == PackageManager.PERMISSION_GRANTED -> {
+                callback(true)
             }
 
-            override fun onRationaleRequested(
-                callback: IOnRationaleProvided,
-                vararg permissions: String
-            ) {
-                val title: String = getString(R.string.app_name)
-                val message: String = getString(R.string.write_permission_clear_cache)
-                Permiso.getInstance().showRationaleInDialog(title, message, null, callback)
+            shouldShowRequestPermissionRationale(permission) -> {
+                MaterialAlertDialogBuilder(requireContext())
+                    .setTitle(R.string.app_name)
+                    .setMessage(R.string.write_permission_clear_cache)
+                    .setPositiveButton(R.string.ok) { _, _ ->
+                        pendingStoragePermissionCallback = callback
+                        storagePermissionLauncher.launch(permission)
+                    }
+                    .setNegativeButton(R.string.cancel) { _, _ ->
+                        callback(false)
+                    }
+                    .show()
             }
-        }, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+
+            else -> {
+                pendingStoragePermissionCallback = callback
+                storagePermissionLauncher.launch(permission)
+            }
+        }
     }
 
 }
