@@ -64,7 +64,10 @@ class GalleryPresenterImpl(
         }
         subscriptions += view.downloadClicks().subscribe {
             val item = items[pageIndex]
-            router?.openSaveScreenshotDialog(getSimpleFileName(item.uri), "image/jpeg")
+            router?.openSaveScreenshotDialog(
+                fileName = getSimpleFileName(uri = item.uri()),
+                fileType = "image/jpeg"
+            )
         }
 
         bindItems()
@@ -100,18 +103,19 @@ class GalleryPresenterImpl(
     }
 
     override fun onSaveCurrentScreenshot(uri: Uri) {
-        val source = items[pageIndex].uri
+        val source = items[pageIndex].uri()
         subscriptions += interactor.downloadFile(source, destination = uri)
             .toObservable()
             .observeOn(schedulers.mainThread())
             .subscribe(
-                { }, { view?.showError(resourceProvider.errorSavingScreenshot()) }
+                { },
+                { view?.showError(resourceProvider.errorSavingScreenshot()) }
             )
     }
 
     private fun bindItems() {
         val imageItems = items.mapIndexed { index, item ->
-            ImageItem(index.toLong(), item.uri)
+            ImageItem(id = index.toLong(), uri = item.uri())
         }
         adapterPresenter.get().onDataSourceChanged(imageItems)
 

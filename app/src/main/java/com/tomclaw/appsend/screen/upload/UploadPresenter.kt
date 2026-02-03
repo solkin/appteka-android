@@ -518,7 +518,7 @@ class UploadPresenterImpl(
 
     override fun onScreenshotClick(item: ScreenImageItem) {
         router?.openGallery(
-            items = screenshots.map { GalleryItem(it.original, it.width, it.height) },
+            items = screenshots.map { GalleryItem.fromUri(it.original, it.width, it.height) },
             current = screenshots.indexOfFirst { it.original == item.original },
         )
     }
