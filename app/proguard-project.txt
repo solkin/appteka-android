@@ -26,15 +26,38 @@
   <init>(...);
 }
 
-# Parcelable
--keepnames class * implements android.os.Parcelable
--keepclassmembers class * implements android.os.Parcelable {
-  public static final ** CREATOR;
+# Parcelable (including kotlinx.parcelize support)
+-keep class * implements android.os.Parcelable {
+    public static final android.os.Parcelable$Creator *;
 }
+-keepclassmembers class * implements android.os.Parcelable {
+    public static final android.os.Parcelable$Creator CREATOR;
+}
+
+# Enums (required for Parcelable and Gson serialization)
+-keepclassmembers enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
+
+# Gson
+-keepattributes Signature
+-keepattributes *Annotation*
+-keep class com.google.gson.** { *; }
+-keep class * implements com.google.gson.TypeAdapterFactory
+-keep class * implements com.google.gson.JsonSerializer
+-keep class * implements com.google.gson.JsonDeserializer
+
+# Keep classes with @SerializedName annotations
+-keepclassmembers,allowobfuscation class * {
+    @com.google.gson.annotations.SerializedName <fields>;
+}
+
+# Keep Gson model classes marked with @GsonModel annotation
+-keep @com.tomclaw.appsend.util.GsonModel class * { *; }
 
 # Retrofit
 -dontnote retrofit2.Platform
--keepattributes Signature
 -keepattributes Exceptions
 -dontwarn javax.annotation.**
 -dontwarn org.xmlpull.v1.**

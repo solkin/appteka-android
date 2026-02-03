@@ -2,10 +2,12 @@ package com.tomclaw.appsend.screen.profile.api
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import com.tomclaw.appsend.util.GsonModel
 import com.tomclaw.appsend.dto.UserIcon
 import com.tomclaw.appsend.screen.reviews.api.ReviewEntity
 import kotlinx.parcelize.Parcelize
 
+@GsonModel
 @Parcelize
 data class Profile(
     @SerializedName("user_id")

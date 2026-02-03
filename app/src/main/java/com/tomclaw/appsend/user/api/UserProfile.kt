@@ -3,8 +3,10 @@ package com.tomclaw.appsend.user.api
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import com.tomclaw.appsend.dto.UserIcon
+import com.tomclaw.appsend.util.GsonModel
 import kotlinx.parcelize.Parcelize
 
+@GsonModel
 @Parcelize
 data class UserProfile(
     @SerializedName("user_id")

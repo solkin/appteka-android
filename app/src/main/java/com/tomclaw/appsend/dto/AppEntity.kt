@@ -3,9 +3,11 @@ package com.tomclaw.appsend.dto
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import com.tomclaw.appsend.categories.Category
+import com.tomclaw.appsend.util.GsonModel
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
+@GsonModel
 data class AppEntity(
     @SerializedName("app_id")
     val appId: String,

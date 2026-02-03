@@ -5,8 +5,10 @@ import com.google.gson.annotations.SerializedName
 import com.tomclaw.appsend.categories.Category
 import com.tomclaw.appsend.dto.Screenshot
 import com.tomclaw.appsend.dto.UserIcon
+import com.tomclaw.appsend.util.GsonModel
 import kotlinx.parcelize.Parcelize
 
+@GsonModel
 @Parcelize
 data class Meta(
     @SerializedName("category")

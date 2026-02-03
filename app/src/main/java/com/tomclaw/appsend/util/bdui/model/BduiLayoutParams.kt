@@ -1,10 +1,12 @@
 package com.tomclaw.appsend.util.bdui.model
 
 import com.google.gson.annotations.SerializedName
+import com.tomclaw.appsend.util.GsonModel
 
 /**
  * Layout parameters for positioning and sizing BDUI nodes.
  */
+@GsonModel
 data class BduiLayoutParams(
     @SerializedName("width")
     val width: String? = null,              // "match_parent", "wrap_content", or "100dp"
@@ -42,6 +44,7 @@ data class BduiLayoutParams(
  * Insets for margin and padding.
  * Supports individual sides, horizontal/vertical shortcuts, or uniform "all".
  */
+@GsonModel
 data class BduiInsets(
     @SerializedName("left")
     val left: Int? = null,

@@ -2,7 +2,9 @@ package com.tomclaw.appsend.screen.topics.api
 
 import com.google.gson.annotations.SerializedName
 import com.tomclaw.appsend.dto.TopicEntity
+import com.tomclaw.appsend.util.GsonModel
 
+@GsonModel
 class TopicsResponse(
     @SerializedName("has_more")
     val hasMore: Boolean,

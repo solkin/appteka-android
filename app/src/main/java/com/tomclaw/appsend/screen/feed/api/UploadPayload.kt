@@ -3,7 +3,9 @@ package com.tomclaw.appsend.screen.feed.api
 import com.google.gson.annotations.SerializedName
 import com.tomclaw.appsend.categories.Category
 import com.tomclaw.appsend.dto.Screenshot
+import com.tomclaw.appsend.util.GsonModel
 
+@GsonModel
 data class UploadPayload(
     @SerializedName("app_id")
     val appId: String,

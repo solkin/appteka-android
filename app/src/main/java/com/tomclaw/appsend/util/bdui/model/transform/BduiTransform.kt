@@ -1,6 +1,7 @@
 package com.tomclaw.appsend.util.bdui.model.transform
 
 import com.google.gson.annotations.SerializedName
+import com.tomclaw.appsend.util.GsonModel
 
 /**
  * Base sealed interface for all BDUI transforms.
@@ -13,6 +14,7 @@ sealed interface BduiTransform {
 /**
  * Property transform - changes a single property of a component.
  */
+@GsonModel
 data class BduiPropertyTransform(
     @SerializedName("type")
     override val type: String = TYPE,
@@ -32,6 +34,7 @@ data class BduiPropertyTransform(
  * Batch transform - applies multiple transforms at once.
  * This is the composite pattern for combining transforms.
  */
+@GsonModel
 data class BduiBatchTransform(
     @SerializedName("type")
     override val type: String = TYPE,

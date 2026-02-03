@@ -1,10 +1,12 @@
 package com.tomclaw.appsend.util.bdui.model
 
 import com.google.gson.annotations.SerializedName
+import com.tomclaw.appsend.util.GsonModel
 
 /**
  * Text styling options for text-based components.
  */
+@GsonModel
 data class BduiTextStyle(
     @SerializedName("textSize")
     val textSize: Int? = null,              // in sp
@@ -33,6 +35,7 @@ data class BduiTextStyle(
 /**
  * Background styling options.
  */
+@GsonModel
 data class BduiBackgroundStyle(
     @SerializedName("color")
     val color: String? = null,              // "#RRGGBB" or "#AARRGGBB"
@@ -55,6 +58,7 @@ data class BduiBackgroundStyle(
 /**
  * Image styling options.
  */
+@GsonModel
 data class BduiImageStyle(
     @SerializedName("scaleType")
     val scaleType: String? = null,          // "centerCrop", "fitCenter", "centerInside", etc.

@@ -5,9 +5,11 @@ import com.google.gson.annotations.SerializedName
 import com.tomclaw.appsend.dto.AppEntity
 import com.tomclaw.appsend.screen.details.api.AppVersion
 import com.tomclaw.appsend.screen.details.api.Meta
+import com.tomclaw.appsend.util.GsonModel
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
+@GsonModel
 data class CheckExistResponse(
     @SerializedName("reassign")
     val reassign: Boolean,

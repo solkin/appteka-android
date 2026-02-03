@@ -2,9 +2,11 @@ package com.tomclaw.appsend.dto
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import com.tomclaw.appsend.util.GsonModel
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
+@GsonModel
 data class MessageEntity(
     @SerializedName("topic_id")
     val topicId: Int,

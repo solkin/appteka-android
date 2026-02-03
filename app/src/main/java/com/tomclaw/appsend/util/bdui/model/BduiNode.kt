@@ -1,6 +1,7 @@
 package com.tomclaw.appsend.util.bdui.model
 
 import com.google.gson.annotations.SerializedName
+import com.tomclaw.appsend.util.GsonModel
 import com.tomclaw.appsend.util.bdui.model.action.BduiAction
 
 /**
@@ -17,6 +18,7 @@ interface BduiNode {
  * Reference to a property value of another component.
  * Used for dynamic data binding in actions and transforms.
  */
+@GsonModel
 data class BduiRef(
     @SerializedName("type")
     val type: String = "ref",

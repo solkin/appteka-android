@@ -1,6 +1,7 @@
 package com.tomclaw.appsend.util.bdui.model.container
 
 import com.google.gson.annotations.SerializedName
+import com.tomclaw.appsend.util.GsonModel
 import com.tomclaw.appsend.util.bdui.model.BduiLayoutParams
 import com.tomclaw.appsend.util.bdui.model.BduiNode
 import com.tomclaw.appsend.util.bdui.model.action.BduiAction
@@ -16,6 +17,7 @@ sealed interface BduiContainer : BduiNode {
 /**
  * FrameLayout container - stacks children on top of each other.
  */
+@GsonModel
 data class BduiFrameContainer(
     @SerializedName("id")
     override val id: String,
@@ -36,6 +38,7 @@ data class BduiFrameContainer(
 /**
  * LinearLayout container - arranges children in a row or column.
  */
+@GsonModel
 data class BduiLinearContainer(
     @SerializedName("id")
     override val id: String,
@@ -64,6 +67,7 @@ data class BduiLinearContainer(
 /**
  * Divider configuration for LinearLayout.
  */
+@GsonModel
 data class BduiDividerConfig(
     @SerializedName("showDividers")
     val showDividers: String? = null,       // "none", "beginning", "middle", "end"
@@ -74,6 +78,7 @@ data class BduiDividerConfig(
 /**
  * RecyclerView container - displays a scrollable list of items.
  */
+@GsonModel
 data class BduiRecyclerContainer(
     @SerializedName("id")
     override val id: String,
@@ -102,6 +107,7 @@ data class BduiRecyclerContainer(
 /**
  * ScrollView container - provides vertical scrolling for content.
  */
+@GsonModel
 data class BduiScrollContainer(
     @SerializedName("id")
     override val id: String,
@@ -127,6 +133,7 @@ data class BduiScrollContainer(
  * ViewFlipper container - displays one child at a time, supports switching between children.
  * Can be controlled via transforms to change displayedChild.
  */
+@GsonModel
 data class BduiFlipperContainer(
     @SerializedName("id")
     override val id: String,

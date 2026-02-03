@@ -1,6 +1,7 @@
 package com.tomclaw.appsend.util.bdui.model.component
 
 import com.google.gson.annotations.SerializedName
+import com.tomclaw.appsend.util.GsonModel
 import com.tomclaw.appsend.util.bdui.model.BduiBackgroundStyle
 import com.tomclaw.appsend.util.bdui.model.BduiImageStyle
 import com.tomclaw.appsend.util.bdui.model.BduiLayoutParams
@@ -21,6 +22,7 @@ sealed interface BduiComponent : BduiNode
  * Hidden component - stores arbitrary data without rendering.
  * Values can be accessed via refs and modified via transforms.
  */
+@GsonModel
 data class BduiHiddenComponent(
     @SerializedName("id")
     override val id: String,
@@ -45,6 +47,7 @@ data class BduiHiddenComponent(
 /**
  * Text component - displays text content.
  */
+@GsonModel
 data class BduiTextComponent(
     @SerializedName("id")
     override val id: String,
@@ -87,6 +90,7 @@ data class BduiTextComponent(
 /**
  * Button component - Material button with various styles.
  */
+@GsonModel
 data class BduiButtonComponent(
     @SerializedName("id")
     override val id: String,
@@ -115,6 +119,7 @@ data class BduiButtonComponent(
 /**
  * Icon Button component - circular button with icon.
  */
+@GsonModel
 data class BduiIconButtonComponent(
     @SerializedName("id")
     override val id: String,
@@ -141,6 +146,7 @@ data class BduiIconButtonComponent(
 /**
  * Floating Action Button component.
  */
+@GsonModel
 data class BduiFabComponent(
     @SerializedName("id")
     override val id: String,
@@ -173,6 +179,7 @@ data class BduiFabComponent(
 /**
  * Image component - displays images from URL or resource.
  */
+@GsonModel
 data class BduiImageComponent(
     @SerializedName("id")
     override val id: String,
@@ -199,6 +206,7 @@ data class BduiImageComponent(
 /**
  * Icon component - displays vector icon.
  */
+@GsonModel
 data class BduiIconComponent(
     @SerializedName("id")
     override val id: String,
@@ -229,6 +237,7 @@ data class BduiIconComponent(
 /**
  * Text Input component - Material text field.
  */
+@GsonModel
 data class BduiInputComponent(
     @SerializedName("id")
     override val id: String,
@@ -273,6 +282,7 @@ data class BduiInputComponent(
 /**
  * Switch component - Material switch toggle.
  */
+@GsonModel
 data class BduiSwitchComponent(
     @SerializedName("id")
     override val id: String,
@@ -297,6 +307,7 @@ data class BduiSwitchComponent(
 /**
  * Checkbox component - Material checkbox.
  */
+@GsonModel
 data class BduiCheckboxComponent(
     @SerializedName("id")
     override val id: String,
@@ -321,6 +332,7 @@ data class BduiCheckboxComponent(
 /**
  * Radio Button component.
  */
+@GsonModel
 data class BduiRadioComponent(
     @SerializedName("id")
     override val id: String,
@@ -345,6 +357,7 @@ data class BduiRadioComponent(
 /**
  * Radio Group component - groups radio buttons.
  */
+@GsonModel
 data class BduiRadioGroupComponent(
     @SerializedName("id")
     override val id: String,
@@ -366,6 +379,7 @@ data class BduiRadioGroupComponent(
     }
 }
 
+@GsonModel
 data class BduiRadioItem(
     @SerializedName("id")
     val id: String,
@@ -380,6 +394,7 @@ data class BduiRadioItem(
 /**
  * Chip component - Material chip.
  */
+@GsonModel
 data class BduiChipComponent(
     @SerializedName("id")
     override val id: String,
@@ -412,6 +427,7 @@ data class BduiChipComponent(
 /**
  * Chip Group component - groups chips.
  */
+@GsonModel
 data class BduiChipGroupComponent(
     @SerializedName("id")
     override val id: String,
@@ -433,6 +449,7 @@ data class BduiChipGroupComponent(
     }
 }
 
+@GsonModel
 data class BduiChipItem(
     @SerializedName("id")
     val id: String,
@@ -451,6 +468,7 @@ data class BduiChipItem(
 /**
  * Progress Indicator component.
  */
+@GsonModel
 data class BduiProgressComponent(
     @SerializedName("id")
     override val id: String,
@@ -481,6 +499,7 @@ data class BduiProgressComponent(
 /**
  * Slider component - Material slider.
  */
+@GsonModel
 data class BduiSliderComponent(
     @SerializedName("id")
     override val id: String,
@@ -513,6 +532,7 @@ data class BduiSliderComponent(
 /**
  * Rating Bar component.
  */
+@GsonModel
 data class BduiRatingComponent(
     @SerializedName("id")
     override val id: String,
@@ -543,6 +563,7 @@ data class BduiRatingComponent(
 /**
  * Card component - Material card that can contain children.
  */
+@GsonModel
 data class BduiCardComponent(
     @SerializedName("id")
     override val id: String,
@@ -573,6 +594,7 @@ data class BduiCardComponent(
 /**
  * Divider component - Material divider line.
  */
+@GsonModel
 data class BduiDividerComponent(
     @SerializedName("id")
     override val id: String,
@@ -603,6 +625,7 @@ data class BduiDividerComponent(
 /**
  * Space component - invisible spacer.
  */
+@GsonModel
 data class BduiSpaceComponent(
     @SerializedName("id")
     override val id: String,
@@ -625,6 +648,7 @@ data class BduiSpaceComponent(
 /**
  * Toolbar component - Material toolbar with navigation, title, subtitle, and menu.
  */
+@GsonModel
 data class BduiToolbarComponent(
     @SerializedName("id")
     override val id: String,
@@ -675,6 +699,7 @@ data class BduiToolbarComponent(
 /**
  * Menu item for toolbar.
  */
+@GsonModel
 data class BduiMenuItem(
     @SerializedName("id")
     val id: String,

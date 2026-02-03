@@ -1,6 +1,7 @@
 package com.tomclaw.appsend.util.bdui.model.action
 
 import com.google.gson.annotations.SerializedName
+import com.tomclaw.appsend.util.GsonModel
 import com.tomclaw.appsend.util.bdui.model.transform.BduiTransform
 
 /**
@@ -15,6 +16,7 @@ sealed interface BduiAction {
  * RPC action - sends a request to the server.
  * Server response contains a single action to execute.
  */
+@GsonModel
 data class BduiRpcAction(
     @SerializedName("type")
     override val type: String = TYPE,
@@ -34,6 +36,7 @@ data class BduiRpcAction(
  * Callback action - notifies the View layer about an event.
  * The host Activity/Fragment handles this callback.
  */
+@GsonModel
 data class BduiCallbackAction(
     @SerializedName("type")
     override val type: String = TYPE,
@@ -50,6 +53,7 @@ data class BduiCallbackAction(
 /**
  * Transform action - applies a single transform to the UI.
  */
+@GsonModel
 data class BduiTransformAction(
     @SerializedName("type")
     override val type: String = TYPE,
@@ -65,6 +69,7 @@ data class BduiTransformAction(
  * Sequence action - executes multiple actions sequentially.
  * This is the composite pattern for combining actions.
  */
+@GsonModel
 data class BduiSequenceAction(
     @SerializedName("type")
     override val type: String = TYPE,
@@ -80,6 +85,7 @@ data class BduiSequenceAction(
  * Route action - navigates to a screen within the app.
  * The host Activity handles the actual navigation.
  */
+@GsonModel
 data class BduiRouteAction(
     @SerializedName("type")
     override val type: String = TYPE,
@@ -96,6 +102,7 @@ data class BduiRouteAction(
 /**
  * Open URL action - opens a URL in browser or in-app WebView.
  */
+@GsonModel
 data class BduiOpenUrlAction(
     @SerializedName("type")
     override val type: String = TYPE,
@@ -112,6 +119,7 @@ data class BduiOpenUrlAction(
 /**
  * Snackbar action - shows a snackbar message.
  */
+@GsonModel
 data class BduiSnackbarAction(
     @SerializedName("type")
     override val type: String = TYPE,
@@ -132,6 +140,7 @@ data class BduiSnackbarAction(
 /**
  * Copy action - copies text to clipboard.
  */
+@GsonModel
 data class BduiCopyAction(
     @SerializedName("type")
     override val type: String = TYPE,
@@ -148,6 +157,7 @@ data class BduiCopyAction(
 /**
  * Share action - shares content via system share dialog.
  */
+@GsonModel
 data class BduiShareAction(
     @SerializedName("type")
     override val type: String = TYPE,
@@ -164,6 +174,7 @@ data class BduiShareAction(
 /**
  * Delay action - delays execution of the next action in a sequence.
  */
+@GsonModel
 data class BduiDelayAction(
     @SerializedName("type")
     override val type: String = TYPE,
@@ -178,6 +189,7 @@ data class BduiDelayAction(
 /**
  * Store action - saves a value to SharedPreferences.
  */
+@GsonModel
 data class BduiStoreAction(
     @SerializedName("type")
     override val type: String = TYPE,
@@ -194,6 +206,7 @@ data class BduiStoreAction(
 /**
  * Load action - loads a value from SharedPreferences into a hidden component.
  */
+@GsonModel
 data class BduiLoadAction(
     @SerializedName("type")
     override val type: String = TYPE,
@@ -212,6 +225,7 @@ data class BduiLoadAction(
 /**
  * Reload action - reloads the current BDUI screen.
  */
+@GsonModel
 data class BduiReloadAction(
     @SerializedName("type")
     override val type: String = TYPE
@@ -224,6 +238,7 @@ data class BduiReloadAction(
 /**
  * Focus action - sets focus on a component.
  */
+@GsonModel
 data class BduiFocusAction(
     @SerializedName("type")
     override val type: String = TYPE,
@@ -240,6 +255,7 @@ data class BduiFocusAction(
 /**
  * Scroll to action - scrolls to a component.
  */
+@GsonModel
 data class BduiScrollToAction(
     @SerializedName("type")
     override val type: String = TYPE,
@@ -256,6 +272,7 @@ data class BduiScrollToAction(
 /**
  * Response from RPC request containing a single action to execute.
  */
+@GsonModel
 data class BduiRpcResponse(
     @SerializedName("action")
     val action: BduiAction
