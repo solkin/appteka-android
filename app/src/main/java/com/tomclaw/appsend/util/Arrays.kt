@@ -13,7 +13,7 @@ fun ByteArray.unmarshallToParcel(): Parcel {
 }
 
 fun ByteArray.zip(): ByteArray {
-    val deflater = Deflater()
+    val deflater = Deflater(Deflater.BEST_COMPRESSION)
     deflater.setInput(this)
 
     val estimatedCompressedSize = (size / 2)
@@ -44,4 +44,4 @@ fun ByteArray.unzip(): ByteArray {
     return output.toByteArray()
 }
 
-private const val BUFFER_SIZE = 1024
+private const val BUFFER_SIZE = 8192

@@ -43,7 +43,7 @@ class ReviewsActivity : AppCompatActivity(), ReviewsPresenter.ReviewsRouter {
         val userId = intent.getIntExtra(EXTRA_USER_ID, 0)
         val presenterState = savedInstanceState
             ?.getParcelableCompat(KEY_PRESENTER_STATE, ZipParcelable::class.java)
-            ?.restore()
+            ?.restore<Bundle>()
         appComponent
             .reviewsComponent(ReviewsModule(this, userId, presenterState))
             .inject(activity = this)

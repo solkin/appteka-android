@@ -39,7 +39,7 @@ class StoreFragment : Fragment(), StorePresenter.StoreRouter, HomeFragment {
     override fun onCreate(savedInstanceState: Bundle?) {
         val presenterState = savedInstanceState
             ?.getParcelableCompat(KEY_PRESENTER_STATE, ZipParcelable::class.java)
-            ?.restore()
+            ?.restore<Bundle>()
         requireContext().appComponent
             .storeComponent(StoreModule(requireContext(), presenterState))
             .inject(fragment = this)

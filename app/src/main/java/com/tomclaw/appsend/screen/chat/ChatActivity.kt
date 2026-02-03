@@ -46,7 +46,7 @@ class ChatActivity : AppCompatActivity(), ChatPresenter.ChatRouter {
 
         val presenterState = savedInstanceState
             ?.getParcelableCompat(KEY_PRESENTER_STATE, ZipParcelable::class.java)
-            ?.restore()
+            ?.restore<Bundle>()
         appComponent
             .chatComponent(ChatModule(this, topicEntity, topicId, presenterState))
             .inject(activity = this)

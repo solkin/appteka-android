@@ -52,11 +52,15 @@ class ZipParcelable : Parcelable {
             else -> {
                 writeBool(value = true)
                 val originalArray = parcelableToByteArray { writeNestedParcel(nested, it, flags) }
-                try {
-                    val zip = originalArray.zip()
-                    writeBool(value = true)
-                    writeByteArrayWithSize(zip)
+                val compressed = try {
+                    originalArray.zip()
                 } catch (_: Throwable) {
+                    null
+                }
+                if (compressed != null && compressed.size < originalArray.size) {
+                    writeBool(value = true)
+                    writeByteArrayWithSize(compressed)
+                } else {
                     writeBool(value = false)
                     writeByteArrayWithSize(originalArray)
                 }

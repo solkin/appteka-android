@@ -43,7 +43,7 @@ class FavoriteActivity : AppCompatActivity(), FavoritePresenter.FavoriteRouter {
         val userId = intent.getIntExtra(EXTRA_USER_ID, 0)
         val presenterState = savedInstanceState
             ?.getParcelableCompat(KEY_PRESENTER_STATE, ZipParcelable::class.java)
-            ?.restore()
+            ?.restore<Bundle>()
         appComponent
             .favoriteComponent(FavoriteModule(this, userId, presenterState))
             .inject(activity = this)

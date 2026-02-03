@@ -43,7 +43,7 @@ class UploadsActivity : AppCompatActivity(), UploadsPresenter.UploadsRouter {
         val userId = intent.getIntExtra(EXTRA_USER_ID, 0)
         val presenterState = savedInstanceState
             ?.getParcelableCompat(KEY_PRESENTER_STATE, ZipParcelable::class.java)
-            ?.restore()
+            ?.restore<Bundle>()
         appComponent
             .uploadsComponent(UploadsModule(this, userId, presenterState))
             .inject(activity = this)

@@ -33,7 +33,7 @@ class SearchActivity : AppCompatActivity(), SearchPresenter.SearchRouter {
 
         val presenterState = savedInstanceState
             ?.getParcelableCompat(KEY_PRESENTER_STATE, ZipParcelable::class.java)
-            ?.restore()
+            ?.restore<Bundle>()
         appComponent
             .searchComponent(SearchModule(context = this, presenterState))
             .inject(activity = this)

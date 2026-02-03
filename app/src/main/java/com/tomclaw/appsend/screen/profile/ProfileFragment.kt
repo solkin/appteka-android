@@ -61,7 +61,7 @@ class ProfileFragment : Fragment(), ProfilePresenter.ProfileRouter, HomeFragment
 
         val presenterState = savedInstanceState
             ?.getParcelableCompat(KEY_PRESENTER_STATE, ZipParcelable::class.java)
-            ?.restore()
+            ?.restore<Bundle>()
         requireContext().appComponent
             .profileComponent(ProfileModule(userId, withToolbar, presenterState))
             .inject(fragment = this)

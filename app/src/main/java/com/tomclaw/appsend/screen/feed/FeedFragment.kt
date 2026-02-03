@@ -57,7 +57,7 @@ class FeedFragment : Fragment(), FeedPresenter.FeedRouter, HomeFragment {
 
         val presenterState = savedInstanceState
             ?.getParcelableCompat(KEY_PRESENTER_STATE, ZipParcelable::class.java)
-            ?.restore()
+            ?.restore<Bundle>()
         requireContext().appComponent
             .feedComponent(
                 FeedModule(

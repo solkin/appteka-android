@@ -36,7 +36,7 @@ class RatingsActivity : AppCompatActivity(), RatingsPresenter.RatingsRouter {
             ?: throw IllegalArgumentException("App ID must be provided")
         val presenterState = savedInstanceState
             ?.getParcelableCompat(KEY_PRESENTER_STATE, ZipParcelable::class.java)
-            ?.restore()
+            ?.restore<Bundle>()
         appComponent
             .ratingsComponent(RatingsModule(this, appId, presenterState))
             .inject(activity = this)

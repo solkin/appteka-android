@@ -43,7 +43,7 @@ class UsersFragment : Fragment(), UsersPresenter.SubscribersRouter {
 
         val presenterState = savedInstanceState
             ?.getParcelableCompat(KEY_PRESENTER_STATE, ZipParcelable::class.java)
-            ?.restore()
+            ?.restore<Bundle>()
         requireContext().appComponent
             .subscribersComponent(SubscribersModule(context, type, userId, presenterState))
             .inject(fragment = this)

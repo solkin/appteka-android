@@ -41,7 +41,7 @@ class TopicsFragment : Fragment(), TopicsPresenter.TopicsRouter, HomeFragment {
     override fun onCreate(savedInstanceState: Bundle?) {
         val presenterState = savedInstanceState
             ?.getParcelableCompat(KEY_PRESENTER_STATE, ZipParcelable::class.java)
-            ?.restore()
+            ?.restore<Bundle>()
         requireContext().appComponent
             .topicsComponent(TopicsModule(requireContext(), presenterState))
             .inject(fragment = this)

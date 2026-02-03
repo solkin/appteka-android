@@ -38,7 +38,7 @@ class ModerationActivity : AppCompatActivity(), ModerationPresenter.ModerationRo
     override fun onCreate(savedInstanceState: Bundle?) {
         val presenterState = savedInstanceState
             ?.getParcelableCompat(KEY_PRESENTER_STATE, ZipParcelable::class.java)
-            ?.restore()
+            ?.restore<Bundle>()
         appComponent
             .moderationComponent(ModerationModule(this, presenterState))
             .inject(activity = this)

@@ -43,7 +43,7 @@ class DownloadsActivity : AppCompatActivity(), DownloadsPresenter.DownloadsRoute
         val userId = intent.getIntExtra(EXTRA_USER_ID, 0)
         val presenterState = savedInstanceState
             ?.getParcelableCompat(KEY_PRESENTER_STATE, ZipParcelable::class.java)
-            ?.restore()
+            ?.restore<Bundle>()
         appComponent
             .downloadComponent(DownloadsModule(this, userId, presenterState))
             .inject(activity = this)
