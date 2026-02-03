@@ -402,4 +402,7 @@
     <string name="proxy_port_hint">Port (masalan, 8080)</string>
     <string name="proxy_type_label">Proksi turi</string>
     <string name="proxy_settings_invalid">Noto\'g\'ri proksi sozlamalari</string>
+    <string name="proxy_check_button">Tekshirish</string>
+    <string name="proxy_check_success">Proksi ishlayapti</string>
+    <string name="proxy_check_error">Xato: %s</string>
 </resources>

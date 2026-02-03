@@ -25,6 +25,8 @@ import com.tomclaw.appsend.core.MigrationManagerImpl
 import com.tomclaw.appsend.core.PackageInfoProvider
 import com.tomclaw.appsend.core.PackageInfoProviderImpl
 import com.tomclaw.appsend.core.PersistentCookieJar
+import com.tomclaw.appsend.core.ProxyChecker
+import com.tomclaw.appsend.core.ProxyCheckerImpl
 import com.tomclaw.appsend.core.ProxyConfigProvider
 import com.tomclaw.appsend.core.ProxyConfigProviderImpl
 import com.tomclaw.appsend.core.StandByApi
@@ -259,6 +261,10 @@ class AppModule(private val app: Application) {
     @Singleton
     internal fun provideProxyConfigProvider(): ProxyConfigProvider =
         ProxyConfigProviderImpl(app)
+
+    @Provides
+    @Singleton
+    internal fun provideProxyChecker(): ProxyChecker = ProxyCheckerImpl()
 
     @Provides
     @Singleton

@@ -426,4 +426,7 @@
     <string name="proxy_port_hint">Porta (ex: 8080)</string>
     <string name="proxy_type_label">Tipo de proxy</string>
     <string name="proxy_settings_invalid">Configurações de proxy inválidas</string>
+    <string name="proxy_check_button">Verificar</string>
+    <string name="proxy_check_success">Proxy funcionando</string>
+    <string name="proxy_check_error">Erro: %s</string>
 </resources>

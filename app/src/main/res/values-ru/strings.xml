@@ -443,4 +443,7 @@
     <string name="proxy_port_hint">Порт (например, 8080)</string>
     <string name="proxy_type_label">Тип прокси</string>
     <string name="proxy_settings_invalid">Неверные настройки прокси</string>
+    <string name="proxy_check_button">Проверить</string>
+    <string name="proxy_check_success">Прокси работает</string>
+    <string name="proxy_check_error">Ошибка: %s</string>
 </resources>

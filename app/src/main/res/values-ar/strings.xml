@@ -464,4 +464,7 @@
     <string name="proxy_port_hint">المنفذ (مثل 8080)</string>
     <string name="proxy_type_label">نوع البروكسي</string>
     <string name="proxy_settings_invalid">إعدادات البروكسي غير صالحة</string>
+    <string name="proxy_check_button">فحص</string>
+    <string name="proxy_check_success">البروكسي يعمل</string>
+    <string name="proxy_check_error">خطأ: %s</string>
 </resources>

@@ -414,4 +414,7 @@
     <string name="proxy_port_hint">端口（例如 8080）</string>
     <string name="proxy_type_label">代理类型</string>
     <string name="proxy_settings_invalid">代理设置无效</string>
+    <string name="proxy_check_button">检查</string>
+    <string name="proxy_check_success">代理正常工作</string>
+    <string name="proxy_check_error">错误：%s</string>
 </resources>

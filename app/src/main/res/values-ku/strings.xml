@@ -428,4 +428,7 @@
     <string name="proxy_port_hint">پۆرت (نم. 8080)</string>
     <string name="proxy_type_label">جۆری پڕۆکسی</string>
     <string name="proxy_settings_invalid">ڕێکخستنەکانی پڕۆکسی نادروستە</string>
+    <string name="proxy_check_button">پشکنین</string>
+    <string name="proxy_check_success">پڕۆکسی کاردەکات</string>
+    <string name="proxy_check_error">هەڵە: %s</string>
 </resources>

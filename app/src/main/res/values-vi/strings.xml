@@ -414,4 +414,7 @@
     <string name="proxy_port_hint">Cổng (ví dụ: 8080)</string>
     <string name="proxy_type_label">Loại proxy</string>
     <string name="proxy_settings_invalid">Cài đặt proxy không hợp lệ</string>
+    <string name="proxy_check_button">Kiểm tra</string>
+    <string name="proxy_check_success">Proxy hoạt động</string>
+    <string name="proxy_check_error">Lỗi: %s</string>
 </resources>

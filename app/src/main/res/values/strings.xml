@@ -458,4 +458,7 @@
     <string name="proxy_type_http" translatable="false">HTTP</string>
     <string name="proxy_type_socks" translatable="false">SOCKS</string>
     <string name="proxy_settings_invalid">Invalid proxy settings</string>
+    <string name="proxy_check_button">Check</string>
+    <string name="proxy_check_success">Proxy works</string>
+    <string name="proxy_check_error">Error: %s</string>
 </resources>

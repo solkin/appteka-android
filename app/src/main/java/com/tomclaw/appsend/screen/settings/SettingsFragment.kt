@@ -9,8 +9,12 @@ import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
 import android.view.LayoutInflater
+import android.view.View
 import android.widget.EditText
+import android.widget.ProgressBar
 import android.widget.RadioGroup
+import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.Preference
@@ -25,12 +29,16 @@ import com.greysonparrelli.permiso.Permiso.IOnRationaleProvided
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.appComponent
 import com.tomclaw.appsend.core.ProxyAddressParser
+import com.tomclaw.appsend.core.ProxyCheckResult
+import com.tomclaw.appsend.core.ProxyChecker
 import com.tomclaw.appsend.core.ProxyConfig
 import com.tomclaw.appsend.core.ProxyConfigProvider
 import com.tomclaw.appsend.core.ProxyType
 import com.tomclaw.appsend.download.ApkStorage
 import com.tomclaw.appsend.screen.settings.di.SettingsModule
 import com.tomclaw.appsend.util.applyTheme
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
+import io.reactivex.rxjava3.disposables.Disposable
 import javax.inject.Inject
 
 class SettingsFragment : PreferenceFragmentCompat(),
@@ -45,6 +53,9 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
     @Inject
     lateinit var proxyConfigProvider: ProxyConfigProvider
+
+    @Inject
+    lateinit var proxyChecker: ProxyChecker
 
     private lateinit var settingsView: SettingsView
 
@@ -138,6 +149,11 @@ class SettingsFragment : PreferenceFragmentCompat(),
         val hostInput = dialogView.findViewById<EditText>(R.id.proxy_host_input)
         val portInput = dialogView.findViewById<EditText>(R.id.proxy_port_input)
         val typeGroup = dialogView.findViewById<RadioGroup>(R.id.proxy_type_group)
+        val checkButton = dialogView.findViewById<com.google.android.material.button.MaterialButton>(R.id.proxy_check_button)
+        val checkProgress = dialogView.findViewById<ProgressBar>(R.id.proxy_check_progress)
+        val checkResult = dialogView.findViewById<TextView>(R.id.proxy_check_result)
+
+        var checkDisposable: Disposable? = null
 
         val config = proxyConfigProvider.getProxyConfig()
         hostInput.setText(config.host)
@@ -182,6 +198,54 @@ class SettingsFragment : PreferenceFragmentCompat(),
             }
         })
 
+        checkButton.setOnClickListener {
+            val host = hostInput.text.toString().trim()
+            val portText = portInput.text.toString().trim()
+            val port = portText.toIntOrNull() ?: 0
+            val type = when (typeGroup.checkedRadioButtonId) {
+                R.id.proxy_type_socks -> ProxyType.SOCKS
+                else -> ProxyType.HTTP
+            }
+
+            val testConfig = ProxyConfig(
+                enabled = true,
+                host = host,
+                port = port,
+                type = type
+            )
+
+            if (!testConfig.isValid() || host.isBlank() || port <= 0) {
+                checkResult.visibility = View.VISIBLE
+                checkResult.setTextColor(ContextCompat.getColor(requireContext(), android.R.color.holo_red_dark))
+                checkResult.text = getString(R.string.proxy_settings_invalid)
+                return@setOnClickListener
+            }
+
+            checkDisposable?.dispose()
+            checkButton.isEnabled = false
+            checkProgress.visibility = View.VISIBLE
+            checkResult.visibility = View.GONE
+
+            checkDisposable = proxyChecker.check(testConfig)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { result ->
+                    checkButton.isEnabled = true
+                    checkProgress.visibility = View.GONE
+                    checkResult.visibility = View.VISIBLE
+
+                    when (result) {
+                        is ProxyCheckResult.Success -> {
+                            checkResult.setTextColor(ContextCompat.getColor(requireContext(), android.R.color.holo_green_dark))
+                            checkResult.text = getString(R.string.proxy_check_success)
+                        }
+                        is ProxyCheckResult.Error -> {
+                            checkResult.setTextColor(ContextCompat.getColor(requireContext(), android.R.color.holo_red_dark))
+                            checkResult.text = getString(R.string.proxy_check_error, result.message)
+                        }
+                    }
+                }
+        }
+
         MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.proxy_settings_dialog_title)
             .setView(dialogView)
@@ -212,6 +276,9 @@ class SettingsFragment : PreferenceFragmentCompat(),
                 }
             }
             .setNegativeButton(R.string.cancel, null)
+            .setOnDismissListener {
+                checkDisposable?.dispose()
+            }
             .show()
     }
 
