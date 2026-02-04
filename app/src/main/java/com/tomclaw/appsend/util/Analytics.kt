@@ -8,6 +8,8 @@ interface Analytics {
 
     fun trackEvent(name: String)
 
+    fun trackException(throwable: Throwable, context: Map<String, String> = emptyMap())
+
 }
 
 class AnalyticsImpl(
@@ -20,6 +22,10 @@ class AnalyticsImpl(
 
     override fun trackEvent(name: String) {
         bananalytics.trackEvent(name)
+    }
+
+    override fun trackException(throwable: Throwable, context: Map<String, String>) {
+        bananalytics.trackException(throwable, context)
     }
 
 }

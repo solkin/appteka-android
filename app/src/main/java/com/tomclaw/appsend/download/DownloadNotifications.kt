@@ -18,6 +18,7 @@ import com.tomclaw.appsend.BuildConfig
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.util.NotificationIconHolder
+import com.tomclaw.appsend.util.Analytics
 import com.tomclaw.appsend.util.crc32
 import com.tomclaw.appsend.util.getColor
 import com.tomclaw.imageloader.SimpleImageLoader.imageLoader
@@ -41,7 +42,8 @@ interface DownloadNotifications {
 }
 
 class DownloadNotificationsImpl(
-    private val context: Context
+    private val context: Context,
+    private val analytics: Analytics,
 ) : DownloadNotifications {
 
     private val notificationManager =
@@ -105,7 +107,7 @@ class DownloadNotificationsImpl(
             }
 
         var disposable: Disposable? = null
-        disposable = observable.subscribe { status ->
+        disposable = observable.subscribe({ status ->
             icon?.run { context.imageLoader().load(iconHolder, icon, handlers) }
             when (status) {
                 AWAIT -> {
@@ -183,7 +185,13 @@ class DownloadNotificationsImpl(
                     notificationManager.notify(DOWNLOAD_NOTIFICATION_ID, notification)
                 }
             }
-        }
+        }, { error ->
+            println("[download notification] Error: $error")
+            analytics.trackException(error, mapOf("reason" to "Download status subscription error"))
+            notificationManager.cancel(notificationId)
+            stop()
+            disposable?.dispose()
+        })
     }
 
     @SuppressLint("UnspecifiedImmutableFlag")

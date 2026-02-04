@@ -123,9 +123,9 @@ class MediaStoreApkStorage(
         return try {
             contentResolver.openInputStream(uri)?.close()
             uri
-        } catch (ex: SecurityException) {
-            // File not yet accessible, clear from cache and return null
-            // Next call will retry after MediaStore finishes indexing
+        } catch (ex: Throwable) {
+            // File not accessible (SecurityException) or deleted (FileNotFoundException)
+            // Clear from cache and return null, next call will retry
             committedUris.remove(fileName)
             null
         }

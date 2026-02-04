@@ -185,8 +185,8 @@ class AppModule(private val app: Application) {
 
     @Provides
     @Singleton
-    internal fun provideDownloadNotifications(): DownloadNotifications =
-        DownloadNotificationsImpl(app)
+    internal fun provideDownloadNotifications(analytics: Analytics): DownloadNotifications =
+        DownloadNotificationsImpl(app, analytics)
 
     @Provides
     @Singleton
