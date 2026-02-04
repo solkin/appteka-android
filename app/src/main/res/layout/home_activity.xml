@@ -68,10 +68,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         app:labelVisibilityMode="labeled"
-        app:menu="@menu/bottom_navigation_menu"
-        app:itemIconTint="@color/bottom_nav_item_color"
-        app:itemTextColor="@color/bottom_nav_item_color"
-        app:itemActiveIndicatorStyle="@style/BottomNavActiveIndicator"
-        app:backgroundTint="?attr/bottom_bar_background" />
+        app:menu="@menu/bottom_navigation_menu" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

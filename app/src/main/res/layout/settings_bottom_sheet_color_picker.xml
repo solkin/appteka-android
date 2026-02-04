@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:fillViewport="true"
+    android:scrollbars="none"
+    android:overScrollMode="never">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Title -->
+        <com.google.android.material.textview.MaterialTextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/color_picker_choose_color_title"
+            android:textAppearance="?attr/textAppearanceTitleLarge" />
+
+        <!-- Saturation/Value Box -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            app:cardCornerRadius="16dp"
+            app:cardBackgroundColor="@android:color/transparent"
+            app:cardElevation="0dp">
+
+            <com.tomclaw.appsend.colorpicker.SaturationValueView
+                android:id="@+id/sv_view"
+                android:layout_width="match_parent"
+                android:layout_height="230dp" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Hue Slider -->
+        <com.tomclaw.appsend.colorpicker.HueSliderView
+            android:id="@+id/hue_slider"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:layout_marginTop="24dp" />
+
+        <!-- Hex Input -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/text_input_layout_hex"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            style="@style/Widget.Material3.TextInputLayout.FilledBox"
+            app:endIconMode="clear_text">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/et_hex_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/color_picker_hint_hex_code"
+                android:inputType="textCapCharacters|textNoSuggestions"
+                android:maxLength="6" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- History RecyclerView -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_history"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:nestedScrollingEnabled="true"
+            android:orientation="horizontal"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+        <!-- Save Button -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_save"
+            style="@style/MaterialButtonPrimary"
+            android:layout_width="match_parent"
+            android:layout_height="52dp"
+            android:layout_marginTop="24dp"
+            android:text="@string/color_picker_button_save_color"
+            app:icon="@drawable/ic_check" />
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

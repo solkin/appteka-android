@@ -1,6 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name" translatable="false">Appteka</string>
+
+    <!-- new strings -->
+    <string name="color_picker_choose_color_title">Choose color</string>
+    <string name="color_picker_hint_hex_code">Hex code</string>
+    <string name="color_picker_button_save_color">Save color</string>
+
+    <string name="settings_pref_seed_color_title">Seed color</string>
+    <string name="settings_pref_seed_color_summary">Choose custom app color when dynamic theme is off</string>
+    <string name="settings_dialog_choose_color_title">Choose seed color</string>
+    <string name="settings_text_color_code">COLOR CODE</string>
+    <string name="settings_hint_hex_code">FF5733</string>
+    <string name="settings_button_save_color">Save color</string>
+    <string name="settings_toast_theme_updated">Theme updated</string>
+    <string name="settings_error_invalid_hex">Invalid hex code</string>
+
+
+    <string
+        name="app_name"
+        translatable="false">Appteka</string>
     <string name="bytes">%d B</string>
     <string name="kibibytes">%.1f KB</string>
     <string name="mibibytes">%.1f MB</string>
@@ -75,9 +93,13 @@
     <string name="pref_category_app_behavior_title">App Behavior</string>
     <string name="pref_category_general_title">General</string>
     <string name="cancel">Cancel</string>
-    <string name="percent" translatable="false">%d %%</string>
+    <string
+        name="percent"
+        translatable="false">%d %%</string>
     <string name="upload">Upload</string>
-    <string name="uploaded_url" translatable="false">%1$s (%2$s)\n%3$s</string>
+    <string
+        name="uploaded_url"
+        translatable="false">%1$s (%2$s)\n%3$s</string>
     <string name="tab_store">Store</string>
     <string name="retry">Retry</string>
     <string name="store_loading_error">Failed to retrieve applications list</string>
@@ -91,7 +113,9 @@
     <string name="app_version_title">Version</string>
     <string name="uploaded_title">Uploaded</string>
     <string name="checksum_title">Checksum (SHA1)</string>
-    <string name="app_version_format" translatable="false">%1$s (%2$d)</string>
+    <string
+        name="app_version_format"
+        translatable="false">%1$s (%2$d)</string>
     <string name="update">Update</string>
     <string name="abuse">Abuse</string>
     <string name="your_email">Your E-mail</string>
@@ -126,7 +150,9 @@
     <string name="report">Report abuse</string>
     <string name="error_message_report">Unable to report abuse</string>
     <string name="message_report_sent">Thank you for helping in discussions moderation!</string>
-    <string name="reply_form" translatable="false">&gt; %s\n</string>
+    <string
+        name="reply_form"
+        translatable="false">&gt; %s\n</string>
     <string name="exclusive_short">Exclusive</string>
     <string name="exclusive">Exclusive app (do not present in Google Play)</string>
     <string name="exclusive_description">App not available in Google Play</string>
@@ -328,7 +354,9 @@
     <string name="authorization_required_message">Log in to continue</string>
     <string name="authorization_description">Log in and take advantage of Appteka\'s personal capabilities</string>
     <string name="error_domain_blocked">Temporary emails are prohibited</string>
-    <string name="gallery_title" translatable="false">%d / %d</string>
+    <string
+        name="gallery_title"
+        translatable="false">%d / %d</string>
     <string name="add_screenshot">Add screenshot</string>
     <string name="screenshots_title">Screenshots</string>
     <string name="download_screenshot">Download screenshot</string>
@@ -445,8 +473,12 @@
     <string name="save">Save</string>
     <!-- Proxy settings -->
     <string name="pref_category_network_title">Network</string>
-    <string name="pref_proxy_enabled" translatable="false">pref_proxy_enabled</string>
-    <string name="pref_proxy_settings" translatable="false">pref_proxy_settings</string>
+    <string
+        name="pref_proxy_enabled"
+        translatable="false">pref_proxy_enabled</string>
+    <string
+        name="pref_proxy_settings"
+        translatable="false">pref_proxy_settings</string>
     <string name="pref_title_proxy_enabled">Use Proxy</string>
     <string name="pref_summary_proxy_enabled">Route traffic through proxy server</string>
     <string name="pref_title_proxy_settings">Proxy Settings</string>
@@ -455,8 +487,12 @@
     <string name="proxy_host_hint">Host (e.g. proxy.example.com)</string>
     <string name="proxy_port_hint">Port (e.g. 8080)</string>
     <string name="proxy_type_label">Proxy type</string>
-    <string name="proxy_type_http" translatable="false">HTTP</string>
-    <string name="proxy_type_socks" translatable="false">SOCKS</string>
+    <string
+        name="proxy_type_http"
+        translatable="false">HTTP</string>
+    <string
+        name="proxy_type_socks"
+        translatable="false">SOCKS</string>
     <string name="proxy_settings_invalid">Invalid proxy settings</string>
     <string name="proxy_check_button">Check</string>
     <string name="proxy_check_success">Proxy works</string>
