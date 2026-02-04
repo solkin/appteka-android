@@ -122,9 +122,6 @@ dependencies {
     // Utilities & UI Helpers
     implementation 'com.caverock:androidsvg-aar:1.4'
     implementation 'me.zhanghai.android.materialratingbar:library:1.4.0'
-    
-    // AndroidAnnotations
-    implementation 'org.androidannotations:androidannotations-api:4.8.0'
 
     // Debug & Test
     debugImplementation 'com.github.chuckerteam.chucker:library:4.3.0'

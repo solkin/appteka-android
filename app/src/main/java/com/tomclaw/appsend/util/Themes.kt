@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.preference.PreferenceManager
 import com.google.android.material.color.DynamicColors
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.Appteka
 
 fun initTheme(app: Application) {
     val preferences = PreferenceManager.getDefaultSharedPreferences(app)
@@ -34,12 +35,6 @@ fun applyTheme(context: Context) {
     val modeKey = context.getString(R.string.pref_theme_mode)
     val dynamicKey = context.getString(R.string.pref_dynamic_colors)
 
-    // Apply Dynamic Colors (Material You) on Android 12+
-    val dynamicEnabled = preferences.getBoolean(dynamicKey, true)
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S && dynamicEnabled) {
-        DynamicColors.applyToActivitiesIfAvailable(context.applicationContext as Application)
-    }
-
     // Determine default mode based on Android version
     val defaultMode = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
         AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
@@ -53,6 +48,8 @@ fun applyTheme(context: Context) {
         mode = AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY
     }
     AppCompatDelegate.setDefaultNightMode(mode)
+
+    // Dynamic colors handled in Appteka class now
 }
 
 /**
