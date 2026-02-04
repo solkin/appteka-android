@@ -12,7 +12,7 @@ android {
         applicationId "com.tomclaw.appsend"
         minSdkVersion 21
         targetSdkVersion 35
-        versionCode project.hasProperty("versionCode") ? Integer.parseInt(project.versionCode) : 996
+        versionCode project.hasProperty("versionCode") ? Integer.parseInt(project.versionCode) : 998
         versionName = "18.3"
     }
 

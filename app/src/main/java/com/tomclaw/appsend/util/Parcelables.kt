@@ -46,6 +46,7 @@ fun <T : Parcelable> Bundle.getParcelableArrayListCompat(
 }
 
 fun <T : Parcelable> Intent.getParcelableExtraCompat(key: String, clazz: Class<T>): T? {
+    setExtrasClassLoader(clazz.classLoader)
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         getParcelableExtra(key, clazz)
     } else {
@@ -58,6 +59,7 @@ fun <T : Parcelable> Intent.getParcelableArrayListCompat(
     key: String,
     clazz: Class<T>
 ): ArrayList<T>? {
+    setExtrasClassLoader(clazz.classLoader)
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         getParcelableArrayListExtra(key, clazz)
     } else {
