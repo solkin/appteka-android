@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
@@ -15,6 +16,7 @@ import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.RadioGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
@@ -23,10 +25,18 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.PreferenceManager
 import androidx.preference.SwitchPreferenceCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.appComponent
+import com.tomclaw.appsend.colorpicker.HueSliderView
+import com.tomclaw.appsend.colorpicker.PaletteHistoryAdapter
+import com.tomclaw.appsend.colorpicker.SaturationValueView
 import com.tomclaw.appsend.core.ProxyAddressParser
 import com.tomclaw.appsend.core.ProxyCheckResult
 import com.tomclaw.appsend.core.ProxyChecker
@@ -67,6 +77,10 @@ class SettingsFragment : PreferenceFragmentCompat(),
         pendingStoragePermissionCallback = null
     }
 
+    private val prefs: SharedPreferences by lazy {
+        PreferenceManager.getDefaultSharedPreferences(requireContext())
+    }
+
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
         requireContext().appComponent
@@ -82,6 +96,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
         setupSortOrderPreference()
         setupClearCachePreference()
         setupProxyPreferences()
+        setupCustomSeedColorPreference()
     }
 
     private fun setupThemePreference() {
@@ -98,6 +113,13 @@ class SettingsFragment : PreferenceFragmentCompat(),
         findPreference<SwitchPreferenceCompat>(getString(R.string.pref_dynamic_colors))?.let { pref ->
             pref.isEnabled = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
             updateDynamicColorsSummary(pref)
+            pref.setOnPreferenceChangeListener { _, newValue ->
+                val enabled = newValue as Boolean
+                val app = requireActivity().application as com.tomclaw.appsend.Appteka
+                app.setDynamicColorsEnabled(enabled)
+                updateCustomSeedPreferenceState()
+                true
+            }
         }
     }
 
@@ -288,6 +310,207 @@ class SettingsFragment : PreferenceFragmentCompat(),
                 checkDisposable?.dispose()
             }
             .show()
+    }
+
+    private fun setupCustomSeedColorPreference() {
+        findPreference<Preference>(KEY_SEED_COLOR)?.let { pref ->
+            val app = requireActivity().application as com.tomclaw.appsend.Appteka
+            val current = app.getSeedColor()
+            pref.setSummary(String.format("#%06X", (0xFFFFFF and current)))
+            pref.setOnPreferenceClickListener {
+                showCustomSeedColorPicker()
+                true
+            }
+            updateCustomSeedPreferenceState()
+        }
+    }
+
+    private fun updateCustomSeedPreferenceState() {
+        findPreference<Preference>(KEY_SEED_COLOR)?.let { pref ->
+            val app = requireActivity().application as com.tomclaw.appsend.Appteka
+            val dynamicEnabled = app.isDynamicColorsEnabled()
+            pref.isEnabled = !dynamicEnabled
+        }
+    }
+
+    private fun showCustomSeedColorPicker() {
+        val app = requireActivity().application as com.tomclaw.appsend.Appteka
+        val initialColor = app.getSeedColor()
+
+        val sheet = BottomSheetDialog(requireContext())
+        val view = LayoutInflater.from(requireContext()).inflate(R.layout.settings_bottom_sheet_color_picker, null)
+
+        val svView: SaturationValueView = view.findViewById(R.id.sv_view)
+        val hueSlider: HueSliderView = view.findViewById(R.id.hue_slider)
+        val hexLayout: TextInputLayout = view.findViewById(R.id.text_input_layout_hex)
+        val etHexCode: TextInputEditText = view.findViewById(R.id.et_hex_code)
+        val btnSave: MaterialButton = view.findViewById(R.id.btn_save)
+        val historyRecycler = view.findViewById<androidx.recyclerview.widget.RecyclerView>(R.id.recycler_history)
+
+        val hsv = FloatArray(3)
+        Color.colorToHSV(initialColor, hsv)
+        val currentHueRef = floatArrayOf(hsv[0])
+        svView.setHue(hsv[0])
+        svView.setSaturationValue(hsv[1], hsv[2])
+        hueSlider.setHue(hsv[0])
+
+        val ignoreTextChanges = booleanArrayOf(false)
+
+        if (initialColor != Color.TRANSPARENT) {
+            ignoreTextChanges[0] = true
+            etHexCode.setText(String.format("%06X", (0xFFFFFF and initialColor)))
+            ignoreTextChanges[0] = false
+        }
+
+        val history = getSeedHistory()
+        var adapter: PaletteHistoryAdapter? = null
+
+        val clickListener = PaletteHistoryAdapter.OnItemClickListener { position, selectedColor ->
+            val oldPos = adapter?.selectedPosition ?: return@OnItemClickListener
+            if (position == oldPos) return@OnItemClickListener
+
+            adapter?.setSelectedPosition(position)
+            adapter?.notifyItemChanged(oldPos)
+            adapter?.notifyItemChanged(position)
+
+            val newHsv = FloatArray(3)
+            Color.colorToHSV(selectedColor, newHsv)
+            currentHueRef[0] = newHsv[0]
+            svView.setHue(newHsv[0])
+            svView.setSaturationValue(newHsv[1], newHsv[2])
+            hueSlider.setHue(newHsv[0])
+            ignoreTextChanges[0] = true
+            etHexCode.setText(String.format("%06X", (0xFFFFFF and selectedColor)))
+            ignoreTextChanges[0] = false
+        }
+
+        adapter = PaletteHistoryAdapter(history, clickListener)
+
+        val initialPos = history.indexOf(initialColor)
+        if (initialPos != -1) {
+            adapter.setSelectedPosition(initialPos)
+        }
+
+        historyRecycler.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+        historyRecycler.adapter = adapter
+
+        svView.setOnColorChangeListener { sat, value ->
+            val newColor = Color.HSVToColor(floatArrayOf(currentHueRef[0], sat, value))
+            ignoreTextChanges[0] = true
+            etHexCode.setText(String.format("%06X", (0xFFFFFF and newColor)))
+            ignoreTextChanges[0] = false
+
+            val selectedPos = adapter.selectedPosition
+            if (selectedPos != -1) {
+                val selectedColor = history[selectedPos]
+                if (newColor != selectedColor) {
+                    adapter.setSelectedPosition(-1)
+                    adapter.notifyItemChanged(selectedPos)
+                }
+            }
+        }
+
+        hueSlider.setOnHueChangeListener { hue ->
+            currentHueRef[0] = hue
+            svView.setHue(hue)
+            val newColor = Color.HSVToColor(floatArrayOf(hue, svView.saturation, svView.value))
+            ignoreTextChanges[0] = true
+            etHexCode.setText(String.format("%06X", (0xFFFFFF and newColor)))
+            ignoreTextChanges[0] = false
+
+            val selectedPos = adapter.selectedPosition
+            if (selectedPos != -1) {
+                val selectedColor = history[selectedPos]
+                if (newColor != selectedColor) {
+                    adapter.setSelectedPosition(-1)
+                    adapter.notifyItemChanged(selectedPos)
+                }
+            }
+        }
+
+        etHexCode.addTextChangedListener(object : android.text.TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: android.text.Editable?) {
+                if (ignoreTextChanges[0]) return
+                val hex = s.toString().trim()
+                if (hex.length == 6) {
+                    try {
+                        val color = Color.parseColor("#$hex")
+                        val newHsv = FloatArray(3)
+                        Color.colorToHSV(color, newHsv)
+                        currentHueRef[0] = newHsv[0]
+                        svView.setHue(newHsv[0])
+                        svView.setSaturationValue(newHsv[1], newHsv[2])
+                        hueSlider.setHue(newHsv[0])
+                        hexLayout.error = null
+
+                        val selectedPos = adapter.selectedPosition
+                        if (selectedPos != -1) {
+                            val selectedColor = history[selectedPos]
+                            if (color != selectedColor) {
+                                adapter.setSelectedPosition(-1)
+                                adapter.notifyItemChanged(selectedPos)
+                            }
+                        }
+                    } catch (ignored: Exception) {
+                        hexLayout.error = getString(R.string.settings_error_invalid_hex)
+                    }
+                } else {
+                    hexLayout.error = null
+                }
+            }
+        })
+
+        btnSave.setOnClickListener {
+            val selectedColor = Color.HSVToColor(floatArrayOf(currentHueRef[0], svView.saturation, svView.value))
+            app.setSeedColor(selectedColor)
+            saveToHistory(selectedColor)
+            restartActivity()
+            sheet.dismiss()
+            Toast.makeText(requireContext(), R.string.settings_toast_theme_updated, Toast.LENGTH_SHORT).show()
+        }
+
+        sheet.setContentView(view)
+        sheet.show()
+    }
+
+    private fun getSeedHistory(): MutableList<Int> {
+        val history = mutableListOf<Int>()
+        val savedStr = prefs.getString(KEY_SEED_HISTORY, "") ?: ""
+        if (savedStr.isNotEmpty()) {
+            val parts = savedStr.split(",")
+            for (s in parts) {
+                if (s.isNotEmpty()) {
+                    try {
+                        history.add(s.toInt())
+                    } catch (ignored: Exception) {}
+                }
+            }
+        }
+        if (history.isEmpty()) {
+            history.add(Color.parseColor("#FF45852C"))
+            history.add(Color.parseColor("#FF8F4C33"))
+            history.add(Color.parseColor("#FF32A304"))  // default color
+            history.add(Color.parseColor("#FF4285F4"))
+            history.add(Color.parseColor("#FF845F01"))
+            history.add(Color.parseColor("#FFEA4335"))
+        }
+        return history
+    }
+
+    private fun saveToHistory(color: Int) {
+        val history = getSeedHistory()
+        if (history.contains(color)) return
+        history.add(0, color)
+        if (history.size > 6) {
+            history.removeAt(history.size - 1)
+        }
+        val sb = StringBuilder()
+        for (c in history) {
+            sb.append(c).append(",")
+        }
+        prefs.edit().putString(KEY_SEED_HISTORY, sb.toString()).apply()
     }
 
     override fun onResume() {
@@ -502,6 +725,11 @@ class SettingsFragment : PreferenceFragmentCompat(),
                 storagePermissionLauncher.launch(permission)
             }
         }
+    }
+
+    companion object {
+        private const val KEY_SEED_COLOR = "seed_color"
+        private const val KEY_SEED_HISTORY = "seed_history"
     }
 
 }

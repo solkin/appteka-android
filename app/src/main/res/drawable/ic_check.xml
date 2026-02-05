@@ -7,7 +7,6 @@
     android:tint="?attr/colorPrimary"
 	android:autoMirrored="true">
     <path
-        android:fillColor="#ffe3e3e3"
-        android:pathData="M120,720v-80h240v80L120,720ZM120,520v-80h480v80L120,520ZM120,320v-80h720v80L120,320Z" />
+        android:fillColor="#ffe8eaed"
+        android:pathData="M382,720 L154,492l57,-57 171,171 367,-367 57,57 -424,424Z" />
 </vector>
-
