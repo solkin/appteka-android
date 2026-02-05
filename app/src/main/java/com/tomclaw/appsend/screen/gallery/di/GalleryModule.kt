@@ -2,10 +2,7 @@ package com.tomclaw.appsend.screen.gallery.di
 
 import android.content.Context
 import android.os.Bundle
-import com.tomclaw.appsend.util.adapter.ItemBinder
-import com.tomclaw.appsend.util.adapter.AdapterPresenter
-import com.tomclaw.appsend.util.adapter.SimpleAdapterPresenter
-import com.tomclaw.appsend.util.adapter.ItemBlueprint
+import com.tomclaw.appsend.core.StreamsProvider
 import com.tomclaw.appsend.screen.gallery.GalleryInteractor
 import com.tomclaw.appsend.screen.gallery.GalleryInteractorImpl
 import com.tomclaw.appsend.screen.gallery.GalleryItem
@@ -13,17 +10,18 @@ import com.tomclaw.appsend.screen.gallery.GalleryPresenter
 import com.tomclaw.appsend.screen.gallery.GalleryPresenterImpl
 import com.tomclaw.appsend.screen.gallery.GalleryResourceProvider
 import com.tomclaw.appsend.screen.gallery.GalleryResourceProviderImpl
-import com.tomclaw.appsend.core.StreamsProvider
-import com.tomclaw.appsend.core.StreamsProviderImpl
 import com.tomclaw.appsend.screen.gallery.adapter.image.ImageItemBlueprint
 import com.tomclaw.appsend.screen.gallery.adapter.image.ImageItemPresenter
 import com.tomclaw.appsend.util.PerActivity
 import com.tomclaw.appsend.util.SchedulersFactory
+import com.tomclaw.appsend.util.adapter.AdapterPresenter
+import com.tomclaw.appsend.util.adapter.ItemBinder
+import com.tomclaw.appsend.util.adapter.ItemBlueprint
+import com.tomclaw.appsend.util.adapter.SimpleAdapterPresenter
 import dagger.Lazy
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoSet
-import okhttp3.OkHttpClient
 import java.util.Locale
 
 @Module

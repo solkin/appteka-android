@@ -689,7 +689,7 @@ class DetailsPresenterImpl(
 
     override fun onScreenshotClick(items: List<ScreenshotItem>, clicked: Int) {
         router?.openGallery(
-            items = items.map { GalleryItem.fromUri(it.original, it.width, it.height) },
+            items = items.map { GalleryItem(it.original, it.width, it.height) },
             current = clicked,
         )
     }

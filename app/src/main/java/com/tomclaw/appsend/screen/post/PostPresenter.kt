@@ -227,7 +227,7 @@ class PostPresenterImpl(
 
     override fun onImageClick(item: ImageItem) {
         router?.openGallery(
-            items = images.map { GalleryItem.fromUri(it.original, it.width, it.height) },
+            items = images.map { GalleryItem(it.original, it.width, it.height) },
             current = images.indexOfFirst { it.original == item.original },
         )
     }

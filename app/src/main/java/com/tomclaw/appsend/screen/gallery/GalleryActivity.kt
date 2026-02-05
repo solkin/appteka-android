@@ -13,7 +13,6 @@ import com.tomclaw.appsend.appComponent
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.gallery.di.GalleryModule
 import com.tomclaw.appsend.util.Analytics
-import com.tomclaw.appsend.util.getParcelableArrayListCompat
 import javax.inject.Inject
 
 
@@ -41,8 +40,11 @@ class GalleryActivity : AppCompatActivity(), GalleryPresenter.GalleryRouter {
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val items = intent.getParcelableArrayListCompat(EXTRA_ITEMS, GalleryItem::class.java)
-            ?: throw IllegalArgumentException("Extra items must be provided")
+        val items = GalleryItem.deserializeList(intent.getStringExtra(EXTRA_ITEMS))
+        if (items == null) {
+            finish()
+            return
+        }
         val startIndex = intent.getIntExtra(EXTRA_START_INDEX, 0)
 
         val presenterState = savedInstanceState?.getBundle(KEY_PRESENTER_STATE)
@@ -96,9 +98,9 @@ class GalleryActivity : AppCompatActivity(), GalleryPresenter.GalleryRouter {
 
     override fun leaveScreen(success: Boolean) {
         if (success) {
-            setResult(Activity.RESULT_OK)
+            setResult(RESULT_OK)
         } else {
-            setResult(Activity.RESULT_CANCELED)
+            setResult(RESULT_CANCELED)
         }
         finish()
     }
@@ -110,9 +112,9 @@ fun createGalleryActivityIntent(
     items: List<GalleryItem>,
     startIndex: Int,
 ): Intent = Intent(context, GalleryActivity::class.java)
-    .putParcelableArrayListExtra(EXTRA_ITEMS, ArrayList(items))
+    .putExtra(EXTRA_ITEMS, GalleryItem.serializeList(items))
     .putExtra(EXTRA_START_INDEX, startIndex)
 
-private const val EXTRA_ITEMS = "items"
+private const val EXTRA_ITEMS = "gallery_items"
 private const val EXTRA_START_INDEX = "start_index"
 private const val KEY_PRESENTER_STATE = "presenter_state"

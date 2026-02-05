@@ -1,6 +1,7 @@
 package com.tomclaw.appsend.screen.feed
 
 import android.os.Bundle
+import androidx.core.net.toUri
 import com.tomclaw.appsend.util.adapter.AdapterPresenter
 import com.tomclaw.appsend.util.adapter.Item
 import com.tomclaw.appsend.dto.Screenshot
@@ -325,7 +326,7 @@ class FeedPresenterImpl(
 
     override fun onImageClick(items: List<Screenshot>, clicked: Int) {
         router?.openGallery(
-            items = items.map { GalleryItem(it.original, it.width, it.height) },
+            items = items.map { GalleryItem(it.original.toUri(), it.width, it.height) },
             current = clicked,
         )
     }
