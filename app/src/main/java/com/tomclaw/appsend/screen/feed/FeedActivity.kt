@@ -5,7 +5,6 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.tomclaw.appsend.R
-import com.tomclaw.appsend.util.updateTheme
 
 class FeedActivity : AppCompatActivity() {
 
@@ -15,8 +14,6 @@ class FeedActivity : AppCompatActivity() {
         if (userId == 0) {
             throw IllegalArgumentException("user ID must be provided")
         }
-
-        updateTheme()
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.feed_activity)

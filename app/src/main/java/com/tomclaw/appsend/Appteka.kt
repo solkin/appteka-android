@@ -9,7 +9,7 @@ import com.tomclaw.appsend.di.DaggerAppComponent
 import com.tomclaw.appsend.util.ApkIconLoader
 import com.tomclaw.appsend.util.AppIconLoader
 import com.tomclaw.appsend.util.SvgDecoder
-import com.tomclaw.appsend.util.initTheme
+import com.tomclaw.appsend.util.ThemeManager
 import com.tomclaw.cache.DiskLruCache
 import com.tomclaw.imageloader.SimpleImageLoader.initImageLoader
 import com.tomclaw.imageloader.core.DiskCacheImpl
@@ -27,13 +27,18 @@ class Appteka : Application() {
     lateinit var component: AppComponent
         private set
 
+    lateinit var themeManager: ThemeManager
+        private set
+
     override fun onCreate() {
         super.onCreate()
+        themeManager = ThemeManager(this)
+        themeManager.init()
+
         component = DaggerAppComponent.builder()
             .appModule(AppModule(this))
             .build()
 
-        initTheme(this)
         initSimpleImageLoader()
         initAnalytics()
     }

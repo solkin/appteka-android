@@ -67,6 +67,9 @@
     <string name="clear_cache_dialog_message">Todos os APKs previamente baixados por %1$s no Armazenamento serão removidos. Esta ação não pode ser desfeita. Deseja prosseguir?</string>
     <string name="clear_cache_dialog_positive">Sim, Excluir Arquivos</string>
     <string name="restart_required_dynamic_colors_short">Reinicie para aplicar as alterações.</string>
+    <string name="pref_title_seed_color">Cor do aplicativo</string>
+    <string name="pref_summary_seed_color">Escolha um esquema de cores personalizado quando as cores dinâmicas estiverem desativadas</string>
+    <string name="seed_color_dialog_title">Escolha a cor do aplicativo</string>
     <string name="pref_category_appearance_title">Aparência</string>
     <string name="pref_category_app_behavior_title">Comportamento do Aplicativo</string>
     <string name="pref_category_general_title">Geral</string>

@@ -14,7 +14,6 @@ import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.screen.moderation.di.ModerationModule
 import com.tomclaw.appsend.util.ZipParcelable
 import com.tomclaw.appsend.util.getParcelableCompat
-import com.tomclaw.appsend.util.updateTheme
 import javax.inject.Inject
 
 class ModerationActivity : AppCompatActivity(), ModerationPresenter.ModerationRouter {
@@ -42,7 +41,6 @@ class ModerationActivity : AppCompatActivity(), ModerationPresenter.ModerationRo
         appComponent
             .moderationComponent(ModerationModule(this, presenterState))
             .inject(activity = this)
-        updateTheme()
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.moderation_activity)

@@ -15,7 +15,6 @@ import com.tomclaw.appsend.screen.downloads.di.DownloadsModule
 import com.tomclaw.appsend.util.Analytics
 import com.tomclaw.appsend.util.ZipParcelable
 import com.tomclaw.appsend.util.getParcelableCompat
-import com.tomclaw.appsend.util.updateTheme
 import javax.inject.Inject
 
 class DownloadsActivity : AppCompatActivity(), DownloadsPresenter.DownloadsRouter {
@@ -47,7 +46,6 @@ class DownloadsActivity : AppCompatActivity(), DownloadsPresenter.DownloadsRoute
         appComponent
             .downloadComponent(DownloadsModule(this, userId, presenterState))
             .inject(activity = this)
-        updateTheme()
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.downloads_activity)

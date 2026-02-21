@@ -13,7 +13,6 @@ import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.search.di.SearchModule
 import com.tomclaw.appsend.util.ZipParcelable
 import com.tomclaw.appsend.util.getParcelableCompat
-import com.tomclaw.appsend.util.updateTheme
 import javax.inject.Inject
 
 class SearchActivity : AppCompatActivity(), SearchPresenter.SearchRouter {
@@ -28,7 +27,6 @@ class SearchActivity : AppCompatActivity(), SearchPresenter.SearchRouter {
     lateinit var binder: ItemBinder
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        updateTheme()
         super.onCreate(savedInstanceState)
 
         val presenterState = savedInstanceState

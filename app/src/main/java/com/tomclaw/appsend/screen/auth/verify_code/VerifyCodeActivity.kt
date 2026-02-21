@@ -8,7 +8,6 @@ import com.tomclaw.appsend.appComponent
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.auth.verify_code.di.VerifyCodeModule
 import com.tomclaw.appsend.util.Analytics
-import com.tomclaw.appsend.util.updateTheme
 import javax.inject.Inject
 
 class VerifyCodeActivity : AppCompatActivity(), VerifyCodePresenter.VerifyCodeRouter {
@@ -44,7 +43,6 @@ class VerifyCodeActivity : AppCompatActivity(), VerifyCodePresenter.VerifyCodeRo
                 )
             )
             .inject(activity = this)
-        updateTheme()
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.verify_code_activity)

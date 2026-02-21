@@ -15,7 +15,6 @@ import com.tomclaw.appsend.screen.favorite.di.FavoriteModule
 import com.tomclaw.appsend.util.Analytics
 import com.tomclaw.appsend.util.ZipParcelable
 import com.tomclaw.appsend.util.getParcelableCompat
-import com.tomclaw.appsend.util.updateTheme
 import javax.inject.Inject
 
 class FavoriteActivity : AppCompatActivity(), FavoritePresenter.FavoriteRouter {
@@ -47,7 +46,6 @@ class FavoriteActivity : AppCompatActivity(), FavoritePresenter.FavoriteRouter {
         appComponent
             .favoriteComponent(FavoriteModule(this, userId, presenterState))
             .inject(activity = this)
-        updateTheme()
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.favorite_activity)

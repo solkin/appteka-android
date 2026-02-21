@@ -8,7 +8,6 @@ import com.tomclaw.appsend.appComponent
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.settings.di.SettingsActivityModule
 import com.tomclaw.appsend.util.Analytics
-import com.tomclaw.appsend.util.updateTheme
 import javax.inject.Inject
 
 class SettingsActivity : AppCompatActivity() {
@@ -21,7 +20,6 @@ class SettingsActivity : AppCompatActivity() {
             .settingsActivityComponent(SettingsActivityModule(context = this))
             .inject(activity = this)
 
-        updateTheme()
         super.onCreate(savedInstanceState)
 
         setContentView(R.layout.settings_activity)

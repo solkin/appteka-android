@@ -4,14 +4,18 @@ import android.Manifest
 import android.content.Intent
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
+import android.graphics.Color
+import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
 import android.text.TextWatcher
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.EditText
+import android.widget.GridLayout
 import android.widget.ProgressBar
 import android.widget.RadioGroup
 import android.widget.TextView
@@ -35,7 +39,7 @@ import com.tomclaw.appsend.core.ProxyConfigProvider
 import com.tomclaw.appsend.core.ProxyType
 import com.tomclaw.appsend.download.ApkStorage
 import com.tomclaw.appsend.screen.settings.di.SettingsModule
-import com.tomclaw.appsend.util.applyTheme
+import com.tomclaw.appsend.util.ThemeManager
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.disposables.Disposable
 import javax.inject.Inject
@@ -46,6 +50,9 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
     @Inject
     lateinit var presenter: SettingsPresenter
+
+    @Inject
+    lateinit var themeManager: ThemeManager
 
     @Inject
     lateinit var apkStorage: ApkStorage
@@ -79,6 +86,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
         setupThemePreference()
         setupDynamicColorsPreference()
+        setupSeedColorPreference()
         setupSortOrderPreference()
         setupClearCachePreference()
         setupProxyPreferences()
@@ -99,6 +107,22 @@ class SettingsFragment : PreferenceFragmentCompat(),
             pref.isEnabled = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
             updateDynamicColorsSummary(pref)
         }
+    }
+
+    private fun setupSeedColorPreference() {
+        findPreference<Preference>(getString(R.string.pref_seed_color))?.let { pref ->
+            updateSeedColorState(pref)
+            pref.setOnPreferenceClickListener {
+                showSeedColorPicker()
+                true
+            }
+        }
+    }
+
+    private fun updateSeedColorState(pref: Preference) {
+        val dynamicEnabled = themeManager.isDynamicColorsEnabled()
+                && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+        pref.isEnabled = !dynamicEnabled
     }
 
     private fun setupSortOrderPreference() {
@@ -329,10 +353,11 @@ class SettingsFragment : PreferenceFragmentCompat(),
             }
 
             getString(R.string.pref_dynamic_colors) -> {
-                showRestartSnackbar()
                 findPreference<SwitchPreferenceCompat>(
                     getString(R.string.pref_dynamic_colors)
                 )?.let { updateDynamicColorsSummary(it) }
+                findPreference<Preference>(getString(R.string.pref_seed_color))
+                    ?.let { updateSeedColorState(it) }
             }
         }
     }
@@ -411,7 +436,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
                 val selected = modes[which]
                 if (selected != current) {
                     sp.edit().putInt(key, selected).apply()
-                    applyTheme(requireActivity())
+                    themeManager.applyNightMode()
                 }
                 d.dismiss()
             }
@@ -438,19 +463,67 @@ class SettingsFragment : PreferenceFragmentCompat(),
             .show()
     }
 
-    private fun showRestartSnackbar() {
-        val v = view ?: return
+    private fun showSeedColorPicker() {
+        val seedColors = SEED_COLORS
+        val currentColor = themeManager.getSeedColor()
 
-        Snackbar.make(v, R.string.restart_required_dynamic_colors_short, Snackbar.LENGTH_LONG)
-            .setAction(R.string.restart_now) {
-                val ctx = context ?: return@setAction
-                val i = ctx.packageManager
-                    .getLaunchIntentForPackage(ctx.packageName)
-                i?.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                ctx.startActivity(i)
-                Runtime.getRuntime().exit(0)
+        val dp = resources.displayMetrics.density
+        val circleSize = (48 * dp).toInt()
+        val margin = (8 * dp).toInt()
+        val padding = (24 * dp).toInt()
+
+        val grid = GridLayout(requireContext()).apply {
+            columnCount = 4
+            setPadding(padding, padding, padding, padding)
+        }
+
+        var dialog: androidx.appcompat.app.AlertDialog? = null
+
+        for (color in seedColors) {
+            val circle = View(requireContext()).apply {
+                val drawable = GradientDrawable().apply {
+                    shape = GradientDrawable.OVAL
+                    setColor(color)
+                    if (color == currentColor) {
+                        setStroke((3 * dp).toInt(), getContrastColor(color))
+                    }
+                }
+                background = drawable
+                if (color == currentColor) {
+                    foreground = ContextCompat.getDrawable(
+                        requireContext(), R.drawable.ic_check_circle
+                    )?.apply {
+                        setTint(getContrastColor(color))
+                    }
+                    foregroundGravity = Gravity.CENTER
+                }
             }
+            val params = GridLayout.LayoutParams().apply {
+                width = circleSize
+                height = circleSize
+                setMargins(margin, margin, margin, margin)
+            }
+            circle.layoutParams = params
+            circle.setOnClickListener {
+                themeManager.setSeedColor(color)
+                dialog?.dismiss()
+                restartActivity()
+            }
+            grid.addView(circle)
+        }
+
+        dialog = MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.seed_color_dialog_title)
+            .setView(grid)
+            .setNegativeButton(R.string.cancel, null)
             .show()
+    }
+
+    private fun getContrastColor(color: Int): Int {
+        val luminance = (0.299 * Color.red(color)
+                + 0.587 * Color.green(color)
+                + 0.114 * Color.blue(color)) / 255
+        return if (luminance > 0.5) Color.BLACK else Color.WHITE
     }
 
     override fun finishActivity() {
@@ -502,6 +575,23 @@ class SettingsFragment : PreferenceFragmentCompat(),
                 storagePermissionLauncher.launch(permission)
             }
         }
+    }
+
+    companion object {
+        private val SEED_COLORS = intArrayOf(
+            0xFF32A304.toInt(),
+            0xFF4285F4.toInt(),
+            0xFFEA4335.toInt(),
+            0xFFFBBC04.toInt(),
+            0xFF34A853.toInt(),
+            0xFFFF6D00.toInt(),
+            0xFF9C27B0.toInt(),
+            0xFF00BCD4.toInt(),
+            0xFF795548.toInt(),
+            0xFFE91E63.toInt(),
+            0xFF3F51B5.toInt(),
+            0xFF607D8B.toInt(),
+        )
     }
 
 }

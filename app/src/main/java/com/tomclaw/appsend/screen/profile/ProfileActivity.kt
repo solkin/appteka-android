@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.appComponent
 import com.tomclaw.appsend.screen.home.createHomeActivityIntent
-import com.tomclaw.appsend.util.updateTheme
 
 class ProfileActivity : AppCompatActivity() {
 
@@ -38,7 +37,6 @@ class ProfileActivity : AppCompatActivity() {
             }
         }
 
-        updateTheme()
         setContentView(R.layout.profile_activity)
 
         if (savedInstanceState == null) {

@@ -69,6 +69,9 @@
     <string name="clear_cache_dialog_message">ستتم إزالة جميع ملفات APK التي تم تنزيلها مسبقًا بواسطة %1$s في وحدة التخزين. لا يمكن التراجع عن هذا الإجراء. هل تريد المتابعة؟</string>
     <string name="clear_cache_dialog_positive">نعم، احذف الملفات</string>
     <string name="restart_required_dynamic_colors_short">أعد التشغيل لتطبيق التغييرات.</string>
+    <string name="pref_title_seed_color">لون التطبيق</string>
+    <string name="pref_summary_seed_color">اختر نظام ألوان مخصص عند إيقاف الألوان الديناميكية</string>
+    <string name="seed_color_dialog_title">اختر لون التطبيق</string>
     <string name="pref_category_appearance_title">المظهر</string>
     <string name="pref_category_app_behavior_title">سلوك التطبيق</string>
     <string name="pref_category_general_title">عام</string>

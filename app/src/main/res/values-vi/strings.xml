@@ -67,6 +67,9 @@
     <string name="clear_cache_dialog_message">Tất cả các tệp APK đã được %1$s tải xuống trước đó trong Bộ nhớ sẽ bị xóa. Hành động này không thể hoàn tác. Bạn có muốn tiếp tục không?</string>
     <string name="clear_cache_dialog_positive">Có, Xóa tệp</string>
     <string name="restart_required_dynamic_colors_short">Khởi động lại để áp dụng thay đổi.</string>
+    <string name="pref_title_seed_color">Màu ứng dụng</string>
+    <string name="pref_summary_seed_color">Chọn bảng màu tùy chỉnh khi màu động bị tắt</string>
+    <string name="seed_color_dialog_title">Chọn màu ứng dụng</string>
     <string name="pref_category_appearance_title">Giao diện</string>
     <string name="pref_category_app_behavior_title">Hành vi ứng dụng</string>
     <string name="pref_category_general_title">Chung</string>

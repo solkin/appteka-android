@@ -34,7 +34,6 @@ import com.tomclaw.appsend.screen.unpublish.createUnpublishActivityIntent
 import com.tomclaw.appsend.screen.uploads.createUploadsActivityIntent
 import com.tomclaw.appsend.util.Analytics
 import com.tomclaw.appsend.util.SchedulersFactory
-import com.tomclaw.appsend.util.updateTheme
 import javax.inject.Inject
 
 /**
@@ -73,7 +72,6 @@ class BduiScreenActivity : AppCompatActivity(), BduiScreenPresenter.BduiScreenRo
         appComponent
             .bduiScreenComponent(BduiScreenModule(url, title, presenterState))
             .inject(activity = this)
-        updateTheme()
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.bdui_screen_activity)

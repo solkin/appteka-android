@@ -67,6 +67,9 @@
     <string name="clear_cache_dialog_message">Все APK-файлы, ранее загруженные с помощью %1$s в хранилище, будут удалены. Это действие необратимо. Желаете продолжить?</string>
     <string name="clear_cache_dialog_positive">Да, удалить файлы</string>
     <string name="restart_required_dynamic_colors_short">Перезапустите для применения изменений.</string>
+    <string name="pref_title_seed_color">Цвет приложения</string>
+    <string name="pref_summary_seed_color">Выберите цветовую схему при выключенных динамических цветах</string>
+    <string name="seed_color_dialog_title">Выберите цвет приложения</string>
     <string name="pref_category_appearance_title">Внешний вид</string>
     <string name="pref_category_app_behavior_title">Поведение приложения</string>
     <string name="pref_category_general_title">Общие</string>

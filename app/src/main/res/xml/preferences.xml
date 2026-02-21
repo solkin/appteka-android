@@ -21,6 +21,13 @@
             app:useMaterialThemeColors="true"
             android:icon="@drawable/ic_dynamic_color" />
 
+        <Preference
+            android:key="@string/pref_seed_color"
+            android:title="@string/pref_title_seed_color"
+            android:summary="@string/pref_summary_seed_color"
+            app:useMaterialThemeColors="true"
+            android:icon="@drawable/ic_color" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

@@ -10,7 +10,6 @@ import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.auth.request_code.di.RequestCodeModule
 import com.tomclaw.appsend.screen.auth.verify_code.createVerifyCodeActivityIntent
 import com.tomclaw.appsend.util.Analytics
-import com.tomclaw.appsend.util.updateTheme
 import javax.inject.Inject
 
 class RequestCodeActivity : AppCompatActivity(), RequestCodePresenter.RequestCodeRouter {
@@ -33,7 +32,6 @@ class RequestCodeActivity : AppCompatActivity(), RequestCodePresenter.RequestCod
         appComponent
             .requestCodeComponent(RequestCodeModule(this, presenterState))
             .inject(activity = this)
-        updateTheme()
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.request_code_activity)

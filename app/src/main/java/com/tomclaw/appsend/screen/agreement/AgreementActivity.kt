@@ -8,7 +8,6 @@ import com.tomclaw.appsend.appComponent
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.agreement.di.AgreementModule
 import com.tomclaw.appsend.util.Analytics
-import com.tomclaw.appsend.util.updateTheme
 import javax.inject.Inject
 
 class AgreementActivity : AppCompatActivity(), AgreementPresenter.AgreementRouter {
@@ -24,7 +23,6 @@ class AgreementActivity : AppCompatActivity(), AgreementPresenter.AgreementRoute
         appComponent
             .agreementComponent(AgreementModule(presenterState))
             .inject(activity = this)
-        updateTheme()
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.agreement_activity)

@@ -70,6 +70,9 @@
     <string name="clear_cache_dialog_message">All previously downloaded APKs by %1$s in Storage will be removed. This action cannot be undone. Do you wish to proceed?</string>
     <string name="clear_cache_dialog_positive">Yes, Delete Files</string>
     <string name="restart_required_dynamic_colors_short">Restart to apply changes.</string>
+    <string name="pref_title_seed_color">App color</string>
+    <string name="pref_summary_seed_color">Choose a custom color scheme when dynamic colors are off</string>
+    <string name="seed_color_dialog_title">Choose app color</string>
     <string name="pref_category_appearance_title">Appearance</string>
     <string name="pref_category_app_behavior_key">app_behavior_settings</string>
     <string name="pref_category_app_behavior_title">App Behavior</string>

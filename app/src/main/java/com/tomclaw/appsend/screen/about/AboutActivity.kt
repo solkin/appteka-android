@@ -10,7 +10,6 @@ import com.tomclaw.appsend.appComponent
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.about.di.AboutModule
 import com.tomclaw.appsend.util.Analytics
-import com.tomclaw.appsend.util.updateTheme
 import javax.inject.Inject
 import androidx.core.net.toUri
 
@@ -27,7 +26,6 @@ class AboutActivity : AppCompatActivity(), AboutPresenter.AboutRouter {
         appComponent
             .aboutComponent(AboutModule(context = this, presenterState))
             .inject(activity = this)
-        updateTheme()
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.about_activity)

@@ -69,6 +69,9 @@
     <string name="clear_cache_dialog_message">هەموو فایلی APK کە پێشتر لەلایەن %1$s لە بیرگەدا داگیران، لادەبرێن. ناتوانرێت ئەم کارە هەڵبگیرێتەوە. ئایا دەتەوێت بەردەوام بیت؟</string>
     <string name="clear_cache_dialog_positive">بەڵێ، فایلی بسڕەوە</string>
     <string name="restart_required_dynamic_colors_short">دەستپێکردنەوە بۆ جێبەجێکردنی گۆڕانکارییەکان.</string>
+    <string name="pref_title_seed_color">ڕەنگی ئەپ</string>
+    <string name="pref_summary_seed_color">ڕەنگێکی تایبەت هەڵبژێرە کاتێک ڕەنگە داینامیکەکان کوژاوەتەوە</string>
+    <string name="seed_color_dialog_title">ڕەنگی ئەپ هەڵبژێرە</string>
     <string name="pref_category_appearance_title">شێوە</string>
     <string name="pref_category_app_behavior_title">ڕەفتاری بەرنامە</string>
     <string name="pref_category_general_title">گشتی</string>
