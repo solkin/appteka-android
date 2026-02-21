@@ -68,6 +68,9 @@
     <string name="clear_cache_dialog_message">%1$s tomonidan xotirada avval yuklab olingan barcha APKlar o\'chiriladi. Bu amalni bekor qilib bo\'lmaydi. Davom etmoqchimisiz?</string>
     <string name="clear_cache_dialog_positive">Ha, Fayllarni O\'chirish</string>
     <string name="restart_required_dynamic_colors_short">O\'zgarishlarni qo\'llash uchun qayta ishga tushiring.</string>
+    <string name="pref_title_seed_color">Ilova rangi</string>
+    <string name="pref_summary_seed_color">Dinamik ranglar o\'chirilganda maxsus rang sxemasini tanlang</string>
+    <string name="seed_color_dialog_title">Ilova rangini tanlang</string>
     <string name="pref_category_appearance_title">Tashqi ko\'rinish</string>
     <string name="pref_category_app_behavior_key">app_behavior_settings</string>
     <string name="pref_category_app_behavior_title">Ilova xatti-harakati</string>

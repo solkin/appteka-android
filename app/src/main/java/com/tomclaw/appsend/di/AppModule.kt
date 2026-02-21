@@ -56,6 +56,7 @@ import com.tomclaw.appsend.user.ModerationProvider
 import com.tomclaw.appsend.user.ModerationProviderImpl
 import com.tomclaw.appsend.user.SessionStorage
 import com.tomclaw.appsend.user.SessionStorageImpl
+import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.util.Analytics
 import com.tomclaw.appsend.util.AnalyticsImpl
 import com.tomclaw.appsend.util.Logger
@@ -64,6 +65,7 @@ import com.tomclaw.appsend.util.PackageObserver
 import com.tomclaw.appsend.util.PackageObserverImpl
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.SchedulersFactoryImpl
+import com.tomclaw.appsend.util.ThemeManager
 import com.tomclaw.bananalytics.Bananalytics
 import com.tomclaw.bananalytics.BananalyticsConfig
 import com.tomclaw.bananalytics.BananalyticsImpl
@@ -85,6 +87,10 @@ class AppModule(private val app: Application) {
     @Provides
     @Singleton
     internal fun provideContext(): Context = app
+
+    @Provides
+    @Singleton
+    internal fun provideThemeManager(): ThemeManager = (app as Appteka).themeManager
 
     @Provides
     @Singleton

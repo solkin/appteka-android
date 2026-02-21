@@ -15,7 +15,6 @@ import com.tomclaw.appsend.screen.uploads.di.UploadsModule
 import com.tomclaw.appsend.util.Analytics
 import com.tomclaw.appsend.util.ZipParcelable
 import com.tomclaw.appsend.util.getParcelableCompat
-import com.tomclaw.appsend.util.updateTheme
 import javax.inject.Inject
 
 class UploadsActivity : AppCompatActivity(), UploadsPresenter.UploadsRouter {
@@ -47,7 +46,6 @@ class UploadsActivity : AppCompatActivity(), UploadsPresenter.UploadsRouter {
         appComponent
             .uploadsComponent(UploadsModule(this, userId, presenterState))
             .inject(activity = this)
-        updateTheme()
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.uploads_activity)

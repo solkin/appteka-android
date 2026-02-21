@@ -11,7 +11,6 @@ import com.tomclaw.appsend.appComponent
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.permissions.di.PermissionsModule
 import com.tomclaw.appsend.util.Analytics
-import com.tomclaw.appsend.util.updateTheme
 import javax.inject.Inject
 
 class PermissionsActivity : AppCompatActivity(), PermissionsPresenter.PermissionsRouter {
@@ -35,7 +34,6 @@ class PermissionsActivity : AppCompatActivity(), PermissionsPresenter.Permission
         appComponent
             .permissionsComponent(PermissionsModule(this, permissions, presenterState))
             .inject(activity = this)
-        updateTheme()
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.permissions_activity)

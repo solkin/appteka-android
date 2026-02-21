@@ -44,7 +44,6 @@ import com.tomclaw.appsend.screen.upload.createUploadActivityIntent
 import com.tomclaw.appsend.upload.UploadPackage
 import com.tomclaw.appsend.user.api.UserBrief
 import com.tomclaw.appsend.util.Analytics
-import com.tomclaw.appsend.util.updateTheme
 import javax.inject.Inject
 import javax.inject.Named
 
@@ -165,7 +164,6 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
                 )
             )
             .inject(activity = this)
-        updateTheme()
         setContentView(R.layout.details_activity)
 
         val adapter = SimpleRecyclerAdapter(adapterPresenter, binder)

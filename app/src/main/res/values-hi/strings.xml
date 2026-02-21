@@ -67,6 +67,9 @@
     <string name="clear_cache_dialog_message">%1$s द्वारा स्टोरेज में पहले से डाउनलोड की गई सभी APK फ़ाइलें हटा दी जाएंगी। यह कार्रवाई वापस नहीं ली जा सकती। क्या आप आगे बढ़ना चाहते हैं?</string>
     <string name="clear_cache_dialog_positive">हाँ, फ़ाइलें हटाएँ</string>
     <string name="restart_required_dynamic_colors_short">परिवर्तन लागू करने के लिए रीस्टार्ट करें।</string>
+    <string name="pref_title_seed_color">ऐप का रंग</string>
+    <string name="pref_summary_seed_color">डायनामिक रंग बंद होने पर कस्टम रंग योजना चुनें</string>
+    <string name="seed_color_dialog_title">ऐप का रंग चुनें</string>
     <string name="pref_category_appearance_title">दिखावट</string>
     <string name="pref_category_app_behavior_title">ऐप व्यवहार</string>
     <string name="pref_category_general_title">सामान्य</string>

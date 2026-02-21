@@ -14,7 +14,6 @@ import com.tomclaw.appsend.screen.ratings.di.RatingsModule
 import com.tomclaw.appsend.util.Analytics
 import com.tomclaw.appsend.util.ZipParcelable
 import com.tomclaw.appsend.util.getParcelableCompat
-import com.tomclaw.appsend.util.updateTheme
 import javax.inject.Inject
 
 class RatingsActivity : AppCompatActivity(), RatingsPresenter.RatingsRouter {
@@ -40,7 +39,6 @@ class RatingsActivity : AppCompatActivity(), RatingsPresenter.RatingsRouter {
         appComponent
             .ratingsComponent(RatingsModule(this, appId, presenterState))
             .inject(activity = this)
-        updateTheme()
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.ratings_activity)

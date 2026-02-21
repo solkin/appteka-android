@@ -67,6 +67,9 @@
     <string name="clear_cache_dialog_message">存储中所有先前由 %1$s 下载的 APK 文件都将被移除。此操作无法撤消。您希望继续吗？</string>
     <string name="clear_cache_dialog_positive">是，删除文件</string>
     <string name="restart_required_dynamic_colors_short">重启以应用更改。</string>
+    <string name="pref_title_seed_color">应用颜色</string>
+    <string name="pref_summary_seed_color">关闭动态颜色时选择自定义配色方案</string>
+    <string name="seed_color_dialog_title">选择应用颜色</string>
     <string name="pref_category_appearance_title">外观</string>
     <string name="pref_category_app_behavior_title">应用行为</string>
     <string name="pref_category_general_title">常规</string>

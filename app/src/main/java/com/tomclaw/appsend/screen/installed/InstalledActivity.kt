@@ -31,7 +31,6 @@ import com.tomclaw.appsend.screen.upload.createUploadActivityIntent
 import com.tomclaw.appsend.upload.UploadApk
 import com.tomclaw.appsend.upload.UploadPackage
 import com.tomclaw.appsend.util.Analytics
-import com.tomclaw.appsend.util.updateTheme
 import java.io.File
 import javax.inject.Inject
 
@@ -100,7 +99,6 @@ class InstalledActivity : AppCompatActivity(), InstalledPresenter.InstalledRoute
         appComponent
             .installedComponent(InstalledModule(this, picker, presenterState))
             .inject(activity = this)
-        updateTheme()
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.installed_activity)

@@ -27,6 +27,8 @@ interface SettingsResourceProvider {
 
     fun getSortOrderDefault(): String
 
+    fun getPrefSeedColorKey(): String
+
 }
 
 class SettingsResourceProviderImpl(
@@ -65,5 +67,8 @@ class SettingsResourceProviderImpl(
 
     override fun getSortOrderDefault(): String =
         resources.getString(R.string.pref_sort_order_default)
+
+    override fun getPrefSeedColorKey(): String =
+        resources.getString(R.string.pref_seed_color)
 
 }

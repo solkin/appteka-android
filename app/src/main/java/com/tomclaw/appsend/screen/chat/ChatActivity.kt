@@ -17,7 +17,6 @@ import com.tomclaw.appsend.screen.profile.createProfileActivityIntent
 import com.tomclaw.appsend.util.Analytics
 import com.tomclaw.appsend.util.ZipParcelable
 import com.tomclaw.appsend.util.getParcelableCompat
-import com.tomclaw.appsend.util.updateTheme
 import javax.inject.Inject
 
 class ChatActivity : AppCompatActivity(), ChatPresenter.ChatRouter {
@@ -50,7 +49,6 @@ class ChatActivity : AppCompatActivity(), ChatPresenter.ChatRouter {
         appComponent
             .chatComponent(ChatModule(this, topicEntity, topicId, presenterState))
             .inject(activity = this)
-        updateTheme()
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.chat_activity)

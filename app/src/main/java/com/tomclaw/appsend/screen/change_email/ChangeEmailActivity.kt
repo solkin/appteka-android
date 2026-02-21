@@ -8,7 +8,6 @@ import com.tomclaw.appsend.appComponent
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.change_email.di.ChangeEmailModule
 import com.tomclaw.appsend.util.Analytics
-import com.tomclaw.appsend.util.updateTheme
 import javax.inject.Inject
 
 class ChangeEmailActivity : AppCompatActivity(), ChangeEmailPresenter.ChangeEmailRouter {
@@ -24,7 +23,6 @@ class ChangeEmailActivity : AppCompatActivity(), ChangeEmailPresenter.ChangeEmai
         appComponent
             .changeEmailComponent(ChangeEmailModule(this, presenterState))
             .inject(activity = this)
-        updateTheme()
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.change_email_activity)

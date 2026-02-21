@@ -119,7 +119,7 @@ class SettingsPresenterImpl(
             }
 
             resourceProvider.getPrefDynamicColorsKey() -> {
-                router?.setResultOk()
+                router?.restartActivity()
             }
 
             resourceProvider.getPrefSortOrderKey() -> {

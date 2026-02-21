@@ -1,93 +1,93 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-     xmlns:android="http://schemas.android.com/apk/res/android"
-     xmlns:app="http://schemas.android.com/apk/res-auto"
-     xmlns:tools="http://schemas.android.com/tools"
-     android:layout_height="wrap_content"
-     android:layout_width="match_parent"
-     android:padding="24dp"
-     android:orientation="vertical">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp">
 
     <LinearLayout
-         android:layout_height="wrap_content"
-         android:layout_width="match_parent"
-         android:gravity="center_vertical"
-         android:orientation="horizontal"
-         android:id="@+id/security_status_row">
+        android:id="@+id/security_status_row"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
         <ImageView
-             android:layout_height="28dp"
-             android:layout_width="28dp"
-             tools:src="@drawable/ic_verified"
-             tools:tint="@color/block_success_color"
-             android:id="@+id/security_status_icon" />
+            android:id="@+id/security_status_icon"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            tools:src="@drawable/ic_verified"
+            tools:tint="@color/block_success_color" />
 
         <TextView
-             android:layout_height="wrap_content"
-             android:layout_width="0dp"
-             android:textSize="16sp"
-             android:textColor="?text_primary_color"
-             android:layout_marginStart="16dp"
-             tools:text="Verified Safe — No threats detected"
-             android:layout_weight="1"
-             android:id="@+id/security_status_text" />
+            android:id="@+id/security_status_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_weight="1"
+            android:textColor="?text_primary_color"
+            android:textSize="16sp"
+            tools:text="Verified Safe — No threats detected" />
 
     </LinearLayout>
 
     <LinearLayout
-         android:layout_height="wrap_content"
-         android:layout_width="match_parent"
-         android:visibility="gone"
-         android:gravity="center_vertical"
-         tools:visibility="visible"
-         android:orientation="horizontal"
-         android:layout_marginTop="16dp"
-         android:id="@+id/security_score_row">
+        android:id="@+id/security_score_row"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        tools:visibility="visible">
 
         <ImageView
-             android:layout_height="28dp"
-             android:layout_width="28dp"
-             android:src="@drawable/ic_chart"
-             app:tint="?text_secondary_color"
-             android:id="@+id/security_score_icon" />
+            android:id="@+id/security_score_icon"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="@drawable/ic_chart"
+            app:tint="?text_secondary_color" />
 
         <TextView
-             android:layout_height="wrap_content"
-             android:layout_width="0dp"
-             android:textSize="14sp"
-             android:textColor="?text_secondary_color"
-             android:layout_marginStart="16dp"
-             tools:text="Risk Score: 25%"
-             android:layout_weight="1"
-             android:id="@+id/security_score_text" />
+            android:id="@+id/security_score_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_weight="1"
+            android:textColor="?text_secondary_color"
+            android:textSize="14sp"
+            tools:text="Risk Score: 25%" />
 
     </LinearLayout>
 
     <LinearLayout
-         android:layout_height="wrap_content"
-         android:layout_width="match_parent"
-         android:gravity="center_vertical"
-         android:orientation="horizontal"
-         android:layout_marginTop="16dp"
-         android:id="@+id/security_tools_row">
+        android:id="@+id/security_tools_row"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
         <ImageView
-             android:layout_height="28dp"
-             android:layout_width="28dp"
-             android:src="@drawable/ic_security"
-             app:tint="?text_secondary_color"
-             android:id="@+id/security_tools_icon" />
+            android:id="@+id/security_tools_icon"
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:src="@drawable/ic_security"
+            app:tint="?text_secondary_color" />
 
         <TextView
-             android:layout_height="wrap_content"
-             android:layout_width="0dp"
-             android:textSize="14sp"
-             android:textColor="?text_secondary_color"
-             android:layout_marginStart="16dp"
-             tools:text="Scanned with: ClamAV, APKiD, Quark-Engine"
-             android:layout_weight="1"
-             android:id="@+id/security_tools_text" />
+            android:id="@+id/security_tools_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_weight="1"
+            android:textColor="?text_secondary_color"
+            android:textSize="14sp"
+            tools:text="Scanned with: ClamAV, APKiD, Quark-Engine" />
 
     </LinearLayout>
 
 </LinearLayout>
+

@@ -26,7 +26,6 @@ import com.tomclaw.appsend.screen.store.createStoreFragment
 import com.tomclaw.appsend.screen.topics.createTopicsFragment
 import com.tomclaw.appsend.screen.upload.createUploadActivityIntent
 import com.tomclaw.appsend.util.Analytics
-import com.tomclaw.appsend.util.updateTheme
 import javax.inject.Inject
 import kotlin.system.exitProcess
 
@@ -59,7 +58,6 @@ class HomeActivity : AppCompatActivity(), HomePresenter.HomeRouter {
         appComponent
             .homeComponent(HomeModule(context = this, startAction = intent.action, presenterState))
             .inject(activity = this)
-        updateTheme()
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.home_activity)

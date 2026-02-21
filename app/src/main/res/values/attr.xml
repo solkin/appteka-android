@@ -41,15 +41,4 @@
         <attr name="progressbarColor" format="color" />
         <attr name="progressBarThickness" format="dimension" />
     </declare-styleable>
-    
-    <!-- New -->
-    <declare-styleable name="PaletteItemView">
-        <attr
-            name="checkIcon"
-            format="reference" />
-        <attr
-            name="segmentGap"
-            format="dimension" />
-    </declare-styleable>
-    
 </resources>

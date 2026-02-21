@@ -68,6 +68,9 @@
     <string name="clear_cache_dialog_message">همه فایل های APK دانلود شده قبلی توسط %1$s از حافظه دستگاه حذف خواهند شد آیا می خواهید این کار را انجام دهید؟</string>
     <string name="clear_cache_dialog_positive">بله فایل ها حذف شوند</string>
     <string name="restart_required_dynamic_colors_short">برای انجام تغییرات گوشی باید خاموش و روشن شود</string>
+    <string name="pref_title_seed_color">رنگ برنامه</string>
+    <string name="pref_summary_seed_color">هنگام خاموش بودن رنگ‌های پویا، یک طرح رنگ سفارشی انتخاب کنید</string>
+    <string name="seed_color_dialog_title">رنگ برنامه را انتخاب کنید</string>
     <string name="pref_category_appearance_title">رنگ زمینه</string>
     <string name="pref_category_app_behavior_key">app_behavior_settings</string>
     <string name="pref_category_app_behavior_title">عملکرد برنامه</string>

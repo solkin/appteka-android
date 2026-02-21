@@ -7,4 +7,5 @@
     <string name="pref_show_system" translatable="false">pref_show_system</string>
     <string name="pref_sort_order" translatable="false">pref_sort_order</string>
     <string name="pref_clear_cache" translatable="false">pref_clear_cache</string>
+    <string name="pref_seed_color" translatable="false">pref_seed_color</string>
 </resources>
