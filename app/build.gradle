@@ -102,8 +102,8 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.13.2'
     
     // Dagger & KSP
-    implementation 'com.google.dagger:dagger:2.59'
-    ksp 'com.google.dagger:dagger-compiler:2.59'
+    implementation 'com.google.dagger:dagger:2.59.2'
+    ksp 'com.google.dagger:dagger-compiler:2.59.2'
     
     implementation 'org.jetbrains.kotlin:kotlin-parcelize-runtime'
 
