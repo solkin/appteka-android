@@ -13,6 +13,7 @@ import com.tomclaw.appsend.R
 class ThemeManager(private val app: Application) : Application.ActivityLifecycleCallbacks {
 
     private val prefs = PreferenceManager.getDefaultSharedPreferences(app)
+    private val activityFingerprints = HashMap<Activity, Long>()
 
     fun init() {
         migrateOldThemePreference()
@@ -68,17 +69,38 @@ class ThemeManager(private val app: Application) : Application.ActivityLifecycle
         }
     }
 
+    private fun getColorsFingerprint(): Long {
+        val dynamic =
+            if (isDynamicColorsEnabled() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) 1L
+            else 0L
+        val seed = getSeedColor().toLong() and 0xFFFFFFFFL
+        return (dynamic shl 32) or seed
+    }
+
     override fun onActivityPreCreated(activity: Activity, savedInstanceState: Bundle?) {
         DynamicColors.applyToActivityIfAvailable(activity, buildDynamicColorsOptions())
+        activityFingerprints[activity] = getColorsFingerprint()
     }
 
     override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {}
     override fun onActivityStarted(activity: Activity) {}
-    override fun onActivityResumed(activity: Activity) {}
+
+    override fun onActivityResumed(activity: Activity) {
+        val stored = activityFingerprints[activity]
+        val current = getColorsFingerprint()
+        if (stored != null && stored != current) {
+            activityFingerprints[activity] = current
+            activity.recreate()
+        }
+    }
+
     override fun onActivityPaused(activity: Activity) {}
     override fun onActivityStopped(activity: Activity) {}
     override fun onActivitySaveInstanceState(activity: Activity, outState: Bundle) {}
-    override fun onActivityDestroyed(activity: Activity) {}
+
+    override fun onActivityDestroyed(activity: Activity) {
+        activityFingerprints.remove(activity)
+    }
 
     companion object {
         private const val KEY_SEED_COLOR = "seed_color"

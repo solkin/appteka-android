@@ -358,6 +358,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
                 )?.let { updateDynamicColorsSummary(it) }
                 findPreference<Preference>(getString(R.string.pref_seed_color))
                     ?.let { updateSeedColorState(it) }
+                restartActivity()
             }
         }
     }

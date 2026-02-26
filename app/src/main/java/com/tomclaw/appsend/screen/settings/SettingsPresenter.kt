@@ -113,15 +113,6 @@ class SettingsPresenterImpl(
                 router?.setResultOk()
             }
 
-            resourceProvider.getPrefDarkThemeKey(),
-            resourceProvider.getPrefThemeModeKey() -> {
-                router?.restartActivity()
-            }
-
-            resourceProvider.getPrefDynamicColorsKey() -> {
-                router?.restartActivity()
-            }
-
             resourceProvider.getPrefSortOrderKey() -> {
                 router?.setResultOk()
             }
