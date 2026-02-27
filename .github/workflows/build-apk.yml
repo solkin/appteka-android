@@ -32,7 +32,7 @@ jobs:
         run: ./gradlew assemble${{ matrix.build_type }} -PstoreFile=${{ secrets.STORE_FILE }} -PstorePassword=${{ secrets.STORE_PASSWORD }} -PkeyAlias=${{ secrets.KEY_ALIAS }} -PkeyPassword=${{ secrets.KEY_PASSWORD }}
 
       - name: Upload APK
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: appteka-apk-${{ matrix.build_type }}-${{ github.run_id }}
           path: app/build/outputs/apk/${{ matrix.build_type }}/app-${{ matrix.build_type }}.apk
