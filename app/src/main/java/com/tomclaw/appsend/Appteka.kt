@@ -2,6 +2,7 @@ package com.tomclaw.appsend
 
 import android.app.Application
 import android.content.Context
+import android.util.Log
 import com.tomclaw.appsend.analytics.AnalyticsActivityCallback
 import com.tomclaw.appsend.di.AppComponent
 import com.tomclaw.appsend.di.AppModule
@@ -20,6 +21,10 @@ import com.tomclaw.imageloader.util.BitmapDecoder
 import com.tomclaw.imageloader.util.loader.ContentLoader
 import com.tomclaw.imageloader.util.loader.FileLoader
 import com.tomclaw.imageloader.util.loader.UrlLoader
+import io.reactivex.rxjava3.exceptions.UndeliverableException
+import io.reactivex.rxjava3.plugins.RxJavaPlugins
+import retrofit2.HttpException
+import java.io.IOException
 import java.util.concurrent.Executors
 
 class Appteka : Application() {
@@ -32,6 +37,7 @@ class Appteka : Application() {
 
     override fun onCreate() {
         super.onCreate()
+        initRxErrorHandler()
         themeManager = ThemeManager(this)
         themeManager.init()
 
@@ -41,6 +47,21 @@ class Appteka : Application() {
 
         initSimpleImageLoader()
         initAnalytics()
+    }
+
+    private fun initRxErrorHandler() {
+        RxJavaPlugins.setErrorHandler { e ->
+            val error = when (e) {
+                is UndeliverableException -> e.cause
+                else -> e
+            }
+            if (error is HttpException || error is IOException || error is InterruptedException) {
+                Log.w(TAG, "Undeliverable exception: ${error.message}")
+                return@setErrorHandler
+            }
+            Thread.currentThread().uncaughtExceptionHandler
+                ?.uncaughtException(Thread.currentThread(), error ?: e)
+        }
     }
 
     private fun initSimpleImageLoader() {
@@ -73,6 +94,7 @@ class Appteka : Application() {
     }
 
     companion object {
+        private const val TAG = "Appteka"
         private const val DISK_CACHE_SIZE = 15L * 1024 * 1024 // 15 MB
         private const val IMAGE_LOADER_THREADS = 5
     }
