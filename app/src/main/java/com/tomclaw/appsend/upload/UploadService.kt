@@ -11,6 +11,7 @@ import android.os.IBinder
 import com.tomclaw.appsend.appComponent
 import com.tomclaw.appsend.upload.di.UploadServiceModule
 import com.tomclaw.appsend.util.getParcelableExtraCompat
+import io.reactivex.rxjava3.disposables.Disposable
 import javax.inject.Inject
 
 class UploadService : Service() {
@@ -66,17 +67,17 @@ class UploadService : Service() {
                 observable = relay,
             )
         } else {
-            // Subscribe to status changes even when apk is null to handle foreground notification
-            relay.subscribe { state ->
+            // Dispose on terminal state to allow relay cleanup in UploadManager
+            var disposable: Disposable? = null
+            disposable = relay.subscribe { state ->
                 when (state.status) {
                     UploadStatus.COMPLETED,
                     UploadStatus.ERROR,
                     UploadStatus.IDLE -> {
                         stopForegroundCompat()
+                        disposable?.dispose()
                     }
-                    else -> {
-                        // Keep foreground notification for other states
-                    }
+                    else -> {}
                 }
             }
         }
