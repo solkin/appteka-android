@@ -18,12 +18,10 @@
 -keep class * implements com.tomclaw.appsend.dto.ApiResponse { *; }
 
 # Parcelable (including kotlinx.parcelize support)
--keep class * implements android.os.Parcelable {
-    public static final android.os.Parcelable$Creator *;
-}
--keepclassmembers class * implements android.os.Parcelable {
-    public static final android.os.Parcelable$Creator CREATOR;
-}
+-keep class * implements android.os.Parcelable { *; }
+-keepnames class * implements android.os.Parcelable
+-keep @kotlinx.parcelize.Parcelize class * { *; }
+-keepnames @kotlinx.parcelize.Parcelize class *
 
 # Enums (required for Parcelable and Gson serialization)
 -keepclassmembers enum * {
