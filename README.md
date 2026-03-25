@@ -41,6 +41,29 @@
 - **Dark Theme** — Full dark mode support
 - **No Root Required** — Works on any Android device
 
+
+## Badge
+
+<details>
+<summary>Add Badge</summary>
+
+```
+[<img src="https://raw.githubusercontent.com/solkin/appteka-android/refs/heads/master/art/badge.png" alt="Get it on Appteka" height="200">](https://appteka.store/app/ac5r222861)
+```
+```
+<a href="https://appteka.store/app/ac5r222861">
+  <img src="https://raw.githubusercontent.com/solkin/appteka-android/refs/heads/master/art/badge.png"
+  alt="Get it on Appteka" width="200">
+</a>
+```
+</details>
+
+
+<a href="https://appteka.store/app/ac5r222861">
+  <img src="/art/badge.png"
+  alt="Get it on Appteka" width="200">
+</a>
+
 ## Download
 
 <a href="https://appteka.store"><img src="https://img.shields.io/badge/Appteka-Store-32A304?style=for-the-badge&logo=android" alt="Get it on Appteka"></a>
