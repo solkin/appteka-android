@@ -48,11 +48,11 @@
 <summary>Add Badge</summary>
 
 ```
-[<img src="https://raw.githubusercontent.com/solkin/appteka-android/refs/heads/master/art/badge.png" alt="Get it on Appteka" height="200">](https://appteka.store/app/ac5r222861)
+[<img src=https://github.com/solkin/appteka-android/blob/master/art/badge.png" alt="Get it on Appteka" height="200">](https://appteka.store/app/ac5r222861)
 ```
 ```
 <a href="https://appteka.store/app/ac5r222861">
-  <img src="https://raw.githubusercontent.com/solkin/appteka-android/refs/heads/master/art/badge.png"
+  <img src="https://github.com/solkin/appteka-android/blob/master/art/badge.png"
   alt="Get it on Appteka" width="200">
 </a>
 ```
