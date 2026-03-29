@@ -2,6 +2,7 @@ package com.tomclaw.appsend.screen.rate
 
 import android.os.Bundle
 import com.tomclaw.appsend.categories.DEFAULT_LOCALE
+import com.tomclaw.appsend.core.HOST_URL
 import com.tomclaw.appsend.user.api.UserBrief
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.bananalytics.Bananalytics
@@ -27,6 +28,8 @@ interface RatePresenter {
     interface RateRouter {
 
         fun leaveScreen(success: Boolean)
+
+        fun openShare(title: String, text: String)
 
     }
 
@@ -68,6 +71,7 @@ class RatePresenterImpl(
             bindData()
         }
         subscriptions += view.submitClicks().subscribe { onSubmitReview() }
+        subscriptions += view.shareClicks().subscribe { onShare() }
 
         bindMemberInfo(userBrief)
     }
@@ -154,6 +158,14 @@ class RatePresenterImpl(
 
     override fun onBackPressed() {
         router?.leaveScreen(success = false)
+    }
+
+    private fun onShare() {
+        val url = "$HOST_URL/app/$appId#review"
+        router?.openShare(
+            title = resourceProvider.shareTitle(),
+            text = url
+        )
     }
 
     private fun getReviewRequiredError(): String {

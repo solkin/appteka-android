@@ -5,6 +5,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
+import androidx.appcompat.widget.Toolbar
 import androidx.core.widget.addTextChangedListener
 import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxrelay3.PublishRelay
@@ -55,10 +56,13 @@ interface RateView {
 
     fun submitClicks(): Observable<Unit>
 
+    fun shareClicks(): Observable<Unit>
+
 }
 
 class RateViewImpl(view: View) : RateView {
 
+    private val toolbar: Toolbar = view.findViewById(R.id.toolbar)
     private val overlayProgress: View = view.findViewById(R.id.overlay_progress)
     private val scrollView: View = view.findViewById(R.id.scroll_view)
     private val back: View = view.findViewById(R.id.go_back)
@@ -75,10 +79,18 @@ class RateViewImpl(view: View) : RateView {
     private val ratingRelay = PublishRelay.create<Float>()
     private val reviewEditRelay = PublishRelay.create<String>()
     private val submitRelay = PublishRelay.create<Unit>()
+    private val shareRelay = PublishRelay.create<Unit>()
 
     init {
         subtitle.setText(R.string.rate_app)
         back.clicks(navigationRelay)
+        toolbar.inflateMenu(R.menu.rate_menu)
+        toolbar.setOnMenuItemClickListener { item ->
+            when (item.itemId) {
+                R.id.share -> shareRelay.accept(Unit)
+            }
+            true
+        }
         ratingView.setOnRatingBarChangeListener { _, rating, fromUser ->
             if (fromUser) {
                 ratingRelay.accept(rating)
@@ -155,5 +167,7 @@ class RateViewImpl(view: View) : RateView {
     override fun reviewEditChanged(): Observable<String> = reviewEditRelay
 
     override fun submitClicks(): Observable<Unit> = submitRelay
+
+    override fun shareClicks(): Observable<Unit> = shareRelay
 
 }

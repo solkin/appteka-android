@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent.ACTION_SEND
 import com.tomclaw.appsend.appComponent
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.rate.di.RateModule
@@ -78,6 +79,14 @@ class RateActivity : AppCompatActivity(), RatePresenter.RateRouter {
             setResult(Activity.RESULT_CANCELED)
         }
         finish()
+    }
+
+    override fun openShare(title: String, text: String) {
+        val intent = Intent()
+            .setAction(ACTION_SEND)
+            .putExtra(Intent.EXTRA_TEXT, text)
+            .setType("text/plain")
+        startActivity(Intent.createChooser(intent, title))
     }
 
 }

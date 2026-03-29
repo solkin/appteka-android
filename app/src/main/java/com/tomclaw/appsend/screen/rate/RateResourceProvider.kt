@@ -9,6 +9,8 @@ interface RateResourceProvider {
 
     fun getRatingRequiredError(): String
 
+    fun shareTitle(): String
+
 }
 
 class RateResourceProviderImpl(
@@ -21,6 +23,10 @@ class RateResourceProviderImpl(
 
     override fun getRatingRequiredError(): String {
         return resources.getString(R.string.rating_required_error)
+    }
+
+    override fun shareTitle(): String {
+        return resources.getString(R.string.send_url_to)
     }
 
 }
