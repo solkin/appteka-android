@@ -123,6 +123,7 @@ class DetailsPresenterImpl(
     private val packageName: String?,
     private val moderation: Boolean,
     private val finishOnly: Boolean,
+    private var openReview: Boolean,
     private val bananalytics: Bananalytics,
     private val interactor: DetailsInteractor,
     private val resourceProvider: DetailsResourceProvider,
@@ -312,6 +313,10 @@ class DetailsPresenterImpl(
                     tryInstall()
                     bindDetails()
                     view?.showContent()
+                    if (openReview) {
+                        openReview = false
+                        onRateClick(rating = 0f, review = null)
+                    }
                 }, {}
             )
     }

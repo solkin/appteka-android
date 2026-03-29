@@ -132,11 +132,15 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
         var packageName: String? = null
         var moderation = false
         var finishOnly = false
+        var openReview = false
 
         val data = intent.data
         if (data != null) {
             when (val deepLink = deepLinkParser.parse(data)) {
-                is DetailsDeepLink.ByAppId -> appId = deepLink.appId
+                is DetailsDeepLink.ByAppId -> {
+                    appId = deepLink.appId
+                    openReview = deepLink.openReview && savedInstanceState == null
+                }
                 is DetailsDeepLink.ByPackageName -> packageName = deepLink.packageName
                 is DetailsDeepLink.Invalid -> return navigateToStore()
             }
@@ -159,6 +163,7 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
                     packageName,
                     moderation,
                     finishOnly,
+                    openReview,
                     this,
                     presenterState
                 )

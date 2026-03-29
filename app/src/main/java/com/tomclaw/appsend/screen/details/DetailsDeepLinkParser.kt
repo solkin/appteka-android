@@ -3,7 +3,7 @@ package com.tomclaw.appsend.screen.details
 import android.net.Uri
 
 sealed class DetailsDeepLink {
-    data class ByAppId(val appId: String) : DetailsDeepLink()
+    data class ByAppId(val appId: String, val openReview: Boolean = false) : DetailsDeepLink()
     data class ByPackageName(val packageName: String) : DetailsDeepLink()
     data object Invalid : DetailsDeepLink()
 }
@@ -18,7 +18,8 @@ class DetailsDeepLinkParserImpl : DetailsDeepLinkParser {
         if (uri == null) return DetailsDeepLink.Invalid
         return parse(
             host = uri.host,
-            pathSegments = uri.pathSegments
+            pathSegments = uri.pathSegments,
+            fragment = uri.fragment
         )
     }
 
@@ -27,8 +28,13 @@ class DetailsDeepLinkParserImpl : DetailsDeepLinkParser {
         private const val PATH_APP = "app"
         private const val PATH_APPS = "apps"
         private const val PATH_PACKAGE = "package"
+        private const val FRAGMENT_REVIEW = "review"
 
-        fun parse(host: String?, pathSegments: List<String>?): DetailsDeepLink {
+        fun parse(
+            host: String?,
+            pathSegments: List<String>?,
+            fragment: String? = null
+        ): DetailsDeepLink {
             if (host != HOST_APPTEKA) return DetailsDeepLink.Invalid
 
             if (pathSegments == null || pathSegments.size != 2) return DetailsDeepLink.Invalid
@@ -39,7 +45,10 @@ class DetailsDeepLinkParserImpl : DetailsDeepLinkParser {
             if (value.isBlank()) return DetailsDeepLink.Invalid
 
             return when (type) {
-                PATH_APP, PATH_APPS -> DetailsDeepLink.ByAppId(value)
+                PATH_APP, PATH_APPS -> DetailsDeepLink.ByAppId(
+                    appId = value,
+                    openReview = fragment == FRAGMENT_REVIEW
+                )
                 PATH_PACKAGE -> DetailsDeepLink.ByPackageName(value)
                 else -> DetailsDeepLink.Invalid
             }

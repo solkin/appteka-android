@@ -77,6 +77,7 @@ class DetailsModule(
     private val packageName: String?,
     private val moderation: Boolean,
     private val finishOnly: Boolean,
+    private val openReview: Boolean,
     private val context: Context,
     private val state: Bundle?
 ) {
@@ -98,6 +99,7 @@ class DetailsModule(
         packageName,
         moderation,
         finishOnly,
+        openReview,
         bananalytics,
         interactor,
         resourceProvider,
