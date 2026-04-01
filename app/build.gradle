@@ -1,5 +1,6 @@
 plugins {
     id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
     id 'kotlin-parcelize'
     id 'com.google.devtools.ksp'
 }
@@ -104,8 +105,6 @@ dependencies {
     // Dagger & KSP
     implementation 'com.google.dagger:dagger:2.59.2'
     ksp 'com.google.dagger:dagger-compiler:2.59.2'
-    
-    implementation 'org.jetbrains.kotlin:kotlin-parcelize-runtime'
 
     // RxJava
     implementation 'io.reactivex.rxjava3:rxandroid:3.0.2'
