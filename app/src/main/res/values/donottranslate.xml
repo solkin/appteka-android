@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Appteka</string>
+    <string name="percent">%d %%</string>
+    <string name="uploaded_url">%1$s (%2$s)\n%3$s</string>
+    <string name="app_version_format">%1$s (%2$d)</string>
+    <string name="reply_form">&gt; %s\n</string>
+    <string name="gallery_title">%d / %d</string>
+    <string name="pref_category_app_behavior_key">app_behavior_settings</string>
+    <string name="pref_proxy_enabled">pref_proxy_enabled</string>
+    <string name="pref_proxy_settings">pref_proxy_settings</string>
+    <string name="proxy_type_http">HTTP</string>
+    <string name="proxy_type_socks">SOCKS</string>
+</resources>

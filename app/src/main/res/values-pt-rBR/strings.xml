@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name" translatable="false">Appteka</string>
     <string name="bytes">%d B</string>
     <string name="kibibytes">%.1f KB</string>
     <string name="mibibytes">%.1f MB</string>
@@ -76,7 +75,6 @@
     <string name="pick_apk">Selecionar arquivo APK</string>
     <string name="pick_installed">Selecionar app instalado</string>
     <string name="cancel">Cancelar</string>
-    <string name="percent" translatable="false">%d %%</string>
     <string name="upload">Carregar</string>
     <string name="tab_store">Loja</string>
     <string name="retry">Repetir</string>
@@ -91,7 +89,6 @@
     <string name="app_version_title">Versão</string>
     <string name="uploaded_title">Carregado</string>
     <string name="checksum_title">Checksum (SHA1)</string>
-    <string name="app_version_format" translatable="false">%1$s (%2$d)</string>
     <string name="update">Atualizar</string>
     <string name="abuse">Abuso</string>
     <string name="your_email">Seu e-mail</string>
@@ -126,7 +123,6 @@
     <string name="report">Denunciar abuso</string>
     <string name="error_message_report">Não é possível relatar o abuso</string>
     <string name="message_report_sent">Obrigado por ajudar na moderação das discussões!</string>
-    <string name="reply_form" translatable="false">&gt; %s\n</string>
     <string name="exclusive_short">Exclusivo</string>
     <string name="exclusive">Aplicativo exclusivo (não está presente no Google Play)</string>
     <string name="exclusive_description">Aplicativo não disponível no Google Play</string>
@@ -163,6 +159,8 @@
     <string name="select_app">Selecionar aplicativo</string>
     <string name="select_app_description">Instalou um ou mais arquivos apk</string>
     <string name="search_app">Pesquisar na loja</string>
+    <string name="reaction">Reação</string>
+    <string name="select_reactions">Selecionar reações</string>
     <string name="empty_list">Não há nada aqui…</string>
     <string name="login_button">Entrar</string>
     <string name="register_button">Registrar</string>
@@ -417,6 +415,8 @@
     <string name="abi_incompatible">Incompatível com seu dispositivo</string>
     <string name="abi_warning_title">Arquitetura incompatível</string>
     <string name="abi_warning_message">Este aplicativo pode não funcionar corretamente no seu dispositivo porque foi criado para uma arquitetura de processador diferente. Deseja baixá-lo mesmo assim?</string>
+    <string name="official_developer">Desenvolvedor oficial</string>
+    <string name="official_short">Oficial</string>
     <string name="save">Salvar</string>
     <!-- Proxy settings -->
     <string name="pref_category_network_title">Rede</string>

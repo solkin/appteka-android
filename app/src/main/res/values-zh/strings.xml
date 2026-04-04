@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name" translatable="false">Appteka</string>
     <string name="bytes">%d B</string>
     <string name="kibibytes">%.1f KB</string>
     <string name="mibibytes">%.1f MB</string>
@@ -160,6 +159,8 @@
     <string name="select_app">选择一个应用程序</string>
     <string name="select_app_description">安装或apk文件</string>
     <string name="search_app">在Appteka中搜索</string>
+    <string name="reaction">反应</string>
+    <string name="select_reactions">选择反应</string>
     <string name="empty_list">这里什么都没有…</string>
     <string name="login_button">登录</string>
     <string name="register_button">注册</string>
@@ -405,6 +406,8 @@
     <string name="abi_incompatible">与您的设备不兼容</string>
     <string name="abi_warning_title">架构不兼容</string>
     <string name="abi_warning_message">此应用程序可能无法在您的设备上正常运行，因为它是为不同的处理器架构构建的。您仍要下载吗？</string>
+    <string name="official_developer">官方开发者</string>
+    <string name="official_short">官方</string>
     <string name="save">保存</string>
     <!-- Proxy settings -->
     <string name="pref_category_network_title">网络</string>

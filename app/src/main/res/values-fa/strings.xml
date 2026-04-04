@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name" translatable="false">فروشگاه Appteka</string>
     <string name="bytes">%d بایت</string>
     <string name="kibibytes">%.1f کیلوبایت</string>
     <string name="mibibytes">%.1f مگابایت</string>
@@ -72,13 +71,10 @@
     <string name="pref_summary_seed_color">هنگام خاموش بودن رنگ‌های پویا، یک طرح رنگ سفارشی انتخاب کنید</string>
     <string name="seed_color_dialog_title">رنگ برنامه را انتخاب کنید</string>
     <string name="pref_category_appearance_title">رنگ زمینه</string>
-    <string name="pref_category_app_behavior_key">app_behavior_settings</string>
     <string name="pref_category_app_behavior_title">عملکرد برنامه</string>
     <string name="pref_category_general_title">عمومی</string>
     <string name="cancel">لغو</string>
-    <string name="percent" translatable="false">%d %%</string>
     <string name="upload">آپلود</string>
-    <string name="uploaded_url" translatable="false">%1$s (%2$s)\n%3$s</string>
     <string name="tab_store">فروشگاه</string>
     <string name="retry">امتحان دوباره</string>
     <string name="store_loading_error">بازیابی لیست برنامه‌ ها ناموفق بود</string>
@@ -92,7 +88,6 @@
     <string name="app_version_title">نسخه</string>
     <string name="uploaded_title">آپلود شده</string>
     <string name="checksum_title">Checksum (SHA1)</string>
-    <string name="app_version_format" translatable="false">%1$s (%2$d)</string>
     <string name="update">به روز رسانی</string>
     <string name="abuse">گزارش تخلف</string>
     <string name="your_email">ایمیل شما</string>
@@ -129,7 +124,6 @@
     <string name="report">گزارش تخلف</string>
     <string name="error_message_report">امکان گزارش تخلف وجود ندارد</string>
     <string name="message_report_sent">از کمک شما در نظارت بر گفتگو ها سپاسگذاریم</string>
-    <string name="reply_form" translatable="false">&gt; %s\n</string>
     <string name="exclusive_short">اختصاصی</string>
     <string name="exclusive">برنامه اختصاصی (در فروشگاه گوگل پلی موجود نیست)</string>
     <string name="exclusive_description">برنامه در فروشگاه گوگل پلی موجود نیست</string>
@@ -325,7 +319,6 @@
     <string name="authorization_required_message">برای ادامه به حساب خود وارد شوید</string>
     <string name="authorization_description">به حساب خود وارد شوید و از قابلیت‌ های شخصی Appteka بهره‌ مند شوید</string>
     <string name="error_domain_blocked">استفاده از ایمیل های موقتی ممنوع است</string>
-    <string name="gallery_title" translatable="false">%d / %d</string>
     <string name="add_screenshot">افزودن عکس گرفته شده از صفحه</string>
     <string name="screenshots_title">عکس های گرفته شده از صفحه</string>
     <string name="download_screenshot">دانلود عکس گرفته شده از صفحه</string>
@@ -366,23 +359,11 @@
     <string name="submit">ارسال</string>
     <string name="agree_with_terms">من با این شرایط برای آپلود های فعلی و آینده موافقم</string>
     <string name="uploads_agreement">۱. در هنگام استفاده از سرویس Appteka شامل برنامه فروشگاه Appteka و سایت appteka (که از این پس سرویس نامیده می‌شود) کاربر باید قوانین فدراسیون روسیه و دیگر کشور ها در مورد مالکیت معنوی را رعایت کند حقوق کپی‌ رایت/مرتبط با افراد دیگر را نقض نکند و اقداماتی را انجام ندهد که به هر شکلی عمدی یا غیرعمدی بر حقوق کپی‌ رایت / مرتبط با افراد دیگر تاثیر بگذارد یا آن ها را نقض کند
-
-
 ۲. در هنگام استفاده از این سرویس کاربر متعهد می‌ شود که در صورتی که حق انتشار چنین محتوایی مطابق با قوانین کپی‌ رایت بین‌ المللی و روسیه مطابق با قرارداد یا به دلایل قانونی دیگر متعلق به کاربر نباشد آن را منتشر نکند (هر محتوایی از جمله برنامه و تصاویر از این پس محتوا نامیده می‌ شود) با انتشار محتوا در سرویس کاربر به طور خودکار تایید می‌ کند که تمام حقوق لازم برای قرار دادن محتوای مربوطه را دارد یا تایید می‌ کند که حقوق انحصاری برای چنین محتوایی و حق انتشار محتوا را دارد یا اینکه دلایل قانونی دیگری برای استفاده از این محتوا دارد
-
-
  ۳. کاربر بدون هیچ محدودیتی مسئولیت کامل تمام اقداماتی را که در هنگام استفاده از این سرویس انجام می‌ دهد مطابق با قوانین بین‌المللی و قوانین فدراسیون روسیه از جمله مطابق با بخش چهارم قانون مدنی فدراسیون روسیه بر عهده دارد
-
-
 ۴. کاربر حق دارد در صورتی که حق انتشار چنین محتوایی را داشته باشد و این اقدامات به هیچ وجه بر حقوق و منافع مشروع افراد دیگر از جمله نویسندگان محتوا تاثیر نگذارد محتوا را در این سرویس قرار دهد
-
-
 ۵. قبل از ارسال اطلاعات و محتوا کاربر باید ابتدا قانونی بودن قرار دادن آن ها را ارزیابی کند در صورت وجود شک و تردید در مورد قانونی بودن بعضی اقدامات از جمله ارسال اطلاعات یا محتوا اداره توصیه می‌ کند از انجام چنین اقداماتی خودداری شود
-
-
 ۶. در مورد تمام موارد نقض احتمالی کپی رایت کاربر مسئولیت مستقلی در قبال افراد دیگر دارد وظایف اداره خدمات فقط شامل ارائه قابلیت‌ های فنی برای در دسترس قرار دادن محتوای کاربر به صورت آنلاین (در اینترنت) برای عموم است  ارائه آثار به عموم در حالت تعاملی توسط کاربر انجام می‌ شود و او مسئولیت کامل محتوای آن ها را بر عهده دارد
-
-
 ۷. سیاست سرویس پاسخگویی به هرگونه اخطار نقض کپی رایت و حقوق مرتبط و انجام اقدامات مناسب است در صورت درخواست تجدیدنظر از سوی دارندگان حق چاپ پس از شناسایی محتوایی که کپی رایت آن ها را نقض می‌ کند مدیریت حق حذف چنین محتوایی را بدون هشدار را دارد</string>
     <string name="edit_name_title">ویرایش نام</string>
     <string name="unable_to_change_name">تغییر نام کاربری امکان‌ پذیر نیست</string>

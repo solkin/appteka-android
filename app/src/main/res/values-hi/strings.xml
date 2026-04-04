@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name" translatable="false">Appteka</string>
     <string name="bytes">%d B</string>
     <string name="kibibytes">%.1f Kb</string>
     <string name="mibibytes">%.1f Mb</string>
@@ -160,6 +159,8 @@
     <string name="select_app">एक एप्लिकेशन चुनें</string>
     <string name="select_app_description">एक स्थापित एप्लिकेशन या एपीके फ़ाइल</string>
     <string name="search_app">एक्सचेंजर में खोजें</string>
+    <string name="reaction">प्रतिक्रिया</string>
+    <string name="select_reactions">प्रतिक्रियाएँ चुनें</string>
     <string name="empty_list">अभी यहां कुछ भी नहीं है…</string>
     <string name="login_button">लॉग इन करें</string>
     <string name="register_button">पंजीकरण करवाना</string>
@@ -414,6 +415,8 @@
     <string name="abi_incompatible">आपके डिवाइस के साथ संगत नहीं</string>
     <string name="abi_warning_title">असंगत आर्किटेक्चर</string>
     <string name="abi_warning_message">यह एप्लिकेशन आपके डिवाइस पर सही तरीके से काम नहीं कर सकता क्योंकि यह एक अलग प्रोसेसर आर्किटेक्चर के लिए बनाया गया था। क्या आप फिर भी इसे डाउनलोड करना चाहते हैं?</string>
+    <string name="official_developer">आधिकारिक डेवलपर</string>
+    <string name="official_short">आधिकारिक</string>
     <string name="save">सहेजें</string>
     <!-- Proxy settings -->
     <string name="pref_category_network_title">नेटवर्क</string>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name" translatable="false">Appteka</string>
     <string name="bytes">%d Б</string>
     <string name="kibibytes">%.1f КБ</string>
     <string name="mibibytes">%.1f МБ</string>
@@ -160,6 +159,8 @@
     <string name="select_app">Выберите приложение</string>
     <string name="select_app_description">Установленное или apk файл</string>
     <string name="search_app">Поиск в обменнике</string>
+    <string name="reaction">Реакция</string>
+    <string name="select_reactions">Выберите реакции</string>
     <string name="empty_list">Здесь пока ничего нет…</string>
     <string name="login_button">Войти</string>
     <string name="register_button">Зарегистрироваться</string>

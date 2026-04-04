@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name" translatable="false">Appteka</string>
     <string name="bytes">%d ب</string>
     <string name="kibibytes">%.1f کیلۆبایت</string>
     <string name="mibibytes">%.1f مێگابایت</string>
@@ -78,7 +77,6 @@
     <string name="pick_apk">فایلی APK هەڵبژێرە</string>
     <string name="pick_installed">بەرنامەی دامەزراو هەڵبژێرە</string>
     <string name="cancel">ڕەتکردنەوە</string>
-    <string name="percent" translatable="false">%d %%</string>
     <string name="upload">بەرزکردنەوە</string>
     <string name="tab_store">فرۆشگا</string>
     <string name="retry">دووبارە هەوڵبدەرەوە</string>
@@ -93,7 +91,6 @@
     <string name="app_version_title">وەشان</string>
     <string name="uploaded_title">بارکراوە</string>
     <string name="checksum_title">کۆی گشتی (SHA1)</string>
-    <string name="app_version_format" translatable="false">%1$s (%2$d)</string>
     <string name="update">نوێکردنەوە</string>
     <string name="abuse">مامەڵەی خراپ</string>
     <string name="your_email">ئیمەیڵەکەت</string>
@@ -128,7 +125,6 @@
     <string name="report">ڕاپۆرتی خراپ بەکارهێنان</string>
     <string name="error_message_report">ناتوانێت ڕاپۆرتی خراپ بەکارهێنان بکات</string>
     <string name="message_report_sent">سوپاس بۆ یارمەتیدانتان لە گفتوگۆکاندا میانڕەوی!</string>
-    <string name="reply_form" translatable="false">&gt; %s\n</string>
     <string name="exclusive_short">تایبەت</string>
     <string name="exclusive">ئەپی تایبەت (لە گووگڵ پلەیدا ئامادە نابێت)</string>
     <string name="exclusive_description">ئەپەکە لە Google Play بەردەست نییە</string>
@@ -165,6 +161,8 @@
     <string name="select_app">بەرنامە هەڵبژێرە</string>
     <string name="select_app_description">یەکێک یان فایلێکی apk دامەزراندووە</string>
     <string name="search_app">لە فرۆشگادا بگەڕێ</string>
+    <string name="reaction">ڕیاکشن</string>
+    <string name="select_reactions">ڕیاکشنەکان هەڵبژێرە</string>
     <string name="empty_list">لێرە هیچ شتێک نییە…</string>
     <string name="login_button">چونه‌ ژووره‌وه‌</string>
     <string name="register_button">تۆمارکردن</string>
@@ -419,6 +417,8 @@
     <string name="abi_incompatible">گونجاو نییە بۆ ئامێرەکەت</string>
     <string name="abi_warning_title">ئەرکیتەکچەری ناگونجاو</string>
     <string name="abi_warning_message">ئەم بەرنامەیە لەوانەیە بە دروستی کار نەکات لەسەر ئامێرەکەت چونکە بۆ ئەرکیتەکچەری پڕۆسێسەری جیاواز دروستکراوە. ئایا دەتەوێت بیدەزنیت؟</string>
+    <string name="official_developer">گەشەپێدەری فەرمی</string>
+    <string name="official_short">فەرمی</string>
     <string name="save">پاشەکەوتکردن</string>
     <!-- Proxy settings -->
     <string name="pref_category_network_title">تۆڕ</string>
