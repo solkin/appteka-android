@@ -10,7 +10,7 @@ import com.tomclaw.appsend.R
 import com.tomclaw.appsend.dto.UserIcon
 import com.tomclaw.appsend.util.LinkMovementMethodCompat
 import com.tomclaw.appsend.util.bind
-import com.tomclaw.appsend.util.formatQuote
+import com.tomclaw.appsend.util.formatMessageText
 import com.tomclaw.appsend.view.UserIconView
 import com.tomclaw.appsend.view.UserIconViewImpl
 
@@ -57,7 +57,7 @@ class IncomingMsgItemViewHolder(view: View) : BaseItemViewHolder(view), Incoming
     }
 
     override fun setText(text: String) {
-        textView.text = text.formatQuote()
+        textView.text = formatMessageText(text, textView.context)
         val hasLinks = Linkify.addLinks(
             textView,
             Linkify.WEB_URLS or Linkify.EMAIL_ADDRESSES or Linkify.PHONE_NUMBERS

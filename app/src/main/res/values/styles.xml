@@ -230,8 +230,8 @@
     </style>
 
     <style name="Chat.Message.Outgoing" parent="Chat.Message">
-        <item name="android:textColor">?attr/colorOnPrimary</item>
-        <item name="android:textColorLink">?attr/colorOnPrimary</item>
+        <item name="android:textColor">?attr/colorOnPrimaryContainer</item>
+        <item name="android:textColorLink">?attr/colorOnPrimaryContainer</item>
     </style>
 
     <style name="RatingDetailElementSmall" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
