@@ -15,8 +15,10 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.EditText
+import android.widget.FrameLayout
 import android.widget.GridLayout
 import android.widget.ProgressBar
+import android.widget.ScrollView
 import android.widget.RadioGroup
 import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
@@ -465,22 +467,20 @@ class SettingsFragment : PreferenceFragmentCompat(),
     }
 
     private fun showSeedColorPicker() {
-        val seedColors = SEED_COLORS
         val currentColor = themeManager.getSeedColor()
 
         val dp = resources.displayMetrics.density
-        val circleSize = (48 * dp).toInt()
-        val margin = (8 * dp).toInt()
-        val padding = (24 * dp).toInt()
+        val circleSize = (44 * dp).toInt()
+        val margin = (10 * dp).toInt()
+        val padding = (16 * dp).toInt()
 
         val grid = GridLayout(requireContext()).apply {
             columnCount = 4
-            setPadding(padding, padding, padding, padding)
         }
 
         var dialog: androidx.appcompat.app.AlertDialog? = null
 
-        for (color in seedColors) {
+        for (color in SEED_COLORS) {
             val circle = View(requireContext()).apply {
                 val drawable = GradientDrawable().apply {
                     shape = GradientDrawable.OVAL
@@ -513,9 +513,31 @@ class SettingsFragment : PreferenceFragmentCompat(),
             grid.addView(circle)
         }
 
+        val container = FrameLayout(requireContext()).apply {
+            addView(
+                grid,
+                FrameLayout.LayoutParams(
+                    FrameLayout.LayoutParams.WRAP_CONTENT,
+                    FrameLayout.LayoutParams.WRAP_CONTENT,
+                    Gravity.CENTER_HORIZONTAL
+                )
+            )
+            setPadding(padding, padding, padding, padding)
+        }
+
+        val scrollView = ScrollView(requireContext()).apply {
+            addView(
+                container,
+                FrameLayout.LayoutParams(
+                    FrameLayout.LayoutParams.MATCH_PARENT,
+                    FrameLayout.LayoutParams.WRAP_CONTENT
+                )
+            )
+        }
+
         dialog = MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.seed_color_dialog_title)
-            .setView(grid)
+            .setView(scrollView)
             .setNegativeButton(R.string.cancel, null)
             .show()
     }
@@ -580,18 +602,26 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
     companion object {
         private val SEED_COLORS = intArrayOf(
-            0xFF32A304.toInt(),
-            0xFF4285F4.toInt(),
-            0xFFEA4335.toInt(),
-            0xFFFBBC04.toInt(),
-            0xFF34A853.toInt(),
-            0xFFFF6D00.toInt(),
-            0xFF9C27B0.toInt(),
-            0xFF00BCD4.toInt(),
-            0xFF795548.toInt(),
-            0xFFE91E63.toInt(),
-            0xFF3F51B5.toInt(),
-            0xFF607D8B.toInt(),
+            ThemeManager.DEFAULT_SEED_COLOR,
+            0xFFE53935.toInt(),
+            0xFF1976D2.toInt(),
+            0xFFFFA000.toInt(),
+            0xFF7B1FA2.toInt(),
+            0xFF00796B.toInt(),
+            0xFFF4511E.toInt(),
+            0xFFD81B60.toInt(),
+            0xFF7BAED4.toInt(),
+            0xFF8DB87E.toInt(),
+            0xFFD4928F.toInt(),
+            0xFFCEA86B.toInt(),
+            0xFF9A8DC4.toInt(),
+            0xFF6DB8B0.toInt(),
+            0xFFD4A07A.toInt(),
+            0xFFC48DA5.toInt(),
+            0xFF8898B8.toInt(),
+            0xFFA8C080.toInt(),
+            0xFFB89890.toInt(),
+            0xFF80AAAA.toInt(),
         )
     }
 
