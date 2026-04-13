@@ -55,7 +55,7 @@
     <string name="pref_title_theme">Tema</string>
     <string name="pref_summary_theme">Selecione o tema do aplicativo</string>
     <string name="pref_title_dynamic_colors">Cores dinâmicas</string>
-    <string name="pref_summary_dynamic_colors">Usa as cores do papel de parede em dispositivos Android 12+ (Reinicialização necessária)</string>
+    <string name="pref_summary_dynamic_colors">Usa as cores do papel de parede em dispositivos Android 12+</string>
     <string name="theme_dialog_title">Selecionar tema</string>
     <string name="theme_system">Padrão do sistema</string>
     <string name="theme_light">Claro</string>
@@ -68,6 +68,7 @@
     <string name="restart_required_dynamic_colors_short">Reinicie para aplicar as alterações.</string>
     <string name="pref_title_seed_color">Cor do aplicativo</string>
     <string name="pref_summary_seed_color">Escolha um esquema de cores personalizado quando as cores dinâmicas estiverem desativadas</string>
+    <string name="pref_summary_seed_color_unavailable">Requer Android 12 ou superior</string>
     <string name="seed_color_dialog_title">Escolha a cor do aplicativo</string>
     <string name="pref_category_appearance_title">Aparência</string>
     <string name="pref_category_app_behavior_title">Comportamento do Aplicativo</string>

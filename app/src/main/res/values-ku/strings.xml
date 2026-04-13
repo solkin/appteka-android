@@ -55,7 +55,7 @@
     <string name="pref_title_theme">ڕووکار</string>
     <string name="pref_summary_theme">ڕووکاری بەرنامەکە هەڵبژێرە</string>
     <string name="pref_title_dynamic_colors">ڕەنگە جووڵاوەکان (داینامیکی)</string>
-    <string name="pref_summary_dynamic_colors">ڕەنگەکانی وێنەی سەر شاشە بەکاردەهێنێت لەسەر ئامێرەکانی ئەندرۆیدی 12+ (پێویستی بە پێکردنەوەیە)</string>
+    <string name="pref_summary_dynamic_colors">ڕەنگەکانی وێنەی سەر شاشە بەکاردەهێنێت لەسەر ئامێرەکانی ئەندرۆیدی 12+</string>
     <string name="theme_dialog_title">ڕووکار هەڵبژێرە</string>
     <string name="theme_system">بنەڕەتی سیستەم</string>
     <string name="theme_light">ڕووناک</string>
@@ -68,6 +68,7 @@
     <string name="restart_required_dynamic_colors_short">بەرنامەکە پێ بکەرەوە بۆ جێبەجێکردنی گۆڕانکارییەکان.</string>
     <string name="pref_title_seed_color">ڕەنگی ئەپ</string>
     <string name="pref_summary_seed_color">ڕەنگێکی تایبەت هەڵبژێرە کاتێک ڕەنگە داینامیکەکان کوژاوەتەوە</string>
+    <string name="pref_summary_seed_color_unavailable">پێویستی بە ئەندرۆیدی 12 یان بەرزتر هەیە</string>
     <string name="seed_color_dialog_title">ڕەنگی ئەپ هەڵبژێرە</string>
     <string name="pref_category_appearance_title">ڕووکار</string>
     <string name="pref_category_app_behavior_title">هەڵسوکەوتی بەرنامە</string>

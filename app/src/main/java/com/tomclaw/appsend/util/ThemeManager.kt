@@ -84,8 +84,10 @@ class ThemeManager(private val app: Application) : Application.ActivityLifecycle
         return (dynamic shl 32) or seed
     }
 
+    fun isSeedColorSupported(): Boolean = DynamicColors.isDynamicColorAvailable()
+
     override fun onActivityPreCreated(activity: Activity, savedInstanceState: Bundle?) {
-        if (shouldApplyDynamicColors()) {
+        if (shouldApplyDynamicColors() && DynamicColors.isDynamicColorAvailable()) {
             DynamicColors.applyToActivityIfAvailable(activity, buildDynamicColorsOptions())
         } else {
             activity.theme.applyStyle(R.style.DefaultThemeOverlay, true)

@@ -55,7 +55,7 @@
     <string name="pref_title_theme">Chủ đề</string>
     <string name="pref_summary_theme">Chọn chủ đề ứng dụng</string>
     <string name="pref_title_dynamic_colors">Màu động</string>
-    <string name="pref_summary_dynamic_colors">Sử dụng màu hình nền trên các thiết bị Android 12+ (Yêu cầu khởi động lại)</string>
+    <string name="pref_summary_dynamic_colors">Sử dụng màu hình nền trên các thiết bị Android 12+</string>
     <string name="theme_dialog_title">Chọn chủ đề</string>
     <string name="theme_system">Mặc định hệ thống</string>
     <string name="theme_light">Sáng</string>
@@ -68,6 +68,7 @@
     <string name="restart_required_dynamic_colors_short">Khởi động lại để áp dụng thay đổi.</string>
     <string name="pref_title_seed_color">Màu ứng dụng</string>
     <string name="pref_summary_seed_color">Chọn bảng màu tùy chỉnh khi màu động bị tắt</string>
+    <string name="pref_summary_seed_color_unavailable">Yêu cầu Android 12 trở lên</string>
     <string name="seed_color_dialog_title">Chọn màu ứng dụng</string>
     <string name="pref_category_appearance_title">Giao diện</string>
     <string name="pref_category_app_behavior_title">Hành vi ứng dụng</string>

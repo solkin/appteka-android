@@ -122,9 +122,14 @@ class SettingsFragment : PreferenceFragmentCompat(),
     }
 
     private fun updateSeedColorState(pref: Preference) {
+        val supported = themeManager.isSeedColorSupported()
         val dynamicEnabled = themeManager.isDynamicColorsEnabled()
                 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
-        pref.isEnabled = !dynamicEnabled
+        pref.isEnabled = supported && !dynamicEnabled
+        pref.setSummary(
+            if (supported) R.string.pref_summary_seed_color
+            else R.string.pref_summary_seed_color_unavailable
+        )
     }
 
     private fun setupSortOrderPreference() {

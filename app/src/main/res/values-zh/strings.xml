@@ -55,7 +55,7 @@
     <string name="pref_title_theme">主题</string>
     <string name="pref_summary_theme">选择应用主题</string>
     <string name="pref_title_dynamic_colors">动态颜色</string>
-    <string name="pref_summary_dynamic_colors">在 Android 12+ 设备上使用壁纸颜色（需要重启）</string>
+    <string name="pref_summary_dynamic_colors">在 Android 12+ 设备上使用壁纸颜色</string>
     <string name="theme_dialog_title">选择主题</string>
     <string name="theme_system">系统默认</string>
     <string name="theme_light">浅色</string>
@@ -68,6 +68,7 @@
     <string name="restart_required_dynamic_colors_short">重启以应用更改。</string>
     <string name="pref_title_seed_color">应用颜色</string>
     <string name="pref_summary_seed_color">关闭动态颜色时选择自定义配色方案</string>
+    <string name="pref_summary_seed_color_unavailable">需要 Android 12 或更高版本</string>
     <string name="seed_color_dialog_title">选择应用颜色</string>
     <string name="pref_category_appearance_title">外观</string>
     <string name="pref_category_app_behavior_title">应用行为</string>

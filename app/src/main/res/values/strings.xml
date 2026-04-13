@@ -58,7 +58,7 @@
     <string name="pref_title_theme">Theme</string>
     <string name="pref_summary_theme">Select the app theme</string>
     <string name="pref_title_dynamic_colors">Dynamic colors</string>
-    <string name="pref_summary_dynamic_colors">Uses wallpaper colors on Android 12+ devices (Restart required)</string>
+    <string name="pref_summary_dynamic_colors">Uses wallpaper colors on Android 12+ devices</string>
     <string name="theme_dialog_title">Select theme</string>
     <string name="theme_system">System default</string>
     <string name="theme_light">Light</string>
@@ -71,6 +71,7 @@
     <string name="restart_required_dynamic_colors_short">Restart to apply changes.</string>
     <string name="pref_title_seed_color">App color</string>
     <string name="pref_summary_seed_color">Choose a custom color scheme when dynamic colors are off</string>
+    <string name="pref_summary_seed_color_unavailable">Requires Android 12 or higher</string>
     <string name="seed_color_dialog_title">Choose app color</string>
     <string name="pref_category_appearance_title">Appearance</string>
     <string name="pref_category_app_behavior_title">App Behavior</string>

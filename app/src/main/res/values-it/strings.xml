@@ -56,7 +56,7 @@
     <string name="pref_title_theme">Tema</string>
     <string name="pref_summary_theme">Seleziona il tema dell\'app</string>
     <string name="pref_title_dynamic_colors">Colori dinamici</string>
-    <string name="pref_summary_dynamic_colors">Utilizza i colori dello sfondo su dispositivi Android 12+ (Riavvio richiesto)</string>
+    <string name="pref_summary_dynamic_colors">Utilizza i colori dello sfondo su dispositivi Android 12+</string>
     <string name="theme_dialog_title">Seleziona tema</string>
     <string name="theme_system">Predefinito di sistema</string>
     <string name="theme_light">Chiaro</string>
@@ -69,6 +69,7 @@
     <string name="restart_required_dynamic_colors_short">Riavvia per applicare le modifiche.</string>
     <string name="pref_title_seed_color">Colore dell\'app</string>
     <string name="pref_summary_seed_color">Scegli una combinazione di colori personalizzata quando i colori dinamici sono disattivati</string>
+    <string name="pref_summary_seed_color_unavailable">Richiede Android 12 o versioni successive</string>
     <string name="seed_color_dialog_title">Scegli il colore dell\'app</string>
     <string name="pref_category_appearance_title">Aspetto</string>
     <string name="pref_category_app_behavior_title">Comportamento App</string>

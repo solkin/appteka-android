@@ -55,7 +55,7 @@
     <string name="pref_title_theme">Тема</string>
     <string name="pref_summary_theme">Выберите тему приложения</string>
     <string name="pref_title_dynamic_colors">Динамические цвета</string>
-    <string name="pref_summary_dynamic_colors">Использует цвета обоев на устройствах Android 12+ (требуется перезапуск)</string>
+    <string name="pref_summary_dynamic_colors">Использует цвета обоев на устройствах Android 12+</string>
     <string name="theme_dialog_title">Выбор темы</string>
     <string name="theme_system">Системные настройки</string>
     <string name="theme_light">Светлая</string>
@@ -68,6 +68,7 @@
     <string name="restart_required_dynamic_colors_short">Перезапустите для применения изменений.</string>
     <string name="pref_title_seed_color">Цвет приложения</string>
     <string name="pref_summary_seed_color">Выберите цветовую схему при выключенных динамических цветах</string>
+    <string name="pref_summary_seed_color_unavailable">Требуется Android 12 или выше</string>
     <string name="seed_color_dialog_title">Выберите цвет приложения</string>
     <string name="pref_category_appearance_title">Внешний вид</string>
     <string name="pref_category_app_behavior_title">Поведение приложения</string>
