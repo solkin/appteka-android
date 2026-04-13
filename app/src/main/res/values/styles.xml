@@ -328,4 +328,14 @@
         <item name="android:color">?attr/colorPrimaryContainer</item>
     </style>
 
+    <style name="AppBottomNavigationView" parent="Widget.Material3.BottomNavigationView">
+        <item name="itemIconTint">@color/bottom_nav_item_color</item>
+        <item name="itemTextColor">@color/bottom_nav_item_color</item>
+        <item name="itemActiveIndicatorStyle">@style/BottomNavActiveIndicator</item>
+    </style>
+
+    <style name="DefaultThemeOverlay">
+        <item name="bottomNavigationStyle">@style/AppBottomNavigationView</item>
+    </style>
+
 </resources>

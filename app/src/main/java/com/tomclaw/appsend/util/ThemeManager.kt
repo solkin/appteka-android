@@ -59,8 +59,17 @@ class ThemeManager(private val app: Application) : Application.ActivityLifecycle
         }
     }
 
+    private fun isSystemDynamicColors(): Boolean {
+        return isDynamicColorsEnabled() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+    }
+
+    private fun shouldApplyDynamicColors(): Boolean {
+        if (isSystemDynamicColors()) return true
+        return getSeedColor() != DEFAULT_SEED_COLOR
+    }
+
     private fun buildDynamicColorsOptions(): DynamicColorsOptions {
-        return if (isDynamicColorsEnabled() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        return if (isSystemDynamicColors()) {
             DynamicColorsOptions.Builder().build()
         } else {
             DynamicColorsOptions.Builder()
@@ -70,15 +79,17 @@ class ThemeManager(private val app: Application) : Application.ActivityLifecycle
     }
 
     private fun getColorsFingerprint(): Long {
-        val dynamic =
-            if (isDynamicColorsEnabled() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) 1L
-            else 0L
+        val dynamic = if (isSystemDynamicColors()) 1L else 0L
         val seed = getSeedColor().toLong() and 0xFFFFFFFFL
         return (dynamic shl 32) or seed
     }
 
     override fun onActivityPreCreated(activity: Activity, savedInstanceState: Bundle?) {
-        DynamicColors.applyToActivityIfAvailable(activity, buildDynamicColorsOptions())
+        if (shouldApplyDynamicColors()) {
+            DynamicColors.applyToActivityIfAvailable(activity, buildDynamicColorsOptions())
+        } else {
+            activity.theme.applyStyle(R.style.DefaultThemeOverlay, true)
+        }
         activityFingerprints[activity] = getColorsFingerprint()
     }
 
