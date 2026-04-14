@@ -44,7 +44,7 @@
                     android:focusable="true"
                     android:foreground="?attr/selectableItemBackground"
                     app:cardElevation="0dp"
-                    app:cardBackgroundColor="?attr/colorPrimary"
+                    app:cardBackgroundColor="?attr/colorPrimaryContainer"
                     android:orientation="vertical">
 
                     <LinearLayout
@@ -86,7 +86,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textSize="12sp"
-                                android:textColor="?attr/colorOnPrimary"
+                                android:textColor="?attr/colorOnPrimaryContainer"
                                 android:paddingEnd="4dp" />
 
                             <ImageView
@@ -95,7 +95,7 @@
                                 android:layout_height="16dp"
                                 android:contentDescription="@string/delivery"
                                 android:src="@drawable/check_circle"
-                                app:tint="?attr/colorOnPrimary" />
+                                app:tint="?attr/colorOnPrimaryContainer" />
                         </LinearLayout>
                     </LinearLayout>
                 </com.google.android.material.card.MaterialCardView>

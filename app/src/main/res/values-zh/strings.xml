@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name" translatable="false">Appteka</string>
     <string name="bytes">%d B</string>
     <string name="kibibytes">%.1f KB</string>
     <string name="mibibytes">%.1f MB</string>
@@ -56,7 +55,7 @@
     <string name="pref_title_theme">主题</string>
     <string name="pref_summary_theme">选择应用主题</string>
     <string name="pref_title_dynamic_colors">动态颜色</string>
-    <string name="pref_summary_dynamic_colors">在 Android 12+ 设备上使用壁纸颜色（需要重启）</string>
+    <string name="pref_summary_dynamic_colors">在 Android 12+ 设备上使用壁纸颜色</string>
     <string name="theme_dialog_title">选择主题</string>
     <string name="theme_system">系统默认</string>
     <string name="theme_light">浅色</string>
@@ -69,6 +68,7 @@
     <string name="restart_required_dynamic_colors_short">重启以应用更改。</string>
     <string name="pref_title_seed_color">应用颜色</string>
     <string name="pref_summary_seed_color">关闭动态颜色时选择自定义配色方案</string>
+    <string name="pref_summary_seed_color_unavailable">需要 Android 12 或更高版本</string>
     <string name="seed_color_dialog_title">选择应用颜色</string>
     <string name="pref_category_appearance_title">外观</string>
     <string name="pref_category_app_behavior_title">应用行为</string>
@@ -160,6 +160,8 @@
     <string name="select_app">选择一个应用程序</string>
     <string name="select_app_description">安装或apk文件</string>
     <string name="search_app">在Appteka中搜索</string>
+    <string name="reaction">反应</string>
+    <string name="select_reactions">选择反应</string>
     <string name="empty_list">这里什么都没有…</string>
     <string name="login_button">登录</string>
     <string name="register_button">注册</string>
@@ -405,6 +407,8 @@
     <string name="abi_incompatible">与您的设备不兼容</string>
     <string name="abi_warning_title">架构不兼容</string>
     <string name="abi_warning_message">此应用程序可能无法在您的设备上正常运行，因为它是为不同的处理器架构构建的。您仍要下载吗？</string>
+    <string name="official_developer">官方开发者</string>
+    <string name="official_short">官方</string>
     <string name="save">保存</string>
     <!-- Proxy settings -->
     <string name="pref_category_network_title">网络</string>

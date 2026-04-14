@@ -94,7 +94,12 @@ class ChatPresenterImpl(
             }
         }
         subscriptions += view.msgReplyClicks().subscribe { message ->
-            messageText = resourceProvider.replyFormText(message.text)
+            val ownText = message.text.lines()
+                .dropWhile { it.startsWith("> ") }
+                .joinToString("\n")
+                .trim()
+            val quoted = ownText.lines().joinToString("\n") { "> $it" }
+            messageText = "$quoted\n"
             view.setMessageText(messageText)
             view.requestFocus()
         }

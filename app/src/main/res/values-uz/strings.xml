@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name" translatable="false">Appteka</string>
     <string name="bytes">%d B</string>
     <string name="kibibytes">%.1f KB</string>
     <string name="mibibytes">%.1f MB</string>
@@ -57,7 +56,7 @@
     <string name="pref_title_theme">Mavzu</string>
     <string name="pref_summary_theme">Ilova mavzusini tanlang</string>
     <string name="pref_title_dynamic_colors">Dinamik ranglar</string>
-    <string name="pref_summary_dynamic_colors">Android 12+ qurilmalarida fon rasmi ranglaridan foydalanadi (Qayta ishga tushirish talab qilinadi)</string>
+    <string name="pref_summary_dynamic_colors">Android 12+ qurilmalarida fon rasmi ranglaridan foydalanadi</string>
     <string name="theme_dialog_title">Mavzuni tanlang</string>
     <string name="theme_system">Tizim standarti</string>
     <string name="theme_light">Yorug\'lik</string>
@@ -70,15 +69,13 @@
     <string name="restart_required_dynamic_colors_short">O\'zgarishlarni qo\'llash uchun qayta ishga tushiring.</string>
     <string name="pref_title_seed_color">Ilova rangi</string>
     <string name="pref_summary_seed_color">Dinamik ranglar o\'chirilganda maxsus rang sxemasini tanlang</string>
+    <string name="pref_summary_seed_color_unavailable">Android 12 yoki undan yuqori talab qilinadi</string>
     <string name="seed_color_dialog_title">Ilova rangini tanlang</string>
     <string name="pref_category_appearance_title">Tashqi ko\'rinish</string>
-    <string name="pref_category_app_behavior_key">app_behavior_settings</string>
     <string name="pref_category_app_behavior_title">Ilova xatti-harakati</string>
     <string name="pref_category_general_title">Umumiy</string>
     <string name="cancel">Bekor qilish</string>
-    <string name="percent" translatable="false">%d %%</string>
     <string name="upload">Yuklash</string>
-    <string name="uploaded_url" translatable="false">%1$s (%2$s)\n%3$s</string>
     <string name="tab_store">Saqlash</string>
     <string name="retry">Qayta urinish</string>
     <string name="store_loading_error">Ilovalar ro\'yxatini olishda xatolik yuz berdi</string>
@@ -92,7 +89,6 @@
     <string name="app_version_title">Versiya</string>
     <string name="uploaded_title">Yuklandi</string>
     <string name="checksum_title">Chek summasi (SHA1)</string>
-    <string name="app_version_format" translatable="false">%1$s (%2$d)</string>
     <string name="update">Yangilash</string>
     <string name="abuse">Suiiste\'mol qilish</string>
     <string name="your_email">Sizning elektron pochtangiz</string>
@@ -127,7 +123,6 @@
     <string name="report">Shikoyat qilish</string>
     <string name="error_message_report">Shikoyat qilish</string>
     <string name="message_report_sent">Munozaralarni moderatsiya qilishda yordam berganingiz uchun tashakkur!</string>
-    <string name="reply_form" translatable="false">&gt; %s\n</string>
     <string name="exclusive_short">Eksklyuziv</string>
     <string name="exclusive">Eksklyuziv ilova (Google Play’da mavjud emas)</string>
     <string name="exclusive_description">Ilova Google Play’da mavjud emas</string>
@@ -241,7 +236,18 @@
     <string name="source_code_url">Manba kodi URL manzili</string>
     <string name="other_versions_title">Boshqa versiyalar</string>
     <string name="check_uploaded_versions">Yuklangan versiyalarni tekshiring</string>
-    
+    <plurals name="other_versions_text">
+        <item quantity="one">Bu ilovada allaqachon %d yuklangan versiya mavjud</item>
+        <item quantity="other">Bu ilovada allaqachon %d yuklangan versiya mavjud</item>
+    </plurals>
+    <plurals name="other_versions_count">
+        <item quantity="one">%d versiya</item>
+        <item quantity="other">%d versiya</item>
+    </plurals>
+    <plurals name="other_access">
+        <item quantity="one">%d boshqa ruxsat</item>
+        <item quantity="other">%d boshqa ruxsat</item>
+    </plurals>
     <string name="uploading_progress">Yuklanmoqda: %d%%</string>
     <string name="waiting_for_upload">Yuklash kutilmoqda…</string>
     <string name="uploading_channel_name">Ilovalar yuklanmoqda</string>
@@ -312,16 +318,33 @@
     <string name="authorization_required_message">Davom etish uchun tizimga kiring</string>
     <string name="authorization_description">Kiring va Appteka’ning shaxsiy imkoniyatlaridan foydalaning</string>
     <string name="error_domain_blocked">Vaqtinchalik elektron pochta xabarlari taqiqlangan</string>
-    <string name="gallery_title" translatable="false">%d / %d</string>
     <string name="add_screenshot">Skrinshot qo\'shish</string>
     <string name="screenshots_title">Skrinshotlar</string>
     <string name="download_screenshot">Skrinshotni yuklab olish</string>
     <string name="error_saving_screenshot">Skrinshotni saqlab bo\'lmadi</string>
-    
+    <plurals name="days_ago">
+        <item quantity="one">bir kun oldin</item>
+        <item quantity="other">%d kun oldin</item>
+    </plurals>
+    <plurals name="months_ago">
+        <item quantity="one">bir oy oldin</item>
+        <item quantity="other">%d oy oldin</item>
+    </plurals>
+    <plurals name="years_ago">
+        <item quantity="one">bir yil oldin</item>
+        <item quantity="other">%d yil oldin</item>
+    </plurals>
     <string name="today">bugun</string>
     <string name="yesterday">kecha</string>
     <string name="total_downloads_count">Ular %s marta yuklab olindi</string>
-
+    <plurals name="favorite_apps_count">
+        <item quantity="one">Foydalanuvchi sevimlilarida %d ilova</item>
+        <item quantity="other">Foydalanuvchi sevimlilarida %d ilova</item>
+    </plurals>
+    <plurals name="moderation_apps_count">
+        <item quantity="one">%d ilova moderatsiyani kutmoqda</item>
+        <item quantity="other">%d ilova moderatsiyani kutmoqda</item>
+    </plurals>
     <string name="no_apps_on_moderation">Moderatsiyani kutayotgan ilovalar yo\'q</string>
     <string name="show_all_ratings">Barcha reytinglarni ko\'rsatish</string>
     <string name="reviews_activity">Foydalanuvchi sharhlari</string>
@@ -362,7 +385,10 @@
     <string name="download_history">Yuklab olish tarixi</string>
     <string name="pick_apk">Qurilmadagi apk faylini tanlash</string>
     <string name="pick_installed">O\'rnatilgan ilovani tanlash</string>
-    
+    <plurals name="download_apps_count">
+        <item quantity="one">%d ilova yuklab olindi</item>
+        <item quantity="other">%d ilova yuklab olindi</item>
+    </plurals>
     <string name="prefill_from_version">Versiyadan oldindan to\'ldirish</string>
     <string name="prefill_none">Oldindan to\'ldirmaslik</string>
     <string name="prefill_hint">Oldingi versiyadan tavsif, skrinshotlar va sozlamalarni nusxalash</string>

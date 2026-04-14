@@ -92,6 +92,7 @@
         <item name="preferenceTheme">@style/AppPreferenceThemeOverlay</item>
         <item name="materialCardViewStyle">@style/Widget.Material3.CardView.Elevated</item>
         <item name="appBarLayoutStyle">@style/AppBarLayoutStyle</item>
+        <item name="bottomNavigationStyle">@style/DefaultBottomNavStyle</item>
     </style>
 
 </resources>

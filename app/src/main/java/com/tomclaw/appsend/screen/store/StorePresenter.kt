@@ -97,7 +97,7 @@ class StorePresenterImpl(
                 items?.let { bindItems() } ?: loadApps()
             }
         } else {
-            // Load categories first, then load apps
+            view.showProgress()
             loadCategories()
         }
     }

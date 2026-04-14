@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name" translatable="false">Appteka</string>
     <string name="bytes">%d B</string>
     <string name="kibibytes">%.1f KB</string>
     <string name="mibibytes">%.1f MB</string>
@@ -57,7 +56,7 @@
     <string name="pref_title_theme">Tema</string>
     <string name="pref_summary_theme">Seleziona il tema dell\'app</string>
     <string name="pref_title_dynamic_colors">Colori dinamici</string>
-    <string name="pref_summary_dynamic_colors">Utilizza i colori dello sfondo su dispositivi Android 12+ (Riavvio richiesto)</string>
+    <string name="pref_summary_dynamic_colors">Utilizza i colori dello sfondo su dispositivi Android 12+</string>
     <string name="theme_dialog_title">Seleziona tema</string>
     <string name="theme_system">Predefinito di sistema</string>
     <string name="theme_light">Chiaro</string>
@@ -70,15 +69,13 @@
     <string name="restart_required_dynamic_colors_short">Riavvia per applicare le modifiche.</string>
     <string name="pref_title_seed_color">Colore dell\'app</string>
     <string name="pref_summary_seed_color">Scegli una combinazione di colori personalizzata quando i colori dinamici sono disattivati</string>
+    <string name="pref_summary_seed_color_unavailable">Richiede Android 12 o versioni successive</string>
     <string name="seed_color_dialog_title">Scegli il colore dell\'app</string>
     <string name="pref_category_appearance_title">Aspetto</string>
-    <string name="pref_category_app_behavior_key">app_behavior_settings</string>
     <string name="pref_category_app_behavior_title">Comportamento App</string>
     <string name="pref_category_general_title">Generale</string>
     <string name="cancel">Annulla</string>
-    <string name="percent" translatable="false">%d %%</string>
     <string name="upload">Carica</string>
-    <string name="uploaded_url" translatable="false">%1$s (%2$s)\n%3$s</string>
     <string name="tab_store">Store</string>
     <string name="retry">Riprova</string>
     <string name="store_loading_error">Impossibile recuperare l\'elenco delle applicazioni</string>
@@ -92,7 +89,6 @@
     <string name="app_version_title">Versione</string>
     <string name="uploaded_title">Caricato il</string>
     <string name="checksum_title">Checksum (SHA1)</string>
-    <string name="app_version_format" translatable="false">%1$s (%2$d)</string>
     <string name="update">Aggiorna</string>
     <string name="abuse">Segnala abuso</string>
     <string name="your_email">La tua E-mail</string>
@@ -127,7 +123,6 @@
     <string name="report">Segnala abuso</string>
     <string name="error_message_report">Impossibile segnalare l\'abuso</string>
     <string name="message_report_sent">Grazie per aver contribuito alla moderazione delle discussioni!</string>
-    <string name="reply_form" translatable="false">&gt; %s\n</string>
     <string name="exclusive_short">Esclusiva</string>
     <string name="exclusive">App esclusiva (non presente su Google Play)</string>
     <string name="exclusive_description">App non disponibile su Google Play</string>
@@ -323,7 +318,6 @@
     <string name="authorization_required_message">Accedi per continuare</string>
     <string name="authorization_description">Accedi e approfitta delle funzionalità personali di Appteka</string>
     <string name="error_domain_blocked">Le email temporanee sono vietate</string>
-    <string name="gallery_title" translatable="false">%d / %d</string>
     <string name="add_screenshot">Aggiungi screenshot</string>
     <string name="screenshots_title">Screenshot</string>
     <string name="download_screenshot">Scarica screenshot</string>
@@ -428,8 +422,6 @@
     <string name="save">Salva</string>
     <!-- Impostazioni proxy -->
     <string name="pref_category_network_title">Rete</string>
-    <string name="pref_proxy_enabled" translatable="false">pref_proxy_enabled</string>
-    <string name="pref_proxy_settings" translatable="false">pref_proxy_settings</string>
     <string name="pref_title_proxy_enabled">Usa proxy</string>
     <string name="pref_summary_proxy_enabled">Instrada il traffico attraverso server proxy</string>
     <string name="pref_title_proxy_settings">Impostazioni proxy</string>
@@ -438,8 +430,6 @@
     <string name="proxy_host_hint">Host (es. proxy.esempio.com)</string>
     <string name="proxy_port_hint">Porta (es. 8080)</string>
     <string name="proxy_type_label">Tipo proxy</string>
-    <string name="proxy_type_http" translatable="false">HTTP</string>
-    <string name="proxy_type_socks" translatable="false">SOCKS</string>
     <string name="proxy_settings_invalid">Impostazioni proxy non valide</string>
     <string name="proxy_check_button">Verifica</string>
     <string name="proxy_check_success">Il proxy funziona</string>

@@ -189,6 +189,7 @@
         <item name="preferenceTheme">@style/AppPreferenceThemeOverlay</item>
         <item name="materialCardViewStyle">@style/Widget.Material3.CardView.Elevated</item>
         <item name="appBarLayoutStyle">@style/AppBarLayoutStyle</item>
+        <item name="bottomNavigationStyle">@style/DefaultBottomNavStyle</item>
     </style>
 
     <!-- Preference Themes -->
@@ -230,8 +231,8 @@
     </style>
 
     <style name="Chat.Message.Outgoing" parent="Chat.Message">
-        <item name="android:textColor">?attr/colorOnPrimary</item>
-        <item name="android:textColorLink">?attr/colorOnPrimary</item>
+        <item name="android:textColor">?attr/colorOnPrimaryContainer</item>
+        <item name="android:textColorLink">?attr/colorOnPrimaryContainer</item>
     </style>
 
     <style name="RatingDetailElementSmall" parent="@style/Widget.AppCompat.ProgressBar.Horizontal">
@@ -326,6 +327,18 @@
     <!-- Material 3 BottomNavigationView Active Indicator стиль -->
     <style name="BottomNavActiveIndicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
         <item name="android:color">?attr/colorPrimaryContainer</item>
+    </style>
+
+    <style name="AppBottomNavigationView" parent="Widget.Material3.BottomNavigationView">
+        <item name="itemIconTint">@color/bottom_nav_item_color</item>
+        <item name="itemTextColor">@color/bottom_nav_item_color</item>
+        <item name="itemActiveIndicatorStyle">@style/BottomNavActiveIndicator</item>
+    </style>
+
+    <style name="DefaultBottomNavStyle" parent="AppBottomNavigationView" />
+
+    <style name="DefaultThemeOverlay">
+        <item name="bottomNavigationStyle">@style/AppBottomNavigationView</item>
     </style>
 
 </resources>
