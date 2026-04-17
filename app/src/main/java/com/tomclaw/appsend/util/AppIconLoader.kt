@@ -18,7 +18,7 @@ class AppIconLoader(
     override fun load(uriString: String, file: File): Boolean {
         try {
             val packageName = parseUri(uriString)
-            val packageInfo = packageManager.getPackageInfo(packageName, 0)
+            val packageInfo = packageManager.getPackageInfoCompat(packageName, 0)
             val data = PackageHelper.getPackageIconPng(
                 packageInfo.applicationInfo, packageManager, context
             )

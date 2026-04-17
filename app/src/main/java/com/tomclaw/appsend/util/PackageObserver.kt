@@ -46,9 +46,10 @@ class PackageObserverImpl(
                 }
             }
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             context.registerReceiver(receiver, filter, Context.RECEIVER_NOT_EXPORTED)
         } else {
+            @Suppress("DEPRECATION")
             context.registerReceiver(receiver, filter)
         }
         println("[packages] Package observing started")
@@ -76,7 +77,7 @@ class PackageObserverImpl(
 
     override fun pickInstalledVersionCode(packageName: String): Int {
         return try {
-            packageManager.getPackageInfo(packageName, 0).versionCode
+            packageManager.getPackageInfoCompat(packageName, 0).versionCodeCompat().toInt()
         } catch (ex: Throwable) {
             NOT_INSTALLED
         }

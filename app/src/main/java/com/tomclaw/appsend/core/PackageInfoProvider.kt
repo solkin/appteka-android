@@ -3,6 +3,7 @@ package com.tomclaw.appsend.core
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
+import com.tomclaw.appsend.util.getPackageArchiveInfoCompat
 
 interface PackageInfoProvider {
 
@@ -23,14 +24,14 @@ class PackageInfoProviderImpl(
     }
 
     override fun getPackagePermissions(path: String): List<String> {
-        val packageInfo = packageManager.getPackageArchiveInfo(path, PackageManager.GET_PERMISSIONS)
+        val packageInfo = packageManager.getPackageArchiveInfoCompat(path, PackageManager.GET_PERMISSIONS)
         // requestedPermissions - массив nullable, надо проверить
         return packageInfo?.requestedPermissions?.toList() ?: emptyList()
     }
 
     override fun getPackageInfo(path: String): PackageInfo? {
         return try {
-            packageManager.getPackageArchiveInfo(path, 0)?.apply {
+            packageManager.getPackageArchiveInfoCompat(path, 0)?.apply {
                 applicationInfo?.apply {
                     sourceDir = path
                     publicSourceDir = path

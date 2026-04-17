@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.pm.PackageManager
 import android.content.pm.Signature
 import android.os.Build
+import com.tomclaw.appsend.util.getPackageInfoCompat
 import com.tomclaw.appsend.util.isDarkTheme
 import com.tomclaw.appsend.util.sha256
 import com.tomclaw.appsend.util.versionCodeCompat
@@ -46,7 +47,7 @@ class AppInfoProviderImpl(
     private val locale: Locale,
 ) : AppInfoProvider {
 
-    private val packageInfo = packageManager.getPackageInfo(context.packageName, 0)
+    private val packageInfo = packageManager.getPackageInfoCompat(context.packageName, 0)
     private val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US)
 
     override fun getPackageName(): String = packageInfo.packageName
@@ -76,7 +77,11 @@ class AppInfoProviderImpl(
 
     override fun getDeviceModel(): String = Build.MODEL
 
-    override fun getLocale(): String = "${locale.language}-${locale.country}"
+    override fun getLocale(): String {
+        val language = locale.language.ifEmpty { "en" }
+        val country = locale.country
+        return if (country.isEmpty()) language else "$language-$country"
+    }
 
     override fun getTheme(): String = if (context.isDarkTheme()) "dark" else "light"
 
@@ -95,14 +100,14 @@ class AppInfoProviderImpl(
 
     private fun getPackageSignatures(packageName: String): Array<Signature> {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            val info = packageManager.getPackageInfo(
+            val info = packageManager.getPackageInfoCompat(
                 packageName,
                 PackageManager.GET_SIGNING_CERTIFICATES
             )
             info.signingInfo?.apkContentsSigners ?: emptyArray()
         } else {
             @Suppress("DEPRECATION")
-            val info = packageManager.getPackageInfo(
+            val info = packageManager.getPackageInfoCompat(
                 packageName,
                 PackageManager.GET_SIGNATURES
             )

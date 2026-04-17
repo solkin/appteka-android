@@ -20,7 +20,7 @@ class ApkIconLoader(
     override fun load(uriString: String, file: File): Boolean {
         try {
             val path = parseUri(uriString)
-            val info = packageManager.getPackageArchiveInfo(path, 0)?.apply {
+            val info = packageManager.getPackageArchiveInfoCompat(path, 0)?.apply {
                 applicationInfo?.let {
                     it.sourceDir = path
                     it.publicSourceDir = path

@@ -5,6 +5,8 @@ import android.content.pm.PackageManager
 import com.tomclaw.appsend.upload.UploadApk
 import com.tomclaw.appsend.upload.UploadPackage
 import com.tomclaw.appsend.util.createAppIconURI
+import com.tomclaw.appsend.util.getInstalledApplicationsCompat
+import com.tomclaw.appsend.util.getPackageInfoCompat
 import com.tomclaw.appsend.util.versionCodeCompat
 import java.io.File
 
@@ -24,10 +26,10 @@ class InstalledInfoProviderImpl(
 
     override fun getInstalledApps(): List<InstalledAppEntity> {
         val apps = ArrayList<InstalledAppEntity>()
-        val packages = packageManager.getInstalledApplications(PackageManager.GET_META_DATA)
+        val packages = packageManager.getInstalledApplicationsCompat(PackageManager.GET_META_DATA)
         for (info in packages) {
             try {
-                val packageInfo = packageManager.getPackageInfo(info.packageName, 0)
+                val packageInfo = packageManager.getPackageInfoCompat(info.packageName, 0)
                 val publicSourceDir = packageInfo.applicationInfo?.publicSourceDir ?: continue
                 val file = File(publicSourceDir)
                 if (file.exists()) {
@@ -57,13 +59,13 @@ class InstalledInfoProviderImpl(
     }
 
     override fun getPackagePermissions(packageName: String): List<String> {
-        val packageInfo = packageManager.getPackageInfo(packageName, PackageManager.GET_PERMISSIONS)
+        val packageInfo = packageManager.getPackageInfoCompat(packageName, PackageManager.GET_PERMISSIONS)
         // Проверяем nullable массива requestedPermissions
         return packageInfo.requestedPermissions?.toList().orEmpty()
     }
 
     override fun getPackageUploadInfo(packageName: String): Pair<UploadPackage, UploadApk> {
-        val packageInfo = packageManager.getPackageInfo(packageName, 0)
+        val packageInfo = packageManager.getPackageInfoCompat(packageName, 0)
         val publicSourceDir = packageInfo.applicationInfo?.publicSourceDir
             ?: throw IllegalArgumentException("No publicSourceDir")
         val file = File(publicSourceDir)

@@ -6,14 +6,14 @@ plugins {
 
 android {
     namespace = 'com.tomclaw.appsend'
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         applicationId "com.tomclaw.appsend"
-        minSdkVersion 21
-        targetSdkVersion 35
-        versionCode project.hasProperty("versionCode") ? Integer.parseInt(project.versionCode) : 1012
-        versionName = "18.4.1"
+        minSdkVersion 23
+        targetSdkVersion 36
+        versionCode project.hasProperty("versionCode") ? Integer.parseInt(project.versionCode) : 1013
+        versionName = "18.5"
     }
 
     signingConfigs {
@@ -90,15 +90,16 @@ dependencies {
     implementation 'com.github.solkin:disk-lru-cache:v1.8'
 
     // AndroidX Core & UI
-    implementation 'androidx.core:core-ktx:1.17.0'
+    implementation 'androidx.activity:activity-ktx:1.10.1'
+    implementation 'androidx.core:core-ktx:1.18.0'
     implementation 'androidx.appcompat:appcompat:1.7.1'
     implementation 'androidx.recyclerview:recyclerview:1.4.0'
     implementation 'androidx.startup:startup-runtime:1.2.0'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.2.0'
-    implementation 'androidx.annotation:annotation:1.9.1'
+    implementation 'androidx.annotation:annotation:1.10.0'
     
-    ksp 'androidx.annotation:annotation:1.9.1'
-    implementation 'com.google.android.material:material:1.14.0-alpha08'
+    ksp 'androidx.annotation:annotation:1.10.0'
+    implementation 'com.google.android.material:material:1.14.0-beta01'
     implementation 'com.google.code.gson:gson:2.13.2'
     
     // Dagger & KSP
@@ -124,7 +125,7 @@ dependencies {
     implementation 'me.zhanghai.android.materialratingbar:library:1.4.0'
 
     // Debug & Test
-    debugImplementation 'com.github.chuckerteam.chucker:library:4.3.0'
-    releaseImplementation 'com.github.chuckerteam.chucker:library-no-op:4.3.0'
+    debugImplementation 'com.github.chuckerteam.chucker:library:4.3.1'
+    releaseImplementation 'com.github.chuckerteam.chucker:library-no-op:4.3.1'
     testImplementation 'junit:junit:4.13.2'
 }

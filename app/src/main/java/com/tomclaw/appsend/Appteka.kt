@@ -9,6 +9,7 @@ import com.tomclaw.appsend.di.AppModule
 import com.tomclaw.appsend.di.DaggerAppComponent
 import com.tomclaw.appsend.util.ApkIconLoader
 import com.tomclaw.appsend.util.AppIconLoader
+import com.tomclaw.appsend.util.EdgeToEdgeActivityCallback
 import com.tomclaw.appsend.util.SvgDecoder
 import com.tomclaw.appsend.util.ThemeManager
 import com.tomclaw.cache.DiskLruCache
@@ -40,6 +41,8 @@ class Appteka : Application() {
         initRxErrorHandler()
         themeManager = ThemeManager(this)
         themeManager.init()
+
+        registerActivityLifecycleCallbacks(EdgeToEdgeActivityCallback())
 
         component = DaggerAppComponent.builder()
             .appModule(AppModule(this))
