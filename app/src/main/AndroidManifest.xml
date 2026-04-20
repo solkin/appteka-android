@@ -118,7 +118,9 @@
         <activity
             android:name=".screen.permissions.PermissionsActivity"
             android:label="@string/required_permissions" />
-        <activity android:name=".screen.gallery.GalleryActivity" />
+        <activity
+            android:name=".screen.gallery.GalleryActivity"
+            android:theme="@style/AppThemeSemitransparent" />
         <activity
             android:name=".screen.profile.ProfileActivity"
             android:exported="true"

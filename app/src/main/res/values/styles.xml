@@ -201,13 +201,42 @@
         <item name="widgetLayout">@layout/preference_material_switch</item>
     </style>
 
-    <!-- Semitransparent theme for Gallery -->
-    <style name="AppThemeSemitransparent" parent="AppTheme">
+    <!-- Forced dark theme for Gallery (independent from system day/night) -->
+    <style name="AppThemeSemitransparent" parent="Theme.Material3Expressive.Dark.NoActionBar">
         <item name="android:statusBarColor">#cc000000</item>
+        <item name="android:navigationBarColor">@android:color/black</item>
         <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o">false</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">true</item>
         <item name="android:windowBackground">@android:color/black</item>
+
+        <item name="colorPrimary">@color/primary_color</item>
+        <item name="colorOnPrimary">@android:color/white</item>
+        <item name="colorPrimaryContainer">@color/primary_container_dark</item>
+        <item name="colorOnPrimaryContainer">@color/primary_color</item>
+
+        <item name="colorSecondary">@color/accent_color</item>
+        <item name="colorOnSecondary">@android:color/white</item>
+        <item name="colorSecondaryContainer">@color/secondary_container_dark</item>
+        <item name="colorOnSecondaryContainer">@color/accent_color</item>
+
         <item name="colorSurface">@android:color/black</item>
+        <item name="colorOnSurface">@color/text_primary_color_dark</item>
+        <item name="colorSurfaceVariant">#49454F</item>
+        <item name="colorOnSurfaceVariant">#CAC4D0</item>
+        <item name="colorOutline">#938F99</item>
+        <item name="colorOutlineVariant">#49454F</item>
+
+        <item name="text_primary_color">@color/text_primary_color_dark</item>
+        <item name="text_secondary_color">#B1B1B1</item>
         <item name="toolbar_background">@android:color/black</item>
+        <item name="menu_icons_tint">@color/icons_grey_dark</item>
+        <item name="divider_color">@color/divider_dark</item>
+        <item name="semitransparent_color">@color/color_semitransparent_black</item>
+
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="appBarLayoutStyle">@style/AppBarLayoutStyle</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.Material3.ActionBar" />

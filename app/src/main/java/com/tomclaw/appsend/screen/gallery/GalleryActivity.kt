@@ -3,7 +3,10 @@ package com.tomclaw.appsend.screen.gallery
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
+import androidx.activity.SystemBarStyle
+import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.tomclaw.appsend.util.adapter.ItemBinder
@@ -51,7 +54,10 @@ class GalleryActivity : AppCompatActivity(), GalleryPresenter.GalleryRouter {
         appComponent
             .galleryComponent(GalleryModule(this, items, startIndex, presenterState))
             .inject(activity = this)
-        setTheme(R.style.AppThemeSemitransparent)
+        enableEdgeToEdge(
+            statusBarStyle = SystemBarStyle.dark(Color.TRANSPARENT),
+            navigationBarStyle = SystemBarStyle.dark(Color.TRANSPARENT),
+        )
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.gallery_activity)
