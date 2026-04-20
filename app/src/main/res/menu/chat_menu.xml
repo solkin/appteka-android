@@ -2,6 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/translate"
+        android:icon="@drawable/ic_translate"
+        android:title="@string/translate"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/translate_off"
+        android:icon="@drawable/ic_translate_off"
+        android:title="@string/original"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/pin"
         android:icon="@drawable/ic_pin"
         android:title="@string/pin"

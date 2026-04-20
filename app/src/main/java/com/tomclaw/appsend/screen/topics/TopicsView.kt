@@ -30,7 +30,7 @@ interface TopicsView {
 
     fun showError()
 
-    fun showMessageDialog(topicId: Int, isPinned: Boolean)
+    fun showMessageDialog(topicId: Int, isPinned: Boolean, hasTranslation: Boolean, translated: Boolean)
 
     fun showPinFailed()
 
@@ -49,6 +49,8 @@ interface TopicsView {
     fun refreshClicks(): Observable<Unit>
 
     fun pinTopicClicks(): Observable<Int>
+
+    fun translateTopicClicks(): Observable<Int>
 
     fun loginClicks(): Observable<Unit>
 
@@ -78,6 +80,7 @@ class TopicsViewImpl(
     private val retryButtonRelay = PublishRelay.create<Unit>()
     private val refreshRelay = PublishRelay.create<Unit>()
     private val pinTopicRelay = PublishRelay.create<Int>()
+    private val translateTopicRelay = PublishRelay.create<Int>()
     private val loginRelay = PublishRelay.create<Unit>()
 
     init {
@@ -128,21 +131,47 @@ class TopicsViewImpl(
         recycler.scrollToPosition(0)
     }
 
-    override fun showMessageDialog(topicId: Int, isPinned: Boolean) {
+    override fun showMessageDialog(
+        topicId: Int,
+        isPinned: Boolean,
+        hasTranslation: Boolean,
+        translated: Boolean,
+    ) {
         val bottomSheetDialog = BottomSheetDialog(context)
         val sheetView = View.inflate(context, R.layout.bottom_sheet_actions, null)
         val actionsRecycler: RecyclerView = sheetView.findViewById(R.id.actions_recycler)
 
-        val actions = if (isPinned) {
-            listOf(ActionItem(MENU_PIN, context.getString(R.string.unpin), R.drawable.ic_pin_off))
+        val actions = mutableListOf<ActionItem>()
+        if (isPinned) {
+            actions.add(ActionItem(MENU_PIN, context.getString(R.string.unpin), R.drawable.ic_pin_off))
         } else {
-            listOf(ActionItem(MENU_PIN, context.getString(R.string.pin), R.drawable.ic_pin))
+            actions.add(ActionItem(MENU_PIN, context.getString(R.string.pin), R.drawable.ic_pin))
+        }
+        if (hasTranslation) {
+            if (translated) {
+                actions.add(
+                    ActionItem(
+                        MENU_TRANSLATE,
+                        context.getString(R.string.original),
+                        R.drawable.ic_translate_off
+                    )
+                )
+            } else {
+                actions.add(
+                    ActionItem(
+                        MENU_TRANSLATE,
+                        context.getString(R.string.translate),
+                        R.drawable.ic_translate
+                    )
+                )
+            }
         }
 
         val actionsAdapter = ActionsAdapter(actions) { actionId ->
             bottomSheetDialog.dismiss()
-            if (actionId == MENU_PIN) {
-                pinTopicRelay.accept(topicId)
+            when (actionId) {
+                MENU_PIN -> pinTopicRelay.accept(topicId)
+                MENU_TRANSLATE -> translateTopicRelay.accept(topicId)
             }
         }
 
@@ -183,9 +212,12 @@ class TopicsViewImpl(
 
     override fun pinTopicClicks(): Observable<Int> = pinTopicRelay
 
+    override fun translateTopicClicks(): Observable<Int> = translateTopicRelay
+
     override fun loginClicks(): Observable<Unit> = loginRelay
 
 }
 
 private const val DURATION_MEDIUM = 300L
 private const val MENU_PIN = 1
+private const val MENU_TRANSLATE = 2

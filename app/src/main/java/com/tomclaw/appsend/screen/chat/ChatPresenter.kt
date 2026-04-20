@@ -73,6 +73,7 @@ class ChatPresenterImpl(
     private var translation: MutableMap<Int, TranslationEntity> =
         state?.getParcelableArrayListCompat(KEY_TRANSLATION, TranslationEntity::class.java)
             .orEmpty().associateBy { it.msgId }.toMutableMap()
+    private var isTranslated: Boolean = state?.getBoolean(KEY_TRANSLATED, true) ?: true
     private var userBrief: UserBrief? =
         state?.getParcelableCompat(KEY_USER_BRIEF, UserBrief::class.java)
 
@@ -120,6 +121,9 @@ class ChatPresenterImpl(
         }
         subscriptions += view.pinChatClicks().subscribe {
             pinTopic()
+        }
+        subscriptions += view.chatTranslateClicks().subscribe {
+            onGlobalTranslateToggled()
         }
         subscriptions += view.toolbarClicks().subscribe {
             val packageName = topic?.packageName
@@ -176,6 +180,7 @@ class ChatPresenterImpl(
         putBoolean(KEY_ERROR, isError)
         history?.let { putParcelableArrayList(KEY_HISTORY, ArrayList(it)) }
         putParcelableArrayList(KEY_TRANSLATION, ArrayList(translation.values))
+        putBoolean(KEY_TRANSLATED, isTranslated)
         putParcelable(KEY_USER_BRIEF, userBrief)
     }
 
@@ -204,6 +209,7 @@ class ChatPresenterImpl(
             .subscribe(
                 { messages ->
                     history = messages
+                    applyInlineTranslations(messages)
                     bindHistory()
                     view?.contentUpdated()
                     view?.scrollBottom()
@@ -390,7 +396,7 @@ class ChatPresenterImpl(
     private fun invalidateMenu() {
         val topic = topic ?: return
         if (history?.isNotEmpty() == true) {
-            view?.showMenu(topic.isPinned)
+            view?.showMenu(topic.isPinned, isTranslated)
         } else {
             view?.hideMenu()
         }
@@ -405,11 +411,12 @@ class ChatPresenterImpl(
             it.msgId == item.id.toInt()
         } ?: return
         val translated = translation[message.msgId]?.translated == true
+        val canTranslate = message.type == 0 && message.text.isNotBlank()
         val userData = userBrief
         if (userData != null && (userData.role >= ROLE_ADMIN || userData.userId == message.userId)) {
-            view?.showExtendedMessageDialog(message, translated)
+            view?.showExtendedMessageDialog(message, translated, canTranslate)
         } else {
-            view?.showBaseMessageDialog(message, translated)
+            view?.showBaseMessageDialog(message, translated, canTranslate)
         }
     }
 
@@ -443,9 +450,33 @@ class ChatPresenterImpl(
     }
 
     private fun mergeHistory(list: List<MessageEntity>) {
+        applyInlineTranslations(list)
         history = ((history ?: emptyList()) + list)
             .sortedBy { it.msgId }
             .distinctBy { it.msgId }
+    }
+
+    private fun applyInlineTranslations(list: List<MessageEntity>) {
+        list.forEach { msg ->
+            val text = msg.translation
+            if (!text.isNullOrBlank() && translation[msg.msgId] == null) {
+                translation[msg.msgId] = TranslationEntity(
+                    msgId = msg.msgId,
+                    original = msg.text,
+                    translation = text,
+                    lang = msg.translationLang.orEmpty(),
+                    translated = isTranslated,
+                )
+            }
+        }
+    }
+
+    private fun onGlobalTranslateToggled() {
+        isTranslated = !isTranslated
+        translation.values.forEach { it.translated = isTranslated }
+        bindHistory()
+        view?.contentUpdated()
+        invalidateMenu()
     }
 
     private fun convertHistory(): List<Item> {
@@ -468,6 +499,7 @@ private const val KEY_ERROR = "error"
 private const val KEY_MESSAGE = "message"
 private const val KEY_HISTORY = "history"
 private const val KEY_TRANSLATION = "translation"
+private const val KEY_TRANSLATED = "translated"
 private const val KEY_USER_BRIEF = "user_brief"
 
 private const val ROLE_ADMIN = 200

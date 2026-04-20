@@ -73,7 +73,8 @@ class ChatInteractorImpl(
             .getChatHistory(
                 topicId = topicId,
                 from = fromId,
-                till = tillId
+                till = tillId,
+                locale = locale.language,
             )
             .map { it.result.messages.sortedBy { msg -> msg.msgId } }
             .toObservable()

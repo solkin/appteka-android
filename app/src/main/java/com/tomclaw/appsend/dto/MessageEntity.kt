@@ -20,6 +20,10 @@ data class MessageEntity(
     val userIcon: UserIcon,
     @SerializedName("text")
     val text: String,
+    @SerializedName("translation")
+    val translation: String?,
+    @SerializedName("translation_lang")
+    val translationLang: String?,
     @SerializedName("time")
     val time: Long,
     @SerializedName("cookie")

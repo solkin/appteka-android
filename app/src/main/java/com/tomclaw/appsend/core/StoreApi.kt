@@ -95,7 +95,8 @@ interface StoreApi {
 
     @GET("1/chat/topics")
     fun getTopicsList(
-        @Query("offset") offset: Int
+        @Query("offset") offset: Int,
+        @Query("locale") locale: String
     ): Single<StoreResponse<TopicsResponse>>
 
     @GET("1/chat/topic")
@@ -113,7 +114,8 @@ interface StoreApi {
     fun getChatHistory(
         @Query("topic_id") topicId: Int,
         @Query("from") from: Int,
-        @Query("till") till: Int
+        @Query("till") till: Int,
+        @Query("locale") locale: String
     ): Single<StoreResponse<HistoryResponse>>
 
     @GET("1/user/brief")

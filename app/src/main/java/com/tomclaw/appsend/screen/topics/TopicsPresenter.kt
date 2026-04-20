@@ -5,6 +5,7 @@ import com.tomclaw.appsend.util.adapter.AdapterPresenter
 import com.tomclaw.appsend.util.adapter.Item
 import com.tomclaw.appsend.dto.TopicEntity
 import com.tomclaw.appsend.screen.topics.adapter.ItemListener
+import com.tomclaw.appsend.screen.topics.adapter.topic.TopicItem
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.filterUnauthorizedErrors
 import com.tomclaw.appsend.util.getParcelableArrayListCompat
@@ -57,6 +58,8 @@ class TopicsPresenterImpl(
         state?.getParcelableArrayListCompat(KEY_TOPICS, TopicEntity::class.java)
     private var isError: Boolean = state?.getBoolean(KEY_ERROR) == true
     private var hasMore: Boolean = state?.getBoolean(KEY_HAS_MORE) == true
+    private val showOriginal: MutableSet<Int> =
+        state?.getIntegerArrayList(KEY_SHOW_ORIGINAL)?.toMutableSet() ?: mutableSetOf()
 
     override fun attachView(view: TopicsView) {
         this.view = view
@@ -76,6 +79,15 @@ class TopicsPresenterImpl(
 
         subscriptions += view.pinTopicClicks().subscribe { topicId ->
             pinTopic(topicId)
+        }
+
+        subscriptions += view.translateTopicClicks().subscribe { topicId ->
+            if (topicId in showOriginal) {
+                showOriginal.remove(topicId)
+            } else {
+                showOriginal.add(topicId)
+            }
+            bindEntities()
         }
 
         subscriptions += view.loginClicks().subscribe {
@@ -110,6 +122,7 @@ class TopicsPresenterImpl(
         putParcelableArrayList(KEY_TOPICS, entities?.let { ArrayList(entities.orEmpty()) })
         putBoolean(KEY_ERROR, isError)
         putBoolean(KEY_HAS_MORE, hasMore)
+        putIntegerArrayList(KEY_SHOW_ORIGINAL, ArrayList(showOriginal))
     }
 
     override fun scrollToTop() {
@@ -162,7 +175,7 @@ class TopicsPresenterImpl(
         val entities = this.entities ?: emptyList()
 
         val items = entities
-            .map { converter.convert(it) }
+            .map { converter.convert(it, translated = it.topicId !in showOriginal) }
             .apply { if (isNotEmpty()) last().hasMore = hasMore }
 
         adapterPresenter.get().onDataSourceChanged(items)
@@ -204,8 +217,8 @@ class TopicsPresenterImpl(
     }
 
     override fun onItemLongClick(item: Item) {
-        val entity = entities?.find { it.topicId.toLong() == item.id } ?: return
-        view?.showMessageDialog(entity.topicId, entity.isPinned)
+        if (item !is TopicItem) return
+        view?.showMessageDialog(item.id.toInt(), item.isPinned, item.hasTranslation, item.translated)
     }
 
     override fun onLoadMore(item: Item) {
@@ -218,3 +231,4 @@ class TopicsPresenterImpl(
 private const val KEY_TOPICS = "topics"
 private const val KEY_ERROR = "error"
 private const val KEY_HAS_MORE = "has_more"
+private const val KEY_SHOW_ORIGINAL = "show_original"

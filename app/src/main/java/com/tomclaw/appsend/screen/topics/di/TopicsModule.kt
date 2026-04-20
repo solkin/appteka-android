@@ -25,6 +25,7 @@ import dagger.Lazy
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoSet
+import java.util.Locale
 
 @Module
 class TopicsModule(
@@ -53,8 +54,9 @@ class TopicsModule(
     @PerFragment
     internal fun provideInteractor(
         api: StoreApi,
+        locale: Locale,
         schedulers: SchedulersFactory
-    ): TopicsInteractor = TopicsInteractorImpl(api, schedulers)
+    ): TopicsInteractor = TopicsInteractorImpl(api, locale, schedulers)
 
     @Provides
     @PerFragment

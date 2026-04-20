@@ -5,6 +5,7 @@ import com.tomclaw.appsend.screen.topics.api.PinTopicResponse
 import com.tomclaw.appsend.screen.topics.api.TopicsResponse
 import com.tomclaw.appsend.util.SchedulersFactory
 import io.reactivex.rxjava3.core.Observable
+import java.util.Locale
 
 interface TopicsInteractor {
 
@@ -16,11 +17,12 @@ interface TopicsInteractor {
 
 class TopicsInteractorImpl(
     private val api: StoreApi,
+    private val locale: Locale,
     private val schedulers: SchedulersFactory
 ) : TopicsInteractor {
 
     override fun listTopics(offset: Int): Observable<TopicsResponse> {
-        return api.getTopicsList(offset = offset)
+        return api.getTopicsList(offset = offset, locale = locale.language)
             .map { it.result }
             .toObservable()
             .subscribeOn(schedulers.io())

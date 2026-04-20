@@ -68,9 +68,9 @@ interface ChatView {
 
     fun copyToClipboard(text: String)
 
-    fun showBaseMessageDialog(message: MessageEntity, translated: Boolean)
+    fun showBaseMessageDialog(message: MessageEntity, translated: Boolean, canTranslate: Boolean)
 
-    fun showExtendedMessageDialog(message: MessageEntity, translated: Boolean)
+    fun showExtendedMessageDialog(message: MessageEntity, translated: Boolean, canTranslate: Boolean)
 
     fun showReportSuccess()
 
@@ -78,7 +78,7 @@ interface ChatView {
 
     fun showTranslationFailed()
 
-    fun showMenu(hasPin: Boolean)
+    fun showMenu(hasPin: Boolean, translated: Boolean)
 
     fun hideMenu()
 
@@ -105,6 +105,8 @@ interface ChatView {
     fun msgDeleteClicks(): Observable<MessageEntity>
 
     fun pinChatClicks(): Observable<Unit>
+
+    fun chatTranslateClicks(): Observable<Unit>
 
     fun loginClicks(): Observable<Unit>
 
@@ -144,6 +146,7 @@ class ChatViewImpl(
     private val msgReportRelay = PublishRelay.create<MessageEntity>()
     private val msgDeleteRelay = PublishRelay.create<MessageEntity>()
     private val pinChatRelay = PublishRelay.create<Unit>()
+    private val chatTranslateRelay = PublishRelay.create<Unit>()
     private val loginRelay = PublishRelay.create<Unit>()
 
     private val layoutManager: LinearLayoutManager
@@ -152,13 +155,13 @@ class ChatViewImpl(
         title.setText(R.string.chat_activity)
         toolbar.setOnMenuItemClickListener { item ->
             when (item.itemId) {
-                R.id.pin -> {
+                R.id.pin, R.id.pin_off -> {
                     pinChatRelay.accept(Unit)
                     true
                 }
 
-                R.id.pin_off -> {
-                    pinChatRelay.accept(Unit)
+                R.id.translate, R.id.translate_off -> {
+                    chatTranslateRelay.accept(Unit)
                     true
                 }
 
@@ -254,17 +257,26 @@ class ChatViewImpl(
         clipboard.setPrimaryClip(ClipData.newPlainText("", text))
     }
 
-    override fun showBaseMessageDialog(message: MessageEntity, translated: Boolean) {
-        showMessageDialog(message, translated, extended = false)
+    override fun showBaseMessageDialog(
+        message: MessageEntity,
+        translated: Boolean,
+        canTranslate: Boolean
+    ) {
+        showMessageDialog(message, translated, canTranslate, extended = false)
     }
 
-    override fun showExtendedMessageDialog(message: MessageEntity, translated: Boolean) {
-        showMessageDialog(message, translated, extended = true)
+    override fun showExtendedMessageDialog(
+        message: MessageEntity,
+        translated: Boolean,
+        canTranslate: Boolean
+    ) {
+        showMessageDialog(message, translated, canTranslate, extended = true)
     }
 
     private fun showMessageDialog(
         message: MessageEntity,
         translated: Boolean,
+        canTranslate: Boolean,
         extended: Boolean,
     ) {
         val bottomSheetDialog = BottomSheetDialog(context)
@@ -280,22 +292,24 @@ class ChatViewImpl(
                 R.drawable.ic_content_copy
             )
         )
-        if (translated) {
-            actions.add(
-                ActionItem(
-                    MENU_TRANSLATE,
-                    context.getString(R.string.original),
-                    R.drawable.ic_translate_off
+        if (canTranslate) {
+            if (translated) {
+                actions.add(
+                    ActionItem(
+                        MENU_TRANSLATE,
+                        context.getString(R.string.original),
+                        R.drawable.ic_translate_off
+                    )
                 )
-            )
-        } else {
-            actions.add(
-                ActionItem(
-                    MENU_TRANSLATE,
-                    context.getString(R.string.translate),
-                    R.drawable.ic_translate
+            } else {
+                actions.add(
+                    ActionItem(
+                        MENU_TRANSLATE,
+                        context.getString(R.string.translate),
+                        R.drawable.ic_translate
+                    )
                 )
-            )
+            }
         }
         actions.add(
             ActionItem(
@@ -353,13 +367,18 @@ class ChatViewImpl(
         Snackbar.make(recycler, R.string.translation_error, Snackbar.LENGTH_LONG).show()
     }
 
-    override fun showMenu(hasPin: Boolean) {
+    override fun showMenu(hasPin: Boolean, translated: Boolean) {
         toolbar.menu.clear()
         toolbar.inflateMenu(R.menu.chat_menu)
         if (hasPin) {
             toolbar.menu.removeItem(R.id.pin)
         } else {
             toolbar.menu.removeItem(R.id.pin_off)
+        }
+        if (translated) {
+            toolbar.menu.removeItem(R.id.translate)
+        } else {
+            toolbar.menu.removeItem(R.id.translate_off)
         }
         toolbar.invalidateMenu()
     }
@@ -417,6 +436,8 @@ class ChatViewImpl(
     override fun msgDeleteClicks(): Observable<MessageEntity> = msgDeleteRelay
 
     override fun pinChatClicks(): Observable<Unit> = pinChatRelay
+
+    override fun chatTranslateClicks(): Observable<Unit> = chatTranslateRelay
 
     override fun loginClicks(): Observable<Unit> = loginRelay
 
