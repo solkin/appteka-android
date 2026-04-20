@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.tomclaw.appsend.util.adapter.SimpleRecyclerAdapter
+import androidx.recyclerview.widget.ItemTouchHelper
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxrelay3.PublishRelay
@@ -24,6 +25,7 @@ import com.tomclaw.appsend.R
 import com.tomclaw.appsend.dto.MessageEntity
 import com.tomclaw.appsend.util.ActionItem
 import com.tomclaw.appsend.util.ActionsAdapter
+import com.tomclaw.appsend.util.adapter.AdapterPresenter
 import com.tomclaw.appsend.util.clicks
 import com.tomclaw.appsend.util.hideWithAlphaAnimation
 import com.tomclaw.appsend.util.showWithAlphaAnimation
@@ -94,6 +96,8 @@ interface ChatView {
 
     fun msgReplyClicks(): Observable<MessageEntity>
 
+    fun msgReplySwipes(): Observable<Int>
+
     fun msgCopyClicks(): Observable<MessageEntity>
 
     fun msgTranslateClicks(): Observable<MessageEntity>
@@ -115,7 +119,8 @@ interface ChatView {
 class ChatViewImpl(
     private val view: View,
     private val preferences: ChatPreferencesProvider,
-    private val adapter: SimpleRecyclerAdapter
+    private val adapter: SimpleRecyclerAdapter,
+    adapterPresenter: AdapterPresenter,
 ) : ChatView {
 
     private val context = view.context
@@ -140,6 +145,7 @@ class ChatViewImpl(
     private val messageEditRelay = PublishRelay.create<String>()
     private val sendRelay = PublishRelay.create<Unit>()
     private val msgReplyRelay = PublishRelay.create<MessageEntity>()
+    private val msgReplySwipesRelay = PublishRelay.create<Int>()
     private val msgCopyRelay = PublishRelay.create<MessageEntity>()
     private val msgTranslateRelay = PublishRelay.create<MessageEntity>()
     private val openProfileRelay = PublishRelay.create<MessageEntity>()
@@ -178,6 +184,11 @@ class ChatViewImpl(
         recycler.layoutManager = layoutManager
         recycler.itemAnimator = DefaultItemAnimator()
         recycler.itemAnimator?.changeDuration = DURATION_MEDIUM
+
+        val swipeCallback = SwipeToReplyCallback(context, adapterPresenter) { msgId ->
+            msgReplySwipesRelay.accept(msgId)
+        }
+        ItemTouchHelper(swipeCallback).attachToRecyclerView(recycler)
 
         retryButton.clicks(retryRelay)
         messageEdit.addTextChangedListener { text ->
@@ -424,6 +435,8 @@ class ChatViewImpl(
     override fun sendClicks(): Observable<Unit> = sendRelay
 
     override fun msgReplyClicks(): Observable<MessageEntity> = msgReplyRelay
+
+    override fun msgReplySwipes(): Observable<Int> = msgReplySwipesRelay
 
     override fun msgCopyClicks(): Observable<MessageEntity> = msgCopyRelay
 

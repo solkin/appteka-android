@@ -55,7 +55,8 @@ class ChatActivity : AppCompatActivity(), ChatPresenter.ChatRouter {
 
         val adapter = SimpleRecyclerAdapter(adapterPresenter, binder)
         val view =
-            ChatViewImpl(window.decorView, preferences, adapter).apply { setTitle(viewTitle) }
+            ChatViewImpl(window.decorView, preferences, adapter, adapterPresenter)
+                .apply { setTitle(viewTitle) }
 
         presenter.attachView(view)
 

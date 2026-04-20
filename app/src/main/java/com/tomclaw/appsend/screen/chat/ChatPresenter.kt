@@ -95,14 +95,10 @@ class ChatPresenterImpl(
             }
         }
         subscriptions += view.msgReplyClicks().subscribe { message ->
-            val ownText = message.text.lines()
-                .dropWhile { it.startsWith("> ") }
-                .joinToString("\n")
-                .trim()
-            val quoted = ownText.lines().joinToString("\n") { "> $it" }
-            messageText = "$quoted\n"
-            view.setMessageText(messageText)
-            view.requestFocus()
+            replyToMessage(message)
+        }
+        subscriptions += view.msgReplySwipes().subscribe { msgId ->
+            history?.findLast { it.msgId == msgId }?.let { replyToMessage(it) }
         }
         subscriptions += view.msgCopyClicks().subscribe { message ->
             view.copyToClipboard(message.text)
@@ -329,6 +325,18 @@ class ChatPresenterImpl(
         translation.remove(msgId)
         bindHistory()
         view?.contentUpdated()
+    }
+
+    private fun replyToMessage(message: MessageEntity) {
+        val ownText = message.text.lines()
+            .dropWhile { it.startsWith("> ") }
+            .joinToString("\n")
+            .trim()
+        val quoted = ownText.lines().joinToString("\n") { "> $it" }
+        val existing = messageText.trim()
+        messageText = if (existing.isNotBlank()) "$quoted\n\n$existing" else "$quoted\n"
+        view?.setMessageText(messageText)
+        view?.requestFocus()
     }
 
     private fun translateMessage(msg: MessageEntity) {
