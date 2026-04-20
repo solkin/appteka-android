@@ -333,7 +333,10 @@ class ChatPresenterImpl(
             .joinToString("\n")
             .trim()
         val quoted = ownText.lines().joinToString("\n") { "> $it" }
-        val existing = messageText.trim()
+        val existing = messageText.lines()
+            .dropWhile { it.startsWith("> ") || it.isBlank() }
+            .joinToString("\n")
+            .trim()
         messageText = if (existing.isNotBlank()) "$quoted\n\n$existing" else "$quoted\n"
         view?.setMessageText(messageText)
         view?.requestFocus()
