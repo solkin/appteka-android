@@ -58,6 +58,8 @@ class FavoritePresenterImpl(
         state?.getParcelableArrayListCompat(KEY_APPS, AppItem::class.java)
     private var isError: Boolean = state?.getBoolean(KEY_ERROR) == true
 
+    private var pendingRemoval: PendingRemoval? = null
+
     override fun attachView(view: FavoriteView) {
         this.view = view
 
@@ -70,6 +72,15 @@ class FavoritePresenterImpl(
         subscriptions += view.refreshClicks().subscribe {
             invalidateApps()
         }
+        subscriptions += view.removeSwipes().subscribe { itemId ->
+            onRemoveSwipe(itemId)
+        }
+        subscriptions += view.undoClicks().subscribe {
+            onUndoRemove()
+        }
+        subscriptions += view.removeCommits().subscribe {
+            commitPendingRemoval(trackFailure = true)
+        }
 
         if (isError) {
             onError()
@@ -80,6 +91,7 @@ class FavoritePresenterImpl(
     }
 
     override fun detachView() {
+        commitPendingRemoval(trackFailure = false)
         subscriptions.clear()
         this.view = null
     }
@@ -208,7 +220,81 @@ class FavoritePresenterImpl(
         loadApps(app.appId)
     }
 
+    private fun onRemoveSwipe(itemId: Long) {
+        commitPendingRemoval(trackFailure = true)
+        val current = items.orEmpty()
+        val position = current.indexOfFirst { it.id == itemId }
+        if (position < 0) return
+        val item = current[position]
+        val updated = current.toMutableList().apply { removeAt(position) }
+        items = updated
+        adapterPresenter.get().onDataSourceChanged(updated)
+        view?.itemRemoved(position)
+        pendingRemoval = PendingRemoval(position, item)
+        if (updated.isEmpty()) {
+            view?.showPlaceholder()
+        }
+        view?.showUndoSnackbar()
+    }
+
+    private fun onUndoRemove() {
+        val pending = pendingRemoval ?: return
+        pendingRemoval = null
+        val current = items.orEmpty()
+        val insertPosition = pending.position.coerceIn(0, current.size)
+        val updated = current.toMutableList().apply { add(insertPosition, pending.item) }
+        items = updated
+        adapterPresenter.get().onDataSourceChanged(updated)
+        if (current.isEmpty()) {
+            view?.showContent()
+            view?.contentUpdated()
+        } else {
+            view?.itemInserted(insertPosition)
+        }
+    }
+
+    private fun commitPendingRemoval(trackFailure: Boolean) {
+        val pending = pendingRemoval ?: return
+        pendingRemoval = null
+        val disposable = interactor
+            .markFavorite(pending.item.appId, isFavorite = false)
+            .observeOn(schedulers.mainThread())
+            .subscribe(
+                { /* committed */ },
+                { error ->
+                    error.printStackTrace()
+                    if (trackFailure) {
+                        onRemoveFailed(pending)
+                    }
+                }
+            )
+        if (trackFailure) {
+            subscriptions += disposable
+        }
+    }
+
+    private fun onRemoveFailed(pending: PendingRemoval) {
+        val current = items.orEmpty()
+        val wasEmpty = current.isEmpty()
+        val insertPosition = pending.position.coerceIn(0, current.size)
+        val updated = current.toMutableList().apply { add(insertPosition, pending.item) }
+        items = updated
+        adapterPresenter.get().onDataSourceChanged(updated)
+        if (wasEmpty) {
+            view?.showContent()
+            view?.contentUpdated()
+        } else {
+            view?.itemInserted(insertPosition)
+        }
+        view?.showRemoveError()
+    }
+
 }
+
+private data class PendingRemoval(
+    val position: Int,
+    val item: AppItem,
+)
 
 private const val KEY_APPS = "apps"
 private const val KEY_ERROR = "error"
