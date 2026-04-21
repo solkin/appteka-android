@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
+import android.net.Uri
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageView
@@ -23,6 +24,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.dto.MessageEntity
+import com.tomclaw.appsend.screen.chat.view.ChatAttachmentsStrip
 import com.tomclaw.appsend.util.ActionItem
 import com.tomclaw.appsend.util.ActionsAdapter
 import com.tomclaw.appsend.util.adapter.AdapterPresenter
@@ -64,9 +66,13 @@ interface ChatView {
 
     fun showSendProgress()
 
-    fun showSendError()
+    fun showSendError(onRetry: () -> Unit)
 
     fun showUnauthorizedError()
+
+    fun setSelectedAttachments(uris: List<Uri>)
+
+    fun getSelectedAttachments(): List<Uri>
 
     fun copyToClipboard(text: String)
 
@@ -93,6 +99,12 @@ interface ChatView {
     fun messageEditChanged(): Observable<String>
 
     fun sendClicks(): Observable<Unit>
+
+    fun cancelSendClicks(): Observable<Unit>
+
+    fun attachClicks(): Observable<Int>
+
+    fun attachmentRemoveClicks(): Observable<Uri>
 
     fun msgReplyClicks(): Observable<MessageEntity>
 
@@ -136,14 +148,20 @@ class ChatViewImpl(
     private val errorText: TextView = view.findViewById(R.id.error_text)
     private val recycler: RecyclerView = view.findViewById(R.id.recycler)
     private val messageEdit: EditText = view.findViewById(R.id.message_edit)
+    private val attachButton: MaterialButton = view.findViewById(R.id.attach_button)
     private val sendButton: MaterialButton = view.findViewById(R.id.send_button)
     private val sendProgress: CircularProgressIndicator = view.findViewById(R.id.send_progress)
+    private val attachmentsStrip: ChatAttachmentsStrip = view.findViewById(R.id.attachments_strip)
+
+    private var isSending = false
 
     private val navigationRelay = PublishRelay.create<Unit>()
     private val toolbarRelay = PublishRelay.create<Unit>()
     private val retryRelay = PublishRelay.create<Unit>()
     private val messageEditRelay = PublishRelay.create<String>()
     private val sendRelay = PublishRelay.create<Unit>()
+    private val cancelSendRelay = PublishRelay.create<Unit>()
+    private val attachRelay = PublishRelay.create<Int>()
     private val msgReplyRelay = PublishRelay.create<MessageEntity>()
     private val msgReplySwipesRelay = PublishRelay.create<Int>()
     private val msgCopyRelay = PublishRelay.create<MessageEntity>()
@@ -194,7 +212,19 @@ class ChatViewImpl(
         messageEdit.addTextChangedListener { text ->
             messageEditRelay.accept(text.toString())
         }
-        sendButton.clicks(sendRelay)
+        sendButton.setOnClickListener {
+            if (isSending) cancelSendRelay.accept(Unit) else sendRelay.accept(Unit)
+        }
+        attachButton.setOnClickListener {
+            val remaining = ChatAttachmentsStrip.DEFAULT_MAX_TILES -
+                attachmentsStrip.getUris().size
+            if (remaining > 0) attachRelay.accept(remaining)
+        }
+        attachmentsStrip.addTileClicks().subscribe {
+            val remaining = ChatAttachmentsStrip.DEFAULT_MAX_TILES -
+                attachmentsStrip.getUris().size
+            if (remaining > 0) attachRelay.accept(remaining)
+        }
     }
 
     override fun setIcon(url: String?) {
@@ -241,17 +271,25 @@ class ChatViewImpl(
     }
 
     override fun showSendButton() {
-        sendButton.visibility = View.VISIBLE
+        isSending = false
+        sendButton.setIconResource(R.drawable.ic_send)
         sendProgress.visibility = View.GONE
+        attachButton.isEnabled = true
+        messageEdit.isEnabled = true
     }
 
     override fun showSendProgress() {
-        sendButton.visibility = View.GONE
+        isSending = true
+        sendButton.setIconResource(R.drawable.ic_close)
         sendProgress.visibility = View.VISIBLE
+        attachButton.isEnabled = false
+        messageEdit.isEnabled = false
     }
 
-    override fun showSendError() {
-        Snackbar.make(recycler, R.string.error_sending_message, Snackbar.LENGTH_LONG).show()
+    override fun showSendError(onRetry: () -> Unit) {
+        Snackbar.make(recycler, R.string.error_sending_message, Snackbar.LENGTH_LONG)
+            .setAction(R.string.retry) { onRetry() }
+            .show()
     }
 
     override fun showUnauthorizedError() {
@@ -262,6 +300,13 @@ class ChatViewImpl(
             }
             .show()
     }
+
+    override fun setSelectedAttachments(uris: List<Uri>) {
+        attachmentsStrip.setMaxTiles(ChatAttachmentsStrip.DEFAULT_MAX_TILES)
+        attachmentsStrip.setUris(uris)
+    }
+
+    override fun getSelectedAttachments(): List<Uri> = attachmentsStrip.getUris()
 
     override fun copyToClipboard(text: String) {
         val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
@@ -433,6 +478,12 @@ class ChatViewImpl(
     override fun messageEditChanged(): Observable<String> = messageEditRelay
 
     override fun sendClicks(): Observable<Unit> = sendRelay
+
+    override fun cancelSendClicks(): Observable<Unit> = cancelSendRelay
+
+    override fun attachClicks(): Observable<Int> = attachRelay
+
+    override fun attachmentRemoveClicks(): Observable<Uri> = attachmentsStrip.removeTileClicks()
 
     override fun msgReplyClicks(): Observable<MessageEntity> = msgReplyRelay
 

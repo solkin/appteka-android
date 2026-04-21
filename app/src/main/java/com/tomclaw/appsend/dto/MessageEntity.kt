@@ -30,8 +30,8 @@ data class MessageEntity(
     val cookie: String?,
     @SerializedName("type")
     val type: Int,
-    @SerializedName("attachment")
-    val attachment: AttachmentEntity?,
+    @SerializedName("attachments")
+    val attachments: List<AttachmentEntity>?,
     @SerializedName("incoming")
     val incoming: Boolean
 ) : Parcelable

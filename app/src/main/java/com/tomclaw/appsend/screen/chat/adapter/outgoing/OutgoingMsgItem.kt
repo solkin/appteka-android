@@ -18,7 +18,7 @@ data class OutgoingMsgItem(
     val text: String,
     val time: String,
     val date: String?,
-    val attachment: MsgAttachment?,
+    val attachments: List<MsgAttachment>?,
     val cookie: String?,
     val sent: Boolean,
     val translated: Boolean,

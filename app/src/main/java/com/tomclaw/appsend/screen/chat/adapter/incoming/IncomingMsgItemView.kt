@@ -8,6 +8,8 @@ import com.tomclaw.appsend.util.adapter.ItemView
 import com.google.android.material.card.MaterialCardView
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.dto.UserIcon
+import com.tomclaw.appsend.screen.chat.adapter.MsgAttachment
+import com.tomclaw.appsend.screen.chat.view.MessageAttachmentsView
 import com.tomclaw.appsend.util.LinkMovementMethodCompat
 import com.tomclaw.appsend.util.bind
 import com.tomclaw.appsend.util.formatMessageText
@@ -24,7 +26,11 @@ interface IncomingMsgItemView : ItemView {
 
     fun setText(text: String)
 
+    fun setAttachments(attachments: List<MsgAttachment>?)
+
     fun setOnClickListener(listener: (() -> Unit)?)
+
+    fun setOnAttachmentClickListener(listener: ((Int) -> Unit)?)
 
 }
 
@@ -34,10 +40,12 @@ class IncomingMsgItemViewHolder(view: View) : BaseItemViewHolder(view), Incoming
     private val memberIconContainer: View = view.findViewById(R.id.member_icon)
     private val userIconView: UserIconView = UserIconViewImpl(memberIconContainer)
     private val bubbleBack: MaterialCardView = view.findViewById(R.id.inc_bubble_back)
+    private val attachmentsView: MessageAttachmentsView = view.findViewById(R.id.inc_attachments)
     private val textView: TextView = view.findViewById(R.id.inc_text)
     private val timeView: TextView = view.findViewById(R.id.inc_time)
 
     private var clickListener: (() -> Unit)? = null
+    private var attachmentClickListener: ((Int) -> Unit)? = null
 
     init {
         bubbleBack.setOnClickListener { clickListener?.invoke() }
@@ -57,6 +65,7 @@ class IncomingMsgItemViewHolder(view: View) : BaseItemViewHolder(view), Incoming
     }
 
     override fun setText(text: String) {
+        textView.visibility = if (text.isEmpty()) View.GONE else View.VISIBLE
         textView.text = formatMessageText(text, textView.context)
         val hasLinks = Linkify.addLinks(
             textView,
@@ -72,12 +81,28 @@ class IncomingMsgItemViewHolder(view: View) : BaseItemViewHolder(view), Incoming
         textView.isLongClickable = false
     }
 
+    override fun setAttachments(attachments: List<MsgAttachment>?) {
+        if (attachments.isNullOrEmpty()) {
+            attachmentsView.visibility = View.GONE
+            return
+        }
+        attachmentsView.visibility = View.VISIBLE
+        attachmentsView.setAttachments(attachments) { index ->
+            attachmentClickListener?.invoke(index)
+        }
+    }
+
     override fun setOnClickListener(listener: (() -> Unit)?) {
         this.clickListener = listener
     }
 
+    override fun setOnAttachmentClickListener(listener: ((Int) -> Unit)?) {
+        this.attachmentClickListener = listener
+    }
+
     override fun onUnbind() {
         this.clickListener = null
+        this.attachmentClickListener = null
     }
 
 }

@@ -1,13 +1,16 @@
 package com.tomclaw.appsend.screen.chat
 
+import android.net.Uri
 import android.os.Bundle
 import com.tomclaw.appsend.util.adapter.AdapterPresenter
 import com.tomclaw.appsend.util.adapter.Item
 import com.tomclaw.appsend.dto.MessageEntity
 import com.tomclaw.appsend.dto.TopicEntity
 import com.tomclaw.appsend.screen.chat.adapter.ItemListener
-import com.tomclaw.appsend.screen.chat.api.MsgTranslateResponse
+import com.tomclaw.appsend.screen.chat.adapter.incoming.IncomingMsgItem
+import com.tomclaw.appsend.screen.chat.adapter.outgoing.OutgoingMsgItem
 import com.tomclaw.appsend.screen.chat.api.TranslationEntity
+import com.tomclaw.appsend.screen.gallery.GalleryItem
 import com.tomclaw.appsend.screen.topics.COMMON_QNA_TOPIC_ICON
 import com.tomclaw.appsend.user.api.UserBrief
 import com.tomclaw.appsend.util.SchedulersFactory
@@ -18,6 +21,7 @@ import com.tomclaw.bananalytics.Bananalytics
 import com.tomclaw.bananalytics.api.BreadcrumbCategory
 import dagger.Lazy
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.kotlin.Observables
 import io.reactivex.rxjava3.kotlin.plusAssign
 
@@ -35,6 +39,8 @@ interface ChatPresenter : ItemListener {
 
     fun onBackPressed()
 
+    fun onAttachmentsPicked(uris: List<Uri>)
+
     interface ChatRouter {
 
         fun openProfileScreen(userId: Int)
@@ -42,6 +48,10 @@ interface ChatPresenter : ItemListener {
         fun openAppScreen(packageName: String, title: String)
 
         fun openLoginScreen()
+
+        fun openGallery(items: List<GalleryItem>, startIndex: Int)
+
+        fun openImagePicker(remaining: Int)
 
         fun leaveScreen()
 
@@ -68,6 +78,9 @@ class ChatPresenterImpl(
         state?.getParcelableCompat(KEY_TOPIC, TopicEntity::class.java) ?: topicEntity
     private var isError: Boolean = state?.getBoolean(KEY_ERROR) == true
     private var messageText: String = state?.getString(KEY_MESSAGE).orEmpty()
+    private var selectedAttachments: MutableList<Uri> =
+        state?.getParcelableArrayListCompat(KEY_SELECTED, Uri::class.java)
+            ?.toMutableList() ?: mutableListOf()
     private var history: List<MessageEntity>? =
         state?.getParcelableArrayListCompat(KEY_HISTORY, MessageEntity::class.java)
     private var translation: MutableMap<Int, TranslationEntity> =
@@ -80,19 +93,29 @@ class ChatPresenterImpl(
     private val journal = HashSet<Int>()
 
     private val subscriptions = CompositeDisposable()
+    private var sendDisposable: Disposable? = null
 
     override fun attachView(view: ChatView) {
         this.view = view
 
         view.setMessageText(messageText)
+        view.setSelectedAttachments(selectedAttachments)
 
         subscriptions += view.navigationClicks().subscribe { onBackPressed() }
         subscriptions += view.retryClicks().subscribe { loadTopic() }
         subscriptions += view.messageEditChanged().subscribe { messageText = it }
         subscriptions += view.sendClicks().subscribe {
-            if (messageText.isNotBlank()) {
+            if (messageText.isNotBlank() || selectedAttachments.isNotEmpty()) {
                 sendMessage()
             }
+        }
+        subscriptions += view.cancelSendClicks().subscribe { cancelSend() }
+        subscriptions += view.attachClicks().subscribe { remaining ->
+            router?.openImagePicker(remaining)
+        }
+        subscriptions += view.attachmentRemoveClicks().subscribe { uri ->
+            selectedAttachments.remove(uri)
+            this.view?.setSelectedAttachments(selectedAttachments)
         }
         subscriptions += view.msgReplyClicks().subscribe { message ->
             replyToMessage(message)
@@ -159,6 +182,8 @@ class ChatPresenterImpl(
     }
 
     override fun detachView() {
+        sendDisposable?.dispose()
+        sendDisposable = null
         subscriptions.clear()
         this.view = null
     }
@@ -174,27 +199,50 @@ class ChatPresenterImpl(
     override fun saveState() = Bundle().apply {
         putParcelable(KEY_TOPIC, topic)
         putBoolean(KEY_ERROR, isError)
+        putString(KEY_MESSAGE, messageText)
+        putParcelableArrayList(KEY_SELECTED, ArrayList(selectedAttachments))
         history?.let { putParcelableArrayList(KEY_HISTORY, ArrayList(it)) }
         putParcelableArrayList(KEY_TRANSLATION, ArrayList(translation.values))
         putBoolean(KEY_TRANSLATED, isTranslated)
         putParcelable(KEY_USER_BRIEF, userBrief)
     }
 
+    override fun onAttachmentsPicked(uris: List<Uri>) {
+        if (uris.isEmpty()) return
+        val remaining = MAX_ATTACHMENTS - selectedAttachments.size
+        if (remaining <= 0) return
+        val toAdd = uris.filterNot { it in selectedAttachments }.take(remaining)
+        if (toAdd.isEmpty()) return
+        selectedAttachments.addAll(toAdd)
+        view?.setSelectedAttachments(selectedAttachments)
+    }
+
     private fun sendMessage() {
         bananalytics.leaveBreadcrumb("Send message", BreadcrumbCategory.USER_ACTION)
-        subscriptions += chatInteractor.sendMessage(topicId, messageText, null)
+        val attachmentsSnapshot = selectedAttachments.toList()
+        val textSnapshot = messageText
+        sendDisposable?.dispose()
+        sendDisposable = chatInteractor.sendMessage(topicId, textSnapshot, attachmentsSnapshot)
             .observeOn(schedulers.mainThread())
             .doOnSubscribe { view?.showSendProgress() }
             .doAfterTerminate { view?.showSendButton() }
             .subscribe(
                 { onMessageSent() },
-                { onMessageSendingError(it) }
+                { onMessageSendingError(it, textSnapshot, attachmentsSnapshot) }
             )
+    }
+
+    private fun cancelSend() {
+        sendDisposable?.dispose()
+        sendDisposable = null
+        view?.showSendButton()
     }
 
     private fun onMessageSent() {
         messageText = ""
+        selectedAttachments.clear()
         view?.setMessageText(messageText)
+        view?.setSelectedAttachments(selectedAttachments)
 
         reloadHistory()
     }
@@ -216,12 +264,24 @@ class ChatPresenterImpl(
             )
     }
 
-    private fun onMessageSendingError(ex: Throwable) {
+    private fun onMessageSendingError(
+        ex: Throwable,
+        text: String,
+        attachments: List<Uri>,
+    ) {
         bananalytics.leaveBreadcrumb("Message send error: ${ex.message}", BreadcrumbCategory.ERROR)
         bananalytics.trackException(ex, mapOf("action" to "send_message", "topicId" to topicId.toString()))
         ex.filterUnauthorizedErrors(
             authError = { view?.showUnauthorizedError() },
-            other = { view?.showSendError() }
+            other = {
+                view?.showSendError {
+                    messageText = text
+                    selectedAttachments = attachments.toMutableList()
+                    view?.setMessageText(text)
+                    view?.setSelectedAttachments(selectedAttachments)
+                    sendMessage()
+                }
+            }
         )
     }
 
@@ -431,6 +491,18 @@ class ChatPresenterImpl(
         }
     }
 
+    override fun onAttachmentClick(item: Item, index: Int) {
+        val attachments = when (item) {
+            is IncomingMsgItem -> item.attachments
+            is OutgoingMsgItem -> item.attachments
+            else -> null
+        } ?: return
+        val galleryItems = attachments.map { att ->
+            GalleryItem(uri = android.net.Uri.parse(att.originalUrl), width = att.width, height = att.height)
+        }
+        router?.openGallery(galleryItems, index.coerceIn(0, galleryItems.size - 1))
+    }
+
     override fun onLoadMore(msgId: Int) {
         if (history?.first()?.msgId == msgId && journal.add(msgId)) {
             subscriptions += chatInteractor.loadHistory(topicId, 0, msgId)
@@ -508,9 +580,11 @@ class ChatPresenterImpl(
 private const val KEY_TOPIC = "topic"
 private const val KEY_ERROR = "error"
 private const val KEY_MESSAGE = "message"
+private const val KEY_SELECTED = "selected_attachments"
 private const val KEY_HISTORY = "history"
 private const val KEY_TRANSLATION = "translation"
 private const val KEY_TRANSLATED = "translated"
 private const val KEY_USER_BRIEF = "user_brief"
 
 private const val ROLE_ADMIN = 200
+private const val MAX_ATTACHMENTS = 5

@@ -40,26 +40,23 @@ class MessageConverterImpl(
         }
         return when (message.type) {
             0 -> {
-                var attachment: MsgAttachment? = null
-                if (message.attachment != null) {
-                    attachment = MsgAttachment(
-                        message.attachment.previewUrl,
-                        message.attachment.originalUrl,
-                        message.attachment.size,
-                        message.attachment.width,
-                        message.attachment.height
-                    )
-                }
-                var translated = false
-                val text = if (attachment != null) {
-                    resourceProvider.unsupportedMessageText()
-                } else {
-                    if (translation == null || !translation.translated) {
-                        message.text
-                    } else {
-                        translated = true
-                        translation.translation
+                val attachments = message.attachments
+                    ?.takeIf { it.isNotEmpty() }
+                    ?.map { att ->
+                        MsgAttachment(
+                            att.previewUrl,
+                            att.originalUrl,
+                            att.size,
+                            att.width,
+                            att.height
+                        )
                     }
+                var translated = false
+                val text = if (translation == null || !translation.translated) {
+                    message.text
+                } else {
+                    translated = true
+                    translation.translation
                 }
                 if (message.incoming) {
                     IncomingMsgItem(
@@ -73,7 +70,7 @@ class MessageConverterImpl(
                         text = text,
                         time = time,
                         date = date,
-                        attachment = attachment,
+                        attachments = attachments,
                         translated = translated,
                     )
                 } else {
@@ -88,7 +85,7 @@ class MessageConverterImpl(
                         text = text,
                         time = time,
                         date = date,
-                        attachment = attachment,
+                        attachments = attachments,
                         cookie = message.cookie,
                         sent = true,
                         translated = translated,
@@ -108,7 +105,7 @@ class MessageConverterImpl(
                     text = resourceProvider.unsupportedMessageText(),
                     time = time,
                     date = date,
-                    attachment = null,
+                    attachments = null,
                     translated = false,
                 )
             }

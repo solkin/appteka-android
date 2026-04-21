@@ -12,7 +12,7 @@ android {
         applicationId "com.tomclaw.appsend"
         minSdkVersion 23
         targetSdkVersion 36
-        versionCode project.hasProperty("versionCode") ? Integer.parseInt(project.versionCode) : 1017
+        versionCode project.hasProperty("versionCode") ? Integer.parseInt(project.versionCode) : 1019
         versionName = "18.5"
     }
 
@@ -90,14 +90,15 @@ dependencies {
     implementation 'com.github.solkin:disk-lru-cache:v1.8'
 
     // AndroidX Core & UI
-    implementation 'androidx.activity:activity-ktx:1.10.1'
+    implementation 'androidx.activity:activity-ktx:1.13.0'
     implementation 'androidx.core:core-ktx:1.18.0'
     implementation 'androidx.appcompat:appcompat:1.7.1'
     implementation 'androidx.recyclerview:recyclerview:1.4.0'
     implementation 'androidx.startup:startup-runtime:1.2.0'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.2.0'
     implementation 'androidx.annotation:annotation:1.10.0'
-    
+    implementation 'androidx.exifinterface:exifinterface:1.4.1'
+
     ksp 'androidx.annotation:annotation:1.10.0'
     implementation 'com.google.android.material:material:1.14.0-beta01'
     implementation 'com.google.code.gson:gson:2.13.2'

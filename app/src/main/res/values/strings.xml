@@ -120,6 +120,11 @@
     <string name="chat_loading_error">Failed to open chat</string>
     <string name="enter_your_message">Your message…</string>
     <string name="error_sending_message">Unable to send message</string>
+    <string name="select_images">Select images</string>
+    <plurals name="topic_last_msg_attachments">
+        <item quantity="one">📷 Image</item>
+        <item quantity="other">📷 %d images</item>
+    </plurals>
     <string name="reply">Reply</string>
     <string name="copy">Copy</string>
     <string name="report">Report abuse</string>

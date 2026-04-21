@@ -8,4 +8,6 @@ interface ItemListener {
 
     fun onLoadMore(msgId: Int)
 
+    fun onAttachmentClick(item: Item, index: Int)
+
 }

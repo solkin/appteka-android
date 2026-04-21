@@ -14,8 +14,10 @@ class IncomingMsgItemPresenter(
         view.setTime(item.time)
         view.setDate(item.date)
         view.setText(item.text)
+        view.setAttachments(item.attachments)
 
         view.setOnClickListener { listener.onItemClick(item) }
+        view.setOnAttachmentClickListener { index -> listener.onAttachmentClick(item, index) }
     }
 
 }

@@ -9,6 +9,8 @@ interface TopicsResourceProvider {
 
     fun commonQuestionsTopicDescription(): String
 
+    fun attachmentsPlaceholder(count: Int): String
+
 }
 
 class TopicsResourceProviderImpl(val resources: Resources) : TopicsResourceProvider {
@@ -19,6 +21,10 @@ class TopicsResourceProviderImpl(val resources: Resources) : TopicsResourceProvi
 
     override fun commonQuestionsTopicDescription(): String {
         return resources.getString(R.string.topic_common_qna_description)
+    }
+
+    override fun attachmentsPlaceholder(count: Int): String {
+        return resources.getQuantityString(R.plurals.topic_last_msg_attachments, count, count)
     }
 
 }

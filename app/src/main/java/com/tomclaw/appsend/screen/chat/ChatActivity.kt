@@ -3,6 +3,8 @@ package com.tomclaw.appsend.screen.chat
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.tomclaw.appsend.util.adapter.ItemBinder
 import com.tomclaw.appsend.util.adapter.AdapterPresenter
@@ -13,6 +15,8 @@ import com.tomclaw.appsend.dto.TopicEntity
 import com.tomclaw.appsend.screen.auth.request_code.createRequestCodeActivityIntent
 import com.tomclaw.appsend.screen.chat.di.ChatModule
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
+import com.tomclaw.appsend.screen.gallery.GalleryItem
+import com.tomclaw.appsend.screen.gallery.createGalleryActivityIntent
 import com.tomclaw.appsend.screen.profile.createProfileActivityIntent
 import com.tomclaw.appsend.util.Analytics
 import com.tomclaw.appsend.util.ZipParcelable
@@ -35,6 +39,20 @@ class ChatActivity : AppCompatActivity(), ChatPresenter.ChatRouter {
 
     @Inject
     lateinit var analytics: Analytics
+
+    private val pickSingleImageLauncher =
+        registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+            if (uri != null) presenter.onAttachmentsPicked(listOf(uri))
+        }
+
+    private val pickMultipleImagesLauncher =
+        registerForActivityResult(
+            ActivityResultContracts.PickMultipleVisualMedia(
+                DEFAULT_MAX_TILES
+            )
+        ) { uris ->
+            if (uris.isNotEmpty()) presenter.onAttachmentsPicked(uris)
+        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val topicEntity = intent.getParcelableExtra<TopicEntity>(EXTRA_TOPIC_ENTITY)
@@ -106,6 +124,23 @@ class ChatActivity : AppCompatActivity(), ChatPresenter.ChatRouter {
         startActivity(intent)
     }
 
+    override fun openGallery(items: List<GalleryItem>, startIndex: Int) {
+        if (items.isEmpty()) return
+        val intent = createGalleryActivityIntent(this, items, startIndex)
+        startActivity(intent)
+    }
+
+    override fun openImagePicker(remaining: Int) {
+        val request = PickVisualMediaRequest.Builder()
+            .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly)
+            .build()
+        if (remaining <= 1) {
+            pickSingleImageLauncher.launch(request)
+        } else {
+            pickMultipleImagesLauncher.launch(request)
+        }
+    }
+
     override fun leaveScreen() {
         finish()
     }
@@ -130,3 +165,4 @@ private const val EXTRA_TOPIC_ID = "topic_id"
 private const val EXTRA_TITLE = "title"
 private const val EXTRA_TOPIC_ENTITY = "topic_entity"
 private const val KEY_PRESENTER_STATE = "presenter_state"
+private const val DEFAULT_MAX_TILES = 5

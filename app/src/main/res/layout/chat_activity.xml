@@ -51,66 +51,98 @@
                 <LinearLayout
                     android:layout_height="wrap_content"
                     android:layout_width="match_parent"
-                    android:paddingEnd="8dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingBottom="4dp"
-                    android:paddingStart="8dp"
-                    android:paddingTop="4dp">
+                    android:orientation="vertical">
 
-                    <com.google.android.material.textfield.TextInputLayout
+                    <com.tomclaw.appsend.screen.chat.view.ChatAttachmentsStrip
                         android:layout_height="wrap_content"
-                        android:layout_width="0dp"
-                        app:hintEnabled="false"
-                        style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
-                        app:boxBackgroundMode="none"
-                        android:layout_weight="1"
-                        android:id="@+id/message_input_layout">
+                        android:layout_width="match_parent"
+                        android:visibility="gone"
+                        android:id="@+id/attachments_strip" />
 
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:layout_height="wrap_content"
-                            android:layout_width="match_parent"
-                            android:textSize="16sp"
-                            android:importantForAutofill="no"
-                            android:textColor="?attr/colorOnSurface"
-                            android:paddingStart="8dp"
-                            android:paddingEnd="8dp"
-                            android:paddingTop="8dp"
-                            android:paddingBottom="8dp"
-                            android:background="@null"
-                            android:hint="@string/enter_your_message"
-                            android:minHeight="40dp"
-                            android:textColorHint="?attr/colorOutline"
-                            android:maxLines="5"
-                            android:inputType="textCapSentences|textMultiLine"
-                            android:id="@+id/message_edit" />
-
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <FrameLayout
-                        android:layout_height="44dp"
-                        android:layout_width="44dp"
-                        android:layout_marginStart="4dp">
+                    <LinearLayout
+                        android:layout_height="wrap_content"
+                        android:layout_width="match_parent"
+                        android:paddingEnd="8dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingBottom="4dp"
+                        android:paddingStart="4dp"
+                        android:paddingTop="4dp">
 
                         <com.google.android.material.button.MaterialButton
-                            android:layout_height="match_parent"
-                            android:layout_width="match_parent"
-                            app:icon="@drawable/ic_send"
-                            android:contentDescription="@string/send_to"
-                            style="@style/MaterialButtonPrimary"
+                            android:layout_height="44dp"
+                            android:layout_width="44dp"
+                            app:icon="@drawable/ic_image_plus"
+                            android:contentDescription="@string/select_images"
+                            style="@style/Widget.Material3.Button.IconButton"
                             app:iconPadding="0dp"
-                            android:id="@+id/send_button"
+                            android:id="@+id/attach_button"
                             app:iconGravity="textStart" />
 
-                        <com.google.android.material.progressindicator.CircularProgressIndicator
-                            android:layout_height="match_parent"
-                            android:layout_width="match_parent"
-                            android:visibility="gone"
-                            android:indeterminate="true"
-                            style="@style/Widget.Material3Expressive.CircularProgressIndicator"
-                            android:id="@+id/send_progress" />
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_height="wrap_content"
+                            android:layout_width="0dp"
+                            app:hintEnabled="false"
+                            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+                            app:boxBackgroundMode="none"
+                            android:layout_weight="1"
+                            android:id="@+id/message_input_layout">
 
-                    </FrameLayout>
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:layout_height="wrap_content"
+                                android:layout_width="match_parent"
+                                android:textSize="16sp"
+                                android:importantForAutofill="no"
+                                android:textColor="?attr/colorOnSurface"
+                                android:paddingStart="8dp"
+                                android:paddingEnd="8dp"
+                                android:paddingTop="8dp"
+                                android:paddingBottom="8dp"
+                                android:background="@null"
+                                android:hint="@string/enter_your_message"
+                                android:minHeight="40dp"
+                                android:textColorHint="?attr/colorOutline"
+                                android:maxLines="5"
+                                android:inputType="textCapSentences|textMultiLine"
+                                android:id="@+id/message_edit" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <FrameLayout
+                            android:layout_height="48dp"
+                            android:layout_width="48dp"
+                            android:layout_marginStart="4dp">
+
+                            <com.google.android.material.progressindicator.CircularProgressIndicator
+                                android:layout_height="match_parent"
+                                android:layout_width="match_parent"
+                                android:layout_gravity="center"
+                                android:visibility="gone"
+                                android:indeterminate="true"
+                                app:indicatorSize="48dp"
+                                app:trackThickness="3dp"
+                                app:trackCornerRadius="50%"
+                                app:indicatorColor="?attr/colorPrimary"
+                                app:trackColor="@android:color/transparent"
+                                style="@style/Widget.Material3Expressive.CircularProgressIndicator"
+                                android:id="@+id/send_progress" />
+
+                            <com.google.android.material.button.MaterialButton
+                                android:layout_height="40dp"
+                                android:layout_width="40dp"
+                                android:layout_gravity="center"
+                                app:icon="@drawable/ic_send"
+                                android:contentDescription="@string/send_to"
+                                style="@style/MaterialButtonPrimary"
+                                app:iconPadding="0dp"
+                                android:insetTop="0dp"
+                                android:insetBottom="0dp"
+                                android:id="@+id/send_button"
+                                app:iconGravity="textStart" />
+
+                        </FrameLayout>
+
+                    </LinearLayout>
 
                 </LinearLayout>
 

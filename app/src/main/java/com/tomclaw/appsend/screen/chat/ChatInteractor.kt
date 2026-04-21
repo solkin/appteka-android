@@ -1,5 +1,6 @@
 package com.tomclaw.appsend.screen.chat
 
+import android.net.Uri
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.dto.MessageEntity
 import com.tomclaw.appsend.dto.TopicEntity
@@ -7,10 +8,14 @@ import com.tomclaw.appsend.screen.chat.api.MsgTranslateResponse
 import com.tomclaw.appsend.screen.chat.api.ReadTopicResponse
 import com.tomclaw.appsend.screen.chat.api.ReportMessageResponse
 import com.tomclaw.appsend.screen.chat.api.SendMessageResponse
+import com.tomclaw.appsend.util.ImageCompressor
 import com.tomclaw.appsend.screen.topics.api.PinTopicResponse
 import com.tomclaw.appsend.user.api.UserBrief
 import com.tomclaw.appsend.util.SchedulersFactory
 import io.reactivex.rxjava3.core.Observable
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import java.util.Locale
 import java.util.UUID
 
@@ -29,7 +34,7 @@ interface ChatInteractor {
     fun sendMessage(
         topicId: Int,
         text: String?,
-        attachment: String?
+        attachments: List<Uri>
     ): Observable<SendMessageResponse>
 
     fun reportMessage(msgId: Int): Observable<ReportMessageResponse>
@@ -44,6 +49,7 @@ interface ChatInteractor {
 
 class ChatInteractorImpl(
     private val api: StoreApi,
+    private val compressor: ImageCompressor,
     private val locale: Locale,
     private val schedulers: SchedulersFactory
 ) : ChatInteractor {
@@ -84,15 +90,23 @@ class ChatInteractorImpl(
     override fun sendMessage(
         topicId: Int,
         text: String?,
-        attachment: String?
+        attachments: List<Uri>
     ): Observable<SendMessageResponse> {
         val cookie = generateCookie()
+        val textPart = text?.takeIf { it.isNotEmpty() }?.toPlainPart()
+        val parts = attachments.takeIf { it.isNotEmpty() }?.map { uri ->
+            MultipartBody.Part.createFormData(
+                "attachment",
+                String.format("att%d.jpg", uri.hashCode()),
+                compressor.asRequestBody(uri)
+            )
+        }
         return api
             .sendMessage(
-                topicId = topicId,
-                text = text,
-                attachment = attachment,
-                cookie = cookie,
+                topicId = topicId.toString().toPlainPart(),
+                text = textPart,
+                attachments = parts,
+                cookie = cookie.toPlainPart(),
             )
             .map { it.result }
             .toObservable()
@@ -128,8 +142,10 @@ class ChatInteractorImpl(
             .subscribeOn(schedulers.io())
     }
 
-    private fun generateCookie(): String {
-        return UUID.randomUUID().toString()
-    }
+    private fun String.toPlainPart() = toRequestBody(TEXT_PLAIN)
+
+    private fun generateCookie(): String = UUID.randomUUID().toString()
 
 }
+
+private val TEXT_PLAIN = "text/plain".toMediaTypeOrNull()

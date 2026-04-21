@@ -15,8 +15,8 @@ import com.tomclaw.appsend.screen.post.PostPreferencesProvider
 import com.tomclaw.appsend.screen.post.PostPreferencesProviderImpl
 import com.tomclaw.appsend.screen.post.PostPresenter
 import com.tomclaw.appsend.screen.post.PostPresenterImpl
-import com.tomclaw.appsend.screen.post.ImageCompressor
-import com.tomclaw.appsend.screen.post.ImageCompressorImpl
+import com.tomclaw.appsend.util.ImageCompressor
+import com.tomclaw.appsend.util.ImageCompressorImpl
 import com.tomclaw.appsend.screen.post.adapter.append.AppendItemBlueprint
 import com.tomclaw.appsend.screen.post.adapter.append.AppendItemPresenter
 import com.tomclaw.appsend.screen.post.adapter.image.ImageItemBlueprint

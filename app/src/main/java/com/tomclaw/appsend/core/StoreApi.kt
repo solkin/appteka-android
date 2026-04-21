@@ -123,13 +123,13 @@ interface StoreApi {
         @Query("user_id") userId: Int?
     ): Single<StoreResponse<UserBrief>>
 
-    @FormUrlEncoded
+    @Multipart
     @POST("1/chat/push")
     fun sendMessage(
-        @Field("topic_id") topicId: Int,
-        @Field("text") text: String?,
-        @Field("attachment") attachment: String?,
-        @Field("cookie") cookie: String
+        @Part("topic_id") topicId: okhttp3.RequestBody,
+        @Part("text") text: okhttp3.RequestBody?,
+        @Part attachments: List<MultipartBody.Part>?,
+        @Part("cookie") cookie: okhttp3.RequestBody
     ): Single<StoreResponse<SendMessageResponse>>
 
     @FormUrlEncoded

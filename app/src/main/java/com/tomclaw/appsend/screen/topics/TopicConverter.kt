@@ -29,7 +29,13 @@ class TopicConverterImpl(
         entity.lastMsg ?: throw IllegalStateException("lastMsg must be specified")
         val translation = entity.lastMsg.translation?.takeIf { it.isNotBlank() }
         val showTranslation = translated && translation != null
-        val text = if (showTranslation) translation else entity.lastMsg.text
+        val attachmentsCount = entity.lastMsg.attachments?.size ?: 0
+        val text = when {
+            showTranslation -> translation
+            entity.lastMsg.text.isNotBlank() -> entity.lastMsg.text
+            attachmentsCount > 0 -> resourceProvider.attachmentsPlaceholder(attachmentsCount)
+            else -> entity.lastMsg.text
+        }
         return TopicItem(
             id = entity.topicId.toLong(),
             icon = icon,

@@ -62,6 +62,13 @@
                         android:paddingStart="6dp"
                         android:paddingTop="4dp">
 
+                        <com.tomclaw.appsend.screen.chat.view.MessageAttachmentsView
+                            android:layout_height="wrap_content"
+                            android:layout_width="wrap_content"
+                            android:layout_marginBottom="4dp"
+                            android:visibility="gone"
+                            android:id="@+id/inc_attachments" />
+
                         <TextView
                             android:layout_height="wrap_content"
                             android:layout_width="wrap_content"

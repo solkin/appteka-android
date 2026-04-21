@@ -10,6 +10,8 @@ import com.tomclaw.appsend.util.adapter.ItemView
 import com.google.android.material.card.MaterialCardView
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.dto.UserIcon
+import com.tomclaw.appsend.screen.chat.adapter.MsgAttachment
+import com.tomclaw.appsend.screen.chat.view.MessageAttachmentsView
 import com.tomclaw.appsend.util.LinkMovementMethodCompat
 import com.tomclaw.appsend.util.bind
 import com.tomclaw.appsend.util.formatMessageText
@@ -26,6 +28,8 @@ interface OutgoingMsgItemView : ItemView {
 
     fun setText(text: String)
 
+    fun setAttachments(attachments: List<MsgAttachment>?)
+
     fun sendingState()
 
     fun sentState()
@@ -33,6 +37,8 @@ interface OutgoingMsgItemView : ItemView {
     fun deliveredState()
 
     fun setOnClickListener(listener: (() -> Unit)?)
+
+    fun setOnAttachmentClickListener(listener: ((Int) -> Unit)?)
 
 }
 
@@ -43,11 +49,13 @@ class OutgoingMsgItemViewHolder(view: View) : BaseItemViewHolder(view), Outgoing
     private val memberIconContainer: View = view.findViewById(R.id.member_icon)
     private val userIconView: UserIconView = UserIconViewImpl(memberIconContainer)
     private val bubbleBack: MaterialCardView = view.findViewById(R.id.out_bubble_back)
+    private val attachmentsView: MessageAttachmentsView = view.findViewById(R.id.out_attachments)
     private val delivery: ImageView = view.findViewById(R.id.message_delivery)
     private val textView: TextView = view.findViewById(R.id.out_text)
     private val timeView: TextView = view.findViewById(R.id.out_time)
 
     private var clickListener: (() -> Unit)? = null
+    private var attachmentClickListener: ((Int) -> Unit)? = null
 
     init {
         bubbleBack.setOnClickListener { clickListener?.invoke() }
@@ -67,6 +75,7 @@ class OutgoingMsgItemViewHolder(view: View) : BaseItemViewHolder(view), Outgoing
     }
 
     override fun setText(text: String) {
+        textView.visibility = if (text.isEmpty()) View.GONE else View.VISIBLE
         textView.text = formatMessageText(text, textView.context)
         val hasLinks = Linkify.addLinks(
             textView,
@@ -80,6 +89,17 @@ class OutgoingMsgItemViewHolder(view: View) : BaseItemViewHolder(view), Outgoing
         textView.isFocusable = false
         textView.isClickable = false
         textView.isLongClickable = false
+    }
+
+    override fun setAttachments(attachments: List<MsgAttachment>?) {
+        if (attachments.isNullOrEmpty()) {
+            attachmentsView.visibility = View.GONE
+            return
+        }
+        attachmentsView.visibility = View.VISIBLE
+        attachmentsView.setAttachments(attachments) { index ->
+            attachmentClickListener?.invoke(index)
+        }
     }
 
     override fun sendingState() {
@@ -98,8 +118,13 @@ class OutgoingMsgItemViewHolder(view: View) : BaseItemViewHolder(view), Outgoing
         this.clickListener = listener
     }
 
+    override fun setOnAttachmentClickListener(listener: ((Int) -> Unit)?) {
+        this.attachmentClickListener = listener
+    }
+
     override fun onUnbind() {
         this.clickListener = null
+        this.attachmentClickListener = null
     }
 
 }

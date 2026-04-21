@@ -14,6 +14,7 @@ class OutgoingMsgItemPresenter(
         view.setTime(item.time)
         view.setDate(item.date)
         view.setText(item.text)
+        view.setAttachments(item.attachments)
         if (item.msgId == 0) {
             if (item.sent) {
                 view.sentState()
@@ -25,6 +26,7 @@ class OutgoingMsgItemPresenter(
         }
 
         view.setOnClickListener { listener.onItemClick(item) }
+        view.setOnAttachmentClickListener { index -> listener.onAttachmentClick(item, index) }
     }
 
 }

@@ -24,6 +24,8 @@ import com.tomclaw.appsend.screen.chat.adapter.incoming.IncomingMsgItemBlueprint
 import com.tomclaw.appsend.screen.chat.adapter.incoming.IncomingMsgItemPresenter
 import com.tomclaw.appsend.screen.chat.adapter.outgoing.OutgoingMsgItemBlueprint
 import com.tomclaw.appsend.screen.chat.adapter.outgoing.OutgoingMsgItemPresenter
+import com.tomclaw.appsend.util.ImageCompressor
+import com.tomclaw.appsend.util.ImageCompressorImpl
 import com.tomclaw.appsend.util.PerActivity
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.bananalytics.Bananalytics
@@ -68,9 +70,15 @@ class ChatModule(
     @PerActivity
     internal fun provideInteractor(
         api: StoreApi,
+        compressor: ImageCompressor,
         locale: Locale,
         schedulers: SchedulersFactory
-    ): ChatInteractor = ChatInteractorImpl(api, locale, schedulers)
+    ): ChatInteractor = ChatInteractorImpl(api, compressor, locale, schedulers)
+
+    @Provides
+    @PerActivity
+    internal fun provideImageCompressor(): ImageCompressor =
+        ImageCompressorImpl(context.contentResolver)
 
     @Provides
     @PerActivity

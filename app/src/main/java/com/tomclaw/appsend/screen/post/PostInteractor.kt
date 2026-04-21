@@ -6,6 +6,7 @@ import com.tomclaw.appsend.screen.post.api.FeedConfigResponse
 import com.tomclaw.appsend.screen.post.api.FeedPostResponse
 import com.tomclaw.appsend.screen.post.dto.PostImage
 import com.tomclaw.appsend.upload.UploadScreenshotsResponse
+import com.tomclaw.appsend.util.ImageCompressor
 import com.tomclaw.appsend.util.SchedulersFactory
 import io.reactivex.rxjava3.core.Observable
 import okhttp3.MultipartBody
