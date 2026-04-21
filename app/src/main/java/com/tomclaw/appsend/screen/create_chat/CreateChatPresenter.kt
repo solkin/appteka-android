@@ -23,6 +23,8 @@ interface CreateChatPresenter {
 
     fun onAvatarPicked(uri: Uri)
 
+    fun onLoginSucceeded()
+
     interface CreateChatRouter {
 
         fun leaveScreen()
@@ -47,9 +49,7 @@ class CreateChatPresenterImpl(
 
     private var title: String = state?.getString(KEY_TITLE).orEmpty()
     private var description: String = state?.getString(KEY_DESCRIPTION).orEmpty()
-    // avatarUri is intentionally not persisted: PickVisualMedia grants a one-shot
-    // read permission that does not survive process death. User repicks after restore.
-    private var avatarUri: Uri? = null
+    private var avatarUri: Uri? = state?.getString(KEY_AVATAR_URI)?.let(Uri::parse)
 
     private val subscriptions = CompositeDisposable()
 
@@ -90,6 +90,7 @@ class CreateChatPresenterImpl(
     override fun saveState(): Bundle = Bundle().apply {
         putString(KEY_TITLE, title)
         putString(KEY_DESCRIPTION, description)
+        putString(KEY_AVATAR_URI, avatarUri?.toString())
     }
 
     override fun onBackPressed() {
@@ -99,6 +100,13 @@ class CreateChatPresenterImpl(
     override fun onAvatarPicked(uri: Uri) {
         avatarUri = uri
         view?.setAvatar(uri)
+        bindSubmitState()
+    }
+
+    override fun onLoginSucceeded() {
+        if (avatarUri != null && isTitleValid() && isDescriptionValid()) {
+            onSubmit()
+        }
     }
 
     private fun bindSubmitState() {
@@ -150,3 +158,4 @@ const val DESCRIPTION_MAX_LENGTH = 500
 
 private const val KEY_TITLE = "title"
 private const val KEY_DESCRIPTION = "description"
+private const val KEY_AVATAR_URI = "avatar_uri"

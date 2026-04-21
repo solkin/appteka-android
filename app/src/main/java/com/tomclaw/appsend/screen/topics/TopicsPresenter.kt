@@ -36,8 +36,6 @@ interface TopicsPresenter : ItemListener {
 
         fun openLoginScreen()
 
-        fun openCreateChatScreen()
-
     }
 
 }
@@ -94,10 +92,6 @@ class TopicsPresenterImpl(
 
         subscriptions += view.loginClicks().subscribe {
             router?.openLoginScreen()
-        }
-
-        subscriptions += view.createChatClicks().subscribe {
-            router?.openCreateChatScreen()
         }
 
         if (preferences.isShowIntro()) {

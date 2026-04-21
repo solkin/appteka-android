@@ -41,6 +41,8 @@ interface HomePresenter {
 
         fun openPostScreen()
 
+        fun openCreateChatScreen()
+
         fun openSearchScreen()
 
         fun openInstalledScreen()
@@ -103,6 +105,7 @@ class HomePresenterImpl(
         subscriptions += view.profileClicks().subscribe { bindTab(index = INDEX_PROFILE) }
         subscriptions += view.uploadClicks().subscribe { router?.openUploadScreen() }
         subscriptions += view.postClicks().subscribe { router?.openPostScreen() }
+        subscriptions += view.createChatClicks().subscribe { router?.openCreateChatScreen() }
         subscriptions += view.updateClicks().subscribe { onUpdateClicks() }
         subscriptions += view.laterClicks().subscribe { onLaterClicks() }
         subscriptions += view.searchClicks().subscribe { router?.openSearchScreen() }
@@ -171,6 +174,7 @@ class HomePresenterImpl(
                 router?.showTopicsFragment()
                 view?.showDiscussToolbar()
                 view?.hideFabButtons()
+                view?.showCreateChatButton()
                 bindUnread(count = 0)
             }
 

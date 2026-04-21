@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.tomclaw.appsend.util.adapter.SimpleRecyclerAdapter
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
@@ -55,8 +54,6 @@ interface TopicsView {
 
     fun loginClicks(): Observable<Unit>
 
-    fun createChatClicks(): Observable<Unit>
-
     fun contentUpdated()
 
     fun contentUpdated(position: Int)
@@ -78,7 +75,6 @@ class TopicsViewImpl(
     private val retryButton: View = view.findViewById(R.id.button_retry)
     private val errorText: TextView = view.findViewById(R.id.error_text)
     private val recycler: RecyclerView = view.findViewById(R.id.recycler)
-    private val fab: FloatingActionButton = view.findViewById(R.id.fab)
 
     private val getStartedRelay = PublishRelay.create<Unit>()
     private val retryButtonRelay = PublishRelay.create<Unit>()
@@ -86,7 +82,6 @@ class TopicsViewImpl(
     private val pinTopicRelay = PublishRelay.create<Int>()
     private val translateTopicRelay = PublishRelay.create<Int>()
     private val loginRelay = PublishRelay.create<Unit>()
-    private val createChatRelay = PublishRelay.create<Unit>()
 
     init {
         val orientation = RecyclerView.VERTICAL
@@ -102,7 +97,6 @@ class TopicsViewImpl(
         errorText.setText(R.string.topics_loading_failed)
 
         refresher.setOnRefreshListener { refreshRelay.accept(Unit) }
-        fab.setOnClickListener { createChatRelay.accept(Unit) }
     }
 
     override fun showIntro() {
@@ -221,8 +215,6 @@ class TopicsViewImpl(
     override fun translateTopicClicks(): Observable<Int> = translateTopicRelay
 
     override fun loginClicks(): Observable<Unit> = loginRelay
-
-    override fun createChatClicks(): Observable<Unit> = createChatRelay
 
 }
 

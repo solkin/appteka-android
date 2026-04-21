@@ -14,7 +14,6 @@ import com.tomclaw.appsend.R
 import com.tomclaw.appsend.dto.TopicEntity
 import com.tomclaw.appsend.screen.auth.request_code.createRequestCodeActivityIntent
 import com.tomclaw.appsend.screen.chat.createChatActivityIntent
-import com.tomclaw.appsend.screen.create_chat.createCreateChatActivityIntent
 import com.tomclaw.appsend.screen.home.HomeFragment
 import com.tomclaw.appsend.screen.topics.di.TopicsModule
 import com.tomclaw.appsend.util.Analytics
@@ -101,11 +100,6 @@ class TopicsFragment : Fragment(), TopicsPresenter.TopicsRouter, HomeFragment {
 
     override fun openLoginScreen() {
         val intent = createRequestCodeActivityIntent(requireContext())
-        startActivity(intent)
-    }
-
-    override fun openCreateChatScreen() {
-        val intent = createCreateChatActivityIntent(requireContext())
         startActivity(intent)
     }
 

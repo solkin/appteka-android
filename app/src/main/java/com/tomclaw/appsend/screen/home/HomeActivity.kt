@@ -13,6 +13,7 @@ import com.tomclaw.appsend.appComponent
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.about.createAboutActivityIntent
 import com.tomclaw.appsend.screen.bdui.createBduiScreenActivityIntent
+import com.tomclaw.appsend.screen.create_chat.createCreateChatActivityIntent
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.screen.distro.createDistroActivityIntent
 import com.tomclaw.appsend.screen.feed.createFeedFragment
@@ -109,6 +110,11 @@ class HomeActivity : AppCompatActivity(), HomePresenter.HomeRouter {
     override fun openPostScreen() {
         val intent = createPostActivityIntent(context = this)
         postLauncher.launch(intent)
+    }
+
+    override fun openCreateChatScreen() {
+        val intent = createCreateChatActivityIntent(this)
+        startActivity(intent)
     }
 
     override fun openSearchScreen() {

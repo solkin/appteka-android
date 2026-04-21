@@ -62,6 +62,20 @@
         app:fabSize="normal"
         app:pressedTranslationZ="6dp" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_create_chat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="96dp"
+        android:contentDescription="@string/create_chat_title"
+        android:src="@drawable/ic_baseline_add_24"
+        app:elevation="3dp"
+        app:fabSize="normal"
+        app:pressedTranslationZ="6dp" />
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_navigation"
         android:layout_width="match_parent"

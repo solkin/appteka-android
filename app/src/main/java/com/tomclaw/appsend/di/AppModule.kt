@@ -70,6 +70,7 @@ import com.tomclaw.bananalytics.Bananalytics
 import com.tomclaw.bananalytics.BananalyticsConfig
 import com.tomclaw.bananalytics.BananalyticsImpl
 import com.tomclaw.bananalytics.EnvironmentProvider
+import com.tomclaw.cache.DiskLruCache
 import dagger.Module
 import dagger.Provides
 import okhttp3.CookieJar
@@ -100,6 +101,14 @@ class AppModule(private val app: Application) {
     @Singleton
     @Named(USER_DIR)
     fun provideFilesDir(): File = app.filesDir
+
+    @Provides
+    @Singleton
+    @Named(PICKED_MEDIA_CACHE)
+    internal fun providePickedMediaCache(context: Context): DiskLruCache {
+        val dir = File(context.cacheDir, "picked_media").apply { mkdirs() }
+        return DiskLruCache.create(dir, PICKED_MEDIA_CACHE_SIZE)
+    }
 
     @Provides
     @Singleton
@@ -337,3 +346,6 @@ class AppModule(private val app: Application) {
 const val TIME_FORMATTER = "TimeFormatter"
 const val DATE_FORMATTER = "DateFormatter"
 const val USER_DIR = "user"
+const val PICKED_MEDIA_CACHE = "PickedMediaCache"
+
+private const val PICKED_MEDIA_CACHE_SIZE = 10L * 1024 * 1024

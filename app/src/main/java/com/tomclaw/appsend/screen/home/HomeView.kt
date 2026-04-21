@@ -54,6 +54,8 @@ interface HomeView {
 
     fun showPostButton()
 
+    fun showCreateChatButton()
+
     fun hideFabButtons()
 
     fun showStatusDialog(block: Boolean, title: String?, message: String)
@@ -69,6 +71,8 @@ interface HomeView {
     fun uploadClicks(): Observable<Unit>
 
     fun postClicks(): Observable<Unit>
+
+    fun createChatClicks(): Observable<Unit>
 
     fun updateClicks(): Observable<Unit>
 
@@ -102,6 +106,7 @@ class HomeViewImpl(view: View) : HomeView {
     private val bottomNavigation: BottomNavigationView = view.findViewById(R.id.bottom_navigation)
     private val uploadButton: FloatingActionButton = view.findViewById(R.id.fab_upload)
     private val postButton: FloatingActionButton = view.findViewById(R.id.fab_post)
+    private val createChatButton: FloatingActionButton = view.findViewById(R.id.fab_create_chat)
     private val updateButton: Button = view.findViewById(R.id.update)
     private val laterButton: Button = view.findViewById(R.id.update_later)
 
@@ -111,6 +116,7 @@ class HomeViewImpl(view: View) : HomeView {
     private val profileRelay = PublishRelay.create<Unit>()
     private val uploadRelay = PublishRelay.create<Unit>()
     private val postRelay = PublishRelay.create<Unit>()
+    private val createChatRelay = PublishRelay.create<Unit>()
     private val updateRelay = PublishRelay.create<Unit>()
     private val laterRelay = PublishRelay.create<Unit>()
     private val searchRelay = PublishRelay.create<Unit>()
@@ -149,6 +155,7 @@ class HomeViewImpl(view: View) : HomeView {
 
         uploadButton.clicks(uploadRelay)
         postButton.clicks(postRelay)
+        createChatButton.clicks(createChatRelay)
         updateButton.clicks(updateRelay)
         laterButton.clicks(laterRelay)
 
@@ -158,6 +165,7 @@ class HomeViewImpl(view: View) : HomeView {
         frameLayout.applyBottomMarginForView(bottomNavigation)
         uploadButton.applyBottomInsetsAsMargin()
         postButton.applyBottomInsetsAsMargin()
+        createChatButton.applyBottomInsetsAsMargin()
     }
 
     override fun showStoreToolbar() {
@@ -266,9 +274,14 @@ class HomeViewImpl(view: View) : HomeView {
         postButton.show()
     }
 
+    override fun showCreateChatButton() {
+        createChatButton.show()
+    }
+
     override fun hideFabButtons() {
         uploadButton.hide()
         postButton.hide()
+        createChatButton.hide()
     }
 
     override fun showStatusDialog(block: Boolean, title: String?, message: String) {
@@ -295,6 +308,8 @@ class HomeViewImpl(view: View) : HomeView {
     override fun uploadClicks(): Observable<Unit> = uploadRelay
 
     override fun postClicks(): Observable<Unit> = postRelay
+
+    override fun createChatClicks(): Observable<Unit> = createChatRelay
 
     override fun updateClicks(): Observable<Unit> = updateRelay
 
