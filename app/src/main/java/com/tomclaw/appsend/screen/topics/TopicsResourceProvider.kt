@@ -11,6 +11,8 @@ interface TopicsResourceProvider {
 
     fun attachmentsPlaceholder(count: Int): String
 
+    fun chatCreatedMessage(): String
+
 }
 
 class TopicsResourceProviderImpl(val resources: Resources) : TopicsResourceProvider {
@@ -25,6 +27,10 @@ class TopicsResourceProviderImpl(val resources: Resources) : TopicsResourceProvi
 
     override fun attachmentsPlaceholder(count: Int): String {
         return resources.getQuantityString(R.plurals.topic_last_msg_attachments, count, count)
+    }
+
+    override fun chatCreatedMessage(): String {
+        return resources.getString(R.string.system_message_chat_created)
     }
 
 }

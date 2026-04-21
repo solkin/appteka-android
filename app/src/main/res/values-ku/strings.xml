@@ -200,6 +200,22 @@
     <string name="error_topic_pin">ناتوانرێت پینکردنی گفتوگۆ بگۆڕدرێت</string>
     <string name="discuss_app">گفتوگۆ</string>
     <string name="error_app_topic_creation">کردنەوەی بابەتی بەرنامە سەرکەوتوو نەبوو</string>
+    <string name="create_chat_title">دروستکردنی گفتوگۆ</string>
+    <string name="create_chat_title_hint">ناونیشانی گفتوگۆ</string>
+    <string name="create_chat_description_hint">وەسف</string>
+    <string name="create_chat_avatar_hint">بۆ زیادکردنی وێنە دەستبکە</string>
+    <string name="create_chat_avatar_required">تکایە وێنەی گفتوگۆ زیاد بکە</string>
+    <string name="create_chat_submit">دروستکردن</string>
+    <string name="error_create_custom_topic">دروستکردنی گفتوگۆ سەرکەوتوو نەبوو</string>
+    <string name="system_message_chat_created">گفتوگۆ دروستکرا</string>
+    <plurals name="create_chat_title_min_length_error">
+        <item quantity="one">ناونیشان دەبێت لانی کەم %d پیت بێت</item>
+        <item quantity="other">ناونیشان دەبێت لانی کەم %d پیت بێت</item>
+    </plurals>
+    <plurals name="create_chat_description_min_length_error">
+        <item quantity="one">وەسف دەبێت لانی کەم %d پیت بێت</item>
+        <item quantity="other">وەسف دەبێت لانی کەم %d پیت بێت</item>
+    </plurals>
     <string name="all_categories">هەموو پۆلەکان</string>
     <string name="details_activity">وردەکارییەکان</string>
     <string name="internet_access">دەستگەیشتنی بێسنوور بە ئینتەرنێت</string>

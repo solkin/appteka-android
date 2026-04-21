@@ -24,6 +24,8 @@ import com.tomclaw.appsend.screen.chat.adapter.incoming.IncomingMsgItemBlueprint
 import com.tomclaw.appsend.screen.chat.adapter.incoming.IncomingMsgItemPresenter
 import com.tomclaw.appsend.screen.chat.adapter.outgoing.OutgoingMsgItemBlueprint
 import com.tomclaw.appsend.screen.chat.adapter.outgoing.OutgoingMsgItemPresenter
+import com.tomclaw.appsend.screen.chat.adapter.system.SystemMsgItemBlueprint
+import com.tomclaw.appsend.screen.chat.adapter.system.SystemMsgItemPresenter
 import com.tomclaw.appsend.util.ImageCompressor
 import com.tomclaw.appsend.util.ImageCompressorImpl
 import com.tomclaw.appsend.util.PerActivity
@@ -124,6 +126,13 @@ class ChatModule(
     ): ItemBlueprint<*, *> = OutgoingMsgItemBlueprint(presenter)
 
     @Provides
+    @IntoSet
+    @PerActivity
+    internal fun provideSystemMsgItemBlueprint(
+        presenter: SystemMsgItemPresenter
+    ): ItemBlueprint<*, *> = SystemMsgItemBlueprint(presenter)
+
+    @Provides
     @PerActivity
     internal fun provideIncomingMsgItemPresenter(
         presenter: ChatPresenter
@@ -134,6 +143,10 @@ class ChatModule(
     internal fun provideOutgoingMsgItemPresenter(
         presenter: ChatPresenter
     ) = OutgoingMsgItemPresenter(presenter)
+
+    @Provides
+    @PerActivity
+    internal fun provideSystemMsgItemPresenter() = SystemMsgItemPresenter()
 
     @Provides
     @PerActivity

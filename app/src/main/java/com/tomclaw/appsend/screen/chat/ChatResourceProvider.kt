@@ -11,6 +11,8 @@ interface ChatResourceProvider {
 
     fun commonQuestionsTopicDescription(): String
 
+    fun chatCreatedMessage(): String
+
 }
 
 class ChatResourceProviderImpl(val resources: Resources) : ChatResourceProvider {
@@ -25,6 +27,10 @@ class ChatResourceProviderImpl(val resources: Resources) : ChatResourceProvider 
 
     override fun commonQuestionsTopicDescription(): String {
         return resources.getString(R.string.topic_common_qna_description)
+    }
+
+    override fun chatCreatedMessage(): String {
+        return resources.getString(R.string.system_message_chat_created)
     }
 
 }

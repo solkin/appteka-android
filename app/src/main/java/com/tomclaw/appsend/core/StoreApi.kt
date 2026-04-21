@@ -186,9 +186,13 @@ interface StoreApi {
         @Query("app_id") appId: String
     ): Single<StoreResponse<DeletionResponse>>
 
+    @Multipart
     @POST("1/chat/topic/create")
     fun createTopic(
-        @Query("package") packageName: String
+        @Part("package") packageName: okhttp3.RequestBody?,
+        @Part("title") title: okhttp3.RequestBody?,
+        @Part("description") description: okhttp3.RequestBody?,
+        @Part avatar: MultipartBody.Part?,
     ): Single<StoreResponse<CreateTopicResponse>>
 
     @GET("1/app/check_exist")

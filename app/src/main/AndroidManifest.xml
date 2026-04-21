@@ -57,6 +57,10 @@
             android:name=".screen.chat.ChatActivity"
             android:label="@string/chat_activity" />
         <activity
+            android:name=".screen.create_chat.CreateChatActivity"
+            android:label="@string/create_chat_title"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
             android:name=".screen.details.DetailsActivity"
             android:exported="true"
             android:label="@string/details_activity">

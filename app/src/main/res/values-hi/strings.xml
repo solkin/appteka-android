@@ -199,6 +199,22 @@
     <string name="error_topic_pin">चैट पिनिंग नहीं बदल सका</string>
     <string name="discuss_app">चर्चा करने के लिए</string>
     <string name="error_app_topic_creation">ऐप पर चर्चा करने के लिए कोई विषय नहीं खोल सका</string>
+    <string name="create_chat_title">चैट बनाएं</string>
+    <string name="create_chat_title_hint">चैट का शीर्षक</string>
+    <string name="create_chat_description_hint">विवरण</string>
+    <string name="create_chat_avatar_hint">फोटो जोड़ने के लिए टैप करें</string>
+    <string name="create_chat_avatar_required">कृपया चैट फोटो जोड़ें</string>
+    <string name="create_chat_submit">बनाएं</string>
+    <string name="error_create_custom_topic">चैट बनाने में विफल</string>
+    <string name="system_message_chat_created">चैट बनाई गई</string>
+    <plurals name="create_chat_title_min_length_error">
+        <item quantity="one">शीर्षक में कम से कम %d अक्षर होना चाहिए</item>
+        <item quantity="other">शीर्षक में कम से कम %d अक्षर होने चाहिए</item>
+    </plurals>
+    <plurals name="create_chat_description_min_length_error">
+        <item quantity="one">विवरण में कम से कम %d अक्षर होना चाहिए</item>
+        <item quantity="other">विवरण में कम से कम %d अक्षर होने चाहिए</item>
+    </plurals>
     <string name="all_categories">सभी श्रेणियां</string>
     <string name="details_activity">जानकारी</string>
     <string name="internet_access">असीमित इंटरनेट का उपयोग</string>

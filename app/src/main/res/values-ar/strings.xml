@@ -198,6 +198,30 @@
     <string name="error_topic_pin">تعذر تغيير تثبيت الدردشة</string>
     <string name="discuss_app">ناقش</string>
     <string name="error_app_topic_creation">تعذر فتح موضوع التطبيق</string>
+    <string name="create_chat_title">إنشاء دردشة</string>
+    <string name="create_chat_title_hint">عنوان الدردشة</string>
+    <string name="create_chat_description_hint">الوصف</string>
+    <string name="create_chat_avatar_hint">اضغط لإضافة صورة</string>
+    <string name="create_chat_avatar_required">يرجى إضافة صورة للدردشة</string>
+    <string name="create_chat_submit">إنشاء</string>
+    <string name="error_create_custom_topic">تعذر إنشاء الدردشة</string>
+    <string name="system_message_chat_created">تم إنشاء الدردشة</string>
+    <plurals name="create_chat_title_min_length_error">
+        <item quantity="zero">يجب ألا يقل العنوان عن %d حرف</item>
+        <item quantity="one">يجب ألا يقل العنوان عن حرف واحد</item>
+        <item quantity="two">يجب ألا يقل العنوان عن حرفين</item>
+        <item quantity="few">يجب ألا يقل العنوان عن %d أحرف</item>
+        <item quantity="many">يجب ألا يقل العنوان عن %d حرفًا</item>
+        <item quantity="other">يجب ألا يقل العنوان عن %d حرف</item>
+    </plurals>
+    <plurals name="create_chat_description_min_length_error">
+        <item quantity="zero">يجب ألا يقل الوصف عن %d حرف</item>
+        <item quantity="one">يجب ألا يقل الوصف عن حرف واحد</item>
+        <item quantity="two">يجب ألا يقل الوصف عن حرفين</item>
+        <item quantity="few">يجب ألا يقل الوصف عن %d أحرف</item>
+        <item quantity="many">يجب ألا يقل الوصف عن %d حرفًا</item>
+        <item quantity="other">يجب ألا يقل الوصف عن %d حرف</item>
+    </plurals>
     <string name="all_categories">جميع الفئات</string>
     <string name="details_activity">التفاصيل</string>
     <string name="internet_access">وصول غير محدود إلى الإنترنت</string>

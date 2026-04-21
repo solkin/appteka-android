@@ -199,6 +199,22 @@
     <string name="error_topic_pin">Não é possível alterar o PIN do bate-papo</string>
     <string name="discuss_app">Discutir</string>
     <string name="error_app_topic_creation">Falha ao abrir o tópico do aplicativo</string>
+    <string name="create_chat_title">Criar bate-papo</string>
+    <string name="create_chat_title_hint">Título do bate-papo</string>
+    <string name="create_chat_description_hint">Descrição</string>
+    <string name="create_chat_avatar_hint">Toque para adicionar uma foto</string>
+    <string name="create_chat_avatar_required">Adicione uma foto para o bate-papo</string>
+    <string name="create_chat_submit">Criar</string>
+    <string name="error_create_custom_topic">Falha ao criar o bate-papo</string>
+    <string name="system_message_chat_created">Bate-papo criado</string>
+    <plurals name="create_chat_title_min_length_error">
+        <item quantity="one">O título deve ter pelo menos %d caractere</item>
+        <item quantity="other">O título deve ter pelo menos %d caracteres</item>
+    </plurals>
+    <plurals name="create_chat_description_min_length_error">
+        <item quantity="one">A descrição deve ter pelo menos %d caractere</item>
+        <item quantity="other">A descrição deve ter pelo menos %d caracteres</item>
+    </plurals>
     <string name="all_categories">Todas as categorias</string>
     <string name="details_activity">Detalhes</string>
     <string name="internet_access">Acesso ilimitado à Internet</string>

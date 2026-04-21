@@ -14,6 +14,8 @@ import com.tomclaw.bananalytics.Bananalytics
 import com.tomclaw.bananalytics.api.BreadcrumbCategory
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.RequestBody.Companion.toRequestBody
 import java.util.Locale
 
 interface DetailsInteractor {
@@ -81,7 +83,13 @@ class DetailsInteractorImpl(
     }
 
     override fun createTopic(packageName: String): Single<CreateTopicResponse> {
-        return api.createTopic(packageName = packageName)
+        val textPlain = "text/plain".toMediaTypeOrNull()
+        return api.createTopic(
+            packageName = packageName.toRequestBody(textPlain),
+            title = null,
+            description = null,
+            avatar = null,
+        )
             .map { it.result }
             .subscribeOn(schedulers.io())
     }

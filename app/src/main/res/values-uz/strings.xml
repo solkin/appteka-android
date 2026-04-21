@@ -198,6 +198,22 @@
     <string name="error_topic_pin">Chat pinini o\'zgartirib bo\'lmadi</string>
     <string name="discuss_app">Muhokama</string>
     <string name="error_app_topic_creation">Ilova mavzusini ochib bo\'lmadi</string>
+    <string name="create_chat_title">Chat yaratish</string>
+    <string name="create_chat_title_hint">Chat sarlavhasi</string>
+    <string name="create_chat_description_hint">Tavsif</string>
+    <string name="create_chat_avatar_hint">Rasm qo\'shish uchun bosing</string>
+    <string name="create_chat_avatar_required">Iltimos, chat uchun rasm qo\'shing</string>
+    <string name="create_chat_submit">Yaratish</string>
+    <string name="error_create_custom_topic">Chat yaratib bo\'lmadi</string>
+    <string name="system_message_chat_created">Chat yaratildi</string>
+    <plurals name="create_chat_title_min_length_error">
+        <item quantity="one">Sarlavha kamida %d belgidan iborat bo\'lishi kerak</item>
+        <item quantity="other">Sarlavha kamida %d belgidan iborat bo\'lishi kerak</item>
+    </plurals>
+    <plurals name="create_chat_description_min_length_error">
+        <item quantity="one">Tavsif kamida %d belgidan iborat bo\'lishi kerak</item>
+        <item quantity="other">Tavsif kamida %d belgidan iborat bo\'lishi kerak</item>
+    </plurals>
     <string name="all_categories">Barcha kategoriyalar</string>
     <string name="details_activity">Tafsilotlar</string>
     <string name="internet_access">Cheksiz internetga kirish</string>

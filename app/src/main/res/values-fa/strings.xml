@@ -200,6 +200,22 @@
     <string name="error_topic_pin">تغییر سنجاق گفتگو امکان‌ پذیر نیست</string>
     <string name="discuss_app">گفتگو</string>
     <string name="error_app_topic_creation">موضوع برنامه باز نشد</string>
+    <string name="create_chat_title">ایجاد گفتگو</string>
+    <string name="create_chat_title_hint">عنوان گفتگو</string>
+    <string name="create_chat_description_hint">توضیحات</string>
+    <string name="create_chat_avatar_hint">برای افزودن عکس ضربه بزنید</string>
+    <string name="create_chat_avatar_required">لطفاً عکس گفتگو را اضافه کنید</string>
+    <string name="create_chat_submit">ایجاد</string>
+    <string name="error_create_custom_topic">ایجاد گفتگو ناموفق بود</string>
+    <string name="system_message_chat_created">گفتگو ایجاد شد</string>
+    <plurals name="create_chat_title_min_length_error">
+        <item quantity="one">عنوان باید حداقل %d نویسه باشد</item>
+        <item quantity="other">عنوان باید حداقل %d نویسه باشد</item>
+    </plurals>
+    <plurals name="create_chat_description_min_length_error">
+        <item quantity="one">توضیحات باید حداقل %d نویسه باشد</item>
+        <item quantity="other">توضیحات باید حداقل %d نویسه باشد</item>
+    </plurals>
     <string name="all_categories">همه دسته ها</string>
     <string name="details_activity">اطلاعات</string>
     <string name="internet_access">دسترسی نامحدود به اینترنت</string>

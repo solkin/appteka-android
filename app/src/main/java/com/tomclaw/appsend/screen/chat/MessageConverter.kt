@@ -2,9 +2,11 @@ package com.tomclaw.appsend.screen.chat
 
 import com.tomclaw.appsend.util.adapter.Item
 import com.tomclaw.appsend.dto.MessageEntity
+import com.tomclaw.appsend.dto.MessageType
 import com.tomclaw.appsend.screen.chat.adapter.MsgAttachment
 import com.tomclaw.appsend.screen.chat.adapter.incoming.IncomingMsgItem
 import com.tomclaw.appsend.screen.chat.adapter.outgoing.OutgoingMsgItem
+import com.tomclaw.appsend.screen.chat.adapter.system.SystemMsgItem
 import com.tomclaw.appsend.screen.chat.api.TranslationEntity
 import java.text.DateFormat
 
@@ -39,7 +41,7 @@ class MessageConverterImpl(
             (firstMessage || dateChanged) && !sendingMessage
         }
         return when (message.type) {
-            0 -> {
+            MessageType.PLAIN -> {
                 val attachments = message.attachments
                     ?.takeIf { it.isNotEmpty() }
                     ?.map { att ->
@@ -91,6 +93,14 @@ class MessageConverterImpl(
                         translated = translated,
                     )
                 }
+            }
+
+            MessageType.TOPIC_CREATED -> {
+                SystemMsgItem(
+                    id = message.msgId.toLong(),
+                    text = resourceProvider.chatCreatedMessage(),
+                    date = date,
+                )
             }
 
             else -> {

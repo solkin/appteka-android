@@ -92,17 +92,14 @@
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fab"
+                style="@style/MaterialFABExpressive"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|end"
                 android:layout_marginEnd="18dp"
-                android:layout_marginRight="18dp"
                 android:layout_marginBottom="18dp"
-                android:src="@drawable/ic_baseline_add_24"
-                android:visibility="gone"
-                app:elevation="4dp"
-                app:fabSize="normal"
-                app:pressedTranslationZ="12dp" />
+                android:contentDescription="@string/create_chat_title"
+                android:src="@drawable/ic_baseline_add_24" />
 
             <include layout="@layout/progress_overlay" />
 

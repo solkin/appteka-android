@@ -1,5 +1,6 @@
 package com.tomclaw.appsend.screen.topics
 
+import com.tomclaw.appsend.dto.MessageType
 import com.tomclaw.appsend.dto.TopicEntity
 import com.tomclaw.appsend.screen.topics.adapter.topic.TopicItem
 
@@ -32,6 +33,7 @@ class TopicConverterImpl(
         val attachmentsCount = entity.lastMsg.attachments?.size ?: 0
         val text = when {
             showTranslation -> translation
+            entity.lastMsg.type == MessageType.TOPIC_CREATED -> resourceProvider.chatCreatedMessage()
             entity.lastMsg.text.isNotBlank() -> entity.lastMsg.text
             attachmentsCount > 0 -> resourceProvider.attachmentsPlaceholder(attachmentsCount)
             else -> entity.lastMsg.text

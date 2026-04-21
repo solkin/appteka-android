@@ -198,6 +198,22 @@
     <string name="error_topic_pin">Impossibile modificare il fissaggio della chat</string>
     <string name="discuss_app">Discuti</string>
     <string name="error_app_topic_creation">Impossibile aprire l\'argomento dell\'applicazione</string>
+    <string name="create_chat_title">Crea chat</string>
+    <string name="create_chat_title_hint">Titolo della chat</string>
+    <string name="create_chat_description_hint">Descrizione</string>
+    <string name="create_chat_avatar_hint">Tocca per aggiungere una foto</string>
+    <string name="create_chat_avatar_required">Aggiungi una foto per la chat</string>
+    <string name="create_chat_submit">Crea</string>
+    <string name="error_create_custom_topic">Impossibile creare la chat</string>
+    <string name="system_message_chat_created">Chat creata</string>
+    <plurals name="create_chat_title_min_length_error">
+        <item quantity="one">Il titolo deve contenere almeno %d carattere</item>
+        <item quantity="other">Il titolo deve contenere almeno %d caratteri</item>
+    </plurals>
+    <plurals name="create_chat_description_min_length_error">
+        <item quantity="one">La descrizione deve contenere almeno %d carattere</item>
+        <item quantity="other">La descrizione deve contenere almeno %d caratteri</item>
+    </plurals>
     <string name="all_categories">Tutte le categorie</string>
     <string name="details_activity">Dettagli</string>
     <string name="internet_access">Accesso Internet illimitato</string>

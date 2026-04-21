@@ -199,6 +199,26 @@
     <string name="error_topic_pin">Не удалось изменить закрепление чата</string>
     <string name="discuss_app">Обсудить</string>
     <string name="error_app_topic_creation">Не удалось открыть тему для обсуждения приложения</string>
+    <string name="create_chat_title">Создать чат</string>
+    <string name="create_chat_title_hint">Название чата</string>
+    <string name="create_chat_description_hint">Описание</string>
+    <string name="create_chat_avatar_hint">Нажмите, чтобы добавить фото</string>
+    <string name="create_chat_avatar_required">Пожалуйста, добавьте фото чата</string>
+    <string name="create_chat_submit">Создать</string>
+    <string name="error_create_custom_topic">Не удалось создать чат</string>
+    <string name="system_message_chat_created">Чат создан</string>
+    <plurals name="create_chat_title_min_length_error">
+        <item quantity="one">Название должно быть не короче %d символа</item>
+        <item quantity="few">Название должно быть не короче %d символов</item>
+        <item quantity="many">Название должно быть не короче %d символов</item>
+        <item quantity="other">Название должно быть не короче %d символов</item>
+    </plurals>
+    <plurals name="create_chat_description_min_length_error">
+        <item quantity="one">Описание должно быть не короче %d символа</item>
+        <item quantity="few">Описание должно быть не короче %d символов</item>
+        <item quantity="many">Описание должно быть не короче %d символов</item>
+        <item quantity="other">Описание должно быть не короче %d символов</item>
+    </plurals>
     <string name="all_categories">Все категории</string>
     <string name="details_activity">Сведения</string>
     <string name="internet_access">Безлимитный доступ к Интернет</string>

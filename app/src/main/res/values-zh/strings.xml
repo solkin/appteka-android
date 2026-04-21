@@ -199,6 +199,20 @@
     <string name="error_topic_pin">更改聊天置顶状态失败</string>
     <string name="discuss_app">讨论组</string>
     <string name="error_app_topic_creation">无法打开应用程序讨论组</string>
+    <string name="create_chat_title">创建对话</string>
+    <string name="create_chat_title_hint">对话标题</string>
+    <string name="create_chat_description_hint">描述</string>
+    <string name="create_chat_avatar_hint">点按添加照片</string>
+    <string name="create_chat_avatar_required">请添加对话照片</string>
+    <string name="create_chat_submit">创建</string>
+    <string name="error_create_custom_topic">创建对话失败</string>
+    <string name="system_message_chat_created">对话已创建</string>
+    <plurals name="create_chat_title_min_length_error">
+        <item quantity="other">标题至少需要 %d 个字符</item>
+    </plurals>
+    <plurals name="create_chat_description_min_length_error">
+        <item quantity="other">描述至少需要 %d 个字符</item>
+    </plurals>
     <string name="all_categories">所有类别</string>
     <string name="details_activity">详细信息</string>
     <string name="internet_access">无限制的互联网访问</string>

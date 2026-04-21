@@ -21,6 +21,8 @@ import com.tomclaw.appsend.screen.change_email.di.ChangeEmailComponent
 import com.tomclaw.appsend.screen.change_email.di.ChangeEmailModule
 import com.tomclaw.appsend.screen.chat.di.ChatComponent
 import com.tomclaw.appsend.screen.chat.di.ChatModule
+import com.tomclaw.appsend.screen.create_chat.di.CreateChatComponent
+import com.tomclaw.appsend.screen.create_chat.di.CreateChatModule
 import com.tomclaw.appsend.screen.details.di.DetailsComponent
 import com.tomclaw.appsend.screen.details.di.DetailsModule
 import com.tomclaw.appsend.screen.distro.di.DistroComponent
@@ -87,6 +89,8 @@ interface AppComponent {
     fun topicsComponent(module: TopicsModule): TopicsComponent
 
     fun chatComponent(module: ChatModule): ChatComponent
+
+    fun createChatComponent(module: CreateChatModule): CreateChatComponent
 
     fun storeComponent(module: StoreModule): StoreComponent
 

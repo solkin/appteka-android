@@ -198,6 +198,22 @@
     <string name="error_topic_pin">No se puede cambiar el PIN del chat</string>
     <string name="discuss_app">Discutir</string>
     <string name="error_app_topic_creation">Error al abrir el tema de la aplicación</string>
+    <string name="create_chat_title">Crear chat</string>
+    <string name="create_chat_title_hint">Título del chat</string>
+    <string name="create_chat_description_hint">Descripción</string>
+    <string name="create_chat_avatar_hint">Toca para añadir una foto</string>
+    <string name="create_chat_avatar_required">Por favor, añade una foto del chat</string>
+    <string name="create_chat_submit">Crear</string>
+    <string name="error_create_custom_topic">No se pudo crear el chat</string>
+    <string name="system_message_chat_created">Chat creado</string>
+    <plurals name="create_chat_title_min_length_error">
+        <item quantity="one">El título debe tener al menos %d carácter</item>
+        <item quantity="other">El título debe tener al menos %d caracteres</item>
+    </plurals>
+    <plurals name="create_chat_description_min_length_error">
+        <item quantity="one">La descripción debe tener al menos %d carácter</item>
+        <item quantity="other">La descripción debe tener al menos %d caracteres</item>
+    </plurals>
     <string name="all_categories">Todas las categorías</string>
     <string name="details_activity">Detalles</string>
     <string name="internet_access">Acceso ilimitado a Internet</string>

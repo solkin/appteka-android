@@ -199,6 +199,20 @@
     <string name="error_topic_pin">Không thể thay đổi cuộc trò chuyện đã đăng</string>
     <string name="discuss_app">Bàn luận</string>
     <string name="error_app_topic_creation">Không mở được chủ đề thảo luận về ứng dụng</string>
+    <string name="create_chat_title">Tạo hội thoại</string>
+    <string name="create_chat_title_hint">Tiêu đề hội thoại</string>
+    <string name="create_chat_description_hint">Mô tả</string>
+    <string name="create_chat_avatar_hint">Nhấn để thêm ảnh</string>
+    <string name="create_chat_avatar_required">Vui lòng thêm ảnh hội thoại</string>
+    <string name="create_chat_submit">Tạo</string>
+    <string name="error_create_custom_topic">Không tạo được hội thoại</string>
+    <string name="system_message_chat_created">Đã tạo hội thoại</string>
+    <plurals name="create_chat_title_min_length_error">
+        <item quantity="other">Tiêu đề phải có ít nhất %d ký tự</item>
+    </plurals>
+    <plurals name="create_chat_description_min_length_error">
+        <item quantity="other">Mô tả phải có ít nhất %d ký tự</item>
+    </plurals>
     <string name="all_categories">Tất cả các danh mục</string>
     <string name="details_activity">Thông tin</string>
     <string name="internet_access">Truy cập Internet không giới hạn</string>
