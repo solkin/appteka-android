@@ -6,6 +6,8 @@ import com.tomclaw.appsend.util.adapter.Item
 import com.tomclaw.appsend.dto.AppEntity
 import com.tomclaw.appsend.screen.moderation.adapter.ItemListener
 import com.tomclaw.appsend.screen.moderation.adapter.app.AppItem
+import com.tomclaw.appsend.core.permissions.CapabilityAction
+import com.tomclaw.appsend.core.permissions.UserCapabilitiesProvider
 import com.tomclaw.appsend.user.ModerationProvider
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.getParcelableArrayListCompat
@@ -45,6 +47,7 @@ interface ModerationPresenter : ItemListener {
 class ModerationPresenterImpl(
     private val interactor: ModerationInteractor,
     private val moderationProvider: ModerationProvider,
+    private val capabilitiesProvider: UserCapabilitiesProvider,
     private val adapterPresenter: Lazy<AdapterPresenter>,
     private val appConverter: AppConverter,
     private val schedulers: SchedulersFactory,
@@ -72,6 +75,11 @@ class ModerationPresenterImpl(
         subscriptions += view.refreshClicks().subscribe {
             invalidateApps()
         }
+
+        view.setVotingHint(
+            capabilitiesProvider.getCapabilities()
+                ?.get(CapabilityAction.MODERATION_FINAL_VOTE)
+        )
 
         if (isError) {
             onError()

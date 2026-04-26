@@ -5,6 +5,8 @@ import android.os.Bundle
 import com.tomclaw.appsend.core.AppInfoProvider
 import com.tomclaw.appsend.core.StandByApi
 import com.tomclaw.appsend.core.StoreApi
+import com.tomclaw.appsend.core.permissions.UserCapabilitiesInteractor
+import com.tomclaw.appsend.core.permissions.UserCapabilitiesProvider
 import com.tomclaw.appsend.screen.home.HomeInteractor
 import com.tomclaw.appsend.screen.home.HomeInteractorImpl
 import com.tomclaw.appsend.screen.home.HomePresenter
@@ -30,12 +32,16 @@ class HomeModule(
         bananalytics: Bananalytics,
         interactor: HomeInteractor,
         moderationProvider: ModerationProvider,
+        capabilitiesProvider: UserCapabilitiesProvider,
+        capabilitiesInteractor: UserCapabilitiesInteractor,
         schedulers: SchedulersFactory
     ): HomePresenter = HomePresenterImpl(
         startAction,
         bananalytics,
         interactor,
         moderationProvider,
+        capabilitiesProvider,
+        capabilitiesInteractor,
         schedulers,
         state
     )

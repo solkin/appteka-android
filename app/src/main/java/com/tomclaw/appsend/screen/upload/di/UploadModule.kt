@@ -91,6 +91,7 @@ class UploadModule(
         uploadManager: UploadManager,
         packageInfoProvider: PackageInfoProvider,
         preferences: UploadPreferencesProvider,
+        capabilitiesProvider: com.tomclaw.appsend.core.permissions.UserCapabilitiesProvider,
         schedulers: SchedulersFactory
     ): UploadPresenter = UploadPresenterImpl(
         pkg,
@@ -106,6 +107,7 @@ class UploadModule(
         uploadManager,
         packageInfoProvider,
         preferences,
+        capabilitiesProvider,
         schedulers,
         state
     )

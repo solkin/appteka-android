@@ -32,6 +32,10 @@ import com.tomclaw.appsend.core.ProxyConfigProviderImpl
 import com.tomclaw.appsend.core.StandByApi
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.core.StreamsProvider
+import com.tomclaw.appsend.core.permissions.UserCapabilitiesInteractor
+import com.tomclaw.appsend.core.permissions.UserCapabilitiesInteractorImpl
+import com.tomclaw.appsend.core.permissions.UserCapabilitiesProvider
+import com.tomclaw.appsend.core.permissions.UserCapabilitiesProviderImpl
 import com.tomclaw.appsend.core.StreamsProviderImpl
 import com.tomclaw.appsend.core.TimeProvider
 import com.tomclaw.appsend.core.TimeProviderImpl
@@ -218,6 +222,20 @@ class AppModule(private val app: Application) {
     @Provides
     @Singleton
     internal fun provideModerationProvider(): ModerationProvider = ModerationProviderImpl()
+
+    @Provides
+    @Singleton
+    internal fun provideUserCapabilitiesProvider(): UserCapabilitiesProvider =
+        UserCapabilitiesProviderImpl()
+
+    @Provides
+    @Singleton
+    internal fun provideUserCapabilitiesInteractor(
+        api: StoreApi,
+        provider: UserCapabilitiesProvider,
+        schedulers: SchedulersFactory,
+    ): UserCapabilitiesInteractor =
+        UserCapabilitiesInteractorImpl(api, provider, schedulers)
 
     @Provides
     @Singleton

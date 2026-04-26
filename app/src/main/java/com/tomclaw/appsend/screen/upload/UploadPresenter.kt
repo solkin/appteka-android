@@ -10,6 +10,8 @@ import com.tomclaw.appsend.categories.Category
 import com.tomclaw.appsend.categories.CategoryConverter
 import com.tomclaw.appsend.categories.CategoryItem
 import com.tomclaw.appsend.core.PackageInfoProvider
+import com.tomclaw.appsend.core.permissions.CapabilityAction
+import com.tomclaw.appsend.core.permissions.UserCapabilitiesProvider
 import com.tomclaw.appsend.screen.gallery.GalleryItem
 import com.tomclaw.appsend.screen.upload.adapter.ItemListener
 import com.tomclaw.appsend.screen.upload.adapter.other_versions.VersionItem
@@ -100,6 +102,7 @@ class UploadPresenterImpl(
     private val uploadManager: UploadManager,
     private val packageInfoProvider: PackageInfoProvider,
     private val preferences: UploadPreferencesProvider,
+    private val capabilitiesProvider: UserCapabilitiesProvider,
     private val schedulers: SchedulersFactory,
     state: Bundle?
 ) : UploadPresenter {
@@ -343,6 +346,8 @@ class UploadPresenterImpl(
             sourceUrl,
             highlightErrors,
             selectedPrefillVersion,
+            bypassModerationCapability = capabilitiesProvider.getCapabilities()
+                ?.get(CapabilityAction.APP_UPLOAD_BYPASS_MODERATION),
         )
     }
 

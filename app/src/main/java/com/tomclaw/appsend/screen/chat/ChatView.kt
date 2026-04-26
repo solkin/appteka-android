@@ -23,8 +23,12 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.core.permissions.Capability
+import com.tomclaw.appsend.core.permissions.CapabilityHintResolver
+import com.tomclaw.appsend.core.permissions.CapabilityResult
 import com.tomclaw.appsend.dto.MessageEntity
 import com.tomclaw.appsend.screen.chat.view.ChatAttachmentsStrip
+import com.tomclaw.appsend.uikit.permissions.PermissionBanner
 import com.tomclaw.appsend.util.ActionItem
 import com.tomclaw.appsend.util.ActionsAdapter
 import com.tomclaw.appsend.util.adapter.AdapterPresenter
@@ -69,6 +73,20 @@ interface ChatView {
     fun showSendError(onRetry: () -> Unit)
 
     fun showUnauthorizedError()
+
+    /**
+     * Surface a capability-denied response (server rejected the
+     * action because of an ACL/ownership/role check). Routed through
+     * the same hint resolver as proactive UI.
+     */
+    fun showCapabilityDenied(capability: Capability)
+
+    /**
+     * Apply the send-message capability. Allowed → composer fully enabled
+     * and banner hidden. Denied/Unknown denial → composer disabled and
+     * banner shown with the explanation provided by the server.
+     */
+    fun setSendEnabled(result: CapabilityResult)
 
     fun setSelectedAttachments(uris: List<Uri>)
 
@@ -152,6 +170,7 @@ class ChatViewImpl(
     private val sendButton: MaterialButton = view.findViewById(R.id.send_button)
     private val sendProgress: CircularProgressIndicator = view.findViewById(R.id.send_progress)
     private val attachmentsStrip: ChatAttachmentsStrip = view.findViewById(R.id.attachments_strip)
+    private val permissionBanner: PermissionBanner = view.findViewById(R.id.permission_banner)
 
     private var isSending = false
 
@@ -299,6 +318,28 @@ class ChatViewImpl(
                 loginRelay.accept(Unit)
             }
             .show()
+    }
+
+    override fun showCapabilityDenied(capability: Capability) {
+        val text = CapabilityHintResolver(recycler.resources).resolveText(capability)
+        Snackbar.make(recycler, text, Snackbar.LENGTH_LONG).show()
+    }
+
+    override fun setSendEnabled(result: CapabilityResult) {
+        when (result) {
+            CapabilityResult.Allowed, CapabilityResult.Unknown -> {
+                permissionBanner.hide()
+                messageEdit.isEnabled = true
+                attachButton.isEnabled = true
+                sendButton.isEnabled = true
+            }
+            is CapabilityResult.Denied -> {
+                permissionBanner.showFor(result.capability)
+                messageEdit.isEnabled = false
+                attachButton.isEnabled = false
+                sendButton.isEnabled = false
+            }
+        }
     }
 
     override fun setSelectedAttachments(uris: List<Uri>) {

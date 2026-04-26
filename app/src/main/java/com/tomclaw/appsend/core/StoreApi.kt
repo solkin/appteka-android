@@ -1,6 +1,7 @@
 package com.tomclaw.appsend.core
 
 import com.tomclaw.appsend.categories.CategoriesResponse
+import com.tomclaw.appsend.core.permissions.api.UserCapabilitiesResponse
 import com.tomclaw.appsend.dto.StoreResponse
 import com.tomclaw.appsend.screen.auth.request_code.api.RequestCodeResponse
 import com.tomclaw.appsend.screen.auth.verify_code.api.VerifyCodeResponse
@@ -279,6 +280,9 @@ interface StoreApi {
         @Query("rate_id") rateId: Int?,
         @Query("locale") locale: String,
     ): Single<StoreResponse<ReviewsResponse>>
+
+    @GET("1/user/capabilities")
+    fun getUserCapabilities(): Single<StoreResponse<UserCapabilitiesResponse>>
 
     @DELETE("1/user/eliminate")
     fun eliminateUser(

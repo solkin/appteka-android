@@ -15,6 +15,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.core.permissions.Capability
+import com.tomclaw.appsend.core.permissions.CapabilityHintResolver
 import com.tomclaw.appsend.util.ActionItem
 import com.tomclaw.appsend.util.ActionsAdapter
 import com.tomclaw.appsend.util.clicks
@@ -51,6 +53,15 @@ interface FeedView {
     fun showError()
 
     fun showPostDeletionFailed()
+
+    fun showUnauthorizedError()
+
+    /**
+     * Surface a capability-denied response (server rejected the
+     * action because of an ACL/ownership/role check). Routed through
+     * the same hint resolver as proactive UI.
+     */
+    fun showCapabilityDenied(capability: Capability)
 
     fun showPostMenu(actions: List<MenuAction>)
 
@@ -132,6 +143,15 @@ class FeedViewImpl(
 
     override fun showPostDeletionFailed() {
         Snackbar.make(recycler, R.string.error_post_deletion, Snackbar.LENGTH_LONG).show()
+    }
+
+    override fun showUnauthorizedError() {
+        Snackbar.make(recycler, R.string.authorization_required_message, Snackbar.LENGTH_LONG).show()
+    }
+
+    override fun showCapabilityDenied(capability: Capability) {
+        val text = CapabilityHintResolver(recycler.resources).resolveText(capability)
+        Snackbar.make(recycler, text, Snackbar.LENGTH_LONG).show()
     }
 
     @SuppressLint("NotifyDataSetChanged")

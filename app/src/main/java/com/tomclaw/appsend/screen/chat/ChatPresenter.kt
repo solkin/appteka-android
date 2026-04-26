@@ -2,6 +2,8 @@ package com.tomclaw.appsend.screen.chat
 
 import android.net.Uri
 import android.os.Bundle
+import com.tomclaw.appsend.core.permissions.CapabilityAction
+import com.tomclaw.appsend.core.permissions.CapabilityPolicy
 import com.tomclaw.appsend.util.adapter.AdapterPresenter
 import com.tomclaw.appsend.util.adapter.Item
 import com.tomclaw.appsend.dto.MessageEntity
@@ -14,6 +16,7 @@ import com.tomclaw.appsend.screen.gallery.GalleryItem
 import com.tomclaw.appsend.screen.topics.COMMON_QNA_TOPIC_ICON
 import com.tomclaw.appsend.user.api.UserBrief
 import com.tomclaw.appsend.util.SchedulersFactory
+import com.tomclaw.appsend.util.filterCapabilityErrors
 import com.tomclaw.appsend.util.filterUnauthorizedErrors
 import com.tomclaw.appsend.util.getParcelableArrayListCompat
 import com.tomclaw.appsend.util.getParcelableCompat
@@ -271,8 +274,15 @@ class ChatPresenterImpl(
     ) {
         bananalytics.leaveBreadcrumb("Message send error: ${ex.message}", BreadcrumbCategory.ERROR)
         bananalytics.trackException(ex, mapOf("action" to "send_message", "topicId" to topicId.toString()))
-        ex.filterUnauthorizedErrors(
+        ex.filterCapabilityErrors(
             authError = { view?.showUnauthorizedError() },
+            capabilityDenied = { cap ->
+                messageText = text
+                selectedAttachments = attachments.toMutableList()
+                view?.setMessageText(text)
+                view?.setSelectedAttachments(selectedAttachments)
+                view?.showCapabilityDenied(cap)
+            },
             other = {
                 view?.showSendError {
                     messageText = text
@@ -281,7 +291,7 @@ class ChatPresenterImpl(
                     view?.setSelectedAttachments(selectedAttachments)
                     sendMessage()
                 }
-            }
+            },
         )
     }
 
@@ -317,6 +327,14 @@ class ChatPresenterImpl(
         view?.setIcon(icon)
         view?.setTitle(title)
         view?.setSubtitle(description ?: topic.packageName.orEmpty())
+        // Reflect the send-message capability in the composer. When the
+        // viewer is read-only (or anonymous), the composer is disabled
+        // and a banner explains why.
+        val sendCheck = CapabilityPolicy.check(
+            action = CapabilityAction.CHAT_MESSAGE_SEND,
+            capabilities = topic.capabilities,
+        )
+        view?.setSendEnabled(sendCheck)
     }
 
     private fun loadHistory() {
@@ -483,12 +501,25 @@ class ChatPresenterImpl(
         } ?: return
         val translated = translation[message.msgId]?.translated == true
         val canTranslate = message.type == 0 && message.text.isNotBlank()
-        val userData = userBrief
-        if (userData != null && (userData.role >= ROLE_ADMIN || userData.userId == message.userId)) {
+        // Server-side capability is the source of truth for whether this
+        // viewer may delete this specific message. Fallback to the
+        // legacy role/ownership heuristic when the field is missing so
+        // that fresh clients talking to old servers still behave sanely.
+        val canDelete = CapabilityPolicy.isAllowed(
+            action = CapabilityAction.CHAT_MESSAGE_DELETE,
+            capabilities = message.capabilities,
+            allowOnUnknown = legacyCanDelete(message),
+        )
+        if (canDelete) {
             view?.showExtendedMessageDialog(message, translated, canTranslate)
         } else {
             view?.showBaseMessageDialog(message, translated, canTranslate)
         }
+    }
+
+    private fun legacyCanDelete(message: MessageEntity): Boolean {
+        val userData = userBrief ?: return false
+        return userData.role >= ROLE_ADMIN || userData.userId == message.userId
     }
 
     override fun onAttachmentClick(item: Item, index: Int) {

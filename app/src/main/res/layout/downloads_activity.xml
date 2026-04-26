@@ -34,6 +34,8 @@
 
             <include layout="@layout/error_view" />
 
+            <include layout="@layout/permission_denied_view" />
+
         </ViewFlipper>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

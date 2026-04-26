@@ -449,4 +449,35 @@
     <string name="proxy_check_button">Verificar</string>
     <string name="proxy_check_success">Proxy funcionando</string>
     <string name="proxy_check_error">Erro: %s</string>
+
+    <!-- Permissions / ACL hints -->
+    <string name="permission_generic_denied">Esta ação não está disponível.</string>
+    <string name="permission_unauthorized">Faça login para realizar esta ação.</string>
+    <string name="permission_not_owner">Somente o autor pode fazer isso.</string>
+    <string name="permission_read_only_messages">Você não pode enviar mensagens no momento.</string>
+    <string name="permission_read_only_ratings">Você não pode avaliar ou comentar apps no momento.</string>
+    <string name="permission_feed_post_delete">Você não tem permissão para excluir publicações de outros usuários.</string>
+    <string name="permission_automoderation">Seus envios são publicados sem moderação.</string>
+    <string name="permission_list_downloaded">Você não tem permissão para ver os downloads de outros usuários.</string>
+    <string name="permission_final_moder_vote">Você tem voto final na moderação.</string>
+    <string name="permission_banned">Sua conta está suspensa.</string>
+    <string name="permission_role_too_low">Você não tem o cargo necessário para esta ação.</string>
+    <string name="permission_app_unlink">Você não tem permissão para bloquear apps de outros usuários.</string>
+    <string name="permission_app_delete">Você não tem permissão para excluir apps de outros usuários.</string>
+    <string name="permission_app_unpublish">Você não tem permissão para despublicar apps de outros usuários.</string>
+    <string name="permission_app_edit_meta">Você não tem permissão para editar apps de outros usuários.</string>
+    <string name="permission_app_rating_delete">Você não tem permissão para excluir avaliações de outros usuários.</string>
+    <string name="permission_app_protected">Este app é protegido e não pode ser modificado.</string>
+    <string name="permission_app_already_unpublished">Este app já está despublicado.</string>
+    <string name="permission_chat_topic_create">Você não tem permissão para criar tópicos.</string>
+    <string name="permission_read_only_app_upload">Você não pode enviar apps no momento.</string>
+    <string name="permission_read_only_feed_posts">Você não pode publicar no feed no momento.</string>
+    <string name="permission_upload_will_be_moderated">Seu envio será revisado por um moderador antes de aparecer na loja.</string>
+    <string name="permission_upload_publishes_immediately">Seus envios são publicados imediatamente, sem moderação.</string>
+    <string name="permission_moderation_advisory_vote">Seu voto é consultivo. A decisão final é tomada pelos moderadores sêniores.</string>
+    <string name="permission_moderation_final_vote">Seu voto é final.</string>
+    <string name="permission_banner_read_only_title">Somente leitura</string>
+    <string name="permission_banner_details_cta">Detalhes</string>
+    <string name="permission_banner_upload_review_title">Será revisado</string>
+    <string name="permission_banner_moderation_role_title">Voto consultivo</string>
 </resources>

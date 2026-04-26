@@ -21,6 +21,7 @@ import com.tomclaw.appsend.screen.upload.adapter.submit.SubmitItem
 import com.tomclaw.appsend.screen.upload.adapter.whats_new.WhatsNewItem
 import com.tomclaw.appsend.screen.upload.api.CheckExistResponse
 import com.tomclaw.appsend.screen.upload.dto.UploadScreenshot
+import com.tomclaw.appsend.core.permissions.Capability
 import com.tomclaw.appsend.upload.UploadApk
 import com.tomclaw.appsend.upload.UploadPackage
 import com.tomclaw.appsend.util.versionCodeCompat
@@ -40,6 +41,7 @@ interface UploadConverter {
         sourceUrl: String,
         highlightErrors: Boolean,
         selectedPrefillVersion: VersionItem?,
+        bypassModerationCapability: Capability?,
     ): List<Item>
 
 }
@@ -62,6 +64,7 @@ class UploadConverterImpl(
         sourceUrl: String,
         highlightErrors: Boolean,
         selectedPrefillVersion: VersionItem?,
+        bypassModerationCapability: Capability?,
     ): List<Item> {
         var id: Long = 1
         val items = ArrayList<Item>()
@@ -71,6 +74,15 @@ class UploadConverterImpl(
             items += SelectedAppItem(id++, apk)
         } else if (pkg == null) {
             items += SelectAppItem(id++)
+        }
+
+        // Inform the user how their submission will be processed once an
+        // app is selected. Skipped when no app is picked yet — there's
+        // nothing to publish to talk about.
+        if (apk != null) {
+            resourceProvider.moderationNotice(bypassModerationCapability)?.let { text ->
+                items += NoticeItem(id++, NoticeType.INFO, text, clickable = false)
+            }
         }
 
         var isUploadAvailable = true

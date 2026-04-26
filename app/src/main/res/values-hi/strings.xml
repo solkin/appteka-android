@@ -449,4 +449,35 @@
     <string name="proxy_check_button">जाँचें</string>
     <string name="proxy_check_success">प्रॉक्सी काम कर रहा है</string>
     <string name="proxy_check_error">त्रुटि: %s</string>
+
+    <!-- Permissions / ACL hints -->
+    <string name="permission_generic_denied">यह क्रिया उपलब्ध नहीं है।</string>
+    <string name="permission_unauthorized">यह क्रिया करने के लिए साइन इन करें।</string>
+    <string name="permission_not_owner">केवल लेखक ही यह कर सकता है।</string>
+    <string name="permission_read_only_messages">आप अभी संदेश नहीं भेज सकते।</string>
+    <string name="permission_read_only_ratings">आप अभी ऐप्स को रेट या समीक्षा नहीं कर सकते।</string>
+    <string name="permission_feed_post_delete">आपके पास अन्य उपयोगकर्ताओं की पोस्ट हटाने की अनुमति नहीं है।</string>
+    <string name="permission_automoderation">आपके अपलोड बिना मॉडरेशन के प्रकाशित होते हैं।</string>
+    <string name="permission_list_downloaded">आपके पास अन्य उपयोगकर्ताओं के डाउनलोड देखने की अनुमति नहीं है।</string>
+    <string name="permission_final_moder_vote">आपके पास अंतिम मॉडरेशन वोट है।</string>
+    <string name="permission_banned">आपका खाता निलंबित है।</string>
+    <string name="permission_role_too_low">इस क्रिया के लिए आपकी आवश्यक भूमिका नहीं है।</string>
+    <string name="permission_app_unlink">आपके पास अन्य उपयोगकर्ताओं के ऐप्स को ब्लॉक करने की अनुमति नहीं है।</string>
+    <string name="permission_app_delete">आपके पास अन्य उपयोगकर्ताओं के ऐप्स को हटाने की अनुमति नहीं है।</string>
+    <string name="permission_app_unpublish">आपके पास अन्य उपयोगकर्ताओं के ऐप्स को अप्रकाशित करने की अनुमति नहीं है।</string>
+    <string name="permission_app_edit_meta">आपके पास अन्य उपयोगकर्ताओं के ऐप्स को संपादित करने की अनुमति नहीं है।</string>
+    <string name="permission_app_rating_delete">आपके पास अन्य उपयोगकर्ताओं की समीक्षाएँ हटाने की अनुमति नहीं है।</string>
+    <string name="permission_app_protected">यह ऐप संरक्षित है और संशोधित नहीं किया जा सकता।</string>
+    <string name="permission_app_already_unpublished">यह ऐप पहले से ही अप्रकाशित है।</string>
+    <string name="permission_chat_topic_create">आपको विषय बनाने की अनुमति नहीं है।</string>
+    <string name="permission_read_only_app_upload">आप अभी ऐप्स अपलोड नहीं कर सकते।</string>
+    <string name="permission_read_only_feed_posts">आप अभी फ़ीड में पोस्ट नहीं कर सकते।</string>
+    <string name="permission_upload_will_be_moderated">आपका अपलोड स्टोर में दिखने से पहले एक मॉडरेटर द्वारा समीक्षा किया जाएगा।</string>
+    <string name="permission_upload_publishes_immediately">आपके अपलोड तुरंत बिना मॉडरेशन के प्रकाशित होते हैं।</string>
+    <string name="permission_moderation_advisory_vote">आपका वोट सलाहकारी है। अंतिम निर्णय वरिष्ठ मॉडरेटर लेते हैं।</string>
+    <string name="permission_moderation_final_vote">आपका वोट अंतिम है।</string>
+    <string name="permission_banner_read_only_title">केवल पठन</string>
+    <string name="permission_banner_details_cta">विवरण</string>
+    <string name="permission_banner_upload_review_title">समीक्षा की जाएगी</string>
+    <string name="permission_banner_moderation_role_title">सलाहकारी वोट</string>
 </resources>

@@ -494,4 +494,35 @@
     <string name="proxy_check_button">تحقق</string>
     <string name="proxy_check_success">الوكيل يعمل</string>
     <string name="proxy_check_error">خطأ: %s</string>
+
+    <!-- Permissions / ACL hints -->
+    <string name="permission_generic_denied">هذا الإجراء غير متاح.</string>
+    <string name="permission_unauthorized">سجّل الدخول للقيام بهذا الإجراء.</string>
+    <string name="permission_not_owner">فقط المؤلف يمكنه فعل ذلك.</string>
+    <string name="permission_read_only_messages">لا يمكنك إرسال رسائل في الوقت الحالي.</string>
+    <string name="permission_read_only_ratings">لا يمكنك تقييم التطبيقات أو مراجعتها في الوقت الحالي.</string>
+    <string name="permission_feed_post_delete">ليس لديك إذن لحذف منشورات المستخدمين الآخرين.</string>
+    <string name="permission_automoderation">تُنشر تحميلاتك دون إشراف.</string>
+    <string name="permission_list_downloaded">ليس لديك إذن لعرض تنزيلات المستخدمين الآخرين.</string>
+    <string name="permission_final_moder_vote">لديك تصويت الإشراف النهائي.</string>
+    <string name="permission_banned">تم تعليق حسابك.</string>
+    <string name="permission_role_too_low">ليس لديك الصلاحية المطلوبة لهذا الإجراء.</string>
+    <string name="permission_app_unlink">ليس لديك إذن لحظر تطبيقات المستخدمين الآخرين.</string>
+    <string name="permission_app_delete">ليس لديك إذن لحذف تطبيقات المستخدمين الآخرين.</string>
+    <string name="permission_app_unpublish">ليس لديك إذن لإلغاء نشر تطبيقات المستخدمين الآخرين.</string>
+    <string name="permission_app_edit_meta">ليس لديك إذن لتعديل تطبيقات المستخدمين الآخرين.</string>
+    <string name="permission_app_rating_delete">ليس لديك إذن لحذف تقييمات المستخدمين الآخرين.</string>
+    <string name="permission_app_protected">هذا التطبيق محمي ولا يمكن تعديله.</string>
+    <string name="permission_app_already_unpublished">هذا التطبيق ملغي النشر بالفعل.</string>
+    <string name="permission_chat_topic_create">ليس لديك إذن لإنشاء المواضيع.</string>
+    <string name="permission_read_only_app_upload">لا يمكنك تحميل التطبيقات في الوقت الحالي.</string>
+    <string name="permission_read_only_feed_posts">لا يمكنك النشر في الموجز في الوقت الحالي.</string>
+    <string name="permission_upload_will_be_moderated">ستتم مراجعة تحميلك بواسطة مشرف قبل ظهوره في المتجر.</string>
+    <string name="permission_upload_publishes_immediately">تُنشر تحميلاتك فوراً، دون إشراف.</string>
+    <string name="permission_moderation_advisory_vote">تصويتك استشاري. القرار النهائي يتخذه المشرفون الأقدمون.</string>
+    <string name="permission_moderation_final_vote">تصويتك نهائي.</string>
+    <string name="permission_banner_read_only_title">للقراءة فقط</string>
+    <string name="permission_banner_details_cta">التفاصيل</string>
+    <string name="permission_banner_upload_review_title">ستتم المراجعة</string>
+    <string name="permission_banner_moderation_role_title">تصويت استشاري</string>
 </resources>

@@ -8,6 +8,7 @@ import com.tomclaw.appsend.util.adapter.SimpleAdapterPresenter
 import com.tomclaw.appsend.util.adapter.ItemBlueprint
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.core.TimeProvider
+import com.tomclaw.appsend.core.permissions.UserCapabilitiesProvider
 import com.tomclaw.appsend.di.DATE_FORMATTER
 import com.tomclaw.appsend.screen.profile.ProfileConverter
 import com.tomclaw.appsend.screen.profile.ProfileConverterImpl
@@ -63,6 +64,7 @@ class ProfileModule(
         interactor: ProfileInteractor,
         converter: ProfileConverter,
         moderationProvider: ModerationProvider,
+        capabilitiesProvider: UserCapabilitiesProvider,
         @Named(PROFILE_ADAPTER_PRESENTER) adapterPresenter: Lazy<AdapterPresenter>,
         schedulers: SchedulersFactory
     ): ProfilePresenter = ProfilePresenterImpl(
@@ -71,6 +73,7 @@ class ProfileModule(
         interactor,
         converter,
         moderationProvider,
+        capabilitiesProvider,
         adapterPresenter,
         schedulers,
         state

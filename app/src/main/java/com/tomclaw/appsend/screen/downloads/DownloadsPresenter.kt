@@ -3,11 +3,13 @@ package com.tomclaw.appsend.screen.downloads
 import android.os.Bundle
 import com.tomclaw.appsend.util.adapter.AdapterPresenter
 import com.tomclaw.appsend.util.adapter.Item
+import com.tomclaw.appsend.core.permissions.Capability
 import com.tomclaw.appsend.dto.AppEntity
 import com.tomclaw.appsend.screen.downloads.adapter.ItemListener
 import com.tomclaw.appsend.screen.downloads.adapter.app.AppItem
 import com.tomclaw.appsend.user.api.UserBrief
 import com.tomclaw.appsend.util.SchedulersFactory
+import com.tomclaw.appsend.util.filterCapabilityErrors
 import com.tomclaw.appsend.util.getParcelableArrayListCompat
 import com.tomclaw.appsend.util.getParcelableCompat
 import com.tomclaw.appsend.util.retryWhenNonAuthErrors
@@ -61,6 +63,8 @@ class DownloadsPresenterImpl(
     private var items: List<AppItem>? =
         state?.getParcelableArrayListCompat(KEY_APPS, AppItem::class.java)
     private var isError: Boolean = state?.getBoolean(KEY_ERROR) == true
+    private var capabilityDenied: Capability? =
+        state?.getParcelableCompat(KEY_CAPABILITY_DENIED, Capability::class.java)
     private var brief: UserBrief? = state?.getParcelableCompat(KEY_BRIEF, UserBrief::class.java)
 
     override fun attachView(view: DownloadsView) {
@@ -76,11 +80,13 @@ class DownloadsPresenterImpl(
             invalidateApps()
         }
 
-        if (isError) {
-            onError()
-            onReady()
-        } else {
-            items?.let { onReady() } ?: loadApps()
+        when {
+            capabilityDenied != null -> onReady()
+            isError -> {
+                onError()
+                onReady()
+            }
+            else -> items?.let { onReady() } ?: loadApps()
         }
     }
 
@@ -100,11 +106,13 @@ class DownloadsPresenterImpl(
     override fun saveState() = Bundle().apply {
         putParcelableArrayList(KEY_APPS, items?.let { ArrayList(items.orEmpty()) })
         putBoolean(KEY_ERROR, isError)
+        putParcelable(KEY_CAPABILITY_DENIED, capabilityDenied)
         putParcelable(KEY_BRIEF, brief)
     }
 
     override fun invalidateApps() {
         items = null
+        capabilityDenied = null
         loadApps()
     }
 
@@ -123,9 +131,15 @@ class DownloadsPresenterImpl(
                     onBriefLoaded(it.second.userBrief)
                     onLoaded(it.first)
                 },
-                {
-                    it.printStackTrace()
-                    onError()
+                { ex ->
+                    ex.filterCapabilityErrors(
+                        authError = { onError() },
+                        capabilityDenied = { cap -> onCapabilityDenied(cap) },
+                        other = {
+                            ex.printStackTrace()
+                            onError()
+                        },
+                    )
                 }
             )
     }
@@ -163,7 +177,12 @@ class DownloadsPresenterImpl(
 
     private fun onReady() {
         val items = this.items
+        val capability = capabilityDenied
         when {
+            capability != null -> {
+                view?.showCapabilityDenied(capability)
+            }
+
             isError -> {
                 view?.showError()
             }
@@ -188,6 +207,12 @@ class DownloadsPresenterImpl(
 
     private fun onError() {
         this.isError = true
+    }
+
+    private fun onCapabilityDenied(capability: Capability) {
+        this.capabilityDenied = capability
+        this.isError = false
+        this.items = null
     }
 
     private fun onLoadMoreError() {
@@ -252,4 +277,5 @@ class DownloadsPresenterImpl(
 
 private const val KEY_APPS = "apps"
 private const val KEY_ERROR = "error"
+private const val KEY_CAPABILITY_DENIED = "capability_denied"
 private const val KEY_BRIEF = "brief"

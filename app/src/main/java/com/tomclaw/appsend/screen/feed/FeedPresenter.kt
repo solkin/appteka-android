@@ -11,6 +11,7 @@ import com.tomclaw.appsend.screen.feed.api.PostEntity
 import com.tomclaw.appsend.screen.gallery.GalleryItem
 import com.tomclaw.appsend.user.api.UserBrief
 import com.tomclaw.appsend.util.SchedulersFactory
+import com.tomclaw.appsend.util.filterCapabilityErrors
 import com.tomclaw.appsend.util.filterUnauthorizedErrors
 import com.tomclaw.appsend.util.getParcelableArrayListCompat
 import com.tomclaw.appsend.util.retryWhenNonAuthErrors
@@ -362,7 +363,13 @@ class FeedPresenterImpl(
             .doAfterTerminate { view?.showContent() }
             .subscribe(
                 { onPostDeleted(item) },
-                { view?.showPostDeletionFailed() }
+                { ex ->
+                    ex.filterCapabilityErrors(
+                        authError = { view?.showUnauthorizedError() },
+                        capabilityDenied = { cap -> view?.showCapabilityDenied(cap) },
+                        other = { view?.showPostDeletionFailed() },
+                    )
+                }
             )
     }
 

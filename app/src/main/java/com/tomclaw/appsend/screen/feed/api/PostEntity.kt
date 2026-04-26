@@ -1,6 +1,7 @@
 package com.tomclaw.appsend.screen.feed.api
 
 import com.google.gson.annotations.SerializedName
+import com.tomclaw.appsend.core.permissions.Capability
 import com.tomclaw.appsend.user.api.UserBrief
 import com.tomclaw.appsend.util.GsonModel
 
@@ -20,6 +21,8 @@ data class PostEntity(
     val user: UserBrief,
     @SerializedName("actions")
     val actions: List<String>?,
+    @SerializedName("capabilities")
+    val capabilities: Map<String, Capability>? = null,
 )
 
 const val TYPE_TEXT = 1

@@ -41,12 +41,14 @@ class ModerationModule(
     internal fun providePresenter(
         interactor: ModerationInteractor,
         moderationProvider: ModerationProvider,
+        capabilitiesProvider: com.tomclaw.appsend.core.permissions.UserCapabilitiesProvider,
         adapterPresenter: Lazy<AdapterPresenter>,
         appConverter: AppConverter,
         schedulers: SchedulersFactory
     ): ModerationPresenter = ModerationPresenterImpl(
         interactor,
         moderationProvider,
+        capabilitiesProvider,
         adapterPresenter,
         appConverter,
         schedulers,

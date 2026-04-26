@@ -11,6 +11,8 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.core.permissions.Capability
+import com.tomclaw.appsend.core.permissions.CapabilityHintResolver
 import com.tomclaw.imageloader.util.fetch
 import com.tomclaw.appsend.util.clicks
 import com.tomclaw.appsend.util.disable
@@ -36,6 +38,13 @@ interface CreateChatView {
     fun showContent()
 
     fun showError(message: String)
+
+    /**
+     * Surface a capability-denied response (server rejected the
+     * action because of an ACL/ownership/role check). Routed through
+     * the same hint resolver as proactive UI.
+     */
+    fun showCapabilityDenied(capability: Capability)
 
     fun showValidationError(message: String)
 
@@ -126,6 +135,11 @@ class CreateChatViewImpl(
 
     override fun showError(message: String) {
         Snackbar.make(rootView, message, Snackbar.LENGTH_LONG).show()
+    }
+
+    override fun showCapabilityDenied(capability: Capability) {
+        val text = CapabilityHintResolver(rootView.resources).resolveText(capability)
+        Snackbar.make(rootView, text, Snackbar.LENGTH_LONG).show()
     }
 
     override fun showValidationError(message: String) {

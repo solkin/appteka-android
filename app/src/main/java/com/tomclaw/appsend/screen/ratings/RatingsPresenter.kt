@@ -8,6 +8,7 @@ import com.tomclaw.appsend.screen.ratings.adapter.ItemListener
 import com.tomclaw.appsend.screen.ratings.adapter.rating.RatingItem
 import com.tomclaw.appsend.user.api.UserBrief
 import com.tomclaw.appsend.util.SchedulersFactory
+import com.tomclaw.appsend.util.filterCapabilityErrors
 import com.tomclaw.appsend.util.getParcelableArrayListCompat
 import com.tomclaw.appsend.util.getParcelableCompat
 import com.tomclaw.appsend.util.retryWhenNonAuthErrors
@@ -214,7 +215,13 @@ class RatingsPresenterImpl(
             .doAfterTerminate { onReady() }
             .subscribe(
                 { onRatingDeleted(item) },
-                { view?.showRatingRemovalFailed() }
+                { ex ->
+                    ex.filterCapabilityErrors(
+                        authError = { view?.showUnauthorizedError() },
+                        capabilityDenied = { cap -> view?.showCapabilityDenied(cap) },
+                        other = { view?.showRatingRemovalFailed() },
+                    )
+                }
             )
     }
 

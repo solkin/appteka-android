@@ -33,6 +33,14 @@ interface ModerationView {
 
     fun isPullRefreshing(): Boolean
 
+    /**
+     * Apply the "moderation.final_vote" capability as a subtitle on the
+     * toolbar — "Final vote" / "Advisory vote". Subtitle stays empty
+     * when capability is missing (legacy server) so the screen looks
+     * exactly like before.
+     */
+    fun setVotingHint(capability: com.tomclaw.appsend.core.permissions.Capability?)
+
     fun navigationClicks(): Observable<Unit>
 
     fun retryClicks(): Observable<Unit>
@@ -81,6 +89,16 @@ class ModerationViewImpl(
     override fun showContent() {
         refresher.isEnabled = true
         flipper.displayedChild = 1
+    }
+
+    override fun setVotingHint(capability: com.tomclaw.appsend.core.permissions.Capability?) {
+        toolbar.subtitle = if (capability == null) {
+            null
+        } else if (capability.allowed) {
+            context.getString(R.string.permission_moderation_final_vote)
+        } else {
+            context.getString(R.string.permission_moderation_advisory_vote)
+        }
     }
 
     override fun showPlaceholder() {

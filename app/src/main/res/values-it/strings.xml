@@ -450,4 +450,35 @@
     <string name="proxy_check_button">Verifica</string>
     <string name="proxy_check_success">Il proxy funziona</string>
     <string name="proxy_check_error">Errore: %s</string>
+
+    <!-- Permissions / ACL hints -->
+    <string name="permission_generic_denied">Questa azione non è disponibile.</string>
+    <string name="permission_unauthorized">Accedi per eseguire questa azione.</string>
+    <string name="permission_not_owner">Solo l\'autore può farlo.</string>
+    <string name="permission_read_only_messages">Al momento non puoi inviare messaggi.</string>
+    <string name="permission_read_only_ratings">Al momento non puoi valutare o recensire app.</string>
+    <string name="permission_feed_post_delete">Non hai i permessi per eliminare i post di altri utenti.</string>
+    <string name="permission_automoderation">I tuoi caricamenti vengono pubblicati senza moderazione.</string>
+    <string name="permission_list_downloaded">Non hai i permessi per vedere i download di altri utenti.</string>
+    <string name="permission_final_moder_vote">Il tuo voto di moderazione è definitivo.</string>
+    <string name="permission_banned">Il tuo account è sospeso.</string>
+    <string name="permission_role_too_low">Non hai il ruolo richiesto per questa azione.</string>
+    <string name="permission_app_unlink">Non hai i permessi per bloccare le app di altri utenti.</string>
+    <string name="permission_app_delete">Non hai i permessi per eliminare le app di altri utenti.</string>
+    <string name="permission_app_unpublish">Non hai i permessi per ritirare le app di altri utenti.</string>
+    <string name="permission_app_edit_meta">Non hai i permessi per modificare le app di altri utenti.</string>
+    <string name="permission_app_rating_delete">Non hai i permessi per eliminare le recensioni di altri utenti.</string>
+    <string name="permission_app_protected">Questa app è protetta e non può essere modificata.</string>
+    <string name="permission_app_already_unpublished">Questa app è già ritirata.</string>
+    <string name="permission_chat_topic_create">Non hai i permessi per creare argomenti.</string>
+    <string name="permission_read_only_app_upload">Al momento non puoi caricare app.</string>
+    <string name="permission_read_only_feed_posts">Al momento non puoi pubblicare nel feed.</string>
+    <string name="permission_upload_will_be_moderated">Il tuo caricamento sarà esaminato da un moderatore prima di apparire nello store.</string>
+    <string name="permission_upload_publishes_immediately">I tuoi caricamenti vengono pubblicati immediatamente, senza moderazione.</string>
+    <string name="permission_moderation_advisory_vote">Il tuo voto è consultivo. La decisione finale spetta ai moderatori senior.</string>
+    <string name="permission_moderation_final_vote">Il tuo voto è definitivo.</string>
+    <string name="permission_banner_read_only_title">Sola lettura</string>
+    <string name="permission_banner_details_cta">Dettagli</string>
+    <string name="permission_banner_upload_review_title">Sarà esaminato</string>
+    <string name="permission_banner_moderation_role_title">Voto consultivo</string>
 </resources>

@@ -16,6 +16,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.core.permissions.Capability
+import com.tomclaw.appsend.core.permissions.CapabilityHintResolver
 import com.tomclaw.appsend.screen.details.adapter.play.PlaySecurityStatus
 import com.tomclaw.appsend.util.ActionItem
 import com.tomclaw.appsend.util.ActionsAdapter
@@ -56,6 +58,13 @@ interface DetailsView {
     fun hideError()
 
     fun showUnauthorizedError()
+
+    /**
+     * Surface a capability-denied response (server rejected the
+     * action because of an ACL/ownership/role check). Routed through
+     * the same hint resolver as proactive UI.
+     */
+    fun showCapabilityDenied(capability: Capability)
 
     fun showDeletionDialog()
 
@@ -346,6 +355,11 @@ class DetailsViewImpl(
                 loginRelay.accept(Unit)
             }
             .show()
+    }
+
+    override fun showCapabilityDenied(capability: Capability) {
+        val text = CapabilityHintResolver(recycler.resources).resolveText(capability)
+        Snackbar.make(recycler, text, Snackbar.LENGTH_LONG).show()
     }
 
     override fun showDeletionDialog() {

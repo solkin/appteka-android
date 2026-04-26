@@ -11,7 +11,7 @@ import com.tomclaw.appsend.screen.post.adapter.image.ImageItem
 import com.tomclaw.appsend.screen.post.dto.FeedConfig
 import com.tomclaw.appsend.screen.feed.api.Reaction
 import com.tomclaw.appsend.util.SchedulersFactory
-import com.tomclaw.appsend.util.filterUnauthorizedErrors
+import com.tomclaw.appsend.util.filterCapabilityErrors
 import com.tomclaw.appsend.util.getParcelableArrayListCompat
 import com.tomclaw.appsend.util.getParcelableCompat
 import com.tomclaw.appsend.util.retryWhenNonAuthErrors
@@ -173,9 +173,11 @@ class PostPresenterImpl(
             .subscribe(
                 { onPostDone(it) },
                 {
-                    it.filterUnauthorizedErrors({ view?.showUnauthorizedError() }) {
-                        view?.showPostError()
-                    }
+                    it.filterCapabilityErrors(
+                        authError = { view?.showUnauthorizedError() },
+                        capabilityDenied = { cap -> view?.showCapabilityDenied(cap) },
+                        other = { view?.showPostError() },
+                    )
                 }
             )
     }

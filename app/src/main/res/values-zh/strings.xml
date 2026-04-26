@@ -438,4 +438,35 @@
     <string name="proxy_check_button">检查</string>
     <string name="proxy_check_success">代理正常工作</string>
     <string name="proxy_check_error">错误：%s</string>
+
+    <!-- Permissions / ACL hints -->
+    <string name="permission_generic_denied">此操作不可用。</string>
+    <string name="permission_unauthorized">登录以执行此操作。</string>
+    <string name="permission_not_owner">只有作者可以这样做。</string>
+    <string name="permission_read_only_messages">您当前无法发送消息。</string>
+    <string name="permission_read_only_ratings">您当前无法评分或评论应用。</string>
+    <string name="permission_feed_post_delete">您无权删除其他用户的帖子。</string>
+    <string name="permission_automoderation">您的上传无需审核即可发布。</string>
+    <string name="permission_list_downloaded">您无权查看其他用户的下载。</string>
+    <string name="permission_final_moder_vote">您拥有最终审核投票权。</string>
+    <string name="permission_banned">您的账号已暂停。</string>
+    <string name="permission_role_too_low">您没有此操作所需的角色。</string>
+    <string name="permission_app_unlink">您无权封禁其他用户的应用。</string>
+    <string name="permission_app_delete">您无权删除其他用户的应用。</string>
+    <string name="permission_app_unpublish">您无权取消发布其他用户的应用。</string>
+    <string name="permission_app_edit_meta">您无权编辑其他用户的应用。</string>
+    <string name="permission_app_rating_delete">您无权删除其他用户的评论。</string>
+    <string name="permission_app_protected">此应用受保护，无法修改。</string>
+    <string name="permission_app_already_unpublished">此应用已取消发布。</string>
+    <string name="permission_chat_topic_create">您无权创建话题。</string>
+    <string name="permission_read_only_app_upload">您当前无法上传应用。</string>
+    <string name="permission_read_only_feed_posts">您当前无法在动态中发帖。</string>
+    <string name="permission_upload_will_be_moderated">您的上传将由管理员审核后才会出现在商店中。</string>
+    <string name="permission_upload_publishes_immediately">您的上传将立即发布，无需审核。</string>
+    <string name="permission_moderation_advisory_vote">您的投票仅供参考。最终决定由高级管理员作出。</string>
+    <string name="permission_moderation_final_vote">您的投票为最终结果。</string>
+    <string name="permission_banner_read_only_title">只读模式</string>
+    <string name="permission_banner_details_cta">详情</string>
+    <string name="permission_banner_upload_review_title">待审核</string>
+    <string name="permission_banner_moderation_role_title">建议投票</string>
 </resources>

@@ -13,6 +13,8 @@ import com.tomclaw.appsend.util.adapter.SimpleRecyclerAdapter
 import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.core.permissions.Capability
+import com.tomclaw.appsend.core.permissions.CapabilityHintResolver
 import com.tomclaw.appsend.util.clicks
 import io.reactivex.rxjava3.core.Observable
 
@@ -29,6 +31,14 @@ interface DownloadsView {
     fun showPlaceholder()
 
     fun showError()
+
+    /**
+     * Show a permission-denied placeholder (no retry button — retry is
+     * meaningless when the server has revoked the capability). The text
+     * is resolved through [CapabilityHintResolver] so the wording
+     * matches proactive UI for the same rule.
+     */
+    fun showCapabilityDenied(capability: Capability)
 
     fun showDownloadRemovalFailed()
 
@@ -56,6 +66,7 @@ class DownloadsViewImpl(
     private val recycler: RecyclerView = view.findViewById(R.id.recycler)
     private val error: TextView = view.findViewById(R.id.error_text)
     private val retryButton: View = view.findViewById(R.id.button_retry)
+    private val permissionText: TextView = view.findViewById(R.id.permission_text)
 
     private val navigationRelay = PublishRelay.create<Unit>()
     private val retryRelay = PublishRelay.create<Unit>()
@@ -98,6 +109,13 @@ class DownloadsViewImpl(
 
         error.setText(R.string.load_files_error)
         retryButton.clicks(retryRelay)
+    }
+
+    override fun showCapabilityDenied(capability: Capability) {
+        refresher.isRefreshing = false
+        refresher.isEnabled = false
+        permissionText.text = CapabilityHintResolver(context.resources).resolveText(capability)
+        flipper.displayedChild = 4
     }
 
     override fun showDownloadRemovalFailed() {

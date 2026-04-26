@@ -472,4 +472,35 @@
     <string name="proxy_check_button">Проверить</string>
     <string name="proxy_check_success">Прокси работает</string>
     <string name="proxy_check_error">Ошибка: %s</string>
+
+    <!-- Permissions / ACL hints -->
+    <string name="permission_generic_denied">Действие недоступно.</string>
+    <string name="permission_unauthorized">Войдите, чтобы выполнить это действие.</string>
+    <string name="permission_not_owner">Это может сделать только автор.</string>
+    <string name="permission_read_only_messages">Вы не можете отправлять сообщения.</string>
+    <string name="permission_read_only_ratings">Вы не можете оценивать приложения и оставлять отзывы.</string>
+    <string name="permission_feed_post_delete">Нет прав для удаления чужих постов.</string>
+    <string name="permission_automoderation">Ваши загрузки публикуются без модерации.</string>
+    <string name="permission_list_downloaded">Нет прав для просмотра скачанных приложений других пользователей.</string>
+    <string name="permission_final_moder_vote">У вас финальный голос модерации.</string>
+    <string name="permission_banned">Ваш аккаунт заблокирован.</string>
+    <string name="permission_role_too_low">Недостаточно прав для этого действия.</string>
+    <string name="permission_app_unlink">Нет прав блокировать чужие приложения.</string>
+    <string name="permission_app_delete">Нет прав удалять чужие приложения.</string>
+    <string name="permission_app_unpublish">Нет прав снимать с публикации чужие приложения.</string>
+    <string name="permission_app_edit_meta">Нет прав редактировать чужие приложения.</string>
+    <string name="permission_app_rating_delete">Нет прав удалять чужие отзывы.</string>
+    <string name="permission_app_protected">Это приложение защищено и не может быть изменено.</string>
+    <string name="permission_app_already_unpublished">Приложение уже снято с публикации.</string>
+    <string name="permission_chat_topic_create">У вас нет права создавать темы.</string>
+    <string name="permission_read_only_app_upload">Вы не можете загружать приложения.</string>
+    <string name="permission_read_only_feed_posts">Вы не можете публиковать посты в ленте.</string>
+    <string name="permission_upload_will_be_moderated">Загруженное приложение будет проверено модератором перед публикацией в магазине.</string>
+    <string name="permission_upload_publishes_immediately">Ваши загрузки публикуются сразу, без модерации.</string>
+    <string name="permission_moderation_advisory_vote">Ваш голос совещательный. Финальное решение принимают старшие модераторы.</string>
+    <string name="permission_moderation_final_vote">Ваш голос финальный.</string>
+    <string name="permission_banner_read_only_title">Только чтение</string>
+    <string name="permission_banner_details_cta">Подробнее</string>
+    <string name="permission_banner_upload_review_title">Будет проверено</string>
+    <string name="permission_banner_moderation_role_title">Совещательный голос</string>
 </resources>

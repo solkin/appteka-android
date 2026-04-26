@@ -458,4 +458,35 @@
     <string name="proxy_check_button">بررسی</string>
     <string name="proxy_check_success">پروکسی کار می‌کند</string>
     <string name="proxy_check_error">خطا: %s</string>
+
+    <!-- Permissions / ACL hints -->
+    <string name="permission_generic_denied">این عمل در دسترس نیست.</string>
+    <string name="permission_unauthorized">برای انجام این عمل وارد شوید.</string>
+    <string name="permission_not_owner">فقط نویسنده می‌تواند این کار را انجام دهد.</string>
+    <string name="permission_read_only_messages">در حال حاضر نمی‌توانید پیام ارسال کنید.</string>
+    <string name="permission_read_only_ratings">در حال حاضر نمی‌توانید برنامه‌ها را امتیاز دهید یا نقد کنید.</string>
+    <string name="permission_feed_post_delete">برای حذف پست‌های سایر کاربران مجوز ندارید.</string>
+    <string name="permission_automoderation">بارگذاری‌های شما بدون نظارت منتشر می‌شوند.</string>
+    <string name="permission_list_downloaded">برای دیدن بارگیری‌های سایر کاربران مجوز ندارید.</string>
+    <string name="permission_final_moder_vote">شما رأی نهایی نظارت را دارید.</string>
+    <string name="permission_banned">حساب شما معلق شده است.</string>
+    <string name="permission_role_too_low">نقش لازم برای این عمل را ندارید.</string>
+    <string name="permission_app_unlink">برای مسدود کردن برنامه‌های سایر کاربران مجوز ندارید.</string>
+    <string name="permission_app_delete">برای حذف برنامه‌های سایر کاربران مجوز ندارید.</string>
+    <string name="permission_app_unpublish">برای لغو انتشار برنامه‌های سایر کاربران مجوز ندارید.</string>
+    <string name="permission_app_edit_meta">برای ویرایش برنامه‌های سایر کاربران مجوز ندارید.</string>
+    <string name="permission_app_rating_delete">برای حذف نقدهای سایر کاربران مجوز ندارید.</string>
+    <string name="permission_app_protected">این برنامه محافظت شده است و قابل تغییر نیست.</string>
+    <string name="permission_app_already_unpublished">انتشار این برنامه قبلاً لغو شده است.</string>
+    <string name="permission_chat_topic_create">برای ایجاد موضوع‌ها مجوز ندارید.</string>
+    <string name="permission_read_only_app_upload">در حال حاضر نمی‌توانید برنامه بارگذاری کنید.</string>
+    <string name="permission_read_only_feed_posts">در حال حاضر نمی‌توانید در فید پست بگذارید.</string>
+    <string name="permission_upload_will_be_moderated">بارگذاری شما قبل از ظاهر شدن در فروشگاه توسط یک ناظر بررسی خواهد شد.</string>
+    <string name="permission_upload_publishes_immediately">بارگذاری‌های شما بلافاصله و بدون نظارت منتشر می‌شوند.</string>
+    <string name="permission_moderation_advisory_vote">رأی شما مشورتی است. تصمیم نهایی توسط ناظران ارشد گرفته می‌شود.</string>
+    <string name="permission_moderation_final_vote">رأی شما نهایی است.</string>
+    <string name="permission_banner_read_only_title">فقط خواندنی</string>
+    <string name="permission_banner_details_cta">جزئیات</string>
+    <string name="permission_banner_upload_review_title">بررسی خواهد شد</string>
+    <string name="permission_banner_moderation_role_title">رأی مشورتی</string>
 </resources>

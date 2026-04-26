@@ -2,6 +2,7 @@ package com.tomclaw.appsend.screen.details.api
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import com.tomclaw.appsend.core.permissions.Capability
 import com.tomclaw.appsend.util.GsonModel
 import kotlinx.parcelize.Parcelize
 
@@ -38,9 +39,11 @@ data class Details(
     val translation: TranslationResponse?,
     @SerializedName("developer")
     val developer: Developer?,
+    @SerializedName("capabilities")
+    val capabilities: Map<String, Capability>? = null,
 ) : Parcelable
 
-const val ACTION_UNLINK = "unlink"
-const val ACTION_UNPUBLISH = "unpublish"
-const val ACTION_DELETE = "delete"
-const val ACTION_EDIT_META = "edit_meta"
+// Note: the legacy `actions` field on [Details] is still serialised by
+// the server for backward compatibility with older clients, but this
+// app no longer consumes it. All decisions are driven by
+// [Details.capabilities] via [com.tomclaw.appsend.core.permissions.CapabilityPolicy].

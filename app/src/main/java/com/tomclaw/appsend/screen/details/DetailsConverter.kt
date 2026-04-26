@@ -1,6 +1,7 @@
 package com.tomclaw.appsend.screen.details
 
 import android.net.Uri
+import com.tomclaw.appsend.core.permissions.CapabilityAction
 import com.tomclaw.appsend.util.adapter.Item
 import com.tomclaw.appsend.categories.DEFAULT_LOCALE
 import com.tomclaw.appsend.screen.details.adapter.abi.AbiItem
@@ -24,8 +25,7 @@ import com.tomclaw.appsend.screen.details.adapter.status.StatusType
 import com.tomclaw.appsend.screen.details.adapter.user_rate.UserRateItem
 import com.tomclaw.appsend.screen.details.adapter.user_review.UserReviewItem
 import com.tomclaw.appsend.screen.details.adapter.whats_new.WhatsNewItem
-import com.tomclaw.appsend.screen.details.api.ACTION_EDIT_META
-import com.tomclaw.appsend.screen.details.api.ACTION_UNPUBLISH
+import com.tomclaw.appsend.core.permissions.CapabilityPolicy
 import com.tomclaw.appsend.screen.details.api.Details
 import com.tomclaw.appsend.screen.details.api.STATUS_MODERATION
 import com.tomclaw.appsend.screen.details.api.STATUS_NORMAL
@@ -84,7 +84,11 @@ class DetailsConverterImpl(
             )
 
             STATUS_PRIVATE -> {
-                val canEdit = details.actions?.contains(ACTION_EDIT_META) == true
+                val canEdit = CapabilityPolicy.isAllowed(
+                    action = CapabilityAction.APP_EDIT_META,
+                    capabilities = details.capabilities,
+                    allowOnUnknown = false,
+                )
                 items += StatusItem(
                     id = id++,
                     type = StatusType.INFO,
@@ -96,7 +100,11 @@ class DetailsConverterImpl(
 
             STATUS_MODERATION -> {
                 if (!moderation) {
-                    val canUnpublish = details.actions?.contains(ACTION_UNPUBLISH) == true
+                    val canUnpublish = CapabilityPolicy.isAllowed(
+                        action = CapabilityAction.APP_UNPUBLISH,
+                        capabilities = details.capabilities,
+                        allowOnUnknown = false,
+                    )
                     items += StatusItem(
                         id = id++,
                         type = StatusType.WARNING,
@@ -182,6 +190,7 @@ class DetailsConverterImpl(
             items += UserRateItem(
                 id = id++,
                 appId = details.info.appId,
+                rateCapability = details.capabilities?.get(CapabilityAction.APP_RATE),
             )
         }
         if (details.info.fileStatus == STATUS_NORMAL || !details.versions.isNullOrEmpty()) {

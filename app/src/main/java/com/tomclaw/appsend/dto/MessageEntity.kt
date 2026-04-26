@@ -2,6 +2,7 @@ package com.tomclaw.appsend.dto
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import com.tomclaw.appsend.core.permissions.Capability
 import com.tomclaw.appsend.util.GsonModel
 import kotlinx.parcelize.Parcelize
 
@@ -33,5 +34,7 @@ data class MessageEntity(
     @SerializedName("attachments")
     val attachments: List<AttachmentEntity>?,
     @SerializedName("incoming")
-    val incoming: Boolean
+    val incoming: Boolean,
+    @SerializedName("capabilities")
+    val capabilities: Map<String, Capability>? = null,
 ) : Parcelable

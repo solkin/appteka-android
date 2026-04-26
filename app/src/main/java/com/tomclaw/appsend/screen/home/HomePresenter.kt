@@ -1,6 +1,12 @@
 package com.tomclaw.appsend.screen.home
 
 import android.os.Bundle
+import com.tomclaw.appsend.core.permissions.Capability
+import com.tomclaw.appsend.core.permissions.CapabilityAction
+import com.tomclaw.appsend.core.permissions.CapabilityPolicy
+import com.tomclaw.appsend.core.permissions.CapabilityResult
+import com.tomclaw.appsend.core.permissions.UserCapabilitiesInteractor
+import com.tomclaw.appsend.core.permissions.UserCapabilitiesProvider
 import com.tomclaw.appsend.dto.AppEntity
 import com.tomclaw.appsend.screen.home.api.ModerationData
 import com.tomclaw.appsend.screen.home.api.StartupResponse
@@ -76,6 +82,8 @@ class HomePresenterImpl(
     private val bananalytics: Bananalytics,
     private val interactor: HomeInteractor,
     private val moderationProvider: ModerationProvider,
+    private val capabilitiesProvider: UserCapabilitiesProvider,
+    private val capabilitiesInteractor: UserCapabilitiesInteractor,
     private val schedulers: SchedulersFactory,
     state: Bundle?
 ) : HomePresenter {
@@ -103,9 +111,15 @@ class HomePresenterImpl(
         subscriptions += view.feedClicks().subscribe { bindTab(index = INDEX_FEED) }
         subscriptions += view.discussClicks().subscribe { bindTab(index = INDEX_DISCUSS) }
         subscriptions += view.profileClicks().subscribe { bindTab(index = INDEX_PROFILE) }
-        subscriptions += view.uploadClicks().subscribe { router?.openUploadScreen() }
-        subscriptions += view.postClicks().subscribe { router?.openPostScreen() }
-        subscriptions += view.createChatClicks().subscribe { router?.openCreateChatScreen() }
+        subscriptions += view.uploadClicks().subscribe {
+            onGuardedAction(CapabilityAction.APP_UPLOAD) { router?.openUploadScreen() }
+        }
+        subscriptions += view.postClicks().subscribe {
+            onGuardedAction(CapabilityAction.FEED_POST_CREATE) { router?.openPostScreen() }
+        }
+        subscriptions += view.createChatClicks().subscribe {
+            onGuardedAction(CapabilityAction.CHAT_TOPIC_CREATE) { router?.openCreateChatScreen() }
+        }
         subscriptions += view.updateClicks().subscribe { onUpdateClicks() }
         subscriptions += view.laterClicks().subscribe { onLaterClicks() }
         subscriptions += view.searchClicks().subscribe { router?.openSearchScreen() }
@@ -133,6 +147,12 @@ class HomePresenterImpl(
         } else {
             loadStartup()
         }
+
+        // Capabilities are loaded on every Home attach so that login,
+        // logout, and admin-driven ACL changes are reflected without
+        // restarting the app. Failure is non-fatal — UI falls back to
+        // CapabilityResult.Unknown handling at decision sites.
+        loadCapabilities()
 
         val status = status
         if (status != null) {
@@ -174,7 +194,18 @@ class HomePresenterImpl(
                 router?.showTopicsFragment()
                 view?.showDiscussToolbar()
                 view?.hideFabButtons()
-                view?.showCreateChatButton()
+                // chat.topic.create is opt-in: hide the FAB unless the
+                // viewer holds ChatTopicCreate. Default-deny on the
+                // client matches default-deny on the server, so we
+                // don't tease an affordance the action would reject.
+                if (CapabilityPolicy.isAllowed(
+                        action = CapabilityAction.CHAT_TOPIC_CREATE,
+                        capabilities = capabilitiesProvider.getCapabilities(),
+                        allowOnUnknown = false,
+                    )
+                ) {
+                    view?.showCreateChatButton()
+                }
                 bindUnread(count = 0)
             }
 
@@ -202,6 +233,42 @@ class HomePresenterImpl(
                 { onStatusLoaded(response = it) },
                 { }
             )
+    }
+
+    private fun loadCapabilities() {
+        subscriptions += capabilitiesInteractor.refresh()
+            .observeOn(schedulers.mainThread())
+            .subscribe(
+                {
+                    // FAB visibility for some tabs depends on the
+                    // freshly-arrived capability snapshot (e.g.
+                    // chat.topic.create). Rebind the current tab so
+                    // the new state is reflected without requiring
+                    // the user to switch tabs.
+                    bindTab()
+                },
+                { /* tolerated — falls back to Unknown */ },
+            )
+    }
+
+    /**
+     * Dispatch a top-level action while honouring its capability. Three
+     * outcomes:
+     *  - Allowed → run [onAllowed].
+     *  - Unknown → run [onAllowed] anyway. The server still has the
+     *    final say; we'd rather optimistically open the screen than
+     *    block users on a stale/missing snapshot.
+     *  - Denied → surface the denial to the user via the view (tooltip
+     *    or snackbar at the call site).
+     */
+    private fun onGuardedAction(action: String, onAllowed: () -> Unit) {
+        when (val result =
+            CapabilityPolicy.check(action, capabilitiesProvider.getCapabilities())) {
+            CapabilityResult.Allowed,
+            CapabilityResult.Unknown -> onAllowed()
+
+            is CapabilityResult.Denied -> view?.showCapabilityDenied(result.capability)
+        }
     }
 
     private fun onStartupLoaded(response: StartupResponse) {

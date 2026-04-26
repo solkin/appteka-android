@@ -1,6 +1,7 @@
 package com.tomclaw.appsend.screen.profile
 
 import android.os.Bundle
+import com.tomclaw.appsend.core.permissions.UserCapabilitiesProvider
 import com.tomclaw.appsend.util.adapter.AdapterPresenter
 import com.tomclaw.appsend.util.adapter.Item
 import com.tomclaw.appsend.dto.AppEntity
@@ -72,6 +73,7 @@ class ProfilePresenterImpl(
     private val interactor: ProfileInteractor,
     private val converter: ProfileConverter,
     private val moderationProvider: ModerationProvider,
+    private val capabilitiesProvider: UserCapabilitiesProvider,
     private val adapterPresenter: Lazy<AdapterPresenter>,
     private val schedulers: SchedulersFactory,
     state: Bundle?
@@ -332,6 +334,7 @@ class ProfilePresenterImpl(
             uploads,
             moderation = moderationProvider.getModerationData(),
             isSelf = isSelf,
+            userCapabilities = capabilitiesProvider.getCapabilities(),
         )
 
         bindItems()

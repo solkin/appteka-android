@@ -463,4 +463,35 @@
     <string name="proxy_check_button">پشکنین</string>
     <string name="proxy_check_success">پرۆکسی کار دەکات</string>
     <string name="proxy_check_error">هەڵە: %s</string>
+
+    <!-- Permissions / ACL hints -->
+    <string name="permission_generic_denied">ئەم کردارە بەردەست نییە.</string>
+    <string name="permission_unauthorized">بۆ ئەنجامدانی ئەم کردارە چووە ژوورەوە.</string>
+    <string name="permission_not_owner">تەنیا نووسەر دەتوانێت ئەمە بکات.</string>
+    <string name="permission_read_only_messages">ئێستا ناتوانیت پەیام بنێریت.</string>
+    <string name="permission_read_only_ratings">ئێستا ناتوانیت بەرنامەکان هەڵبسەنگێنیت یان پێداچوونەوە بکەیت.</string>
+    <string name="permission_feed_post_delete">مۆڵەتت نییە بۆ سڕینەوەی پۆستەکانی بەکارهێنەرانی دیکە.</string>
+    <string name="permission_automoderation">بارکردنەکانت بێ چاودێری بڵاوکراوەتەوە.</string>
+    <string name="permission_list_downloaded">مۆڵەتت نییە بۆ بینینی داگرتنەکانی بەکارهێنەرانی دیکە.</string>
+    <string name="permission_final_moder_vote">دەنگی کۆتایی چاودێری لای تۆیە.</string>
+    <string name="permission_banned">هەژمارەکەت ڕاگیراوە.</string>
+    <string name="permission_role_too_low">ڕۆڵی پێویستت بۆ ئەم کردارە نییە.</string>
+    <string name="permission_app_unlink">مۆڵەتت نییە بۆ بلۆککردنی بەرنامەکانی بەکارهێنەرانی دیکە.</string>
+    <string name="permission_app_delete">مۆڵەتت نییە بۆ سڕینەوەی بەرنامەکانی بەکارهێنەرانی دیکە.</string>
+    <string name="permission_app_unpublish">مۆڵەتت نییە بۆ هەڵگرتنی بەرنامەکانی بەکارهێنەرانی دیکە لە بڵاوکردنەوە.</string>
+    <string name="permission_app_edit_meta">مۆڵەتت نییە بۆ دەستکاری بەرنامەکانی بەکارهێنەرانی دیکە.</string>
+    <string name="permission_app_rating_delete">مۆڵەتت نییە بۆ سڕینەوەی پێداچوونەوەکانی بەکارهێنەرانی دیکە.</string>
+    <string name="permission_app_protected">ئەم بەرنامەیە پارێزراوە و ناتوانرێت بگۆڕدرێت.</string>
+    <string name="permission_app_already_unpublished">ئەم بەرنامەیە پێشتر لە بڵاوکردنەوە هەڵگیراوە.</string>
+    <string name="permission_chat_topic_create">مۆڵەتت نییە بۆ دروستکردنی بابەت.</string>
+    <string name="permission_read_only_app_upload">ئێستا ناتوانیت بەرنامە باربکەیت.</string>
+    <string name="permission_read_only_feed_posts">ئێستا ناتوانیت پۆست لە لاپەڕەی پەیامدا دابنێیت.</string>
+    <string name="permission_upload_will_be_moderated">بارکردنەکەت پێش دەرکەوتنی لە فرۆشگادا لەلایەن چاودێرێکەوە پێداچوونەوەی پێ دەکرێت.</string>
+    <string name="permission_upload_publishes_immediately">بارکردنەکانت دەستبەجێ بێ چاودێری بڵاو دەکرێنەوە.</string>
+    <string name="permission_moderation_advisory_vote">دەنگی تۆ ڕاوێژکارییە. بڕیاری کۆتایی لەلایەن چاودێرە بەرزەکانەوە دراوە.</string>
+    <string name="permission_moderation_final_vote">دەنگی تۆ کۆتاییە.</string>
+    <string name="permission_banner_read_only_title">تەنیا خوێندنەوە</string>
+    <string name="permission_banner_details_cta">وردەکارییەکان</string>
+    <string name="permission_banner_upload_review_title">پێداچوونەوەی پێ دەکرێت</string>
+    <string name="permission_banner_moderation_role_title">دەنگی ڕاوێژکاری</string>
 </resources>

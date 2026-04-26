@@ -438,4 +438,35 @@
     <string name="proxy_check_button">Kiểm tra</string>
     <string name="proxy_check_success">Proxy hoạt động</string>
     <string name="proxy_check_error">Lỗi: %s</string>
+
+    <!-- Permissions / ACL hints -->
+    <string name="permission_generic_denied">Hành động này không khả dụng.</string>
+    <string name="permission_unauthorized">Đăng nhập để thực hiện hành động này.</string>
+    <string name="permission_not_owner">Chỉ tác giả mới có thể làm điều này.</string>
+    <string name="permission_read_only_messages">Bạn không thể gửi tin nhắn lúc này.</string>
+    <string name="permission_read_only_ratings">Bạn không thể đánh giá hoặc nhận xét ứng dụng lúc này.</string>
+    <string name="permission_feed_post_delete">Bạn không có quyền xóa bài đăng của người dùng khác.</string>
+    <string name="permission_automoderation">Tải lên của bạn được xuất bản mà không qua kiểm duyệt.</string>
+    <string name="permission_list_downloaded">Bạn không có quyền xem các bản tải xuống của người dùng khác.</string>
+    <string name="permission_final_moder_vote">Bạn có quyền biểu quyết kiểm duyệt cuối cùng.</string>
+    <string name="permission_banned">Tài khoản của bạn đã bị tạm khóa.</string>
+    <string name="permission_role_too_low">Bạn không có vai trò cần thiết cho hành động này.</string>
+    <string name="permission_app_unlink">Bạn không có quyền chặn ứng dụng của người dùng khác.</string>
+    <string name="permission_app_delete">Bạn không có quyền xóa ứng dụng của người dùng khác.</string>
+    <string name="permission_app_unpublish">Bạn không có quyền hủy xuất bản ứng dụng của người dùng khác.</string>
+    <string name="permission_app_edit_meta">Bạn không có quyền chỉnh sửa ứng dụng của người dùng khác.</string>
+    <string name="permission_app_rating_delete">Bạn không có quyền xóa đánh giá của người dùng khác.</string>
+    <string name="permission_app_protected">Ứng dụng này được bảo vệ và không thể chỉnh sửa.</string>
+    <string name="permission_app_already_unpublished">Ứng dụng này đã được hủy xuất bản.</string>
+    <string name="permission_chat_topic_create">Bạn không có quyền tạo chủ đề.</string>
+    <string name="permission_read_only_app_upload">Bạn không thể tải lên ứng dụng lúc này.</string>
+    <string name="permission_read_only_feed_posts">Bạn không thể đăng bài lên bảng tin lúc này.</string>
+    <string name="permission_upload_will_be_moderated">Bản tải lên của bạn sẽ được người kiểm duyệt xem xét trước khi xuất hiện trên cửa hàng.</string>
+    <string name="permission_upload_publishes_immediately">Tải lên của bạn được xuất bản ngay lập tức, không qua kiểm duyệt.</string>
+    <string name="permission_moderation_advisory_vote">Phiếu của bạn mang tính tư vấn. Quyết định cuối cùng thuộc về người kiểm duyệt cấp cao.</string>
+    <string name="permission_moderation_final_vote">Phiếu của bạn là phiếu cuối cùng.</string>
+    <string name="permission_banner_read_only_title">Chỉ đọc</string>
+    <string name="permission_banner_details_cta">Chi tiết</string>
+    <string name="permission_banner_upload_review_title">Sẽ được xem xét</string>
+    <string name="permission_banner_moderation_role_title">Phiếu tư vấn</string>
 </resources>

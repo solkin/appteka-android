@@ -35,7 +35,14 @@
             <com.google.android.material.divider.MaterialDivider
                 android:layout_height="wrap_content"
                 android:layout_width="match_parent"
-                android:layout_above="@id/input_card" />
+                android:layout_above="@id/permission_banner" />
+
+            <com.tomclaw.appsend.uikit.permissions.PermissionBanner
+                android:id="@+id/permission_banner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@id/input_card"
+                android:visibility="gone" />
 
             <com.google.android.material.card.MaterialCardView
                 android:layout_height="wrap_content"

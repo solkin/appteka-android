@@ -1,5 +1,8 @@
 package com.tomclaw.appsend.screen.profile
 
+import com.tomclaw.appsend.core.permissions.Capability
+import com.tomclaw.appsend.core.permissions.CapabilityAction
+import com.tomclaw.appsend.core.permissions.CapabilityPolicy
 import com.tomclaw.appsend.util.adapter.Item
 import com.tomclaw.appsend.dto.AppEntity
 import com.tomclaw.appsend.screen.home.api.ModerationData
@@ -26,6 +29,7 @@ interface ProfileConverter {
         uploads: List<AppEntity>?,
         moderation: ModerationData?,
         isSelf: Boolean,
+        userCapabilities: Map<String, Capability>?,
     ): List<Item>
 
     fun unauthorizedProfile(): List<Item>
@@ -44,6 +48,7 @@ class ProfileConverterImpl : ProfileConverter {
         uploads: List<AppEntity>?,
         moderation: ModerationData?,
         isSelf: Boolean,
+        userCapabilities: Map<String, Capability>?,
     ): List<Item> {
         val items = mutableListOf<Item>()
         var isInactive = true
@@ -73,7 +78,16 @@ class ProfileConverterImpl : ProfileConverter {
                 )
             )
         }
-        if (isSelf && moderation != null && moderation.moderator) {
+        // Server-resolved capability is the source of truth for showing
+        // the moderation entry; legacy `moderation.moderator` flag is
+        // kept as the unknown-fallback so old servers (without
+        // /user/capabilities) still behave like before.
+        val canEnterModeration = CapabilityPolicy.isAllowed(
+            action = CapabilityAction.MODERATION_ENTER,
+            capabilities = userCapabilities,
+            allowOnUnknown = moderation?.moderator == true,
+        )
+        if (isSelf && canEnterModeration && moderation != null) {
             items.add(
                 ModerationItem(
                     id = id.incrementAndGet(),

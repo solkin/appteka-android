@@ -5,6 +5,7 @@ import com.tomclaw.appsend.categories.DEFAULT_LOCALE
 import com.tomclaw.appsend.core.HOST_URL
 import com.tomclaw.appsend.user.api.UserBrief
 import com.tomclaw.appsend.util.SchedulersFactory
+import com.tomclaw.appsend.util.filterCapabilityErrors
 import com.tomclaw.bananalytics.Bananalytics
 import com.tomclaw.bananalytics.api.BreadcrumbCategory
 import io.reactivex.rxjava3.disposables.CompositeDisposable
@@ -117,7 +118,7 @@ class RatePresenterImpl(
             .observeOn(schedulers.mainThread())
             .subscribe(
                 { onReviewSubmitted() },
-                { onReviewSubmitError() }
+                { onReviewSubmitError(it) }
             )
     }
 
@@ -125,10 +126,14 @@ class RatePresenterImpl(
         router?.leaveScreen(success = true)
     }
 
-    private fun onReviewSubmitError() {
+    private fun onReviewSubmitError(ex: Throwable) {
         bananalytics.leaveBreadcrumb("Review submit error", BreadcrumbCategory.ERROR)
         view?.showContent()
-        view?.showError()
+        ex.filterCapabilityErrors(
+            authError = { view?.showUnauthorizedError() },
+            capabilityDenied = { cap -> view?.showCapabilityDenied(cap) },
+            other = { view?.showError() },
+        )
     }
 
     private fun bindMemberInfo(userBrief: UserBrief) {

@@ -1,5 +1,7 @@
 package com.tomclaw.appsend.screen.reviews
 
+import com.tomclaw.appsend.core.permissions.CapabilityAction
+import com.tomclaw.appsend.core.permissions.CapabilityPolicy
 import com.tomclaw.appsend.screen.reviews.adapter.review.ReviewItem
 import com.tomclaw.appsend.screen.reviews.api.ReviewEntity
 import com.tomclaw.appsend.user.api.UserBrief
@@ -17,6 +19,11 @@ class ReviewConverterImpl() : ReviewConverter {
     private var id = AtomicLong(1)
 
     override fun convert(entity: ReviewEntity, brief: UserBrief?): ReviewItem {
+        val showRatingMenu = CapabilityPolicy.isAllowed(
+            action = CapabilityAction.APP_RATING_DELETE,
+            capabilities = entity.rating.capabilities,
+            allowOnUnknown = legacyCanDelete(brief, entity.rating.userId),
+        )
         return ReviewItem(
             id = id.incrementAndGet(),
             appId = entity.file.appId,
@@ -27,11 +34,15 @@ class ReviewConverterImpl() : ReviewConverter {
             rating = entity.rating.score.toFloat(),
             text = entity.rating.text,
             time = TimeUnit.SECONDS.toMillis(entity.rating.time),
-            showRatingMenu = brief
-                ?.let { it.role >= ROLE_ADMIN || it.userId == entity.rating.userId } == true,
+            showRatingMenu = showRatingMenu,
         )
+    }
+
+    private fun legacyCanDelete(brief: UserBrief?, ratingUserId: Int): Boolean {
+        val u = brief ?: return false
+        return u.role >= LEGACY_ROLE_ADMIN || u.userId == ratingUserId
     }
 
 }
 
-private const val ROLE_ADMIN = 200
+private const val LEGACY_ROLE_ADMIN = 200

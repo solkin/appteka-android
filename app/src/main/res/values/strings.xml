@@ -476,4 +476,40 @@
     <string name="proxy_check_button">Check</string>
     <string name="proxy_check_success">Proxy works</string>
     <string name="proxy_check_error">Error: %s</string>
+
+    <!-- Permissions / ACL hints. Displayed in banners, tooltips and snackbars
+         when an action is blocked. Keys mirror cap.reason.* / AccessRule codes. -->
+    <string name="permission_generic_denied">This action is not available.</string>
+    <string name="permission_unauthorized">Sign in to perform this action.</string>
+    <string name="permission_not_owner">Only the author can do this.</string>
+    <string name="permission_read_only_messages">You can\'t send messages right now.</string>
+    <string name="permission_read_only_ratings">You can\'t rate or review apps right now.</string>
+    <string name="permission_feed_post_delete">You need permission to delete other users\' posts.</string>
+    <string name="permission_automoderation">Your uploads are published without moderation.</string>
+    <string name="permission_list_downloaded">You need permission to view other users\' downloads.</string>
+    <string name="permission_final_moder_vote">You have the final moderation vote.</string>
+    <string name="permission_banned">Your account is suspended.</string>
+    <string name="permission_role_too_low">You don\'t have the required role for this action.</string>
+    <string name="permission_app_unlink">You don\'t have permission to block other users\' apps.</string>
+    <string name="permission_app_delete">You don\'t have permission to delete other users\' apps.</string>
+    <string name="permission_app_unpublish">You don\'t have permission to unpublish other users\' apps.</string>
+    <string name="permission_app_edit_meta">You don\'t have permission to edit other users\' apps.</string>
+    <string name="permission_app_rating_delete">You don\'t have permission to delete other users\' reviews.</string>
+    <string name="permission_app_protected">This app is protected and can\'t be modified.</string>
+    <string name="permission_app_already_unpublished">This app is already unpublished.</string>
+    <string name="permission_chat_topic_create">You don\'t have permission to create topics.</string>
+    <string name="permission_read_only_app_upload">You can\'t upload apps right now.</string>
+    <string name="permission_read_only_feed_posts">You can\'t post to the feed right now.</string>
+
+    <!-- P2 informational hints (do not block, only inform). -->
+    <string name="permission_upload_will_be_moderated">Your upload will be reviewed by a moderator before it appears in the store.</string>
+    <string name="permission_upload_publishes_immediately">Your uploads are published immediately, without moderation.</string>
+    <string name="permission_moderation_advisory_vote">Your vote is advisory. The final decision is made by senior moderators.</string>
+    <string name="permission_moderation_final_vote">Your vote is final.</string>
+
+    <!-- Banner and tooltip shells -->
+    <string name="permission_banner_read_only_title">Read-only mode</string>
+    <string name="permission_banner_details_cta">Details</string>
+    <string name="permission_banner_upload_review_title">Will be reviewed</string>
+    <string name="permission_banner_moderation_role_title">Advisory vote</string>
 </resources>

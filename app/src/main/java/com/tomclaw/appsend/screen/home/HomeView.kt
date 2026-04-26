@@ -7,8 +7,11 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import androidx.appcompat.widget.Toolbar
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.core.permissions.Capability
+import com.tomclaw.appsend.core.permissions.CapabilityHintResolver
 import com.tomclaw.appsend.util.applyBottomInsets
 import com.tomclaw.appsend.util.applyBottomInsetsAsMargin
 import com.tomclaw.appsend.util.applyBottomMarginForView
@@ -59,6 +62,16 @@ interface HomeView {
     fun hideFabButtons()
 
     fun showStatusDialog(block: Boolean, title: String?, message: String)
+
+    /**
+     * Surface a denied global capability to the user. Implementations
+     * should render the hint (resolved via CapabilityHintResolver) as a
+     * Material 3 Snackbar near the active FAB so the cause is obvious
+     * without blocking the screen.
+     */
+    fun showCapabilityDenied(
+        capability: com.tomclaw.appsend.core.permissions.Capability,
+    )
 
     fun storeClicks(): Observable<Unit>
 
@@ -294,6 +307,17 @@ class HomeViewImpl(view: View) : HomeView {
                     exitAppRelay.accept(Unit)
                 }
             }
+            .show()
+    }
+
+    override fun showCapabilityDenied(capability: Capability) {
+        val text = CapabilityHintResolver(context.resources).resolveText(capability)
+        // Anchor on the bottom navigation so the Snackbar floats above
+        // it (rather than overlaying it) and the FAB does not jump
+        // upward via the default Snackbar/FAB CoordinatorLayout
+        // behaviour. Material 3 Expressive Snackbar guideline.
+        Snackbar.make(coordinator, text, Snackbar.LENGTH_LONG)
+            .setAnchorView(bottomNavigation)
             .show()
     }
 

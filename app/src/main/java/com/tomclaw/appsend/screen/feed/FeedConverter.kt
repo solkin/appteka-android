@@ -1,11 +1,14 @@
 package com.tomclaw.appsend.screen.feed
 
+import com.tomclaw.appsend.core.permissions.CapabilityAction
+import com.tomclaw.appsend.core.permissions.CapabilityPolicy
 import com.tomclaw.appsend.screen.feed.adapter.FeedItem
 import com.tomclaw.appsend.screen.feed.adapter.favorite.FavoriteItem
 import com.tomclaw.appsend.screen.feed.adapter.subscribe.SubscribeItem
 import com.tomclaw.appsend.screen.feed.adapter.text.TextItem
 import com.tomclaw.appsend.screen.feed.adapter.unauthorized.UnauthorizedItem
 import com.tomclaw.appsend.screen.feed.adapter.upload.UploadItem
+import com.tomclaw.appsend.screen.feed.api.ACTION_DELETE
 import com.tomclaw.appsend.screen.feed.api.FavoritePayload
 import com.tomclaw.appsend.screen.feed.api.PostEntity
 import com.tomclaw.appsend.screen.feed.api.SubscribePayload
@@ -24,6 +27,7 @@ interface FeedConverter {
 class FeedConverterImpl : FeedConverter {
 
     override fun convert(post: PostEntity): FeedItem? {
+        val actions = resolveActions(post)
         return when (post.payload) {
             is TextPayload -> TextItem(
                 id = post.postId.toLong(),
@@ -31,7 +35,7 @@ class FeedConverterImpl : FeedConverter {
                 screenshots = post.payload.screenshots,
                 text = post.payload.text,
                 user = post.user,
-                actions = post.actions,
+                actions = actions,
                 reacts = post.reacts,
             )
 
@@ -54,7 +58,7 @@ class FeedConverterImpl : FeedConverter {
                 description = post.payload.description.orEmpty(),
                 screenshots = post.payload.screenshots.orEmpty(),
                 user = post.user,
-                actions = post.actions,
+                actions = actions,
                 reacts = post.reacts,
             )
 
@@ -75,7 +79,7 @@ class FeedConverterImpl : FeedConverter {
                 description = post.payload.description.orEmpty(),
                 screenshots = post.payload.screenshots.orEmpty(),
                 user = post.user,
-                actions = post.actions,
+                actions = actions,
                 reacts = post.reacts,
             )
 
@@ -84,12 +88,32 @@ class FeedConverterImpl : FeedConverter {
                 time = TimeUnit.SECONDS.toMillis(post.time),
                 publisher = post.payload.publisher,
                 user = post.user,
-                actions = post.actions,
+                actions = actions,
                 reacts = post.reacts,
             )
 
             else -> null
         }
+    }
+
+    /**
+     * Prefer server-resolved capabilities as the source of truth; fall
+     * back to the legacy `actions[]` array for servers that don't ship
+     * capability data yet. Once every deployed server includes
+     * capabilities, the `actions` branch can be removed.
+     */
+    private fun resolveActions(post: PostEntity): List<String>? {
+        val caps = post.capabilities ?: return post.actions
+        val list = mutableListOf<String>()
+        if (CapabilityPolicy.isAllowed(
+                action = CapabilityAction.FEED_POST_DELETE,
+                capabilities = caps,
+                allowOnUnknown = false,
+            )
+        ) {
+            list += ACTION_DELETE
+        }
+        return list.takeIf { it.isNotEmpty() }
     }
 
     override fun unauthorized(): List<FeedItem> {

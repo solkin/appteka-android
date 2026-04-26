@@ -12,6 +12,7 @@ class UserRateItemPresenter(
 ) : ItemPresenter<UserRateItemView, UserRateItem> {
 
     override fun bindView(view: UserRateItemView, item: UserRateItem, position: Int) {
+        view.setRateCapability(item.rateCapability)
         view.setOnRateListener { rating ->
             listener.onRateClick(rating, review = null)
             Completable

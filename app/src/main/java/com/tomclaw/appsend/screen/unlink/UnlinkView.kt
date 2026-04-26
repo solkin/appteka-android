@@ -9,6 +9,8 @@ import androidx.appcompat.widget.Toolbar
 import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.core.permissions.Capability
+import com.tomclaw.appsend.core.permissions.CapabilityHintResolver
 import com.tomclaw.appsend.util.hideWithAlphaAnimation
 import com.tomclaw.appsend.util.showWithAlphaAnimation
 import io.reactivex.rxjava3.core.Observable
@@ -22,6 +24,15 @@ interface UnlinkView {
     fun setReason(reason: String)
 
     fun showUnlinkFailed()
+
+    fun showUnauthorizedError()
+
+    /**
+     * Surface a capability-denied response (server rejected the
+     * action because of an ACL/ownership/role check). Routed through
+     * the same hint resolver as proactive UI.
+     */
+    fun showCapabilityDenied(capability: Capability)
 
     fun navigationClicks(): Observable<Unit>
 
@@ -78,6 +89,19 @@ class UnlinkViewImpl(
             R.string.unable_to_unfile,
             Snackbar.LENGTH_SHORT
         ).show()
+    }
+
+    override fun showUnauthorizedError() {
+        Snackbar.make(
+            scrollView,
+            R.string.authorization_required_message,
+            Snackbar.LENGTH_LONG
+        ).show()
+    }
+
+    override fun showCapabilityDenied(capability: Capability) {
+        val text = CapabilityHintResolver(scrollView.resources).resolveText(capability)
+        Snackbar.make(scrollView, text, Snackbar.LENGTH_LONG).show()
     }
 
     override fun navigationClicks(): Observable<Unit> = navigationRelay

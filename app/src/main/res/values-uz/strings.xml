@@ -450,4 +450,35 @@
     <string name="proxy_check_button">Tekshirish</string>
     <string name="proxy_check_success">Proksi ishlayapti</string>
     <string name="proxy_check_error">Xato: %s</string>
+
+    <!-- Permissions / ACL hints -->
+    <string name="permission_generic_denied">Bu amal mavjud emas.</string>
+    <string name="permission_unauthorized">Bu amalni bajarish uchun tizimga kiring.</string>
+    <string name="permission_not_owner">Buni faqat muallif bajara oladi.</string>
+    <string name="permission_read_only_messages">Hozir xabar yubora olmaysiz.</string>
+    <string name="permission_read_only_ratings">Hozir ilovalarni baholay yoki sharhlay olmaysiz.</string>
+    <string name="permission_feed_post_delete">Boshqa foydalanuvchilarning postlarini o\'chirish uchun ruxsatingiz yo\'q.</string>
+    <string name="permission_automoderation">Yuklamalaringiz moderatsiyasiz e\'lon qilinadi.</string>
+    <string name="permission_list_downloaded">Boshqa foydalanuvchilarning yuklamalarini ko\'rish uchun ruxsatingiz yo\'q.</string>
+    <string name="permission_final_moder_vote">Sizda yakuniy moderatsiya ovozi bor.</string>
+    <string name="permission_banned">Hisobingiz to\'xtatilgan.</string>
+    <string name="permission_role_too_low">Bu amal uchun zarur rolingiz yo\'q.</string>
+    <string name="permission_app_unlink">Boshqa foydalanuvchilarning ilovalarini bloklash uchun ruxsatingiz yo\'q.</string>
+    <string name="permission_app_delete">Boshqa foydalanuvchilarning ilovalarini o\'chirish uchun ruxsatingiz yo\'q.</string>
+    <string name="permission_app_unpublish">Boshqa foydalanuvchilarning ilovalarini nashrdan olib tashlash uchun ruxsatingiz yo\'q.</string>
+    <string name="permission_app_edit_meta">Boshqa foydalanuvchilarning ilovalarini tahrirlash uchun ruxsatingiz yo\'q.</string>
+    <string name="permission_app_rating_delete">Boshqa foydalanuvchilarning sharhlarini o\'chirish uchun ruxsatingiz yo\'q.</string>
+    <string name="permission_app_protected">Bu ilova himoyalangan va o\'zgartirilishi mumkin emas.</string>
+    <string name="permission_app_already_unpublished">Bu ilova allaqachon nashrdan olib tashlangan.</string>
+    <string name="permission_chat_topic_create">Mavzular yaratish uchun ruxsatingiz yo\'q.</string>
+    <string name="permission_read_only_app_upload">Hozir ilovalarni yuklay olmaysiz.</string>
+    <string name="permission_read_only_feed_posts">Hozir lentaga post chop eta olmaysiz.</string>
+    <string name="permission_upload_will_be_moderated">Yuklamangiz do\'konda paydo bo\'lishidan oldin moderator tomonidan tekshiriladi.</string>
+    <string name="permission_upload_publishes_immediately">Yuklamalaringiz darhol, moderatsiyasiz e\'lon qilinadi.</string>
+    <string name="permission_moderation_advisory_vote">Ovozingiz maslahat tariqasida. Yakuniy qarorni katta moderatorlar qabul qiladi.</string>
+    <string name="permission_moderation_final_vote">Ovozingiz yakuniy.</string>
+    <string name="permission_banner_read_only_title">Faqat o\'qish</string>
+    <string name="permission_banner_details_cta">Tafsilotlar</string>
+    <string name="permission_banner_upload_review_title">Tekshiriladi</string>
+    <string name="permission_banner_moderation_role_title">Maslahat ovozi</string>
 </resources>

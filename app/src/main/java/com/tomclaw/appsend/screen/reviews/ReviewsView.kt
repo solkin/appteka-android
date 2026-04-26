@@ -13,6 +13,8 @@ import com.tomclaw.appsend.util.adapter.SimpleRecyclerAdapter
 import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.core.permissions.Capability
+import com.tomclaw.appsend.core.permissions.CapabilityHintResolver
 import com.tomclaw.appsend.util.clicks
 import io.reactivex.rxjava3.core.Observable
 
@@ -31,6 +33,10 @@ interface ReviewsView {
     fun showError()
 
     fun showReviewRemovalFailed()
+
+    fun showUnauthorizedError()
+
+    fun showCapabilityDenied(capability: Capability)
 
     fun stopPullRefreshing()
 
@@ -102,6 +108,15 @@ class ReviewsViewImpl(
 
     override fun showReviewRemovalFailed() {
         Snackbar.make(recycler, R.string.error_rating_deletion, Snackbar.LENGTH_LONG).show()
+    }
+
+    override fun showUnauthorizedError() {
+        Snackbar.make(recycler, R.string.authorization_required_message, Snackbar.LENGTH_LONG).show()
+    }
+
+    override fun showCapabilityDenied(capability: Capability) {
+        val text = CapabilityHintResolver(recycler.resources).resolveText(capability)
+        Snackbar.make(recycler, text, Snackbar.LENGTH_LONG).show()
     }
 
     @SuppressLint("NotifyDataSetChanged")

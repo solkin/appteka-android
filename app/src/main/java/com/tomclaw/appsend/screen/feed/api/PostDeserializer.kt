@@ -5,6 +5,7 @@ import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
 import com.google.gson.reflect.TypeToken
+import com.tomclaw.appsend.core.permissions.Capability
 import com.tomclaw.appsend.user.api.UserBrief
 import java.lang.reflect.Type
 
@@ -36,7 +37,11 @@ class PostDeserializer(private val gson: Gson) : JsonDeserializer<PostEntity> {
             val actionsType = object : TypeToken<List<String>>() {}.type
             gson.fromJson<List<String>>(actionsArray.asJsonArray, actionsType)
         }
-        return PostEntity(postId, time, type, payload, reacts, user, actions)
+        val capabilities = obj["capabilities"]?.takeIf { it.isJsonObject }?.let { capsElement ->
+            val capsType = object : TypeToken<Map<String, Capability>>() {}.type
+            gson.fromJson<Map<String, Capability>>(capsElement, capsType)
+        }
+        return PostEntity(postId, time, type, payload, reacts, user, actions, capabilities)
     }
 
 }

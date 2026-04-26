@@ -3,7 +3,7 @@ package com.tomclaw.appsend.screen.create_chat
 import android.net.Uri
 import android.os.Bundle
 import com.tomclaw.appsend.util.SchedulersFactory
-import com.tomclaw.appsend.util.filterUnauthorizedErrors
+import com.tomclaw.appsend.util.filterCapabilityErrors
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
 
@@ -141,8 +141,9 @@ class CreateChatPresenterImpl(
                 { topic -> router?.openChatScreen(topic.topicId, topic.title) },
                 { ex ->
                     view?.showContent()
-                    ex.filterUnauthorizedErrors(
+                    ex.filterCapabilityErrors(
                         authError = { router?.openLoginScreen() },
+                        capabilityDenied = { cap -> view?.showCapabilityDenied(cap) },
                         other = { view?.showError(resourceProvider.createTopicError()) },
                     )
                 },

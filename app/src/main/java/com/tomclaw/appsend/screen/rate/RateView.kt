@@ -10,6 +10,8 @@ import androidx.core.widget.addTextChangedListener
 import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.core.permissions.Capability
+import com.tomclaw.appsend.core.permissions.CapabilityHintResolver
 import com.tomclaw.appsend.dto.UserIcon
 import com.tomclaw.appsend.util.bind
 import com.tomclaw.appsend.util.clicks
@@ -45,6 +47,15 @@ interface RateView {
     fun showContent()
 
     fun showError()
+
+    fun showUnauthorizedError()
+
+    /**
+     * Surface a capability-denied response (server rejected the
+     * action because of an ACL/ownership/role check). Routed through
+     * the same hint resolver as proactive UI.
+     */
+    fun showCapabilityDenied(capability: Capability)
 
     fun showValidationError(message: String)
 
@@ -154,6 +165,15 @@ class RateViewImpl(view: View) : RateView {
 
     override fun showError() {
         Snackbar.make(scrollView, R.string.review_publish_failed, Snackbar.LENGTH_SHORT).show()
+    }
+
+    override fun showUnauthorizedError() {
+        Snackbar.make(scrollView, R.string.authorization_required_message, Snackbar.LENGTH_LONG).show()
+    }
+
+    override fun showCapabilityDenied(capability: Capability) {
+        val text = CapabilityHintResolver(scrollView.resources).resolveText(capability)
+        Snackbar.make(scrollView, text, Snackbar.LENGTH_LONG).show()
     }
 
     override fun showValidationError(message: String) {

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/permission_image"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:src="@drawable/ic_lock"
+        app:tint="?attr/text_secondary_color" />
+
+    <TextView
+        android:id="@+id/permission_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/permission_image"
+        android:layout_centerHorizontal="true"
+        android:gravity="center"
+        android:paddingHorizontal="24dp"
+        android:paddingTop="24dp"
+        android:textColor="?attr/text_secondary_color"
+        android:textSize="15sp"
+        tools:text="You need permission to view this content." />
+
+</RelativeLayout>

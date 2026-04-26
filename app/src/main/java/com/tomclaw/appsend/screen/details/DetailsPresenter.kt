@@ -13,10 +13,8 @@ import com.tomclaw.appsend.screen.details.adapter.ItemListener
 import com.tomclaw.appsend.screen.details.adapter.play.PlaySecurityStatus
 import com.tomclaw.appsend.screen.details.adapter.screenshot.ScreenshotItem
 import com.tomclaw.appsend.screen.details.adapter.status.StatusAction
-import com.tomclaw.appsend.screen.details.api.ACTION_DELETE
-import com.tomclaw.appsend.screen.details.api.ACTION_EDIT_META
-import com.tomclaw.appsend.screen.details.api.ACTION_UNLINK
-import com.tomclaw.appsend.screen.details.api.ACTION_UNPUBLISH
+import com.tomclaw.appsend.core.permissions.CapabilityAction
+import com.tomclaw.appsend.core.permissions.CapabilityPolicy
 import com.tomclaw.appsend.screen.details.api.Details
 import com.tomclaw.appsend.screen.details.api.SECURITY_STATUS_COMPLETED
 import com.tomclaw.appsend.screen.details.api.SECURITY_VERDICT_MALWARE
@@ -27,6 +25,7 @@ import com.tomclaw.appsend.user.api.UserBrief
 import com.tomclaw.appsend.util.NOT_INSTALLED
 import com.tomclaw.appsend.util.PackageObserver
 import com.tomclaw.appsend.util.SchedulersFactory
+import com.tomclaw.appsend.util.filterCapabilityErrors
 import com.tomclaw.appsend.util.filterUnauthorizedErrors
 import com.tomclaw.appsend.util.getParcelableCompat
 import com.tomclaw.appsend.util.retryWhenNonAuthErrors
@@ -344,10 +343,10 @@ class DetailsPresenterImpl(
     private fun bindMenu() {
         view?.showMenu(
             isFavorite = isFavorite,
-            canEdit = checkAction(ACTION_EDIT_META),
-            canUnlink = checkAction(ACTION_UNLINK),
-            canUnpublish = checkAction(ACTION_UNPUBLISH),
-            canDelete = checkAction(ACTION_DELETE)
+            canEdit = isCapabilityAllowed(CapabilityAction.APP_EDIT_META),
+            canUnlink = isCapabilityAllowed(CapabilityAction.APP_UNLINK),
+            canUnpublish = isCapabilityAllowed(CapabilityAction.APP_UNPUBLISH),
+            canDelete = isCapabilityAllowed(CapabilityAction.APP_DELETE)
         )
     }
 
@@ -372,8 +371,19 @@ class DetailsPresenterImpl(
         return false
     }
 
-    private fun checkAction(action: String, fallback: Boolean = false): Boolean {
-        return details?.actions?.contains(action) ?: fallback
+    /**
+     * Resolve a per-app capability for the currently loaded details.
+     * On a missing capability map (old server / not loaded yet) we
+     * return `false` — better to hide an affordance and have the
+     * server reject if the user somehow triggers it, than to surface
+     * a button we cannot reason about.
+     */
+    private fun isCapabilityAllowed(action: String): Boolean {
+        return CapabilityPolicy.isAllowed(
+            action = action,
+            capabilities = details?.capabilities,
+            allowOnUnknown = false,
+        )
     }
 
     private fun sendModerationDecision(isApprove: Boolean) {
@@ -388,7 +398,7 @@ class DetailsPresenterImpl(
             }
             .subscribe(
                 { onModerationDecisionSent() },
-                { onLoadingError(it) }
+                { onActionError(it) }
             )
     }
 
@@ -442,7 +452,7 @@ class DetailsPresenterImpl(
             }
             .subscribe(
                 { onApplicationDeletedFromStore() },
-                { onLoadingError(it) }
+                { onActionError(it) }
             )
     }
 
@@ -458,6 +468,24 @@ class DetailsPresenterImpl(
             view?.showContent()
             view?.showError()
         }
+    }
+
+    private fun onActionError(ex: Throwable) {
+        bananalytics.leaveBreadcrumb("Action error: ${ex.message}", BreadcrumbCategory.ERROR)
+        bananalytics.trackException(ex, mapOf("screen" to "details", "appId" to appId.orEmpty()))
+        ex.filterCapabilityErrors(
+            authError = { view?.showUnauthorizedError() },
+            capabilityDenied = { cap ->
+                view?.showContent()
+                bindDetails()
+                view?.showCapabilityDenied(cap)
+            },
+            other = {
+                view?.hideMenu()
+                view?.showContent()
+                view?.showError()
+            },
+        )
     }
 
     override fun onBackPressed() {
@@ -572,9 +600,11 @@ class DetailsPresenterImpl(
                 .subscribe(
                     { router?.openChatScreen(topicId = it.topic.topicId, label = it.topic.title) },
                     {
-                        it.filterUnauthorizedErrors({ view?.showUnauthorizedError() }) {
-                            showSnackbar(resourceProvider.createTopicError())
-                        }
+                        it.filterCapabilityErrors(
+                            authError = { view?.showUnauthorizedError() },
+                            capabilityDenied = { cap -> view?.showCapabilityDenied(cap) },
+                            other = { showSnackbar(resourceProvider.createTopicError()) },
+                        )
                     }
                 )
         }

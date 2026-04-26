@@ -2,6 +2,7 @@ package com.tomclaw.appsend.screen.unlink
 
 import android.os.Bundle
 import com.tomclaw.appsend.util.SchedulersFactory
+import com.tomclaw.appsend.util.filterCapabilityErrors
 import com.tomclaw.appsend.util.retryWhenNonAuthErrors
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
@@ -81,7 +82,13 @@ class UnlinkPresenterImpl(
             .doAfterTerminate { view?.showContent() }
             .subscribe(
                 { router?.leaveScreen(success = true) },
-                { view?.showUnlinkFailed() }
+                { ex ->
+                    ex.filterCapabilityErrors(
+                        authError = { view?.showUnauthorizedError() },
+                        capabilityDenied = { cap -> view?.showCapabilityDenied(cap) },
+                        other = { view?.showUnlinkFailed() },
+                    )
+                }
             )
     }
 
