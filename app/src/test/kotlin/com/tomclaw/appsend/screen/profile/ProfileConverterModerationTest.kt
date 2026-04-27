@@ -25,7 +25,6 @@ class ProfileConverterModerationTest {
     fun `capability allowed shows moderation item when user is self`() {
         val items = converter.convertProfile(
             profile = profile(),
-            grantRoles = null,
             uploads = null,
             moderation = ModerationData(moderator = true, count = 5),
             isSelf = true,
@@ -40,7 +39,6 @@ class ProfileConverterModerationTest {
     fun `capability denied hides moderation even when legacy moderator flag is true`() {
         val items = converter.convertProfile(
             profile = profile(),
-            grantRoles = null,
             uploads = null,
             moderation = ModerationData(moderator = true, count = 5),
             isSelf = true,
@@ -55,7 +53,6 @@ class ProfileConverterModerationTest {
     fun `legacy fallback shows moderation when capabilities are missing`() {
         val items = converter.convertProfile(
             profile = profile(),
-            grantRoles = null,
             uploads = null,
             moderation = ModerationData(moderator = true, count = 3),
             isSelf = true,
@@ -68,7 +65,6 @@ class ProfileConverterModerationTest {
     fun `legacy fallback hides moderation for non-moderator when capabilities are missing`() {
         val items = converter.convertProfile(
             profile = profile(),
-            grantRoles = null,
             uploads = null,
             moderation = ModerationData(moderator = false, count = 0),
             isSelf = true,
@@ -81,7 +77,6 @@ class ProfileConverterModerationTest {
     fun `moderation item never shown for foreign profile`() {
         val items = converter.convertProfile(
             profile = profile(),
-            grantRoles = null,
             uploads = null,
             moderation = ModerationData(moderator = true, count = 5),
             isSelf = false,

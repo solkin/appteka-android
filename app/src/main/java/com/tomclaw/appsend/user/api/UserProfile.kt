@@ -19,8 +19,6 @@ data class UserProfile(
     val lastSeen: Long,
     @SerializedName("role")
     val role: Int,
-    @SerializedName("mentor_id")
-    val mentorId: Int,
     @SerializedName("name")
     val name: String?,
     @SerializedName("is_registered")

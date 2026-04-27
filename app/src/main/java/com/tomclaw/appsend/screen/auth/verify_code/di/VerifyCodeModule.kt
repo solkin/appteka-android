@@ -9,7 +9,6 @@ import com.tomclaw.appsend.screen.auth.verify_code.VerifyCodePresenter
 import com.tomclaw.appsend.screen.auth.verify_code.VerifyCodePresenterImpl
 import com.tomclaw.appsend.screen.auth.verify_code.VerifyCodeResourceProvider
 import com.tomclaw.appsend.screen.auth.verify_code.VerifyCodeResourceProviderImpl
-import com.tomclaw.appsend.user.SessionStorage
 import com.tomclaw.appsend.util.PerActivity
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Module
@@ -48,9 +47,8 @@ class VerifyCodeModule(
     @PerActivity
     internal fun provideInteractor(
         api: StoreApi,
-        sessionStorage: SessionStorage,
         schedulers: SchedulersFactory
-    ): VerifyCodeInteractor = VerifyCodeInteractorImpl(api, sessionStorage, schedulers)
+    ): VerifyCodeInteractor = VerifyCodeInteractorImpl(api, schedulers)
 
     @Provides
     @PerActivity

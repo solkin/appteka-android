@@ -10,6 +10,4 @@ import kotlinx.parcelize.Parcelize
 data class ProfileResponse(
     @SerializedName("profile")
     val profile: Profile,
-    @SerializedName("grant_roles")
-    val grantRoles: List<Int>?,
 ) : Parcelable

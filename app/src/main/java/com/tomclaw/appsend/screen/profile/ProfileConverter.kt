@@ -25,7 +25,6 @@ interface ProfileConverter {
 
     fun convertProfile(
         profile: Profile,
-        grantRoles: List<Int>?,
         uploads: List<AppEntity>?,
         moderation: ModerationData?,
         isSelf: Boolean,
@@ -44,7 +43,6 @@ class ProfileConverterImpl : ProfileConverter {
 
     override fun convertProfile(
         profile: Profile,
-        grantRoles: List<Int>?,
         uploads: List<AppEntity>?,
         moderation: ModerationData?,
         isSelf: Boolean,

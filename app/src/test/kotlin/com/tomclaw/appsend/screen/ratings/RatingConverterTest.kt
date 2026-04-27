@@ -125,7 +125,6 @@ class RatingConverterTest {
         joinTime = 0,
         lastSeen = 0,
         role = role,
-        mentorId = 0,
         name = "User",
         isRegistered = true,
         isVerified = false,

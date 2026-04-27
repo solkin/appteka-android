@@ -1,6 +1,8 @@
 package com.tomclaw.appsend.screen.profile
 
 import android.os.Bundle
+import com.tomclaw.appsend.core.permissions.CapabilityAction
+import com.tomclaw.appsend.core.permissions.CapabilityPolicy
 import com.tomclaw.appsend.core.permissions.UserCapabilitiesProvider
 import com.tomclaw.appsend.util.adapter.AdapterPresenter
 import com.tomclaw.appsend.util.adapter.Item
@@ -327,18 +329,23 @@ class ProfilePresenterImpl(
         val profile = this.profile ?: return
         val isSelf = userId == null
 
+        val capabilities = capabilitiesProvider.getCapabilities()
         items.clear()
         items += converter.convertProfile(
             profile.profile,
-            profile.grantRoles,
             uploads,
             moderation = moderationProvider.getModerationData(),
             isSelf = isSelf,
-            userCapabilities = capabilitiesProvider.getCapabilities(),
+            userCapabilities = capabilities,
         )
 
         bindItems()
-        bindMenu(canEliminate = profile.grantRoles.orEmpty().contains(300))
+        bindMenu(
+            canEliminate = CapabilityPolicy.isAllowed(
+                action = CapabilityAction.USER_ELIMINATE,
+                capabilities = capabilities,
+            )
+        )
 
         view?.contentUpdated()
         view?.showContent()

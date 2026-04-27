@@ -26,8 +26,6 @@ data class Profile(
     val lastSeen: Long = 0,
     @SerializedName("role")
     val role: Int = 0,
-    @SerializedName("mentor_id")
-    val mentorId: Int = 0,
     @SerializedName("files_count")
     val filesCount: Int = 0,
     @SerializedName("favorites_count")

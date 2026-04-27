@@ -2,7 +2,6 @@ package com.tomclaw.appsend.di
 
 import android.app.Application
 import android.content.Context
-import android.content.Context.MODE_PRIVATE
 import android.content.pm.PackageManager
 import android.os.Build
 import com.google.gson.Gson
@@ -58,8 +57,6 @@ import com.tomclaw.appsend.upload.UploadNotifications
 import com.tomclaw.appsend.upload.UploadNotificationsImpl
 import com.tomclaw.appsend.user.ModerationProvider
 import com.tomclaw.appsend.user.ModerationProviderImpl
-import com.tomclaw.appsend.user.SessionStorage
-import com.tomclaw.appsend.user.SessionStorageImpl
 import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.util.Analytics
 import com.tomclaw.appsend.util.AnalyticsImpl
@@ -211,13 +208,6 @@ class AppModule(private val app: Application) {
     @Singleton
     internal fun provideUploadNotifications(): UploadNotifications =
         UploadNotificationsImpl(app)
-
-    @Provides
-    @Singleton
-    internal fun provideSessionInteractor(
-        gson: Gson,
-        schedulers: SchedulersFactory
-    ): SessionStorage = SessionStorageImpl(app.getDir(USER_DIR, MODE_PRIVATE), gson, schedulers)
 
     @Provides
     @Singleton

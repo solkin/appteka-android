@@ -63,4 +63,5 @@ object CapabilityAction {
     const val FEED_POST_CREATE = "feed.post.create"
     const val MODERATION_ENTER = "moderation.enter"
     const val MODERATION_FINAL_VOTE = "moderation.final_vote"
+    const val USER_ELIMINATE = "user.eliminate"
 }

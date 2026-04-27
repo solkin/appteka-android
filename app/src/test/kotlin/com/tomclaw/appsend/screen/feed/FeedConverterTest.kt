@@ -76,7 +76,6 @@ class FeedConverterTest {
             joinTime = 0,
             lastSeen = 0,
             role = 0,
-            mentorId = 0,
             name = "author",
             isRegistered = true,
             isVerified = false,
