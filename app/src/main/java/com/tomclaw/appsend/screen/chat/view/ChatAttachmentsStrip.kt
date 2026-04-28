@@ -111,7 +111,7 @@ class ChatAttachmentsStrip @JvmOverloads constructor(
         }
         image.fetch(uri) {
             centerCrop()
-            placeholder(drawableRes = R.drawable.app_placeholder)
+            placeholder(drawableRes = R.drawable.ic_chat_image_placeholder)
         }
         card.addView(image)
 
