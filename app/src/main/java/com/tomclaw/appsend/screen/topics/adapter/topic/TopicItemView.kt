@@ -6,6 +6,7 @@ import android.widget.TextView
 import com.tomclaw.appsend.util.adapter.BaseItemViewHolder
 import com.tomclaw.appsend.util.adapter.ItemView
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.dto.BadgeMark
 import com.tomclaw.appsend.dto.UserIcon
 import com.tomclaw.appsend.util.bind
 import com.tomclaw.appsend.util.hide
@@ -23,6 +24,8 @@ interface TopicItemView : ItemView {
     fun setMessageText(text: String)
 
     fun setMessageAvatar(userIcon: UserIcon)
+
+    fun setMessageAvatarBadge(badge: BadgeMark?)
 
     fun showPin()
 
@@ -89,6 +92,10 @@ class TopicItemViewHolder(view: View) : BaseItemViewHolder(view), TopicItemView 
 
     override fun setMessageAvatar(userIcon: UserIcon) {
         this.msgAvatar.bind(userIcon)
+    }
+
+    override fun setMessageAvatarBadge(badge: BadgeMark?) {
+        this.msgAvatar.bindBadge(badge)
     }
 
     override fun showPin() {

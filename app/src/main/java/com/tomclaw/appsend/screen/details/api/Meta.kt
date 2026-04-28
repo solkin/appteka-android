@@ -6,6 +6,7 @@ import com.tomclaw.appsend.categories.Category
 import com.tomclaw.appsend.dto.BadgeMark
 import com.tomclaw.appsend.dto.Screenshot
 import com.tomclaw.appsend.dto.UserIcon
+import com.tomclaw.appsend.dto.UserMark
 import com.tomclaw.appsend.util.GsonModel
 import kotlinx.parcelize.Parcelize
 
@@ -30,6 +31,8 @@ data class Meta(
     val similar: Boolean?,
     @SerializedName("time")
     val time: Long?,
+    @SerializedName("author")
+    val author: UserMark? = null,
     @SerializedName("user_id")
     val userId: Int?,
     @SerializedName("user_icon")

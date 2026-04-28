@@ -9,6 +9,7 @@ import com.tomclaw.appsend.util.adapter.BaseItemViewHolder
 import com.tomclaw.appsend.util.adapter.ItemView
 import com.google.android.material.card.MaterialCardView
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.dto.BadgeMark
 import com.tomclaw.appsend.dto.UserIcon
 import com.tomclaw.appsend.screen.chat.adapter.MsgAttachment
 import com.tomclaw.appsend.screen.chat.view.MessageAttachmentsView
@@ -21,6 +22,8 @@ import com.tomclaw.appsend.view.UserIconViewImpl
 interface OutgoingMsgItemView : ItemView {
 
     fun setUserIcon(userIcon: UserIcon)
+
+    fun setUserBadge(badge: BadgeMark?)
 
     fun setTime(time: String)
 
@@ -64,6 +67,10 @@ class OutgoingMsgItemViewHolder(view: View) : BaseItemViewHolder(view), Outgoing
 
     override fun setUserIcon(userIcon: UserIcon) {
         userIconView.bind(userIcon)
+    }
+
+    override fun setUserBadge(badge: BadgeMark?) {
+        userIconView.bindBadge(badge)
     }
 
     override fun setTime(time: String) {

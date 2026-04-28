@@ -26,6 +26,7 @@ class TextItemPresenter(
             ?: item.user.userIcon.label[DEFAULT_LOCALE].orEmpty()
         view.setUserName(name)
         view.setUserIcon(item.user.userIcon)
+        view.setUserBadge(item.user.primaryBadge)
         view.setTime(resourceProvider.formatTime(item.time))
         view.setText(item.text)
         item.screenshots.takeIf { it.isNotEmpty() }

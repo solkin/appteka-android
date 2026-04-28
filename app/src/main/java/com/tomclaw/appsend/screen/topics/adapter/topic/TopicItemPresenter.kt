@@ -20,6 +20,7 @@ class TopicItemPresenter(
         view.setTitle(item.title)
         view.setMessageText(item.lastMsgText)
         view.setMessageAvatar(item.lastMsgUserIcon)
+        view.setMessageAvatarBadge(item.lastMsgUserBadge)
         if (item.isPinned) {
             view.showPin()
         } else {

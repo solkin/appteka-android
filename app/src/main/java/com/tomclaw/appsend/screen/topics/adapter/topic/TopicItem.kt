@@ -2,6 +2,7 @@ package com.tomclaw.appsend.screen.topics.adapter.topic
 
 import android.os.Parcelable
 import com.tomclaw.appsend.util.adapter.Item
+import com.tomclaw.appsend.dto.BadgeMark
 import com.tomclaw.appsend.dto.UserIcon
 import kotlinx.parcelize.Parcelize
 
@@ -17,6 +18,7 @@ data class TopicItem(
     val lastMsgId: Int,
     val lastMsgText: String,
     val lastMsgUserIcon: UserIcon,
+    val lastMsgUserBadge: BadgeMark?,
     val hasTranslation: Boolean,
     val translated: Boolean,
     var hasMore: Boolean = false,

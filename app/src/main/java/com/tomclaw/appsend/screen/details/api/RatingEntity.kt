@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName
 import com.tomclaw.appsend.core.permissions.Capability
 import com.tomclaw.appsend.dto.BadgeMark
 import com.tomclaw.appsend.dto.UserIcon
+import com.tomclaw.appsend.dto.UserMark
 import com.tomclaw.appsend.util.GsonModel
 import kotlinx.parcelize.Parcelize
 
@@ -19,6 +20,8 @@ data class RatingEntity(
     val text: String?,
     @SerializedName("time")
     val time: Long,
+    @SerializedName("user")
+    val user: UserMark? = null,
     @SerializedName("user_id")
     val userId: Int,
     @SerializedName("user_icon")

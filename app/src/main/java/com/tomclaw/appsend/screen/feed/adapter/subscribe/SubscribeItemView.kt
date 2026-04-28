@@ -7,6 +7,7 @@ import android.widget.TextView
 import com.tomclaw.appsend.util.adapter.BaseItemViewHolder
 import com.tomclaw.appsend.util.adapter.ItemView
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.dto.BadgeMark
 import com.tomclaw.appsend.dto.UserIcon
 import com.tomclaw.appsend.util.bind
 import com.tomclaw.appsend.view.UserIconView
@@ -24,9 +25,13 @@ interface SubscribeItemView : ItemView {
 
     fun setUserIcon(icon: UserIcon)
 
+    fun setUserBadge(badge: BadgeMark?)
+
     fun setUserName(name: String)
 
     fun setPublisherIcon(icon: UserIcon)
+
+    fun setPublisherBadge(badge: BadgeMark?)
 
     fun setPublisherName(name: String)
 
@@ -90,6 +95,10 @@ class SubscribeItemViewHolder(
         userIcon.bind(icon)
     }
 
+    override fun setUserBadge(badge: BadgeMark?) {
+        userIcon.bindBadge(badge)
+    }
+
     override fun setUserName(name: String) {
         userName.bind(name)
     }
@@ -98,6 +107,10 @@ class SubscribeItemViewHolder(
         publisherIcon.bind(icon)
         val color = icon.color.toColorInt()
         publisherContainer.backgroundTintList = ColorStateList.valueOf(color)
+    }
+
+    override fun setPublisherBadge(badge: BadgeMark?) {
+        publisherIcon.bindBadge(badge)
     }
 
     override fun setPublisherName(name: String) {

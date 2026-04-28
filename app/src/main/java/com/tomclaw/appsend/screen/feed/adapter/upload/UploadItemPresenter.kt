@@ -27,6 +27,7 @@ class UploadItemPresenter(
         with(view) {
             setUserName(name)
             setUserIcon(item.user.userIcon)
+            setUserBadge(item.user.primaryBadge)
             setTime(resourceProvider.formatTime(item.time))
             setIcon(item.icon)
             setLabel(item.title)

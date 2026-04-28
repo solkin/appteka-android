@@ -11,6 +11,7 @@ class OutgoingMsgItemPresenter(
         listener.onLoadMore(item.msgId)
 
         view.setUserIcon(item.userIcon)
+        view.setUserBadge(item.userBadge)
         view.setTime(item.time)
         view.setDate(item.date)
         view.setText(item.text)

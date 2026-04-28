@@ -49,6 +49,7 @@ class TopicConverterImpl(
             lastMsgId = entity.lastMsg.msgId,
             lastMsgText = text,
             lastMsgUserIcon = entity.lastMsg.userIcon,
+            lastMsgUserBadge = entity.lastMsg.author?.primaryBadge,
             hasTranslation = translation != null,
             translated = showTranslation,
         )

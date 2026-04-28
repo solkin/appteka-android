@@ -24,8 +24,10 @@ class SubscribeItemPresenter(
 
         view.setUserName(item.user.name())
         view.setUserIcon(item.user.userIcon)
+        view.setUserBadge(item.user.primaryBadge)
         view.setPublisherName(item.publisher.name())
         view.setPublisherIcon(item.publisher.userIcon)
+        view.setPublisherBadge(item.publisher.primaryBadge)
         view.setTime(resourceProvider.formatTime(item.time))
         if (item.hasProgress) view.showProgress() else view.hideProgress()
         if (!item.actions.isNullOrEmpty()) view.showMenu() else view.hideMenu()

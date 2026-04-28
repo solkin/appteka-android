@@ -11,6 +11,7 @@ import com.tomclaw.appsend.util.adapter.BaseItemViewHolder
 import com.tomclaw.appsend.util.adapter.ItemView
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.dto.Screenshot
+import com.tomclaw.appsend.dto.BadgeMark
 import com.tomclaw.appsend.dto.UserIcon
 import com.tomclaw.appsend.screen.feed.adapter.ReactionsAdapter
 import com.tomclaw.appsend.screen.feed.adapter.ScreenshotsAdapter
@@ -25,6 +26,8 @@ import com.tomclaw.imageloader.util.fetch
 interface FavoriteItemView : ItemView {
 
     fun setUserIcon(userIcon: UserIcon)
+
+    fun setUserBadge(badge: BadgeMark?)
 
     fun setUserName(name: String)
 
@@ -111,6 +114,10 @@ class FavoriteItemViewHolder(
 
     override fun setUserIcon(userIcon: UserIcon) {
         this.userIcon.bind(userIcon)
+    }
+
+    override fun setUserBadge(badge: BadgeMark?) {
+        this.userIcon.bindBadge(badge)
     }
 
     override fun setUserName(name: String) {
