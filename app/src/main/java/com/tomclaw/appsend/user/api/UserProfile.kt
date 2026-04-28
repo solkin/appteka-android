@@ -24,5 +24,7 @@ data class UserProfile(
     @SerializedName("is_registered")
     val isRegistered: Boolean,
     @SerializedName("url")
-    val url: String?
+    val url: String?,
+    @SerializedName("bio")
+    val bio: String? = null,
 ) : Parcelable

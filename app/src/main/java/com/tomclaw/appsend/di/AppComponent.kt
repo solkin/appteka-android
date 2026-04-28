@@ -11,6 +11,8 @@ import com.tomclaw.appsend.screen.about.di.AboutComponent
 import com.tomclaw.appsend.screen.about.di.AboutModule
 import com.tomclaw.appsend.screen.agreement.di.AgreementComponent
 import com.tomclaw.appsend.screen.agreement.di.AgreementModule
+import com.tomclaw.appsend.screen.avatar_crop.di.AvatarCropComponent
+import com.tomclaw.appsend.screen.avatar_crop.di.AvatarCropModule
 import com.tomclaw.appsend.screen.bdui.di.BduiScreenComponent
 import com.tomclaw.appsend.screen.bdui.di.BduiScreenModule
 import com.tomclaw.appsend.screen.auth.request_code.di.RequestCodeComponent
@@ -29,6 +31,8 @@ import com.tomclaw.appsend.screen.distro.di.DistroComponent
 import com.tomclaw.appsend.screen.distro.di.DistroModule
 import com.tomclaw.appsend.screen.downloads.di.DownloadsComponent
 import com.tomclaw.appsend.screen.downloads.di.DownloadsModule
+import com.tomclaw.appsend.screen.edit_profile.di.EditProfileComponent
+import com.tomclaw.appsend.screen.edit_profile.di.EditProfileModule
 import com.tomclaw.appsend.screen.favorite.di.FavoriteComponent
 import com.tomclaw.appsend.screen.favorite.di.FavoriteModule
 import com.tomclaw.appsend.screen.feed.di.FeedComponent
@@ -117,6 +121,10 @@ interface AppComponent {
     fun verifyCodeComponent(module: VerifyCodeModule): VerifyCodeComponent
 
     fun changeEmailComponent(module: ChangeEmailModule): ChangeEmailComponent
+
+    fun editProfileComponent(module: EditProfileModule): EditProfileComponent
+
+    fun avatarCropComponent(module: AvatarCropModule): AvatarCropComponent
 
     fun permissionsComponent(module: PermissionsModule): PermissionsComponent
 

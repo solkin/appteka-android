@@ -1,0 +1,24 @@
+plugins {
+    id 'com.android.library'
+    id 'kotlin-parcelize'
+}
+
+android {
+    namespace = 'com.avito.android.krop'
+    compileSdk = 37
+
+    defaultConfig {
+        minSdkVersion 23
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
+    resourcePrefix 'krop_'
+}
+
+dependencies {
+    implementation 'androidx.annotation:annotation:1.10.0'
+}

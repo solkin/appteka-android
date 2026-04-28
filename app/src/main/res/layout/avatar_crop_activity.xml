@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    android:fitsSystemWindows="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/toolbar_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="?toolbar_background">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?toolbar_background"
+                app:navigationIcon="?attr/homeAsUpIndicator"
+                app:titleTextColor="@android:color/white" />
+
+        </com.google.android.material.appbar.AppBarLayout>
+
+        <com.avito.android.krop.KropView
+            android:id="@+id/krop_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            app:krop_aspectX="1"
+            app:krop_aspectY="1"
+            app:krop_offset="24dp"
+            app:krop_overlayColor="#cc000000"
+            app:krop_shape="oval" />
+
+    </LinearLayout>
+
+    <include
+        android:id="@+id/overlay_progress"
+        layout="@layout/progress_overlay"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+</FrameLayout>

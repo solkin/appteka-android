@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Tonal callout container for the user bio block in the profile
+    header. Picks up the surface-container-low tone so it reads as a
+    soft "section" inside the otherwise flat header without
+    introducing card elevation that would clash with the rest of the
+    profile blocks.
+-->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+    <solid android:color="?attr/colorSurfaceContainerLow" />
+    <corners android:radius="20dp" />
+</shape>

@@ -120,6 +120,14 @@
             android:name=".screen.change_email.ChangeEmailActivity"
             android:label="@string/change_email_title" />
         <activity
+            android:name=".screen.edit_profile.EditProfileActivity"
+            android:label="@string/edit_profile_title" />
+        <activity
+            android:name=".screen.avatar_crop.AvatarCropActivity"
+            android:label="@string/edit_profile_avatar_change"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppThemeSemitransparent" />
+        <activity
             android:name=".screen.permissions.PermissionsActivity"
             android:label="@string/required_permissions" />
         <activity

@@ -481,4 +481,22 @@
     <string name="permission_banner_details_cta">विवरण</string>
     <string name="permission_banner_upload_review_title">समीक्षा की जाएगी</string>
     <string name="permission_banner_moderation_role_title">सलाहकारी वोट</string>
+
+    <string name="profile_bio_section_label">परिचय</string>
+
+    <!-- Edit profile screen -->
+    <string name="edit_profile_title">प्रोफ़ाइल संपादित करें</string>
+    <string name="edit_profile_name_hint">प्रदर्शन नाम</string>
+    <string name="edit_profile_bio_hint">अपने बारे में</string>
+    <string name="edit_profile_avatar_change">बदलें</string>
+    <string name="edit_profile_avatar_remove">हटाएँ</string>
+    <string name="edit_profile_save_button">सहेजें</string>
+    <string name="edit_profile_name_invalid">नाम आवश्यक प्रारूप से मेल नहीं खाता</string>
+    <string name="edit_profile_bio_too_long">विवरण बहुत लंबा है</string>
+    <string name="edit_profile_load_failed">प्रोफ़ाइल लोड नहीं की जा सकी</string>
+    <string name="edit_profile_save_failed">प्रोफ़ाइल सहेजी नहीं जा सकी</string>
+    <string name="edit_profile_saved">प्रोफ़ाइल सहेजी गई</string>
+
+    <string name="permission_avatar_upload">आपके खाते के लिए अवतार अपलोड अक्षम है</string>
+    <string name="permission_bio_edit">आपके खाते के लिए विवरण संपादन अक्षम है</string>
 </resources>

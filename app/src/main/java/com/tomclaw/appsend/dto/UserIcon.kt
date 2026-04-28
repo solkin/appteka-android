@@ -21,4 +21,13 @@ data class UserIcon(
     val label: Map<String, String>? = null,
     @SerializedName("color")
     val color: String,
+    /**
+     * Optional uploaded picture. When present, the client SHOULD
+     * render the picture in place of the SVG glyph; the procedural
+     * [icon] / [color] stay as a fallback for pre-image clients
+     * and for the brief moment between PATCH success and image
+     * fetch completion.
+     */
+    @SerializedName("image")
+    val image: Avatar? = null,
 ) : Parcelable

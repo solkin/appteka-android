@@ -481,4 +481,22 @@
     <string name="permission_banner_details_cta">Detalhes</string>
     <string name="permission_banner_upload_review_title">Será revisado</string>
     <string name="permission_banner_moderation_role_title">Voto consultivo</string>
+
+    <string name="profile_bio_section_label">Sobre</string>
+
+    <!-- Edit profile screen -->
+    <string name="edit_profile_title">Editar perfil</string>
+    <string name="edit_profile_name_hint">Nome</string>
+    <string name="edit_profile_bio_hint">Sobre você</string>
+    <string name="edit_profile_avatar_change">Alterar</string>
+    <string name="edit_profile_avatar_remove">Remover</string>
+    <string name="edit_profile_save_button">Salvar</string>
+    <string name="edit_profile_name_invalid">O nome não corresponde ao formato exigido</string>
+    <string name="edit_profile_bio_too_long">A bio é muito longa</string>
+    <string name="edit_profile_load_failed">Não foi possível carregar o perfil</string>
+    <string name="edit_profile_save_failed">Não foi possível salvar o perfil</string>
+    <string name="edit_profile_saved">Perfil salvo</string>
+
+    <string name="permission_avatar_upload">O envio de avatar está desativado para sua conta</string>
+    <string name="permission_bio_edit">A edição da bio está desativada para sua conta</string>
 </resources>

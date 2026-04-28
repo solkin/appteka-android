@@ -23,6 +23,7 @@ class HeaderItemPresenter(
             ?: item.userIcon.label?.get(DEFAULT_LOCALE).orEmpty()
         view.setUserName(name)
         view.setUserEmail(item.userEmail)
+        view.setUserBio(item.userBio)
 
         val onlineGap = TimeUnit.MINUTES.toMillis(15)
         val currentTime = System.currentTimeMillis()

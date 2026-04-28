@@ -1,9 +1,6 @@
 package com.tomclaw.appsend.screen.profile
 
 import android.annotation.SuppressLint
-import android.content.DialogInterface
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.widget.Toolbar
@@ -14,7 +11,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.tomclaw.appsend.util.adapter.SimpleRecyclerAdapter
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.textfield.TextInputEditText
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.dto.Badge
@@ -43,8 +39,6 @@ interface ProfileView {
 
     fun hideError()
 
-    fun showEditNameDialog(name: String, nameRegex: String?)
-
     fun showEliminationDialog()
 
     fun showEliminationDone(filesCount: Int, messagesCount: Int, ratingsCount: Int)
@@ -54,8 +48,6 @@ interface ProfileView {
     fun contentUpdated()
 
     fun contentUpdated(position: Int)
-
-    fun showEditNameError()
 
     fun showSubscriptionError()
 
@@ -74,8 +66,6 @@ interface ProfileView {
     fun retryClicks(): Observable<Unit>
 
     fun loginClicks(): Observable<Unit>
-
-    fun nameEditedClicks(): Observable<String>
 
 }
 
@@ -98,7 +88,6 @@ class ProfileViewImpl(
     private val eliminateRelay = PublishRelay.create<Boolean>()
     private val retryRelay = PublishRelay.create<Unit>()
     private val loginRelay = PublishRelay.create<Unit>()
-    private val nameEditedRelay = PublishRelay.create<String>()
 
     private val layoutManager: LinearLayoutManager
 
@@ -168,38 +157,6 @@ class ProfileViewImpl(
         error.hide()
     }
 
-    override fun showEditNameDialog(name: String, nameRegex: String?) {
-        var editUserName: TextInputEditText? = null
-        val dialog = MaterialAlertDialogBuilder(context)
-            .setTitle(context.getString(R.string.edit_name_title))
-            .setView(R.layout.profile_edit_name_dialog)
-            .setPositiveButton(R.string.ok) { _, _ ->
-                val editedName = editUserName?.text?.toString().orEmpty()
-                nameEditedRelay.accept(editedName)
-            }
-            .setNegativeButton(R.string.cancel, null)
-            .show()
-
-        editUserName = dialog
-            .findViewById<TextInputEditText>(R.id.user_name)
-            ?.apply {
-                this.setText(name)
-                this.setSelection(text?.length ?: 0)
-            }
-
-        if (nameRegex != null) {
-            editUserName?.addTextChangedListener(object : TextWatcher {
-                override fun beforeTextChanged(s: CharSequence?, st: Int, cn: Int, af: Int) {}
-                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-                override fun afterTextChanged(s: Editable?) {
-                    dialog
-                        .getButton(DialogInterface.BUTTON_POSITIVE)
-                        .isEnabled = s.toString().matches(nameRegex.toRegex())
-                }
-            })
-        }
-    }
-
     override fun showEliminationDialog() {
         MaterialAlertDialogBuilder(context)
             .setTitle(context.getString(R.string.eliminate_user_title))
@@ -234,12 +191,6 @@ class ProfileViewImpl(
         adapter.notifyItemChanged(position)
     }
 
-    override fun showEditNameError() {
-        Snackbar
-            .make(recycler, R.string.unable_to_change_name, Snackbar.LENGTH_LONG)
-            .show()
-    }
-
     override fun showSubscriptionError() {
         Snackbar
             .make(recycler, R.string.unable_to_change_subscription_state, Snackbar.LENGTH_LONG)
@@ -270,8 +221,6 @@ class ProfileViewImpl(
     override fun retryClicks(): Observable<Unit> = retryRelay
 
     override fun loginClicks(): Observable<Unit> = loginRelay
-
-    override fun nameEditedClicks(): Observable<String> = nameEditedRelay
 
 }
 

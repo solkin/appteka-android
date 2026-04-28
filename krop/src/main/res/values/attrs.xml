@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="krop_offset" format="dimension" />
+    <attr name="krop_aspectX" format="integer" />
+    <attr name="krop_aspectY" format="integer" />
+    <attr name="krop_overlayColor" format="color" />
+    <attr name="krop_shape" format="integer" >
+        <enum name="oval" value="0"/>
+        <enum name="rect" value="1"/>
+    </attr>
+    <attr name="krop_overlay" format="reference" />
+
+    <declare-styleable name="KropView">
+        <attr name="krop_offset" />
+        <attr name="krop_aspectX" />
+        <attr name="krop_aspectY" />
+        <attr name="krop_overlayColor" />
+        <attr name="krop_overlay" />
+        <attr name="krop_shape" />
+    </declare-styleable>
+
+</resources>

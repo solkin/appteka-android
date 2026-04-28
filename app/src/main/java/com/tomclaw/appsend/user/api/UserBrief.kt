@@ -30,4 +30,6 @@ data class UserBrief(
     val url: String?,
     @SerializedName("primary_badge")
     val primaryBadge: BadgeMark? = null,
+    @SerializedName("bio")
+    val bio: String? = null,
 ) : Parcelable

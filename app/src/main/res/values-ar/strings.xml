@@ -526,4 +526,22 @@
     <string name="permission_banner_details_cta">التفاصيل</string>
     <string name="permission_banner_upload_review_title">ستتم المراجعة</string>
     <string name="permission_banner_moderation_role_title">تصويت استشاري</string>
+
+    <string name="profile_bio_section_label">نبذة</string>
+
+    <!-- Edit profile screen -->
+    <string name="edit_profile_title">تعديل الملف الشخصي</string>
+    <string name="edit_profile_name_hint">الاسم المعروض</string>
+    <string name="edit_profile_bio_hint">نبذة عنك</string>
+    <string name="edit_profile_avatar_change">تغيير</string>
+    <string name="edit_profile_avatar_remove">حذف</string>
+    <string name="edit_profile_save_button">حفظ</string>
+    <string name="edit_profile_name_invalid">الاسم لا يتطابق مع الصيغة المطلوبة</string>
+    <string name="edit_profile_bio_too_long">النبذة طويلة جدًا</string>
+    <string name="edit_profile_load_failed">تعذر تحميل الملف الشخصي</string>
+    <string name="edit_profile_save_failed">تعذر حفظ الملف الشخصي</string>
+    <string name="edit_profile_saved">تم حفظ الملف الشخصي</string>
+
+    <string name="permission_avatar_upload">تحميل الصورة الرمزية معطل لحسابك</string>
+    <string name="permission_bio_edit">تحرير النبذة معطل لحسابك</string>
 </resources>

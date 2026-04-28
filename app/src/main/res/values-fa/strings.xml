@@ -490,4 +490,22 @@
     <string name="permission_banner_details_cta">جزئیات</string>
     <string name="permission_banner_upload_review_title">بررسی خواهد شد</string>
     <string name="permission_banner_moderation_role_title">رأی مشورتی</string>
+
+    <string name="profile_bio_section_label">درباره</string>
+
+    <!-- Edit profile screen -->
+    <string name="edit_profile_title">ویرایش پروفایل</string>
+    <string name="edit_profile_name_hint">نام کاربری</string>
+    <string name="edit_profile_bio_hint">درباره شما</string>
+    <string name="edit_profile_avatar_change">تغییر</string>
+    <string name="edit_profile_avatar_remove">حذف</string>
+    <string name="edit_profile_save_button">ذخیره</string>
+    <string name="edit_profile_name_invalid">نام با قالب مورد نیاز مطابقت ندارد</string>
+    <string name="edit_profile_bio_too_long">بیوگرافی بیش از حد طولانی است</string>
+    <string name="edit_profile_load_failed">بارگذاری پروفایل ممکن نشد</string>
+    <string name="edit_profile_save_failed">ذخیره پروفایل ممکن نشد</string>
+    <string name="edit_profile_saved">پروفایل ذخیره شد</string>
+
+    <string name="permission_avatar_upload">بارگذاری آواتار برای حساب شما غیرفعال است</string>
+    <string name="permission_bio_edit">ویرایش بیوگرافی برای حساب شما غیرفعال است</string>
 </resources>

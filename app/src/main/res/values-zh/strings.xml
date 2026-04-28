@@ -470,4 +470,22 @@
     <string name="permission_banner_details_cta">详情</string>
     <string name="permission_banner_upload_review_title">待审核</string>
     <string name="permission_banner_moderation_role_title">建议投票</string>
+
+    <string name="profile_bio_section_label">简介</string>
+
+    <!-- Edit profile screen -->
+    <string name="edit_profile_title">编辑个人资料</string>
+    <string name="edit_profile_name_hint">显示名称</string>
+    <string name="edit_profile_bio_hint">关于你</string>
+    <string name="edit_profile_avatar_change">更改</string>
+    <string name="edit_profile_avatar_remove">删除</string>
+    <string name="edit_profile_save_button">保存</string>
+    <string name="edit_profile_name_invalid">名称不符合要求的格式</string>
+    <string name="edit_profile_bio_too_long">简介过长</string>
+    <string name="edit_profile_load_failed">无法加载个人资料</string>
+    <string name="edit_profile_save_failed">无法保存个人资料</string>
+    <string name="edit_profile_saved">个人资料已保存</string>
+
+    <string name="permission_avatar_upload">您的帐户已禁用头像上传</string>
+    <string name="permission_bio_edit">您的帐户已禁用简介编辑</string>
 </resources>

@@ -513,4 +513,30 @@
     <string name="permission_banner_details_cta">Details</string>
     <string name="permission_banner_upload_review_title">Will be reviewed</string>
     <string name="permission_banner_moderation_role_title">Advisory vote</string>
+
+    <!-- Profile screen — bio callout label -->
+    <string name="profile_bio_section_label">About</string>
+
+    <!-- Edit profile screen -->
+    <string name="edit_profile_title">Edit profile</string>
+    <string name="edit_profile_name_hint">Display name</string>
+    <string name="edit_profile_bio_hint">About you</string>
+    <string name="edit_profile_avatar_change">Change</string>
+    <string name="edit_profile_avatar_remove">Remove</string>
+    <string name="edit_profile_save_button">Save</string>
+    <string name="edit_profile_name_invalid">Name does not match the required format</string>
+    <string name="edit_profile_bio_too_long">Bio is too long</string>
+    <string name="edit_profile_load_failed">Could not load the profile</string>
+    <string name="edit_profile_save_failed">Could not save the profile</string>
+    <string name="edit_profile_saved">Profile saved</string>
+
+    <!-- Permission hints for the new ACL rules -->
+    <string name="permission_avatar_upload">Avatar upload is disabled for your account</string>
+    <string name="permission_bio_edit">Editing the bio is disabled for your account</string>
+
+    <!-- Avatar crop screen -->
+    <string name="avatar_crop_title">Crop avatar</string>
+    <string name="avatar_crop_done">Done</string>
+    <string name="avatar_crop_load_failed">Could not load the picture</string>
+    <string name="avatar_crop_save_failed">Could not save the cropped picture</string>
 </resources>

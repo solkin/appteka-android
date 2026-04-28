@@ -38,6 +38,8 @@ interface ProfilePresenter : ItemListener {
 
     fun onResume()
 
+    fun onProfileEdited()
+
     interface ProfileRouter {
 
         fun openUserFilesScreen(userId: Int)
@@ -63,6 +65,8 @@ interface ProfilePresenter : ItemListener {
         fun openModerationScreen()
 
         fun openChangeEmailScreen()
+
+        fun openEditProfileScreen()
 
         fun leaveScreen()
 
@@ -109,9 +113,6 @@ class ProfilePresenterImpl(
         }
         subscriptions += view.loginClicks().subscribe {
             router?.openLoginScreen()
-        }
-        subscriptions += view.nameEditedClicks().subscribe { name ->
-            onSetUserName(name)
         }
 
         if (withToolbar == true) {
@@ -187,7 +188,11 @@ class ProfilePresenterImpl(
     }
 
     override fun onEditName(name: String?, nameRegex: String?) {
-        view?.showEditNameDialog(name.orEmpty(), nameRegex)
+        // Both args ignored — the dedicated edit-profile screen
+        // re-fetches the latest profile and pulls its own
+        // name_regex. Kept on the listener interface for binary
+        // compatibility with the header adapter.
+        router?.openEditProfileScreen()
     }
 
     override fun onEditEmail() {
@@ -297,13 +302,8 @@ class ProfilePresenterImpl(
         }
     }
 
-    private fun onSetUserName(name: String) {
-        subscriptions += interactor.setUserName(name)
-            .observeOn(schedulers.mainThread())
-            .subscribe(
-                { loadProfile() },
-                { view?.showEditNameError() }
-            )
+    override fun onProfileEdited() {
+        loadProfile()
     }
 
     private fun onEliminateUser() {

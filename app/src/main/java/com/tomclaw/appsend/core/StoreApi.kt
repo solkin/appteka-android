@@ -62,6 +62,7 @@ import retrofit2.http.FormUrlEncoded
 import retrofit2.http.GET
 import retrofit2.http.Headers
 import retrofit2.http.Multipart
+import retrofit2.http.PATCH
 import retrofit2.http.POST
 import retrofit2.http.Part
 import retrofit2.http.Query
@@ -307,6 +308,26 @@ interface StoreApi {
     fun setUserName(
         @Query("name") name: String,
     ): Single<StoreResponse<SetUserNameResponse>>
+
+    /**
+     * Patch the caller's profile. Each part is independently
+     * optional: a missing part leaves the column untouched, a
+     * present-empty part clears it. The avatar pipeline is the
+     * same: a non-empty file part replaces, a 0-byte file part
+     * clears.
+     *
+     * The wire-side semantics drive the in-memory contract — see
+     * [com.tomclaw.appsend.screen.edit_profile.EditProfileInteractor]
+     * for the multipart construction that preserves "absent vs
+     * present-empty".
+     */
+    @Multipart
+    @PATCH("2/user/profile")
+    fun updateProfile(
+        @Part("name") name: okhttp3.RequestBody?,
+        @Part("bio") bio: okhttp3.RequestBody?,
+        @Part avatar: MultipartBody.Part?,
+    ): Single<StoreResponse<ProfileResponse>>
 
     @POST("1/feed/subscribe")
     fun subscribe(

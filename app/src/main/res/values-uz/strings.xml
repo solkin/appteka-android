@@ -482,4 +482,22 @@
     <string name="permission_banner_details_cta">Tafsilotlar</string>
     <string name="permission_banner_upload_review_title">Tekshiriladi</string>
     <string name="permission_banner_moderation_role_title">Maslahat ovozi</string>
+
+    <string name="profile_bio_section_label">Haqida</string>
+
+    <!-- Edit profile screen -->
+    <string name="edit_profile_title">Profilni tahrirlash</string>
+    <string name="edit_profile_name_hint">Ko\'rsatiladigan nom</string>
+    <string name="edit_profile_bio_hint">O\'zingiz haqingizda</string>
+    <string name="edit_profile_avatar_change">O\'zgartirish</string>
+    <string name="edit_profile_avatar_remove">Olib tashlash</string>
+    <string name="edit_profile_save_button">Saqlash</string>
+    <string name="edit_profile_name_invalid">Nom talab qilingan formatga mos kelmaydi</string>
+    <string name="edit_profile_bio_too_long">Bio juda uzun</string>
+    <string name="edit_profile_load_failed">Profilni yuklab bo\'lmadi</string>
+    <string name="edit_profile_save_failed">Profilni saqlab bo\'lmadi</string>
+    <string name="edit_profile_saved">Profil saqlandi</string>
+
+    <string name="permission_avatar_upload">Hisobingiz uchun avatar yuklash o\'chirilgan</string>
+    <string name="permission_bio_edit">Hisobingiz uchun bio tahrirlash o\'chirilgan</string>
 </resources>

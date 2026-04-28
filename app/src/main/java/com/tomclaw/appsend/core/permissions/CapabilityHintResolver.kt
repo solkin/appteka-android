@@ -64,6 +64,8 @@ class CapabilityHintResolver(private val resources: Resources) {
             AccessRule.CHAT_IMAGE_ATTACH to R.string.permission_chat_image_attach,
             AccessRule.READ_ONLY_APP_UPLOAD to R.string.permission_read_only_app_upload,
             AccessRule.READ_ONLY_FEED_POSTS to R.string.permission_read_only_feed_posts,
+            AccessRule.AVATAR_UPLOAD to R.string.permission_avatar_upload,
+            AccessRule.BIO_EDIT to R.string.permission_bio_edit,
         )
 
         private val hintKeyTextResources: Map<String, Int> = mapOf(
@@ -88,6 +90,8 @@ class CapabilityHintResolver(private val resources: Resources) {
             "cap.reason.chat_image_attach" to R.string.permission_chat_image_attach,
             "cap.reason.read_only_app_upload" to R.string.permission_read_only_app_upload,
             "cap.reason.read_only_feed_posts" to R.string.permission_read_only_feed_posts,
+            "cap.reason.avatar_upload" to R.string.permission_avatar_upload,
+            "cap.reason.bio_edit" to R.string.permission_bio_edit,
         )
     }
 }

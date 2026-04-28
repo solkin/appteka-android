@@ -40,6 +40,13 @@ interface HeaderItemView : ItemView {
     fun setUserEmail(email: String?)
 
     /**
+     * Render the freeform "about you" line. Hides the row when the
+     * bio is null/blank — the field stays optional so old or
+     * unprivileged users keep the same compact header as before.
+     */
+    fun setUserBio(bio: String?)
+
+    /**
      * Renders the user's metadata line. When [onlineHighlight] is
      * non-null, the first occurrence of that substring inside [value]
      * is painted in the "online" accent colour — used to mark active
@@ -76,6 +83,8 @@ class HeaderItemViewHolder(private val view: View) : BaseItemViewHolder(view), H
     private val userIcon: UserIconView = UserIconViewImpl(view.findViewById(R.id.user_icon))
     private val userName: TextView = view.findViewById(R.id.user_name)
     private val userEmail: TextView = view.findViewById(R.id.user_email)
+    private val userBioContainer: View = view.findViewById(R.id.user_bio_container)
+    private val userBio: TextView = view.findViewById(R.id.user_bio)
     private val userDescription: TextView = view.findViewById(R.id.user_description)
     private val subscribeButton: View = view.findViewById(R.id.subscribe_button)
     private val unsubscribeButton: View = view.findViewById(R.id.unsubscribe_button)
@@ -173,6 +182,15 @@ class HeaderItemViewHolder(private val view: View) : BaseItemViewHolder(view), H
             userEmail.show()
         } else {
             userEmail.hide()
+        }
+    }
+
+    override fun setUserBio(bio: String?) {
+        if (!bio.isNullOrBlank()) {
+            userBio.text = bio
+            userBioContainer.show()
+        } else {
+            userBioContainer.hide()
         }
     }
 

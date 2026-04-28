@@ -56,6 +56,8 @@ data class Profile(
     val isSubscribed: Boolean = false,
     @SerializedName("url")
     val url: String? = null,
+    @SerializedName("bio")
+    val bio: String? = null,
     @SerializedName("primary_badge")
     val primaryBadge: BadgeMark? = null,
     @SerializedName("badges")

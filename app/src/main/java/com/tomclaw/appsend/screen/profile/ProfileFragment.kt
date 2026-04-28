@@ -17,6 +17,7 @@ import com.tomclaw.appsend.screen.auth.request_code.createRequestCodeActivityInt
 import com.tomclaw.appsend.screen.change_email.createChangeEmailActivityIntent
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.screen.downloads.createDownloadsActivityIntent
+import com.tomclaw.appsend.screen.edit_profile.createEditProfileActivityIntent
 import com.tomclaw.appsend.screen.favorite.createFavoriteActivityIntent
 import com.tomclaw.appsend.screen.feed.createFeedActivityIntent
 import com.tomclaw.appsend.screen.home.HomeFragment
@@ -52,6 +53,13 @@ class ProfileFragment : Fragment(), ProfilePresenter.ProfileRouter, HomeFragment
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == AppCompatActivity.RESULT_OK) {
                 presenter.onAuthorized()
+            }
+        }
+
+    private val editProfileLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == AppCompatActivity.RESULT_OK) {
+                presenter.onProfileEdited()
             }
         }
 
@@ -193,6 +201,12 @@ class ProfileFragment : Fragment(), ProfilePresenter.ProfileRouter, HomeFragment
         val context = context ?: return
         val intent = createChangeEmailActivityIntent(context)
         startActivity(intent)
+    }
+
+    override fun openEditProfileScreen() {
+        val context = context ?: return
+        val intent = createEditProfileActivityIntent(context)
+        editProfileLauncher.launch(intent)
     }
 
     override fun leaveScreen() {

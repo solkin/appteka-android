@@ -370,4 +370,14 @@
         <item name="bottomNavigationStyle">@style/AppBottomNavigationView</item>
     </style>
 
+    <!--
+        Circular shape appearance reused by user avatar ShapeableImageView
+        (user_icon_*.xml). Pinned at 50% so the cropped image fills the
+        same circle that the procedural backplate paints.
+    -->
+    <style name="ShapeAppearance.Appteka.Circle" parent="">
+        <item name="cornerSize">50%</item>
+        <item name="cornerFamily">rounded</item>
+    </style>
+
 </resources>

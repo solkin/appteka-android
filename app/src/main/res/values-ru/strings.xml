@@ -504,4 +504,22 @@
     <string name="permission_banner_details_cta">Подробнее</string>
     <string name="permission_banner_upload_review_title">Будет проверено</string>
     <string name="permission_banner_moderation_role_title">Совещательный голос</string>
+
+    <string name="profile_bio_section_label">О себе</string>
+
+    <!-- Edit profile screen -->
+    <string name="edit_profile_title">Редактировать профиль</string>
+    <string name="edit_profile_name_hint">Имя пользователя</string>
+    <string name="edit_profile_bio_hint">О себе</string>
+    <string name="edit_profile_avatar_change">Изменить</string>
+    <string name="edit_profile_avatar_remove">Удалить</string>
+    <string name="edit_profile_save_button">Сохранить</string>
+    <string name="edit_profile_name_invalid">Имя не соответствует требуемому формату</string>
+    <string name="edit_profile_bio_too_long">Слишком длинное описание</string>
+    <string name="edit_profile_load_failed">Не удалось загрузить профиль</string>
+    <string name="edit_profile_save_failed">Не удалось сохранить профиль</string>
+    <string name="edit_profile_saved">Профиль сохранён</string>
+
+    <string name="permission_avatar_upload">Загрузка аватара отключена для вашего аккаунта</string>
+    <string name="permission_bio_edit">Редактирование описания отключено для вашего аккаунта</string>
 </resources>

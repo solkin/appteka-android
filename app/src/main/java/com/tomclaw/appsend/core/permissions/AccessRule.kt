@@ -26,6 +26,8 @@ object AccessRule {
     const val READ_ONLY_RATINGS = "read_only_ratings"
     const val READ_ONLY_APP_UPLOAD = "read_only_app_upload"
     const val READ_ONLY_FEED_POSTS = "read_only_feed_posts"
+    const val AVATAR_UPLOAD = "avatar_upload"
+    const val BIO_EDIT = "bio_edit"
 }
 
 /**
@@ -66,4 +68,6 @@ object CapabilityAction {
     const val MODERATION_ENTER = "moderation.enter"
     const val MODERATION_FINAL_VOTE = "moderation.final_vote"
     const val USER_ELIMINATE = "user.eliminate"
+    const val AVATAR_UPLOAD = "avatar.upload"
+    const val BIO_EDIT = "bio.edit"
 }

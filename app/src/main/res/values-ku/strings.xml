@@ -495,4 +495,22 @@
     <string name="permission_banner_details_cta">وردەکارییەکان</string>
     <string name="permission_banner_upload_review_title">پێداچوونەوەی پێ دەکرێت</string>
     <string name="permission_banner_moderation_role_title">دەنگی ڕاوێژکاری</string>
+
+    <string name="profile_bio_section_label">دەربارە</string>
+
+    <!-- Edit profile screen -->
+    <string name="edit_profile_title">دەستکاری پرۆفایل</string>
+    <string name="edit_profile_name_hint">ناوی پیشاندان</string>
+    <string name="edit_profile_bio_hint">دەربارەی تۆ</string>
+    <string name="edit_profile_avatar_change">گۆڕین</string>
+    <string name="edit_profile_avatar_remove">سڕینەوە</string>
+    <string name="edit_profile_save_button">پاشەکەوتکردن</string>
+    <string name="edit_profile_name_invalid">ناو لەگەڵ شێوازی داواکراو ناگونجێت</string>
+    <string name="edit_profile_bio_too_long">دەربارەکە زۆر درێژە</string>
+    <string name="edit_profile_load_failed">نەتوانرا پرۆفایل بار بکرێت</string>
+    <string name="edit_profile_save_failed">نەتوانرا پرۆفایل پاشەکەوت بکرێت</string>
+    <string name="edit_profile_saved">پرۆفایل پاشەکەوت کرا</string>
+
+    <string name="permission_avatar_upload">بارکردنی ئەڤاتار بۆ هەژمارەکەت ناچالاککراوە</string>
+    <string name="permission_bio_edit">دەستکاری دەربارە بۆ هەژمارەکەت ناچالاککراوە</string>
 </resources>

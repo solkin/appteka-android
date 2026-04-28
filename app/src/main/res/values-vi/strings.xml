@@ -470,4 +470,22 @@
     <string name="permission_banner_details_cta">Chi tiết</string>
     <string name="permission_banner_upload_review_title">Sẽ được xem xét</string>
     <string name="permission_banner_moderation_role_title">Phiếu tư vấn</string>
+
+    <string name="profile_bio_section_label">Giới thiệu</string>
+
+    <!-- Edit profile screen -->
+    <string name="edit_profile_title">Chỉnh sửa hồ sơ</string>
+    <string name="edit_profile_name_hint">Tên hiển thị</string>
+    <string name="edit_profile_bio_hint">Giới thiệu</string>
+    <string name="edit_profile_avatar_change">Thay đổi</string>
+    <string name="edit_profile_avatar_remove">Xóa</string>
+    <string name="edit_profile_save_button">Lưu</string>
+    <string name="edit_profile_name_invalid">Tên không khớp với định dạng yêu cầu</string>
+    <string name="edit_profile_bio_too_long">Tiểu sử quá dài</string>
+    <string name="edit_profile_load_failed">Không thể tải hồ sơ</string>
+    <string name="edit_profile_save_failed">Không thể lưu hồ sơ</string>
+    <string name="edit_profile_saved">Đã lưu hồ sơ</string>
+
+    <string name="permission_avatar_upload">Tải lên ảnh đại diện đã bị tắt cho tài khoản của bạn</string>
+    <string name="permission_bio_edit">Chỉnh sửa tiểu sử đã bị tắt cho tài khoản của bạn</string>
 </resources>

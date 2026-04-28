@@ -55,6 +55,7 @@ class ProfileConverterImpl : ProfileConverter {
                 id = id.incrementAndGet(),
                 userName = profile.name,
                 userEmail = if (isSelf) profile.email else null,
+                userBio = profile.bio,
                 userIcon = profile.userIcon,
                 joinTime = TimeUnit.SECONDS.toMillis(profile.joinTime),
                 lastSeen = TimeUnit.SECONDS.toMillis(profile.lastSeen),
