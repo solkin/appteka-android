@@ -34,12 +34,11 @@ interface ModerationView {
     fun isPullRefreshing(): Boolean
 
     /**
-     * Apply the "moderation.final_vote" capability as a subtitle on the
-     * toolbar — "Final vote" / "Advisory vote". Subtitle stays empty
-     * when capability is missing (legacy server) so the screen looks
-     * exactly like before.
+     * Set the toolbar subtitle to the given pre-resolved voting hint,
+     * or clear it when `text` is null. The presenter owns the
+     * capability → label mapping; the view just renders.
      */
-    fun setVotingHint(capability: com.tomclaw.appsend.core.permissions.Capability?)
+    fun setVotingHint(text: String?)
 
     fun navigationClicks(): Observable<Unit>
 
@@ -54,7 +53,6 @@ class ModerationViewImpl(
     private val adapter: SimpleRecyclerAdapter
 ) : ModerationView {
 
-    private val context = view.context
     private val toolbar: Toolbar = view.findViewById(R.id.toolbar)
     private val refresher: SwipeRefreshLayout = view.findViewById(R.id.swipe_refresh)
     private val flipper: ViewFlipper = view.findViewById(R.id.view_flipper)
@@ -91,14 +89,8 @@ class ModerationViewImpl(
         flipper.displayedChild = 1
     }
 
-    override fun setVotingHint(capability: com.tomclaw.appsend.core.permissions.Capability?) {
-        toolbar.subtitle = if (capability == null) {
-            null
-        } else if (capability.allowed) {
-            context.getString(R.string.permission_moderation_final_vote)
-        } else {
-            context.getString(R.string.permission_moderation_advisory_vote)
-        }
+    override fun setVotingHint(text: String?) {
+        toolbar.subtitle = text
     }
 
     override fun showPlaceholder() {

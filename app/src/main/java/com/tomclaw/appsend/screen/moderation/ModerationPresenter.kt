@@ -50,6 +50,7 @@ class ModerationPresenterImpl(
     private val capabilitiesProvider: UserCapabilitiesProvider,
     private val adapterPresenter: Lazy<AdapterPresenter>,
     private val appConverter: AppConverter,
+    private val resourceProvider: ModerationResourceProvider,
     private val schedulers: SchedulersFactory,
     state: Bundle?
 ) : ModerationPresenter {
@@ -76,10 +77,17 @@ class ModerationPresenterImpl(
             invalidateApps()
         }
 
-        view.setVotingHint(
-            capabilitiesProvider.getCapabilities()
-                ?.get(CapabilityAction.MODERATION_FINAL_VOTE)
-        )
+        // Translate the moderation.final_vote capability into a
+        // user-facing label here so the view can stay a plain
+        // subtitle setter. Missing capability (legacy server) → no
+        // subtitle at all, matching the prior behaviour.
+        val finalVote = capabilitiesProvider.getCapabilities()
+            ?.get(CapabilityAction.MODERATION_FINAL_VOTE)
+        val hint = finalVote?.let {
+            if (it.allowed) resourceProvider.votingHintFinal()
+            else resourceProvider.votingHintAdvisory()
+        }
+        view.setVotingHint(hint)
 
         if (isError) {
             onError()

@@ -19,6 +19,8 @@ import com.tomclaw.appsend.screen.moderation.ModerationInteractor
 import com.tomclaw.appsend.screen.moderation.ModerationInteractorImpl
 import com.tomclaw.appsend.screen.moderation.ModerationPresenter
 import com.tomclaw.appsend.screen.moderation.ModerationPresenterImpl
+import com.tomclaw.appsend.screen.moderation.ModerationResourceProvider
+import com.tomclaw.appsend.screen.moderation.ModerationResourceProviderImpl
 import com.tomclaw.appsend.user.ModerationProvider
 import com.tomclaw.appsend.screen.moderation.adapter.app.AppItemBlueprint
 import com.tomclaw.appsend.screen.moderation.adapter.app.AppItemPresenter
@@ -44,6 +46,7 @@ class ModerationModule(
         capabilitiesProvider: com.tomclaw.appsend.core.permissions.UserCapabilitiesProvider,
         adapterPresenter: Lazy<AdapterPresenter>,
         appConverter: AppConverter,
+        resourceProvider: ModerationResourceProvider,
         schedulers: SchedulersFactory
     ): ModerationPresenter = ModerationPresenterImpl(
         interactor,
@@ -51,9 +54,15 @@ class ModerationModule(
         capabilitiesProvider,
         adapterPresenter,
         appConverter,
+        resourceProvider,
         schedulers,
         state
     )
+
+    @Provides
+    @PerActivity
+    internal fun provideModerationResourceProvider(): ModerationResourceProvider =
+        ModerationResourceProviderImpl(context.resources)
 
     @Provides
     @PerActivity

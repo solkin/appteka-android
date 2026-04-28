@@ -12,7 +12,14 @@ class UserRateItemPresenter(
 ) : ItemPresenter<UserRateItemView, UserRateItem> {
 
     override fun bindView(view: UserRateItemView, item: UserRateItem, position: Int) {
-        view.setRateCapability(item.rateCapability)
+        // The "app.rate" capability decomposes into three view facets:
+        // bar interactivity, button enablement, and the inline banner.
+        // Composition lives here so the view stays a plain renderer.
+        val capability = item.rateCapability
+        val denied = capability != null && !capability.allowed
+        view.setRatingEditable(!denied)
+        view.setFeedbackEnabled(!denied)
+        view.setDenialBanner(if (denied) capability else null)
         view.setOnRateListener { rating ->
             listener.onRateClick(rating, review = null)
             Completable

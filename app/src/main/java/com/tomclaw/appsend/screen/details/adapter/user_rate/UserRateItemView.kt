@@ -14,12 +14,18 @@ interface UserRateItemView : ItemView {
 
     fun setOnRateListener(listener: ((Float) -> Unit)?)
 
+    /** Lock or unlock interactive rating-bar input. */
+    fun setRatingEditable(editable: Boolean)
+
+    /** Enable/disable the feedback (rate) button. */
+    fun setFeedbackEnabled(enabled: Boolean)
+
     /**
-     * Apply the server-resolved "app.rate" capability: enabled → rating
-     * bar interactive and banner hidden, denied → bar locked and banner
-     * explains why.
+     * Show the rate-permission banner for the given denied capability
+     * or hide it when `null`. Composition of "denied vs allowed" lives
+     * in the item presenter; this setter just renders.
      */
-    fun setRateCapability(capability: Capability?)
+    fun setDenialBanner(capability: Capability?)
 
 }
 
@@ -48,14 +54,19 @@ class UserRateItemViewHolder(view: View) : BaseItemViewHolder(view), UserRateIte
         this.rateListener = listener
     }
 
-    override fun setRateCapability(capability: Capability?) {
-        val denied = capability != null && !capability.allowed
-        ratingView.setIsIndicator(denied)
-        feedbackButton.isEnabled = !denied
-        if (denied) {
-            banner.showFor(capability)
-        } else {
+    override fun setRatingEditable(editable: Boolean) {
+        ratingView.setIsIndicator(!editable)
+    }
+
+    override fun setFeedbackEnabled(enabled: Boolean) {
+        feedbackButton.isEnabled = enabled
+    }
+
+    override fun setDenialBanner(capability: Capability?) {
+        if (capability == null) {
             banner.hide()
+        } else {
+            banner.showFor(capability)
         }
     }
 
