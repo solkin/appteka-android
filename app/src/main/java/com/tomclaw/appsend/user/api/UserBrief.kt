@@ -10,10 +10,10 @@ import kotlinx.parcelize.Parcelize
 @GsonModel
 @Parcelize
 data class UserBrief(
-    @SerializedName("user_id")
-    val userId: Int,
-    @SerializedName("user_icon")
-    val userIcon: UserIcon,
+    @SerializedName("id")
+    val id: Int,
+    @SerializedName("icon")
+    val icon: UserIcon,
     @SerializedName("join_time")
     val joinTime: Long,
     @SerializedName("last_seen")

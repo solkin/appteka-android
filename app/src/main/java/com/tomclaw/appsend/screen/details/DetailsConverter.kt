@@ -123,10 +123,7 @@ class DetailsConverterImpl(
             icon = details.info.icon,
             packageName = details.info.packageName,
             label = details.info.label.orEmpty(),
-            userId = details.info.userId,
-            userIcon = details.info.userIcon,
-            userBadge = details.info.userBadge,
-            userName = details.info.userName,
+            author = details.info.author,
             downloadState = downloadState,
         )
         items += PlayItem(
@@ -183,10 +180,7 @@ class DetailsConverterImpl(
                 score = details.userRating.score,
                 text = details.userRating.text,
                 time = details.userRating.time * 1000,
-                userId = details.userRating.userId,
-                userIcon = details.userRating.userIcon,
-                userBadge = details.userRating.userBadge,
-                userName = details.userRating.userName,
+                user = details.userRating.user,
             )
         } else if (installedVersionCode != NOT_INSTALLED && details.info.fileStatus == STATUS_NORMAL) {
             items += UserRateItem(
@@ -261,12 +255,7 @@ class DetailsConverterImpl(
                     score = rating.score,
                     text = rating.text,
                     time = rating.time * 1000,
-                    userId = rating.userId,
-                    userName = rating.userName.takeIf { !it.isNullOrBlank() }
-                        ?: rating.userIcon.label[locale.language]
-                        ?: rating.userIcon.label[DEFAULT_LOCALE].orEmpty(),
-                    userIcon = rating.userIcon,
-                    userBadge = rating.userBadge,
+                    user = rating.user,
                 )
             }
         }

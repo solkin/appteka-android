@@ -177,7 +177,7 @@ class UsersPresenterImpl(
 
     override fun onItemClick(item: Item) {
         val sub = items?.find { it.id == item.id } ?: return
-        router?.openProfileScreen(sub.user.userId)
+        router?.openProfileScreen(sub.user.id)
     }
 
     override fun onLoadMore(item: Item) {

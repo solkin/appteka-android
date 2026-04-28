@@ -48,8 +48,8 @@ class TopicConverterImpl(
             hasUnread = entity.readMsgId?.let { it < entity.lastMsg.msgId } == true,
             lastMsgId = entity.lastMsg.msgId,
             lastMsgText = text,
-            lastMsgUserIcon = entity.lastMsg.userIcon,
-            lastMsgUserBadge = entity.lastMsg.author?.primaryBadge,
+            lastMsgUserIcon = entity.lastMsg.author.icon,
+            lastMsgUserBadge = entity.lastMsg.author.primaryBadge,
             hasTranslation = translation != null,
             translated = showTranslation,
         )

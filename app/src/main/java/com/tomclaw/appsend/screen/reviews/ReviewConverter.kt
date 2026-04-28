@@ -22,7 +22,7 @@ class ReviewConverterImpl() : ReviewConverter {
         val showRatingMenu = CapabilityPolicy.isAllowed(
             action = CapabilityAction.APP_RATING_DELETE,
             capabilities = entity.rating.capabilities,
-            allowOnUnknown = legacyCanDelete(brief, entity.rating.userId),
+            allowOnUnknown = legacyCanDelete(brief, entity.rating.user.id),
         )
         return ReviewItem(
             id = id.incrementAndGet(),
@@ -40,7 +40,7 @@ class ReviewConverterImpl() : ReviewConverter {
 
     private fun legacyCanDelete(brief: UserBrief?, ratingUserId: Int): Boolean {
         val u = brief ?: return false
-        return u.role >= LEGACY_ROLE_ADMIN || u.userId == ratingUserId
+        return u.role >= LEGACY_ROLE_ADMIN || u.id == ratingUserId
     }
 
 }

@@ -10,8 +10,8 @@ class IncomingMsgItemPresenter(
     override fun bindView(view: IncomingMsgItemView, item: IncomingMsgItem, position: Int) {
         listener.onLoadMore(item.msgId)
 
-        view.setUserIcon(item.userIcon)
-        view.setUserBadge(item.userBadge)
+        item.author.icon?.let(view::setUserIcon)
+        view.setUserBadge(item.author.primaryBadge)
         view.setTime(item.time)
         view.setDate(item.date)
         view.setText(item.text)

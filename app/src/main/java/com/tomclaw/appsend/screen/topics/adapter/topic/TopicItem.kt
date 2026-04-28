@@ -17,7 +17,7 @@ data class TopicItem(
     val hasUnread: Boolean,
     val lastMsgId: Int,
     val lastMsgText: String,
-    val lastMsgUserIcon: UserIcon,
+    val lastMsgUserIcon: UserIcon?,
     val lastMsgUserBadge: BadgeMark?,
     val hasTranslation: Boolean,
     val translated: Boolean,

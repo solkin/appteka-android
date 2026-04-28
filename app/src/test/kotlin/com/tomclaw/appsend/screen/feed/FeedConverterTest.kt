@@ -71,8 +71,8 @@ class FeedConverterTest {
         payload = TextPayload(screenshots = emptyList(), text = "hi"),
         reacts = null,
         user = UserBrief(
-            userId = 1,
-            userIcon = UserIcon(icon = "", label = emptyMap(), color = "#000"),
+            id = 1,
+            icon = UserIcon(icon = "", label = emptyMap(), color = "#000"),
             joinTime = 0,
             lastSeen = 0,
             role = 0,

@@ -296,8 +296,9 @@ class DetailsModule(
     @PerActivity
     internal fun provideRatingItemPresenter(
         @Named(DATE_FORMATTER) dateFormatter: DateFormat,
+        locale: Locale,
         presenter: DetailsPresenter
-    ) = RatingItemPresenter(dateFormatter, presenter)
+    ) = RatingItemPresenter(dateFormatter, locale, presenter)
 
     @Provides
     @IntoSet

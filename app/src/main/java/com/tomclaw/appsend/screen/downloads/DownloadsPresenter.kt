@@ -172,7 +172,7 @@ class DownloadsPresenterImpl(
     }
 
     private fun isCurrentUserOwner(): Boolean {
-        return brief?.let { it.userId == userId } == true
+        return brief?.let { it.id == userId } == true
     }
 
     private fun onReady() {

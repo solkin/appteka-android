@@ -2,8 +2,7 @@ package com.tomclaw.appsend.screen.chat.adapter.incoming
 
 import android.os.Parcelable
 import com.tomclaw.appsend.util.adapter.Item
-import com.tomclaw.appsend.dto.BadgeMark
-import com.tomclaw.appsend.dto.UserIcon
+import com.tomclaw.appsend.dto.UserMark
 import com.tomclaw.appsend.screen.chat.adapter.MsgAttachment
 import kotlinx.parcelize.Parcelize
 
@@ -14,9 +13,7 @@ data class IncomingMsgItem(
     val msgId: Int,
     val prevMsgId: Int,
     val type: Int,
-    val userId: Int,
-    val userIcon: UserIcon,
-    val userBadge: BadgeMark?,
+    val author: UserMark,
     val text: String,
     val time: String,
     val date: String?,

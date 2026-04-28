@@ -137,10 +137,10 @@ class RatePresenterImpl(
     }
 
     private fun bindMemberInfo(userBrief: UserBrief) {
-        view?.setMemberIcon(userBrief.userIcon)
+        view?.setMemberIcon(userBrief.icon)
         val name = userBrief.name.takeIf { !it.isNullOrBlank() }
-            ?: userBrief.userIcon.label[locale.language]
-            ?: userBrief.userIcon.label[DEFAULT_LOCALE].orEmpty()
+            ?: userBrief.icon.label[locale.language]
+            ?: userBrief.icon.label[DEFAULT_LOCALE].orEmpty()
         view?.setMemberName(name)
     }
 

@@ -1,12 +1,10 @@
 package com.tomclaw.appsend.screen.ratings
 
-import com.tomclaw.appsend.categories.DEFAULT_LOCALE
 import com.tomclaw.appsend.core.permissions.CapabilityAction
 import com.tomclaw.appsend.core.permissions.CapabilityPolicy
 import com.tomclaw.appsend.screen.details.api.RatingEntity
 import com.tomclaw.appsend.screen.ratings.adapter.rating.RatingItem
 import com.tomclaw.appsend.user.api.UserBrief
-import java.util.Locale
 
 interface RatingConverter {
 
@@ -14,9 +12,7 @@ interface RatingConverter {
 
 }
 
-class RatingConverterImpl(
-    private val locale: Locale
-) : RatingConverter {
+class RatingConverterImpl : RatingConverter {
 
     override fun convert(entity: RatingEntity, brief: UserBrief?): RatingItem {
         // Server-resolved capability is the source of truth for the
@@ -25,7 +21,7 @@ class RatingConverterImpl(
         val showRatingMenu = CapabilityPolicy.isAllowed(
             action = CapabilityAction.APP_RATING_DELETE,
             capabilities = entity.capabilities,
-            allowOnUnknown = legacyCanDelete(brief, entity.userId),
+            allowOnUnknown = legacyCanDelete(brief, entity.user.id),
         )
         return RatingItem(
             id = entity.rateId.toLong(),
@@ -33,19 +29,14 @@ class RatingConverterImpl(
             score = entity.score,
             text = entity.text,
             time = entity.time * 1000,
-            userId = entity.userId,
-            userName = entity.userName.takeIf { !it.isNullOrBlank() }
-                ?: entity.userIcon.label[locale.language]
-                ?: entity.userIcon.label[DEFAULT_LOCALE].orEmpty(),
-            userIcon = entity.userIcon,
-            userBadge = entity.userBadge,
+            user = entity.user,
             showRatingMenu = showRatingMenu,
         )
     }
 
     private fun legacyCanDelete(brief: UserBrief?, ratingUserId: Int): Boolean {
         val u = brief ?: return false
-        return u.role >= LEGACY_ROLE_ADMIN || u.userId == ratingUserId
+        return u.role >= LEGACY_ROLE_ADMIN || u.id == ratingUserId
     }
 
 }

@@ -65,8 +65,8 @@ class RatingsModule(
 
     @Provides
     @PerActivity
-    internal fun provideRatingConverter(locale: Locale): RatingConverter {
-        return RatingConverterImpl(locale)
+    internal fun provideRatingConverter(): RatingConverter {
+        return RatingConverterImpl()
     }
 
     @Provides
@@ -107,7 +107,8 @@ class RatingsModule(
     @PerActivity
     internal fun provideRatingItemPresenter(
         @Named(DATE_FORMATTER) dateFormatter: DateFormat,
+        locale: Locale,
         presenter: RatingsPresenter,
-    ) = RatingItemPresenter(dateFormatter, presenter)
+    ) = RatingItemPresenter(dateFormatter, locale, presenter)
 
 }

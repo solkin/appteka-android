@@ -19,7 +19,7 @@ class TopicItemPresenter(
         view.setIcon(item.icon)
         view.setTitle(item.title)
         view.setMessageText(item.lastMsgText)
-        view.setMessageAvatar(item.lastMsgUserIcon)
+        item.lastMsgUserIcon?.let(view::setMessageAvatar)
         view.setMessageAvatarBadge(item.lastMsgUserBadge)
         if (item.isPinned) {
             view.showPin()

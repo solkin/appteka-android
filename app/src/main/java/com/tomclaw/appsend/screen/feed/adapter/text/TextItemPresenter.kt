@@ -22,10 +22,10 @@ class TextItemPresenter(
         }
 
         val name = item.user.name.takeIf { !it.isNullOrBlank() }
-            ?: item.user.userIcon.label[locale.language]
-            ?: item.user.userIcon.label[DEFAULT_LOCALE].orEmpty()
+            ?: item.user.icon.label[locale.language]
+            ?: item.user.icon.label[DEFAULT_LOCALE].orEmpty()
         view.setUserName(name)
-        view.setUserIcon(item.user.userIcon)
+        view.setUserIcon(item.user.icon)
         view.setUserBadge(item.user.primaryBadge)
         view.setTime(resourceProvider.formatTime(item.time))
         view.setText(item.text)

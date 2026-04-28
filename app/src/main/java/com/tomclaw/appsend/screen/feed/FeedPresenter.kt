@@ -302,7 +302,7 @@ class FeedPresenterImpl(
     override fun onItemClick(item: Item) {
         val sub = items?.find { it.id == item.id } ?: return
         val user = sub.user ?: return
-        router?.openProfileScreen(user.userId)
+        router?.openProfileScreen(user.id)
     }
 
     override fun onLoadMore(item: Item) {
@@ -341,7 +341,7 @@ class FeedPresenterImpl(
     }
 
     override fun onUserClick(user: UserBrief) {
-        router?.openProfileScreen(user.userId)
+        router?.openProfileScreen(user.id)
     }
 
     override fun onMenuClick(item: FeedItem) {

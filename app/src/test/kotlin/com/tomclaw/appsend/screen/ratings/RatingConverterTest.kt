@@ -5,16 +5,16 @@ import com.tomclaw.appsend.core.permissions.Capability
 import com.tomclaw.appsend.core.permissions.CapabilityAction
 import com.tomclaw.appsend.core.permissions.CapabilityReason
 import com.tomclaw.appsend.dto.UserIcon
+import com.tomclaw.appsend.dto.UserMark
 import com.tomclaw.appsend.screen.details.api.RatingEntity
 import com.tomclaw.appsend.user.api.UserBrief
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import java.util.Locale
 
 class RatingConverterTest {
 
-    private val converter = RatingConverterImpl(Locale.ENGLISH)
+    private val converter = RatingConverterImpl()
 
     @Test
     fun `server-allowed capability exposes menu`() {
@@ -113,15 +113,17 @@ class RatingConverterTest {
         score = 5,
         text = "Nice",
         time = 0,
-        userId = userId,
-        userIcon = UserIcon(icon = "", label = emptyMap(), color = "#000"),
-        userName = "Reviewer",
+        user = UserMark(
+            id = userId,
+            name = "Reviewer",
+            icon = UserIcon(icon = "", label = emptyMap(), color = "#000"),
+        ),
         capabilities = capabilities,
     )
 
     private fun brief(userId: Int, role: Int) = UserBrief(
-        userId = userId,
-        userIcon = UserIcon(icon = "", label = emptyMap(), color = "#000"),
+        id = userId,
+        icon = UserIcon(icon = "", label = emptyMap(), color = "#000"),
         joinTime = 0,
         lastSeen = 0,
         role = role,

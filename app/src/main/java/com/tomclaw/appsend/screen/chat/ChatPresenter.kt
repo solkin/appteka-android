@@ -133,7 +133,7 @@ class ChatPresenterImpl(
             translateMessage(message)
         }
         subscriptions += view.openProfileClicks().subscribe { message ->
-            router?.openProfileScreen(message.userId)
+            router?.openProfileScreen(message.author.id)
         }
         subscriptions += view.msgReportClicks().subscribe { message ->
             reportMessage(message.msgId)
@@ -519,7 +519,7 @@ class ChatPresenterImpl(
 
     private fun legacyCanDelete(message: MessageEntity): Boolean {
         val userData = userBrief ?: return false
-        return userData.role >= ROLE_ADMIN || userData.userId == message.userId
+        return userData.role >= ROLE_ADMIN || userData.id == message.author.id
     }
 
     override fun onAttachmentClick(item: Item, index: Int) {

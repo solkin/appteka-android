@@ -27,17 +27,19 @@ class HeaderItemPresenter(
         view.setAppIcon(item.icon)
         view.setAppLabel(item.label)
         view.setAppPackage(item.packageName)
-        if (item.userId != null && item.userIcon != null) {
+        val author = item.author
+        val icon = author?.icon
+        if (author != null && icon != null) {
             view.showUploader()
-            view.setUploaderIcon(item.userIcon)
-            view.setUploaderBadge(item.userBadge)
+            view.setUploaderIcon(icon)
+            view.setUploaderBadge(author.primaryBadge)
 
-            val name = item.userName.takeIf { !it.isNullOrBlank() }
-                ?: item.userIcon.label[locale.language]
-                ?: item.userIcon.label[DEFAULT_LOCALE].orEmpty()
+            val name = author.name.takeIf { !it.isNullOrBlank() }
+                ?: icon.label[locale.language]
+                ?: icon.label[DEFAULT_LOCALE].orEmpty()
             view.setUploaderName(name)
 
-            view.setOnUploaderClickListener { listener.onProfileClick(item.userId) }
+            view.setOnUploaderClickListener { listener.onProfileClick(author.id) }
         } else {
             view.hideUploader()
         }

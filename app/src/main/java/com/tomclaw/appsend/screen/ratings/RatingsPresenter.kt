@@ -204,7 +204,7 @@ class RatingsPresenterImpl(
 
     override fun onItemClick(item: Item) {
         val review = items?.find { it.id == item.id } ?: return
-        router?.openUserProfile(review.userId)
+        router?.openUserProfile(review.user.id)
     }
 
     override fun onDeleteClick(item: Item) {

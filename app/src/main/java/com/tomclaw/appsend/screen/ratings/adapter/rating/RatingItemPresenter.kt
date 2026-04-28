@@ -1,11 +1,14 @@
 package com.tomclaw.appsend.screen.ratings.adapter.rating
 
-import com.tomclaw.appsend.util.adapter.ItemPresenter
+import com.tomclaw.appsend.categories.DEFAULT_LOCALE
 import com.tomclaw.appsend.screen.ratings.adapter.ItemListener
+import com.tomclaw.appsend.util.adapter.ItemPresenter
 import java.text.DateFormat
+import java.util.Locale
 
 class RatingItemPresenter(
     private val dateFormatter: DateFormat,
+    private val locale: Locale,
     private val listener: ItemListener,
 ) : ItemPresenter<RatingItemView, RatingItem> {
 
@@ -19,9 +22,12 @@ class RatingItemPresenter(
             }
         }
 
-        view.setUserIcon(item.userIcon)
-        view.setUserBadge(item.userBadge)
-        view.setUserName(item.userName)
+        item.user.icon?.let(view::setUserIcon)
+        view.setUserBadge(item.user.primaryBadge)
+        val name = item.user.name.takeIf { !it.isNullOrBlank() }
+            ?: item.user.icon?.label?.get(locale.language)
+            ?: item.user.icon?.label?.get(DEFAULT_LOCALE).orEmpty()
+        view.setUserName(name)
         view.setRating(item.score.toFloat())
         val date: String = dateFormatter.format(item.time)
         view.setDate(date)

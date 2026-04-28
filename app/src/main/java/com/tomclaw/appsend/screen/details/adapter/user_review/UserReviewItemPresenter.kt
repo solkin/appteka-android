@@ -13,11 +13,11 @@ class UserReviewItemPresenter(
 ) : ItemPresenter<UserReviewItemView, UserReviewItem> {
 
     override fun bindView(view: UserReviewItemView, item: UserReviewItem, position: Int) {
-        view.setMemberIcon(item.userIcon)
-        view.setMemberBadge(item.userBadge)
-        val name = item.userName.takeIf { !it.isNullOrBlank() }
-            ?: item.userIcon.label[locale.language]
-            ?: item.userIcon.label[DEFAULT_LOCALE].orEmpty()
+        item.user.icon?.let(view::setMemberIcon)
+        view.setMemberBadge(item.user.primaryBadge)
+        val name = item.user.name.takeIf { !it.isNullOrBlank() }
+            ?: item.user.icon?.label?.get(locale.language)
+            ?: item.user.icon?.label?.get(DEFAULT_LOCALE).orEmpty()
         view.setMemberName(name)
         view.setRating(item.score.toFloat())
         val date: String = dateFormatter.format(item.time)

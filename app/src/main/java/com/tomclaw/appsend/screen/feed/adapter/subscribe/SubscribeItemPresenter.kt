@@ -23,10 +23,10 @@ class SubscribeItemPresenter(
         }
 
         view.setUserName(item.user.name())
-        view.setUserIcon(item.user.userIcon)
+        view.setUserIcon(item.user.icon)
         view.setUserBadge(item.user.primaryBadge)
         view.setPublisherName(item.publisher.name())
-        view.setPublisherIcon(item.publisher.userIcon)
+        view.setPublisherIcon(item.publisher.icon)
         view.setPublisherBadge(item.publisher.primaryBadge)
         view.setTime(resourceProvider.formatTime(item.time))
         if (item.hasProgress) view.showProgress() else view.hideProgress()
@@ -42,8 +42,8 @@ class SubscribeItemPresenter(
 
     private fun UserBrief.name(): String {
         return name.takeIf { !it.isNullOrBlank() }
-            ?: userIcon.label[locale.language]
-            ?: userIcon.label[DEFAULT_LOCALE].orEmpty()
+            ?: icon.label[locale.language]
+            ?: icon.label[DEFAULT_LOCALE].orEmpty()
     }
 
 }

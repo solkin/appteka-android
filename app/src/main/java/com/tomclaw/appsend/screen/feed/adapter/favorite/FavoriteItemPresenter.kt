@@ -22,11 +22,11 @@ class FavoriteItemPresenter(
         }
 
         val name = item.user.name.takeIf { !it.isNullOrBlank() }
-            ?: item.user.userIcon.label[locale.language]
-            ?: item.user.userIcon.label[DEFAULT_LOCALE].orEmpty()
+            ?: item.user.icon.label[locale.language]
+            ?: item.user.icon.label[DEFAULT_LOCALE].orEmpty()
         with(view) {
             setUserName(name)
-            setUserIcon(item.user.userIcon)
+            setUserIcon(item.user.icon)
             setUserBadge(item.user.primaryBadge)
             setTime(resourceProvider.formatTime(item.time))
             setIcon(item.icon)
