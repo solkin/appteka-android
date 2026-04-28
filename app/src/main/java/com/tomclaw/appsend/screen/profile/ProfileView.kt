@@ -17,6 +17,8 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.dto.Badge
+import com.tomclaw.appsend.uikit.badges.BadgeBottomSheet
 import com.tomclaw.appsend.util.hide
 import com.tomclaw.appsend.util.hideWithAlphaAnimation
 import com.tomclaw.appsend.util.show
@@ -58,6 +60,8 @@ interface ProfileView {
     fun showSubscriptionError()
 
     fun showUnauthorizedError()
+
+    fun showBadgeDetails(badge: Badge)
 
     fun navigationClicks(): Observable<Unit>
 
@@ -240,6 +244,10 @@ class ProfileViewImpl(
         Snackbar
             .make(recycler, R.string.unable_to_change_subscription_state, Snackbar.LENGTH_LONG)
             .show()
+    }
+
+    override fun showBadgeDetails(badge: Badge) {
+        BadgeBottomSheet.show(context, badge)
     }
 
     override fun showUnauthorizedError() {

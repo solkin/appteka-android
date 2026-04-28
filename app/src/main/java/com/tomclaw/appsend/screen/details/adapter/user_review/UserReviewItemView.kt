@@ -6,6 +6,7 @@ import android.widget.TextView
 import com.tomclaw.appsend.util.adapter.BaseItemViewHolder
 import com.tomclaw.appsend.util.adapter.ItemView
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.dto.BadgeMark
 import com.tomclaw.appsend.dto.UserIcon
 import com.tomclaw.appsend.util.bind
 import com.tomclaw.appsend.view.UserIconView
@@ -16,6 +17,8 @@ interface UserReviewItemView : ItemView {
     fun setMemberName(name: String)
 
     fun setMemberIcon(userIcon: UserIcon)
+
+    fun setMemberBadge(badge: BadgeMark?)
 
     fun setRating(value: Float)
 
@@ -49,6 +52,10 @@ class UserReviewItemViewHolder(view: View) : BaseItemViewHolder(view), UserRevie
 
     override fun setMemberIcon(userIcon: UserIcon) {
         this.memberIcon.bind(userIcon)
+    }
+
+    override fun setMemberBadge(badge: BadgeMark?) {
+        this.memberIcon.bindBadge(badge)
     }
 
     override fun setMemberName(name: String) {

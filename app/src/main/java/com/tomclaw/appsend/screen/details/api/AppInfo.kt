@@ -2,6 +2,7 @@ package com.tomclaw.appsend.screen.details.api
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import com.tomclaw.appsend.dto.BadgeMark
 import com.tomclaw.appsend.dto.UserIcon
 import com.tomclaw.appsend.util.GsonModel
 import kotlinx.parcelize.Parcelize
@@ -49,6 +50,8 @@ data class AppInfo(
     val userName: String? = null,
     @SerializedName("user_icon")
     val userIcon: UserIcon?,
+    @SerializedName("user_badge")
+    val userBadge: BadgeMark? = null,
     @SerializedName("abi")
     val abi: List<String>?,
 ) : Parcelable

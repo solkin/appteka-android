@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Outer ring around the per-user badge that hangs on the avatar.
+     Painted in the screen background colour so the badge appears
+     visually detached from the avatar disc beneath it. -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval">
+    <solid android:color="?attr/colorSurface" />
+</shape>

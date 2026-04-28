@@ -3,6 +3,7 @@ package com.tomclaw.appsend.screen.details.api
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import com.tomclaw.appsend.categories.Category
+import com.tomclaw.appsend.dto.BadgeMark
 import com.tomclaw.appsend.dto.Screenshot
 import com.tomclaw.appsend.dto.UserIcon
 import com.tomclaw.appsend.util.GsonModel
@@ -33,6 +34,8 @@ data class Meta(
     val userId: Int?,
     @SerializedName("user_icon")
     val userIcon: UserIcon?,
+    @SerializedName("user_badge")
+    val userBadge: BadgeMark? = null,
     @SerializedName("rate_count")
     val rateCount: Int?,
     @SerializedName("rating")

@@ -1,5 +1,6 @@
 package com.tomclaw.appsend.screen.profile.adapter
 
+import com.tomclaw.appsend.dto.Badge
 import com.tomclaw.appsend.screen.profile.adapter.app.AppItem
 
 interface ItemListener {
@@ -33,5 +34,7 @@ interface ItemListener {
     fun onSubscribeClick()
 
     fun onUnsubscribeClick()
+
+    fun onBadgeClick(badge: Badge)
 
 }

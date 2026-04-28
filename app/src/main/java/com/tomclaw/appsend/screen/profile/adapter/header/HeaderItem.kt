@@ -2,6 +2,8 @@ package com.tomclaw.appsend.screen.profile.adapter.header
 
 import android.os.Parcelable
 import com.tomclaw.appsend.util.adapter.Item
+import com.tomclaw.appsend.dto.Badge
+import com.tomclaw.appsend.dto.BadgeMark
 import com.tomclaw.appsend.dto.UserIcon
 import kotlinx.parcelize.Parcelize
 
@@ -19,4 +21,6 @@ data class HeaderItem(
     val isSelf: Boolean,
     val isSubscribed: Boolean,
     val nameRegex: String?,
+    val primaryBadge: BadgeMark? = null,
+    val badges: List<Badge>? = null,
 ) : Item, Parcelable

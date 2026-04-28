@@ -14,6 +14,7 @@ class UserReviewItemPresenter(
 
     override fun bindView(view: UserReviewItemView, item: UserReviewItem, position: Int) {
         view.setMemberIcon(item.userIcon)
+        view.setMemberBadge(item.userBadge)
         val name = item.userName.takeIf { !it.isNullOrBlank() }
             ?: item.userIcon.label[locale.language]
             ?: item.userIcon.label[DEFAULT_LOCALE].orEmpty()

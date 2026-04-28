@@ -20,6 +20,7 @@ class RatingItemPresenter(
         }
 
         view.setUserIcon(item.userIcon)
+        view.setUserBadge(item.userBadge)
         view.setUserName(item.userName)
         view.setRating(item.score.toFloat())
         val date: String = dateFormatter.format(item.time)

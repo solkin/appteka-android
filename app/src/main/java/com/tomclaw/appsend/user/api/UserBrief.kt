@@ -2,6 +2,7 @@ package com.tomclaw.appsend.user.api
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import com.tomclaw.appsend.dto.BadgeMark
 import com.tomclaw.appsend.dto.UserIcon
 import com.tomclaw.appsend.util.GsonModel
 import kotlinx.parcelize.Parcelize
@@ -27,4 +28,6 @@ data class UserBrief(
     val isVerified: Boolean,
     @SerializedName("url")
     val url: String?,
+    @SerializedName("primary_badge")
+    val primaryBadge: BadgeMark? = null,
 ) : Parcelable

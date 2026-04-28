@@ -38,6 +38,7 @@ class RatingConverterImpl(
                 ?: entity.userIcon.label[locale.language]
                 ?: entity.userIcon.label[DEFAULT_LOCALE].orEmpty(),
             userIcon = entity.userIcon,
+            userBadge = entity.userBadge,
             showRatingMenu = showRatingMenu,
         )
     }

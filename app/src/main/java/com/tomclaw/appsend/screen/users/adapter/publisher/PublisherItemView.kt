@@ -7,6 +7,7 @@ import android.widget.TextView
 import com.tomclaw.appsend.util.adapter.BaseItemViewHolder
 import com.tomclaw.appsend.util.adapter.ItemView
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.dto.BadgeMark
 import com.tomclaw.appsend.dto.UserIcon
 import com.tomclaw.appsend.util.bind
 import com.tomclaw.appsend.view.UserIconView
@@ -15,6 +16,8 @@ import com.tomclaw.appsend.view.UserIconViewImpl
 interface PublisherItemView : ItemView {
 
     fun setUserIcon(userIcon: UserIcon)
+
+    fun setUserBadge(badge: BadgeMark?)
 
     fun setUserName(name: String)
 
@@ -45,6 +48,10 @@ class PublisherItemViewHolder(view: View) : BaseItemViewHolder(view), PublisherI
 
     override fun setUserIcon(userIcon: UserIcon) {
         this.userIcon.bind(userIcon)
+    }
+
+    override fun setUserBadge(badge: BadgeMark?) {
+        this.userIcon.bindBadge(badge)
     }
 
     override fun setUserName(name: String) {

@@ -10,6 +10,7 @@ import com.tomclaw.appsend.util.adapter.BaseItemViewHolder
 import com.tomclaw.appsend.util.adapter.ItemView
 import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.dto.BadgeMark
 import com.tomclaw.appsend.dto.UserIcon
 import com.tomclaw.appsend.util.bind
 import com.tomclaw.appsend.util.hide
@@ -39,6 +40,8 @@ interface HeaderItemView : ItemView {
     fun hideUploader()
 
     fun setUploaderIcon(userIcon: UserIcon)
+
+    fun setUploaderBadge(badge: BadgeMark?)
 
     fun setUploaderName(name: String)
 
@@ -119,6 +122,10 @@ class HeaderItemViewHolder(view: View) : BaseItemViewHolder(view), HeaderItemVie
         this.uploaderIcon.bind(userIcon)
         val color = parseColor(userIcon.color)
         this.uploaderContainer.backgroundTintList = ColorStateList.valueOf(color)
+    }
+
+    override fun setUploaderBadge(badge: BadgeMark?) {
+        this.uploaderIcon.bindBadge(badge)
     }
 
     override fun setUploaderName(name: String) {

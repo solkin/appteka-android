@@ -14,6 +14,9 @@ class HeaderItemPresenter(
 
     override fun bindView(view: HeaderItemView, item: HeaderItem, position: Int) {
         view.setUserIcon(item.userIcon)
+        view.setUserBadge(item.primaryBadge)
+        view.setBadges(item.badges)
+        view.setOnBadgeClickListener { badge -> listener.onBadgeClick(badge) }
 
         val name = item.userName.takeIf { !it.isNullOrBlank() }
             ?: item.userIcon.label[locale.language]
@@ -29,8 +32,11 @@ class HeaderItemPresenter(
         val roleString = resourceProvider.getRoleName(item.role)
         val description = "$roleString, $joinedString, $lastSeenString"
 
-        view.setUserOnline(isOnline)
-        view.setUserDescription(description)
+        // When the user is online we hand the "online"/"в сети" word
+        // to the view so it can highlight it inline — there's no
+        // longer a separate dot indicator on the avatar (its corner
+        // is reserved for the primary badge overlay).
+        view.setUserDescription(description, if (isOnline) lastSeenString else null)
         if (item.isSelf) {
             view.showUserNameEditIcon()
             view.setOnNameClickListener { listener.onEditName(name, item.nameRegex) }

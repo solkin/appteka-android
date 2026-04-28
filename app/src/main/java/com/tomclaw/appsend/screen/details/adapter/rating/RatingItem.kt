@@ -2,6 +2,7 @@ package com.tomclaw.appsend.screen.details.adapter.rating
 
 import android.os.Parcelable
 import com.tomclaw.appsend.util.adapter.Item
+import com.tomclaw.appsend.dto.BadgeMark
 import com.tomclaw.appsend.dto.UserIcon
 import kotlinx.parcelize.Parcelize
 
@@ -14,4 +15,5 @@ data class RatingItem(
     val userId: Int,
     val userName: String,
     val userIcon: UserIcon,
+    val userBadge: BadgeMark? = null,
 ) : Item, Parcelable

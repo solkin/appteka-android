@@ -3,6 +3,7 @@ package com.tomclaw.appsend.screen.details.api
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import com.tomclaw.appsend.core.permissions.Capability
+import com.tomclaw.appsend.dto.BadgeMark
 import com.tomclaw.appsend.dto.UserIcon
 import com.tomclaw.appsend.util.GsonModel
 import kotlinx.parcelize.Parcelize
@@ -24,6 +25,8 @@ data class RatingEntity(
     val userIcon: UserIcon,
     @SerializedName("user_name")
     val userName: String?,
+    @SerializedName("user_badge")
+    val userBadge: BadgeMark? = null,
     @SerializedName("capabilities")
     val capabilities: Map<String, Capability>? = null,
 ) : Parcelable

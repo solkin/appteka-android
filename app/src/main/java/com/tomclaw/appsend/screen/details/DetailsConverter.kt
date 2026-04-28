@@ -125,6 +125,7 @@ class DetailsConverterImpl(
             label = details.info.label.orEmpty(),
             userId = details.info.userId,
             userIcon = details.info.userIcon,
+            userBadge = details.info.userBadge,
             userName = details.info.userName,
             downloadState = downloadState,
         )
@@ -184,6 +185,7 @@ class DetailsConverterImpl(
                 time = details.userRating.time * 1000,
                 userId = details.userRating.userId,
                 userIcon = details.userRating.userIcon,
+                userBadge = details.userRating.userBadge,
                 userName = details.userRating.userName,
             )
         } else if (installedVersionCode != NOT_INSTALLED && details.info.fileStatus == STATUS_NORMAL) {
@@ -263,7 +265,8 @@ class DetailsConverterImpl(
                     userName = rating.userName.takeIf { !it.isNullOrBlank() }
                         ?: rating.userIcon.label[locale.language]
                         ?: rating.userIcon.label[DEFAULT_LOCALE].orEmpty(),
-                    userIcon = rating.userIcon
+                    userIcon = rating.userIcon,
+                    userBadge = rating.userBadge,
                 )
             }
         }

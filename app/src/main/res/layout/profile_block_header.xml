@@ -15,26 +15,16 @@
         android:baselineAligned="false"
         android:orientation="horizontal">
 
-        <FrameLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-            <include
-                android:id="@+id/user_icon"
-                layout="@layout/user_icon_xl"
-                android:scaleType="fitCenter" />
-
-            <ImageView
-                android:id="@+id/user_online"
-                android:layout_width="22dp"
-                android:layout_height="22dp"
-                android:layout_gravity="end|bottom"
-                android:layout_marginEnd="-3dp"
-                android:layout_marginBottom="-3dp"
-                android:importantForAccessibility="no"
-                android:src="@drawable/online_indicator" />
-
-        </FrameLayout>
+        <!--
+            The online state is conveyed inline in the description
+            text (the word "online"/"в сети" is highlighted in green
+            via Spannable) so we don't fight for the bottom-right
+            corner of the avatar with the per-user primary badge.
+        -->
+        <include
+            android:id="@+id/user_icon"
+            layout="@layout/user_icon_xl"
+            android:scaleType="fitCenter" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -136,5 +126,23 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <!--
+        Vertical spacing matches horizontal so multi-row badge layouts
+        keep an even visual rhythm. The chips themselves disable
+        ensureMinTouchTargetSize at construction (see HeaderItemView)
+        so the row height isn't padded out to the 48dp accessibility
+        minimum, which would otherwise dwarf chipSpacingVertical.
+    -->
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/user_badges_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:visibility="gone"
+        app:chipSpacingHorizontal="6dp"
+        app:chipSpacingVertical="6dp"
+        app:singleLine="false"
+        tools:visibility="visible" />
 
 </LinearLayout>

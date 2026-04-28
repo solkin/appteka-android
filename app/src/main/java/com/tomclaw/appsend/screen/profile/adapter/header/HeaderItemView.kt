@@ -1,16 +1,27 @@
 package com.tomclaw.appsend.screen.profile.adapter.header
 
+import android.content.res.ColorStateList
+import android.graphics.Color
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
 import android.view.View
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
 import androidx.core.view.isVisible
+import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import com.tomclaw.appsend.util.adapter.BaseItemViewHolder
 import com.tomclaw.appsend.util.adapter.ItemView
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.dto.Badge
+import com.tomclaw.appsend.dto.BadgeMark
 import com.tomclaw.appsend.dto.UserIcon
 import com.tomclaw.appsend.util.bind
 import com.tomclaw.appsend.util.hide
 import com.tomclaw.appsend.util.show
+import com.tomclaw.appsend.util.svgToDrawable
 import com.tomclaw.appsend.view.UserIconView
 import com.tomclaw.appsend.view.UserIconViewImpl
 
@@ -18,13 +29,24 @@ interface HeaderItemView : ItemView {
 
     fun setUserIcon(userIcon: UserIcon)
 
+    fun setUserBadge(badge: BadgeMark?)
+
+    fun setBadges(badges: List<Badge>?)
+
+    fun setOnBadgeClickListener(listener: ((Badge) -> Unit)?)
+
     fun setUserName(name: String)
 
     fun setUserEmail(email: String?)
 
-    fun setUserDescription(value: String)
-
-    fun setUserOnline(online: Boolean)
+    /**
+     * Renders the user's metadata line. When [onlineHighlight] is
+     * non-null, the first occurrence of that substring inside [value]
+     * is painted in the "online" accent colour — used to mark active
+     * users without introducing a separate UI element next to the
+     * avatar (which is now reserved for the primary badge overlay).
+     */
+    fun setUserDescription(value: String, onlineHighlight: String?)
 
     fun showSubscribeButton()
 
@@ -55,21 +77,90 @@ class HeaderItemViewHolder(private val view: View) : BaseItemViewHolder(view), H
     private val userName: TextView = view.findViewById(R.id.user_name)
     private val userEmail: TextView = view.findViewById(R.id.user_email)
     private val userDescription: TextView = view.findViewById(R.id.user_description)
-    private val userOnline: View = view.findViewById(R.id.user_online)
     private val subscribeButton: View = view.findViewById(R.id.subscribe_button)
     private val unsubscribeButton: View = view.findViewById(R.id.unsubscribe_button)
+    private val badgesGroup: ChipGroup = view.findViewById(R.id.user_badges_group)
 
     private var nameClickListener: (() -> Unit)? = null
     private var emailClickListener: (() -> Unit)? = null
     private var subscribeClickListener: (() -> Unit)? = null
     private var unsubscribeClickListener: (() -> Unit)? = null
+    private var badgeClickListener: ((Badge) -> Unit)? = null
+    private var boundBadges: List<Badge> = emptyList()
 
     override fun setUserIcon(userIcon: UserIcon) {
         this.userIcon.bind(userIcon)
     }
 
-    override fun setUserDescription(value: String) {
-        userDescription.bind(value)
+    override fun setUserBadge(badge: BadgeMark?) {
+        this.userIcon.bindBadge(badge)
+    }
+
+    override fun setBadges(badges: List<Badge>?) {
+        boundBadges = badges.orEmpty()
+        badgesGroup.removeAllViews()
+        if (boundBadges.isEmpty()) {
+            badgesGroup.isVisible = false
+            return
+        }
+        badgesGroup.isVisible = true
+        boundBadges.forEachIndexed { index, badge ->
+            val chip = Chip(badgesGroup.context).apply {
+                id = View.generateViewId()
+                text = badge.name
+                isClickable = true
+                isCheckable = false
+                isChipIconVisible = true
+                // Disable the 48dp accessibility-minimum padding around
+                // the chip so multi-row layouts don't get a giant
+                // vertical gap between rows. The chip is still easy to
+                // tap because its content already has comfortable
+                // padding from the Material defaults.
+                setEnsureMinTouchTargetSize(false)
+                val tint = parseColorOrNull(badge.color) ?: Color.GRAY
+                chipIconTint = ColorStateList.valueOf(tint)
+                try {
+                    chipIcon = svgToDrawable(badge.icon, resources)
+                } catch (_: Throwable) {
+                    chipIcon = null
+                }
+                setOnClickListener {
+                    badgeClickListener?.invoke(boundBadges.getOrNull(index) ?: return@setOnClickListener)
+                }
+            }
+            badgesGroup.addView(chip)
+        }
+    }
+
+    override fun setOnBadgeClickListener(listener: ((Badge) -> Unit)?) {
+        this.badgeClickListener = listener
+    }
+
+    private fun parseColorOrNull(color: String?): Int? = try {
+        color?.let { Color.parseColor(it) }
+    } catch (_: IllegalArgumentException) {
+        null
+    }
+
+    override fun setUserDescription(value: String, onlineHighlight: String?) {
+        if (onlineHighlight.isNullOrEmpty()) {
+            userDescription.text = value
+            return
+        }
+        val start = value.indexOf(onlineHighlight)
+        if (start < 0) {
+            userDescription.text = value
+            return
+        }
+        val span = SpannableString(value)
+        val color = ContextCompat.getColor(view.context, R.color.online_color)
+        span.setSpan(
+            ForegroundColorSpan(color),
+            start,
+            start + onlineHighlight.length,
+            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE,
+        )
+        userDescription.text = span
     }
 
     override fun setUserName(name: String) {
@@ -83,10 +174,6 @@ class HeaderItemViewHolder(private val view: View) : BaseItemViewHolder(view), H
         } else {
             userEmail.hide()
         }
-    }
-
-    override fun setUserOnline(online: Boolean) {
-        userOnline.isVisible = online
     }
 
     override fun showSubscribeButton() {
@@ -152,6 +239,7 @@ class HeaderItemViewHolder(private val view: View) : BaseItemViewHolder(view), H
         this.emailClickListener = null
         this.subscribeClickListener = null
         this.unsubscribeClickListener = null
+        this.badgeClickListener = null
     }
 
 }

@@ -7,6 +7,7 @@ import com.tomclaw.appsend.core.permissions.UserCapabilitiesProvider
 import com.tomclaw.appsend.util.adapter.AdapterPresenter
 import com.tomclaw.appsend.util.adapter.Item
 import com.tomclaw.appsend.dto.AppEntity
+import com.tomclaw.appsend.dto.Badge
 import com.tomclaw.appsend.screen.profile.adapter.ItemListener
 import com.tomclaw.appsend.screen.profile.adapter.app.AppItem
 import com.tomclaw.appsend.screen.profile.api.ProfileResponse
@@ -239,6 +240,10 @@ class ProfilePresenterImpl(
                 { loadProfile() },
                 { onChangeSubscriptionStateError(it) }
             )
+    }
+
+    override fun onBadgeClick(badge: Badge) {
+        view?.showBadgeDetails(badge)
     }
 
     private fun onChangeSubscriptionStateError(ex: Throwable) {

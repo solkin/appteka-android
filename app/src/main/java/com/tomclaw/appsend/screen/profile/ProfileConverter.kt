@@ -64,6 +64,8 @@ class ProfileConverterImpl : ProfileConverter {
                 isSelf = isSelf,
                 isSubscribed = profile.isSubscribed,
                 nameRegex = profile.nameRegex,
+                primaryBadge = profile.primaryBadge,
+                badges = profile.badges,
             )
         )
         if (profile.feedCount + profile.subsCount + profile.pubsCount > 0) {

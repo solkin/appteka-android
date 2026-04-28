@@ -9,6 +9,7 @@ import com.tomclaw.appsend.util.adapter.BaseItemViewHolder
 import com.tomclaw.appsend.util.adapter.ItemView
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.dto.BadgeMark
 import com.tomclaw.appsend.dto.UserIcon
 import com.tomclaw.appsend.screen.ratings.RatingsPreferencesProvider
 import com.tomclaw.appsend.util.ActionItem
@@ -22,6 +23,8 @@ import com.tomclaw.appsend.view.UserIconViewImpl
 interface RatingItemView : ItemView {
 
     fun setUserIcon(userIcon: UserIcon)
+
+    fun setUserBadge(badge: BadgeMark?)
 
     fun setUserName(name: String)
 
@@ -66,6 +69,10 @@ class RatingItemViewHolder(
 
     override fun setUserIcon(userIcon: UserIcon) {
         userIconView.bind(userIcon)
+    }
+
+    override fun setUserBadge(badge: BadgeMark?) {
+        userIconView.bindBadge(badge)
     }
 
     override fun setUserName(name: String) {

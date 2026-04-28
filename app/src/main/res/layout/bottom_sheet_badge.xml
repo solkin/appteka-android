@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Bottom sheet that shows a single profile badge in detail: large
+    coloured disc with the badge icon, the localized name as a headline
+    and the localized description as a body. Opens when the user taps a
+    badge chip in the profile header.
+-->
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipToPadding="false">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:paddingHorizontal="24dp"
+        android:paddingTop="24dp"
+        android:paddingBottom="24dp">
+
+        <FrameLayout
+            android:id="@+id/badge_disc"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:background="@drawable/user_icon_back"
+            android:padding="14dp"
+            tools:backgroundTint="@color/primary_color">
+
+            <com.caverock.androidsvg.SVGImageView
+                android:id="@+id/badge_icon"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:src="@drawable/ic_crown"
+                tools:tint="@android:color/white" />
+
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/badge_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:textAppearance="?attr/textAppearanceHeadlineSmall"
+            android:textColor="?attr/colorOnSurface"
+            tools:text="Developer" />
+
+        <TextView
+            android:id="@+id/badge_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:textAppearance="?attr/textAppearanceBodyMedium"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            tools:text="Publishes original applications." />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/badge_dismiss"
+            style="?attr/materialButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="20dp"
+            android:text="@android:string/ok" />
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

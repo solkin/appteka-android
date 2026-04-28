@@ -3,6 +3,8 @@ package com.tomclaw.appsend.screen.profile.api
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import com.tomclaw.appsend.util.GsonModel
+import com.tomclaw.appsend.dto.Badge
+import com.tomclaw.appsend.dto.BadgeMark
 import com.tomclaw.appsend.dto.UserIcon
 import com.tomclaw.appsend.screen.reviews.api.ReviewEntity
 import kotlinx.parcelize.Parcelize
@@ -54,4 +56,8 @@ data class Profile(
     val isSubscribed: Boolean = false,
     @SerializedName("url")
     val url: String? = null,
+    @SerializedName("primary_badge")
+    val primaryBadge: BadgeMark? = null,
+    @SerializedName("badges")
+    val badges: List<Badge>? = null,
 ) : Parcelable

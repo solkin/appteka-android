@@ -30,6 +30,7 @@ class HeaderItemPresenter(
         if (item.userId != null && item.userIcon != null) {
             view.showUploader()
             view.setUploaderIcon(item.userIcon)
+            view.setUploaderBadge(item.userBadge)
 
             val name = item.userName.takeIf { !it.isNullOrBlank() }
                 ?: item.userIcon.label[locale.language]

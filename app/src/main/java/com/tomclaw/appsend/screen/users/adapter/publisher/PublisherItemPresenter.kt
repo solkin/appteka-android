@@ -26,6 +26,7 @@ class PublisherItemPresenter(
             ?: item.user.userIcon.label[DEFAULT_LOCALE].orEmpty()
         view.setUserName(name)
         view.setUserIcon(item.user.userIcon)
+        view.setUserBadge(item.user.primaryBadge)
         view.setSubscribedDate(resourceProvider.formatSubscribedDate(item.time))
         if (item.hasProgress) view.showProgress() else view.hideProgress()
         view.setOnClickListener { listener.onItemClick(item) }

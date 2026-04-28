@@ -22,4 +22,35 @@
 
     </FrameLayout>
 
+    <!-- ~44% of the 36dp avatar; mirrors user_icon_xl proportions. -->
+    <FrameLayout
+        android:id="@+id/badge_ring"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_gravity="bottom|end"
+        android:background="@drawable/badge_overlay_ring"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <FrameLayout
+            android:id="@+id/badge_back"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="1dp"
+            android:background="@drawable/user_icon_back"
+            android:padding="2dp"
+            tools:backgroundTint="@color/primary_color">
+
+            <com.caverock.androidsvg.SVGImageView
+                android:id="@+id/badge_svg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                tools:src="@drawable/ic_crown"
+                tools:tint="@android:color/white" />
+
+        </FrameLayout>
+
+    </FrameLayout>
+
 </FrameLayout>

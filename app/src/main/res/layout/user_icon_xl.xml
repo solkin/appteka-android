@@ -22,4 +22,40 @@
 
     </FrameLayout>
 
+    <!--
+        Primary badge overlay sized to ~47% of the 72dp avatar so it
+        reads at a glance from a feed list, but stops short of half
+        so the avatar still dominates the composition. Padding values
+        scale together: ring 34dp → back 30dp → svg 20dp.
+    -->
+    <FrameLayout
+        android:id="@+id/badge_ring"
+        android:layout_width="34dp"
+        android:layout_height="34dp"
+        android:layout_gravity="bottom|end"
+        android:background="@drawable/badge_overlay_ring"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <FrameLayout
+            android:id="@+id/badge_back"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="2dp"
+            android:background="@drawable/user_icon_back"
+            android:padding="5dp"
+            tools:backgroundTint="@color/primary_color">
+
+            <com.caverock.androidsvg.SVGImageView
+                android:id="@+id/badge_svg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                tools:src="@drawable/ic_crown"
+                tools:tint="@android:color/white" />
+
+        </FrameLayout>
+
+    </FrameLayout>
+
 </FrameLayout>
