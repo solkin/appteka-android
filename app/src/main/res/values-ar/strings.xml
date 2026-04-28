@@ -515,6 +515,7 @@
     <string name="permission_app_protected">هذا التطبيق محمي ولا يمكن تعديله.</string>
     <string name="permission_app_already_unpublished">هذا التطبيق ملغي النشر بالفعل.</string>
     <string name="permission_chat_topic_create">ليس لديك إذن لإنشاء المواضيع.</string>
+    <string name="permission_chat_image_attach">ليس لديك إذن لإرفاق الصور في الدردشة.</string>
     <string name="permission_read_only_app_upload">لا يمكنك تحميل التطبيقات في الوقت الحالي.</string>
     <string name="permission_read_only_feed_posts">لا يمكنك النشر في الموجز في الوقت الحالي.</string>
     <string name="permission_upload_will_be_moderated">ستتم مراجعة تحميلك بواسطة مشرف قبل ظهوره في المتجر.</string>

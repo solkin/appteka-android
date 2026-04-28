@@ -493,6 +493,7 @@
     <string name="permission_app_protected">Это приложение защищено и не может быть изменено.</string>
     <string name="permission_app_already_unpublished">Приложение уже снято с публикации.</string>
     <string name="permission_chat_topic_create">У вас нет права создавать темы.</string>
+    <string name="permission_chat_image_attach">У вас нет права прикреплять картинки в чате.</string>
     <string name="permission_read_only_app_upload">Вы не можете загружать приложения.</string>
     <string name="permission_read_only_feed_posts">Вы не можете публиковать посты в ленте.</string>
     <string name="permission_upload_will_be_moderated">Загруженное приложение будет проверено модератором перед публикацией в магазине.</string>

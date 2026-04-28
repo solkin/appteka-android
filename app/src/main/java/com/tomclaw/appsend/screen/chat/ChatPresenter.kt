@@ -2,8 +2,11 @@ package com.tomclaw.appsend.screen.chat
 
 import android.net.Uri
 import android.os.Bundle
+import com.tomclaw.appsend.core.permissions.Capability
 import com.tomclaw.appsend.core.permissions.CapabilityAction
 import com.tomclaw.appsend.core.permissions.CapabilityPolicy
+import com.tomclaw.appsend.core.permissions.CapabilityResult
+import com.tomclaw.appsend.core.permissions.UserCapabilitiesProvider
 import com.tomclaw.appsend.util.adapter.AdapterPresenter
 import com.tomclaw.appsend.util.adapter.Item
 import com.tomclaw.appsend.dto.MessageEntity
@@ -69,6 +72,7 @@ class ChatPresenterImpl(
     private val converter: MessageConverter,
     private val chatInteractor: ChatInteractor,
     private val resourceProvider: ChatResourceProvider,
+    private val capabilitiesProvider: UserCapabilitiesProvider,
     private val adapterPresenter: Lazy<AdapterPresenter>,
     private val schedulers: SchedulersFactory,
     state: Bundle?
@@ -95,6 +99,13 @@ class ChatPresenterImpl(
 
     private val journal = HashSet<Int>()
 
+    // Composer state. The view stays dumb; this trio is the single
+    // source of truth driving applyComposerState() into atomic view
+    // setters.
+    private var sendInProgress: Boolean = false
+    private var sendDeniedCapability: Capability? = null
+    private var attachDeniedCapability: Capability? = null
+
     private val subscriptions = CompositeDisposable()
     private var sendDisposable: Disposable? = null
 
@@ -114,7 +125,12 @@ class ChatPresenterImpl(
         }
         subscriptions += view.cancelSendClicks().subscribe { cancelSend() }
         subscriptions += view.attachClicks().subscribe { remaining ->
-            router?.openImagePicker(remaining)
+            val deniedCap = attachDeniedCapability
+            if (deniedCap != null) {
+                this.view?.showCapabilityDenied(deniedCap)
+            } else {
+                router?.openImagePicker(remaining)
+            }
         }
         subscriptions += view.attachmentRemoveClicks().subscribe { uri ->
             selectedAttachments.remove(uri)
@@ -157,6 +173,17 @@ class ChatPresenterImpl(
             router?.openLoginScreen()
         }
 
+        // Image attach is opt-in via CHAT_IMAGE_ATTACH (global, not
+        // per-topic). Pull the snapshot first, then keep listening so
+        // the gate updates if capabilities arrive late or are
+        // refreshed mid-session.
+        refreshAttachCapability()
+        subscriptions += capabilitiesProvider.observeCapabilities()
+            .observeOn(schedulers.mainThread())
+            .subscribe { refreshAttachCapability() }
+
+        applyComposerState()
+
         when {
             isError -> {
                 onTopicError()
@@ -176,6 +203,60 @@ class ChatPresenterImpl(
             }
         }
 
+    }
+
+    private fun refreshAttachCapability() {
+        val result = CapabilityPolicy.check(
+            action = CapabilityAction.CHAT_IMAGE_ATTACH,
+            capabilities = capabilitiesProvider.getCapabilities(),
+        )
+        attachDeniedCapability = (result as? CapabilityResult.Denied)?.capability
+        applyComposerState()
+    }
+
+    // Composer state is the cross product of (sending in progress) ×
+    // (send capability) × (attach capability). The presenter owns the
+    // composition; the view receives only atomic enable/visible/mute
+    // commands, so re-renders cannot clobber each other across
+    // independent state changes.
+    private fun applyComposerState() {
+        val view = view ?: return
+
+        val sendDenied = sendDeniedCapability
+        if (sendDenied != null) {
+            view.setSendBanner(sendDenied)
+            view.setComposerInputEnabled(false)
+            view.setSendButtonEnabled(false)
+            view.setAttachButtonEnabled(false)
+            view.setAttachButtonMuted(false)
+            view.setAttachButtonVisible(true)
+            return
+        }
+        view.setSendBanner(null)
+        view.setSendButtonEnabled(true)
+
+        if (sendInProgress) {
+            view.setComposerInputEnabled(false)
+            view.setAttachButtonEnabled(false)
+            view.setAttachButtonMuted(false)
+            view.setAttachButtonVisible(true)
+            return
+        }
+        view.setComposerInputEnabled(true)
+
+        val attachDenied = attachDeniedCapability
+        if (attachDenied != null) {
+            // Mechanics intact — clickable + visually muted; attachClicks
+            // would surface the hint via showCapabilityDenied. Hidden
+            // for now per product, flip visibility to surface.
+            view.setAttachButtonEnabled(true)
+            view.setAttachButtonMuted(true)
+            view.setAttachButtonVisible(false)
+        } else {
+            view.setAttachButtonEnabled(true)
+            view.setAttachButtonMuted(false)
+            view.setAttachButtonVisible(true)
+        }
     }
 
     private fun bindHistory(): List<Item> {
@@ -227,8 +308,8 @@ class ChatPresenterImpl(
         sendDisposable?.dispose()
         sendDisposable = chatInteractor.sendMessage(topicId, textSnapshot, attachmentsSnapshot)
             .observeOn(schedulers.mainThread())
-            .doOnSubscribe { view?.showSendProgress() }
-            .doAfterTerminate { view?.showSendButton() }
+            .doOnSubscribe { setSendInProgress(true) }
+            .doAfterTerminate { setSendInProgress(false) }
             .subscribe(
                 { onMessageSent() },
                 { onMessageSendingError(it, textSnapshot, attachmentsSnapshot) }
@@ -238,7 +319,13 @@ class ChatPresenterImpl(
     private fun cancelSend() {
         sendDisposable?.dispose()
         sendDisposable = null
-        view?.showSendButton()
+        setSendInProgress(false)
+    }
+
+    private fun setSendInProgress(inProgress: Boolean) {
+        sendInProgress = inProgress
+        view?.setSendInProgress(inProgress)
+        applyComposerState()
     }
 
     private fun onMessageSent() {
@@ -334,7 +421,8 @@ class ChatPresenterImpl(
             action = CapabilityAction.CHAT_MESSAGE_SEND,
             capabilities = topic.capabilities,
         )
-        view?.setSendEnabled(sendCheck)
+        sendDeniedCapability = (sendCheck as? CapabilityResult.Denied)?.capability
+        applyComposerState()
     }
 
     private fun loadHistory() {

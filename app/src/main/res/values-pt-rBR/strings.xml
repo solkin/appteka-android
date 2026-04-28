@@ -470,6 +470,7 @@
     <string name="permission_app_protected">Este app é protegido e não pode ser modificado.</string>
     <string name="permission_app_already_unpublished">Este app já está despublicado.</string>
     <string name="permission_chat_topic_create">Você não tem permissão para criar tópicos.</string>
+    <string name="permission_chat_image_attach">Você não tem permissão para anexar imagens no chat.</string>
     <string name="permission_read_only_app_upload">Você não pode enviar apps no momento.</string>
     <string name="permission_read_only_feed_posts">Você não pode publicar no feed no momento.</string>
     <string name="permission_upload_will_be_moderated">Seu envio será revisado por um moderador antes de aparecer na loja.</string>

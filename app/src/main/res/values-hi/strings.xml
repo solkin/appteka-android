@@ -470,6 +470,7 @@
     <string name="permission_app_protected">यह ऐप संरक्षित है और संशोधित नहीं किया जा सकता।</string>
     <string name="permission_app_already_unpublished">यह ऐप पहले से ही अप्रकाशित है।</string>
     <string name="permission_chat_topic_create">आपको विषय बनाने की अनुमति नहीं है।</string>
+    <string name="permission_chat_image_attach">आपको चैट में चित्र संलग्न करने की अनुमति नहीं है।</string>
     <string name="permission_read_only_app_upload">आप अभी ऐप्स अपलोड नहीं कर सकते।</string>
     <string name="permission_read_only_feed_posts">आप अभी फ़ीड में पोस्ट नहीं कर सकते।</string>
     <string name="permission_upload_will_be_moderated">आपका अपलोड स्टोर में दिखने से पहले एक मॉडरेटर द्वारा समीक्षा किया जाएगा।</string>

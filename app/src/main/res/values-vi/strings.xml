@@ -459,6 +459,7 @@
     <string name="permission_app_protected">Ứng dụng này được bảo vệ và không thể chỉnh sửa.</string>
     <string name="permission_app_already_unpublished">Ứng dụng này đã được hủy xuất bản.</string>
     <string name="permission_chat_topic_create">Bạn không có quyền tạo chủ đề.</string>
+    <string name="permission_chat_image_attach">Bạn không có quyền đính kèm hình ảnh trong trò chuyện.</string>
     <string name="permission_read_only_app_upload">Bạn không thể tải lên ứng dụng lúc này.</string>
     <string name="permission_read_only_feed_posts">Bạn không thể đăng bài lên bảng tin lúc này.</string>
     <string name="permission_upload_will_be_moderated">Bản tải lên của bạn sẽ được người kiểm duyệt xem xét trước khi xuất hiện trên cửa hàng.</string>

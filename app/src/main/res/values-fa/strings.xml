@@ -479,6 +479,7 @@
     <string name="permission_app_protected">این برنامه محافظت شده است و قابل تغییر نیست.</string>
     <string name="permission_app_already_unpublished">انتشار این برنامه قبلاً لغو شده است.</string>
     <string name="permission_chat_topic_create">برای ایجاد موضوع‌ها مجوز ندارید.</string>
+    <string name="permission_chat_image_attach">برای پیوست تصاویر در گفت‌وگو مجوز ندارید.</string>
     <string name="permission_read_only_app_upload">در حال حاضر نمی‌توانید برنامه بارگذاری کنید.</string>
     <string name="permission_read_only_feed_posts">در حال حاضر نمی‌توانید در فید پست بگذارید.</string>
     <string name="permission_upload_will_be_moderated">بارگذاری شما قبل از ظاهر شدن در فروشگاه توسط یک ناظر بررسی خواهد شد.</string>

@@ -459,6 +459,7 @@
     <string name="permission_app_protected">此应用受保护，无法修改。</string>
     <string name="permission_app_already_unpublished">此应用已取消发布。</string>
     <string name="permission_chat_topic_create">您无权创建话题。</string>
+    <string name="permission_chat_image_attach">您无权在聊天中附加图片。</string>
     <string name="permission_read_only_app_upload">您当前无法上传应用。</string>
     <string name="permission_read_only_feed_posts">您当前无法在动态中发帖。</string>
     <string name="permission_upload_will_be_moderated">您的上传将由管理员审核后才会出现在商店中。</string>

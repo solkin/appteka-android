@@ -471,6 +471,7 @@
     <string name="permission_app_protected">Bu ilova himoyalangan va o\'zgartirilishi mumkin emas.</string>
     <string name="permission_app_already_unpublished">Bu ilova allaqachon nashrdan olib tashlangan.</string>
     <string name="permission_chat_topic_create">Mavzular yaratish uchun ruxsatingiz yo\'q.</string>
+    <string name="permission_chat_image_attach">Chatda rasm biriktirish uchun ruxsatingiz yo\'q.</string>
     <string name="permission_read_only_app_upload">Hozir ilovalarni yuklay olmaysiz.</string>
     <string name="permission_read_only_feed_posts">Hozir lentaga post chop eta olmaysiz.</string>
     <string name="permission_upload_will_be_moderated">Yuklamangiz do\'konda paydo bo\'lishidan oldin moderator tomonidan tekshiriladi.</string>

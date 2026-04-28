@@ -61,6 +61,7 @@ class CapabilityHintResolver(private val resources: Resources) {
             AccessRule.APP_EDIT_META to R.string.permission_app_edit_meta,
             AccessRule.APP_RATING_DELETE to R.string.permission_app_rating_delete,
             AccessRule.CHAT_TOPIC_CREATE to R.string.permission_chat_topic_create,
+            AccessRule.CHAT_IMAGE_ATTACH to R.string.permission_chat_image_attach,
             AccessRule.READ_ONLY_APP_UPLOAD to R.string.permission_read_only_app_upload,
             AccessRule.READ_ONLY_FEED_POSTS to R.string.permission_read_only_feed_posts,
         )
@@ -84,6 +85,7 @@ class CapabilityHintResolver(private val resources: Resources) {
             "cap.reason.app_already_unpublished" to R.string.permission_app_already_unpublished,
             "cap.reason.app_rating_delete" to R.string.permission_app_rating_delete,
             "cap.reason.chat_topic_create" to R.string.permission_chat_topic_create,
+            "cap.reason.chat_image_attach" to R.string.permission_chat_image_attach,
             "cap.reason.read_only_app_upload" to R.string.permission_read_only_app_upload,
             "cap.reason.read_only_feed_posts" to R.string.permission_read_only_feed_posts,
         )

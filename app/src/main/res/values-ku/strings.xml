@@ -484,6 +484,7 @@
     <string name="permission_app_protected">ئەم بەرنامەیە پارێزراوە و ناتوانرێت بگۆڕدرێت.</string>
     <string name="permission_app_already_unpublished">ئەم بەرنامەیە پێشتر لە بڵاوکردنەوە هەڵگیراوە.</string>
     <string name="permission_chat_topic_create">مۆڵەتت نییە بۆ دروستکردنی بابەت.</string>
+    <string name="permission_chat_image_attach">مۆڵەتت نییە بۆ هاوپێچکردنی وێنە لە گفتوگۆدا.</string>
     <string name="permission_read_only_app_upload">ئێستا ناتوانیت بەرنامە باربکەیت.</string>
     <string name="permission_read_only_feed_posts">ئێستا ناتوانیت پۆست لە لاپەڕەی پەیامدا دابنێیت.</string>
     <string name="permission_upload_will_be_moderated">بارکردنەکەت پێش دەرکەوتنی لە فرۆشگادا لەلایەن چاودێرێکەوە پێداچوونەوەی پێ دەکرێت.</string>

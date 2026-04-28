@@ -471,6 +471,7 @@
     <string name="permission_app_protected">Questa app è protetta e non può essere modificata.</string>
     <string name="permission_app_already_unpublished">Questa app è già ritirata.</string>
     <string name="permission_chat_topic_create">Non hai i permessi per creare argomenti.</string>
+    <string name="permission_chat_image_attach">Non hai i permessi per allegare immagini in chat.</string>
     <string name="permission_read_only_app_upload">Al momento non puoi caricare app.</string>
     <string name="permission_read_only_feed_posts">Al momento non puoi pubblicare nel feed.</string>
     <string name="permission_upload_will_be_moderated">Il tuo caricamento sarà esaminato da un moderatore prima di apparire nello store.</string>

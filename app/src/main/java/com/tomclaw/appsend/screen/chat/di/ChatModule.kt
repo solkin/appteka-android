@@ -7,6 +7,7 @@ import com.tomclaw.appsend.util.adapter.AdapterPresenter
 import com.tomclaw.appsend.util.adapter.SimpleAdapterPresenter
 import com.tomclaw.appsend.util.adapter.ItemBlueprint
 import com.tomclaw.appsend.core.StoreApi
+import com.tomclaw.appsend.core.permissions.UserCapabilitiesProvider
 import com.tomclaw.appsend.di.DATE_FORMATTER
 import com.tomclaw.appsend.di.TIME_FORMATTER
 import com.tomclaw.appsend.dto.TopicEntity
@@ -54,6 +55,7 @@ class ChatModule(
         converter: MessageConverter,
         chatInteractor: ChatInteractor,
         resourceProvider: ChatResourceProvider,
+        capabilitiesProvider: UserCapabilitiesProvider,
         adapterPresenter: Lazy<AdapterPresenter>,
         schedulers: SchedulersFactory
     ): ChatPresenter = ChatPresenterImpl(
@@ -63,6 +65,7 @@ class ChatModule(
         converter,
         chatInteractor,
         resourceProvider,
+        capabilitiesProvider,
         adapterPresenter,
         schedulers,
         state

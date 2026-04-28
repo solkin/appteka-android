@@ -25,7 +25,6 @@ import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.core.permissions.Capability
 import com.tomclaw.appsend.core.permissions.CapabilityHintResolver
-import com.tomclaw.appsend.core.permissions.CapabilityResult
 import com.tomclaw.appsend.dto.MessageEntity
 import com.tomclaw.appsend.screen.chat.view.ChatAttachmentsStrip
 import com.tomclaw.appsend.uikit.permissions.PermissionBanner
@@ -66,10 +65,6 @@ interface ChatView {
 
     fun showError()
 
-    fun showSendButton()
-
-    fun showSendProgress()
-
     fun showSendError(onRetry: () -> Unit)
 
     fun showUnauthorizedError()
@@ -81,12 +76,33 @@ interface ChatView {
      */
     fun showCapabilityDenied(capability: Capability)
 
-    /**
-     * Apply the send-message capability. Allowed → composer fully enabled
-     * and banner hidden. Denied/Unknown denial → composer disabled and
-     * banner shown with the explanation provided by the server.
-     */
-    fun setSendEnabled(result: CapabilityResult)
+    // === Composer state — atomic dumb setters ===
+    //
+    // Each setter touches exactly one widget facet. Callers (the
+    // presenter) own the composition: which combination is right for
+    // a given mix of "send capability × attach capability × sending
+    // in progress" lives outside the view.
+
+    /** Enable/disable the message text input. */
+    fun setComposerInputEnabled(enabled: Boolean)
+
+    /** Enable/disable click handling on the send button. */
+    fun setSendButtonEnabled(enabled: Boolean)
+
+    /** Toggle the send button between "send" / "cancel" mode and the inline progress indicator. */
+    fun setSendInProgress(inProgress: Boolean)
+
+    /** Enable/disable click handling on the attach button. */
+    fun setAttachButtonEnabled(enabled: Boolean)
+
+    /** Apply the muted (low-alpha) visual on the attach button. */
+    fun setAttachButtonMuted(muted: Boolean)
+
+    /** Show or hide the attach button (View.GONE when hidden). */
+    fun setAttachButtonVisible(visible: Boolean)
+
+    /** Show the read-only banner for the given capability, or hide if `null`. */
+    fun setSendBanner(capability: Capability?)
 
     fun setSelectedAttachments(uris: List<Uri>)
 
@@ -172,7 +188,10 @@ class ChatViewImpl(
     private val attachmentsStrip: ChatAttachmentsStrip = view.findViewById(R.id.attachments_strip)
     private val permissionBanner: PermissionBanner = view.findViewById(R.id.permission_banner)
 
-    private var isSending = false
+    // Tracks which icon the dual-purpose send button currently shows.
+    // It exists solely to route the same physical click to the right
+    // relay (send vs cancel) — no business state lives here.
+    private var sendInProgress = false
 
     private val navigationRelay = PublishRelay.create<Unit>()
     private val toolbarRelay = PublishRelay.create<Unit>()
@@ -232,18 +251,16 @@ class ChatViewImpl(
             messageEditRelay.accept(text.toString())
         }
         sendButton.setOnClickListener {
-            if (isSending) cancelSendRelay.accept(Unit) else sendRelay.accept(Unit)
+            if (sendInProgress) cancelSendRelay.accept(Unit) else sendRelay.accept(Unit)
         }
-        attachButton.setOnClickListener {
-            val remaining = ChatAttachmentsStrip.DEFAULT_MAX_TILES -
-                attachmentsStrip.getUris().size
-            if (remaining > 0) attachRelay.accept(remaining)
-        }
-        attachmentsStrip.addTileClicks().subscribe {
-            val remaining = ChatAttachmentsStrip.DEFAULT_MAX_TILES -
-                attachmentsStrip.getUris().size
-            if (remaining > 0) attachRelay.accept(remaining)
-        }
+        attachButton.setOnClickListener { emitAttachClick() }
+        attachmentsStrip.addTileClicks().subscribe { emitAttachClick() }
+    }
+
+    private fun emitAttachClick() {
+        val remaining = ChatAttachmentsStrip.DEFAULT_MAX_TILES -
+            attachmentsStrip.getUris().size
+        if (remaining > 0) attachRelay.accept(remaining)
     }
 
     override fun setIcon(url: String?) {
@@ -289,20 +306,38 @@ class ChatViewImpl(
         errorText.setText(R.string.chat_loading_error)
     }
 
-    override fun showSendButton() {
-        isSending = false
-        sendButton.setIconResource(R.drawable.ic_send)
-        sendProgress.visibility = View.GONE
-        attachButton.isEnabled = true
-        messageEdit.isEnabled = true
+    override fun setSendInProgress(inProgress: Boolean) {
+        sendInProgress = inProgress
+        sendButton.setIconResource(if (inProgress) R.drawable.ic_close else R.drawable.ic_send)
+        sendProgress.visibility = if (inProgress) View.VISIBLE else View.GONE
     }
 
-    override fun showSendProgress() {
-        isSending = true
-        sendButton.setIconResource(R.drawable.ic_close)
-        sendProgress.visibility = View.VISIBLE
-        attachButton.isEnabled = false
-        messageEdit.isEnabled = false
+    override fun setComposerInputEnabled(enabled: Boolean) {
+        messageEdit.isEnabled = enabled
+    }
+
+    override fun setSendButtonEnabled(enabled: Boolean) {
+        sendButton.isEnabled = enabled
+    }
+
+    override fun setAttachButtonEnabled(enabled: Boolean) {
+        attachButton.isEnabled = enabled
+    }
+
+    override fun setAttachButtonMuted(muted: Boolean) {
+        attachButton.alpha = if (muted) 0.5f else 1f
+    }
+
+    override fun setAttachButtonVisible(visible: Boolean) {
+        attachButton.visibility = if (visible) View.VISIBLE else View.GONE
+    }
+
+    override fun setSendBanner(capability: Capability?) {
+        if (capability == null) {
+            permissionBanner.hide()
+        } else {
+            permissionBanner.showFor(capability)
+        }
     }
 
     override fun showSendError(onRetry: () -> Unit) {
@@ -323,23 +358,6 @@ class ChatViewImpl(
     override fun showCapabilityDenied(capability: Capability) {
         val text = CapabilityHintResolver(recycler.resources).resolveText(capability)
         Snackbar.make(recycler, text, Snackbar.LENGTH_LONG).show()
-    }
-
-    override fun setSendEnabled(result: CapabilityResult) {
-        when (result) {
-            CapabilityResult.Allowed, CapabilityResult.Unknown -> {
-                permissionBanner.hide()
-                messageEdit.isEnabled = true
-                attachButton.isEnabled = true
-                sendButton.isEnabled = true
-            }
-            is CapabilityResult.Denied -> {
-                permissionBanner.showFor(result.capability)
-                messageEdit.isEnabled = false
-                attachButton.isEnabled = false
-                sendButton.isEnabled = false
-            }
-        }
     }
 
     override fun setSelectedAttachments(uris: List<Uri>) {
