@@ -42,8 +42,8 @@ class SubscribeItemPresenter(
 
     private fun UserBrief.name(): String {
         return name.takeIf { !it.isNullOrBlank() }
-            ?: icon.label[locale.language]
-            ?: icon.label[DEFAULT_LOCALE].orEmpty()
+            ?: icon.label?.get(locale.language)
+            ?: icon.label?.get(DEFAULT_LOCALE).orEmpty()
     }
 
 }

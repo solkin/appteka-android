@@ -19,8 +19,8 @@ class HeaderItemPresenter(
         view.setOnBadgeClickListener { badge -> listener.onBadgeClick(badge) }
 
         val name = item.userName.takeIf { !it.isNullOrBlank() }
-            ?: item.userIcon.label[locale.language]
-            ?: item.userIcon.label[DEFAULT_LOCALE].orEmpty()
+            ?: item.userIcon.label?.get(locale.language)
+            ?: item.userIcon.label?.get(DEFAULT_LOCALE).orEmpty()
         view.setUserName(name)
         view.setUserEmail(item.userEmail)
 

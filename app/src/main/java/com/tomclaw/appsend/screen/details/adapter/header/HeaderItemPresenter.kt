@@ -35,8 +35,8 @@ class HeaderItemPresenter(
             view.setUploaderBadge(author.primaryBadge)
 
             val name = author.name.takeIf { !it.isNullOrBlank() }
-                ?: icon.label[locale.language]
-                ?: icon.label[DEFAULT_LOCALE].orEmpty()
+                ?: icon.label?.get(locale.language)
+                ?: icon.label?.get(DEFAULT_LOCALE).orEmpty()
             view.setUploaderName(name)
 
             view.setOnUploaderClickListener { listener.onProfileClick(author.id) }

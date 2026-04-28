@@ -22,8 +22,8 @@ class TextItemPresenter(
         }
 
         val name = item.user.name.takeIf { !it.isNullOrBlank() }
-            ?: item.user.icon.label[locale.language]
-            ?: item.user.icon.label[DEFAULT_LOCALE].orEmpty()
+            ?: item.user.icon.label?.get(locale.language)
+            ?: item.user.icon.label?.get(DEFAULT_LOCALE).orEmpty()
         view.setUserName(name)
         view.setUserIcon(item.user.icon)
         view.setUserBadge(item.user.primaryBadge)
