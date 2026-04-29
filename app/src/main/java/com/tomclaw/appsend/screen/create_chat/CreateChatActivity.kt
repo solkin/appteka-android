@@ -10,16 +10,13 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.appComponent
-import com.tomclaw.appsend.di.PICKED_MEDIA_CACHE
 import com.tomclaw.appsend.screen.auth.request_code.createRequestCodeActivityIntent
+import com.tomclaw.appsend.screen.avatar_crop.createAvatarCropActivityIntent
+import com.tomclaw.appsend.screen.avatar_crop.extractAvatarCropResultUri
 import com.tomclaw.appsend.screen.chat.createChatActivityIntent
 import com.tomclaw.appsend.screen.create_chat.di.CreateChatModule
 import com.tomclaw.appsend.util.Analytics
-import com.tomclaw.cache.DiskLruCache
-import java.io.File
-import java.io.IOException
 import javax.inject.Inject
-import javax.inject.Named
 
 class CreateChatActivity : AppCompatActivity(), CreateChatPresenter.CreateChatRouter {
 
@@ -29,17 +26,23 @@ class CreateChatActivity : AppCompatActivity(), CreateChatPresenter.CreateChatRo
     @Inject
     lateinit var analytics: Analytics
 
-    @Inject
-    @field:Named(PICKED_MEDIA_CACHE)
-    lateinit var pickedMediaCache: DiskLruCache
-
-    private val pickAvatarLauncher =
+    private val pickImageLauncher =
         registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
-            // Photo Picker URIs carry a session-scoped read grant that does not
-            // always survive process death; copy the bytes to app cache so the
-            // avatar stays reachable across auth redirects and recreation.
-            val cached = uri?.let { copyAvatarToCache(it) } ?: return@registerForActivityResult
-            presenter.onAvatarPicked(Uri.fromFile(cached))
+            if (uri != null) presenter.onAvatarPicked(uri)
+        }
+
+    private val cropLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val cropped = extractAvatarCropResultUri(result.data)
+                if (cropped != null) {
+                    presenter.onAvatarCropped(cropped)
+                } else {
+                    presenter.onAvatarPickFailed()
+                }
+            }
+            // RESULT_CANCELED ⇒ user backed out of the cropper,
+            // nothing to do; the editor stays as it was.
         }
 
     private val loginLauncher =
@@ -58,7 +61,7 @@ class CreateChatActivity : AppCompatActivity(), CreateChatPresenter.CreateChatRo
         super.onCreate(savedInstanceState)
         setContentView(R.layout.create_chat_activity)
 
-        val view = CreateChatViewImpl(window.decorView, avatarPickerLauncher = ::launchAvatarPicker)
+        val view = CreateChatViewImpl(window.decorView)
         presenter.attachView(view)
 
         if (savedInstanceState == null) {
@@ -102,27 +105,15 @@ class CreateChatActivity : AppCompatActivity(), CreateChatPresenter.CreateChatRo
         loginLauncher.launch(createRequestCodeActivityIntent(this))
     }
 
-    private fun launchAvatarPicker() {
+    override fun openImagePicker() {
         val request = PickVisualMediaRequest.Builder()
             .setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly)
             .build()
-        pickAvatarLauncher.launch(request)
+        pickImageLauncher.launch(request)
     }
 
-    private fun copyAvatarToCache(source: Uri): File? {
-        val temp = File.createTempFile("avatar_pick_", ".jpg", cacheDir)
-        return try {
-            contentResolver.openInputStream(source)?.use { input ->
-                temp.outputStream().use { output -> input.copyTo(output) }
-            } ?: return null
-            pickedMediaCache.put(AVATAR_CACHE_KEY, temp)
-        } catch (_: IOException) {
-            null
-        } catch (_: SecurityException) {
-            null
-        } finally {
-            if (temp.exists()) temp.delete()
-        }
+    override fun openCropper(srcUri: Uri) {
+        cropLauncher.launch(createAvatarCropActivityIntent(this, srcUri))
     }
 
 }
@@ -131,4 +122,3 @@ fun createCreateChatActivityIntent(context: Context): Intent =
     Intent(context, CreateChatActivity::class.java)
 
 private const val KEY_PRESENTER_STATE = "presenter_state"
-private const val AVATAR_CACHE_KEY = "create_chat_avatar"

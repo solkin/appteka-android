@@ -6,6 +6,7 @@ import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.filterCapabilityErrors
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
+import java.io.File
 
 interface CreateChatPresenter {
 
@@ -23,6 +24,10 @@ interface CreateChatPresenter {
 
     fun onAvatarPicked(uri: Uri)
 
+    fun onAvatarCropped(uri: Uri)
+
+    fun onAvatarPickFailed()
+
     fun onLoginSucceeded()
 
     interface CreateChatRouter {
@@ -32,6 +37,11 @@ interface CreateChatPresenter {
         fun openChatScreen(topicId: Int, title: String)
 
         fun openLoginScreen()
+
+        fun openImagePicker()
+
+        /** Hand a freshly picked image off to the cropper. */
+        fun openCropper(srcUri: Uri)
 
     }
 
@@ -49,7 +59,13 @@ class CreateChatPresenterImpl(
 
     private var title: String = state?.getString(KEY_TITLE).orEmpty()
     private var description: String = state?.getString(KEY_DESCRIPTION).orEmpty()
-    private var avatarUri: Uri? = state?.getString(KEY_AVATAR_URI)?.let(Uri::parse)
+
+    // The cropped pick lives in the picked-media disk LRU cache; if it
+    // was evicted (or wiped) between save-state and restore, treat the
+    // pick as gone instead of leaving a dangling URI that would render
+    // a blank avatar yet keep Submit enabled.
+    private var avatarUri: Uri? = state?.getParcelable<Uri>(KEY_AVATAR_URI)
+        ?.takeIf { it.referencedFileExists() }
 
     private val subscriptions = CompositeDisposable()
 
@@ -70,7 +86,7 @@ class CreateChatPresenterImpl(
             description = it
             bindSubmitState()
         }
-        subscriptions += view.avatarClicks().subscribe { view.openAvatarPicker() }
+        subscriptions += view.avatarClicks().subscribe { router?.openImagePicker() }
         subscriptions += view.submitClicks().subscribe { onSubmit() }
     }
 
@@ -90,7 +106,7 @@ class CreateChatPresenterImpl(
     override fun saveState(): Bundle = Bundle().apply {
         putString(KEY_TITLE, title)
         putString(KEY_DESCRIPTION, description)
-        putString(KEY_AVATAR_URI, avatarUri?.toString())
+        putParcelable(KEY_AVATAR_URI, avatarUri)
     }
 
     override fun onBackPressed() {
@@ -98,9 +114,19 @@ class CreateChatPresenterImpl(
     }
 
     override fun onAvatarPicked(uri: Uri) {
+        // The picker hands back the source URI; the cropper turns
+        // it into the squared-up version we want to upload.
+        router?.openCropper(uri)
+    }
+
+    override fun onAvatarCropped(uri: Uri) {
         avatarUri = uri
         view?.setAvatar(uri)
         bindSubmitState()
+    }
+
+    override fun onAvatarPickFailed() {
+        view?.showError(resourceProvider.avatarPickFailedError())
     }
 
     override fun onLoginSucceeded() {
@@ -156,6 +182,18 @@ const val TITLE_MIN_LENGTH = 3
 const val TITLE_MAX_LENGTH = 100
 const val DESCRIPTION_MIN_LENGTH = 3
 const val DESCRIPTION_MAX_LENGTH = 500
+
+/**
+ * Best-effort existence check for a `file://` URI restored from saved
+ * state — guards against a `DiskLruCache` eviction (or external wipe)
+ * having dropped the cropped avatar between the activity going away
+ * and coming back.
+ */
+private fun Uri.referencedFileExists(): Boolean {
+    if ("file" != scheme) return true // not a file URI ⇒ trust it
+    val path = path ?: return false
+    return File(path).exists()
+}
 
 private const val KEY_TITLE = "title"
 private const val KEY_DESCRIPTION = "description"

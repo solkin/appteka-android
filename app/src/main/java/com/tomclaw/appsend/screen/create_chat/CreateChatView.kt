@@ -48,8 +48,6 @@ interface CreateChatView {
 
     fun showValidationError(message: String)
 
-    fun openAvatarPicker()
-
     fun navigationClicks(): Observable<Unit>
 
     fun titleChanged(): Observable<String>
@@ -62,10 +60,7 @@ interface CreateChatView {
 
 }
 
-class CreateChatViewImpl(
-    view: View,
-    private val avatarPickerLauncher: () -> Unit,
-) : CreateChatView {
+class CreateChatViewImpl(view: View) : CreateChatView {
 
     private val toolbar: Toolbar = view.findViewById(R.id.toolbar)
     private val overlayProgress: View = view.findViewById(R.id.overlay_progress)
@@ -144,10 +139,6 @@ class CreateChatViewImpl(
 
     override fun showValidationError(message: String) {
         Snackbar.make(rootView, message, Snackbar.LENGTH_SHORT).show()
-    }
-
-    override fun openAvatarPicker() {
-        avatarPickerLauncher()
     }
 
     override fun navigationClicks(): Observable<Unit> = navigationRelay

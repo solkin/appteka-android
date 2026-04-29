@@ -9,6 +9,8 @@ interface CreateChatResourceProvider {
 
     fun avatarRequiredError(): String
 
+    fun avatarPickFailedError(): String
+
     fun titleTooShortError(minLength: Int): String
 
     fun descriptionTooShortError(minLength: Int): String
@@ -24,6 +26,9 @@ class CreateChatResourceProviderImpl(
 
     override fun avatarRequiredError(): String =
         resources.getString(R.string.create_chat_avatar_required)
+
+    override fun avatarPickFailedError(): String =
+        resources.getString(R.string.avatar_crop_save_failed)
 
     override fun titleTooShortError(minLength: Int): String =
         resources.getQuantityString(R.plurals.create_chat_title_min_length_error, minLength, minLength)
