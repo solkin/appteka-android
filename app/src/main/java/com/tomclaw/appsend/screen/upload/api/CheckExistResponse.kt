@@ -11,8 +11,6 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 @GsonModel
 data class CheckExistResponse(
-    @SerializedName("reassign")
-    val reassign: Boolean,
     @SerializedName("info")
     val info: String?,
     @SerializedName("warning")
