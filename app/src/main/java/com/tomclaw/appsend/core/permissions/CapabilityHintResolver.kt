@@ -85,6 +85,7 @@ class CapabilityHintResolver(private val resources: Resources) {
             "cap.reason.app_edit_meta" to R.string.permission_app_edit_meta,
             "cap.reason.app_protected" to R.string.permission_app_protected,
             "cap.reason.app_already_unpublished" to R.string.permission_app_already_unpublished,
+            "cap.reason.app_blocked" to R.string.permission_app_blocked,
             "cap.reason.app_rating_delete" to R.string.permission_app_rating_delete,
             "cap.reason.chat_topic_create" to R.string.permission_chat_topic_create,
             "cap.reason.chat_image_attach" to R.string.permission_chat_image_attach,

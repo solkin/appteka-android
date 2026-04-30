@@ -497,6 +497,7 @@
     <string name="permission_app_rating_delete">You don\'t have permission to delete other users\' reviews.</string>
     <string name="permission_app_protected">This app is protected and can\'t be modified.</string>
     <string name="permission_app_already_unpublished">This app is already unpublished.</string>
+    <string name="permission_app_blocked">This app has been blocked and cannot be edited or republished.</string>
     <string name="permission_chat_topic_create">You don\'t have permission to create topics.</string>
     <string name="permission_chat_image_attach">You don\'t have permission to attach images in chat.</string>
     <string name="permission_read_only_app_upload">You can\'t upload apps right now.</string>

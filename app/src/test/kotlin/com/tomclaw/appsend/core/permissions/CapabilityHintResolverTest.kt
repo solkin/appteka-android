@@ -129,6 +129,7 @@ class CapabilityHintResolverTest {
             "cap.reason.app_edit_meta",
             "cap.reason.app_protected",
             "cap.reason.app_already_unpublished",
+            "cap.reason.app_blocked",
             "cap.reason.app_rating_delete",
             "cap.reason.chat_topic_create",
             "cap.reason.read_only_app_upload",
