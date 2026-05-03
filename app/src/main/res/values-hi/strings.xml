@@ -497,6 +497,6 @@
     <string name="edit_profile_save_failed">प्रोफ़ाइल सहेजी नहीं जा सकी</string>
     <string name="edit_profile_saved">प्रोफ़ाइल सहेजी गई</string>
 
-    <string name="permission_avatar_upload">आपके खाते के लिए अवतार अपलोड अक्षम है</string>
-    <string name="permission_bio_edit">आपके खाते के लिए विवरण संपादन अक्षम है</string>
+    <string name="permission_read_only_avatar_upload">आपके खाते के लिए अवतार अपलोड अक्षम है</string>
+    <string name="permission_read_only_bio_edit">आपके खाते के लिए विवरण संपादन अक्षम है</string>
 </resources>

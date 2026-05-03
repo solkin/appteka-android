@@ -26,8 +26,8 @@ object AccessRule {
     const val READ_ONLY_RATINGS = "read_only_ratings"
     const val READ_ONLY_APP_UPLOAD = "read_only_app_upload"
     const val READ_ONLY_FEED_POSTS = "read_only_feed_posts"
-    const val AVATAR_UPLOAD = "avatar_upload"
-    const val BIO_EDIT = "bio_edit"
+    const val READ_ONLY_AVATAR_UPLOAD = "read_only_avatar_upload"
+    const val READ_ONLY_BIO_EDIT = "read_only_bio_edit"
 }
 
 /**

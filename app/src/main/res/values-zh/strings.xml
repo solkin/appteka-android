@@ -486,6 +486,6 @@
     <string name="edit_profile_save_failed">无法保存个人资料</string>
     <string name="edit_profile_saved">个人资料已保存</string>
 
-    <string name="permission_avatar_upload">您的帐户已禁用头像上传</string>
-    <string name="permission_bio_edit">您的帐户已禁用简介编辑</string>
+    <string name="permission_read_only_avatar_upload">您的帐户已禁用头像上传</string>
+    <string name="permission_read_only_bio_edit">您的帐户已禁用简介编辑</string>
 </resources>

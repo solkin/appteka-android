@@ -498,6 +498,6 @@
     <string name="edit_profile_save_failed">Profilni saqlab bo\'lmadi</string>
     <string name="edit_profile_saved">Profil saqlandi</string>
 
-    <string name="permission_avatar_upload">Hisobingiz uchun avatar yuklash o\'chirilgan</string>
-    <string name="permission_bio_edit">Hisobingiz uchun bio tahrirlash o\'chirilgan</string>
+    <string name="permission_read_only_avatar_upload">Hisobingiz uchun avatar yuklash o\'chirilgan</string>
+    <string name="permission_read_only_bio_edit">Hisobingiz uchun bio tahrirlash o\'chirilgan</string>
 </resources>

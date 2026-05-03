@@ -511,6 +511,6 @@
     <string name="edit_profile_save_failed">نەتوانرا پرۆفایل پاشەکەوت بکرێت</string>
     <string name="edit_profile_saved">پرۆفایل پاشەکەوت کرا</string>
 
-    <string name="permission_avatar_upload">بارکردنی ئەڤاتار بۆ هەژمارەکەت ناچالاککراوە</string>
-    <string name="permission_bio_edit">دەستکاری دەربارە بۆ هەژمارەکەت ناچالاککراوە</string>
+    <string name="permission_read_only_avatar_upload">بارکردنی ئەڤاتار بۆ هەژمارەکەت ناچالاککراوە</string>
+    <string name="permission_read_only_bio_edit">دەستکاری دەربارە بۆ هەژمارەکەت ناچالاککراوە</string>
 </resources>

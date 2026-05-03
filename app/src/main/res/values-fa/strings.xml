@@ -506,6 +506,6 @@
     <string name="edit_profile_save_failed">ذخیره پروفایل ممکن نشد</string>
     <string name="edit_profile_saved">پروفایل ذخیره شد</string>
 
-    <string name="permission_avatar_upload">بارگذاری آواتار برای حساب شما غیرفعال است</string>
-    <string name="permission_bio_edit">ویرایش بیوگرافی برای حساب شما غیرفعال است</string>
+    <string name="permission_read_only_avatar_upload">بارگذاری آواتار برای حساب شما غیرفعال است</string>
+    <string name="permission_read_only_bio_edit">ویرایش بیوگرافی برای حساب شما غیرفعال است</string>
 </resources>

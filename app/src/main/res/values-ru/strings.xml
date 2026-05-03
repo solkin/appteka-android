@@ -521,6 +521,6 @@
     <string name="edit_profile_save_failed">Не удалось сохранить профиль</string>
     <string name="edit_profile_saved">Профиль сохранён</string>
 
-    <string name="permission_avatar_upload">Загрузка аватара отключена для вашего аккаунта</string>
-    <string name="permission_bio_edit">Редактирование описания отключено для вашего аккаунта</string>
+    <string name="permission_read_only_avatar_upload">Загрузка аватара отключена для вашего аккаунта</string>
+    <string name="permission_read_only_bio_edit">Редактирование описания отключено для вашего аккаунта</string>
 </resources>

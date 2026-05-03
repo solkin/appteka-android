@@ -498,6 +498,6 @@
     <string name="edit_profile_save_failed">Impossibile salvare il profilo</string>
     <string name="edit_profile_saved">Profilo salvato</string>
 
-    <string name="permission_avatar_upload">Il caricamento dell\'avatar è disabilitato per il tuo account</string>
-    <string name="permission_bio_edit">La modifica della bio è disabilitata per il tuo account</string>
+    <string name="permission_read_only_avatar_upload">Il caricamento dell\'avatar è disabilitato per il tuo account</string>
+    <string name="permission_read_only_bio_edit">La modifica della bio è disabilitata per il tuo account</string>
 </resources>

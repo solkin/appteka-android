@@ -507,6 +507,6 @@
     <string name="edit_profile_save_failed">No se pudo guardar el perfil</string>
     <string name="edit_profile_saved">Perfil guardado</string>
 
-    <string name="permission_avatar_upload">La carga del avatar está desactivada para tu cuenta</string>
-    <string name="permission_bio_edit">La edición de la biografía está desactivada para tu cuenta</string>
+    <string name="permission_read_only_avatar_upload">La carga del avatar está desactivada para tu cuenta</string>
+    <string name="permission_read_only_bio_edit">La edición de la biografía está desactivada para tu cuenta</string>
 </resources>

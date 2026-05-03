@@ -486,6 +486,6 @@
     <string name="edit_profile_save_failed">Không thể lưu hồ sơ</string>
     <string name="edit_profile_saved">Đã lưu hồ sơ</string>
 
-    <string name="permission_avatar_upload">Tải lên ảnh đại diện đã bị tắt cho tài khoản của bạn</string>
-    <string name="permission_bio_edit">Chỉnh sửa tiểu sử đã bị tắt cho tài khoản của bạn</string>
+    <string name="permission_read_only_avatar_upload">Tải lên ảnh đại diện đã bị tắt cho tài khoản của bạn</string>
+    <string name="permission_read_only_bio_edit">Chỉnh sửa tiểu sử đã bị tắt cho tài khoản của bạn</string>
 </resources>

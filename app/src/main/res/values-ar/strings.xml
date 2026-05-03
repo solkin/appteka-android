@@ -542,6 +542,6 @@
     <string name="edit_profile_save_failed">تعذر حفظ الملف الشخصي</string>
     <string name="edit_profile_saved">تم حفظ الملف الشخصي</string>
 
-    <string name="permission_avatar_upload">تحميل الصورة الرمزية معطل لحسابك</string>
-    <string name="permission_bio_edit">تحرير النبذة معطل لحسابك</string>
+    <string name="permission_read_only_avatar_upload">تحميل الصورة الرمزية معطل لحسابك</string>
+    <string name="permission_read_only_bio_edit">تحرير النبذة معطل لحسابك</string>
 </resources>

@@ -532,8 +532,8 @@
     <string name="edit_profile_saved">Profile saved</string>
 
     <!-- Permission hints for the new ACL rules -->
-    <string name="permission_avatar_upload">Avatar upload is disabled for your account</string>
-    <string name="permission_bio_edit">Editing the bio is disabled for your account</string>
+    <string name="permission_read_only_avatar_upload">Avatar upload is disabled for your account</string>
+    <string name="permission_read_only_bio_edit">Editing the bio is disabled for your account</string>
 
     <!-- Avatar crop screen -->
     <string name="avatar_crop_title">Crop avatar</string>

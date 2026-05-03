@@ -497,6 +497,6 @@
     <string name="edit_profile_save_failed">Não foi possível salvar o perfil</string>
     <string name="edit_profile_saved">Perfil salvo</string>
 
-    <string name="permission_avatar_upload">O envio de avatar está desativado para sua conta</string>
-    <string name="permission_bio_edit">A edição da bio está desativada para sua conta</string>
+    <string name="permission_read_only_avatar_upload">O envio de avatar está desativado para sua conta</string>
+    <string name="permission_read_only_bio_edit">A edição da bio está desativada para sua conta</string>
 </resources>
