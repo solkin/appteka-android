@@ -53,6 +53,12 @@ class UploadService : Service() {
         val initialNotification = notifications.createInitialNotification(label)
         startForegroundCompat(UPLOAD_NOTIFICATION_ID, initialNotification)
 
+        // Start the upload first so the relay's cached state is fresh (AWAIT)
+        // before any subscriber attaches. Otherwise BehaviorRelay would replay
+        // the previous terminal state (e.g. ERROR after a retry), and the
+        // notification subscriber would immediately stop the foreground service.
+        uploadManager.upload(id, pkg, apk, info)
+
         val relay = uploadManager.status(id)
 
         if (apk != null) {
@@ -82,7 +88,6 @@ class UploadService : Service() {
             }
         }
 
-        uploadManager.upload(id, pkg, apk, info)
         return true
     }
 

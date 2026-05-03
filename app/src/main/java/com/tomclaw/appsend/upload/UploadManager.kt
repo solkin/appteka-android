@@ -81,7 +81,12 @@ class UploadManagerImpl(
             println("[upload] Relay $id is inactive: $inactiveState")
             if (!relay.hasValue() || inactiveState) {
                 relays.remove(id)
-                results.remove(id)
+                // Keep the cached upload result on ERROR so the next retry can
+                // skip the APK re-upload and re-run only the failed step
+                // (screenshots / setMeta).
+                if (relay.value?.status != UploadStatus.ERROR) {
+                    results.remove(id)
+                }
                 println("[upload] Relay $id removed")
             }
         }
