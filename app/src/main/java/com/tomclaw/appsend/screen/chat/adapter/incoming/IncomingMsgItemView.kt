@@ -1,8 +1,12 @@
 package com.tomclaw.appsend.screen.chat.adapter.incoming
 
+import android.content.res.Configuration
+import android.graphics.Color
 import android.text.util.Linkify
+import android.util.TypedValue
 import android.view.View
 import android.widget.TextView
+import androidx.core.graphics.ColorUtils
 import com.tomclaw.appsend.util.adapter.BaseItemViewHolder
 import com.tomclaw.appsend.util.adapter.ItemView
 import com.google.android.material.card.MaterialCardView
@@ -22,6 +26,8 @@ interface IncomingMsgItemView : ItemView {
     fun setUserIcon(userIcon: UserIcon)
 
     fun setUserBadge(badge: BadgeMark?)
+
+    fun setAuthor(name: String?, color: String?)
 
     fun setTime(time: String)
 
@@ -43,6 +49,7 @@ class IncomingMsgItemViewHolder(view: View) : BaseItemViewHolder(view), Incoming
     private val memberIconContainer: View = view.findViewById(R.id.member_icon)
     private val userIconView: UserIconView = UserIconViewImpl(memberIconContainer)
     private val bubbleBack: MaterialCardView = view.findViewById(R.id.inc_bubble_back)
+    private val authorView: TextView = view.findViewById(R.id.inc_author)
     private val attachmentsView: MessageAttachmentsView = view.findViewById(R.id.inc_attachments)
     private val textView: TextView = view.findViewById(R.id.inc_text)
     private val timeView: TextView = view.findViewById(R.id.inc_time)
@@ -61,6 +68,36 @@ class IncomingMsgItemViewHolder(view: View) : BaseItemViewHolder(view), Incoming
 
     override fun setUserBadge(badge: BadgeMark?) {
         userIconView.bindBadge(badge)
+    }
+
+    override fun setAuthor(name: String?, color: String?) {
+        if (name.isNullOrEmpty()) {
+            authorView.visibility = View.GONE
+            return
+        }
+        authorView.visibility = View.VISIBLE
+        authorView.text = name
+        authorView.setTextColor(resolveAuthorColor(color))
+    }
+
+    private fun resolveAuthorColor(raw: String?): Int {
+        val parsed = raw?.let {
+            try {
+                Color.parseColor(it)
+            } catch (_: IllegalArgumentException) {
+                null
+            }
+        }
+        val base = parsed ?: run {
+            val typed = TypedValue()
+            authorView.context.theme.resolveAttribute(
+                androidx.appcompat.R.attr.colorPrimary, typed, true
+            )
+            typed.data
+        }
+        val isNight = (authorView.resources.configuration.uiMode and
+            Configuration.UI_MODE_NIGHT_MASK) == Configuration.UI_MODE_NIGHT_YES
+        return if (isNight) ColorUtils.blendARGB(base, Color.WHITE, 0.35f) else base
     }
 
     override fun setTime(time: String) {

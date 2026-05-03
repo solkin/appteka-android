@@ -138,8 +138,9 @@ class ChatModule(
     @Provides
     @PerActivity
     internal fun provideIncomingMsgItemPresenter(
-        presenter: ChatPresenter
-    ) = IncomingMsgItemPresenter(presenter)
+        locale: Locale,
+        presenter: ChatPresenter,
+    ) = IncomingMsgItemPresenter(locale, presenter)
 
     @Provides
     @PerActivity
