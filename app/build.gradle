@@ -12,8 +12,8 @@ android {
         applicationId "com.tomclaw.appsend"
         minSdkVersion 23
         targetSdkVersion 36
-        versionCode project.hasProperty("versionCode") ? Integer.parseInt(project.versionCode) : 1050
-        versionName = "18.5"
+        versionCode project.hasProperty("versionCode") ? Integer.parseInt(project.versionCode) : 1052
+        versionName = "19.0"
     }
 
     signingConfigs {
