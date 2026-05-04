@@ -21,6 +21,8 @@ interface ItemListener {
 
     fun onEditName(name: String?, nameRegex: String?)
 
+    fun onEditAvatar()
+
     fun onEditEmail()
 
     fun onNextPage(last: AppItem, param: (List<AppItem>) -> Unit)

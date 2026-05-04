@@ -195,6 +195,10 @@ class ProfilePresenterImpl(
         router?.openEditProfileScreen()
     }
 
+    override fun onEditAvatar() {
+        router?.openEditProfileScreen()
+    }
+
     override fun onEditEmail() {
         router?.openChangeEmailScreen()
     }

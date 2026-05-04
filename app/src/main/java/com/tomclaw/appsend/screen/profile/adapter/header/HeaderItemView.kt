@@ -69,6 +69,8 @@ interface HeaderItemView : ItemView {
 
     fun setOnNameClickListener(listener: (() -> Unit)?)
 
+    fun setOnAvatarClickListener(listener: (() -> Unit)?)
+
     fun setOnEmailClickListener(listener: (() -> Unit)?)
 
     fun setOnSubscribeClickListener(listener: (() -> Unit)?)
@@ -80,7 +82,8 @@ interface HeaderItemView : ItemView {
 class HeaderItemViewHolder(private val view: View) : BaseItemViewHolder(view), HeaderItemView {
 
     private val resources = view.resources
-    private val userIcon: UserIconView = UserIconViewImpl(view.findViewById(R.id.user_icon))
+    private val userIconContainer: View = view.findViewById(R.id.user_icon)
+    private val userIcon: UserIconView = UserIconViewImpl(userIconContainer)
     private val userName: TextView = view.findViewById(R.id.user_name)
     private val userEmail: TextView = view.findViewById(R.id.user_email)
     private val userBioContainer: View = view.findViewById(R.id.user_bio_container)
@@ -91,6 +94,7 @@ class HeaderItemViewHolder(private val view: View) : BaseItemViewHolder(view), H
     private val badgesGroup: ChipGroup = view.findViewById(R.id.user_badges_group)
 
     private var nameClickListener: (() -> Unit)? = null
+    private var avatarClickListener: (() -> Unit)? = null
     private var emailClickListener: (() -> Unit)? = null
     private var subscribeClickListener: (() -> Unit)? = null
     private var unsubscribeClickListener: (() -> Unit)? = null
@@ -234,6 +238,21 @@ class HeaderItemViewHolder(private val view: View) : BaseItemViewHolder(view), H
         userName.setOnClickListener(listener?.let { { nameClickListener?.invoke() } })
     }
 
+    override fun setOnAvatarClickListener(listener: (() -> Unit)?) {
+        this.avatarClickListener = listener
+
+        if (listener != null) {
+            userIconContainer.isClickable = true
+            userIconContainer.foreground =
+                ContextCompat.getDrawable(view.context, R.drawable.circle_ripple)
+            userIconContainer.setOnClickListener { avatarClickListener?.invoke() }
+        } else {
+            userIconContainer.setOnClickListener(null)
+            userIconContainer.foreground = null
+            userIconContainer.isClickable = false
+        }
+    }
+
     override fun setOnEmailClickListener(listener: (() -> Unit)?) {
         this.emailClickListener = listener
 
@@ -254,6 +273,7 @@ class HeaderItemViewHolder(private val view: View) : BaseItemViewHolder(view), H
 
     override fun onUnbind() {
         this.nameClickListener = null
+        this.avatarClickListener = null
         this.emailClickListener = null
         this.subscribeClickListener = null
         this.unsubscribeClickListener = null

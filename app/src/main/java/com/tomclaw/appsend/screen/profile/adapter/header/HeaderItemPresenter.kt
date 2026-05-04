@@ -41,6 +41,7 @@ class HeaderItemPresenter(
         if (item.isSelf) {
             view.showUserNameEditIcon()
             view.setOnNameClickListener { listener.onEditName(name, item.nameRegex) }
+            view.setOnAvatarClickListener { listener.onEditAvatar() }
             if (!item.userEmail.isNullOrBlank()) {
                 view.showUserEmailEditIcon()
                 view.setOnEmailClickListener { listener.onEditEmail() }
@@ -48,6 +49,7 @@ class HeaderItemPresenter(
             view.hideSubscribeButton()
             view.hideUnsubscribeButton()
         } else {
+            view.setOnAvatarClickListener(null)
             view.setOnSubscribeClickListener { listener.onSubscribeClick() }
             view.setOnUnsubscribeClickListener { listener.onUnsubscribeClick() }
             if (item.isSubscribed) {
