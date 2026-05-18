@@ -107,14 +107,13 @@
 
     </LinearLayout>
 
-    <com.google.android.material.progressindicator.CircularProgressIndicator
+    <com.google.android.material.loadingindicator.LoadingIndicator
         android:id="@+id/item_progress"
-        style="@style/Widget.Material3Expressive.CircularProgressIndicator.Wavy"
-        android:layout_width="38dp"
-        android:layout_height="38dp"
+        style="@style/Widget.Material3.LoadingIndicator"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="8dp"
-        android:indeterminate="true"
         android:visibility="gone"
         tools:visibility="gone" />
 

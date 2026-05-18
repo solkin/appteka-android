@@ -5,11 +5,10 @@
     android:paddingTop="12dp"
     android:paddingBottom="12dp">
 
-    <com.google.android.material.progressindicator.CircularProgressIndicator
-        style="@style/Widget.Material3Expressive.CircularProgressIndicator.Wavy"
-        android:layout_width="32dp"
-        android:layout_height="32dp"
-        android:layout_gravity="center"
-        android:indeterminate="true" />
+    <com.google.android.material.loadingindicator.LoadingIndicator
+        style="@style/Widget.Material3.LoadingIndicator"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center" />
 
 </FrameLayout>
