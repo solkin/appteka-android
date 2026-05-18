@@ -485,7 +485,7 @@
     <string name="permission_read_only_messages">You can\'t send messages right now.</string>
     <string name="permission_read_only_ratings">You can\'t rate or review apps right now.</string>
     <string name="permission_feed_post_delete">You need permission to delete other users\' posts.</string>
-    <string name="permission_automoderation">Your uploads are published without moderation.</string>
+    <string name="permission_automoderation">Your uploads will be reviewed by moderators before being published.</string>
     <string name="permission_list_downloaded">You need permission to view other users\' downloads.</string>
     <string name="permission_final_moder_vote">You have the final moderation vote.</string>
     <string name="permission_banned">Your account is suspended.</string>

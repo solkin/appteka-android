@@ -457,7 +457,7 @@
     <string name="permission_read_only_messages">आप अभी संदेश नहीं भेज सकते।</string>
     <string name="permission_read_only_ratings">आप अभी ऐप्स को रेट या समीक्षा नहीं कर सकते।</string>
     <string name="permission_feed_post_delete">आपके पास अन्य उपयोगकर्ताओं की पोस्ट हटाने की अनुमति नहीं है।</string>
-    <string name="permission_automoderation">आपके अपलोड बिना मॉडरेशन के प्रकाशित होते हैं।</string>
+    <string name="permission_automoderation">आपके अपलोड प्रकाशित होने से पहले मॉडरेटर्स द्वारा समीक्षित किए जाएंगे।</string>
     <string name="permission_list_downloaded">आपके पास अन्य उपयोगकर्ताओं के डाउनलोड देखने की अनुमति नहीं है।</string>
     <string name="permission_final_moder_vote">आपके पास अंतिम मॉडरेशन वोट है।</string>
     <string name="permission_banned">आपका खाता निलंबित है।</string>

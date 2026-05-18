@@ -502,7 +502,7 @@
     <string name="permission_read_only_messages">لا يمكنك إرسال رسائل في الوقت الحالي.</string>
     <string name="permission_read_only_ratings">لا يمكنك تقييم التطبيقات أو مراجعتها في الوقت الحالي.</string>
     <string name="permission_feed_post_delete">ليس لديك إذن لحذف منشورات المستخدمين الآخرين.</string>
-    <string name="permission_automoderation">تُنشر تحميلاتك دون إشراف.</string>
+    <string name="permission_automoderation">ستتم مراجعة تحميلاتك من قِبل المشرفين قبل نشرها.</string>
     <string name="permission_list_downloaded">ليس لديك إذن لعرض تنزيلات المستخدمين الآخرين.</string>
     <string name="permission_final_moder_vote">لديك تصويت الإشراف النهائي.</string>
     <string name="permission_banned">تم تعليق حسابك.</string>

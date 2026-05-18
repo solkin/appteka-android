@@ -466,7 +466,7 @@
     <string name="permission_read_only_messages">در حال حاضر نمی‌توانید پیام ارسال کنید.</string>
     <string name="permission_read_only_ratings">در حال حاضر نمی‌توانید برنامه‌ها را امتیاز دهید یا نقد کنید.</string>
     <string name="permission_feed_post_delete">برای حذف پست‌های سایر کاربران مجوز ندارید.</string>
-    <string name="permission_automoderation">بارگذاری‌های شما بدون نظارت منتشر می‌شوند.</string>
+    <string name="permission_automoderation">بارگذاری‌های شما قبل از انتشار توسط ناظران بررسی می‌شوند.</string>
     <string name="permission_list_downloaded">برای دیدن بارگیری‌های سایر کاربران مجوز ندارید.</string>
     <string name="permission_final_moder_vote">شما رأی نهایی نظارت را دارید.</string>
     <string name="permission_banned">حساب شما معلق شده است.</string>

@@ -480,7 +480,7 @@
     <string name="permission_read_only_messages">Вы не можете отправлять сообщения.</string>
     <string name="permission_read_only_ratings">Вы не можете оценивать приложения и оставлять отзывы.</string>
     <string name="permission_feed_post_delete">Нет прав для удаления чужих постов.</string>
-    <string name="permission_automoderation">Ваши загрузки публикуются без модерации.</string>
+    <string name="permission_automoderation">Ваши загрузки будут проверены модераторами перед публикацией.</string>
     <string name="permission_list_downloaded">Нет прав для просмотра скачанных приложений других пользователей.</string>
     <string name="permission_final_moder_vote">У вас финальный голос модерации.</string>
     <string name="permission_banned">Ваш аккаунт заблокирован.</string>

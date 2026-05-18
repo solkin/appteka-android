@@ -446,7 +446,7 @@
     <string name="permission_read_only_messages">Bạn không thể gửi tin nhắn lúc này.</string>
     <string name="permission_read_only_ratings">Bạn không thể đánh giá hoặc nhận xét ứng dụng lúc này.</string>
     <string name="permission_feed_post_delete">Bạn không có quyền xóa bài đăng của người dùng khác.</string>
-    <string name="permission_automoderation">Tải lên của bạn được xuất bản mà không qua kiểm duyệt.</string>
+    <string name="permission_automoderation">Tải lên của bạn sẽ được kiểm duyệt viên xem xét trước khi xuất bản.</string>
     <string name="permission_list_downloaded">Bạn không có quyền xem các bản tải xuống của người dùng khác.</string>
     <string name="permission_final_moder_vote">Bạn có quyền biểu quyết kiểm duyệt cuối cùng.</string>
     <string name="permission_banned">Tài khoản của bạn đã bị tạm khóa.</string>

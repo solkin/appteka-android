@@ -471,7 +471,7 @@
     <string name="permission_read_only_messages">ئێستا ناتوانیت پەیام بنێریت.</string>
     <string name="permission_read_only_ratings">ئێستا ناتوانیت بەرنامەکان هەڵبسەنگێنیت یان پێداچوونەوە بکەیت.</string>
     <string name="permission_feed_post_delete">مۆڵەتت نییە بۆ سڕینەوەی پۆستەکانی بەکارهێنەرانی دیکە.</string>
-    <string name="permission_automoderation">بارکردنەکانت بێ چاودێری بڵاوکراوەتەوە.</string>
+    <string name="permission_automoderation">بارکردنەکانت پێش بڵاوکردنەوە لەلایەن چاودێرانەوە پێداچوونەوەیان بۆ دەکرێت.</string>
     <string name="permission_list_downloaded">مۆڵەتت نییە بۆ بینینی داگرتنەکانی بەکارهێنەرانی دیکە.</string>
     <string name="permission_final_moder_vote">دەنگی کۆتایی چاودێری لای تۆیە.</string>
     <string name="permission_banned">هەژمارەکەت ڕاگیراوە.</string>

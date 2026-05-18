@@ -458,7 +458,7 @@
     <string name="permission_read_only_messages">Hozir xabar yubora olmaysiz.</string>
     <string name="permission_read_only_ratings">Hozir ilovalarni baholay yoki sharhlay olmaysiz.</string>
     <string name="permission_feed_post_delete">Boshqa foydalanuvchilarning postlarini o\'chirish uchun ruxsatingiz yo\'q.</string>
-    <string name="permission_automoderation">Yuklamalaringiz moderatsiyasiz e\'lon qilinadi.</string>
+    <string name="permission_automoderation">Yuklamalaringiz e\'lon qilinishidan oldin moderatorlar tomonidan ko\'rib chiqiladi.</string>
     <string name="permission_list_downloaded">Boshqa foydalanuvchilarning yuklamalarini ko\'rish uchun ruxsatingiz yo\'q.</string>
     <string name="permission_final_moder_vote">Sizda yakuniy moderatsiya ovozi bor.</string>
     <string name="permission_banned">Hisobingiz to\'xtatilgan.</string>

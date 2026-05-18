@@ -457,7 +457,7 @@
     <string name="permission_read_only_messages">Você não pode enviar mensagens no momento.</string>
     <string name="permission_read_only_ratings">Você não pode avaliar ou comentar apps no momento.</string>
     <string name="permission_feed_post_delete">Você não tem permissão para excluir publicações de outros usuários.</string>
-    <string name="permission_automoderation">Seus envios são publicados sem moderação.</string>
+    <string name="permission_automoderation">Seus envios serão revisados por moderadores antes de serem publicados.</string>
     <string name="permission_list_downloaded">Você não tem permissão para ver os downloads de outros usuários.</string>
     <string name="permission_final_moder_vote">Você tem voto final na moderação.</string>
     <string name="permission_banned">Sua conta está suspensa.</string>

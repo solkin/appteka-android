@@ -446,7 +446,7 @@
     <string name="permission_read_only_messages">您当前无法发送消息。</string>
     <string name="permission_read_only_ratings">您当前无法评分或评论应用。</string>
     <string name="permission_feed_post_delete">您无权删除其他用户的帖子。</string>
-    <string name="permission_automoderation">您的上传无需审核即可发布。</string>
+    <string name="permission_automoderation">您的上传将先由审核员审核，然后才会发布。</string>
     <string name="permission_list_downloaded">您无权查看其他用户的下载。</string>
     <string name="permission_final_moder_vote">您拥有最终审核投票权。</string>
     <string name="permission_banned">您的账号已暂停。</string>
