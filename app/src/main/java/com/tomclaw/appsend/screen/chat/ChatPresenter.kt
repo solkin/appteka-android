@@ -620,6 +620,10 @@ class ChatPresenterImpl(
         return userData.role >= ROLE_ADMIN || userData.id == message.author.id
     }
 
+    override fun onAvatarClick(userId: Int) {
+        router?.openProfileScreen(userId)
+    }
+
     override fun onAttachmentClick(item: Item, index: Int) {
         val attachments = when (item) {
             is IncomingMsgItem -> item.attachments

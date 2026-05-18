@@ -25,6 +25,7 @@ class OutgoingMsgItemPresenter(
         }
 
         view.setOnClickListener { listener.onItemClick(item) }
+        view.setOnAvatarClickListener { listener.onAvatarClick(item.author.id) }
         view.setOnAttachmentClickListener { index -> listener.onAttachmentClick(item, index) }
     }
 

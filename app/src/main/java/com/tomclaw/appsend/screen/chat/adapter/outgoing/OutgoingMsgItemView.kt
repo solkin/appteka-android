@@ -41,6 +41,8 @@ interface OutgoingMsgItemView : ItemView {
 
     fun setOnClickListener(listener: (() -> Unit)?)
 
+    fun setOnAvatarClickListener(listener: (() -> Unit)?)
+
     fun setOnAttachmentClickListener(listener: ((Int) -> Unit)?)
 
 }
@@ -58,11 +60,12 @@ class OutgoingMsgItemViewHolder(view: View) : BaseItemViewHolder(view), Outgoing
     private val timeView: TextView = view.findViewById(R.id.out_time)
 
     private var clickListener: (() -> Unit)? = null
+    private var avatarClickListener: (() -> Unit)? = null
     private var attachmentClickListener: ((Int) -> Unit)? = null
 
     init {
         bubbleBack.setOnClickListener { clickListener?.invoke() }
-        memberIconContainer.setOnClickListener { clickListener?.invoke() }
+        memberIconContainer.setOnClickListener { avatarClickListener?.invoke() }
     }
 
     override fun setUserIcon(userIcon: UserIcon) {
@@ -125,12 +128,17 @@ class OutgoingMsgItemViewHolder(view: View) : BaseItemViewHolder(view), Outgoing
         this.clickListener = listener
     }
 
+    override fun setOnAvatarClickListener(listener: (() -> Unit)?) {
+        this.avatarClickListener = listener
+    }
+
     override fun setOnAttachmentClickListener(listener: ((Int) -> Unit)?) {
         this.attachmentClickListener = listener
     }
 
     override fun onUnbind() {
         this.clickListener = null
+        this.avatarClickListener = null
         this.attachmentClickListener = null
     }
 

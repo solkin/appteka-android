@@ -23,6 +23,7 @@ class IncomingMsgItemPresenter(
         view.setAttachments(item.attachments)
 
         view.setOnClickListener { listener.onItemClick(item) }
+        view.setOnAvatarClickListener { listener.onAvatarClick(item.author.id) }
         view.setOnAttachmentClickListener { index -> listener.onAttachmentClick(item, index) }
     }
 

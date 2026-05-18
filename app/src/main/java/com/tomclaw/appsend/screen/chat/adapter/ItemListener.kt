@@ -6,6 +6,8 @@ interface ItemListener {
 
     fun onItemClick(item: Item)
 
+    fun onAvatarClick(userId: Int)
+
     fun onLoadMore(msgId: Int)
 
     fun onAttachmentClick(item: Item, index: Int)
