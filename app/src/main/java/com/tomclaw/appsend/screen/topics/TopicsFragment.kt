@@ -63,7 +63,7 @@ class TopicsFragment : Fragment(), TopicsPresenter.TopicsRouter, HomeFragment {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         val adapter = SimpleRecyclerAdapter(adapterPresenter, binder)
-        val topicsView = TopicsViewImpl(view, preferences, adapter)
+        val topicsView = TopicsViewImpl(view, preferences, adapter, adapterPresenter)
 
         presenter.attachView(topicsView)
     }

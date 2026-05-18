@@ -21,7 +21,6 @@ import com.tomclaw.appsend.screen.topics.adapter.topic.TopicItemBlueprint
 import com.tomclaw.appsend.screen.topics.adapter.topic.TopicItemPresenter
 import com.tomclaw.appsend.util.PerFragment
 import com.tomclaw.appsend.util.SchedulersFactory
-import dagger.Lazy
 import dagger.Module
 import dagger.Provides
 import dagger.multibindings.IntoSet
@@ -39,13 +38,11 @@ class TopicsModule(
         converter: TopicConverter,
         preferences: TopicsPreferencesProvider,
         topicsInteractor: TopicsInteractor,
-        adapterPresenter: Lazy<AdapterPresenter>,
         schedulers: SchedulersFactory
     ): TopicsPresenter = TopicsPresenterImpl(
         converter,
         preferences,
         topicsInteractor,
-        adapterPresenter,
         schedulers,
         state
     )

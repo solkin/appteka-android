@@ -1,7 +1,6 @@
 package com.tomclaw.appsend.screen.topics
 
 import android.os.Bundle
-import com.tomclaw.appsend.util.adapter.AdapterPresenter
 import com.tomclaw.appsend.util.adapter.Item
 import com.tomclaw.appsend.dto.TopicEntity
 import com.tomclaw.appsend.screen.topics.adapter.ItemListener
@@ -10,7 +9,6 @@ import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.filterUnauthorizedErrors
 import com.tomclaw.appsend.util.getParcelableArrayListCompat
 import com.tomclaw.appsend.util.retryWhenNonAuthErrors
-import dagger.Lazy
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
 
@@ -44,7 +42,6 @@ class TopicsPresenterImpl(
     private val converter: TopicConverter,
     private val preferences: TopicsPreferencesProvider,
     private val topicsInteractor: TopicsInteractor,
-    private val adapterPresenter: Lazy<AdapterPresenter>,
     private val schedulers: SchedulersFactory,
     state: Bundle?
 ) : TopicsPresenter {
@@ -166,8 +163,24 @@ class TopicsPresenterImpl(
 
     private fun onLoaded(entities: List<TopicEntity>, hasMore: Boolean, append: Boolean) {
         isError = false
-        this.entities = if (append) (this.entities ?: emptyList()).plus(entities) else entities
-        this.hasMore = hasMore
+        val existing = this.entities
+        when {
+            append -> {
+                this.entities = (existing ?: emptyList()) + entities
+                this.hasMore = hasMore
+            }
+            existing.isNullOrEmpty() || existing.size <= entities.size -> {
+                this.entities = entities
+                this.hasMore = hasMore
+            }
+            else -> {
+                // Silent refresh of first page while user has paginated:
+                // replace items present in the fresh page, keep the
+                // paginated tail intact so scroll position survives.
+                val freshIds = entities.mapTo(mutableSetOf()) { it.topicId }
+                this.entities = entities + existing.filterNot { it.topicId in freshIds }
+            }
+        }
         bindEntities()
     }
 
@@ -178,9 +191,8 @@ class TopicsPresenterImpl(
             .map { converter.convert(it, translated = it.topicId !in showOriginal) }
             .apply { if (isNotEmpty()) last().hasMore = hasMore }
 
-        adapterPresenter.get().onDataSourceChanged(items)
         view?.let {
-            it.contentUpdated()
+            it.setItems(items)
             it.stopPullRefreshing()
             it.showContent()
         }
@@ -200,11 +212,7 @@ class TopicsPresenterImpl(
             .flatMap { topicsInteractor.listTopics() }
             .observeOn(schedulers.mainThread())
             .subscribe(
-                { response ->
-                    entities = response.topics
-                    hasMore = response.hasMore
-                    bindEntities()
-                },
+                { response -> onLoaded(response.topics, response.hasMore, append = false) },
                 { ex ->
                     ex.filterUnauthorizedErrors(
                         authError = { view?.showUnauthorizedError() },

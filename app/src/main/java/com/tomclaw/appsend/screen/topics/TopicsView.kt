@@ -1,14 +1,17 @@
 package com.tomclaw.appsend.screen.topics
 
-import android.annotation.SuppressLint
 import android.view.View
 import android.widget.TextView
 import android.widget.ViewFlipper
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.tomclaw.appsend.util.adapter.AdapterPresenter
+import com.tomclaw.appsend.util.adapter.Item
+import com.tomclaw.appsend.util.adapter.ItemDiffCallback
 import com.tomclaw.appsend.util.adapter.SimpleRecyclerAdapter
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
@@ -54,17 +57,18 @@ interface TopicsView {
 
     fun loginClicks(): Observable<Unit>
 
-    fun contentUpdated()
-
-    fun contentUpdated(position: Int)
+    fun setItems(newItems: List<Item>)
 
 }
 
 class TopicsViewImpl(
     private val view: View,
     private val preferences: TopicsPreferencesProvider,
-    private val adapter: SimpleRecyclerAdapter
+    private val adapter: SimpleRecyclerAdapter,
+    private val adapterPresenter: AdapterPresenter,
 ) : TopicsView {
+
+    private var items: List<Item> = emptyList()
 
     private val context = view.context
     private val coordinator: CoordinatorLayout = view.findViewById(R.id.coordinator)
@@ -195,13 +199,11 @@ class TopicsViewImpl(
             .show()
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    override fun contentUpdated() {
-        adapter.notifyDataSetChanged()
-    }
-
-    override fun contentUpdated(position: Int) {
-        adapter.notifyItemChanged(position)
+    override fun setItems(newItems: List<Item>) {
+        val diff = DiffUtil.calculateDiff(ItemDiffCallback(items, newItems))
+        items = newItems
+        adapterPresenter.onDataSourceChanged(newItems)
+        diff.dispatchUpdatesTo(adapter)
     }
 
     override fun getStartedClicks(): Observable<Unit> = getStartedRelay
