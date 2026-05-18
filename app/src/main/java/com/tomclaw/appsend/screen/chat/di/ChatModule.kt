@@ -23,6 +23,8 @@ import com.tomclaw.appsend.screen.chat.MessageConverter
 import com.tomclaw.appsend.screen.chat.MessageConverterImpl
 import com.tomclaw.appsend.screen.chat.adapter.incoming.IncomingMsgItemBlueprint
 import com.tomclaw.appsend.screen.chat.adapter.incoming.IncomingMsgItemPresenter
+import com.tomclaw.appsend.screen.chat.adapter.loadmore.LoadMoreItemBlueprint
+import com.tomclaw.appsend.screen.chat.adapter.loadmore.LoadMoreItemPresenter
 import com.tomclaw.appsend.screen.chat.adapter.outgoing.OutgoingMsgItemBlueprint
 import com.tomclaw.appsend.screen.chat.adapter.outgoing.OutgoingMsgItemPresenter
 import com.tomclaw.appsend.screen.chat.adapter.system.SystemMsgItemBlueprint
@@ -136,6 +138,13 @@ class ChatModule(
     ): ItemBlueprint<*, *> = SystemMsgItemBlueprint(presenter)
 
     @Provides
+    @IntoSet
+    @PerActivity
+    internal fun provideLoadMoreItemBlueprint(
+        presenter: LoadMoreItemPresenter
+    ): ItemBlueprint<*, *> = LoadMoreItemBlueprint(presenter)
+
+    @Provides
     @PerActivity
     internal fun provideIncomingMsgItemPresenter(
         locale: Locale,
@@ -151,6 +160,12 @@ class ChatModule(
     @Provides
     @PerActivity
     internal fun provideSystemMsgItemPresenter() = SystemMsgItemPresenter()
+
+    @Provides
+    @PerActivity
+    internal fun provideLoadMoreItemPresenter(
+        presenter: ChatPresenter
+    ) = LoadMoreItemPresenter(presenter)
 
     @Provides
     @PerActivity

@@ -11,8 +11,6 @@ class IncomingMsgItemPresenter(
 ) : ItemPresenter<IncomingMsgItemView, IncomingMsgItem> {
 
     override fun bindView(view: IncomingMsgItemView, item: IncomingMsgItem, position: Int) {
-        listener.onLoadMore(item.msgId)
-
         val name = item.author.name.takeIf { !it.isNullOrBlank() }
             ?: item.author.icon?.label?.get(locale.language)
             ?: item.author.icon?.label?.get(DEFAULT_LOCALE)

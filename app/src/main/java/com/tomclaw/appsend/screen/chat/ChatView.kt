@@ -57,8 +57,6 @@ interface ChatView {
 
     fun contentUpdated(position: Int)
 
-    fun contentRangeInserted(position: Int, count: Int)
-
     fun contentItemRemoved(position: Int)
 
     fun scrollBottom()
@@ -510,14 +508,6 @@ class ChatViewImpl(
 
     override fun contentUpdated(position: Int) {
         adapter.notifyItemChanged(position)
-    }
-
-    override fun contentRangeInserted(position: Int, count: Int) {
-        adapter.notifyItemRangeInserted(position, count)
-        val visiblePosition = layoutManager.findFirstCompletelyVisibleItemPosition()
-        if (visiblePosition == 0) {
-            recycler.scrollToPosition(position)
-        }
     }
 
     override fun contentItemRemoved(position: Int) {

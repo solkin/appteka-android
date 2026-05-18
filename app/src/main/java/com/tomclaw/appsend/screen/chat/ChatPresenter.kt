@@ -13,6 +13,8 @@ import com.tomclaw.appsend.dto.MessageEntity
 import com.tomclaw.appsend.dto.TopicEntity
 import com.tomclaw.appsend.screen.chat.adapter.ItemListener
 import com.tomclaw.appsend.screen.chat.adapter.incoming.IncomingMsgItem
+import com.tomclaw.appsend.screen.chat.adapter.loadmore.LOAD_MORE_ITEM_ID
+import com.tomclaw.appsend.screen.chat.adapter.loadmore.LoadMoreItem
 import com.tomclaw.appsend.screen.chat.adapter.outgoing.OutgoingMsgItem
 import com.tomclaw.appsend.screen.chat.api.TranslationEntity
 import com.tomclaw.appsend.screen.gallery.GalleryItem
@@ -97,6 +99,7 @@ class ChatPresenterImpl(
     private var isTranslated: Boolean = state?.getBoolean(KEY_TRANSLATED, true) ?: true
     private var userBrief: UserBrief? =
         state?.getParcelableCompat(KEY_USER_BRIEF, UserBrief::class.java)
+    private var hasMoreHistory: Boolean = state?.getBoolean(KEY_HAS_MORE_HISTORY, true) ?: true
 
     private val journal = HashSet<Int>()
 
@@ -290,6 +293,7 @@ class ChatPresenterImpl(
         putParcelableArrayList(KEY_TRANSLATION, ArrayList(translation.values))
         putBoolean(KEY_TRANSLATED, isTranslated)
         putParcelable(KEY_USER_BRIEF, userBrief)
+        putBoolean(KEY_HAS_MORE_HISTORY, hasMoreHistory)
     }
 
     override fun onAttachmentsPicked(uris: List<Uri>) {
@@ -632,29 +636,22 @@ class ChatPresenterImpl(
         if (history?.first()?.msgId == msgId && journal.add(msgId)) {
             subscriptions += chatInteractor.loadHistory(topicId, 0, msgId)
                 .observeOn(schedulers.mainThread())
-                .doOnSubscribe { view?.showProgress() }
                 .doAfterTerminate { journal.remove(msgId) }
                 .subscribe(
-                    { onHistoryLoaded(it) },
-                    { onHistoryError() }
+                    { onHistoryPageLoaded(it) },
+                    { }
                 )
         }
     }
 
-    private fun onHistoryLoaded(list: List<MessageEntity>) {
-        val countBefore = history?.size ?: 0
-        mergeHistory(list)
-
-        val items = convertHistory()
-
-        adapterPresenter.get().onDataSourceChanged(items)
-
-        view?.contentRangeInserted(countBefore, list.size)
-        view?.showContent()
-    }
-
-    private fun onHistoryError() {
-        view?.showContent()
+    private fun onHistoryPageLoaded(list: List<MessageEntity>) {
+        if (list.isEmpty()) {
+            hasMoreHistory = false
+        } else {
+            mergeHistory(list)
+        }
+        bindHistory()
+        view?.contentUpdated()
     }
 
     private fun mergeHistory(list: List<MessageEntity>) {
@@ -689,15 +686,20 @@ class ChatPresenterImpl(
 
     private fun convertHistory(): List<Item> {
         val history = history ?: emptyList()
+        if (history.isEmpty()) return emptyList()
         var prevMsg: MessageEntity? = null
-        return history
+        val items: MutableList<Item> = history
             .map {
                 val item = converter.convert(it, prevMsg, translation[it.msgId])
                 prevMsg = it
                 item
             }
             .asReversed()
-            .toList()
+            .toMutableList()
+        if (hasMoreHistory) {
+            items.add(LoadMoreItem(id = LOAD_MORE_ITEM_ID, msgId = history.first().msgId))
+        }
+        return items
     }
 
 }
@@ -710,6 +712,7 @@ private const val KEY_HISTORY = "history"
 private const val KEY_TRANSLATION = "translation"
 private const val KEY_TRANSLATED = "translated"
 private const val KEY_USER_BRIEF = "user_brief"
+private const val KEY_HAS_MORE_HISTORY = "has_more_history"
 
 private const val ROLE_ADMIN = 200
 private const val MAX_ATTACHMENTS = 5

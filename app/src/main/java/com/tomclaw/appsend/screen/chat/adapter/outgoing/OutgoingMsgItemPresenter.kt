@@ -8,8 +8,6 @@ class OutgoingMsgItemPresenter(
 ) : ItemPresenter<OutgoingMsgItemView, OutgoingMsgItem> {
 
     override fun bindView(view: OutgoingMsgItemView, item: OutgoingMsgItem, position: Int) {
-        listener.onLoadMore(item.msgId)
-
         item.author.icon?.let(view::setUserIcon)
         view.setUserBadge(item.author.primaryBadge)
         view.setTime(item.time)
