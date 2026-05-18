@@ -23,4 +23,6 @@ data class CheckExistResponse(
     val meta: Meta?,
     @SerializedName("versions")
     val versions: List<AppVersion>?,
+    @SerializedName("max_file_size")
+    val maxFileSize: Long? = null,
 ) : Parcelable
