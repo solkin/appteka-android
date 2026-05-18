@@ -385,13 +385,23 @@ class ChatPresenterImpl(
 
     private fun loadTopic() {
         subscriptions += chatInteractor.getTopic(topicId)
-            .map { this.topic = it }
+            .flatMap { newTopic ->
+                Observables
+                    .zip(
+                        chatInteractor.loadHistory(topicId, 0, -1),
+                        chatInteractor.getUserBrief()
+                    )
+                    .map { (messages, brief) -> Triple(newTopic, messages, brief) }
+            }
             .observeOn(schedulers.mainThread())
             .doOnSubscribe { view?.showProgress() }
             .subscribe(
-                {
+                { (newTopic, messages, briefWrapper) ->
+                    topic = newTopic
                     onTopicLoaded()
-                    loadHistory()
+                    userBrief = briefWrapper.userBrief
+                    mergeHistory(messages)
+                    onHistoryLoaded()
                 },
                 { onTopicError() }
             )
