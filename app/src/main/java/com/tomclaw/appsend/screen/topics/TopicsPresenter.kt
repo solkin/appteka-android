@@ -136,7 +136,6 @@ class TopicsPresenterImpl(
     }
 
     private fun invalidateTopics() {
-        entities = null
         isError = false
         loadTopics()
     }
@@ -145,11 +144,12 @@ class TopicsPresenterImpl(
         subscriptions += topicsInteractor.listTopics()
             .observeOn(schedulers.mainThread())
             .doOnSubscribe {
-                entities = null
-                if (view?.isPullRefreshing() == false) view?.showProgress()
+                if (entities.isNullOrEmpty() && view?.isPullRefreshing() == false) {
+                    view?.showProgress()
+                }
             }
             .subscribe(
-                { onLoaded(it.topics, it.hasMore) },
+                { onLoaded(it.topics, it.hasMore, append = false) },
                 { onError() }
             )
     }
@@ -159,14 +159,14 @@ class TopicsPresenterImpl(
             .observeOn(schedulers.mainThread())
             .retryWhenNonAuthErrors()
             .subscribe(
-                { onLoaded(it.topics, it.hasMore) },
+                { onLoaded(it.topics, it.hasMore, append = true) },
                 { onError() }
             )
     }
 
-    private fun onLoaded(entities: List<TopicEntity>, hasMore: Boolean) {
+    private fun onLoaded(entities: List<TopicEntity>, hasMore: Boolean, append: Boolean) {
         isError = false
-        this.entities = (this.entities ?: emptyList()).plus(entities)
+        this.entities = if (append) (this.entities ?: emptyList()).plus(entities) else entities
         this.hasMore = hasMore
         bindEntities()
     }
@@ -187,8 +187,11 @@ class TopicsPresenterImpl(
     }
 
     private fun onError() {
-        this.isError = true
         view?.stopPullRefreshing()
+        if (!entities.isNullOrEmpty()) {
+            return
+        }
+        this.isError = true
         view?.showError()
     }
 
