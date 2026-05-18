@@ -23,6 +23,7 @@ import com.tomclaw.appsend.util.filterCapabilityErrors
 import com.tomclaw.appsend.util.filterUnauthorizedErrors
 import com.tomclaw.appsend.util.getParcelableArrayListCompat
 import com.tomclaw.appsend.util.getParcelableCompat
+import com.tomclaw.appsend.util.stripLeadingQuote
 import com.tomclaw.bananalytics.Bananalytics
 import com.tomclaw.bananalytics.api.BreadcrumbCategory
 import dagger.Lazy
@@ -494,10 +495,7 @@ class ChatPresenterImpl(
     }
 
     private fun replyToMessage(message: MessageEntity) {
-        val ownText = message.text.lines()
-            .dropWhile { it.startsWith("> ") }
-            .joinToString("\n")
-            .trim()
+        val ownText = message.text.stripLeadingQuote()
         val quoted = ownText.lines().joinToString("\n") { "> $it" }
         val existing = messageText.lines()
             .dropWhile { it.startsWith("> ") || it.isBlank() }

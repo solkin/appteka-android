@@ -14,6 +14,11 @@ import android.text.style.LineHeightSpan
 import android.text.style.StyleSpan
 import android.util.TypedValue
 
+fun String.stripLeadingQuote(): String = lines()
+    .dropWhile { it.startsWith("> ") }
+    .joinToString("\n")
+    .trim()
+
 fun formatMessageText(text: String, context: Context): CharSequence {
     if (!text.startsWith("> ") && "\n> " !in text) {
         return text
