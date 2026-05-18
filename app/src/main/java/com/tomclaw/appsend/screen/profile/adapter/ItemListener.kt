@@ -23,6 +23,8 @@ interface ItemListener {
 
     fun onEditAvatar()
 
+    fun onViewAvatar(url: String)
+
     fun onEditEmail()
 
     fun onNextPage(last: AppItem, param: (List<AppItem>) -> Unit)

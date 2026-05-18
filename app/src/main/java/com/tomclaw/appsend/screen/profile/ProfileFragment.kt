@@ -20,6 +20,8 @@ import com.tomclaw.appsend.screen.downloads.createDownloadsActivityIntent
 import com.tomclaw.appsend.screen.edit_profile.createEditProfileActivityIntent
 import com.tomclaw.appsend.screen.favorite.createFavoriteActivityIntent
 import com.tomclaw.appsend.screen.feed.createFeedActivityIntent
+import com.tomclaw.appsend.screen.gallery.GalleryItem
+import com.tomclaw.appsend.screen.gallery.createGalleryActivityIntent
 import com.tomclaw.appsend.screen.home.HomeFragment
 import com.tomclaw.appsend.screen.moderation.createModerationActivityIntent
 import com.tomclaw.appsend.screen.profile.di.PROFILE_ADAPTER_PRESENTER
@@ -207,6 +209,13 @@ class ProfileFragment : Fragment(), ProfilePresenter.ProfileRouter, HomeFragment
         val context = context ?: return
         val intent = createEditProfileActivityIntent(context)
         editProfileLauncher.launch(intent)
+    }
+
+    override fun openGallery(url: String) {
+        val context = context ?: return
+        val item = GalleryItem(uri = android.net.Uri.parse(url), width = 0, height = 0)
+        val intent = createGalleryActivityIntent(context, listOf(item), startIndex = 0)
+        startActivity(intent)
     }
 
     override fun leaveScreen() {

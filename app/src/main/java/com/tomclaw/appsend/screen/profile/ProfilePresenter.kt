@@ -68,6 +68,8 @@ interface ProfilePresenter : ItemListener {
 
         fun openEditProfileScreen()
 
+        fun openGallery(url: String)
+
         fun leaveScreen()
 
     }
@@ -197,6 +199,10 @@ class ProfilePresenterImpl(
 
     override fun onEditAvatar() {
         router?.openEditProfileScreen()
+    }
+
+    override fun onViewAvatar(url: String) {
+        router?.openGallery(url)
     }
 
     override fun onEditEmail() {

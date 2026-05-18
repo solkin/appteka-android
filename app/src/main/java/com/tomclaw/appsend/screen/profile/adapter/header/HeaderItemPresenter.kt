@@ -49,7 +49,12 @@ class HeaderItemPresenter(
             view.hideSubscribeButton()
             view.hideUnsubscribeButton()
         } else {
-            view.setOnAvatarClickListener(null)
+            val avatarUrl = item.userIcon.image?.originalUrl
+            if (!avatarUrl.isNullOrBlank()) {
+                view.setOnAvatarClickListener { listener.onViewAvatar(avatarUrl) }
+            } else {
+                view.setOnAvatarClickListener(null)
+            }
             view.setOnSubscribeClickListener { listener.onSubscribeClick() }
             view.setOnUnsubscribeClickListener { listener.onUnsubscribeClick() }
             if (item.isSubscribed) {
