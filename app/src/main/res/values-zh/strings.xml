@@ -173,9 +173,17 @@
     <string name="apps_on_moderation">审核中</string>
     <string name="moderation_approve">已通过</string>
     <string name="moderation_decline">已拒绝</string>
+    <string name="moderation_decline_reason_title">拒绝原因</string>
+    <string name="moderation_decline_comment_title">添加评论</string>
+    <string name="moderation_decline_comment_hint">评论</string>
+    <string name="moderation_decline_requires_comment">需要评论</string>
+    <string name="moderation_decline_reasons_load_failed">加载拒绝原因失败</string>
+    <string name="moderation_declined_status_text">应用已被审核员拒绝：%1$s</string>
+    <string name="moderation_declined_status_text_with_comment">应用已被审核员拒绝：%1$s\n%2$s</string>
     <string name="status_unlinked">已屏蔽</string>
     <string name="status_private">未发布</string>
     <string name="status_on_moderation">审核中</string>
+    <string name="status_declined">已拒绝</string>
     <string name="delete">删除</string>
     <string name="error_rating_deletion">删除评分失败</string>
     <string name="error_download_deletion">无法从历史记录中删除</string>

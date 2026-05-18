@@ -37,6 +37,10 @@ interface DetailsResourceProvider {
 
     fun moderationStatusText(): String
 
+    fun declinedStatusText(reasonText: String, reasonComment: String?): String
+
+    fun rejectionReasonsLoadFailed(): String
+
     fun editMetaAction(): String
 
     fun unpublishAction(): String
@@ -155,6 +159,22 @@ class DetailsResourceProviderImpl(
 
     override fun moderationStatusText(): String {
         return resources.getString(R.string.moderation_status_text)
+    }
+
+    override fun declinedStatusText(reasonText: String, reasonComment: String?): String {
+        return if (reasonComment.isNullOrBlank()) {
+            resources.getString(R.string.moderation_declined_status_text, reasonText)
+        } else {
+            resources.getString(
+                R.string.moderation_declined_status_text_with_comment,
+                reasonText,
+                reasonComment,
+            )
+        }
+    }
+
+    override fun rejectionReasonsLoadFailed(): String {
+        return resources.getString(R.string.moderation_decline_reasons_load_failed)
     }
 
     override fun editMetaAction(): String {

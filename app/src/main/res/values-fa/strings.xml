@@ -174,9 +174,17 @@
     <string name="apps_on_moderation">برنامه های در انتظار بررسی</string>
     <string name="moderation_approve">تایید</string>
     <string name="moderation_decline">رد کردن</string>
+    <string name="moderation_decline_reason_title">دلیل رد</string>
+    <string name="moderation_decline_comment_title">افزودن توضیحات</string>
+    <string name="moderation_decline_comment_hint">توضیحات</string>
+    <string name="moderation_decline_requires_comment">نیاز به توضیحات</string>
+    <string name="moderation_decline_reasons_load_failed">بارگذاری دلایل رد ناموفق بود</string>
+    <string name="moderation_declined_status_text">برنامه توسط مدیر رد شد: %1$s</string>
+    <string name="moderation_declined_status_text_with_comment">برنامه توسط مدیر رد شد: %1$s\n%2$s</string>
     <string name="status_unlinked">مسدود شده</string>
     <string name="status_private">منتشر نشده</string>
     <string name="status_on_moderation">در انتظار بررسی</string>
+    <string name="status_declined">رد شده</string>
     <string name="delete">حذف</string>
     <string name="error_rating_deletion">امکان حذف امتیاز وجود ندارد</string>
     <string name="error_download_deletion">حذف از تاریخچه امکان‌ پذیر نیست</string>

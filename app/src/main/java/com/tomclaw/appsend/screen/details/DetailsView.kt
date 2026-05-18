@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
 import android.view.View
+import android.widget.TextView
 import androidx.appcompat.widget.Toolbar
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DefaultItemAnimator
@@ -19,6 +20,7 @@ import com.tomclaw.appsend.R
 import com.tomclaw.appsend.core.permissions.Capability
 import com.tomclaw.appsend.core.permissions.CapabilityHintResolver
 import com.tomclaw.appsend.screen.details.adapter.play.PlaySecurityStatus
+import com.tomclaw.appsend.screen.details.api.RejectionReason
 import com.tomclaw.appsend.util.ActionItem
 import com.tomclaw.appsend.util.ActionsAdapter
 import com.tomclaw.appsend.util.hide
@@ -38,6 +40,10 @@ interface DetailsView {
     fun showVersionsDialog(items: List<VersionItem>)
 
     fun showSecurityInfoDialog(status: PlaySecurityStatus, score: Int?)
+
+    fun showDeclineReasonDialog(reasons: List<RejectionReason>)
+
+    fun showDeclineCommentDialog(reason: RejectionReason)
 
     fun showSnackbar(text: String)
 
@@ -94,6 +100,10 @@ interface DetailsView {
 
     fun moderationClicks(): Observable<Boolean>
 
+    fun reasonPicked(): Observable<RejectionReason>
+
+    fun declineConfirmed(): Observable<DeclineSubmission>
+
     fun favoriteClicks(): Observable<Boolean>
 
     fun loginClicks(): Observable<Unit>
@@ -112,6 +122,12 @@ data class VersionItem(
     val title: String,
     val compatible: Boolean,
     val newer: Boolean,
+)
+
+// Confirmed decline payload emitted from the reason picker bottom sheet.
+data class DeclineSubmission(
+    val reasonCode: Int,
+    val reasonComment: String?,
 )
 
 class DetailsViewImpl(
@@ -142,6 +158,8 @@ class DetailsViewImpl(
     private val retryRelay = PublishRelay.create<Unit>()
     private val versionRelay = PublishRelay.create<VersionItem>()
     private val moderationRelay = PublishRelay.create<Boolean>()
+    private val reasonPickedRelay = PublishRelay.create<RejectionReason>()
+    private val declineSubmissionRelay = PublishRelay.create<DeclineSubmission>()
     private val favoriteRelay = PublishRelay.create<Boolean>()
     private val loginRelay = PublishRelay.create<Unit>()
     private val securityDownloadConfirmRelay = PublishRelay.create<Unit>()
@@ -296,6 +314,85 @@ class DetailsViewImpl(
         bottomSheet.show()
     }
 
+    override fun showDeclineReasonDialog(reasons: List<RejectionReason>) {
+        val sheet = BottomSheetDialog(context)
+        val sheetView = android.view.LayoutInflater
+            .from(context)
+            .inflate(R.layout.bottom_sheet_decline_reason, null)
+
+        val list = sheetView.findViewById<RecyclerView>(R.id.decline_reasons_list)
+        list.layoutManager = LinearLayoutManager(context)
+        list.adapter = DeclineReasonsAdapter(reasons) { reason ->
+            sheet.dismiss()
+            // We only signal the pick — whether a second step
+            // (comment entry) is needed is a presenter decision based
+            // on reason.requiresComment.
+            reasonPickedRelay.accept(reason)
+        }
+
+        sheet.setContentView(sheetView)
+        sheet.show()
+    }
+
+    override fun showDeclineCommentDialog(reason: RejectionReason) {
+        val sheet = BottomSheetDialog(context)
+        val sheetView = android.view.LayoutInflater
+            .from(context)
+            .inflate(R.layout.bottom_sheet_decline_comment, null)
+
+        val reasonText = sheetView
+            .findViewById<TextView>(R.id.decline_comment_reason)
+        val input = sheetView
+            .findViewById<android.widget.EditText>(R.id.decline_comment_input)
+        val cancel = sheetView
+            .findViewById<com.google.android.material.button.MaterialButton>(
+                R.id.decline_comment_cancel,
+            )
+        val submit = sheetView
+            .findViewById<com.google.android.material.button.MaterialButton>(
+                R.id.decline_comment_submit,
+            )
+
+        reasonText.text = reason.text
+
+        input.addTextChangedListener(object : android.text.TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
+            override fun afterTextChanged(s: android.text.Editable?) {
+                submit.isEnabled = s?.toString()?.isNotBlank() == true
+            }
+        })
+
+        cancel.setOnClickListener { sheet.dismiss() }
+        submit.setOnClickListener {
+            val comment = input.text?.toString()?.trim().orEmpty()
+            sheet.dismiss()
+            declineSubmissionRelay.accept(
+                DeclineSubmission(
+                    reasonCode = reason.code,
+                    reasonComment = comment.takeIf { it.isNotEmpty() },
+                )
+            )
+        }
+
+        // Expand on show so the keyboard slides in over a fully open
+        // sheet instead of fighting the half-state drag, and request
+        // focus + soft input so the moderator can start typing right
+        // away without an extra tap on the field.
+        sheet.behavior.skipCollapsed = true
+        sheet.behavior.state = com.google.android.material.bottomsheet
+            .BottomSheetBehavior.STATE_EXPANDED
+        sheet.setOnShowListener {
+            input.requestFocus()
+            sheet.window?.setSoftInputMode(
+                android.view.WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE,
+            )
+        }
+
+        sheet.setContentView(sheetView)
+        sheet.show()
+    }
+
     override fun showSnackbar(text: String) {
         Snackbar.make(recycler, text, Snackbar.LENGTH_SHORT).show()
     }
@@ -422,6 +519,10 @@ class DetailsViewImpl(
     override fun versionClicks(): Observable<VersionItem> = versionRelay
 
     override fun moderationClicks(): Observable<Boolean> = moderationRelay
+
+    override fun reasonPicked(): Observable<RejectionReason> = reasonPickedRelay
+
+    override fun declineConfirmed(): Observable<DeclineSubmission> = declineSubmissionRelay
 
     override fun favoriteClicks(): Observable<Boolean> = favoriteRelay
 

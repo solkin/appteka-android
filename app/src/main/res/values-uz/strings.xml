@@ -172,9 +172,17 @@
     <string name="apps_on_moderation">Moderatsiyadagi ilovalar</string>
     <string name="moderation_approve">Tasdiqlash</string>
     <string name="moderation_decline">Rad etish</string>
+    <string name="moderation_decline_reason_title">Rad etish sababi</string>
+    <string name="moderation_decline_comment_title">Izoh qoʻshing</string>
+    <string name="moderation_decline_comment_hint">Izoh</string>
+    <string name="moderation_decline_requires_comment">Izoh talab qilinadi</string>
+    <string name="moderation_decline_reasons_load_failed">Rad etish sabablarini yuklab boʻlmadi</string>
+    <string name="moderation_declined_status_text">Ilova moderator tomonidan rad etildi: %1$s</string>
+    <string name="moderation_declined_status_text_with_comment">Ilova moderator tomonidan rad etildi: %1$s\n%2$s</string>
     <string name="status_unlinked">Bloklangan</string>
     <string name="status_private">Nashr qilinmagan</string>
     <string name="status_on_moderation">Moderatsiyada</string>
+    <string name="status_declined">Rad etilgan</string>
     <string name="delete">O\'chirish</string>
     <string name="error_rating_deletion">Reytingni o\'chirib bo\'lmadi</string>
     <string name="error_download_deletion">Tarixdan o\'chirib bo\'lmadi</string>

@@ -38,6 +38,7 @@ import com.tomclaw.appsend.screen.details.api.SECURITY_VERDICT_SAFE
 import com.tomclaw.appsend.screen.details.api.SECURITY_VERDICT_SUSPICIOUS
 import com.tomclaw.appsend.screen.details.api.STATUS_PRIVATE
 import com.tomclaw.appsend.screen.details.api.STATUS_UNLINKED
+import com.tomclaw.appsend.screen.details.api.MODERATION_STATUS_REJECTED
 import com.tomclaw.appsend.screen.details.api.Security
 import com.tomclaw.appsend.screen.details.api.TranslationResponse
 import com.tomclaw.appsend.util.NOT_INSTALLED
@@ -89,13 +90,34 @@ class DetailsConverterImpl(
                     capabilities = details.capabilities,
                     allowOnUnknown = false,
                 )
-                items += StatusItem(
-                    id = id++,
-                    type = StatusType.INFO,
-                    text = resourceProvider.privateStatusText(),
-                    actionType = if (canEdit) StatusAction.EDIT_META else StatusAction.NONE,
-                    actionLabel = resourceProvider.editMetaAction(),
-                )
+                // The server reports `file_status = -2` (Private) both for
+                // apps the author chose to keep private and for apps a
+                // moderator rejected. The two are distinguished by the
+                // `moderation` block in the response: if it's present and
+                // status="rejected", we surface the moderator's reason
+                // instead of the generic private-app text.
+                val decline = details.moderation
+                    ?.takeIf { it.status == MODERATION_STATUS_REJECTED }
+                if (decline?.reasonText != null) {
+                    items += StatusItem(
+                        id = id++,
+                        type = StatusType.ERROR,
+                        text = resourceProvider.declinedStatusText(
+                            reasonText = decline.reasonText,
+                            reasonComment = decline.reasonComment,
+                        ),
+                        actionType = if (canEdit) StatusAction.EDIT_META else StatusAction.NONE,
+                        actionLabel = resourceProvider.editMetaAction(),
+                    )
+                } else {
+                    items += StatusItem(
+                        id = id++,
+                        type = StatusType.INFO,
+                        text = resourceProvider.privateStatusText(),
+                        actionType = if (canEdit) StatusAction.EDIT_META else StatusAction.NONE,
+                        actionLabel = resourceProvider.editMetaAction(),
+                    )
+                }
             }
 
             STATUS_MODERATION -> {

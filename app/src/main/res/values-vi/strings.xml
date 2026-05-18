@@ -173,9 +173,17 @@
     <string name="apps_on_moderation">Kiểm duyệt</string>
     <string name="moderation_approve">Chấp thuận</string>
     <string name="moderation_decline">Từ chối</string>
+    <string name="moderation_decline_reason_title">Lý do từ chối</string>
+    <string name="moderation_decline_comment_title">Thêm bình luận</string>
+    <string name="moderation_decline_comment_hint">Bình luận</string>
+    <string name="moderation_decline_requires_comment">Yêu cầu bình luận</string>
+    <string name="moderation_decline_reasons_load_failed">Không thể tải lý do từ chối</string>
+    <string name="moderation_declined_status_text">Ứng dụng đã bị quản trị viên từ chối: %1$s</string>
+    <string name="moderation_declined_status_text_with_comment">Ứng dụng đã bị quản trị viên từ chối: %1$s\n%2$s</string>
     <string name="status_unlinked">Khóa</string>
     <string name="status_private">Chưa phát hành</string>
     <string name="status_on_moderation">Kiểm duyệt</string>
+    <string name="status_declined">Đã từ chối</string>
     <string name="delete">Xóa</string>
     <string name="error_rating_deletion">Không thể xóa bình luận</string>
     <string name="error_download_deletion">Không thể xóa khỏi lịch sử</string>

@@ -173,9 +173,17 @@
     <string name="apps_on_moderation">मॉडरेशन के तहत</string>
     <string name="moderation_approve">अनुमति दें</string>
     <string name="moderation_decline">अस्वीकार करना</string>
+    <string name="moderation_decline_reason_title">अस्वीकृति का कारण</string>
+    <string name="moderation_decline_comment_title">टिप्पणी जोड़ें</string>
+    <string name="moderation_decline_comment_hint">टिप्पणी</string>
+    <string name="moderation_decline_requires_comment">टिप्पणी आवश्यक है</string>
+    <string name="moderation_decline_reasons_load_failed">अस्वीकृति के कारण लोड करने में विफल</string>
+    <string name="moderation_declined_status_text">एप्लिकेशन को मॉडरेटर द्वारा अस्वीकार कर दिया गया: %1$s</string>
+    <string name="moderation_declined_status_text_with_comment">एप्लिकेशन को मॉडरेटर द्वारा अस्वीकार कर दिया गया: %1$s\n%2$s</string>
     <string name="status_unlinked">अवरोधित</string>
     <string name="status_private">प्रकाशित नहीं हुआ</string>
     <string name="status_on_moderation">मॉडरेशन के तहत</string>
+    <string name="status_declined">अस्वीकृत</string>
     <string name="delete">निकालें</string>
     <string name="error_rating_deletion">समीक्षा हटाने में विफल</string>
     <string name="error_download_deletion">इतिहास से हटाने में असमर्थ</string>

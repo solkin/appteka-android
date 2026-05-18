@@ -179,9 +179,17 @@
     <string name="apps_on_moderation">Apps on moderation</string>
     <string name="moderation_approve">Approve</string>
     <string name="moderation_decline">Decline</string>
+    <string name="moderation_decline_reason_title">Reason for rejection</string>
+    <string name="moderation_decline_comment_title">Add a comment</string>
+    <string name="moderation_decline_comment_hint">Comment</string>
+    <string name="moderation_decline_requires_comment">Requires a comment</string>
+    <string name="moderation_decline_reasons_load_failed">Failed to load rejection reasons</string>
+    <string name="moderation_declined_status_text">The application was declined by a moderator: %1$s</string>
+    <string name="moderation_declined_status_text_with_comment">The application was declined by a moderator: %1$s\n%2$s</string>
     <string name="status_unlinked">Blocked</string>
     <string name="status_private">Not published</string>
     <string name="status_on_moderation">On Moderation</string>
+    <string name="status_declined">Declined</string>
     <string name="delete">Delete</string>
     <string name="error_rating_deletion">Unable to delete rating</string>
     <string name="error_download_deletion">Unable to delete from history</string>

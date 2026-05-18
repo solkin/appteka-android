@@ -1,10 +1,12 @@
 package com.tomclaw.appsend.screen.uploads.adapter.app
 
+import android.util.TypedValue
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import com.tomclaw.appsend.util.adapter.BaseItemViewHolder
 import com.tomclaw.appsend.util.adapter.ItemView
 import com.tomclaw.appsend.R
@@ -41,7 +43,7 @@ interface AppItemView : ItemView {
 
     fun hideError()
 
-    fun setStatus(status: String?, success: Boolean)
+    fun setStatus(status: String?, isPublished: Boolean, isError: Boolean = false)
 
     fun showOpenSourceBadge()
 
@@ -85,6 +87,17 @@ class AppItemViewHolder(view: View) : BaseItemViewHolder(view), AppItemView {
 
     private var clickListener: (() -> Unit)? = null
     private var retryListener: (() -> Unit)? = null
+
+    // Resolved once: secondary text colour comes from the active theme
+    // (?text_secondary_color), the error tint is a fixed brand colour
+    // — both are static for the lifetime of the holder.
+    private val secondaryColor: Int = run {
+        val typed = TypedValue()
+        context.theme.resolveAttribute(R.attr.text_secondary_color, typed, true)
+        if (typed.resourceId != 0) ContextCompat.getColor(context, typed.resourceId)
+        else typed.data
+    }
+    private val errorColor: Int = ContextCompat.getColor(context, R.color.block_error_color)
 
     init {
         view.setOnClickListener { clickListener?.invoke() }
@@ -147,11 +160,17 @@ class AppItemViewHolder(view: View) : BaseItemViewHolder(view), AppItemView {
         badge.hide()
     }
 
-    override fun setStatus(status: String?, isPublished: Boolean) {
+    override fun setStatus(status: String?, isPublished: Boolean, isError: Boolean) {
         this.statusText.bind(status)
         this.statusIcon.setImageResource(
             if (isPublished) R.drawable.ic_pill_ok else R.drawable.ic_pill_fail
         )
+        // Error states (declined by moderator, blocked) borrow the
+        // brand error colour so the badge stands out from the muted
+        // secondary tint used for ordinary private/moderation states.
+        val tint = if (isError) errorColor else secondaryColor
+        this.statusText.setTextColor(tint)
+        this.statusIcon.setColorFilter(tint)
         this.statusContainer.visibility = statusText.visibility
     }
 

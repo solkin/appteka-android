@@ -173,9 +173,17 @@
     <string name="apps_on_moderation">На модерации</string>
     <string name="moderation_approve">Пропустить</string>
     <string name="moderation_decline">Отклонить</string>
+    <string name="moderation_decline_reason_title">Причина отклонения</string>
+    <string name="moderation_decline_comment_title">Добавьте комментарий</string>
+    <string name="moderation_decline_comment_hint">Комментарий</string>
+    <string name="moderation_decline_requires_comment">Требуется комментарий</string>
+    <string name="moderation_decline_reasons_load_failed">Не удалось загрузить причины отклонения</string>
+    <string name="moderation_declined_status_text">Приложение отклонено модератором: %1$s</string>
+    <string name="moderation_declined_status_text_with_comment">Приложение отклонено модератором: %1$s\n%2$s</string>
     <string name="status_unlinked">Заблокировано</string>
     <string name="status_private">Не опубликовано</string>
     <string name="status_on_moderation">На модерации</string>
+    <string name="status_declined">Отклонено</string>
     <string name="delete">Удалить</string>
     <string name="error_rating_deletion">Не удалось удалить отзыв</string>
     <string name="error_download_deletion">Не удалось удалить из истории</string>

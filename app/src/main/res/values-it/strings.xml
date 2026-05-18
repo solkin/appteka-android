@@ -172,9 +172,17 @@
     <string name="apps_on_moderation">App in moderazione</string>
     <string name="moderation_approve">Approva</string>
     <string name="moderation_decline">Rifiuta</string>
+    <string name="moderation_decline_reason_title">Motivo del rifiuto</string>
+    <string name="moderation_decline_comment_title">Aggiungi un commento</string>
+    <string name="moderation_decline_comment_hint">Commento</string>
+    <string name="moderation_decline_requires_comment">Richiede un commento</string>
+    <string name="moderation_decline_reasons_load_failed">Impossibile caricare i motivi di rifiuto</string>
+    <string name="moderation_declined_status_text">L\'applicazione è stata rifiutata da un moderatore: %1$s</string>
+    <string name="moderation_declined_status_text_with_comment">L\'applicazione è stata rifiutata da un moderatore: %1$s\n%2$s</string>
     <string name="status_unlinked">Bloccato</string>
     <string name="status_private">Non pubblicato</string>
     <string name="status_on_moderation">In moderazione</string>
+    <string name="status_declined">Rifiutato</string>
     <string name="delete">Elimina</string>
     <string name="error_rating_deletion">Impossibile eliminare la valutazione</string>
     <string name="error_download_deletion">Impossibile eliminare dalla cronologia</string>

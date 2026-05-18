@@ -216,7 +216,33 @@ class DetailsPresenterImpl(
             }
         }
         subscriptions += view.moderationClicks().subscribe { isApprove ->
-            sendModerationDecision(isApprove)
+            if (isApprove) {
+                sendModerationDecision(isApprove = true)
+            } else {
+                loadRejectionReasonsThenShowDialog()
+            }
+        }
+        // Two-step decline flow is owned by the presenter: the view
+        // only reports "the moderator picked a reason". If the reason
+        // requires a comment we ask the view to surface the comment
+        // dialog; otherwise we submit straight away.
+        subscriptions += view.reasonPicked().subscribe { reason ->
+            if (reason.requiresComment) {
+                view.showDeclineCommentDialog(reason)
+            } else {
+                sendModerationDecision(
+                    isApprove = false,
+                    reasonCode = reason.code,
+                    reasonComment = null,
+                )
+            }
+        }
+        subscriptions += view.declineConfirmed().subscribe { submission ->
+            sendModerationDecision(
+                isApprove = false,
+                reasonCode = submission.reasonCode,
+                reasonComment = submission.reasonComment,
+            )
         }
         subscriptions += view.retryClicks().subscribe { invalidateDetails() }
         subscriptions += view.favoriteClicks().subscribe { isFavorite ->
@@ -386,9 +412,18 @@ class DetailsPresenterImpl(
         )
     }
 
-    private fun sendModerationDecision(isApprove: Boolean) {
+    private fun sendModerationDecision(
+        isApprove: Boolean,
+        reasonCode: Int? = null,
+        reasonComment: String? = null,
+    ) {
         val details = details ?: return
-        subscriptions += interactor.sendModerationDecision(details.info.appId, isApprove)
+        subscriptions += interactor.sendModerationDecision(
+            appId = details.info.appId,
+            isApprove = isApprove,
+            reasonCode = reasonCode,
+            reasonComment = reasonComment,
+        )
             .toObservable()
             .observeOn(schedulers.mainThread())
             .retryWhenNonAuthErrors()
@@ -399,6 +434,22 @@ class DetailsPresenterImpl(
             .subscribe(
                 { onModerationDecisionSent() },
                 { onActionError(it) }
+            )
+    }
+
+    // Decline flow: fetch the active reasons catalog and surface a
+    // picker. The subscription doesn't manage progress visibility — the
+    // reasons request is fast and showing a blocking spinner here
+    // would feel jarring; instead errors fall back to a snackbar and
+    // the dialog only opens on success.
+    private fun loadRejectionReasonsThenShowDialog() {
+        subscriptions += interactor.loadRejectionReasons()
+            .toObservable()
+            .observeOn(schedulers.mainThread())
+            .retryWhenNonAuthErrors()
+            .subscribe(
+                { reasons -> view?.showDeclineReasonDialog(reasons) },
+                { view?.showSnackbar(resourceProvider.rejectionReasonsLoadFailed()) }
             )
     }
 

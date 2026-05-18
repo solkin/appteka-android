@@ -172,9 +172,17 @@
     <string name="apps_on_moderation">تطبيقات قيد المراجعة</string>
     <string name="moderation_approve">موافقة</string>
     <string name="moderation_decline">رفض</string>
+    <string name="moderation_decline_reason_title">سبب الرفض</string>
+    <string name="moderation_decline_comment_title">إضافة تعليق</string>
+    <string name="moderation_decline_comment_hint">تعليق</string>
+    <string name="moderation_decline_requires_comment">يتطلب تعليقاً</string>
+    <string name="moderation_decline_reasons_load_failed">فشل تحميل أسباب الرفض</string>
+    <string name="moderation_declined_status_text">تم رفض التطبيق من قبل المشرف: %1$s</string>
+    <string name="moderation_declined_status_text_with_comment">تم رفض التطبيق من قبل المشرف: %1$s\n%2$s</string>
     <string name="status_unlinked">محظور</string>
     <string name="status_private">غير منشور</string>
     <string name="status_on_moderation">قيد المراجعة</string>
+    <string name="status_declined">مرفوض</string>
     <string name="delete">حذف</string>
     <string name="error_rating_deletion">تعذر حذف التقييم</string>
     <string name="error_download_deletion">تعذر الحذف من السجل</string>

@@ -39,4 +39,10 @@ data class AppEntity(
     val sourceUrl: String?,
     @SerializedName("abi")
     val abi: List<String>?,
+    // Server-flagged when file_status=Private was caused by a moderator
+    // rejection rather than the owner privatising it themselves. Only
+    // populated on lists viewed by the file owner (e.g. /user/uploads);
+    // defaults to false for older servers / foreign lists.
+    @SerializedName("declined")
+    val declined: Boolean = false,
 ) : Parcelable

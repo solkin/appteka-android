@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  One tap-target per rejection reason in the decline picker bottom
+  sheet. The small "requires comment" caption is shown only for
+  reasons that demand additional context from the moderator; for the
+  rest it stays gone and the row collapses to a single text line.
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    android:minHeight="56dp"
+    android:orientation="vertical"
+    android:gravity="center_vertical"
+    android:paddingHorizontal="24dp"
+    android:paddingVertical="12dp">
+
+    <TextView
+        android:id="@+id/reason_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?attr/textAppearanceBodyLarge"
+        android:textColor="?text_primary_color"
+        tools:text="Copyright Violation" />
+
+    <TextView
+        android:id="@+id/reason_requires_comment"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="@string/moderation_decline_requires_comment"
+        android:textAppearance="?attr/textAppearanceLabelSmall"
+        android:textColor="?text_secondary_color"
+        android:visibility="gone"
+        tools:visibility="visible" />
+
+</LinearLayout>

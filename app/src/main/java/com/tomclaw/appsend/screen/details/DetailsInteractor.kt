@@ -6,6 +6,8 @@ import com.tomclaw.appsend.screen.details.api.DeletionResponse
 import com.tomclaw.appsend.screen.details.api.Details
 import com.tomclaw.appsend.screen.details.api.MarkFavoriteResponse
 import com.tomclaw.appsend.screen.details.api.ModerationDecisionResponse
+import com.tomclaw.appsend.screen.details.api.RejectionReason
+import com.tomclaw.appsend.screen.details.api.RejectionReasonsResponse
 import com.tomclaw.appsend.screen.details.api.RequestScanResponse
 import com.tomclaw.appsend.screen.details.api.TranslationResponse
 import com.tomclaw.appsend.user.api.UserBrief
@@ -24,8 +26,12 @@ interface DetailsInteractor {
 
     fun sendModerationDecision(
         appId: String,
-        isApprove: Boolean
+        isApprove: Boolean,
+        reasonCode: Int? = null,
+        reasonComment: String? = null,
     ): Single<ModerationDecisionResponse>
+
+    fun loadRejectionReasons(): Single<List<RejectionReason>>
 
     fun deleteApplication(appId: String): Single<DeletionResponse>
 
@@ -63,15 +69,26 @@ class DetailsInteractorImpl(
 
     override fun sendModerationDecision(
         appId: String,
-        isApprove: Boolean
+        isApprove: Boolean,
+        reasonCode: Int?,
+        reasonComment: String?,
     ): Single<ModerationDecisionResponse> {
         val decision = if (isApprove) MODERATION_APPROVE else MODERATION_DENY
         return api
             .sendModerationDecision(
                 appId = appId,
                 decision = decision,
+                reasonCode = reasonCode,
+                reasonComment = reasonComment?.takeIf { it.isNotBlank() },
             )
             .map { it.result }
+            .subscribeOn(schedulers.io())
+    }
+
+    override fun loadRejectionReasons(): Single<List<RejectionReason>> {
+        return api
+            .getRejectionReasons(locale = locale.language)
+            .map { it.result.reasons }
             .subscribeOn(schedulers.io())
     }
 

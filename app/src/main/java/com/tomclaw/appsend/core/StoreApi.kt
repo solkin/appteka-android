@@ -17,6 +17,7 @@ import com.tomclaw.appsend.screen.details.api.RequestScanResponse
 import com.tomclaw.appsend.screen.details.api.Details
 import com.tomclaw.appsend.screen.details.api.MarkFavoriteResponse
 import com.tomclaw.appsend.screen.details.api.ModerationDecisionResponse
+import com.tomclaw.appsend.screen.details.api.RejectionReasonsResponse
 import com.tomclaw.appsend.screen.details.api.TranslationResponse
 import com.tomclaw.appsend.screen.downloads.api.DeleteDownloadedResponse
 import com.tomclaw.appsend.screen.downloads.api.DownloadsResponse
@@ -180,8 +181,15 @@ interface StoreApi {
     @POST("1/app/moderation/submit")
     fun sendModerationDecision(
         @Query("app_id") appId: String,
-        @Query("decision") decision: Int
+        @Query("decision") decision: Int,
+        @Query("reason_code") reasonCode: Int?,
+        @Query("reason_comment") reasonComment: String?,
     ): Single<StoreResponse<ModerationDecisionResponse>>
+
+    @GET("1/app/moderation/reasons")
+    fun getRejectionReasons(
+        @Query("locale") locale: String
+    ): Single<StoreResponse<RejectionReasonsResponse>>
 
     @DELETE("1/app/delete")
     fun deleteApplication(

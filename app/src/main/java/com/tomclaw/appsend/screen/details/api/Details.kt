@@ -39,6 +39,8 @@ data class Details(
     val translation: TranslationResponse?,
     @SerializedName("developer")
     val developer: Developer?,
+    @SerializedName("moderation")
+    val moderation: ModerationInfo?,
     @SerializedName("capabilities")
     val capabilities: Map<String, Capability>? = null,
 ) : Parcelable

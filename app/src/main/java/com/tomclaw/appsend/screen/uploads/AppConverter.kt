@@ -37,6 +37,7 @@ class AppConverterImpl(
             rating = appEntity.rating,
             downloads = appEntity.downloads,
             status = appEntity.status,
+            declined = appEntity.declined,
             category = appEntity.category?.let { categoryConverter.convert(it) },
             exclusive = appEntity.exclusive,
             openSource = !appEntity.sourceUrl.isNullOrEmpty(),

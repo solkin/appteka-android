@@ -174,9 +174,17 @@
     <string name="apps_on_moderation">بەرنامەکانی ژێر پێداچوونەوە</string>
     <string name="moderation_approve">پەسەندکردن</string>
     <string name="moderation_decline">ڕەتکردنەوە</string>
+    <string name="moderation_decline_reason_title">هۆکاری ڕەتکردنەوە</string>
+    <string name="moderation_decline_comment_title">لێدوانێک زیاد بکە</string>
+    <string name="moderation_decline_comment_hint">لێدوان</string>
+    <string name="moderation_decline_requires_comment">پێویستی بە لێدوان هەیە</string>
+    <string name="moderation_decline_reasons_load_failed">هەڵە ڕوویدا لە بارکردنی هۆکارەکانی ڕەتکردنەوە</string>
+    <string name="moderation_declined_status_text">ئەپڵیکەیشنەکە لەلایەن مۆدێراتۆرەوە ڕەتکراوەتەوە: %1$s</string>
+    <string name="moderation_declined_status_text_with_comment">ئەپڵیکەیشنەکە لەلایەن مۆدێراتۆرەوە ڕەتکراوەتەوە: %1$s\n%2$s</string>
     <string name="status_unlinked">بلۆککراوە</string>
     <string name="status_private">بڵاونەکراوەتەوە</string>
     <string name="status_on_moderation">لەژێر پێداچوونەوەدایە</string>
+    <string name="status_declined">ڕەتکراوەتەوە</string>
     <string name="delete">سڕینەوە</string>
     <string name="error_rating_deletion">ناتوانرێت هەڵسەنگاندن بسڕێتەوە</string>
     <string name="error_download_deletion">ناتوانرێت لە مێژوو بسڕێتەوە</string>

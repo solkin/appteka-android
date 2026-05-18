@@ -16,6 +16,7 @@ class AppItem(
     val rating: Float,
     val downloads: Int,
     val status: Int,
+    val declined: Boolean,
     val category: CategoryItem?,
     val exclusive: Boolean,
     val openSource: Boolean,

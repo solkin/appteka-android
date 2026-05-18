@@ -37,15 +37,25 @@ class AppItemPresenter(
             isPublished = true
         }
         var clickable = true
+        // isError emphasises statuses the author should pay attention
+        // to (rejection by a moderator, hard block) versus the
+        // neutral "private / on moderation" states.
+        var isError = false
         when (item.status) {
             FileStatus.UNLINKED -> {
                 statusText = resourceProvider.getStatusBlockedString()
                 isPublished = false
+                isError = true
                 clickable = false
             }
 
             FileStatus.PRIVATE -> {
-                statusText = resourceProvider.getStatusPrivateString()
+                if (item.declined) {
+                    statusText = resourceProvider.getStatusDeclinedString()
+                    isError = true
+                } else {
+                    statusText = resourceProvider.getStatusPrivateString()
+                }
                 isPublished = false
             }
             FileStatus.MODERATION -> {
@@ -53,7 +63,7 @@ class AppItemPresenter(
                 isPublished = false
             }
         }
-        view.setStatus(statusText, isPublished)
+        view.setStatus(statusText, isPublished, isError)
         if (item.isNew) view.showBadge() else view.hideBadge()
         if (item.openSource) view.showOpenSourceBadge() else view.hideOpenSourceBadge()
         if (!item.isAbiCompatible) view.showAbiIncompatibleBadge() else view.hideAbiIncompatibleBadge()

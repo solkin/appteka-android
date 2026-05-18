@@ -20,6 +20,8 @@ interface AppsResourceProvider {
 
     fun getStatusModerationString(): String
 
+    fun getStatusDeclinedString(): String
+
 }
 
 class AppsResourceProviderImpl(val resources: Resources) : AppsResourceProvider {
@@ -50,6 +52,10 @@ class AppsResourceProviderImpl(val resources: Resources) : AppsResourceProvider 
 
     override fun getStatusModerationString(): String {
         return resources.getString(R.string.status_on_moderation)
+    }
+
+    override fun getStatusDeclinedString(): String {
+        return resources.getString(R.string.status_declined)
     }
 
 }
