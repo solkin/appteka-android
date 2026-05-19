@@ -5,6 +5,7 @@ import com.tomclaw.appsend.screen.details.api.CreateTopicResponse
 import com.tomclaw.appsend.screen.details.api.DeletionResponse
 import com.tomclaw.appsend.screen.details.api.Details
 import com.tomclaw.appsend.screen.details.api.MarkFavoriteResponse
+import com.tomclaw.appsend.screen.details.api.AIReview
 import com.tomclaw.appsend.screen.details.api.ModerationDecisionResponse
 import com.tomclaw.appsend.screen.details.api.RejectionReason
 import com.tomclaw.appsend.screen.details.api.RejectionReasonsResponse
@@ -14,6 +15,7 @@ import com.tomclaw.appsend.user.api.UserBrief
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.bananalytics.Bananalytics
 import com.tomclaw.bananalytics.api.BreadcrumbCategory
+import io.reactivex.rxjava3.core.Maybe
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -32,6 +34,10 @@ interface DetailsInteractor {
     ): Single<ModerationDecisionResponse>
 
     fun loadRejectionReasons(): Single<List<RejectionReason>>
+
+    fun loadAIReview(appId: String): Maybe<AIReview>
+
+    fun applyAIReview(appId: String): Single<ModerationDecisionResponse>
 
     fun deleteApplication(appId: String): Single<DeletionResponse>
 
@@ -89,6 +95,21 @@ class DetailsInteractorImpl(
         return api
             .getRejectionReasons(locale = locale.language)
             .map { it.result.reasons }
+            .subscribeOn(schedulers.io())
+    }
+
+    override fun loadAIReview(appId: String): Maybe<AIReview> {
+        return api
+            .getAIReview(appId = appId, locale = locale.language)
+            .filter { it.result.review != null }
+            .map { it.result.review!! }
+            .subscribeOn(schedulers.io())
+    }
+
+    override fun applyAIReview(appId: String): Single<ModerationDecisionResponse> {
+        return api
+            .applyAIReview(appId = appId)
+            .map { it.result }
             .subscribeOn(schedulers.io())
     }
 

@@ -177,6 +177,11 @@
     <string name="moderation_decline_comment_hint">Comentario</string>
     <string name="moderation_decline_requires_comment">Requiere un comentario</string>
     <string name="moderation_decline_reasons_load_failed">No se pudieron cargar los motivos de rechazo</string>
+    <string name="ai_review_title_format">IA: %1$s (%2$d%%)</string>
+    <string name="ai_review_verdict_approve">Aprobar</string>
+    <string name="ai_review_verdict_reject">Rechazar</string>
+    <string name="ai_review_verdict_uncertain">Incierto</string>
+    <string name="ai_review_apply">De acuerdo</string>
     <string name="moderation_declined_status_text">La aplicación fue rechazada por un moderador: %1$s</string>
     <string name="moderation_declined_status_text_with_comment">La aplicación fue rechazada por un moderador: %1$s\n%2$s</string>
     <string name="status_unlinked">Bloqueado</string>

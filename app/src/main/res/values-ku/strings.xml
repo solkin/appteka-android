@@ -179,6 +179,11 @@
     <string name="moderation_decline_comment_hint">لێدوان</string>
     <string name="moderation_decline_requires_comment">پێویستی بە لێدوان هەیە</string>
     <string name="moderation_decline_reasons_load_failed">هەڵە ڕوویدا لە بارکردنی هۆکارەکانی ڕەتکردنەوە</string>
+    <string name="ai_review_title_format">زیرەکی دەستکرد: %1$s (%2$d%%)</string>
+    <string name="ai_review_verdict_approve">پەسەندکردن</string>
+    <string name="ai_review_verdict_reject">ڕەتکردنەوە</string>
+    <string name="ai_review_verdict_uncertain">دڵنیا نییە</string>
+    <string name="ai_review_apply">ڕازیم</string>
     <string name="moderation_declined_status_text">ئەپڵیکەیشنەکە لەلایەن مۆدێراتۆرەوە ڕەتکراوەتەوە: %1$s</string>
     <string name="moderation_declined_status_text_with_comment">ئەپڵیکەیشنەکە لەلایەن مۆدێراتۆرەوە ڕەتکراوەتەوە: %1$s\n%2$s</string>
     <string name="status_unlinked">بلۆککراوە</string>

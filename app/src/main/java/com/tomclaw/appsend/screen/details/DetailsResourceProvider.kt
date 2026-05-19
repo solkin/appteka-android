@@ -41,6 +41,10 @@ interface DetailsResourceProvider {
 
     fun rejectionReasonsLoadFailed(): String
 
+    fun aiReviewTitle(decision: Int, confidence: Float): String
+
+    fun aiReviewTitleColor(decision: Int): Int
+
     fun editMetaAction(): String
 
     fun unpublishAction(): String
@@ -175,6 +179,25 @@ class DetailsResourceProviderImpl(
 
     override fun rejectionReasonsLoadFailed(): String {
         return resources.getString(R.string.moderation_decline_reasons_load_failed)
+    }
+
+    override fun aiReviewTitle(decision: Int, confidence: Float): String {
+        val verdict = when (decision) {
+            1 -> resources.getString(R.string.ai_review_verdict_approve)
+            -1 -> resources.getString(R.string.ai_review_verdict_reject)
+            else -> resources.getString(R.string.ai_review_verdict_uncertain)
+        }
+        val percent = (confidence * 100).toInt()
+        return resources.getString(R.string.ai_review_title_format, verdict, percent)
+    }
+
+    override fun aiReviewTitleColor(decision: Int): Int {
+        val res = when (decision) {
+            1 -> R.color.approve_color
+            -1 -> R.color.decline_color
+            else -> R.color.block_warning_color
+        }
+        return resources.getColor(res, null)
     }
 
     override fun editMetaAction(): String {

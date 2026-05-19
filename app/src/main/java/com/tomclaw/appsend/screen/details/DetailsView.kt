@@ -45,6 +45,10 @@ interface DetailsView {
 
     fun showDeclineCommentDialog(reason: RejectionReason)
 
+    fun showAIReview(title: String, titleColor: Int, reasonText: String?, applyEnabled: Boolean)
+
+    fun hideAIReview()
+
     fun showSnackbar(text: String)
 
     fun showMenu(
@@ -100,6 +104,8 @@ interface DetailsView {
 
     fun moderationClicks(): Observable<Boolean>
 
+    fun applyAIClicks(): Observable<Unit>
+
     fun reasonPicked(): Observable<RejectionReason>
 
     fun declineConfirmed(): Observable<DeclineSubmission>
@@ -144,6 +150,10 @@ class DetailsViewImpl(
     private val moderation: View = view.findViewById(R.id.moderation_container)
     private val approveButton: View = view.findViewById(R.id.button_approve)
     private val denyButton: View = view.findViewById(R.id.button_deny)
+    private val aiReviewCard: View = view.findViewById(R.id.ai_review_card)
+    private val aiReviewTitle: TextView = view.findViewById(R.id.ai_review_title)
+    private val aiReviewReason: TextView = view.findViewById(R.id.ai_review_reason)
+    private val aiReviewApply: View = view.findViewById(R.id.ai_review_apply)
     private val blockingProgress: View = view.findViewById(R.id.blocking_progress)
     private val retryButton: View = view.findViewById(R.id.retry_button)
 
@@ -158,6 +168,7 @@ class DetailsViewImpl(
     private val retryRelay = PublishRelay.create<Unit>()
     private val versionRelay = PublishRelay.create<VersionItem>()
     private val moderationRelay = PublishRelay.create<Boolean>()
+    private val applyAIRelay = PublishRelay.create<Unit>()
     private val reasonPickedRelay = PublishRelay.create<RejectionReason>()
     private val declineSubmissionRelay = PublishRelay.create<DeclineSubmission>()
     private val favoriteRelay = PublishRelay.create<Boolean>()
@@ -194,6 +205,9 @@ class DetailsViewImpl(
         }
         denyButton.setOnClickListener {
             moderationRelay.accept(false)
+        }
+        aiReviewApply.setOnClickListener {
+            applyAIRelay.accept(Unit)
         }
 
         retryButton.setOnClickListener { retryRelay.accept(Unit) }
@@ -437,6 +451,23 @@ class DetailsViewImpl(
         moderation.show()
     }
 
+    override fun showAIReview(title: String, titleColor: Int, reasonText: String?, applyEnabled: Boolean) {
+        aiReviewTitle.text = title
+        aiReviewTitle.setTextColor(titleColor)
+        if (reasonText.isNullOrBlank()) {
+            aiReviewReason.visibility = View.GONE
+        } else {
+            aiReviewReason.text = reasonText
+            aiReviewReason.visibility = View.VISIBLE
+        }
+        aiReviewApply.visibility = if (applyEnabled) View.VISIBLE else View.GONE
+        aiReviewCard.visibility = View.VISIBLE
+    }
+
+    override fun hideAIReview() {
+        aiReviewCard.visibility = View.GONE
+    }
+
     override fun showError() {
         error.show()
     }
@@ -519,6 +550,8 @@ class DetailsViewImpl(
     override fun versionClicks(): Observable<VersionItem> = versionRelay
 
     override fun moderationClicks(): Observable<Boolean> = moderationRelay
+
+    override fun applyAIClicks(): Observable<Unit> = applyAIRelay
 
     override fun reasonPicked(): Observable<RejectionReason> = reasonPickedRelay
 

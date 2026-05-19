@@ -43,6 +43,11 @@
 
     <color name="approve_color">#689627</color>
     <color name="decline_color">#d63205</color>
+    <!-- Tonal pair for the moderation action bar (M3 Expressive). -->
+    <color name="approve_container">#DCEDC8</color>
+    <color name="on_approve_container">#1B5E20</color>
+    <color name="decline_container">#FFCDD2</color>
+    <color name="on_decline_container">#B71C1C</color>
 
     <color name="color_semitransparent">#baffffff</color>
     <color name="color_semitransparent_black">#cc000000</color>

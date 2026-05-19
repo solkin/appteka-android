@@ -244,6 +244,7 @@ class DetailsPresenterImpl(
                 reasonComment = submission.reasonComment,
             )
         }
+        subscriptions += view.applyAIClicks().subscribe { applyAIReview() }
         subscriptions += view.retryClicks().subscribe { invalidateDetails() }
         subscriptions += view.favoriteClicks().subscribe { isFavorite ->
             markFavorite(isFavorite)
@@ -260,6 +261,7 @@ class DetailsPresenterImpl(
 
         if (moderation) {
             view.showModeration()
+            loadAIReviewForModerator()
         }
 
         if (details != null) {
@@ -442,6 +444,42 @@ class DetailsPresenterImpl(
     // reasons request is fast and showing a blocking spinner here
     // would feel jarring; instead errors fall back to a snackbar and
     // the dialog only opens on success.
+    private fun loadAIReviewForModerator() {
+        val targetAppId = appId ?: details?.info?.appId ?: return
+        subscriptions += interactor.loadAIReview(targetAppId)
+            .observeOn(schedulers.mainThread())
+            .subscribe(
+                { review ->
+                    // Apply button only makes sense when AI committed to
+                    // a verdict — uncertain reviews stay informational.
+                    val applyEnabled = review.decision != 0
+                    view?.showAIReview(
+                        title = resourceProvider.aiReviewTitle(review.decision, review.confidence),
+                        titleColor = resourceProvider.aiReviewTitleColor(review.decision),
+                        reasonText = review.reasonText,
+                        applyEnabled = applyEnabled,
+                    )
+                },
+                { /* silent — AI review is advisory */ }
+            )
+    }
+
+    private fun applyAIReview() {
+        val targetAppId = appId ?: details?.info?.appId ?: return
+        subscriptions += interactor.applyAIReview(targetAppId)
+            .toObservable()
+            .observeOn(schedulers.mainThread())
+            .retryWhenNonAuthErrors()
+            .doOnSubscribe {
+                view?.hideMenu()
+                view?.showProgress()
+            }
+            .subscribe(
+                { onModerationDecisionSent() },
+                { onActionError(it) }
+            )
+    }
+
     private fun loadRejectionReasonsThenShowDialog() {
         subscriptions += interactor.loadRejectionReasons()
             .toObservable()

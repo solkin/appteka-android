@@ -16,6 +16,7 @@ import com.tomclaw.appsend.screen.details.api.DeletionResponse
 import com.tomclaw.appsend.screen.details.api.RequestScanResponse
 import com.tomclaw.appsend.screen.details.api.Details
 import com.tomclaw.appsend.screen.details.api.MarkFavoriteResponse
+import com.tomclaw.appsend.screen.details.api.AIReviewResponse
 import com.tomclaw.appsend.screen.details.api.ModerationDecisionResponse
 import com.tomclaw.appsend.screen.details.api.RejectionReasonsResponse
 import com.tomclaw.appsend.screen.details.api.TranslationResponse
@@ -190,6 +191,17 @@ interface StoreApi {
     fun getRejectionReasons(
         @Query("locale") locale: String
     ): Single<StoreResponse<RejectionReasonsResponse>>
+
+    @GET("1/app/moderation/ai-review")
+    fun getAIReview(
+        @Query("app_id") appId: String,
+        @Query("locale") locale: String
+    ): Single<StoreResponse<AIReviewResponse>>
+
+    @POST("1/app/moderation/apply-ai")
+    fun applyAIReview(
+        @Query("app_id") appId: String
+    ): Single<StoreResponse<ModerationDecisionResponse>>
 
     @DELETE("1/app/delete")
     fun deleteApplication(

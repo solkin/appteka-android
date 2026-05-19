@@ -28,53 +28,119 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="-6dp"
+        android:background="@drawable/bg_moderation_bar"
         android:orientation="vertical"
         android:visibility="gone"
         tools:visibility="visible">
 
-        <View
+        <LinearLayout
+            android:id="@+id/ai_review_card"
             android:layout_width="match_parent"
-            android:layout_height="6dp"
-            android:background="@drawable/shadow_inverted" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="16dp"
+            android:paddingTop="14dp"
+            android:paddingBottom="8dp"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/ai_review_title"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textAppearance="?attr/textAppearanceLabelLarge"
+                    tools:text="AI: Approve (95%)" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/ai_review_apply"
+                    style="@style/Widget.Material3.Button.TonalButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="32dp"
+                    android:layout_marginStart="12dp"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:minWidth="0dp"
+                    android:minHeight="32dp"
+                    android:paddingHorizontal="14dp"
+                    android:stateListAnimator="@animator/btn_press_squeeze"
+                    android:text="@string/ai_review_apply"
+                    android:textAllCaps="false"
+                    android:textAppearance="?attr/textAppearanceLabelMedium"
+                    android:visibility="gone"
+                    app:cornerRadius="16dp"
+                    app:icon="@drawable/ic_done"
+                    app:iconGravity="textStart"
+                    app:iconPadding="4dp"
+                    app:iconSize="16dp"
+                    tools:visibility="visible" />
+
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/ai_review_reason"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textAppearance="?attr/textAppearanceBodySmall"
+                android:textColor="?text_secondary_color"
+                tools:text="Description matches the title." />
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?android:windowBackground">
+            android:orientation="horizontal"
+            android:paddingHorizontal="14dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="14dp">
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_approve"
-                style="@style/Widget.Material3.Button.TextButton"
+                style="@style/Widget.Material3.Button.TonalButton"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="6dp"
-                android:layout_marginRight="6dp"
+                android:layout_height="52dp"
+                android:layout_marginEnd="5dp"
                 android:layout_weight="1"
+                android:backgroundTint="@color/approve_container"
+                android:stateListAnimator="@animator/btn_press_squeeze"
                 android:text="@string/moderation_approve"
                 android:textAllCaps="false"
-                android:textColor="@color/approve_color"
-                app:rippleColor="@color/green_text_btn_ripple_color" />
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:background="?attr/divider_color" />
+                android:textColor="@color/on_approve_container"
+                app:cornerRadius="22dp"
+                app:icon="@drawable/ic_done"
+                app:iconGravity="textStart"
+                app:iconPadding="6dp"
+                app:iconSize="20dp"
+                app:iconTint="@color/on_approve_container" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_deny"
-                style="@style/Widget.Material3.Button.TextButton"
+                style="@style/Widget.Material3.Button.TonalButton"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="6dp"
-                android:layout_marginRight="6dp"
+                android:layout_height="52dp"
+                android:layout_marginStart="5dp"
                 android:layout_weight="1"
+                android:backgroundTint="@color/decline_container"
+                android:stateListAnimator="@animator/btn_press_squeeze"
                 android:text="@string/moderation_decline"
                 android:textAllCaps="false"
-                android:textColor="@color/decline_color"
-                app:rippleColor="@color/red_text_btn_ripple_color" />
+                android:textColor="@color/on_decline_container"
+                app:cornerRadius="22dp"
+                app:icon="@drawable/ic_close"
+                app:iconGravity="textStart"
+                app:iconPadding="6dp"
+                app:iconSize="20dp"
+                app:iconTint="@color/on_decline_container" />
 
         </LinearLayout>
 

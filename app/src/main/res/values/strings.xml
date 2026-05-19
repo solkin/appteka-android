@@ -184,6 +184,11 @@
     <string name="moderation_decline_comment_hint">Comment</string>
     <string name="moderation_decline_requires_comment">Requires a comment</string>
     <string name="moderation_decline_reasons_load_failed">Failed to load rejection reasons</string>
+    <string name="ai_review_title_format">AI: %1$s (%2$d%%)</string>
+    <string name="ai_review_verdict_approve">Approve</string>
+    <string name="ai_review_verdict_reject">Reject</string>
+    <string name="ai_review_verdict_uncertain">Uncertain</string>
+    <string name="ai_review_apply">Apply</string>
     <string name="moderation_declined_status_text">The application was declined by a moderator: %1$s</string>
     <string name="moderation_declined_status_text_with_comment">The application was declined by a moderator: %1$s\n%2$s</string>
     <string name="status_unlinked">Blocked</string>
