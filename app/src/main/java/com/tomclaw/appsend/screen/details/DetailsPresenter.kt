@@ -34,7 +34,10 @@ import com.tomclaw.bananalytics.Bananalytics
 import com.tomclaw.bananalytics.api.BreadcrumbCategory
 import dagger.Lazy
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.kotlin.plusAssign
+import java.util.concurrent.TimeUnit
 
 interface DetailsPresenter : ItemListener {
 
@@ -304,14 +307,16 @@ class DetailsPresenterImpl(
         putInt(KEY_TRANSLATION_STATE, translationState)
     }
 
-    private fun loadDetails() {
+    private fun loadDetails(silent: Boolean = false) {
         subscriptions += interactor.loadDetails(appId, packageName)
             .observeOn(schedulers.mainThread())
             .retryWhenNonAuthErrors()
             .doOnSubscribe {
-                view?.hideMenu()
-                view?.hideError()
-                view?.showProgress()
+                if (!silent) {
+                    view?.hideMenu()
+                    view?.hideError()
+                    view?.showProgress()
+                }
             }
             .subscribe(
                 { onDetailsLoaded(it) },
@@ -327,6 +332,7 @@ class DetailsPresenterImpl(
             this.translationState = TRANSLATION_TRANSLATED
         }
         dispatchPackageStatus()
+        ensureAIPolling()
     }
 
     private fun dispatchPackageStatus() {
@@ -848,7 +854,64 @@ class DetailsPresenterImpl(
         }
     }
 
+    override fun onRequestAIReview(appId: String) {
+        subscriptions += interactor.requestAIReview(appId)
+            .toObservable()
+            .observeOn(schedulers.mainThread())
+            .subscribe(
+                {
+                    view?.showSnackbar(resourceProvider.aiReviewRequestedText())
+                    // Server has just stamped ai_requested_at; reload so
+                    // the block flips to PENDING and the poller picks up.
+                    invalidateDetails()
+                },
+                { onAIReviewError(it) }
+            )
+    }
+
+    private fun onAIReviewError(ex: Throwable) {
+        ex.filterUnauthorizedErrors({ view?.showUnauthorizedError() }) {
+            view?.showSnackbar(resourceProvider.aiReviewErrorText())
+        }
+    }
+
+    private var aiPollingDisposable: Disposable? = null
+    private var aiPollStartedAt: Long = 0L
+
+    private fun ensureAIPolling() {
+        val meta = details?.meta ?: return
+        if (meta.aiStatus != AI_STATUS_PENDING) {
+            stopAIPolling()
+            return
+        }
+        if (aiPollingDisposable?.isDisposed == false) {
+            return
+        }
+        if (aiPollStartedAt == 0L) {
+            aiPollStartedAt = System.currentTimeMillis()
+        }
+        if (System.currentTimeMillis() - aiPollStartedAt > AI_POLL_TIMEOUT_MS) {
+            stopAIPolling()
+            return
+        }
+        val disposable = Observable.timer(AI_POLL_INTERVAL_MS, TimeUnit.MILLISECONDS)
+            .observeOn(schedulers.mainThread())
+            .subscribe({ loadDetails(silent = true) }, {})
+        aiPollingDisposable = disposable
+        subscriptions += disposable
+    }
+
+    private fun stopAIPolling() {
+        aiPollingDisposable?.dispose()
+        aiPollingDisposable = null
+        aiPollStartedAt = 0L
+    }
+
 }
+
+private const val AI_STATUS_PENDING = "pending"
+private const val AI_POLL_INTERVAL_MS = 3000L
+private const val AI_POLL_TIMEOUT_MS = 60_000L
 
 private const val KEY_DETAILS = "details"
 private const val KEY_INSTALLED_VERSION = "versionCode"

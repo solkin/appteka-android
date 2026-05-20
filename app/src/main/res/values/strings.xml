@@ -312,6 +312,12 @@
     <string name="security_failed">Security scan failed</string>
     <string name="security_scan_requested">Security scan requested</string>
     <string name="security_scan_error">Failed to request security scan</string>
+    <string name="ai_note_block_title">AI summary</string>
+    <string name="ai_note_idle_prompt">Curious what AI thinks about this app?</string>
+    <string name="ai_note_pending">AI is reading through the description…</string>
+    <string name="ai_note_ask_action">Ask AI</string>
+    <string name="ai_review_requested">AI review requested</string>
+    <string name="ai_review_error">Failed to request AI review</string>
     <string name="security_scanning_short">Scanning</string>
     <string name="security_safe_short">Safe</string>
     <string name="security_suspicious_short">Suspicious</string>

@@ -13,6 +13,7 @@ import com.tomclaw.appsend.screen.chat.api.SendMessageResponse
 import com.tomclaw.appsend.screen.chat.api.TopicInfoResponse
 import com.tomclaw.appsend.screen.details.api.CreateTopicResponse
 import com.tomclaw.appsend.screen.details.api.DeletionResponse
+import com.tomclaw.appsend.screen.details.api.RequestAIReviewResponse
 import com.tomclaw.appsend.screen.details.api.RequestScanResponse
 import com.tomclaw.appsend.screen.details.api.Details
 import com.tomclaw.appsend.screen.details.api.MarkFavoriteResponse
@@ -448,5 +449,11 @@ interface StoreApi {
     fun requestSecurityScan(
         @Field("app_id") appId: String,
     ): Single<StoreResponse<RequestScanResponse>>
+
+    @FormUrlEncoded
+    @POST("1/app/ai_review")
+    fun requestAIReview(
+        @Field("app_id") appId: String,
+    ): Single<StoreResponse<RequestAIReviewResponse>>
 
 }

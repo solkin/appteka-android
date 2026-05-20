@@ -83,6 +83,14 @@ interface DetailsResourceProvider {
 
     fun securityScanErrorText(): String
 
+    fun aiReviewRequestedText(): String
+
+    fun aiReviewErrorText(): String
+
+    fun aiNoteIdlePrompt(): String
+
+    fun aiNotePending(): String
+
     fun securityWarningMalwareTitle(): String
 
     fun securityWarningMalwareMessage(): String
@@ -267,6 +275,22 @@ class DetailsResourceProviderImpl(
 
     override fun securityScanErrorText(): String {
         return resources.getString(R.string.security_scan_error)
+    }
+
+    override fun aiReviewRequestedText(): String {
+        return resources.getString(R.string.ai_review_requested)
+    }
+
+    override fun aiReviewErrorText(): String {
+        return resources.getString(R.string.ai_review_error)
+    }
+
+    override fun aiNoteIdlePrompt(): String {
+        return resources.getString(R.string.ai_note_idle_prompt)
+    }
+
+    override fun aiNotePending(): String {
+        return resources.getString(R.string.ai_note_pending)
     }
 
     override fun securityWarningMalwareTitle(): String {

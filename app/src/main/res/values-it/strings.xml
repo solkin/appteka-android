@@ -299,6 +299,12 @@
     <string name="security_failed">Scansione sicurezza fallita</string>
     <string name="security_scan_requested">Scansione sicurezza richiesta</string>
     <string name="security_scan_error">Richiesta scansione sicurezza fallita</string>
+    <string name="ai_note_block_title">Riepilogo IA</string>
+    <string name="ai_note_idle_prompt">Curioso di sapere cosa pensa l\'IA di questa app?</string>
+    <string name="ai_note_pending">L\'IA sta leggendo la descrizione…</string>
+    <string name="ai_note_ask_action">Chiedi all\'IA</string>
+    <string name="ai_review_requested">Revisione IA richiesta</string>
+    <string name="ai_review_error">Impossibile richiedere la revisione IA</string>
     <string name="security_scanning_short">Scansione</string>
     <string name="security_safe_short">Sicuro</string>
     <string name="security_suspicious_short">Sospetto</string>

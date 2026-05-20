@@ -16,4 +16,8 @@ data class TranslationResponse(
     val whatsNewLang: String?,
     @SerializedName("description_lang")
     val descriptionLang: String?,
+    @SerializedName("ai_note")
+    val aiNote: String? = null,
+    @SerializedName("ai_short_description")
+    val aiShortDescription: String? = null,
 ) : Parcelable

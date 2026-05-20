@@ -37,4 +37,10 @@ data class Meta(
     val rating: Float?,
     @SerializedName("scores")
     val scores: Scores?,
+    @SerializedName("ai_note")
+    val aiNote: String? = null,
+    @SerializedName("ai_short_description")
+    val aiShortDescription: String? = null,
+    @SerializedName("ai_status")
+    val aiStatus: String? = null,
 ) : Parcelable

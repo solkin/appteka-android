@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- M3 Expressive AI card decoration: a 1.5dp gradient ring around a
+     surface-container fill. The outer layer is the gradient; the inner
+     layer is inset to expose a thin strip of it as a stroke. -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:angle="45"
+                android:centerColor="#5B6CFF"
+                android:endColor="#00C2D1"
+                android:startColor="#B05CFF"
+                android:type="linear" />
+            <corners android:radius="24dp" />
+        </shape>
+    </item>
+    <item
+        android:bottom="1.5dp"
+        android:left="1.5dp"
+        android:right="1.5dp"
+        android:top="1.5dp">
+        <shape android:shape="rectangle">
+            <solid android:color="?attr/colorSurfaceContainer" />
+            <corners android:radius="22.5dp" />
+        </shape>
+    </item>
+</layer-list>

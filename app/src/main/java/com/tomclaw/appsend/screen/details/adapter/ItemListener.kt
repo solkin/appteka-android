@@ -38,4 +38,6 @@ interface ItemListener {
 
     fun onSecurityInfoClick(status: PlaySecurityStatus, score: Int?)
 
+    fun onRequestAIReview(appId: String)
+
 }

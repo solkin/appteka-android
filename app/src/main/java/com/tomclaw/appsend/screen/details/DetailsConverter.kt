@@ -6,6 +6,8 @@ import com.tomclaw.appsend.util.adapter.Item
 import com.tomclaw.appsend.categories.DEFAULT_LOCALE
 import com.tomclaw.appsend.screen.details.adapter.abi.AbiItem
 import com.tomclaw.appsend.screen.details.adapter.abi.AbiResourceProvider
+import com.tomclaw.appsend.screen.details.adapter.ai_note.AINoteItem
+import com.tomclaw.appsend.screen.details.adapter.ai_note.AINoteState
 import com.tomclaw.appsend.screen.details.adapter.controls.ControlsItem
 import com.tomclaw.appsend.screen.details.adapter.description.DescriptionItem
 import com.tomclaw.appsend.screen.details.adapter.discuss.DiscussItem
@@ -218,6 +220,17 @@ class DetailsConverterImpl(
             )
         }
 
+        convertAINoteItem(
+            id = id++,
+            appId = details.info.appId,
+            status = details.meta?.aiStatus,
+            note = when (translationState) {
+                TRANSLATION_TRANSLATED -> translationData?.aiNote ?: details.meta?.aiNote
+                else -> details.meta?.aiNote
+            },
+            fileStatus = details.info.fileStatus,
+        )?.let { items += it }
+
         if (!details.meta?.whatsNew.isNullOrBlank()) {
             val whatsNewText = when (translationState) {
                 TRANSLATION_TRANSLATED -> translationData?.whatsNew
@@ -290,6 +303,46 @@ class DetailsConverterImpl(
 const val TRANSLATION_ORIGINAL: Int = 0
 const val TRANSLATION_PROGRESS: Int = 1
 const val TRANSLATION_TRANSLATED: Int = 2
+
+// convertAINoteItem maps the server-reported ai_status into the
+// three view states the block renders. Hidden for unpublished /
+// private apps — there's no public catalog view there.
+private fun convertAINoteItem(
+    id: Long,
+    appId: String,
+    status: String?,
+    note: String?,
+    fileStatus: Int,
+): AINoteItem? {
+    if (fileStatus != STATUS_NORMAL && fileStatus != STATUS_MODERATION) {
+        return null
+    }
+    return when (status) {
+        AI_STATUS_COMPLETED -> AINoteItem(
+            id = id,
+            appId = appId,
+            state = AINoteState.COMPLETED,
+            note = note?.takeIf { it.isNotBlank() } ?: return null,
+        )
+        AI_STATUS_PENDING -> AINoteItem(
+            id = id,
+            appId = appId,
+            state = AINoteState.PENDING,
+            note = null,
+        )
+        AI_STATUS_IDLE, null -> AINoteItem(
+            id = id,
+            appId = appId,
+            state = AINoteState.IDLE,
+            note = null,
+        )
+        else -> null
+    }
+}
+
+private const val AI_STATUS_IDLE = "idle"
+private const val AI_STATUS_PENDING = "pending"
+private const val AI_STATUS_COMPLETED = "completed"
 
 private fun convertSecurityItem(
     id: Long,
