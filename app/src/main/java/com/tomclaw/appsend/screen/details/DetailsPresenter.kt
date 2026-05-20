@@ -860,11 +860,11 @@ class DetailsPresenterImpl(
             .observeOn(schedulers.mainThread())
             .subscribe(
                 {
-                    // Server has just stamped ai_requested_at; reload so
-                    // the block flips to PENDING and the poller picks up.
-                    // No snackbar — the block itself is the progress
-                    // indicator.
-                    invalidateDetails()
+                    // Silent reload so the block flips to PENDING and
+                    // the poller picks up. invalidateDetails() would
+                    // briefly show the fullscreen progress; the AI
+                    // block itself is the progress indicator.
+                    loadDetails(silent = true)
                 },
                 { onAIReviewError(it) }
             )
