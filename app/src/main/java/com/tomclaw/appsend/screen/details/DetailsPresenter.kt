@@ -860,9 +860,10 @@ class DetailsPresenterImpl(
             .observeOn(schedulers.mainThread())
             .subscribe(
                 {
-                    view?.showSnackbar(resourceProvider.aiReviewRequestedText())
                     // Server has just stamped ai_requested_at; reload so
                     // the block flips to PENDING and the poller picks up.
+                    // No snackbar — the block itself is the progress
+                    // indicator.
                     invalidateDetails()
                 },
                 { onAIReviewError(it) }

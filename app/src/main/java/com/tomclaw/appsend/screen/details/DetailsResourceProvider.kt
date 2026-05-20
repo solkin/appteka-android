@@ -83,8 +83,6 @@ interface DetailsResourceProvider {
 
     fun securityScanErrorText(): String
 
-    fun aiReviewRequestedText(): String
-
     fun aiReviewErrorText(): String
 
     fun aiNoteIdlePrompt(): String
@@ -275,10 +273,6 @@ class DetailsResourceProviderImpl(
 
     override fun securityScanErrorText(): String {
         return resources.getString(R.string.security_scan_error)
-    }
-
-    override fun aiReviewRequestedText(): String {
-        return resources.getString(R.string.ai_review_requested)
     }
 
     override fun aiReviewErrorText(): String {

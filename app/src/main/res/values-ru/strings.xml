@@ -314,7 +314,6 @@
     <string name="ai_note_idle_prompt">Интересно, что думает ИИ об этом приложении?</string>
     <string name="ai_note_pending">ИИ изучает описание…</string>
     <string name="ai_note_ask_action">Спросить ИИ</string>
-    <string name="ai_review_requested">Запрос к ИИ отправлен</string>
     <string name="ai_review_error">Не удалось запросить ИИ</string>
     <string name="security_scanning_short">Проверка</string>
     <string name="security_safe_short">Безопасно</string>

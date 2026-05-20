@@ -304,7 +304,6 @@
     <string name="ai_note_idle_prompt">Curioso para saber o que a IA pensa deste app?</string>
     <string name="ai_note_pending">A IA está lendo a descrição…</string>
     <string name="ai_note_ask_action">Perguntar à IA</string>
-    <string name="ai_review_requested">Revisão da IA solicitada</string>
     <string name="ai_review_error">Falha ao solicitar revisão da IA</string>
     <string name="security_scanning_short">Verificando</string>
     <string name="security_safe_short">Seguro</string>
