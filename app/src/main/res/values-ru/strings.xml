@@ -540,4 +540,9 @@
 
     <string name="permission_read_only_avatar_upload">Загрузка аватара отключена для вашего аккаунта</string>
     <string name="permission_read_only_bio_edit">Редактирование описания отключено для вашего аккаунта</string>
+    <string name="select_images">Выбрать изображения</string>
+    <string name="avatar_crop_title">Обрезка аватара</string>
+    <string name="avatar_crop_done">Готово</string>
+    <string name="avatar_crop_load_failed">Не удалось загрузить изображение</string>
+    <string name="avatar_crop_save_failed">Не удалось сохранить обрезанное изображение</string>
 </resources>

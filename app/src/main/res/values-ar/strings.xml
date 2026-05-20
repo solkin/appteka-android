@@ -556,4 +556,16 @@
 
     <string name="permission_read_only_avatar_upload">تحميل الصورة الرمزية معطل لحسابك</string>
     <string name="permission_read_only_bio_edit">تحرير النبذة معطل لحسابك</string>
+    <string name="select_images">اختر الصور</string>
+    <string name="favorite_undo">تراجع</string>
+    <string name="permission_app_blocked">تم حظر هذا التطبيق ولا يمكن تعديله أو إعادة نشره.</string>
+    <string name="ai_note_block_title">ملخص الذكاء الاصطناعي</string>
+    <string name="ai_note_idle_prompt">تريد معرفة رأي الذكاء الاصطناعي في هذا التطبيق؟</string>
+    <string name="ai_note_pending">يقرأ الذكاء الاصطناعي الوصف…</string>
+    <string name="ai_note_ask_action">اسأل الذكاء الاصطناعي</string>
+    <string name="ai_review_error">تعذر طلب مراجعة الذكاء الاصطناعي</string>
+    <string name="avatar_crop_title">قص الصورة الرمزية</string>
+    <string name="avatar_crop_done">تم</string>
+    <string name="avatar_crop_load_failed">تعذر تحميل الصورة</string>
+    <string name="avatar_crop_save_failed">تعذر حفظ الصورة المقصوصة</string>
 </resources>

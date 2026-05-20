@@ -516,4 +516,11 @@
 
     <string name="permission_read_only_avatar_upload">O envio de avatar está desativado para sua conta</string>
     <string name="permission_read_only_bio_edit">A edição da bio está desativada para sua conta</string>
+    <string name="select_images">Selecionar imagens</string>
+    <string name="favorite_undo">Desfazer</string>
+    <string name="permission_app_blocked">Este aplicativo foi bloqueado e não pode ser editado ou republicado.</string>
+    <string name="avatar_crop_title">Recortar avatar</string>
+    <string name="avatar_crop_done">Concluído</string>
+    <string name="avatar_crop_load_failed">Não foi possível carregar a imagem</string>
+    <string name="avatar_crop_save_failed">Não foi possível salvar a imagem recortada</string>
 </resources>

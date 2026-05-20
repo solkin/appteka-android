@@ -521,4 +521,16 @@
 
     <string name="permission_read_only_avatar_upload">La carga del avatar está desactivada para tu cuenta</string>
     <string name="permission_read_only_bio_edit">La edición de la biografía está desactivada para tu cuenta</string>
+    <string name="select_images">Seleccionar imágenes</string>
+    <string name="favorite_undo">Deshacer</string>
+    <string name="permission_app_blocked">Esta aplicación ha sido bloqueada y no puede editarse ni volverse a publicar.</string>
+    <string name="ai_note_block_title">Resumen de IA</string>
+    <string name="ai_note_idle_prompt">¿Quieres saber qué piensa la IA sobre esta app?</string>
+    <string name="ai_note_pending">La IA está leyendo la descripción…</string>
+    <string name="ai_note_ask_action">Preguntar a la IA</string>
+    <string name="ai_review_error">No se pudo solicitar la revisión de IA</string>
+    <string name="avatar_crop_title">Recortar avatar</string>
+    <string name="avatar_crop_done">Hecho</string>
+    <string name="avatar_crop_load_failed">No se pudo cargar la imagen</string>
+    <string name="avatar_crop_save_failed">No se pudo guardar la imagen recortada</string>
 </resources>

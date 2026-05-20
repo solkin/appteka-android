@@ -520,4 +520,16 @@
 
     <string name="permission_read_only_avatar_upload">بارگذاری آواتار برای حساب شما غیرفعال است</string>
     <string name="permission_read_only_bio_edit">ویرایش بیوگرافی برای حساب شما غیرفعال است</string>
+    <string name="select_images">انتخاب تصاویر</string>
+    <string name="favorite_undo">واگرد</string>
+    <string name="permission_app_blocked">این برنامه مسدود شده و قابل ویرایش یا انتشار مجدد نیست.</string>
+    <string name="ai_note_block_title">خلاصه هوش مصنوعی</string>
+    <string name="ai_note_idle_prompt">می‌خواهی ببینی هوش مصنوعی درباره این برنامه چه فکر می‌کند؟</string>
+    <string name="ai_note_pending">هوش مصنوعی در حال خواندن توضیحات است…</string>
+    <string name="ai_note_ask_action">از هوش مصنوعی بپرس</string>
+    <string name="ai_review_error">درخواست بررسی هوش مصنوعی ناموفق بود</string>
+    <string name="avatar_crop_title">برش آواتار</string>
+    <string name="avatar_crop_done">انجام شد</string>
+    <string name="avatar_crop_load_failed">بارگذاری تصویر ممکن نشد</string>
+    <string name="avatar_crop_save_failed">ذخیره تصویر برش‌خورده ممکن نشد</string>
 </resources>

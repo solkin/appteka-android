@@ -512,4 +512,16 @@
 
     <string name="permission_read_only_avatar_upload">Hisobingiz uchun avatar yuklash o\'chirilgan</string>
     <string name="permission_read_only_bio_edit">Hisobingiz uchun bio tahrirlash o\'chirilgan</string>
+    <string name="select_images">Rasmlarni tanlash</string>
+    <string name="favorite_undo">Bekor qilish</string>
+    <string name="permission_app_blocked">Bu ilova bloklangan va tahrirlash yoki qayta nashr qilish mumkin emas.</string>
+    <string name="ai_note_block_title">AI xulosasi</string>
+    <string name="ai_note_idle_prompt">AI bu ilova haqida nima deb o\'ylashi qiziqmi?</string>
+    <string name="ai_note_pending">AI tavsifni o\'qiyapti…</string>
+    <string name="ai_note_ask_action">AIga so\'rash</string>
+    <string name="ai_review_error">AI ko\'rib chiqishini so\'rab bo\'lmadi</string>
+    <string name="avatar_crop_title">Avatarni kesish</string>
+    <string name="avatar_crop_done">Tayyor</string>
+    <string name="avatar_crop_load_failed">Rasmni yuklab bo\'lmadi</string>
+    <string name="avatar_crop_save_failed">Kesilgan rasmni saqlab bo\'lmadi</string>
 </resources>

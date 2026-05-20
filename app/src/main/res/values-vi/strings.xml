@@ -500,4 +500,16 @@
 
     <string name="permission_read_only_avatar_upload">Tải lên ảnh đại diện đã bị tắt cho tài khoản của bạn</string>
     <string name="permission_read_only_bio_edit">Chỉnh sửa tiểu sử đã bị tắt cho tài khoản của bạn</string>
+    <string name="select_images">Chọn hình ảnh</string>
+    <string name="favorite_undo">Hoàn tác</string>
+    <string name="permission_app_blocked">Ứng dụng này đã bị chặn và không thể chỉnh sửa hoặc đăng lại.</string>
+    <string name="ai_note_block_title">Tóm tắt của AI</string>
+    <string name="ai_note_idle_prompt">Muốn biết AI nghĩ gì về ứng dụng này?</string>
+    <string name="ai_note_pending">AI đang đọc phần mô tả…</string>
+    <string name="ai_note_ask_action">Hỏi AI</string>
+    <string name="ai_review_error">Không thể yêu cầu đánh giá AI</string>
+    <string name="avatar_crop_title">Cắt ảnh đại diện</string>
+    <string name="avatar_crop_done">Xong</string>
+    <string name="avatar_crop_load_failed">Không thể tải hình ảnh</string>
+    <string name="avatar_crop_save_failed">Không thể lưu hình ảnh đã cắt</string>
 </resources>

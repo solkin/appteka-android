@@ -511,4 +511,16 @@
 
     <string name="permission_read_only_avatar_upload">आपके खाते के लिए अवतार अपलोड अक्षम है</string>
     <string name="permission_read_only_bio_edit">आपके खाते के लिए विवरण संपादन अक्षम है</string>
+    <string name="select_images">चित्र चुनें</string>
+    <string name="favorite_undo">पूर्ववत करें</string>
+    <string name="permission_app_blocked">इस ऐप को ब्लॉक कर दिया गया है और इसे संपादित या पुनः प्रकाशित नहीं किया जा सकता।</string>
+    <string name="ai_note_block_title">AI सारांश</string>
+    <string name="ai_note_idle_prompt">जानना चाहते हैं कि AI इस ऐप के बारे में क्या सोचता है?</string>
+    <string name="ai_note_pending">AI विवरण पढ़ रहा है…</string>
+    <string name="ai_note_ask_action">AI से पूछें</string>
+    <string name="ai_review_error">AI समीक्षा का अनुरोध करने में विफल</string>
+    <string name="avatar_crop_title">अवतार क्रॉप करें</string>
+    <string name="avatar_crop_done">हो गया</string>
+    <string name="avatar_crop_load_failed">चित्र लोड नहीं हो सका</string>
+    <string name="avatar_crop_save_failed">कटा हुआ चित्र सहेजा नहीं जा सका</string>
 </resources>

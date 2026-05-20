@@ -525,4 +525,16 @@
 
     <string name="permission_read_only_avatar_upload">بارکردنی ئەڤاتار بۆ هەژمارەکەت ناچالاککراوە</string>
     <string name="permission_read_only_bio_edit">دەستکاری دەربارە بۆ هەژمارەکەت ناچالاککراوە</string>
+    <string name="select_images">هەڵبژاردنی وێنە</string>
+    <string name="favorite_undo">گەڕاندنەوە</string>
+    <string name="permission_app_blocked">ئەم بەرنامەیە لۆک کراوە و ناتوانرێت دەستکاری بکرێت یان دووبارە بڵاو بکرێتەوە.</string>
+    <string name="ai_note_block_title">پوختەی AI</string>
+    <string name="ai_note_idle_prompt">دەتەوێ بزانیت AI چی لەسەر ئەم بەرنامەیە دەڵێت؟</string>
+    <string name="ai_note_pending">AI سەرنج لە وەسف دەدات…</string>
+    <string name="ai_note_ask_action">پرسیار لە AI بکە</string>
+    <string name="ai_review_error">داواکردنی پێداچوونەوەی AI سەرکەوتوو نەبوو</string>
+    <string name="avatar_crop_title">بڕینی ئەڤاتار</string>
+    <string name="avatar_crop_done">تەواوبوو</string>
+    <string name="avatar_crop_load_failed">بارکردنی وێنە سەرکەوتوو نەبوو</string>
+    <string name="avatar_crop_save_failed">پاشەکەوتکردنی وێنە بڕاوەکە سەرکەوتوو نەبوو</string>
 </resources>

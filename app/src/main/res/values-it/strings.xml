@@ -517,4 +517,11 @@
 
     <string name="permission_read_only_avatar_upload">Il caricamento dell\'avatar è disabilitato per il tuo account</string>
     <string name="permission_read_only_bio_edit">La modifica della bio è disabilitata per il tuo account</string>
+    <string name="select_images">Seleziona immagini</string>
+    <string name="favorite_undo">Annulla</string>
+    <string name="permission_app_blocked">Questa app è stata bloccata e non può essere modificata o ripubblicata.</string>
+    <string name="avatar_crop_title">Ritaglia avatar</string>
+    <string name="avatar_crop_done">Fatto</string>
+    <string name="avatar_crop_load_failed">Impossibile caricare l\'immagine</string>
+    <string name="avatar_crop_save_failed">Impossibile salvare l\'immagine ritagliata</string>
 </resources>

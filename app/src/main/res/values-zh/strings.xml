@@ -500,4 +500,16 @@
 
     <string name="permission_read_only_avatar_upload">您的帐户已禁用头像上传</string>
     <string name="permission_read_only_bio_edit">您的帐户已禁用简介编辑</string>
+    <string name="select_images">选择图片</string>
+    <string name="favorite_undo">撤销</string>
+    <string name="permission_app_blocked">此应用已被屏蔽，无法编辑或重新发布。</string>
+    <string name="ai_note_block_title">AI 摘要</string>
+    <string name="ai_note_idle_prompt">想知道 AI 怎么看这个应用吗？</string>
+    <string name="ai_note_pending">AI 正在阅读描述…</string>
+    <string name="ai_note_ask_action">询问 AI</string>
+    <string name="ai_review_error">请求 AI 评估失败</string>
+    <string name="avatar_crop_title">裁剪头像</string>
+    <string name="avatar_crop_done">完成</string>
+    <string name="avatar_crop_load_failed">无法加载图片</string>
+    <string name="avatar_crop_save_failed">无法保存裁剪后的图片</string>
 </resources>
