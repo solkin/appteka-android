@@ -178,11 +178,10 @@
     <string name="moderation_decline_comment_hint">टिप्पणी</string>
     <string name="moderation_decline_requires_comment">टिप्पणी आवश्यक है</string>
     <string name="moderation_decline_reasons_load_failed">अस्वीकृति के कारण लोड करने में विफल</string>
-    <string name="ai_review_title_format">AI: %1$s (%2$d%%)</string>
+    <string name="ai_review_title_format">%1$s · %2$d%%</string>
     <string name="ai_review_verdict_approve">स्वीकार</string>
     <string name="ai_review_verdict_reject">अस्वीकार</string>
     <string name="ai_review_verdict_uncertain">अनिश्चित</string>
-    <string name="ai_review_apply">सहमत</string>
     <string name="moderation_declined_status_text">एप्लिकेशन को मॉडरेटर द्वारा अस्वीकार कर दिया गया: %1$s</string>
     <string name="moderation_declined_status_text_with_comment">एप्लिकेशन को मॉडरेटर द्वारा अस्वीकार कर दिया गया: %1$s\n%2$s</string>
     <string name="status_unlinked">अवरोधित</string>

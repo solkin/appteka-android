@@ -38,9 +38,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingHorizontal="16dp"
+            android:paddingHorizontal="20dp"
             android:paddingTop="14dp"
-            android:paddingBottom="8dp"
+            android:paddingBottom="2dp"
             android:visibility="gone"
             tools:visibility="visible">
 
@@ -50,38 +50,25 @@
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
+                <ImageView
+                    android:id="@+id/ai_review_icon"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:importantForAccessibility="no"
+                    android:src="@drawable/ic_creation"
+                    tools:tint="@color/block_success_color" />
+
                 <TextView
                     android:id="@+id/ai_review_title"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
                     android:layout_weight="1"
                     android:ellipsize="end"
                     android:maxLines="1"
                     android:textAppearance="?attr/textAppearanceLabelLarge"
-                    tools:text="AI: Approve (95%)" />
-
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/ai_review_apply"
-                    style="@style/Widget.Material3.Button.TonalButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="32dp"
-                    android:layout_marginStart="12dp"
-                    android:insetTop="0dp"
-                    android:insetBottom="0dp"
-                    android:minWidth="0dp"
-                    android:minHeight="32dp"
-                    android:paddingHorizontal="14dp"
-                    android:stateListAnimator="@animator/btn_press_squeeze"
-                    android:text="@string/ai_review_apply"
-                    android:textAllCaps="false"
-                    android:textAppearance="?attr/textAppearanceLabelMedium"
-                    android:visibility="gone"
-                    app:cornerRadius="16dp"
-                    app:icon="@drawable/ic_done"
-                    app:iconGravity="textStart"
-                    app:iconPadding="4dp"
-                    app:iconSize="16dp"
-                    tools:visibility="visible" />
+                    tools:text="Approve · 95%"
+                    tools:textColor="@color/block_success_text_color" />
 
             </LinearLayout>
 
@@ -101,7 +88,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:paddingHorizontal="14dp"
-            android:paddingTop="10dp"
+            android:paddingTop="12dp"
             android:paddingBottom="14dp">
 
             <com.google.android.material.button.MaterialButton
@@ -111,17 +98,16 @@
                 android:layout_height="52dp"
                 android:layout_marginEnd="5dp"
                 android:layout_weight="1"
-                android:backgroundTint="@color/approve_container"
-                android:stateListAnimator="@animator/btn_press_squeeze"
+                android:backgroundTint="?attr/colorPrimaryContainer"
                 android:text="@string/moderation_approve"
                 android:textAllCaps="false"
-                android:textColor="@color/on_approve_container"
+                android:textColor="?attr/colorOnPrimaryContainer"
                 app:cornerRadius="22dp"
                 app:icon="@drawable/ic_done"
                 app:iconGravity="textStart"
                 app:iconPadding="6dp"
                 app:iconSize="20dp"
-                app:iconTint="@color/on_approve_container" />
+                app:iconTint="?attr/colorOnPrimaryContainer" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/button_deny"
@@ -130,17 +116,16 @@
                 android:layout_height="52dp"
                 android:layout_marginStart="5dp"
                 android:layout_weight="1"
-                android:backgroundTint="@color/decline_container"
-                android:stateListAnimator="@animator/btn_press_squeeze"
+                android:backgroundTint="?attr/colorErrorContainer"
                 android:text="@string/moderation_decline"
                 android:textAllCaps="false"
-                android:textColor="@color/on_decline_container"
+                android:textColor="?attr/colorOnErrorContainer"
                 app:cornerRadius="22dp"
                 app:icon="@drawable/ic_close"
                 app:iconGravity="textStart"
                 app:iconPadding="6dp"
                 app:iconSize="20dp"
-                app:iconTint="@color/on_decline_container" />
+                app:iconTint="?attr/colorOnErrorContainer" />
 
         </LinearLayout>
 

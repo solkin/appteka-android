@@ -43,8 +43,6 @@ interface DetailsResourceProvider {
 
     fun aiReviewTitle(decision: Int, confidence: Float): String
 
-    fun aiReviewTitleColor(decision: Int): Int
-
     fun editMetaAction(): String
 
     fun unpublishAction(): String
@@ -189,15 +187,6 @@ class DetailsResourceProviderImpl(
         }
         val percent = (confidence * 100).toInt()
         return resources.getString(R.string.ai_review_title_format, verdict, percent)
-    }
-
-    override fun aiReviewTitleColor(decision: Int): Int {
-        val res = when (decision) {
-            1 -> R.color.approve_color
-            -1 -> R.color.decline_color
-            else -> R.color.block_warning_color
-        }
-        return resources.getColor(res, null)
     }
 
     override fun editMetaAction(): String {

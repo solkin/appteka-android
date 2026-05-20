@@ -15,6 +15,7 @@ import com.tomclaw.appsend.screen.details.adapter.screenshot.ScreenshotItem
 import com.tomclaw.appsend.screen.details.adapter.status.StatusAction
 import com.tomclaw.appsend.core.permissions.CapabilityAction
 import com.tomclaw.appsend.core.permissions.CapabilityPolicy
+import com.tomclaw.appsend.screen.details.api.AIReview
 import com.tomclaw.appsend.screen.details.api.Details
 import com.tomclaw.appsend.screen.details.api.SECURITY_STATUS_COMPLETED
 import com.tomclaw.appsend.screen.details.api.SECURITY_VERDICT_MALWARE
@@ -147,6 +148,8 @@ class DetailsPresenterImpl(
         state?.getParcelableCompat(KEY_TRANSLATION_DATA, TranslationResponse::class.java)
     private var translationState: Int = state?.getInt(KEY_TRANSLATION_STATE) ?: TRANSLATION_ORIGINAL
 
+    private var aiReview: AIReview? = null
+
     private val items = ArrayList<Item>()
 
     private val subscriptions = CompositeDisposable()
@@ -215,11 +218,17 @@ class DetailsPresenterImpl(
                 router?.openDetailsScreen(version.appId, details.info.label)
             }
         }
+        // If the moderator's decision matches the AI verdict, defer to
+        // the server-side apply endpoint — it reuses AI's reason/comment
+        // for declines so we skip the picker. Otherwise fall through to
+        // the regular flow.
         subscriptions += view.moderationClicks().subscribe { isApprove ->
-            if (isApprove) {
-                sendModerationDecision(isApprove = true)
-            } else {
-                loadRejectionReasonsThenShowDialog()
+            val aiDecision = aiReview?.decision
+            val aiAgrees = (isApprove && aiDecision == 1) || (!isApprove && aiDecision == -1)
+            when {
+                aiAgrees -> applyAIReview()
+                isApprove -> sendModerationDecision(isApprove = true)
+                else -> loadRejectionReasonsThenShowDialog()
             }
         }
         // Two-step decline flow is owned by the presenter: the view
@@ -244,7 +253,6 @@ class DetailsPresenterImpl(
                 reasonComment = submission.reasonComment,
             )
         }
-        subscriptions += view.applyAIClicks().subscribe { applyAIReview() }
         subscriptions += view.retryClicks().subscribe { invalidateDetails() }
         subscriptions += view.favoriteClicks().subscribe { isFavorite ->
             markFavorite(isFavorite)
@@ -450,14 +458,11 @@ class DetailsPresenterImpl(
             .observeOn(schedulers.mainThread())
             .subscribe(
                 { review ->
-                    // Apply button only makes sense when AI committed to
-                    // a verdict — uncertain reviews stay informational.
-                    val applyEnabled = review.decision != 0
+                    aiReview = review
                     view?.showAIReview(
+                        decision = review.decision,
                         title = resourceProvider.aiReviewTitle(review.decision, review.confidence),
-                        titleColor = resourceProvider.aiReviewTitleColor(review.decision),
                         reasonText = review.reasonText,
-                        applyEnabled = applyEnabled,
                     )
                 },
                 { /* silent — AI review is advisory */ }

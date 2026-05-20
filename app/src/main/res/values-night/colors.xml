@@ -19,11 +19,6 @@
     <color name="block_success_text_color">#A5D6A7</color>
     <color name="block_success_back_color">#3381C784</color>
 
-    <color name="approve_container">#1B5E20</color>
-    <color name="on_approve_container">#C8E6C9</color>
-    <color name="decline_container">#B71C1C</color>
-    <color name="on_decline_container">#FFCDD2</color>
-
     <color name="block_neutral_color">#AAAAAA</color>
     <color name="block_neutral_text_color">#BBBBBB</color>
     <color name="block_neutral_back_color">#33AAAAAA</color>

@@ -178,11 +178,10 @@
     <string name="moderation_decline_comment_hint">Bình luận</string>
     <string name="moderation_decline_requires_comment">Yêu cầu bình luận</string>
     <string name="moderation_decline_reasons_load_failed">Không thể tải lý do từ chối</string>
-    <string name="ai_review_title_format">AI: %1$s (%2$d%%)</string>
+    <string name="ai_review_title_format">%1$s · %2$d%%</string>
     <string name="ai_review_verdict_approve">Chấp thuận</string>
     <string name="ai_review_verdict_reject">Từ chối</string>
     <string name="ai_review_verdict_uncertain">Không chắc chắn</string>
-    <string name="ai_review_apply">Đồng ý</string>
     <string name="moderation_declined_status_text">Ứng dụng đã bị quản trị viên từ chối: %1$s</string>
     <string name="moderation_declined_status_text_with_comment">Ứng dụng đã bị quản trị viên từ chối: %1$s\n%2$s</string>
     <string name="status_unlinked">Khóa</string>

@@ -179,11 +179,10 @@
     <string name="moderation_decline_comment_hint">توضیحات</string>
     <string name="moderation_decline_requires_comment">نیاز به توضیحات</string>
     <string name="moderation_decline_reasons_load_failed">بارگذاری دلایل رد ناموفق بود</string>
-    <string name="ai_review_title_format">هوش مصنوعی: %1$s (%2$d%%)</string>
+    <string name="ai_review_title_format">%1$s · %2$d%%</string>
     <string name="ai_review_verdict_approve">تایید</string>
     <string name="ai_review_verdict_reject">رد</string>
     <string name="ai_review_verdict_uncertain">نامطمئن</string>
-    <string name="ai_review_apply">موافقم</string>
     <string name="moderation_declined_status_text">برنامه توسط مدیر رد شد: %1$s</string>
     <string name="moderation_declined_status_text_with_comment">برنامه توسط مدیر رد شد: %1$s\n%2$s</string>
     <string name="status_unlinked">مسدود شده</string>
