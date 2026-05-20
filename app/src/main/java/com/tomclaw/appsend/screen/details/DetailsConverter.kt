@@ -336,6 +336,11 @@ private fun convertAINoteItem(
             state = AINoteState.IDLE,
             note = null,
         )
+        // Server has the enrichment task disabled (budget kill switch).
+        // Hide the block entirely; existing notes still render via the
+        // COMPLETED branch above because the server keeps emitting that
+        // status as long as ai_note is populated.
+        AI_STATUS_DISABLED -> null
         else -> null
     }
 }
@@ -343,6 +348,7 @@ private fun convertAINoteItem(
 private const val AI_STATUS_IDLE = "idle"
 private const val AI_STATUS_PENDING = "pending"
 private const val AI_STATUS_COMPLETED = "completed"
+private const val AI_STATUS_DISABLED = "disabled"
 
 private fun convertSecurityItem(
     id: Long,
