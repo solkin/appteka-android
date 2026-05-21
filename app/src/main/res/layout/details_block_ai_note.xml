@@ -45,9 +45,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:textAppearance="?attr/textAppearanceBodyMedium"
         android:textColor="?attr/colorOnSurface"
         android:textIsSelectable="true"
+        android:textSize="16sp"
         tools:text="A lightweight scientific calculator with history, unit conversions and an offline graph plotter. The build is unsigned and the description does not mention developer contacts." />
 
     <FrameLayout
