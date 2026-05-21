@@ -256,6 +256,8 @@
     <string name="edit_feedback">دەستکاری فیدباک</string>
     <string name="details_error_title">هەڵەیەک ڕوویدا</string>
     <string name="details_error_subtitle">دەتوانیت دووبارە هەوڵبدەیتەوە</string>
+    <string name="details_not_found_title">بەرنامەکە نەدۆزرایەوە</string>
+    <string name="details_not_found_subtitle">هێشتا لە کاتالۆگی Appteka بڵاو نەکراوەتەوە</string>
     <string name="error_occurred">هەڵەیەک ڕوویدا</string>
     <string name="check_connection">پشکنین بۆ هێڵی ئینتەرنێتەکەت بکە و دووبارە هەوڵبدەرەوە</string>
     <string name="discuss_description">گفتوگۆ لەسەر بەرنامەکە لەگەڵ بەکارهێنەرانی تر بکە لە مێسنجەری ناوخۆیی</string>

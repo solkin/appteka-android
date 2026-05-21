@@ -261,6 +261,8 @@
     <string name="edit_feedback">Edit feedback</string>
     <string name="details_error_title">Something went wrong</string>
     <string name="details_error_subtitle">You can try again</string>
+    <string name="details_not_found_title">App not found</string>
+    <string name="details_not_found_subtitle">It hasn\'t been published to the Appteka catalog yet</string>
     <string name="error_occurred">Error occurred</string>
     <string name="check_connection">Check your connection and try again</string>
     <string name="discuss_description">Discuss application with other users in\u00A0embedded messenger</string>

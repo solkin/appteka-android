@@ -254,6 +254,8 @@
     <string name="edit_feedback">Modifica feedback</string>
     <string name="details_error_title">Qualcosa è andato storto</string>
     <string name="details_error_subtitle">Puoi riprovare</string>
+    <string name="details_not_found_title">App non trovata</string>
+    <string name="details_not_found_subtitle">Non è ancora stata pubblicata nel catalogo Appteka</string>
     <string name="error_occurred">Errore</string>
     <string name="check_connection">Controlla la connessione e riprova</string>
     <string name="discuss_description">Discuti l\'applicazione con altri utenti nel\u00A0messenger integrato</string>

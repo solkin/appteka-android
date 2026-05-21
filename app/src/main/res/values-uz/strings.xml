@@ -254,6 +254,8 @@
     <string name="edit_feedback">Fikr-mulohazani tahrirlash</string>
     <string name="details_error_title">Nimadir noto\'g\'ri ketdi</string>
     <string name="details_error_subtitle">Qayta urinib ko\'rishingiz mumkin</string>
+    <string name="details_not_found_title">Ilova topilmadi</string>
+    <string name="details_not_found_subtitle">U hali Appteka katalogida e\'lon qilinmagan</string>
     <string name="error_occurred">Xatolik yuz berdi</string>
     <string name="check_connection">Ulanishingizni tekshiring va qayta urinib ko\'ring</string>
     <string name="discuss_description">Ilovani o\'rnatilgan messenjerda boshqa foydalanuvchilar bilan muhokama qiling</string>

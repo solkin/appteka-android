@@ -262,6 +262,8 @@
     <string name="edit_feedback">تعديل الملاحظات</string>
     <string name="details_error_title">حدث خطأ ما</string>
     <string name="details_error_subtitle">يمكنك إعادة المحاولة</string>
+    <string name="details_not_found_title">التطبيق غير موجود</string>
+    <string name="details_not_found_subtitle">لم يُنشر بعد في كتالوج Appteka</string>
     <string name="error_occurred">خطأ</string>
     <string name="check_connection">تحقق من الاتصال وحاول مرة أخرى</string>
     <string name="discuss_description">ناقش التطبيق مع مستخدمين آخرين عبر\u00A0المراسلة المدمجة</string>

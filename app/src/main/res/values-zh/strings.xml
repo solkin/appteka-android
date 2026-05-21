@@ -249,6 +249,8 @@
     <string name="edit_feedback">编辑评论</string>
     <string name="details_error_title">出了些问题</string>
     <string name="details_error_subtitle">再试一次</string>
+    <string name="details_not_found_title">未找到该应用</string>
+    <string name="details_not_found_subtitle">该应用尚未发布到 Appteka 目录</string>
     <string name="error_occurred">发生错误</string>
     <string name="check_connection">检查网络连接后重试</string>
     <string name="downloading_channel_name">下载应用程序</string>

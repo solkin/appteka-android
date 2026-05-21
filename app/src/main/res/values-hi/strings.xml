@@ -251,6 +251,8 @@
     <string name="edit_feedback">समीक्षा संपादित करें</string>
     <string name="details_error_title">कुछ गलत हो गया</string>
     <string name="details_error_subtitle">पुनः प्रयास करें</string>
+    <string name="details_not_found_title">ऐप नहीं मिला</string>
+    <string name="details_not_found_subtitle">यह अभी तक Appteka कैटलॉग में प्रकाशित नहीं हुआ है</string>
     <string name="error_occurred">त्रुटि हुई</string>
     <string name="check_connection">अपना कनेक्शन जांचें और पुनः प्रयास करें</string>
     <string name="downloading_channel_name">एप्लिकेशन डाउनलोड हो रहा है</string>

@@ -17,6 +17,13 @@ fun Throwable.filterUnauthorizedErrors(authError: () -> Unit, other: (ex: Throwa
 }
 
 /**
+ * Whether [this] is an [HttpException] with the given status [code].
+ * Useful for treating expected client-side responses (e.g. 404 for
+ * "no such app in catalog") as a normal UI state instead of a crash.
+ */
+fun Throwable.isHttpError(code: Int): Boolean = this is HttpException && code() == code
+
+/**
  * Extension of [filterUnauthorizedErrors] that also recognises a
  * structured capability-denied response (sent by the server with
  * `reason` / `blocked_by` / `hint_key` fields). Layout:

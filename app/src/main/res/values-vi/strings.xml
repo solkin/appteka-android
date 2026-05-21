@@ -249,6 +249,8 @@
     <string name="edit_feedback">Sửa đánh giá</string>
     <string name="details_error_title">Đã xảy ra lỗi</string>
     <string name="details_error_subtitle">Vui lòng thử lại lần nữa</string>
+    <string name="details_not_found_title">Không tìm thấy ứng dụng</string>
+    <string name="details_not_found_subtitle">Ứng dụng này chưa được đăng tải lên danh mục Appteka</string>
     <string name="error_occurred">Đã xảy ra lỗi</string>
     <string name="check_connection">Kiểm tra kết nối và thử lại</string>
     <string name="downloading_channel_name">Tải ứng dụng</string>

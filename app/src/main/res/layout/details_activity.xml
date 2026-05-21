@@ -173,6 +173,49 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/not_found"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="?actionBarSize"
+        android:background="?android:windowBackground"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:paddingHorizontal="32dp"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <ImageView
+            android:layout_width="96dp"
+            android:layout_height="96dp"
+            android:importantForAccessibility="no"
+            android:src="@drawable/ic_apps_box"
+            app:tint="?attr/text_secondary_color" />
+
+        <TextView
+            android:id="@+id/not_found_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingTop="20dp"
+            android:text="@string/details_not_found_title"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/not_found_subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingTop="4dp"
+            android:text="@string/details_not_found_subtitle"
+            android:textColor="?attr/text_secondary_color"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
     <FrameLayout
         android:id="@+id/blocking_progress"
         android:layout_width="match_parent"

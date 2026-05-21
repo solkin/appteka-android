@@ -255,6 +255,8 @@
     <string name="edit_feedback">Изменить отзыв</string>
     <string name="details_error_title">Что-то пошло не так</string>
     <string name="details_error_subtitle">Попробуйте ещё раз</string>
+    <string name="details_not_found_title">Приложение не найдено</string>
+    <string name="details_not_found_subtitle">Оно ещё не опубликовано в каталоге Appteka</string>
     <string name="error_occurred">Произошла ошибка</string>
     <string name="check_connection">Проверьте подключение и попробуйте снова</string>
     <string name="downloading_channel_name">Скачивание приложения</string>

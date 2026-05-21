@@ -254,6 +254,8 @@
     <string name="edit_feedback">Editar comentario</string>
     <string name="details_error_title">Algo salió mal</string>
     <string name="details_error_subtitle">Puede intentarlo de nuevo</string>
+    <string name="details_not_found_title">Aplicación no encontrada</string>
+    <string name="details_not_found_subtitle">Aún no se ha publicado en el catálogo de Appteka</string>
     <string name="error_occurred">Ocurrió un error</string>
     <string name="check_connection">Verifique su conexión e intente de nuevo</string>
     <string name="discuss_description">Discutir aplicación con otros usuarios en el mensajero integrado</string>

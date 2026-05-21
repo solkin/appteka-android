@@ -256,6 +256,8 @@
     <string name="edit_feedback">ویرایش بازخورد</string>
     <string name="details_error_title">یک مشکل اتفاق افتاده</string>
     <string name="details_error_subtitle">می‌ توانید دوباره امتحان کنید</string>
+    <string name="details_not_found_title">برنامه یافت نشد</string>
+    <string name="details_not_found_subtitle">هنوز در فهرست اپتکا منتشر نشده است</string>
     <string name="error_occurred">یک خطا اتفاق افتاد</string>
     <string name="check_connection">اتصال خود را بررسی کنید و دوباره امتحان کنید</string>
     <string name="discuss_description">گفتگو درباره برنامه با دیگر کاربران در پیام‌ رسان داخلی</string>

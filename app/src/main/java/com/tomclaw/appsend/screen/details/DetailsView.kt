@@ -68,6 +68,10 @@ interface DetailsView {
 
     fun hideError()
 
+    fun showNotFound()
+
+    fun hideNotFound()
+
     fun showUnauthorizedError()
 
     /**
@@ -146,6 +150,7 @@ class DetailsViewImpl(
     private val swipeRefresh: SwipeRefreshLayout = view.findViewById(R.id.swipe_refresh)
     private val recycler: RecyclerView = view.findViewById(R.id.recycler)
     private val error: View = view.findViewById(R.id.error)
+    private val notFound: View = view.findViewById(R.id.not_found)
     private val moderation: View = view.findViewById(R.id.moderation_container)
     private val approveButton: View = view.findViewById(R.id.button_approve)
     private val denyButton: View = view.findViewById(R.id.button_deny)
@@ -474,6 +479,14 @@ class DetailsViewImpl(
 
     override fun hideError() {
         error.hide()
+    }
+
+    override fun showNotFound() {
+        notFound.show()
+    }
+
+    override fun hideNotFound() {
+        notFound.hide()
     }
 
     override fun showUnauthorizedError() {

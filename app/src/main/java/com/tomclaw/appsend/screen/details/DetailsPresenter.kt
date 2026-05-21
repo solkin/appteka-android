@@ -29,6 +29,7 @@ import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.filterCapabilityErrors
 import com.tomclaw.appsend.util.filterUnauthorizedErrors
 import com.tomclaw.appsend.util.getParcelableCompat
+import com.tomclaw.appsend.util.isHttpError
 import com.tomclaw.appsend.util.retryWhenNonAuthErrors
 import com.tomclaw.bananalytics.Bananalytics
 import com.tomclaw.bananalytics.api.BreadcrumbCategory
@@ -315,6 +316,7 @@ class DetailsPresenterImpl(
                 if (!silent) {
                     view?.hideMenu()
                     view?.hideError()
+                    view?.hideNotFound()
                     view?.showProgress()
                 }
             }
@@ -562,6 +564,18 @@ class DetailsPresenterImpl(
 
     private fun onLoadingError(ex: Throwable) {
         bananalytics.leaveBreadcrumb("Loading error: ${ex.message}", BreadcrumbCategory.ERROR)
+        // 404 on app/info means the requested app/package is simply
+        // not in the Appteka catalog (e.g. user picked "Find on
+        // Appteka" for an installed app that was never published).
+        // It's a normal end-state, not a bug — we surface a friendly
+        // empty view and skip the crash report so the dashboard stays
+        // signal-only.
+        if (ex.isHttpError(404)) {
+            view?.hideMenu()
+            view?.showContent()
+            view?.showNotFound()
+            return
+        }
         bananalytics.trackException(ex, mapOf("screen" to "details", "appId" to appId.orEmpty()))
         ex.filterUnauthorizedErrors({ view?.showUnauthorizedError() }) {
             view?.hideMenu()
