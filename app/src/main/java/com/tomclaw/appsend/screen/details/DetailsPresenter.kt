@@ -330,8 +330,13 @@ class DetailsPresenterImpl(
         this.details = details
         this.isFavorite = details.isFavorite == true
         details.translation?.let { translation ->
-            this.translationData = translation
-            this.translationState = TRANSLATION_TRANSLATED
+            val hasContent = !translation.description.isNullOrBlank() ||
+                !translation.whatsNew.isNullOrBlank() ||
+                !translation.aiNote.isNullOrBlank()
+            if (hasContent) {
+                this.translationData = translation
+                this.translationState = TRANSLATION_TRANSLATED
+            }
         }
         dispatchPackageStatus()
         ensureAIPolling()

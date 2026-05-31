@@ -233,7 +233,8 @@ class DetailsConverterImpl(
 
         if (!details.meta?.whatsNew.isNullOrBlank()) {
             val whatsNewText = when (translationState) {
-                TRANSLATION_TRANSLATED -> translationData?.whatsNew
+                TRANSLATION_TRANSLATED -> translationData?.whatsNew?.takeIf { it.isNotBlank() }
+                    ?: details.meta?.whatsNew
                 else -> details.meta?.whatsNew
             }
             items += WhatsNewItem(
@@ -242,7 +243,8 @@ class DetailsConverterImpl(
             )
         }
         val descriptionText = when (translationState) {
-            TRANSLATION_TRANSLATED -> translationData?.description
+            TRANSLATION_TRANSLATED -> translationData?.description?.takeIf { it.isNotBlank() }
+                ?: details.meta?.description
             else -> details.meta?.description
         }
         items += DescriptionItem(
