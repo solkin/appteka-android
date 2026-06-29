@@ -57,7 +57,8 @@ interface DetailsView {
         canEdit: Boolean,
         canUnlink: Boolean,
         canUnpublish: Boolean,
-        canDelete: Boolean
+        canDelete: Boolean,
+        installExistingTitle: String?
     )
 
     fun hideMenu()
@@ -86,6 +87,13 @@ interface DetailsView {
     fun showSecurityWarningDialog(title: String, message: String, downloadButton: String)
 
     fun showAbiWarningDialog(title: String, message: String, downloadButton: String)
+
+    fun showDowngradeDialog(
+        title: String,
+        message: String,
+        removeButton: String,
+        installOverButton: String
+    )
 
     fun navigationClicks(): Observable<Unit>
 
@@ -116,6 +124,10 @@ interface DetailsView {
     fun favoriteClicks(): Observable<Boolean>
 
     fun loginClicks(): Observable<Unit>
+
+    fun installExistingClicks(): Observable<Unit>
+
+    fun downgradeConfirmClicks(): Observable<Boolean>
 
     fun securityDownloadConfirmClicks(): Observable<Unit>
 
@@ -178,6 +190,8 @@ class DetailsViewImpl(
     private val loginRelay = PublishRelay.create<Unit>()
     private val securityDownloadConfirmRelay = PublishRelay.create<Unit>()
     private val abiDownloadConfirmRelay = PublishRelay.create<Unit>()
+    private val installExistingRelay = PublishRelay.create<Unit>()
+    private val downgradeConfirmRelay = PublishRelay.create<Boolean>()
 
     private val layoutManager: LinearLayoutManager
 
@@ -195,6 +209,7 @@ class DetailsViewImpl(
                 R.id.abuse -> abuseRelay.accept(Unit)
                 R.id.mark_favorite -> favoriteRelay.accept(true)
                 R.id.unmark_favorite -> favoriteRelay.accept(false)
+                R.id.install_existing -> installExistingRelay.accept(Unit)
             }
             true
         }
@@ -416,10 +431,16 @@ class DetailsViewImpl(
         canEdit: Boolean,
         canUnlink: Boolean,
         canUnpublish: Boolean,
-        canDelete: Boolean
+        canDelete: Boolean,
+        installExistingTitle: String?
     ) {
         toolbar.menu.clear()
         toolbar.inflateMenu(R.menu.details_menu)
+        if (installExistingTitle != null) {
+            toolbar.menu.findItem(R.id.install_existing)?.title = installExistingTitle
+        } else {
+            toolbar.menu.removeItem(R.id.install_existing)
+        }
         if (isFavorite) {
             toolbar.menu.removeItem(R.id.mark_favorite)
         } else {
@@ -542,6 +563,27 @@ class DetailsViewImpl(
         dialog?.show()
     }
 
+    override fun showDowngradeDialog(
+        title: String,
+        message: String,
+        removeButton: String,
+        installOverButton: String
+    ) {
+        dialog?.dismiss()
+        dialog = MaterialAlertDialogBuilder(context)
+            .setTitle(title)
+            .setMessage(message)
+            .setPositiveButton(removeButton) { _, _ ->
+                downgradeConfirmRelay.accept(true)
+            }
+            .setNeutralButton(installOverButton) { _, _ ->
+                downgradeConfirmRelay.accept(false)
+            }
+            .setNegativeButton(R.string.cancel, null)
+            .create()
+        dialog?.show()
+    }
+
     override fun navigationClicks(): Observable<Unit> = navigationRelay
 
     override fun swipeRefresh(): Observable<Unit> = refreshRelay
@@ -571,6 +613,10 @@ class DetailsViewImpl(
     override fun favoriteClicks(): Observable<Boolean> = favoriteRelay
 
     override fun loginClicks(): Observable<Unit> = loginRelay
+
+    override fun installExistingClicks(): Observable<Unit> = installExistingRelay
+
+    override fun downgradeConfirmClicks(): Observable<Boolean> = downgradeConfirmRelay
 
     override fun securityDownloadConfirmClicks(): Observable<Unit> = securityDownloadConfirmRelay
 

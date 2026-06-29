@@ -147,6 +147,7 @@ class DetailsPresenterImpl(
     private var installedVersionCode: Int = state?.getInt(KEY_INSTALLED_VERSION) ?: NOT_INSTALLED
     private var downloadState: Int = state?.getInt(KEY_DOWNLOAD_STATE) ?: IDLE
     private var needInstall: Boolean = state?.getBoolean(KEY_NEED_INSTALL) == true
+    private var removeBeforeInstall: Boolean = state?.getBoolean(KEY_REMOVE_BEFORE_INSTALL) == true
     private var isFavorite: Boolean = state?.getBoolean(KEY_IS_FAVORITE) == true
     private var translationData: TranslationResponse? =
         state?.getParcelableCompat(KEY_TRANSLATION_DATA, TranslationResponse::class.java)
@@ -270,6 +271,12 @@ class DetailsPresenterImpl(
         subscriptions += view.abiDownloadConfirmClicks().subscribe {
             router?.requestStoragePermissions { onInstall() }
         }
+        subscriptions += view.installExistingClicks().subscribe {
+            onInstallExistingClick()
+        }
+        subscriptions += view.downgradeConfirmClicks().subscribe { removeFirst ->
+            onDowngradeConfirm(removeFirst)
+        }
 
         if (moderation) {
             view.showModeration()
@@ -303,6 +310,7 @@ class DetailsPresenterImpl(
         putInt(KEY_INSTALLED_VERSION, installedVersionCode)
         putInt(KEY_DOWNLOAD_STATE, downloadState)
         putBoolean(KEY_NEED_INSTALL, needInstall)
+        putBoolean(KEY_REMOVE_BEFORE_INSTALL, removeBeforeInstall)
         putBoolean(KEY_IS_FAVORITE, isFavorite)
         putParcelable(KEY_TRANSLATION_DATA, translationData)
         putInt(KEY_TRANSLATION_STATE, translationState)
@@ -395,8 +403,25 @@ class DetailsPresenterImpl(
             canEdit = isCapabilityAllowed(CapabilityAction.APP_EDIT_META),
             canUnlink = isCapabilityAllowed(CapabilityAction.APP_UNLINK),
             canUnpublish = isCapabilityAllowed(CapabilityAction.APP_UNPUBLISH),
-            canDelete = isCapabilityAllowed(CapabilityAction.APP_DELETE)
+            canDelete = isCapabilityAllowed(CapabilityAction.APP_DELETE),
+            installExistingTitle = resolveInstallExistingTitle()
         )
+    }
+
+    /**
+     * When the installed version is newer than or equal to the one in
+     * the store the main button shows "Open", so downloading is offered
+     * as an overflow item: reinstall for the same version, downgrade for
+     * a newer installed one. Returns null when there is nothing to offer.
+     */
+    private fun resolveInstallExistingTitle(): String? {
+        val versionCode = details?.info?.versionCode ?: return null
+        return when {
+            installedVersionCode == NOT_INSTALLED -> null
+            installedVersionCode < versionCode -> null
+            installedVersionCode == versionCode -> resourceProvider.reinstallTitle()
+            else -> resourceProvider.installOldVersionTitle()
+        }
     }
 
     private fun bindItems() {
@@ -405,6 +430,11 @@ class DetailsPresenterImpl(
 
     private fun tryInstall(): Boolean {
         val details = details ?: return false
+        // For a downgrade we must wait until the current version is
+        // actually removed, otherwise the system rejects the install.
+        if (removeBeforeInstall && installedVersionCode != NOT_INSTALLED) {
+            return false
+        }
         if (needInstall && downloadState == COMPLETED) {
             val uri = downloadManager.getInstallUri(
                 label = details.info.label.orEmpty(),
@@ -414,6 +444,7 @@ class DetailsPresenterImpl(
             if (uri != null) {
                 router?.installApp(uri)
                 needInstall = false
+                removeBeforeInstall = false
                 return true
             }
         }
@@ -660,6 +691,29 @@ class DetailsPresenterImpl(
             }
         }
         router?.requestStoragePermissions { onInstallBypassingAbiCheck() }
+    }
+
+    private fun onInstallExistingClick() {
+        val versionCode = details?.info?.versionCode ?: return
+        if (installedVersionCode > versionCode) {
+            view?.showDowngradeDialog(
+                title = resourceProvider.downgradeWarningTitle(),
+                message = resourceProvider.downgradeWarningMessage(),
+                removeButton = resourceProvider.downgradeRemoveAndInstall(),
+                installOverButton = resourceProvider.downgradeInstallOver()
+            )
+        } else {
+            onInstallClick()
+        }
+    }
+
+    private fun onDowngradeConfirm(removeFirst: Boolean) {
+        if (removeFirst) {
+            val packageName = details?.info?.packageName ?: return
+            removeBeforeInstall = true
+            router?.removeApp(packageName)
+        }
+        onInstallClick()
     }
 
     private fun onInstallBypassingAbiCheck() {
@@ -937,6 +991,7 @@ private const val KEY_DETAILS = "details"
 private const val KEY_INSTALLED_VERSION = "versionCode"
 private const val KEY_DOWNLOAD_STATE = "downloadState"
 private const val KEY_NEED_INSTALL = "needInstall"
+private const val KEY_REMOVE_BEFORE_INSTALL = "removeBeforeInstall"
 private const val KEY_IS_FAVORITE = "isFavorite"
 private const val KEY_TRANSLATION_DATA = "translation"
 private const val KEY_TRANSLATION_STATE = "translationState"

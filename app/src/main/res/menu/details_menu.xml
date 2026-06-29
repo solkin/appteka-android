@@ -20,6 +20,10 @@
         app:iconTint="?android:textColorPrimary"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/install_existing"
+        android:title="@string/reinstall"
+        app:showAsAction="never" />
+    <item
         android:id="@+id/edit_meta"
         android:icon="@drawable/ic_edit"
         android:title="@string/edit_meta"

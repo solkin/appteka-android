@@ -455,6 +455,12 @@
     <string name="abi_incompatible">ناسازگار با دستگاه شما</string>
     <string name="abi_warning_title">معماری ناسازگار</string>
     <string name="abi_warning_message">این برنامه ممکن است به درستی روی دستگاه شما کار نکند زیرا برای معماری پردازنده متفاوتی ساخته شده است. آیا می‌خواهید آن را دانلود کنید؟</string>
+    <string name="reinstall">نصب مجدد</string>
+    <string name="install_old_version">نصب نسخه قدیمی‌تر</string>
+    <string name="downgrade_warning_title">نصب نسخه قدیمی‌تر</string>
+    <string name="downgrade_warning_message">نسخه جدیدتری از قبل نصب شده است. برای نصب نسخه قدیمی‌تر ممکن است لازم باشد ابتدا نسخه فعلی را حذف کنید.</string>
+    <string name="downgrade_remove_and_install">حذف و نصب</string>
+    <string name="downgrade_install_over">نصب روی نسخه فعلی</string>
     <string name="official_developer">توسعه دهنده رسمی</string>
     <string name="official_short">رسمی</string>
     <string name="save">ذخیره</string>

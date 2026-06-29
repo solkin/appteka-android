@@ -478,6 +478,12 @@
     <string name="abi_incompatible">Not compatible with your device</string>
     <string name="abi_warning_title">Incompatible Architecture</string>
     <string name="abi_warning_message">This application may not work correctly on your device because it was built for a different processor architecture. Do you want to download it anyway?</string>
+    <string name="reinstall">Reinstall</string>
+    <string name="install_old_version">Install older version</string>
+    <string name="downgrade_warning_title">Install older version</string>
+    <string name="downgrade_warning_message">A newer version is already installed. To install an older one you may need to remove the current version first.</string>
+    <string name="downgrade_remove_and_install">Remove and install</string>
+    <string name="downgrade_install_over">Install over</string>
     <string name="official_developer">Official developer</string>
     <string name="official_short">Official</string>
     <string name="save">Save</string>

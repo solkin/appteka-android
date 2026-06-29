@@ -461,6 +461,12 @@
     <string name="abi_incompatible">گونجاو نییە لەگەڵ ئامێرەکەت</string>
     <string name="abi_warning_title">نەگونجانی نەوەی پڕۆسێسەر</string>
     <string name="abi_warning_message">ئەم بەرنامەیە لەوانەیە بەباشی کارنەکات لەسەر ئامێرەکەت چونکە بۆ نەوەیەکی تری چارەسەرکەر (پڕۆسێسەر) دروستکراوە. دەتەوێت هەر دایبەزێنیت؟</string>
+    <string name="reinstall">دووبارە دامەزراندن</string>
+    <string name="install_old_version">دامەزراندنی وەشانی کۆنتر</string>
+    <string name="downgrade_warning_title">دامەزراندنی وەشانی کۆنتر</string>
+    <string name="downgrade_warning_message">وەشانێکی نوێتر پێشتر دامەزراوە. بۆ دامەزراندنی وەشانێکی کۆنتر لەوانەیە پێویست بێت سەرەتا وەشانی ئێستا بسڕیتەوە.</string>
+    <string name="downgrade_remove_and_install">سڕینەوە و دامەزراندن</string>
+    <string name="downgrade_install_over">دامەزراندن بەسەریدا</string>
     <string name="official_developer">گەشەپێدەری فەرمی</string>
     <string name="official_short">فەرمی</string>
     <string name="save">پاشکەوتکردن</string>

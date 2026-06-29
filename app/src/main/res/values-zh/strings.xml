@@ -435,6 +435,12 @@
     <string name="abi_incompatible">与您的设备不兼容</string>
     <string name="abi_warning_title">架构不兼容</string>
     <string name="abi_warning_message">此应用程序可能无法在您的设备上正常运行，因为它是为不同的处理器架构构建的。您仍要下载吗？</string>
+    <string name="reinstall">重新安装</string>
+    <string name="install_old_version">安装旧版本</string>
+    <string name="downgrade_warning_title">安装旧版本</string>
+    <string name="downgrade_warning_message">已安装较新的版本。要安装旧版本，您可能需要先卸载当前版本。</string>
+    <string name="downgrade_remove_and_install">卸载并安装</string>
+    <string name="downgrade_install_over">覆盖安装</string>
     <string name="official_developer">官方开发者</string>
     <string name="official_short">官方</string>
     <string name="save">保存</string>

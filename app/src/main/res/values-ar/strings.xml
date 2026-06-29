@@ -491,6 +491,12 @@
     <string name="abi_incompatible">غير متوافق مع جهازك</string>
     <string name="abi_warning_title">بنية غير متوافقة</string>
     <string name="abi_warning_message">قد لا يعمل هذا التطبيق بشكل صحيح على جهازك لأنه تم بناؤه لمعالج ببنية مختلفة. هل تريد تنزيله على أي حال؟</string>
+    <string name="reinstall">إعادة التثبيت</string>
+    <string name="install_old_version">تثبيت إصدار أقدم</string>
+    <string name="downgrade_warning_title">تثبيت إصدار أقدم</string>
+    <string name="downgrade_warning_message">تم تثبيت إصدار أحدث بالفعل. لتثبيت إصدار أقدم قد تحتاج إلى إزالة الإصدار الحالي أولاً.</string>
+    <string name="downgrade_remove_and_install">إزالة وتثبيت</string>
+    <string name="downgrade_install_over">التثبيت فوقه</string>
     <string name="official_developer">مطور رسمي</string>
     <string name="official_short">رسمي</string>
     <string name="save">حفظ</string>

@@ -435,6 +435,12 @@
     <string name="abi_incompatible">Không tương thích với thiết bị của bạn</string>
     <string name="abi_warning_title">Kiến trúc không tương thích</string>
     <string name="abi_warning_message">Ứng dụng này có thể không hoạt động đúng trên thiết bị của bạn vì nó được xây dựng cho kiến trúc bộ xử lý khác. Bạn có muốn tải xuống không?</string>
+    <string name="reinstall">Cài đặt lại</string>
+    <string name="install_old_version">Cài phiên bản cũ hơn</string>
+    <string name="downgrade_warning_title">Cài phiên bản cũ hơn</string>
+    <string name="downgrade_warning_message">Một phiên bản mới hơn đã được cài đặt. Để cài phiên bản cũ hơn, bạn có thể cần gỡ phiên bản hiện tại trước.</string>
+    <string name="downgrade_remove_and_install">Gỡ và cài đặt</string>
+    <string name="downgrade_install_over">Cài đè lên</string>
     <string name="official_developer">Nhà phát triển chính thức</string>
     <string name="official_short">Chính thức</string>
     <string name="save">Lưu</string>

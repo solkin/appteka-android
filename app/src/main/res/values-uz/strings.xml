@@ -447,6 +447,12 @@
     <string name="abi_incompatible">Qurilmangiz bilan mos kelmaydi</string>
     <string name="abi_warning_title">Mos kelmaydigan arxitektura</string>
     <string name="abi_warning_message">Ushbu ilova qurilmangizda to\'g\'ri ishlamasligi mumkin, chunki u boshqa protsessor arxitekturasi uchun yaratilgan. Uni baribir yuklab olmoqchimisiz?</string>
+    <string name="reinstall">Qayta o\'rnatish</string>
+    <string name="install_old_version">Eski versiyani o\'rnatish</string>
+    <string name="downgrade_warning_title">Eski versiyani o\'rnatish</string>
+    <string name="downgrade_warning_message">Yangiroq versiya allaqachon o\'rnatilgan. Eskiroq versiyani o\'rnatish uchun avval joriy versiyani o\'chirishingiz kerak bo\'lishi mumkin.</string>
+    <string name="downgrade_remove_and_install">O\'chirib o\'rnatish</string>
+    <string name="downgrade_install_over">Ustiga o\'rnatish</string>
     <string name="official_developer">Rasmiy ishlab chiquvchi</string>
     <string name="official_short">Rasmiy</string>
     <string name="save">Saqlash</string>

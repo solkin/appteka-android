@@ -446,6 +446,12 @@
     <string name="abi_incompatible">आपके डिवाइस के साथ संगत नहीं</string>
     <string name="abi_warning_title">असंगत आर्किटेक्चर</string>
     <string name="abi_warning_message">यह एप्लिकेशन आपके डिवाइस पर सही तरीके से काम नहीं कर सकता क्योंकि यह एक अलग प्रोसेसर आर्किटेक्चर के लिए बनाया गया था। क्या आप फिर भी इसे डाउनलोड करना चाहते हैं?</string>
+    <string name="reinstall">फिर से इंस्टॉल करें</string>
+    <string name="install_old_version">पुराना संस्करण इंस्टॉल करें</string>
+    <string name="downgrade_warning_title">पुराना संस्करण इंस्टॉल करें</string>
+    <string name="downgrade_warning_message">पहले से एक नया संस्करण इंस्टॉल है। पुराना संस्करण इंस्टॉल करने के लिए आपको पहले मौजूदा संस्करण हटाना पड़ सकता है।</string>
+    <string name="downgrade_remove_and_install">हटाएं और इंस्टॉल करें</string>
+    <string name="downgrade_install_over">ऊपर इंस्टॉल करें</string>
     <string name="official_developer">आधिकारिक डेवलपर</string>
     <string name="official_short">आधिकारिक</string>
     <string name="save">सहेजें</string>

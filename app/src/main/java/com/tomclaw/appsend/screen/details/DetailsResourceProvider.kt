@@ -103,6 +103,18 @@ interface DetailsResourceProvider {
 
     fun abiWarningMessage(): String
 
+    fun reinstallTitle(): String
+
+    fun installOldVersionTitle(): String
+
+    fun downgradeWarningTitle(): String
+
+    fun downgradeWarningMessage(): String
+
+    fun downgradeRemoveAndInstall(): String
+
+    fun downgradeInstallOver(): String
+
 }
 
 class DetailsResourceProviderImpl(
@@ -313,6 +325,30 @@ class DetailsResourceProviderImpl(
 
     override fun abiWarningMessage(): String {
         return resources.getString(R.string.abi_warning_message)
+    }
+
+    override fun reinstallTitle(): String {
+        return resources.getString(R.string.reinstall)
+    }
+
+    override fun installOldVersionTitle(): String {
+        return resources.getString(R.string.install_old_version)
+    }
+
+    override fun downgradeWarningTitle(): String {
+        return resources.getString(R.string.downgrade_warning_title)
+    }
+
+    override fun downgradeWarningMessage(): String {
+        return resources.getString(R.string.downgrade_warning_message)
+    }
+
+    override fun downgradeRemoveAndInstall(): String {
+        return resources.getString(R.string.downgrade_remove_and_install)
+    }
+
+    override fun downgradeInstallOver(): String {
+        return resources.getString(R.string.downgrade_install_over)
     }
 
 }

@@ -474,6 +474,12 @@
     <string name="abi_incompatible">Не совместимо с вашим устройством</string>
     <string name="abi_warning_title">Несовместимая архитектура</string>
     <string name="abi_warning_message">Это приложение может работать некорректно на вашем устройстве, так как оно собрано для другой архитектуры процессора. Хотите всё равно скачать?</string>
+    <string name="reinstall">Установить заново</string>
+    <string name="install_old_version">Установить старую версию</string>
+    <string name="downgrade_warning_title">Установка старой версии</string>
+    <string name="downgrade_warning_message">Установлена более новая версия. Для установки старой может потребоваться удаление текущей.</string>
+    <string name="downgrade_remove_and_install">Удалить и установить</string>
+    <string name="downgrade_install_over">Установить поверх</string>
     <string name="official_developer">Официальный разработчик</string>
     <string name="official_short">Официально</string>
     <string name="save">Сохранить</string>

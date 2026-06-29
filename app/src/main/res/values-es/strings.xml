@@ -456,6 +456,12 @@
     <string name="abi_incompatible">Incompatible con su dispositivo</string>
     <string name="abi_warning_title">Arquitectura incompatible</string>
     <string name="abi_warning_message">Esta aplicación podría no funcionar correctamente en su dispositivo porque fue creada para una arquitectura de procesador diferente. ¿Desea descargarla de todos modos?</string>
+    <string name="reinstall">Reinstalar</string>
+    <string name="install_old_version">Instalar versión anterior</string>
+    <string name="downgrade_warning_title">Instalar versión anterior</string>
+    <string name="downgrade_warning_message">Ya hay instalada una versión más reciente. Para instalar una anterior, es posible que debas eliminar primero la versión actual.</string>
+    <string name="downgrade_remove_and_install">Eliminar e instalar</string>
+    <string name="downgrade_install_over">Instalar encima</string>
     <string name="official_developer">Desarrollador oficial</string>
     <string name="official_short">Oficial</string>
     <string name="save">Guardar</string>
