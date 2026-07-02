@@ -158,39 +158,12 @@ class DownloadManagerImpl(
         var input: InputStream? = null
         var output: OutputStream? = null
         try {
-            val u = URL(url)
             val proxy: Proxy? = proxyConfigProvider.getProxyConfig().toProxy()
-            connection = if (proxy != null) {
-                u.openConnection(proxy) as HttpURLConnection
-            } else {
-                u.openConnection() as HttpURLConnection
-            }
-
-            val httpUrl = url.toHttpUrlOrNull()
-                ?: throw IllegalArgumentException("Invalid download URL")
-
-            val cookies = cookieJar.loadForRequest(httpUrl)
-                .map { it.toString() }
-                .takeIf { it.isNotEmpty() }
-                ?.reduce { acc, cookie -> "$acc;$cookie" }
 
             // Check for existing partial file for resume
             val downloadedBytes = apkStorage.getTmpSize(fileName)
 
-            with(connection) {
-                setRequestProperty("Cookie", cookies)
-                connectTimeout = TimeUnit.SECONDS.toMillis(30).toInt()
-                requestMethod = GET
-                useCaches = false
-                doInput = true
-                instanceFollowRedirects = false
-                
-                // Request resume if partial file exists
-                if (downloadedBytes > 0) {
-                    setRequestProperty("Range", "bytes=$downloadedBytes-")
-                }
-            }
-            connection.connect()
+            connection = openConnection(url, downloadedBytes, proxy)
             val responseCode = connection.responseCode
             
             // HTTP 206 = Partial Content (server supports resume)
@@ -272,6 +245,58 @@ class DownloadManagerImpl(
         }
     }
 
+    // Follows redirects manually so proxy, cookies and Range are re-applied per hop
+    private fun openConnection(
+        url: String,
+        downloadedBytes: Long,
+        proxy: Proxy?,
+    ): HttpURLConnection {
+        var currentUrl = url
+        var redirects = 0
+        while (true) {
+            val httpUrl = currentUrl.toHttpUrlOrNull()
+                ?: throw IllegalArgumentException("Invalid download URL")
+            val connection = if (proxy != null) {
+                URL(currentUrl).openConnection(proxy) as HttpURLConnection
+            } else {
+                URL(currentUrl).openConnection() as HttpURLConnection
+            }
+
+            val cookies = cookieJar.loadForRequest(httpUrl)
+                .map { it.toString() }
+                .takeIf { it.isNotEmpty() }
+                ?.reduce { acc, cookie -> "$acc;$cookie" }
+
+            with(connection) {
+                setRequestProperty("Cookie", cookies)
+                connectTimeout = TimeUnit.SECONDS.toMillis(30).toInt()
+                requestMethod = GET
+                useCaches = false
+                doInput = true
+                instanceFollowRedirects = false
+                if (downloadedBytes > 0) {
+                    setRequestProperty("Range", "bytes=$downloadedBytes-")
+                }
+            }
+            connection.connect()
+
+            val code = connection.responseCode
+            if (code !in REDIRECT_CODES) {
+                return connection
+            }
+            val location = connection.getHeaderField("Location")
+            connection.disconnect()
+            if (++redirects > MAX_REDIRECTS) {
+                throw IOException("Too many redirects while downloading")
+            }
+            if (location == null) {
+                throw IOException("Redirect $code without Location header")
+            }
+            currentUrl = httpUrl.resolve(location)?.toString()
+                ?: throw IOException("Invalid redirect location: $location")
+        }
+    }
+
     private fun escapeFileSymbols(name: String): String {
         var fileName = name
         for (symbol in RESERVED_CHARS) {
@@ -285,6 +310,9 @@ class DownloadManagerImpl(
 const val GET = "GET"
 const val SC_BAD_REQUEST = 400
 const val SC_PARTIAL_CONTENT = 206
+
+private val REDIRECT_CODES = setOf(301, 302, 303, 307, 308)
+private const val MAX_REDIRECTS = 5
 
 const val IDLE: Int = -30
 const val AWAIT: Int = -10
