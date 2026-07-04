@@ -3,6 +3,7 @@ package com.tomclaw.appsend.download
 import android.net.Uri
 import com.jakewharton.rxrelay3.BehaviorRelay
 import com.tomclaw.appsend.core.ProxyConfigProvider
+import com.tomclaw.appsend.core.UserAgentProvider
 import com.tomclaw.appsend.util.safeClose
 import io.reactivex.rxjava3.core.Observable
 import okhttp3.CookieJar
@@ -38,6 +39,7 @@ class DownloadManagerImpl(
     private val apkStorage: ApkStorage,
     private val cookieJar: CookieJar,
     private val proxyConfigProvider: ProxyConfigProvider,
+    private val userAgentProvider: UserAgentProvider,
 ) : DownloadManager {
 
     private val executor = Executors.newSingleThreadExecutor()
@@ -269,6 +271,10 @@ class DownloadManagerImpl(
 
             with(connection) {
                 setRequestProperty("Cookie", cookies)
+                // Same UA as all API calls, so the server can tell official
+                // client versions apart (e.g. redirect-capable ones) instead
+                // of the platform default Dalvik/... string
+                setRequestProperty("User-Agent", userAgentProvider.getUserAgent())
                 connectTimeout = TimeUnit.SECONDS.toMillis(30).toInt()
                 requestMethod = GET
                 useCaches = false

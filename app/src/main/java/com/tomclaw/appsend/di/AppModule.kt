@@ -262,7 +262,8 @@ class AppModule(private val app: Application) {
         apkStorage: ApkStorage,
         cookieJar: CookieJar,
         proxyConfigProvider: ProxyConfigProvider,
-    ): DownloadManager = DownloadManagerImpl(apkStorage, cookieJar, proxyConfigProvider)
+        userAgentProvider: UserAgentProvider,
+    ): DownloadManager = DownloadManagerImpl(apkStorage, cookieJar, proxyConfigProvider, userAgentProvider)
 
     @Provides
     @Singleton
