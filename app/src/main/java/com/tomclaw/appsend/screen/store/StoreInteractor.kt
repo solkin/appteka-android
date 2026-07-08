@@ -8,7 +8,12 @@ import java.util.Locale
 
 interface StoreInteractor {
 
-    fun listApps(offsetAppId: String? = null, categoryId: Int? = null): Observable<List<AppEntity>>
+    fun listApps(
+        offsetAppId: String? = null,
+        categoryId: Int? = null,
+        openSource: Boolean = false,
+        exclusive: Boolean = false
+    ): Observable<List<AppEntity>>
 
 }
 
@@ -18,19 +23,19 @@ class StoreInteractorImpl(
     private val schedulers: SchedulersFactory
 ) : StoreInteractor {
 
-    override fun listApps(offsetAppId: String?, categoryId: Int?): Observable<List<AppEntity>> {
-        return if (categoryId != null) {
-            api.getTopListByCategory(
-                appId = offsetAppId,
-                categoryId = categoryId,
-                locale = locale.language
-            )
-        } else {
-            api.getTopList(
-                appId = offsetAppId,
-                locale = locale.language
-            )
-        }
+    override fun listApps(
+        offsetAppId: String?,
+        categoryId: Int?,
+        openSource: Boolean,
+        exclusive: Boolean
+    ): Observable<List<AppEntity>> {
+        return api.getTopList(
+            appId = offsetAppId,
+            locale = locale.language,
+            categoryId = categoryId,
+            openSource = true.takeIf { openSource },
+            exclusive = true.takeIf { exclusive }
+        )
             .map { list ->
                 list.result.files
             }

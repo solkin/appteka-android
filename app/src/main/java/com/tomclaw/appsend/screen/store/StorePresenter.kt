@@ -67,11 +67,12 @@ class StorePresenterImpl(
     private var isError: Boolean = state?.getBoolean(KEY_ERROR) == true
     private var category: CategoryItem? =
         state?.getParcelableCompat(KEY_CATEGORY_ID, CategoryItem::class.java)
+    private var openSource: Boolean = state?.getBoolean(KEY_OPEN_SOURCE) == true
+    private var exclusive: Boolean = state?.getBoolean(KEY_EXCLUSIVE) == true
 
     private var dropdownItems: List<CategoryDropdownItem> =
         state?.getParcelableArrayListCompat(KEY_DROPDOWN_ITEMS, CategoryDropdownItem::class.java)
             ?: emptyList()
-    private var selectedPosition: Int = state?.getInt(KEY_SELECTED_POSITION) ?: 0
 
     override fun attachView(view: StoreView) {
         this.view = view
@@ -83,14 +84,22 @@ class StorePresenterImpl(
             invalidateApps()
             analytics.trackEvent("store-refresh")
         }
-        subscriptions += view.categorySelectedClicks().subscribe { position ->
-            onCategoryPositionSelected(position)
+        subscriptions += view.categorySelectedClicks().subscribe { categoryId ->
+            onCategorySelected(categoryId)
         }
+        subscriptions += view.openSourceClicks().subscribe { checked ->
+            onOpenSourceChanged(checked)
+        }
+        subscriptions += view.exclusiveClicks().subscribe { checked ->
+            onExclusiveChanged(checked)
+        }
+
+        view.setFilters(openSource = openSource, exclusive = exclusive)
 
         if (dropdownItems.isNotEmpty()) {
             // Restore from saved state synchronously
             view.showCategories(dropdownItems)
-            view.setSelectedCategory(dropdownItems[selectedPosition])
+            selectedCategoryItem()?.let { view.setSelectedCategory(it) }
             if (isError) {
                 onError()
             } else {
@@ -120,7 +129,8 @@ class StorePresenterImpl(
         putBoolean(KEY_ERROR, isError)
         putParcelable(KEY_CATEGORY_ID, category)
         putParcelableArrayList(KEY_DROPDOWN_ITEMS, ArrayList(dropdownItems))
-        putInt(KEY_SELECTED_POSITION, selectedPosition)
+        putBoolean(KEY_OPEN_SOURCE, openSource)
+        putBoolean(KEY_EXCLUSIVE, exclusive)
     }
 
     override fun invalidateApps() {
@@ -130,7 +140,8 @@ class StorePresenterImpl(
     }
 
     private fun loadApps() {
-        subscriptions += storeInteractor.listApps(categoryId = category?.id)
+        subscriptions += storeInteractor
+            .listApps(categoryId = category?.id, openSource = openSource, exclusive = exclusive)
             .observeOn(schedulers.mainThread())
             .doOnSubscribe { if (view?.isPullRefreshing() == false) view?.showProgress() }
             .subscribe(
@@ -140,7 +151,8 @@ class StorePresenterImpl(
     }
 
     private fun loadApps(offsetAppId: String) {
-        subscriptions += storeInteractor.listApps(offsetAppId, category?.id)
+        subscriptions += storeInteractor
+            .listApps(offsetAppId, category?.id, openSource, exclusive)
             .observeOn(schedulers.mainThread())
             .retryWhenNonAuthErrors()
             .subscribe(
@@ -220,15 +232,8 @@ class StorePresenterImpl(
         val categoryItems = categories.map { categoryConverter.convert(it) }.sortedBy { it.title }
         dropdownItems = dropdownItemConverter.convert(categoryItems)
 
-        // Find position of saved category
-        selectedPosition = if (category != null) {
-            dropdownItems.indexOfFirst { it.id == category?.id }.takeIf { it >= 0 } ?: 0
-        } else {
-            0
-        }
-
         view?.showCategories(dropdownItems)
-        view?.setSelectedCategory(dropdownItems[selectedPosition])
+        selectedCategoryItem()?.let { view?.setSelectedCategory(it) }
 
         if (isError) {
             onError()
@@ -237,25 +242,39 @@ class StorePresenterImpl(
         }
     }
 
-    private fun onCategoryPositionSelected(position: Int) {
-        if (position == selectedPosition) return
+    // The "All categories" entry has id 0, matching a null category.
+    private fun selectedCategoryItem(): CategoryDropdownItem? =
+        dropdownItems.find { it.id == (category?.id ?: 0) } ?: dropdownItems.firstOrNull()
 
-        selectedPosition = position
-        val selectedItem = dropdownItems.getOrNull(position)
+    private fun onCategorySelected(categoryId: Int) {
+        if (categoryId == (category?.id ?: 0)) return
+        val item = dropdownItems.find { it.id == categoryId } ?: return
 
-        if (selectedItem == null || selectedItem.id == 0) {
-            category = null
+        category = if (categoryId == 0) {
             analytics.trackEvent("store-category-cleared")
+            null
         } else {
-            category = CategoryItem(
-                id = selectedItem.id,
-                title = selectedItem.title,
-                icon = selectedItem.iconSvg ?: ""
-            )
             analytics.trackEvent("store-category-selected")
+            CategoryItem(id = item.id, title = item.title, icon = item.iconSvg ?: "")
         }
 
-        view?.setSelectedCategory(dropdownItems[selectedPosition])
+        view?.setSelectedCategory(item)
+        view?.scrollToTop()
+        invalidateApps()
+    }
+
+    private fun onOpenSourceChanged(checked: Boolean) {
+        if (checked == openSource) return
+        openSource = checked
+        analytics.trackEvent("store-filter-open-source")
+        view?.scrollToTop()
+        invalidateApps()
+    }
+
+    private fun onExclusiveChanged(checked: Boolean) {
+        if (checked == exclusive) return
+        exclusive = checked
+        analytics.trackEvent("store-filter-exclusive")
         view?.scrollToTop()
         invalidateApps()
     }
@@ -266,4 +285,5 @@ private const val KEY_APPS = "apps"
 private const val KEY_ERROR = "error"
 private const val KEY_CATEGORY_ID = "category"
 private const val KEY_DROPDOWN_ITEMS = "dropdown_items"
-private const val KEY_SELECTED_POSITION = "selected_position"
+private const val KEY_OPEN_SOURCE = "open_source"
+private const val KEY_EXCLUSIVE = "exclusive"

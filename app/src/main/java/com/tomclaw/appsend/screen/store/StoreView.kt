@@ -2,18 +2,19 @@ package com.tomclaw.appsend.screen.store
 
 import android.annotation.SuppressLint
 import android.view.View
-import android.widget.AdapterView
-import android.widget.AutoCompleteTextView
 import android.widget.TextView
 import android.widget.ViewFlipper
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.tomclaw.appsend.util.adapter.SimpleRecyclerAdapter
-import com.google.android.material.textfield.TextInputLayout
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.chip.Chip
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.util.ActionItem
+import com.tomclaw.appsend.util.ActionsAdapter
+import com.tomclaw.appsend.util.adapter.SimpleRecyclerAdapter
 import com.tomclaw.appsend.util.clicks
 import com.tomclaw.appsend.util.hideWithAlphaAnimation
 import com.tomclaw.appsend.util.showWithAlphaAnimation
@@ -38,6 +39,8 @@ interface StoreView {
 
     fun setSelectedCategory(item: CategoryDropdownItem)
 
+    fun setFilters(openSource: Boolean, exclusive: Boolean)
+
     fun scrollToTop()
 
     fun stopPullRefreshing()
@@ -49,6 +52,10 @@ interface StoreView {
     fun refreshClicks(): Observable<Unit>
 
     fun categorySelectedClicks(): Observable<Int>
+
+    fun openSourceClicks(): Observable<Boolean>
+
+    fun exclusiveClicks(): Observable<Boolean>
 
 }
 
@@ -65,14 +72,17 @@ class StoreViewImpl(
     private val recycler: RecyclerView = view.findViewById(R.id.recycler)
     private val error: TextView = view.findViewById(R.id.error_text)
     private val retryButton: View = view.findViewById(R.id.button_retry)
-    private val categoryDropdownLayout: TextInputLayout =
-        view.findViewById(R.id.category_dropdown_layout)
-    private val categoryDropdown: AutoCompleteTextView =
-        view.findViewById(R.id.category_dropdown)
+    private val categoryChip: Chip = view.findViewById(R.id.chip_category)
+    private val openSourceChip: Chip = view.findViewById(R.id.chip_open_source)
+    private val exclusiveChip: Chip = view.findViewById(R.id.chip_exclusive)
 
     private val retryRelay = PublishRelay.create<Unit>()
     private val refreshRelay = PublishRelay.create<Unit>()
     private val categorySelectedRelay = PublishRelay.create<Int>()
+    private val openSourceRelay = PublishRelay.create<Boolean>()
+    private val exclusiveRelay = PublishRelay.create<Boolean>()
+
+    private var categories: List<CategoryDropdownItem> = emptyList()
 
     init {
         val orientation = RecyclerView.VERTICAL
@@ -87,10 +97,11 @@ class StoreViewImpl(
 
         retryButton.clicks(retryRelay)
 
-        categoryDropdown.onItemClickListener =
-            AdapterView.OnItemClickListener { _, _, position, _ ->
-                categorySelectedRelay.accept(position)
-            }
+        categoryChip.setOnClickListener { showCategoryPicker() }
+        // Filter chips are checkable, so a click has already toggled the
+        // state by the time we read it; emit the new value.
+        openSourceChip.setOnClickListener { openSourceRelay.accept(openSourceChip.isChecked) }
+        exclusiveChip.setOnClickListener { exclusiveRelay.accept(exclusiveChip.isChecked) }
     }
 
     override fun showProgress() {
@@ -119,25 +130,41 @@ class StoreViewImpl(
     }
 
     override fun showCategories(items: List<CategoryDropdownItem>) {
-        val dropdownAdapter = CategoryDropdownAdapter(context, items)
-        categoryDropdown.setAdapter(dropdownAdapter)
+        categories = items
     }
 
     override fun setSelectedCategory(item: CategoryDropdownItem) {
-        categoryDropdown.setText(item.title, false)
-        updateStartIcon(item)
+        categoryChip.text = item.title
+        when {
+            item.iconSvg != null -> categoryChip.chipIcon = svgToDrawable(item.iconSvg, context.resources)
+            item.iconRes != 0 -> categoryChip.setChipIconResource(item.iconRes)
+            else -> categoryChip.setChipIconResource(R.drawable.ic_category)
+        }
+    }
+
+    override fun setFilters(openSource: Boolean, exclusive: Boolean) {
+        // Programmatic; does not fire the click listeners above.
+        openSourceChip.isChecked = openSource
+        exclusiveChip.isChecked = exclusive
+    }
+
+    private fun showCategoryPicker() {
+        if (categories.isEmpty()) return
+        val dialog = BottomSheetDialog(context)
+        val sheet = View.inflate(context, R.layout.bottom_sheet_actions, null)
+        val recycler: RecyclerView = sheet.findViewById(R.id.actions_recycler)
+        val actions = categories.map { ActionItem(it.id, it.title, it.iconRes, it.iconSvg) }
+        recycler.layoutManager = LinearLayoutManager(context)
+        recycler.adapter = ActionsAdapter(actions) { categoryId ->
+            dialog.dismiss()
+            categorySelectedRelay.accept(categoryId)
+        }
+        dialog.setContentView(sheet)
+        dialog.show()
     }
 
     override fun scrollToTop() {
         recycler.scrollToPosition(0)
-    }
-
-    private fun updateStartIcon(item: CategoryDropdownItem) {
-        if (item.iconSvg != null) {
-            categoryDropdownLayout.startIconDrawable = svgToDrawable(item.iconSvg, context.resources)
-        } else {
-            categoryDropdownLayout.setStartIconDrawable(R.drawable.ic_category)
-        }
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -160,6 +187,10 @@ class StoreViewImpl(
     override fun refreshClicks(): Observable<Unit> = refreshRelay
 
     override fun categorySelectedClicks(): Observable<Int> = categorySelectedRelay
+
+    override fun openSourceClicks(): Observable<Boolean> = openSourceRelay
+
+    override fun exclusiveClicks(): Observable<Boolean> = exclusiveRelay
 
 }
 

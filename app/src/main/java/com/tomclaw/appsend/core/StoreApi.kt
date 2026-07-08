@@ -72,17 +72,16 @@ import retrofit2.http.Query
 
 interface StoreApi {
 
+    // Store feed: category and flag filters are optional query params.
+    // Null values are omitted by Retrofit, so an unfiltered call is the
+    // plain top list. category/list stays server-side for old clients.
     @GET("1/app/top/list")
     fun getTopList(
         @Query("app_id") appId: String?,
-        @Query("locale") locale: String
-    ): Single<StoreResponse<AppsListResponse>>
-
-    @GET("1/app/category/list")
-    fun getTopListByCategory(
-        @Query("app_id") appId: String?,
-        @Query("category_id") categoryId: Int,
-        @Query("locale") locale: String
+        @Query("locale") locale: String,
+        @Query("category_id") categoryId: Int? = null,
+        @Query("open_source") openSource: Boolean? = null,
+        @Query("exclusive") exclusive: Boolean? = null
     ): Single<StoreResponse<AppsListResponse>>
 
     @GET("1/app/search")
