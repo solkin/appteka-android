@@ -28,8 +28,13 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
+      - name: Decode keystore
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+        run: echo "$KEYSTORE_BASE64" | base64 --decode > tomclaw.keystore
+
       - name: Build APK
-        run: ./gradlew assemble${{ matrix.build_type }} -PstoreFile=${{ secrets.STORE_FILE }} -PstorePassword=${{ secrets.STORE_PASSWORD }} -PkeyAlias=${{ secrets.KEY_ALIAS }} -PkeyPassword=${{ secrets.KEY_PASSWORD }}
+        run: ./gradlew assemble${{ matrix.build_type }} -PstoreFile=tomclaw.keystore -PstorePassword=${{ secrets.STORE_PASSWORD }} -PkeyAlias=${{ secrets.KEY_ALIAS }} -PkeyPassword=${{ secrets.KEY_PASSWORD }}
 
       - name: Upload APK
         uses: actions/upload-artifact@v7

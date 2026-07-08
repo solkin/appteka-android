@@ -4,6 +4,10 @@
 *.iml
 .DS_store
 
+# Signing keys — never commit the release keystore
+*.keystore
+*.jks
+
 # IDE folders #
 gen/
 bin/
