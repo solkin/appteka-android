@@ -156,7 +156,7 @@
     <string name="nav_installed">已安装</string>
     <string name="nav_downloaded">已下载</string>
     <string name="nav_settings">设置</string>
-    <string name="nav_info">信息</string>
+    <string name="nav_info">关于</string>
     <string name="select_app">选择一个应用程序</string>
     <string name="select_app_description">安装或apk文件</string>
     <string name="search_app">在Appteka中搜索</string>
@@ -344,7 +344,7 @@
     <string name="authorization_required_message">登录以继续</string>
     <string name="authorization_description">授权说明</string>
     <string name="error_domain_blocked">禁止使用临时邮箱地址</string>
-    <string name="add_screenshot">添加截吐</string>
+    <string name="add_screenshot">添加截图</string>
     <string name="screenshots_title">截图 </string>
     <string name="download_screenshot">下载截图</string>
     <string name="error_saving_screenshot">保存截图失败</string>
