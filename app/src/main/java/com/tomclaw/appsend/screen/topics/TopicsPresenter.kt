@@ -166,7 +166,9 @@ class TopicsPresenterImpl(
         val existing = this.entities
         when {
             append -> {
-                this.entities = (existing ?: emptyList()) + entities
+                val current = existing ?: emptyList()
+                val knownIds = current.mapTo(mutableSetOf()) { it.topicId }
+                this.entities = current + entities.filter { knownIds.add(it.topicId) }
                 this.hasMore = hasMore
             }
             existing.isNullOrEmpty() || existing.size <= entities.size -> {

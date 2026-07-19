@@ -163,9 +163,12 @@ class StorePresenterImpl(
 
     private fun onLoaded(entities: List<AppEntity>) {
         isError = false
+        // Pagination may return an app that's already shown (inclusive offset,
+        // list re-sorted between pages): duplicate stable IDs crash RecyclerView.
+        val knownIds = this.items?.mapTo(mutableSetOf()) { it.id } ?: mutableSetOf()
         val newItems = entities
             .map { appConverter.convert(it) }
-            .toList()
+            .filter { knownIds.add(it.id) }
             .apply { if (isNotEmpty()) last().hasMore = true }
         this.items = this.items
             ?.apply { if (isNotEmpty()) last().hasProgress = false }

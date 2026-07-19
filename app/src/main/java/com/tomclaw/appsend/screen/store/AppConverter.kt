@@ -45,8 +45,10 @@ class AppConverterImpl(
         )
     }
 
+    // Halves instead of a sum: summed hashCodes cancel out and collide easily.
     private fun getItemId(entity: AppEntity): Long {
-        return (entity.appId.hashCode() + entity.packageName.hashCode()).toLong()
+        return (entity.appId.hashCode().toLong() shl 32) or
+                (entity.packageName.hashCode().toLong() and 0xffffffffL)
     }
 
 }
