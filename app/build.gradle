@@ -12,7 +12,7 @@ android {
         applicationId "com.tomclaw.appsend"
         minSdkVersion 23
         targetSdkVersion 36
-        versionCode project.hasProperty("versionCode") ? Integer.parseInt(project.versionCode) : 1090
+        versionCode project.hasProperty("versionCode") ? Integer.parseInt(project.versionCode) : 1091
         versionName = "21.0"
     }
 
@@ -86,7 +86,7 @@ dependencies {
     // Standard Libraries
     implementation 'com.github.solkin:bananalytics-android:v1.0.0'
     implementation 'androidx.preference:preference-ktx:1.2.1'
-    implementation 'com.github.solkin:simple-image-loader:v1.2.0'
+    implementation 'com.github.solkin:simple-image-loader:v1.3.0'
     implementation 'com.github.solkin:disk-lru-cache:v1.8'
 
     // AndroidX Core & UI

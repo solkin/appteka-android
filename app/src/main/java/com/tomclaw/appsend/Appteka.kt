@@ -12,9 +12,8 @@ import com.tomclaw.appsend.util.AppIconLoader
 import com.tomclaw.appsend.util.EdgeToEdgeActivityCallback
 import com.tomclaw.appsend.util.SvgDecoder
 import com.tomclaw.appsend.util.ThemeManager
-import com.tomclaw.cache.DiskLruCache
 import com.tomclaw.imageloader.SimpleImageLoader.initImageLoader
-import com.tomclaw.imageloader.core.DiskCacheImpl
+import com.tomclaw.imageloader.core.DiskCache
 import com.tomclaw.imageloader.core.FileProviderImpl
 import com.tomclaw.imageloader.core.MainExecutorImpl
 import com.tomclaw.imageloader.core.MemoryCacheImpl
@@ -73,7 +72,9 @@ class Appteka : Application() {
                 decoders = listOf(SvgDecoder(), BitmapDecoder()),
                 fileProvider = FileProviderImpl(
                     cacheDir,
-                    DiskCacheImpl(DiskLruCache.create(cacheDir, DISK_CACHE_SIZE)),
+                    // DiskCache.create recovers from a corrupt journal on its own instead
+                    // of throwing, so a bad cache no longer crashes every icon bind.
+                    DiskCache.create(cacheDir, DISK_CACHE_SIZE),
                     UrlLoader(),
                     FileLoader(assets),
                     ContentLoader(contentResolver),
@@ -84,7 +85,8 @@ class Appteka : Application() {
                 mainExecutor = MainExecutorImpl(),
                 backgroundExecutor = Executors.newFixedThreadPool(IMAGE_LOADER_THREADS)
             )
-        } catch (ignored: Throwable) {
+        } catch (ex: Throwable) {
+            Log.e(TAG, "Failed to init image loader", ex)
         }
     }
 
