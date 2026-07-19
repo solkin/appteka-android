@@ -24,7 +24,6 @@ import com.tomclaw.appsend.util.getColor
 import com.tomclaw.imageloader.SimpleImageLoader.imageLoader
 import com.tomclaw.imageloader.core.Handlers
 import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.disposables.Disposable
 
 interface DownloadNotifications {
 
@@ -106,8 +105,11 @@ class DownloadNotificationsImpl(
                 }
             }
 
-        var disposable: Disposable? = null
-        disposable = observable.subscribe({ status ->
+        // takeUntil completes the stream on a terminal status, so the subscription drops
+        // itself even when the relay already cached that status before we subscribed
+        observable.takeUntil { status ->
+            status == ERROR || status == COMPLETED || status == IDLE
+        }.subscribe({ status ->
             icon?.run { context.imageLoader().load(iconHolder, icon, handlers) }
             when (status) {
                 AWAIT -> {
@@ -130,7 +132,6 @@ class DownloadNotificationsImpl(
                         .build()
                     notificationManager.notify(notificationId, notification)
                     stop()
-                    disposable?.dispose()
                 }
 
                 COMPLETED -> {
@@ -157,13 +158,11 @@ class DownloadNotificationsImpl(
                         notificationManager.notify(notificationId, notification)
                     }
                     stop()
-                    disposable?.dispose()
                 }
 
                 IDLE -> {
                     notificationManager.cancel(notificationId)
                     stop()
-                    disposable?.dispose()
                 }
 
                 STARTED -> {
@@ -190,7 +189,6 @@ class DownloadNotificationsImpl(
             analytics.trackException(error, mapOf("reason" to "Download status subscription error"))
             notificationManager.cancel(notificationId)
             stop()
-            disposable?.dispose()
         })
     }
 

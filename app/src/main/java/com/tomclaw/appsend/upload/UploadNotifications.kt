@@ -24,7 +24,6 @@ import com.tomclaw.appsend.util.getLabel
 import com.tomclaw.imageloader.SimpleImageLoader.imageLoader
 import com.tomclaw.imageloader.core.Handlers
 import io.reactivex.rxjava3.core.Observable
-import io.reactivex.rxjava3.disposables.Disposable
 
 interface UploadNotifications {
 
@@ -105,8 +104,11 @@ class UploadNotificationsImpl(private val context: Context) : UploadNotification
                 }
             }
 
-        var disposable: Disposable? = null
-        disposable = observable.subscribe { state ->
+        // takeUntil completes the stream on a terminal status, so the subscription drops
+        // itself even when the relay already cached that status before we subscribed
+        observable.takeUntil { state ->
+            state.status in TERMINAL_UPLOAD_STATUSES
+        }.subscribe { state ->
             val uri = createApkIconURI(apk.path)
             uri.run { context.imageLoader().load(iconHolder, uri, handlers) }
             when (state.status) {
@@ -131,7 +133,6 @@ class UploadNotificationsImpl(private val context: Context) : UploadNotification
                         .build()
                     notificationManager.notify(notificationId, notification)
                     stop()
-                    disposable?.dispose()
                 }
 
                 UploadStatus.COMPLETED -> {
@@ -156,14 +157,12 @@ class UploadNotificationsImpl(private val context: Context) : UploadNotification
                     val notification = uploadedNotificationBuilder.build()
                     notificationManager.notify(notificationId, notification)
                     stop()
-                    disposable?.dispose()
                 }
 
                 UploadStatus.IDLE -> {
                     notificationManager.cancel(notificationId)
                     notificationManager.cancel(UPLOAD_NOTIFICATION_ID)
                     stop()
-                    disposable?.dispose()
                 }
 
                 UploadStatus.STARTED -> {

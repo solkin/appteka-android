@@ -16,6 +16,7 @@ import java.io.OutputStream
 import java.net.HttpURLConnection
 import java.net.Proxy
 import java.net.URL
+import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.Executors
 import java.util.concurrent.Future
 import java.util.concurrent.TimeUnit
@@ -44,9 +45,10 @@ class DownloadManagerImpl(
 
     private val executor = Executors.newSingleThreadExecutor()
 
-    private val relays = HashMap<String, BehaviorRelay<Int>>()
-    private val downloads = HashMap<String, Future<*>>()
-    private val fileNames = HashMap<String, String>()
+    // Touched from both the service (main thread) and the download executor
+    private val relays = ConcurrentHashMap<String, BehaviorRelay<Int>>()
+    private val downloads = ConcurrentHashMap<String, Future<*>>()
+    private val fileNames = ConcurrentHashMap<String, String>()
 
     override fun status(appId: String): Observable<Int> {
         val relay = relays[appId] ?: let {
@@ -91,37 +93,45 @@ class DownloadManagerImpl(
         relay.accept(AWAIT)
         fileNames[appId] = fileName
         downloads[appId] = executor.submit {
-            relay.accept(STARTED)
-            val result = downloadBlocking(
-                url = url,
-                fileName = fileName,
-                progressCallback = { percent ->
-                    relay.accept(percent)
-                },
-                errorCallback = {
-                    relay.accept(ERROR)
-                },
-            )
-            when (result) {
-                DownloadResult.SUCCESS -> {
-                    val committed = apkStorage.commit(fileName)
-                    if (committed) {
-                        relay.accept(COMPLETED)
-                        fileNames.remove(appId)
-                    } else {
+            try {
+                relay.accept(STARTED)
+                val result = downloadBlocking(
+                    url = url,
+                    fileName = fileName,
+                    progressCallback = { percent ->
+                        relay.accept(percent)
+                    },
+                    errorCallback = {
                         relay.accept(ERROR)
+                    },
+                )
+                when (result) {
+                    DownloadResult.SUCCESS -> {
+                        val committed = apkStorage.commit(fileName)
+                        if (committed) {
+                            fileNames.remove(appId)
+                            relay.accept(COMPLETED)
+                        } else {
+                            relay.accept(ERROR)
+                        }
+                    }
+                    DownloadResult.INTERRUPTED -> {
+                        // Keep tmp file for resume - don't delete
+                        relay.accept(IDLE)
+                    }
+                    DownloadResult.ERROR -> {
+                        // Keep tmp file for resume - don't delete
+                        // relay already has ERROR from errorCallback
                     }
                 }
-                DownloadResult.INTERRUPTED -> {
-                    // Keep tmp file for resume - don't delete
-                    relay.accept(IDLE)
-                }
-                DownloadResult.ERROR -> {
-                    // Keep tmp file for resume - don't delete
-                    // relay already has ERROR from errorCallback
-                }
+            } catch (ex: Throwable) {
+                // Escaping here would leave the relay without a terminal state,
+                // and the foreground service would keep running until Android kills it
+                println("[download] Unexpected failure while downloading\n$ex")
+                relay.accept(ERROR)
+            } finally {
+                downloads.remove(appId)
             }
-            downloads.remove(appId)
         }
         relays[appId] = relay
         return fileName
@@ -222,7 +232,7 @@ class DownloadManagerImpl(
                 val p = (100 * read / total).toInt()
                 if (p > percent) {
                     if (System.currentTimeMillis() > progressUpdateTime + 300) {
-                        progressCallback(percent)
+                        progressCallback(p)
                         progressUpdateTime = System.currentTimeMillis()
                     }
                     percent = p
@@ -276,6 +286,9 @@ class DownloadManagerImpl(
                 // of the platform default Dalvik/... string
                 setRequestProperty("User-Agent", userAgentProvider.getUserAgent())
                 connectTimeout = TimeUnit.SECONDS.toMillis(30).toInt()
+                // Without it a stalled socket blocks in read() forever and burns
+                // the foreground service time budget until Android kills the app
+                readTimeout = TimeUnit.SECONDS.toMillis(30).toInt()
                 requestMethod = GET
                 useCaches = false
                 doInput = true

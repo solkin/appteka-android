@@ -32,6 +32,7 @@ import java.net.HttpURLConnection
 import java.net.Proxy
 import java.net.URL
 import java.util.UUID
+import java.util.concurrent.ConcurrentHashMap
 import java.util.concurrent.Executors
 import java.util.concurrent.Future
 import java.util.concurrent.TimeUnit
@@ -57,9 +58,10 @@ class UploadManagerImpl(
 
     private val executor = Executors.newSingleThreadExecutor()
 
-    private val relays = HashMap<String, BehaviorRelay<UploadState>>()
-    private val uploads = HashMap<String, Future<*>>()
-    private val results = HashMap<String, UploadResponse>()
+    // Touched from both the service (main thread) and the upload executor
+    private val relays = ConcurrentHashMap<String, BehaviorRelay<UploadState>>()
+    private val uploads = ConcurrentHashMap<String, Future<*>>()
+    private val results = ConcurrentHashMap<String, UploadResponse>()
 
     override fun status(id: String): Observable<UploadState> {
         val relay = relays[id] ?: let {
@@ -103,71 +105,84 @@ class UploadManagerImpl(
         }
         relay.accept(UploadState(status = UploadStatus.AWAIT))
         uploads[id] = executor.submit {
-            val scrUploadUri = info.screenshots
-                .filter { it.scrId.isNullOrEmpty() }
-                .map { it.original }
-            val scrUploadCount = scrUploadUri.size
-            var apkCount = 0
+            try {
+                val scrUploadUri = info.screenshots
+                    .filter { it.scrId.isNullOrEmpty() }
+                    .map { it.original }
+                val scrUploadCount = scrUploadUri.size
+                var apkCount = 0
 
-            relay.accept(UploadState(status = UploadStatus.STARTED))
-            val uploadResult = results[id] ?: if (apk != null) {
-                apkCount = 1
-                uploadBlocking(
-                    path = apk.path,
-                    packageInfo = apk.packageInfo,
-                    progressCallback = { percent ->
-                        relay.accept(
-                            UploadState(
-                                status = UploadStatus.PROGRESS,
-                                totalPercent(apkCount, percent, scrUploadCount, 0)
-                            )
-                        )
-                    },
-                    errorCallback = {
-                        relay.accept(UploadState(status = UploadStatus.ERROR))
-                    },
-                    cancelCallback = {},
-                )
-            } else {
-                null
-            }
-            if (uploadResult != null) {
-                results[id] = uploadResult
-
-                val scrIds = scrUploadUri
-                    .takeIf { it.isNotEmpty() }
-                    ?.let { uris ->
-                        uploadScreenshotsBlocking(uris, progressCallback = { percent ->
+                relay.accept(UploadState(status = UploadStatus.STARTED))
+                val uploadResult = results[id] ?: if (apk != null) {
+                    apkCount = 1
+                    uploadBlocking(
+                        path = apk.path,
+                        packageInfo = apk.packageInfo,
+                        progressCallback = { percent ->
                             relay.accept(
                                 UploadState(
                                     status = UploadStatus.PROGRESS,
-                                    totalPercent(apkCount, 100, scrUploadCount, percent)
+                                    totalPercent(apkCount, percent, scrUploadCount, 0)
                                 )
                             )
-                        })
-                    }
-                    .orEmpty()
-                    .let { ids -> mergeEmptyStrings(info.screenshots.map { it.scrId }, ids) }
+                        },
+                        errorCallback = {
+                            relay.accept(UploadState(status = UploadStatus.ERROR))
+                        },
+                        cancelCallback = {},
+                    )
+                } else {
+                    null
+                }
+                if (uploadResult != null) {
+                    results[id] = uploadResult
+
+                    val scrIds = scrUploadUri
+                        .takeIf { it.isNotEmpty() }
+                        ?.let { uris ->
+                            uploadScreenshotsBlocking(uris, progressCallback = { percent ->
+                                relay.accept(
+                                    UploadState(
+                                        status = UploadStatus.PROGRESS,
+                                        totalPercent(apkCount, 100, scrUploadCount, percent)
+                                    )
+                                )
+                            })
+                        }
+                        .orEmpty()
+                        .let { ids -> mergeEmptyStrings(info.screenshots.map { it.scrId }, ids) }
 
 
-                setMetaInfoBlocking(
-                    appId = uploadResult.appId,
-                    info = info,
-                    scrIds = scrIds,
-                    successCallback = {
-                        relay.accept(
-                            UploadState(
-                                status = UploadStatus.COMPLETED,
-                                result = uploadResult
+                    setMetaInfoBlocking(
+                        appId = uploadResult.appId,
+                        info = info,
+                        scrIds = scrIds,
+                        successCallback = {
+                            relay.accept(
+                                UploadState(
+                                    status = UploadStatus.COMPLETED,
+                                    result = uploadResult
+                                )
                             )
-                        )
-                    },
-                    errorCallback = {
-                        relay.accept(UploadState(status = UploadStatus.ERROR))
-                    },
-                )
+                        },
+                        errorCallback = {
+                            relay.accept(UploadState(status = UploadStatus.ERROR))
+                        },
+                    )
+                }
+            } catch (ex: Throwable) {
+                println("[upload] Unexpected failure while uploading\n$ex")
+                relay.accept(UploadState(status = UploadStatus.ERROR))
+            } finally {
+                // A network timeout lands in uploadBlocking's InterruptedIOException
+                // branch and returns null, and the apk == null path can skip every
+                // callback. Without a terminal state here the notification subscriber
+                // never fires and the foreground service runs until Android kills us.
+                if (relay.value?.status !in TERMINAL_UPLOAD_STATUSES) {
+                    relay.accept(UploadState(status = UploadStatus.ERROR))
+                }
+                uploads.remove(id)
             }
-            uploads.remove(id)
         }
         relays[id] = relay
         return

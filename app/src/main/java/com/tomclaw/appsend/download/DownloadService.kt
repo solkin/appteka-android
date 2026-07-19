@@ -7,9 +7,13 @@ import android.content.Intent
 import android.content.pm.ServiceInfo
 import android.os.Binder
 import android.os.Build
+import android.os.Handler
 import android.os.IBinder
+import android.os.Looper
+import com.tomclaw.appsend.R
 import com.tomclaw.appsend.appComponent
 import com.tomclaw.appsend.download.di.DownloadServiceModule
+import java.util.concurrent.CopyOnWriteArraySet
 import javax.inject.Inject
 
 class DownloadService : Service() {
@@ -20,6 +24,14 @@ class DownloadService : Service() {
     @Inject
     lateinit var notifications: DownloadNotifications
 
+    private val activeDownloads = CopyOnWriteArraySet<String>()
+
+    // Download callbacks arrive on the transfer thread; hopping to the main thread keeps
+    // them ordered against onStartCommand, so a starting download can't race a stopSelf
+    private val handler = Handler(Looper.getMainLooper())
+
+    private var lastStartId: Int = 0
+
     override fun onCreate() {
         super.onCreate()
         println("[download service] onCreate")
@@ -29,9 +41,23 @@ class DownloadService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        intent?.let { onIntentReceived(it) }
+        lastStartId = startId
 
-        return super.onStartCommand(intent, flags, startId)
+        // We are launched with startForegroundService(), which gives 5 seconds to enter
+        // foreground whatever the intent turns out to hold. Validating extras first would
+        // let a malformed intent fall through into ForegroundServiceDidNotStartInTime.
+        val label = intent?.getStringExtra(EXTRA_LABEL) ?: getString(R.string.app_name)
+        startForegroundCompat(DOWNLOAD_NOTIFICATION_ID, notifications.createInitialNotification(label))
+
+        val accepted = intent?.let { onIntentReceived(it) } == true
+        if (!accepted && activeDownloads.isEmpty()) {
+            stopForegroundCompat()
+            stopSelf(startId)
+        }
+
+        // Nothing useful to redeliver: a restart carries no extras, and re-entering
+        // foreground from the background would crash on Android 12+ anyway
+        return START_NOT_STICKY
     }
 
     private fun onIntentReceived(intent: Intent): Boolean {
@@ -43,9 +69,7 @@ class DownloadService : Service() {
 
         println("[download service] onStartCommand(label = $label, version = $version, appId = $appId, url = $url)")
 
-        // Start foreground immediately to avoid ForegroundServiceStartNotAllowedException on Android 12+
-        val initialNotification = notifications.createInitialNotification(label)
-        startForegroundCompat(DOWNLOAD_NOTIFICATION_ID, initialNotification)
+        activeDownloads.add(appId)
 
         val relay = downloadManager.status(appId)
 
@@ -59,11 +83,37 @@ class DownloadService : Service() {
                 downloadManager.getInstallUri(label, version, appId)
             },
             stop = {
-                stopForegroundCompat()
+                handler.post { onDownloadFinished(appId) }
             },
             observable = relay,
         )
         return true
+    }
+
+    // Other downloads may still be running, so don't tear the service down for them.
+    private fun onDownloadFinished(appId: String) {
+        activeDownloads.remove(appId)
+        if (activeDownloads.isEmpty()) {
+            stopForegroundCompat()
+            // Keeps a download queued right at this moment from being dropped
+            stopSelf(lastStartId)
+        }
+    }
+
+    /**
+     * Android 15+ gives a dataSync service 6 hours per day and kills the app with
+     * ForegroundServiceDidNotStopInTimeException unless it stops itself within
+     * seconds of this callback. Partial files stay on disk and resume later.
+     */
+    override fun onTimeout(startId: Int) = onTimeoutReached()
+
+    override fun onTimeout(startId: Int, fgsType: Int) = onTimeoutReached()
+
+    private fun onTimeoutReached() {
+        println("[download service] onTimeout")
+        activeDownloads.clear()
+        stopForegroundCompat()
+        stopSelf()
     }
 
     private fun startForegroundCompat(notificationId: Int, notification: Notification) {
@@ -89,7 +139,9 @@ class DownloadService : Service() {
 
     override fun onDestroy() {
         println("[download service] onDestroy")
+        handler.removeCallbacksAndMessages(null)
         stopForegroundCompat()
+        super.onDestroy()
     }
 
     override fun onBind(intent: Intent): IBinder {
