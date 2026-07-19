@@ -24,6 +24,10 @@
 -keepclassmembers class * implements android.os.Parcelable {
     public static final android.os.Parcelable$Creator CREATOR;
 }
+# Parcel validates a creator via creator.getClass().getEnclosingClass(). Merging the
+# nested classes @Parcelize generates makes that null, and getParcelable(key, clazz)
+# throws NPE from inside the framework.
+-keep class * implements android.os.Parcelable$Creator
 
 # Enums (required for Parcelable and Gson serialization)
 -keepclassmembers enum * {
