@@ -100,7 +100,7 @@ dependencies {
     implementation 'androidx.exifinterface:exifinterface:1.4.1'
 
     ksp 'androidx.annotation:annotation:1.10.0'
-    implementation 'com.google.android.material:material:1.14.0-beta01'
+    implementation 'com.google.android.material:material:1.14.0'
     implementation 'com.google.code.gson:gson:2.13.2'
     
     // Dagger & KSP
