@@ -12,7 +12,7 @@ android {
         applicationId "com.tomclaw.appsend"
         minSdkVersion 23
         targetSdkVersion 36
-        versionCode project.hasProperty("versionCode") ? Integer.parseInt(project.versionCode) : 1091
+        versionCode project.hasProperty("versionCode") ? Integer.parseInt(project.versionCode) : 1092
         versionName = "21.0"
     }
 
@@ -91,21 +91,21 @@ dependencies {
 
     // AndroidX Core & UI
     implementation 'androidx.activity:activity-ktx:1.13.0'
-    implementation 'androidx.core:core-ktx:1.18.0'
+    implementation 'androidx.core:core-ktx:1.19.0'
     implementation 'androidx.appcompat:appcompat:1.7.1'
     implementation 'androidx.recyclerview:recyclerview:1.4.0'
     implementation 'androidx.startup:startup-runtime:1.2.0'
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.2.0'
     implementation 'androidx.annotation:annotation:1.10.0'
-    implementation 'androidx.exifinterface:exifinterface:1.4.1'
+    implementation 'androidx.exifinterface:exifinterface:1.4.2'
 
     ksp 'androidx.annotation:annotation:1.10.0'
-    implementation 'com.google.android.material:material:1.14.0-beta01'
-    implementation 'com.google.code.gson:gson:2.13.2'
+    implementation 'com.google.android.material:material:1.14.0'
+    implementation 'com.google.code.gson:gson:2.14.0'
     
     // Dagger & KSP
-    implementation 'com.google.dagger:dagger:2.59.2'
-    ksp 'com.google.dagger:dagger-compiler:2.59.2'
+    implementation 'com.google.dagger:dagger:2.60.1'
+    ksp 'com.google.dagger:dagger-compiler:2.60.1'
     
     implementation 'org.jetbrains.kotlin:kotlin-parcelize-runtime'
 
@@ -116,7 +116,7 @@ dependencies {
     implementation 'com.jakewharton.rxrelay3:rxrelay:3.0.1'
 
     // Networking
-    implementation 'com.squareup.okhttp3:okhttp:5.3.2'
+    implementation 'com.squareup.okhttp3:okhttp:5.4.0'
     implementation 'com.squareup.retrofit2:retrofit:3.0.0'
     implementation 'com.squareup.retrofit2:converter-gson:3.0.0'
     implementation 'com.squareup.retrofit2:adapter-rxjava3:3.0.0'
