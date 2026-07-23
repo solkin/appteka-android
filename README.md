@@ -12,8 +12,8 @@
   <a href="https://appteka.store"><img src="https://img.shields.io/badge/dynamic/json?color=32A304&label=Appteka&query=%24.newer.ver_name&url=https%3A%2F%2Fappteka.store%2F%2Fapi%2F1%2Fupdate%3Fbuild%3D1" alt="Appteka"></a>
   <a href="https://apt.izzysoft.de/packages/com.tomclaw.appsend"><img src="https://img.shields.io/endpoint?url=https://apt.izzysoft.de/fdroid/api/v1/shield/com.tomclaw.appsend&label=IzzyOnDroid" alt="IzzyOnDroid"></a>
   <a href="LICENSE.txt"><img src="https://img.shields.io/badge/License-GPL%20v3-blue.svg" alt="License: GPL v3"></a>
-  <img src="https://img.shields.io/badge/API-21%2B-brightgreen.svg" alt="API 21+">
-  <img src="https://img.shields.io/badge/Kotlin-1.9-purple.svg" alt="Kotlin">
+  <img src="https://img.shields.io/badge/API-23%2B-brightgreen.svg" alt="API 23+">
+  <img src="https://img.shields.io/badge/Kotlin-2.3-purple.svg" alt="Kotlin">
 </p>
 
 ---
@@ -79,7 +79,7 @@ The project follows **Clean Architecture** principles with MVP pattern:
 
 - Android Studio Ladybug or newer
 - JDK 17
-- Android SDK with API 35
+- Android SDK with API 37
 
 ### Build & Run
 
