@@ -65,7 +65,7 @@
     <string name="theme_battery_saver">Batterijbesparing</string>
     <string name="restart_now">Nu herstarten</string>
     <string name="clear_cache_dialog_title">Cache legen bevestigen</string>
-    <string name="clear_cache_dialog_message">Alle eerder gedownloade APK\'s door %1$s in de opslag worden verwijderd. Deze actie kan niet ongedaan worden gemaakt. Wilt u doorgaan?</string>
+    <string name="clear_cache_dialog_message">Alle eerder gedownloade APK\'s door %1$s in de opslag worden verwijderd. Deze actie kan niet ongedaan worden gemaakt. Wil je doorgaan?</string>
     <string name="clear_cache_dialog_positive">Ja, bestanden verwijderen</string>
     <string name="restart_required_dynamic_colors_short">Herstart om wijzigingen toe te passen.</string>
     <string name="pref_title_seed_color">App-kleur</string>
@@ -92,7 +92,7 @@
     <string name="checksum_title">Controlesom (SHA1)</string>
     <string name="update">Bijwerken</string>
     <string name="abuse">Misbruik</string>
-    <string name="your_email">Uw e-mailadres</string>
+    <string name="your_email">Je e-mailadres</string>
     <string name="store_app_update">Bijwerken</string>
     <string name="store_app_installed">Geïnstalleerd</string>
     <string name="feedback_email">Feedback</string>
@@ -117,7 +117,7 @@
     <string name="tab_profile">Profiel</string>
     <string name="discuss_intro_title">Welkom!</string>
     <string name="chat_loading_error">Chat openen mislukt</string>
-    <string name="enter_your_message">Uw bericht…</string>
+    <string name="enter_your_message">Je bericht…</string>
     <string name="error_sending_message">Bericht verzenden niet mogelijk</string>
     <string name="select_images">Afbeeldingen selecteren</string>
     <plurals name="topic_last_msg_attachments">
@@ -128,7 +128,7 @@
     <string name="copy">Kopiëren</string>
     <string name="report">Misbruik melden</string>
     <string name="error_message_report">Misbruik melden niet mogelijk</string>
-    <string name="message_report_sent">Bedankt voor uw hulp bij de moderatie van discussies!</string>
+    <string name="message_report_sent">Bedankt voor je hulp bij de moderatie van discussies!</string>
     <string name="exclusive_short">Exclusief</string>
     <string name="exclusive">Exclusieve app (niet aanwezig in Google Play)</string>
     <string name="exclusive_description">App niet beschikbaar in Google Play</string>
@@ -142,14 +142,14 @@
     <string name="delivery">Levering</string>
     <string name="rates_count">Aantal beoordelingen</string>
     <string name="profile">Profiel</string>
-    <string name="role_owner">Supervisor</string>
+    <string name="role_owner">Eigenaar</string>
     <string name="role_admin">Beheerder</string>
     <string name="role_moderator">Moderator</string>
     <string name="role_default">Gebruiker</string>
-    <string name="joined_date">lid geworden %s</string>
-    <string name="last_seen">laatst gezien %s</string>
-    <string name="online">online</string>
-    <string name="offline">offline</string>
+    <string name="joined_date">Lid geworden op %s</string>
+    <string name="last_seen">Laatst gezien op %s</string>
+    <string name="online">Online</string>
+    <string name="offline">Offline</string>
     <string name="unlink_file">Blokkeren</string>
     <string name="unfile_reason">Reden…</string>
     <string name="enter_unfile_reason">Beschrijf de reden:</string>
@@ -163,7 +163,7 @@
     <string name="nav_settings">Instellingen</string>
     <string name="nav_info">Informatie</string>
     <string name="select_app">Selecteer applicatie</string>
-    <string name="select_app_description">Geïnstalleerd bestand of apk-bestand</string>
+    <string name="select_app_description">Geïnstalleerde app of apk-bestand</string>
     <string name="search_app">Zoeken in store</string>
     <string name="reaction">Reactie</string>
     <string name="select_reactions">Reacties selecteren</string>
@@ -174,7 +174,7 @@
     <string name="name_input">Naam (bijnaam)</string>
     <string name="ok">OK</string>
     <string name="upload_notice_title">Overeenkomst distributierechten</string>
-    <string name="agree_with_upload_notice">Om applicaties te uploaden naar Appteka store moet u akkoord gaan met deze voorwaarde</string>
+    <string name="agree_with_upload_notice">Om applicaties te uploaden naar Appteka store moet je akkoord gaan met deze voorwaarde</string>
     <string name="apps_on_moderation">Apps in moderatie</string>
     <string name="moderation_approve">Goedkeuren</string>
     <string name="moderation_decline">Afwijzen</string>
@@ -186,7 +186,7 @@
     <string name="ai_review_title_format">%1$s · %2$d%%</string>
     <string name="ai_review_verdict_approve">Goedkeuren</string>
     <string name="ai_review_verdict_reject">Afwijzen</string>
-    <string name="ai_review_verdict_uncertain">Onzeker</string>
+    <string name="ai_review_verdict_uncertain">Twijfelachtig</string>
     <string name="moderation_declined_status_text">De applicatie is afgewezen door een moderator: %1$s</string>
     <string name="moderation_declined_status_text_with_comment">De applicatie is afgewezen door een moderator: %1$s\n%2$s</string>
     <string name="status_unlinked">Geblokkeerd</string>
@@ -201,8 +201,8 @@
     <string name="delete_app_title">Uit store verwijderen</string>
     <string name="delete_app_message">Weet je zeker dat je deze app uit de Appteka Store wilt verwijderen? Deze actie kan niet ongedaan worden gemaakt.</string>
     <string name="delete_from_store">Uit store verwijderen</string>
-    <string name="eliminate_user">Verwijderen</string>
-    <string name="eliminate_user_title">Gebruiker verwijderen</string>
+    <string name="eliminate_user">Definitief verwijderen</string>
+    <string name="eliminate_user_title">Gebruiker definitief verwijderen</string>
     <string name="eliminate_user_message">Weet je zeker dat je de gebruiker wilt verwijderen?</string>
     <string name="eliminate_user_success">Gebruiker verwijderd: %1$d bestanden, %2$d berichten, %3$d beoordelingen</string>
     <string name="eliminate_user_failed">Gebruiker verwijderen mislukt</string>
@@ -212,7 +212,7 @@
     <string name="chat_activity">Chat</string>
     <string name="unsupported_message">Dit berichttype wordt niet ondersteund. Werk Appteka bij.</string>
     <string name="pin">Chat vastmaken</string>
-    <string name="unpin">Vastmaken uit</string>
+    <string name="unpin">Losmaken</string>
     <string name="error_topic_pin">Kan chat-pin niet wijzigen</string>
     <string name="discuss_app">Bespreken</string>
     <string name="error_app_topic_creation">Kon het onderwerp van de app niet openen</string>
@@ -238,7 +238,7 @@
     <string name="calls_access">Toegang tot oproepgeschiedenis</string>
     <string name="sms_access">Inhoud van sms-berichten</string>
     <string name="storage_access">Toegang tot opslag</string>
-    <string name="location_access">Locatietracking</string>
+    <string name="location_access">Locatie volgen</string>
     <string name="downloading_channel_name">Apps downloaden</string>
     <string name="install_channel_name">Apps installeren</string>
     <string name="downloading_channel_description">Apps worden gedownload</string>
@@ -268,7 +268,7 @@
     <string name="details_not_found_subtitle">De app is nog niet gepubliceerd in de Appteka-catalogus</string>
     <string name="error_occurred">Er is een fout opgetreden</string>
     <string name="check_connection">Controleer je verbinding en probeer het opnieuw</string>
-    <string name="discuss_description">Bespreek de app met andere gebruikers in ingebouwde messenger</string>
+    <string name="discuss_description">Bespreek de app met andere gebruikers in de ingebouwde messenger</string>
     <string name="select_category">Categorie selecteren</string>
     <string name="whats_new">Wat is er nieuw in deze versie</string>
     <string name="open_source">Open source</string>
@@ -278,14 +278,10 @@
     <string name="check_uploaded_versions">Geüploade versies bekijken</string>
     <plurals name="other_versions_text">
         <item quantity="one">Deze app heeft al %d geüploade versie</item>
-        <item quantity="few">Deze app heeft al %d geüploade versies</item>
-        <item quantity="many">Deze app heeft al %d geüploade versies</item>
         <item quantity="other">Deze app heeft al %d geüploade versies</item>
     </plurals>
     <plurals name="other_versions_count">
         <item quantity="one">%d versie</item>
-        <item quantity="few">%d versies</item>
-        <item quantity="many">%d versies</item>
         <item quantity="other">%d versies</item>
     </plurals>
     <plurals name="other_access">
@@ -343,9 +339,9 @@
     <string name="security_info_score">Risicoscore: %d%%</string>
     <string name="security_info_tools">Gescand met: ClamAV, APKiD, Quark-Engine</string>
     <string name="security_warning_malware_title">Malware gedetecteerd</string>
-    <string name="security_warning_malware_message">Deze applicatie is door onze beveiligingsscan gemarkeerd als malware. Downloaden en installeren kan uw apparaat schaden of uw persoonlijke gegevens in gevaar brengen. Weet u zeker dat u wilt doorgaan?</string>
+    <string name="security_warning_malware_message">Deze applicatie is door onze beveiligingsscan gemarkeerd als malware. Downloaden en installeren kan je apparaat schaden of je persoonlijke gegevens in gevaar brengen. Weet je zeker dat je wilt doorgaan?</string>
     <string name="security_warning_suspicious_title">Verdachte applicatie</string>
-    <string name="security_warning_suspicious_message">Deze applicatie is door onze beveiligingsscan gemarkeerd als verdacht. Deze kan mogelijk schadelijke code bevatten. Weet u zeker dat u wilt doorgaan?</string>
+    <string name="security_warning_suspicious_message">Deze applicatie is door onze beveiligingsscan gemarkeerd als verdacht. Deze kan mogelijk schadelijke code bevatten. Weet je zeker dat je wilt doorgaan?</string>
     <string name="security_warning_download_anyway">Toch downloaden</string>
     <string name="open_source_short">Open source</string>
     <string name="required_field">Verplicht veld</string>
@@ -361,17 +357,17 @@
     <string name="favorite_apps">Favoriete apps</string>
     <string name="favorite_undo">Ongedaan maken</string>
     <string name="send_verification_code">Verificatiecode verzenden</string>
-    <string name="send_verification_code_description">Wij sturen u een verificatiecode</string>
-    <string name="input_your_email">Voer uw e-mailadres in</string>
+    <string name="send_verification_code_description">We sturen je een verificatiecode</string>
+    <string name="input_your_email">Voer je e-mailadres in</string>
     <string name="error_sending_request_code">Fout bij verzenden van verificatiecode. Probeer het later opnieuw.</string>
     <string name="verify_email">E-mailverificatie</string>
     <string name="input_verification_code">Voer de verificatiecode in</string>
-    <string name="verification_code_sent">Een verificatiecode is verzonden naar %s. Controleer uw inbox of spammap en voer de verificatiecode uit de e-mail in.</string>
+    <string name="verification_code_sent">Een verificatiecode is verzonden naar %s. Controleer je inbox of spammap en voer de verificatiecode uit de e-mail in.</string>
     <string name="verification_code_input">Verificatiecode</string>
-    <string name="input_your_name">Dit is de eerste keer dat u inlogt bij Appteka, voer uw naam of bijnaam in: deze wordt weergegeven in uw profiel.</string>
+    <string name="input_your_name">Dit is de eerste keer dat je inlogt bij Appteka, voer je naam of bijnaam in: deze wordt weergegeven in je profiel.</string>
     <string name="error_verifying_code">Fout bij verifiëren van code. Probeer het later opnieuw.</string>
     <string name="error_rate_limit">Te veel verzoeken. Probeer het later opnieuw.</string>
-    <string name="network_error">Controleer uw internetverbinding en probeer het opnieuw.</string>
+    <string name="network_error">Controleer je internetverbinding en probeer het opnieuw.</string>
     <string name="code_format_invalid">Ongeldig formaat van verificatiecode</string>
     <string name="name_format_invalid">Ongeldig naamformaat</string>
     <string name="authorization_required_message">Log in om door te gaan</string>
@@ -383,35 +379,25 @@
     <string name="error_saving_screenshot">Opslaan van screenshot mislukt</string>
     <plurals name="days_ago">
         <item quantity="one">één dag geleden</item>
-        <item quantity="few">%d dagen geleden</item>
-        <item quantity="many">%d dagen geleden</item>
         <item quantity="other">%d dagen geleden</item>
     </plurals>
     <plurals name="months_ago">
         <item quantity="one">één maand geleden</item>
-        <item quantity="few">%d maanden geleden</item>
-        <item quantity="many">%d maanden geleden</item>
         <item quantity="other">%d maanden geleden</item>
     </plurals>
     <plurals name="years_ago">
         <item quantity="one">één jaar geleden</item>
-        <item quantity="few">%d jaar geleden</item>
-        <item quantity="many">%d jaar geleden</item>
         <item quantity="other">%d jaar geleden</item>
     </plurals>
-    <string name="today">vandaag</string>
-    <string name="yesterday">gisteren</string>
+    <string name="today">Vandaag</string>
+    <string name="yesterday">Gisteren</string>
     <string name="total_downloads_count">Ze zijn %s keer gedownload</string>
     <plurals name="favorite_apps_count">
         <item quantity="one">%d app in favorietenlijst van gebruiker</item>
-        <item quantity="few">%d apps in favorietenlijst van gebruiker</item>
-        <item quantity="many">%d apps in favorietenlijst van gebruiker</item>
         <item quantity="other">%d apps in favorietenlijst van gebruiker</item>
     </plurals>
     <plurals name="moderation_apps_count">
         <item quantity="one">%d app wacht op moderatie</item>
-        <item quantity="few">%d apps wachten op moderatie</item>
-        <item quantity="many">%d apps wachten op moderatie</item>
         <item quantity="other">%d apps wachten op moderatie</item>
     </plurals>
     <string name="no_apps_on_moderation">Geen apps wachtend op moderatie</string>
@@ -432,12 +418,12 @@
     <string name="unable_to_change_name">Kan gebruikersnaam niet wijzigen</string>
     <string name="install_date">Geïnstalleerd %s</string>
     <string name="update_date">Bijgewerkt %s</string>
-    <string name="posts">berichten</string>
-    <string name="subscribers">abonnees</string>
-    <string name="publishers">uitgevers</string>
+    <string name="posts">Berichten</string>
+    <string name="subscribers">Abonnees</string>
+    <string name="publishers">Uitgevers</string>
     <string name="connections">Connecties</string>
     <string name="subscribe">Abonneren</string>
-    <string name="unsubscribe">Afmelden</string>
+    <string name="unsubscribe">Abonnement opzeggen</string>
     <string name="unable_to_change_subscription_state">Abonnementsstatus wijzigen mislukt</string>
     <string name="subscribed_date">Geabonneerd %s</string>
     <string name="tab_feed">Feed</string>
@@ -458,15 +444,13 @@
     <string name="pick_installed">Kies geïnstalleerde app</string>
     <plurals name="download_apps_count">
         <item quantity="one">%d app is gedownload</item>
-        <item quantity="few">%d apps zijn gedownload</item>
-        <item quantity="many">%d apps zijn gedownload</item>
         <item quantity="other">%d apps zijn gedownload</item>
     </plurals>
     <string name="prefill_from_version">Voorinvullen op basis van versie</string>
     <string name="prefill_none">Niet voorinvullen</string>
     <string name="prefill_hint">Kopieer beschrijving, screenshots en instellingen van een eerdere versie</string>
     <string name="change_email_title">E-mail wijzigen</string>
-    <string name="change_email_description">Voer je nieuwe e-mailadres in. We sturen een verificatiecode om de wijziging te bevestigen.</string>
+    <string name="change_email_description">Voer je nieuwe e-mailadres in. We sturen je een verificatiecode om de wijziging te bevestigen.</string>
     <string name="new_email_hint">Nieuw e-mailadres</string>
     <string name="send_code_button">Code verzenden</string>
     <string name="verification_code_hint">Verificatiecode</string>
@@ -519,30 +503,30 @@
     <string name="permission_generic_denied">Deze actie is niet beschikbaar.</string>
     <string name="permission_unauthorized">Log in om deze actie uit te voeren.</string>
     <string name="permission_not_owner">Alleen de auteur kan dit doen.</string>
-    <string name="permission_read_only_messages">U kunt op dit moment geen berichten verzenden.</string>
-    <string name="permission_read_only_ratings">U kunt op dit moment geen apps beoordelen of recenseren.</string>
-    <string name="permission_feed_post_delete">U heeft toestemming nodig om berichten van andere gebruikers te verwijderen.</string>
-    <string name="permission_automoderation">Uw uploads worden door moderatoren beoordeeld voordat ze worden gepubliceerd.</string>
-    <string name="permission_list_downloaded">U heeft toestemming nodig om downloads van andere gebruikers te bekijken.</string>
-    <string name="permission_final_moder_vote">U heeft de beslissende moderatiestem.</string>
-    <string name="permission_banned">Uw account is geschorst.</string>
-    <string name="permission_role_too_low">U heeft niet de vereiste rol voor deze actie.</string>
-    <string name="permission_app_unlink">U heeft geen toestemming om apps van andere gebruikers te blokkeren.</string>
-    <string name="permission_app_delete">U heeft geen toestemming om apps van andere gebruikers te verwijderen.</string>
-    <string name="permission_app_unpublish">U heeft geen toestemming om apps van andere gebruikers ongepubliceerd te maken.</string>
-    <string name="permission_app_edit_meta">U heeft geen toestemming om apps van andere gebruikers te bewerken.</string>
-    <string name="permission_app_rating_delete">U heeft geen toestemming om recensies van andere gebruikers te verwijderen.</string>
+    <string name="permission_read_only_messages">Je kunt op dit moment geen berichten verzenden.</string>
+    <string name="permission_read_only_ratings">Je kunt op dit moment geen apps beoordelen of recenseren.</string>
+    <string name="permission_feed_post_delete">Je hebt toestemming nodig om berichten van andere gebruikers te verwijderen.</string>
+    <string name="permission_automoderation">Je uploads worden door moderatoren beoordeeld voordat ze worden gepubliceerd.</string>
+    <string name="permission_list_downloaded">Je hebt toestemming nodig om downloads van andere gebruikers te bekijken.</string>
+    <string name="permission_final_moder_vote">Je hebt de beslissende moderatiestem.</string>
+    <string name="permission_banned">Je account is geschorst.</string>
+    <string name="permission_role_too_low">Je hebt niet de vereiste rol voor deze actie.</string>
+    <string name="permission_app_unlink">Je hebt geen toestemming om apps van andere gebruikers te blokkeren.</string>
+    <string name="permission_app_delete">Je hebt geen toestemming om apps van andere gebruikers te verwijderen.</string>
+    <string name="permission_app_unpublish">Je hebt geen toestemming om apps van andere gebruikers ongepubliceerd te maken.</string>
+    <string name="permission_app_edit_meta">Je hebt geen toestemming om apps van andere gebruikers te bewerken.</string>
+    <string name="permission_app_rating_delete">Je hebt geen toestemming om recensies van andere gebruikers te verwijderen.</string>
     <string name="permission_app_protected">Deze app is beschermd en kan niet worden gewijzigd.</string>
     <string name="permission_app_already_unpublished">Deze app is al ongepubliceerd.</string>
     <string name="permission_app_blocked">Deze app is geblokkeerd en kan niet worden bewerkt of opnieuw gepubliceerd.</string>
-    <string name="permission_chat_topic_create">U heeft geen toestemming om onderwerpen aan te maken.</string>
-    <string name="permission_chat_image_attach">U heeft geen toestemming om afbeeldingen bij te voegen in de chat.</string>
-    <string name="permission_read_only_app_upload">U kunt op dit moment geen apps uploaden.</string>
-    <string name="permission_read_only_feed_posts">U kunt op dit moment niet naar de feed posten.</string>
-    <string name="permission_upload_will_be_moderated">Uw upload wordt door een moderator beoordeeld voordat deze in de store verschijnt.</string>
-    <string name="permission_upload_publishes_immediately">Uw uploads worden onmiddellijk gepubliceerd, zonder moderatie.</string>
-    <string name="permission_moderation_advisory_vote">Uw stem is adviserend. De uiteindelijke beslissing wordt genomen door hoofdmoderators.</string>
-    <string name="permission_moderation_final_vote">Uw stem is beslissend.</string>
+    <string name="permission_chat_topic_create">Je hebt geen toestemming om onderwerpen aan te maken.</string>
+    <string name="permission_chat_image_attach">Je hebt geen toestemming om afbeeldingen bij te voegen in de chat.</string>
+    <string name="permission_read_only_app_upload">Je kunt op dit moment geen apps uploaden.</string>
+    <string name="permission_read_only_feed_posts">Je kunt op dit moment niet naar de feed posten.</string>
+    <string name="permission_upload_will_be_moderated">Je upload wordt door een moderator beoordeeld voordat deze in de store verschijnt.</string>
+    <string name="permission_upload_publishes_immediately">Je uploads worden onmiddellijk gepubliceerd, zonder moderatie.</string>
+    <string name="permission_moderation_advisory_vote">Je stem is adviserend. De uiteindelijke beslissing wordt genomen door hoofdmoderators.</string>
+    <string name="permission_moderation_final_vote">Je stem is beslissend.</string>
 
     <!-- Banner and tooltip shells -->
     <string name="permission_banner_read_only_title">Alleen-lezen modus</string>
@@ -556,7 +540,7 @@
     <!-- Edit profile screen -->
     <string name="edit_profile_title">Profiel bewerken</string>
     <string name="edit_profile_name_hint">Weergavenaam</string>
-    <string name="edit_profile_bio_hint">Over u</string>
+    <string name="edit_profile_bio_hint">Over jezelf</string>
     <string name="edit_profile_avatar_change">Wijzigen</string>
     <string name="edit_profile_avatar_remove">Verwijderen</string>
     <string name="edit_profile_save_button">Opslaan</string>
@@ -567,8 +551,8 @@
     <string name="edit_profile_saved">Profiel opgeslagen</string>
 
     <!-- Permissions for new ACL rules -->
-    <string name="permission_read_only_avatar_upload">Avatar uploaden is uitgeschakeld voor uw account</string>
-    <string name="permission_read_only_bio_edit">Bio bewerken is uitgeschakeld voor uw account</string>
+    <string name="permission_read_only_avatar_upload">Avatar uploaden is uitgeschakeld voor je account</string>
+    <string name="permission_read_only_bio_edit">Bio bewerken is uitgeschakeld voor je account</string>
 
     <!-- Avatar crop screen -->
     <string name="avatar_crop_title">Avatar bijsnijden</string>
