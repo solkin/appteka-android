@@ -23,7 +23,7 @@ import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.categories.CategoryItem
 import com.tomclaw.appsend.screen.upload.adapter.other_versions.VersionItem
-import com.tomclaw.appsend.util.applyBottomInsets
+import com.tomclaw.appsend.util.applyBottomInsetsWithImeAsMargin
 import com.tomclaw.appsend.util.ActionItem
 import com.tomclaw.appsend.util.ActionsAdapter
 import com.tomclaw.appsend.util.bind
@@ -132,9 +132,9 @@ class UploadViewImpl(
         recycler.itemAnimator = DefaultItemAnimator()
         recycler.itemAnimator?.changeDuration = DURATION_MEDIUM
 
-        // Insets: content keeps clear of the navigation
-        // bar while still scrolling underneath it.
-        recycler.applyBottomInsets()
+        // Insets: content keeps clear of the navigation bar, and of the
+        // keyboard so the field being filled in stays in sight.
+        recycler.applyBottomInsetsWithImeAsMargin()
     }
 
     override fun showProgress() {

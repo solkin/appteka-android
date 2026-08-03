@@ -41,9 +41,32 @@ fun View.applyBottomInsets() {
  */
 fun View.applyBottomInsetsWithIme() {
     ViewCompat.setOnApplyWindowInsetsListener(this) { view, windowInsets ->
+        val insets = windowInsets.getInsets(
+            WindowInsetsCompat.Type.systemBars() or WindowInsetsCompat.Type.ime()
+        )
+        view.updatePadding(bottom = insets.bottom)
+        windowInsets
+    }
+}
+
+/**
+ * Applies bottom system bar insets as padding and the keyboard on top of
+ * that as bottom margin, shrinking the view the way `adjustResize` did.
+ *
+ * For a scrolling container holding text fields. An edge-to-edge window is
+ * never resized by the keyboard, so nothing brings the focused field back
+ * into sight on its own — and both RecyclerView and NestedScrollView do
+ * that off their own height change, which padding alone does not give them.
+ */
+fun View.applyBottomInsetsWithImeAsMargin() {
+    val initialMargin = (layoutParams as? ViewGroup.MarginLayoutParams)?.bottomMargin ?: 0
+    ViewCompat.setOnApplyWindowInsetsListener(this) { view, windowInsets ->
         val bars = windowInsets.getInsets(WindowInsetsCompat.Type.systemBars()).bottom
         val ime = windowInsets.getInsets(WindowInsetsCompat.Type.ime()).bottom
-        view.updatePadding(bottom = maxOf(bars, ime))
+        view.updatePadding(bottom = bars)
+        view.updateLayoutParams<ViewGroup.MarginLayoutParams> {
+            bottomMargin = initialMargin + (ime - bars).coerceAtLeast(0)
+        }
         windowInsets
     }
 }
