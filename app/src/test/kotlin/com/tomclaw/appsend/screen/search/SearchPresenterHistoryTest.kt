@@ -433,6 +433,8 @@ private class FakeSearchView : SearchView {
 
     override fun requestQueryFocus() = Unit
 
+    override fun hideKeyboard(): Boolean = false
+
     override fun showTags(selected: List<String>, suggestions: List<String>, custom: String?) = Unit
 
     override fun showPopularTags(tags: List<String>, hasMore: Boolean) = Unit

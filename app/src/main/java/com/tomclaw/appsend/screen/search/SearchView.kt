@@ -11,6 +11,8 @@ import android.widget.TextView
 import android.widget.ViewFlipper
 import androidx.annotation.LayoutRes
 import androidx.appcompat.widget.Toolbar
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -55,6 +57,9 @@ interface SearchView {
     fun setQueryText(query: String)
 
     fun requestQueryFocus()
+
+    /** Puts the keyboard away, and answers whether it was up at all. */
+    fun hideKeyboard(): Boolean
 
     /**
      * The filter row next to the query: [selected] is what search is
@@ -236,6 +241,17 @@ class SearchViewImpl(
         queryEdit.requestFocus()
     }
 
+    override fun hideKeyboard(): Boolean {
+        // Whether it was up is only knowable from API 30 on, so the
+        // hiding is not conditional on it — the search key wants it
+        // put away either way.
+        val shown = ViewCompat.getRootWindowInsets(queryEdit)
+            ?.isVisible(WindowInsetsCompat.Type.ime()) == true
+        val manager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        manager.hideSoftInputFromWindow(queryEdit.windowToken, 0)
+        return shown
+    }
+
     override fun showTags(selected: List<String>, suggestions: List<String>, custom: String?) {
         tagsGroup.removeAllViews()
         for (tag in selected) {
@@ -292,11 +308,6 @@ class SearchViewImpl(
             historyRemoveRelay.accept(item)
         }
         return view
-    }
-
-    private fun hideKeyboard() {
-        val manager = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        manager.hideSoftInputFromWindow(queryEdit.windowToken, 0)
     }
 
     private fun inflateChip(@LayoutRes layout: Int, group: ChipGroup, text: String): Chip {

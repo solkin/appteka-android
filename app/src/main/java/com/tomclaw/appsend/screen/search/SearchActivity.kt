@@ -34,12 +34,18 @@ class SearchActivity : AppCompatActivity(), SearchPresenter.SearchRouter {
     private lateinit var searchView: SearchView
 
     /**
-     * Back is the same step as the arrow in the toolbar. Enabled only
-     * while there is a search to give up, so that when there isn't the
-     * system runs its own predictive back out of the screen.
+     * Back gives up the search — the same step as the arrow in the
+     * toolbar, once the keyboard is out of the way. Enabled only while
+     * there is a search to give up, so that when there isn't the system
+     * runs its own predictive back out of the screen.
      */
     private val backCallback = object : OnBackPressedCallback(false) {
         override fun handleOnBackPressed() {
+            // This callback and the keyboard's carry the same priority,
+            // and ours is registered later — so back arrives here
+            // instead of putting the keyboard away. It still has to be
+            // put away, and that is a step of its own.
+            if (searchView.hideKeyboard()) return
             presenter.onBackPressed()
         }
     }
