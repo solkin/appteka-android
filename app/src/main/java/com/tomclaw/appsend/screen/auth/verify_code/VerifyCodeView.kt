@@ -11,7 +11,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputLayout
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
-import com.tomclaw.appsend.util.applyBottomInsets
+import com.tomclaw.appsend.util.applyBottomInsetsWithImeAsMargin
 import com.tomclaw.appsend.util.bind
 import com.tomclaw.appsend.util.hide
 import com.tomclaw.appsend.util.hideWithAlphaAnimation
@@ -90,9 +90,9 @@ class VerifyCodeViewImpl(private val view: View) : VerifyCodeView {
         })
         submitButton.setOnClickListener { submitRelay.accept(Unit) }
 
-        // A CoordinatorLayout root dispatches insets instead of
-        // padding itself, so the scroller takes the bottom one.
-        scrollView.applyBottomInsets()
+        // Insets: content keeps clear of the navigation bar, and of the
+        // keyboard so the field being filled in stays in sight.
+        scrollView.applyBottomInsetsWithImeAsMargin()
     }
 
     override fun setCodeSentDescription(value: String) {

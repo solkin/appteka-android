@@ -13,7 +13,7 @@ import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.core.permissions.Capability
 import com.tomclaw.appsend.core.permissions.CapabilityHintResolver
-import com.tomclaw.appsend.util.applyBottomInsets
+import com.tomclaw.appsend.util.applyBottomInsetsWithImeAsMargin
 import com.tomclaw.appsend.util.clicks
 import com.tomclaw.appsend.util.disable
 import com.tomclaw.appsend.util.enable
@@ -91,9 +91,9 @@ class CreateChatViewImpl(view: View) : CreateChatView {
         }
         submitButton.clicks(submitRelay)
 
-        // A CoordinatorLayout root dispatches insets instead of
-        // padding itself, so the scroller takes the bottom one.
-        scrollView.applyBottomInsets()
+        // Insets: content keeps clear of the navigation bar, and of the
+        // keyboard so the field being filled in stays in sight.
+        scrollView.applyBottomInsetsWithImeAsMargin()
     }
 
     override fun setTitle(title: String) {

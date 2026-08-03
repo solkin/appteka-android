@@ -13,7 +13,7 @@ import com.tomclaw.appsend.R
 import com.tomclaw.appsend.core.permissions.Capability
 import com.tomclaw.appsend.core.permissions.CapabilityHintResolver
 import com.tomclaw.appsend.dto.UserIcon
-import com.tomclaw.appsend.util.applyBottomInsets
+import com.tomclaw.appsend.util.applyBottomInsetsWithImeAsMargin
 import com.tomclaw.appsend.util.bind
 import com.tomclaw.appsend.util.clicks
 import com.tomclaw.appsend.util.disable
@@ -113,9 +113,9 @@ class RateViewImpl(view: View) : RateView {
         }
         submitButton.clicks(submitRelay)
 
-        // Insets: content keeps clear of the navigation
-        // bar while still scrolling underneath it.
-        scrollView.applyBottomInsets()
+        // Insets: content keeps clear of the navigation bar, and of the
+        // keyboard so the field being filled in stays in sight.
+        scrollView.applyBottomInsetsWithImeAsMargin()
     }
 
     override fun setTitle(title: String) {

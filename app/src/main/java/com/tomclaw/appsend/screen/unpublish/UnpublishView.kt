@@ -11,7 +11,7 @@ import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.core.permissions.Capability
 import com.tomclaw.appsend.core.permissions.CapabilityHintResolver
-import com.tomclaw.appsend.util.applyBottomInsets
+import com.tomclaw.appsend.util.applyBottomInsetsWithImeAsMargin
 import com.tomclaw.appsend.util.hideWithAlphaAnimation
 import com.tomclaw.appsend.util.showWithAlphaAnimation
 import io.reactivex.rxjava3.core.Observable
@@ -71,9 +71,9 @@ class UnpublishViewImpl(
         })
         submitButton.setOnClickListener { submitRelay.accept(Unit) }
 
-        // Insets: content keeps clear of the navigation
-        // bar while still scrolling underneath it.
-        scrollView.applyBottomInsets()
+        // Insets: content keeps clear of the navigation bar, and of the
+        // keyboard so the field being filled in stays in sight.
+        scrollView.applyBottomInsetsWithImeAsMargin()
     }
 
     override fun showProgress() {
