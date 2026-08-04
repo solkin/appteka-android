@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?><!--
+    One content warning, inflated per flag. Tonal rather than the assist
+    outline the tags use: this says something about the app itself, and
+    the fill is what separates it from the row of navigable tags under it.
+    Not clickable — there is nowhere for it to go.
+-->
+<com.google.android.material.chip.Chip xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/Widget.Material3.Chip.Assist"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:clickable="false"
+    android:focusable="false"
+    app:chipBackgroundColor="?attr/colorErrorContainer"
+    app:chipStrokeWidth="0dp"
+    android:textColor="?attr/colorOnErrorContainer"
+    tools:text="18+" />

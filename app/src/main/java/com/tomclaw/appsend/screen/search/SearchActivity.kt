@@ -11,6 +11,7 @@ import com.tomclaw.appsend.util.adapter.SimpleRecyclerAdapter
 import com.tomclaw.appsend.appComponent
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.search.di.SearchModule
+import com.tomclaw.appsend.screen.settings.createSettingsActivityIntent
 import com.tomclaw.appsend.util.ZipParcelable
 import com.tomclaw.appsend.util.getParcelableCompat
 import javax.inject.Inject
@@ -125,6 +126,10 @@ class SearchActivity : AppCompatActivity(), SearchPresenter.SearchRouter {
 
     override fun leaveScreen() {
         finish()
+    }
+
+    override fun openSettingsScreen() {
+        startActivity(createSettingsActivityIntent(this))
     }
 
     override fun openAppScreen(appId: String, title: String) {

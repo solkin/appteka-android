@@ -13,6 +13,7 @@ import com.tomclaw.appsend.appComponent
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.screen.home.HomeFragment
+import com.tomclaw.appsend.screen.settings.createSettingsActivityIntent
 import com.tomclaw.appsend.screen.store.di.StoreModule
 import com.tomclaw.appsend.util.Analytics
 import com.tomclaw.appsend.util.ZipParcelable
@@ -87,6 +88,10 @@ class StoreFragment : Fragment(), StorePresenter.StoreRouter, HomeFragment {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putParcelable(KEY_PRESENTER_STATE, ZipParcelable(presenter.saveState()))
+    }
+
+    override fun openSettingsScreen() {
+        startActivity(createSettingsActivityIntent(requireContext()))
     }
 
     override fun openAppScreen(appId: String, title: String) {

@@ -56,7 +56,10 @@ class EditProfileInteractorImpl(
         }
 
         return api
-            .updateProfile(name, bio, avatar)
+            // The content filter is edited in settings, not here — this
+            // screen leaves that part out entirely, which the server
+            // reads as "don't touch it".
+            .updateProfile(name, bio, avatar, null)
             .map { it.result }
             .toObservable()
             .subscribeOn(schedulers.io())

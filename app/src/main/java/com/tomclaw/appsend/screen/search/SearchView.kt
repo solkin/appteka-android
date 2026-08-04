@@ -23,6 +23,7 @@ import com.google.android.material.chip.ChipGroup
 import com.tomclaw.appsend.util.adapter.SimpleRecyclerAdapter
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.core.content.ContentFlag
 import com.tomclaw.appsend.util.applyBottomInsetsWithIme
 import com.tomclaw.appsend.util.bind
 import com.tomclaw.appsend.util.changes
@@ -67,6 +68,14 @@ interface SearchView {
      * and [custom] is the typed text offered as a tag of its own.
      */
     fun showTags(selected: List<String>, suggestions: List<String>, custom: String?)
+
+    /**
+     * Says which content these results are missing because the viewer
+     * asked for it to be. Hidden when nothing is being withheld.
+     */
+    fun showContentFilter(codes: List<String>)
+
+    fun contentFilterClicks(): Observable<Unit>
 
     /** [hasMore] offers the next batch of the vocabulary, if any is left. */
     fun showPopularTags(tags: List<String>, hasMore: Boolean)
@@ -124,6 +133,7 @@ class SearchViewImpl(
     private val retryButton: View = rootView.findViewById(R.id.button_retry)
     private val queryEdit: EditText = rootView.findViewById(R.id.query_edit)
     private val tagsScroll: View = rootView.findViewById(R.id.tags_scroll)
+    private val contentFilterChip: Chip = rootView.findViewById(R.id.chip_content_filter)
     private val tagsGroup: ChipGroup = rootView.findViewById(R.id.tags)
     private val popularTagsTitle: View = rootView.findViewById(R.id.popular_tags_title)
     private val popularTags: ChipGroup = rootView.findViewById(R.id.popular_tags)
@@ -141,6 +151,7 @@ class SearchViewImpl(
     private val tagSuggestionRelay = PublishRelay.create<String>()
     private val customTagRelay = PublishRelay.create<String>()
     private val popularTagRelay = PublishRelay.create<String>()
+    private val contentFilterRelay = PublishRelay.create<Unit>()
     private val moreTagsRelay = PublishRelay.create<Unit>()
     private val historyRelay = PublishRelay.create<SearchHistoryItem>()
     private val historyRemoveRelay = PublishRelay.create<SearchHistoryItem>()
@@ -157,6 +168,10 @@ class SearchViewImpl(
         recycler.itemAnimator?.changeDuration = DURATION_MEDIUM
 
         toolbar.setNavigationOnClickListener { navigationRelay.accept(Unit) }
+
+        // Not a criterion of this search — it says the account has a
+        // content setting, and leads to where that is changed.
+        contentFilterChip.setOnClickListener { contentFilterRelay.accept(Unit) }
 
         refresher.setOnRefreshListener { refreshRelay.accept(Unit) }
 
@@ -251,6 +266,16 @@ class SearchViewImpl(
         manager.hideSoftInputFromWindow(queryEdit.windowToken, 0)
         return shown
     }
+
+    override fun showContentFilter(codes: List<String>) {
+        val flags = ContentFlag.entries.filter { it.code in codes }
+        contentFilterChip.isVisible = flags.isNotEmpty()
+        if (flags.isEmpty()) return
+        val names = flags.joinToString { context.getString(it.titleRes) }
+        contentFilterChip.text = context.getString(R.string.content_filter_active, names)
+    }
+
+    override fun contentFilterClicks(): Observable<Unit> = contentFilterRelay
 
     override fun showTags(selected: List<String>, suggestions: List<String>, custom: String?) {
         tagsGroup.removeAllViews()

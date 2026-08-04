@@ -61,6 +61,8 @@ import com.tomclaw.appsend.screen.details.adapter.similar.SimilarItemBlueprint
 import com.tomclaw.appsend.screen.details.adapter.similar.SimilarItemPresenter
 import com.tomclaw.appsend.screen.profile.adapter.app.AppItemBlueprint
 import com.tomclaw.appsend.screen.profile.adapter.app.AppItemPresenter
+import com.tomclaw.appsend.screen.details.adapter.content_flags.ContentFlagsItemBlueprint
+import com.tomclaw.appsend.screen.details.adapter.content_flags.ContentFlagsItemPresenter
 import com.tomclaw.appsend.screen.details.adapter.tags.TagsItemBlueprint
 import com.tomclaw.appsend.screen.details.adapter.tags.TagsItemPresenter
 import com.tomclaw.appsend.screen.details.adapter.user_rate.UserRateItemBlueprint
@@ -268,6 +270,17 @@ class DetailsModule(
     internal fun provideTagsItemBlueprint(
         presenter: TagsItemPresenter
     ): ItemBlueprint<*, *> = TagsItemBlueprint(presenter)
+
+    @Provides
+    @IntoSet
+    @PerActivity
+    internal fun provideContentFlagsItemBlueprint(
+        presenter: ContentFlagsItemPresenter
+    ): ItemBlueprint<*, *> = ContentFlagsItemBlueprint(presenter)
+
+    @Provides
+    @PerActivity
+    internal fun provideContentFlagsItemPresenter() = ContentFlagsItemPresenter()
 
     @Provides
     @PerActivity

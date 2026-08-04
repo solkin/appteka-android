@@ -71,6 +71,24 @@
                     android:checkable="true"
                     android:text="@string/exclusive_short" />
 
+                <!--
+                    Not a filter of this screen: it reports the account's
+                    own content setting, which is why it is an assist chip
+                    among filter chips and leads to settings rather than
+                    toggling anything here. Hidden unless something is
+                    actually being withheld.
+                -->
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/chip_content_filter"
+                    style="@style/Widget.Material3.Chip.Assist"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    app:chipIcon="@drawable/ic_content_filter"
+                    app:chipIconTint="?attr/colorOnSurfaceVariant"
+                    tools:text="Hidden: 18+"
+                    tools:visibility="visible" />
+
             </com.google.android.material.chip.ChipGroup>
 
         </HorizontalScrollView>

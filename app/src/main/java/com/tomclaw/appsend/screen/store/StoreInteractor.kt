@@ -1,7 +1,7 @@
 package com.tomclaw.appsend.screen.store
 
 import com.tomclaw.appsend.core.StoreApi
-import com.tomclaw.appsend.dto.AppEntity
+import com.tomclaw.appsend.dto.AppsPage
 import com.tomclaw.appsend.util.SchedulersFactory
 import io.reactivex.rxjava3.core.Observable
 import java.util.Locale
@@ -13,7 +13,7 @@ interface StoreInteractor {
         categoryId: Int? = null,
         openSource: Boolean = false,
         exclusive: Boolean = false
-    ): Observable<List<AppEntity>>
+    ): Observable<AppsPage>
 
 }
 
@@ -28,7 +28,7 @@ class StoreInteractorImpl(
         categoryId: Int?,
         openSource: Boolean,
         exclusive: Boolean
-    ): Observable<List<AppEntity>> {
+    ): Observable<AppsPage> {
         return api.getTopList(
             appId = offsetAppId,
             locale = locale.language,
@@ -37,7 +37,10 @@ class StoreInteractorImpl(
             exclusive = true.takeIf { exclusive }
         )
             .map { list ->
-                list.result.files
+                AppsPage(
+                    entries = list.result.files,
+                    contentFilter = list.result.contentFilter.orEmpty(),
+                )
             }
             .toObservable()
             .subscribeOn(schedulers.io())

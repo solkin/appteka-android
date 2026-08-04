@@ -85,6 +85,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
         setPreferencesFromResource(R.xml.preferences, rootKey)
 
         settingsView = SettingsViewImpl(this)
+        (settingsView as SettingsViewImpl).bindContentFilter()
 
         setupThemePreference()
         setupDynamicColorsPreference()

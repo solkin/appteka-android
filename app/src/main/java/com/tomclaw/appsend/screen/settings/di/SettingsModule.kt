@@ -2,6 +2,7 @@ package com.tomclaw.appsend.screen.settings.di
 
 import android.content.Context
 import android.os.Bundle
+import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.download.ApkStorage
 import com.tomclaw.appsend.screen.settings.SettingsInteractor
 import com.tomclaw.appsend.screen.settings.SettingsInteractorImpl
@@ -46,9 +47,11 @@ class SettingsModule(
     @Provides
     @PerFragment
     internal fun provideInteractor(
+        api: StoreApi,
         apkStorage: ApkStorage,
         resourceProvider: SettingsResourceProvider,
         schedulers: SchedulersFactory
-    ): SettingsInteractor = SettingsInteractorImpl(context, apkStorage, resourceProvider, schedulers)
+    ): SettingsInteractor =
+        SettingsInteractorImpl(context, api, apkStorage, resourceProvider, schedulers)
 
 }

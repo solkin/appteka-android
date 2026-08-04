@@ -8,4 +8,10 @@
     <string name="pref_sort_order" translatable="false">pref_sort_order</string>
     <string name="pref_clear_cache" translatable="false">pref_clear_cache</string>
     <string name="pref_seed_color" translatable="false">pref_seed_color</string>
+
+    <!-- Content filter. Server-backed, so these keys only identify the
+         switches on screen — nothing is persisted under them locally. -->
+    <string name="pref_category_content_key" translatable="false">pref_category_content</string>
+    <string name="pref_family_friendly" translatable="false">pref_family_friendly</string>
+    <string name="pref_content_flag_prefix" translatable="false">pref_content_flag_</string>
 </resources>

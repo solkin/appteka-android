@@ -361,6 +361,7 @@ interface StoreApi {
         @Part("name") name: okhttp3.RequestBody?,
         @Part("bio") bio: okhttp3.RequestBody?,
         @Part avatar: MultipartBody.Part?,
+        @Part("content_filter") contentFilter: okhttp3.RequestBody?,
     ): Single<StoreResponse<ProfileResponse>>
 
     @POST("1/feed/subscribe")

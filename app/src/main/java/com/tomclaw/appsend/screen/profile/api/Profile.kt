@@ -58,6 +58,11 @@ data class Profile(
     val url: String? = null,
     @SerializedName("bio")
     val bio: String? = null,
+    // Content the viewer asked to hide while browsing, as flag codes.
+    // Returned on your own profile only — what someone chooses not to
+    // look at is nobody else's business.
+    @SerializedName("content_filter")
+    val contentFilter: List<String>? = null,
     @SerializedName("primary_badge")
     val primaryBadge: BadgeMark? = null,
     @SerializedName("badges")

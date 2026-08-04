@@ -43,4 +43,9 @@ data class Meta(
     val aiShortDescription: String? = null,
     @SerializedName("ai_status")
     val aiStatus: String? = null,
+    // What this app was found to contain. The app page is never hidden
+    // by a viewer's filter — reaching it takes a deliberate tap — so
+    // this is what lets us label it instead.
+    @SerializedName("content_flags")
+    val contentFlags: List<String>? = null,
 ) : Parcelable

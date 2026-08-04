@@ -1,7 +1,7 @@
 package com.tomclaw.appsend.screen.search
 
 import com.tomclaw.appsend.core.StoreApi
-import com.tomclaw.appsend.dto.AppEntity
+import com.tomclaw.appsend.dto.AppsPage
 import com.tomclaw.appsend.util.SchedulersFactory
 import io.reactivex.rxjava3.core.Observable
 import java.util.Locale
@@ -16,7 +16,7 @@ interface SearchInteractor {
         query: String,
         tags: List<String>,
         offset: Int = 0
-    ): Observable<List<AppEntity>>
+    ): Observable<AppsPage>
 
     /** Tags carried by enough apps to be worth offering as a starting point. */
     fun loadPopularTags(): Observable<List<String>>
@@ -47,7 +47,7 @@ class SearchInteractorImpl(
         query: String,
         tags: List<String>,
         offset: Int
-    ): Observable<List<AppEntity>> {
+    ): Observable<AppsPage> {
         return api.searchApps(
             query = query.takeIf { it.isNotBlank() },
             tags = tags.takeIf { it.isNotEmpty() }?.joinToString(separator = ","),
@@ -55,7 +55,10 @@ class SearchInteractorImpl(
             locale = locale.language
         )
             .map { list ->
-                list.result.files
+                AppsPage(
+                    entries = list.result.files,
+                    contentFilter = list.result.contentFilter.orEmpty(),
+                )
             }
             .toObservable()
             .subscribeOn(schedulers.io())

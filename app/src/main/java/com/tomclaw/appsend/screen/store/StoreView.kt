@@ -9,9 +9,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import androidx.core.view.isVisible
 import com.google.android.material.chip.Chip
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.core.content.ContentFlag
 import com.tomclaw.appsend.util.ActionItem
 import com.tomclaw.appsend.util.ActionsAdapter
 import com.tomclaw.appsend.util.adapter.SimpleRecyclerAdapter
@@ -57,6 +59,15 @@ interface StoreView {
 
     fun exclusiveClicks(): Observable<Boolean>
 
+    /**
+     * Says which content this feed is missing because the viewer asked
+     * for it to be. Hidden when they asked for nothing, which is
+     * everyone who never opened the setting.
+     */
+    fun showContentFilter(codes: List<String>)
+
+    fun contentFilterClicks(): Observable<Unit>
+
 }
 
 /**
@@ -83,12 +94,14 @@ class StoreViewImpl(
     private val categoryChip: Chip = filters.findViewById(R.id.chip_category)
     private val openSourceChip: Chip = filters.findViewById(R.id.chip_open_source)
     private val exclusiveChip: Chip = filters.findViewById(R.id.chip_exclusive)
+    private val contentFilterChip: Chip = filters.findViewById(R.id.chip_content_filter)
 
     private val retryRelay = PublishRelay.create<Unit>()
     private val refreshRelay = PublishRelay.create<Unit>()
     private val categorySelectedRelay = PublishRelay.create<Int>()
     private val openSourceRelay = PublishRelay.create<Boolean>()
     private val exclusiveRelay = PublishRelay.create<Boolean>()
+    private val contentFilterRelay = PublishRelay.create<Unit>()
 
     private var categories: List<CategoryDropdownItem> = emptyList()
 
@@ -110,7 +123,20 @@ class StoreViewImpl(
         // state by the time we read it; emit the new value.
         openSourceChip.setOnClickListener { openSourceRelay.accept(openSourceChip.isChecked) }
         exclusiveChip.setOnClickListener { exclusiveRelay.accept(exclusiveChip.isChecked) }
+        // Not a filter to toggle here — it says the account has one, and
+        // takes you to where it is changed.
+        contentFilterChip.setOnClickListener { contentFilterRelay.accept(Unit) }
     }
+
+    override fun showContentFilter(codes: List<String>) {
+        val flags = ContentFlag.entries.filter { it.code in codes }
+        contentFilterChip.isVisible = flags.isNotEmpty()
+        if (flags.isEmpty()) return
+        val names = flags.joinToString { context.getString(it.titleRes) }
+        contentFilterChip.text = context.getString(R.string.content_filter_active, names)
+    }
+
+    override fun contentFilterClicks(): Observable<Unit> = contentFilterRelay
 
     override fun showProgress() {
         refresher.isEnabled = false

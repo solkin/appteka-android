@@ -3,7 +3,7 @@ package com.tomclaw.appsend.screen.search
 import android.os.Bundle
 import com.tomclaw.appsend.util.adapter.AdapterPresenter
 import com.tomclaw.appsend.util.adapter.Item
-import com.tomclaw.appsend.dto.AppEntity
+import com.tomclaw.appsend.dto.AppsPage
 import com.tomclaw.appsend.screen.store.AppConverter
 import com.tomclaw.appsend.screen.store.adapter.app.AppItem
 import com.tomclaw.appsend.screen.store.adapter.ItemListener
@@ -38,6 +38,8 @@ interface SearchPresenter : ItemListener {
     interface SearchRouter {
 
         fun openAppScreen(appId: String, title: String)
+
+        fun openSettingsScreen()
 
         /**
          * Whether back has criteria to give up before it gives up the
@@ -82,6 +84,10 @@ class SearchPresenterImpl(
         state?.getParcelableArrayListCompat(KEY_APPS, AppItem::class.java)
     private var isError: Boolean = state?.getBoolean(KEY_ERROR) == true
 
+    /** What the server withheld from these results, as it reported it. */
+    private var contentFilter: List<String> =
+        state?.getStringArrayList(KEY_CONTENT_FILTER).orEmpty()
+
     private var query: String = state?.getString(KEY_QUERY).orEmpty()
     private var tags: List<String> =
         state?.getStringArrayList(KEY_TAGS) ?: initialTags
@@ -108,6 +114,12 @@ class SearchPresenterImpl(
 
     override fun attachView(view: SearchView) {
         this.view = view
+
+        view.showContentFilter(contentFilter)
+
+        subscriptions += view.contentFilterClicks().subscribe {
+            router?.openSettingsScreen()
+        }
 
         subscriptions += view.navigationClicks().subscribe {
             onBackPressed()
@@ -219,6 +231,7 @@ class SearchPresenterImpl(
         // The history itself is on disk, only how much of it was asked
         // for is worth carrying across a rotation.
         putInt(KEY_HISTORY_SHOWN, historyShown)
+        putStringArrayList(KEY_CONTENT_FILTER, ArrayList(contentFilter))
     }
 
     override fun invalidateSearch() {
@@ -350,9 +363,11 @@ class SearchPresenterImpl(
             )
     }
 
-    private fun onLoaded(entities: List<AppEntity>, isNewSearch: Boolean) {
+    private fun onLoaded(page: AppsPage, isNewSearch: Boolean) {
         isError = false
-        val newItems = entities
+        contentFilter = page.contentFilter
+        view?.showContentFilter(page.contentFilter)
+        val newItems = page.entries
             .map { appConverter.convert(it) }
             .toList()
             .apply { if (isNotEmpty()) last().hasMore = true }
@@ -512,6 +527,7 @@ class SearchPresenterImpl(
 }
 
 private const val KEY_APPS = "apps"
+private const val KEY_CONTENT_FILTER = "content_filter"
 private const val KEY_ERROR = "error"
 private const val KEY_QUERY = "query"
 private const val KEY_TAGS = "tags"

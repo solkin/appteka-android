@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingStart="20dp"
+    android:paddingTop="16dp"
+    android:paddingEnd="20dp"
+    android:paddingBottom="10dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-black"
+        android:text="@string/content_flags_block_title"
+        android:textColor="?text_primary_color"
+        android:textSize="16sp" />
+
+    <!--
+        Same rhythm as the tags block below it, so the two read as one
+        column rather than two competing bands. These chips are labels,
+        not filters: nothing to tap, nothing to page to.
+    -->
+    <com.google.android.material.chip.ChipGroup
+        android:id="@+id/content_flags_chips"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:chipSpacingHorizontal="8dp"
+        app:chipSpacingVertical="8dp" />
+
+</LinearLayout>

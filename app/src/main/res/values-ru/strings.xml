@@ -575,4 +575,24 @@
     <string name="avatar_crop_done">Готово</string>
     <string name="avatar_crop_load_failed">Не удалось загрузить изображение</string>
     <string name="avatar_crop_save_failed">Не удалось сохранить обрезанное изображение</string>
+
+    <string name="pref_category_content_title">Контент</string>
+    <string name="pref_title_family_friendly">Семейный режим</string>
+    <string name="pref_summary_family_friendly">Скрыть всё перечисленное ниже</string>
+    <string name="pref_summary_content_sign_in">Войдите, чтобы выбрать, что показывать</string>
+    <string name="pref_content_filter_failed">Не удалось сохранить настройку</string>
+
+    <string name="content_flag_adult">18+</string>
+    <string name="content_flag_adult_summary">Порнография, эротика, откровенный контент</string>
+    <string name="content_flag_gambling">Азартные игры</string>
+    <string name="content_flag_gambling_summary">Казино, ставки, слоты, лотереи</string>
+    <string name="content_flag_violence">Жестокость</string>
+    <string name="content_flag_violence_summary">Графическое насилие и жестокие сцены</string>
+    <string name="content_flag_substances">Вещества</string>
+    <string name="content_flag_substances_summary">Наркотики, алкоголь и табак</string>
+    <string name="content_flag_dating">Знакомства</string>
+    <string name="content_flag_dating_summary">Сервисы знакомств</string>
+
+    <string name="content_flags_block_title">Предупреждения</string>
+    <string name="content_filter_active">Скрыто: %1$s</string>
 </resources>

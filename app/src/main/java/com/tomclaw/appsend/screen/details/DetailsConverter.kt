@@ -26,6 +26,7 @@ import com.tomclaw.appsend.screen.details.adapter.status.StatusAction
 import com.tomclaw.appsend.screen.details.adapter.status.StatusItem
 import com.tomclaw.appsend.screen.details.adapter.status.StatusType
 import com.tomclaw.appsend.screen.details.adapter.similar.SimilarItem
+import com.tomclaw.appsend.screen.details.adapter.content_flags.ContentFlagsItem
 import com.tomclaw.appsend.screen.details.adapter.tags.TagsItem
 import com.tomclaw.appsend.screen.profile.adapter.app.AppItem
 import com.tomclaw.appsend.screen.details.adapter.user_rate.UserRateItem
@@ -282,6 +283,16 @@ class DetailsConverterImpl(
             sourceUrl = details.meta?.sourceUrl,
             translationState = translationState,
         )
+        // Above the tags: what the app contains is a caution, and the
+        // tags under it are an invitation to browse. Reading the caution
+        // second would be the wrong way round.
+        val contentFlags = details.meta?.contentFlags.orEmpty()
+        if (contentFlags.isNotEmpty()) {
+            items += ContentFlagsItem(
+                id = id++,
+                codes = contentFlags,
+            )
+        }
         val tags = details.meta?.aiTags.orEmpty()
         if (tags.isNotEmpty()) {
             items += TagsItem(

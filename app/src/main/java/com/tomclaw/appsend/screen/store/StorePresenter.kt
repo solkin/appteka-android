@@ -7,7 +7,7 @@ import com.tomclaw.appsend.categories.CategoriesInteractor
 import com.tomclaw.appsend.categories.Category
 import com.tomclaw.appsend.categories.CategoryConverter
 import com.tomclaw.appsend.categories.CategoryItem
-import com.tomclaw.appsend.dto.AppEntity
+import com.tomclaw.appsend.dto.AppsPage
 import com.tomclaw.appsend.screen.store.adapter.ItemListener
 import com.tomclaw.appsend.screen.store.adapter.app.AppItem
 import com.tomclaw.appsend.util.Analytics
@@ -41,6 +41,8 @@ interface StorePresenter : ItemListener {
 
         fun openAppScreen(appId: String, title: String)
 
+        fun openSettingsScreen()
+
     }
 
 }
@@ -70,12 +72,22 @@ class StorePresenterImpl(
     private var openSource: Boolean = state?.getBoolean(KEY_OPEN_SOURCE) == true
     private var exclusive: Boolean = state?.getBoolean(KEY_EXCLUSIVE) == true
 
+    /** What the server withheld from this feed, as it reported it. */
+    private var contentFilter: List<String> =
+        state?.getStringArrayList(KEY_CONTENT_FILTER).orEmpty()
+
     private var dropdownItems: List<CategoryDropdownItem> =
         state?.getParcelableArrayListCompat(KEY_DROPDOWN_ITEMS, CategoryDropdownItem::class.java)
             ?: emptyList()
 
     override fun attachView(view: StoreView) {
         this.view = view
+
+        view.showContentFilter(contentFilter)
+
+        subscriptions += view.contentFilterClicks().subscribe {
+            router?.openSettingsScreen()
+        }
 
         subscriptions += view.retryClicks().subscribe {
             loadApps()
@@ -131,6 +143,7 @@ class StorePresenterImpl(
         putParcelableArrayList(KEY_DROPDOWN_ITEMS, ArrayList(dropdownItems))
         putBoolean(KEY_OPEN_SOURCE, openSource)
         putBoolean(KEY_EXCLUSIVE, exclusive)
+        putStringArrayList(KEY_CONTENT_FILTER, ArrayList(contentFilter))
     }
 
     override fun invalidateApps() {
@@ -161,8 +174,11 @@ class StorePresenterImpl(
             )
     }
 
-    private fun onLoaded(entities: List<AppEntity>) {
+    private fun onLoaded(page: AppsPage) {
         isError = false
+        contentFilter = page.contentFilter
+        view?.showContentFilter(page.contentFilter)
+        val entities = page.entries
         // Pagination may return an app that's already shown (inclusive offset,
         // list re-sorted between pages): duplicate stable IDs crash RecyclerView.
         val knownIds = this.items?.mapTo(mutableSetOf()) { it.id } ?: mutableSetOf()
@@ -285,6 +301,7 @@ class StorePresenterImpl(
 }
 
 private const val KEY_APPS = "apps"
+private const val KEY_CONTENT_FILTER = "content_filter"
 private const val KEY_ERROR = "error"
 private const val KEY_CATEGORY_ID = "category"
 private const val KEY_DROPDOWN_ITEMS = "dropdown_items"

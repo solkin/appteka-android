@@ -1,6 +1,7 @@
 package com.tomclaw.appsend.screen.settings
 
 import android.os.Bundle
+import com.tomclaw.appsend.core.content.ContentFlag
 import com.tomclaw.appsend.download.ApkStorage
 import com.tomclaw.appsend.util.Analytics
 import com.tomclaw.appsend.util.SchedulersFactory
@@ -47,6 +48,14 @@ class SettingsPresenterImpl(
 
     private val subscriptions = CompositeDisposable()
 
+    /**
+     * Last set the server confirmed. Kept so a rejected change can be
+     * put back on screen without another round trip — the switches move
+     * first and are corrected only if the write does not land.
+     */
+    private var contentFilter: Set<ContentFlag>? =
+        state?.getStringArrayList(KEY_CONTENT_FILTER)?.let { ContentFlag.fromCodes(it) }
+
     override fun attachView(view: SettingsView) {
         this.view = view
 
@@ -59,6 +68,14 @@ class SettingsPresenterImpl(
             .subscribe { change ->
                 onPreferenceChanged(change)
             }
+
+        subscriptions += view.contentFilterChanges().subscribe { flags ->
+            saveContentFilter(flags)
+        }
+
+        contentFilter
+            ?.let { view.showContentFilter(it) }
+            ?: loadContentFilter()
     }
 
     override fun detachView() {
@@ -74,7 +91,51 @@ class SettingsPresenterImpl(
         this.router = null
     }
 
-    override fun saveState() = Bundle()
+    override fun saveState() = Bundle().apply {
+        contentFilter?.let {
+            putStringArrayList(KEY_CONTENT_FILTER, ArrayList(ContentFlag.codesOf(it)))
+        }
+    }
+
+    private fun loadContentFilter() {
+        view?.setContentFilterEnabled(false)
+        subscriptions += settingsInteractor.loadContentFilter()
+            .observeOn(schedulers.mainThread())
+            .subscribe(
+                { flags ->
+                    contentFilter = flags
+                    view?.showContentFilter(flags)
+                    view?.setContentFilterEnabled(true)
+                },
+                {
+                    // No account, no filter to edit: the value belongs to
+                    // one. Anything else that goes wrong lands here too,
+                    // and the honest answer is the same — not now.
+                    view?.showContentFilterUnavailable()
+                }
+            )
+    }
+
+    private fun saveContentFilter(flags: Set<ContentFlag>) {
+        if (flags == contentFilter) return
+        val previous = contentFilter
+        contentFilter = flags
+        view?.showContentFilter(flags)
+        subscriptions += settingsInteractor.updateContentFilter(flags)
+            .observeOn(schedulers.mainThread())
+            .subscribe(
+                { saved ->
+                    contentFilter = saved
+                    view?.showContentFilter(saved)
+                    analytics.trackEvent("settings-content-filter-changed")
+                },
+                {
+                    contentFilter = previous
+                    previous?.let { view?.showContentFilter(it) }
+                    view?.showContentFilterError()
+                }
+            )
+    }
 
     private fun clearCache() {
         if (apkStorage.isPermissionRequired()) {
@@ -128,3 +189,5 @@ class SettingsPresenterImpl(
     }
 
 }
+
+private const val KEY_CONTENT_FILTER = "content_filter"
