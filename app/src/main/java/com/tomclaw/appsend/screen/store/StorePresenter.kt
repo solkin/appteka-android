@@ -41,7 +41,7 @@ interface StorePresenter : ItemListener {
 
         fun openAppScreen(appId: String, title: String)
 
-        fun openSettingsScreen()
+        fun openContentFilterScreen()
 
     }
 
@@ -86,7 +86,7 @@ class StorePresenterImpl(
         view.showContentFilter(contentFilter)
 
         subscriptions += view.contentFilterClicks().subscribe {
-            router?.openSettingsScreen()
+            router?.openContentFilterScreen()
         }
 
         subscriptions += view.retryClicks().subscribe {

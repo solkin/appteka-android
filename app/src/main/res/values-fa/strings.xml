@@ -556,4 +556,30 @@
     <string name="avatar_crop_done">انجام شد</string>
     <string name="avatar_crop_load_failed">بارگذاری تصویر ممکن نشد</string>
     <string name="avatar_crop_save_failed">ذخیره تصویر برش‌خورده ممکن نشد</string>
+
+    <!-- Content filter: what a viewer chooses not to see. -->
+    <string name="pref_category_content_title">محتوا</string>
+    <string name="pref_title_content_filter">فیلتر محتوا</string>
+    <string name="pref_summary_content_nothing_hidden">چیزی پنهان نشده است</string>
+    <string name="pref_content_filter_header">آنچه می‌بینید</string>
+    <string name="pref_title_family_friendly">حالت خانوادگی</string>
+    <string name="pref_summary_family_friendly">پنهان‌کردن یکجای همهٔ موارد زیر</string>
+    <string name="pref_summary_content_sign_in">برای انتخاب آنچه می‌بینید وارد شوید</string>
+    <string name="pref_content_filter_failed">تنظیمات ذخیره نشد</string>
+    <string name="content_state_shown">نمایش داده می‌شود</string>
+    <string name="content_state_hidden">پنهان</string>
+    <string name="content_flag_adult">بزرگسال</string>
+    <string name="content_flag_adult_summary">پورنوگرافی، اروتیک و محتوای جنسی صریح</string>
+    <string name="content_flag_gambling">قمار</string>
+    <string name="content_flag_gambling_summary">کازینو، شرط‌بندی، اسلات و لاتاری</string>
+    <string name="content_flag_violence">خشونت</string>
+    <string name="content_flag_violence_summary">خشونت و صحنه‌های خونین</string>
+    <string name="content_flag_substances">مواد</string>
+    <string name="content_flag_substances_summary">مواد مخدر، الکل و دخانیات</string>
+    <string name="content_flag_dating">دوستیابی</string>
+    <string name="content_flag_dating_summary">سرویس‌های دوستیابی و آشنایی</string>
+    <string name="content_flags_block_title">هشدارهای محتوا</string>
+    <string name="content_filter_active">پنهان: %1$s</string>
+    <string name="search_add_tag">برچسب «%1$s»</string>
+    <string name="search_more_tags">بیشتر</string>
 </resources>

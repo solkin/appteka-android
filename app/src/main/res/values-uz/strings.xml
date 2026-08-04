@@ -548,4 +548,30 @@
     <string name="avatar_crop_done">Tayyor</string>
     <string name="avatar_crop_load_failed">Rasmni yuklab bo\'lmadi</string>
     <string name="avatar_crop_save_failed">Kesilgan rasmni saqlab bo\'lmadi</string>
+
+    <!-- Content filter: what a viewer chooses not to see. -->
+    <string name="pref_category_content_title">Kontent</string>
+    <string name="pref_title_content_filter">Kontent filtri</string>
+    <string name="pref_summary_content_nothing_hidden">Hech narsa yashirilmagan</string>
+    <string name="pref_content_filter_header">Nimani koʻrasiz</string>
+    <string name="pref_title_family_friendly">Oilaviy rejim</string>
+    <string name="pref_summary_family_friendly">Quyidagilarning barchasini birdan yashirish</string>
+    <string name="pref_summary_content_sign_in">Nimani koʻrishni tanlash uchun hisobga kiring</string>
+    <string name="pref_content_filter_failed">Sozlamani saqlab boʻlmadi</string>
+    <string name="content_state_shown">Koʻrsatiladi</string>
+    <string name="content_state_hidden">Yashirilgan</string>
+    <string name="content_flag_adult">Kattalar uchun</string>
+    <string name="content_flag_adult_summary">Pornografiya, erotika, ochiq jinsiy kontent</string>
+    <string name="content_flag_gambling">Qimor</string>
+    <string name="content_flag_gambling_summary">Kazino, tikish, slotlar, lotereyalar</string>
+    <string name="content_flag_violence">Zoʻravonlik</string>
+    <string name="content_flag_violence_summary">Ochiq zoʻravonlik va qonli sahnalar</string>
+    <string name="content_flag_substances">Moddalar</string>
+    <string name="content_flag_substances_summary">Giyohvand moddalar, alkogol va tamaki</string>
+    <string name="content_flag_dating">Tanishuv</string>
+    <string name="content_flag_dating_summary">Tanishuv xizmatlari</string>
+    <string name="content_flags_block_title">Kontent ogohlantirishlari</string>
+    <string name="content_filter_active">Yashirilgan: %1$s</string>
+    <string name="search_add_tag">Teg «%1$s»</string>
+    <string name="search_more_tags">Koʻproq</string>
 </resources>

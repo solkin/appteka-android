@@ -583,10 +583,18 @@
     <!-- Content filter: what a viewer chooses not to see. Codes are the
          backend's; these are the labels for them. -->
     <string name="pref_category_content_title">Content</string>
+    <string name="pref_title_content_filter">Content filter</string>
+    <string name="pref_summary_content_nothing_hidden">Nothing is hidden</string>
+    <string name="pref_content_filter_header">What you see</string>
     <string name="pref_title_family_friendly">Family friendly</string>
     <string name="pref_summary_family_friendly">Hide everything below in one go</string>
     <string name="pref_summary_content_sign_in">Sign in to choose what you see</string>
     <string name="pref_content_filter_failed">Could not save the setting</string>
+
+    <!-- Prefixed to a category's description so the switch position is
+         never in doubt: "Shown · Casinos, betting, slots, lotteries". -->
+    <string name="content_state_shown">Shown</string>
+    <string name="content_state_hidden">Hidden</string>
 
     <string name="content_flag_adult">Adult</string>
     <string name="content_flag_adult_summary">Pornography, erotica, explicit sexual content</string>

@@ -600,4 +600,30 @@
     <string name="avatar_crop_done">تم</string>
     <string name="avatar_crop_load_failed">تعذر تحميل الصورة</string>
     <string name="avatar_crop_save_failed">تعذر حفظ الصورة المقصوصة</string>
+
+    <!-- Content filter: what a viewer chooses not to see. -->
+    <string name="pref_category_content_title">المحتوى</string>
+    <string name="pref_title_content_filter">تصفية المحتوى</string>
+    <string name="pref_summary_content_nothing_hidden">لا شيء مخفي</string>
+    <string name="pref_content_filter_header">ما تراه</string>
+    <string name="pref_title_family_friendly">الوضع العائلي</string>
+    <string name="pref_summary_family_friendly">إخفاء كل ما يلي دفعة واحدة</string>
+    <string name="pref_summary_content_sign_in">سجّل الدخول لتختار ما تراه</string>
+    <string name="pref_content_filter_failed">تعذّر حفظ الإعداد</string>
+    <string name="content_state_shown">ظاهر</string>
+    <string name="content_state_hidden">مخفي</string>
+    <string name="content_flag_adult">للبالغين</string>
+    <string name="content_flag_adult_summary">إباحية ومحتوى جنسي صريح</string>
+    <string name="content_flag_gambling">المقامرة</string>
+    <string name="content_flag_gambling_summary">الكازينوهات والرهانات وماكينات القمار واليانصيب</string>
+    <string name="content_flag_violence">العنف</string>
+    <string name="content_flag_violence_summary">مشاهد عنف ودموية صريحة</string>
+    <string name="content_flag_substances">المواد المخدرة</string>
+    <string name="content_flag_substances_summary">المخدرات والكحول والتبغ</string>
+    <string name="content_flag_dating">المواعدة</string>
+    <string name="content_flag_dating_summary">خدمات المواعدة والتعارف</string>
+    <string name="content_flags_block_title">تحذيرات المحتوى</string>
+    <string name="content_filter_active">مخفي: %1$s</string>
+    <string name="search_add_tag">الوسم «%1$s»</string>
+    <string name="search_more_tags">المزيد</string>
 </resources>

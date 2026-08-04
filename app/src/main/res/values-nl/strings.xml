@@ -559,4 +559,28 @@
     <string name="avatar_crop_done">Klaar</string>
     <string name="avatar_crop_load_failed">Afbeelding laden mislukt</string>
     <string name="avatar_crop_save_failed">Bijgesneden afbeelding opslaan mislukt</string>
+
+    <!-- Content filter: what a viewer chooses not to see. -->
+    <string name="pref_category_content_title">Inhoud</string>
+    <string name="pref_title_content_filter">Inhoudsfilter</string>
+    <string name="pref_summary_content_nothing_hidden">Er wordt niets verborgen</string>
+    <string name="pref_content_filter_header">Wat je ziet</string>
+    <string name="pref_title_family_friendly">Gezinsmodus</string>
+    <string name="pref_summary_family_friendly">Verberg alles hieronder in één keer</string>
+    <string name="pref_summary_content_sign_in">Log in om te kiezen wat je ziet</string>
+    <string name="pref_content_filter_failed">Kan de instelling niet opslaan</string>
+    <string name="content_state_shown">Zichtbaar</string>
+    <string name="content_state_hidden">Verborgen</string>
+    <string name="content_flag_adult">Volwassen</string>
+    <string name="content_flag_adult_summary">Pornografie, erotiek, expliciet seksuele inhoud</string>
+    <string name="content_flag_gambling">Gokken</string>
+    <string name="content_flag_gambling_summary">Casino\'s, weddenschappen, slots, loterijen</string>
+    <string name="content_flag_violence">Geweld</string>
+    <string name="content_flag_violence_summary">Grafisch geweld en bloederige scènes</string>
+    <string name="content_flag_substances">Middelen</string>
+    <string name="content_flag_substances_summary">Drugs, alcohol en tabak</string>
+    <string name="content_flag_dating">Daten</string>
+    <string name="content_flag_dating_summary">Dating- en hookupdiensten</string>
+    <string name="content_flags_block_title">Inhoudswaarschuwingen</string>
+    <string name="content_filter_active">Verborgen: %1$s</string>
 </resources>

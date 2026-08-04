@@ -577,10 +577,16 @@
     <string name="avatar_crop_save_failed">Не удалось сохранить обрезанное изображение</string>
 
     <string name="pref_category_content_title">Контент</string>
+    <string name="pref_title_content_filter">Фильтр контента</string>
+    <string name="pref_summary_content_nothing_hidden">Ничего не скрыто</string>
+    <string name="pref_content_filter_header">Что показывать</string>
     <string name="pref_title_family_friendly">Семейный режим</string>
     <string name="pref_summary_family_friendly">Скрыть всё перечисленное ниже</string>
     <string name="pref_summary_content_sign_in">Войдите, чтобы выбрать, что показывать</string>
     <string name="pref_content_filter_failed">Не удалось сохранить настройку</string>
+
+    <string name="content_state_shown">Показывается</string>
+    <string name="content_state_hidden">Скрыто</string>
 
     <string name="content_flag_adult">18+</string>
     <string name="content_flag_adult_summary">Порнография, эротика, откровенный контент</string>

@@ -11,7 +11,8 @@
 
     <!-- Content filter. Server-backed, so these keys only identify the
          switches on screen — nothing is persisted under them locally. -->
-    <string name="pref_category_content_key" translatable="false">pref_category_content</string>
+    <string name="pref_content_filter_key" translatable="false">pref_content_filter</string>
+    <string name="pref_content_filter_group_key" translatable="false">pref_content_filter_group</string>
     <string name="pref_family_friendly" translatable="false">pref_family_friendly</string>
     <string name="pref_content_flag_prefix" translatable="false">pref_content_flag_</string>
 </resources>

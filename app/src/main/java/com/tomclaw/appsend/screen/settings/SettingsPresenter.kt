@@ -69,13 +69,25 @@ class SettingsPresenterImpl(
                 onPreferenceChanged(change)
             }
 
-        subscriptions += view.contentFilterChanges().subscribe { flags ->
-            saveContentFilter(flags)
+        // The switches report what moved; what that means for the whole
+        // set is decided here, where the last confirmed one is held.
+        subscriptions += view.contentFlagChanges().subscribe { change ->
+            val current = contentFilter.orEmpty()
+            saveContentFilter(
+                if (change.shown) current - change.flag else current + change.flag
+            )
         }
 
-        contentFilter
-            ?.let { view.showContentFilter(it) }
-            ?: loadContentFilter()
+        subscriptions += view.familyFriendlyChanges().subscribe { on ->
+            saveContentFilter(if (on) ContentFlag.entries.toSet() else emptySet())
+        }
+
+        // Paint what we already know, then ask anyway: the value can
+        // have moved on the screen this one opens, or on the website,
+        // and a settings row showing yesterday's answer is worse than a
+        // moment of nothing.
+        contentFilter?.let { view.showContentFilter(it) }
+        loadContentFilter()
     }
 
     override fun detachView() {
@@ -98,7 +110,9 @@ class SettingsPresenterImpl(
     }
 
     private fun loadContentFilter() {
-        view?.setContentFilterEnabled(false)
+        if (contentFilter == null) {
+            view?.setContentFilterEnabled(false)
+        }
         subscriptions += settingsInteractor.loadContentFilter()
             .observeOn(schedulers.mainThread())
             .subscribe(

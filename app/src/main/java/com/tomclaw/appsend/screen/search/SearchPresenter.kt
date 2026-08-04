@@ -39,7 +39,7 @@ interface SearchPresenter : ItemListener {
 
         fun openAppScreen(appId: String, title: String)
 
-        fun openSettingsScreen()
+        fun openContentFilterScreen()
 
         /**
          * Whether back has criteria to give up before it gives up the
@@ -118,7 +118,7 @@ class SearchPresenterImpl(
         view.showContentFilter(contentFilter)
 
         subscriptions += view.contentFilterClicks().subscribe {
-            router?.openSettingsScreen()
+            router?.openContentFilterScreen()
         }
 
         subscriptions += view.navigationClicks().subscribe {

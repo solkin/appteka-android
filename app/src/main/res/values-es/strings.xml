@@ -559,4 +559,30 @@
     <string name="avatar_crop_done">Hecho</string>
     <string name="avatar_crop_load_failed">No se pudo cargar la imagen</string>
     <string name="avatar_crop_save_failed">No se pudo guardar la imagen recortada</string>
+
+    <!-- Content filter: what a viewer chooses not to see. -->
+    <string name="pref_category_content_title">Contenido</string>
+    <string name="pref_title_content_filter">Filtro de contenido</string>
+    <string name="pref_summary_content_nothing_hidden">No se oculta nada</string>
+    <string name="pref_content_filter_header">Qué ves</string>
+    <string name="pref_title_family_friendly">Modo familiar</string>
+    <string name="pref_summary_family_friendly">Ocultar todo lo de abajo de una vez</string>
+    <string name="pref_summary_content_sign_in">Inicia sesión para elegir qué ves</string>
+    <string name="pref_content_filter_failed">No se pudo guardar el ajuste</string>
+    <string name="content_state_shown">Se muestra</string>
+    <string name="content_state_hidden">Oculto</string>
+    <string name="content_flag_adult">Adulto</string>
+    <string name="content_flag_adult_summary">Pornografía, erotismo, contenido sexual explícito</string>
+    <string name="content_flag_gambling">Juegos de azar</string>
+    <string name="content_flag_gambling_summary">Casinos, apuestas, tragamonedas, loterías</string>
+    <string name="content_flag_violence">Violencia</string>
+    <string name="content_flag_violence_summary">Violencia gráfica y escenas sangrientas</string>
+    <string name="content_flag_substances">Sustancias</string>
+    <string name="content_flag_substances_summary">Drogas, alcohol y tabaco</string>
+    <string name="content_flag_dating">Citas</string>
+    <string name="content_flag_dating_summary">Servicios de citas y encuentros</string>
+    <string name="content_flags_block_title">Advertencias de contenido</string>
+    <string name="content_filter_active">Oculto: %1$s</string>
+    <string name="search_add_tag">Etiqueta «%1$s»</string>
+    <string name="search_more_tags">Más</string>
 </resources>

@@ -547,4 +547,30 @@
     <string name="avatar_crop_done">हो गया</string>
     <string name="avatar_crop_load_failed">चित्र लोड नहीं हो सका</string>
     <string name="avatar_crop_save_failed">कटा हुआ चित्र सहेजा नहीं जा सका</string>
+
+    <!-- Content filter: what a viewer chooses not to see. -->
+    <string name="pref_category_content_title">सामग्री</string>
+    <string name="pref_title_content_filter">सामग्री फ़िल्टर</string>
+    <string name="pref_summary_content_nothing_hidden">कुछ भी छिपाया नहीं गया</string>
+    <string name="pref_content_filter_header">आपको क्या दिखेगा</string>
+    <string name="pref_title_family_friendly">फ़ैमिली मोड</string>
+    <string name="pref_summary_family_friendly">नीचे दी गई सभी श्रेणियाँ एक साथ छिपाएँ</string>
+    <string name="pref_summary_content_sign_in">क्या दिखे यह चुनने के लिए साइन इन करें</string>
+    <string name="pref_content_filter_failed">सेटिंग सहेजी नहीं जा सकी</string>
+    <string name="content_state_shown">दिख रहा है</string>
+    <string name="content_state_hidden">छिपा हुआ</string>
+    <string name="content_flag_adult">वयस्क</string>
+    <string name="content_flag_adult_summary">अश्लील, कामुक और स्पष्ट यौन सामग्री</string>
+    <string name="content_flag_gambling">जुआ</string>
+    <string name="content_flag_gambling_summary">कैसीनो, सट्टा, स्लॉट, लॉटरी</string>
+    <string name="content_flag_violence">हिंसा</string>
+    <string name="content_flag_violence_summary">खौफनाक हिंसा और खून-खराबा</string>
+    <string name="content_flag_substances">नशीले पदार्थ</string>
+    <string name="content_flag_substances_summary">ड्रग्स, शराब और तंबाकू</string>
+    <string name="content_flag_dating">डेटिंग</string>
+    <string name="content_flag_dating_summary">डेटिंग और हुकअप सेवाएँ</string>
+    <string name="content_flags_block_title">सामग्री चेतावनियाँ</string>
+    <string name="content_filter_active">छिपाया गया: %1$s</string>
+    <string name="search_add_tag">टैग “%1$s”</string>
+    <string name="search_more_tags">और</string>
 </resources>

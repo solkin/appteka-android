@@ -336,6 +336,9 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
     override fun onStart() {
         super.onStart()
+        // The screen names itself rather than the host tracking a back
+        // stack: the root has no title of its own, a sub-screen does.
+        requireActivity().title = preferenceScreen.title ?: getString(R.string.settings)
         presenter.attachView(settingsView)
         presenter.attachRouter(this)
     }
@@ -607,6 +610,17 @@ class SettingsFragment : PreferenceFragmentCompat(),
     }
 
     companion object {
+
+        /**
+         * The same fragment showing one branch of the tree instead of
+         * its root — how androidx.preference does sub-screens. Every
+         * setup below is written against a preference that may not be in
+         * this branch, so nothing has to know which one it got.
+         */
+        fun forScreen(key: String) = SettingsFragment().apply {
+            arguments = Bundle().apply { putString(ARG_PREFERENCE_ROOT, key) }
+        }
+
         private val SEED_COLORS = intArrayOf(
             ThemeManager.DEFAULT_SEED_COLOR,
             0xFFE53935.toInt(),

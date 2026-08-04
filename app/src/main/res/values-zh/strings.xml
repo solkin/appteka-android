@@ -534,4 +534,30 @@
     <string name="avatar_crop_done">完成</string>
     <string name="avatar_crop_load_failed">无法加载图片</string>
     <string name="avatar_crop_save_failed">无法保存裁剪后的图片</string>
+
+    <!-- Content filter: what a viewer chooses not to see. -->
+    <string name="pref_category_content_title">内容</string>
+    <string name="pref_title_content_filter">内容过滤</string>
+    <string name="pref_summary_content_nothing_hidden">未隐藏任何内容</string>
+    <string name="pref_content_filter_header">你看到的内容</string>
+    <string name="pref_title_family_friendly">家庭模式</string>
+    <string name="pref_summary_family_friendly">一次隐藏下列全部内容</string>
+    <string name="pref_summary_content_sign_in">登录后可选择显示哪些内容</string>
+    <string name="pref_content_filter_failed">无法保存设置</string>
+    <string name="content_state_shown">显示</string>
+    <string name="content_state_hidden">已隐藏</string>
+    <string name="content_flag_adult">成人</string>
+    <string name="content_flag_adult_summary">色情、情色和露骨性内容</string>
+    <string name="content_flag_gambling">赌博</string>
+    <string name="content_flag_gambling_summary">赌场、博彩、老虎机、彩票</string>
+    <string name="content_flag_violence">暴力</string>
+    <string name="content_flag_violence_summary">血腥暴力场面</string>
+    <string name="content_flag_substances">成瘾物质</string>
+    <string name="content_flag_substances_summary">毒品、酒精和烟草</string>
+    <string name="content_flag_dating">交友</string>
+    <string name="content_flag_dating_summary">约会和交友服务</string>
+    <string name="content_flags_block_title">内容提示</string>
+    <string name="content_filter_active">已隐藏：%1$s</string>
+    <string name="search_add_tag">标签“%1$s”</string>
+    <string name="search_more_tags">更多</string>
 </resources>

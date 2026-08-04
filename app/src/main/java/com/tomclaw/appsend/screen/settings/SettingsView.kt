@@ -21,7 +21,12 @@ interface SettingsView {
 
     fun clearCacheClicks(): Observable<Unit>
 
-    /** Paints the switches for the content the account currently hides. */
+    /**
+     * Paints the content filter from the set the account hides. The
+     * switches say what is *shown*, so the set is inverted here rather
+     * than on the wire — the server, the website and this screen then
+     * all agree on what an untouched account means: nothing hidden.
+     */
     fun showContentFilter(flags: Set<ContentFlag>)
 
     /**
@@ -34,26 +39,42 @@ interface SettingsView {
 
     fun showContentFilterError()
 
+    /** A category switch was moved, and whether it is now shown. */
+    fun contentFlagChanges(): Observable<ContentFlagChange>
+
     /**
-     * A switch was moved. Emits the selection as a whole rather than the
-     * one switch that changed: the family-friendly row stands for all of
-     * them, and the server takes the complete set anyway.
+     * The family-friendly switch was moved. It stands for the whole
+     * list rather than a flag of its own, so what it means is the
+     * presenter's to decide.
      */
-    fun contentFilterChanges(): Observable<Set<ContentFlag>>
+    fun familyFriendlyChanges(): Observable<Boolean>
 
 }
+
+data class ContentFlagChange(
+    val flag: ContentFlag,
+    val shown: Boolean,
+)
 
 class SettingsViewImpl(
     private val fragment: PreferenceFragmentCompat
 ) : SettingsView {
 
     private val clearCacheRelay = PublishRelay.create<Unit>()
-    private val contentFilterRelay = PublishRelay.create<Set<ContentFlag>>()
+    private val contentFlagRelay = PublishRelay.create<ContentFlagChange>()
+    private val familyFriendlyRelay = PublishRelay.create<Boolean>()
 
     private val resources = fragment.resources
 
-    private val contentCategory: PreferenceCategory?
-        get() = findPreference(R.string.pref_category_content_key)
+    // The row lives on the settings screen, the switches on the one it
+    // opens, and each is inflated on its own. Every lookup is therefore
+    // allowed to come back empty — whichever screen is on show updates
+    // the part of the filter it holds.
+    private val contentFilterRow: Preference?
+        get() = findPreference(R.string.pref_content_filter_key)
+
+    private val contentFilterGroup: PreferenceCategory?
+        get() = findPreference(R.string.pref_content_filter_group_key)
 
     private val familyFriendlySwitch: SwitchPreferenceCompat?
         get() = findPreference(R.string.pref_family_friendly)
@@ -71,16 +92,11 @@ class SettingsViewImpl(
      */
     fun bindContentFilter() {
         familyFriendlySwitch?.bindAsContentSwitch { checked ->
-            contentFilterRelay.accept(
-                if (checked) ContentFlag.entries.toSet() else emptySet()
-            )
+            familyFriendlyRelay.accept(checked)
         }
         ContentFlag.entries.forEach { flag ->
-            flagSwitch(flag)?.bindAsContentSwitch { checked ->
-                val current = checkedFlags()
-                contentFilterRelay.accept(
-                    if (checked) current + flag else current - flag
-                )
+            flagSwitch(flag)?.bindAsContentSwitch { shown ->
+                contentFlagRelay.accept(ContentFlagChange(flag, shown))
             }
         }
     }
@@ -96,23 +112,50 @@ class SettingsViewImpl(
         }
     }
 
-    private fun checkedFlags(): Set<ContentFlag> =
-        ContentFlag.entries.filterTo(mutableSetOf()) { flagSwitch(it)?.isChecked == true }
-
     override fun showContentFilter(flags: Set<ContentFlag>) {
         familyFriendlySwitch?.isChecked = flags.containsAll(ContentFlag.entries)
-        ContentFlag.entries.forEach { flag ->
-            flagSwitch(flag)?.isChecked = flag in flags
-        }
         familyFriendlySwitch?.setSummary(R.string.pref_summary_family_friendly)
+        ContentFlag.entries.forEach { flag ->
+            flagSwitch(flag)?.apply {
+                isChecked = flag !in flags
+                summary = flagSummary(flag, hidden = flag in flags)
+            }
+        }
+        contentFilterRow?.summary = filterSummary(flags)
+    }
+
+    /**
+     * "Shown · Casinos, betting, slots, lotteries". The switch already
+     * carries the state, but only the wording says which way it points,
+     * and a row scrolled past its category header has nothing else.
+     */
+    private fun flagSummary(flag: ContentFlag, hidden: Boolean): String {
+        val state = resources.getString(
+            if (hidden) R.string.content_state_hidden else R.string.content_state_shown
+        )
+        return state + SUMMARY_SEPARATOR + resources.getString(flag.summaryRes)
+    }
+
+    /** What the settings row says without being opened. */
+    private fun filterSummary(flags: Set<ContentFlag>): String {
+        if (flags.isEmpty()) {
+            return resources.getString(R.string.pref_summary_content_nothing_hidden)
+        }
+        val names = ContentFlag.entries
+            .filter { it in flags }
+            .joinToString { resources.getString(it.titleRes) }
+        return resources.getString(R.string.content_filter_active, names)
     }
 
     override fun setContentFilterEnabled(enabled: Boolean) {
-        contentCategory?.isEnabled = enabled
+        contentFilterRow?.isEnabled = enabled
+        contentFilterGroup?.isEnabled = enabled
     }
 
     override fun showContentFilterUnavailable() {
-        contentCategory?.isEnabled = false
+        contentFilterRow?.isEnabled = false
+        contentFilterRow?.setSummary(R.string.pref_summary_content_sign_in)
+        contentFilterGroup?.isEnabled = false
         familyFriendlySwitch?.setSummary(R.string.pref_summary_content_sign_in)
     }
 
@@ -122,7 +165,9 @@ class SettingsViewImpl(
         }
     }
 
-    override fun contentFilterChanges(): Observable<Set<ContentFlag>> = contentFilterRelay
+    override fun contentFlagChanges(): Observable<ContentFlagChange> = contentFlagRelay
+
+    override fun familyFriendlyChanges(): Observable<Boolean> = familyFriendlyRelay
 
     override fun showCacheClearedMessage() {
         fragment.view?.let { view ->
@@ -164,3 +209,5 @@ class SettingsViewImpl(
     }
 
 }
+
+private const val SUMMARY_SEPARATOR = " \u00b7 "
