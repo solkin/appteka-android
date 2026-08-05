@@ -187,8 +187,7 @@
         <activity android:name=".screen.feed.FeedActivity" />
         <activity android:name=".screen.post.PostActivity" />
         <activity android:name=".screen.downloads.DownloadsActivity" />
-        <activity android:name=".screen.unlink.UnlinkActivity" />
-        <activity android:name=".screen.unpublish.UnpublishActivity" />
+        <activity android:name=".screen.restrict.RestrictActivity" />
         <activity android:name=".screen.uploads.UploadsActivity" />
         <activity android:name=".screen.bdui.BduiScreenActivity" />
 

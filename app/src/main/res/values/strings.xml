@@ -303,6 +303,12 @@
     <string name="uploaded_channel_description">Notifications for uploaded apps</string>
     <string name="upload_failed">Upload failed</string>
     <string name="upload_done">Upload done</string>
+    <string name="restrict_reason_hint">Reason</string>
+    <string name="restrict_comment_hint">Comment for the author (optional)</string>
+    <string name="restrict_block_description">The reason is shown to the author on the app page. Blocking is permanent.</string>
+    <string name="restrict_unpublish_description">The reason is shown to the author on the app page. The author can fix the app and submit it for moderation again.</string>
+    <string name="restrict_block_warning">The app cannot be restored after blocking</string>
+    <string name="unlinked_status_permanent">The app is blocked permanently and cannot be restored</string>
     <string name="unlinked_status_text">The app has been blocked and is no longer available</string>
     <string name="private_status_text">The application is in private access and is available only through the link. To attempt a publication, edit the description.</string>
     <string name="moderation_status_text">The application is under moderation and after verification it will become available to users of Appteka or will remain in private access</string>

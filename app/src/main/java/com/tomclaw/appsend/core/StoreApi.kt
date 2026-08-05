@@ -20,7 +20,7 @@ import com.tomclaw.appsend.screen.details.api.Details
 import com.tomclaw.appsend.screen.details.api.MarkFavoriteResponse
 import com.tomclaw.appsend.screen.details.api.AIReviewResponse
 import com.tomclaw.appsend.screen.details.api.ModerationDecisionResponse
-import com.tomclaw.appsend.screen.details.api.RejectionReasonsResponse
+import com.tomclaw.appsend.dto.RejectionReasonsResponse
 import com.tomclaw.appsend.screen.details.api.TranslationResponse
 import com.tomclaw.appsend.screen.downloads.api.DeleteDownloadedResponse
 import com.tomclaw.appsend.screen.downloads.api.DownloadsResponse
@@ -48,8 +48,7 @@ import com.tomclaw.appsend.screen.reviews.api.ReviewsResponse
 import com.tomclaw.appsend.screen.store.api.AppsListResponse
 import com.tomclaw.appsend.screen.topics.api.PinTopicResponse
 import com.tomclaw.appsend.screen.topics.api.TopicsResponse
-import com.tomclaw.appsend.screen.unlink.api.UnlinkResponse
-import com.tomclaw.appsend.screen.unpublish.api.UnpublishResponse
+import com.tomclaw.appsend.screen.restrict.api.RestrictResponse
 import com.tomclaw.appsend.screen.upload.api.CheckExistResponse
 import com.tomclaw.appsend.screen.uploads.api.UploadsResponse
 import com.tomclaw.appsend.screen.users.api.PublishersResponse
@@ -201,9 +200,14 @@ interface StoreApi {
         @Query("reason_comment") reasonComment: String?,
     ): Single<StoreResponse<ModerationDecisionResponse>>
 
+    // scope picks the pick list: "moderation" for a decline,
+    // "unpublish" for a takedown, "block" for a permanent block. Access
+    // follows the scope — the ACL that allows the action allows its
+    // reasons.
     @GET("1/app/moderation/reasons")
     fun getRejectionReasons(
-        @Query("locale") locale: String
+        @Query("locale") locale: String,
+        @Query("scope") scope: String,
     ): Single<StoreResponse<RejectionReasonsResponse>>
 
     @GET("1/app/moderation/ai-review")
@@ -444,19 +448,27 @@ interface StoreApi {
         @Query("app_id") appId: String
     ): Single<StoreResponse<DeleteDownloadedResponse>>
 
+    // reasonCode names the catalog reason the author is shown; comment
+    // is the moderator's own words, optional unless the reason demands
+    // one.
     @FormUrlEncoded
     @POST("1/app/unlink")
     fun unlink(
         @Field("app_id") appId: String,
-        @Field("reason") reason: String,
-    ): Single<StoreResponse<UnlinkResponse>>
+        @Field("reason_code") reasonCode: Int,
+        @Field("comment") comment: String,
+    ): Single<StoreResponse<RestrictResponse>>
 
+    // An author hiding their own app owes no explanation, so both
+    // fields go out empty in that case and the server records it as the
+    // author's own action.
     @FormUrlEncoded
     @POST("1/app/unpublish")
     fun unpublish(
         @Field("app_id") appId: String,
-        @Field("reason") reason: String,
-    ): Single<StoreResponse<UnpublishResponse>>
+        @Field("reason_code") reasonCode: Int,
+        @Field("comment") comment: String,
+    ): Single<StoreResponse<RestrictResponse>>
 
     @FormUrlEncoded
     @POST("1/app/scan")

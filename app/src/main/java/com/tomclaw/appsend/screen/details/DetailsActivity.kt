@@ -39,8 +39,8 @@ import com.tomclaw.appsend.screen.profile.createProfileActivityIntent
 import com.tomclaw.appsend.screen.rate.createRateActivityIntent
 import com.tomclaw.appsend.screen.ratings.createRatingsActivityIntent
 import com.tomclaw.appsend.screen.search.createSearchActivityIntent
-import com.tomclaw.appsend.screen.unlink.createUnlinkActivityIntent
-import com.tomclaw.appsend.screen.unpublish.createUnpublishActivityIntent
+import com.tomclaw.appsend.screen.restrict.createUnlinkActivityIntent
+import com.tomclaw.appsend.screen.restrict.createUnpublishActivityIntent
 import com.tomclaw.appsend.screen.upload.createUploadActivityIntent
 import com.tomclaw.appsend.upload.UploadPackage
 import com.tomclaw.appsend.user.api.UserBrief

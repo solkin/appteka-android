@@ -36,25 +36,24 @@ class AppItemPresenter(
             statusText = resourceProvider.getStatusInstalledString()
             isPublished = true
         }
-        var clickable = true
-        // isError emphasises statuses the author should pay attention
-        // to (rejection by a moderator, hard block) versus the
-        // neutral "private / on moderation" states.
+        // isError is reserved for the one status the author cannot walk
+        // back from. A rejection sits beside it as a neutral state: it
+        // needs attention, but the app is not gone.
         var isError = false
         when (item.status) {
             FileStatus.UNLINKED -> {
                 statusText = resourceProvider.getStatusBlockedString()
                 isPublished = false
                 isError = true
-                clickable = false
+                // Their own blocked app stays open: the page is the
+                // only place the author is told why it was blocked.
             }
 
             FileStatus.PRIVATE -> {
-                if (item.declined) {
-                    statusText = resourceProvider.getStatusDeclinedString()
-                    isError = true
+                statusText = if (item.declined) {
+                    resourceProvider.getStatusDeclinedString()
                 } else {
-                    statusText = resourceProvider.getStatusPrivateString()
+                    resourceProvider.getStatusPrivateString()
                 }
                 isPublished = false
             }
@@ -69,12 +68,7 @@ class AppItemPresenter(
         if (!item.isAbiCompatible) view.showAbiIncompatibleBadge() else view.hideAbiIncompatibleBadge()
         if (item.hasProgress) view.showProgress() else view.hideProgress()
         if (item.hasError) view.showError() else view.hideError()
-        view.setClickable(clickable)
-        if (clickable) {
-            view.setOnClickListener { listener.onItemClick(item) }
-        } else {
-            view.setOnClickListener(null)
-        }
+        view.setOnClickListener { listener.onItemClick(item) }
         view.setOnRetryListener { listener.onRetryClick(item) }
     }
 

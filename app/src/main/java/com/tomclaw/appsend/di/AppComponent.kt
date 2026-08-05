@@ -55,6 +55,8 @@ import com.tomclaw.appsend.screen.rate.di.RateComponent
 import com.tomclaw.appsend.screen.rate.di.RateModule
 import com.tomclaw.appsend.screen.ratings.di.RatingsComponent
 import com.tomclaw.appsend.screen.ratings.di.RatingsModule
+import com.tomclaw.appsend.screen.restrict.di.RestrictComponent
+import com.tomclaw.appsend.screen.restrict.di.RestrictModule
 import com.tomclaw.appsend.screen.reviews.di.ReviewsComponent
 import com.tomclaw.appsend.screen.reviews.di.ReviewsModule
 import com.tomclaw.appsend.screen.search.di.SearchComponent
@@ -71,10 +73,6 @@ import com.tomclaw.appsend.screen.subscriptions.di.SubscriptionsComponent
 import com.tomclaw.appsend.screen.subscriptions.di.SubscriptionsModule
 import com.tomclaw.appsend.screen.topics.di.TopicsComponent
 import com.tomclaw.appsend.screen.topics.di.TopicsModule
-import com.tomclaw.appsend.screen.unlink.di.UnlinkComponent
-import com.tomclaw.appsend.screen.unlink.di.UnlinkModule
-import com.tomclaw.appsend.screen.unpublish.di.UnpublishComponent
-import com.tomclaw.appsend.screen.unpublish.di.UnpublishModule
 import com.tomclaw.appsend.screen.upload.di.UploadComponent
 import com.tomclaw.appsend.screen.upload.di.UploadModule
 import com.tomclaw.appsend.screen.uploads.di.UploadsComponent
@@ -158,9 +156,7 @@ interface AppComponent {
 
     fun downloadComponent(module: DownloadsModule): DownloadsComponent
 
-    fun unlinkComponent(module: UnlinkModule): UnlinkComponent
-
-    fun unpublishComponent(module: UnpublishModule): UnpublishComponent
+    fun restrictComponent(module: RestrictModule): RestrictComponent
 
     fun uploadsComponent(module: UploadsModule): UploadsComponent
 

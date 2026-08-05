@@ -1,4 +1,4 @@
-package com.tomclaw.appsend.screen.details
+package com.tomclaw.appsend.uikit.reasons
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,20 +6,21 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.tomclaw.appsend.R
-import com.tomclaw.appsend.screen.details.api.RejectionReason
+import com.tomclaw.appsend.dto.RejectionReason
 
-// Simple recycler adapter for the decline-reason bottom sheet. Each
-// row is a tap target: tapping a reason without a comment requirement
-// fires submission immediately; reasons that require a comment hand
-// off to a separate dialog driven by the click listener.
-class DeclineReasonsAdapter(
+// Rows of the reason picker bottom sheet, shared by every screen that
+// asks a moderator "why?" — a moderation decline, a takedown, a block.
+// Each row is a tap target; what happens next (submit outright, or ask
+// for a comment first) is the caller's decision, driven by
+// reason.requiresComment.
+class ReasonsAdapter(
     private val reasons: List<RejectionReason>,
     private val onClick: (RejectionReason) -> Unit,
-) : RecyclerView.Adapter<DeclineReasonsAdapter.ViewHolder>() {
+) : RecyclerView.Adapter<ReasonsAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_decline_reason, parent, false)
+            .inflate(R.layout.item_reason, parent, false)
         return ViewHolder(view)
     }
 

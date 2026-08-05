@@ -59,8 +59,6 @@ interface AppItemView : ItemView {
 
     fun setOnRetryListener(listener: (() -> Unit)?)
 
-    fun setClickable(clickable: Boolean)
-
 }
 
 class AppItemViewHolder(view: View) : BaseItemViewHolder(view), AppItemView {
@@ -202,10 +200,6 @@ class AppItemViewHolder(view: View) : BaseItemViewHolder(view), AppItemView {
 
     override fun setOnClickListener(listener: (() -> Unit)?) {
         this.clickListener = listener
-    }
-
-    override fun setClickable(clickable: Boolean) {
-        itemView.isClickable = clickable
     }
 
     override fun setOnRetryListener(listener: (() -> Unit)?) {

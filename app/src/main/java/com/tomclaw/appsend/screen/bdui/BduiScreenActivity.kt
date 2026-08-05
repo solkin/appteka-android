@@ -30,8 +30,8 @@ import com.tomclaw.appsend.screen.search.createSearchActivityIntent
 import com.tomclaw.appsend.screen.settings.createSettingsActivityIntent
 import com.tomclaw.appsend.screen.subscriptions.Tab
 import com.tomclaw.appsend.screen.subscriptions.createSubscriptionsActivityIntent
-import com.tomclaw.appsend.screen.unlink.createUnlinkActivityIntent
-import com.tomclaw.appsend.screen.unpublish.createUnpublishActivityIntent
+import com.tomclaw.appsend.screen.restrict.createUnlinkActivityIntent
+import com.tomclaw.appsend.screen.restrict.createUnpublishActivityIntent
 import com.tomclaw.appsend.screen.uploads.createUploadsActivityIntent
 import com.tomclaw.appsend.util.Analytics
 import com.tomclaw.appsend.util.SchedulersFactory

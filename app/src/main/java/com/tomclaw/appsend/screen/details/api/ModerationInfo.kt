@@ -5,17 +5,21 @@ import com.google.gson.annotations.SerializedName
 import com.tomclaw.appsend.util.GsonModel
 import kotlinx.parcelize.Parcelize
 
-const val MODERATION_STATUS_PENDING = "pending"
 const val MODERATION_STATUS_REJECTED = "rejected"
+const val MODERATION_STATUS_BLOCKED = "blocked"
 
-// Moderation status block returned by /app/info for the file owner
-// (and moderators). Texts are already translated to the requesting
+// Why the app is not public, returned by /app/info to the author (and
+// to moderators). Texts are already translated to the requesting
 // client's locale by the service gateway via CachedTranslator.
+//
+// "rejected" is a takedown the author can still act on; "blocked" is
+// permanent. An app the author unpublished themselves carries no block
+// at all — nobody imposed anything.
 @GsonModel
 @Parcelize
 data class ModerationInfo(
     @SerializedName("status")
-    val status: String, // "pending", "rejected"
+    val status: String, // "rejected", "blocked"
     @SerializedName("reason_code")
     val reasonCode: Int?,
     @SerializedName("reason_text")

@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  Taking an app off the store: pick a reason, optionally say more.
+
+  The reason is a picker, not a free-text field, because it is shown to
+  the author in their own language — a typed note could be neither. The
+  comment below it is the moderator's own words and travels through the
+  translator on the way out.
+-->
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -16,47 +24,74 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="12dp">
+            android:padding="16dp">
 
             <TextView
+                android:id="@+id/description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/enter_unfile_reason"
+                android:layout_marginBottom="16dp"
+                android:textAppearance="?attr/textAppearanceBodyMedium"
                 android:textColor="?attr/text_secondary_color"
-                android:textSize="14sp"
-                android:textStyle="bold" />
+                tools:text="@string/restrict_block_description" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/reason_input_layout"
                 style="@style/MaterialTextInputExpressive"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="12dp"
-                app:cursorErrorColor="?colorError">
+                android:hint="@string/restrict_reason_hint"
+                app:endIconDrawable="@drawable/ic_chevron_down"
+                app:endIconMode="custom">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/reason_input"
-                    style="@style/Widget.Material3.TextInputEditText.OutlinedBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:drawablePadding="12dp"
-                    android:ems="10"
-                    android:hint="@string/unfile_reason"
+                    android:cursorVisible="false"
+                    android:focusable="false"
+                    android:inputType="none"
+                    android:maxLines="3"
+                    tools:text="Malware/Virus" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/comment_input_layout"
+                style="@style/MaterialTextInputExpressive"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:hint="@string/restrict_comment_hint">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/comment_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:inputType="textCapSentences|textMultiLine"
-                    android:maxLines="10"
-                    app:drawableTint="@color/grey_dark" />
+                    android:maxLines="8" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/unlink_button"
+                android:id="@+id/submit_button"
                 style="@style/MaterialButtonPrimary"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="@string/unlink_file"
-                app:backgroundTint="@color/abuse_color"
-                />
+                android:layout_marginTop="24dp"
+                tools:text="@string/unlink_file" />
+
+            <TextView
+                android:id="@+id/warning"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:gravity="center_horizontal"
+                android:textAppearance="?attr/textAppearanceLabelMedium"
+                android:textColor="?attr/colorError"
+                android:visibility="gone"
+                tools:text="@string/restrict_block_warning"
+                tools:visibility="visible" />
 
         </LinearLayout>
 

@@ -10,7 +10,7 @@
         android:layout_gravity="center_horizontal" />
 
     <TextView
-        android:id="@+id/decline_title"
+        android:id="@+id/reasons_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingHorizontal="24dp"
@@ -21,7 +21,7 @@
         android:textColor="?text_primary_color" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/decline_reasons_list"
+        android:id="@+id/reasons_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:maxHeight="420dp"

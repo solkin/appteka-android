@@ -29,7 +29,8 @@ import com.tomclaw.appsend.R
 import com.tomclaw.appsend.core.permissions.Capability
 import com.tomclaw.appsend.core.permissions.CapabilityHintResolver
 import com.tomclaw.appsend.screen.details.adapter.play.PlaySecurityStatus
-import com.tomclaw.appsend.screen.details.api.RejectionReason
+import com.tomclaw.appsend.dto.RejectionReason
+import com.tomclaw.appsend.uikit.reasons.ReasonsAdapter
 import com.tomclaw.appsend.util.applyBottomInsets
 import com.tomclaw.appsend.util.ActionItem
 import com.tomclaw.appsend.util.ActionsAdapter
@@ -385,11 +386,11 @@ class DetailsViewImpl(
         val sheet = BottomSheetDialog(context)
         val sheetView = android.view.LayoutInflater
             .from(context)
-            .inflate(R.layout.bottom_sheet_decline_reason, null)
+            .inflate(R.layout.bottom_sheet_reasons, null)
 
-        val list = sheetView.findViewById<RecyclerView>(R.id.decline_reasons_list)
+        val list = sheetView.findViewById<RecyclerView>(R.id.reasons_list)
         list.layoutManager = LinearLayoutManager(context)
-        list.adapter = DeclineReasonsAdapter(reasons) { reason ->
+        list.adapter = ReasonsAdapter(reasons) { reason ->
             sheet.dismiss()
             // We only signal the pick — whether a second step
             // (comment entry) is needed is a presenter decision based

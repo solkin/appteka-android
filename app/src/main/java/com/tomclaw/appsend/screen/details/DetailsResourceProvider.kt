@@ -31,7 +31,7 @@ interface DetailsResourceProvider {
 
     fun createTopicError(): String
 
-    fun unlinkedStatusText(): String
+    fun unlinkedStatusText(reasonText: String?, reasonComment: String?): String
 
     fun privateStatusText(): String
 
@@ -169,8 +169,21 @@ class DetailsResourceProviderImpl(
         return resources.getString(R.string.error_app_topic_creation)
     }
 
-    override fun unlinkedStatusText(): String {
-        return resources.getString(R.string.unlinked_status_text)
+    // Blocking is terminal, so the text says so outright instead of
+    // leaving the author waiting for a verdict that will never come.
+    // The reason rides above it whenever a moderator recorded one —
+    // older blocks have none, and fall back to the plain wording.
+    override fun unlinkedStatusText(reasonText: String?, reasonComment: String?): String {
+        val permanent = resources.getString(R.string.unlinked_status_permanent)
+        val reason = listOfNotNull(
+            reasonText?.takeIf { it.isNotBlank() },
+            reasonComment?.takeIf { it.isNotBlank() },
+        ).joinToString(separator = "\n")
+        return when {
+            reason.isEmpty() -> resources.getString(R.string.unlinked_status_text) +
+                    "\n" + permanent
+            else -> reason + "\n" + permanent
+        }
     }
 
     override fun privateStatusText(): String {

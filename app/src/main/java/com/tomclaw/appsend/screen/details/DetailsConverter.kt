@@ -44,6 +44,7 @@ import com.tomclaw.appsend.screen.details.api.SECURITY_VERDICT_MALWARE
 import com.tomclaw.appsend.screen.details.api.SECURITY_VERDICT_SAFE
 import com.tomclaw.appsend.screen.details.api.SECURITY_VERDICT_SUSPICIOUS
 import com.tomclaw.appsend.screen.details.api.STATUS_PRIVATE
+import com.tomclaw.appsend.screen.details.api.MODERATION_STATUS_BLOCKED
 import com.tomclaw.appsend.screen.details.api.STATUS_UNLINKED
 import com.tomclaw.appsend.screen.details.api.MODERATION_STATUS_REJECTED
 import com.tomclaw.appsend.screen.details.api.Security
@@ -83,13 +84,23 @@ class DetailsConverterImpl(
         val items = ArrayList<Item>()
 
         when (details.info.fileStatus) {
-            STATUS_UNLINKED -> items += StatusItem(
-                id = id++,
-                type = StatusType.ERROR,
-                text = resourceProvider.unlinkedStatusText(),
-                actionType = StatusAction.NONE,
-                actionLabel = null,
-            )
+            // Blocked: red, final, and no action — there is nothing the
+            // author can do about it. The reason comes from the same
+            // `moderation` block that explains a decline.
+            STATUS_UNLINKED -> {
+                val block = details.moderation
+                    ?.takeIf { it.status == MODERATION_STATUS_BLOCKED }
+                items += StatusItem(
+                    id = id++,
+                    type = StatusType.ERROR,
+                    text = resourceProvider.unlinkedStatusText(
+                        reasonText = block?.reasonText,
+                        reasonComment = block?.reasonComment,
+                    ),
+                    actionType = StatusAction.NONE,
+                    actionLabel = null,
+                )
+            }
 
             STATUS_PRIVATE -> {
                 val canEdit = CapabilityPolicy.isAllowed(
@@ -108,7 +119,9 @@ class DetailsConverterImpl(
                 if (decline?.reasonText != null) {
                     items += StatusItem(
                         id = id++,
-                        type = StatusType.ERROR,
+                        // Warning, not error: unlike a block, this one
+                        // is fixable — and the edit action below says so.
+                        type = StatusType.WARNING,
                         text = resourceProvider.declinedStatusText(
                             reasonText = decline.reasonText,
                             reasonComment = decline.reasonComment,
@@ -176,19 +189,23 @@ class DetailsConverterImpl(
             items += it
         }
 
-        items += ControlsItem(
-            id = id++,
-            appId = details.info.appId,
-            packageName = details.info.packageName,
-            versionCode = details.info.versionCode,
-            sdkVersion = details.info.sdkVersion,
-            androidVersion = details.info.androidVersion,
-            size = details.info.size,
-            link = details.link,
-            expiresIn = details.expiresIn,
-            installedVersionCode = installedVersionCode,
-            downloadState = downloadState,
-        )
+        // Blocking frees the APK from storage, so there is nothing left
+        // to download — the install row would only lead to an error.
+        if (details.info.fileStatus != STATUS_UNLINKED) {
+            items += ControlsItem(
+                id = id++,
+                appId = details.info.appId,
+                packageName = details.info.packageName,
+                versionCode = details.info.versionCode,
+                sdkVersion = details.info.sdkVersion,
+                androidVersion = details.info.androidVersion,
+                size = details.info.size,
+                link = details.link,
+                expiresIn = details.expiresIn,
+                installedVersionCode = installedVersionCode,
+                downloadState = downloadState,
+            )
+        }
         val whatsNewText = details.meta?.whatsNew
             ?.takeIf { it.isNotBlank() }
             ?.let {

@@ -7,8 +7,8 @@ import com.tomclaw.appsend.screen.details.api.Details
 import com.tomclaw.appsend.screen.details.api.MarkFavoriteResponse
 import com.tomclaw.appsend.screen.details.api.AIReview
 import com.tomclaw.appsend.screen.details.api.ModerationDecisionResponse
-import com.tomclaw.appsend.screen.details.api.RejectionReason
-import com.tomclaw.appsend.screen.details.api.RejectionReasonsResponse
+import com.tomclaw.appsend.dto.RejectionReason
+import com.tomclaw.appsend.dto.SCOPE_MODERATION
 import com.tomclaw.appsend.screen.details.api.RequestAIReviewResponse
 import com.tomclaw.appsend.screen.details.api.RequestScanResponse
 import com.tomclaw.appsend.screen.details.api.TranslationResponse
@@ -96,7 +96,7 @@ class DetailsInteractorImpl(
 
     override fun loadRejectionReasons(): Single<List<RejectionReason>> {
         return api
-            .getRejectionReasons(locale = locale.language)
+            .getRejectionReasons(locale = locale.language, scope = SCOPE_MODERATION)
             .map { it.result.reasons }
             .subscribeOn(schedulers.io())
     }
