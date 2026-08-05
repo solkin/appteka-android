@@ -37,7 +37,6 @@ import com.tomclaw.appsend.screen.details.api.Details
 import com.tomclaw.appsend.screen.details.api.STATUS_MODERATION
 import com.tomclaw.appsend.screen.details.api.STATUS_NORMAL
 import com.tomclaw.appsend.screen.details.api.SECURITY_STATUS_COMPLETED
-import com.tomclaw.appsend.screen.details.api.SECURITY_STATUS_FAILED
 import com.tomclaw.appsend.screen.details.api.SECURITY_STATUS_PENDING
 import com.tomclaw.appsend.screen.details.api.SECURITY_STATUS_SCANNING
 import com.tomclaw.appsend.screen.details.api.SECURITY_VERDICT_MALWARE
@@ -473,7 +472,8 @@ private fun convertPlaySecurityStatus(security: Security?): PlaySecurityStatus? 
             SECURITY_VERDICT_MALWARE -> PlaySecurityStatus.MALWARE
             else -> PlaySecurityStatus.NOT_CHECKED
         }
-        security.status == SECURITY_STATUS_FAILED -> PlaySecurityStatus.NOT_CHECKED
+        // Failed, unavailable and anything a newer server invents read
+        // the same to a user: nobody can vouch for this build.
         else -> PlaySecurityStatus.NOT_CHECKED
     }
 }
