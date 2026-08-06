@@ -51,9 +51,11 @@ jobs:
           mapping=$(find app/build/outputs/mapping/release -name 'mapping.txt' | head -n 1)
           [ -n "$apk" ] || { echo "Release APK not found"; exit 1; }
           [ -n "$mapping" ] || { echo "R8 mapping not found"; exit 1; }
-          curl -f -X POST https://bnn.appteka.store/api/v1/releases \
+          # The mapping is ~30 MB of text and is stored compressed anyway.
+          gzip -9 -c "$mapping" > mapping.txt.gz
+          curl --fail-with-body -X POST https://bnn.appteka.store/api/v1/releases \
             -H "X-API-Key: $BANANALYTICS_KEY" \
             -F apk=@"$apk" \
-            -F mapping=@"$mapping" \
+            -F mapping=@mapping.txt.gz \
             -F release_notes="$(git log -1 --pretty=%s)" \
             -F notify=true
