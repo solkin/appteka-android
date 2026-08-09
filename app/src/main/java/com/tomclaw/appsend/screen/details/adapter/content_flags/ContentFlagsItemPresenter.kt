@@ -5,7 +5,7 @@ import com.tomclaw.appsend.util.adapter.ItemPresenter
 class ContentFlagsItemPresenter : ItemPresenter<ContentFlagsItemView, ContentFlagsItem> {
 
     override fun bindView(view: ContentFlagsItemView, item: ContentFlagsItem, position: Int) {
-        view.showFlags(item.codes)
+        view.showFlags(item.flags)
     }
 
 }

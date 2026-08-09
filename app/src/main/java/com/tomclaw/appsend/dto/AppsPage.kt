@@ -1,5 +1,7 @@
 package com.tomclaw.appsend.dto
 
+import com.tomclaw.appsend.core.content.ContentFlag
+
 /**
  * One page of a catalog listing, together with what the server left out
  * of it. A filtered list that cannot say it was filtered is
@@ -8,6 +10,6 @@ package com.tomclaw.appsend.dto
  */
 data class AppsPage(
     val entries: List<AppEntity>,
-    /** Content flag codes withheld for this viewer; empty for everyone else. */
-    val contentFilter: List<String> = emptyList(),
+    /** What was withheld for this viewer, worded; empty for everyone else. */
+    val contentFilter: List<ContentFlag> = emptyList(),
 )

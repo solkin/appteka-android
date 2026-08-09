@@ -11,7 +11,7 @@ import com.tomclaw.appsend.util.adapter.ItemView
 
 interface ContentFlagsItemView : ItemView {
 
-    fun showFlags(codes: List<String>)
+    fun showFlags(flags: List<ContentFlag>)
 
 }
 
@@ -19,16 +19,12 @@ class ContentFlagsItemViewHolder(view: View) : BaseItemViewHolder(view), Content
 
     private val chips: ChipGroup = view.findViewById(R.id.content_flags_chips)
 
-    override fun showFlags(codes: List<String>) {
+    override fun showFlags(flags: List<ContentFlag>) {
         chips.removeAllViews()
         val inflater = LayoutInflater.from(itemView.context)
-        // Unknown codes are skipped rather than printed raw: the
-        // vocabulary is closed, and a code this build has no wording for
-        // says nothing to a reader.
-        val flags = ContentFlag.entries.filter { it.code in codes }
         for (flag in flags) {
             val chip = inflater.inflate(R.layout.details_content_flag_chip, chips, false) as Chip
-            chip.setText(flag.titleRes)
+            chip.text = flag.name
             // Same reasoning as the tag chips: the invisible 48dp touch
             // target would dwarf the group's vertical spacing.
             chip.setEnsureMinTouchTargetSize(false)

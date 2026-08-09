@@ -306,7 +306,7 @@ class DetailsConverterImpl(
         if (contentFlags.isNotEmpty()) {
             items += ContentFlagsItem(
                 id = id++,
-                codes = contentFlags,
+                flags = contentFlags,
             )
         }
         val tags = details.meta?.aiTags.orEmpty()

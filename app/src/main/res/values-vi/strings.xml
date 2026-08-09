@@ -546,16 +546,6 @@
     <string name="pref_content_filter_failed">Không thể lưu cài đặt</string>
     <string name="content_state_shown">Đang hiển thị</string>
     <string name="content_state_hidden">Đã ẩn</string>
-    <string name="content_flag_adult">Người lớn</string>
-    <string name="content_flag_adult_summary">Nội dung khiêu dâm, gợi dục, tình dục lộ liễu</string>
-    <string name="content_flag_gambling">Cờ bạc</string>
-    <string name="content_flag_gambling_summary">Sòng bạc, cá cược, máy đánh bạc, xổ số</string>
-    <string name="content_flag_violence">Bạo lực</string>
-    <string name="content_flag_violence_summary">Bạo lực và cảnh máu me</string>
-    <string name="content_flag_substances">Chất kích thích</string>
-    <string name="content_flag_substances_summary">Ma túy, rượu bia và thuốc lá</string>
-    <string name="content_flag_dating">Hẹn hò</string>
-    <string name="content_flag_dating_summary">Dịch vụ hẹn hò và kết bạn</string>
     <string name="content_flags_block_title">Cảnh báo nội dung</string>
     <string name="content_filter_active">Đã ẩn: %1$s</string>
     <string name="search_add_tag">Thẻ “%1$s”</string>

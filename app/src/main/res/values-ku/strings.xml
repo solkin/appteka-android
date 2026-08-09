@@ -573,16 +573,6 @@
     <string name="pref_content_filter_failed">نەتوانرا ڕێکخستنەکە پاشەکەوت بکرێت</string>
     <string name="content_state_shown">پیشان دەدرێت</string>
     <string name="content_state_hidden">شاردراوەتەوە</string>
-    <string name="content_flag_adult">گەورەسالان</string>
-    <string name="content_flag_adult_summary">پۆرنۆگرافی و ناوەڕۆکی سێکسی ئاشکرا</string>
-    <string name="content_flag_gambling">قومار</string>
-    <string name="content_flag_gambling_summary">کازینۆ، گرەوبەندی، سلۆت، یانسیب</string>
-    <string name="content_flag_violence">توندوتیژی</string>
-    <string name="content_flag_violence_summary">توندوتیژی و دیمەنی خوێناوی</string>
-    <string name="content_flag_substances">ماددە هۆشبەرەکان</string>
-    <string name="content_flag_substances_summary">ماددە هۆشبەرەکان، کحول و جگەرە</string>
-    <string name="content_flag_dating">ناسیاری</string>
-    <string name="content_flag_dating_summary">خزمەتگوزاریی ناسیاری و هاوڕێیەتی</string>
     <string name="content_flags_block_title">ئاگادارکردنەوەی ناوەڕۆک</string>
     <string name="content_filter_active">شاردراوە: %1$s</string>
     <string name="search_add_tag">تاگی «%1$s»</string>

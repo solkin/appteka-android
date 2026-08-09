@@ -15,6 +15,7 @@ import com.tomclaw.appsend.util.PerFragment
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Module
 import dagger.Provides
+import java.util.Locale
 
 @Module
 class SettingsModule(
@@ -48,10 +49,11 @@ class SettingsModule(
     @PerFragment
     internal fun provideInteractor(
         api: StoreApi,
+        locale: Locale,
         apkStorage: ApkStorage,
         resourceProvider: SettingsResourceProvider,
         schedulers: SchedulersFactory
     ): SettingsInteractor =
-        SettingsInteractorImpl(context, api, apkStorage, resourceProvider, schedulers)
+        SettingsInteractorImpl(context, api, locale, apkStorage, resourceProvider, schedulers)
 
 }

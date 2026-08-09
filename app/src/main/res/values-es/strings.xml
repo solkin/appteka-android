@@ -571,16 +571,6 @@
     <string name="pref_content_filter_failed">No se pudo guardar el ajuste</string>
     <string name="content_state_shown">Se muestra</string>
     <string name="content_state_hidden">Oculto</string>
-    <string name="content_flag_adult">Adulto</string>
-    <string name="content_flag_adult_summary">Pornografía, erotismo, contenido sexual explícito</string>
-    <string name="content_flag_gambling">Juegos de azar</string>
-    <string name="content_flag_gambling_summary">Casinos, apuestas, tragamonedas, loterías</string>
-    <string name="content_flag_violence">Violencia</string>
-    <string name="content_flag_violence_summary">Violencia gráfica y escenas sangrientas</string>
-    <string name="content_flag_substances">Sustancias</string>
-    <string name="content_flag_substances_summary">Drogas, alcohol y tabaco</string>
-    <string name="content_flag_dating">Citas</string>
-    <string name="content_flag_dating_summary">Servicios de citas y encuentros</string>
     <string name="content_flags_block_title">Advertencias de contenido</string>
     <string name="content_filter_active">Oculto: %1$s</string>
     <string name="search_add_tag">Etiqueta «%1$s»</string>

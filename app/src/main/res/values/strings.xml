@@ -602,17 +602,6 @@
     <string name="content_state_shown">Shown</string>
     <string name="content_state_hidden">Hidden</string>
 
-    <string name="content_flag_adult">Adult</string>
-    <string name="content_flag_adult_summary">Pornography, erotica, explicit sexual content</string>
-    <string name="content_flag_gambling">Gambling</string>
-    <string name="content_flag_gambling_summary">Casinos, betting, slots, lotteries</string>
-    <string name="content_flag_violence">Violence</string>
-    <string name="content_flag_violence_summary">Graphic violence and gore</string>
-    <string name="content_flag_substances">Substances</string>
-    <string name="content_flag_substances_summary">Drugs, alcohol and tobacco</string>
-    <string name="content_flag_dating">Dating</string>
-    <string name="content_flag_dating_summary">Dating and hookup services</string>
-
     <string name="content_flags_block_title">Content warnings</string>
     <string name="content_filter_active">Hidden: %1$s</string>
 </resources>

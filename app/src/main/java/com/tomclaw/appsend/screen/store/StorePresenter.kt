@@ -7,6 +7,7 @@ import com.tomclaw.appsend.categories.CategoriesInteractor
 import com.tomclaw.appsend.categories.Category
 import com.tomclaw.appsend.categories.CategoryConverter
 import com.tomclaw.appsend.categories.CategoryItem
+import com.tomclaw.appsend.core.content.ContentFlag
 import com.tomclaw.appsend.dto.AppsPage
 import com.tomclaw.appsend.screen.store.adapter.ItemListener
 import com.tomclaw.appsend.screen.store.adapter.app.AppItem
@@ -73,8 +74,9 @@ class StorePresenterImpl(
     private var exclusive: Boolean = state?.getBoolean(KEY_EXCLUSIVE) == true
 
     /** What the server withheld from this feed, as it reported it. */
-    private var contentFilter: List<String> =
-        state?.getStringArrayList(KEY_CONTENT_FILTER).orEmpty()
+    private var contentFilter: List<ContentFlag> =
+        state?.getParcelableArrayListCompat(KEY_CONTENT_FILTER, ContentFlag::class.java)
+            .orEmpty()
 
     private var dropdownItems: List<CategoryDropdownItem> =
         state?.getParcelableArrayListCompat(KEY_DROPDOWN_ITEMS, CategoryDropdownItem::class.java)
@@ -143,7 +145,7 @@ class StorePresenterImpl(
         putParcelableArrayList(KEY_DROPDOWN_ITEMS, ArrayList(dropdownItems))
         putBoolean(KEY_OPEN_SOURCE, openSource)
         putBoolean(KEY_EXCLUSIVE, exclusive)
-        putStringArrayList(KEY_CONTENT_FILTER, ArrayList(contentFilter))
+        putParcelableArrayList(KEY_CONTENT_FILTER, ArrayList(contentFilter))
     }
 
     override fun invalidateApps() {

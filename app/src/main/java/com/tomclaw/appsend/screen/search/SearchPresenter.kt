@@ -3,6 +3,7 @@ package com.tomclaw.appsend.screen.search
 import android.os.Bundle
 import com.tomclaw.appsend.util.adapter.AdapterPresenter
 import com.tomclaw.appsend.util.adapter.Item
+import com.tomclaw.appsend.core.content.ContentFlag
 import com.tomclaw.appsend.dto.AppsPage
 import com.tomclaw.appsend.screen.store.AppConverter
 import com.tomclaw.appsend.screen.store.adapter.app.AppItem
@@ -85,8 +86,9 @@ class SearchPresenterImpl(
     private var isError: Boolean = state?.getBoolean(KEY_ERROR) == true
 
     /** What the server withheld from these results, as it reported it. */
-    private var contentFilter: List<String> =
-        state?.getStringArrayList(KEY_CONTENT_FILTER).orEmpty()
+    private var contentFilter: List<ContentFlag> =
+        state?.getParcelableArrayListCompat(KEY_CONTENT_FILTER, ContentFlag::class.java)
+            .orEmpty()
 
     private var query: String = state?.getString(KEY_QUERY).orEmpty()
     private var tags: List<String> =
@@ -231,7 +233,7 @@ class SearchPresenterImpl(
         // The history itself is on disk, only how much of it was asked
         // for is worth carrying across a rotation.
         putInt(KEY_HISTORY_SHOWN, historyShown)
-        putStringArrayList(KEY_CONTENT_FILTER, ArrayList(contentFilter))
+        putParcelableArrayList(KEY_CONTENT_FILTER, ArrayList(contentFilter))
     }
 
     override fun invalidateSearch() {

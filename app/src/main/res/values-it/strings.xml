@@ -560,16 +560,6 @@
     <string name="pref_content_filter_failed">Impossibile salvare l\'impostazione</string>
     <string name="content_state_shown">Mostrato</string>
     <string name="content_state_hidden">Nascosto</string>
-    <string name="content_flag_adult">Adulti</string>
-    <string name="content_flag_adult_summary">Pornografia, erotismo, contenuti sessuali espliciti</string>
-    <string name="content_flag_gambling">Gioco d\'azzardo</string>
-    <string name="content_flag_gambling_summary">Casinò, scommesse, slot, lotterie</string>
-    <string name="content_flag_violence">Violenza</string>
-    <string name="content_flag_violence_summary">Violenza esplicita e scene cruente</string>
-    <string name="content_flag_substances">Sostanze</string>
-    <string name="content_flag_substances_summary">Droghe, alcol e tabacco</string>
-    <string name="content_flag_dating">Incontri</string>
-    <string name="content_flag_dating_summary">Servizi di incontri</string>
     <string name="content_flags_block_title">Avvisi sui contenuti</string>
     <string name="content_filter_active">Nascosto: %1$s</string>
     <string name="search_add_tag">Tag «%1$s»</string>

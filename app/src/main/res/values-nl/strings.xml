@@ -571,16 +571,6 @@
     <string name="pref_content_filter_failed">Kan de instelling niet opslaan</string>
     <string name="content_state_shown">Zichtbaar</string>
     <string name="content_state_hidden">Verborgen</string>
-    <string name="content_flag_adult">Volwassen</string>
-    <string name="content_flag_adult_summary">Pornografie, erotiek, expliciet seksuele inhoud</string>
-    <string name="content_flag_gambling">Gokken</string>
-    <string name="content_flag_gambling_summary">Casino\'s, weddenschappen, slots, loterijen</string>
-    <string name="content_flag_violence">Geweld</string>
-    <string name="content_flag_violence_summary">Grafisch geweld en bloederige scènes</string>
-    <string name="content_flag_substances">Middelen</string>
-    <string name="content_flag_substances_summary">Drugs, alcohol en tabak</string>
-    <string name="content_flag_dating">Daten</string>
-    <string name="content_flag_dating_summary">Dating- en hookupdiensten</string>
     <string name="content_flags_block_title">Inhoudswaarschuwingen</string>
     <string name="content_filter_active">Verborgen: %1$s</string>
 </resources>

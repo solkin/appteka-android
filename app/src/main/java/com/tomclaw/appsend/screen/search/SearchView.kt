@@ -73,7 +73,7 @@ interface SearchView {
      * Says which content these results are missing because the viewer
      * asked for it to be. Hidden when nothing is being withheld.
      */
-    fun showContentFilter(codes: List<String>)
+    fun showContentFilter(flags: List<ContentFlag>)
 
     fun contentFilterClicks(): Observable<Unit>
 
@@ -267,11 +267,10 @@ class SearchViewImpl(
         return shown
     }
 
-    override fun showContentFilter(codes: List<String>) {
-        val flags = ContentFlag.entries.filter { it.code in codes }
+    override fun showContentFilter(flags: List<ContentFlag>) {
         contentFilterChip.isVisible = flags.isNotEmpty()
         if (flags.isEmpty()) return
-        val names = flags.joinToString { context.getString(it.titleRes) }
+        val names = flags.joinToString { it.name }
         contentFilterChip.text = context.getString(R.string.content_filter_active, names)
     }
 

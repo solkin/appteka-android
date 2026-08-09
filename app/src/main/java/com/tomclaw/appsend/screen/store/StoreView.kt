@@ -64,7 +64,7 @@ interface StoreView {
      * for it to be. Hidden when they asked for nothing, which is
      * everyone who never opened the setting.
      */
-    fun showContentFilter(codes: List<String>)
+    fun showContentFilter(flags: List<ContentFlag>)
 
     fun contentFilterClicks(): Observable<Unit>
 
@@ -128,11 +128,10 @@ class StoreViewImpl(
         contentFilterChip.setOnClickListener { contentFilterRelay.accept(Unit) }
     }
 
-    override fun showContentFilter(codes: List<String>) {
-        val flags = ContentFlag.entries.filter { it.code in codes }
+    override fun showContentFilter(flags: List<ContentFlag>) {
         contentFilterChip.isVisible = flags.isNotEmpty()
         if (flags.isEmpty()) return
-        val names = flags.joinToString { context.getString(it.titleRes) }
+        val names = flags.joinToString { it.name }
         contentFilterChip.text = context.getString(R.string.content_filter_active, names)
     }
 

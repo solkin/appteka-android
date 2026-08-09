@@ -22,12 +22,13 @@ interface SettingsView {
     fun clearCacheClicks(): Observable<Unit>
 
     /**
-     * Paints the content filter from the set the account hides. The
-     * switches say what is *shown*, so the set is inverted here rather
-     * than on the wire — the server, the website and this screen then
-     * all agree on what an untouched account means: nothing hidden.
+     * Paints the content filter: the categories the server offers, and
+     * the codes among them this account hides. The switches say what is
+     * *shown*, so the set is inverted here rather than on the wire — the
+     * server, the website and this screen then all agree on what an
+     * untouched account means: nothing hidden.
      */
-    fun showContentFilter(flags: Set<ContentFlag>)
+    fun showContentFilter(catalog: List<ContentFlag>, hidden: Set<String>)
 
     /**
      * Greys the block out while the value is in flight or when there is
@@ -52,7 +53,7 @@ interface SettingsView {
 }
 
 data class ContentFlagChange(
-    val flag: ContentFlag,
+    val code: String,
     val shown: Boolean,
 )
 
@@ -79,29 +80,52 @@ class SettingsViewImpl(
     private val familyFriendlySwitch: SwitchPreferenceCompat?
         get() = findPreference(R.string.pref_family_friendly)
 
-    private fun flagSwitch(flag: ContentFlag): SwitchPreferenceCompat? =
-        fragment.findPreference(resources.getString(R.string.pref_content_flag_prefix) + flag.code)
+    /**
+     * The switches built for the last catalog, by code. The categories
+     * come from the server, so the rows cannot be declared in XML —
+     * they are made when the catalog arrives and kept here rather than
+     * looked up by a key convention.
+     */
+    private val flagSwitches = linkedMapOf<String, SwitchPreferenceCompat>()
 
     private fun <T : Preference> findPreference(keyRes: Int): T? =
         fragment.findPreference(resources.getString(keyRes))
 
     /**
-     * Binds the switches once the preference tree exists. Every one of
-     * them is non-persistent — the value lives on the server, and a copy
-     * in shared preferences would be a second truth to keep in step.
+     * Binds the one switch that is declared in XML. The rest are built
+     * per catalog in [showContentFilter].
      */
     fun bindContentFilter() {
         familyFriendlySwitch?.bindAsContentSwitch { checked ->
             familyFriendlyRelay.accept(checked)
         }
-        ContentFlag.entries.forEach { flag ->
-            flagSwitch(flag)?.bindAsContentSwitch { shown ->
-                contentFlagRelay.accept(ContentFlagChange(flag, shown))
+    }
+
+    /**
+     * Rebuilds the category rows for a catalog. Cheap and idempotent —
+     * the list is a handful of rows and only changes when the server
+     * changes it, so replacing them beats diffing them.
+     */
+    private fun buildFlagSwitches(group: PreferenceCategory, catalog: List<ContentFlag>) {
+        if (flagSwitches.keys.toList() == catalog.map { it.code }) return
+        flagSwitches.values.forEach { group.removePreference(it) }
+        flagSwitches.clear()
+        catalog.forEach { flag ->
+            val switch = SwitchPreferenceCompat(group.context).apply {
+                title = flag.name
+                isIconSpaceReserved = false
+                bindAsContentSwitch { shown ->
+                    contentFlagRelay.accept(ContentFlagChange(flag.code, shown))
+                }
             }
+            group.addPreference(switch)
+            flagSwitches[flag.code] = switch
         }
     }
 
     private fun SwitchPreferenceCompat.bindAsContentSwitch(onChange: (Boolean) -> Unit) {
+        // Non-persistent: the value lives on the server, and a copy in
+        // shared preferences would be a second truth to keep in step.
         isPersistent = false
         setOnPreferenceChangeListener { _, newValue ->
             onChange(newValue as Boolean)
@@ -112,16 +136,19 @@ class SettingsViewImpl(
         }
     }
 
-    override fun showContentFilter(flags: Set<ContentFlag>) {
-        familyFriendlySwitch?.isChecked = flags.containsAll(ContentFlag.entries)
+    override fun showContentFilter(catalog: List<ContentFlag>, hidden: Set<String>) {
+        contentFilterGroup?.let { buildFlagSwitches(it, catalog) }
+
+        familyFriendlySwitch?.isChecked =
+            catalog.isNotEmpty() && hidden.containsAll(catalog.map { it.code })
         familyFriendlySwitch?.setSummary(R.string.pref_summary_family_friendly)
-        ContentFlag.entries.forEach { flag ->
-            flagSwitch(flag)?.apply {
-                isChecked = flag !in flags
-                summary = flagSummary(flag, hidden = flag in flags)
+        catalog.forEach { flag ->
+            flagSwitches[flag.code]?.apply {
+                isChecked = flag.code !in hidden
+                summary = flagSummary(flag, hidden = flag.code in hidden)
             }
         }
-        contentFilterRow?.summary = filterSummary(flags)
+        contentFilterRow?.summary = filterSummary(catalog, hidden)
     }
 
     /**
@@ -133,17 +160,16 @@ class SettingsViewImpl(
         val state = resources.getString(
             if (hidden) R.string.content_state_hidden else R.string.content_state_shown
         )
-        return state + SUMMARY_SEPARATOR + resources.getString(flag.summaryRes)
+        val description = flag.description ?: return state
+        return state + SUMMARY_SEPARATOR + description
     }
 
     /** What the settings row says without being opened. */
-    private fun filterSummary(flags: Set<ContentFlag>): String {
-        if (flags.isEmpty()) {
+    private fun filterSummary(catalog: List<ContentFlag>, hidden: Set<String>): String {
+        val names = catalog.filter { it.code in hidden }.joinToString { it.name }
+        if (names.isEmpty()) {
             return resources.getString(R.string.pref_summary_content_nothing_hidden)
         }
-        val names = ContentFlag.entries
-            .filter { it in flags }
-            .joinToString { resources.getString(it.titleRes) }
         return resources.getString(R.string.content_filter_active, names)
     }
 

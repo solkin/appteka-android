@@ -1,6 +1,7 @@
 package com.tomclaw.appsend.core
 
 import com.tomclaw.appsend.categories.CategoriesResponse
+import com.tomclaw.appsend.core.content.ContentFlagsResponse
 import com.tomclaw.appsend.core.permissions.api.UserCapabilitiesResponse
 import com.tomclaw.appsend.dto.StoreResponse
 import com.tomclaw.appsend.dto.TagsResponse
@@ -95,6 +96,14 @@ interface StoreApi {
         @Query("offset") offset: Int?,
         @Query("locale") locale: String
     ): Single<StoreResponse<AppsListResponse>>
+
+    // The content-classification vocabulary, worded for this locale.
+    // Shared by everyone and changed about never, so callers are free
+    // to hold on to an answer for the life of a screen.
+    @GET("1/content/flags")
+    fun getContentFlags(
+        @Query("locale") locale: String
+    ): Single<StoreResponse<ContentFlagsResponse>>
 
     // The tag vocabulary with per-tag app counts, most used first.
     // min_count trims the long tail of tags belonging to a couple of

@@ -5,6 +5,7 @@ import com.tomclaw.appsend.core.content.ContentFlag
 import com.tomclaw.appsend.download.ApkStorage
 import com.tomclaw.appsend.util.Analytics
 import com.tomclaw.appsend.util.SchedulersFactory
+import com.tomclaw.appsend.util.getParcelableArrayListCompat
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
 
@@ -49,12 +50,16 @@ class SettingsPresenterImpl(
     private val subscriptions = CompositeDisposable()
 
     /**
-     * Last set the server confirmed. Kept so a rejected change can be
-     * put back on screen without another round trip — the switches move
-     * first and are corrected only if the write does not land.
+     * The vocabulary and the last selection the server confirmed. Kept
+     * so a rejected change can be put back on screen without another
+     * round trip — the switches move first and are corrected only if the
+     * write does not land.
      */
-    private var contentFilter: Set<ContentFlag>? =
-        state?.getStringArrayList(KEY_CONTENT_FILTER)?.let { ContentFlag.fromCodes(it) }
+    private var catalog: List<ContentFlag> =
+        state?.getParcelableArrayListCompat(KEY_CONTENT_CATALOG, ContentFlag::class.java)
+            .orEmpty()
+    private var contentFilter: Set<String>? =
+        state?.getStringArrayList(KEY_CONTENT_FILTER)?.toSet()
 
     override fun attachView(view: SettingsView) {
         this.view = view
@@ -74,19 +79,19 @@ class SettingsPresenterImpl(
         subscriptions += view.contentFlagChanges().subscribe { change ->
             val current = contentFilter.orEmpty()
             saveContentFilter(
-                if (change.shown) current - change.flag else current + change.flag
+                if (change.shown) current - change.code else current + change.code
             )
         }
 
         subscriptions += view.familyFriendlyChanges().subscribe { on ->
-            saveContentFilter(if (on) ContentFlag.entries.toSet() else emptySet())
+            saveContentFilter(if (on) catalog.mapTo(mutableSetOf()) { it.code } else emptySet())
         }
 
         // Paint what we already know, then ask anyway: the value can
         // have moved on the screen this one opens, or on the website,
         // and a settings row showing yesterday's answer is worse than a
         // moment of nothing.
-        contentFilter?.let { view.showContentFilter(it) }
+        contentFilter?.let { view.showContentFilter(catalog, it) }
         loadContentFilter()
     }
 
@@ -104,9 +109,8 @@ class SettingsPresenterImpl(
     }
 
     override fun saveState() = Bundle().apply {
-        contentFilter?.let {
-            putStringArrayList(KEY_CONTENT_FILTER, ArrayList(ContentFlag.codesOf(it)))
-        }
+        putParcelableArrayList(KEY_CONTENT_CATALOG, ArrayList(catalog))
+        contentFilter?.let { putStringArrayList(KEY_CONTENT_FILTER, ArrayList(it)) }
     }
 
     private fun loadContentFilter() {
@@ -116,9 +120,10 @@ class SettingsPresenterImpl(
         subscriptions += settingsInteractor.loadContentFilter()
             .observeOn(schedulers.mainThread())
             .subscribe(
-                { flags ->
-                    contentFilter = flags
-                    view?.showContentFilter(flags)
+                { state ->
+                    catalog = state.catalog
+                    contentFilter = state.hidden
+                    view?.showContentFilter(state.catalog, state.hidden)
                     view?.setContentFilterEnabled(true)
                 },
                 {
@@ -130,22 +135,22 @@ class SettingsPresenterImpl(
             )
     }
 
-    private fun saveContentFilter(flags: Set<ContentFlag>) {
-        if (flags == contentFilter) return
+    private fun saveContentFilter(codes: Set<String>) {
+        if (codes == contentFilter) return
         val previous = contentFilter
-        contentFilter = flags
-        view?.showContentFilter(flags)
-        subscriptions += settingsInteractor.updateContentFilter(flags)
+        contentFilter = codes
+        view?.showContentFilter(catalog, codes)
+        subscriptions += settingsInteractor.updateContentFilter(codes)
             .observeOn(schedulers.mainThread())
             .subscribe(
                 { saved ->
                     contentFilter = saved
-                    view?.showContentFilter(saved)
+                    view?.showContentFilter(catalog, saved)
                     analytics.trackEvent("settings-content-filter-changed")
                 },
                 {
                     contentFilter = previous
-                    previous?.let { view?.showContentFilter(it) }
+                    previous?.let { view?.showContentFilter(catalog, it) }
                     view?.showContentFilterError()
                 }
             )
@@ -204,4 +209,5 @@ class SettingsPresenterImpl(
 
 }
 
+private const val KEY_CONTENT_CATALOG = "content_catalog"
 private const val KEY_CONTENT_FILTER = "content_filter"

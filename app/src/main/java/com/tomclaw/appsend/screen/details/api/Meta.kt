@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName
 import com.tomclaw.appsend.categories.Category
 import com.tomclaw.appsend.dto.Screenshot
 import com.tomclaw.appsend.dto.UserMark
+import com.tomclaw.appsend.core.content.ContentFlag
 import com.tomclaw.appsend.util.GsonModel
 import kotlinx.parcelize.Parcelize
 
@@ -47,5 +48,5 @@ data class Meta(
     // by a viewer's filter — reaching it takes a deliberate tap — so
     // this is what lets us label it instead.
     @SerializedName("content_flags")
-    val contentFlags: List<String>? = null,
+    val contentFlags: List<ContentFlag>? = null,
 ) : Parcelable

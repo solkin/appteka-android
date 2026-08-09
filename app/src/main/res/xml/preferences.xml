@@ -56,11 +56,13 @@
         Content the viewer chooses not to see. Unlike every other block
         here the value lives on the server, so these switches are not
         persistent: they are painted from the profile and written back to
-        it. The switches say what is *shown*, matching the website, and
-        the summaries name the resulting state so neither position can be
-        read the wrong way round. The family-friendly row stands for the
-        whole list, which is why it has no flag of its own — a category
-        added later joins it for free.
+        it. The categories themselves are not declared here either: the
+        server sends the list, worded, and the rows are built from it —
+        so only the family-friendly row, which stands for the whole list
+        rather than any one category, is spelled out below. The switches
+        say what is *shown*, matching the website, and the summaries name
+        the resulting state so neither position can be read the wrong way
+        round.
     -->
     <PreferenceCategory
         android:title="@string/pref_category_content_title"
@@ -83,41 +85,6 @@
                     android:persistent="false"
                     android:summary="@string/pref_summary_family_friendly"
                     android:title="@string/pref_title_family_friendly"
-                    app:useMaterialThemeColors="true" />
-
-                <SwitchPreferenceCompat
-                    android:key="pref_content_flag_adult"
-                    android:persistent="false"
-                    android:summary="@string/content_flag_adult_summary"
-                    android:title="@string/content_flag_adult"
-                    app:useMaterialThemeColors="true" />
-
-                <SwitchPreferenceCompat
-                    android:key="pref_content_flag_gambling"
-                    android:persistent="false"
-                    android:summary="@string/content_flag_gambling_summary"
-                    android:title="@string/content_flag_gambling"
-                    app:useMaterialThemeColors="true" />
-
-                <SwitchPreferenceCompat
-                    android:key="pref_content_flag_violence"
-                    android:persistent="false"
-                    android:summary="@string/content_flag_violence_summary"
-                    android:title="@string/content_flag_violence"
-                    app:useMaterialThemeColors="true" />
-
-                <SwitchPreferenceCompat
-                    android:key="pref_content_flag_substances"
-                    android:persistent="false"
-                    android:summary="@string/content_flag_substances_summary"
-                    android:title="@string/content_flag_substances"
-                    app:useMaterialThemeColors="true" />
-
-                <SwitchPreferenceCompat
-                    android:key="pref_content_flag_dating"
-                    android:persistent="false"
-                    android:summary="@string/content_flag_dating_summary"
-                    android:title="@string/content_flag_dating"
                     app:useMaterialThemeColors="true" />
 
             </PreferenceCategory>

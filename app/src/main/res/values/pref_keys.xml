@@ -14,5 +14,4 @@
     <string name="pref_content_filter_key" translatable="false">pref_content_filter</string>
     <string name="pref_content_filter_group_key" translatable="false">pref_content_filter_group</string>
     <string name="pref_family_friendly" translatable="false">pref_family_friendly</string>
-    <string name="pref_content_flag_prefix" translatable="false">pref_content_flag_</string>
 </resources>

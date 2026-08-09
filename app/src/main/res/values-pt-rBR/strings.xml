@@ -559,16 +559,6 @@
     <string name="pref_content_filter_failed">Não foi possível salvar a configuração</string>
     <string name="content_state_shown">Exibido</string>
     <string name="content_state_hidden">Oculto</string>
-    <string name="content_flag_adult">Adulto</string>
-    <string name="content_flag_adult_summary">Pornografia, erotismo, conteúdo sexual explícito</string>
-    <string name="content_flag_gambling">Jogos de azar</string>
-    <string name="content_flag_gambling_summary">Cassinos, apostas, caça-níqueis, loterias</string>
-    <string name="content_flag_violence">Violência</string>
-    <string name="content_flag_violence_summary">Violência gráfica e cenas sangrentas</string>
-    <string name="content_flag_substances">Substâncias</string>
-    <string name="content_flag_substances_summary">Drogas, álcool e tabaco</string>
-    <string name="content_flag_dating">Relacionamentos</string>
-    <string name="content_flag_dating_summary">Serviços de namoro e encontros</string>
     <string name="content_flags_block_title">Avisos de conteúdo</string>
     <string name="content_filter_active">Oculto: %1$s</string>
     <string name="search_add_tag">Tag “%1$s”</string>

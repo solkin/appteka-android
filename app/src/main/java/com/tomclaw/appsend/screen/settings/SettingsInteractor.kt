@@ -9,8 +9,10 @@ import com.tomclaw.appsend.download.ApkStorage
 import com.tomclaw.appsend.util.SchedulersFactory
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.toRequestBody
+import java.util.Locale
 
 interface SettingsInteractor {
 
@@ -19,17 +21,29 @@ interface SettingsInteractor {
     fun observePreferenceChanges(): Observable<PreferenceChange>
 
     /**
-     * The content this account hides while browsing. Unlike everything
-     * else on this screen the value lives on the server, so that it
-     * follows the account instead of the install — which also means an
-     * anonymous caller gets an error here, and the screen offers to
-     * sign in rather than pretending the switches do anything.
+     * The categories on offer and the ones this account hides. Both come
+     * from the server: the vocabulary because the app keeps no copy of
+     * it, the selection because it follows the account instead of the
+     * install — which also means an anonymous caller gets an error here,
+     * and the screen offers to sign in rather than pretending the
+     * switches do anything.
      */
-    fun loadContentFilter(): Observable<Set<ContentFlag>>
+    fun loadContentFilter(): Observable<ContentFilterState>
 
-    fun updateContentFilter(flags: Set<ContentFlag>): Observable<Set<ContentFlag>>
+    /** Saves the hidden set and answers with what the server kept. */
+    fun updateContentFilter(codes: Set<String>): Observable<Set<String>>
 
 }
+
+/**
+ * Everything the content block needs in one answer: what can be
+ * offered, and what is currently hidden. Kept together because a
+ * selection without its vocabulary cannot be drawn.
+ */
+data class ContentFilterState(
+    val catalog: List<ContentFlag>,
+    val hidden: Set<String>,
+)
 
 data class PreferenceChange(
     val key: String,
@@ -39,6 +53,7 @@ data class PreferenceChange(
 class SettingsInteractorImpl(
     private val context: Context,
     private val api: StoreApi,
+    private val locale: Locale,
     private val apkStorage: ApkStorage,
     private val resourceProvider: SettingsResourceProvider,
     private val schedulers: SchedulersFactory
@@ -51,23 +66,25 @@ class SettingsInteractorImpl(
     }
         .subscribeOn(schedulers.io())
 
-    override fun loadContentFilter(): Observable<Set<ContentFlag>> {
-        return api
-            .getProfile(userId = null)
-            .map { ContentFlag.fromCodes(it.result.profile.contentFilter) }
+    override fun loadContentFilter(): Observable<ContentFilterState> {
+        return Single
+            .zip(
+                api.getContentFlags(locale.language).map { it.result.flags },
+                api.getProfile(userId = null).map { it.result.profile.contentFilter.orEmpty() },
+            ) { catalog, hidden -> ContentFilterState(catalog, hidden.toSet()) }
             .toObservable()
             .subscribeOn(schedulers.io())
     }
 
-    override fun updateContentFilter(flags: Set<ContentFlag>): Observable<Set<ContentFlag>> {
+    override fun updateContentFilter(codes: Set<String>): Observable<Set<String>> {
         // Same multipart contract as the rest of the profile: a part
         // that is present replaces the column, and an empty one clears
         // it. Only this part is sent, so the name, bio and avatar are
         // left exactly as they are.
-        val value = ContentFlag.codesOf(flags).joinToString(separator = ",")
+        val value = codes.joinToString(separator = ",")
         return api
             .updateProfile(null, null, null, value.toRequestBody(TEXT_PLAIN))
-            .map { ContentFlag.fromCodes(it.result.profile.contentFilter) }
+            .map { it.result.profile.contentFilter.orEmpty().toSet() }
             .toObservable()
             .subscribeOn(schedulers.io())
     }
