@@ -25,10 +25,3 @@ data class ContentFlag(
     @SerializedName("description")
     val description: String? = null,
 ) : Parcelable
-
-@Parcelize
-@GsonModel
-data class ContentFlagsResponse(
-    @SerializedName("flags")
-    val flags: List<ContentFlag>,
-) : Parcelable

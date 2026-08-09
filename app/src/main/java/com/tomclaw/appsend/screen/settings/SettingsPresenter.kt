@@ -121,6 +121,14 @@ class SettingsPresenterImpl(
             .observeOn(schedulers.mainThread())
             .subscribe(
                 { state ->
+                    // An empty catalog is a server fault, and the block
+                    // must not be touchable on one: with nothing to offer,
+                    // "hide everything" would send an empty list and
+                    // quietly clear whatever the account had set.
+                    if (state.catalog.isEmpty()) {
+                        view?.showContentFilterUnavailable()
+                        return@subscribe
+                    }
                     catalog = state.catalog
                     contentFilter = state.hidden
                     view?.showContentFilter(state.catalog, state.hidden)

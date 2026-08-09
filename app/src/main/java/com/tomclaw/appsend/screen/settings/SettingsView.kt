@@ -113,7 +113,6 @@ class SettingsViewImpl(
         catalog.forEach { flag ->
             val switch = SwitchPreferenceCompat(group.context).apply {
                 title = flag.name
-                isIconSpaceReserved = false
                 bindAsContentSwitch { shown ->
                     contentFlagRelay.accept(ContentFlagChange(flag.code, shown))
                 }
