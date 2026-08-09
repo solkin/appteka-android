@@ -573,4 +573,12 @@
     <string name="content_state_hidden">Verborgen</string>
     <string name="content_flags_block_title">Inhoudswaarschuwingen</string>
     <string name="content_filter_active">Verborgen: %1$s</string>
+
+    <!-- Takedown reasons shown to an app's author. -->
+    <string name="restrict_reason_hint">Reden</string>
+    <string name="restrict_comment_hint">Opmerking voor de auteur (optioneel)</string>
+    <string name="restrict_block_description">De reden wordt aan de auteur getoond op de app-pagina. Blokkeren is definitief.</string>
+    <string name="restrict_unpublish_description">De reden wordt aan de auteur getoond op de app-pagina. De auteur kan de app aanpassen en opnieuw ter moderatie aanbieden.</string>
+    <string name="restrict_block_warning">Na blokkeren kan de app niet worden hersteld</string>
+    <string name="unlinked_status_permanent">De app is permanent geblokkeerd en kan niet worden hersteld</string>
 </resources>

@@ -550,4 +550,12 @@
     <string name="content_filter_active">已隐藏：%1$s</string>
     <string name="search_add_tag">标签“%1$s”</string>
     <string name="search_more_tags">更多</string>
+
+    <!-- Takedown reasons shown to an app's author. -->
+    <string name="restrict_reason_hint">原因</string>
+    <string name="restrict_comment_hint">给作者的备注（可选）</string>
+    <string name="restrict_block_description">原因会显示在应用页面上供作者查看。封禁不可撤销。</string>
+    <string name="restrict_unpublish_description">原因会显示在应用页面上供作者查看。作者可以修改应用后重新提交审核。</string>
+    <string name="restrict_block_warning">封禁后应用无法恢复</string>
+    <string name="unlinked_status_permanent">该应用已被永久封禁，无法恢复</string>
 </resources>

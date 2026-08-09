@@ -616,4 +616,12 @@
     <string name="content_filter_active">مخفي: %1$s</string>
     <string name="search_add_tag">الوسم «%1$s»</string>
     <string name="search_more_tags">المزيد</string>
+
+    <!-- Takedown reasons shown to an app's author. -->
+    <string name="restrict_reason_hint">السبب</string>
+    <string name="restrict_comment_hint">تعليق للمؤلف (اختياري)</string>
+    <string name="restrict_block_description">يظهر السبب للمؤلف في صفحة التطبيق. الحظر نهائي.</string>
+    <string name="restrict_unpublish_description">يظهر السبب للمؤلف في صفحة التطبيق. يمكن للمؤلف إصلاح التطبيق وإرساله للمراجعة مرة أخرى.</string>
+    <string name="restrict_block_warning">لا يمكن استعادة التطبيق بعد الحظر</string>
+    <string name="unlinked_status_permanent">التطبيق محظور نهائياً ولا يمكن استعادته</string>
 </resources>

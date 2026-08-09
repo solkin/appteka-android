@@ -550,4 +550,12 @@
     <string name="content_filter_active">Đã ẩn: %1$s</string>
     <string name="search_add_tag">Thẻ “%1$s”</string>
     <string name="search_more_tags">Thêm</string>
+
+    <!-- Takedown reasons shown to an app's author. -->
+    <string name="restrict_reason_hint">Lý do</string>
+    <string name="restrict_comment_hint">Nhận xét cho tác giả (không bắt buộc)</string>
+    <string name="restrict_block_description">Lý do được hiển thị cho tác giả trên trang ứng dụng. Việc chặn là vĩnh viễn.</string>
+    <string name="restrict_unpublish_description">Lý do được hiển thị cho tác giả trên trang ứng dụng. Tác giả có thể sửa ứng dụng và gửi lại để kiểm duyệt.</string>
+    <string name="restrict_block_warning">Ứng dụng không thể khôi phục sau khi bị chặn</string>
+    <string name="unlinked_status_permanent">Ứng dụng bị chặn vĩnh viễn và không thể khôi phục</string>
 </resources>

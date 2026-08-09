@@ -577,4 +577,12 @@
     <string name="content_filter_active">شاردراوە: %1$s</string>
     <string name="search_add_tag">تاگی «%1$s»</string>
     <string name="search_more_tags">زیاتر</string>
+
+    <!-- Takedown reasons shown to an app's author. -->
+    <string name="restrict_reason_hint">هۆکار</string>
+    <string name="restrict_comment_hint">لێدوان بۆ نووسەر (ئارەزوومەندانە)</string>
+    <string name="restrict_block_description">هۆکارەکە لە پەڕەی بەرنامەکەدا بۆ نووسەر پیشان دەدرێت. بلۆککردن هەمیشەییە.</string>
+    <string name="restrict_unpublish_description">هۆکارەکە لە پەڕەی بەرنامەکەدا بۆ نووسەر پیشان دەدرێت. نووسەر دەتوانێت بەرنامەکە چاک بکات و دووبارە بۆ پێداچوونەوە بینێرێت.</string>
+    <string name="restrict_block_warning">دوای بلۆککردن بەرنامەکە ناگەڕێندرێتەوە</string>
+    <string name="unlinked_status_permanent">بەرنامەکە بە هەمیشەیی بلۆککراوە و ناگەڕێندرێتەوە</string>
 </resources>

@@ -563,4 +563,12 @@
     <string name="content_filter_active">Oculto: %1$s</string>
     <string name="search_add_tag">Tag “%1$s”</string>
     <string name="search_more_tags">Mais</string>
+
+    <!-- Takedown reasons shown to an app's author. -->
+    <string name="restrict_reason_hint">Motivo</string>
+    <string name="restrict_comment_hint">Comentário para o autor (opcional)</string>
+    <string name="restrict_block_description">O motivo é mostrado ao autor na página do aplicativo. O bloqueio é permanente.</string>
+    <string name="restrict_unpublish_description">O motivo é mostrado ao autor na página do aplicativo. O autor pode corrigir o aplicativo e enviá-lo para moderação novamente.</string>
+    <string name="restrict_block_warning">O aplicativo não pode ser restaurado após o bloqueio</string>
+    <string name="unlinked_status_permanent">O aplicativo está bloqueado permanentemente e não pode ser restaurado</string>
 </resources>

@@ -572,4 +572,12 @@
     <string name="content_filter_active">پنهان: %1$s</string>
     <string name="search_add_tag">برچسب «%1$s»</string>
     <string name="search_more_tags">بیشتر</string>
+
+    <!-- Takedown reasons shown to an app's author. -->
+    <string name="restrict_reason_hint">دلیل</string>
+    <string name="restrict_comment_hint">توضیح برای نویسنده (اختیاری)</string>
+    <string name="restrict_block_description">دلیل در صفحهٔ برنامه به نویسنده نشان داده می‌شود. مسدودسازی دائمی است.</string>
+    <string name="restrict_unpublish_description">دلیل در صفحهٔ برنامه به نویسنده نشان داده می‌شود. نویسنده می‌تواند برنامه را اصلاح کند و دوباره برای بررسی بفرستد.</string>
+    <string name="restrict_block_warning">پس از مسدودسازی، برنامه قابل بازیابی نیست</string>
+    <string name="unlinked_status_permanent">برنامه به‌طور دائمی مسدود شده و قابل بازیابی نیست</string>
 </resources>

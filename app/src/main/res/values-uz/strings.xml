@@ -564,4 +564,12 @@
     <string name="content_filter_active">Yashirilgan: %1$s</string>
     <string name="search_add_tag">Teg «%1$s»</string>
     <string name="search_more_tags">Koʻproq</string>
+
+    <!-- Takedown reasons shown to an app's author. -->
+    <string name="restrict_reason_hint">Sabab</string>
+    <string name="restrict_comment_hint">Muallif uchun izoh (ixtiyoriy)</string>
+    <string name="restrict_block_description">Sabab ilova sahifasida muallifga koʻrsatiladi. Bloklash qaytarib boʻlmaydigan amaldir.</string>
+    <string name="restrict_unpublish_description">Sabab ilova sahifasida muallifga koʻrsatiladi. Muallif ilovani tuzatib, uni qayta moderatsiyaga yuborishi mumkin.</string>
+    <string name="restrict_block_warning">Bloklangandan soʻng ilovani tiklab boʻlmaydi</string>
+    <string name="unlinked_status_permanent">Ilova butunlay bloklangan va uni tiklab boʻlmaydi</string>
 </resources>
