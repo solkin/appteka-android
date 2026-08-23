@@ -21,10 +21,12 @@ import com.tomclaw.appsend.screen.gallery.GalleryItem
 import com.tomclaw.appsend.screen.topics.COMMON_QNA_TOPIC_ICON
 import com.tomclaw.appsend.user.api.UserBrief
 import com.tomclaw.appsend.util.SchedulersFactory
+import com.tomclaw.appsend.util.asQuote
 import com.tomclaw.appsend.util.filterCapabilityErrors
 import com.tomclaw.appsend.util.filterUnauthorizedErrors
 import com.tomclaw.appsend.util.getParcelableArrayListCompat
 import com.tomclaw.appsend.util.getParcelableCompat
+import com.tomclaw.appsend.util.isQuoteLine
 import com.tomclaw.appsend.util.stripLeadingQuote
 import com.tomclaw.bananalytics.Bananalytics
 import com.tomclaw.bananalytics.api.BreadcrumbCategory
@@ -509,10 +511,9 @@ class ChatPresenterImpl(
     }
 
     private fun replyToMessage(message: MessageEntity) {
-        val ownText = message.text.stripLeadingQuote()
-        val quoted = ownText.lines().joinToString("\n") { "> $it" }
+        val quoted = message.text.stripLeadingQuote().asQuote()
         val existing = messageText.lines()
-            .dropWhile { it.startsWith("> ") || it.isBlank() }
+            .dropWhile { it.isQuoteLine() || it.isBlank() }
             .joinToString("\n")
             .trim()
         messageText = if (existing.isNotBlank()) "$quoted\n\n$existing" else "$quoted\n"
