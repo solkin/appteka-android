@@ -1,6 +1,8 @@
 package com.tomclaw.appsend.screen.search
 
+import com.tomclaw.appsend.core.content.ContentFlag
 import com.tomclaw.appsend.dto.AppEntity
+import com.tomclaw.appsend.dto.AppsPage
 import com.tomclaw.appsend.screen.store.AppConverter
 import com.tomclaw.appsend.screen.store.adapter.app.AppItem
 import com.tomclaw.appsend.util.Analytics
@@ -264,6 +266,7 @@ private const val REMEMBER_DELAY_MS = 4000L
 private class FakeSearchInteractor : SearchInteractor {
 
     var apps: List<AppEntity> = listOf(app("1"))
+    var contentFilter: List<ContentFlag> = emptyList()
     var failure: Throwable? = null
     var history: List<SearchHistoryEntry> = emptyList()
 
@@ -281,10 +284,11 @@ private class FakeSearchInteractor : SearchInteractor {
         query: String,
         tags: List<String>,
         offset: Int,
-    ): Observable<List<AppEntity>> {
+    ): Observable<AppsPage> {
         lastQuery = query
         lastTags = tags
-        return failure?.let { Observable.error(it) } ?: Observable.just(apps)
+        return failure?.let { Observable.error(it) }
+            ?: Observable.just(AppsPage(entries = apps, contentFilter = contentFilter))
     }
 
     override fun loadPopularTags(): Observable<List<String>> = Observable.just(emptyList())
@@ -383,6 +387,8 @@ private class FakeSearchView : SearchView {
         private set
     var queryText: String? = null
         private set
+    var contentFilter: List<ContentFlag> = emptyList()
+        private set
     var errorShown: Boolean = false
         private set
     var placeholderShown: Boolean = false
@@ -399,6 +405,7 @@ private class FakeSearchView : SearchView {
     val historyRemoveClicks = PublishSubject.create<SearchHistoryItem>()
     val historyClearClicks = PublishSubject.create<Unit>()
     val moreHistoryClicks = PublishSubject.create<Unit>()
+    val contentFilterClicks = PublishSubject.create<Unit>()
 
     override fun showHistory(items: List<SearchHistoryItem>, hasMore: Boolean) {
         history = items
@@ -437,6 +444,10 @@ private class FakeSearchView : SearchView {
 
     override fun showTags(selected: List<String>, suggestions: List<String>, custom: String?) = Unit
 
+    override fun showContentFilter(flags: List<ContentFlag>) {
+        contentFilter = flags
+    }
+
     override fun showPopularTags(tags: List<String>, hasMore: Boolean) = Unit
 
     override fun navigationClicks(): Observable<Unit> = navigationClicks
@@ -459,6 +470,8 @@ private class FakeSearchView : SearchView {
 
     override fun moreTagsClicks(): Observable<Unit> = Observable.never()
 
+    override fun contentFilterClicks(): Observable<Unit> = contentFilterClicks
+
     override fun historyClicks(): Observable<SearchHistoryItem> = historyClicks
 
     override fun historyRemoveClicks(): Observable<SearchHistoryItem> = historyRemoveClicks
@@ -473,12 +486,18 @@ private class FakeSearchRouter : SearchPresenter.SearchRouter {
 
     var opened: String? = null
         private set
+    var contentFilterOpened: Int = 0
+        private set
     var left: Int = 0
         private set
     val backCallbackStates = mutableListOf<Boolean>()
 
     override fun openAppScreen(appId: String, title: String) {
         opened = appId
+    }
+
+    override fun openContentFilterScreen() {
+        contentFilterOpened++
     }
 
     override fun setBackCallbackEnabled(enabled: Boolean) {
