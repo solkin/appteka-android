@@ -486,6 +486,7 @@
     <string name="error_changing_email">Failed to change email</string>
     <string name="email_changed_success">Email successfully changed</string>
     <string name="supported_architectures">Supported architectures</string>
+    <string name="languages_block_title">Languages</string>
     <string name="abi_universal">Universal</string>
     <string name="abi_arm64">ARM64</string>
     <string name="abi_arm32">ARM32</string>

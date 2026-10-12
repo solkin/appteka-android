@@ -437,6 +437,7 @@
     <string name="error_changing_email">更改邮箱失败</string>
     <string name="email_changed_success">邮箱更改成功</string>
     <string name="supported_architectures">支持的架构</string>
+    <string name="languages_block_title">语言</string>
     <string name="abi_universal">通用</string>
     <string name="abi_arm64">ARM64</string>
     <string name="abi_arm32">ARM32</string>

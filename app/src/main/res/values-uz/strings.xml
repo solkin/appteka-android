@@ -451,6 +451,7 @@
     <string name="error_changing_email">Elektron pochtani o\'zgartirib bo\'lmadi</string>
     <string name="email_changed_success">Elektron pochta muvaffaqiyatli o\'zgartirildi</string>
     <string name="supported_architectures">Qo\'llab-quvvatlanadigan arxitekturalar</string>
+    <string name="languages_block_title">Tillar</string>
     <string name="abi_universal">Universal</string>
     <string name="abi_arm64">ARM64</string>
     <string name="abi_arm32">ARM32</string>

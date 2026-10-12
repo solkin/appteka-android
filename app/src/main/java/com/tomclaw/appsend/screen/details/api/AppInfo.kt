@@ -47,6 +47,8 @@ data class AppInfo(
     val author: UserMark,
     @SerializedName("abi")
     val abi: List<String>?,
+    @SerializedName("languages")
+    val languages: List<AppLanguage>?,
 ) : Parcelable
 
 const val STATUS_NORMAL = 0

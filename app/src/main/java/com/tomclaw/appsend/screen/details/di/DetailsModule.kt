@@ -63,6 +63,8 @@ import com.tomclaw.appsend.screen.profile.adapter.app.AppItemBlueprint
 import com.tomclaw.appsend.screen.profile.adapter.app.AppItemPresenter
 import com.tomclaw.appsend.screen.details.adapter.content_flags.ContentFlagsItemBlueprint
 import com.tomclaw.appsend.screen.details.adapter.content_flags.ContentFlagsItemPresenter
+import com.tomclaw.appsend.screen.details.adapter.languages.LanguagesItemBlueprint
+import com.tomclaw.appsend.screen.details.adapter.languages.LanguagesItemPresenter
 import com.tomclaw.appsend.screen.details.adapter.tags.TagsItemBlueprint
 import com.tomclaw.appsend.screen.details.adapter.tags.TagsItemPresenter
 import com.tomclaw.appsend.screen.details.adapter.user_rate.UserRateItemBlueprint
@@ -300,6 +302,17 @@ class DetailsModule(
     internal fun provideAbiItemPresenter(
         resourceProvider: AbiResourceProvider
     ) = AbiItemPresenter(resourceProvider)
+
+    @Provides
+    @IntoSet
+    @PerActivity
+    internal fun provideLanguagesItemBlueprint(
+        presenter: LanguagesItemPresenter
+    ): ItemBlueprint<*, *> = LanguagesItemBlueprint(presenter)
+
+    @Provides
+    @PerActivity
+    internal fun provideLanguagesItemPresenter() = LanguagesItemPresenter()
 
     @Provides
     @IntoSet

@@ -503,6 +503,7 @@
     <string name="error_changing_email">فشل تغيير البريد الإلكتروني</string>
     <string name="email_changed_success">تم تغيير البريد الإلكتروني بنجاح</string>
     <string name="supported_architectures">البنى المدعومة</string>
+    <string name="languages_block_title">اللغات</string>
     <string name="abi_universal">عالمي</string>
     <string name="abi_arm64">ARM64</string>
     <string name="abi_arm32">ARM32</string>

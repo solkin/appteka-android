@@ -465,6 +465,7 @@
     <string name="error_changing_email">گۆڕینی ئیمەیڵ سەرکەوتوو نەبوو</string>
     <string name="email_changed_success">ئیمەیڵەکە بە سەرکەوتوویی گۆڕدرا</string>
     <string name="supported_architectures">نەوەکانی چارەسەرکەری پاڵپشتیکراو</string>
+    <string name="languages_block_title">زمانەکان</string>
     <string name="abi_universal">گشتگیر (Universal)</string>
     <string name="abi_arm64">ARM64</string>
     <string name="abi_arm32">ARM32</string>

@@ -450,6 +450,7 @@
     <string name="error_changing_email">ईमेल बदलने में विफल</string>
     <string name="email_changed_success">ईमेल सफलतापूर्वक बदला गया</string>
     <string name="supported_architectures">समर्थित आर्किटेक्चर</string>
+    <string name="languages_block_title">भाषाएँ</string>
     <string name="abi_universal">सार्वभौमिक</string>
     <string name="abi_arm64">ARM64</string>
     <string name="abi_arm32">ARM32</string>

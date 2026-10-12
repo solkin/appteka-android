@@ -462,6 +462,7 @@
     <string name="error_changing_email">Error al cambiar el correo electrónico</string>
     <string name="email_changed_success">Correo electrónico cambiado correctamente</string>
     <string name="supported_architectures">Arquitecturas soportadas</string>
+    <string name="languages_block_title">Idiomas</string>
     <string name="abi_universal">Universal</string>
     <string name="abi_arm64">ARM64</string>
     <string name="abi_arm32">ARM32</string>

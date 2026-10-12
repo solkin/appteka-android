@@ -13,6 +13,7 @@ import com.tomclaw.appsend.screen.details.adapter.controls.ControlsItem
 import com.tomclaw.appsend.screen.details.adapter.description.DescriptionItem
 import com.tomclaw.appsend.screen.details.adapter.discuss.DiscussItem
 import com.tomclaw.appsend.screen.details.adapter.header.HeaderItem
+import com.tomclaw.appsend.screen.details.adapter.languages.LanguagesItem
 import com.tomclaw.appsend.screen.details.adapter.permissions.PermissionsItem
 import com.tomclaw.appsend.screen.details.adapter.play.PlayItem
 import com.tomclaw.appsend.screen.details.adapter.play.PlaySecurityStatus
@@ -338,6 +339,12 @@ class DetailsConverterImpl(
                 id = id++,
                 abiList = details.info.abi,
                 isCompatible = abiResourceProvider.checkCompatibility(details.info.abi),
+            )
+        }
+        if (!details.info.languages.isNullOrEmpty()) {
+            items += LanguagesItem(
+                id = id++,
+                languages = details.info.languages,
             )
         }
         if (!details.info.permissions.isNullOrEmpty()) {
