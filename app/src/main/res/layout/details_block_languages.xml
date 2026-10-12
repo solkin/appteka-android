@@ -23,8 +23,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
-        android:gravity="center_vertical"
         android:orientation="horizontal">
+
+        <!-- Top-aligned: an unfolded list runs many lines, and the icon
+             belongs to its first. -->
 
         <ImageView
             android:layout_width="24dp"
