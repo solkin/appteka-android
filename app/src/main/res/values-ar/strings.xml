@@ -626,10 +626,12 @@
     <string name="restrict_block_warning">لا يمكن استعادة التطبيق بعد الحظر</string>
     <string name="unlinked_status_permanent">التطبيق محظور نهائياً ولا يمكن استعادته</string>
 
-    <string name="origin_title">الأصل</string>
     <string name="origin_own">تطبيقي</string>
-    <string name="origin_own_description">أنا مطور هذا التطبيق</string>
-    <string name="origin_own_note">هذا طلب للحصول على صفة المطور. سنتحقق يدويًا من أن التطبيق لك فعلًا. إذا لم يتم التأكيد، سيبقى التطبيق منشورًا وسيُوسَم بـ«أصلي».</string>
+    <string name="origin_own_description">مع هذا الرفع سيُرسل طلب للحصول على صفة المطوّر</string>
+    <string name="origin_own_note">سنتحقق يدويًا من أن التطبيق لك فعلًا. إذا لم يتم التأكيد، سيبقى التطبيق منشورًا وسيُوسَم بـ«أصلي».</string>
+    <string name="origin_hint">من أين جاء هذا الإصدار؟</string>
+    <string name="origin_own_confirm_title">هل تريد طلب صفة المطوّر؟</string>
+    <string name="origin_own_confirm">تقديم الطلب</string>
     <string name="origin_mirror">أصلي</string>
     <string name="origin_mirror_description">نسخة غير معدّلة من تطبيق شخص آخر</string>
     <string name="origin_mod">معدّل</string>

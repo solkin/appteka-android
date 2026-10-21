@@ -573,10 +573,12 @@
     <string name="restrict_block_warning">O aplicativo não pode ser restaurado após o bloqueio</string>
     <string name="unlinked_status_permanent">O aplicativo está bloqueado permanentemente e não pode ser restaurado</string>
 
-    <string name="origin_title">Origem</string>
-    <string name="origin_own">Meu aplicativo</string>
-    <string name="origin_own_description">Eu desenvolvi este aplicativo</string>
-    <string name="origin_own_note">Este é um pedido de status de desenvolvedor. Verificamos manualmente se o aplicativo é realmente seu. Se isso não for confirmado, o aplicativo continua publicado e é marcado como Original.</string>
+    <string name="origin_own">Minha</string>
+    <string name="origin_own_description">Com o envio, você solicitará o status de desenvolvedor</string>
+    <string name="origin_own_note">Verificamos manualmente se o aplicativo é realmente seu. Se isso não for confirmado, o aplicativo continua publicado e é marcado como Original.</string>
+    <string name="origin_hint">De onde vem esta versão?</string>
+    <string name="origin_own_confirm_title">Solicitar status de desenvolvedor?</string>
+    <string name="origin_own_confirm">Solicitar</string>
     <string name="origin_mirror">Original</string>
     <string name="origin_mirror_description">Uma versão não modificada do aplicativo de outra pessoa</string>
     <string name="origin_mod">Mod</string>

@@ -574,10 +574,12 @@
     <string name="restrict_block_warning">Bloklangandan soʻng ilovani tiklab boʻlmaydi</string>
     <string name="unlinked_status_permanent">Ilova butunlay bloklangan va uni tiklab boʻlmaydi</string>
 
-    <string name="origin_title">Kelib chiqishi</string>
-    <string name="origin_own">Mening ilovam</string>
-    <string name="origin_own_description">Bu ilovani men ishlab chiqqanman</string>
-    <string name="origin_own_note">Bu ishlab chiquvchi maqomi uchun ariza. Ilova haqiqatan ham sizniki ekanini qoʻlda tekshiramiz. Agar tasdiqlanmasa, ilova nashrda qoladi va «Asl nusxa» deb belgilanadi.</string>
+    <string name="origin_own">Meniki</string>
+    <string name="origin_own_description">Yuklash bilan birga ishlab chiquvchi maqomi uchun ariza yuboriladi</string>
+    <string name="origin_own_note">Ilova haqiqatan ham sizniki ekanini qoʻlda tekshiramiz. Agar tasdiqlanmasa, ilova nashrda qoladi va «Asl nusxa» deb belgilanadi.</string>
+    <string name="origin_hint">Bu yigʻma qayerdan olingan?</string>
+    <string name="origin_own_confirm_title">Ishlab chiquvchi maqomiga ariza berilsinmi?</string>
+    <string name="origin_own_confirm">Ariza berish</string>
     <string name="origin_mirror">Asl nusxa</string>
     <string name="origin_mirror_description">Boshqa birovning ilovasining oʻzgartirilmagan yigʻmasi</string>
     <string name="origin_mod">Mod</string>

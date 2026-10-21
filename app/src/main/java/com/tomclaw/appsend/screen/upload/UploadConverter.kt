@@ -135,16 +135,6 @@ class UploadConverterImpl(
                 )
             }
 
-            // Ahead of the rest of the form: it decides how the build is
-            // shown, and "own" files a developer application on top.
-            val originFixed = checkExist?.originFixed == Origin.OWN
-            items += OriginItem(
-                id = id++,
-                value = origin,
-                fixed = originFixed,
-                ownDenied = checkExist?.ownDenied?.takeIf { !originFixed && it.isNotBlank() },
-                errorRequiredField = highlightErrors && origin == null,
-            )
             items += ScreenshotsItem(
                 id = id++,
                 items = screenshots.map {
@@ -163,6 +153,16 @@ class UploadConverterImpl(
                 category = category,
                 errorRequiredField = highlightErrors && category == null
             )
+            // Next to the other required choice. A package bound to the
+            // uploader has only one answer, which the server applies itself.
+            if (checkExist?.originFixed != Origin.OWN) {
+                items += OriginItem(
+                    id = id++,
+                    value = origin,
+                    ownDenied = checkExist?.ownDenied?.takeIf { it.isNotBlank() },
+                    errorRequiredField = highlightErrors && origin == null,
+                )
+            }
             items += WhatsNewItem(id++, text = whatsNew)
             val descriptionBlank = description.isBlank()
             val descriptionTooShort = !descriptionBlank && !descriptionValidator.isValid(description)

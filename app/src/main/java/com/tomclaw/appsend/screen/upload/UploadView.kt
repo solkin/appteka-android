@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.tomclaw.appsend.util.adapter.SimpleRecyclerAdapter
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
@@ -58,6 +59,8 @@ interface UploadView {
 
     fun showUploadDialog()
 
+    fun showOwnConfirmation()
+
     fun showUploadProgress()
 
     fun resetUploadProgress()
@@ -75,6 +78,10 @@ interface UploadView {
     fun categorySelectedClicks(): Observable<CategoryItem>
 
     fun categoryClearedClicks(): Observable<Unit>
+
+    fun ownConfirmedClicks(): Observable<Unit>
+
+    fun ownConfirmationDismissed(): Observable<Unit>
 
     fun versionClicks(): Observable<VersionItem>
 
@@ -109,6 +116,8 @@ class UploadViewImpl(
     private val retryRelay = PublishRelay.create<Unit>()
     private val categorySelectedRelay = PublishRelay.create<CategoryItem>()
     private val categoryClearedRelay = PublishRelay.create<Unit>()
+    private val ownConfirmedRelay = PublishRelay.create<Unit>()
+    private val ownDismissedRelay = PublishRelay.create<Unit>()
     private val versionRelay = PublishRelay.create<VersionItem>()
     private val cancelRelay = PublishRelay.create<Unit>()
     private val loginRelay = PublishRelay.create<Unit>()
@@ -274,6 +283,16 @@ class UploadViewImpl(
         bottomSheetDialog.show()
     }
 
+    override fun showOwnConfirmation() {
+        MaterialAlertDialogBuilder(context)
+            .setTitle(R.string.origin_own_confirm_title)
+            .setMessage(R.string.origin_own_note)
+            .setPositiveButton(R.string.origin_own_confirm) { _, _ -> ownConfirmedRelay.accept(Unit) }
+            .setNegativeButton(R.string.cancel, null)
+            .setOnDismissListener { ownDismissedRelay.accept(Unit) }
+            .show()
+    }
+
     override fun showUploadProgress() {
         flipper.displayedChild = CHILD_UPLOAD
 
@@ -350,6 +369,10 @@ class UploadViewImpl(
     override fun categorySelectedClicks(): Observable<CategoryItem> = categorySelectedRelay
 
     override fun categoryClearedClicks(): Observable<Unit> = categoryClearedRelay
+
+    override fun ownConfirmedClicks(): Observable<Unit> = ownConfirmedRelay
+
+    override fun ownConfirmationDismissed(): Observable<Unit> = ownDismissedRelay
 
     override fun versionClicks(): Observable<VersionItem> = versionRelay
 

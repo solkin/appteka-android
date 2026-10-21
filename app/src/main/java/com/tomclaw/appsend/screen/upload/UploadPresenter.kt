@@ -158,6 +158,12 @@ class UploadPresenterImpl(
         subscriptions += view.categorySelectedClicks().subscribe { categoryItem ->
             onCategorySelected(categoryItem)
         }
+        subscriptions += view.ownConfirmedClicks().subscribe {
+            origin = Origin.OWN
+            bindForm()
+        }
+        // Back out: the toggle has already moved under the dialog.
+        subscriptions += view.ownConfirmationDismissed().subscribe { bindForm() }
         subscriptions += view.categoryClearedClicks().subscribe {
             onCategorySelected()
         }
@@ -486,6 +492,13 @@ class UploadPresenterImpl(
     }
 
     override fun onOriginChanged(value: String) {
+        if (value == origin) return
+        if (value == Origin.OWN) {
+            // Claiming the app is applying for developer status: say so and
+            // let them back out before it is picked.
+            view?.showOwnConfirmation()
+            return
+        }
         origin = value
         bindForm()
     }

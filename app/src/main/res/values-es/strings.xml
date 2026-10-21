@@ -585,10 +585,12 @@
     <string name="restrict_block_warning">La aplicación no se puede restaurar después del bloqueo</string>
     <string name="unlinked_status_permanent">La aplicación está bloqueada permanentemente y no se puede restaurar</string>
 
-    <string name="origin_title">Origen</string>
-    <string name="origin_own">Mi aplicación</string>
-    <string name="origin_own_description">Yo desarrollé esta aplicación</string>
-    <string name="origin_own_note">Esta es una solicitud de estado de desarrollador. Comprobaremos manualmente que la aplicación es realmente suya. Si no se confirma, la aplicación seguirá publicada y marcada como Original.</string>
+    <string name="origin_own">Mía</string>
+    <string name="origin_own_description">Con esta subida solicitarás el estado de desarrollador</string>
+    <string name="origin_own_note">Comprobaremos manualmente que la aplicación es realmente suya. Si no se confirma, la aplicación seguirá publicada y marcada como Original.</string>
+    <string name="origin_hint">¿De dónde viene esta compilación?</string>
+    <string name="origin_own_confirm_title">¿Solicitar el estado de desarrollador?</string>
+    <string name="origin_own_confirm">Solicitar</string>
     <string name="origin_mirror">Original</string>
     <string name="origin_mirror_description">Una compilación sin modificar de la aplicación de otra persona</string>
     <string name="origin_mod">Mod</string>

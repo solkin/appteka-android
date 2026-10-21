@@ -598,10 +598,12 @@
     <string name="content_flags_block_title">Предупреждения</string>
     <string name="content_filter_active">Скрыто: %1$s</string>
 
-    <string name="origin_title">Происхождение</string>
-    <string name="origin_own">Моё приложение</string>
-    <string name="origin_own_description">Я разработчик этого приложения</string>
-    <string name="origin_own_note">Это заявка на статус разработчика. Мы вручную проверим, что приложение действительно ваше. Если это не подтвердится, приложение останется опубликованным с пометкой «Оригинал».</string>
+    <string name="origin_own">Моё</string>
+    <string name="origin_own_description">С загрузкой будет подана заявка на статус разработчика</string>
+    <string name="origin_own_note">Мы вручную проверим, что приложение действительно ваше. Если это не подтвердится, приложение останется опубликованным с пометкой «Оригинал».</string>
+    <string name="origin_hint">Откуда эта сборка?</string>
+    <string name="origin_own_confirm_title">Подать заявку на статус разработчика?</string>
+    <string name="origin_own_confirm">Подать заявку</string>
     <string name="origin_mirror">Оригинал</string>
     <string name="origin_mirror_description">Неизменённая сборка чужого приложения</string>
     <string name="origin_mod">Мод</string>

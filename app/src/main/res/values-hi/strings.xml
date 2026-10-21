@@ -573,10 +573,12 @@
     <string name="restrict_block_warning">ब्लॉक करने के बाद ऐप बहाल नहीं किया जा सकता</string>
     <string name="unlinked_status_permanent">ऐप स्थायी रूप से ब्लॉक है और बहाल नहीं किया जा सकता</string>
 
-    <string name="origin_title">स्रोत</string>
-    <string name="origin_own">मेरा ऐप</string>
-    <string name="origin_own_description">यह ऐप मैंने बनाया है</string>
-    <string name="origin_own_note">यह डेवलपर स्टेटस के लिए आवेदन है। हम मैन्युअल रूप से जाँचते हैं कि ऐप वास्तव में आपका है। अगर इसकी पुष्टि नहीं होती, तो ऐप प्रकाशित रहेगा और उसे मूल के रूप में चिह्नित किया जाएगा।</string>
+    <string name="origin_own">मेरी</string>
+    <string name="origin_own_description">इस अपलोड के साथ डेवलपर स्टेटस के लिए आवेदन भेजा जाएगा</string>
+    <string name="origin_own_note">हम मैन्युअल रूप से जाँचते हैं कि ऐप वास्तव में आपका है। अगर इसकी पुष्टि नहीं होती, तो ऐप प्रकाशित रहेगा और उसे मूल के रूप में चिह्नित किया जाएगा।</string>
+    <string name="origin_hint">यह बिल्ड कहाँ से आया है?</string>
+    <string name="origin_own_confirm_title">डेवलपर स्टेटस के लिए आवेदन करें?</string>
+    <string name="origin_own_confirm">आवेदन करें</string>
     <string name="origin_mirror">मूल</string>
     <string name="origin_mirror_description">किसी और के ऐप का बिना बदलाव वाला बिल्ड</string>
     <string name="origin_mod">मॉड</string>

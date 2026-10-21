@@ -608,10 +608,12 @@
 
     <!-- Content origin: where a build comes from, as its uploader declares
          it. "My app" is a claim an admin checks by hand (developer status). -->
-    <string name="origin_title">Origin</string>
-    <string name="origin_own">My app</string>
-    <string name="origin_own_description">I developed this app</string>
-    <string name="origin_own_note">This is an application for developer status. We check by hand that the app is really yours. If it isn\'t confirmed, the app stays published and is marked as Original.</string>
+    <string name="origin_own">Mine</string>
+    <string name="origin_own_description">You\'ll apply for developer status with this upload</string>
+    <string name="origin_own_note">We check by hand that the app is really yours. If it isn\'t confirmed, the app stays published and is marked as Original.</string>
+    <string name="origin_hint">Where does this build come from?</string>
+    <string name="origin_own_confirm_title">Apply for developer status?</string>
+    <string name="origin_own_confirm">Apply</string>
     <string name="origin_mirror">Original</string>
     <string name="origin_mirror_description">An unmodified build of someone else\'s app</string>
     <string name="origin_mod">Mod</string>

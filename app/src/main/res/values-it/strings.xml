@@ -574,10 +574,12 @@
     <string name="restrict_block_warning">Dopo il blocco l\'app non può essere ripristinata</string>
     <string name="unlinked_status_permanent">L\'app è bloccata definitivamente e non può essere ripristinata</string>
 
-    <string name="origin_title">Origine</string>
-    <string name="origin_own">La mia app</string>
-    <string name="origin_own_description">Ho sviluppato io questa app</string>
-    <string name="origin_own_note">Questa è una richiesta per lo stato di sviluppatore. Verifichiamo manualmente che l\'app sia davvero tua. Se non viene confermato, l\'app resta pubblicata e viene contrassegnata come Originale.</string>
+    <string name="origin_own">Mia</string>
+    <string name="origin_own_description">Con il caricamento invierai una richiesta per lo stato di sviluppatore</string>
+    <string name="origin_own_note">Verifichiamo manualmente che l\'app sia davvero tua. Se non viene confermato, l\'app resta pubblicata e viene contrassegnata come Originale.</string>
+    <string name="origin_hint">Da dove proviene questa build?</string>
+    <string name="origin_own_confirm_title">Richiedere lo stato di sviluppatore?</string>
+    <string name="origin_own_confirm">Invia richiesta</string>
     <string name="origin_mirror">Originale</string>
     <string name="origin_mirror_description">Una build non modificata dell\'app di qualcun altro</string>
     <string name="origin_mod">Mod</string>

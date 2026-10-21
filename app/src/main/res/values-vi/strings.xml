@@ -560,10 +560,12 @@
     <string name="restrict_block_warning">Ứng dụng không thể khôi phục sau khi bị chặn</string>
     <string name="unlinked_status_permanent">Ứng dụng bị chặn vĩnh viễn và không thể khôi phục</string>
 
-    <string name="origin_title">Nguồn gốc</string>
-    <string name="origin_own">Ứng dụng của tôi</string>
-    <string name="origin_own_description">Tôi là nhà phát triển ứng dụng này</string>
-    <string name="origin_own_note">Đây là đơn đăng ký trạng thái nhà phát triển. Chúng tôi sẽ kiểm tra thủ công xem ứng dụng có thực sự là của bạn không. Nếu không được xác nhận, ứng dụng vẫn được đăng và được đánh dấu là Bản gốc.</string>
+    <string name="origin_own">Của tôi</string>
+    <string name="origin_own_description">Cùng với lần tải lên này, bạn sẽ đăng ký trạng thái nhà phát triển</string>
+    <string name="origin_own_note">Chúng tôi sẽ kiểm tra thủ công xem ứng dụng có thực sự là của bạn không. Nếu không được xác nhận, ứng dụng vẫn được đăng và được đánh dấu là Bản gốc.</string>
+    <string name="origin_hint">Bản dựng này từ đâu?</string>
+    <string name="origin_own_confirm_title">Đăng ký trạng thái nhà phát triển?</string>
+    <string name="origin_own_confirm">Đăng ký</string>
     <string name="origin_mirror">Bản gốc</string>
     <string name="origin_mirror_description">Bản dựng chưa chỉnh sửa của ứng dụng người khác</string>
     <string name="origin_mod">Mod</string>

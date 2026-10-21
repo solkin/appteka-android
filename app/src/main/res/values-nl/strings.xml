@@ -583,10 +583,12 @@
     <string name="restrict_block_warning">Na blokkeren kan de app niet worden hersteld</string>
     <string name="unlinked_status_permanent">De app is permanent geblokkeerd en kan niet worden hersteld</string>
 
-    <string name="origin_title">Herkomst</string>
-    <string name="origin_own">Mijn app</string>
-    <string name="origin_own_description">Ik heb deze app ontwikkeld</string>
-    <string name="origin_own_note">Dit is een aanvraag voor de ontwikkelaarsstatus. We controleren handmatig of de app echt van jou is. Als dat niet wordt bevestigd, blijft de app gepubliceerd en wordt ze gemarkeerd als Origineel.</string>
+    <string name="origin_own">Van mij</string>
+    <string name="origin_own_description">Met deze upload vraag je de ontwikkelaarsstatus aan</string>
+    <string name="origin_own_note">We controleren handmatig of de app echt van jou is. Als dat niet wordt bevestigd, blijft de app gepubliceerd en wordt ze gemarkeerd als Origineel.</string>
+    <string name="origin_hint">Waar komt deze build vandaan?</string>
+    <string name="origin_own_confirm_title">Ontwikkelaarsstatus aanvragen?</string>
+    <string name="origin_own_confirm">Aanvragen</string>
     <string name="origin_mirror">Origineel</string>
     <string name="origin_mirror_description">Een ongewijzigde build van de app van iemand anders</string>
     <string name="origin_mod">Mod</string>

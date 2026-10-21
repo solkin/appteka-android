@@ -560,10 +560,12 @@
     <string name="restrict_block_warning">封禁后应用无法恢复</string>
     <string name="unlinked_status_permanent">该应用已被永久封禁，无法恢复</string>
 
-    <string name="origin_title">来源</string>
-    <string name="origin_own">我的应用</string>
-    <string name="origin_own_description">这个应用是我开发的</string>
-    <string name="origin_own_note">这是开发者身份申请。我们会人工核实该应用确实属于你。如果未能确认，应用仍会保持发布，并标记为“原版”。</string>
+    <string name="origin_own">我的</string>
+    <string name="origin_own_description">上传时将同时提交开发者身份申请</string>
+    <string name="origin_own_note">我们会人工核实该应用确实属于你。如果未能确认，应用仍会保持发布，并标记为“原版”。</string>
+    <string name="origin_hint">这个版本来自哪里？</string>
+    <string name="origin_own_confirm_title">申请开发者身份？</string>
+    <string name="origin_own_confirm">提交申请</string>
     <string name="origin_mirror">原版</string>
     <string name="origin_mirror_description">他人应用的未修改版本</string>
     <string name="origin_mod">修改版</string>
