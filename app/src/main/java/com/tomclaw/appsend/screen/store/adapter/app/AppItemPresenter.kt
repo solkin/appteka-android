@@ -56,6 +56,7 @@ class AppItemPresenter(
         if (item.hasProgress) view.showProgress() else view.hideProgress()
         view.setCategory(item.category)
         if (item.openSource) view.showOpenSourceBadge() else view.hideOpenSourceBadge()
+        if (item.mod) view.showModBadge() else view.hideModBadge()
         if (!item.isAbiCompatible) view.showAbiIncompatibleBadge() else view.hideAbiIncompatibleBadge()
         view.setClickable(clickable)
         if (clickable) {

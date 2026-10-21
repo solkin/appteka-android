@@ -48,6 +48,8 @@ data class Details(
     // along with the app info. Absent for apps that have no tags yet.
     @SerializedName("similar")
     val similar: List<AppEntity>? = null,
+    @SerializedName("dev_request")
+    val devRequest: DevRequest? = null,
 ) : Parcelable
 
 // Note: the legacy `actions` field on [Details] is still serialised by

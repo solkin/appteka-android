@@ -260,6 +260,7 @@ interface StoreApi {
         @Field("description") description: String,
         @Field("whats_new") whatsNew: String,
         @Field("exclusive") exclusive: Boolean,
+        @Field("origin") origin: String,
         @Field("source_url") sourceUrl: String?,
         @Field("scr_ids") scrIds: List<String>?,
         @Field("private") private: Boolean,

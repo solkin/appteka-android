@@ -43,6 +43,10 @@ interface AppItemView : ItemView {
 
     fun hideOpenSourceBadge()
 
+    fun showModBadge()
+
+    fun hideModBadge()
+
     fun showAbiIncompatibleBadge()
 
     fun hideAbiIncompatibleBadge()
@@ -66,6 +70,7 @@ class AppItemViewHolder(view: View) : BaseItemViewHolder(view), AppItemView {
     private val ratingIcon: View = view.findViewById(R.id.rating_icon)
     private val downloads: TextView = view.findViewById(R.id.app_downloads)
     private val openSource: View = view.findViewById(R.id.open_source)
+    private val mod: View = view.findViewById(R.id.mod)
     private val abiIncompatible: View = view.findViewById(R.id.abi_incompatible)
     private val badge: View = view.findViewById(R.id.badge_new)
     private val progress: View = view.findViewById(R.id.item_progress)
@@ -143,6 +148,14 @@ class AppItemViewHolder(view: View) : BaseItemViewHolder(view), AppItemView {
 
     override fun hideOpenSourceBadge() {
         this.openSource.hide()
+    }
+
+    override fun showModBadge() {
+        this.mod.show()
+    }
+
+    override fun hideModBadge() {
+        this.mod.hide()
     }
 
     override fun showAbiIncompatibleBadge() {

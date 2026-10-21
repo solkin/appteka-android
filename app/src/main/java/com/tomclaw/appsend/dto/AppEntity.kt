@@ -45,4 +45,7 @@ data class AppEntity(
     // defaults to false for older servers / foreign lists.
     @SerializedName("declined")
     val declined: Boolean = false,
+    // See [com.tomclaw.appsend.core.Origin]; absent when never declared.
+    @SerializedName("origin")
+    val origin: String? = null,
 ) : Parcelable

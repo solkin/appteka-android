@@ -625,4 +625,19 @@
     <string name="restrict_unpublish_description">يظهر السبب للمؤلف في صفحة التطبيق. يمكن للمؤلف إصلاح التطبيق وإرساله للمراجعة مرة أخرى.</string>
     <string name="restrict_block_warning">لا يمكن استعادة التطبيق بعد الحظر</string>
     <string name="unlinked_status_permanent">التطبيق محظور نهائياً ولا يمكن استعادته</string>
+
+    <string name="origin_title">الأصل</string>
+    <string name="origin_own">تطبيقي</string>
+    <string name="origin_own_description">أنا مطور هذا التطبيق</string>
+    <string name="origin_own_note">هذا طلب للحصول على صفة المطور. سنتحقق يدويًا من أن التطبيق لك فعلًا. إذا لم يتم التأكيد، سيبقى التطبيق منشورًا وسيُوسَم بـ«أصلي».</string>
+    <string name="origin_mirror">أصلي</string>
+    <string name="origin_mirror_description">نسخة غير معدّلة من تطبيق شخص آخر</string>
+    <string name="origin_mod">معدّل</string>
+    <string name="origin_mod_description">نسخة معدّلة</string>
+    <string name="dev_request_pending_title">صفة المطور: قيد المراجعة</string>
+    <string name="dev_request_pending_text">نتحقق يدويًا من أن التطبيق لك فعلًا. يستغرق ذلك عادةً يومًا واحدًا كحد أقصى.</string>
+    <string name="dev_request_rejected_title">لم تُمنح صفة المطور</string>
+    <string name="dev_request_rejected_text">يبقى التطبيق منشورًا ويُوسَم بـ«أصلي».</string>
+    <string name="dev_request_approved_title">أنت مطور موثّق</string>
+    <string name="dev_request_approved_text">الحزمة محجوزة لحسابك — لا يمكن لأي شخص آخر نشرها.</string>
 </resources>

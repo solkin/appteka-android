@@ -1,6 +1,7 @@
 package com.tomclaw.appsend.screen.details
 
 import android.net.Uri
+import com.tomclaw.appsend.core.Origin
 import com.tomclaw.appsend.core.permissions.CapabilityAction
 import com.tomclaw.appsend.util.adapter.Item
 import com.tomclaw.appsend.categories.DEFAULT_LOCALE
@@ -34,6 +35,10 @@ import com.tomclaw.appsend.screen.details.adapter.user_rate.UserRateItem
 import com.tomclaw.appsend.screen.details.adapter.user_review.UserReviewItem
 import com.tomclaw.appsend.screen.details.adapter.whats_new.WhatsNewItem
 import com.tomclaw.appsend.core.permissions.CapabilityPolicy
+import com.tomclaw.appsend.screen.details.api.DEV_REQUEST_STATUS_APPROVED
+import com.tomclaw.appsend.screen.details.api.DEV_REQUEST_STATUS_NEW
+import com.tomclaw.appsend.screen.details.api.DEV_REQUEST_STATUS_REJECTED
+import com.tomclaw.appsend.screen.details.api.DevRequest
 import com.tomclaw.appsend.screen.details.api.Details
 import com.tomclaw.appsend.screen.details.api.STATUS_MODERATION
 import com.tomclaw.appsend.screen.details.api.STATUS_NORMAL
@@ -160,6 +165,10 @@ class DetailsConverterImpl(
             else -> Unit
         }
 
+        convertDevRequestItem(id++, details.devRequest, resourceProvider)?.let {
+            items += it
+        }
+
         items += HeaderItem(
             id = id++,
             icon = details.info.icon,
@@ -168,6 +177,8 @@ class DetailsConverterImpl(
             author = details.info.author,
             downloadState = downloadState,
         )
+        val official = details.developer?.isOfficial == true
+        val origin = details.meta?.origin
         items += PlayItem(
             id = id++,
             rating = details.meta?.rating,
@@ -176,7 +187,11 @@ class DetailsConverterImpl(
             size = details.info.size,
             exclusive = details.meta?.exclusive == true,
             openSource = details.meta?.sourceUrl?.isNotEmpty() == true,
-            official = details.developer?.isOfficial == true,
+            official = official,
+            mod = origin == Origin.MOD,
+            // An "own" nobody has confirmed yet is only a claim, so it reads
+            // as an original build; a confirmed one shows as Official instead.
+            original = !official && (origin == Origin.MIRROR || origin == Origin.OWN),
             category = details.meta?.category,
             osVersion = details.info.androidVersion,
             minSdk = details.info.sdkVersion,
@@ -465,6 +480,41 @@ private fun convertSecurityItem(
     } else {
         null
     }
+}
+
+// The uploader's application for developer status. Only they get it, and
+// it sits with the other notices about their app, above the header.
+private fun convertDevRequestItem(
+    id: Long,
+    devRequest: DevRequest?,
+    resourceProvider: DetailsResourceProvider
+): StatusItem? {
+    val (type, title, text) = when (devRequest?.status) {
+        DEV_REQUEST_STATUS_NEW -> Triple(
+            StatusType.INFO,
+            resourceProvider.devRequestPendingTitle(),
+            resourceProvider.devRequestPendingText(),
+        )
+        DEV_REQUEST_STATUS_REJECTED -> Triple(
+            StatusType.WARNING,
+            resourceProvider.devRequestRejectedTitle(),
+            resourceProvider.devRequestRejectedText(devRequest?.reason),
+        )
+        DEV_REQUEST_STATUS_APPROVED -> Triple(
+            StatusType.SUCCESS,
+            resourceProvider.devRequestApprovedTitle(),
+            resourceProvider.devRequestApprovedText(),
+        )
+        else -> return null
+    }
+    return StatusItem(
+        id = id,
+        type = type,
+        title = title,
+        text = text,
+        actionType = StatusAction.NONE,
+        actionLabel = null,
+    )
 }
 
 private fun convertPlaySecurityStatus(security: Security?): PlaySecurityStatus? {

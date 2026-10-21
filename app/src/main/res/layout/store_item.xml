@@ -129,6 +129,18 @@
                     app:tint="?text_secondary_color" />
 
                 <ImageView
+                    android:id="@+id/mod"
+                    android:layout_width="wrap_content"
+                    android:layout_height="16dp"
+                    android:contentDescription="@string/origin_mod"
+                    android:paddingStart="-4dp"
+                    android:paddingLeft="-4dp"
+                    android:src="@drawable/ic_mod"
+                    android:visibility="gone"
+                    app:tint="?text_secondary_color"
+                    tools:visibility="visible" />
+
+                <ImageView
                     android:id="@+id/abi_incompatible"
                     android:layout_width="wrap_content"
                     android:layout_height="16dp"

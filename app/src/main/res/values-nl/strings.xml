@@ -582,4 +582,19 @@
     <string name="restrict_unpublish_description">De reden wordt aan de auteur getoond op de app-pagina. De auteur kan de app aanpassen en opnieuw ter moderatie aanbieden.</string>
     <string name="restrict_block_warning">Na blokkeren kan de app niet worden hersteld</string>
     <string name="unlinked_status_permanent">De app is permanent geblokkeerd en kan niet worden hersteld</string>
+
+    <string name="origin_title">Herkomst</string>
+    <string name="origin_own">Mijn app</string>
+    <string name="origin_own_description">Ik heb deze app ontwikkeld</string>
+    <string name="origin_own_note">Dit is een aanvraag voor de ontwikkelaarsstatus. We controleren handmatig of de app echt van jou is. Als dat niet wordt bevestigd, blijft de app gepubliceerd en wordt ze gemarkeerd als Origineel.</string>
+    <string name="origin_mirror">Origineel</string>
+    <string name="origin_mirror_description">Een ongewijzigde build van de app van iemand anders</string>
+    <string name="origin_mod">Mod</string>
+    <string name="origin_mod_description">Een gewijzigde build</string>
+    <string name="dev_request_pending_title">Ontwikkelaarsstatus: in behandeling</string>
+    <string name="dev_request_pending_text">We controleren handmatig of de app echt van jou is. Meestal duurt dat maximaal een dag.</string>
+    <string name="dev_request_rejected_title">Ontwikkelaarsstatus niet toegekend</string>
+    <string name="dev_request_rejected_text">De app blijft gepubliceerd en is gemarkeerd als Origineel.</string>
+    <string name="dev_request_approved_title">Je bent een geverifieerde ontwikkelaar</string>
+    <string name="dev_request_approved_text">Het pakket is aan je account gekoppeld — niemand anders kan het publiceren.</string>
 </resources>

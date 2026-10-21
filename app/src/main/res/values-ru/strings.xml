@@ -597,4 +597,19 @@
 
     <string name="content_flags_block_title">Предупреждения</string>
     <string name="content_filter_active">Скрыто: %1$s</string>
+
+    <string name="origin_title">Происхождение</string>
+    <string name="origin_own">Моё приложение</string>
+    <string name="origin_own_description">Я разработчик этого приложения</string>
+    <string name="origin_own_note">Это заявка на статус разработчика. Мы вручную проверим, что приложение действительно ваше. Если это не подтвердится, приложение останется опубликованным с пометкой «Оригинал».</string>
+    <string name="origin_mirror">Оригинал</string>
+    <string name="origin_mirror_description">Неизменённая сборка чужого приложения</string>
+    <string name="origin_mod">Мод</string>
+    <string name="origin_mod_description">Изменённая сборка</string>
+    <string name="dev_request_pending_title">Статус разработчика: на рассмотрении</string>
+    <string name="dev_request_pending_text">Мы вручную проверяем, что приложение действительно ваше. Обычно это занимает до суток.</string>
+    <string name="dev_request_rejected_title">Статус разработчика не подтверждён</string>
+    <string name="dev_request_rejected_text">Приложение остаётся опубликованным с пометкой «Оригинал».</string>
+    <string name="dev_request_approved_title">Вы подтверждённый разработчик</string>
+    <string name="dev_request_approved_text">Пакет закреплён за вашим аккаунтом — больше никто не сможет его опубликовать.</string>
 </resources>

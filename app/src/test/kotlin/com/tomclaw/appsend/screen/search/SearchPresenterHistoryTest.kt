@@ -355,6 +355,7 @@ private class FakeAppConverter : AppConverter {
         category = null,
         exclusive = false,
         openSource = false,
+        mod = false,
         isAbiCompatible = true,
     )
 

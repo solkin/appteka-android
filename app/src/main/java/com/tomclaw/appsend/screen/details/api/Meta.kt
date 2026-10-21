@@ -49,4 +49,8 @@ data class Meta(
     // this is what lets us label it instead.
     @SerializedName("content_flags")
     val contentFlags: List<ContentFlag>? = null,
+    // See [com.tomclaw.appsend.core.Origin]; absent for builds that never
+    // declared one.
+    @SerializedName("origin")
+    val origin: String? = null,
 ) : Parcelable

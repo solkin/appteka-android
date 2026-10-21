@@ -572,4 +572,19 @@
     <string name="restrict_unpublish_description">कारण ऐप पेज पर लेखक को दिखाया जाता है। लेखक ऐप ठीक करके उसे दोबारा मॉडरेशन के लिए भेज सकता है।</string>
     <string name="restrict_block_warning">ब्लॉक करने के बाद ऐप बहाल नहीं किया जा सकता</string>
     <string name="unlinked_status_permanent">ऐप स्थायी रूप से ब्लॉक है और बहाल नहीं किया जा सकता</string>
+
+    <string name="origin_title">स्रोत</string>
+    <string name="origin_own">मेरा ऐप</string>
+    <string name="origin_own_description">यह ऐप मैंने बनाया है</string>
+    <string name="origin_own_note">यह डेवलपर स्टेटस के लिए आवेदन है। हम मैन्युअल रूप से जाँचते हैं कि ऐप वास्तव में आपका है। अगर इसकी पुष्टि नहीं होती, तो ऐप प्रकाशित रहेगा और उसे मूल के रूप में चिह्नित किया जाएगा।</string>
+    <string name="origin_mirror">मूल</string>
+    <string name="origin_mirror_description">किसी और के ऐप का बिना बदलाव वाला बिल्ड</string>
+    <string name="origin_mod">मॉड</string>
+    <string name="origin_mod_description">बदला हुआ बिल्ड</string>
+    <string name="dev_request_pending_title">डेवलपर स्टेटस: समीक्षा में</string>
+    <string name="dev_request_pending_text">हम मैन्युअल रूप से जाँचते हैं कि ऐप वास्तव में आपका है। आमतौर पर इसमें एक दिन तक लगता है।</string>
+    <string name="dev_request_rejected_title">डेवलपर स्टेटस नहीं मिला</string>
+    <string name="dev_request_rejected_text">ऐप प्रकाशित रहता है और मूल के रूप में चिह्नित है।</string>
+    <string name="dev_request_approved_title">आप एक सत्यापित डेवलपर हैं</string>
+    <string name="dev_request_approved_text">पैकेज आपके खाते के लिए आरक्षित है — कोई और इसे प्रकाशित नहीं कर सकता।</string>
 </resources>

@@ -18,6 +18,8 @@ interface StatusItemView : ItemView {
 
     fun setStatusTypeInfo()
 
+    fun setStatusTypeSuccess()
+
     fun setStatusTypeWarning()
 
     fun setStatusTypeError()
@@ -25,6 +27,8 @@ interface StatusItemView : ItemView {
     fun hideActionButton()
 
     fun showActionButton(label: String)
+
+    fun setStatusTitle(title: String?)
 
     fun setStatusText(text: String)
 
@@ -37,6 +41,7 @@ class StatusItemViewHolder(view: View) : BaseItemViewHolder(view), StatusItemVie
     private val context = view.context
     private val background: View = view.findViewById(R.id.status_back)
     private val icon: ImageView = view.findViewById(R.id.status_icon)
+    private val title: TextView = view.findViewById(R.id.status_title)
     private val text: TextView = view.findViewById(R.id.status_text)
     private val actionButton: MaterialButton = view.findViewById(R.id.action_button)
 
@@ -50,16 +55,25 @@ class StatusItemViewHolder(view: View) : BaseItemViewHolder(view), StatusItemVie
         setBackgroundColor(R.color.block_info_back_color)
         icon.setImageResource(R.drawable.ic_info)
         icon.setColorFilter(ContextCompat.getColor(context, R.color.block_info_color))
-        text.setTextColor(ContextCompat.getColor(context, R.color.block_info_text_color))
+        setTextColor(R.color.block_info_text_color)
         actionButton.setRippleColorResource(R.color.block_info_color)
         actionButton.setTextColor(ContextCompat.getColor(context, R.color.block_info_text_color))
+    }
+
+    override fun setStatusTypeSuccess() {
+        setBackgroundColor(R.color.block_success_back_color)
+        icon.setImageResource(R.drawable.ic_check_decagram)
+        icon.setColorFilter(ContextCompat.getColor(context, R.color.block_success_color))
+        setTextColor(R.color.block_success_text_color)
+        actionButton.setRippleColorResource(R.color.block_success_color)
+        actionButton.setTextColor(ContextCompat.getColor(context, R.color.block_success_text_color))
     }
 
     override fun setStatusTypeWarning() {
         setBackgroundColor(R.color.block_warning_back_color)
         icon.setImageResource(R.drawable.ic_warning)
         icon.setColorFilter(ContextCompat.getColor(context, R.color.block_warning_color))
-        text.setTextColor(ContextCompat.getColor(context, R.color.block_warning_text_color))
+        setTextColor(R.color.block_warning_text_color)
         actionButton.setRippleColorResource(R.color.block_warning_color)
         actionButton.setTextColor(ContextCompat.getColor(context, R.color.block_warning_text_color))
     }
@@ -68,7 +82,7 @@ class StatusItemViewHolder(view: View) : BaseItemViewHolder(view), StatusItemVie
         setBackgroundColor(R.color.block_error_back_color)
         icon.setImageResource(R.drawable.ic_error)
         icon.setColorFilter(ContextCompat.getColor(context, R.color.block_error_color))
-        text.setTextColor(ContextCompat.getColor(context, R.color.block_error_text_color))
+        setTextColor(R.color.block_error_text_color)
         actionButton.setRippleColorResource(R.color.block_error_color)
         actionButton.setTextColor(ContextCompat.getColor(context, R.color.block_error_text_color))
     }
@@ -82,8 +96,18 @@ class StatusItemViewHolder(view: View) : BaseItemViewHolder(view), StatusItemVie
         actionButton.show()
     }
 
+    override fun setStatusTitle(title: String?) {
+        this.title.bind(title)
+    }
+
     override fun setStatusText(text: String) {
         this.text.bind(text)
+    }
+
+    private fun setTextColor(colorRes: Int) {
+        val color = ContextCompat.getColor(context, colorRes)
+        title.setTextColor(color)
+        text.setTextColor(color)
     }
 
     private fun setBackgroundColor(colorRes: Int) {

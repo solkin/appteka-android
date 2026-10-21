@@ -9,6 +9,7 @@ import com.tomclaw.appsend.screen.upload.adapter.exclusive.ExclusiveItem
 import com.tomclaw.appsend.screen.upload.adapter.notice.NoticeItem
 import com.tomclaw.appsend.screen.upload.adapter.notice.NoticeType
 import com.tomclaw.appsend.screen.upload.adapter.open_source.OpenSourceItem
+import com.tomclaw.appsend.screen.upload.adapter.origin.OriginItem
 import com.tomclaw.appsend.screen.upload.adapter.other_versions.OtherVersionsItem
 import com.tomclaw.appsend.screen.upload.adapter.other_versions.VersionItem
 import com.tomclaw.appsend.screen.upload.adapter.prefill_version.PrefillVersionItem
@@ -21,6 +22,7 @@ import com.tomclaw.appsend.screen.upload.adapter.submit.SubmitItem
 import com.tomclaw.appsend.screen.upload.adapter.whats_new.WhatsNewItem
 import com.tomclaw.appsend.screen.upload.api.CheckExistResponse
 import com.tomclaw.appsend.screen.upload.dto.UploadScreenshot
+import com.tomclaw.appsend.core.Origin
 import com.tomclaw.appsend.core.permissions.Capability
 import com.tomclaw.appsend.upload.UploadApk
 import com.tomclaw.appsend.upload.UploadPackage
@@ -37,6 +39,7 @@ interface UploadConverter {
         whatsNew: String,
         description: String,
         exclusive: Boolean,
+        origin: String?,
         openSource: Boolean,
         sourceUrl: String,
         highlightErrors: Boolean,
@@ -60,6 +63,7 @@ class UploadConverterImpl(
         whatsNew: String,
         description: String,
         exclusive: Boolean,
+        origin: String?,
         openSource: Boolean,
         sourceUrl: String,
         highlightErrors: Boolean,
@@ -131,6 +135,16 @@ class UploadConverterImpl(
                 )
             }
 
+            // Ahead of the rest of the form: it decides how the build is
+            // shown, and "own" files a developer application on top.
+            val originFixed = checkExist?.originFixed == Origin.OWN
+            items += OriginItem(
+                id = id++,
+                value = origin,
+                fixed = originFixed,
+                ownDenied = checkExist?.ownDenied?.takeIf { !originFixed && it.isNotBlank() },
+                errorRequiredField = highlightErrors && origin == null,
+            )
             items += ScreenshotsItem(
                 id = id++,
                 items = screenshots.map {

@@ -304,6 +304,7 @@ class UploadManagerImpl(
             description = info.description,
             whatsNew = info.whatsNew,
             exclusive = info.exclusive,
+            origin = info.origin,
             sourceUrl = info.sourceUrl,
             scrIds = scrIds,
             private = false,

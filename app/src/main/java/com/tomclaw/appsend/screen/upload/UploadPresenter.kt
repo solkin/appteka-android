@@ -9,6 +9,7 @@ import com.tomclaw.appsend.categories.CategoriesInteractor
 import com.tomclaw.appsend.categories.Category
 import com.tomclaw.appsend.categories.CategoryConverter
 import com.tomclaw.appsend.categories.CategoryItem
+import com.tomclaw.appsend.core.Origin
 import com.tomclaw.appsend.core.PackageInfoProvider
 import com.tomclaw.appsend.core.permissions.CapabilityAction
 import com.tomclaw.appsend.core.permissions.UserCapabilitiesProvider
@@ -129,6 +130,7 @@ class UploadPresenterImpl(
         state?.getString(KEY_DESCRIPTION) ?: startInfo?.description.orEmpty()
     private var exclusive: Boolean =
         (state?.getBoolean(KEY_EXCLUSIVE) ?: startInfo?.exclusive) == true
+    private var origin: String? = state?.getString(KEY_ORIGIN) ?: startInfo?.origin
     private var openSource: Boolean =
         (state?.getBoolean(KEY_OPEN_SOURCE) ?: startInfo?.openSource) == true
     private var sourceUrl: String =
@@ -207,6 +209,7 @@ class UploadPresenterImpl(
         putString(KEY_WHATS_NEW, whatsNew)
         putString(KEY_DESCRIPTION, description)
         putBoolean(KEY_EXCLUSIVE, exclusive)
+        putString(KEY_ORIGIN, origin)
         putBoolean(KEY_OPEN_SOURCE, openSource)
         putString(KEY_SOURCE_URL, sourceUrl)
         putBoolean(KEY_HIGHLIGHT_ERRORS, highlightErrors)
@@ -320,8 +323,17 @@ class UploadPresenterImpl(
             this.whatsNew = meta.whatsNew.orEmpty()
             this.description = meta.description.orEmpty()
             this.exclusive = meta.exclusive == true
+            // This very build: whatever it declares is the answer to keep.
+            this.origin = meta.origin
             this.openSource = meta.openSource ?: !meta.sourceUrl.isNullOrEmpty()
             this.sourceUrl = meta.sourceUrl.orEmpty()
+        }
+        this.origin = when {
+            response.originFixed == Origin.OWN -> Origin.OWN
+            // Not open to this user any more: make them choose again rather
+            // than send a claim the server will refuse.
+            origin == Origin.OWN && !response.ownDenied.isNullOrBlank() -> null
+            else -> origin
         }
         view?.showContent()
         bindForm()
@@ -344,6 +356,7 @@ class UploadPresenterImpl(
             whatsNew,
             description,
             exclusive,
+            origin,
             openSource,
             sourceUrl,
             highlightErrors,
@@ -399,6 +412,7 @@ class UploadPresenterImpl(
         whatsNew = ""
         description = ""
         exclusive = false
+        origin = null
         openSource = false
         sourceUrl = ""
         highlightErrors = false
@@ -471,6 +485,11 @@ class UploadPresenterImpl(
         updateItems()
     }
 
+    override fun onOriginChanged(value: String) {
+        origin = value
+        bindForm()
+    }
+
     override fun onOpenSourceChanged(value: Boolean, url: String) {
         openSource = value
         sourceUrl = url
@@ -495,6 +514,7 @@ class UploadPresenterImpl(
 
         val pkg = pkg ?: return false
         val category = category ?: return false
+        val origin = origin ?: return false
         val checkExist = checkExist ?: return false
         description.ifBlank { null } ?: return false
         if (!descriptionValidator.isValid(description)) return false
@@ -507,7 +527,8 @@ class UploadPresenterImpl(
             whatsNew,
             exclusive,
             openSource,
-            sourceUrl
+            sourceUrl,
+            origin = origin,
         )
 
         router?.hideKeyboard()
@@ -580,6 +601,8 @@ class UploadPresenterImpl(
             }?.let { ArrayList(it) } ?: ArrayList()
             this.category = meta.category?.let { categoryConverter.convert(it) }
             // Note: whatsNew is NOT prefilled as per requirements
+            // Neither is origin: it is a claim about that build, possibly by
+            // another uploader, and says nothing about this one.
             this.description = meta.description.orEmpty()
             this.exclusive = meta.exclusive == true
             this.openSource = meta.openSource ?: !meta.sourceUrl.isNullOrEmpty()
@@ -628,6 +651,7 @@ private const val KEY_CATEGORY_ID = "category"
 private const val KEY_WHATS_NEW = "whats_new"
 private const val KEY_DESCRIPTION = "description"
 private const val KEY_EXCLUSIVE = "exclusive"
+private const val KEY_ORIGIN = "origin"
 private const val KEY_OPEN_SOURCE = "open_source"
 private const val KEY_SOURCE_URL = "source_url"
 private const val KEY_HIGHLIGHT_ERRORS = "highlight_errors"

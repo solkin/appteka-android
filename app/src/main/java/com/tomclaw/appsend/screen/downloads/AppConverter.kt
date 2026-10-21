@@ -1,6 +1,7 @@
 package com.tomclaw.appsend.screen.downloads
 
 import com.tomclaw.appsend.categories.CategoryConverter
+import com.tomclaw.appsend.core.Origin
 import com.tomclaw.appsend.dto.AppEntity
 import com.tomclaw.appsend.screen.details.adapter.abi.AbiResourceProvider
 import com.tomclaw.appsend.screen.downloads.adapter.app.AppItem
@@ -39,6 +40,7 @@ class AppConverterImpl(
             category = appEntity.category?.let { categoryConverter.convert(it) },
             exclusive = appEntity.exclusive,
             openSource = !appEntity.sourceUrl.isNullOrEmpty(),
+            mod = appEntity.origin == Origin.MOD,
             isAbiCompatible = isAbiCompatible,
             isInstalled = installedVersionCode != NOT_INSTALLED,
             isUpdatable = installedVersionCode < appEntity.verCode,

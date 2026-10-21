@@ -41,6 +41,18 @@ interface DetailsResourceProvider {
 
     fun rejectionReasonsLoadFailed(): String
 
+    fun devRequestPendingTitle(): String
+
+    fun devRequestPendingText(): String
+
+    fun devRequestRejectedTitle(): String
+
+    fun devRequestRejectedText(reason: String?): String
+
+    fun devRequestApprovedTitle(): String
+
+    fun devRequestApprovedText(): String
+
     fun aiReviewTitle(decision: Int, confidence: Float): String
 
     fun editMetaAction(): String
@@ -208,6 +220,36 @@ class DetailsResourceProviderImpl(
 
     override fun rejectionReasonsLoadFailed(): String {
         return resources.getString(R.string.moderation_decline_reasons_load_failed)
+    }
+
+    override fun devRequestPendingTitle(): String {
+        return resources.getString(R.string.dev_request_pending_title)
+    }
+
+    override fun devRequestPendingText(): String {
+        return resources.getString(R.string.dev_request_pending_text)
+    }
+
+    override fun devRequestRejectedTitle(): String {
+        return resources.getString(R.string.dev_request_rejected_title)
+    }
+
+    // The admin's reason goes first when there is one; what happens to the
+    // app is the same either way.
+    override fun devRequestRejectedText(reason: String?): String {
+        val outcome = resources.getString(R.string.dev_request_rejected_text)
+        return when {
+            reason.isNullOrBlank() -> outcome
+            else -> reason.trim() + "\n" + outcome
+        }
+    }
+
+    override fun devRequestApprovedTitle(): String {
+        return resources.getString(R.string.dev_request_approved_title)
+    }
+
+    override fun devRequestApprovedText(): String {
+        return resources.getString(R.string.dev_request_approved_text)
     }
 
     override fun aiReviewTitle(decision: Int, confidence: Float): String {

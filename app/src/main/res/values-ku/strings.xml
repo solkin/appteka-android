@@ -586,4 +586,19 @@
     <string name="restrict_unpublish_description">هۆکارەکە لە پەڕەی بەرنامەکەدا بۆ نووسەر پیشان دەدرێت. نووسەر دەتوانێت بەرنامەکە چاک بکات و دووبارە بۆ پێداچوونەوە بینێرێت.</string>
     <string name="restrict_block_warning">دوای بلۆککردن بەرنامەکە ناگەڕێندرێتەوە</string>
     <string name="unlinked_status_permanent">بەرنامەکە بە هەمیشەیی بلۆککراوە و ناگەڕێندرێتەوە</string>
+
+    <string name="origin_title">بنەچە</string>
+    <string name="origin_own">بەرنامەکەی من</string>
+    <string name="origin_own_description">من ئەم بەرنامەیەم گەشەپێداوە</string>
+    <string name="origin_own_note">ئەمە داواکارییە بۆ پلەی گەشەپێدەر. بە دەست دەپشکنین کە بەرنامەکە بەڕاستی هی تۆیە. ئەگەر پشتڕاست نەکرایەوە، بەرنامەکە بڵاوکراوە دەمێنێتەوە و وەک «ڕەسەن» نیشان دەکرێت.</string>
+    <string name="origin_mirror">ڕەسەن</string>
+    <string name="origin_mirror_description">وەشانێکی دەستکاری نەکراوی بەرنامەی کەسێکی تر</string>
+    <string name="origin_mod">مۆد</string>
+    <string name="origin_mod_description">وەشانێکی دەستکاریکراو</string>
+    <string name="dev_request_pending_title">پلەی گەشەپێدەر: لە ژێر پێداچوونەوەدایە</string>
+    <string name="dev_request_pending_text">بە دەست دەپشکنین کە بەرنامەکە بەڕاستی هی تۆیە. زۆربەی کات تا ڕۆژێک دەخایەنێت.</string>
+    <string name="dev_request_rejected_title">پلەی گەشەپێدەر پشتڕاست نەکرایەوە</string>
+    <string name="dev_request_rejected_text">بەرنامەکە بڵاوکراوە دەمێنێتەوە و وەک «ڕەسەن» نیشان کراوە.</string>
+    <string name="dev_request_approved_title">تۆ گەشەپێدەرێکی پشتڕاستکراویت</string>
+    <string name="dev_request_approved_text">پاکێجەکە بۆ هەژمارەکەت تەرخان کراوە — کەسی تر ناتوانێت بڵاوی بکاتەوە.</string>
 </resources>

@@ -25,4 +25,11 @@ data class CheckExistResponse(
     val versions: List<AppVersion>?,
     @SerializedName("max_file_size")
     val maxFileSize: Long? = null,
+    // The only origin this build can have — the package is bound to the
+    // uploader. Absent when the choice is open.
+    @SerializedName("origin_fixed")
+    val originFixed: String? = null,
+    // Why "own" is not open to this user, already localized.
+    @SerializedName("own_denied")
+    val ownDenied: String? = null,
 ) : Parcelable

@@ -573,4 +573,19 @@
     <string name="restrict_unpublish_description">Il motivo viene mostrato all\'autore nella pagina dell\'app. L\'autore può correggere l\'app e inviarla di nuovo alla moderazione.</string>
     <string name="restrict_block_warning">Dopo il blocco l\'app non può essere ripristinata</string>
     <string name="unlinked_status_permanent">L\'app è bloccata definitivamente e non può essere ripristinata</string>
+
+    <string name="origin_title">Origine</string>
+    <string name="origin_own">La mia app</string>
+    <string name="origin_own_description">Ho sviluppato io questa app</string>
+    <string name="origin_own_note">Questa è una richiesta per lo stato di sviluppatore. Verifichiamo manualmente che l\'app sia davvero tua. Se non viene confermato, l\'app resta pubblicata e viene contrassegnata come Originale.</string>
+    <string name="origin_mirror">Originale</string>
+    <string name="origin_mirror_description">Una build non modificata dell\'app di qualcun altro</string>
+    <string name="origin_mod">Mod</string>
+    <string name="origin_mod_description">Una build modificata</string>
+    <string name="dev_request_pending_title">Stato di sviluppatore: in revisione</string>
+    <string name="dev_request_pending_text">Verifichiamo manualmente che l\'app sia davvero tua. Di solito ci vuole al massimo un giorno.</string>
+    <string name="dev_request_rejected_title">Stato di sviluppatore non concesso</string>
+    <string name="dev_request_rejected_text">L\'app resta pubblicata ed è contrassegnata come Originale.</string>
+    <string name="dev_request_approved_title">Sei uno sviluppatore verificato</string>
+    <string name="dev_request_approved_text">Il pacchetto è riservato al tuo account — nessun altro può pubblicarlo.</string>
 </resources>

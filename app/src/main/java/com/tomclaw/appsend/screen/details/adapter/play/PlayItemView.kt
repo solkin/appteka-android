@@ -39,6 +39,14 @@ interface PlayItemView : ItemView {
 
     fun hideOfficial()
 
+    fun showMod()
+
+    fun hideMod()
+
+    fun showOriginal()
+
+    fun hideOriginal()
+
     fun showCategory(icon: String, title: String)
 
     fun hideCategory()
@@ -80,6 +88,8 @@ class PlayItemViewHolder(view: View) : BaseItemViewHolder(view), PlayItemView {
     private val exclusiveContainer: View = view.findViewById(R.id.exclusive_container)
     private val openSourceContainer: View = view.findViewById(R.id.open_source_container)
     private val officialContainer: View = view.findViewById(R.id.official_container)
+    private val modContainer: View = view.findViewById(R.id.mod_container)
+    private val originalContainer: View = view.findViewById(R.id.original_container)
     private val categoryContainer: View = view.findViewById(R.id.category_container)
     private val categorySvg: ImageView = view.findViewById(R.id.category_svg)
     private val categoryTitle: TextView = view.findViewById(R.id.category_title)
@@ -139,6 +149,22 @@ class PlayItemViewHolder(view: View) : BaseItemViewHolder(view), PlayItemView {
 
     override fun hideOfficial() {
         officialContainer.hide()
+    }
+
+    override fun showMod() {
+        modContainer.show()
+    }
+
+    override fun hideMod() {
+        modContainer.hide()
+    }
+
+    override fun showOriginal() {
+        originalContainer.show()
+    }
+
+    override fun hideOriginal() {
+        originalContainer.hide()
     }
 
     override fun showCategory(icon: String, title: String) {

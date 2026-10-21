@@ -559,4 +559,19 @@
     <string name="restrict_unpublish_description">Lý do được hiển thị cho tác giả trên trang ứng dụng. Tác giả có thể sửa ứng dụng và gửi lại để kiểm duyệt.</string>
     <string name="restrict_block_warning">Ứng dụng không thể khôi phục sau khi bị chặn</string>
     <string name="unlinked_status_permanent">Ứng dụng bị chặn vĩnh viễn và không thể khôi phục</string>
+
+    <string name="origin_title">Nguồn gốc</string>
+    <string name="origin_own">Ứng dụng của tôi</string>
+    <string name="origin_own_description">Tôi là nhà phát triển ứng dụng này</string>
+    <string name="origin_own_note">Đây là đơn đăng ký trạng thái nhà phát triển. Chúng tôi sẽ kiểm tra thủ công xem ứng dụng có thực sự là của bạn không. Nếu không được xác nhận, ứng dụng vẫn được đăng và được đánh dấu là Bản gốc.</string>
+    <string name="origin_mirror">Bản gốc</string>
+    <string name="origin_mirror_description">Bản dựng chưa chỉnh sửa của ứng dụng người khác</string>
+    <string name="origin_mod">Mod</string>
+    <string name="origin_mod_description">Bản dựng đã chỉnh sửa</string>
+    <string name="dev_request_pending_title">Trạng thái nhà phát triển: đang xem xét</string>
+    <string name="dev_request_pending_text">Chúng tôi kiểm tra thủ công xem ứng dụng có thực sự là của bạn không. Thường mất tối đa một ngày.</string>
+    <string name="dev_request_rejected_title">Không được cấp trạng thái nhà phát triển</string>
+    <string name="dev_request_rejected_text">Ứng dụng vẫn được đăng và được đánh dấu là Bản gốc.</string>
+    <string name="dev_request_approved_title">Bạn là nhà phát triển đã xác minh</string>
+    <string name="dev_request_approved_text">Gói đã được giữ cho tài khoản của bạn — không ai khác có thể đăng nó.</string>
 </resources>

@@ -11,6 +11,7 @@ class StatusItemPresenter(
         with(view) {
             when (item.type) {
                 StatusType.INFO -> setStatusTypeInfo()
+                StatusType.SUCCESS -> setStatusTypeSuccess()
                 StatusType.WARNING -> setStatusTypeWarning()
                 StatusType.ERROR -> setStatusTypeError()
             }
@@ -21,6 +22,7 @@ class StatusItemPresenter(
                     setOnActionClickListener { listener.onStatusAction(item.actionType) }
                 }
             }
+            setStatusTitle(item.title)
             setStatusText(item.text)
         }
     }

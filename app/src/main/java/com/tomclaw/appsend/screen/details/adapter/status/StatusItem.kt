@@ -11,10 +11,12 @@ data class StatusItem(
     val text: String,
     val actionType: StatusAction,
     val actionLabel: String?,
+    val title: String? = null,
 ) : Item, Parcelable
 
 enum class StatusType {
     INFO,
+    SUCCESS,
     WARNING,
     ERROR
 }

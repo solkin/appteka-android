@@ -559,4 +559,19 @@
     <string name="restrict_unpublish_description">原因会显示在应用页面上供作者查看。作者可以修改应用后重新提交审核。</string>
     <string name="restrict_block_warning">封禁后应用无法恢复</string>
     <string name="unlinked_status_permanent">该应用已被永久封禁，无法恢复</string>
+
+    <string name="origin_title">来源</string>
+    <string name="origin_own">我的应用</string>
+    <string name="origin_own_description">这个应用是我开发的</string>
+    <string name="origin_own_note">这是开发者身份申请。我们会人工核实该应用确实属于你。如果未能确认，应用仍会保持发布，并标记为“原版”。</string>
+    <string name="origin_mirror">原版</string>
+    <string name="origin_mirror_description">他人应用的未修改版本</string>
+    <string name="origin_mod">修改版</string>
+    <string name="origin_mod_description">经过修改的版本</string>
+    <string name="dev_request_pending_title">开发者身份：审核中</string>
+    <string name="dev_request_pending_text">我们会人工核实该应用确实属于你。通常在一天内完成。</string>
+    <string name="dev_request_rejected_title">未获得开发者身份</string>
+    <string name="dev_request_rejected_text">应用仍保持发布，并标记为“原版”。</string>
+    <string name="dev_request_approved_title">你是已认证的开发者</string>
+    <string name="dev_request_approved_text">该包名已绑定到你的账户——其他人无法再发布它。</string>
 </resources>

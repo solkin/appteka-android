@@ -15,5 +15,6 @@ data class UploadInfo(
     val whatsNew: String,
     val exclusive: Boolean,
     val openSource: Boolean,
-    val sourceUrl: String?
+    val sourceUrl: String?,
+    val origin: String,
 ) : Parcelable

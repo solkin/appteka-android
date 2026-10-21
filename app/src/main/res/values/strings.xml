@@ -605,4 +605,21 @@
 
     <string name="content_flags_block_title">Content warnings</string>
     <string name="content_filter_active">Hidden: %1$s</string>
+
+    <!-- Content origin: where a build comes from, as its uploader declares
+         it. "My app" is a claim an admin checks by hand (developer status). -->
+    <string name="origin_title">Origin</string>
+    <string name="origin_own">My app</string>
+    <string name="origin_own_description">I developed this app</string>
+    <string name="origin_own_note">This is an application for developer status. We check by hand that the app is really yours. If it isn\'t confirmed, the app stays published and is marked as Original.</string>
+    <string name="origin_mirror">Original</string>
+    <string name="origin_mirror_description">An unmodified build of someone else\'s app</string>
+    <string name="origin_mod">Mod</string>
+    <string name="origin_mod_description">A modified build</string>
+    <string name="dev_request_pending_title">Developer status: under review</string>
+    <string name="dev_request_pending_text">We check by hand that the app is really yours. It is usually done within a day.</string>
+    <string name="dev_request_rejected_title">Developer status not granted</string>
+    <string name="dev_request_rejected_text">The app stays published and is marked as Original.</string>
+    <string name="dev_request_approved_title">You are a verified developer</string>
+    <string name="dev_request_approved_text">The package is reserved for your account — nobody else can publish under it.</string>
 </resources>

@@ -572,4 +572,19 @@
     <string name="restrict_unpublish_description">O motivo é mostrado ao autor na página do aplicativo. O autor pode corrigir o aplicativo e enviá-lo para moderação novamente.</string>
     <string name="restrict_block_warning">O aplicativo não pode ser restaurado após o bloqueio</string>
     <string name="unlinked_status_permanent">O aplicativo está bloqueado permanentemente e não pode ser restaurado</string>
+
+    <string name="origin_title">Origem</string>
+    <string name="origin_own">Meu aplicativo</string>
+    <string name="origin_own_description">Eu desenvolvi este aplicativo</string>
+    <string name="origin_own_note">Este é um pedido de status de desenvolvedor. Verificamos manualmente se o aplicativo é realmente seu. Se isso não for confirmado, o aplicativo continua publicado e é marcado como Original.</string>
+    <string name="origin_mirror">Original</string>
+    <string name="origin_mirror_description">Uma versão não modificada do aplicativo de outra pessoa</string>
+    <string name="origin_mod">Mod</string>
+    <string name="origin_mod_description">Uma versão modificada</string>
+    <string name="dev_request_pending_title">Status de desenvolvedor: em análise</string>
+    <string name="dev_request_pending_text">Verificamos manualmente se o aplicativo é realmente seu. Normalmente isso leva até um dia.</string>
+    <string name="dev_request_rejected_title">Status de desenvolvedor não concedido</string>
+    <string name="dev_request_rejected_text">O aplicativo continua publicado e marcado como Original.</string>
+    <string name="dev_request_approved_title">Você é um desenvolvedor verificado</string>
+    <string name="dev_request_approved_text">O pacote está reservado para a sua conta — ninguém mais pode publicá-lo.</string>
 </resources>
