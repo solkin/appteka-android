@@ -136,7 +136,8 @@ class UploadPresenterImpl(
     private var sourceUrl: String =
         state?.getString(KEY_SOURCE_URL) ?: startInfo?.sourceUrl.orEmpty()
     private var highlightErrors: Boolean = state?.getBoolean(KEY_HIGHLIGHT_ERRORS) == true
-    private var selectedPrefillVersion: VersionItem? = null
+    private var selectedPrefillVersion: VersionItem? =
+        state?.getParcelableCompat(KEY_PREFILL_VERSION, VersionItem::class.java)
     private var isPrefillLoading: Boolean = false
 
     private val items = ArrayList<Item>()
@@ -219,6 +220,7 @@ class UploadPresenterImpl(
         putBoolean(KEY_OPEN_SOURCE, openSource)
         putString(KEY_SOURCE_URL, sourceUrl)
         putBoolean(KEY_HIGHLIGHT_ERRORS, highlightErrors)
+        putParcelable(KEY_PREFILL_VERSION, selectedPrefillVersion)
     }
 
     override fun onAppSelected(pkg: UploadPackage, apk: UploadApk) {
@@ -351,6 +353,9 @@ class UploadPresenterImpl(
         view?.showError()
     }
 
+    // Pushes the rebuilt list to the adapter too, without rebinding: the
+    // adapter keeps its own copy, and a row scrolled off screen and back is
+    // bound from it — a stale copy undid what had just been typed.
     private fun updateItems() {
         items.clear()
         items += uploadConverter.convert(
@@ -370,16 +375,12 @@ class UploadPresenterImpl(
             bypassModerationCapability = capabilitiesProvider.getCapabilities()
                 ?.get(CapabilityAction.APP_UPLOAD_BYPASS_MODERATION),
         )
+        adapterPresenter.get().onDataSourceChanged(items)
     }
 
     private fun bindForm() {
         updateItems()
-        bindItems()
         view?.contentUpdated()
-    }
-
-    private fun bindItems() {
-        adapterPresenter.get().onDataSourceChanged(items)
     }
 
     private fun bindUploadAppIcon() {
@@ -540,7 +541,9 @@ class UploadPresenterImpl(
             whatsNew,
             exclusive,
             openSource,
-            sourceUrl,
+            // The server reads "open source" off the link alone: a switched
+            // off one must not keep sending the URL typed before.
+            sourceUrl = if (openSource) sourceUrl.trim() else "",
             origin = origin,
         )
 
@@ -668,3 +671,4 @@ private const val KEY_ORIGIN = "origin"
 private const val KEY_OPEN_SOURCE = "open_source"
 private const val KEY_SOURCE_URL = "source_url"
 private const val KEY_HIGHLIGHT_ERRORS = "highlight_errors"
+private const val KEY_PREFILL_VERSION = "prefill_version"

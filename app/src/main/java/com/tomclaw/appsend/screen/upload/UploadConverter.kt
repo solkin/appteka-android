@@ -148,13 +148,8 @@ class UploadConverterImpl(
                     )
                 } + ScreenAppendItem(id++)
             )
-            items += SelectCategoryItem(
-                id++,
-                category = category,
-                errorRequiredField = highlightErrors && category == null
-            )
-            // Next to the other required choice. A package bound to the
-            // uploader has only one answer, which the server applies itself.
+            // Ahead of the category, the other required choice. A package
+            // bound to the uploader has one answer, applied by the server.
             if (checkExist?.originFixed != Origin.OWN) {
                 items += OriginItem(
                     id = id++,
@@ -163,6 +158,11 @@ class UploadConverterImpl(
                     errorRequiredField = highlightErrors && origin == null,
                 )
             }
+            items += SelectCategoryItem(
+                id++,
+                category = category,
+                errorRequiredField = highlightErrors && category == null
+            )
             items += WhatsNewItem(id++, text = whatsNew)
             val descriptionBlank = description.isBlank()
             val descriptionTooShort = !descriptionBlank && !descriptionValidator.isValid(description)

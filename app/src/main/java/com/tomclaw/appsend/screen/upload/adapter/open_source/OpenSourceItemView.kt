@@ -49,7 +49,10 @@ class OpenSourceItemViewHolder(view: View) : BaseItemViewHolder(view), OpenSourc
     }
 
     override fun setUrl(uri: String) {
-        sourceUrlEdit.setText(uri)
+        // Same text: leave the caret where the uploader is typing.
+        if (sourceUrlEdit.text.toString() != uri) {
+            sourceUrlEdit.setText(uri)
+        }
     }
 
     override fun setUrlVisible(visible: Boolean) {

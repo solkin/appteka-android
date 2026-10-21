@@ -9,6 +9,9 @@ class OpenSourceItemPresenter(
 
     override fun bindView(view: OpenSourceItemView, item: OpenSourceItem, position: Int) {
         with(view) {
+            // Values set here are not the uploader's input: the previous
+            // binding's listener must not hear them.
+            setOnOpenSourceChangedListener(null)
             setOpenSource(item.value)
             setUrl(item.url)
             setUrlVisible(item.value)
