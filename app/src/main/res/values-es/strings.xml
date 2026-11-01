@@ -605,11 +605,18 @@
     <string name="install_method_system">Instalador del sistema</string>
     <string name="pref_summary_install_method_session">Appteka instala las aplicaciones por sí misma, muestra el progreso y las actualiza sin avisos adicionales cuando Android lo permite</string>
     <string name="pref_summary_install_method_system">El instalador de paquetes de Android gestiona cada instalación</string>
-    <string name="install_failed">No se pudo instalar la aplicación</string>
-    <string name="install_failed_blocked">Instalación bloqueada. Prueba el instalador del sistema</string>
-    <string name="install_failed_conflict">Conflicto con la versión instalada. Elimínala primero</string>
-    <string name="install_failed_incompatible">Esta aplicación no es compatible con tu dispositivo</string>
-    <string name="install_failed_invalid">El archivo APK está dañado. Descárgalo de nuevo</string>
-    <string name="install_failed_storage">No hay espacio suficiente para instalar la aplicación</string>
+    <string name="install_failed">Algo salió mal durante la instalación. Prueba el instalador del sistema.</string>
+    <string name="install_failed_blocked">Android no permitió instalar esta aplicación. Prueba el instalador del sistema.</string>
+    <string name="install_failed_conflict">Esta aplicación entra en conflicto con otra ya instalada. Elimina esa aplicación e inténtalo de nuevo. Sus datos se borrarán.</string>
+    <string name="install_failed_incompatible">Esta aplicación no es compatible con tu dispositivo.</string>
+    <string name="install_failed_invalid">El archivo APK está dañado o mal compilado. Descárgalo de nuevo o prueba otra versión.</string>
+    <string name="install_failed_storage">No hay espacio suficiente para instalar la aplicación. Libera espacio e inténtalo de nuevo.</string>
     <string name="installing_progress">Instalando: %d%%</string>
+    <string name="install_failed_title">No se pudo instalar %1$s</string>
+    <string name="install_failed_signature">Ya hay instalada una versión de esta aplicación de otro autor, por lo que Android no puede actualizarla. Elimínala e instala esta. Sus datos se borrarán.</string>
+    <string name="install_failed_downgrade">Ya hay instalada una versión más reciente de esta aplicación. Para instalar esta, elimínala primero. Sus datos se borrarán.</string>
+    <string name="install_failed_abi">Esta versión no es para el procesador de tu dispositivo. Busca otra versión.</string>
+    <string name="install_failed_android_too_old">Esta aplicación necesita una versión más reciente de Android.</string>
+    <string name="install_failed_app_too_old">Esta aplicación es demasiado antigua para tu versión de Android.</string>
+    <string name="install_action_free_space">Liberar espacio</string>
 </resources>

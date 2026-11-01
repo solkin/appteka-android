@@ -52,6 +52,12 @@
             android:taskAffinity=""
             android:theme="@style/AppTheme.Transparent" />
         <activity
+            android:name=".install.InstallFailureActivity"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:taskAffinity=""
+            android:theme="@style/AppTheme.Transparent" />
+        <activity
             android:name=".screen.settings.SettingsActivity"
             android:label="@string/settings" />
         <activity

@@ -607,11 +607,18 @@
     <string name="install_method_system">دامەزرێنەری سیستەم</string>
     <string name="pref_summary_install_method_session">Appteka خۆی بەرنامەکان دادەمەزرێنێت، پێشکەوتن پیشان دەدات و کاتێک Android ڕێگە بدات بەبێ پرسیاری زیادە نوێیان دەکاتەوە</string>
     <string name="pref_summary_install_method_system">دامەزرێنەری پاکێجی Android هەموو دامەزراندنێک ئەنجام دەدات</string>
-    <string name="install_failed">نەتوانرا بەرنامەکە دابمەزرێت</string>
-    <string name="install_failed_blocked">دامەزراندن بلۆک کرا. دامەزرێنەری سیستەم تاقی بکەرەوە</string>
-    <string name="install_failed_conflict">لەگەڵ وەشانی دامەزراو ناکۆکە. سەرەتا بیسڕەوە</string>
-    <string name="install_failed_incompatible">ئەم بەرنامەیە لەگەڵ ئامێرەکەت گونجاو نییە</string>
-    <string name="install_failed_invalid">فایلی APK تێکچووە. دووبارە دایبگرە</string>
-    <string name="install_failed_storage">بۆشایی پێویست بۆ دامەزراندنی بەرنامەکە نییە</string>
+    <string name="install_failed">لە کاتی دامەزراندن کێشەیەک ڕوویدا. دامەزرێنەری سیستەم تاقی بکەرەوە.</string>
+    <string name="install_failed_blocked">Android ڕێگەی نەدا ئەم بەرنامەیە دابمەزرێت. دامەزرێنەری سیستەم تاقی بکەرەوە.</string>
+    <string name="install_failed_conflict">ئەم بەرنامەیە لەگەڵ بەرنامەیەکی دامەزراو ناکۆکە. ئەو بەرنامەیە بسڕەوە و دووبارە هەوڵ بدەوە. داتاکانی دەسڕدرێنەوە.</string>
+    <string name="install_failed_incompatible">ئەم بەرنامەیە لەگەڵ ئامێرەکەت گونجاو نییە.</string>
+    <string name="install_failed_invalid">فایلی APK تێکچووە یان بە هەڵە دروست کراوە. دووبارە دایبگرە یان وەشانێکی تر تاقی بکەرەوە.</string>
+    <string name="install_failed_storage">بۆشایی پێویست بۆ دامەزراندن نییە. بۆشایی بەتاڵ بکە و دووبارە هەوڵ بدەوە.</string>
     <string name="installing_progress">دامەزراندن: %d%%</string>
+    <string name="install_failed_title">نەتوانرا %1$s دابمەزرێت</string>
+    <string name="install_failed_signature">وەشانێکی ئەم بەرنامەیە لە نووسەرێکی تر دامەزراوە، بۆیە Android ناتوانێت نوێی بکاتەوە. بیسڕەوە و ئەمە دابمەزرێنە. داتاکانی دەسڕدرێنەوە.</string>
+    <string name="install_failed_downgrade">وەشانێکی نوێتری ئەم بەرنامەیە دامەزراوە. بۆ دامەزراندنی ئەمە، سەرەتا بیسڕەوە. داتاکانی دەسڕدرێنەوە.</string>
+    <string name="install_failed_abi">ئەم وەشانە بۆ پرۆسێسەری ئامێرەکەت نییە. وەشانێکی تر بدۆزەرەوە.</string>
+    <string name="install_failed_android_too_old">ئەم بەرنامەیە پێویستی بە وەشانێکی نوێتری Android هەیە.</string>
+    <string name="install_failed_app_too_old">ئەم بەرنامەیە بۆ وەشانی Androidەکەت زۆر کۆنە.</string>
+    <string name="install_action_free_space">بۆشایی بەتاڵ بکە</string>
 </resources>

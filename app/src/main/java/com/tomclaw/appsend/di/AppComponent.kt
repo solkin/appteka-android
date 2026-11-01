@@ -6,6 +6,7 @@ import com.tomclaw.appsend.screen.profile.ProfileDeepLinkParser
 import com.tomclaw.appsend.download.di.DownloadServiceComponent
 import com.tomclaw.appsend.download.di.DownloadServiceModule
 import com.tomclaw.appsend.install.InstallActivity
+import com.tomclaw.appsend.install.InstallFailureActivity
 import com.tomclaw.appsend.install.InstallResultReceiver
 import com.tomclaw.appsend.install.InstallService
 import com.tomclaw.appsend.util.Analytics
@@ -166,6 +167,8 @@ interface AppComponent {
     fun inject(receiver: InstallResultReceiver)
 
     fun inject(activity: InstallActivity)
+
+    fun inject(activity: InstallFailureActivity)
 
     fun inject(service: InstallService)
 

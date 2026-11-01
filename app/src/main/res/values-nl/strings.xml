@@ -603,11 +603,18 @@
     <string name="install_method_system">Systeeminstallatieprogramma</string>
     <string name="pref_summary_install_method_session">Appteka installeert apps zelf, toont de voortgang en werkt ze bij zonder extra vragen als Android dat toestaat</string>
     <string name="pref_summary_install_method_system">Het pakketinstallatieprogramma van Android verzorgt elke installatie</string>
-    <string name="install_failed">Kan de app niet installeren</string>
-    <string name="install_failed_blocked">Installatie geblokkeerd. Probeer het systeeminstallatieprogramma</string>
-    <string name="install_failed_conflict">Conflict met de geïnstalleerde versie. Verwijder die eerst</string>
-    <string name="install_failed_incompatible">Deze app is niet compatibel met je apparaat</string>
-    <string name="install_failed_invalid">Het APK-bestand is beschadigd. Download het opnieuw</string>
-    <string name="install_failed_storage">Onvoldoende vrije ruimte om de app te installeren</string>
+    <string name="install_failed">Er ging iets mis tijdens de installatie. Probeer het systeeminstallatieprogramma.</string>
+    <string name="install_failed_blocked">Android stond de installatie van deze app niet toe. Probeer het systeeminstallatieprogramma.</string>
+    <string name="install_failed_conflict">Deze app conflicteert met een al geïnstalleerde app. Verwijder die app en probeer het opnieuw. De gegevens ervan worden gewist.</string>
+    <string name="install_failed_incompatible">Deze app is niet compatibel met je apparaat.</string>
+    <string name="install_failed_invalid">Het APK-bestand is beschadigd of verkeerd gebouwd. Download het opnieuw of probeer een andere build.</string>
+    <string name="install_failed_storage">Onvoldoende vrije ruimte om de app te installeren. Maak ruimte vrij en probeer het opnieuw.</string>
     <string name="installing_progress">Installeren: %d%%</string>
+    <string name="install_failed_title">Kan %1$s niet installeren</string>
+    <string name="install_failed_signature">Er is al een build van deze app van een andere auteur geïnstalleerd, dus Android kan die niet bijwerken. Verwijder die en installeer deze. De gegevens ervan worden gewist.</string>
+    <string name="install_failed_downgrade">Er is al een nieuwere versie van deze app geïnstalleerd. Verwijder die eerst om deze te installeren. De gegevens ervan worden gewist.</string>
+    <string name="install_failed_abi">Deze build is niet gemaakt voor de processor van je apparaat. Zoek een andere build.</string>
+    <string name="install_failed_android_too_old">Deze app heeft een nieuwere versie van Android nodig.</string>
+    <string name="install_failed_app_too_old">Deze app is te oud voor jouw versie van Android.</string>
+    <string name="install_action_free_space">Ruimte vrijmaken</string>
 </resources>

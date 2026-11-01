@@ -593,11 +593,18 @@
     <string name="install_method_system">सिस्टम इंस्टॉलर</string>
     <string name="pref_summary_install_method_session">Appteka ऐप्स को खुद इंस्टॉल करता है, प्रगति दिखाता है और Android की अनुमति होने पर बिना अतिरिक्त पूछे अपडेट करता है</string>
     <string name="pref_summary_install_method_system">हर इंस्टॉलेशन Android का पैकेज इंस्टॉलर करता है</string>
-    <string name="install_failed">ऐप इंस्टॉल नहीं हो सका</string>
-    <string name="install_failed_blocked">इंस्टॉलेशन ब्लॉक हुआ। सिस्टम इंस्टॉलर आज़माएं</string>
-    <string name="install_failed_conflict">इंस्टॉल किए गए संस्करण से विरोध है। पहले उसे हटाएं</string>
-    <string name="install_failed_incompatible">यह ऐप आपके डिवाइस के साथ संगत नहीं है</string>
-    <string name="install_failed_invalid">APK फ़ाइल खराब है। इसे फिर से डाउनलोड करें</string>
-    <string name="install_failed_storage">ऐप इंस्टॉल करने के लिए पर्याप्त खाली जगह नहीं है</string>
+    <string name="install_failed">इंस्टॉल करते समय कुछ गड़बड़ हुई। सिस्टम इंस्टॉलर आज़माएं।</string>
+    <string name="install_failed_blocked">Android ने यह ऐप इंस्टॉल नहीं करने दिया। सिस्टम इंस्टॉलर आज़माएं।</string>
+    <string name="install_failed_conflict">यह ऐप पहले से इंस्टॉल किसी ऐप से टकरा रहा है। उसे हटाकर फिर कोशिश करें। उसका डेटा मिट जाएगा।</string>
+    <string name="install_failed_incompatible">यह ऐप आपके डिवाइस के साथ संगत नहीं है।</string>
+    <string name="install_failed_invalid">APK फ़ाइल खराब है या गलत बनी है। इसे फिर से डाउनलोड करें या कोई दूसरा बिल्ड आज़माएं।</string>
+    <string name="install_failed_storage">ऐप इंस्टॉल करने के लिए पर्याप्त जगह नहीं है। जगह खाली करके फिर कोशिश करें।</string>
     <string name="installing_progress">इंस्टॉल हो रहा है: %d%%</string>
+    <string name="install_failed_title">%1$s इंस्टॉल नहीं हो सका</string>
+    <string name="install_failed_signature">इस ऐप का किसी दूसरे लेखक का बिल्ड पहले से इंस्टॉल है, इसलिए Android इसे अपडेट नहीं कर सकता। उसे हटाकर यह इंस्टॉल करें। उसका डेटा मिट जाएगा।</string>
+    <string name="install_failed_downgrade">इस ऐप का नया संस्करण पहले से इंस्टॉल है। यह इंस्टॉल करने के लिए पहले उसे हटाएं। उसका डेटा मिट जाएगा।</string>
+    <string name="install_failed_abi">यह बिल्ड आपके डिवाइस के प्रोसेसर के लिए नहीं है। कोई दूसरा बिल्ड खोजें।</string>
+    <string name="install_failed_android_too_old">इस ऐप को Android का नया संस्करण चाहिए।</string>
+    <string name="install_failed_app_too_old">यह ऐप आपके Android संस्करण के लिए बहुत पुराना है।</string>
+    <string name="install_action_free_space">जगह खाली करें</string>
 </resources>

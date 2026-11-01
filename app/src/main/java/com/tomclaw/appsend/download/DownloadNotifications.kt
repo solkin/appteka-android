@@ -46,7 +46,13 @@ interface DownloadNotifications {
 
     fun showInstallConfirmation(key: String, label: String, confirmation: Intent, silent: Boolean)
 
-    fun showInstallFailure(key: String, label: String, message: String)
+    fun showInstallFailure(
+        key: String,
+        label: String,
+        message: String,
+        details: Intent,
+        silent: Boolean
+    )
 
     fun cancelInstall(key: String)
 
@@ -244,11 +250,25 @@ class DownloadNotificationsImpl(
         notificationManager.notify(key.crc32(), notification)
     }
 
-    override fun showInstallFailure(key: String, label: String, message: String) {
+    override fun showInstallFailure(
+        key: String,
+        label: String,
+        message: String,
+        details: Intent,
+        silent: Boolean
+    ) {
+        val intent = PendingIntent.getActivity(
+            context,
+            key.crc32(),
+            details,
+            FLAG_UPDATE_CURRENT or FLAG_IMMUTABLE
+        )
         val notification = installNotificationBuilder(label)
             .setContentText(message)
             .setStyle(NotificationCompat.BigTextStyle().bigText(message))
             .setSmallIcon(android.R.drawable.stat_sys_warning)
+            .setSilent(silent)
+            .setContentIntent(intent)
             .build()
         notificationManager.notify(key.crc32(), notification)
     }

@@ -602,11 +602,18 @@
     <string name="install_method_system">نصب‌کننده سیستم</string>
     <string name="pref_summary_install_method_session">Appteka برنامه‌ها را خودش نصب می‌کند، پیشرفت را نشان می‌دهد و هرگاه Android اجازه دهد بدون پرسش اضافه به‌روزرسانی می‌کند</string>
     <string name="pref_summary_install_method_system">نصب‌کننده بسته Android هر نصب را انجام می‌دهد</string>
-    <string name="install_failed">نصب برنامه ممکن نشد</string>
-    <string name="install_failed_blocked">نصب مسدود شد. نصب‌کننده سیستم را امتحان کنید</string>
-    <string name="install_failed_conflict">با نسخه نصب‌شده ناسازگار است. ابتدا آن را حذف کنید</string>
-    <string name="install_failed_incompatible">این برنامه با دستگاه شما سازگار نیست</string>
-    <string name="install_failed_invalid">فایل APK خراب است. آن را دوباره دانلود کنید</string>
-    <string name="install_failed_storage">فضای خالی برای نصب برنامه کافی نیست</string>
+    <string name="install_failed">هنگام نصب مشکلی پیش آمد. نصب‌کننده سیستم را امتحان کنید.</string>
+    <string name="install_failed_blocked">Android اجازه نصب این برنامه را نداد. نصب‌کننده سیستم را امتحان کنید.</string>
+    <string name="install_failed_conflict">این برنامه با برنامه‌ای که نصب شده تداخل دارد. آن را حذف کنید و دوباره تلاش کنید. داده‌های آن پاک می‌شود.</string>
+    <string name="install_failed_incompatible">این برنامه با دستگاه شما سازگار نیست.</string>
+    <string name="install_failed_invalid">فایل APK خراب است یا درست ساخته نشده. آن را دوباره دانلود کنید یا نسخه دیگری را امتحان کنید.</string>
+    <string name="install_failed_storage">فضای کافی برای نصب برنامه وجود ندارد. فضا آزاد کنید و دوباره تلاش کنید.</string>
     <string name="installing_progress">در حال نصب: %d%%</string>
+    <string name="install_failed_title">نصب %1$s ممکن نشد</string>
+    <string name="install_failed_signature">نسخه‌ای از این برنامه از سازنده دیگری نصب شده و Android نمی‌تواند آن را به‌روز کند. آن را حذف کنید و این نسخه را نصب کنید. داده‌های آن پاک می‌شود.</string>
+    <string name="install_failed_downgrade">نسخه جدیدتری از این برنامه نصب شده است. برای نصب این نسخه، ابتدا آن را حذف کنید. داده‌های آن پاک می‌شود.</string>
+    <string name="install_failed_abi">این نسخه برای پردازنده دستگاه شما نیست. نسخه دیگری پیدا کنید.</string>
+    <string name="install_failed_android_too_old">این برنامه به نسخه جدیدتری از Android نیاز دارد.</string>
+    <string name="install_failed_app_too_old">این برنامه برای نسخه Android شما خیلی قدیمی است.</string>
+    <string name="install_action_free_space">آزاد کردن فضا</string>
 </resources>

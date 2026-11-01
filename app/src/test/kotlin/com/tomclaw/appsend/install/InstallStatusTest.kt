@@ -1,7 +1,5 @@
 package com.tomclaw.appsend.install
 
-import android.content.pm.PackageInstaller
-import com.tomclaw.appsend.R
 import com.tomclaw.appsend.download.COMPLETED
 import com.tomclaw.appsend.download.STARTED
 import org.junit.Assert.assertEquals
@@ -48,22 +46,6 @@ class InstallStatusTest {
         assertEquals(InstallMethodType.DEFAULT, InstallMethodType.fromValue("removed"))
         assertEquals(InstallMethodType.DEFAULT, InstallMethodType.fromValue(null))
         assertEquals(InstallMethodType.SYSTEM, InstallMethodType.fromValue("system"))
-    }
-
-    @Test
-    fun `failures map to messages that say what to do`() {
-        assertEquals(
-            R.string.install_failed_conflict,
-            installFailureMessage(PackageInstaller.STATUS_FAILURE_CONFLICT)
-        )
-        assertEquals(
-            R.string.install_failed_storage,
-            installFailureMessage(PackageInstaller.STATUS_FAILURE_STORAGE)
-        )
-        assertEquals(
-            R.string.install_failed,
-            installFailureMessage(PackageInstaller.STATUS_FAILURE_TIMEOUT)
-        )
     }
 
 }

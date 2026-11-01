@@ -618,11 +618,18 @@
     <string name="install_method_system">Системный установщик</string>
     <string name="pref_summary_install_method_session">Appteka устанавливает приложения сама, показывает прогресс и обновляет их без лишних вопросов, когда Android это позволяет</string>
     <string name="pref_summary_install_method_system">Каждую установку выполняет системный установщик Android</string>
-    <string name="install_failed">Не удалось установить приложение</string>
-    <string name="install_failed_blocked">Установка заблокирована. Попробуйте системный установщик</string>
-    <string name="install_failed_conflict">Конфликт с установленной версией. Сначала удалите её</string>
-    <string name="install_failed_incompatible">Это приложение несовместимо с вашим устройством</string>
-    <string name="install_failed_invalid">Файл APK повреждён. Скачайте его заново</string>
-    <string name="install_failed_storage">Недостаточно свободного места для установки</string>
+    <string name="install_failed">При установке что-то пошло не так. Попробуйте системный установщик.</string>
+    <string name="install_failed_blocked">Android не дал установить это приложение. Попробуйте системный установщик.</string>
+    <string name="install_failed_conflict">Это приложение конфликтует с уже установленным. Удалите его и повторите. Его данные будут удалены.</string>
+    <string name="install_failed_incompatible">Это приложение несовместимо с вашим устройством.</string>
+    <string name="install_failed_invalid">Файл APK повреждён или собран с ошибкой. Скачайте его заново или возьмите другую сборку.</string>
+    <string name="install_failed_storage">Недостаточно места для установки. Освободите место и повторите.</string>
     <string name="installing_progress">Установка: %d%%</string>
+    <string name="install_failed_title">Не удалось установить %1$s</string>
+    <string name="install_failed_signature">Уже установлена сборка этого приложения от другого автора, поэтому Android не может её обновить. Удалите её и установите эту. Её данные будут удалены.</string>
+    <string name="install_failed_downgrade">Уже установлена более новая версия этого приложения. Чтобы поставить эту, сначала удалите её. Её данные будут удалены.</string>
+    <string name="install_failed_abi">Эта сборка не для процессора вашего устройства. Поищите другую сборку.</string>
+    <string name="install_failed_android_too_old">Этому приложению нужна более новая версия Android.</string>
+    <string name="install_failed_app_too_old">Это приложение слишком старое для вашей версии Android.</string>
+    <string name="install_action_free_space">Освободить место</string>
 </resources>

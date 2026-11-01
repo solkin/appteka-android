@@ -7,15 +7,11 @@ import android.content.Intent
 import android.content.pm.PackageInstaller
 import android.net.Uri
 import android.os.Build
-import android.os.Handler
-import android.os.Looper
-import android.widget.Toast
-import androidx.annotation.StringRes
 import androidx.core.content.ContextCompat
-import com.tomclaw.appsend.R
 import com.tomclaw.appsend.download.DownloadNotifications
 import com.tomclaw.appsend.util.Analytics
 import com.tomclaw.appsend.util.getParcelableExtraCompat
+import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
 import java.util.concurrent.ConcurrentHashMap
@@ -35,7 +31,6 @@ class SessionInstallMethod(
 
     private val packageInstaller = context.packageManager.packageInstaller
     private val executor = Executors.newSingleThreadExecutor()
-    private val handler = Handler(Looper.getMainLooper())
 
     // Holds a key from the tap to the system's final answer, so a repeated tap joins
     // the install in flight. NO_SESSION marks one still queued for the executor.
@@ -86,12 +81,13 @@ class SessionInstallMethod(
     fun onResult(intent: Intent) {
         val key = intent.getStringExtra(EXTRA_KEY) ?: return
         val label = intent.getStringExtra(EXTRA_LABEL).orEmpty()
+        val uri = intent.getParcelableExtraCompat(EXTRA_URI, Uri::class.java)
         val status = intent.getIntExtra(PackageInstaller.EXTRA_STATUS, PackageInstaller.STATUS_FAILURE)
         when (status) {
             PackageInstaller.STATUS_PENDING_USER_ACTION -> {
                 val confirmation = intent.getParcelableExtraCompat(Intent.EXTRA_INTENT, Intent::class.java)
                 if (confirmation == null) {
-                    fail(key, label, status)
+                    fail(key, label, uri, InstallFailure.UNKNOWN, packageToRemove = null)
                     return
                 }
                 // The process may have died since the commit; this keeps cancel working
@@ -99,14 +95,27 @@ class SessionInstallMethod(
                 requestConfirmation(key, label, confirmation)
             }
 
-            // A refusal is the user's own answer, so it needs no message either
-            PackageInstaller.STATUS_SUCCESS, PackageInstaller.STATUS_FAILURE_ABORTED -> {
+            PackageInstaller.STATUS_SUCCESS -> {
                 notifications.cancelInstall(key)
                 finish(key)
             }
 
-            else -> fail(key, label, status)
+            else -> onFailure(intent, key, label, uri, status)
         }
+    }
+
+    private fun onFailure(intent: Intent, key: String, label: String, uri: Uri?, status: Int) {
+        val statusMessage = intent.getStringExtra(PackageInstaller.EXTRA_STATUS_MESSAGE)
+        val failure = InstallFailure.from(status, statusMessage)
+        if (failure == null) {
+            notifications.cancelInstall(key)
+            finish(key)
+            return
+        }
+        // The other package is the one to blame when the system names one
+        val packageToRemove = intent.getStringExtra(PackageInstaller.EXTRA_OTHER_PACKAGE_NAME)
+            ?: intent.getStringExtra(PackageInstaller.EXTRA_PACKAGE_NAME)
+        fail(key, label, uri, failure, packageToRemove)
     }
 
     private fun writeAndCommit(request: InstallRequest) {
@@ -115,7 +124,7 @@ class SessionInstallMethod(
         try {
             abandonStaleSessions()
             val length = apkLength(request.uri)
-            sessionId = packageInstaller.createSession(sessionParams(length))
+            sessionId = reservingSpace { packageInstaller.createSession(sessionParams(length)) }
             // A cancel while this was queued has already removed the key
             if (!sessions.replace(key, NO_SESSION, sessionId)) {
                 abandon(sessionId)
@@ -125,7 +134,7 @@ class SessionInstallMethod(
                 val input = context.contentResolver.openInputStream(request.uri)
                     ?: throw IllegalStateException("No stream for ${request.uri}")
                 val written = input.use {
-                    session.openWrite(APK_NAME, 0, length).use { output ->
+                    reservingSpace { session.openWrite(APK_NAME, 0, length) }.use { output ->
                         write(key, sessionId, input, output, length).also { written ->
                             if (written) session.fsync(output)
                         }
@@ -149,7 +158,17 @@ class SessionInstallMethod(
                 abandon(sessionId)
             }
             analytics.trackException(ex, mapOf("reason" to "Install session failed"))
-            fail(key, request.label, PackageInstaller.STATUS_FAILURE)
+            val failure = if (ex is NoSpaceException) InstallFailure.NO_SPACE else InstallFailure.UNKNOWN
+            fail(key, request.label, request.uri, failure, packageToRemove = null)
+        }
+    }
+
+    /** The system reserves the whole size up front, and that is what fails when it can't. */
+    private inline fun <T> reservingSpace(reserve: () -> T): T {
+        try {
+            return reserve()
+        } catch (ex: IOException) {
+            throw NoSpaceException(ex)
         }
     }
 
@@ -216,6 +235,7 @@ class SessionInstallMethod(
         val intent = Intent(context, InstallResultReceiver::class.java)
             .putExtra(EXTRA_KEY, request.key)
             .putExtra(EXTRA_LABEL, request.label)
+            .putExtra(EXTRA_URI, request.uri)
         // The system adds the result to this intent, so it has to stay mutable
         val mutable = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             PendingIntent.FLAG_MUTABLE
@@ -244,13 +264,26 @@ class SessionInstallMethod(
         }
     }
 
-    private fun fail(key: String, label: String, status: Int) {
-        analytics.trackEvent("install-failure-$status")
-        val message = context.getString(installFailureMessage(status))
-        if (isAppVisible()) {
-            handler.post { Toast.makeText(context, message, Toast.LENGTH_LONG).show() }
-        } else {
-            notifications.showInstallFailure(key, label, message)
+    private fun fail(
+        key: String,
+        label: String,
+        uri: Uri?,
+        failure: InstallFailure,
+        packageToRemove: String?,
+    ) {
+        analytics.trackEvent("install-failure-${failure.name.lowercase()}")
+        val details = createInstallFailureIntent(context, key, label, uri, failure, packageToRemove)
+        // The same reasoning as for the confirmation: the dialog takes this away once it opens
+        val visible = isAppVisible()
+        notifications.showInstallFailure(
+            key,
+            label,
+            context.getString(failure.message),
+            details,
+            silent = visible
+        )
+        if (visible) {
+            context.startActivity(details.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
         }
         finish(key)
     }
@@ -302,15 +335,7 @@ class SessionInstallMethod(
 
 }
 
-@StringRes
-fun installFailureMessage(status: Int): Int = when (status) {
-    PackageInstaller.STATUS_FAILURE_BLOCKED -> R.string.install_failed_blocked
-    PackageInstaller.STATUS_FAILURE_CONFLICT -> R.string.install_failed_conflict
-    PackageInstaller.STATUS_FAILURE_INCOMPATIBLE -> R.string.install_failed_incompatible
-    PackageInstaller.STATUS_FAILURE_INVALID -> R.string.install_failed_invalid
-    PackageInstaller.STATUS_FAILURE_STORAGE -> R.string.install_failed_storage
-    else -> R.string.install_failed
-}
+private class NoSpaceException(cause: IOException) : IOException(cause)
 
 private const val APK_NAME = "base.apk"
 private const val BUFFER_SIZE = 1024 * 1024
@@ -319,3 +344,4 @@ private const val UNKNOWN_LENGTH = -1L
 private const val UNANSWERED_SESSION_TTL_MS = 60 * 60 * 1000L
 private const val EXTRA_KEY = "key"
 private const val EXTRA_LABEL = "label"
+private const val EXTRA_URI = "uri"

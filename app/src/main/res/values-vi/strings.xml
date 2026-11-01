@@ -580,11 +580,18 @@
     <string name="install_method_system">Trình cài đặt hệ thống</string>
     <string name="pref_summary_install_method_session">Appteka tự cài đặt ứng dụng, hiển thị tiến trình và cập nhật mà không hỏi thêm khi Android cho phép</string>
     <string name="pref_summary_install_method_system">Trình cài đặt gói của Android xử lý mọi lần cài đặt</string>
-    <string name="install_failed">Không thể cài đặt ứng dụng</string>
-    <string name="install_failed_blocked">Đã chặn cài đặt. Hãy thử trình cài đặt hệ thống</string>
-    <string name="install_failed_conflict">Xung đột với phiên bản đã cài. Hãy gỡ phiên bản đó trước</string>
-    <string name="install_failed_incompatible">Ứng dụng này không tương thích với thiết bị của bạn</string>
-    <string name="install_failed_invalid">Tệp APK bị hỏng. Hãy tải lại</string>
-    <string name="install_failed_storage">Không đủ dung lượng trống để cài đặt ứng dụng</string>
+    <string name="install_failed">Đã xảy ra lỗi khi cài đặt. Hãy thử trình cài đặt hệ thống.</string>
+    <string name="install_failed_blocked">Android không cho phép cài đặt ứng dụng này. Hãy thử trình cài đặt hệ thống.</string>
+    <string name="install_failed_conflict">Ứng dụng này xung đột với một ứng dụng đã cài. Hãy gỡ ứng dụng đó rồi thử lại. Dữ liệu của nó sẽ bị xóa.</string>
+    <string name="install_failed_incompatible">Ứng dụng này không tương thích với thiết bị của bạn.</string>
+    <string name="install_failed_invalid">Tệp APK bị hỏng hoặc được đóng gói sai. Hãy tải lại hoặc thử bản khác.</string>
+    <string name="install_failed_storage">Không đủ dung lượng để cài đặt ứng dụng. Hãy giải phóng dung lượng rồi thử lại.</string>
     <string name="installing_progress">Đang cài đặt: %d%%</string>
+    <string name="install_failed_title">Không thể cài đặt %1$s</string>
+    <string name="install_failed_signature">Đã cài một bản của ứng dụng này từ tác giả khác nên Android không thể cập nhật. Hãy gỡ bản đó rồi cài bản này. Dữ liệu của nó sẽ bị xóa.</string>
+    <string name="install_failed_downgrade">Đã cài phiên bản mới hơn của ứng dụng này. Để cài bản này, hãy gỡ phiên bản đó trước. Dữ liệu của nó sẽ bị xóa.</string>
+    <string name="install_failed_abi">Bản này không dành cho bộ xử lý của thiết bị. Hãy tìm bản khác.</string>
+    <string name="install_failed_android_too_old">Ứng dụng này cần phiên bản Android mới hơn.</string>
+    <string name="install_failed_app_too_old">Ứng dụng này quá cũ so với phiên bản Android của bạn.</string>
+    <string name="install_action_free_space">Giải phóng dung lượng</string>
 </resources>

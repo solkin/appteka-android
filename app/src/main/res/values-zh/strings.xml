@@ -580,11 +580,18 @@
     <string name="install_method_system">系统安装程序</string>
     <string name="pref_summary_install_method_session">Appteka 自行安装应用、显示进度，并在 Android 允许时无需额外确认即可更新</string>
     <string name="pref_summary_install_method_system">每次安装都由 Android 软件包安装程序完成</string>
-    <string name="install_failed">无法安装应用</string>
-    <string name="install_failed_blocked">安装已被阻止。请尝试系统安装程序</string>
-    <string name="install_failed_conflict">与已安装的版本冲突。请先将其移除</string>
-    <string name="install_failed_incompatible">此应用与您的设备不兼容</string>
-    <string name="install_failed_invalid">APK 文件已损坏。请重新下载</string>
-    <string name="install_failed_storage">可用空间不足，无法安装应用</string>
+    <string name="install_failed">安装时出现问题。请尝试系统安装程序。</string>
+    <string name="install_failed_blocked">Android 不允许安装此应用。请尝试系统安装程序。</string>
+    <string name="install_failed_conflict">此应用与已安装的应用冲突。请移除该应用后重试。其数据将被删除。</string>
+    <string name="install_failed_incompatible">此应用与您的设备不兼容。</string>
+    <string name="install_failed_invalid">APK 文件已损坏或构建有误。请重新下载或换一个版本。</string>
+    <string name="install_failed_storage">可用空间不足，无法安装应用。请释放空间后重试。</string>
     <string name="installing_progress">正在安装：%d%%</string>
+    <string name="install_failed_title">无法安装 %1$s</string>
+    <string name="install_failed_signature">设备上已安装其他作者构建的此应用，因此 Android 无法更新。请移除后安装此版本。其数据将被删除。</string>
+    <string name="install_failed_downgrade">设备上已安装此应用的较新版本。要安装此版本，请先将其移除。其数据将被删除。</string>
+    <string name="install_failed_abi">此版本不适用于您设备的处理器。请寻找其他版本。</string>
+    <string name="install_failed_android_too_old">此应用需要更新版本的 Android。</string>
+    <string name="install_failed_app_too_old">此应用对于您的 Android 版本来说太旧了。</string>
+    <string name="install_action_free_space">释放空间</string>
 </resources>

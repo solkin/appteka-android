@@ -594,11 +594,18 @@
     <string name="install_method_system">Tizim o\'rnatuvchisi</string>
     <string name="pref_summary_install_method_session">Appteka ilovalarni o\'zi o\'rnatadi, jarayonni ko\'rsatadi va Android ruxsat berganda ortiqcha so\'rovlarsiz yangilaydi</string>
     <string name="pref_summary_install_method_system">Har bir o\'rnatishni Android paket o\'rnatuvchisi bajaradi</string>
-    <string name="install_failed">Ilovani o\'rnatib bo\'lmadi</string>
-    <string name="install_failed_blocked">O\'rnatish bloklandi. Tizim o\'rnatuvchisini sinab ko\'ring</string>
-    <string name="install_failed_conflict">O\'rnatilgan versiyaga zid. Avval uni o\'chiring</string>
-    <string name="install_failed_incompatible">Bu ilova qurilmangizga mos emas</string>
-    <string name="install_failed_invalid">APK fayli shikastlangan. Uni qayta yuklab oling</string>
-    <string name="install_failed_storage">Ilovani o\'rnatish uchun bo\'sh joy yetarli emas</string>
+    <string name="install_failed">O\'rnatishda xatolik yuz berdi. Tizim o\'rnatuvchisini sinab ko\'ring.</string>
+    <string name="install_failed_blocked">Android bu ilovani o\'rnatishga ruxsat bermadi. Tizim o\'rnatuvchisini sinab ko\'ring.</string>
+    <string name="install_failed_conflict">Bu ilova o\'rnatilgan boshqa ilova bilan ziddiyatda. O\'sha ilovani o\'chirib, qayta urinib ko\'ring. Uning ma\'lumotlari o\'chadi.</string>
+    <string name="install_failed_incompatible">Bu ilova qurilmangizga mos emas.</string>
+    <string name="install_failed_invalid">APK fayli shikastlangan yoki noto\'g\'ri yig\'ilgan. Qayta yuklab oling yoki boshqa versiyani sinab ko\'ring.</string>
+    <string name="install_failed_storage">Ilovani o\'rnatish uchun joy yetarli emas. Joy bo\'shatib, qayta urinib ko\'ring.</string>
     <string name="installing_progress">O\'rnatilmoqda: %d%%</string>
+    <string name="install_failed_title">%1$s o\'rnatilmadi</string>
+    <string name="install_failed_signature">Bu ilovaning boshqa muallifdan versiyasi o\'rnatilgan, shuning uchun Android uni yangilay olmaydi. Uni o\'chirib, buni o\'rnating. Uning ma\'lumotlari o\'chadi.</string>
+    <string name="install_failed_downgrade">Bu ilovaning yangiroq versiyasi o\'rnatilgan. Buni o\'rnatish uchun avval uni o\'chiring. Uning ma\'lumotlari o\'chadi.</string>
+    <string name="install_failed_abi">Bu versiya qurilmangiz protsessori uchun emas. Boshqa versiyani qidiring.</string>
+    <string name="install_failed_android_too_old">Bu ilovaga Android\'ning yangiroq versiyasi kerak.</string>
+    <string name="install_failed_app_too_old">Bu ilova Android versiyangiz uchun juda eski.</string>
+    <string name="install_action_free_space">Joy bo\'shatish</string>
 </resources>

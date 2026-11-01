@@ -628,11 +628,18 @@
     <string name="install_method_system">System installer</string>
     <string name="pref_summary_install_method_session">Appteka installs apps itself, shows progress and updates them without extra prompts when Android allows it</string>
     <string name="pref_summary_install_method_system">Android\'s package installer handles every installation</string>
-    <string name="install_failed">Couldn\'t install the app</string>
-    <string name="install_failed_blocked">Installation blocked. Try the system installer in Settings</string>
-    <string name="install_failed_conflict">Conflicts with the installed version. Remove it first</string>
-    <string name="install_failed_incompatible">This app isn\'t compatible with your device</string>
-    <string name="install_failed_invalid">The APK file is damaged. Download it again</string>
-    <string name="install_failed_storage">Not enough free space to install the app</string>
+    <string name="install_failed">Something went wrong during installation. Try the system installer.</string>
+    <string name="install_failed_blocked">Android didn\'t allow installing this app. Try the system installer.</string>
+    <string name="install_failed_conflict">This app conflicts with one already on your device. Remove that app and try again. Its data will be deleted.</string>
+    <string name="install_failed_incompatible">This app isn\'t compatible with your device.</string>
+    <string name="install_failed_invalid">The APK file is damaged or built incorrectly. Download it again or try another build.</string>
+    <string name="install_failed_storage">Not enough free space to install the app. Free up some space and try again.</string>
     <string name="installing_progress">Installing: %d%%</string>
+    <string name="install_failed_title">Couldn\'t install %1$s</string>
+    <string name="install_failed_signature">A build of this app from another author is already installed, so Android can\'t update it. Remove it and install this one. Its data will be deleted.</string>
+    <string name="install_failed_downgrade">A newer version of this app is already installed. To install this one, remove it first. Its data will be deleted.</string>
+    <string name="install_failed_abi">This build isn\'t made for your device\'s processor. Look for another build.</string>
+    <string name="install_failed_android_too_old">This app needs a newer version of Android.</string>
+    <string name="install_failed_app_too_old">This app is too old for your version of Android.</string>
+    <string name="install_action_free_space">Free up space</string>
 </resources>

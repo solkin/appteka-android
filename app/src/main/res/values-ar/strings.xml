@@ -646,11 +646,18 @@
     <string name="install_method_system">مثبّت النظام</string>
     <string name="pref_summary_install_method_session">يثبّت Appteka التطبيقات بنفسه ويعرض التقدم ويحدّثها دون طلبات إضافية عندما يسمح Android بذلك</string>
     <string name="pref_summary_install_method_system">يتولى مثبّت حزم Android كل عملية تثبيت</string>
-    <string name="install_failed">تعذر تثبيت التطبيق</string>
-    <string name="install_failed_blocked">تم حظر التثبيت. جرّب مثبّت النظام</string>
-    <string name="install_failed_conflict">يتعارض مع الإصدار المثبت. أزله أولاً</string>
-    <string name="install_failed_incompatible">هذا التطبيق غير متوافق مع جهازك</string>
-    <string name="install_failed_invalid">ملف APK تالف. نزّله مرة أخرى</string>
-    <string name="install_failed_storage">لا توجد مساحة كافية لتثبيت التطبيق</string>
+    <string name="install_failed">حدث خطأ أثناء التثبيت. جرّب مثبّت النظام.</string>
+    <string name="install_failed_blocked">لم يسمح Android بتثبيت هذا التطبيق. جرّب مثبّت النظام.</string>
+    <string name="install_failed_conflict">يتعارض هذا التطبيق مع تطبيق مثبت بالفعل. أزل ذلك التطبيق وأعد المحاولة. ستُحذف بياناته.</string>
+    <string name="install_failed_incompatible">هذا التطبيق غير متوافق مع جهازك.</string>
+    <string name="install_failed_invalid">ملف APK تالف أو مبني بشكل غير صحيح. نزّله مرة أخرى أو جرّب إصدارًا آخر.</string>
+    <string name="install_failed_storage">لا توجد مساحة كافية لتثبيت التطبيق. حرّر بعض المساحة وأعد المحاولة.</string>
     <string name="installing_progress">جارٍ التثبيت: %d%%</string>
+    <string name="install_failed_title">تعذر تثبيت %1$s</string>
+    <string name="install_failed_signature">توجد نسخة مثبتة من هذا التطبيق من مؤلف آخر، لذا لا يستطيع Android تحديثها. أزلها وثبّت هذه النسخة. ستُحذف بياناتها.</string>
+    <string name="install_failed_downgrade">يوجد إصدار أحدث من هذا التطبيق مثبت بالفعل. لتثبيت هذا الإصدار، أزله أولاً. ستُحذف بياناته.</string>
+    <string name="install_failed_abi">هذه النسخة ليست لمعالج جهازك. ابحث عن نسخة أخرى.</string>
+    <string name="install_failed_android_too_old">يحتاج هذا التطبيق إلى إصدار أحدث من Android.</string>
+    <string name="install_failed_app_too_old">هذا التطبيق قديم جدًا بالنسبة إلى إصدار Android لديك.</string>
+    <string name="install_action_free_space">تحرير مساحة</string>
 </resources>

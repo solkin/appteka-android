@@ -593,11 +593,18 @@
     <string name="install_method_system">Instalador do sistema</string>
     <string name="pref_summary_install_method_session">O Appteka instala os apps por conta própria, mostra o progresso e os atualiza sem avisos extras quando o Android permite</string>
     <string name="pref_summary_install_method_system">O instalador de pacotes do Android cuida de cada instalação</string>
-    <string name="install_failed">Não foi possível instalar o app</string>
-    <string name="install_failed_blocked">Instalação bloqueada. Tente o instalador do sistema</string>
-    <string name="install_failed_conflict">Conflito com a versão instalada. Remova-a primeiro</string>
-    <string name="install_failed_incompatible">Este app não é compatível com o seu dispositivo</string>
-    <string name="install_failed_invalid">O arquivo APK está danificado. Baixe-o novamente</string>
-    <string name="install_failed_storage">Espaço livre insuficiente para instalar o app</string>
+    <string name="install_failed">Algo deu errado durante a instalação. Tente o instalador do sistema.</string>
+    <string name="install_failed_blocked">O Android não permitiu instalar este app. Tente o instalador do sistema.</string>
+    <string name="install_failed_conflict">Este app entra em conflito com outro já instalado. Remova esse app e tente novamente. Os dados dele serão apagados.</string>
+    <string name="install_failed_incompatible">Este app não é compatível com o seu dispositivo.</string>
+    <string name="install_failed_invalid">O arquivo APK está danificado ou foi compilado incorretamente. Baixe-o novamente ou tente outra versão.</string>
+    <string name="install_failed_storage">Espaço insuficiente para instalar o app. Libere espaço e tente novamente.</string>
     <string name="installing_progress">Instalando: %d%%</string>
+    <string name="install_failed_title">Não foi possível instalar %1$s</string>
+    <string name="install_failed_signature">Já existe uma versão deste app de outro autor instalada, então o Android não pode atualizá-la. Remova-a e instale esta. Os dados dela serão apagados.</string>
+    <string name="install_failed_downgrade">Já existe uma versão mais recente deste app instalada. Para instalar esta, remova-a primeiro. Os dados dela serão apagados.</string>
+    <string name="install_failed_abi">Esta versão não é para o processador do seu dispositivo. Procure outra versão.</string>
+    <string name="install_failed_android_too_old">Este app precisa de uma versão mais recente do Android.</string>
+    <string name="install_failed_app_too_old">Este app é antigo demais para a sua versão do Android.</string>
+    <string name="install_action_free_space">Liberar espaço</string>
 </resources>
