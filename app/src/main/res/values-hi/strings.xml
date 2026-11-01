@@ -589,4 +589,15 @@
     <string name="dev_request_rejected_text">ऐप प्रकाशित रहता है और मूल के रूप में चिह्नित है।</string>
     <string name="dev_request_approved_title">आप एक सत्यापित डेवलपर हैं</string>
     <string name="dev_request_approved_text">पैकेज आपके खाते के लिए आरक्षित है — कोई और इसे प्रकाशित नहीं कर सकता।</string>
+    <string name="pref_title_install_method">इंस्टॉल करने का तरीका</string>
+    <string name="install_method_system">सिस्टम इंस्टॉलर</string>
+    <string name="pref_summary_install_method_session">Appteka ऐप्स को खुद इंस्टॉल करता है, प्रगति दिखाता है और Android की अनुमति होने पर बिना अतिरिक्त पूछे अपडेट करता है</string>
+    <string name="pref_summary_install_method_system">हर इंस्टॉलेशन Android का पैकेज इंस्टॉलर करता है</string>
+    <string name="install_failed">ऐप इंस्टॉल नहीं हो सका</string>
+    <string name="install_failed_blocked">इंस्टॉलेशन ब्लॉक हुआ। सिस्टम इंस्टॉलर आज़माएं</string>
+    <string name="install_failed_conflict">इंस्टॉल किए गए संस्करण से विरोध है। पहले उसे हटाएं</string>
+    <string name="install_failed_incompatible">यह ऐप आपके डिवाइस के साथ संगत नहीं है</string>
+    <string name="install_failed_invalid">APK फ़ाइल खराब है। इसे फिर से डाउनलोड करें</string>
+    <string name="install_failed_storage">ऐप इंस्टॉल करने के लिए पर्याप्त खाली जगह नहीं है</string>
+    <string name="installing_progress">इंस्टॉल हो रहा है: %d%%</string>
 </resources>

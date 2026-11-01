@@ -590,4 +590,15 @@
     <string name="dev_request_rejected_text">L\'app resta pubblicata ed è contrassegnata come Originale.</string>
     <string name="dev_request_approved_title">Sei uno sviluppatore verificato</string>
     <string name="dev_request_approved_text">Il pacchetto è riservato al tuo account — nessun altro può pubblicarlo.</string>
+    <string name="pref_title_install_method">Metodo di installazione</string>
+    <string name="install_method_system">Programma di installazione di sistema</string>
+    <string name="pref_summary_install_method_session">Appteka installa le app da sola, mostra l\'avanzamento e le aggiorna senza richieste aggiuntive quando Android lo consente</string>
+    <string name="pref_summary_install_method_system">Il programma di installazione di Android gestisce ogni installazione</string>
+    <string name="install_failed">Impossibile installare l\'app</string>
+    <string name="install_failed_blocked">Installazione bloccata. Prova l\'installer di sistema</string>
+    <string name="install_failed_conflict">In conflitto con la versione installata. Rimuovila prima</string>
+    <string name="install_failed_incompatible">Questa app non è compatibile con il tuo dispositivo</string>
+    <string name="install_failed_invalid">Il file APK è danneggiato. Scaricalo di nuovo</string>
+    <string name="install_failed_storage">Spazio libero insufficiente per installare l\'app</string>
+    <string name="installing_progress">Installazione: %d%%</string>
 </resources>

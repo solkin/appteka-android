@@ -6,6 +6,7 @@
     <uses-permission
         android:name="android.permission.REQUEST_INSTALL_PACKAGES"
         tools:remove="android:maxSdkVersion" />
+    <uses-permission android:name="android.permission.UPDATE_PACKAGES_WITHOUT_USER_ACTION" />
     <uses-permission
         android:name="android.permission.REQUEST_DELETE_PACKAGES"
         tools:remove="android:maxSdkVersion" />
@@ -40,6 +41,16 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
+        <receiver
+            android:name=".install.InstallResultReceiver"
+            android:exported="false" />
+
+        <activity
+            android:name=".install.InstallActivity"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:taskAffinity=""
+            android:theme="@style/AppTheme.Transparent" />
         <activity
             android:name=".screen.settings.SettingsActivity"
             android:label="@string/settings" />
@@ -197,6 +208,10 @@
 
         <service
             android:name=".upload.UploadService"
+            android:foregroundServiceType="dataSync" />
+
+        <service
+            android:name=".install.InstallService"
             android:foregroundServiceType="dataSync" />
 
         <provider

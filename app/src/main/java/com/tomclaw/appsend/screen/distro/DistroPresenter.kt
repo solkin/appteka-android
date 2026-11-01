@@ -40,7 +40,7 @@ interface DistroPresenter : ItemListener {
 
     interface DistroRouter {
 
-        fun installApp(path: String)
+        fun installApp(path: String, label: String)
 
         fun openShareApk(path: String)
 
@@ -95,7 +95,7 @@ class DistroPresenterImpl(
             val app = items?.find { it.id == pair.second.id } ?: return@subscribe
             when (pair.first) {
                 MENU_INSTALL -> {
-                    app.path?.let { router?.installApp(it) }
+                    app.path?.let { router?.installApp(it, app.title) }
                 }
 
                 MENU_SHARE -> {

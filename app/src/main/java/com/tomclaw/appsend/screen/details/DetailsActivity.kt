@@ -27,6 +27,8 @@ import com.tomclaw.appsend.appComponent
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.download.ApkStorage
 import com.tomclaw.appsend.download.createDownloadIntent
+import com.tomclaw.appsend.install.AppInstaller
+import com.tomclaw.appsend.install.InstallRequest
 import com.tomclaw.appsend.screen.auth.request_code.createRequestCodeActivityIntent
 import com.tomclaw.appsend.screen.chat.createChatActivityIntent
 import com.tomclaw.appsend.screen.details.di.DETAILS_ADAPTER_PRESENTER
@@ -68,6 +70,9 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
 
     @Inject
     lateinit var apkStorage: ApkStorage
+
+    @Inject
+    lateinit var appInstaller: AppInstaller
 
     private val deepLinkParser: DetailsDeepLinkParser by lazy {
         appComponent.detailsDeepLinkParser()
@@ -311,12 +316,8 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
         analytics.trackEvent("details-launch-app")
     }
 
-    override fun installApp(uri: Uri) {
-        val intent = Intent(Intent.ACTION_VIEW).apply {
-            setDataAndType(uri, APK_MIME_TYPE)
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_GRANT_READ_URI_PERMISSION
-        }
-        startActivity(intent)
+    override fun installApp(request: InstallRequest) {
+        appInstaller.install(request)
         analytics.trackEvent("details-install-app")
     }
 
@@ -548,5 +549,4 @@ private const val EXTRA_LABEL = "label"
 private const val EXTRA_MODERATION = "moderation"
 private const val EXTRA_FINISH_ONLY = "finishOnly"
 private const val KEY_PRESENTER_STATE = "presenter_state"
-private const val APK_MIME_TYPE = "application/vnd.android.package-archive"
 private const val PERMISSION_APPLY_DELAY = 100L

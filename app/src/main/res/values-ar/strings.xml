@@ -642,4 +642,15 @@
     <string name="dev_request_rejected_text">يبقى التطبيق منشورًا ويُوسَم بـ«أصلي».</string>
     <string name="dev_request_approved_title">أنت مطور موثّق</string>
     <string name="dev_request_approved_text">الحزمة محجوزة لحسابك — لا يمكن لأي شخص آخر نشرها.</string>
+    <string name="pref_title_install_method">طريقة التثبيت</string>
+    <string name="install_method_system">مثبّت النظام</string>
+    <string name="pref_summary_install_method_session">يثبّت Appteka التطبيقات بنفسه ويعرض التقدم ويحدّثها دون طلبات إضافية عندما يسمح Android بذلك</string>
+    <string name="pref_summary_install_method_system">يتولى مثبّت حزم Android كل عملية تثبيت</string>
+    <string name="install_failed">تعذر تثبيت التطبيق</string>
+    <string name="install_failed_blocked">تم حظر التثبيت. جرّب مثبّت النظام</string>
+    <string name="install_failed_conflict">يتعارض مع الإصدار المثبت. أزله أولاً</string>
+    <string name="install_failed_incompatible">هذا التطبيق غير متوافق مع جهازك</string>
+    <string name="install_failed_invalid">ملف APK تالف. نزّله مرة أخرى</string>
+    <string name="install_failed_storage">لا توجد مساحة كافية لتثبيت التطبيق</string>
+    <string name="installing_progress">جارٍ التثبيت: %d%%</string>
 </resources>

@@ -47,6 +47,13 @@ import com.tomclaw.appsend.download.DownloadNotifications
 import com.tomclaw.appsend.download.DownloadNotificationsImpl
 import com.tomclaw.appsend.download.LegacyApkStorage
 import com.tomclaw.appsend.download.MediaStoreApkStorage
+import com.tomclaw.appsend.install.AppInstaller
+import com.tomclaw.appsend.install.AppInstallerImpl
+import com.tomclaw.appsend.install.InstallPreferences
+import com.tomclaw.appsend.install.InstallPreferencesImpl
+import com.tomclaw.appsend.install.InstallTracker
+import com.tomclaw.appsend.install.SessionInstallMethod
+import com.tomclaw.appsend.install.SystemInstallMethod
 import com.tomclaw.appsend.screen.details.DetailsDeepLinkParser
 import com.tomclaw.appsend.screen.details.DetailsDeepLinkParserImpl
 import com.tomclaw.appsend.screen.profile.ProfileDeepLinkParser
@@ -264,6 +271,33 @@ class AppModule(private val app: Application) {
         proxyConfigProvider: ProxyConfigProvider,
         userAgentProvider: UserAgentProvider,
     ): DownloadManager = DownloadManagerImpl(apkStorage, cookieJar, proxyConfigProvider, userAgentProvider)
+
+    @Provides
+    @Singleton
+    internal fun provideInstallTracker(): InstallTracker = InstallTracker()
+
+    @Provides
+    @Singleton
+    internal fun provideInstallPreferences(context: Context): InstallPreferences =
+        InstallPreferencesImpl(context)
+
+    @Provides
+    @Singleton
+    internal fun provideSessionInstallMethod(
+        context: Context,
+        tracker: InstallTracker,
+        notifications: DownloadNotifications,
+        analytics: Analytics,
+    ): SessionInstallMethod = SessionInstallMethod(context, tracker, notifications, analytics)
+
+    @Provides
+    @Singleton
+    internal fun provideAppInstaller(
+        context: Context,
+        preferences: InstallPreferences,
+        tracker: InstallTracker,
+        session: SessionInstallMethod,
+    ): AppInstaller = AppInstallerImpl(preferences, tracker, session, SystemInstallMethod(context))
 
     @Provides
     @Singleton

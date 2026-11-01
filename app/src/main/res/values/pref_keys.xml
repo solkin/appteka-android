@@ -6,6 +6,7 @@
     <string name="pref_dynamic_colors" translatable="false">pref_dynamic_colors</string>
     <string name="pref_show_system" translatable="false">pref_show_system</string>
     <string name="pref_sort_order" translatable="false">pref_sort_order</string>
+    <string name="pref_install_method" translatable="false">pref_install_method</string>
     <string name="pref_clear_cache" translatable="false">pref_clear_cache</string>
     <string name="pref_seed_color" translatable="false">pref_seed_color</string>
 

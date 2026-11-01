@@ -14,6 +14,8 @@ import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.graphics.drawable.toBitmap
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.install.InstallRequest
+import com.tomclaw.appsend.install.createInstallActivityIntent
 import com.tomclaw.appsend.util.Analytics
 import com.tomclaw.appsend.util.GROUP_NOTIFICATIONS
 import com.tomclaw.appsend.util.NotificationIconHolder
@@ -37,6 +39,16 @@ interface DownloadNotifications {
         stop: () -> Unit,
         observable: Observable<Int>
     )
+
+    fun createInstallProgress(label: String, percent: Int): Notification
+
+    fun showInstallProgress(label: String, percent: Int)
+
+    fun showInstallConfirmation(key: String, label: String, confirmation: Intent, silent: Boolean)
+
+    fun showInstallFailure(key: String, label: String, message: String)
+
+    fun cancelInstall(key: String)
 
 }
 
@@ -141,17 +153,14 @@ class DownloadNotificationsImpl(
                     notificationManager.cancel(notificationId)
                     val uri = installUri()
                     if (uri != null) {
-                        val installIntent = getInstallIntent(notificationId, uri)
-                        val installNotificationBuilder =
-                            NotificationCompat.Builder(context, CHANNEL_INSTALL)
-                                .setContentTitle(label)
-                                .setContentText(context.getString(R.string.tap_to_install))
-                                .setSmallIcon(android.R.drawable.stat_sys_download_done)
-                                .setGroup(GROUP_NOTIFICATIONS)
-                                .setOngoing(false)
-                                .setAutoCancel(true)
-                                .setColor(getColor(R.color.primary_color, context))
-                                .setContentIntent(installIntent)
+                        val installIntent = getInstallIntent(
+                            notificationId,
+                            InstallRequest(appId, label, uri)
+                        )
+                        val installNotificationBuilder = installNotificationBuilder(label)
+                            .setContentText(context.getString(R.string.tap_to_install))
+                            .setSmallIcon(android.R.drawable.stat_sys_download_done)
+                            .setContentIntent(installIntent)
                         val installIconHolder = NotificationIconHolder(
                             resources = context.resources,
                             notificationBuilder = installNotificationBuilder
@@ -199,14 +208,68 @@ class DownloadNotificationsImpl(
         })
     }
 
-    private fun getInstallIntent(requestCode: Int, uri: Uri): PendingIntent {
-        val intent = Intent(Intent.ACTION_VIEW).apply {
-            setDataAndType(uri, APK_MIME_TYPE)
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_GRANT_READ_URI_PERMISSION
-        }
+    override fun createInstallProgress(label: String, percent: Int): Notification {
+        return installNotificationBuilder(label)
+            .setContentText(context.getString(R.string.installing_progress, percent))
+            .setSmallIcon(android.R.drawable.stat_sys_download)
+            .setSilent(true)
+            .setOngoing(true)
+            .setAutoCancel(false)
+            .setProgress(100, percent, false)
+            .build()
+    }
+
+    override fun showInstallProgress(label: String, percent: Int) {
+        notificationManager.notify(INSTALL_NOTIFICATION_ID, createInstallProgress(label, percent))
+    }
+
+    override fun showInstallConfirmation(
+        key: String,
+        label: String,
+        confirmation: Intent,
+        silent: Boolean
+    ) {
+        val intent = PendingIntent.getActivity(
+            context,
+            key.crc32(),
+            confirmation.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
+            FLAG_UPDATE_CURRENT or FLAG_IMMUTABLE
+        )
+        val notification = installNotificationBuilder(label)
+            .setContentText(context.getString(R.string.tap_to_install))
+            .setSmallIcon(android.R.drawable.stat_sys_download_done)
+            .setSilent(silent)
+            .setContentIntent(intent)
+            .build()
+        notificationManager.notify(key.crc32(), notification)
+    }
+
+    override fun showInstallFailure(key: String, label: String, message: String) {
+        val notification = installNotificationBuilder(label)
+            .setContentText(message)
+            .setStyle(NotificationCompat.BigTextStyle().bigText(message))
+            .setSmallIcon(android.R.drawable.stat_sys_warning)
+            .build()
+        notificationManager.notify(key.crc32(), notification)
+    }
+
+    override fun cancelInstall(key: String) {
+        notificationManager.cancel(key.crc32())
+    }
+
+    private fun installNotificationBuilder(label: String): NotificationCompat.Builder {
+        return NotificationCompat.Builder(context, CHANNEL_INSTALL)
+            .setContentTitle(label)
+            .setGroup(GROUP_NOTIFICATIONS)
+            .setOngoing(false)
+            .setAutoCancel(true)
+            .setColor(getColor(R.color.primary_color, context))
+    }
+
+    private fun getInstallIntent(requestCode: Int, request: InstallRequest): PendingIntent {
         return PendingIntent.getActivity(
             context, requestCode,
-            intent,
+            createInstallActivityIntent(context, request),
             FLAG_UPDATE_CURRENT or FLAG_IMMUTABLE
         )
     }
@@ -228,7 +291,6 @@ class DownloadNotificationsImpl(
 }
 
 const val DOWNLOAD_NOTIFICATION_ID = 1
+const val INSTALL_NOTIFICATION_ID = 3
 const val CHANNEL_DOWNLOADING = "downloading_channel_id"
 const val CHANNEL_INSTALL = "install_channel_id"
-
-private const val APK_MIME_TYPE = "application/vnd.android.package-archive"

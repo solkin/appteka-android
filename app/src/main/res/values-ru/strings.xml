@@ -614,4 +614,15 @@
     <string name="dev_request_rejected_text">Приложение остаётся опубликованным с пометкой «Оригинал».</string>
     <string name="dev_request_approved_title">Вы подтверждённый разработчик</string>
     <string name="dev_request_approved_text">Пакет закреплён за вашим аккаунтом — больше никто не сможет его опубликовать.</string>
+    <string name="pref_title_install_method">Способ установки</string>
+    <string name="install_method_system">Системный установщик</string>
+    <string name="pref_summary_install_method_session">Appteka устанавливает приложения сама, показывает прогресс и обновляет их без лишних вопросов, когда Android это позволяет</string>
+    <string name="pref_summary_install_method_system">Каждую установку выполняет системный установщик Android</string>
+    <string name="install_failed">Не удалось установить приложение</string>
+    <string name="install_failed_blocked">Установка заблокирована. Попробуйте системный установщик</string>
+    <string name="install_failed_conflict">Конфликт с установленной версией. Сначала удалите её</string>
+    <string name="install_failed_incompatible">Это приложение несовместимо с вашим устройством</string>
+    <string name="install_failed_invalid">Файл APK повреждён. Скачайте его заново</string>
+    <string name="install_failed_storage">Недостаточно свободного места для установки</string>
+    <string name="installing_progress">Установка: %d%%</string>
 </resources>

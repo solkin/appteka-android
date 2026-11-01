@@ -603,4 +603,15 @@
     <string name="dev_request_rejected_text">بەرنامەکە بڵاوکراوە دەمێنێتەوە و وەک «ڕەسەن» نیشان کراوە.</string>
     <string name="dev_request_approved_title">تۆ گەشەپێدەرێکی پشتڕاستکراویت</string>
     <string name="dev_request_approved_text">پاکێجەکە بۆ هەژمارەکەت تەرخان کراوە — کەسی تر ناتوانێت بڵاوی بکاتەوە.</string>
+    <string name="pref_title_install_method">شێوازی دامەزراندن</string>
+    <string name="install_method_system">دامەزرێنەری سیستەم</string>
+    <string name="pref_summary_install_method_session">Appteka خۆی بەرنامەکان دادەمەزرێنێت، پێشکەوتن پیشان دەدات و کاتێک Android ڕێگە بدات بەبێ پرسیاری زیادە نوێیان دەکاتەوە</string>
+    <string name="pref_summary_install_method_system">دامەزرێنەری پاکێجی Android هەموو دامەزراندنێک ئەنجام دەدات</string>
+    <string name="install_failed">نەتوانرا بەرنامەکە دابمەزرێت</string>
+    <string name="install_failed_blocked">دامەزراندن بلۆک کرا. دامەزرێنەری سیستەم تاقی بکەرەوە</string>
+    <string name="install_failed_conflict">لەگەڵ وەشانی دامەزراو ناکۆکە. سەرەتا بیسڕەوە</string>
+    <string name="install_failed_incompatible">ئەم بەرنامەیە لەگەڵ ئامێرەکەت گونجاو نییە</string>
+    <string name="install_failed_invalid">فایلی APK تێکچووە. دووبارە دایبگرە</string>
+    <string name="install_failed_storage">بۆشایی پێویست بۆ دامەزراندنی بەرنامەکە نییە</string>
+    <string name="installing_progress">دامەزراندن: %d%%</string>
 </resources>

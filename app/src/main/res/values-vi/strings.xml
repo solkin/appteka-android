@@ -576,4 +576,15 @@
     <string name="dev_request_rejected_text">Ứng dụng vẫn được đăng và được đánh dấu là Bản gốc.</string>
     <string name="dev_request_approved_title">Bạn là nhà phát triển đã xác minh</string>
     <string name="dev_request_approved_text">Gói đã được giữ cho tài khoản của bạn — không ai khác có thể đăng nó.</string>
+    <string name="pref_title_install_method">Phương thức cài đặt</string>
+    <string name="install_method_system">Trình cài đặt hệ thống</string>
+    <string name="pref_summary_install_method_session">Appteka tự cài đặt ứng dụng, hiển thị tiến trình và cập nhật mà không hỏi thêm khi Android cho phép</string>
+    <string name="pref_summary_install_method_system">Trình cài đặt gói của Android xử lý mọi lần cài đặt</string>
+    <string name="install_failed">Không thể cài đặt ứng dụng</string>
+    <string name="install_failed_blocked">Đã chặn cài đặt. Hãy thử trình cài đặt hệ thống</string>
+    <string name="install_failed_conflict">Xung đột với phiên bản đã cài. Hãy gỡ phiên bản đó trước</string>
+    <string name="install_failed_incompatible">Ứng dụng này không tương thích với thiết bị của bạn</string>
+    <string name="install_failed_invalid">Tệp APK bị hỏng. Hãy tải lại</string>
+    <string name="install_failed_storage">Không đủ dung lượng trống để cài đặt ứng dụng</string>
+    <string name="installing_progress">Đang cài đặt: %d%%</string>
 </resources>

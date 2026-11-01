@@ -5,6 +5,9 @@ import com.tomclaw.appsend.screen.details.DetailsDeepLinkParser
 import com.tomclaw.appsend.screen.profile.ProfileDeepLinkParser
 import com.tomclaw.appsend.download.di.DownloadServiceComponent
 import com.tomclaw.appsend.download.di.DownloadServiceModule
+import com.tomclaw.appsend.install.InstallActivity
+import com.tomclaw.appsend.install.InstallResultReceiver
+import com.tomclaw.appsend.install.InstallService
 import com.tomclaw.appsend.util.Analytics
 import com.tomclaw.bananalytics.Bananalytics
 import com.tomclaw.appsend.screen.about.di.AboutComponent
@@ -159,6 +162,12 @@ interface AppComponent {
     fun restrictComponent(module: RestrictModule): RestrictComponent
 
     fun uploadsComponent(module: UploadsModule): UploadsComponent
+
+    fun inject(receiver: InstallResultReceiver)
+
+    fun inject(activity: InstallActivity)
+
+    fun inject(service: InstallService)
 
     fun analytics(): Analytics
 

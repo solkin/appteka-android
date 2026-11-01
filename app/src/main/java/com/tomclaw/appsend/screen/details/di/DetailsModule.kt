@@ -9,6 +9,7 @@ import com.tomclaw.appsend.util.adapter.ItemBlueprint
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.di.DATE_FORMATTER
 import com.tomclaw.appsend.download.DownloadManager
+import com.tomclaw.appsend.install.AppInstaller
 import com.tomclaw.appsend.screen.details.DetailsConverter
 import com.tomclaw.appsend.screen.details.DetailsConverterImpl
 import com.tomclaw.appsend.screen.details.adapter.all_ratings.AllRatingsItemBlueprint
@@ -107,6 +108,7 @@ class DetailsModule(
         detailsConverter: DetailsConverter,
         packageObserver: PackageObserver,
         downloadManager: DownloadManager,
+        appInstaller: AppInstaller,
         schedulers: SchedulersFactory
     ): DetailsPresenter = DetailsPresenterImpl(
         appId,
@@ -122,6 +124,7 @@ class DetailsModule(
         detailsConverter,
         packageObserver,
         downloadManager,
+        appInstaller,
         schedulers,
         state
     )

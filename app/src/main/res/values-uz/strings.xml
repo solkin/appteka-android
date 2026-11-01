@@ -590,4 +590,15 @@
     <string name="dev_request_rejected_text">Ilova nashrda qoladi va «Asl nusxa» deb belgilanadi.</string>
     <string name="dev_request_approved_title">Siz tasdiqlangan ishlab chiquvchisiz</string>
     <string name="dev_request_approved_text">Paket hisobingizga biriktirilgan — boshqa hech kim uni nashr eta olmaydi.</string>
+    <string name="pref_title_install_method">O\'rnatish usuli</string>
+    <string name="install_method_system">Tizim o\'rnatuvchisi</string>
+    <string name="pref_summary_install_method_session">Appteka ilovalarni o\'zi o\'rnatadi, jarayonni ko\'rsatadi va Android ruxsat berganda ortiqcha so\'rovlarsiz yangilaydi</string>
+    <string name="pref_summary_install_method_system">Har bir o\'rnatishni Android paket o\'rnatuvchisi bajaradi</string>
+    <string name="install_failed">Ilovani o\'rnatib bo\'lmadi</string>
+    <string name="install_failed_blocked">O\'rnatish bloklandi. Tizim o\'rnatuvchisini sinab ko\'ring</string>
+    <string name="install_failed_conflict">O\'rnatilgan versiyaga zid. Avval uni o\'chiring</string>
+    <string name="install_failed_incompatible">Bu ilova qurilmangizga mos emas</string>
+    <string name="install_failed_invalid">APK fayli shikastlangan. Uni qayta yuklab oling</string>
+    <string name="install_failed_storage">Ilovani o\'rnatish uchun bo\'sh joy yetarli emas</string>
+    <string name="installing_progress">O\'rnatilmoqda: %d%%</string>
 </resources>

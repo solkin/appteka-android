@@ -23,6 +23,8 @@ import com.tomclaw.appsend.util.adapter.SimpleRecyclerAdapter
 import com.tomclaw.appsend.appComponent
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.download.ApkStorage
+import com.tomclaw.appsend.install.InstallRequest
+import com.tomclaw.appsend.install.createInstallActivityIntent
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.screen.distro.di.DistroModule
 import com.tomclaw.appsend.screen.permissions.createPermissionsActivityIntent
@@ -30,7 +32,6 @@ import com.tomclaw.appsend.screen.upload.createUploadActivityIntent
 import com.tomclaw.appsend.upload.UploadApk
 import com.tomclaw.appsend.upload.UploadPackage
 import com.tomclaw.appsend.util.Analytics
-import com.tomclaw.appsend.util.openFileIntent
 import java.io.File
 import javax.inject.Inject
 
@@ -150,12 +151,13 @@ class DistroActivity : AppCompatActivity(), DistroPresenter.DistroRouter {
         analytics.trackEvent("distro-search-appteka")
     }
 
-    override fun installApp(path: String) {
-        val intent = openFileIntent(
-            filePath = path,
-            type = "application/vnd.android.package-archive"
+    override fun installApp(path: String, label: String) {
+        val request = InstallRequest(
+            key = path,
+            label = label,
+            uri = createFileExternalUri(File(path))
         )
-        startActivity(intent)
+        startActivity(createInstallActivityIntent(this, request))
         analytics.trackEvent("distro-install-app")
     }
 

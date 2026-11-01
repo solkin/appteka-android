@@ -1,6 +1,5 @@
 package com.tomclaw.appsend.screen.details
 
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import com.tomclaw.appsend.util.adapter.AdapterPresenter
@@ -8,6 +7,10 @@ import com.tomclaw.appsend.util.adapter.Item
 import com.tomclaw.appsend.download.COMPLETED
 import com.tomclaw.appsend.download.DownloadManager
 import com.tomclaw.appsend.download.IDLE
+import com.tomclaw.appsend.install.AppInstaller
+import com.tomclaw.appsend.install.InstallRequest
+import com.tomclaw.appsend.install.InstallStatus
+import com.tomclaw.appsend.install.asDownloadState
 import com.tomclaw.appsend.screen.details.adapter.abi.AbiResourceProvider
 import com.tomclaw.appsend.screen.details.adapter.ItemListener
 import com.tomclaw.appsend.screen.details.adapter.play.PlaySecurityStatus
@@ -75,7 +78,7 @@ interface DetailsPresenter : ItemListener {
 
         fun launchApp(packageName: String)
 
-        fun installApp(uri: Uri)
+        fun installApp(request: InstallRequest)
 
         fun removeApp(packageName: String)
 
@@ -146,6 +149,7 @@ class DetailsPresenterImpl(
     private val detailsConverter: DetailsConverter,
     private val packageObserver: PackageObserver,
     private val downloadManager: DownloadManager,
+    private val appInstaller: AppInstaller,
     private val schedulers: SchedulersFactory,
     state: Bundle?
 ) : DetailsPresenter {
@@ -156,6 +160,7 @@ class DetailsPresenterImpl(
     private var details: Details? = state?.getParcelableCompat(KEY_DETAILS, Details::class.java)
     private var installedVersionCode: Int = state?.getInt(KEY_INSTALLED_VERSION) ?: NOT_INSTALLED
     private var downloadState: Int = state?.getInt(KEY_DOWNLOAD_STATE) ?: IDLE
+    private var installStatus: InstallStatus = InstallStatus.Idle
     private var needInstall: Boolean = state?.getBoolean(KEY_NEED_INSTALL) == true
     private var removeBeforeInstall: Boolean = state?.getBoolean(KEY_REMOVE_BEFORE_INSTALL) == true
     private var isFavorite: Boolean = state?.getBoolean(KEY_IS_FAVORITE) == true
@@ -372,15 +377,20 @@ class DetailsPresenterImpl(
             // subscription to the same download relay without dropping the
             // previous one, so the screen re-bound once per accumulated one
             .switchMap { installedVersionCode ->
-                downloadManager.status(appId)
-                    .map { downloadState -> installedVersionCode to downloadState }
+                Observable.combineLatest(
+                    downloadManager.status(appId),
+                    appInstaller.status(appId),
+                ) { downloadState, installStatus ->
+                    PackageStatus(installedVersionCode, downloadState, installStatus)
+                }
             }
             .subscribeOn(schedulers.io())
             .observeOn(schedulers.mainThread())
             .subscribe(
-                { (installed, state) ->
+                { (installed, state, install) ->
                     this.installedVersionCode = installed
                     this.downloadState = state
+                    this.installStatus = install
                     tryInstall()
                     bindDetails()
                     view?.showContent()
@@ -398,7 +408,7 @@ class DetailsPresenterImpl(
         items.clear()
         items += detailsConverter.convert(
             details,
-            downloadState,
+            installStatus.asDownloadState(downloadState),
             installedVersionCode,
             moderation,
             translationData,
@@ -458,7 +468,13 @@ class DetailsPresenterImpl(
             )
             if (uri != null) {
                 stopInstallRetry()
-                router?.installApp(uri)
+                router?.installApp(
+                    InstallRequest(
+                        key = details.info.appId,
+                        label = details.info.label.orEmpty(),
+                        uri = uri
+                    )
+                )
                 needInstall = false
                 removeBeforeInstall = false
                 return true
@@ -813,7 +829,12 @@ class DetailsPresenterImpl(
     }
 
     override fun onCancelClick(appId: String) {
-        downloadManager.cancel(appId)
+        // Once the file is being installed, the download is finished and worth keeping
+        if (installStatus == InstallStatus.Idle) {
+            downloadManager.cancel(appId)
+        } else {
+            appInstaller.cancel(appId)
+        }
     }
 
     override fun onDiscussClick() {
@@ -1050,6 +1071,12 @@ class DetailsPresenterImpl(
 private const val AI_STATUS_PENDING = "pending"
 private const val AI_POLL_INTERVAL_MS = 3000L
 private const val AI_POLL_TIMEOUT_MS = 60_000L
+
+private data class PackageStatus(
+    val installedVersionCode: Int,
+    val downloadState: Int,
+    val installStatus: InstallStatus,
+)
 
 private const val INSTALL_RETRY_ATTEMPTS = 5
 private const val INSTALL_RETRY_DELAY_MS = 200L

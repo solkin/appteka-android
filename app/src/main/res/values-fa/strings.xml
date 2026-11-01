@@ -598,4 +598,15 @@
     <string name="dev_request_rejected_text">برنامه منتشرشده باقی می‌ماند و با برچسب «اصلی» مشخص می‌شود.</string>
     <string name="dev_request_approved_title">شما توسعه‌دهنده تأییدشده هستید</string>
     <string name="dev_request_approved_text">این بسته به حساب شما اختصاص یافته است — هیچ‌کس دیگری نمی‌تواند آن را منتشر کند.</string>
+    <string name="pref_title_install_method">روش نصب</string>
+    <string name="install_method_system">نصب‌کننده سیستم</string>
+    <string name="pref_summary_install_method_session">Appteka برنامه‌ها را خودش نصب می‌کند، پیشرفت را نشان می‌دهد و هرگاه Android اجازه دهد بدون پرسش اضافه به‌روزرسانی می‌کند</string>
+    <string name="pref_summary_install_method_system">نصب‌کننده بسته Android هر نصب را انجام می‌دهد</string>
+    <string name="install_failed">نصب برنامه ممکن نشد</string>
+    <string name="install_failed_blocked">نصب مسدود شد. نصب‌کننده سیستم را امتحان کنید</string>
+    <string name="install_failed_conflict">با نسخه نصب‌شده ناسازگار است. ابتدا آن را حذف کنید</string>
+    <string name="install_failed_incompatible">این برنامه با دستگاه شما سازگار نیست</string>
+    <string name="install_failed_invalid">فایل APK خراب است. آن را دوباره دانلود کنید</string>
+    <string name="install_failed_storage">فضای خالی برای نصب برنامه کافی نیست</string>
+    <string name="installing_progress">در حال نصب: %d%%</string>
 </resources>

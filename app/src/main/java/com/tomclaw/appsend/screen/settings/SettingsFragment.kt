@@ -40,6 +40,8 @@ import com.tomclaw.appsend.core.ProxyConfig
 import com.tomclaw.appsend.core.ProxyConfigProvider
 import com.tomclaw.appsend.core.ProxyType
 import com.tomclaw.appsend.download.ApkStorage
+import com.tomclaw.appsend.install.InstallMethodType
+import com.tomclaw.appsend.install.InstallPreferences
 import com.tomclaw.appsend.screen.settings.di.SettingsModule
 import com.tomclaw.appsend.util.ThemeManager
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
@@ -58,6 +60,9 @@ class SettingsFragment : PreferenceFragmentCompat(),
 
     @Inject
     lateinit var apkStorage: ApkStorage
+
+    @Inject
+    lateinit var installPreferences: InstallPreferences
 
     @Inject
     lateinit var proxyConfigProvider: ProxyConfigProvider
@@ -91,6 +96,7 @@ class SettingsFragment : PreferenceFragmentCompat(),
         setupDynamicColorsPreference()
         setupSeedColorPreference()
         setupSortOrderPreference()
+        setupInstallMethodPreference()
         setupClearCachePreference()
         setupProxyPreferences()
     }
@@ -140,6 +146,31 @@ class SettingsFragment : PreferenceFragmentCompat(),
                 true
             }
         }
+    }
+
+    private fun setupInstallMethodPreference() {
+        findPreference<Preference>(getString(R.string.pref_install_method))?.let { pref ->
+            pref.setSummary(installPreferences.method().summary)
+            pref.setOnPreferenceClickListener {
+                showInstallMethodDialog(pref)
+                true
+            }
+        }
+    }
+
+    private fun showInstallMethodDialog(pref: Preference) {
+        val methods = InstallMethodType.entries
+        val titles = methods.map { getString(it.title) }.toTypedArray()
+        val index = methods.indexOf(installPreferences.method())
+
+        MaterialAlertDialogBuilder(requireActivity())
+            .setTitle(pref.title)
+            .setSingleChoiceItems(titles, index) { d, which ->
+                installPreferences.setMethod(methods[which])
+                pref.setSummary(methods[which].summary)
+                d.dismiss()
+            }
+            .show()
     }
 
     private fun setupClearCachePreference() {

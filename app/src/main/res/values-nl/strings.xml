@@ -599,4 +599,15 @@
     <string name="dev_request_rejected_text">De app blijft gepubliceerd en is gemarkeerd als Origineel.</string>
     <string name="dev_request_approved_title">Je bent een geverifieerde ontwikkelaar</string>
     <string name="dev_request_approved_text">Het pakket is aan je account gekoppeld — niemand anders kan het publiceren.</string>
+    <string name="pref_title_install_method">Installatiemethode</string>
+    <string name="install_method_system">Systeeminstallatieprogramma</string>
+    <string name="pref_summary_install_method_session">Appteka installeert apps zelf, toont de voortgang en werkt ze bij zonder extra vragen als Android dat toestaat</string>
+    <string name="pref_summary_install_method_system">Het pakketinstallatieprogramma van Android verzorgt elke installatie</string>
+    <string name="install_failed">Kan de app niet installeren</string>
+    <string name="install_failed_blocked">Installatie geblokkeerd. Probeer het systeeminstallatieprogramma</string>
+    <string name="install_failed_conflict">Conflict met de geïnstalleerde versie. Verwijder die eerst</string>
+    <string name="install_failed_incompatible">Deze app is niet compatibel met je apparaat</string>
+    <string name="install_failed_invalid">Het APK-bestand is beschadigd. Download het opnieuw</string>
+    <string name="install_failed_storage">Onvoldoende vrije ruimte om de app te installeren</string>
+    <string name="installing_progress">Installeren: %d%%</string>
 </resources>

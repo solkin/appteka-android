@@ -576,4 +576,15 @@
     <string name="dev_request_rejected_text">应用仍保持发布，并标记为“原版”。</string>
     <string name="dev_request_approved_title">你是已认证的开发者</string>
     <string name="dev_request_approved_text">该包名已绑定到你的账户——其他人无法再发布它。</string>
+    <string name="pref_title_install_method">安装方式</string>
+    <string name="install_method_system">系统安装程序</string>
+    <string name="pref_summary_install_method_session">Appteka 自行安装应用、显示进度，并在 Android 允许时无需额外确认即可更新</string>
+    <string name="pref_summary_install_method_system">每次安装都由 Android 软件包安装程序完成</string>
+    <string name="install_failed">无法安装应用</string>
+    <string name="install_failed_blocked">安装已被阻止。请尝试系统安装程序</string>
+    <string name="install_failed_conflict">与已安装的版本冲突。请先将其移除</string>
+    <string name="install_failed_incompatible">此应用与您的设备不兼容</string>
+    <string name="install_failed_invalid">APK 文件已损坏。请重新下载</string>
+    <string name="install_failed_storage">可用空间不足，无法安装应用</string>
+    <string name="installing_progress">正在安装：%d%%</string>
 </resources>
