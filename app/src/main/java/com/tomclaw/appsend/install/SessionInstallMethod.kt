@@ -24,7 +24,7 @@ import java.util.concurrent.Executors
  */
 class SessionInstallMethod(
     private val context: Context,
-    private val tracker: InstallTracker,
+    tracker: InstallTracker,
     private val notifications: DownloadNotifications,
     private val analytics: Analytics,
 ) : InstallMethod {
@@ -32,27 +32,27 @@ class SessionInstallMethod(
     private val packageInstaller = context.packageManager.packageInstaller
     private val executor = Executors.newSingleThreadExecutor()
 
-    // Holds a key from the tap to the system's final answer, so a repeated tap joins
-    // the install in flight. NO_SESSION marks one still queued for the executor.
-    private val sessions = ConcurrentHashMap<String, Int>()
+    private val sessions = InstallSessions(tracker)
 
     // Kept until the final answer: a question asked while the app was away may never
     // have reached the user, as notifications can be off, and a new tap asks it again
-    private val confirmations = ConcurrentHashMap<String, Intent>()
+    private val confirmations = ConcurrentHashMap<InstallSessions.Attempt, Intent>()
 
     private var staleSessionsAbandoned = false
 
     override fun install(request: InstallRequest) {
-        if (sessions.putIfAbsent(request.key, NO_SESSION) != null) {
-            confirmations[request.key]?.let { requestConfirmation(request.key, request.label, it) }
+        val attempt = sessions.start(request.key)
+        if (attempt == null) {
+            sessions.current(request.key)?.let { active ->
+                confirmations[active]?.let { requestConfirmation(active, request.label, it) }
+            }
             return
         }
-        // Set here rather than on the executor: a caller subscribing right after
-        // this call must not take the idle status for a finished install
-        tracker.update(request.key, InstallStatus.Writing(percent = 0))
-        notifications.cancelInstall(request.key)
-        startService(request)
-        executor.execute { writeAndCommit(request) }
+        sessions.withCurrent(attempt) {
+            notifications.cancelInstall(request.key)
+            startService(request)
+        }
+        executor.execute { writeAndCommit(request, attempt) }
     }
 
     private fun startService(request: InstallRequest) {
@@ -69,12 +69,14 @@ class SessionInstallMethod(
     }
 
     override fun cancel(key: String) {
-        val sessionId = sessions.remove(key) ?: return
-        confirmations.remove(key)
-        notifications.cancelInstall(key)
-        tracker.update(key, InstallStatus.Idle)
-        if (sessionId != NO_SESSION) {
-            abandon(sessionId)
+        val attempt = sessions.current(key) ?: return
+        val cancelled = sessions.withCurrent(attempt) {
+            confirmations.remove(attempt)
+            notifications.cancelInstall(key)
+            sessions.finish(attempt)
+        }
+        if (cancelled) {
+            attempt.id?.let { abandon(it) }
         }
     }
 
@@ -83,50 +85,57 @@ class SessionInstallMethod(
         val label = intent.getStringExtra(EXTRA_LABEL).orEmpty()
         val uri = intent.getParcelableExtraCompat(EXTRA_URI, Uri::class.java)
         val status = intent.getIntExtra(PackageInstaller.EXTRA_STATUS, PackageInstaller.STATUS_FAILURE)
-        when (status) {
-            PackageInstaller.STATUS_PENDING_USER_ACTION -> {
-                val confirmation = intent.getParcelableExtraCompat(Intent.EXTRA_INTENT, Intent::class.java)
-                if (confirmation == null) {
-                    fail(key, label, uri, InstallFailure.UNKNOWN, packageToRemove = null)
-                    return
+        val sessionId = intent.getIntExtra(PackageInstaller.EXTRA_SESSION_ID, NO_SESSION)
+        sessions.onResult(key, sessionId) { attempt ->
+            when (status) {
+                PackageInstaller.STATUS_PENDING_USER_ACTION -> {
+                    val confirmation = intent.getParcelableExtraCompat(Intent.EXTRA_INTENT, Intent::class.java)
+                    if (confirmation == null) {
+                        fail(attempt, label, uri, InstallFailure.UNKNOWN, packageToRemove = null)
+                    } else {
+                        requestConfirmation(attempt, label, confirmation)
+                    }
                 }
-                // The process may have died since the commit; this keeps cancel working
-                sessions[key] = intent.getIntExtra(PackageInstaller.EXTRA_SESSION_ID, NO_SESSION)
-                requestConfirmation(key, label, confirmation)
-            }
 
-            PackageInstaller.STATUS_SUCCESS -> {
-                notifications.cancelInstall(key)
-                finish(key)
-            }
+                PackageInstaller.STATUS_SUCCESS -> {
+                    notifications.cancelInstall(key)
+                    finish(attempt)
+                }
 
-            else -> onFailure(intent, key, label, uri, status)
+                else -> onFailure(intent, attempt, label, uri, status)
+            }
         }
     }
 
-    private fun onFailure(intent: Intent, key: String, label: String, uri: Uri?, status: Int) {
+    private fun onFailure(
+        intent: Intent,
+        attempt: InstallSessions.Attempt,
+        label: String,
+        uri: Uri?,
+        status: Int,
+    ) {
         val statusMessage = intent.getStringExtra(PackageInstaller.EXTRA_STATUS_MESSAGE)
         val failure = InstallFailure.from(status, statusMessage)
         if (failure == null) {
-            notifications.cancelInstall(key)
-            finish(key)
+            notifications.cancelInstall(attempt.key)
+            finish(attempt)
             return
         }
         // The other package is the one to blame when the system names one
         val packageToRemove = intent.getStringExtra(PackageInstaller.EXTRA_OTHER_PACKAGE_NAME)
             ?: intent.getStringExtra(PackageInstaller.EXTRA_PACKAGE_NAME)
-        fail(key, label, uri, failure, packageToRemove)
+        fail(attempt, label, uri, failure, packageToRemove)
     }
 
-    private fun writeAndCommit(request: InstallRequest) {
-        val key = request.key
+    private fun writeAndCommit(request: InstallRequest, attempt: InstallSessions.Attempt) {
         var sessionId = NO_SESSION
         try {
+            if (!sessions.isCurrent(attempt)) return
             abandonStaleSessions()
             val length = apkLength(request.uri)
             sessionId = reservingSpace { packageInstaller.createSession(sessionParams(length)) }
-            // A cancel while this was queued has already removed the key
-            if (!sessions.replace(key, NO_SESSION, sessionId)) {
+            // Cancellation may have replaced this attempt while the session was created.
+            if (!sessions.attach(attempt, sessionId)) {
                 abandon(sessionId)
                 return
             }
@@ -135,31 +144,26 @@ class SessionInstallMethod(
                     ?: throw IllegalStateException("No stream for ${request.uri}")
                 val written = input.use {
                     reservingSpace { session.openWrite(APK_NAME, 0, length) }.use { output ->
-                        write(key, sessionId, input, output, length).also { written ->
+                        write(attempt, input, output, length).also { written ->
                             if (written) session.fsync(output)
                         }
                     }
                 }
-                if (written) {
-                    tracker.update(key, InstallStatus.Installing)
+                // Otherwise it was cancelled, and the cancellation abandons the session itself
+                if (written && sessions.update(attempt, InstallStatus.Installing)) {
                     session.commit(resultIntent(sessionId, request).intentSender)
-                } else {
-                    settleCancelled(key)
                 }
             }
         } catch (ex: Exception) {
-            // Cancelling pulls the session from under the copy, which is not a failure,
-            // and the key may already belong to a newer install
-            if (sessions[key] != sessionId) {
-                settleCancelled(key)
-                return
-            }
             if (sessionId != NO_SESSION) {
                 abandon(sessionId)
             }
-            analytics.trackException(ex, mapOf("reason" to "Install session failed"))
-            val failure = if (ex is NoSpaceException) InstallFailure.NO_SPACE else InstallFailure.UNKNOWN
-            fail(key, request.label, request.uri, failure, packageToRemove = null)
+            // Cancelling pulls the session from under the copy, which is not a failure
+            sessions.withCurrent(attempt) {
+                analytics.trackException(ex, mapOf("reason" to "Install session failed"))
+                val failure = if (ex is NoSpaceException) InstallFailure.NO_SPACE else InstallFailure.UNKNOWN
+                fail(attempt, request.label, request.uri, failure, packageToRemove = null)
+            }
         }
     }
 
@@ -172,17 +176,9 @@ class SessionInstallMethod(
         }
     }
 
-    /** A progress update racing the cancel may have landed after its idle status. */
-    private fun settleCancelled(key: String) {
-        if (!sessions.containsKey(key)) {
-            tracker.update(key, InstallStatus.Idle)
-        }
-    }
-
     /** Returns false if the install was cancelled along the way. */
     private fun write(
-        key: String,
-        sessionId: Int,
+        attempt: InstallSessions.Attempt,
         input: InputStream,
         output: OutputStream,
         length: Long,
@@ -191,7 +187,7 @@ class SessionInstallMethod(
         var written = 0L
         var lastPercent = -1
         while (true) {
-            if (sessions[key] != sessionId) {
+            if (!sessions.isCurrent(attempt)) {
                 return false
             }
             val read = input.read(buffer)
@@ -204,7 +200,7 @@ class SessionInstallMethod(
                 val percent = (written * 100 / length).toInt().coerceAtMost(100)
                 if (percent != lastPercent) {
                     lastPercent = percent
-                    tracker.update(key, InstallStatus.Writing(percent))
+                    if (!sessions.update(attempt, InstallStatus.Writing(percent))) return false
                 }
             }
         }
@@ -236,6 +232,7 @@ class SessionInstallMethod(
             .putExtra(EXTRA_KEY, request.key)
             .putExtra(EXTRA_LABEL, request.label)
             .putExtra(EXTRA_URI, request.uri)
+            .putExtra(PackageInstaller.EXTRA_SESSION_ID, sessionId)
         // The system adds the result to this intent, so it has to stay mutable
         val mutable = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             PendingIntent.FLAG_MUTABLE
@@ -250,48 +247,51 @@ class SessionInstallMethod(
         )
     }
 
-    private fun requestConfirmation(key: String, label: String, confirmation: Intent) {
-        confirmations[key] = confirmation
-        tracker.update(key, InstallStatus.Confirming)
-        // Android refuses to open a screen from the background without saying so, and it
-        // can do that even while the app still counts as visible, right after the user
-        // has left. So the notification is always there, and only stays quiet when the
-        // screen is likely to have opened; the final answer takes it away.
-        val visible = isAppVisible()
-        notifications.showInstallConfirmation(key, label, confirmation, silent = visible)
-        if (visible) {
-            context.startActivity(confirmation.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+    private fun requestConfirmation(attempt: InstallSessions.Attempt, label: String, confirmation: Intent) {
+        sessions.withCurrent(attempt) {
+            confirmations[attempt] = confirmation
+            sessions.update(attempt, InstallStatus.Confirming)
+            // Android refuses to open a screen from the background without saying so, and it
+            // can do that even while the app still counts as visible, right after the user
+            // has left. So the notification is always there, and only stays quiet when the
+            // screen is likely to have opened; the final answer takes it away.
+            val visible = isAppVisible()
+            notifications.showInstallConfirmation(attempt.key, label, confirmation, silent = visible)
+            if (visible) {
+                context.startActivity(confirmation.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+            }
         }
     }
 
     private fun fail(
-        key: String,
+        attempt: InstallSessions.Attempt,
         label: String,
         uri: Uri?,
         failure: InstallFailure,
         packageToRemove: String?,
     ) {
-        analytics.trackEvent("install-failure-${failure.name.lowercase()}")
-        val details = createInstallFailureIntent(context, key, label, uri, failure, packageToRemove)
-        // The same reasoning as for the confirmation: the dialog takes this away once it opens
-        val visible = isAppVisible()
-        notifications.showInstallFailure(
-            key,
-            label,
-            context.getString(failure.message),
-            details,
-            silent = visible
-        )
-        if (visible) {
-            context.startActivity(details.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+        sessions.withCurrent(attempt) {
+            analytics.trackEvent("install-failure-${failure.name.lowercase()}")
+            val details = createInstallFailureIntent(context, attempt.key, label, uri, failure, packageToRemove)
+            // The same reasoning as for the confirmation: the dialog takes this away once it opens
+            val visible = isAppVisible()
+            notifications.showInstallFailure(
+                attempt.key,
+                label,
+                context.getString(failure.message),
+                details,
+                silent = visible
+            )
+            if (visible) {
+                context.startActivity(details.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+            }
+            finish(attempt)
         }
-        finish(key)
     }
 
-    private fun finish(key: String) {
-        sessions.remove(key)
-        confirmations.remove(key)
-        tracker.update(key, InstallStatus.Idle)
+    private fun finish(attempt: InstallSessions.Attempt) {
+        confirmations.remove(attempt)
+        sessions.finish(attempt)
     }
 
     private fun isAppVisible(): Boolean {
@@ -306,8 +306,9 @@ class SessionInstallMethod(
             return
         }
         staleSessionsAbandoned = true
+        val activeIds = sessions.ids()
         packageInstaller.mySessions
-            .filter { it.sessionId !in sessions.values }
+            .filter { it.sessionId !in activeIds }
             .filter { !mayStillBeAsking(it) }
             .forEach { abandon(it.sessionId) }
     }
