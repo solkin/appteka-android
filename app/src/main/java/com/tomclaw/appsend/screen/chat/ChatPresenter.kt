@@ -367,7 +367,6 @@ class ChatPresenterImpl(
         attachments: List<Uri>,
     ) {
         bananalytics.leaveBreadcrumb("Message send error: ${ex.message}", BreadcrumbCategory.ERROR)
-        bananalytics.trackException(ex, mapOf("action" to "send_message", "topicId" to topicId.toString()))
         ex.filterCapabilityErrors(
             authError = { view?.showUnauthorizedError() },
             capabilityDenied = { cap ->
@@ -378,6 +377,7 @@ class ChatPresenterImpl(
                 view?.showCapabilityDenied(cap)
             },
             other = {
+                bananalytics.trackException(ex, mapOf("action" to "send_message", "topicId" to topicId.toString()))
                 view?.showSendError {
                     messageText = text
                     selectedAttachments = attachments.toMutableList()

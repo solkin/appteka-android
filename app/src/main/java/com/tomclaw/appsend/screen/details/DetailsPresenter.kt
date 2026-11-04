@@ -670,8 +670,9 @@ class DetailsPresenterImpl(
             view?.showNotFound()
             return
         }
-        bananalytics.trackException(ex, mapOf("screen" to "details", "appId" to appId.orEmpty()))
+        // Sign-in prompts are a normal state, only the rest is worth a report
         ex.filterUnauthorizedErrors({ view?.showUnauthorizedError() }) {
+            bananalytics.trackException(ex, mapOf("screen" to "details", "appId" to appId.orEmpty()))
             view?.hideMenu()
             view?.showContent()
             view?.showError()
@@ -680,7 +681,6 @@ class DetailsPresenterImpl(
 
     private fun onActionError(ex: Throwable) {
         bananalytics.leaveBreadcrumb("Action error: ${ex.message}", BreadcrumbCategory.ERROR)
-        bananalytics.trackException(ex, mapOf("screen" to "details", "appId" to appId.orEmpty()))
         ex.filterCapabilityErrors(
             authError = { view?.showUnauthorizedError() },
             capabilityDenied = { cap ->
@@ -689,6 +689,7 @@ class DetailsPresenterImpl(
                 view?.showCapabilityDenied(cap)
             },
             other = {
+                bananalytics.trackException(ex, mapOf("screen" to "details", "appId" to appId.orEmpty()))
                 view?.hideMenu()
                 view?.showContent()
                 view?.showError()
