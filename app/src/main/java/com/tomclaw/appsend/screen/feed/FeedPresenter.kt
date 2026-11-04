@@ -87,11 +87,11 @@ class FeedPresenterImpl(
         }
         subscriptions += view.scrollIdle()
             .debounce(READ_DELAY_MILLIS, TimeUnit.MILLISECONDS)
+            // debounce emits on a computation thread, items belong to the main one
+            .observeOn(schedulers.mainThread())
             .subscribe { position ->
-                if (position < 0) {
-                    return@subscribe
-                }
-                items?.get(position)?.let { item ->
+                // The list may have been replaced while the position was debounced
+                items?.getOrNull(position)?.let { item ->
                     onFeedRead(postId = item.id.toInt())
                 }
             }

@@ -19,7 +19,9 @@ import com.tomclaw.appsend.util.adapter.Item
 import dagger.Lazy
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Scheduler
+import io.reactivex.rxjava3.plugins.RxJavaPlugins
 import io.reactivex.rxjava3.schedulers.Schedulers
+import io.reactivex.rxjava3.schedulers.TestScheduler
 import io.reactivex.rxjava3.subjects.PublishSubject
 import okhttp3.ResponseBody.Companion.toResponseBody
 import org.junit.Assert.assertEquals
@@ -29,6 +31,7 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 import retrofit2.HttpException
 import retrofit2.Response
+import java.util.concurrent.TimeUnit
 
 class FeedPresenterPaginationTest {
 
@@ -153,6 +156,26 @@ class FeedPresenterPaginationTest {
 
         assertTrue(items.all { it.progress == null })
         assertEquals(listOf(true, false, true), items.map { it.hasMore })
+    }
+
+    @Test
+    fun `scroll idle on an emptied list reads nothing`() {
+        val errors = mutableListOf<Throwable>()
+        val clock = TestScheduler()
+        RxJavaPlugins.setErrorHandler { errors += it }
+        RxJavaPlugins.setComputationSchedulerHandler { clock }
+        try {
+            val presenter = presenter()
+            presenter.attachView(view)
+            interactor.respond(posts())
+
+            view.scrollIdle.onNext(0)
+            clock.advanceTimeBy(1, TimeUnit.SECONDS)
+
+            assertEquals(emptyList<Throwable>(), errors)
+        } finally {
+            RxJavaPlugins.reset()
+        }
     }
 
     private fun presenter(postId: Int? = null) = FeedPresenterImpl(
@@ -341,7 +364,9 @@ private class FakeFeedView : FeedView {
 
     override fun retryClicks(): Observable<Unit> = Observable.never()
 
-    override fun scrollIdle(): Observable<Int> = Observable.never()
+    val scrollIdle: PublishSubject<Int> = PublishSubject.create()
+
+    override fun scrollIdle(): Observable<Int> = scrollIdle
 
 }
 
