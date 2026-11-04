@@ -98,6 +98,8 @@
     <string name="feedback_email">Viết cho tác giả</string>
     <string name="send_email">Chuyển thư…</string>
     <string name="no_email_clients">Không có ứng dụng email nào được cài đặt</string>
+    <string name="no_app_for_link">Không có ứng dụng nào để mở liên kết này</string>
+    <string name="no_package_installer">Thiết bị này không có ứng dụng nào để cài đặt ứng dụng</string>
     <string name="update_available">Có bản nâng cấp mới</string>
     <string name="update_description">Nâng cấp appteka lên phiên bản mới nhất!</string>
     <string name="later">Sau</string>

@@ -99,6 +99,8 @@
     <string name="feedback_email">Feedback</string>
     <string name="send_email">Send email</string>
     <string name="no_email_clients">There are no email clients installed</string>
+    <string name="no_app_for_link">There is no app to open this link</string>
+    <string name="no_package_installer">There is no app on this device to install apps</string>
     <string name="update_available">Update is available</string>
     <string name="update_description">Download the latest version of Appteka for free!</string>
     <string name="later">Later</string>

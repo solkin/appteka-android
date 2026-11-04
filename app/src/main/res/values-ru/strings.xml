@@ -98,6 +98,8 @@
     <string name="feedback_email">Написать автору</string>
     <string name="send_email">Отправить письмо</string>
     <string name="no_email_clients">Не установлено ни одного почтового клиента</string>
+    <string name="no_app_for_link">Нет приложения, чтобы открыть эту ссылку</string>
+    <string name="no_package_installer">На устройстве нет приложения для установки программ</string>
     <string name="update_available">Доступно обновление</string>
     <string name="update_description">Обновитесь до самой свежей версии Appteka!</string>
     <string name="later">Позже</string>

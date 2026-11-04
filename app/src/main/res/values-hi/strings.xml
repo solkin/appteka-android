@@ -98,6 +98,8 @@
     <string name="feedback_email">लेखक को लिखें</string>
     <string name="send_email">एक पत्र भेजें</string>
     <string name="no_email_clients">कोई ईमेल क्लाइंट स्थापित नहीं है</string>
+    <string name="no_app_for_link">इस लिंक को खोलने के लिए कोई ऐप नहीं है</string>
+    <string name="no_package_installer">इस डिवाइस पर ऐप्स इंस्टॉल करने के लिए कोई ऐप नहीं है</string>
     <string name="update_available">एक अद्यतन उपलब्ध है</string>
     <string name="update_description">एपटेका के नवीनतम संस्करण में अपग्रेड करें!</string>
     <string name="later">बाद में</string>

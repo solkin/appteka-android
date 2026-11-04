@@ -97,6 +97,8 @@
     <string name="feedback_email">بازخورد</string>
     <string name="send_email">ارسال ایمیل</string>
     <string name="no_email_clients">هیچ برنامه ای برای دریافت ایمیل نصب نشده</string>
+    <string name="no_app_for_link">برنامه‌ای برای باز کردن این پیوند وجود ندارد</string>
+    <string name="no_package_installer">برنامه‌ای برای نصب برنامه‌ها روی این دستگاه وجود ندارد</string>
     <string name="update_available">به‌ روز رسانی در دسترس است</string>
     <string name="update_description">آخرین نسخه فروشگاه Appteka را به صورت رایگان دانلود کنید</string>
     <string name="later">بعدا</string>

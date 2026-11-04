@@ -97,6 +97,8 @@
     <string name="feedback_email">فیدباک</string>
     <string name="send_email">ناردنی ئیمەیڵ</string>
     <string name="no_email_clients">هیچ بەرنامەیەکی ئیمەیڵ دانەمەزراوە</string>
+    <string name="no_app_for_link">هیچ ئەپێک نییە بۆ کردنەوەی ئەم بەستەرە</string>
+    <string name="no_package_installer">هیچ ئەپێک لەسەر ئەم ئامێرە نییە بۆ دامەزراندنی ئەپەکان</string>
     <string name="update_available">نوێکردنەوە بەردەستە</string>
     <string name="update_description">نوێترین وەشانی Appteka بە خۆڕایی دابەزێنە!</string>
     <string name="later">دواتر</string>

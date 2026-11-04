@@ -98,6 +98,8 @@
     <string name="feedback_email">发送邮件给作者</string>
     <string name="send_email">发送邮件…</string>
     <string name="no_email_clients">没有安装电子邮件客户端</string>
+    <string name="no_app_for_link">没有可以打开此链接的应用</string>
+    <string name="no_package_installer">此设备上没有可以安装应用的程序</string>
     <string name="update_available">可用更新</string>
     <string name="update_description">更新到Appteka最新版本!</string>
     <string name="later">之后</string>

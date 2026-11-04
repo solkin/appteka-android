@@ -460,7 +460,11 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
                 ACTION_VIEW,
                 "https://play.google.com/store/apps/details?id=$packageName".toUri()
             )
-            startActivity(intent)
+            try {
+                startActivity(intent)
+            } catch (_: ActivityNotFoundException) {
+                presenter.showSnackbar(getString(R.string.no_app_for_link))
+            }
         }
         analytics.trackEvent("details-open-google-play")
     }

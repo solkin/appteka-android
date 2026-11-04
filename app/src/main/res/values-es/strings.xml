@@ -97,6 +97,8 @@
     <string name="feedback_email">Comentarios</string>
     <string name="send_email">Enviar correo electrónico</string>
     <string name="no_email_clients">No hay clientes de correo electrónico instalados</string>
+    <string name="no_app_for_link">No hay ninguna aplicación para abrir este enlace</string>
+    <string name="no_package_installer">No hay ninguna aplicación en este dispositivo para instalar aplicaciones</string>
     <string name="update_available">La actualización está disponible</string>
     <string name="update_description">¡Descargue la última versión de Appteka gratuitamente!</string>
     <string name="later">Más tarde</string>

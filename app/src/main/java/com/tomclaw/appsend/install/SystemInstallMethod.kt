@@ -1,7 +1,10 @@
 package com.tomclaw.appsend.install
 
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
+import android.widget.Toast
+import com.tomclaw.appsend.R
 
 /** Leaves the whole install to Android's package installer screen. */
 class SystemInstallMethod(
@@ -13,7 +16,12 @@ class SystemInstallMethod(
             setDataAndType(request.uri, APK_MIME_TYPE)
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_GRANT_READ_URI_PERMISSION
         }
-        context.startActivity(intent)
+        try {
+            context.startActivity(intent)
+        } catch (_: ActivityNotFoundException) {
+            // Some TVs and stripped firmwares ship without a package installer
+            Toast.makeText(context, R.string.no_package_installer, Toast.LENGTH_LONG).show()
+        }
     }
 
     // The system's screen is the user's to cancel

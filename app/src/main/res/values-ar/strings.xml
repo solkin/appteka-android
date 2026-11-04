@@ -97,6 +97,8 @@
     <string name="feedback_email">ملاحظات</string>
     <string name="send_email">إرسال بريد</string>
     <string name="no_email_clients">لا يوجد تطبيق بريد إلكتروني مثبت</string>
+    <string name="no_app_for_link">لا يوجد تطبيق لفتح هذا الرابط</string>
+    <string name="no_package_installer">لا يوجد تطبيق على هذا الجهاز لتثبيت التطبيقات</string>
     <string name="update_available">يتوفر تحديث</string>
     <string name="update_description">قم بتنزيل أحدث إصدار من Appteka مجاناً!</string>
     <string name="later">لاحقاً</string>

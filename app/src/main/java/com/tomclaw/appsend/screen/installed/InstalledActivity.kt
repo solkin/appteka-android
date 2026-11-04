@@ -164,7 +164,11 @@ class InstalledActivity : AppCompatActivity(), InstalledPresenter.InstalledRoute
                 ACTION_VIEW,
                 "https://play.google.com/store/apps/details?id=$packageName".toUri()
             )
-            startActivity(intent)
+            try {
+                startActivity(intent)
+            } catch (_: ActivityNotFoundException) {
+                presenter.showSnackbar(getString(R.string.no_app_for_link))
+            }
         }
         analytics.trackEvent("installed-open-google-play")
     }

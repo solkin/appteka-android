@@ -97,6 +97,8 @@
     <string name="feedback_email">Fikr-mulohaza</string>
     <string name="send_email">Elektron pochta yuborish</string>
     <string name="no_email_clients">O\'rnatilgan elektron pochta mijozlari yo\'q</string>
+    <string name="no_app_for_link">Bu havolani ochish uchun ilova yo\'q</string>
+    <string name="no_package_installer">Bu qurilmada ilovalarni o\'rnatish uchun ilova yo\'q</string>
     <string name="update_available">Yangilash mavjud</string>
     <string name="update_description">Appteka-ning eng so\'nggi versiyasini bepul yuklab oling!</string>
     <string name="later">Keyinroq</string>

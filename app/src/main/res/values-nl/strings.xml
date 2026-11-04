@@ -98,6 +98,8 @@
     <string name="feedback_email">Feedback</string>
     <string name="send_email">E-mail verzenden</string>
     <string name="no_email_clients">Er zijn geen e-mailclients geïnstalleerd</string>
+    <string name="no_app_for_link">Er is geen app om deze link te openen</string>
+    <string name="no_package_installer">Er is geen app op dit apparaat om apps te installeren</string>
     <string name="update_available">Er is een update beschikbaar</string>
     <string name="update_description">Download gratis de nieuwste versie van Appteka!</string>
     <string name="later">Later</string>
