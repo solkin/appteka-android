@@ -1,6 +1,7 @@
 package com.tomclaw.appsend.screen.gallery
 
 import android.app.Activity
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -99,7 +100,12 @@ class GalleryActivity : AppCompatActivity(), GalleryPresenter.GalleryRouter {
                 type = fileType
                 putExtra(Intent.EXTRA_TITLE, fileName)
             }
-        saveFileLauncher.launch(intent)
+        try {
+            saveFileLauncher.launch(intent)
+        } catch (_: ActivityNotFoundException) {
+            // Some devices (TVs, stripped firmwares) ship without a document picker
+            presenter.onSaveScreenshotUnavailable()
+        }
     }
 
     override fun leaveScreen(success: Boolean) {

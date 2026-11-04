@@ -315,7 +315,12 @@ class InstalledActivity : AppCompatActivity(), InstalledPresenter.InstalledRoute
                 type = fileType
                 putExtra(Intent.EXTRA_TITLE, fileName)
             }
-        saveFileLauncher.launch(intent)
+        try {
+            saveFileLauncher.launch(intent)
+        } catch (_: ActivityNotFoundException) {
+            // Some devices (TVs, stripped firmwares) ship without a document picker
+            presenter.showSnackbar(getString(R.string.app_extract_failed))
+        }
     }
 
     override fun leaveScreen(path: String?) {

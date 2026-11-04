@@ -27,6 +27,8 @@ interface GalleryPresenter {
 
     fun onSaveCurrentScreenshot(uri: Uri)
 
+    fun onSaveScreenshotUnavailable()
+
     interface GalleryRouter {
 
         fun openSaveScreenshotDialog(fileName: String, fileType: String)
@@ -111,6 +113,10 @@ class GalleryPresenterImpl(
                 { },
                 { view?.showError(resourceProvider.errorSavingScreenshot()) }
             )
+    }
+
+    override fun onSaveScreenshotUnavailable() {
+        view?.showError(resourceProvider.errorSavingScreenshot())
     }
 
     private fun bindItems() {
