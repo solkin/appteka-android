@@ -183,10 +183,15 @@ class InstalledActivity : AppCompatActivity(), InstalledPresenter.InstalledRoute
 
     override fun launchApp(packageName: String) {
         val intent = packageManager.getLaunchIntentForPackage(packageName)
-        if (intent == null) {
-            presenter.showSnackbar(resources.getString(R.string.non_launchable_package))
-        } else {
+        val launched = intent != null && try {
             startActivity(intent)
+            true
+        } catch (_: SecurityException) {
+            // OEM system apps may expose a launcher entry that needs a vendor permission
+            false
+        }
+        if (!launched) {
+            presenter.showSnackbar(resources.getString(R.string.non_launchable_package))
         }
         analytics.trackEvent("installed-launch-app")
     }
