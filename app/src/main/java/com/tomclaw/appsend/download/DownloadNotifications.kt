@@ -119,7 +119,11 @@ class DownloadNotificationsImpl(
         val handlers = Handlers<NotificationCompat.Builder>()
             .apply {
                 successHandler { viewHolder, result ->
-                    viewHolder.get().setLargeIcon(result.getDrawable().toBitmap())
+                    // Rendered at the holder size: some icons have no intrinsic size
+                    val size = viewHolder.getSize()
+                    viewHolder.get().setLargeIcon(
+                        result.getDrawable().toBitmap(size.width, size.height)
+                    )
                 }
             }
 
