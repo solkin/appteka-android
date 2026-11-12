@@ -619,6 +619,7 @@
     <string name="other_edition_version">Versie %1$s</string>
     <string name="other_edition_reinstall">Deze is met een andere sleutel ondertekend, dus Android installeert hem pas nadat deze app is verwijderd. De gegevens van de app worden gewist.</string>
     <string name="other_edition_open">Build openen</string>
+    <string name="installed_update_info">Update %1$s, %2$s</string>
     <string name="install_failed_downgrade">Er is al een nieuwere versie van deze app geïnstalleerd. Verwijder die eerst om deze te installeren. De gegevens ervan worden gewist.</string>
     <string name="install_failed_abi">Deze build is niet gemaakt voor de processor van je apparaat. Zoek een andere build.</string>
     <string name="install_failed_android_too_old">Deze app heeft een nieuwere versie van Android nodig.</string>

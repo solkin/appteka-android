@@ -4,6 +4,7 @@ import android.net.Uri
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.core.StreamsProvider
 import com.tomclaw.appsend.download.ApkStorage
+import com.tomclaw.appsend.screen.details.api.Details
 import com.tomclaw.appsend.screen.installed.api.CheckUpdatesRequest
 import com.tomclaw.appsend.upload.UploadApk
 import com.tomclaw.appsend.upload.UploadPackage
@@ -18,6 +19,8 @@ interface InstalledInteractor {
     fun listInstalledApps(systemApps: Boolean): Observable<List<InstalledAppEntity>>
 
     fun getUpdates(apps: Map<String, Long>, certs: Map<String, String>): Observable<InstalledUpdates>
+
+    fun getDetails(appId: String): Observable<Details>
 
     fun getPackagePermissions(packageName: String): List<String>
 
@@ -66,6 +69,14 @@ class InstalledInteractorImpl(
                     otherEditions = response.result.otherEditions.orEmpty(),
                 )
             }
+            .toObservable()
+            .subscribeOn(schedulers.io())
+    }
+
+    override fun getDetails(appId: String): Observable<Details> {
+        // Fetched right before each download: the link it carries expires.
+        return api.getInfo(appId = appId, packageName = null, locale = locale.language)
+            .map { it.result }
             .toObservable()
             .subscribeOn(schedulers.io())
     }

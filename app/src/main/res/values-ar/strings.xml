@@ -662,6 +662,7 @@
     <string name="other_edition_version">الإصدار %1$s</string>
     <string name="other_edition_reinstall">إنه موقّع بمفتاح آخر، لذا لن يثبّته Android إلا بعد إزالة هذا التطبيق. ستُحذف بيانات التطبيق.</string>
     <string name="other_edition_open">فتح الإصدار</string>
+    <string name="installed_update_info">تحديث %1$s، %2$s</string>
     <string name="install_failed_downgrade">يوجد إصدار أحدث من هذا التطبيق مثبت بالفعل. لتثبيت هذا الإصدار، أزله أولاً. ستُحذف بياناته.</string>
     <string name="install_failed_abi">هذه النسخة ليست لمعالج جهازك. ابحث عن نسخة أخرى.</string>
     <string name="install_failed_android_too_old">يحتاج هذا التطبيق إلى إصدار أحدث من Android.</string>

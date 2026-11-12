@@ -634,6 +634,7 @@
     <string name="other_edition_version">Версия %1$s</string>
     <string name="other_edition_reinstall">Она подписана другим ключом, поэтому Android установит её только после удаления этого приложения. Данные приложения будут удалены.</string>
     <string name="other_edition_open">Открыть сборку</string>
+    <string name="installed_update_info">Обновление %1$s, %2$s</string>
     <string name="install_failed_downgrade">Уже установлена более новая версия этого приложения. Чтобы поставить эту, сначала удалите её. Её данные будут удалены.</string>
     <string name="install_failed_abi">Эта сборка не для процессора вашего устройства. Поищите другую сборку.</string>
     <string name="install_failed_android_too_old">Этому приложению нужна более новая версия Android.</string>

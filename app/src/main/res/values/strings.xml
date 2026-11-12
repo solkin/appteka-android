@@ -644,6 +644,7 @@
     <string name="other_edition_version">Version %1$s</string>
     <string name="other_edition_reinstall">It is signed with another key, so Android installs it only after this app is removed. The app\'s data will be deleted.</string>
     <string name="other_edition_open">Open build</string>
+    <string name="installed_update_info">Update %1$s, %2$s</string>
     <string name="install_failed_downgrade">A newer version of this app is already installed. To install this one, remove it first. Its data will be deleted.</string>
     <string name="install_failed_abi">This build isn\'t made for your device\'s processor. Look for another build.</string>
     <string name="install_failed_android_too_old">This app needs a newer version of Android.</string>

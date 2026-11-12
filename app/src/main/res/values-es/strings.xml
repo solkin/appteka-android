@@ -621,6 +621,7 @@
     <string name="other_edition_version">Versión %1$s</string>
     <string name="other_edition_reinstall">Está firmada con otra clave, por lo que Android solo la instalará después de desinstalar esta aplicación. Se eliminarán los datos de la aplicación.</string>
     <string name="other_edition_open">Abrir versión</string>
+    <string name="installed_update_info">Actualización %1$s, %2$s</string>
     <string name="install_failed_downgrade">Ya hay instalada una versión más reciente de esta aplicación. Para instalar esta, elimínala primero. Sus datos se borrarán.</string>
     <string name="install_failed_abi">Esta versión no es para el procesador de tu dispositivo. Busca otra versión.</string>
     <string name="install_failed_android_too_old">Esta aplicación necesita una versión más reciente de Android.</string>

@@ -12,6 +12,7 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.StringRes
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -24,6 +25,8 @@ import com.tomclaw.appsend.util.adapter.SimpleRecyclerAdapter
 import com.tomclaw.appsend.appComponent
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.download.ApkStorage
+import com.tomclaw.appsend.download.DownloadLauncher
+import com.tomclaw.appsend.download.DownloadParams
 import com.tomclaw.appsend.screen.details.createDetailsActivityIntent
 import com.tomclaw.appsend.screen.installed.di.InstalledModule
 import com.tomclaw.appsend.screen.permissions.createPermissionsActivityIntent
@@ -70,14 +73,20 @@ class InstalledActivity : AppCompatActivity(), InstalledPresenter.InstalledRoute
             }
         }
 
-    private var pendingStoragePermissionCallback: ((Boolean) -> Unit)? = null
+    private val downloadLauncher = DownloadLauncher(this) {
+        analytics.trackEvent("installed-update-app")
+    }
+
+    // Everyone who asked while the question is open gets its answer.
+    private val pendingStoragePermissionCallbacks = ArrayList<(Boolean) -> Unit>()
     private var pendingDeletePackageName: String? = null
 
     private val storagePermissionLauncher = registerForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { granted ->
-        pendingStoragePermissionCallback?.invoke(granted)
-        pendingStoragePermissionCallback = null
+        val callbacks = pendingStoragePermissionCallbacks.toList()
+        pendingStoragePermissionCallbacks.clear()
+        callbacks.forEach { it(granted) }
     }
 
     private val deletePackagePermissionLauncher = registerForActivityResult(
@@ -135,6 +144,10 @@ class InstalledActivity : AppCompatActivity(), InstalledPresenter.InstalledRoute
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putBundle(KEY_PRESENTER_STATE, presenter.saveState())
+    }
+
+    override fun startDownload(params: DownloadParams) {
+        downloadLauncher.launch(params)
     }
 
     override fun openAppScreen(appId: String, title: String) {
@@ -283,6 +296,14 @@ class InstalledActivity : AppCompatActivity(), InstalledPresenter.InstalledRoute
     }
 
     override fun requestStoragePermissions(callback: (Boolean) -> Unit) {
+        requestStoragePermissions(R.string.write_permission_share, callback)
+    }
+
+    override fun requestDownloadPermissions(callback: (Boolean) -> Unit) {
+        requestStoragePermissions(R.string.write_permission_download, callback)
+    }
+
+    private fun requestStoragePermissions(@StringRes rationale: Int, callback: (Boolean) -> Unit) {
         if (!apkStorage.isPermissionRequired()) {
             callback(true)
             return
@@ -299,22 +320,27 @@ class InstalledActivity : AppCompatActivity(), InstalledPresenter.InstalledRoute
             shouldShowRequestPermissionRationale(permission) -> {
                 MaterialAlertDialogBuilder(this)
                     .setTitle(R.string.app_name)
-                    .setMessage(R.string.write_permission_share)
+                    .setMessage(rationale)
                     .setPositiveButton(R.string.ok) { _, _ ->
-                        pendingStoragePermissionCallback = callback
-                        storagePermissionLauncher.launch(permission)
+                        launchStoragePermission(permission, callback)
                     }
                     .setNegativeButton(R.string.cancel) { _, _ ->
                         callback(false)
                     }
+                    // Dismissed by back or a tap outside: still an answer.
+                    .setOnCancelListener { callback(false) }
                     .show()
             }
 
             else -> {
-                pendingStoragePermissionCallback = callback
-                storagePermissionLauncher.launch(permission)
+                launchStoragePermission(permission, callback)
             }
         }
+    }
+
+    private fun launchStoragePermission(permission: String, callback: (Boolean) -> Unit) {
+        pendingStoragePermissionCallbacks += callback
+        if (pendingStoragePermissionCallbacks.size == 1) storagePermissionLauncher.launch(permission)
     }
 
     override fun requestSaveFile(fileName: String, fileType: String) {

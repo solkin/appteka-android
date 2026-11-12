@@ -4,11 +4,14 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.view.isVisible
+import com.google.android.material.button.MaterialButton
+import com.google.android.material.progressindicator.CircularProgressIndicator
 import com.tomclaw.appsend.util.adapter.BaseItemViewHolder
 import com.tomclaw.appsend.util.adapter.ItemView
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.util.bind
 import com.tomclaw.appsend.util.hide
+import com.tomclaw.appsend.util.scaleWithAnimation
 import com.tomclaw.appsend.util.show
 import com.tomclaw.imageloader.util.fetch
 
@@ -28,7 +31,19 @@ interface AppItemView : ItemView {
 
     fun setUpdateTime(time: String)
 
-    fun setUpdatable(value: Boolean)
+    fun setUpdateInfo(text: String?)
+
+    fun showUpdateButton()
+
+    fun showCancelButton()
+
+    fun hideUpdateButton()
+
+    fun showUpdateProgressIndeterminate()
+
+    fun setUpdateProgress(percent: Int)
+
+    fun hideUpdateProgress()
 
     fun setOtherEditionHint(value: Boolean)
 
@@ -46,9 +61,13 @@ class AppItemViewHolder(view: View) : BaseItemViewHolder(view), AppItemView {
     private val size: TextView = view.findViewById(R.id.app_size)
     private val badge: View = view.findViewById(R.id.badge_new)
     private val updateTime: TextView = view.findViewById(R.id.app_update_time)
-    private val updateButton: View = view.findViewById(R.id.update_button)
+    private val updateButton: MaterialButton = view.findViewById(R.id.update_button)
+    private val updateInfo: TextView = view.findViewById(R.id.update_info)
+    private val updateProgress: CircularProgressIndicator = view.findViewById(R.id.update_progress)
+    private val iconBack: View = view.findViewById(R.id.icon_back)
     private val otherEditionHint: View = view.findViewById(R.id.other_edition_hint)
 
+    private var iconUrl: String? = null
     private var clickListener: (() -> Unit)? = null
     private var updateClickListener: (() -> Unit)? = null
 
@@ -58,6 +77,9 @@ class AppItemViewHolder(view: View) : BaseItemViewHolder(view), AppItemView {
     }
 
     override fun setIcon(url: String?) {
+        // Progress rebinds the row many times; refetching would flash the placeholder.
+        if (url == iconUrl) return
+        iconUrl = url
         icon.fetch(url.orEmpty()) {
             centerCrop()
             placeholder(R.drawable.app_placeholder)
@@ -92,8 +114,49 @@ class AppItemViewHolder(view: View) : BaseItemViewHolder(view), AppItemView {
         this.updateTime.bind(time)
     }
 
-    override fun setUpdatable(value: Boolean) {
-        this.updateButton.isVisible = value
+    override fun setUpdateInfo(text: String?) {
+        updateInfo.bind(text)
+    }
+
+    override fun showUpdateButton() {
+        updateButton.setText(R.string.update)
+        updateButton.isVisible = true
+    }
+
+    override fun showCancelButton() {
+        updateButton.setText(R.string.cancel)
+        updateButton.isVisible = true
+    }
+
+    override fun hideUpdateButton() {
+        updateButton.isVisible = false
+    }
+
+    override fun showUpdateProgressIndeterminate() {
+        showUpdateProgress()
+        updateProgress.isIndeterminate = true
+    }
+
+    override fun setUpdateProgress(percent: Int) {
+        showUpdateProgress()
+        val animated = !updateProgress.isIndeterminate
+        updateProgress.isIndeterminate = false
+        updateProgress.setProgressCompat(percent, animated)
+    }
+
+    override fun hideUpdateProgress() {
+        if (updateProgress.isVisible || iconBack.scaleX != 1.0f) {
+            updateProgress.hide()
+            iconBack.scaleWithAnimation(1.0f)
+        }
+    }
+
+    // The icon shrinks into the ring, so the progress takes no room of its own.
+    private fun showUpdateProgress() {
+        if (!updateProgress.isVisible || iconBack.scaleX == 1.0f) {
+            updateProgress.show()
+            iconBack.scaleWithAnimation(ICON_SCALE_IN_PROGRESS)
+        }
     }
 
     override fun setOtherEditionHint(value: Boolean) {
@@ -111,6 +174,14 @@ class AppItemViewHolder(view: View) : BaseItemViewHolder(view), AppItemView {
     override fun onUnbind() {
         this.clickListener = null
         this.updateClickListener = null
+        iconUrl = null
+        // A recycled row starts from rest instead of animating out of another app's progress.
+        iconBack.animate().cancel()
+        iconBack.scaleX = 1.0f
+        iconBack.scaleY = 1.0f
+        updateProgress.isVisible = false
     }
 
 }
+
+private const val ICON_SCALE_IN_PROGRESS = 0.7f

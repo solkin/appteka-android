@@ -213,7 +213,9 @@ class InstalledViewImpl(
     }
 
     override fun contentUpdated(position: Int) {
-        adapter.notifyItemChanged(position)
+        // With a payload the row rebinds in place: no cross-fade to another
+        // holder, so the progress ring keeps animating instead of restarting.
+        adapter.notifyItemChanged(position, PAYLOAD_STATE)
     }
 
     override fun stopPullRefreshing() {
@@ -248,3 +250,5 @@ const val MENU_OTHER_EDITION = 11
 const val MENU_OPEN_OTHER_EDITION = 12
 
 private const val DURATION_MEDIUM = 300L
+
+private const val PAYLOAD_STATE = "state"

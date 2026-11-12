@@ -29,7 +29,7 @@ class AppConverterImpl : AppConverter {
             updateTime = appEntity.lastUpdateTime,
             path = appEntity.path,
             packageName = appEntity.packageName,
-            updateAppId = update?.appId,
+            update = update,
             // A system app cannot be removed, so the other build is out of reach.
             otherEdition = otherEdition.takeIf { appEntity.isUserApp },
             isUserApp = appEntity.isUserApp,

@@ -7,25 +7,45 @@
     android:background="?android:attr/selectableItemBackground"
     android:orientation="horizontal">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/icon_back"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:layout_gravity="center_vertical"
-        android:layout_margin="12dp"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="4dp">
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical">
 
-        <ImageView
-            android:id="@+id/app_icon"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/icon_back"
             android:layout_width="56dp"
             android:layout_height="56dp"
-            android:layout_gravity="center_vertical"
-            android:contentDescription="@string/app_icon"
-            android:scaleType="centerCrop"
-            tools:src="@mipmap/ic_launcher" />
+            android:layout_gravity="center"
+            android:layout_margin="12dp"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="4dp">
 
-    </androidx.cardview.widget.CardView>
+            <ImageView
+                android:id="@+id/app_icon"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:layout_gravity="center_vertical"
+                android:contentDescription="@string/app_icon"
+                android:scaleType="centerCrop"
+                tools:src="@mipmap/ic_launcher" />
+
+        </androidx.cardview.widget.CardView>
+
+        <!-- Download and install progress of the update: the icon shrinks into it, as on the app page. -->
+        <com.google.android.material.progressindicator.CircularProgressIndicator
+            android:id="@+id/update_progress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:max="100"
+            android:visibility="gone"
+            app:indicatorSize="56dp"
+            app:trackThickness="3dp"
+            tools:progress="60"
+            tools:visibility="visible" />
+
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="0dp"
@@ -124,6 +144,20 @@
                 tools:text="3.1 MB" />
 
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/update_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:includeFontPadding="false"
+            android:paddingTop="4dp"
+            android:singleLine="true"
+            android:textColor="?text_secondary_color"
+            android:textSize="12sp"
+            android:visibility="gone"
+            tools:text="Update 3.5, 3.2 MB"
+            tools:visibility="visible" />
 
         <!-- A quiet note, not an update: that build installs only after this app is removed. -->
         <TextView

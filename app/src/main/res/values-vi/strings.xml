@@ -596,6 +596,7 @@
     <string name="other_edition_version">Phiên bản %1$s</string>
     <string name="other_edition_reinstall">Bản này được ký bằng khóa khác, nên Android chỉ cài đặt sau khi gỡ ứng dụng này. Dữ liệu của ứng dụng sẽ bị xóa.</string>
     <string name="other_edition_open">Mở bản dựng</string>
+    <string name="installed_update_info">Bản cập nhật %1$s, %2$s</string>
     <string name="install_failed_downgrade">Đã cài phiên bản mới hơn của ứng dụng này. Để cài bản này, hãy gỡ phiên bản đó trước. Dữ liệu của nó sẽ bị xóa.</string>
     <string name="install_failed_abi">Bản này không dành cho bộ xử lý của thiết bị. Hãy tìm bản khác.</string>
     <string name="install_failed_android_too_old">Ứng dụng này cần phiên bản Android mới hơn.</string>

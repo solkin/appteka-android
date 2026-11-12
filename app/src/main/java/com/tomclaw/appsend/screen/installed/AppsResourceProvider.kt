@@ -20,6 +20,10 @@ interface AppsResourceProvider {
 
     fun otherEditionVersion(verName: String, publishTime: Long?): String
 
+    fun updateInfo(verName: String, size: Long): String
+
+    fun updateFailed(): String
+
 }
 
 class AppsResourceProviderImpl(
@@ -53,6 +57,14 @@ class AppsResourceProviderImpl(
         } else {
             resources.getString(R.string.other_edition_version, verName)
         }
+    }
+
+    override fun updateInfo(verName: String, size: Long): String {
+        return resources.getString(R.string.installed_update_info, verName, formatFileSize(size))
+    }
+
+    override fun updateFailed(): String {
+        return resources.getString(R.string.download_failed)
     }
 
     private fun formatDate(value: Long): String {

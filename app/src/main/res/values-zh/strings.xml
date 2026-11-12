@@ -596,6 +596,7 @@
     <string name="other_edition_version">版本 %1$s</string>
     <string name="other_edition_reinstall">它使用其他密钥签名，因此只有在卸载此应用后 Android 才能安装它。应用数据将被删除。</string>
     <string name="other_edition_open">打开版本</string>
+    <string name="installed_update_info">更新 %1$s，%2$s</string>
     <string name="install_failed_downgrade">设备上已安装此应用的较新版本。要安装此版本，请先将其移除。其数据将被删除。</string>
     <string name="install_failed_abi">此版本不适用于您设备的处理器。请寻找其他版本。</string>
     <string name="install_failed_android_too_old">此应用需要更新版本的 Android。</string>

@@ -11,6 +11,10 @@ import com.tomclaw.appsend.categories.CategoryConverterImpl
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.core.StreamsProvider
 import com.tomclaw.appsend.download.ApkStorage
+import com.tomclaw.appsend.download.DownloadManager
+import com.tomclaw.appsend.install.AppInstaller
+import com.tomclaw.appsend.screen.details.adapter.abi.AbiResourceProvider
+import com.tomclaw.appsend.screen.details.adapter.abi.AbiResourceProviderImpl
 import com.tomclaw.appsend.screen.installed.AppConverter
 import com.tomclaw.appsend.screen.installed.AppConverterImpl
 import com.tomclaw.appsend.screen.installed.AppsResourceProvider
@@ -25,6 +29,7 @@ import com.tomclaw.appsend.screen.installed.InstalledPresenter
 import com.tomclaw.appsend.screen.installed.InstalledPresenterImpl
 import com.tomclaw.appsend.screen.installed.adapter.app.AppItemBlueprint
 import com.tomclaw.appsend.screen.installed.adapter.app.AppItemPresenter
+import com.tomclaw.appsend.util.PackageObserver
 import com.tomclaw.appsend.util.PerActivity
 import com.tomclaw.appsend.util.SchedulersFactory
 import dagger.Lazy
@@ -49,6 +54,10 @@ class InstalledModule(
         adapterPresenter: Lazy<AdapterPresenter>,
         appConverter: AppConverter,
         resourceProvider: AppsResourceProvider,
+        downloadManager: DownloadManager,
+        appInstaller: AppInstaller,
+        packageObserver: PackageObserver,
+        abiResourceProvider: AbiResourceProvider,
         schedulers: SchedulersFactory
     ): InstalledPresenter = InstalledPresenterImpl(
         picker,
@@ -58,6 +67,10 @@ class InstalledModule(
         adapterPresenter,
         appConverter,
         resourceProvider,
+        downloadManager,
+        appInstaller,
+        packageObserver,
+        abiResourceProvider,
         schedulers,
         state
     )
@@ -84,6 +97,12 @@ class InstalledModule(
     @PerActivity
     internal fun provideResourceProvider(locale: Locale): AppsResourceProvider {
         return AppsResourceProviderImpl(context.resources, locale)
+    }
+
+    @Provides
+    @PerActivity
+    internal fun provideAbiResourceProvider(): AbiResourceProvider {
+        return AbiResourceProviderImpl(context.resources)
     }
 
     @Provides

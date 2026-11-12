@@ -610,6 +610,7 @@
     <string name="other_edition_version">Versione %1$s</string>
     <string name="other_edition_reinstall">È firmata con un\'altra chiave, quindi Android la installerà solo dopo aver rimosso questa app. I dati dell\'app verranno eliminati.</string>
     <string name="other_edition_open">Apri build</string>
+    <string name="installed_update_info">Aggiornamento %1$s, %2$s</string>
     <string name="install_failed_downgrade">È già installata una versione più recente di questa app. Per installare questa, rimuovila prima. I suoi dati verranno eliminati.</string>
     <string name="install_failed_abi">Questa build non è per il processore del tuo dispositivo. Cerca un\'altra build.</string>
     <string name="install_failed_android_too_old">Questa app richiede una versione più recente di Android.</string>

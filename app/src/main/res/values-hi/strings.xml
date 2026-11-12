@@ -609,6 +609,7 @@
     <string name="other_edition_version">संस्करण %1$s</string>
     <string name="other_edition_reinstall">यह किसी अन्य कुंजी से साइन किया गया है, इसलिए Android इसे यह ऐप हटाने के बाद ही इंस्टॉल करेगा। ऐप का डेटा हटा दिया जाएगा।</string>
     <string name="other_edition_open">बिल्ड खोलें</string>
+    <string name="installed_update_info">अपडेट %1$s, %2$s</string>
     <string name="install_failed_downgrade">इस ऐप का नया संस्करण पहले से इंस्टॉल है। यह इंस्टॉल करने के लिए पहले उसे हटाएं। उसका डेटा मिट जाएगा।</string>
     <string name="install_failed_abi">यह बिल्ड आपके डिवाइस के प्रोसेसर के लिए नहीं है। कोई दूसरा बिल्ड खोजें।</string>
     <string name="install_failed_android_too_old">इस ऐप को Android का नया संस्करण चाहिए।</string>
