@@ -125,6 +125,21 @@
 
         </LinearLayout>
 
+        <!-- A quiet note, not an update: that build installs only after this app is removed. -->
+        <TextView
+            android:id="@+id/other_edition_hint"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:includeFontPadding="false"
+            android:paddingTop="4dp"
+            android:singleLine="true"
+            android:text="@string/other_edition_hint"
+            android:textColor="?text_secondary_color"
+            android:textSize="12sp"
+            android:visibility="gone"
+            tools:visibility="visible" />
+
     </LinearLayout>
 
     <com.google.android.material.button.MaterialButton

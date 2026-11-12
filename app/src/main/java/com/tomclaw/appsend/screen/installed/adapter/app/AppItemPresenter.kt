@@ -22,6 +22,7 @@ class AppItemPresenter(
             }
         )
         view.setUpdatable(item.updateAppId != null)
+        view.setOtherEditionHint(item.otherEdition != null)
         if (item.isNew) view.showBadge() else view.hideBadge()
         view.setOnClickListener { listener.onItemClick(item) }
         view.setOnUpdateClickListener {

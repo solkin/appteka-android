@@ -46,6 +46,8 @@ interface InstalledView {
 
     fun showItemDialog(item: AppItem)
 
+    fun showOtherEditionDialog(item: AppItem, version: String)
+
     fun showSnackbar(text: String)
 
     fun stopPullRefreshing()
@@ -158,7 +160,13 @@ class InstalledViewImpl(
         val sheetView = View.inflate(context, R.layout.bottom_sheet_actions, null)
         val actionsRecycler: RecyclerView = sheetView.findViewById(R.id.actions_recycler)
 
-        val actions = listOf(
+        val otherEdition = ActionItem(
+            MENU_OTHER_EDITION,
+            context.getString(R.string.other_edition_hint),
+            R.drawable.ic_info
+        ).takeIf { item.otherEdition != null }
+        val actions = listOfNotNull(
+            otherEdition,
             ActionItem(MENU_RUN, context.getString(R.string.run_app), R.drawable.ic_run),
             ActionItem(MENU_SHARE, context.getString(R.string.share_apk), R.drawable.ic_share),
             ActionItem(MENU_EXTRACT, context.getString(R.string.extract_apk), R.drawable.ic_floppy),
@@ -179,6 +187,18 @@ class InstalledViewImpl(
         actionsRecycler.layoutManager = LinearLayoutManager(context)
         actionsRecycler.adapter = actionsAdapter
 
+        bottomSheetDialog.setContentView(sheetView)
+        bottomSheetDialog.show()
+    }
+
+    override fun showOtherEditionDialog(item: AppItem, version: String) {
+        val bottomSheetDialog = BottomSheetDialog(context)
+        val sheetView = View.inflate(context, R.layout.bottom_sheet_other_edition, null)
+        sheetView.findViewById<TextView>(R.id.other_edition_version).text = version
+        sheetView.findViewById<View>(R.id.other_edition_open).setOnClickListener {
+            bottomSheetDialog.dismiss()
+            itemMenuRelay.accept(Pair(MENU_OPEN_OTHER_EDITION, item))
+        }
         bottomSheetDialog.setContentView(sheetView)
         bottomSheetDialog.show()
     }
@@ -224,5 +244,7 @@ const val MENU_FIND_ON_STORE = 7
 const val MENU_PERMISSIONS = 8
 const val MENU_DETAILS = 9
 const val MENU_REMOVE = 10
+const val MENU_OTHER_EDITION = 11
+const val MENU_OPEN_OTHER_EDITION = 12
 
 private const val DURATION_MEDIUM = 300L

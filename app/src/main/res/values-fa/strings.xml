@@ -613,6 +613,11 @@
     <string name="installing_progress">در حال نصب: %d%%</string>
     <string name="install_failed_title">نصب %1$s ممکن نشد</string>
     <string name="install_failed_signature">نسخه‌ای از این برنامه از سازنده دیگری نصب شده و Android نمی‌تواند آن را به‌روز کند. آن را حذف کنید و این نسخه را نصب کنید. داده‌های آن پاک می‌شود.</string>
+    <string name="other_edition_hint">نسخهٔ جدیدتری از ناشر دیگری موجود است</string>
+    <string name="other_edition_version_dated">نسخهٔ %1$s، منتشرشده در %2$s</string>
+    <string name="other_edition_version">نسخهٔ %1$s</string>
+    <string name="other_edition_reinstall">این نسخه با کلید دیگری امضا شده است، بنابراین Android فقط پس از حذف این برنامه آن را نصب می‌کند. داده‌های برنامه پاک خواهد شد.</string>
+    <string name="other_edition_open">باز کردن نسخه</string>
     <string name="install_failed_downgrade">نسخه جدیدتری از این برنامه نصب شده است. برای نصب این نسخه، ابتدا آن را حذف کنید. داده‌های آن پاک می‌شود.</string>
     <string name="install_failed_abi">این نسخه برای پردازنده دستگاه شما نیست. نسخه دیگری پیدا کنید.</string>
     <string name="install_failed_android_too_old">این برنامه به نسخه جدیدتری از Android نیاز دارد.</string>

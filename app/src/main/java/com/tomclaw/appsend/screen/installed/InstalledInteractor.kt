@@ -5,7 +5,6 @@ import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.core.StreamsProvider
 import com.tomclaw.appsend.download.ApkStorage
 import com.tomclaw.appsend.screen.installed.api.CheckUpdatesRequest
-import com.tomclaw.appsend.screen.installed.api.UpdateEntity
 import com.tomclaw.appsend.upload.UploadApk
 import com.tomclaw.appsend.upload.UploadPackage
 import com.tomclaw.appsend.util.SchedulersFactory
@@ -18,7 +17,7 @@ interface InstalledInteractor {
 
     fun listInstalledApps(systemApps: Boolean): Observable<List<InstalledAppEntity>>
 
-    fun getUpdates(apps: Map<String, Long>): Observable<List<UpdateEntity>>
+    fun getUpdates(apps: Map<String, Long>, certs: Map<String, String>): Observable<InstalledUpdates>
 
     fun getPackagePermissions(packageName: String): List<String>
 
@@ -51,14 +50,21 @@ class InstalledInteractorImpl(
             .subscribeOn(schedulers.io())
     }
 
-    override fun getUpdates(apps: Map<String, Long>): Observable<List<UpdateEntity>> {
+    override fun getUpdates(
+        apps: Map<String, Long>,
+        certs: Map<String, String>,
+    ): Observable<InstalledUpdates> {
         val request = CheckUpdatesRequest(
             locale = locale.language,
             apps = apps,
+            certs = certs,
         )
         return api.checkUpdates(request)
             .map { response ->
-                response.result.entries ?: emptyList()
+                InstalledUpdates(
+                    entries = response.result.entries.orEmpty(),
+                    otherEditions = response.result.otherEditions.orEmpty(),
+                )
             }
             .toObservable()
             .subscribeOn(schedulers.io())

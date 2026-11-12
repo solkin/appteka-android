@@ -48,6 +48,7 @@ class InstalledModule(
         apkStorage: ApkStorage,
         adapterPresenter: Lazy<AdapterPresenter>,
         appConverter: AppConverter,
+        resourceProvider: AppsResourceProvider,
         schedulers: SchedulersFactory
     ): InstalledPresenter = InstalledPresenterImpl(
         picker,
@@ -56,6 +57,7 @@ class InstalledModule(
         apkStorage,
         adapterPresenter,
         appConverter,
+        resourceProvider,
         schedulers,
         state
     )

@@ -15,4 +15,5 @@ data class InstalledAppEntity(
     val size: Long,
     val path: String?,
     val isUserApp: Boolean,
+    val editionKey: String?,
 ) : Parcelable

@@ -9,4 +9,6 @@ data class CheckUpdatesRequest(
     private val locale: String,
     @SerializedName(value = "apps")
     private val apps: Map<String, Long>,
+    @SerializedName(value = "certs")
+    private val certs: Map<String, String>,
 )

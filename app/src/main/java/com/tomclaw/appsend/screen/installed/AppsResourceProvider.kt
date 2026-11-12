@@ -6,6 +6,7 @@ import com.tomclaw.appsend.util.FileHelper
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.Locale
+import java.util.concurrent.TimeUnit
 
 interface AppsResourceProvider {
 
@@ -16,6 +17,8 @@ interface AppsResourceProvider {
     fun installDate(value: Long): String
 
     fun updateDate(value: Long): String
+
+    fun otherEditionVersion(verName: String, publishTime: Long?): String
 
 }
 
@@ -40,6 +43,16 @@ class AppsResourceProviderImpl(
 
     override fun updateDate(value: Long): String {
         return resources.getString(R.string.update_date, formatDate(value))
+    }
+
+    override fun otherEditionVersion(verName: String, publishTime: Long?): String {
+        // Catalog rows older than the publish date have none.
+        return if (publishTime != null && publishTime > 0) {
+            val date = formatDate(TimeUnit.SECONDS.toMillis(publishTime))
+            resources.getString(R.string.other_edition_version_dated, verName, date)
+        } else {
+            resources.getString(R.string.other_edition_version, verName)
+        }
     }
 
     private fun formatDate(value: Long): String {

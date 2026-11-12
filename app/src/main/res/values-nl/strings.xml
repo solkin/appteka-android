@@ -614,6 +614,11 @@
     <string name="installing_progress">Installeren: %d%%</string>
     <string name="install_failed_title">Kan %1$s niet installeren</string>
     <string name="install_failed_signature">Er is al een build van deze app van een andere auteur geïnstalleerd, dus Android kan die niet bijwerken. Verwijder die en installeer deze. De gegevens ervan worden gewist.</string>
+    <string name="other_edition_hint">Nieuwere build van een andere uitgever</string>
+    <string name="other_edition_version_dated">Versie %1$s, gepubliceerd op %2$s</string>
+    <string name="other_edition_version">Versie %1$s</string>
+    <string name="other_edition_reinstall">Deze is met een andere sleutel ondertekend, dus Android installeert hem pas nadat deze app is verwijderd. De gegevens van de app worden gewist.</string>
+    <string name="other_edition_open">Build openen</string>
     <string name="install_failed_downgrade">Er is al een nieuwere versie van deze app geïnstalleerd. Verwijder die eerst om deze te installeren. De gegevens ervan worden gewist.</string>
     <string name="install_failed_abi">Deze build is niet gemaakt voor de processor van je apparaat. Zoek een andere build.</string>
     <string name="install_failed_android_too_old">Deze app heeft een nieuwere versie van Android nodig.</string>

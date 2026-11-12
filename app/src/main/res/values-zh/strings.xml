@@ -591,6 +591,11 @@
     <string name="installing_progress">正在安装：%d%%</string>
     <string name="install_failed_title">无法安装 %1$s</string>
     <string name="install_failed_signature">设备上已安装其他作者构建的此应用，因此 Android 无法更新。请移除后安装此版本。其数据将被删除。</string>
+    <string name="other_edition_hint">有来自其他发布者的更新版本</string>
+    <string name="other_edition_version_dated">版本 %1$s，发布于 %2$s</string>
+    <string name="other_edition_version">版本 %1$s</string>
+    <string name="other_edition_reinstall">它使用其他密钥签名，因此只有在卸载此应用后 Android 才能安装它。应用数据将被删除。</string>
+    <string name="other_edition_open">打开版本</string>
     <string name="install_failed_downgrade">设备上已安装此应用的较新版本。要安装此版本，请先将其移除。其数据将被删除。</string>
     <string name="install_failed_abi">此版本不适用于您设备的处理器。请寻找其他版本。</string>
     <string name="install_failed_android_too_old">此应用需要更新版本的 Android。</string>

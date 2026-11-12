@@ -657,6 +657,11 @@
     <string name="installing_progress">جارٍ التثبيت: %d%%</string>
     <string name="install_failed_title">تعذر تثبيت %1$s</string>
     <string name="install_failed_signature">توجد نسخة مثبتة من هذا التطبيق من مؤلف آخر، لذا لا يستطيع Android تحديثها. أزلها وثبّت هذه النسخة. ستُحذف بياناتها.</string>
+    <string name="other_edition_hint">يتوفر إصدار أحدث من ناشر آخر</string>
+    <string name="other_edition_version_dated">الإصدار %1$s، نُشر في %2$s</string>
+    <string name="other_edition_version">الإصدار %1$s</string>
+    <string name="other_edition_reinstall">إنه موقّع بمفتاح آخر، لذا لن يثبّته Android إلا بعد إزالة هذا التطبيق. ستُحذف بيانات التطبيق.</string>
+    <string name="other_edition_open">فتح الإصدار</string>
     <string name="install_failed_downgrade">يوجد إصدار أحدث من هذا التطبيق مثبت بالفعل. لتثبيت هذا الإصدار، أزله أولاً. ستُحذف بياناته.</string>
     <string name="install_failed_abi">هذه النسخة ليست لمعالج جهازك. ابحث عن نسخة أخرى.</string>
     <string name="install_failed_android_too_old">يحتاج هذا التطبيق إلى إصدار أحدث من Android.</string>

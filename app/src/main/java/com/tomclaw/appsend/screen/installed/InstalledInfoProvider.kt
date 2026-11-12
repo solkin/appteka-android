@@ -4,7 +4,9 @@ import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
 import com.tomclaw.appsend.upload.UploadApk
 import com.tomclaw.appsend.upload.UploadPackage
+import com.tomclaw.appsend.util.SIGNING_INFO_FLAG
 import com.tomclaw.appsend.util.createAppIconURI
+import com.tomclaw.appsend.util.editionKey
 import com.tomclaw.appsend.util.getInstalledApplicationsCompat
 import com.tomclaw.appsend.util.getPackageInfoCompat
 import com.tomclaw.appsend.util.versionCodeCompat
@@ -29,7 +31,8 @@ class InstalledInfoProviderImpl(
         val packages = packageManager.getInstalledApplicationsCompat(PackageManager.GET_META_DATA)
         for (info in packages) {
             try {
-                val packageInfo = packageManager.getPackageInfoCompat(info.packageName, 0)
+                val packageInfo =
+                    packageManager.getPackageInfoCompat(info.packageName, SIGNING_INFO_FLAG)
                 val publicSourceDir = packageInfo.applicationInfo?.publicSourceDir ?: continue
                 val file = File(publicSourceDir)
                 if (file.exists()) {
@@ -47,7 +50,8 @@ class InstalledInfoProviderImpl(
                         size = file.length(),
                         path = file.path,
                         isUserApp = ((info.flags and ApplicationInfo.FLAG_SYSTEM) != ApplicationInfo.FLAG_SYSTEM &&
-                                (info.flags and ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) != ApplicationInfo.FLAG_UPDATED_SYSTEM_APP)
+                                (info.flags and ApplicationInfo.FLAG_UPDATED_SYSTEM_APP) != ApplicationInfo.FLAG_UPDATED_SYSTEM_APP),
+                        editionKey = packageInfo.editionKey(),
                     )
                     apps.add(app)
                 }

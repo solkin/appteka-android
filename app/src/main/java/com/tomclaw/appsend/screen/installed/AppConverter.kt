@@ -6,7 +6,7 @@ import com.tomclaw.appsend.util.isRecent
 
 interface AppConverter {
 
-    fun convert(appEntity: InstalledAppEntity, update: UpdateEntity?): AppItem
+    fun convert(appEntity: InstalledAppEntity, update: UpdateEntity?, otherEdition: UpdateEntity?): AppItem
 
 }
 
@@ -14,7 +14,11 @@ class AppConverterImpl : AppConverter {
 
     private var id: Long = 1
 
-    override fun convert(appEntity: InstalledAppEntity, update: UpdateEntity?): AppItem {
+    override fun convert(
+        appEntity: InstalledAppEntity,
+        update: UpdateEntity?,
+        otherEdition: UpdateEntity?,
+    ): AppItem {
         return AppItem(
             id = id++,
             icon = appEntity.icon,
@@ -26,6 +30,8 @@ class AppConverterImpl : AppConverter {
             path = appEntity.path,
             packageName = appEntity.packageName,
             updateAppId = update?.appId,
+            // A system app cannot be removed, so the other build is out of reach.
+            otherEdition = otherEdition.takeIf { appEntity.isUserApp },
             isUserApp = appEntity.isUserApp,
             isNew = isRecent(appEntity.firstInstallTime),
         )

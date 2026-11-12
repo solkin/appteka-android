@@ -30,6 +30,8 @@ interface AppItemView : ItemView {
 
     fun setUpdatable(value: Boolean)
 
+    fun setOtherEditionHint(value: Boolean)
+
     fun setOnClickListener(listener: (() -> Unit)?)
 
     fun setOnUpdateClickListener(listener: (() -> Unit)?)
@@ -45,6 +47,7 @@ class AppItemViewHolder(view: View) : BaseItemViewHolder(view), AppItemView {
     private val badge: View = view.findViewById(R.id.badge_new)
     private val updateTime: TextView = view.findViewById(R.id.app_update_time)
     private val updateButton: View = view.findViewById(R.id.update_button)
+    private val otherEditionHint: View = view.findViewById(R.id.other_edition_hint)
 
     private var clickListener: (() -> Unit)? = null
     private var updateClickListener: (() -> Unit)? = null
@@ -91,6 +94,10 @@ class AppItemViewHolder(view: View) : BaseItemViewHolder(view), AppItemView {
 
     override fun setUpdatable(value: Boolean) {
         this.updateButton.isVisible = value
+    }
+
+    override fun setOtherEditionHint(value: Boolean) {
+        this.otherEditionHint.isVisible = value
     }
 
     override fun setOnClickListener(listener: (() -> Unit)?) {

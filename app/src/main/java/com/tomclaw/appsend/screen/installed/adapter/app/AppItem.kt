@@ -1,6 +1,7 @@
 package com.tomclaw.appsend.screen.installed.adapter.app
 
 import android.os.Parcelable
+import com.tomclaw.appsend.screen.installed.api.UpdateEntity
 import com.tomclaw.appsend.util.adapter.Item
 import kotlinx.parcelize.Parcelize
 
@@ -16,6 +17,7 @@ class AppItem(
     val packageName: String,
     val path: String?,
     var updateAppId: String?,
+    val otherEdition: UpdateEntity?,
     val isUserApp: Boolean,
     var isNew: Boolean = false,
 ) : Item, Parcelable

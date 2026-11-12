@@ -616,6 +616,11 @@
     <string name="installing_progress">Instalando: %d%%</string>
     <string name="install_failed_title">No se pudo instalar %1$s</string>
     <string name="install_failed_signature">Ya hay instalada una versión de esta aplicación de otro autor, por lo que Android no puede actualizarla. Elimínala e instala esta. Sus datos se borrarán.</string>
+    <string name="other_edition_hint">Hay una versión más nueva de otro editor</string>
+    <string name="other_edition_version_dated">Versión %1$s, publicada el %2$s</string>
+    <string name="other_edition_version">Versión %1$s</string>
+    <string name="other_edition_reinstall">Está firmada con otra clave, por lo que Android solo la instalará después de desinstalar esta aplicación. Se eliminarán los datos de la aplicación.</string>
+    <string name="other_edition_open">Abrir versión</string>
     <string name="install_failed_downgrade">Ya hay instalada una versión más reciente de esta aplicación. Para instalar esta, elimínala primero. Sus datos se borrarán.</string>
     <string name="install_failed_abi">Esta versión no es para el procesador de tu dispositivo. Busca otra versión.</string>
     <string name="install_failed_android_too_old">Esta aplicación necesita una versión más reciente de Android.</string>

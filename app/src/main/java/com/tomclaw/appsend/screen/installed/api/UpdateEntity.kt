@@ -24,6 +24,8 @@ data class UpdateEntity(
     val verCode: Int,
     @SerializedName("downloads")
     val downloads: Int,
+    @SerializedName("publish_time")
+    val publishTime: Long?,
     @SerializedName("user_id")
     val userId: String?,
     @SerializedName("icon")

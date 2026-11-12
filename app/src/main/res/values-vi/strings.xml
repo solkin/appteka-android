@@ -591,6 +591,11 @@
     <string name="installing_progress">Đang cài đặt: %d%%</string>
     <string name="install_failed_title">Không thể cài đặt %1$s</string>
     <string name="install_failed_signature">Đã cài một bản của ứng dụng này từ tác giả khác nên Android không thể cập nhật. Hãy gỡ bản đó rồi cài bản này. Dữ liệu của nó sẽ bị xóa.</string>
+    <string name="other_edition_hint">Có bản dựng mới hơn từ nhà phát hành khác</string>
+    <string name="other_edition_version_dated">Phiên bản %1$s, phát hành %2$s</string>
+    <string name="other_edition_version">Phiên bản %1$s</string>
+    <string name="other_edition_reinstall">Bản này được ký bằng khóa khác, nên Android chỉ cài đặt sau khi gỡ ứng dụng này. Dữ liệu của ứng dụng sẽ bị xóa.</string>
+    <string name="other_edition_open">Mở bản dựng</string>
     <string name="install_failed_downgrade">Đã cài phiên bản mới hơn của ứng dụng này. Để cài bản này, hãy gỡ phiên bản đó trước. Dữ liệu của nó sẽ bị xóa.</string>
     <string name="install_failed_abi">Bản này không dành cho bộ xử lý của thiết bị. Hãy tìm bản khác.</string>
     <string name="install_failed_android_too_old">Ứng dụng này cần phiên bản Android mới hơn.</string>

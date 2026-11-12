@@ -7,7 +7,6 @@ import com.tomclaw.appsend.util.adapter.Item
 import com.tomclaw.appsend.download.ApkStorage
 import com.tomclaw.appsend.screen.installed.adapter.ItemListener
 import com.tomclaw.appsend.screen.installed.adapter.app.AppItem
-import com.tomclaw.appsend.screen.installed.api.UpdateEntity
 import com.tomclaw.appsend.upload.UploadApk
 import com.tomclaw.appsend.upload.UploadPackage
 import com.tomclaw.appsend.util.FileHelper.escapeFileSymbols
@@ -82,6 +81,7 @@ class InstalledPresenterImpl(
     private val apkStorage: ApkStorage,
     private val adapterPresenter: Lazy<AdapterPresenter>,
     private val appConverter: AppConverter,
+    private val resourceProvider: AppsResourceProvider,
     private val schedulers: SchedulersFactory,
     state: Bundle?
 ) : InstalledPresenter {
@@ -105,7 +105,9 @@ class InstalledPresenterImpl(
             onBackPressed()
         }
         subscriptions += view.itemMenuClicks().subscribe { pair ->
-            val app = items?.find { it.id == pair.second.id } ?: return@subscribe
+            // Item ids are reissued on every reload; the package is stable.
+            val app = items?.find { it.packageName == pair.second.packageName }
+                ?: return@subscribe
             when (pair.first) {
                 MENU_RUN -> {
                     router?.launchApp(app.packageName)
@@ -148,6 +150,19 @@ class InstalledPresenterImpl(
 
                 MENU_REMOVE -> {
                     router?.removeApp(app.packageName)
+                }
+
+                MENU_OTHER_EDITION -> {
+                    val other = app.otherEdition ?: return@subscribe
+                    view.showOtherEditionDialog(
+                        app,
+                        resourceProvider.otherEditionVersion(other.verName, other.publishTime)
+                    )
+                }
+
+                MENU_OPEN_OTHER_EDITION -> {
+                    val other = app.otherEdition ?: return@subscribe
+                    router?.openAppScreen(other.appId, other.title)
                 }
             }
         }
@@ -203,10 +218,13 @@ class InstalledPresenterImpl(
         subscriptions += interactor.listInstalledApps(preferencesProvider.isShowSystemApps())
             .flatMap { installed ->
                 val installedMap = installed.associate { it.packageName to it.verCode }
+                val certsMap = installed
+                    .mapNotNull { app -> app.editionKey?.let { app.packageName to it } }
+                    .toMap()
                 Observables.zip(
                     Single.just(installed).toObservable(),
-                    Observable.just(emptyList<UpdateEntity>()).takeIf { picker }
-                        ?: interactor.getUpdates(installedMap)
+                    Observable.just(InstalledUpdates.EMPTY).takeIf { picker }
+                        ?: interactor.getUpdates(installedMap, certsMap)
                 )
             }
             .observeOn(schedulers.mainThread())
@@ -218,11 +236,18 @@ class InstalledPresenterImpl(
             )
     }
 
-    private fun onLoaded(entities: List<InstalledAppEntity>, updates: List<UpdateEntity>) {
+    private fun onLoaded(entities: List<InstalledAppEntity>, updates: InstalledUpdates) {
         isError = false
-        val updatesMap = updates.associateBy { it.packageName }
+        val updatesMap = updates.entries.associateBy { it.packageName }
+        val otherEditionsMap = updates.otherEditions.associateBy { it.packageName }
         val newItems = entities
-            .map { appConverter.convert(it, updatesMap[it.packageName]) }
+            .map {
+                appConverter.convert(
+                    it,
+                    updatesMap[it.packageName],
+                    otherEditionsMap[it.packageName]
+                )
+            }
             .sortedWith { lhs, rhs ->
                 when (preferencesProvider.getSortOrder()) {
                     SortOrder.ASCENDING -> lhs.title.uppercase().compareTo(rhs.title.uppercase())

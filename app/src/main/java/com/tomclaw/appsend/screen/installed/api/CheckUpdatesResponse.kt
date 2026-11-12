@@ -7,4 +7,6 @@ import com.tomclaw.appsend.util.GsonModel
 data class CheckUpdatesResponse(
     @SerializedName(value = "entries")
     val entries: List<UpdateEntity>?,
+    @SerializedName(value = "other_editions")
+    val otherEditions: List<UpdateEntity>?,
 )
