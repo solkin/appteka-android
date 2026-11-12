@@ -10,8 +10,6 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
@@ -26,7 +24,8 @@ import com.tomclaw.appsend.util.adapter.SimpleRecyclerAdapter
 import com.tomclaw.appsend.appComponent
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.download.ApkStorage
-import com.tomclaw.appsend.download.createDownloadIntent
+import com.tomclaw.appsend.download.DownloadLauncher
+import com.tomclaw.appsend.download.DownloadParams
 import com.tomclaw.appsend.install.AppInstaller
 import com.tomclaw.appsend.install.InstallRequest
 import com.tomclaw.appsend.screen.auth.request_code.createRequestCodeActivityIntent
@@ -92,7 +91,9 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
             }
         }
 
-    private var pendingDownload: DownloadParams? = null
+    private val downloadLauncher = DownloadLauncher(this) {
+        analytics.trackEvent("details-download-app")
+    }
     private var pendingStoragePermissionCallback: (() -> Unit)? = null
     private var pendingDeletePackageCallback: ((Boolean) -> Unit)? = null
     private var pendingDeletePackageName: String? = null
@@ -118,25 +119,6 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
         }
         pendingDeletePackageName = null
     }
-
-    private val notificationPermissionLauncher =
-        registerForActivityResult(ActivityResultContracts.RequestPermission()) { _ ->
-            // Start download regardless of permission result - notifications just won't show
-            // Delay is needed to let the system apply the permission before starting foreground service
-            Handler(Looper.getMainLooper()).postDelayed({
-                pendingDownload?.let { params ->
-                    doStartDownload(
-                        params.label,
-                        params.version,
-                        params.icon,
-                        params.appId,
-                        params.url,
-                        params.sha1,
-                    )
-                }
-                pendingDownload = null
-            }, PERMISSION_APPLY_DELAY)
-        }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -477,38 +459,8 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
         url: String,
         sha1: String?
     ) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            val permission = Manifest.permission.POST_NOTIFICATIONS
-            if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
-                pendingDownload = DownloadParams(label, version, icon, appId, url, sha1)
-                notificationPermissionLauncher.launch(permission)
-                return
-            }
-        }
-        doStartDownload(label, version, icon, appId, url, sha1)
+        downloadLauncher.launch(DownloadParams(label, version, icon, appId, url, sha1))
     }
-
-    private fun doStartDownload(
-        label: String,
-        version: String,
-        icon: String?,
-        appId: String,
-        url: String,
-        sha1: String?
-    ) {
-        val intent = createDownloadIntent(context = this, label, version, icon, appId, url, sha1)
-        ContextCompat.startForegroundService(this, intent)
-        analytics.trackEvent("details-download-app")
-    }
-
-    private data class DownloadParams(
-        val label: String,
-        val version: String,
-        val icon: String?,
-        val appId: String,
-        val url: String,
-        val sha1: String?
-    )
 
     override fun openShare(title: String, text: String) {
         val intent = Intent()
@@ -558,4 +510,3 @@ private const val EXTRA_LABEL = "label"
 private const val EXTRA_MODERATION = "moderation"
 private const val EXTRA_FINISH_ONLY = "finishOnly"
 private const val KEY_PRESENTER_STATE = "presenter_state"
-private const val PERMISSION_APPLY_DELAY = 100L
