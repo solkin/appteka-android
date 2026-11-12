@@ -2,7 +2,7 @@ package com.tomclaw.appsend.screen.installed
 
 import com.tomclaw.appsend.screen.installed.adapter.app.AppItem
 import com.tomclaw.appsend.screen.installed.api.UpdateEntity
-import java.util.concurrent.TimeUnit
+import com.tomclaw.appsend.util.isRecent
 
 interface AppConverter {
 
@@ -27,8 +27,7 @@ class AppConverterImpl : AppConverter {
             packageName = appEntity.packageName,
             updateAppId = update?.appId,
             isUserApp = appEntity.isUserApp,
-            isNew = (TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()) - appEntity.firstInstallTime) <
-                    TimeUnit.DAYS.toSeconds(1),
+            isNew = isRecent(appEntity.firstInstallTime),
         )
     }
 

@@ -1,7 +1,7 @@
 package com.tomclaw.appsend.screen.distro
 
 import com.tomclaw.appsend.screen.distro.adapter.apk.ApkItem
-import java.util.concurrent.TimeUnit
+import com.tomclaw.appsend.util.isRecent
 
 interface ApkConverter {
 
@@ -24,8 +24,7 @@ class ApkConverterImpl : ApkConverter {
             path = appEntity.path,
             fileName = appEntity.fileName,
             packageName = appEntity.packageName,
-            isNew = (TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()) - appEntity.lastModified) <
-                    TimeUnit.DAYS.toSeconds(1),
+            isNew = isRecent(appEntity.lastModified),
         )
     }
 

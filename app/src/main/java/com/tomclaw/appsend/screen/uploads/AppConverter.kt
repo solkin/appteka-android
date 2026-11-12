@@ -8,6 +8,7 @@ import com.tomclaw.appsend.screen.uploads.AppsResourceProvider
 import com.tomclaw.appsend.screen.uploads.adapter.app.AppItem
 import com.tomclaw.appsend.util.NOT_INSTALLED
 import com.tomclaw.appsend.util.PackageObserver
+import com.tomclaw.appsend.util.isRecent
 import java.util.concurrent.TimeUnit
 
 interface AppConverter {
@@ -46,8 +47,7 @@ class AppConverterImpl(
             isAbiCompatible = isAbiCompatible,
             isInstalled = installedVersionCode != NOT_INSTALLED,
             isUpdatable = installedVersionCode < appEntity.verCode,
-            isNew = (TimeUnit.MILLISECONDS.toSeconds(System.currentTimeMillis()) - appEntity.time) <
-                    TimeUnit.DAYS.toSeconds(1)
+            isNew = isRecent(TimeUnit.SECONDS.toMillis(appEntity.time))
         )
     }
 
