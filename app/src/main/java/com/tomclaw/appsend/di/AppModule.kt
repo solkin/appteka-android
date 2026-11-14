@@ -47,6 +47,7 @@ import com.tomclaw.appsend.download.DownloadNotifications
 import com.tomclaw.appsend.download.DownloadNotificationsImpl
 import com.tomclaw.appsend.download.LegacyApkStorage
 import com.tomclaw.appsend.download.MediaStoreApkStorage
+import com.tomclaw.appsend.dto.DeviceInfo
 import com.tomclaw.appsend.install.AppInstaller
 import com.tomclaw.appsend.install.AppInstallerImpl
 import com.tomclaw.appsend.install.InstallPreferences
@@ -117,6 +118,13 @@ class AppModule(private val app: Application) {
         val dir = File(context.cacheDir, "picked_media").apply { mkdirs() }
         return DiskLruCache.create(dir, PICKED_MEDIA_CACHE_SIZE)
     }
+
+    @Provides
+    @Singleton
+    internal fun provideDevice(): DeviceInfo = DeviceInfo(
+        abis = Build.SUPPORTED_ABIS.toList(),
+        sdk = Build.VERSION.SDK_INT,
+    )
 
     @Provides
     @Singleton
