@@ -9,7 +9,8 @@ from pathlib import Path
 parser = argparse.ArgumentParser(description="Verify BDUI against real Android framework APIs")
 parser.add_argument('--device', required=True, help='adb device serial')
 parser.add_argument('--apk', required=True, type=Path, help='debug APK signed with the default debug key')
-parser.add_argument('--url', required=True, help='device-reachable URL serving flipper-state.json')
+parser.add_argument('--url', required=True, help='device-reachable URL serving the selected schema')
+parser.add_argument('--mode', choices=['flipper', 'menu'], default='flipper')
 parser.add_argument('--sdk', type=Path, default=os.environ.get('ANDROID_HOME'))
 parser.add_argument('--build-tools', default='36.0.0')
 args = parser.parse_args()
@@ -50,7 +51,7 @@ with tempfile.TemporaryDirectory(prefix='appteka-bdui-') as directory:
          '--ks-pass', 'pass:android', '--out', signed, unsigned])
     run([*adb, 'install', '-r', args.apk])
     run([*adb, 'install', '-r', signed])
-    command = ['am', 'instrument', '-w', '-e', 'url', args.url,
+    command = ['am', 'instrument', '-w', '-e', 'url', args.url, '-e', 'mode', args.mode,
                'store.appteka.qa.runner/.RegressionInstrumentation']
     result = subprocess.run([*adb, 'shell', shlex.join(command)], check=True,
                             capture_output=True, text=True, timeout=90)

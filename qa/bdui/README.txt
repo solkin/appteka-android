@@ -13,6 +13,9 @@ JAVA_HOME=... ANDROID_HOME=... python3 qa/bdui/run.py --device emulator-5582 \
 
 The runner checks initial and changed intervals, independent components, and
 actual automatic flipping. Run on API 23-29 and a current Android version.
+For toolbar icon tint checks, serve menu-tint.json and pass --mode menu. It checks
+separate action/overflow tint colors, absent/invalid tint, and menu action delivery.
+Run that case on API 23-26 and a current Android version, in light and dark themes.
 Reflection calls the app's public BDUI entry points from the standalone test APK;
 production code does not use reflection or an API-dependent fallback getter.
 A nonzero exit status means the native assertions or a build/install step failed.

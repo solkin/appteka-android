@@ -60,9 +60,10 @@ import com.tomclaw.appsend.util.bdui.model.component.BduiToolbarComponent
 import com.google.android.material.appbar.MaterialToolbar
 import android.view.Menu
 import android.view.MenuItem
-import androidx.core.view.MenuCompat
+import androidx.core.view.MenuItemCompat
 import com.caverock.androidsvg.SVG
 import com.tomclaw.appsend.util.svgToDrawable
+import com.tomclaw.appsend.util.logDebug
 import com.tomclaw.imageloader.util.fetch
 
 /**
@@ -579,11 +580,12 @@ class BduiComponentFactory(
                     // Icon tint
                     menuItem.iconTint?.let { tint ->
                         try {
-                            item.iconTintList = android.content.res.ColorStateList.valueOf(
-                                Color.parseColor(tint)
+                            MenuItemCompat.setIconTintList(
+                                item,
+                                android.content.res.ColorStateList.valueOf(Color.parseColor(tint)),
                             )
                         } catch (e: IllegalArgumentException) {
-                            // Invalid color
+                            logDebug("Invalid BDUI toolbar menu icon tint: ${e.message}")
                         }
                     }
 

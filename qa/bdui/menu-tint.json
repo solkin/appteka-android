@@ -1,0 +1,54 @@
+{
+  "id": "menu_root",
+  "type": "linear",
+  "children": [
+    {
+      "id": "qa_clicked",
+      "type": "hidden",
+      "value": false
+    },
+    {
+      "id": "qa_root",
+      "type": "toolbar",
+      "title": "Tinted toolbar",
+      "menu": [
+        {
+          "id": "qa_item_0",
+          "title": "Action",
+          "icon": "ic_search",
+          "showAsAction": "always",
+          "iconTint": "#009688",
+          "action": {
+            "type": "transform",
+            "transform": {
+              "type": "property",
+              "id": "qa_clicked",
+              "property": "value",
+              "value": true
+            }
+          }
+        },
+        {
+          "id": "qa_item_1",
+          "title": "Overflow",
+          "icon": "ic_search",
+          "showAsAction": "never",
+          "iconTint": "#AD1457"
+        },
+        {
+          "id": "qa_item_2",
+          "title": "Default",
+          "icon": "ic_search",
+          "showAsAction": "never"
+        },
+        {
+          "id": "qa_item_3",
+          "title": "Invalid",
+          "icon": "ic_search",
+          "showAsAction": "never",
+          "iconTint": "invalid"
+        }
+      ]
+    }
+  ]
+}

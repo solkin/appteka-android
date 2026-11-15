@@ -3,10 +3,14 @@ package store.appteka.qa.runner;
 import android.app.Activity;
 import android.app.Instrumentation;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.ViewFlipper;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -38,7 +42,18 @@ public class RegressionInstrumentation extends Instrumentation {
                 });
             });
             if (!rendered.await(30, TimeUnit.SECONDS)) throw new AssertionError("BDUI did not render");
-            checkFlipper(root);
+            if ("menu".equals(args.getString("mode"))) {
+                onMain(() -> checkMenu(root));
+                waitForIdleSync();
+                onMain(() -> {
+                    try {
+                        Object clicked = root.getClass().getMethod("getHiddenValue", String.class).invoke(root, "qa_clicked");
+                        if (!Boolean.TRUE.equals(clicked)) throw new AssertionError("Menu action did not execute");
+                    } catch (ReflectiveOperationException failure) { throw new RuntimeException(failure); }
+                });
+            } else {
+                checkFlipper(root);
+            }
             result.putString("result", "verified");
             finish(Activity.RESULT_OK, result);
         } catch (Throwable failure) {
@@ -46,6 +61,30 @@ public class RegressionInstrumentation extends Instrumentation {
             result.putString("failure", failure.toString());
             finish(Activity.RESULT_CANCELED, result);
         }
+    }
+
+    private void checkMenu(Object root) {
+        try {
+            Object toolbar = find(root, "qa_root");
+            Menu menu = (Menu) toolbar.getClass().getMethod("getMenu").invoke(toolbar);
+            expect(4, menu.size());
+            expect(Color.parseColor("#009688"), tint(menu.getItem(0)).getDefaultColor());
+            expect(Color.parseColor("#AD1457"), tint(menu.getItem(1)).getDefaultColor());
+            if (tint(menu.getItem(2)) != null || tint(menu.getItem(3)) != null) {
+                throw new AssertionError("Absent or invalid tint must keep the default icon");
+            }
+            for (int index = 0; index < menu.size(); index++) {
+                if (menu.getItem(index).getIcon() == null) throw new AssertionError("Missing icon");
+            }
+            if (!menu.performIdentifierAction(menu.getItem(0).getItemId(), 0)) {
+                throw new AssertionError("Menu action was not handled");
+            }
+        } catch (ReflectiveOperationException failure) { throw new RuntimeException(failure); }
+    }
+
+    private ColorStateList tint(MenuItem item) throws ReflectiveOperationException {
+        return (ColorStateList) Class.forName("androidx.core.view.MenuItemCompat")
+            .getMethod("getIconTintList", MenuItem.class).invoke(null, item);
     }
 
     private void checkFlipper(ViewGroup root) throws Exception {
