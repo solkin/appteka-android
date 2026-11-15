@@ -11,9 +11,7 @@ import io.reactivex.rxjava3.subjects.BehaviorSubject
  *
  * UI layers ask [getCapabilities] at render time and observe
  * [observeCapabilities] for live updates after login / ACL refresh.
- * When the snapshot is missing, callers should fall back to whatever
- * legacy heuristic they had — that is what the [CapabilityResult.Unknown]
- * branch in [CapabilityPolicy] is for.
+ * Missing snapshots use [CapabilityResult.Unknown] at decision sites.
  */
 interface UserCapabilitiesProvider {
 
@@ -35,12 +33,11 @@ class UserCapabilitiesProviderImpl : UserCapabilitiesProvider {
 
     override fun setCapabilities(capabilities: Map<String, Capability>?) {
         this.capabilities = capabilities
-        capabilities?.let { subject.onNext(it) }
+        subject.onNext(capabilities.orEmpty())
     }
 
     override fun clear() {
-        capabilities = null
-        subject.onNext(emptyMap())
+        setCapabilities(null)
     }
 
     override fun observeCapabilities(): Observable<Map<String, Capability>> = subject

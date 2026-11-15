@@ -77,10 +77,6 @@ class UserCapabilitiesInteractorTest {
 
     @Test
     fun `refresh with null capabilities still propagates and clears the provider snapshot`() {
-        // The DTO marks capabilities as nullable: server may legitimately
-        // omit it. provider.set(null) does NOT emit (by design — see
-        // UserCapabilitiesProviderTest), so the snapshot drops to null
-        // silently and consumers fall back to Unknown.
         val provider = UserCapabilitiesProviderImpl()
         provider.setCapabilities(
             mapOf(CapabilityAction.APP_UPLOAD to Capability(allowed = true)),
@@ -117,6 +113,42 @@ class UserCapabilitiesInteractorTest {
             .blockingGet()
 
         assertEquals(true, subscribedOnCustomIo)
+    }
+
+    @Test
+    fun `session reset cancels a guest response already queued for delivery`() {
+        val main = io.reactivex.rxjava3.schedulers.TestScheduler()
+        val schedulers = object : SchedulersFactory {
+            override fun io(): Scheduler = Schedulers.trampoline()
+            override fun mainThread(): Scheduler = main
+        }
+        val provider = UserCapabilitiesProviderImpl()
+        val interactor = UserCapabilitiesInteractorImpl(
+            stubApi(Single.just(StoreResponse(200, response, ""))), provider, schedulers,
+        )
+        val observer = interactor.refresh().test()
+
+        interactor.reset()
+        main.triggerActions()
+
+        observer.assertError(java.util.concurrent.CancellationException::class.java)
+        assertNull(provider.getCapabilities())
+        interactor.refresh().test()
+        main.triggerActions()
+        assertEquals(response.capabilities, provider.getCapabilities())
+    }
+
+    @Test
+    fun `session reset disposes the old network subscription`() {
+        val pending = io.reactivex.rxjava3.subjects.SingleSubject.create<StoreResponse<UserCapabilitiesResponse>>()
+        val provider = UserCapabilitiesProviderImpl()
+        val interactor = UserCapabilitiesInteractorImpl(stubApi(pending), provider, immediateSchedulers())
+        interactor.refresh().test()
+        assertEquals(true, pending.hasObservers())
+        interactor.reset()
+        assertEquals(false, pending.hasObservers())
+        pending.onSuccess(StoreResponse(200, response, ""))
+        assertNull(provider.getCapabilities())
     }
 
     // --- helpers ----------------------------------------------------

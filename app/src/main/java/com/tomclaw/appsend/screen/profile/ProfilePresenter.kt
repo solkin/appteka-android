@@ -116,6 +116,9 @@ class ProfilePresenterImpl(
         subscriptions += view.loginClicks().subscribe {
             router?.openLoginScreen()
         }
+        subscriptions += capabilitiesProvider.observeCapabilities()
+            .observeOn(schedulers.mainThread())
+            .subscribe { bindProfile() }
 
         if (withToolbar == true) {
             view.showToolbar()

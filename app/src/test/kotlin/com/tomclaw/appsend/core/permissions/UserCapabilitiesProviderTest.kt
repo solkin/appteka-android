@@ -51,7 +51,7 @@ class UserCapabilitiesProviderTest {
     }
 
     @Test
-    fun `setCapabilities(null) keeps state null and does NOT emit`() {
+    fun `setCapabilities(null) notifies observers that the snapshot is unknown`() {
         val provider = UserCapabilitiesProviderImpl()
         provider.setCapabilities(sampleA)
 
@@ -62,7 +62,8 @@ class UserCapabilitiesProviderTest {
         provider.setCapabilities(null)
 
         assertNull(provider.getCapabilities())
-        observer.assertValueCount(1)
+        observer.assertValueCount(2)
+        assertTrue(observer.values()[1].isEmpty())
     }
 
     @Test

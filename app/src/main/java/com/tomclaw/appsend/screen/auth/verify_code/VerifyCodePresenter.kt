@@ -78,6 +78,7 @@ class VerifyCodePresenterImpl(
     }
 
     override fun detachView() {
+        subscriptions.clear()
         this.view = null
     }
 

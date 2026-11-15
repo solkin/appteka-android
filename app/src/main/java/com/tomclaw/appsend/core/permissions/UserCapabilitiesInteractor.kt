@@ -4,20 +4,14 @@ import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.core.permissions.api.UserCapabilitiesResponse
 import com.tomclaw.appsend.util.SchedulersFactory
 import io.reactivex.rxjava3.core.Single
+import io.reactivex.rxjava3.subjects.PublishSubject
 
-/**
- * Loads the global capability snapshot from the server and pushes it
- * into [UserCapabilitiesProvider]. Single responsibility — networking +
- * cache write; the holder owns the in-memory state and observation.
- *
- * `refresh()` returns the fresh response so callers that want to chain
- * UI logic on a successful refresh can do so. Side-effect (provider
- * update) happens via `doOnSuccess` so a passive ignore-the-result call
- * still updates global state.
- */
+/** Loads the session capability snapshot; cache writes and resets run on the main thread. */
 interface UserCapabilitiesInteractor {
 
     fun refresh(): Single<UserCapabilitiesResponse>
+
+    fun reset()
 }
 
 class UserCapabilitiesInteractorImpl(
@@ -26,10 +20,19 @@ class UserCapabilitiesInteractorImpl(
     private val schedulers: SchedulersFactory,
 ) : UserCapabilitiesInteractor {
 
+    private val sessionChanges = PublishSubject.create<Unit>()
+
     override fun refresh(): Single<UserCapabilitiesResponse> {
         return api.getUserCapabilities()
             .map { it.result }
-            .doOnSuccess { provider.setCapabilities(it.capabilities) }
             .subscribeOn(schedulers.io())
+            .observeOn(schedulers.mainThread())
+            .takeUntil(sessionChanges.firstOrError())
+            .doOnSuccess { provider.setCapabilities(it.capabilities) }
+    }
+
+    override fun reset() {
+        sessionChanges.onNext(Unit)
+        provider.clear()
     }
 }

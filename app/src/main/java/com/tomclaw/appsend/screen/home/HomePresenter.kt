@@ -12,6 +12,8 @@ import com.tomclaw.appsend.screen.home.api.ModerationData
 import com.tomclaw.appsend.screen.home.api.StartupResponse
 import com.tomclaw.appsend.screen.home.api.StatusResponse
 import com.tomclaw.appsend.user.ModerationProvider
+import com.tomclaw.appsend.util.logDebug
+import io.reactivex.rxjava3.disposables.SerialDisposable
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.getParcelableCompat
 import com.tomclaw.bananalytics.Bananalytics
@@ -30,6 +32,8 @@ interface HomePresenter {
     fun detachRouter()
 
     fun saveState(): Bundle
+
+    fun onResume()
 
     fun onBackPressed()
 
@@ -103,6 +107,7 @@ class HomePresenterImpl(
         state?.getParcelableCompat(KEY_STATUS, StatusResponse::class.java)
 
     private val subscriptions = CompositeDisposable()
+    private val capabilitiesRequest = SerialDisposable()
 
     override fun attachView(view: HomeView) {
         this.view = view
@@ -148,11 +153,9 @@ class HomePresenterImpl(
             loadStartup()
         }
 
-        // Capabilities are loaded on every Home attach so that login,
-        // logout, and admin-driven ACL changes are reflected without
-        // restarting the app. Failure is non-fatal — UI falls back to
-        // CapabilityResult.Unknown handling at decision sites.
-        loadCapabilities()
+        subscriptions += capabilitiesProvider.observeCapabilities()
+            .observeOn(schedulers.mainThread())
+            .subscribe { bindActionButtons() }
 
         val status = status
         if (status != null) {
@@ -178,41 +181,40 @@ class HomePresenterImpl(
             INDEX_STORE -> {
                 router?.showStoreFragment()
                 view?.showStoreToolbar()
-                view?.hideFabButtons()
-                view?.showUploadButton()
             }
 
             INDEX_FEED -> {
                 router?.showFeedFragment()
                 view?.showFeedToolbar()
-                view?.hideFabButtons()
-                view?.showPostButton()
                 bindFeed(count = 0)
             }
 
             INDEX_DISCUSS -> {
                 router?.showTopicsFragment()
                 view?.showDiscussToolbar()
-                view?.hideFabButtons()
-                // chat.topic.create is opt-in: hide the FAB unless the
-                // viewer holds ChatTopicCreate. Default-deny on the
-                // client matches default-deny on the server, so we
-                // don't tease an affordance the action would reject.
-                if (CapabilityPolicy.isAllowed(
-                        action = CapabilityAction.CHAT_TOPIC_CREATE,
-                        capabilities = capabilitiesProvider.getCapabilities(),
-                        allowOnUnknown = false,
-                    )
-                ) {
-                    view?.showCreateChatButton()
-                }
                 bindUnread(count = 0)
             }
 
             INDEX_PROFILE -> {
                 router?.showProfileFragment()
                 view?.showProfileToolbar()
-                view?.hideFabButtons()
+            }
+        }
+        bindActionButtons()
+    }
+
+    private fun bindActionButtons() {
+        view?.hideFabButtons()
+        when (tabIndex) {
+            INDEX_STORE -> view?.showUploadButton()
+            INDEX_FEED -> view?.showPostButton()
+            INDEX_DISCUSS -> if (CapabilityPolicy.isAllowed(
+                    action = CapabilityAction.CHAT_TOPIC_CREATE,
+                    capabilities = capabilitiesProvider.getCapabilities(),
+                    allowOnUnknown = false,
+                )
+            ) {
+                view?.showCreateChatButton()
             }
         }
     }
@@ -235,20 +237,12 @@ class HomePresenterImpl(
             )
     }
 
-    private fun loadCapabilities() {
-        subscriptions += capabilitiesInteractor.refresh()
-            .observeOn(schedulers.mainThread())
+    override fun onResume() {
+        capabilitiesRequest.set(capabilitiesInteractor.refresh()
             .subscribe(
-                {
-                    // FAB visibility for some tabs depends on the
-                    // freshly-arrived capability snapshot (e.g.
-                    // chat.topic.create). Rebind the current tab so
-                    // the new state is reflected without requiring
-                    // the user to switch tabs.
-                    bindTab()
-                },
-                { /* tolerated — falls back to Unknown */ },
-            )
+                { bindActionButtons() },
+                { logDebug("Home capabilities unavailable: ${it.javaClass.simpleName}") },
+            ))
     }
 
     /**
@@ -363,6 +357,8 @@ class HomePresenterImpl(
     }
 
     override fun detachView() {
+        subscriptions.clear()
+        capabilitiesRequest.set(null)
         this.view = null
     }
 

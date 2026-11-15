@@ -5,9 +5,11 @@ import android.os.Bundle
 import com.tomclaw.appsend.core.permissions.CapabilityAction
 import com.tomclaw.appsend.core.permissions.CapabilityPolicy
 import com.tomclaw.appsend.core.permissions.UserCapabilitiesProvider
+import com.tomclaw.appsend.core.permissions.UserCapabilitiesInteractor
 import com.tomclaw.appsend.dto.UserIcon
 import com.tomclaw.appsend.screen.profile.api.Profile
 import com.tomclaw.appsend.util.SchedulersFactory
+import com.tomclaw.appsend.util.logDebug
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
 import java.io.File
@@ -49,6 +51,7 @@ class EditProfilePresenterImpl(
     private val interactor: EditProfileInteractor,
     private val resourceProvider: EditProfileResourceProvider,
     private val capabilitiesProvider: UserCapabilitiesProvider,
+    private val capabilitiesInteractor: UserCapabilitiesInteractor,
     private val schedulers: SchedulersFactory,
     state: Bundle?,
 ) : EditProfilePresenter {
@@ -112,6 +115,15 @@ class EditProfilePresenterImpl(
         subscriptions += view.changeAvatarClicks().subscribe { router?.openImagePicker() }
         subscriptions += view.removeAvatarClicks().subscribe { onRemoveAvatar() }
         subscriptions += view.saveClicks().subscribe { onSave() }
+        subscriptions += capabilitiesProvider.observeCapabilities()
+            .observeOn(schedulers.mainThread())
+            .subscribe { render() }
+        if (capabilitiesProvider.getCapabilities() == null) {
+            subscriptions += capabilitiesInteractor.refresh().subscribe(
+                { render() },
+                { logDebug("Profile capabilities unavailable: ${it.javaClass.simpleName}") },
+            )
+        }
 
         if (profileLoaded) {
             render()
@@ -216,9 +228,6 @@ class EditProfilePresenterImpl(
     private fun render() {
         val view = view ?: return
 
-        // Capability-gated section visibility. A capability snapshot
-        // doesn't change while the editor is open, but rendering it on
-        // every pass is free and keeps the projection complete.
         if (avatarUploadAllowed) view.showAvatarEditor() else view.hideAvatarEditor()
         if (bioEditAllowed) view.showBioEditor() else view.hideBioEditor()
 

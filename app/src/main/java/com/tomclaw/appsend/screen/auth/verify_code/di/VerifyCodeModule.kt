@@ -3,6 +3,7 @@ package com.tomclaw.appsend.screen.auth.verify_code.di
 import android.content.Context
 import android.os.Bundle
 import com.tomclaw.appsend.core.StoreApi
+import com.tomclaw.appsend.core.permissions.UserCapabilitiesInteractor
 import com.tomclaw.appsend.screen.auth.verify_code.VerifyCodeInteractor
 import com.tomclaw.appsend.screen.auth.verify_code.VerifyCodeInteractorImpl
 import com.tomclaw.appsend.screen.auth.verify_code.VerifyCodePresenter
@@ -47,8 +48,9 @@ class VerifyCodeModule(
     @PerActivity
     internal fun provideInteractor(
         api: StoreApi,
+        capabilitiesInteractor: UserCapabilitiesInteractor,
         schedulers: SchedulersFactory
-    ): VerifyCodeInteractor = VerifyCodeInteractorImpl(api, schedulers)
+    ): VerifyCodeInteractor = VerifyCodeInteractorImpl(api, capabilitiesInteractor, schedulers)
 
     @Provides
     @PerActivity

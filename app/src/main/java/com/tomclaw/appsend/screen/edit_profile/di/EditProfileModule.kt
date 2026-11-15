@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.core.permissions.UserCapabilitiesProvider
+import com.tomclaw.appsend.core.permissions.UserCapabilitiesInteractor
 import com.tomclaw.appsend.screen.edit_profile.EditProfileInteractor
 import com.tomclaw.appsend.screen.edit_profile.EditProfileInteractorImpl
 import com.tomclaw.appsend.screen.edit_profile.EditProfilePresenter
@@ -29,11 +30,13 @@ class EditProfileModule(
         interactor: EditProfileInteractor,
         resourceProvider: EditProfileResourceProvider,
         capabilitiesProvider: UserCapabilitiesProvider,
+        capabilitiesInteractor: UserCapabilitiesInteractor,
         schedulers: SchedulersFactory,
     ): EditProfilePresenter = EditProfilePresenterImpl(
         interactor,
         resourceProvider,
         capabilitiesProvider,
+        capabilitiesInteractor,
         schedulers,
         state,
     )
