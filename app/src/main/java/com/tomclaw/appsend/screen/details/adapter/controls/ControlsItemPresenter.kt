@@ -6,6 +6,7 @@ import com.tomclaw.appsend.download.COMPLETED
 import com.tomclaw.appsend.download.ERROR
 import com.tomclaw.appsend.download.IDLE
 import com.tomclaw.appsend.download.STARTED
+import com.tomclaw.appsend.install.InstallStatus
 import com.tomclaw.appsend.screen.details.adapter.ItemListener
 import com.tomclaw.appsend.util.NOT_INSTALLED
 
@@ -25,6 +26,11 @@ class ControlsItemPresenter(
             else -> true
         }
         when {
+            item.installStatus == InstallStatus.Confirming -> {
+                view.showContinueButton()
+                view.showCancelButton()
+            }
+
             item.installedVersionCode == NOT_INSTALLED -> {
                 view.showInstallButton()
                 if (isProgress) {

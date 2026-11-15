@@ -36,16 +36,14 @@ class SessionInstallMethod(
 
     // Kept until the final answer: a question asked while the app was away may never
     // have reached the user, as notifications can be off, and a new tap asks it again
-    private val confirmations = ConcurrentHashMap<InstallSessions.Attempt, Intent>()
+    private val confirmations = ConcurrentHashMap<InstallSessions.Attempt, Confirmation>()
 
     private var staleSessionsAbandoned = false
 
     override fun install(request: InstallRequest) {
         val attempt = sessions.start(request.key)
         if (attempt == null) {
-            sessions.current(request.key)?.let { active ->
-                confirmations[active]?.let { requestConfirmation(active, request.label, it) }
-            }
+            confirm(request.key)
             return
         }
         sessions.withCurrent(attempt) {
@@ -53,6 +51,12 @@ class SessionInstallMethod(
             startService(request)
         }
         executor.execute { writeAndCommit(request, attempt) }
+    }
+
+    override fun confirm(key: String) {
+        val attempt = sessions.current(key) ?: return
+        val confirmation = confirmations[attempt] ?: return
+        requestConfirmation(attempt, confirmation.label, confirmation.intent)
     }
 
     private fun startService(request: InstallRequest) {
@@ -249,7 +253,12 @@ class SessionInstallMethod(
 
     private fun requestConfirmation(attempt: InstallSessions.Attempt, label: String, confirmation: Intent) {
         sessions.withCurrent(attempt) {
-            confirmations[attempt] = confirmation
+            if (attempt.id?.let { packageInstaller.getSessionInfo(it) } == null) {
+                notifications.cancelInstall(attempt.key)
+                finish(attempt)
+                return@withCurrent
+            }
+            confirmations[attempt] = Confirmation(label, confirmation)
             sessions.update(attempt, InstallStatus.Confirming)
             // Android refuses to open a screen from the background without saying so, and it
             // can do that even while the app still counts as visible, right after the user
@@ -333,6 +342,8 @@ class SessionInstallMethod(
             // all abandoning was meant to achieve
         }
     }
+
+    private data class Confirmation(val label: String, val intent: Intent)
 
 }
 

@@ -39,6 +39,7 @@ class InstalledPresenterUpdateTest {
     private val main = TestScheduler()
     private val uri = TestUri()
     private val installs = mutableListOf<InstallRequest>()
+    private val confirmations = mutableListOf<String>()
     private val lookups = mutableListOf<String>()
     private val tracker = InstallTracker()
     private val downloads = mapOf(
@@ -124,6 +125,10 @@ class InstalledPresenterUpdateTest {
         },
         appInstaller = object : AppInstaller by unused<AppInstaller>() {
             override fun status(key: String): Observable<InstallStatus> = tracker.status(key)
+
+            override fun confirm(key: String) {
+                confirmations += key
+            }
 
             override fun install(request: InstallRequest) {
                 installs += request
@@ -248,6 +253,25 @@ class InstalledPresenterUpdateTest {
         main.triggerActions()
         downloads.getValue(appId).onNext(COMPLETED)
         main.triggerActions()
+    }
+
+    @Test
+    fun `confirming a downloaded update resumes the existing install`() {
+        startUpdate()
+        io.triggerActions()
+        main.triggerActions()
+        tracker.update("first", InstallStatus.Confirming)
+        main.triggerActions()
+
+        assertEquals(InstallStatus.Confirming, item().installStatus)
+        assertEquals(COMPLETED, item().updateState)
+        presenter.onUpdateClick(item())
+        io.triggerActions()
+        main.triggerActions()
+
+        assertEquals(listOf("first"), confirmations)
+        assertEquals(listOf("first"), lookups)
+        assertEquals(listOf("first"), installs.map { it.key })
     }
 
     private fun item(appId: String = "first"): AppItem =

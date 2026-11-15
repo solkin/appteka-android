@@ -1,6 +1,7 @@
 package com.tomclaw.appsend.screen.details
 
 import android.net.Uri
+import com.tomclaw.appsend.install.InstallStatus
 import com.tomclaw.appsend.core.Origin
 import com.tomclaw.appsend.core.permissions.CapabilityAction
 import com.tomclaw.appsend.util.adapter.Item
@@ -66,7 +67,8 @@ interface DetailsConverter {
         installedVersionCode: Int,
         moderation: Boolean,
         translationData: TranslationResponse?,
-        translationState: Int
+        translationState: Int,
+        installStatus: InstallStatus,
     ): List<Item>
 
 }
@@ -83,7 +85,8 @@ class DetailsConverterImpl(
         installedVersionCode: Int,
         moderation: Boolean,
         translationData: TranslationResponse?,
-        translationState: Int
+        translationState: Int,
+        installStatus: InstallStatus,
     ): List<Item> {
         var id: Long = 1
         val items = ArrayList<Item>()
@@ -219,6 +222,7 @@ class DetailsConverterImpl(
                 expiresIn = details.expiresIn,
                 installedVersionCode = installedVersionCode,
                 downloadState = downloadState,
+                installStatus = installStatus,
             )
         }
         val whatsNewText = details.meta?.whatsNew

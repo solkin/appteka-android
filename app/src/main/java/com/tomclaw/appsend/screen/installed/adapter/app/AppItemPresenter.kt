@@ -2,6 +2,7 @@ package com.tomclaw.appsend.screen.installed.adapter.app
 
 import com.tomclaw.appsend.download.AWAIT
 import com.tomclaw.appsend.download.STARTED
+import com.tomclaw.appsend.install.InstallStatus
 import com.tomclaw.appsend.util.adapter.ItemPresenter
 import com.tomclaw.appsend.screen.installed.AppsResourceProvider
 import com.tomclaw.appsend.screen.installed.adapter.ItemListener
@@ -32,6 +33,11 @@ class AppItemPresenter(
                 view.hideUpdateButton()
             }
 
+            item.installStatus == InstallStatus.Confirming -> {
+                view.hideUpdateProgress()
+                view.showContinueButton()
+            }
+
             item.updateState.isUpdateBusy() -> {
                 if (item.updateState in 0..100) {
                     view.setUpdateProgress(item.updateState)
@@ -49,7 +55,7 @@ class AppItemPresenter(
         if (item.isNew) view.showBadge() else view.hideBadge()
         view.setOnClickListener { listener.onItemClick(item) }
         view.setOnUpdateClickListener {
-            if (item.updateState.isUpdateBusy()) {
+            if (item.installStatus != InstallStatus.Confirming && item.updateState.isUpdateBusy()) {
                 listener.onUpdateCancelClick(item)
             } else {
                 listener.onUpdateClick(item)

@@ -24,7 +24,9 @@ class SystemInstallMethod(
         }
     }
 
-    // The system's screen is the user's to cancel
+    // The system's screen owns confirmation and cancellation.
+    override fun confirm(key: String) = Unit
+
     override fun cancel(key: String) = Unit
 
 }

@@ -9,6 +9,8 @@ interface AppInstaller {
     /** The way out when the chosen method has failed, whatever the setting says. */
     fun installWithSystem(request: InstallRequest)
 
+    fun confirm(key: String)
+
     fun status(key: String): Observable<InstallStatus>
 
     fun cancel(key: String)
@@ -33,6 +35,10 @@ class AppInstallerImpl(
 
     override fun installWithSystem(request: InstallRequest) {
         system.install(request)
+    }
+
+    override fun confirm(key: String) {
+        session.confirm(key)
     }
 
     override fun status(key: String): Observable<InstallStatus> = tracker.status(key)

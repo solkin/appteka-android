@@ -17,6 +17,8 @@ interface InstallMethod {
 
     fun install(request: InstallRequest)
 
+    fun confirm(key: String)
+
     fun cancel(key: String)
 
 }

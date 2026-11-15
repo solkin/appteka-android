@@ -18,9 +18,13 @@ class InstallStatusTest {
     }
 
     @Test
-    fun `system stages have no percent to show`() {
+    fun `installation by the system has no percent to show`() {
         assertEquals(STARTED, InstallStatus.Installing.asDownloadState(COMPLETED))
-        assertEquals(STARTED, InstallStatus.Confirming.asDownloadState(COMPLETED))
+    }
+
+    @Test
+    fun `waiting for confirmation leaves the completed download available`() {
+        assertEquals(COMPLETED, InstallStatus.Confirming.asDownloadState(COMPLETED))
     }
 
     @Test

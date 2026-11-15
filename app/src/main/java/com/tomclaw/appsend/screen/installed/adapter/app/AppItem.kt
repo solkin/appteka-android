@@ -2,6 +2,7 @@ package com.tomclaw.appsend.screen.installed.adapter.app
 
 import android.os.Parcelable
 import com.tomclaw.appsend.download.IDLE
+import com.tomclaw.appsend.install.InstallStatus
 import com.tomclaw.appsend.screen.installed.api.UpdateEntity
 import com.tomclaw.appsend.util.adapter.Item
 import kotlinx.parcelize.Parcelize
@@ -23,4 +24,5 @@ class AppItem(
     var isNew: Boolean = false,
     /** Download and install progress of [update], as DownloadManager reports it. */
     var updateState: Int = IDLE,
+    var installStatus: InstallStatus = InstallStatus.Idle,
 ) : Item, Parcelable

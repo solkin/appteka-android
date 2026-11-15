@@ -35,6 +35,8 @@ interface AppItemView : ItemView {
 
     fun showUpdateButton()
 
+    fun showContinueButton()
+
     fun showCancelButton()
 
     fun hideUpdateButton()
@@ -125,6 +127,11 @@ class AppItemViewHolder(view: View) : BaseItemViewHolder(view), AppItemView {
 
     override fun showCancelButton() {
         updateButton.setText(R.string.cancel)
+        updateButton.isVisible = true
+    }
+
+    override fun showContinueButton() {
+        updateButton.setText(R.string.continue_installation)
         updateButton.isVisible = true
     }
 

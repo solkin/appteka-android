@@ -1,6 +1,7 @@
 package com.tomclaw.appsend.screen.details.adapter.controls
 
 import android.os.Parcelable
+import com.tomclaw.appsend.install.InstallStatus
 import com.tomclaw.appsend.util.adapter.Item
 import kotlinx.parcelize.Parcelize
 
@@ -17,4 +18,5 @@ data class ControlsItem(
     val expiresIn: Long,
     val installedVersionCode: Int,
     val downloadState: Int,
+    val installStatus: InstallStatus,
 ) : Item, Parcelable
