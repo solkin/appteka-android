@@ -133,8 +133,9 @@ class UserCapabilitiesInteractorTest {
 
         observer.assertError(java.util.concurrent.CancellationException::class.java)
         assertNull(provider.getCapabilities())
-        interactor.refresh().test()
+        val refreshed = interactor.refresh().test()
         main.triggerActions()
+        refreshed.assertResult(response)
         assertEquals(response.capabilities, provider.getCapabilities())
     }
 
@@ -143,9 +144,10 @@ class UserCapabilitiesInteractorTest {
         val pending = io.reactivex.rxjava3.subjects.SingleSubject.create<StoreResponse<UserCapabilitiesResponse>>()
         val provider = UserCapabilitiesProviderImpl()
         val interactor = UserCapabilitiesInteractorImpl(stubApi(pending), provider, immediateSchedulers())
-        interactor.refresh().test()
+        val observer = interactor.refresh().test()
         assertEquals(true, pending.hasObservers())
         interactor.reset()
+        observer.assertError(java.util.concurrent.CancellationException::class.java)
         assertEquals(false, pending.hasObservers())
         pending.onSuccess(StoreResponse(200, response, ""))
         assertNull(provider.getCapabilities())
