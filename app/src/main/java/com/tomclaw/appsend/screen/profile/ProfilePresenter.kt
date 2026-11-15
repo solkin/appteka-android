@@ -10,7 +10,6 @@ import com.tomclaw.appsend.dto.AppEntity
 import com.tomclaw.appsend.dto.Badge
 import com.tomclaw.appsend.screen.profile.adapter.ItemListener
 import com.tomclaw.appsend.screen.profile.adapter.app.AppItem
-import com.tomclaw.appsend.screen.profile.api.ProfileResponse
 import com.tomclaw.appsend.user.ModerationProvider
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.filterUnauthorizedErrors
@@ -91,20 +90,22 @@ class ProfilePresenterImpl(
     private var view: ProfileView? = null
     private var router: ProfilePresenter.ProfileRouter? = null
 
-    private var profile: ProfileResponse? =
-        state?.getParcelableCompat(KEY_PROFILE, ProfileResponse::class.java)
+    private var profile: ProfileData? =
+        state?.getParcelableCompat(KEY_PROFILE, ProfileData::class.java)
     private var uploads: ArrayList<AppEntity>? =
         state?.getParcelableArrayListCompat(KEY_UPLOADS, AppEntity::class.java)
 
     private val items = ArrayList<Item>()
 
     private val subscriptions = CompositeDisposable()
+    private val profileRequests = CompositeDisposable()
 
     override fun attachView(view: ProfileView) {
         this.view = view
 
         subscriptions += view.navigationClicks().subscribe { onBackPressed() }
         subscriptions += view.swipeRefresh().subscribe { loadProfile() }
+        subscriptions += view.retryClicks().subscribe { loadProfile() }
         subscriptions += view.shareClicks().subscribe { onShareProfile() }
         subscriptions += view.eliminateClicks().subscribe { ready ->
             if (ready) {
@@ -135,6 +136,7 @@ class ProfilePresenterImpl(
 
     override fun detachView() {
         subscriptions.clear()
+        profileRequests.clear()
         this.view = null
     }
 
@@ -152,6 +154,8 @@ class ProfilePresenterImpl(
     }
 
     override fun onAuthorized() {
+        profile = null
+        uploads = null
         loadProfile()
     }
 
@@ -241,7 +245,9 @@ class ProfilePresenterImpl(
     }
 
     override fun onSubscribeClick() {
-        val profile = profile?.profile ?: return
+        val data = profile ?: return
+        if (data.isSelf) return
+        val profile = data.profile
         subscriptions += interactor.subscribe(profile.userId)
             .observeOn(schedulers.mainThread())
             .subscribe(
@@ -251,8 +257,9 @@ class ProfilePresenterImpl(
     }
 
     override fun onUnsubscribeClick() {
-        userId ?: return
-        subscriptions += interactor.unsubscribe(userId)
+        val data = profile ?: return
+        if (data.isSelf) return
+        subscriptions += interactor.unsubscribe(data.profile.userId)
             .observeOn(schedulers.mainThread())
             .subscribe(
                 { loadProfile() },
@@ -280,12 +287,12 @@ class ProfilePresenterImpl(
     }
 
     private fun loadProfile() {
-        subscriptions += Observables.zip(
+        profileRequests.clear()
+        profileRequests += Observables.zip(
             interactor.loadProfile(userId),
             interactor.loadUserApps(userId, offsetAppId = null)
         )
             .observeOn(schedulers.mainThread())
-            .retryWhenNonAuthErrors()
             .doOnSubscribe {
                 view?.hideMenu()
                 view?.hideError()
@@ -297,7 +304,7 @@ class ProfilePresenterImpl(
             )
     }
 
-    private fun onProfileLoaded(profile: ProfileResponse?, uploads: List<AppEntity>) {
+    private fun onProfileLoaded(profile: ProfileData?, uploads: List<AppEntity>) {
         this.profile = profile
         this.uploads = ArrayList(uploads)
         bindProfile()
@@ -345,7 +352,6 @@ class ProfilePresenterImpl(
 
     private fun bindProfile() {
         val profile = this.profile ?: return
-        val isSelf = userId == null
 
         val capabilities = capabilitiesProvider.getCapabilities()
         items.clear()
@@ -353,7 +359,7 @@ class ProfilePresenterImpl(
             profile.profile,
             uploads,
             moderation = moderationProvider.getModerationData(),
-            isSelf = isSelf,
+            isSelf = profile.isSelf,
             userCapabilities = capabilities,
         )
 
@@ -390,5 +396,5 @@ class ProfilePresenterImpl(
 
 }
 
-private const val KEY_PROFILE = "profile"
+private const val KEY_PROFILE = "profile_data"
 private const val KEY_UPLOADS = "uploads"

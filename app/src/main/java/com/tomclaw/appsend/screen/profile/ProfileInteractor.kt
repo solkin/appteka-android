@@ -2,16 +2,16 @@ package com.tomclaw.appsend.screen.profile
 
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.screen.profile.api.EliminateUserResponse
-import com.tomclaw.appsend.screen.profile.api.ProfileResponse
 import com.tomclaw.appsend.screen.profile.api.SubscribeResponse
 import com.tomclaw.appsend.screen.profile.api.UnsubscribeResponse
 import com.tomclaw.appsend.screen.profile.api.UserAppsResponse
 import com.tomclaw.appsend.util.SchedulersFactory
 import io.reactivex.rxjava3.core.Observable
+import io.reactivex.rxjava3.core.Single
 
 interface ProfileInteractor {
 
-    fun loadProfile(userId: Int?): Observable<ProfileResponse>
+    fun loadProfile(userId: Int?): Observable<ProfileData>
 
     fun loadUserApps(userId: Int?, offsetAppId: String?): Observable<UserAppsResponse>
 
@@ -28,12 +28,16 @@ class ProfileInteractorImpl(
     private val schedulers: SchedulersFactory
 ) : ProfileInteractor {
 
-    override fun loadProfile(userId: Int?): Observable<ProfileResponse> {
-        return api
-            .getProfile(userId)
-            .map { it.result }
-            .toObservable()
-            .subscribeOn(schedulers.io())
+    override fun loadProfile(userId: Int?): Observable<ProfileData> {
+        val profile = api.getProfile(userId).map { it.result.profile }
+        val data = if (userId == null) {
+            profile.map { ProfileData(it, viewerId = it.userId) }
+        } else {
+            Single.zip(profile, api.getUserBrief(userId = null)) { target, viewer ->
+                ProfileData(target, viewerId = viewer.result.id)
+            }
+        }
+        return data.toObservable().subscribeOn(schedulers.io())
     }
 
     override fun loadUserApps(userId: Int?, offsetAppId: String?): Observable<UserAppsResponse> {
