@@ -15,7 +15,8 @@ import com.tomclaw.appsend.util.Analytics
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.getParcelableArrayListCompat
 import com.tomclaw.appsend.util.getParcelableCompat
-import com.tomclaw.appsend.util.retryWhenNonAuthErrors
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Observable
 import dagger.Lazy
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.plusAssign
@@ -64,6 +65,7 @@ class StorePresenterImpl(
     private var router: StorePresenter.StoreRouter? = null
 
     private val subscriptions = CompositeDisposable()
+    private val requests = CompositeDisposable()
 
     private var items: List<AppItem>? =
         state?.getParcelableArrayListCompat(KEY_APPS, AppItem::class.java)
@@ -92,7 +94,7 @@ class StorePresenterImpl(
         }
 
         subscriptions += view.retryClicks().subscribe {
-            loadApps()
+            invalidateApps()
         }
         subscriptions += view.refreshClicks().subscribe {
             invalidateApps()
@@ -111,22 +113,19 @@ class StorePresenterImpl(
         view.setFilters(openSource = openSource, exclusive = exclusive)
 
         if (dropdownItems.isNotEmpty()) {
-            // Restore from saved state synchronously
             view.showCategories(dropdownItems)
             selectedCategoryItem()?.let { view.setSelectedCategory(it) }
-            if (isError) {
-                onError()
-            } else {
-                items?.let { bindItems() } ?: loadApps()
-            }
-        } else {
-            view.showProgress()
-            loadCategories()
+        }
+        when {
+            isError -> onError()
+            items != null -> bindItems()
+            else -> loadApps()
         }
     }
 
     override fun detachView() {
         subscriptions.clear()
+        requests.clear()
         this.view = null
     }
 
@@ -155,24 +154,34 @@ class StorePresenterImpl(
     }
 
     private fun loadApps() {
-        subscriptions += storeInteractor
-            .listApps(categoryId = category?.id, openSource = openSource, exclusive = exclusive)
+        requests.clear()
+        val categories = if (dropdownItems.isEmpty()) {
+            categoriesInteractor.getCategories()
+                .observeOn(schedulers.mainThread())
+                .doOnSuccess { onCategoriesLoaded(it) }
+                .ignoreElement()
+        } else {
+            Completable.complete()
+        }
+        if (view?.isPullRefreshing() == false) view?.showProgress()
+        requests += categories.andThen(Observable.defer {
+            storeInteractor.listApps(categoryId = category?.id, openSource = openSource, exclusive = exclusive)
+        })
             .observeOn(schedulers.mainThread())
-            .doOnSubscribe { if (view?.isPullRefreshing() == false) view?.showProgress() }
             .subscribe(
                 { onLoaded(it) },
-                { onError() }
+                { onError() },
             )
     }
 
     private fun loadApps(offsetAppId: String) {
-        subscriptions += storeInteractor
+        requests.clear()
+        requests += storeInteractor
             .listApps(offsetAppId, category?.id, openSource, exclusive)
             .observeOn(schedulers.mainThread())
-            .retryWhenNonAuthErrors()
             .subscribe(
                 { onLoaded(it) },
-                { onError() }
+                { onError() },
             )
     }
 
@@ -238,29 +247,12 @@ class StorePresenterImpl(
         loadApps(app.appId)
     }
 
-    private fun loadCategories() {
-        subscriptions += categoriesInteractor.getCategories()
-            .toObservable()
-            .observeOn(schedulers.mainThread())
-            .retryWhenNonAuthErrors()
-            .subscribe(
-                { onCategoriesLoaded(it) },
-                { onError() }
-            )
-    }
-
     private fun onCategoriesLoaded(categories: List<Category>) {
         val categoryItems = categories.map { categoryConverter.convert(it) }.sortedBy { it.title }
         dropdownItems = dropdownItemConverter.convert(categoryItems)
 
         view?.showCategories(dropdownItems)
         selectedCategoryItem()?.let { view?.setSelectedCategory(it) }
-
-        if (isError) {
-            onError()
-        } else {
-            items?.let { bindItems() } ?: loadApps()
-        }
     }
 
     // The "All categories" entry has id 0, matching a null category.

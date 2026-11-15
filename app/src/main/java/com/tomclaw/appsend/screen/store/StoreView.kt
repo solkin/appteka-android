@@ -152,10 +152,13 @@ class StoreViewImpl(
     override fun showPlaceholder() {
         refresher.isRefreshing = false
         refresher.isEnabled = true
+        overlayProgress.hideWithAlphaAnimation(animateFully = false)
         flipper.displayedChild = CHILD_PLACEHOLDER
     }
 
     override fun showError() {
+        refresher.isRefreshing = false
+        overlayProgress.hideWithAlphaAnimation(animateFully = false)
         refresher.isEnabled = true
         flipper.displayedChild = CHILD_ERROR
 
