@@ -232,6 +232,124 @@ class SearchPresenterHistoryTest {
         assertEquals(0, router.left)
     }
 
+    @Test
+    fun `IME before debounce searches the current text and remembers its eventual result`() {
+        val pending = PublishSubject.create<AppsPage>()
+        interactor.responses = { _, _ -> pending }
+        attach()
+        view.queryTextChanges.onNext("telegram")
+        view.searchActions.onNext(Unit)
+        scheduler.triggerActions()
+        assertEquals("telegram", interactor.lastQuery)
+        assertTrue(interactor.added.isEmpty())
+        pending.onNext(AppsPage(listOf(app("1"))))
+        scheduler.triggerActions()
+        assertEquals(listOf(entry("telegram")), interactor.added)
+    }
+
+    @Test
+    fun `a response later than the history delay is remembered when it succeeds`() {
+        val pending = PublishSubject.create<AppsPage>()
+        interactor.responses = { _, _ -> pending }
+        attach()
+        search("telegram")
+        scheduler.advanceTimeBy(10, TimeUnit.SECONDS)
+        assertTrue(interactor.added.isEmpty())
+        pending.onNext(AppsPage(listOf(app("1"))))
+        scheduler.triggerActions()
+        assertEquals(listOf(entry("telegram")), interactor.added)
+    }
+
+    @Test
+    fun `editing the query cancels the old response before the new debounce expires`() {
+        val old = PublishSubject.create<AppsPage>()
+        val current = PublishSubject.create<AppsPage>()
+        interactor.responses = { query, _ -> if (query == "old") old else current }
+        attach()
+        search("old")
+        view.queryTextChanges.onNext("current")
+        assertFalse(old.hasObservers())
+        old.onNext(AppsPage(listOf(app("1"))))
+        view.searchActions.onNext(Unit)
+        scheduler.triggerActions()
+        current.onNext(AppsPage(listOf(app("2"))))
+        scheduler.triggerActions()
+        assertEquals(listOf(entry("current")), interactor.added)
+        assertEquals(listOf("2"), adapter.items.map { it.appId })
+    }
+
+    @Test
+    fun `clearing criteria cancels pending results and history`() {
+        val pending = PublishSubject.create<AppsPage>()
+        interactor.responses = { _, _ -> pending }
+        val presenter = attach()
+        search("telegram")
+        presenter.onBackPressed()
+        assertFalse(pending.hasObservers())
+        scheduler.advanceTimeBy(10, TimeUnit.SECONDS)
+        pending.onNext(AppsPage(listOf(app("1"))))
+        scheduler.triggerActions()
+        assertTrue(interactor.added.isEmpty())
+        assertTrue(view.placeholderShown)
+    }
+
+    @Test
+    fun `an explicit slow search with empty results or an error is not remembered`() {
+        val empty = PublishSubject.create<AppsPage>()
+        val failed = PublishSubject.create<AppsPage>()
+        interactor.responses = { query, _ -> if (query == "empty") empty else failed }
+        attach()
+        search("empty")
+        view.searchActions.onNext(Unit)
+        scheduler.advanceTimeBy(10, TimeUnit.SECONDS)
+        empty.onNext(AppsPage(emptyList()))
+        scheduler.triggerActions()
+        search("failed")
+        view.searchActions.onNext(Unit)
+        failed.onError(java.io.IOException("offline"))
+        scheduler.advanceTimeBy(10, TimeUnit.SECONDS)
+        assertTrue(interactor.added.isEmpty())
+        assertTrue(view.errorShown)
+    }
+
+    @Test
+    fun `paging does not discard the pending history intent`() {
+        interactor.responses = { _, offset -> Observable.just(AppsPage(listOf(app(if (offset == 0) "1" else "2")))) }
+        val presenter = attach()
+        search("telegram")
+        presenter.onLoadMore(adapter.items.last())
+        scheduler.triggerActions()
+        scheduler.advanceTimeBy(REMEMBER_DELAY_MS, TimeUnit.MILLISECONDS)
+        assertEquals(listOf(entry("telegram")), interactor.added)
+        assertEquals(listOf("1", "2"), adapter.items.map { it.appId })
+    }
+
+    @Test
+    fun `tag selection replaces the pending text search and remembers its own criteria`() {
+        val pending = PublishSubject.create<AppsPage>()
+        interactor.responses = { query, _ -> if (query.isEmpty()) Observable.just(AppsPage(listOf(app("2")))) else pending }
+        attach()
+        search("telegram")
+        view.customTagClicks.onNext("chat")
+        scheduler.advanceTimeBy(REMEMBER_DELAY_MS, TimeUnit.MILLISECONDS)
+        assertFalse(pending.hasObservers())
+        assertEquals(listOf(entry("", "chat")), interactor.added)
+    }
+
+    @Test
+    fun `detaching cancels results and history intent`() {
+        val pending = PublishSubject.create<AppsPage>()
+        interactor.responses = { _, _ -> pending }
+        val presenter = attach()
+        search("telegram")
+        view.searchActions.onNext(Unit)
+        presenter.detachView()
+        assertFalse(pending.hasObservers())
+        pending.onNext(AppsPage(listOf(app("1"))))
+        scheduler.advanceTimeBy(10, TimeUnit.SECONDS)
+        assertTrue(interactor.added.isEmpty())
+    }
+
     // --- helpers ----------------------------------------------------
 
     private fun attach(): SearchPresenter = SearchPresenterImpl(
@@ -268,6 +386,7 @@ private class FakeSearchInteractor : SearchInteractor {
     var apps: List<AppEntity> = listOf(app("1"))
     var contentFilter: List<ContentFlag> = emptyList()
     var failure: Throwable? = null
+    var responses: ((String, Int) -> Observable<AppsPage>)? = null
     var history: List<SearchHistoryEntry> = emptyList()
 
     var lastQuery: String? = null
@@ -287,6 +406,7 @@ private class FakeSearchInteractor : SearchInteractor {
     ): Observable<AppsPage> {
         lastQuery = query
         lastTags = tags
+        responses?.let { return it(query, offset) }
         return failure?.let { Observable.error(it) }
             ?: Observable.just(AppsPage(entries = apps, contentFilter = contentFilter))
     }
@@ -399,6 +519,7 @@ private class FakeSearchView : SearchView {
         placeholderShown = false
     }
 
+    val customTagClicks = PublishSubject.create<String>()
     val queryTextChanges = PublishSubject.create<String>()
     val searchActions = PublishSubject.create<Unit>()
     val navigationClicks = PublishSubject.create<Unit>()
@@ -465,7 +586,7 @@ private class FakeSearchView : SearchView {
 
     override fun tagSuggestionClicks(): Observable<String> = Observable.never()
 
-    override fun customTagClicks(): Observable<String> = Observable.never()
+    override fun customTagClicks(): Observable<String> = customTagClicks
 
     override fun popularTagClicks(): Observable<String> = Observable.never()
 

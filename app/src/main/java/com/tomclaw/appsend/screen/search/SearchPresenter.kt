@@ -9,6 +9,7 @@ import com.tomclaw.appsend.screen.store.AppConverter
 import com.tomclaw.appsend.screen.store.adapter.app.AppItem
 import com.tomclaw.appsend.screen.store.adapter.ItemListener
 import com.tomclaw.appsend.util.Analytics
+import com.tomclaw.appsend.util.logDebug
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.getParcelableArrayListCompat
 import com.tomclaw.appsend.util.retryWhenNonAuthErrors
@@ -16,6 +17,7 @@ import dagger.Lazy
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.subjects.PublishSubject
 import io.reactivex.rxjava3.kotlin.plusAssign
 import java.util.concurrent.TimeUnit
 
@@ -80,6 +82,8 @@ class SearchPresenterImpl(
 
     private val subscriptions = CompositeDisposable()
     private var searchDisposable: Disposable? = null
+    private var pageDisposable: Disposable? = null
+    private val rememberActions = PublishSubject.create<Unit>()
 
     private var items: List<AppItem>? =
         state?.getParcelableArrayListCompat(KEY_APPS, AppItem::class.java)
@@ -108,9 +112,6 @@ class SearchPresenterImpl(
     private var historyShown: Int =
         state?.getInt(KEY_HISTORY_SHOWN, HISTORY_PAGE) ?: HISTORY_PAGE
 
-    /** Restarted by every search. See [rememberSearch]. */
-    private var rememberDisposable: Disposable? = null
-
     private val hasCriteria: Boolean
         get() = query.isNotBlank() || tags.isNotEmpty()
 
@@ -134,18 +135,10 @@ class SearchPresenterImpl(
             analytics.trackEvent("search-refresh")
         }
         subscriptions += view.queryTextChanges()
-            .debounce(DEBOUNCE_DELAY_MS, TimeUnit.MILLISECONDS, schedulers.mainThread())
-            .distinctUntilChanged()
             .subscribe { text ->
-                // Restoring the field after a rotation fires the text
-                // watcher just like typing does, and an empty relay lets
-                // that first value through distinctUntilChanged. Acting
-                // on it would re-run the search we just restored, so
-                // compare against what we already hold: a change that
-                // changes nothing is not a change.
                 if (text == query) return@subscribe
                 query = text
-                onCriteriaChanged()
+                onCriteriaChanged(debounce = true)
             }
         subscriptions += view.tagRemoveClicks().subscribe { tag ->
             tags = tags.filterNot { it == tag }
@@ -170,7 +163,7 @@ class SearchPresenterImpl(
         }
         subscriptions += view.searchActions().subscribe {
             analytics.trackEvent("search-ime-action")
-            rememberSearch()
+            rememberActions.onNext(Unit)
         }
         subscriptions += view.historyClicks().subscribe { item ->
             analytics.trackEvent("search-history-item")
@@ -199,7 +192,10 @@ class SearchPresenterImpl(
 
         when {
             isError -> onError()
-            items != null -> bindItems()
+            items != null -> {
+                bindItems()
+                observeHistoryIntent(Observable.just(!items.isNullOrEmpty()))
+            }
             hasCriteria -> performSearch()
             else -> showPlaceholder()
         }
@@ -208,8 +204,8 @@ class SearchPresenterImpl(
     override fun detachView() {
         searchDisposable?.dispose()
         searchDisposable = null
-        rememberDisposable?.dispose()
-        rememberDisposable = null
+        pageDisposable?.dispose()
+        pageDisposable = null
         subscriptions.clear()
         this.view = null
     }
@@ -278,10 +274,10 @@ class SearchPresenterImpl(
     }
 
     /** The one funnel: whatever changed the criteria, this decides what happens next. */
-    private fun onCriteriaChanged() {
+    private fun onCriteriaChanged(debounce: Boolean = false) {
         bindTags()
         router?.setBackCallbackEnabled(hasCriteria)
-        if (hasCriteria) performSearch() else showPlaceholder()
+        if (hasCriteria) performSearch(if (debounce) DEBOUNCE_DELAY_MS else 0L) else showPlaceholder()
     }
 
     /**
@@ -328,35 +324,58 @@ class SearchPresenterImpl(
     private fun normalizeTag(raw: String): String =
         raw.replace(TAG_SEPARATORS, " ").trim().lowercase()
 
-    private fun performSearch() {
+    private fun performSearch(delayMillis: Long = 0L) {
+        searchDisposable?.dispose()
+        pageDisposable?.dispose()
         if (!hasCriteria) {
             showPlaceholder()
             return
         }
-
-        scheduleRemember()
         items = null
-
-        // Criteria now change one tag at a time, so a search can well
-        // begin while the previous one is still in the air. Only the
-        // last one asked for is the one anybody is waiting for.
-        searchDisposable?.dispose()
-        searchDisposable = searchInteractor.searchApps(query.trim(), tags)
+        isError = false
+        val criteria = SearchHistoryEntry(query.trim(), tags.toList())
+        if (view?.isPullRefreshing() == false) view?.showProgress()
+        val results = Observable.merge(
+            Observable.timer(delayMillis, TimeUnit.MILLISECONDS, schedulers.mainThread()).map { Unit },
+            rememberActions,
+        ).take(1)
+            .flatMap { searchInteractor.searchApps(criteria.query, criteria.tags) }
             .observeOn(schedulers.mainThread())
-            .doOnSubscribe { if (view?.isPullRefreshing() == false) view?.showProgress() }
+            .doOnNext { onLoaded(it, isNewSearch = true) }
+            .map { it.entries.isNotEmpty() }
+            .doOnError { onError() }
+            .onErrorComplete()
+        observeHistoryIntent(results, delayMillis, criteria)
+    }
+
+    private fun observeHistoryIntent(
+        results: Observable<Boolean>,
+        delayMillis: Long = 0L,
+        criteria: SearchHistoryEntry = SearchHistoryEntry(query.trim(), tags.toList()),
+    ) {
+        val intent = Observable.merge(
+            Observable.timer(delayMillis + HISTORY_DELAY_MS, TimeUnit.MILLISECONDS, schedulers.mainThread()).map { Unit },
+            rememberActions,
+        ).take(1)
+        searchDisposable = Observable.combineLatest(intent, results) { _, found -> found }
+            .take(1)
+            .filter { it }
+            .flatMap { searchInteractor.addToHistory(criteria.query, criteria.tags) }
+            .observeOn(schedulers.mainThread())
             .subscribe(
-                { onLoaded(it, isNewSearch = true) },
-                { onError() }
+                { entries ->
+                    history = entries
+                    bindHistory()
+                },
+                { logDebug("Search history unavailable: ${it.javaClass.simpleName}") },
             )
     }
 
     private fun loadMore(offset: Int) {
         if (!hasCriteria) return
 
-        // Same disposable as the search itself: a page belongs to the
-        // criteria it was asked for, and outlives neither them nor it.
-        searchDisposable?.dispose()
-        searchDisposable = searchInteractor.searchApps(query.trim(), tags, offset)
+        pageDisposable?.dispose()
+        pageDisposable = searchInteractor.searchApps(query.trim(), tags, offset)
             .observeOn(schedulers.mainThread())
             .retryWhenNonAuthErrors()
             .subscribe(
@@ -413,6 +432,9 @@ class SearchPresenterImpl(
 
     /** Nothing asked for yet — offer the catalog's own tags as a way in. */
     private fun showPlaceholder() {
+        searchDisposable?.dispose()
+        pageDisposable?.dispose()
+        isError = false
         items = null
         view?.showPlaceholder()
         loadPopularTags()
@@ -440,26 +462,6 @@ class SearchPresenterImpl(
                     // and hand-typed tags still work without them.
                 }
             )
-    }
-
-    /**
-     * Every keystroke runs a search of its own, so remembering them all
-     * would fill the history with the way to a query rather than with
-     * the query. Only a search left standing this long is taken to have
-     * been meant; the other two ways of meaning one are pressing the
-     * search key and acting on what it found.
-     */
-    private fun scheduleRemember() {
-        rememberDisposable?.dispose()
-        rememberDisposable = Observable
-            .timer(HISTORY_DELAY_MS, TimeUnit.MILLISECONDS, schedulers.mainThread())
-            .subscribe { rememberSearch() }
-    }
-
-    /** Worth offering again only if it came to something. */
-    private fun rememberSearch() {
-        if (isError || items.isNullOrEmpty()) return
-        bindHistoryFrom(searchInteractor.addToHistory(query, tags))
     }
 
     /** A remembered search is restored whole — the text and the tags it was made of. */
@@ -517,7 +519,7 @@ class SearchPresenterImpl(
     override fun onItemClick(item: Item) {
         val app = items?.find { it.id == item.id } ?: return
         // Opening something out of the results is what a search was for.
-        rememberSearch()
+        rememberActions.onNext(Unit)
         router?.openAppScreen(app.appId, app.title)
     }
 
