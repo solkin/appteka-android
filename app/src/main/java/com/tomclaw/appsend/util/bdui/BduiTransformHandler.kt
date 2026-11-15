@@ -251,8 +251,8 @@ class BduiTransformHandler(
     private fun applyFlipInterval(view: View, value: Any) {
         val interval = when (value) {
             is Number -> value.toInt()
-            is String -> value.toIntOrNull() ?: 3000
-            else -> 3000
+            is String -> value.toIntOrNull() ?: BduiFlipper.DEFAULT_INTERVAL
+            else -> BduiFlipper.DEFAULT_INTERVAL
         }
         when (view) {
             is ViewFlipper -> view.flipInterval = interval

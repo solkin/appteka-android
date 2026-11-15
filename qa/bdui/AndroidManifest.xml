@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="store.appteka.qa.runner">
+    <uses-sdk android:minSdkVersion="23" android:targetSdkVersion="36" />
+    <application android:label="Appteka QA runner" />
+    <instrumentation android:name="store.appteka.qa.runner.RegressionInstrumentation"
+        android:targetPackage="com.tomclaw.appsend" />
+</manifest>

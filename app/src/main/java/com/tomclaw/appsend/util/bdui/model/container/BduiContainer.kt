@@ -150,7 +150,7 @@ data class BduiFlipperContainer(
     @SerializedName("autoStart")
     val autoStart: Boolean = false,         // Auto-start flipping animation
     @SerializedName("flipInterval")
-    val flipInterval: Int = 3000,           // Interval between flips in ms
+    val flipInterval: Int? = null,          // Omitted intervals use the component default
     @SerializedName("inAnimation")
     val inAnimation: String? = null,        // "fade_in", "slide_in_left", "slide_in_right", etc.
     @SerializedName("outAnimation")

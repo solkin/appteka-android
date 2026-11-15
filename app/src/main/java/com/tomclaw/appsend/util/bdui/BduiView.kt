@@ -289,7 +289,7 @@ class BduiView @JvmOverloads constructor(
 
     private fun getFlipIntervalValue(view: View): Int? {
         return when (view) {
-            is ViewFlipper -> view.flipInterval
+            is BduiFlipper -> view.currentInterval
             else -> null
         }
     }

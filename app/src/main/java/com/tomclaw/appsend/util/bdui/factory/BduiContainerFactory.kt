@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.tomclaw.appsend.util.bdui.BduiActionHandler
+import com.tomclaw.appsend.util.bdui.BduiFlipper
 import com.tomclaw.appsend.util.bdui.BduiViewRegistry
 import com.tomclaw.appsend.util.bdui.model.BduiLayoutParams
 import com.tomclaw.appsend.util.bdui.model.BduiNode
@@ -116,10 +117,7 @@ class BduiContainerFactory(
     }
 
     private fun createFlipper(container: BduiFlipperContainer): ViewGroup {
-        return ViewFlipper(context).apply {
-            // Set flip interval
-            flipInterval = container.flipInterval ?: 3000
-
+        return BduiFlipper(context, container.flipInterval ?: BduiFlipper.DEFAULT_INTERVAL).apply {
             // Set in animation
             container.inAnimation?.let { animName ->
                 inAnimation = getAnimation(animName)

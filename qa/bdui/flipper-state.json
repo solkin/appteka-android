@@ -1,0 +1,39 @@
+{
+  "id": "state_root",
+  "type": "linear",
+  "children": [
+    {
+      "id": "default_flipper",
+      "type": "flipper",
+      "children": [
+        {
+          "id": "default_flipper_one",
+          "type": "text",
+          "text": "First page"
+        },
+        {
+          "id": "default_flipper_two",
+          "type": "text",
+          "text": "Second page"
+        }
+      ]
+    },
+    {
+      "id": "configured_flipper",
+      "type": "flipper",
+      "children": [
+        {
+          "id": "configured_flipper_one",
+          "type": "text",
+          "text": "First page"
+        },
+        {
+          "id": "configured_flipper_two",
+          "type": "text",
+          "text": "Second page"
+        }
+      ],
+      "flipInterval": 700
+    }
+  ]
+}
