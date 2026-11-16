@@ -74,7 +74,7 @@ class ControlsItemViewHolder(view: View) : BaseItemViewHolder(view), ControlsIte
     }
 
     override fun showContinueButton() {
-        installButton.setText(R.string.continue_installation)
+        installButton.setText(R.string.install_continue)
         installButton.show()
     }
 

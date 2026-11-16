@@ -3,22 +3,22 @@ package com.tomclaw.appsend.download
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Build
-import android.os.Handler
-import android.os.Looper
 import androidx.activity.ComponentActivity
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 
 /**
- * Starts [DownloadService] from an activity, asking for the notification
- * permission first on Android 13+. The download starts whatever the answer:
- * without the permission only its notification is missing.
+ * Starts a download from an activity: hands it to [deliver] and starts
+ * [DownloadService] to keep it running and in sight. Asks for the notification
+ * permission first on Android 13+, and starts whatever the answer: without the
+ * permission only its notification is missing.
  *
  * Create it while the activity is being constructed: it registers a result
  * launcher, which is only allowed before the activity starts.
  */
 class DownloadLauncher(
     private val activity: ComponentActivity,
+    private val deliver: (DownloadParams) -> Unit,
     private val onStarted: () -> Unit = {},
 ) {
 
@@ -28,13 +28,9 @@ class DownloadLauncher(
 
     private val permissionLauncher =
         activity.registerForActivityResult(ActivityResultContracts.RequestPermission()) { _ ->
-            // The system needs a moment to apply the permission before a
-            // foreground service may start.
-            Handler(Looper.getMainLooper()).postDelayed({
-                val queued = pending.toList()
-                pending.clear()
-                queued.forEach { start(it) }
-            }, PERMISSION_APPLY_DELAY)
+            val queued = pending.toList()
+            pending.clear()
+            queued.forEach { start(it) }
         }
 
     fun launch(params: DownloadParams) {
@@ -50,16 +46,9 @@ class DownloadLauncher(
     }
 
     private fun start(params: DownloadParams) {
-        val intent = createDownloadIntent(
-            context = activity,
-            label = params.label,
-            version = params.version,
-            icon = params.icon,
-            appId = params.appId,
-            url = params.url,
-            sha1 = params.sha1,
-        )
-        ContextCompat.startForegroundService(activity, intent)
+        // The download comes first, so the service finds it under way
+        deliver(params)
+        ContextCompat.startForegroundService(activity, createDownloadIntent(activity, params))
         onStarted()
     }
 
@@ -73,5 +62,3 @@ data class DownloadParams(
     val url: String,
     val sha1: String?,
 )
-
-private const val PERMISSION_APPLY_DELAY = 100L

@@ -131,7 +131,7 @@ class AppItemViewHolder(view: View) : BaseItemViewHolder(view), AppItemView {
     }
 
     override fun showContinueButton() {
-        updateButton.setText(R.string.continue_installation)
+        updateButton.setText(R.string.install_continue)
         updateButton.isVisible = true
     }
 

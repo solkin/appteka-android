@@ -10,6 +10,7 @@ import com.tomclaw.appsend.install.InstallFailureActivity
 import com.tomclaw.appsend.install.InstallResultReceiver
 import com.tomclaw.appsend.install.InstallService
 import com.tomclaw.appsend.util.Analytics
+import com.tomclaw.appsend.util.ResumedActivities
 import com.tomclaw.bananalytics.Bananalytics
 import com.tomclaw.appsend.screen.about.di.AboutComponent
 import com.tomclaw.appsend.screen.about.di.AboutModule
@@ -177,6 +178,8 @@ interface AppComponent {
     fun bananalytics(): Bananalytics
 
     fun migrationManager(): MigrationManager
+
+    fun resumedActivities(): ResumedActivities
 
     fun detailsDeepLinkParser(): DetailsDeepLinkParser
 

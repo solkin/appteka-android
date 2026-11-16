@@ -47,7 +47,7 @@ class InstallSessionsTest {
         sessions.finish(cancelled)
         val retry = requireNotNull(sessions.start("app"))
 
-        sessions.onResult("app", 1) { sessions.update(it, InstallStatus.Confirming) }
+        sessions.onResult("app", 1) { sessions.update(it, InstallStatus.AwaitingConfirmation) }
 
         assertTrue(sessions.isCurrent(retry))
         assertNull(retry.id)
@@ -84,12 +84,37 @@ class InstallSessionsTest {
 
     @Test
     fun `a new process restores a session from its pending result`() {
-        sessions.onResult("app", 1) { sessions.update(it, InstallStatus.Confirming) }
+        sessions.onResult("app", 1) { sessions.update(it, InstallStatus.AwaitingConfirmation) }
 
         val restored = requireNotNull(sessions.current("app"))
         assertEquals(1, restored.id)
-        tracker.status("app").test().assertValue(InstallStatus.Confirming)
+        tracker.status("app").test().assertValue(InstallStatus.AwaitingConfirmation)
         assertTrue(sessions.finish(restored))
+    }
+
+    @Test
+    fun `a committed session restored after a restart is followed to its result`() {
+        sessions.restore("app", 7)
+        val status = tracker.status("app").test()
+
+        sessions.onResult("app", 8) { sessions.finish(it) }
+        assertEquals(7, sessions.current("app")?.id)
+        assertNull(sessions.start("app"))
+
+        sessions.onResult("app", 7) { sessions.finish(it) }
+
+        assertNull(sessions.current("app"))
+        status.assertValues(InstallStatus.Installing, InstallStatus.Idle)
+    }
+
+    @Test
+    fun `restoring leaves an attempt of this process alone`() {
+        val active = requireNotNull(sessions.start("app"))
+
+        sessions.restore("app", 7)
+
+        assertTrue(sessions.isCurrent(active))
+        tracker.status("app").test().assertValue(InstallStatus.Writing(0))
     }
 
     @Test

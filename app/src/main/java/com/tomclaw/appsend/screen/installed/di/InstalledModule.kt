@@ -12,8 +12,7 @@ import com.tomclaw.appsend.categories.CategoryConverterImpl
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.core.StreamsProvider
 import com.tomclaw.appsend.download.ApkStorage
-import com.tomclaw.appsend.download.DownloadManager
-import com.tomclaw.appsend.install.AppInstaller
+import com.tomclaw.appsend.delivery.AppDelivery
 import com.tomclaw.appsend.screen.details.adapter.abi.AbiResourceProvider
 import com.tomclaw.appsend.screen.details.adapter.abi.AbiResourceProviderImpl
 import com.tomclaw.appsend.screen.installed.AppConverter
@@ -55,8 +54,7 @@ class InstalledModule(
         adapterPresenter: Lazy<AdapterPresenter>,
         appConverter: AppConverter,
         resourceProvider: AppsResourceProvider,
-        downloadManager: DownloadManager,
-        appInstaller: AppInstaller,
+        appDelivery: AppDelivery,
         packageObserver: PackageObserver,
         abiResourceProvider: AbiResourceProvider,
         schedulers: SchedulersFactory
@@ -68,8 +66,7 @@ class InstalledModule(
         adapterPresenter,
         appConverter,
         resourceProvider,
-        downloadManager,
-        appInstaller,
+        appDelivery,
         packageObserver,
         abiResourceProvider,
         schedulers,

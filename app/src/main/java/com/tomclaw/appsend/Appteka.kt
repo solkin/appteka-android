@@ -46,6 +46,8 @@ class Appteka : Application() {
         component = DaggerAppComponent.builder()
             .appModule(AppModule(this))
             .build()
+        // Before any screen starts: installs open theirs only from the one the user is in
+        registerActivityLifecycleCallbacks(component.resumedActivities())
 
         initSimpleImageLoader()
         initAnalytics()

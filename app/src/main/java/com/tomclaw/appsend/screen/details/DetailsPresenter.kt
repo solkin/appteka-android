@@ -4,13 +4,8 @@ import android.os.Build
 import android.os.Bundle
 import com.tomclaw.appsend.util.adapter.AdapterPresenter
 import com.tomclaw.appsend.util.adapter.Item
-import com.tomclaw.appsend.download.COMPLETED
-import com.tomclaw.appsend.download.DownloadManager
-import com.tomclaw.appsend.download.IDLE
-import com.tomclaw.appsend.install.AppInstaller
-import com.tomclaw.appsend.install.InstallRequest
-import com.tomclaw.appsend.install.InstallStatus
-import com.tomclaw.appsend.install.asDownloadState
+import com.tomclaw.appsend.delivery.AppDelivery
+import com.tomclaw.appsend.delivery.DeliveryState
 import com.tomclaw.appsend.screen.details.adapter.abi.AbiResourceProvider
 import com.tomclaw.appsend.screen.details.adapter.ItemListener
 import com.tomclaw.appsend.screen.details.adapter.play.PlaySecurityStatus
@@ -77,8 +72,6 @@ interface DetailsPresenter : ItemListener {
         fun openProfile(userId: Int)
 
         fun launchApp(packageName: String)
-
-        fun installApp(request: InstallRequest)
 
         fun removeApp(packageName: String)
 
@@ -148,8 +141,7 @@ class DetailsPresenterImpl(
     private val adapterPresenter: Lazy<AdapterPresenter>,
     private val detailsConverter: DetailsConverter,
     private val packageObserver: PackageObserver,
-    private val downloadManager: DownloadManager,
-    private val appInstaller: AppInstaller,
+    private val appDelivery: AppDelivery,
     private val schedulers: SchedulersFactory,
     state: Bundle?
 ) : DetailsPresenter {
@@ -159,9 +151,8 @@ class DetailsPresenterImpl(
 
     private var details: Details? = state?.getParcelableCompat(KEY_DETAILS, Details::class.java)
     private var installedVersionCode: Int = state?.getInt(KEY_INSTALLED_VERSION) ?: NOT_INSTALLED
-    private var downloadState: Int = state?.getInt(KEY_DOWNLOAD_STATE) ?: IDLE
-    private var installStatus: InstallStatus = InstallStatus.Idle
-    private var needInstall: Boolean = state?.getBoolean(KEY_NEED_INSTALL) == true
+    private var delivery: DeliveryState =
+        state?.getParcelableCompat(KEY_DELIVERY, DeliveryState::class.java) ?: DeliveryState.Idle
     private var removeBeforeInstall: Boolean = state?.getBoolean(KEY_REMOVE_BEFORE_INSTALL) == true
     private var isFavorite: Boolean = state?.getBoolean(KEY_IS_FAVORITE) == true
     private var translationData: TranslationResponse? =
@@ -169,9 +160,6 @@ class DetailsPresenterImpl(
     private var translationState: Int = state?.getInt(KEY_TRANSLATION_STATE) ?: TRANSLATION_ORIGINAL
 
     private var aiReview: AIReview? = null
-
-    private var installRetryDisposable: Disposable? = null
-    private var installRetryAttempts: Int = 0
 
     private val items = ArrayList<Item>()
 
@@ -326,8 +314,7 @@ class DetailsPresenterImpl(
     override fun saveState() = Bundle().apply {
         putParcelable(KEY_DETAILS, details)
         putInt(KEY_INSTALLED_VERSION, installedVersionCode)
-        putInt(KEY_DOWNLOAD_STATE, downloadState)
-        putBoolean(KEY_NEED_INSTALL, needInstall)
+        putParcelable(KEY_DELIVERY, delivery)
         putBoolean(KEY_REMOVE_BEFORE_INSTALL, removeBeforeInstall)
         putBoolean(KEY_IS_FAVORITE, isFavorite)
         putParcelable(KEY_TRANSLATION_DATA, translationData)
@@ -377,21 +364,15 @@ class DetailsPresenterImpl(
             // subscription to the same download relay without dropping the
             // previous one, so the screen re-bound once per accumulated one
             .switchMap { installedVersionCode ->
-                Observable.combineLatest(
-                    downloadManager.status(appId),
-                    appInstaller.status(appId),
-                ) { downloadState, installStatus ->
-                    PackageStatus(installedVersionCode, downloadState, installStatus)
-                }
+                appDelivery.state(appId).map { delivery -> installedVersionCode to delivery }
             }
             .subscribeOn(schedulers.io())
             .observeOn(schedulers.mainThread())
             .subscribe(
-                { (installed, state, install) ->
+                { (installed, delivery) ->
                     this.installedVersionCode = installed
-                    this.downloadState = state
-                    this.installStatus = install
-                    tryInstall()
+                    this.delivery = delivery
+                    installAfterRemoval()
                     bindDetails()
                     view?.showContent()
                     if (openReview) {
@@ -408,12 +389,11 @@ class DetailsPresenterImpl(
         items.clear()
         items += detailsConverter.convert(
             details,
-            installStatus.asDownloadState(downloadState),
+            delivery,
             installedVersionCode,
             moderation,
             translationData,
             translationState,
-            installStatus,
         )
 
         bindItems()
@@ -454,60 +434,12 @@ class DetailsPresenterImpl(
         adapterPresenter.get().onDataSourceChanged(items)
     }
 
-    private fun tryInstall(): Boolean {
-        val details = details ?: return false
-        // For a downgrade we must wait until the current version is
-        // actually removed, otherwise the system rejects the install.
-        if (removeBeforeInstall && installedVersionCode != NOT_INSTALLED) {
-            return false
+    /** A downgrade can only be installed once the newer version is gone. */
+    private fun installAfterRemoval() {
+        if (removeBeforeInstall && installedVersionCode == NOT_INSTALLED) {
+            removeBeforeInstall = false
+            onInstallClick()
         }
-        if (needInstall && downloadState == COMPLETED) {
-            val uri = downloadManager.getInstallUri(
-                label = details.info.label.orEmpty(),
-                version = details.info.version,
-                appId = details.info.appId
-            )
-            if (uri != null) {
-                stopInstallRetry()
-                router?.installApp(
-                    InstallRequest(
-                        key = details.info.appId,
-                        label = details.info.label.orEmpty(),
-                        uri = uri
-                    )
-                )
-                needInstall = false
-                removeBeforeInstall = false
-                return true
-            }
-            // COMPLETED is the last thing the relay ever emits, so nothing will
-            // call us again — a file the storage cannot hand over yet (MediaStore
-            // needs a moment after the commit) would leave the install to be
-            // started by hand on a second tap.
-            scheduleInstallRetry()
-        }
-        return false
-    }
-
-    private fun scheduleInstallRetry() {
-        if (installRetryDisposable?.isDisposed == false) {
-            return
-        }
-        if (installRetryAttempts >= INSTALL_RETRY_ATTEMPTS) {
-            return
-        }
-        installRetryAttempts++
-        val disposable = Observable.timer(INSTALL_RETRY_DELAY_MS, TimeUnit.MILLISECONDS)
-            .observeOn(schedulers.mainThread())
-            .subscribe({ tryInstall() }, {})
-        installRetryDisposable = disposable
-        subscriptions += disposable
-    }
-
-    private fun stopInstallRetry() {
-        installRetryDisposable?.dispose()
-        installRetryDisposable = null
-        installRetryAttempts = 0
     }
 
     /**
@@ -739,8 +671,8 @@ class DetailsPresenterImpl(
     }
 
     override fun onInstallClick() {
-        if (installStatus == InstallStatus.Confirming) {
-            details?.info?.appId?.let { appInstaller.confirm(it) }
+        if (delivery == DeliveryState.AwaitingConfirmation) {
+            details?.info?.appId?.let { appDelivery.confirm(it) }
             return
         }
         bananalytics.leaveBreadcrumb("Install clicked", BreadcrumbCategory.USER_ACTION)
@@ -787,8 +719,9 @@ class DetailsPresenterImpl(
             val packageName = details?.info?.packageName ?: return
             removeBeforeInstall = true
             router?.removeApp(packageName)
+        } else {
+            onInstallClick()
         }
-        onInstallClick()
     }
 
     private fun onInstallBypassingAbiCheck() {
@@ -806,10 +739,6 @@ class DetailsPresenterImpl(
 
     private fun onInstall() {
         val details = details ?: return
-        needInstall = true
-        // A fresh tap gets a fresh budget of retries
-        stopInstallRetry()
-
         router?.startDownload(
             label = details.info.label.orEmpty(),
             version = details.info.version,
@@ -818,10 +747,6 @@ class DetailsPresenterImpl(
             url = details.link,
             sha1 = details.info.sha1,
         )
-
-        if (tryInstall()) {
-            return
-        }
     }
 
     override fun onLaunchClick(packageName: String) {
@@ -835,12 +760,7 @@ class DetailsPresenterImpl(
     }
 
     override fun onCancelClick(appId: String) {
-        // Once the file is being installed, the download is finished and worth keeping
-        if (installStatus == InstallStatus.Idle) {
-            downloadManager.cancel(appId)
-        } else {
-            appInstaller.cancel(appId)
-        }
+        appDelivery.cancel(appId)
     }
 
     override fun onDiscussClick() {
@@ -1078,19 +998,9 @@ private const val AI_STATUS_PENDING = "pending"
 private const val AI_POLL_INTERVAL_MS = 3000L
 private const val AI_POLL_TIMEOUT_MS = 60_000L
 
-private data class PackageStatus(
-    val installedVersionCode: Int,
-    val downloadState: Int,
-    val installStatus: InstallStatus,
-)
-
-private const val INSTALL_RETRY_ATTEMPTS = 5
-private const val INSTALL_RETRY_DELAY_MS = 200L
-
 private const val KEY_DETAILS = "details"
 private const val KEY_INSTALLED_VERSION = "versionCode"
-private const val KEY_DOWNLOAD_STATE = "downloadState"
-private const val KEY_NEED_INSTALL = "needInstall"
+private const val KEY_DELIVERY = "delivery"
 private const val KEY_REMOVE_BEFORE_INSTALL = "removeBeforeInstall"
 private const val KEY_IS_FAVORITE = "isFavorite"
 private const val KEY_TRANSLATION_DATA = "translation"

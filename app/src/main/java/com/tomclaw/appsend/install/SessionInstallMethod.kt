@@ -1,16 +1,19 @@
 package com.tomclaw.appsend.install
 
-import android.app.ActivityManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageInstaller
 import android.net.Uri
 import android.os.Build
+import android.os.Handler
+import android.os.Looper
 import androidx.core.content.ContextCompat
 import com.tomclaw.appsend.download.DownloadNotifications
+import com.tomclaw.appsend.util.ActivityStarter
 import com.tomclaw.appsend.util.Analytics
 import com.tomclaw.appsend.util.getParcelableExtraCompat
+import com.tomclaw.appsend.util.logDebug
 import java.io.IOException
 import java.io.InputStream
 import java.io.OutputStream
@@ -21,31 +24,35 @@ import java.util.concurrent.Executors
  * Installs through a [PackageInstaller] session, which makes Appteka the installer
  * of record. That is what lets later updates skip the system's confirmation where
  * Android allows it; every other case comes back as a confirmation to show.
+ *
+ * The system gives no word when the user accepts its question, only the final result.
+ * So a question is shown exactly once, and from then on the install is the system's.
  */
 class SessionInstallMethod(
     private val context: Context,
     tracker: InstallTracker,
     private val notifications: DownloadNotifications,
     private val analytics: Analytics,
+    private val activities: ActivityStarter,
 ) : InstallMethod {
 
     private val packageInstaller = context.packageManager.packageInstaller
     private val executor = Executors.newSingleThreadExecutor()
+    private val mainHandler = Handler(Looper.getMainLooper())
 
     private val sessions = InstallSessions(tracker)
+    private val committed = CommittedSessions(context)
 
-    // Kept until the final answer: a question asked while the app was away may never
-    // have reached the user, as notifications can be off, and a new tap asks it again
-    private val confirmations = ConcurrentHashMap<InstallSessions.Attempt, Confirmation>()
+    // Questions that came while the user was in none of our screens, until they are shown
+    private val confirmations = ConcurrentHashMap<InstallSessions.Attempt, Intent>()
 
-    private var staleSessionsAbandoned = false
+    init {
+        restoreSessions()
+    }
 
     override fun install(request: InstallRequest) {
-        val attempt = sessions.start(request.key)
-        if (attempt == null) {
-            confirm(request.key)
-            return
-        }
+        // One that is already on its way has nothing to start over
+        val attempt = sessions.start(request.key) ?: return
         sessions.withCurrent(attempt) {
             notifications.cancelInstall(request.key)
             startService(request)
@@ -53,10 +60,20 @@ class SessionInstallMethod(
         executor.execute { writeAndCommit(request, attempt) }
     }
 
-    override fun confirm(key: String) {
+    override fun confirm(key: String, confirmation: Intent?) {
         val attempt = sessions.current(key) ?: return
-        val confirmation = confirmations[attempt] ?: return
-        requestConfirmation(attempt, confirmation.label, confirmation.intent)
+        sessions.withCurrent(attempt) {
+            val question = confirmations[attempt] ?: confirmation ?: return@withCurrent
+            if (attempt.id?.let { packageInstaller.getSessionInfo(it) } == null) {
+                // Gone without a result, so there is nothing left to answer
+                notifications.cancelInstall(key)
+                finish(attempt)
+            } else if (activities.start(question)) {
+                confirmations.remove(attempt)
+                notifications.cancelInstall(key)
+                sessions.update(attempt, InstallStatus.Installing)
+            }
+        }
     }
 
     private fun startService(request: InstallRequest) {
@@ -66,18 +83,17 @@ class SessionInstallMethod(
                 createInstallServiceIntent(context, request)
             )
         } catch (ex: IllegalStateException) {
-            // Refused if the user has left in this very moment. The copy still runs,
-            // as any app's work does in the background, just without the protection
-            analytics.trackException(ex, mapOf("reason" to "Install service not started"))
+            // Refused while the app is in the background, as when a download completes there.
+            // The delivery's own service keeps the process alive through the copy then
+            logDebug("[install] Install service not started: ${ex.message}")
         }
     }
 
     override fun cancel(key: String) {
         val attempt = sessions.current(key) ?: return
         val cancelled = sessions.withCurrent(attempt) {
-            confirmations.remove(attempt)
             notifications.cancelInstall(key)
-            sessions.finish(attempt)
+            finish(attempt)
         }
         if (cancelled) {
             attempt.id?.let { abandon(it) }
@@ -135,7 +151,6 @@ class SessionInstallMethod(
         var sessionId = NO_SESSION
         try {
             if (!sessions.isCurrent(attempt)) return
-            abandonStaleSessions()
             val length = apkLength(request.uri)
             sessionId = reservingSpace { packageInstaller.createSession(sessionParams(length)) }
             // Cancellation may have replaced this attempt while the session was created.
@@ -155,6 +170,7 @@ class SessionInstallMethod(
                 }
                 // Otherwise it was cancelled, and the cancellation abandons the session itself
                 if (written && sessions.update(attempt, InstallStatus.Installing)) {
+                    committed.put(request.key, sessionId)
                     session.commit(resultIntent(sessionId, request).intentSender)
                 }
             }
@@ -253,21 +269,11 @@ class SessionInstallMethod(
 
     private fun requestConfirmation(attempt: InstallSessions.Attempt, label: String, confirmation: Intent) {
         sessions.withCurrent(attempt) {
-            if (attempt.id?.let { packageInstaller.getSessionInfo(it) } == null) {
-                notifications.cancelInstall(attempt.key)
-                finish(attempt)
-                return@withCurrent
-            }
-            confirmations[attempt] = Confirmation(label, confirmation)
-            sessions.update(attempt, InstallStatus.Confirming)
-            // Android refuses to open a screen from the background without saying so, and it
-            // can do that even while the app still counts as visible, right after the user
-            // has left. So the notification is always there, and only stays quiet when the
-            // screen is likely to have opened; the final answer takes it away.
-            val visible = isAppVisible()
-            notifications.showInstallConfirmation(attempt.key, label, confirmation, silent = visible)
-            if (visible) {
-                context.startActivity(confirmation.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+            // Already marked as installing since the commit, which is what it is once shown
+            if (!activities.start(confirmation)) {
+                confirmations[attempt] = confirmation
+                sessions.update(attempt, InstallStatus.AwaitingConfirmation)
+                notifications.showInstallConfirmation(attempt.key, label, confirmation)
             }
         }
     }
@@ -282,17 +288,18 @@ class SessionInstallMethod(
         sessions.withCurrent(attempt) {
             analytics.trackEvent("install-failure-${failure.name.lowercase()}")
             val details = createInstallFailureIntent(context, attempt.key, label, uri, failure, packageToRemove)
-            // The same reasoning as for the confirmation: the dialog takes this away once it opens
-            val visible = isAppVisible()
-            notifications.showInstallFailure(
-                attempt.key,
-                label,
-                context.getString(failure.message),
-                details,
-                silent = visible
-            )
-            if (visible) {
-                context.startActivity(details.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+            // A copy fails on its own thread, and screens are opened on the main one
+            mainHandler.post {
+                // A retry begun meanwhile makes this failure old news
+                if (sessions.current(attempt.key) != null) return@post
+                if (!activities.start(details)) {
+                    notifications.showInstallFailure(
+                        attempt.key,
+                        label,
+                        context.getString(failure.message),
+                        details,
+                    )
+                }
             }
             finish(attempt)
         }
@@ -300,38 +307,27 @@ class SessionInstallMethod(
 
     private fun finish(attempt: InstallSessions.Attempt) {
         confirmations.remove(attempt)
-        sessions.finish(attempt)
-    }
-
-    private fun isAppVisible(): Boolean {
-        val state = ActivityManager.RunningAppProcessInfo()
-        ActivityManager.getMyMemoryState(state)
-        return state.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND
-    }
-
-    /** Sessions outlive the process, and each holds a full copy of its APK for days. */
-    private fun abandonStaleSessions() {
-        if (staleSessionsAbandoned) {
-            return
+        if (sessions.finish(attempt)) {
+            committed.remove(attempt.key)
         }
-        staleSessionsAbandoned = true
-        val activeIds = sessions.ids()
-        packageInstaller.mySessions
-            .filter { it.sessionId !in activeIds }
-            .filter { !mayStillBeAsking(it) }
-            .forEach { abandon(it.sessionId) }
     }
 
     /**
-     * The system's question can still be on screen, and abandoning its session would leave
-     * a dialog whose button does nothing. After a while nobody is coming back to answer it.
+     * Sessions outlive the process: the committed ones are the system's to answer and
+     * are followed again, and any other holds a copy of its APK nobody will hand over.
      */
-    private fun mayStillBeAsking(session: PackageInstaller.SessionInfo): Boolean {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
-            return false
+    private fun restoreSessions() {
+        committed.all().forEach { (key, id) ->
+            if (packageInstaller.getSessionInfo(id) != null) {
+                sessions.restore(key, id)
+            } else {
+                committed.remove(key)
+            }
         }
-        val age = System.currentTimeMillis() - session.createdMillis
-        return session.isCommitted && age < UNANSWERED_SESSION_TTL_MS
+        val followed = sessions.ids()
+        packageInstaller.mySessions
+            .filter { it.sessionId !in followed }
+            .forEach { abandon(it.sessionId) }
     }
 
     private fun abandon(sessionId: Int) {
@@ -343,8 +339,6 @@ class SessionInstallMethod(
         }
     }
 
-    private data class Confirmation(val label: String, val intent: Intent)
-
 }
 
 private class NoSpaceException(cause: IOException) : IOException(cause)
@@ -353,7 +347,6 @@ private const val APK_NAME = "base.apk"
 private const val BUFFER_SIZE = 1024 * 1024
 private const val NO_SESSION = -1
 private const val UNKNOWN_LENGTH = -1L
-private const val UNANSWERED_SESSION_TTL_MS = 60 * 60 * 1000L
 private const val EXTRA_KEY = "key"
 private const val EXTRA_LABEL = "label"
 private const val EXTRA_URI = "uri"

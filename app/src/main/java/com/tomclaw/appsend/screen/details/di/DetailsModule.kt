@@ -8,8 +8,7 @@ import com.tomclaw.appsend.util.adapter.SimpleAdapterPresenter
 import com.tomclaw.appsend.util.adapter.ItemBlueprint
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.di.DATE_FORMATTER
-import com.tomclaw.appsend.download.DownloadManager
-import com.tomclaw.appsend.install.AppInstaller
+import com.tomclaw.appsend.delivery.AppDelivery
 import com.tomclaw.appsend.screen.details.DetailsConverter
 import com.tomclaw.appsend.screen.details.DetailsConverterImpl
 import com.tomclaw.appsend.screen.details.adapter.all_ratings.AllRatingsItemBlueprint
@@ -107,8 +106,7 @@ class DetailsModule(
         @Named(DETAILS_ADAPTER_PRESENTER) adapterPresenter: Lazy<AdapterPresenter>,
         detailsConverter: DetailsConverter,
         packageObserver: PackageObserver,
-        downloadManager: DownloadManager,
-        appInstaller: AppInstaller,
+        appDelivery: AppDelivery,
         schedulers: SchedulersFactory
     ): DetailsPresenter = DetailsPresenterImpl(
         appId,
@@ -123,8 +121,7 @@ class DetailsModule(
         adapterPresenter,
         detailsConverter,
         packageObserver,
-        downloadManager,
-        appInstaller,
+        appDelivery,
         schedulers,
         state
     )

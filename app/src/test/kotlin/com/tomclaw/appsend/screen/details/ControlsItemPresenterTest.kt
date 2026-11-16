@@ -1,7 +1,6 @@
 package com.tomclaw.appsend.screen.details
 
-import com.tomclaw.appsend.download.COMPLETED
-import com.tomclaw.appsend.install.InstallStatus
+import com.tomclaw.appsend.delivery.DeliveryState
 import com.tomclaw.appsend.screen.details.adapter.ItemListener
 import com.tomclaw.appsend.screen.details.adapter.controls.ControlsItem
 import com.tomclaw.appsend.screen.details.adapter.controls.ControlsItemPresenter
@@ -15,25 +14,38 @@ import java.lang.reflect.Proxy
 class ControlsItemPresenterTest {
 
     @Test
-    fun `pending confirmation offers an enabled action and cancellation`() {
+    fun `an unseen question offers to continue and to cancel`() {
         val calls = mutableListOf<String>()
         val view = recorder<ControlsItemView>(calls)
         val presenter = ControlsItemPresenter(recorder<ItemListener>(mutableListOf()))
 
-        presenter.bindView(view, item(InstallStatus.Confirming), 0)
+        presenter.bindView(view, item(DeliveryState.AwaitingConfirmation), 0)
 
         assertTrue("showContinueButton" in calls)
         assertTrue("showCancelButton" in calls)
         assertFalse("disableInstallButton" in calls)
 
         calls.clear()
-        presenter.bindView(view, item(InstallStatus.Idle), 0)
+        presenter.bindView(view, item(DeliveryState.Idle), 0)
 
         assertTrue("showInstallButton" in calls)
         assertFalse("showContinueButton" in calls)
     }
 
-    private fun item(status: InstallStatus) = ControlsItem(
+    @Test
+    fun `an install the system runs offers only cancellation`() {
+        val calls = mutableListOf<String>()
+        val view = recorder<ControlsItemView>(calls)
+        val presenter = ControlsItemPresenter(recorder<ItemListener>(mutableListOf()))
+
+        presenter.bindView(view, item(DeliveryState.Installing(percent = null)), 0)
+
+        assertFalse("showContinueButton" in calls)
+        assertTrue("showCancelButton" in calls)
+        assertTrue("disableInstallButton" in calls)
+    }
+
+    private fun item(delivery: DeliveryState) = ControlsItem(
         id = 1,
         appId = "app",
         packageName = "app",
@@ -44,8 +56,7 @@ class ControlsItemPresenterTest {
         link = "",
         expiresIn = 60,
         installedVersionCode = NOT_INSTALLED,
-        downloadState = COMPLETED,
-        installStatus = status,
+        delivery = delivery,
     )
 
     private inline fun <reified T : Any> recorder(calls: MutableList<String>): T = requireNotNull(

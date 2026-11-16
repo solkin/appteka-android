@@ -34,9 +34,9 @@ interface ApkStorage {
      * Commit temporary file after successful download.
      * Renames .tmp file to .apk
      * @param fileName target file name (without extension)
-     * @return true if commit was successful
+     * @return URI for installing the committed file, or null if commit failed
      */
-    fun commit(fileName: String): Boolean
+    fun commit(fileName: String): Uri?
 
     /**
      * Open input stream for reading APK file.

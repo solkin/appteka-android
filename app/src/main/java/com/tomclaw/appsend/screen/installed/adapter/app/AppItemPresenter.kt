@@ -1,8 +1,8 @@
 package com.tomclaw.appsend.screen.installed.adapter.app
 
-import com.tomclaw.appsend.download.AWAIT
-import com.tomclaw.appsend.download.STARTED
-import com.tomclaw.appsend.install.InstallStatus
+import com.tomclaw.appsend.delivery.DeliveryState
+import com.tomclaw.appsend.delivery.isActive
+import com.tomclaw.appsend.delivery.progress
 import com.tomclaw.appsend.util.adapter.ItemPresenter
 import com.tomclaw.appsend.screen.installed.AppsResourceProvider
 import com.tomclaw.appsend.screen.installed.adapter.ItemListener
@@ -33,17 +33,15 @@ class AppItemPresenter(
                 view.hideUpdateButton()
             }
 
-            item.installStatus == InstallStatus.Confirming -> {
+            item.updateState == DeliveryState.AwaitingConfirmation -> {
                 view.hideUpdateProgress()
                 view.showContinueButton()
             }
 
-            item.updateState.isUpdateBusy() -> {
-                if (item.updateState in 0..100) {
-                    view.setUpdateProgress(item.updateState)
-                } else {
-                    view.showUpdateProgressIndeterminate()
-                }
+            item.updateState.isActive -> {
+                item.updateState.progress
+                    ?.let(view::setUpdateProgress)
+                    ?: view.showUpdateProgressIndeterminate()
                 view.showCancelButton()
             }
 
@@ -55,7 +53,7 @@ class AppItemPresenter(
         if (item.isNew) view.showBadge() else view.hideBadge()
         view.setOnClickListener { listener.onItemClick(item) }
         view.setOnUpdateClickListener {
-            if (item.installStatus != InstallStatus.Confirming && item.updateState.isUpdateBusy()) {
+            if (item.updateState.isActive) {
                 listener.onUpdateCancelClick(item)
             } else {
                 listener.onUpdateClick(item)
@@ -64,6 +62,3 @@ class AppItemPresenter(
     }
 
 }
-
-/** Waiting for, downloading or installing the update: COMPLETED and the idle states are not. */
-fun Int.isUpdateBusy(): Boolean = this == AWAIT || this == STARTED || this in 0..100

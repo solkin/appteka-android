@@ -1,12 +1,8 @@
 package com.tomclaw.appsend.screen.details.adapter.controls
 
 import com.tomclaw.appsend.util.adapter.ItemPresenter
-import com.tomclaw.appsend.download.AWAIT
-import com.tomclaw.appsend.download.COMPLETED
-import com.tomclaw.appsend.download.ERROR
-import com.tomclaw.appsend.download.IDLE
-import com.tomclaw.appsend.download.STARTED
-import com.tomclaw.appsend.install.InstallStatus
+import com.tomclaw.appsend.delivery.DeliveryState
+import com.tomclaw.appsend.delivery.isActive
 import com.tomclaw.appsend.screen.details.adapter.ItemListener
 import com.tomclaw.appsend.util.NOT_INSTALLED
 
@@ -17,16 +13,9 @@ class ControlsItemPresenter(
     override fun bindView(view: ControlsItemView, item: ControlsItem, position: Int) {
         view.hideButtons()
         view.enableButtons()
-        val isProgress = when (item.downloadState) {
-            IDLE -> false
-            AWAIT -> true
-            STARTED -> true
-            COMPLETED -> false
-            ERROR -> false
-            else -> true
-        }
+        val isProgress = item.delivery.isActive
         when {
-            item.installStatus == InstallStatus.Confirming -> {
+            item.delivery == DeliveryState.AwaitingConfirmation -> {
                 view.showContinueButton()
                 view.showCancelButton()
             }

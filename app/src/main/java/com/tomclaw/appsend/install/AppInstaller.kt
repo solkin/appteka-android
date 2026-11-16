@@ -1,5 +1,6 @@
 package com.tomclaw.appsend.install
 
+import android.content.Intent
 import io.reactivex.rxjava3.core.Observable
 
 interface AppInstaller {
@@ -9,7 +10,8 @@ interface AppInstaller {
     /** The way out when the chosen method has failed, whatever the setting says. */
     fun installWithSystem(request: InstallRequest)
 
-    fun confirm(key: String)
+    /** See [InstallMethod.confirm]. */
+    fun confirm(key: String, confirmation: Intent? = null)
 
     fun status(key: String): Observable<InstallStatus>
 
@@ -37,8 +39,9 @@ class AppInstallerImpl(
         system.install(request)
     }
 
-    override fun confirm(key: String) {
-        session.confirm(key)
+    // Only a session asks its questions through us
+    override fun confirm(key: String, confirmation: Intent?) {
+        session.confirm(key, confirmation)
     }
 
     override fun status(key: String): Observable<InstallStatus> = tracker.status(key)

@@ -1,5 +1,6 @@
 package com.tomclaw.appsend.install
 
+import android.content.Intent
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -26,7 +27,7 @@ class AppInstallerTest {
 
         override fun install(request: InstallRequest) = error("Must not start a new install")
 
-        override fun confirm(key: String) {
+        override fun confirm(key: String, confirmation: Intent?) {
             confirmations += key
         }
 

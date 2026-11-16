@@ -37,18 +37,14 @@ class LegacyApkStorage(
         return FileOutputStream(tmpFile)
     }
 
-    override fun commit(fileName: String): Boolean {
+    override fun commit(fileName: String): Uri? {
         val tmpFile = getTmpFile(fileName)
         val targetFile = getApkFile(fileName)
-        return if (tmpFile.exists()) {
-            val success = tmpFile.renameTo(targetFile)
-            if (success) {
-                scanFile(targetFile)
-            }
-            success
-        } else {
-            false
+        if (!tmpFile.exists() || !tmpFile.renameTo(targetFile)) {
+            return null
         }
+        scanFile(targetFile)
+        return getInstallUri(fileName)
     }
 
     override fun openRead(fileName: String): InputStream? {

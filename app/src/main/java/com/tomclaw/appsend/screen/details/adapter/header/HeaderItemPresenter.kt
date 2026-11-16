@@ -2,11 +2,8 @@ package com.tomclaw.appsend.screen.details.adapter.header
 
 import com.tomclaw.appsend.util.adapter.ItemPresenter
 import com.tomclaw.appsend.categories.DEFAULT_LOCALE
-import com.tomclaw.appsend.download.AWAIT
-import com.tomclaw.appsend.download.COMPLETED
-import com.tomclaw.appsend.download.ERROR
-import com.tomclaw.appsend.download.IDLE
-import com.tomclaw.appsend.download.STARTED
+import com.tomclaw.appsend.delivery.isActive
+import com.tomclaw.appsend.delivery.progress
 import com.tomclaw.appsend.screen.details.adapter.ItemListener
 import java.util.Locale
 
@@ -16,13 +13,11 @@ class HeaderItemPresenter(
 ) : ItemPresenter<HeaderItemView, HeaderItem> {
 
     override fun bindView(view: HeaderItemView, item: HeaderItem, position: Int) {
-        when (item.downloadState) {
-            IDLE -> view.hideProgress()
-            AWAIT -> view.setIndeterminate()
-            STARTED -> view.setIndeterminate()
-            COMPLETED -> view.hideProgress()
-            ERROR -> view.hideProgress()
-            else -> view.setProgress(item.downloadState)
+        val progress = item.delivery.progress
+        when {
+            !item.delivery.isActive -> view.hideProgress()
+            progress != null -> view.setProgress(progress)
+            else -> view.setIndeterminate()
         }
         view.setAppIcon(item.icon)
         view.setAppLabel(item.label)

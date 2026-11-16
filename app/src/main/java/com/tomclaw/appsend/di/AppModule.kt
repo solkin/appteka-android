@@ -40,6 +40,8 @@ import com.tomclaw.appsend.core.TimeProvider
 import com.tomclaw.appsend.core.TimeProviderImpl
 import com.tomclaw.appsend.core.UserAgentProvider
 import com.tomclaw.appsend.core.UserAgentProviderImpl
+import com.tomclaw.appsend.delivery.AppDelivery
+import com.tomclaw.appsend.delivery.AppDeliveryImpl
 import com.tomclaw.appsend.download.ApkStorage
 import com.tomclaw.appsend.download.DownloadManager
 import com.tomclaw.appsend.download.DownloadManagerImpl
@@ -66,12 +68,14 @@ import com.tomclaw.appsend.upload.UploadNotificationsImpl
 import com.tomclaw.appsend.user.ModerationProvider
 import com.tomclaw.appsend.user.ModerationProviderImpl
 import com.tomclaw.appsend.Appteka
+import com.tomclaw.appsend.util.ActivityStarter
 import com.tomclaw.appsend.util.Analytics
 import com.tomclaw.appsend.util.AnalyticsImpl
 import com.tomclaw.appsend.util.Logger
 import com.tomclaw.appsend.util.LoggerImpl
 import com.tomclaw.appsend.util.PackageObserver
 import com.tomclaw.appsend.util.PackageObserverImpl
+import com.tomclaw.appsend.util.ResumedActivities
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.SchedulersFactoryImpl
 import com.tomclaw.appsend.util.ThemeManager
@@ -291,12 +295,21 @@ class AppModule(private val app: Application) {
 
     @Provides
     @Singleton
+    internal fun provideResumedActivities(): ResumedActivities = ResumedActivities()
+
+    @Provides
+    @Singleton
+    internal fun provideActivityStarter(activities: ResumedActivities): ActivityStarter = activities
+
+    @Provides
+    @Singleton
     internal fun provideSessionInstallMethod(
         context: Context,
         tracker: InstallTracker,
         notifications: DownloadNotifications,
         analytics: Analytics,
-    ): SessionInstallMethod = SessionInstallMethod(context, tracker, notifications, analytics)
+        activities: ActivityStarter,
+    ): SessionInstallMethod = SessionInstallMethod(context, tracker, notifications, analytics, activities)
 
     @Provides
     @Singleton
@@ -305,7 +318,22 @@ class AppModule(private val app: Application) {
         preferences: InstallPreferences,
         tracker: InstallTracker,
         session: SessionInstallMethod,
-    ): AppInstaller = AppInstallerImpl(preferences, tracker, session, SystemInstallMethod(context))
+        activities: ActivityStarter,
+        notifications: DownloadNotifications,
+    ): AppInstaller = AppInstallerImpl(
+        preferences,
+        tracker,
+        session,
+        SystemInstallMethod(context, activities, notifications),
+    )
+
+    @Provides
+    @Singleton
+    internal fun provideAppDelivery(
+        downloadManager: DownloadManager,
+        appInstaller: AppInstaller,
+        schedulers: SchedulersFactory,
+    ): AppDelivery = AppDeliveryImpl(downloadManager, appInstaller, schedulers)
 
     @Provides
     @Singleton

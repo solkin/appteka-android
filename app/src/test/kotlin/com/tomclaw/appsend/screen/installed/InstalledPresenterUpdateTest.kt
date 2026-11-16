@@ -1,17 +1,9 @@
 package com.tomclaw.appsend.screen.installed
 
-import android.net.TestUri
-import android.net.Uri
-import com.tomclaw.appsend.download.COMPLETED
-import com.tomclaw.appsend.download.DownloadManager
+import com.tomclaw.appsend.delivery.AppDelivery
+import com.tomclaw.appsend.delivery.DeliveryState
 import com.tomclaw.appsend.download.DownloadParams
-import com.tomclaw.appsend.download.IDLE
-import com.tomclaw.appsend.download.STARTED
 import com.tomclaw.appsend.dto.UserMark
-import com.tomclaw.appsend.install.AppInstaller
-import com.tomclaw.appsend.install.InstallRequest
-import com.tomclaw.appsend.install.InstallStatus
-import com.tomclaw.appsend.install.InstallTracker
 import com.tomclaw.appsend.screen.details.api.AppInfo
 import com.tomclaw.appsend.screen.details.api.Details
 import com.tomclaw.appsend.screen.installed.adapter.app.AppItem
@@ -27,28 +19,24 @@ import io.reactivex.rxjava3.core.Scheduler
 import io.reactivex.rxjava3.schedulers.TestScheduler
 import io.reactivex.rxjava3.subjects.BehaviorSubject
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertSame
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import java.lang.reflect.Proxy
-import java.util.concurrent.TimeUnit
 
 class InstalledPresenterUpdateTest {
 
     private val io = TestScheduler()
     private val main = TestScheduler()
-    private val uri = TestUri()
-    private val installs = mutableListOf<InstallRequest>()
-    private val confirmations = mutableListOf<String>()
-    private val lookups = mutableListOf<String>()
-    private val tracker = InstallTracker()
-    private val downloads = mapOf(
-        "first" to BehaviorSubject.createDefault(IDLE),
-        "second" to BehaviorSubject.createDefault(IDLE),
+    private val deliveries = mapOf(
+        "first" to BehaviorSubject.createDefault<DeliveryState>(DeliveryState.Idle),
+        "second" to BehaviorSubject.createDefault<DeliveryState>(DeliveryState.Idle),
     )
-    private var availableUri: Uri? = uri
+    private val started = mutableListOf<DownloadParams>()
+    private val confirmed = mutableListOf<String>()
+    private val cancelled = mutableListOf<String>()
+    private val detailsRequests = mutableListOf<String>()
     private val adapter = SimpleAdapterPresenter(ItemBinder.Builder().build())
-    private val apps = downloads.keys.map { appId ->
+    private val apps = deliveries.keys.map { appId ->
         InstalledAppEntity(
             packageName = appId,
             label = appId,
@@ -105,34 +93,25 @@ class InstalledPresenterUpdateTest {
             override fun getUpdates(apps: Map<String, Long>, certs: Map<String, String>): Observable<InstalledUpdates> =
                 Observable.just(InstalledUpdates(updates, emptyList()))
 
-            override fun getDetails(appId: String): Observable<Details> = Observable.just(details(appId))
+            override fun getDetails(appId: String): Observable<Details> = Observable.fromCallable {
+                detailsRequests += appId
+                details(appId)
+            }.subscribeOn(io)
         },
         apkStorage = unused(),
         adapterPresenter = Lazy<AdapterPresenter> { adapter },
         appConverter = AppConverterImpl(),
         resourceProvider = unused(),
-        downloadManager = object : DownloadManager by unused<DownloadManager>() {
-            override fun status(appId: String): Observable<Int> = downloads.getValue(appId)
+        appDelivery = object : AppDelivery by unused<AppDelivery>() {
+            override fun state(appId: String): Observable<DeliveryState> = deliveries.getValue(appId)
 
-            override fun getInstallUri(label: String, version: String, appId: String): Uri? {
-                lookups += appId
-                return availableUri
+            override fun confirm(appId: String) {
+                confirmed += appId
             }
 
             override fun cancel(appId: String) {
-                downloads.getValue(appId).onNext(IDLE)
-            }
-        },
-        appInstaller = object : AppInstaller by unused<AppInstaller>() {
-            override fun status(key: String): Observable<InstallStatus> = tracker.status(key)
-
-            override fun confirm(key: String) {
-                confirmations += key
-            }
-
-            override fun install(request: InstallRequest) {
-                installs += request
-                tracker.update(request.key, InstallStatus.Writing(0))
+                cancelled += appId
+                deliveries.getValue(appId).onNext(DeliveryState.Idle)
             }
         },
         packageObserver = object : PackageObserver by unused<PackageObserver>() {
@@ -149,7 +128,7 @@ class InstalledPresenterUpdateTest {
             override fun requestDownloadPermissions(callback: (Boolean) -> Unit) = callback(true)
 
             override fun startDownload(params: DownloadParams) {
-                downloads.getValue(params.appId).onNext(STARTED)
+                started += params
             }
         })
         attachView(view)
@@ -157,121 +136,58 @@ class InstalledPresenterUpdateTest {
     }
 
     @Test
-    fun `cancel stops waiting for the downloaded file`() {
-        availableUri = null
-        startUpdate()
-        io.triggerActions()
-        assertEquals(listOf("first"), lookups)
+    fun `an update is handed to the delivery and the row follows it`() {
+        presenter.onUpdateClick(item())
+        assertEquals(DeliveryState.Queued, item().updateState)
 
-        presenter.onUpdateCancelClick(item())
-        availableUri = uri
-        io.advanceTimeBy(1, TimeUnit.SECONDS)
+        io.triggerActions()
+        main.triggerActions()
+        deliveries.getValue("first").onNext(DeliveryState.Downloading(40))
         main.triggerActions()
 
-        assertEquals(listOf("first"), lookups)
-        assertTrue(installs.isEmpty())
-        assertEquals(IDLE, item().updateState)
+        assertEquals(listOf("first"), started.map { it.appId })
+        assertEquals(DeliveryState.Downloading(40), item().updateState)
     }
 
     @Test
-    fun `cancel discards a file lookup queued for the main thread`() {
-        startUpdate()
-        io.triggerActions()
-        assertEquals(listOf("first"), lookups)
+    fun `cancelling while the link is fetched starts nothing`() {
+        presenter.onUpdateClick(item())
 
         presenter.onUpdateCancelClick(item())
+        io.triggerActions()
         main.triggerActions()
 
-        assertTrue(installs.isEmpty())
-        assertEquals(IDLE, item().updateState)
+        assertTrue(started.isEmpty())
+        assertTrue(cancelled.isEmpty())
+        assertEquals(DeliveryState.Idle, item().updateState)
     }
 
     @Test
-    fun `retry after cancellation installs once`() {
-        startUpdate()
-        io.triggerActions()
-        presenter.onUpdateCancelClick(item())
+    fun `cancelling one update leaves the other running`() {
+        deliveries.getValue("first").onNext(DeliveryState.Installing(percent = null))
+        deliveries.getValue("second").onNext(DeliveryState.Downloading(10))
         main.triggerActions()
-        assertTrue(installs.isEmpty())
-        assertEquals(IDLE, item().updateState)
-
-        startUpdate()
-        assertTrue(installs.isEmpty())
-        io.triggerActions()
-        main.triggerActions()
-
-        assertEquals(listOf("first", "first"), lookups)
-        assertEquals(listOf("first"), installs.map { it.key })
-        assertSame(uri, installs.single().uri)
-    }
-
-    @Test
-    fun `cancelling one update leaves the other installation running`() {
-        startUpdate("first")
-        startUpdate("second")
-        io.triggerActions()
 
         presenter.onUpdateCancelClick(item("first"))
         main.triggerActions()
 
-        assertEquals(listOf("second"), installs.map { it.key })
+        assertEquals(listOf("first"), cancelled)
+        assertEquals(DeliveryState.Idle, item("first").updateState)
+        assertEquals(DeliveryState.Downloading(10), item("second").updateState)
     }
 
     @Test
-    fun `detaching cancels preparation and reattaching resumes the requested install`() {
-        startUpdate()
-        io.triggerActions()
-        presenter.detachView()
-        main.triggerActions()
-        assertTrue(installs.isEmpty())
-
-        presenter.attachView(view)
-        main.triggerActions()
-        io.triggerActions()
+    fun `an unseen question is continued instead of starting the update again`() {
+        deliveries.getValue("first").onNext(DeliveryState.AwaitingConfirmation)
         main.triggerActions()
 
-        assertEquals(listOf("first"), installs.map { it.key })
-    }
-
-    @Test
-    fun `a completed download installs once even as installation progress changes`() {
-        startUpdate()
-        io.triggerActions()
-        main.triggerActions()
-        tracker.update("first", InstallStatus.Writing(50))
-        main.triggerActions()
-        io.advanceTimeBy(1, TimeUnit.SECONDS)
-        main.triggerActions()
-
-        assertEquals(listOf("first"), installs.map { it.key })
-        assertSame(uri, installs.single().uri)
-        assertEquals(50, item().updateState)
-    }
-
-    private fun startUpdate(appId: String = "first") {
-        presenter.onUpdateClick(item(appId))
-        main.triggerActions()
-        downloads.getValue(appId).onNext(COMPLETED)
-        main.triggerActions()
-    }
-
-    @Test
-    fun `confirming a downloaded update resumes the existing install`() {
-        startUpdate()
-        io.triggerActions()
-        main.triggerActions()
-        tracker.update("first", InstallStatus.Confirming)
-        main.triggerActions()
-
-        assertEquals(InstallStatus.Confirming, item().installStatus)
-        assertEquals(COMPLETED, item().updateState)
         presenter.onUpdateClick(item())
         io.triggerActions()
         main.triggerActions()
 
-        assertEquals(listOf("first"), confirmations)
-        assertEquals(listOf("first"), lookups)
-        assertEquals(listOf("first"), installs.map { it.key })
+        assertEquals(listOf("first"), confirmed)
+        assertTrue(detailsRequests.isEmpty())
+        assertTrue(started.isEmpty())
     }
 
     private fun item(appId: String = "first"): AppItem =

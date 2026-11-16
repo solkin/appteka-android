@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="continue_installation">继续安装</string>
+    <string name="install_continue">继续</string>
 </resources>

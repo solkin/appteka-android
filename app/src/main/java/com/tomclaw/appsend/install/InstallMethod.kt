@@ -1,5 +1,6 @@
 package com.tomclaw.appsend.install
 
+import android.content.Intent
 import android.net.Uri
 
 /**
@@ -17,7 +18,11 @@ interface InstallMethod {
 
     fun install(request: InstallRequest)
 
-    fun confirm(key: String)
+    /**
+     * Shows the system's question about [key] if it hasn't reached the user yet. A
+     * notification passes the [confirmation] it holds: the question outlives our process.
+     */
+    fun confirm(key: String, confirmation: Intent? = null)
 
     fun cancel(key: String)
 

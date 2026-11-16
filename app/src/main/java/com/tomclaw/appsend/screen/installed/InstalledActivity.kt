@@ -24,6 +24,7 @@ import com.tomclaw.appsend.util.adapter.AdapterPresenter
 import com.tomclaw.appsend.util.adapter.SimpleRecyclerAdapter
 import com.tomclaw.appsend.appComponent
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.delivery.AppDelivery
 import com.tomclaw.appsend.download.ApkStorage
 import com.tomclaw.appsend.download.DownloadLauncher
 import com.tomclaw.appsend.download.DownloadParams
@@ -57,6 +58,9 @@ class InstalledActivity : AppCompatActivity(), InstalledPresenter.InstalledRoute
     @Inject
     lateinit var apkStorage: ApkStorage
 
+    @Inject
+    lateinit var appDelivery: AppDelivery
+
     private val invalidateDetailsResultLauncher =
         registerForActivityResult(StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
@@ -73,7 +77,7 @@ class InstalledActivity : AppCompatActivity(), InstalledPresenter.InstalledRoute
             }
         }
 
-    private val downloadLauncher = DownloadLauncher(this) {
+    private val downloadLauncher = DownloadLauncher(this, deliver = { appDelivery.deliver(it) }) {
         analytics.trackEvent("installed-update-app")
     }
 

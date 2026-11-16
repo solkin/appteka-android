@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="continue_installation">متابعة التثبيت</string>
+    <string name="install_continue">متابعة</string>
 </resources>

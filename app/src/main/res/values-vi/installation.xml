@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="continue_installation">Tiếp tục cài đặt</string>
+    <string name="install_continue">Tiếp tục</string>
 </resources>

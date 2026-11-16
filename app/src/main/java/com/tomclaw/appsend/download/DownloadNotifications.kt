@@ -9,13 +9,13 @@ import android.app.PendingIntent.FLAG_UPDATE_CURRENT
 import android.content.Context
 import android.content.Context.NOTIFICATION_SERVICE
 import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import androidx.core.app.NotificationCompat
 import androidx.core.graphics.drawable.toBitmap
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.install.InstallRequest
 import com.tomclaw.appsend.install.createInstallActivityIntent
+import com.tomclaw.appsend.install.createInstallConfirmationIntent
 import com.tomclaw.appsend.util.Analytics
 import com.tomclaw.appsend.util.GROUP_NOTIFICATIONS
 import com.tomclaw.appsend.util.NotificationIconHolder
@@ -35,23 +35,23 @@ interface DownloadNotifications {
         appId: String,
         label: String,
         icon: String?,
-        installUri: () -> Uri?,
-        stop: () -> Unit,
-        observable: Observable<Int>
+        observable: Observable<DownloadState>
     )
 
     fun createInstallProgress(label: String, percent: Int): Notification
 
     fun showInstallProgress(label: String, percent: Int)
 
-    fun showInstallConfirmation(key: String, label: String, confirmation: Intent, silent: Boolean)
+    /** For when the install can't open its screen itself: the user is in none of ours. */
+    fun showInstallReady(request: InstallRequest)
+
+    fun showInstallConfirmation(key: String, label: String, confirmation: Intent)
 
     fun showInstallFailure(
         key: String,
         label: String,
         message: String,
         details: Intent,
-        silent: Boolean
     )
 
     fun cancelInstall(key: String)
@@ -98,9 +98,7 @@ class DownloadNotificationsImpl(
         appId: String,
         label: String,
         icon: String?,
-        installUri: () -> Uri?,
-        stop: () -> Unit,
-        observable: Observable<Int>
+        observable: Observable<DownloadState>
     ) {
         val notificationId = appId.crc32()
 
@@ -133,11 +131,11 @@ class DownloadNotificationsImpl(
 
         // takeUntil completes the stream on a terminal status, so the subscription drops
         // itself even when the relay already cached that status before we subscribed
-        observable.takeUntil { status ->
-            status == ERROR || status == COMPLETED || status == IDLE
-        }.subscribe({ status ->
-            when (status) {
-                AWAIT -> {
+        observable.takeUntil { state ->
+            state == DownloadState.Idle || state == DownloadState.Failed || state is DownloadState.Completed
+        }.subscribe({ state ->
+            when (state) {
+                DownloadState.Queued -> {
                     val notification = notificationBuilder
                         .setContentText(context.getString(R.string.waiting_for_download))
                         .setSmallIcon(android.R.drawable.stat_sys_download)
@@ -147,7 +145,7 @@ class DownloadNotificationsImpl(
                     notificationManager.notify(notificationId, notification)
                 }
 
-                ERROR -> {
+                DownloadState.Failed -> {
                     val notification = notificationBuilder
                         .setContentText(context.getString(R.string.download_failed))
                         .setSmallIcon(android.R.drawable.stat_sys_warning)
@@ -156,57 +154,33 @@ class DownloadNotificationsImpl(
                         .setAutoCancel(true)
                         .build()
                     notificationManager.notify(notificationId, notification)
-                    stop()
                 }
 
-                COMPLETED -> {
+                is DownloadState.Completed, DownloadState.Idle -> {
+                    // Installing it is up to the delivery, which tells about it on its own
                     notificationManager.cancel(notificationId)
-                    val uri = installUri()
-                    if (uri != null) {
-                        val installIntent = getInstallIntent(
-                            notificationId,
-                            InstallRequest(appId, label, uri)
-                        )
-                        val installNotificationBuilder = installNotificationBuilder(label)
-                            .setContentText(context.getString(R.string.tap_to_install))
-                            .setSmallIcon(android.R.drawable.stat_sys_download_done)
-                            .setContentIntent(installIntent)
-                        val installIconHolder = NotificationIconHolder(
-                            resources = context.resources,
-                            notificationBuilder = installNotificationBuilder
-                        )
-                        icon?.run { context.imageLoader().load(installIconHolder, icon, handlers) }
-                        val notification = installNotificationBuilder.build()
-                        notificationManager.notify(notificationId, notification)
+                }
+
+                is DownloadState.Running -> {
+                    val percent = state.percent
+                    val notification = if (percent == null) {
+                        // This download left the queue for the foreground notification,
+                        // so its own "waiting" one has nothing left to say
+                        notificationManager.cancel(notificationId)
+                        notificationBuilder
+                            .setContentText(context.getString(R.string.waiting_for_download))
+                            .setSmallIcon(android.R.drawable.stat_sys_download)
+                            .setProgress(100, 0, true)
+                            .setOngoing(true)
+                            .build()
+                    } else {
+                        // Progress belongs to the foreground notification alone; the
+                        // cancel that used to sit here fired on every single percent
+                        notificationBuilder
+                            .setContentText(context.getString(R.string.downloading_progress, percent))
+                            .setProgress(100, percent, false)
+                            .build()
                     }
-                    stop()
-                }
-
-                IDLE -> {
-                    notificationManager.cancel(notificationId)
-                    stop()
-                }
-
-                STARTED -> {
-                    // This download left the queue for the foreground notification,
-                    // so its own "waiting" one has nothing left to say
-                    notificationManager.cancel(notificationId)
-                    val notification = notificationBuilder
-                        .setContentText(context.getString(R.string.waiting_for_download))
-                        .setSmallIcon(android.R.drawable.stat_sys_download)
-                        .setProgress(100, 0, true)
-                        .setOngoing(true)
-                        .build()
-                    notificationManager.notify(DOWNLOAD_NOTIFICATION_ID, notification)
-                }
-
-                else -> {
-                    // Progress belongs to the foreground notification alone; the
-                    // cancel that used to sit here fired on every single percent
-                    val notification = notificationBuilder
-                        .setContentText(context.getString(R.string.downloading_progress, status))
-                        .setProgress(100, status, false)
-                        .build()
                     notificationManager.notify(DOWNLOAD_NOTIFICATION_ID, notification)
                 }
             }
@@ -214,7 +188,6 @@ class DownloadNotificationsImpl(
             logDebug("[download notification] Error: $error")
             analytics.trackException(error, mapOf("reason" to "Download status subscription error"))
             notificationManager.cancel(notificationId)
-            stop()
         })
     }
 
@@ -233,22 +206,25 @@ class DownloadNotificationsImpl(
         notificationManager.notify(INSTALL_NOTIFICATION_ID, createInstallProgress(label, percent))
     }
 
-    override fun showInstallConfirmation(
-        key: String,
-        label: String,
-        confirmation: Intent,
-        silent: Boolean
-    ) {
+    override fun showInstallReady(request: InstallRequest) {
+        val notification = installNotificationBuilder(request.label)
+            .setContentText(context.getString(R.string.tap_to_install))
+            .setSmallIcon(android.R.drawable.stat_sys_download_done)
+            .setContentIntent(getInstallIntent(request.key.crc32(), request))
+            .build()
+        notificationManager.notify(request.key.crc32(), notification)
+    }
+
+    override fun showInstallConfirmation(key: String, label: String, confirmation: Intent) {
         val intent = PendingIntent.getActivity(
             context,
             key.crc32(),
-            confirmation.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
+            createInstallConfirmationIntent(context, key, label, confirmation),
             FLAG_UPDATE_CURRENT or FLAG_IMMUTABLE
         )
         val notification = installNotificationBuilder(label)
             .setContentText(context.getString(R.string.tap_to_install))
             .setSmallIcon(android.R.drawable.stat_sys_download_done)
-            .setSilent(silent)
             .setContentIntent(intent)
             .build()
         notificationManager.notify(key.crc32(), notification)
@@ -259,7 +235,6 @@ class DownloadNotificationsImpl(
         label: String,
         message: String,
         details: Intent,
-        silent: Boolean
     ) {
         val intent = PendingIntent.getActivity(
             context,
@@ -271,7 +246,6 @@ class DownloadNotificationsImpl(
             .setContentText(message)
             .setStyle(NotificationCompat.BigTextStyle().bigText(message))
             .setSmallIcon(android.R.drawable.stat_sys_warning)
-            .setSilent(silent)
             .setContentIntent(intent)
             .build()
         notificationManager.notify(key.crc32(), notification)

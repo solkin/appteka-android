@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="continue_installation">Continue installation</string>
+    <string name="install_continue">Continue</string>
 </resources>

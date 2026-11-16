@@ -59,11 +59,11 @@ class MediaStoreApkStorage(
             ?: throw IllegalStateException("Failed to open output stream")
     }
 
-    override fun commit(fileName: String): Boolean {
+    override fun commit(fileName: String): Uri? {
         // Use cached URI first (from openWrite/openAppend), fallback to query (for resume after restart)
         val uri = tmpUris[fileName]
             ?: findFileUri("$fileName.$APK_EXTENSION.$TMP_EXTENSION")
-            ?: return false
+            ?: return null
 
         delete(fileName)
 
@@ -73,16 +73,17 @@ class MediaStoreApkStorage(
         }
 
         return try {
-            val success = contentResolver.update(uri, updateValues, null, null) > 0
-            if (success) {
+            if (contentResolver.update(uri, updateValues, null, null) > 0) {
                 // The URI survives the rename (same id, different name), so it
                 // moves over to the finished side rather than being re-queried
                 tmpUris.remove(fileName)
                 apkUris[fileName] = uri
+                uri
+            } else {
+                null
             }
-            success
         } catch (ex: Throwable) {
-            false
+            null
         }
     }
 

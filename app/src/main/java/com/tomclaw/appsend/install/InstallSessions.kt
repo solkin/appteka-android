@@ -14,6 +14,14 @@ internal class InstallSessions(private val tracker: InstallTracker) {
         return attempt
     }
 
+    /** Takes back an install the system still runs for a process of ours that is gone. */
+    @Synchronized
+    fun restore(key: String, id: Int) {
+        if (attempts[key] != null) return
+        attempts[key] = Attempt(key, id)
+        tracker.update(key, InstallStatus.Installing)
+    }
+
     @Synchronized
     fun current(key: String): Attempt? = attempts[key]
 

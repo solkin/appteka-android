@@ -26,8 +26,7 @@ import com.tomclaw.appsend.R
 import com.tomclaw.appsend.download.ApkStorage
 import com.tomclaw.appsend.download.DownloadLauncher
 import com.tomclaw.appsend.download.DownloadParams
-import com.tomclaw.appsend.install.AppInstaller
-import com.tomclaw.appsend.install.InstallRequest
+import com.tomclaw.appsend.delivery.AppDelivery
 import com.tomclaw.appsend.screen.auth.request_code.createRequestCodeActivityIntent
 import com.tomclaw.appsend.screen.chat.createChatActivityIntent
 import com.tomclaw.appsend.screen.details.di.DETAILS_ADAPTER_PRESENTER
@@ -71,7 +70,7 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
     lateinit var apkStorage: ApkStorage
 
     @Inject
-    lateinit var appInstaller: AppInstaller
+    lateinit var appDelivery: AppDelivery
 
     private val deepLinkParser: DetailsDeepLinkParser by lazy {
         appComponent.detailsDeepLinkParser()
@@ -91,7 +90,7 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
             }
         }
 
-    private val downloadLauncher = DownloadLauncher(this) {
+    private val downloadLauncher = DownloadLauncher(this, deliver = { appDelivery.deliver(it) }) {
         analytics.trackEvent("details-download-app")
     }
     private var pendingStoragePermissionCallback: (() -> Unit)? = null
@@ -301,11 +300,6 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
             presenter.showSnackbar(resources.getString(R.string.non_launchable_package))
         }
         analytics.trackEvent("details-launch-app")
-    }
-
-    override fun installApp(request: InstallRequest) {
-        appInstaller.install(request)
-        analytics.trackEvent("details-install-app")
     }
 
     override fun removeApp(packageName: String) {

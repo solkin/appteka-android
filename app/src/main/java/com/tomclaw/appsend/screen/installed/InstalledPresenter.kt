@@ -4,18 +4,10 @@ import android.net.Uri
 import android.os.Bundle
 import com.tomclaw.appsend.util.adapter.AdapterPresenter
 import com.tomclaw.appsend.util.adapter.Item
-import com.tomclaw.appsend.download.AWAIT
+import com.tomclaw.appsend.delivery.AppDelivery
+import com.tomclaw.appsend.delivery.DeliveryState
 import com.tomclaw.appsend.download.ApkStorage
-import com.tomclaw.appsend.download.COMPLETED
-import com.tomclaw.appsend.download.DownloadManager
 import com.tomclaw.appsend.download.DownloadParams
-import com.tomclaw.appsend.download.ERROR
-import com.tomclaw.appsend.download.IDLE
-import com.tomclaw.appsend.download.STARTED
-import com.tomclaw.appsend.install.AppInstaller
-import com.tomclaw.appsend.install.InstallRequest
-import com.tomclaw.appsend.install.InstallStatus
-import com.tomclaw.appsend.install.asDownloadState
 import com.tomclaw.appsend.screen.details.adapter.abi.AbiResourceProvider
 import com.tomclaw.appsend.screen.details.api.Details
 import com.tomclaw.appsend.screen.details.api.SECURITY_STATUS_COMPLETED
@@ -31,15 +23,12 @@ import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.getParcelableArrayListCompat
 import com.tomclaw.appsend.util.getParcelableCompat
 import dagger.Lazy
-import io.reactivex.rxjava3.core.Maybe
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
-import io.reactivex.rxjava3.disposables.SerialDisposable
 import io.reactivex.rxjava3.kotlin.Observables
 import io.reactivex.rxjava3.kotlin.plusAssign
-import java.util.concurrent.TimeUnit
 
 interface InstalledPresenter : ItemListener {
 
@@ -107,8 +96,7 @@ class InstalledPresenterImpl(
     private val adapterPresenter: Lazy<AdapterPresenter>,
     private val appConverter: AppConverter,
     private val resourceProvider: AppsResourceProvider,
-    private val downloadManager: DownloadManager,
-    private val appInstaller: AppInstaller,
+    private val appDelivery: AppDelivery,
     private val packageObserver: PackageObserver,
     private val abiResourceProvider: AbiResourceProvider,
     private val schedulers: SchedulersFactory,
@@ -127,16 +115,8 @@ class InstalledPresenterImpl(
     private var isError: Boolean = state?.getBoolean(KEY_ERROR) == true
     private var extractItem: AppItem? =
         state?.getParcelableCompat(KEY_EXTRACT_ITEM, AppItem::class.java)
-    private val pendingInstalls: MutableMap<String, PendingInstall> =
-        state?.getParcelableArrayListCompat(KEY_PENDING_INSTALLS, PendingInstall::class.java)
-            .orEmpty()
-            .associateBy { it.appId }
-            .toMutableMap()
-    private val installStatuses = HashMap<String, InstallStatus>()
     private val detailsRequests = HashMap<String, Disposable>()
-    private val downloadsStarted = HashSet<String>()
-    private val installRequests = HashMap<String, Disposable>()
-    private val updateStates = HashMap<String, Int>()
+    private val updateStates = HashMap<String, DeliveryState>()
     private var appsRequest: Disposable? = null
     private var displayedItems: List<AppItem> = emptyList()
 
@@ -253,7 +233,6 @@ class InstalledPresenterImpl(
         putString(KEY_FILTER, filter)
         putBoolean(KEY_ERROR, isError)
         putParcelable(KEY_EXTRACT_ITEM, extractItem)
-        putParcelableArrayList(KEY_PENDING_INSTALLS, ArrayList(pendingInstalls.values))
     }
 
     override fun invalidateApps() {
@@ -318,11 +297,10 @@ class InstalledPresenterImpl(
             }
             .sortedBy { it.update == null }
             .toList()
-        // Rows of an update in progress keep their state until its relays answer.
+        // Rows of an update in progress keep their state until the delivery answers.
         newItems.forEach { item ->
             item.update?.appId?.let { appId ->
-                item.updateState = updateStates[appId] ?: IDLE
-                item.installStatus = installStatuses[appId] ?: InstallStatus.Idle
+                item.updateState = updateStates[appId] ?: DeliveryState.Idle
             }
         }
 
@@ -339,15 +317,9 @@ class InstalledPresenterImpl(
         updateSubscriptions.clear()
         items.orEmpty().forEach { item ->
             val appId = item.update?.appId ?: return@forEach
-            updateSubscriptions += Observable
-                .combineLatest(
-                    downloadManager.status(appId),
-                    appInstaller.status(appId)
-                ) { downloadState, installStatus -> downloadState to installStatus }
+            updateSubscriptions += appDelivery.state(appId)
                 .observeOn(schedulers.mainThread())
-                .subscribe({ (downloadState, installStatus) ->
-                    onUpdateState(item, downloadState, installStatus)
-                }, {})
+                .subscribe({ state -> setUpdateState(item, state) }, {})
             // Only a new version matters: the system also reports components
             // switched on and off, several times per install.
             updateSubscriptions += packageObserver.observe(item.packageName)
@@ -358,82 +330,12 @@ class InstalledPresenterImpl(
         }
     }
 
-    private fun onUpdateState(item: AppItem, downloadState: Int, installStatus: InstallStatus) {
-        val appId = item.update?.appId ?: return
-        installStatuses[appId] = installStatus
-        when {
-            downloadState == COMPLETED -> {
-                downloadsStarted.remove(appId)
-                installWhenReady(item, appId)
-            }
-            // The notification says what failed; the row offers the update again.
-            downloadState == ERROR -> {
-                downloadsStarted.remove(appId)
-                pendingInstalls.remove(appId)
-            }
-            // Back to idle after it ran: cancelled here, from the notification
-            // or by the system, so nothing is left to install.
-            downloadState == IDLE -> if (downloadsStarted.remove(appId)) pendingInstalls.remove(appId)
-
-            else -> downloadsStarted.add(appId)
-        }
-        setUpdateState(item, updateStateOf(appId, downloadState, installStatus), installStatus)
-    }
-
-    private fun updateStateOf(appId: String, downloadState: Int, installStatus: InstallStatus): Int {
-        // A downloaded update about to be installed is still in progress.
-        if (downloadState == COMPLETED && appId in pendingInstalls) return STARTED
-        return installStatus.asDownloadState(downloadState)
-    }
-
-    private fun setUpdateState(item: AppItem, state: Int, installStatus: InstallStatus = item.installStatus) {
+    private fun setUpdateState(item: AppItem, state: DeliveryState) {
         item.update?.appId?.let { updateStates[it] = state }
-        if (item.updateState == state && item.installStatus == installStatus) return
+        if (item.updateState == state) return
         item.updateState = state
-        item.installStatus = installStatus
         val position = displayedItems.indexOfFirst { it.id == item.id }
         if (position >= 0) view?.contentUpdated(position)
-    }
-
-    /**
-     * Installs a downloaded update the user asked for here. The storage may not
-     * hand the file over at once after the download commits (MediaStore), and
-     * COMPLETED is never repeated, so the lookup is retried a few times. The
-     * pending entry stays until the install is handed over, so a screen torn
-     * down meanwhile picks it up again once recreated.
-     */
-    private fun installWhenReady(item: AppItem, appId: String) {
-        val pending = pendingInstalls[appId] ?: return
-        if (appId in installRequests) return
-        val request = SerialDisposable()
-        installRequests[appId] = request
-        subscriptions += request
-        val finish = { failed: Boolean ->
-            pendingInstalls.remove(appId)
-            if (failed) view?.showSnackbar(resourceProvider.updateFailed())
-            val installStatus = installStatuses[appId] ?: InstallStatus.Idle
-            setUpdateState(item, updateStateOf(appId, COMPLETED, installStatus))
-        }
-        val subscription = Observable
-            .interval(0, INSTALL_RETRY_DELAY_MS, TimeUnit.MILLISECONDS, schedulers.io())
-            .take(INSTALL_RETRY_ATTEMPTS)
-            .concatMapMaybe {
-                Maybe.fromCallable {
-                    downloadManager.getInstallUri(pending.label, pending.version, appId)
-                }
-            }
-            .firstElement()
-            .observeOn(schedulers.mainThread())
-            .doFinally { installRequests.remove(appId)?.let { subscriptions.delete(it) } }
-            .subscribe(
-                { uri ->
-                    appInstaller.install(InstallRequest(key = appId, label = pending.label, uri = uri))
-                    finish(false)
-                },
-                { finish(true) },
-                { finish(true) }
-            )
-        request.set(subscription)
     }
 
     private fun onReady() {
@@ -497,11 +399,11 @@ class InstalledPresenterImpl(
         val app = items?.find { it.id == item.id } ?: return
         val update = app.update ?: return
         val appId = update.appId
-        if (app.installStatus == InstallStatus.Confirming) {
-            appInstaller.confirm(appId)
+        if (app.updateState == DeliveryState.AwaitingConfirmation) {
+            appDelivery.confirm(appId)
             return
         }
-        setUpdateState(app, AWAIT)
+        setUpdateState(app, DeliveryState.Queued)
         lateinit var request: Disposable
         request = interactor.getDetails(appId)
             .observeOn(schedulers.mainThread())
@@ -509,7 +411,7 @@ class InstalledPresenterImpl(
             .subscribe(
                 { details -> onUpdateDetails(app, details) },
                 {
-                    setUpdateState(app, IDLE)
+                    setUpdateState(app, DeliveryState.Idle)
                     view?.showSnackbar(resourceProvider.updateFailed())
                 }
             )
@@ -518,12 +420,12 @@ class InstalledPresenterImpl(
     }
 
     private fun onUpdateDetails(app: AppItem, details: Details) {
-        val router = router ?: return setUpdateState(app, IDLE)
+        val router = router ?: return setUpdateState(app, DeliveryState.Idle)
         val info = details.info
         val appId = app.update?.appId ?: return
         if (info.appId != appId) {
             // Not the build the row offers: let its page tell what it is.
-            setUpdateState(app, IDLE)
+            setUpdateState(app, DeliveryState.Idle)
             router.openAppScreen(info.appId, app.title)
             return
         }
@@ -535,22 +437,20 @@ class InstalledPresenterImpl(
         val isIncompatible = !abi.isNullOrEmpty() && !abiResourceProvider.checkCompatibility(abi)
         if (isRisky || isIncompatible) {
             // The app page is where those warnings are shown and accepted.
-            setUpdateState(app, IDLE)
+            setUpdateState(app, DeliveryState.Idle)
             router.openAppScreen(info.appId, app.title)
             return
         }
         router.requestDownloadPermissions { granted ->
             // Cancelled while the permission was being asked.
-            if (updateStates[appId] != AWAIT) return@requestDownloadPermissions
+            if (updateStates[appId] != DeliveryState.Queued) return@requestDownloadPermissions
             if (!granted) {
-                setUpdateState(app, IDLE)
+                setUpdateState(app, DeliveryState.Idle)
                 return@requestDownloadPermissions
             }
-            val label = info.label.orEmpty()
-            pendingInstalls[info.appId] = PendingInstall(info.appId, label, info.version)
             router.startDownload(
                 DownloadParams(
-                    label = label,
+                    label = info.label.orEmpty(),
                     version = info.version,
                     icon = info.icon,
                     appId = info.appId,
@@ -564,23 +464,16 @@ class InstalledPresenterImpl(
     override fun onUpdateCancelClick(item: Item) {
         val app = items?.find { it.id == item.id } ?: return
         val appId = app.update?.appId ?: return
-        pendingInstalls.remove(appId)
-        installRequests[appId]?.let { subscriptions.remove(it) }
         val request = detailsRequests.remove(appId)
         if (request != null) {
             // Still asking for the link: nothing was downloaded yet.
             request.dispose()
-            setUpdateState(app, IDLE)
+            setUpdateState(app, DeliveryState.Idle)
             return
         }
-        if (installStatuses[appId] == null || installStatuses[appId] == InstallStatus.Idle) {
-            downloadManager.cancel(appId)
-        } else {
-            appInstaller.cancel(appId)
-        }
-        // Waiting for a permission answer or a free download slot: nothing
-        // will report the cancel back.
-        if (app.updateState == AWAIT) setUpdateState(app, IDLE)
+        appDelivery.cancel(appId)
+        // Waiting for a permission answer: the delivery has nothing to report back.
+        if (app.updateState == DeliveryState.Queued) setUpdateState(app, DeliveryState.Idle)
     }
 
     private fun requestExtractApk(app: AppItem) {
@@ -657,6 +550,3 @@ private const val KEY_APPS = "apps"
 private const val KEY_FILTER = "filter"
 private const val KEY_ERROR = "error"
 private const val KEY_EXTRACT_ITEM = "extract_item"
-private const val KEY_PENDING_INSTALLS = "pending_installs"
-private const val INSTALL_RETRY_ATTEMPTS = 5L
-private const val INSTALL_RETRY_DELAY_MS = 200L

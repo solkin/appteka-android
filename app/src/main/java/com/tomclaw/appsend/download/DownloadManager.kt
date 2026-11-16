@@ -1,6 +1,5 @@
 package com.tomclaw.appsend.download
 
-import android.net.Uri
 import com.jakewharton.rxrelay3.BehaviorRelay
 import com.tomclaw.appsend.core.ProxyConfigProvider
 import com.tomclaw.appsend.core.UserAgentProvider
@@ -26,7 +25,7 @@ import java.util.concurrent.TimeUnit
 
 interface DownloadManager {
 
-    fun status(appId: String): Observable<Int>
+    fun status(appId: String): Observable<DownloadState>
 
     fun download(
         label: String,
@@ -35,8 +34,6 @@ interface DownloadManager {
         url: String,
         sha1: String?,
     ): String
-
-    fun getInstallUri(label: String, version: String, appId: String): Uri?
 
     fun exists(label: String, version: String, appId: String): Boolean
 
@@ -55,7 +52,7 @@ class DownloadManagerImpl(
     private val executor = Executors.newSingleThreadExecutor()
 
     // Touched from both the service (main thread) and the download executor
-    private val relays = ConcurrentHashMap<String, BehaviorRelay<Int>>()
+    private val relays = ConcurrentHashMap<String, BehaviorRelay<DownloadState>>()
     private val downloads = ConcurrentHashMap<String, Future<*>>()
     private val fileNames = ConcurrentHashMap<String, String>()
 
@@ -64,13 +61,13 @@ class DownloadManagerImpl(
      * racing on the same appId cannot end up holding two different relays — the
      * loser of that race would never see the download it is watching.
      */
-    private fun relayFor(appId: String): BehaviorRelay<Int> {
+    private fun relayFor(appId: String): BehaviorRelay<DownloadState> {
         relays[appId]?.let { return it }
-        val created = BehaviorRelay.createDefault(IDLE)
+        val created = BehaviorRelay.createDefault<DownloadState>(DownloadState.Idle)
         return relays.putIfAbsent(appId, created) ?: created
     }
 
-    override fun status(appId: String): Observable<Int> {
+    override fun status(appId: String): Observable<DownloadState> {
         val relay = relayFor(appId)
         return relay.doFinally {
             logDebug("[download] Finally status relay")
@@ -78,10 +75,12 @@ class DownloadManagerImpl(
                 logDebug("[download] Relay $appId has observers")
                 return@doFinally
             }
-            val inactiveState = relay.hasValue() &&
-                    (relay.value == IDLE || relay.value == COMPLETED || relay.value == ERROR)
+            val inactiveState = when (relay.value) {
+                DownloadState.Idle, DownloadState.Failed, is DownloadState.Completed -> true
+                DownloadState.Queued, is DownloadState.Running, null -> false
+            }
             logDebug("[download] Relay $appId is inactive: $inactiveState")
-            if (!relay.hasValue() || inactiveState) {
+            if (inactiveState) {
                 relays.remove(appId)
                 logDebug("[download] Relay $appId removed")
             }
@@ -98,8 +97,8 @@ class DownloadManagerImpl(
         val fileName = fileName(label, version, appId)
         val relay = relayFor(appId)
 
-        if (apkStorage.exists(fileName)) {
-            relay.accept(COMPLETED)
+        apkStorage.getInstallUri(fileName)?.let { uri ->
+            relay.accept(DownloadState.Completed(uri))
             return fileName
         }
 
@@ -109,56 +108,51 @@ class DownloadManagerImpl(
             return fileName
         }
 
-        relay.accept(AWAIT)
+        relay.accept(DownloadState.Queued)
         fileNames[appId] = fileName
         downloads[appId] = executor.submit {
             try {
-                relay.accept(STARTED)
+                relay.accept(DownloadState.Running(percent = null))
                 val result = downloadBlocking(
                     url = url,
                     fileName = fileName,
                     sha1 = sha1,
                     progressCallback = { percent ->
-                        relay.accept(percent)
+                        relay.accept(DownloadState.Running(percent))
                     },
                     errorCallback = {
-                        relay.accept(ERROR)
+                        relay.accept(DownloadState.Failed)
                     },
                 )
                 when (result) {
                     DownloadResult.SUCCESS -> {
-                        val committed = apkStorage.commit(fileName)
-                        if (committed) {
+                        val uri = apkStorage.commit(fileName)
+                        if (uri != null) {
                             fileNames.remove(appId)
-                            relay.accept(COMPLETED)
+                            relay.accept(DownloadState.Completed(uri))
                         } else {
-                            relay.accept(ERROR)
+                            relay.accept(DownloadState.Failed)
                         }
                     }
                     DownloadResult.INTERRUPTED -> {
                         // Keep tmp file for resume - don't delete
-                        relay.accept(IDLE)
+                        relay.accept(DownloadState.Idle)
                     }
                     DownloadResult.ERROR -> {
                         // Keep tmp file for resume - don't delete
-                        // relay already has ERROR from errorCallback
+                        // relay already has Failed from errorCallback
                     }
                 }
             } catch (ex: Throwable) {
                 // Escaping here would leave the relay without a terminal state,
                 // and the foreground service would keep running until Android kills it
                 logDebug("[download] Unexpected failure while downloading\n$ex")
-                relay.accept(ERROR)
+                relay.accept(DownloadState.Failed)
             } finally {
                 downloads.remove(appId)
             }
         }
         return fileName
-    }
-
-    override fun getInstallUri(label: String, version: String, appId: String): Uri? {
-        val fileName = fileName(label, version, appId)
-        return apkStorage.getInstallUri(fileName)
     }
 
     override fun exists(label: String, version: String, appId: String): Boolean {
@@ -176,7 +170,7 @@ class DownloadManagerImpl(
         fileNames.remove(appId)?.let { fileName ->
             apkStorage.deleteTmp(fileName)
         }
-        relays[appId]?.accept(IDLE)
+        relays[appId]?.accept(DownloadState.Idle)
     }
 
     private fun downloadBlocking(
@@ -396,12 +390,6 @@ const val SC_RANGE_NOT_SATISFIABLE = 416
 
 private val REDIRECT_CODES = setOf(301, 302, 303, 307, 308)
 private const val MAX_REDIRECTS = 5
-
-const val IDLE: Int = -30
-const val AWAIT: Int = -10
-const val STARTED: Int = -20
-const val COMPLETED: Int = 101
-const val ERROR: Int = -40
 
 private const val BUFFER_SIZE = 1 * 1024 * 1024
 
