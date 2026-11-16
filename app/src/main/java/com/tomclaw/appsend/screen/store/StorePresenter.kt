@@ -15,6 +15,7 @@ import com.tomclaw.appsend.util.Analytics
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.getParcelableArrayListCompat
 import com.tomclaw.appsend.util.getParcelableCompat
+import com.tomclaw.appsend.util.retryWhenNonAuthErrors
 import io.reactivex.rxjava3.core.Completable
 import io.reactivex.rxjava3.core.Observable
 import dagger.Lazy
@@ -179,6 +180,7 @@ class StorePresenterImpl(
         requests += storeInteractor
             .listApps(offsetAppId, category?.id, openSource, exclusive)
             .observeOn(schedulers.mainThread())
+            .retryWhenNonAuthErrors()
             .subscribe(
                 { onLoaded(it) },
                 { onError() },

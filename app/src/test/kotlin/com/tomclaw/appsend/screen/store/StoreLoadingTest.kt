@@ -3,7 +3,9 @@ package com.tomclaw.appsend.screen.store
 import com.tomclaw.appsend.categories.CategoriesInteractor
 import com.tomclaw.appsend.categories.Category
 import com.tomclaw.appsend.categories.CategoryConverterImpl
+import com.tomclaw.appsend.dto.AppEntity
 import com.tomclaw.appsend.dto.AppsPage
+import com.tomclaw.appsend.screen.store.adapter.app.AppItem
 import com.tomclaw.appsend.util.Analytics
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.adapter.AdapterPresenter
@@ -25,6 +27,8 @@ class StoreLoadingTest {
     private var appsCalls = 0
     private var categories: () -> Single<List<Category>> = { Single.just(emptyList()) }
     private var apps: () -> Observable<AppsPage> = { Observable.just(AppsPage(emptyList())) }
+    private var appConverter: AppConverter = stub { _, _ -> error("Empty catalog has no apps") }
+    private var adapterPresenter: AdapterPresenter = stub { _, _ -> error("Empty catalog has no rows") }
     private val retry = PublishSubject.create<Unit>()
     private val openSource = PublishSubject.create<Boolean>()
     private val calls = mutableListOf<String>()
@@ -98,6 +102,61 @@ class StoreLoadingTest {
         assertFalse(current.hasObservers())
     }
 
+    @Test
+    fun `failed next page keeps the loaded catalog instead of showing an error`() {
+        val nextPage = PublishSubject.create<AppsPage>()
+        apps = { if (appsCalls == 1) Observable.just(AppsPage(listOf(app("1")))) else nextPage }
+        appConverter = object : AppConverter {
+            override fun convert(appEntity: AppEntity) = item(appEntity.appId)
+        }
+        adapterPresenter = stub { _, _ -> null }
+        val presenter = presenter()
+        try {
+            presenter.attachView(view)
+            assertTrue(calls.contains("showContent"))
+            presenter.onLoadMore(item("1"))
+            assertTrue(nextPage.hasObservers())
+            calls.clear()
+            nextPage.onError(java.io.IOException("offline"))
+            assertFalse(calls.contains("showError"))
+        } finally { presenter.detachView() }
+    }
+
+    private fun app(id: String) = AppEntity(
+        appId = id,
+        packageName = "com.tomclaw.$id",
+        icon = null,
+        title = "app $id",
+        verName = "1.0",
+        verCode = 1,
+        time = 0,
+        size = 0,
+        rating = 0f,
+        downloads = 0,
+        status = 0,
+        category = null,
+        exclusive = false,
+        sourceUrl = null,
+        abi = null,
+    )
+
+    private fun item(id: String) = AppItem(
+        id = id.toLong(),
+        appId = id,
+        icon = null,
+        title = "app $id",
+        version = "1.0",
+        size = "",
+        rating = 0f,
+        downloads = 0,
+        status = 0,
+        category = null,
+        exclusive = false,
+        openSource = false,
+        mod = false,
+        isAbiCompatible = true,
+    )
+
     private fun presenter(): StorePresenterImpl = StorePresenterImpl(
         storeInteractor = object : StoreInteractor {
             override fun listApps(offsetAppId: String?, categoryId: Int?, openSource: Boolean, exclusive: Boolean): Observable<AppsPage> =
@@ -110,8 +169,8 @@ class StoreLoadingTest {
         dropdownItemConverter = object : CategoryDropdownItemConverter {
             override fun convert(items: List<com.tomclaw.appsend.categories.CategoryItem>) = listOf(CategoryDropdownItem(0, "All", null, 0))
         },
-        adapterPresenter = Lazy { stub<AdapterPresenter> { _, _ -> error("Empty catalog has no rows") } },
-        appConverter = stub { _, _ -> error("Empty catalog has no apps") },
+        adapterPresenter = Lazy { adapterPresenter },
+        appConverter = appConverter,
         analytics = stub<Analytics> { _, _ -> null },
         schedulers = object : SchedulersFactory {
             override fun io(): Scheduler = Schedulers.trampoline()
