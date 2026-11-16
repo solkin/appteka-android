@@ -6,6 +6,7 @@ import com.tomclaw.appsend.screen.profile.api.SubscribeResponse
 import com.tomclaw.appsend.screen.profile.api.UnsubscribeResponse
 import com.tomclaw.appsend.screen.profile.api.UserAppsResponse
 import com.tomclaw.appsend.util.SchedulersFactory
+import com.tomclaw.appsend.util.isHttpError
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 
@@ -33,8 +34,13 @@ class ProfileInteractorImpl(
         val data = if (userId == null) {
             profile.map { ProfileData(it, viewerId = it.userId) }
         } else {
-            Single.zip(profile, api.getUserBrief(userId = null)) { target, viewer ->
-                ProfileData(target, viewerId = viewer.result.id)
+            val viewerId = api.getUserBrief(userId = null)
+                .map { it.result.id }
+                .onErrorResumeNext { error ->
+                    if (error.isHttpError(401)) Single.just(GUEST_USER_ID) else Single.error(error)
+                }
+            Single.zip(profile, viewerId) { target, viewer ->
+                ProfileData(target, viewerId = viewer)
             }
         }
         return data.toObservable().subscribeOn(schedulers.io())
@@ -78,3 +84,5 @@ class ProfileInteractorImpl(
     }
 
 }
+
+private const val GUEST_USER_ID = 0
