@@ -48,4 +48,8 @@ data class AppEntity(
     // See [com.tomclaw.appsend.core.Origin]; absent when never declared.
     @SerializedName("origin")
     val origin: String? = null,
+    // The release a Store list row stands for; absent on other lists and for
+    // a build without a signing key.
+    @SerializedName("ref")
+    val ref: String? = null,
 ) : Parcelable

@@ -122,6 +122,28 @@ class StoreLoadingTest {
         } finally { presenter.detachView() }
     }
 
+    @Test
+    fun `a row with a release opens the release, one without opens the build`() {
+        apps = { Observable.just(AppsPage(listOf(app("1"), app("2")))) }
+        appConverter = object : AppConverter {
+            override fun convert(appEntity: AppEntity) =
+                item(appEntity.appId, ref = "com.tomclaw.1/a1b2c3d4e5f6a7b8c9d0e1f2/1".takeIf { appEntity.appId == "1" })
+        }
+        adapterPresenter = stub { _, _ -> null }
+        val opened = mutableListOf<String>()
+        val presenter = presenter()
+        try {
+            presenter.attachView(view)
+            presenter.attachRouter(stub { method, args -> opened += "$method ${args[0]}"; null })
+            presenter.onItemClick(item("1"))
+            presenter.onItemClick(item("2"))
+            assertEquals(
+                listOf("openReleaseScreen com.tomclaw.1/a1b2c3d4e5f6a7b8c9d0e1f2/1", "openAppScreen 2"),
+                opened,
+            )
+        } finally { presenter.detachRouter(); presenter.detachView() }
+    }
+
     private fun app(id: String) = AppEntity(
         appId = id,
         packageName = "com.tomclaw.$id",
@@ -140,9 +162,10 @@ class StoreLoadingTest {
         abi = null,
     )
 
-    private fun item(id: String) = AppItem(
+    private fun item(id: String, ref: String? = null) = AppItem(
         id = id.toLong(),
         appId = id,
+        ref = ref,
         icon = null,
         title = "app $id",
         version = "1.0",

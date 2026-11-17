@@ -105,6 +105,16 @@ class StoreFragment : Fragment(), StorePresenter.StoreRouter, HomeFragment {
         startActivity(intent)
     }
 
+    override fun openReleaseScreen(ref: String, title: String) {
+        val intent = createDetailsActivityIntent(
+            context = requireContext(),
+            ref = ref,
+            label = title,
+            finishOnly = true
+        )
+        startActivity(intent)
+    }
+
     override fun handleEvent(data: Intent?) {
         presenter.invalidateApps()
     }

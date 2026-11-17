@@ -44,6 +44,8 @@ interface StorePresenter : ItemListener {
 
         fun openAppScreen(appId: String, title: String)
 
+        fun openReleaseScreen(ref: String, title: String)
+
         fun openContentFilterScreen()
 
     }
@@ -241,7 +243,14 @@ class StorePresenterImpl(
 
     override fun onItemClick(item: Item) {
         val app = items?.find { it.id == item.id } ?: return
-        router?.openAppScreen(app.appId, app.title)
+        // A row is picked for no device; its release opens in the variant
+        // for this one.
+        val ref = app.ref
+        if (ref != null) {
+            router?.openReleaseScreen(ref, app.title)
+        } else {
+            router?.openAppScreen(app.appId, app.title)
+        }
     }
 
     override fun onLoadMore(item: Item) {

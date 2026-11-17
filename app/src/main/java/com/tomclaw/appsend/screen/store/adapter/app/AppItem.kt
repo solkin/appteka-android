@@ -9,6 +9,8 @@ import kotlinx.parcelize.Parcelize
 class AppItem(
     override val id: Long,
     val appId: String,
+    // The release the row stands for, if it has an address.
+    val ref: String? = null,
     val icon: String?,
     val title: String,
     val version: String,
