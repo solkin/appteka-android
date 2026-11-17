@@ -4,7 +4,6 @@ import android.net.Uri
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.core.StreamsProvider
 import com.tomclaw.appsend.download.ApkStorage
-import com.tomclaw.appsend.dto.DeviceInfo
 import com.tomclaw.appsend.screen.details.api.Details
 import com.tomclaw.appsend.screen.installed.api.CheckUpdatesRequest
 import com.tomclaw.appsend.upload.UploadApk
@@ -39,7 +38,6 @@ class InstalledInteractorImpl(
     private val apkStorage: ApkStorage,
     private val streamsProvider: StreamsProvider,
     private val infoProvider: InstalledInfoProvider,
-    private val device: DeviceInfo,
     private val schedulers: SchedulersFactory
 ) : InstalledInteractor {
 
@@ -63,7 +61,6 @@ class InstalledInteractorImpl(
             locale = locale.language,
             apps = apps,
             certs = certs,
-            device = device,
         )
         return api.checkUpdates(request)
             .map { response ->

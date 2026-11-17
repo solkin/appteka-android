@@ -1,5 +1,6 @@
 package com.tomclaw.appsend.core
 
+import com.tomclaw.appsend.dto.DeviceInfo
 import okhttp3.Interceptor
 import okhttp3.Response
 import java.io.IOException
@@ -10,8 +11,11 @@ import java.io.IOException
  * locale, theme, and time.
  */
 class AppInfoInterceptor(
-    private val appInfoProvider: AppInfoProvider
+    private val appInfoProvider: AppInfoProvider,
+    private val device: DeviceInfo,
 ) : Interceptor {
+
+    private val deviceAbis = device.abis.joinToString(",")
 
     @Throws(IOException::class)
     override fun intercept(chain: Interceptor.Chain): Response {
@@ -20,7 +24,8 @@ class AppInfoInterceptor(
             .header(HEADER_APP_VERSION_NAME, appInfoProvider.getVersionName())
             .header(HEADER_APP_VERSION_CODE, appInfoProvider.getVersionCode().toString())
             .header(HEADER_APP_SIGNATURE, appInfoProvider.getSignature())
-            .header(HEADER_ANDROID_VERSION, appInfoProvider.getAndroidVersion().toString())
+            .header(HEADER_ANDROID_VERSION, device.sdk.toString())
+            .header(HEADER_DEVICE_ABIS, deviceAbis)
             .header(HEADER_ANDROID_RELEASE, appInfoProvider.getAndroidRelease())
             .header(HEADER_DEVICE_MANUFACTURER, appInfoProvider.getDeviceManufacturer())
             .header(HEADER_DEVICE_MODEL, appInfoProvider.getDeviceModel())
@@ -42,6 +47,7 @@ class AppInfoInterceptor(
         const val HEADER_ANDROID_RELEASE = "X-Android-Release"
         const val HEADER_DEVICE_MANUFACTURER = "X-Device-Manufacturer"
         const val HEADER_DEVICE_MODEL = "X-Device-Model"
+        const val HEADER_DEVICE_ABIS = "X-Device-ABIs"
         const val HEADER_LOCALE = "X-Locale"
         const val HEADER_THEME = "X-Theme"
         const val HEADER_TIMEZONE = "X-Timezone"

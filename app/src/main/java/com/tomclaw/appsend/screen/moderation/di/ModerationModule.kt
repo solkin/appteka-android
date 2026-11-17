@@ -2,6 +2,7 @@ package com.tomclaw.appsend.screen.moderation.di
 
 import android.content.Context
 import android.os.Bundle
+import com.tomclaw.appsend.dto.DeviceInfo
 import com.tomclaw.appsend.util.adapter.ItemBinder
 import com.tomclaw.appsend.util.adapter.AdapterPresenter
 import com.tomclaw.appsend.util.adapter.SimpleAdapterPresenter
@@ -90,8 +91,8 @@ class ModerationModule(
 
     @Provides
     @PerActivity
-    internal fun provideAbiResourceProvider(): AbiResourceProvider {
-        return AbiResourceProviderImpl(context.resources)
+    internal fun provideAbiResourceProvider(device: DeviceInfo): AbiResourceProvider {
+        return AbiResourceProviderImpl(context.resources, device)
     }
 
     @Provides

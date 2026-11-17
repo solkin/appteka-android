@@ -126,7 +126,8 @@ class AppModule(private val app: Application) {
     @Provides
     @Singleton
     internal fun provideDevice(): DeviceInfo = DeviceInfo(
-        abis = Build.SUPPORTED_ABIS.toList(),
+        // A firmware list with an empty entry would make every request invalid.
+        abis = Build.SUPPORTED_ABIS.filter { it.isNotBlank() },
         sdk = Build.VERSION.SDK_INT,
     )
 
@@ -367,6 +368,7 @@ class AppModule(private val app: Application) {
         userAgentProvider: UserAgentProvider,
         deviceIdProvider: DeviceIdProvider,
         appInfoProvider: AppInfoProvider,
+        device: DeviceInfo,
         proxyConfigProvider: ProxyConfigProvider,
     ): HttpClientHolderImpl = HttpClientHolderImpl(
         app = app,
@@ -374,6 +376,7 @@ class AppModule(private val app: Application) {
         userAgentProvider = userAgentProvider,
         deviceIdProvider = deviceIdProvider,
         appInfoProvider = appInfoProvider,
+        device = device,
         proxyConfigProvider = proxyConfigProvider
     )
 

@@ -2,6 +2,7 @@ package com.tomclaw.appsend.core
 
 import android.app.Application
 import com.chuckerteam.chucker.api.ChuckerInterceptor
+import com.tomclaw.appsend.dto.DeviceInfo
 import io.reactivex.rxjava3.disposables.Disposable
 import io.reactivex.rxjava3.schedulers.Schedulers
 import okhttp3.ConnectionPool
@@ -21,6 +22,7 @@ class HttpClientHolderImpl(
     userAgentProvider: UserAgentProvider,
     deviceIdProvider: DeviceIdProvider,
     appInfoProvider: AppInfoProvider,
+    device: DeviceInfo,
     proxyConfigProvider: ProxyConfigProvider
 ) : HttpClientHolder {
 
@@ -33,7 +35,7 @@ class HttpClientHolderImpl(
         .proxySelector(DynamicProxySelector(proxyConfigProvider))
         .addInterceptor(UserAgentInterceptor(userAgentProvider.getUserAgent()))
         .addInterceptor(DeviceIdInterceptor(deviceIdProvider.getDeviceId()))
-        .addInterceptor(AppInfoInterceptor(appInfoProvider))
+        .addInterceptor(AppInfoInterceptor(appInfoProvider, device))
         .addInterceptor(ChuckerInterceptor.Builder(app).build())
         .cookieJar(cookieJar)
         .build()

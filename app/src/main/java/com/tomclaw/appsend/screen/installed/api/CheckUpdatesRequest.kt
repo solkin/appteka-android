@@ -1,7 +1,6 @@
 package com.tomclaw.appsend.screen.installed.api
 
 import com.google.gson.annotations.SerializedName
-import com.tomclaw.appsend.dto.DeviceInfo
 import com.tomclaw.appsend.util.GsonModel
 
 @GsonModel
@@ -12,6 +11,4 @@ data class CheckUpdatesRequest(
     private val apps: Map<String, Long>,
     @SerializedName(value = "certs")
     private val certs: Map<String, String>,
-    @SerializedName(value = "device")
-    private val device: DeviceInfo,
 )

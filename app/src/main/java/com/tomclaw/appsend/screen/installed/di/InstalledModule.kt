@@ -81,7 +81,6 @@ class InstalledModule(
         apkStorage: ApkStorage,
         streamsProvider: StreamsProvider,
         infoProvider: InstalledInfoProvider,
-        device: DeviceInfo,
         schedulers: SchedulersFactory
     ): InstalledInteractor = InstalledInteractorImpl(
         api,
@@ -89,7 +88,6 @@ class InstalledModule(
         apkStorage,
         streamsProvider,
         infoProvider,
-        device,
         schedulers
     )
 
@@ -101,8 +99,8 @@ class InstalledModule(
 
     @Provides
     @PerActivity
-    internal fun provideAbiResourceProvider(): AbiResourceProvider {
-        return AbiResourceProviderImpl(context.resources)
+    internal fun provideAbiResourceProvider(device: DeviceInfo): AbiResourceProvider {
+        return AbiResourceProviderImpl(context.resources, device)
     }
 
     @Provides

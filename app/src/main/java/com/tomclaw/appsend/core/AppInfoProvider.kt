@@ -23,8 +23,6 @@ interface AppInfoProvider {
 
     fun getSignature(): String
 
-    fun getAndroidVersion(): Int
-
     fun getAndroidRelease(): String
 
     fun getDeviceManufacturer(): String
@@ -68,8 +66,6 @@ class AppInfoProviderImpl(
             UNKNOWN
         }
     }
-
-    override fun getAndroidVersion(): Int = Build.VERSION.SDK_INT
 
     override fun getAndroidRelease(): String = Build.VERSION.RELEASE
 

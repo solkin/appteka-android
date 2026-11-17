@@ -1,8 +1,8 @@
 package com.tomclaw.appsend.screen.details.adapter.abi
 
 import android.content.res.Resources
-import android.os.Build
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.dto.DeviceInfo
 
 interface AbiResourceProvider {
 
@@ -17,7 +17,8 @@ interface AbiResourceProvider {
 }
 
 class AbiResourceProviderImpl(
-    private val resources: Resources
+    private val resources: Resources,
+    private val device: DeviceInfo,
 ) : AbiResourceProvider {
 
     override fun formatAbiName(abi: String): String {
@@ -42,9 +43,7 @@ class AbiResourceProviderImpl(
         }
     }
 
-    override fun getDeviceSupportedAbis(): List<String> {
-        return Build.SUPPORTED_ABIS.toList()
-    }
+    override fun getDeviceSupportedAbis(): List<String> = device.abis
 
     override fun checkCompatibility(abiList: List<String>): Boolean {
         if (abiList.isEmpty()) {
