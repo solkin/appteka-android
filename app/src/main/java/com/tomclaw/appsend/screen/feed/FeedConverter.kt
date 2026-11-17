@@ -66,6 +66,7 @@ class FeedConverterImpl : FeedConverter {
                 id = post.postId.toLong(),
                 time = TimeUnit.SECONDS.toMillis(post.time),
                 appId = post.payload.appId,
+                ref = post.payload.ref,
                 packageName = post.payload.packageName,
                 icon = post.payload.icon,
                 title = post.payload.title,

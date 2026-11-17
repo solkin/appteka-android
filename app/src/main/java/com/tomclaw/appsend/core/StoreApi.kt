@@ -184,6 +184,7 @@ interface StoreApi {
     fun getInfo(
         @Query("app_id") appId: String?,
         @Query("package") packageName: String?,
+        @Query("ref") ref: String?,
         @Query("locale") locale: String
     ): Single<StoreResponse<Details>>
 

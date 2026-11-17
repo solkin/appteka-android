@@ -9,6 +9,9 @@ import com.tomclaw.appsend.util.GsonModel
 data class UploadPayload(
     @SerializedName("app_id")
     val appId: String,
+    // The release the post announces; absent for a build without a signing key.
+    @SerializedName("ref")
+    val ref: String?,
     @SerializedName("package")
     val packageName: String,
     @SerializedName("icon")

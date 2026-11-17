@@ -13,6 +13,7 @@ data class UploadItem(
     override val id: Long,
     val time: Long,
     val appId: String,
+    val ref: String?,
     val packageName: String,
     val icon: String?,
     val title: String,

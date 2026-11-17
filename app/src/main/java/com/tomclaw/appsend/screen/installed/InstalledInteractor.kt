@@ -75,7 +75,7 @@ class InstalledInteractorImpl(
 
     override fun getDetails(appId: String): Observable<Details> {
         // Fetched right before each download: the link it carries expires.
-        return api.getInfo(appId = appId, packageName = null, locale = locale.language)
+        return api.getInfo(appId = appId, packageName = null, ref = null, locale = locale.language)
             .map { it.result }
             .toObservable()
             .subscribeOn(schedulers.io())

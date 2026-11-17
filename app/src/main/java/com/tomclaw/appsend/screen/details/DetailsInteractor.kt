@@ -25,7 +25,7 @@ import java.util.Locale
 
 interface DetailsInteractor {
 
-    fun loadDetails(appId: String?, packageName: String?): Observable<Details>
+    fun loadDetails(appId: String?, packageName: String?, ref: String?): Observable<Details>
 
     fun sendModerationDecision(
         appId: String,
@@ -63,12 +63,13 @@ class DetailsInteractorImpl(
     private val schedulers: SchedulersFactory
 ) : DetailsInteractor {
 
-    override fun loadDetails(appId: String?, packageName: String?): Observable<Details> {
-        bananalytics.leaveBreadcrumb("Load details: $appId", BreadcrumbCategory.NETWORK)
+    override fun loadDetails(appId: String?, packageName: String?, ref: String?): Observable<Details> {
+        bananalytics.leaveBreadcrumb("Load details: ${appId ?: ref ?: packageName}", BreadcrumbCategory.NETWORK)
         return api
             .getInfo(
                 appId = appId,
                 packageName = packageName,
+                ref = ref,
                 locale = locale.language,
             )
             .map { it.result }

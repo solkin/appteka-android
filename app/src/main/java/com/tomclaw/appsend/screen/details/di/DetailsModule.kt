@@ -90,6 +90,7 @@ import javax.inject.Named
 class DetailsModule(
     private val appId: String?,
     private val packageName: String?,
+    private val ref: String?,
     private val moderation: Boolean,
     private val finishOnly: Boolean,
     private val openReview: Boolean,
@@ -112,6 +113,7 @@ class DetailsModule(
     ): DetailsPresenter = DetailsPresenterImpl(
         appId,
         packageName,
+        ref,
         moderation,
         finishOnly,
         openReview,

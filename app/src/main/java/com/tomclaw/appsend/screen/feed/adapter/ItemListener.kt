@@ -13,7 +13,7 @@ interface ItemListener {
 
     fun onImageClick(items: List<Screenshot>, clicked: Int)
 
-    fun onAppClick(appId: String, title: String?)
+    fun onAppClick(appId: String, ref: String?, title: String?)
 
     fun onUserClick(user: UserBrief)
 

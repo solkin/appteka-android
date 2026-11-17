@@ -77,6 +77,7 @@ class UploadInteractorImpl(
             .getInfo(
                 appId = appId,
                 packageName = null,
+                ref = null,
                 locale = locale.language,
             )
             .map { it.result }

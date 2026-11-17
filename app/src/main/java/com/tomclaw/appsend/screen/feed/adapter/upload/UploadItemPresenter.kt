@@ -42,7 +42,7 @@ class UploadItemPresenter(
             ?.let { view.setReactions(it) }
             ?: view.hideReactions()
         view.setOnPostClickListener { listener.onItemClick(item) }
-        view.setOnAppClickListener { listener.onAppClick(item.appId, item.title) }
+        view.setOnAppClickListener { listener.onAppClick(item.appId, item.ref, item.title) }
         view.setOnMenuClickListener { listener.onMenuClick(item) }
         view.setOnReactionClickListener { reaction -> listener.onReactionClick(item, reaction) }
     }

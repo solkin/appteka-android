@@ -133,6 +133,17 @@ class FeedFragment : Fragment(), FeedPresenter.FeedRouter, HomeFragment {
         startActivity(intent)
     }
 
+    override fun openReleaseScreen(ref: String, label: String?) {
+        val context = context ?: return
+        val intent = createDetailsActivityIntent(
+            context = context,
+            ref = ref,
+            label = label.orEmpty(),
+            finishOnly = true
+        )
+        startActivity(intent)
+    }
+
     override fun openGallery(items: List<GalleryItem>, current: Int) {
         val context = context ?: return
         val intent = createGalleryActivityIntent(context, items, current)

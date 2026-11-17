@@ -131,6 +131,7 @@ interface DetailsPresenter : ItemListener {
 class DetailsPresenterImpl(
     private val appId: String?,
     private val packageName: String?,
+    private val ref: String?,
     private val moderation: Boolean,
     private val finishOnly: Boolean,
     private var openReview: Boolean,
@@ -150,6 +151,11 @@ class DetailsPresenterImpl(
     private var router: DetailsPresenter.DetailsRouter? = null
 
     private var details: Details? = state?.getParcelableCompat(KEY_DETAILS, Details::class.java)
+
+    // The build on screen: opened by package or release, the screen learns it
+    // only from the loaded details.
+    private val shownAppId: String?
+        get() = details?.info?.appId ?: appId
     private var installedVersionCode: Int = state?.getInt(KEY_INSTALLED_VERSION) ?: NOT_INSTALLED
     private var delivery: DeliveryState =
         state?.getParcelableCompat(KEY_DELIVERY, DeliveryState::class.java) ?: DeliveryState.Idle
@@ -184,7 +190,7 @@ class DetailsPresenterImpl(
             )
         }
         subscriptions += view.editClicks().subscribe {
-            appId?.let { appId ->
+            shownAppId?.let { appId ->
                 val info = details?.info ?: return@subscribe
                 router?.openEditMetaScreen(
                     appId = appId,
@@ -197,10 +203,10 @@ class DetailsPresenterImpl(
             }
         }
         subscriptions += view.unpublishClicks().subscribe {
-            appId?.let { appId -> router?.openUnpublishScreen(appId, details?.info?.label) }
+            shownAppId?.let { appId -> router?.openUnpublishScreen(appId, details?.info?.label) }
         }
         subscriptions += view.unlinkClicks().subscribe {
-            appId?.let { appId -> router?.openUnlinkScreen(appId, details?.info?.label) }
+            shownAppId?.let { appId -> router?.openUnlinkScreen(appId, details?.info?.label) }
         }
         subscriptions += view.deleteClicks().subscribe { isConfirmed ->
             if (!isConfirmed) {
@@ -221,7 +227,7 @@ class DetailsPresenterImpl(
                 size = info.size,
                 url = url,
             )
-            appId?.let { appId -> router?.openAbuseScreen(url, label, text) }
+            router?.openAbuseScreen(url, label, text)
         }
         subscriptions += view.versionClicks().subscribe { version ->
             details?.let { details ->
@@ -322,7 +328,10 @@ class DetailsPresenterImpl(
     }
 
     private fun loadDetails(silent: Boolean = false) {
-        subscriptions += interactor.loadDetails(appId, packageName)
+        // Once a build is on screen, reloads keep to it (the server reads
+        // app_id first): after an action on it, its package or release could
+        // resolve to another variant.
+        subscriptions += interactor.loadDetails(shownAppId, packageName, ref)
             .observeOn(schedulers.mainThread())
             .retryWhenNonAuthErrors()
             .doOnSubscribe {
@@ -488,7 +497,7 @@ class DetailsPresenterImpl(
     // would feel jarring; instead errors fall back to a snackbar and
     // the dialog only opens on success.
     private fun loadAIReviewForModerator() {
-        val targetAppId = appId ?: details?.info?.appId ?: return
+        val targetAppId = shownAppId ?: return
         subscriptions += interactor.loadAIReview(targetAppId)
             .observeOn(schedulers.mainThread())
             .subscribe(
@@ -505,7 +514,7 @@ class DetailsPresenterImpl(
     }
 
     private fun applyAIReview() {
-        val targetAppId = appId ?: details?.info?.appId ?: return
+        val targetAppId = shownAppId ?: return
         subscriptions += interactor.applyAIReview(targetAppId)
             .toObservable()
             .observeOn(schedulers.mainThread())
@@ -797,7 +806,7 @@ class DetailsPresenterImpl(
             view?.showContent()
             return
         }
-        val appId = appId ?: details?.info?.appId ?: return
+        val appId = shownAppId ?: return
         subscriptions += interactor.translate(appId)
             .toObservable()
             .doOnSubscribe { onTranslationStarted() }
@@ -879,7 +888,7 @@ class DetailsPresenterImpl(
 
     override fun onStatusAction(type: StatusAction) {
         val info = details?.info ?: return
-        val appId = appId ?: return
+        val appId = shownAppId ?: return
         when (type) {
             StatusAction.EDIT_META -> router?.openEditMetaScreen(
                 appId = appId,

@@ -124,6 +124,7 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
 
         var appId: String? = null
         var packageName: String? = null
+        var ref: String? = null
         var moderation = false
         var finishOnly = false
         var openReview = false
@@ -141,11 +142,12 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
         } else {
             appId = intent.getStringExtra(EXTRA_APP_ID)
             packageName = intent.getStringExtra(EXTRA_PACKAGE)
+            ref = intent.getStringExtra(EXTRA_REF)
             moderation = intent.getBooleanExtra(EXTRA_MODERATION, false)
             finishOnly = intent.getBooleanExtra(EXTRA_FINISH_ONLY, false)
         }
 
-        if (appId == null && packageName == null) {
+        if (appId == null && packageName == null && ref == null) {
             return navigateToStore()
         }
 
@@ -155,6 +157,7 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
                 DetailsModule(
                     appId,
                     packageName,
+                    ref,
                     moderation,
                     finishOnly,
                     openReview,
@@ -488,18 +491,21 @@ fun createDetailsActivityIntent(
     context: Context,
     appId: String? = null,
     packageName: String? = null,
+    ref: String? = null,
     label: String,
     moderation: Boolean = false,
     finishOnly: Boolean = false,
 ): Intent = Intent(context, DetailsActivity::class.java)
     .putExtra(EXTRA_APP_ID, appId)
     .putExtra(EXTRA_PACKAGE, packageName)
+    .putExtra(EXTRA_REF, ref)
     .putExtra(EXTRA_LABEL, label)
     .putExtra(EXTRA_MODERATION, moderation)
     .putExtra(EXTRA_FINISH_ONLY, finishOnly)
 
 private const val EXTRA_APP_ID = "app_id"
 private const val EXTRA_PACKAGE = "package_name"
+private const val EXTRA_REF = "ref"
 private const val EXTRA_LABEL = "label"
 private const val EXTRA_MODERATION = "moderation"
 private const val EXTRA_FINISH_ONLY = "finishOnly"

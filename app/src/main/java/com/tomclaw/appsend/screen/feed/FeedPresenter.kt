@@ -47,6 +47,8 @@ interface FeedPresenter : ItemListener {
 
         fun openDetailsScreen(appId: String, label: String?, isFinish: Boolean)
 
+        fun openReleaseScreen(ref: String, label: String?)
+
         fun openGallery(items: List<GalleryItem>, current: Int)
 
         fun openLoginScreen()
@@ -373,12 +375,18 @@ class FeedPresenterImpl(
         )
     }
 
-    override fun onAppClick(appId: String, title: String?) {
-        router?.openDetailsScreen(
-            appId = appId,
-            label = title,
-            isFinish = false
-        )
+    override fun onAppClick(appId: String, ref: String?, title: String?) {
+        // A release opens in the variant for this device; a build without
+        // one opens itself.
+        if (ref != null) {
+            router?.openReleaseScreen(ref, title)
+        } else {
+            router?.openDetailsScreen(
+                appId = appId,
+                label = title,
+                isFinish = false
+            )
+        }
     }
 
     override fun onUserClick(user: UserBrief) {
