@@ -71,6 +71,8 @@ import com.tomclaw.appsend.Appteka
 import com.tomclaw.appsend.util.ActivityStarter
 import com.tomclaw.appsend.util.Analytics
 import com.tomclaw.appsend.util.AnalyticsImpl
+import com.tomclaw.appsend.util.EditionKeyProvider
+import com.tomclaw.appsend.util.EditionKeyProviderImpl
 import com.tomclaw.appsend.util.Logger
 import com.tomclaw.appsend.util.LoggerImpl
 import com.tomclaw.appsend.util.PackageObserver
@@ -269,6 +271,12 @@ class AppModule(private val app: Application) {
     internal fun providePackageObserver(
         context: Context
     ): PackageObserver = PackageObserverImpl(context, context.packageManager)
+
+    @Provides
+    @Singleton
+    internal fun provideEditionKeyProvider(
+        packageManager: PackageManager
+    ): EditionKeyProvider = EditionKeyProviderImpl(packageManager)
 
     @Provides
     @Singleton

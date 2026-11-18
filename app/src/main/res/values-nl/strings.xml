@@ -619,6 +619,16 @@
     <string name="other_edition_version">Versie %1$s</string>
     <string name="other_edition_reinstall">Deze is met een andere sleutel ondertekend, dus Android installeert hem pas nadat deze app is verwijderd. De gegevens van de app worden gewist.</string>
     <string name="other_edition_open">Build openen</string>
+    <string name="other_edition_installed">De geïnstalleerde app komt van een andere uitgever, dus deze build kan hem niet bijwerken.</string>
+    <string name="open_own_edition">Jouw versie openen</string>
+    <string name="replace_with_edition">In plaats daarvan installeren</string>
+    <string name="replace_warning_title">Geïnstalleerde app vervangen?</string>
+    <string name="edition_unknown_publisher">Onbekende uitgever</string>
+    <string name="edition_unverified">Handtekening niet geverifieerd</string>
+    <plurals name="edition_downloads">
+        <item quantity="one">%d download</item>
+        <item quantity="other">%d downloads</item>
+    </plurals>
     <string name="installed_update_info">Update %1$s, %2$s</string>
     <string name="install_failed_downgrade">Er is al een nieuwere versie van deze app geïnstalleerd. Verwijder die eerst om deze te installeren. De gegevens ervan worden gewist.</string>
     <string name="install_failed_abi">Deze build is niet gemaakt voor de processor van je apparaat. Zoek een andere build.</string>

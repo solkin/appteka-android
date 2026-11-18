@@ -50,7 +50,7 @@ interface DistroPresenter : ItemListener {
 
         fun searchGooglePlay(packageName: String)
 
-        fun searchAppteka(packageName: String, title: String)
+        fun searchAppteka(packageName: String, editionKey: String?, title: String)
 
         fun openPermissionsScreen(permissions: List<String>)
 
@@ -124,7 +124,7 @@ class DistroPresenterImpl(
 
                 MENU_FIND_ON_STORE -> {
                     if (app.packageName.isNotEmpty()) {
-                        router?.searchAppteka(app.packageName, app.title)
+                        searchAppteka(app)
                     }
                 }
 
@@ -276,6 +276,19 @@ class DistroPresenterImpl(
     override fun onItemClick(item: Item) {
         val app = items?.find { it.id == item.id } ?: return
         view?.showItemDialog(app)
+    }
+
+    // The store's page for this edition, or the package page if the key is
+    // unreadable or the store has no such edition.
+    private fun searchAppteka(app: ApkItem) {
+        subscriptions += interactor
+            .getEditionKey(app.fileName)
+            .observeOn(schedulers.mainThread())
+            .subscribe(
+                { key -> router?.searchAppteka(app.packageName, key, app.title) },
+                { router?.searchAppteka(app.packageName, null, app.title) },
+                { router?.searchAppteka(app.packageName, null, app.title) },
+            )
     }
 
     private fun requestExtractApk(app: ApkItem) {

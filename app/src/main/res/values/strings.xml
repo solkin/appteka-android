@@ -644,6 +644,17 @@
     <string name="other_edition_version">Version %1$s</string>
     <string name="other_edition_reinstall">It is signed with another key, so Android installs it only after this app is removed. The app\'s data will be deleted.</string>
     <string name="other_edition_open">Open build</string>
+    <string name="other_edition_installed">The installed app is from another publisher, so this build can\'t update it.</string>
+    <string name="open_own_edition">Open yours</string>
+    <string name="replace_with_edition">Install instead</string>
+    <string name="replace_warning_title">Replace the installed app?</string>
+    <string name="edition_unknown_publisher">Unknown publisher</string>
+    <string name="edition_unverified">Signature not verified</string>
+    <plurals name="edition_downloads">
+        <item quantity="one">%d download</item>
+        <item quantity="other">%d downloads</item>
+    </plurals>
+    <string name="summary_separator" translatable="false">" · "</string>
     <string name="installed_update_info">Update %1$s, %2$s</string>
     <string name="install_failed_downgrade">A newer version of this app is already installed. To install this one, remove it first. Its data will be deleted.</string>
     <string name="install_failed_abi">This build isn\'t made for your device\'s processor. Look for another build.</string>

@@ -1,6 +1,7 @@
 package com.tomclaw.appsend.screen.details.di
 
 import android.content.Context
+import android.content.pm.PackageManager
 import android.os.Bundle
 import com.tomclaw.appsend.dto.DeviceInfo
 import com.tomclaw.appsend.util.adapter.ItemBinder
@@ -12,6 +13,8 @@ import com.tomclaw.appsend.di.DATE_FORMATTER
 import com.tomclaw.appsend.delivery.AppDelivery
 import com.tomclaw.appsend.screen.details.DetailsConverter
 import com.tomclaw.appsend.screen.details.DetailsConverterImpl
+import com.tomclaw.appsend.screen.details.InstalledAppProvider
+import com.tomclaw.appsend.screen.details.InstalledAppProviderImpl
 import com.tomclaw.appsend.screen.details.adapter.all_ratings.AllRatingsItemBlueprint
 import com.tomclaw.appsend.screen.details.adapter.all_ratings.AllRatingsItemPresenter
 import com.tomclaw.appsend.screen.details.adapter.abi.AbiItemBlueprint
@@ -108,6 +111,7 @@ class DetailsModule(
         @Named(DETAILS_ADAPTER_PRESENTER) adapterPresenter: Lazy<AdapterPresenter>,
         detailsConverter: DetailsConverter,
         packageObserver: PackageObserver,
+        installedAppProvider: InstalledAppProvider,
         appDelivery: AppDelivery,
         schedulers: SchedulersFactory
     ): DetailsPresenter = DetailsPresenterImpl(
@@ -124,6 +128,7 @@ class DetailsModule(
         adapterPresenter,
         detailsConverter,
         packageObserver,
+        installedAppProvider,
         appDelivery,
         schedulers,
         state
@@ -143,6 +148,12 @@ class DetailsModule(
     internal fun provideDetailsResourceProvider(
         locale: Locale
     ): DetailsResourceProvider = DetailsResourceProviderImpl(resources = context.resources, locale)
+
+    @Provides
+    @PerActivity
+    internal fun provideInstalledAppProvider(
+        packageManager: PackageManager
+    ): InstalledAppProvider = InstalledAppProviderImpl(packageManager)
 
     @Provides
     @PerActivity

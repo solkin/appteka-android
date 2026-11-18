@@ -662,6 +662,20 @@
     <string name="other_edition_version">الإصدار %1$s</string>
     <string name="other_edition_reinstall">إنه موقّع بمفتاح آخر، لذا لن يثبّته Android إلا بعد إزالة هذا التطبيق. ستُحذف بيانات التطبيق.</string>
     <string name="other_edition_open">فتح الإصدار</string>
+    <string name="other_edition_installed">التطبيق المثبت من ناشر آخر، لذا لا يمكن لهذا الإصدار تحديثه.</string>
+    <string name="open_own_edition">افتح نسختك</string>
+    <string name="replace_with_edition">ثبّت بدلاً منه</string>
+    <string name="replace_warning_title">هل تريد استبدال التطبيق المثبت؟</string>
+    <string name="edition_unknown_publisher">ناشر غير معروف</string>
+    <string name="edition_unverified">التوقيع غير موثّق</string>
+    <plurals name="edition_downloads">
+        <item quantity="zero">%d تنزيلات</item>
+        <item quantity="one">%d تنزيل</item>
+        <item quantity="two">%d تنزيلات</item>
+        <item quantity="few">%d تنزيلات</item>
+        <item quantity="many">%d تنزيلًا</item>
+        <item quantity="other">%d تنزيل</item>
+    </plurals>
     <string name="installed_update_info">تحديث %1$s، %2$s</string>
     <string name="install_failed_downgrade">يوجد إصدار أحدث من هذا التطبيق مثبت بالفعل. لتثبيت هذا الإصدار، أزله أولاً. ستُحذف بياناته.</string>
     <string name="install_failed_abi">هذه النسخة ليست لمعالج جهازك. ابحث عن نسخة أخرى.</string>

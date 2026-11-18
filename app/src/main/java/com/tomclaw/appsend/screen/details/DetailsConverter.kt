@@ -55,7 +55,6 @@ import com.tomclaw.appsend.screen.details.api.STATUS_UNLINKED
 import com.tomclaw.appsend.screen.details.api.MODERATION_STATUS_REJECTED
 import com.tomclaw.appsend.screen.details.api.Security
 import com.tomclaw.appsend.screen.details.api.TranslationResponse
-import com.tomclaw.appsend.util.NOT_INSTALLED
 import java.util.Locale
 import androidx.core.net.toUri
 
@@ -64,7 +63,7 @@ interface DetailsConverter {
     fun convert(
         details: Details,
         delivery: DeliveryState,
-        installedVersionCode: Int,
+        installed: InstalledApp,
         moderation: Boolean,
         translationData: TranslationResponse?,
         translationState: Int,
@@ -81,13 +80,14 @@ class DetailsConverterImpl(
     override fun convert(
         details: Details,
         delivery: DeliveryState,
-        installedVersionCode: Int,
+        installed: InstalledApp,
         moderation: Boolean,
         translationData: TranslationResponse?,
         translationState: Int,
     ): List<Item> {
         var id: Long = 1
         val items = ArrayList<Item>()
+        val installState = details.installState(installed)
 
         when (details.info.fileStatus) {
             // Blocked: red, final, and no action — there is nothing the
@@ -218,8 +218,19 @@ class DetailsConverterImpl(
                 size = details.info.size,
                 link = details.link,
                 expiresIn = details.expiresIn,
-                installedVersionCode = installedVersionCode,
+                installState = installState,
                 delivery = delivery,
+            )
+        }
+        if (installState == InstallState.OTHER_EDITION) {
+            // Said next to the buttons: it is why there is no update here.
+            val ownEdition = details.editionOf(installed.editionKey)?.takeIf { it.ref != null }
+            items += StatusItem(
+                id = id++,
+                type = StatusType.INFO,
+                text = resourceProvider.otherEditionInstalledText(),
+                actionType = if (ownEdition != null) StatusAction.OPEN_OWN_EDITION else StatusAction.NONE,
+                actionLabel = resourceProvider.openOwnEditionAction(),
             )
         }
         val whatsNewText = details.meta?.whatsNew
@@ -233,8 +244,7 @@ class DetailsConverterImpl(
                 }
             }
             ?.trim()
-        val hasUpdate = installedVersionCode != NOT_INSTALLED &&
-                installedVersionCode < details.info.versionCode
+        val hasUpdate = installState == InstallState.OLDER
         // Right under the install button while an update is pending: that's
         // what the user came for. Otherwise it waits below, next to the
         // description.
@@ -252,7 +262,7 @@ class DetailsConverterImpl(
                 time = details.userRating.time * 1000,
                 user = details.userRating.user,
             )
-        } else if (installedVersionCode != NOT_INSTALLED && details.info.fileStatus == STATUS_NORMAL) {
+        } else if (installed.isInstalled && details.info.fileStatus == STATUS_NORMAL) {
             items += UserRateItem(
                 id = id++,
                 appId = details.info.appId,

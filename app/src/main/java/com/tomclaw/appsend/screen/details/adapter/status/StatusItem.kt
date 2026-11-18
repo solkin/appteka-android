@@ -24,5 +24,6 @@ enum class StatusType {
 enum class StatusAction {
     NONE,
     EDIT_META,
-    UNPUBLISH
+    UNPUBLISH,
+    OPEN_OWN_EDITION
 }

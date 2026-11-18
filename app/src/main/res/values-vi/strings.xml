@@ -596,6 +596,15 @@
     <string name="other_edition_version">Phiên bản %1$s</string>
     <string name="other_edition_reinstall">Bản này được ký bằng khóa khác, nên Android chỉ cài đặt sau khi gỡ ứng dụng này. Dữ liệu của ứng dụng sẽ bị xóa.</string>
     <string name="other_edition_open">Mở bản dựng</string>
+    <string name="other_edition_installed">Ứng dụng đã cài đặt là của nhà phát hành khác, nên bản dựng này không thể cập nhật nó.</string>
+    <string name="open_own_edition">Mở bản của bạn</string>
+    <string name="replace_with_edition">Cài đặt thay thế</string>
+    <string name="replace_warning_title">Thay thế ứng dụng đã cài đặt?</string>
+    <string name="edition_unknown_publisher">Nhà phát hành không rõ</string>
+    <string name="edition_unverified">Chữ ký chưa được xác minh</string>
+    <plurals name="edition_downloads">
+        <item quantity="other">%d lượt tải</item>
+    </plurals>
     <string name="installed_update_info">Bản cập nhật %1$s, %2$s</string>
     <string name="install_failed_downgrade">Đã cài phiên bản mới hơn của ứng dụng này. Để cài bản này, hãy gỡ phiên bản đó trước. Dữ liệu của nó sẽ bị xóa.</string>
     <string name="install_failed_abi">Bản này không dành cho bộ xử lý của thiết bị. Hãy tìm bản khác.</string>

@@ -35,6 +35,7 @@ import com.tomclaw.appsend.screen.upload.createUploadActivityIntent
 import com.tomclaw.appsend.upload.UploadApk
 import com.tomclaw.appsend.upload.UploadPackage
 import com.tomclaw.appsend.util.Analytics
+import com.tomclaw.appsend.util.editionRef
 import java.io.File
 import javax.inject.Inject
 
@@ -190,10 +191,11 @@ class InstalledActivity : AppCompatActivity(), InstalledPresenter.InstalledRoute
         analytics.trackEvent("installed-open-google-play")
     }
 
-    override fun searchAppteka(packageName: String, title: String) {
+    override fun searchAppteka(packageName: String, editionKey: String?, title: String) {
         val intent = createDetailsActivityIntent(
             context = this,
             packageName = packageName,
+            ref = editionKey?.let { editionRef(packageName, it) },
             label = title,
             moderation = false,
             finishOnly = true

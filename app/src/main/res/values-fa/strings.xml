@@ -618,6 +618,16 @@
     <string name="other_edition_version">نسخهٔ %1$s</string>
     <string name="other_edition_reinstall">این نسخه با کلید دیگری امضا شده است، بنابراین Android فقط پس از حذف این برنامه آن را نصب می‌کند. داده‌های برنامه پاک خواهد شد.</string>
     <string name="other_edition_open">باز کردن نسخه</string>
+    <string name="other_edition_installed">برنامهٔ نصب‌شده از ناشر دیگری است، بنابراین این نسخه نمی‌تواند آن را به‌روز کند.</string>
+    <string name="open_own_edition">باز کردن نسخهٔ خودتان</string>
+    <string name="replace_with_edition">نصب به‌جای آن</string>
+    <string name="replace_warning_title">برنامهٔ نصب‌شده جایگزین شود؟</string>
+    <string name="edition_unknown_publisher">ناشر ناشناخته</string>
+    <string name="edition_unverified">امضا تأیید نشده</string>
+    <plurals name="edition_downloads">
+        <item quantity="one">%d دانلود</item>
+        <item quantity="other">%d دانلود</item>
+    </plurals>
     <string name="installed_update_info">به‌روزرسانی %1$s، %2$s</string>
     <string name="install_failed_downgrade">نسخه جدیدتری از این برنامه نصب شده است. برای نصب این نسخه، ابتدا آن را حذف کنید. داده‌های آن پاک می‌شود.</string>
     <string name="install_failed_abi">این نسخه برای پردازنده دستگاه شما نیست. نسخه دیگری پیدا کنید.</string>

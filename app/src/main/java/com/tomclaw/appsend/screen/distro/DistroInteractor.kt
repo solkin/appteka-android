@@ -5,7 +5,9 @@ import com.tomclaw.appsend.core.StreamsProvider
 import com.tomclaw.appsend.download.ApkStorage
 import com.tomclaw.appsend.upload.UploadApk
 import com.tomclaw.appsend.upload.UploadPackage
+import com.tomclaw.appsend.util.EditionKeyProvider
 import com.tomclaw.appsend.util.SchedulersFactory
+import io.reactivex.rxjava3.core.Maybe
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.core.Single
 import java.io.File
@@ -22,14 +24,27 @@ interface DistroInteractor {
 
     fun copyFile(source: String, target: Uri): Observable<Unit>
 
+    /** The APK's edition key; empty if it has none or the file is gone. */
+    fun getEditionKey(fileName: String): Maybe<String>
+
 }
 
 class DistroInteractorImpl(
     private val infoProvider: DistroInfoProvider,
     private val apkStorage: ApkStorage,
     private val streamsProvider: StreamsProvider,
+    private val editionKeyProvider: EditionKeyProvider,
     private val schedulers: SchedulersFactory
 ) : DistroInteractor {
+
+    override fun getEditionKey(fileName: String): Maybe<String> {
+        // Reading the signing block verifies the whole file: off the main thread.
+        return Maybe
+            .fromCallable<String> {
+                apkStorage.getFilePath(fileName)?.let { editionKeyProvider.archiveKey(it) }
+            }
+            .subscribeOn(schedulers.io())
+    }
 
     override fun listDistroApps(): Observable<List<DistroAppEntity>> {
         return Single

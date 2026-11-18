@@ -610,6 +610,17 @@
     <string name="other_edition_version">Versione %1$s</string>
     <string name="other_edition_reinstall">È firmata con un\'altra chiave, quindi Android la installerà solo dopo aver rimosso questa app. I dati dell\'app verranno eliminati.</string>
     <string name="other_edition_open">Apri build</string>
+    <string name="other_edition_installed">L\'app installata è di un altro editore, quindi questa build non può aggiornarla.</string>
+    <string name="open_own_edition">Apri la tua</string>
+    <string name="replace_with_edition">Installa al suo posto</string>
+    <string name="replace_warning_title">Sostituire l\'app installata?</string>
+    <string name="edition_unknown_publisher">Editore sconosciuto</string>
+    <string name="edition_unverified">Firma non verificata</string>
+    <plurals name="edition_downloads">
+        <item quantity="one">%d download</item>
+        <item quantity="many">%d download</item>
+        <item quantity="other">%d download</item>
+    </plurals>
     <string name="installed_update_info">Aggiornamento %1$s, %2$s</string>
     <string name="install_failed_downgrade">È già installata una versione più recente di questa app. Per installare questa, rimuovila prima. I suoi dati verranno eliminati.</string>
     <string name="install_failed_abi">Questa build non è per il processore del tuo dispositivo. Cerca un\'altra build.</string>

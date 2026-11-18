@@ -3,8 +3,8 @@ package com.tomclaw.appsend.screen.details.adapter.controls
 import com.tomclaw.appsend.util.adapter.ItemPresenter
 import com.tomclaw.appsend.delivery.DeliveryState
 import com.tomclaw.appsend.delivery.isActive
+import com.tomclaw.appsend.screen.details.InstallState
 import com.tomclaw.appsend.screen.details.adapter.ItemListener
-import com.tomclaw.appsend.util.NOT_INSTALLED
 
 class ControlsItemPresenter(
     private val listener: ItemListener,
@@ -20,7 +20,7 @@ class ControlsItemPresenter(
                 view.showCancelButton()
             }
 
-            item.installedVersionCode == NOT_INSTALLED -> {
+            item.installState == InstallState.NOT_INSTALLED -> {
                 view.showInstallButton()
                 if (isProgress) {
                     view.showCancelButton()
@@ -28,7 +28,7 @@ class ControlsItemPresenter(
                 }
             }
 
-            item.installedVersionCode < item.versionCode -> {
+            item.installState == InstallState.OLDER -> {
                 if (isProgress) {
                     view.showCancelButton()
                     view.disableUpdateButton()

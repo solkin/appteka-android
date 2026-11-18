@@ -623,6 +623,16 @@
     <string name="other_edition_version">وەشانی %1$s</string>
     <string name="other_edition_reinstall">بە کلیلێکی تر واژۆ کراوە، بۆیە Android تەنها دوای سڕینەوەی ئەم بەرنامەیە دایدەمەزرێنێت. داتاکانی بەرنامەکە دەسڕدرێنەوە.</string>
     <string name="other_edition_open">کردنەوەی وەشان</string>
+    <string name="other_edition_installed">ئەپی دامەزراو لە بڵاوکەرەوەیەکی ترە، بۆیە ئەم وەشانە ناتوانێت نوێی بکاتەوە.</string>
+    <string name="open_own_edition">هی خۆت بکەرەوە</string>
+    <string name="replace_with_edition">لە جیاتی ئەو دابمەزرێنە</string>
+    <string name="replace_warning_title">ئەپی دامەزراو بگۆڕدرێت؟</string>
+    <string name="edition_unknown_publisher">بڵاوکەرەوەی نەناسراو</string>
+    <string name="edition_unverified">واژۆ پشتڕاست نەکراوەتەوە</string>
+    <plurals name="edition_downloads">
+        <item quantity="one">%d داگرتن</item>
+        <item quantity="other">%d داگرتن</item>
+    </plurals>
     <string name="installed_update_info">نوێکردنەوە %1$s، %2$s</string>
     <string name="install_failed_downgrade">وەشانێکی نوێتری ئەم بەرنامەیە دامەزراوە. بۆ دامەزراندنی ئەمە، سەرەتا بیسڕەوە. داتاکانی دەسڕدرێنەوە.</string>
     <string name="install_failed_abi">ئەم وەشانە بۆ پرۆسێسەری ئامێرەکەت نییە. وەشانێکی تر بدۆزەرەوە.</string>

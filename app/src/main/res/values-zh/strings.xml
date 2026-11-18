@@ -596,6 +596,15 @@
     <string name="other_edition_version">版本 %1$s</string>
     <string name="other_edition_reinstall">它使用其他密钥签名，因此只有在卸载此应用后 Android 才能安装它。应用数据将被删除。</string>
     <string name="other_edition_open">打开版本</string>
+    <string name="other_edition_installed">已安装的应用来自其他发布者，因此此版本无法更新它。</string>
+    <string name="open_own_edition">打开您的版本</string>
+    <string name="replace_with_edition">改为安装</string>
+    <string name="replace_warning_title">替换已安装的应用？</string>
+    <string name="edition_unknown_publisher">未知发布者</string>
+    <string name="edition_unverified">签名未验证</string>
+    <plurals name="edition_downloads">
+        <item quantity="other">%d 次下载</item>
+    </plurals>
     <string name="installed_update_info">更新 %1$s，%2$s</string>
     <string name="install_failed_downgrade">设备上已安装此应用的较新版本。要安装此版本，请先将其移除。其数据将被删除。</string>
     <string name="install_failed_abi">此版本不适用于您设备的处理器。请寻找其他版本。</string>

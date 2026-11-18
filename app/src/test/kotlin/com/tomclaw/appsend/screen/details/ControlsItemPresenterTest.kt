@@ -5,7 +5,6 @@ import com.tomclaw.appsend.screen.details.adapter.ItemListener
 import com.tomclaw.appsend.screen.details.adapter.controls.ControlsItem
 import com.tomclaw.appsend.screen.details.adapter.controls.ControlsItemPresenter
 import com.tomclaw.appsend.screen.details.adapter.controls.ControlsItemView
-import com.tomclaw.appsend.util.NOT_INSTALLED
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -45,7 +44,29 @@ class ControlsItemPresenterTest {
         assertTrue("disableInstallButton" in calls)
     }
 
-    private fun item(delivery: DeliveryState) = ControlsItem(
+    @Test
+    fun `another edition installed offers launch, never an update`() {
+        val calls = mutableListOf<String>()
+        val view = recorder<ControlsItemView>(calls)
+        val presenter = ControlsItemPresenter(recorder<ItemListener>(mutableListOf()))
+
+        presenter.bindView(view, item(DeliveryState.Idle, InstallState.OTHER_EDITION), 0)
+
+        assertTrue("showLaunchButton" in calls)
+        assertTrue("showRemoveButton" in calls)
+        assertFalse("showUpdateButton" in calls)
+
+        calls.clear()
+        presenter.bindView(view, item(DeliveryState.Idle, InstallState.OLDER), 0)
+
+        assertTrue("showUpdateButton" in calls)
+        assertFalse("showLaunchButton" in calls)
+    }
+
+    private fun item(
+        delivery: DeliveryState,
+        installState: InstallState = InstallState.NOT_INSTALLED,
+    ) = ControlsItem(
         id = 1,
         appId = "app",
         packageName = "app",
@@ -55,7 +76,7 @@ class ControlsItemPresenterTest {
         size = 1,
         link = "",
         expiresIn = 60,
-        installedVersionCode = NOT_INSTALLED,
+        installState = installState,
         delivery = delivery,
     )
 

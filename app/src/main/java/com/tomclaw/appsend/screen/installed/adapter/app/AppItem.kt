@@ -20,6 +20,8 @@ class AppItem(
     val update: UpdateEntity?,
     val otherEdition: UpdateEntity?,
     val isUserApp: Boolean,
+    // Signing key of the installed app, null if unreadable.
+    val editionKey: String?,
     var isNew: Boolean = false,
     /** How far [update] has got on its way to the device. */
     var updateState: DeliveryState = DeliveryState.Idle,

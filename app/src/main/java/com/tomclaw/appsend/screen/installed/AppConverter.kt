@@ -33,6 +33,7 @@ class AppConverterImpl : AppConverter {
             // A system app cannot be removed, so the other build is out of reach.
             otherEdition = otherEdition.takeIf { appEntity.isUserApp },
             isUserApp = appEntity.isUserApp,
+            editionKey = appEntity.editionKey,
             isNew = isRecent(appEntity.firstInstallTime),
         )
     }

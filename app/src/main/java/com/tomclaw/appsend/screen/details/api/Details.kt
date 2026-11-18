@@ -24,6 +24,9 @@ data class Details(
     val userRating: RatingEntity?,
     @SerializedName("versions")
     val versions: ArrayList<AppVersion>?,
+    // The edition of the build on screen comes first.
+    @SerializedName("editions")
+    val editions: List<AppEdition>? = null,
     @SerializedName("link")
     val link: String,
     @SerializedName("expires_in")

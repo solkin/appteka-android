@@ -22,7 +22,6 @@ import com.tomclaw.appsend.screen.details.api.SECURITY_VERDICT_SUSPICIOUS
 import com.tomclaw.appsend.screen.details.api.TranslationResponse
 import com.tomclaw.appsend.screen.gallery.GalleryItem
 import com.tomclaw.appsend.user.api.UserBrief
-import com.tomclaw.appsend.util.NOT_INSTALLED
 import com.tomclaw.appsend.util.PackageObserver
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.filterCapabilityErrors
@@ -101,6 +100,8 @@ interface DetailsPresenter : ItemListener {
 
         fun openDetailsScreen(appId: String, label: String?)
 
+        fun openDetailsScreenByRef(ref: String, label: String?)
+
         fun openChatScreen(topicId: Int, label: String?)
 
         fun openStoreScreen()
@@ -142,6 +143,7 @@ class DetailsPresenterImpl(
     private val adapterPresenter: Lazy<AdapterPresenter>,
     private val detailsConverter: DetailsConverter,
     private val packageObserver: PackageObserver,
+    private val installedAppProvider: InstalledAppProvider,
     private val appDelivery: AppDelivery,
     private val schedulers: SchedulersFactory,
     state: Bundle?
@@ -156,7 +158,8 @@ class DetailsPresenterImpl(
     // only from the loaded details.
     private val shownAppId: String?
         get() = details?.info?.appId ?: appId
-    private var installedVersionCode: Int = state?.getInt(KEY_INSTALLED_VERSION) ?: NOT_INSTALLED
+    private var installed: InstalledApp =
+        state?.getParcelableCompat(KEY_INSTALLED, InstalledApp::class.java) ?: InstalledApp.NONE
     private var delivery: DeliveryState =
         state?.getParcelableCompat(KEY_DELIVERY, DeliveryState::class.java) ?: DeliveryState.Idle
     private var removeBeforeInstall: Boolean = state?.getBoolean(KEY_REMOVE_BEFORE_INSTALL) == true
@@ -286,8 +289,8 @@ class DetailsPresenterImpl(
         subscriptions += view.installExistingClicks().subscribe {
             onInstallExistingClick()
         }
-        subscriptions += view.downgradeConfirmClicks().subscribe { removeFirst ->
-            onDowngradeConfirm(removeFirst)
+        subscriptions += view.replaceConfirmClicks().subscribe { removeFirst ->
+            onReplaceConfirm(removeFirst)
         }
 
         if (moderation) {
@@ -319,7 +322,7 @@ class DetailsPresenterImpl(
 
     override fun saveState() = Bundle().apply {
         putParcelable(KEY_DETAILS, details)
-        putInt(KEY_INSTALLED_VERSION, installedVersionCode)
+        putParcelable(KEY_INSTALLED, installed)
         putParcelable(KEY_DELIVERY, delivery)
         putBoolean(KEY_REMOVE_BEFORE_INSTALL, removeBeforeInstall)
         putBoolean(KEY_IS_FAVORITE, isFavorite)
@@ -369,17 +372,21 @@ class DetailsPresenterImpl(
         val appId = details?.info?.appId ?: return
         observerSubscription.clear()
         observerSubscription += packageObserver.observe(packageName)
+            // Package events arrive on the main thread; signatures are read off it.
+            .observeOn(schedulers.io())
+            // Read on every event: a reinstall may bring another key.
+            .map { versionCode -> installedAppProvider.installedApp(packageName, versionCode) }
             // switchMap, not flatMap: every package event used to add another
             // subscription to the same download relay without dropping the
             // previous one, so the screen re-bound once per accumulated one
-            .switchMap { installedVersionCode ->
-                appDelivery.state(appId).map { delivery -> installedVersionCode to delivery }
+            .switchMap { installed ->
+                appDelivery.state(appId).map { delivery -> installed to delivery }
             }
             .subscribeOn(schedulers.io())
             .observeOn(schedulers.mainThread())
             .subscribe(
                 { (installed, delivery) ->
-                    this.installedVersionCode = installed
+                    this.installed = installed
                     this.delivery = delivery
                     installAfterRemoval()
                     bindDetails()
@@ -399,7 +406,7 @@ class DetailsPresenterImpl(
         items += detailsConverter.convert(
             details,
             delivery,
-            installedVersionCode,
+            installed,
             moderation,
             translationData,
             translationState,
@@ -424,18 +431,17 @@ class DetailsPresenterImpl(
     }
 
     /**
-     * When the installed version is newer than or equal to the one in
-     * the store the main button shows "Open", so downloading is offered
-     * as an overflow item: reinstall for the same version, downgrade for
-     * a newer installed one. Returns null when there is nothing to offer.
+     * When the main button shows "Open" for an installed app, downloading
+     * is offered as an overflow item: reinstall for the same version,
+     * downgrade for a newer installed one, replace for another edition.
+     * Returns null when there is nothing to offer.
      */
     private fun resolveInstallExistingTitle(): String? {
-        val versionCode = details?.info?.versionCode ?: return null
-        return when {
-            installedVersionCode == NOT_INSTALLED -> null
-            installedVersionCode < versionCode -> null
-            installedVersionCode == versionCode -> resourceProvider.reinstallTitle()
-            else -> resourceProvider.installOldVersionTitle()
+        return when (details?.installState(installed) ?: return null) {
+            InstallState.NOT_INSTALLED, InstallState.OLDER -> null
+            InstallState.SAME -> resourceProvider.reinstallTitle()
+            InstallState.NEWER -> resourceProvider.installOldVersionTitle()
+            InstallState.OTHER_EDITION -> resourceProvider.replaceTitle().takeIf { installed.removable }
         }
     }
 
@@ -443,9 +449,9 @@ class DetailsPresenterImpl(
         adapterPresenter.get().onDataSourceChanged(items)
     }
 
-    /** A downgrade can only be installed once the newer version is gone. */
+    /** A downgrade or another edition installs only once the app is gone. */
     private fun installAfterRemoval() {
-        if (removeBeforeInstall && installedVersionCode == NOT_INSTALLED) {
+        if (removeBeforeInstall && !installed.isInstalled) {
             removeBeforeInstall = false
             onInstallClick()
         }
@@ -710,20 +716,27 @@ class DetailsPresenterImpl(
     }
 
     private fun onInstallExistingClick() {
-        val versionCode = details?.info?.versionCode ?: return
-        if (installedVersionCode > versionCode) {
-            view?.showDowngradeDialog(
+        when (details?.installState(installed) ?: return) {
+            InstallState.NEWER -> view?.showReplaceDialog(
                 title = resourceProvider.downgradeWarningTitle(),
                 message = resourceProvider.downgradeWarningMessage(),
                 removeButton = resourceProvider.downgradeRemoveAndInstall(),
                 installOverButton = resourceProvider.downgradeInstallOver()
             )
-        } else {
-            onInstallClick()
+
+            // Android refuses another key over the installed app.
+            InstallState.OTHER_EDITION -> if (installed.removable) view?.showReplaceDialog(
+                title = resourceProvider.replaceWarningTitle(),
+                message = resourceProvider.replaceWarningMessage(),
+                removeButton = resourceProvider.downgradeRemoveAndInstall(),
+                installOverButton = null
+            )
+
+            else -> onInstallClick()
         }
     }
 
-    private fun onDowngradeConfirm(removeFirst: Boolean) {
+    private fun onReplaceConfirm(removeFirst: Boolean) {
         if (removeFirst) {
             val packageName = details?.info?.packageName ?: return
             removeBeforeInstall = true
@@ -869,21 +882,26 @@ class DetailsPresenterImpl(
     }
 
     override fun onVersionsClick() {
-        val info = details?.info ?: return
-        val versions = details?.versions ?: return
-        val items = versions
-            .sortedBy { it.verCode }
-            .reversed()
-            .map { version ->
-                VersionItem(
-                    versionId = version.appId.hashCode(),
-                    appId = version.appId,
-                    title = resourceProvider.formatVersion(version),
-                    compatible = version.sdkVersion <= Build.VERSION.SDK_INT,
-                    newer = version.verCode > info.versionCode,
+        val details = details ?: return
+        val entries = details.versionsByEdition(installed).flatMap { group ->
+            val header = group.edition?.let { edition ->
+                EditionHeader(
+                    title = resourceProvider.editionTitle(edition),
+                    summary = resourceProvider.editionSummary(edition),
+                    installed = group.installed,
                 )
             }
-        view?.showVersionsDialog(items)
+            listOfNotNull(header) + group.versions.map { mark ->
+                VersionItem(
+                    versionId = mark.version.appId.hashCode(),
+                    appId = mark.version.appId,
+                    title = resourceProvider.formatVersion(mark.version),
+                    compatible = mark.version.sdkVersion <= Build.VERSION.SDK_INT,
+                    newer = mark.newer,
+                )
+            }
+        }
+        view?.showVersionsDialog(entries)
     }
 
     override fun onStatusAction(type: StatusAction) {
@@ -902,6 +920,12 @@ class DetailsPresenterImpl(
             StatusAction.UNPUBLISH -> router?.openUnpublishScreen(
                 appId, details?.info?.label
             )
+
+            StatusAction.OPEN_OWN_EDITION -> {
+                val ref = details?.editionOf(installed.editionKey)?.ref ?: return
+                router?.leaveScreen()
+                router?.openDetailsScreenByRef(ref, info.label)
+            }
 
             else -> Unit
         }
@@ -1008,7 +1032,7 @@ private const val AI_POLL_INTERVAL_MS = 3000L
 private const val AI_POLL_TIMEOUT_MS = 60_000L
 
 private const val KEY_DETAILS = "details"
-private const val KEY_INSTALLED_VERSION = "versionCode"
+private const val KEY_INSTALLED = "installed"
 private const val KEY_DELIVERY = "delivery"
 private const val KEY_REMOVE_BEFORE_INSTALL = "removeBeforeInstall"
 private const val KEY_IS_FAVORITE = "isFavorite"

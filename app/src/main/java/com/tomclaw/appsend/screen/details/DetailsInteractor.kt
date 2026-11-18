@@ -14,6 +14,7 @@ import com.tomclaw.appsend.screen.details.api.RequestScanResponse
 import com.tomclaw.appsend.screen.details.api.TranslationResponse
 import com.tomclaw.appsend.user.api.UserBrief
 import com.tomclaw.appsend.util.SchedulersFactory
+import com.tomclaw.appsend.util.isHttpError
 import com.tomclaw.bananalytics.Bananalytics
 import com.tomclaw.bananalytics.api.BreadcrumbCategory
 import io.reactivex.rxjava3.core.Maybe
@@ -65,6 +66,21 @@ class DetailsInteractorImpl(
 
     override fun loadDetails(appId: String?, packageName: String?, ref: String?): Observable<Details> {
         bananalytics.leaveBreadcrumb("Load details: ${appId ?: ref ?: packageName}", BreadcrumbCategory.NETWORK)
+        return getInfo(appId, packageName, ref)
+            .onErrorResumeNext { ex ->
+                // An address made from the device's own key names an edition
+                // the store may not have; the package page is the answer then.
+                if (appId == null && ref != null && packageName != null && ex.isHttpError(404)) {
+                    getInfo(appId = null, packageName = packageName, ref = null)
+                } else {
+                    Single.error(ex)
+                }
+            }
+            .toObservable()
+            .subscribeOn(schedulers.io())
+    }
+
+    private fun getInfo(appId: String?, packageName: String?, ref: String?): Single<Details> {
         return api
             .getInfo(
                 appId = appId,
@@ -73,8 +89,6 @@ class DetailsInteractorImpl(
                 locale = locale.language,
             )
             .map { it.result }
-            .toObservable()
-            .subscribeOn(schedulers.io())
     }
 
     override fun sendModerationDecision(

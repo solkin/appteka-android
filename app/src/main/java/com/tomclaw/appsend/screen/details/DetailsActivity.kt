@@ -407,6 +407,12 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
         finish()
     }
 
+    override fun openDetailsScreenByRef(ref: String, label: String?) {
+        val intent = createDetailsActivityIntent(this, ref = ref, label = label.orEmpty())
+        startActivity(intent)
+        finish()
+    }
+
     override fun openChatScreen(topicId: Int, label: String?) {
         val intent = createChatActivityIntent(this, topicId, label)
         startActivity(intent)
@@ -487,6 +493,11 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
 
 }
 
+/**
+ * Opens one build by [appId], or what [ref] addresses, or the page of
+ * [packageName]. With both [ref] and [packageName] the package page stands
+ * in when the store has no such edition.
+ */
 fun createDetailsActivityIntent(
     context: Context,
     appId: String? = null,

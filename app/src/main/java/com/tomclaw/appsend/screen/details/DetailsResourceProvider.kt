@@ -3,6 +3,8 @@ package com.tomclaw.appsend.screen.details
 import android.content.res.Resources
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.categories.DEFAULT_LOCALE
+import com.tomclaw.appsend.core.Origin
+import com.tomclaw.appsend.screen.details.api.AppEdition
 import com.tomclaw.appsend.screen.details.api.AppVersion
 import com.tomclaw.appsend.util.FileHelper
 import java.util.Locale
@@ -58,6 +60,20 @@ interface DetailsResourceProvider {
     fun editMetaAction(): String
 
     fun unpublishAction(): String
+
+    fun otherEditionInstalledText(): String
+
+    fun openOwnEditionAction(): String
+
+    fun replaceTitle(): String
+
+    fun replaceWarningTitle(): String
+
+    fun replaceWarningMessage(): String
+
+    fun editionTitle(edition: AppEdition): String
+
+    fun editionSummary(edition: AppEdition): String
 
     fun markedFavorite(): String
 
@@ -268,6 +284,51 @@ class DetailsResourceProviderImpl(
 
     override fun unpublishAction(): String {
         return resources.getString(R.string.unpublish_file)
+    }
+
+    override fun otherEditionInstalledText(): String {
+        return resources.getString(R.string.other_edition_installed)
+    }
+
+    override fun openOwnEditionAction(): String {
+        return resources.getString(R.string.open_own_edition)
+    }
+
+    override fun replaceTitle(): String {
+        return resources.getString(R.string.replace_with_edition)
+    }
+
+    override fun replaceWarningTitle(): String {
+        return resources.getString(R.string.replace_warning_title)
+    }
+
+    override fun replaceWarningMessage(): String {
+        return resources.getString(R.string.other_edition_reinstall)
+    }
+
+    override fun editionTitle(edition: AppEdition): String {
+        return edition.publisher?.name?.takeIf { it.isNotBlank() }
+            ?: resources.getString(R.string.edition_unknown_publisher)
+    }
+
+    // What sets the edition apart, then its size: "Mod · 3 versions · 120 downloads".
+    override fun editionSummary(edition: AppEdition): String {
+        val label = when {
+            edition.key == null -> resources.getString(R.string.edition_unverified)
+            edition.official == true -> resources.getString(R.string.official_short)
+            edition.origin == Origin.MOD -> resources.getString(R.string.origin_mod)
+            edition.origin == Origin.MIRROR || edition.origin == Origin.OWN ->
+                resources.getString(R.string.origin_mirror)
+
+            else -> null
+        }
+        val versions = edition.versions.orEmpty().size
+        val downloads = edition.downloads ?: 0
+        return listOfNotNull(
+            label,
+            resources.getQuantityString(R.plurals.other_versions_count, versions, versions),
+            resources.getQuantityString(R.plurals.edition_downloads, downloads, downloads),
+        ).joinToString(resources.getString(R.string.summary_separator))
     }
 
     override fun markedFavorite(): String {

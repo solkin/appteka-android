@@ -9,6 +9,7 @@ import com.tomclaw.appsend.util.adapter.ItemBlueprint
 import com.tomclaw.appsend.core.PackageInfoProvider
 import com.tomclaw.appsend.core.StreamsProvider
 import com.tomclaw.appsend.download.ApkStorage
+import com.tomclaw.appsend.util.EditionKeyProvider
 import com.tomclaw.appsend.screen.distro.ApkConverter
 import com.tomclaw.appsend.screen.distro.ApkConverterImpl
 import com.tomclaw.appsend.screen.distro.DistroInfoProvider
@@ -60,11 +61,13 @@ class DistroModule(
         infoProvider: DistroInfoProvider,
         apkStorage: ApkStorage,
         streamsProvider: StreamsProvider,
+        editionKeyProvider: EditionKeyProvider,
         schedulers: SchedulersFactory
     ): DistroInteractor = DistroInteractorImpl(
         infoProvider,
         apkStorage,
         streamsProvider,
+        editionKeyProvider,
         schedulers
     )
 

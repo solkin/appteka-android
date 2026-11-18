@@ -51,6 +51,16 @@ fun editionKeyOf(signerCerts: List<ByteArray>): String? {
     }
 }
 
+/**
+ * Store address of the edition a key names in a package: the server finds
+ * it by this prefix and compares full keys for anything it decides.
+ */
+fun editionRef(packageName: String, editionKey: String): String {
+    return "$packageName/${editionKey.take(EDITION_PREFIX_LENGTH)}"
+}
+
+private const val EDITION_PREFIX_LENGTH = 24
+
 private fun sha256Hex(bytes: ByteArray): String {
     val digest = MessageDigest.getInstance("SHA-256").digest(bytes)
     val result = StringBuilder(digest.size * 2)

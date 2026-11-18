@@ -68,7 +68,7 @@ interface InstalledPresenter : ItemListener {
 
         fun searchGooglePlay(packageName: String)
 
-        fun searchAppteka(packageName: String, title: String)
+        fun searchAppteka(packageName: String, editionKey: String?, title: String)
 
         fun openPermissionsScreen(permissions: List<String>)
 
@@ -159,7 +159,7 @@ class InstalledPresenterImpl(
                 }
 
                 MENU_FIND_ON_STORE -> {
-                    router?.searchAppteka(app.packageName, app.title)
+                    router?.searchAppteka(app.packageName, app.editionKey, app.title)
                 }
 
                 MENU_PERMISSIONS -> {

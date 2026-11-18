@@ -32,8 +32,6 @@ import com.tomclaw.appsend.screen.details.adapter.play.PlaySecurityStatus
 import com.tomclaw.appsend.dto.RejectionReason
 import com.tomclaw.appsend.uikit.reasons.ReasonsAdapter
 import com.tomclaw.appsend.util.applyBottomInsets
-import com.tomclaw.appsend.util.ActionItem
-import com.tomclaw.appsend.util.ActionsAdapter
 import com.tomclaw.appsend.util.hide
 import com.tomclaw.appsend.util.hideWithAlphaAnimation
 import com.tomclaw.appsend.util.show
@@ -50,7 +48,7 @@ interface DetailsView {
 
     fun scrollToPosition(position: Int)
 
-    fun showVersionsDialog(items: List<VersionItem>)
+    fun showVersionsDialog(entries: List<VersionsEntry>)
 
     fun showSecurityInfoDialog(status: PlaySecurityStatus, score: Int?)
 
@@ -100,11 +98,15 @@ interface DetailsView {
 
     fun showAbiWarningDialog(title: String, message: String, downloadButton: String)
 
-    fun showDowngradeDialog(
+    /**
+     * Installing that needs the installed app removed first: an older
+     * version, or another edition, which offers no [installOverButton].
+     */
+    fun showReplaceDialog(
         title: String,
         message: String,
         removeButton: String,
-        installOverButton: String
+        installOverButton: String?
     )
 
     fun navigationClicks(): Observable<Unit>
@@ -139,7 +141,7 @@ interface DetailsView {
 
     fun installExistingClicks(): Observable<Unit>
 
-    fun downgradeConfirmClicks(): Observable<Boolean>
+    fun replaceConfirmClicks(): Observable<Boolean>
 
     fun securityDownloadConfirmClicks(): Observable<Unit>
 
@@ -149,13 +151,22 @@ interface DetailsView {
 
 }
 
+/** A row of the versions sheet. */
+sealed interface VersionsEntry
+
+data class EditionHeader(
+    val title: String,
+    val summary: String,
+    val installed: Boolean,
+) : VersionsEntry
+
 data class VersionItem(
     val versionId: Int,
     val appId: String,
     val title: String,
     val compatible: Boolean,
     val newer: Boolean,
-)
+) : VersionsEntry
 
 // Confirmed decline payload emitted from the reason picker bottom sheet.
 data class DeclineSubmission(
@@ -204,7 +215,7 @@ class DetailsViewImpl(
     private val securityDownloadConfirmRelay = PublishRelay.create<Unit>()
     private val abiDownloadConfirmRelay = PublishRelay.create<Unit>()
     private val installExistingRelay = PublishRelay.create<Unit>()
-    private val downgradeConfirmRelay = PublishRelay.create<Boolean>()
+    private val replaceConfirmRelay = PublishRelay.create<Boolean>()
 
     private val layoutManager: LinearLayoutManager
 
@@ -289,29 +300,16 @@ class DetailsViewImpl(
         layoutManager.startSmoothScroll(scroller)
     }
 
-    override fun showVersionsDialog(items: List<VersionItem>) {
+    override fun showVersionsDialog(entries: List<VersionsEntry>) {
         val bottomSheetDialog = BottomSheetDialog(context)
-        val sheetView = View.inflate(context, R.layout.bottom_sheet_actions, null)
-        val actionsRecycler: RecyclerView = sheetView.findViewById(R.id.actions_recycler)
+        val sheetView = View.inflate(context, R.layout.bottom_sheet_versions, null)
+        val versionsRecycler: RecyclerView = sheetView.findViewById(R.id.versions_recycler)
 
-        val actions = items.map { item ->
-            val icon = if (item.compatible) {
-                if (item.newer) R.drawable.ic_new else R.drawable.ic_download_circle
-            } else {
-                R.drawable.ic_alert_circle
-            }
-            ActionItem(item.versionId, item.title, icon)
-        }
-
-        val actionsAdapter = ActionsAdapter(actions) { actionId ->
+        versionsRecycler.layoutManager = LinearLayoutManager(context)
+        versionsRecycler.adapter = VersionsAdapter(entries) { item ->
             bottomSheetDialog.dismiss()
-            items.find { it.versionId == actionId }?.let {
-                versionRelay.accept(it)
-            }
+            versionRelay.accept(item)
         }
-
-        actionsRecycler.layoutManager = LinearLayoutManager(context)
-        actionsRecycler.adapter = actionsAdapter
 
         bottomSheetDialog.setContentView(sheetView)
         bottomSheetDialog.show()
@@ -665,24 +663,26 @@ class DetailsViewImpl(
         dialog?.show()
     }
 
-    override fun showDowngradeDialog(
+    override fun showReplaceDialog(
         title: String,
         message: String,
         removeButton: String,
-        installOverButton: String
+        installOverButton: String?
     ) {
         dialog?.dismiss()
-        dialog = MaterialAlertDialogBuilder(context)
+        val builder = MaterialAlertDialogBuilder(context)
             .setTitle(title)
             .setMessage(message)
             .setPositiveButton(removeButton) { _, _ ->
-                downgradeConfirmRelay.accept(true)
-            }
-            .setNeutralButton(installOverButton) { _, _ ->
-                downgradeConfirmRelay.accept(false)
+                replaceConfirmRelay.accept(true)
             }
             .setNegativeButton(R.string.cancel, null)
-            .create()
+        installOverButton?.let {
+            builder.setNeutralButton(it) { _, _ ->
+                replaceConfirmRelay.accept(false)
+            }
+        }
+        dialog = builder.create()
         dialog?.show()
     }
 
@@ -718,7 +718,7 @@ class DetailsViewImpl(
 
     override fun installExistingClicks(): Observable<Unit> = installExistingRelay
 
-    override fun downgradeConfirmClicks(): Observable<Boolean> = downgradeConfirmRelay
+    override fun replaceConfirmClicks(): Observable<Boolean> = replaceConfirmRelay
 
     override fun securityDownloadConfirmClicks(): Observable<Unit> = securityDownloadConfirmRelay
 

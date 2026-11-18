@@ -610,6 +610,16 @@
     <string name="other_edition_version">Versiya %1$s</string>
     <string name="other_edition_reinstall">U boshqa kalit bilan imzolangan, shuning uchun Android uni faqat ushbu ilova o\'chirilgandan keyin o\'rnatadi. Ilova ma\'lumotlari o\'chiriladi.</string>
     <string name="other_edition_open">Versiyani ochish</string>
+    <string name="other_edition_installed">O\'rnatilgan ilova boshqa nashrchidan, shuning uchun bu versiya uni yangilay olmaydi.</string>
+    <string name="open_own_edition">O\'zingiznikini ochish</string>
+    <string name="replace_with_edition">Uning o\'rniga o\'rnatish</string>
+    <string name="replace_warning_title">O\'rnatilgan ilova almashtirilsinmi?</string>
+    <string name="edition_unknown_publisher">Noma\'lum nashrchi</string>
+    <string name="edition_unverified">Imzo tekshirilmagan</string>
+    <plurals name="edition_downloads">
+        <item quantity="one">%d ta yuklab olish</item>
+        <item quantity="other">%d ta yuklab olish</item>
+    </plurals>
     <string name="installed_update_info">Yangilanish %1$s, %2$s</string>
     <string name="install_failed_downgrade">Bu ilovaning yangiroq versiyasi o\'rnatilgan. Buni o\'rnatish uchun avval uni o\'chiring. Uning ma\'lumotlari o\'chadi.</string>
     <string name="install_failed_abi">Bu versiya qurilmangiz protsessori uchun emas. Boshqa versiyani qidiring.</string>

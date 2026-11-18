@@ -7,4 +7,8 @@
     <dimen name="post_image_width">110dp</dimen>
     <dimen name="post_image_height">110dp</dimen>
 
+    <!-- Versions sheet: the first edition sits right under the drag handle. -->
+    <dimen name="versions_first_edition_top">4dp</dimen>
+    <dimen name="versions_edition_top">16dp</dimen>
+
 </resources>
