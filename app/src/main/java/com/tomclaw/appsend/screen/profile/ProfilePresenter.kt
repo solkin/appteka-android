@@ -45,6 +45,8 @@ interface ProfilePresenter : ItemListener {
 
         fun openDetailsScreen(appId: String, label: String?)
 
+        fun openRefScreen(ref: String, label: String?)
+
         fun openFavoriteScreen(userId: Int)
 
         fun openDownloadsScreen(userId: Int)
@@ -165,8 +167,12 @@ class ProfilePresenterImpl(
         }
     }
 
-    override fun onAppClick(appId: String, title: String?) {
-        router?.openDetailsScreen(appId, title)
+    override fun onAppClick(appId: String, title: String?, ref: String?) {
+        if (!ref.isNullOrEmpty()) {
+            router?.openRefScreen(ref, title)
+        } else {
+            router?.openDetailsScreen(appId, title)
+        }
     }
 
     override fun onRatingsClick() {

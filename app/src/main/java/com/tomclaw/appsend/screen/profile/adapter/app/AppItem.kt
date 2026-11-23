@@ -8,6 +8,7 @@ import kotlinx.parcelize.Parcelize
 data class AppItem(
     override val id: Long,
     val appId: String,
+    val ref: String? = null,
     val icon: String?,
     val title: String,
     val rating: Float,

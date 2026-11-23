@@ -78,15 +78,18 @@
 
                 <TextView
                     android:id="@+id/date_view"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="bottom"
+                    android:layout_weight="1"
+                    android:ellipsize="end"
                     android:includeFontPadding="false"
+                    android:maxLines="1"
                     android:paddingStart="6dp"
                     android:paddingEnd="6dp"
                     android:textColor="?text_secondary_color"
                     android:textSize="14sp"
-                    tools:text="19.11.2022" />
+                    tools:text="19.11.2022 · v1.0" />
 
             </LinearLayout>
 

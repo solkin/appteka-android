@@ -35,6 +35,8 @@ interface UploadsPresenter : ItemListener {
 
         fun openAppScreen(appId: String, title: String)
 
+        fun openRefScreen(ref: String, title: String)
+
         fun leaveScreen()
 
     }
@@ -186,7 +188,12 @@ class UploadsPresenterImpl(
 
     override fun onItemClick(item: Item) {
         val app = items?.find { it.id == item.id } ?: return
-        router?.openAppScreen(app.appId, app.title)
+        val ref = app.ref
+        if (!ref.isNullOrEmpty()) {
+            router?.openRefScreen(ref, app.title)
+        } else {
+            router?.openAppScreen(app.appId, app.title)
+        }
     }
 
     override fun onRetryClick(item: Item) {

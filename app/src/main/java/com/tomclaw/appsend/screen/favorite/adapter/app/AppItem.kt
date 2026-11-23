@@ -9,6 +9,7 @@ import kotlinx.parcelize.Parcelize
 class AppItem(
     override val id: Long,
     val appId: String,
+    val ref: String? = null,
     val icon: String?,
     val title: String,
     val version: String,

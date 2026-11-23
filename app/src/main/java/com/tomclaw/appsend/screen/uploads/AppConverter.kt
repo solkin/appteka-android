@@ -32,6 +32,7 @@ class AppConverterImpl(
         return AppItem(
             id = id++,
             appId = appEntity.appId,
+            ref = appEntity.ref,
             icon = appEntity.icon,
             title = appEntity.title,
             version = appEntity.verName,

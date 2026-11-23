@@ -170,6 +170,7 @@ class ProfileConverterImpl : ProfileConverter {
             AppItem(
                 id = id.incrementAndGet(),
                 appId = entity.appId,
+                ref = entity.ref,
                 icon = entity.icon,
                 title = entity.title,
                 rating = entity.rating

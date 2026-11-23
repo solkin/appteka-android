@@ -30,6 +30,7 @@ class RatingConverterImpl : RatingConverter {
             text = entity.text,
             time = entity.time * 1000,
             user = entity.user,
+            versionName = entity.verName,
             showRatingMenu = showRatingMenu,
         )
     }

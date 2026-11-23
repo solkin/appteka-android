@@ -5,7 +5,7 @@ import com.tomclaw.appsend.screen.profile.adapter.app.AppItem
 
 interface ItemListener {
 
-    fun onAppClick(appId: String, title: String?)
+    fun onAppClick(appId: String, title: String?, ref: String? = null)
 
     fun onRatingsClick()
 

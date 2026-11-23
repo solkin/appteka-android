@@ -261,6 +261,7 @@ class DetailsConverterImpl(
                 text = details.userRating.text,
                 time = details.userRating.time * 1000,
                 user = details.userRating.user,
+                versionName = details.userRating.verName,
             )
         } else if (installed.isInstalled && details.info.fileStatus == STATUS_NORMAL) {
             items += UserRateItem(
@@ -401,6 +402,7 @@ class DetailsConverterImpl(
                     text = rating.text,
                     time = rating.time * 1000,
                     user = rating.user,
+                    versionName = rating.verName,
                 )
             }
             // Only the freshest reviews are on this screen and nothing hints

@@ -7,8 +7,11 @@ import com.tomclaw.appsend.core.permissions.CapabilityReason
 import com.tomclaw.appsend.dto.UserIcon
 import com.tomclaw.appsend.dto.UserMark
 import com.tomclaw.appsend.screen.details.api.RatingEntity
+import com.tomclaw.appsend.screen.details.api.formatReviewDate
 import com.tomclaw.appsend.user.api.UserBrief
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
 
@@ -103,11 +106,30 @@ class RatingConverterTest {
         assertFalse(item.showRatingMenu)
     }
 
+    @Test
+    fun `review version is forwarded and formatted alongside date`() {
+        val withVersion = converter.convert(
+            entity = rating(userId = 42, capabilities = null, verName = "2.4.1"),
+            brief = null,
+        )
+        assertEquals("2.4.1", withVersion.versionName)
+        assertEquals("19.11.2026 · v2.4.1", formatReviewDate("19.11.2026", withVersion.versionName))
+
+        val withoutVersion = converter.convert(
+            entity = rating(userId = 42, capabilities = null, verName = null),
+            brief = null,
+        )
+        assertNull(withoutVersion.versionName)
+        assertEquals("19.11.2026", formatReviewDate("19.11.2026", withoutVersion.versionName))
+        assertEquals("19.11.2026", formatReviewDate("19.11.2026", "   "))
+    }
+
     // --- Factories ---------------------------------------------------
 
     private fun rating(
         userId: Int,
         capabilities: Map<String, Capability>?,
+        verName: String? = null,
     ) = RatingEntity(
         rateId = 1,
         score = 5,
@@ -118,6 +140,7 @@ class RatingConverterTest {
             name = "Reviewer",
             icon = UserIcon(icon = "", label = emptyMap(), color = "#000"),
         ),
+        verName = verName,
         capabilities = capabilities,
     )
 

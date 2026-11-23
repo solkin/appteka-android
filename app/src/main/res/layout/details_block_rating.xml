@@ -70,11 +70,13 @@
                     android:id="@+id/date_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLines="1"
                     android:paddingStart="6dp"
                     android:paddingEnd="0dp"
                     android:textColor="?text_secondary_color"
                     android:textSize="12sp"
-                    tools:text="15.10.2017" />
+                    tools:text="15.10.2017 · v1.0" />
 
             </LinearLayout>
 

@@ -13,6 +13,7 @@ data class RatingItem(
     val text: String?,
     val time: Long,
     val user: UserMark,
+    val versionName: String? = null,
     val showRatingMenu: Boolean,
     var hasMore: Boolean = false,
     var hasError: Boolean = false,

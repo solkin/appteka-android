@@ -33,7 +33,7 @@ class UploadsItemPresenter(
     }
 
     override fun onAppClick(app: AppItem) {
-        listener.onAppClick(app.appId, app.title)
+        listener.onAppClick(app.appId, app.title, app.ref)
     }
 
 }

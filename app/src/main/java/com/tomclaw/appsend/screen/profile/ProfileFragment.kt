@@ -141,6 +141,18 @@ class ProfileFragment : Fragment(), ProfilePresenter.ProfileRouter, HomeFragment
         startActivity(intent)
     }
 
+    override fun openRefScreen(ref: String, label: String?) {
+        val context = context ?: return
+        val intent = createDetailsActivityIntent(
+            context = context,
+            ref = ref,
+            label = label.orEmpty(),
+            moderation = false,
+            finishOnly = true
+        )
+        startActivity(intent)
+    }
+
     override fun openFavoriteScreen(userId: Int) {
         val context = context ?: return
         val intent = createFavoriteActivityIntent(context, userId)

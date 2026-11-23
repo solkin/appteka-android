@@ -12,4 +12,5 @@ data class UserReviewItem(
     val text: String?,
     val time: Long,
     val user: UserMark,
+    val versionName: String? = null,
 ) : Item, Parcelable

@@ -91,6 +91,17 @@ class FavoriteActivity : AppCompatActivity(), FavoritePresenter.FavoriteRouter {
         invalidateDetailsResultLauncher.launch(intent)
     }
 
+    override fun openRefScreen(ref: String, title: String) {
+        val intent = createDetailsActivityIntent(
+            context = this,
+            ref = ref,
+            label = title,
+            moderation = false,
+            finishOnly = true
+        )
+        invalidateDetailsResultLauncher.launch(intent)
+    }
+
     override fun leaveScreen() {
         finish()
     }
