@@ -28,6 +28,7 @@ class RatingConverterTest {
                 ),
             ),
             brief = brief(userId = 7, role = 0),
+            currentVersionCode = null,
         )
         assertTrue(item.showRatingMenu)
     }
@@ -48,6 +49,7 @@ class RatingConverterTest {
             // Legacy heuristic would say "yes, you are the author",
             // but the server-resolved capability explicitly disagrees.
             brief = brief(userId = 42, role = 0),
+            currentVersionCode = null,
         )
         assertFalse(item.showRatingMenu)
     }
@@ -58,6 +60,7 @@ class RatingConverterTest {
         val itemForAdmin = converter.convert(
             entity = rating(userId = 42, capabilities = null),
             brief = admin,
+            currentVersionCode = null,
         )
         assertTrue("admin should see the menu via legacy check", itemForAdmin.showRatingMenu)
 
@@ -65,6 +68,7 @@ class RatingConverterTest {
         val itemForOther = converter.convert(
             entity = rating(userId = 42, capabilities = null),
             brief = otherUser,
+            currentVersionCode = null,
         )
         assertFalse(
             "non-admin unrelated user should not see the menu",
@@ -75,6 +79,7 @@ class RatingConverterTest {
         val itemForOwner = converter.convert(
             entity = rating(userId = 42, capabilities = null),
             brief = owner,
+            currentVersionCode = null,
         )
         assertTrue("rating author should see the menu via legacy check", itemForOwner.showRatingMenu)
     }
@@ -84,6 +89,7 @@ class RatingConverterTest {
         val item = converter.convert(
             entity = rating(userId = 42, capabilities = null),
             brief = null,
+            currentVersionCode = null,
         )
         assertFalse(item.showRatingMenu)
     }
@@ -101,6 +107,7 @@ class RatingConverterTest {
         val item = converter.convert(
             entity = rating(userId = 42, capabilities = caps),
             brief = brief(userId = 42, role = 0),
+            currentVersionCode = null,
         )
         assertFalse(item.showRatingMenu)
     }
@@ -110,14 +117,41 @@ class RatingConverterTest {
         val withVersion = converter.convert(
             entity = rating(userId = 42, capabilities = null, verName = "2.4.1"),
             brief = null,
+            currentVersionCode = null,
         )
         assertEquals("2.4.1", withVersion.versionName)
 
         val withoutVersion = converter.convert(
             entity = rating(userId = 42, capabilities = null, verName = null),
             brief = null,
+            currentVersionCode = null,
         )
         assertNull(withoutVersion.versionName)
+    }
+
+    @Test
+    fun `review version is hidden only when it matches the current build`() {
+        val sameBuild = converter.convert(
+            entity = rating(userId = 42, capabilities = null, verName = "2.4.1", verCode = 241),
+            brief = null,
+            currentVersionCode = 241,
+        )
+        assertNull(sameBuild.versionName)
+
+        val otherBuild = converter.convert(
+            entity = rating(userId = 42, capabilities = null, verName = "2.3.0", verCode = 230),
+            brief = null,
+            currentVersionCode = 241,
+        )
+        assertEquals("2.3.0", otherBuild.versionName)
+
+        // Without a version code there is nothing to compare, so the name stays.
+        val unknownCode = converter.convert(
+            entity = rating(userId = 42, capabilities = null, verName = "2.4.1", verCode = null),
+            brief = null,
+            currentVersionCode = 241,
+        )
+        assertEquals("2.4.1", unknownCode.versionName)
     }
 
     // --- Factories ---------------------------------------------------
@@ -126,6 +160,7 @@ class RatingConverterTest {
         userId: Int,
         capabilities: Map<String, Capability>?,
         verName: String? = null,
+        verCode: Int? = null,
     ) = RatingEntity(
         rateId = 1,
         score = 5,
@@ -137,6 +172,7 @@ class RatingConverterTest {
             icon = UserIcon(icon = "", label = emptyMap(), color = "#000"),
         ),
         verName = verName,
+        verCode = verCode,
         capabilities = capabilities,
     )
 

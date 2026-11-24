@@ -11,6 +11,7 @@ class ScoresItemPresenter(
 
     override fun bindView(view: ScoresItemView, item: ScoresItem, position: Int) {
         if (item.showScopeToggle) {
+            view.setBuildScopeVersion(item.buildVersionName)
             when (item.selectedScope) {
                 RatingScope.BUILD -> view.showScopeBuild()
                 RatingScope.EDITION -> view.showScopeEdition()
@@ -42,6 +43,16 @@ class ScoresItemPresenter(
             view.showEmptyState()
             view.setOnClickListener(null)
         }
+        view.setOnShowAllVersionsClickListener {
+            listener.onReviewScopeSelected(RatingScope.EDITION)
+        }
+
+        when (item.reviewsState) {
+            ReviewsLoadState.READY -> view.hideReviewsState()
+            ReviewsLoadState.LOADING -> view.showReviewsProgress()
+            ReviewsLoadState.ERROR -> view.showReviewsError()
+        }
+        view.setOnRetryClickListener { listener.onBuildReviewsRetry() }
     }
 
     private fun getMaxValue(vararg values: Int): Int {

@@ -15,6 +15,8 @@ interface ItemListener {
 
     fun onReviewScopeSelected(scope: RatingScope)
 
+    fun onBuildReviewsRetry()
+
     fun onPlayRatingClick()
 
     fun onPlayDownloadsClick()

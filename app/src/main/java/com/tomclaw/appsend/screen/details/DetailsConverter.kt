@@ -24,6 +24,7 @@ import com.tomclaw.appsend.screen.details.adapter.security.SecurityItem
 import com.tomclaw.appsend.screen.details.adapter.security.SecurityType
 import com.tomclaw.appsend.screen.details.adapter.rating.RatingItem
 import com.tomclaw.appsend.screen.details.adapter.scores.ScoresItem
+import com.tomclaw.appsend.screen.details.adapter.scores.ReviewsLoadState
 import com.tomclaw.appsend.screen.details.adapter.screenshot.ScreenshotItem
 import com.tomclaw.appsend.screen.details.adapter.screenshots.ScreenshotsItem
 import com.tomclaw.appsend.screen.details.adapter.status.StatusAction
@@ -56,6 +57,7 @@ import com.tomclaw.appsend.screen.details.api.STATUS_UNLINKED
 import com.tomclaw.appsend.screen.details.api.MODERATION_STATUS_REJECTED
 import com.tomclaw.appsend.screen.details.api.RatingEntity
 import com.tomclaw.appsend.screen.details.api.Security
+import com.tomclaw.appsend.screen.details.api.versionNameUnlessCurrent
 import com.tomclaw.appsend.screen.details.api.TranslationResponse
 import java.util.Locale
 import androidx.core.net.toUri
@@ -71,6 +73,7 @@ interface DetailsConverter {
         translationState: Int,
         reviewScope: RatingScope = RatingScope.EDITION,
         buildRatings: List<RatingEntity>? = null,
+        buildRatingsFailed: Boolean = false,
     ): List<Item>
 
 }
@@ -90,6 +93,7 @@ class DetailsConverterImpl(
         translationState: Int,
         reviewScope: RatingScope,
         buildRatings: List<RatingEntity>?,
+        buildRatingsFailed: Boolean,
     ): List<Item> {
         var id: Long = 1
         val items = ArrayList<Item>()
@@ -268,7 +272,7 @@ class DetailsConverterImpl(
                 text = details.userRating.text,
                 time = details.userRating.time * 1000,
                 user = details.userRating.user,
-                versionName = details.userRating.verName,
+                versionName = details.userRating.versionNameUnlessCurrent(details.info.versionCode),
             )
         } else if (installed.isInstalled && details.info.fileStatus == STATUS_NORMAL) {
             items += UserRateItem(
@@ -397,6 +401,11 @@ class DetailsConverterImpl(
 
         if (hasEditionScores) {
             if (isBuildScope) {
+                val reviewsState = when {
+                    buildStats.rateCount == 0 || buildRatings != null -> ReviewsLoadState.READY
+                    buildRatingsFailed -> ReviewsLoadState.ERROR
+                    else -> ReviewsLoadState.LOADING
+                }
                 items += ScoresItem(
                     id = id++,
                     rateCount = buildStats.rateCount,
@@ -404,6 +413,8 @@ class DetailsConverterImpl(
                     scores = buildStats.scores,
                     showScopeToggle = true,
                     selectedScope = RatingScope.BUILD,
+                    buildVersionName = details.info.version,
+                    reviewsState = reviewsState,
                 )
             } else {
                 items += ScoresItem(
@@ -413,6 +424,7 @@ class DetailsConverterImpl(
                     scores = details.meta.scores,
                     showScopeToggle = hasBuildScope,
                     selectedScope = RatingScope.EDITION,
+                    buildVersionName = details.info.version,
                 )
             }
         }
@@ -436,7 +448,7 @@ class DetailsConverterImpl(
                     text = rating.text,
                     time = rating.time * 1000,
                     user = rating.user,
-                    versionName = rating.verName,
+                    versionName = rating.versionNameUnlessCurrent(details.info.versionCode),
                 )
             }
             // Only the freshest reviews are on this screen and nothing hints

@@ -27,3 +27,10 @@ data class RatingEntity(
     @SerializedName("capabilities")
     val capabilities: Map<String, Capability>? = null,
 ) : Parcelable
+
+/**
+ * Version to print next to the review date. A review left on the build being
+ * viewed gets none: the screen already says which build that is.
+ */
+fun RatingEntity.versionNameUnlessCurrent(currentVersionCode: Int?): String? =
+    verName.takeIf { verCode == null || verCode != currentVersionCode }

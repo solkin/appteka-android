@@ -3,18 +3,23 @@ package com.tomclaw.appsend.screen.ratings
 import com.tomclaw.appsend.core.permissions.CapabilityAction
 import com.tomclaw.appsend.core.permissions.CapabilityPolicy
 import com.tomclaw.appsend.screen.details.api.RatingEntity
+import com.tomclaw.appsend.screen.details.api.versionNameUnlessCurrent
 import com.tomclaw.appsend.screen.ratings.adapter.rating.RatingItem
 import com.tomclaw.appsend.user.api.UserBrief
 
 interface RatingConverter {
 
-    fun convert(entity: RatingEntity, brief: UserBrief?): RatingItem
+    fun convert(entity: RatingEntity, brief: UserBrief?, currentVersionCode: Int?): RatingItem
 
 }
 
 class RatingConverterImpl : RatingConverter {
 
-    override fun convert(entity: RatingEntity, brief: UserBrief?): RatingItem {
+    override fun convert(
+        entity: RatingEntity,
+        brief: UserBrief?,
+        currentVersionCode: Int?,
+    ): RatingItem {
         // Server-resolved capability is the source of truth for the
         // delete affordance. Fall back to the legacy role+ownership
         // heuristic when it's missing so old servers keep working.
@@ -30,7 +35,7 @@ class RatingConverterImpl : RatingConverter {
             text = entity.text,
             time = entity.time * 1000,
             user = entity.user,
-            versionName = entity.verName,
+            versionName = entity.versionNameUnlessCurrent(currentVersionCode),
             showRatingMenu = showRatingMenu,
         )
     }

@@ -16,7 +16,7 @@
         <ImageView
             android:layout_width="28dp"
             android:layout_height="28dp"
-            android:contentDescription="@string/downloads_all_versions"
+            android:importantForAccessibility="no"
             android:src="@drawable/ic_apps"
             app:tint="?text_primary_color" />
 
@@ -51,7 +51,7 @@
         <ImageView
             android:layout_width="28dp"
             android:layout_height="28dp"
-            android:contentDescription="@string/reviews_scope_build"
+            android:importantForAccessibility="no"
             android:src="@drawable/ic_download_box_outline"
             app:tint="?text_primary_color" />
 
@@ -64,7 +64,7 @@
             android:layout_weight="1"
             android:textColor="?text_primary_color"
             android:textSize="16sp"
-            tools:text="This build (v2.0)" />
+            tools:text="Version 2.0" />
 
         <TextView
             android:id="@+id/build_downloads_count"

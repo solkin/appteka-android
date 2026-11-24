@@ -74,6 +74,8 @@ interface DetailsPresenter : ItemListener {
             appId: String,
             hasBuildScope: Boolean = false,
             initialScope: RatingScope = RatingScope.EDITION,
+            versionCode: Int? = null,
+            versionName: String? = null,
         )
 
         fun openProfile(userId: Int)
@@ -179,6 +181,7 @@ class DetailsPresenterImpl(
         RatingScope.parse(state?.getString(KEY_REVIEW_SCOPE))
     private var buildRatings: ArrayList<RatingEntity>? =
         state?.getParcelableArrayListCompat(KEY_BUILD_RATINGS, RatingEntity::class.java)
+    private var buildRatingsFailed: Boolean = false
 
     private var aiReview: AIReview? = null
 
@@ -373,6 +376,7 @@ class DetailsPresenterImpl(
         this.details = details
         this.isFavorite = details.isFavorite == true
         this.buildRatings = null
+        this.buildRatingsFailed = false
         this.buildRatingsDisposable.set(null)
         if (details.buildStats == null) {
             this.reviewScope = RatingScope.EDITION
@@ -437,6 +441,7 @@ class DetailsPresenterImpl(
             translationState = translationState,
             reviewScope = reviewScope,
             buildRatings = buildRatings,
+            buildRatingsFailed = buildRatingsFailed,
         )
 
         bindItems()
@@ -701,6 +706,8 @@ class DetailsPresenterImpl(
             appId = details.info.appId,
             hasBuildScope = details.buildStats != null,
             initialScope = reviewScope,
+            versionCode = details.info.versionCode,
+            versionName = details.info.version,
         )
     }
 
@@ -719,7 +726,14 @@ class DetailsPresenterImpl(
         }
     }
 
+    override fun onBuildReviewsRetry() {
+        val details = details ?: return
+        ensureBuildRatingsLoaded(details)
+        bindDetails()
+    }
+
     private fun loadBuildRatings(appId: String) {
+        buildRatingsFailed = false
         buildRatingsDisposable.set(
             interactor.loadBuildRatings(appId)
                 .observeOn(schedulers.mainThread())
@@ -730,7 +744,13 @@ class DetailsPresenterImpl(
                             bindDetails()
                         }
                     },
-                    { /* keep summary visible on transient network error */ }
+                    { error ->
+                        error.printStackTrace()
+                        buildRatingsFailed = true
+                        if (reviewScope == RatingScope.BUILD) {
+                            bindDetails()
+                        }
+                    }
                 )
         )
     }

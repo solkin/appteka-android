@@ -20,6 +20,8 @@ interface ScoresItemView : ItemView {
 
     fun hideScopeToggle()
 
+    fun setBuildScopeVersion(versionName: String)
+
     fun setOnEditionScopeClickListener(listener: (() -> Unit)?)
 
     fun setOnBuildScopeClickListener(listener: (() -> Unit)?)
@@ -27,6 +29,16 @@ interface ScoresItemView : ItemView {
     fun showScoresSummary()
 
     fun showEmptyState()
+
+    fun setOnShowAllVersionsClickListener(listener: (() -> Unit)?)
+
+    fun showReviewsProgress()
+
+    fun showReviewsError()
+
+    fun hideReviewsState()
+
+    fun setOnRetryClickListener(listener: (() -> Unit)?)
 
     fun setRating(rating: Float)
 
@@ -40,9 +52,13 @@ class ScoresItemViewHolder(view: View) : BaseItemViewHolder(view), ScoresItemVie
 
     private val scopeGroup: MaterialButtonToggleGroup = view.findViewById(R.id.reviews_scope_group)
     private val scopeEditionButton: View = view.findViewById(R.id.scope_edition)
-    private val scopeBuildButton: View = view.findViewById(R.id.scope_build)
+    private val scopeBuildButton: TextView = view.findViewById(R.id.scope_build)
     private val summaryContainer: View = view.findViewById(R.id.scores_summary_container)
-    private val emptyView: TextView = view.findViewById(R.id.scores_empty_view)
+    private val emptyContainer: View = view.findViewById(R.id.scores_empty_container)
+    private val showAllVersionsButton: View = view.findViewById(R.id.show_all_versions_button)
+    private val reviewsProgress: View = view.findViewById(R.id.reviews_progress)
+    private val reviewsErrorContainer: View = view.findViewById(R.id.reviews_error_container)
+    private val reviewsRetryButton: View = view.findViewById(R.id.reviews_retry_button)
     private val ratingScore: TextView = view.findViewById(R.id.rating_score)
     private val ratingIndicator: RatingBar = view.findViewById(R.id.small_rating_indicator)
     private val ratedCount: TextView = view.findViewById(R.id.rates_count)
@@ -55,12 +71,16 @@ class ScoresItemViewHolder(view: View) : BaseItemViewHolder(view), ScoresItemVie
     private var clickListener: (() -> Unit)? = null
     private var editionScopeClickListener: (() -> Unit)? = null
     private var buildScopeClickListener: (() -> Unit)? = null
+    private var showAllVersionsClickListener: (() -> Unit)? = null
+    private var retryClickListener: (() -> Unit)? = null
 
     init {
         summaryContainer.setOnClickListener { clickListener?.invoke() }
         // Clicks, not the checked listener: re-checking on bind must not emit a selection.
         scopeEditionButton.setOnClickListener { editionScopeClickListener?.invoke() }
         scopeBuildButton.setOnClickListener { buildScopeClickListener?.invoke() }
+        showAllVersionsButton.setOnClickListener { showAllVersionsClickListener?.invoke() }
+        reviewsRetryButton.setOnClickListener { retryClickListener?.invoke() }
     }
 
     override fun showScopeEdition() {
@@ -77,6 +97,13 @@ class ScoresItemViewHolder(view: View) : BaseItemViewHolder(view), ScoresItemVie
         scopeGroup.hide()
     }
 
+    override fun setBuildScopeVersion(versionName: String) {
+        scopeBuildButton.text = scopeBuildButton.resources.getString(
+            R.string.reviews_scope_build,
+            versionName,
+        )
+    }
+
     override fun setOnEditionScopeClickListener(listener: (() -> Unit)?) {
         this.editionScopeClickListener = listener
     }
@@ -87,12 +114,35 @@ class ScoresItemViewHolder(view: View) : BaseItemViewHolder(view), ScoresItemVie
 
     override fun showScoresSummary() {
         summaryContainer.show()
-        emptyView.hide()
+        emptyContainer.hide()
     }
 
     override fun showEmptyState() {
         summaryContainer.hide()
-        emptyView.show()
+        emptyContainer.show()
+    }
+
+    override fun setOnShowAllVersionsClickListener(listener: (() -> Unit)?) {
+        this.showAllVersionsClickListener = listener
+    }
+
+    override fun showReviewsProgress() {
+        reviewsProgress.show()
+        reviewsErrorContainer.hide()
+    }
+
+    override fun showReviewsError() {
+        reviewsProgress.hide()
+        reviewsErrorContainer.show()
+    }
+
+    override fun hideReviewsState() {
+        reviewsProgress.hide()
+        reviewsErrorContainer.hide()
+    }
+
+    override fun setOnRetryClickListener(listener: (() -> Unit)?) {
+        this.retryClickListener = listener
     }
 
     override fun setRating(rating: Float) {
@@ -125,6 +175,8 @@ class ScoresItemViewHolder(view: View) : BaseItemViewHolder(view), ScoresItemVie
         this.clickListener = null
         this.editionScopeClickListener = null
         this.buildScopeClickListener = null
+        this.showAllVersionsClickListener = null
+        this.retryClickListener = null
     }
 
 }

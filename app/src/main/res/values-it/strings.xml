@@ -628,8 +628,10 @@
     <string name="install_failed_app_too_old">Questa app è troppo vecchia per la tua versione di Android.</string>
     <string name="install_action_free_space">Libera spazio</string>
     <string name="reviews_scope_all">Tutte le versioni</string>
-    <string name="reviews_scope_build">Questa build</string>
-    <string name="no_reviews_for_build">Nessuna recensione per questa build</string>
-    <string name="downloads_all_versions">Tutte le versioni di questa edizione</string>
-    <string name="downloads_this_build">Questa build (v%1$s)</string>
+    <string name="reviews_scope_build">Versione %1$s</string>
+    <string name="no_reviews_for_build">Nessuna recensione per questa versione</string>
+    <string name="downloads_all_versions">Tutte le versioni</string>
+    <string name="downloads_this_build">Versione %1$s</string>
+    <string name="show_all_versions">Mostra tutte le versioni</string>
+    <string name="reviews_loading_error">Impossibile caricare le recensioni</string>
 </resources>

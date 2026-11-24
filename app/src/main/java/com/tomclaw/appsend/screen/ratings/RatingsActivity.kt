@@ -36,6 +36,9 @@ class RatingsActivity : AppCompatActivity(), RatingsPresenter.RatingsRouter {
             ?: throw IllegalArgumentException("App ID must be provided")
         val hasBuildScope = intent.getBooleanExtra(EXTRA_HAS_BUILD_SCOPE, false)
         val initialScope = RatingScope.parse(intent.getStringExtra(EXTRA_INITIAL_SCOPE))
+        val versionCode = intent.getIntExtra(EXTRA_VERSION_CODE, 0)
+            .takeIf { intent.hasExtra(EXTRA_VERSION_CODE) }
+        val versionName = intent.getStringExtra(EXTRA_VERSION_NAME).orEmpty()
         val presenterState = savedInstanceState
             ?.getParcelableCompat(KEY_PRESENTER_STATE, ZipParcelable::class.java)
             ?.restore<Bundle>()
@@ -46,6 +49,8 @@ class RatingsActivity : AppCompatActivity(), RatingsPresenter.RatingsRouter {
                     appId = appId,
                     hasBuildScope = hasBuildScope,
                     initialScope = initialScope,
+                    versionCode = versionCode,
+                    versionName = versionName,
                     state = presenterState,
                 )
             )
@@ -103,12 +108,18 @@ fun createRatingsActivityIntent(
     appId: String,
     hasBuildScope: Boolean = false,
     initialScope: RatingScope = RatingScope.EDITION,
+    versionCode: Int? = null,
+    versionName: String? = null,
 ): Intent = Intent(context, RatingsActivity::class.java)
     .putExtra(EXTRA_APP_ID, appId)
     .putExtra(EXTRA_HAS_BUILD_SCOPE, hasBuildScope)
     .putExtra(EXTRA_INITIAL_SCOPE, initialScope.name)
+    .apply { versionCode?.let { putExtra(EXTRA_VERSION_CODE, it) } }
+    .putExtra(EXTRA_VERSION_NAME, versionName)
 
 private const val EXTRA_APP_ID = "user_id"
 private const val EXTRA_HAS_BUILD_SCOPE = "has_build_scope"
 private const val EXTRA_INITIAL_SCOPE = "initial_scope"
+private const val EXTRA_VERSION_CODE = "version_code"
+private const val EXTRA_VERSION_NAME = "version_name"
 private const val KEY_PRESENTER_STATE = "presenter_state"

@@ -7,6 +7,7 @@ import com.tomclaw.appsend.core.Origin
 import com.tomclaw.appsend.screen.details.api.AppEdition
 import com.tomclaw.appsend.screen.details.api.AppVersion
 import com.tomclaw.appsend.util.FileHelper
+import com.tomclaw.appsend.util.formatReviewDate
 import java.text.DateFormat
 import java.text.NumberFormat
 import java.util.Locale
@@ -479,13 +480,7 @@ class DetailsResourceProviderImpl(
     }
 
     override fun formatReviewDate(time: Long, versionName: String?): String {
-        val date = dateFormatter.format(time)
-        val version = versionName?.trim()
-        return if (version.isNullOrEmpty()) {
-            date
-        } else {
-            resources.getString(R.string.review_date_with_version, date, version)
-        }
+        return resources.formatReviewDate(dateFormatter, time, versionName)
     }
 
     override fun formatDownloadsCount(count: Int): String {

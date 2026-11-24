@@ -39,6 +39,8 @@ class RatingsModule(
     private val appId: String,
     private val hasBuildScope: Boolean = false,
     private val initialScope: RatingScope = RatingScope.EDITION,
+    private val versionCode: Int? = null,
+    private val versionName: String = "",
     private val state: Bundle?
 ) {
 
@@ -56,6 +58,8 @@ class RatingsModule(
         schedulers = schedulers,
         hasBuildScope = hasBuildScope,
         initialScope = initialScope,
+        versionCode = versionCode,
+        versionName = versionName,
         state = state,
     )
 

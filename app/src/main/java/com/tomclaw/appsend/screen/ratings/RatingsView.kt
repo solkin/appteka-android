@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.view.View
 import android.widget.TextView
 import android.widget.ViewFlipper
+import androidx.annotation.StringRes
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -34,6 +35,8 @@ interface RatingsView {
 
     fun showPlaceholder()
 
+    fun showBuildPlaceholder()
+
     fun showError()
 
     fun showRatingRemovalFailed()
@@ -57,6 +60,8 @@ interface RatingsView {
 
     fun hideScopeToggle()
 
+    fun setBuildScopeVersion(versionName: String)
+
     fun navigationClicks(): Observable<Unit>
 
     fun retryClicks(): Observable<Unit>
@@ -78,7 +83,7 @@ class RatingsViewImpl(
     private val toolbar: Toolbar = view.findViewById(R.id.toolbar)
     private val scopeGroup: MaterialButtonToggleGroup = view.findViewById(R.id.reviews_scope_group)
     private val scopeEditionButton: View = view.findViewById(R.id.scope_edition)
-    private val scopeBuildButton: View = view.findViewById(R.id.scope_build)
+    private val scopeBuildButton: TextView = view.findViewById(R.id.scope_build)
     private val refresher: SwipeRefreshLayout = view.findViewById(R.id.swipe_refresh)
     private val flipper: ViewFlipper = view.findViewById(R.id.view_flipper)
     private val recycler: RecyclerView = view.findViewById(R.id.recycler)
@@ -110,8 +115,6 @@ class RatingsViewImpl(
 
         refresher.setOnRefreshListener { refreshRelay.accept(Unit) }
 
-        emptyText.text = context.getString(R.string.empty_list)
-
         // Insets: the list keeps its last row clear of the
         // navigation bar while still scrolling underneath it.
         recycler.applyBottomInsets()
@@ -128,6 +131,15 @@ class RatingsViewImpl(
     }
 
     override fun showPlaceholder() {
+        showPlaceholder(R.string.empty_list)
+    }
+
+    override fun showBuildPlaceholder() {
+        showPlaceholder(R.string.no_reviews_for_build)
+    }
+
+    private fun showPlaceholder(@StringRes textRes: Int) {
+        emptyText.setText(textRes)
         refresher.isRefreshing = false
         refresher.isEnabled = true
         flipper.displayedChild = 2
@@ -181,6 +193,10 @@ class RatingsViewImpl(
 
     override fun hideScopeToggle() {
         scopeGroup.hide()
+    }
+
+    override fun setBuildScopeVersion(versionName: String) {
+        scopeBuildButton.text = context.getString(R.string.reviews_scope_build, versionName)
     }
 
     override fun navigationClicks(): Observable<Unit> = navigationRelay

@@ -14,4 +14,6 @@ data class ScoresItem(
     val scores: Scores,
     val showScopeToggle: Boolean = false,
     val selectedScope: RatingScope = RatingScope.EDITION,
+    val buildVersionName: String = "",
+    val reviewsState: ReviewsLoadState = ReviewsLoadState.READY,
 ) : Item, Parcelable

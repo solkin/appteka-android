@@ -54,6 +54,8 @@ class RatingsPresenterImpl(
     private val schedulers: SchedulersFactory,
     private val hasBuildScope: Boolean = false,
     initialScope: RatingScope = RatingScope.EDITION,
+    private val versionCode: Int? = null,
+    private val versionName: String = "",
     state: Bundle?
 ) : RatingsPresenter {
 
@@ -74,6 +76,7 @@ class RatingsPresenterImpl(
         this.view = view
 
         if (hasBuildScope) {
+            view.setBuildScopeVersion(versionName)
             bindScopeToggle()
         } else {
             view.hideScopeToggle()
@@ -189,7 +192,7 @@ class RatingsPresenterImpl(
     private fun onLoaded(entities: List<RatingEntity>) {
         isError = false
         val newItems = entities
-            .map { converter.convert(it, brief) }
+            .map { converter.convert(it, brief, versionCode) }
             .toList()
             .apply { if (isNotEmpty()) last().hasMore = true }
         this.items = this.items
@@ -204,8 +207,9 @@ class RatingsPresenterImpl(
                 view?.showError()
             }
 
-            items.isNullOrEmpty() -> {
-                view?.showPlaceholder()
+            items.isNullOrEmpty() -> when (scope) {
+                RatingScope.BUILD -> view?.showBuildPlaceholder()
+                RatingScope.EDITION -> view?.showPlaceholder()
             }
 
             else -> {

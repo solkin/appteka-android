@@ -54,7 +54,7 @@
         <com.google.android.material.button.MaterialButtonToggleGroup
             android:id="@+id/reviews_scope_group"
             style="?attr/materialButtonToggleGroupStyle"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
@@ -67,8 +67,9 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/scope_edition"
                 style="?attr/materialButtonTonalStyle"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:ellipsize="end"
                 android:insetTop="4dp"
                 android:insetBottom="4dp"
@@ -82,8 +83,9 @@
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/scope_build"
                 style="?attr/materialButtonTonalStyle"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:ellipsize="end"
                 android:insetTop="4dp"
                 android:insetBottom="4dp"
@@ -91,8 +93,8 @@
                 android:minHeight="40dp"
                 android:paddingStart="14dp"
                 android:paddingEnd="14dp"
-                android:text="@string/reviews_scope_build"
-                android:textSize="13sp" />
+                android:textSize="13sp"
+                tools:text="Version 2.0" />
 
         </com.google.android.material.button.MaterialButtonToggleGroup>
 
