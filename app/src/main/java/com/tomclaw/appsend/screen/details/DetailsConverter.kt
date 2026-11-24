@@ -3,6 +3,7 @@ package com.tomclaw.appsend.screen.details
 import android.net.Uri
 import com.tomclaw.appsend.delivery.DeliveryState
 import com.tomclaw.appsend.core.Origin
+import com.tomclaw.appsend.core.RatingScope
 import com.tomclaw.appsend.core.permissions.CapabilityAction
 import com.tomclaw.appsend.util.adapter.Item
 import com.tomclaw.appsend.categories.DEFAULT_LOCALE
@@ -53,8 +54,6 @@ import com.tomclaw.appsend.screen.details.api.STATUS_PRIVATE
 import com.tomclaw.appsend.screen.details.api.MODERATION_STATUS_BLOCKED
 import com.tomclaw.appsend.screen.details.api.STATUS_UNLINKED
 import com.tomclaw.appsend.screen.details.api.MODERATION_STATUS_REJECTED
-import com.tomclaw.appsend.screen.details.api.RATING_SCOPE_BUILD
-import com.tomclaw.appsend.screen.details.api.RATING_SCOPE_EDITION
 import com.tomclaw.appsend.screen.details.api.RatingEntity
 import com.tomclaw.appsend.screen.details.api.Security
 import com.tomclaw.appsend.screen.details.api.TranslationResponse
@@ -70,7 +69,7 @@ interface DetailsConverter {
         moderation: Boolean,
         translationData: TranslationResponse?,
         translationState: Int,
-        reviewScope: String = RATING_SCOPE_EDITION,
+        reviewScope: RatingScope = RatingScope.EDITION,
         buildRatings: List<RatingEntity>? = null,
     ): List<Item>
 
@@ -89,7 +88,7 @@ class DetailsConverterImpl(
         moderation: Boolean,
         translationData: TranslationResponse?,
         translationState: Int,
-        reviewScope: String,
+        reviewScope: RatingScope,
         buildRatings: List<RatingEntity>?,
     ): List<Item> {
         var id: Long = 1
@@ -191,7 +190,7 @@ class DetailsConverterImpl(
             id = id++,
             rating = details.meta?.rating,
             downloads = details.info.downloads ?: 0,
-            buildDownloads = details.buildStats?.downloads,
+            hasBuildDownloads = details.buildStats != null,
             favorites = details.info.favorites ?: 0,
             size = details.info.size,
             exclusive = details.meta?.exclusive == true,
@@ -390,7 +389,7 @@ class DetailsConverterImpl(
         }
         val buildStats = details.buildStats
         val hasBuildScope = buildStats != null
-        val isBuildScope = hasBuildScope && reviewScope == RATING_SCOPE_BUILD
+        val isBuildScope = hasBuildScope && reviewScope == RatingScope.BUILD
         val hasEditionScores = details.meta?.scores != null &&
             details.meta.rating != null &&
             details.meta.rateCount != null &&
@@ -404,7 +403,7 @@ class DetailsConverterImpl(
                     rating = buildStats.rating,
                     scores = buildStats.scores,
                     showScopeToggle = true,
-                    selectedScope = RATING_SCOPE_BUILD,
+                    selectedScope = RatingScope.BUILD,
                 )
             } else {
                 items += ScoresItem(
@@ -413,7 +412,7 @@ class DetailsConverterImpl(
                     rating = details.meta.rating,
                     scores = details.meta.scores,
                     showScopeToggle = hasBuildScope,
-                    selectedScope = RATING_SCOPE_EDITION,
+                    selectedScope = RatingScope.EDITION,
                 )
             }
         }

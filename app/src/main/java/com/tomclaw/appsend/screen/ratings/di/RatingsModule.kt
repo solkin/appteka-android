@@ -8,9 +8,9 @@ import com.tomclaw.appsend.util.adapter.SimpleAdapterPresenter
 import com.tomclaw.appsend.util.adapter.ItemBlueprint
 import com.tomclaw.appsend.categories.CategoryConverter
 import com.tomclaw.appsend.categories.CategoryConverterImpl
+import com.tomclaw.appsend.core.RatingScope
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.di.DATE_FORMATTER
-import com.tomclaw.appsend.screen.details.api.RATING_SCOPE_EDITION
 import com.tomclaw.appsend.screen.ratings.RatingConverter
 import com.tomclaw.appsend.screen.ratings.RatingConverterImpl
 import com.tomclaw.appsend.screen.ratings.RatingsInteractor
@@ -19,6 +19,8 @@ import com.tomclaw.appsend.screen.ratings.RatingsPreferencesProvider
 import com.tomclaw.appsend.screen.ratings.RatingsPreferencesProviderImpl
 import com.tomclaw.appsend.screen.ratings.RatingsPresenter
 import com.tomclaw.appsend.screen.ratings.RatingsPresenterImpl
+import com.tomclaw.appsend.screen.ratings.RatingsResourceProvider
+import com.tomclaw.appsend.screen.ratings.RatingsResourceProviderImpl
 import com.tomclaw.appsend.screen.ratings.adapter.rating.RatingItemBlueprint
 import com.tomclaw.appsend.screen.ratings.adapter.rating.RatingItemPresenter
 import com.tomclaw.appsend.util.PerActivity
@@ -36,7 +38,7 @@ class RatingsModule(
     private val context: Context,
     private val appId: String,
     private val hasBuildScope: Boolean = false,
-    private val initialScope: String = RATING_SCOPE_EDITION,
+    private val initialScope: RatingScope = RatingScope.EDITION,
     private val state: Bundle?
 ) {
 
@@ -86,6 +88,12 @@ class RatingsModule(
 
     @Provides
     @PerActivity
+    internal fun provideRatingsResourceProvider(
+        @Named(DATE_FORMATTER) dateFormatter: DateFormat,
+    ): RatingsResourceProvider = RatingsResourceProviderImpl(context.resources, dateFormatter)
+
+    @Provides
+    @PerActivity
     internal fun provideAdapterPresenter(binder: ItemBinder): AdapterPresenter {
         return SimpleAdapterPresenter(binder)
     }
@@ -111,9 +119,9 @@ class RatingsModule(
     @Provides
     @PerActivity
     internal fun provideRatingItemPresenter(
-        @Named(DATE_FORMATTER) dateFormatter: DateFormat,
+        resourceProvider: RatingsResourceProvider,
         locale: Locale,
         presenter: RatingsPresenter,
-    ) = RatingItemPresenter(dateFormatter, locale, presenter)
+    ) = RatingItemPresenter(resourceProvider, locale, presenter)
 
 }

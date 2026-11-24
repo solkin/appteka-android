@@ -52,7 +52,11 @@ interface DetailsView {
 
     fun showSecurityInfoDialog(status: PlaySecurityStatus, score: Int?)
 
-    fun showDownloadsInfoDialog(editionDownloads: Int, buildDownloads: Int, versionName: String)
+    fun showDownloadsInfoDialog(
+        editionDownloads: String,
+        buildLabel: String,
+        buildDownloads: String,
+    )
 
     fun showDeclineReasonDialog(reasons: List<RejectionReason>)
 
@@ -383,24 +387,24 @@ class DetailsViewImpl(
     }
 
     override fun showDownloadsInfoDialog(
-        editionDownloads: Int,
-        buildDownloads: Int,
-        versionName: String,
+        editionDownloads: String,
+        buildLabel: String,
+        buildDownloads: String,
     ) {
+        dialog?.dismiss()
         val bottomSheet = BottomSheetDialog(context)
-        val sheetView = android.view.LayoutInflater.from(context)
-            .inflate(R.layout.bottom_sheet_downloads_info, null)
+        val sheetView = View.inflate(context, R.layout.bottom_sheet_downloads_info, null)
 
-        val formatter = java.text.NumberFormat.getIntegerInstance()
         val editionCountView = sheetView.findViewById<TextView>(R.id.edition_downloads_count)
         val buildLabelView = sheetView.findViewById<TextView>(R.id.build_downloads_label)
         val buildCountView = sheetView.findViewById<TextView>(R.id.build_downloads_count)
 
-        editionCountView.text = formatter.format(editionDownloads)
-        buildLabelView.text = context.getString(R.string.downloads_this_build, versionName)
-        buildCountView.text = formatter.format(buildDownloads)
+        editionCountView.text = editionDownloads
+        buildLabelView.text = buildLabel
+        buildCountView.text = buildDownloads
 
         bottomSheet.setContentView(sheetView)
+        dialog = bottomSheet
         bottomSheet.show()
     }
 

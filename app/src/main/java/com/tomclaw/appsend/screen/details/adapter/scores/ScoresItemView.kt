@@ -6,8 +6,6 @@ import android.widget.RatingBar
 import android.widget.TextView
 import com.google.android.material.button.MaterialButtonToggleGroup
 import com.tomclaw.appsend.R
-import com.tomclaw.appsend.screen.details.api.RATING_SCOPE_BUILD
-import com.tomclaw.appsend.screen.details.api.RATING_SCOPE_EDITION
 import com.tomclaw.appsend.util.adapter.BaseItemViewHolder
 import com.tomclaw.appsend.util.adapter.ItemView
 import com.tomclaw.appsend.util.bind
@@ -16,11 +14,15 @@ import com.tomclaw.appsend.util.show
 
 interface ScoresItemView : ItemView {
 
-    fun showScopeToggle(selectedScope: String)
+    fun showScopeEdition()
+
+    fun showScopeBuild()
 
     fun hideScopeToggle()
 
-    fun setOnScopeSelectedListener(listener: ((String) -> Unit)?)
+    fun setOnEditionScopeClickListener(listener: (() -> Unit)?)
+
+    fun setOnBuildScopeClickListener(listener: (() -> Unit)?)
 
     fun showScoresSummary()
 
@@ -37,6 +39,8 @@ interface ScoresItemView : ItemView {
 class ScoresItemViewHolder(view: View) : BaseItemViewHolder(view), ScoresItemView {
 
     private val scopeGroup: MaterialButtonToggleGroup = view.findViewById(R.id.reviews_scope_group)
+    private val scopeEditionButton: View = view.findViewById(R.id.scope_edition)
+    private val scopeBuildButton: View = view.findViewById(R.id.scope_build)
     private val summaryContainer: View = view.findViewById(R.id.scores_summary_container)
     private val emptyView: TextView = view.findViewById(R.id.scores_empty_view)
     private val ratingScore: TextView = view.findViewById(R.id.rating_score)
@@ -49,41 +53,36 @@ class ScoresItemViewHolder(view: View) : BaseItemViewHolder(view), ScoresItemVie
     private val oneElement: ProgressBar = view.findViewById(R.id.rating_detail_element_one)
 
     private var clickListener: (() -> Unit)? = null
-    private var scopeSelectedListener: ((String) -> Unit)? = null
-    private var suppressScopeChange: Boolean = false
+    private var editionScopeClickListener: (() -> Unit)? = null
+    private var buildScopeClickListener: (() -> Unit)? = null
 
     init {
         summaryContainer.setOnClickListener { clickListener?.invoke() }
-        scopeGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->
-            if (suppressScopeChange || !isChecked) return@addOnButtonCheckedListener
-            val scope = when (checkedId) {
-                R.id.scope_build -> RATING_SCOPE_BUILD
-                else -> RATING_SCOPE_EDITION
-            }
-            scopeSelectedListener?.invoke(scope)
-        }
+        // Clicks, not the checked listener: re-checking on bind must not emit a selection.
+        scopeEditionButton.setOnClickListener { editionScopeClickListener?.invoke() }
+        scopeBuildButton.setOnClickListener { buildScopeClickListener?.invoke() }
     }
 
-    override fun showScopeToggle(selectedScope: String) {
+    override fun showScopeEdition() {
         scopeGroup.show()
-        suppressScopeChange = true
-        val targetId = if (selectedScope == RATING_SCOPE_BUILD) {
-            R.id.scope_build
-        } else {
-            R.id.scope_edition
-        }
-        if (scopeGroup.checkedButtonId != targetId) {
-            scopeGroup.check(targetId)
-        }
-        suppressScopeChange = false
+        scopeGroup.check(R.id.scope_edition)
+    }
+
+    override fun showScopeBuild() {
+        scopeGroup.show()
+        scopeGroup.check(R.id.scope_build)
     }
 
     override fun hideScopeToggle() {
         scopeGroup.hide()
     }
 
-    override fun setOnScopeSelectedListener(listener: ((String) -> Unit)?) {
-        this.scopeSelectedListener = listener
+    override fun setOnEditionScopeClickListener(listener: (() -> Unit)?) {
+        this.editionScopeClickListener = listener
+    }
+
+    override fun setOnBuildScopeClickListener(listener: (() -> Unit)?) {
+        this.buildScopeClickListener = listener
     }
 
     override fun showScoresSummary() {
@@ -124,7 +123,8 @@ class ScoresItemViewHolder(view: View) : BaseItemViewHolder(view), ScoresItemVie
 
     override fun onUnbind() {
         this.clickListener = null
-        this.scopeSelectedListener = null
+        this.editionScopeClickListener = null
+        this.buildScopeClickListener = null
     }
 
 }

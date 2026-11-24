@@ -495,3 +495,5 @@ interface StoreApi {
     ): Single<StoreResponse<RequestAIReviewResponse>>
 
 }
+
+const val RATING_SCOPE_BUILD = "build"

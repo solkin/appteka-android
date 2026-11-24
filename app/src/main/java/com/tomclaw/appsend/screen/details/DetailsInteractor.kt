@@ -1,5 +1,6 @@
 package com.tomclaw.appsend.screen.details
 
+import com.tomclaw.appsend.core.RATING_SCOPE_BUILD
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.screen.details.api.CreateTopicResponse
 import com.tomclaw.appsend.screen.details.api.DeletionResponse
@@ -7,7 +8,6 @@ import com.tomclaw.appsend.screen.details.api.Details
 import com.tomclaw.appsend.screen.details.api.MarkFavoriteResponse
 import com.tomclaw.appsend.screen.details.api.AIReview
 import com.tomclaw.appsend.screen.details.api.ModerationDecisionResponse
-import com.tomclaw.appsend.screen.details.api.RATING_SCOPE_BUILD
 import com.tomclaw.appsend.screen.details.api.RatingEntity
 import com.tomclaw.appsend.dto.RejectionReason
 import com.tomclaw.appsend.dto.SCOPE_MODERATION

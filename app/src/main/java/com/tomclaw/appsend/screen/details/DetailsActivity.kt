@@ -23,6 +23,7 @@ import com.tomclaw.appsend.util.adapter.AdapterPresenter
 import com.tomclaw.appsend.util.adapter.SimpleRecyclerAdapter
 import com.tomclaw.appsend.appComponent
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.core.RatingScope
 import com.tomclaw.appsend.download.ApkStorage
 import com.tomclaw.appsend.download.DownloadLauncher
 import com.tomclaw.appsend.download.DownloadParams
@@ -280,7 +281,7 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
         startActivity(intent)
     }
 
-    override fun openRatingsScreen(appId: String, hasBuildScope: Boolean, initialScope: String) {
+    override fun openRatingsScreen(appId: String, hasBuildScope: Boolean, initialScope: RatingScope) {
         val intent = createRatingsActivityIntent(
             context = this,
             appId = appId,

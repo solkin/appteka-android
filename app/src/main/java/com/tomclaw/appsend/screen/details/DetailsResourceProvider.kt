@@ -7,6 +7,8 @@ import com.tomclaw.appsend.core.Origin
 import com.tomclaw.appsend.screen.details.api.AppEdition
 import com.tomclaw.appsend.screen.details.api.AppVersion
 import com.tomclaw.appsend.util.FileHelper
+import java.text.DateFormat
+import java.text.NumberFormat
 import java.util.Locale
 
 interface DetailsResourceProvider {
@@ -143,12 +145,21 @@ interface DetailsResourceProvider {
 
     fun downgradeInstallOver(): String
 
+    fun formatReviewDate(time: Long, versionName: String?): String
+
+    fun formatDownloadsCount(count: Int): String
+
+    fun downloadsThisBuildLabel(versionName: String): String
+
 }
 
 class DetailsResourceProviderImpl(
     val resources: Resources,
     val locale: Locale,
+    private val dateFormatter: DateFormat,
 ) : DetailsResourceProvider {
+
+    private val integerFormatter: NumberFormat = NumberFormat.getIntegerInstance(locale)
 
     override fun shareTitle(): String {
         return resources.getString(R.string.send_url_to)
@@ -465,6 +476,24 @@ class DetailsResourceProviderImpl(
 
     override fun downgradeInstallOver(): String {
         return resources.getString(R.string.downgrade_install_over)
+    }
+
+    override fun formatReviewDate(time: Long, versionName: String?): String {
+        val date = dateFormatter.format(time)
+        val version = versionName?.trim()
+        return if (version.isNullOrEmpty()) {
+            date
+        } else {
+            resources.getString(R.string.review_date_with_version, date, version)
+        }
+    }
+
+    override fun formatDownloadsCount(count: Int): String {
+        return integerFormatter.format(count)
+    }
+
+    override fun downloadsThisBuildLabel(versionName: String): String {
+        return resources.getString(R.string.downloads_this_build, versionName)
     }
 
 }

@@ -22,7 +22,7 @@ class PlayItemPresenter(
         }
 
         view.setDownloads(item.downloads)
-        if (item.buildDownloads != null) {
+        if (item.hasBuildDownloads) {
             view.setOnDownloadsClickListener { listener.onPlayDownloadsClick() }
         } else {
             view.setOnDownloadsClickListener(null)

@@ -17,6 +17,3 @@ data class BuildStats(
     @SerializedName("scores")
     val scores: Scores,
 ) : Parcelable
-
-const val RATING_SCOPE_EDITION = "edition"
-const val RATING_SCOPE_BUILD = "build"

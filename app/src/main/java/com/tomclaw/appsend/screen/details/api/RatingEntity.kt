@@ -27,8 +27,3 @@ data class RatingEntity(
     @SerializedName("capabilities")
     val capabilities: Map<String, Capability>? = null,
 ) : Parcelable
-
-fun formatReviewDate(date: String, versionName: String?): String {
-    val version = versionName?.trim()
-    return if (version.isNullOrEmpty()) date else "$date · v$version"
-}

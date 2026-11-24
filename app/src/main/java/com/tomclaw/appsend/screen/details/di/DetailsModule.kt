@@ -146,8 +146,13 @@ class DetailsModule(
     @Provides
     @PerActivity
     internal fun provideDetailsResourceProvider(
-        locale: Locale
-    ): DetailsResourceProvider = DetailsResourceProviderImpl(resources = context.resources, locale)
+        locale: Locale,
+        @Named(DATE_FORMATTER) dateFormatter: DateFormat,
+    ): DetailsResourceProvider = DetailsResourceProviderImpl(
+        resources = context.resources,
+        locale = locale,
+        dateFormatter = dateFormatter,
+    )
 
     @Provides
     @PerActivity
@@ -365,10 +370,10 @@ class DetailsModule(
     @Provides
     @PerActivity
     internal fun provideRatingItemPresenter(
-        @Named(DATE_FORMATTER) dateFormatter: DateFormat,
+        resourceProvider: DetailsResourceProvider,
         locale: Locale,
         presenter: DetailsPresenter
-    ) = RatingItemPresenter(dateFormatter, locale, presenter)
+    ) = RatingItemPresenter(resourceProvider, locale, presenter)
 
     @Provides
     @IntoSet
@@ -420,10 +425,10 @@ class DetailsModule(
     @Provides
     @PerActivity
     internal fun provideUserReviewItemPresenter(
-        @Named(DATE_FORMATTER) dateFormatter: DateFormat,
+        resourceProvider: DetailsResourceProvider,
         locale: Locale,
         presenter: DetailsPresenter,
-    ) = UserReviewItemPresenter(dateFormatter, locale, presenter)
+    ) = UserReviewItemPresenter(resourceProvider, locale, presenter)
 
     @Provides
     @IntoSet

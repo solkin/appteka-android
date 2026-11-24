@@ -1,5 +1,6 @@
 package com.tomclaw.appsend.screen.details.adapter.scores
 
+import com.tomclaw.appsend.core.RatingScope
 import com.tomclaw.appsend.screen.details.adapter.ItemListener
 import com.tomclaw.appsend.util.adapter.ItemPresenter
 import kotlin.math.max
@@ -10,11 +11,16 @@ class ScoresItemPresenter(
 
     override fun bindView(view: ScoresItemView, item: ScoresItem, position: Int) {
         if (item.showScopeToggle) {
-            view.showScopeToggle(item.selectedScope)
-            view.setOnScopeSelectedListener { scope -> listener.onReviewScopeSelected(scope) }
+            when (item.selectedScope) {
+                RatingScope.BUILD -> view.showScopeBuild()
+                RatingScope.EDITION -> view.showScopeEdition()
+            }
+            view.setOnEditionScopeClickListener { listener.onReviewScopeSelected(RatingScope.EDITION) }
+            view.setOnBuildScopeClickListener { listener.onReviewScopeSelected(RatingScope.BUILD) }
         } else {
             view.hideScopeToggle()
-            view.setOnScopeSelectedListener(null)
+            view.setOnEditionScopeClickListener(null)
+            view.setOnBuildScopeClickListener(null)
         }
 
         if (item.rateCount > 0) {

@@ -655,6 +655,7 @@
         <item quantity="other">%d downloads</item>
     </plurals>
     <string name="summary_separator" translatable="false">" · "</string>
+    <string name="review_date_with_version" translatable="false">%1$s · v%2$s</string>
     <string name="installed_update_info">Update %1$s, %2$s</string>
     <string name="install_failed_downgrade">A newer version of this app is already installed. To install this one, remove it first. Its data will be deleted.</string>
     <string name="install_failed_abi">This build isn\'t made for your device\'s processor. Look for another build.</string>

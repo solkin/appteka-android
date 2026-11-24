@@ -1,9 +1,9 @@
 package com.tomclaw.appsend.screen.ratings
 
 import android.os.Bundle
+import com.tomclaw.appsend.core.RatingScope
 import com.tomclaw.appsend.util.adapter.AdapterPresenter
 import com.tomclaw.appsend.util.adapter.Item
-import com.tomclaw.appsend.screen.details.api.RATING_SCOPE_EDITION
 import com.tomclaw.appsend.screen.details.api.RatingEntity
 import com.tomclaw.appsend.screen.ratings.adapter.ItemListener
 import com.tomclaw.appsend.screen.ratings.adapter.rating.RatingItem
@@ -53,7 +53,7 @@ class RatingsPresenterImpl(
     private val converter: RatingConverter,
     private val schedulers: SchedulersFactory,
     private val hasBuildScope: Boolean = false,
-    initialScope: String = RATING_SCOPE_EDITION,
+    initialScope: RatingScope = RatingScope.EDITION,
     state: Bundle?
 ) : RatingsPresenter {
 
@@ -63,8 +63,8 @@ class RatingsPresenterImpl(
     private val subscriptions = CompositeDisposable()
     private val ratingsRequest = SerialDisposable()
 
-    private var scope: String =
-        state?.getString(KEY_SCOPE) ?: if (hasBuildScope) initialScope else RATING_SCOPE_EDITION
+    private var scope: RatingScope = state?.getString(KEY_SCOPE)?.let(RatingScope::parse)
+        ?: if (hasBuildScope) initialScope else RatingScope.EDITION
     private var items: List<RatingItem>? =
         state?.getParcelableArrayListCompat(KEY_APPS, RatingItem::class.java)
     private var isError: Boolean = state?.getBoolean(KEY_ERROR) == true
@@ -74,7 +74,7 @@ class RatingsPresenterImpl(
         this.view = view
 
         if (hasBuildScope) {
-            view.showScopeToggle(scope)
+            bindScopeToggle()
         } else {
             view.hideScopeToggle()
         }
@@ -88,13 +88,11 @@ class RatingsPresenterImpl(
         subscriptions += view.refreshClicks().subscribe {
             invalidateApps()
         }
-        subscriptions += view.scopeClicks().subscribe { selected ->
-            if (selected != scope) {
-                scope = selected
-                items = null
-                isError = false
-                loadRatings()
-            }
+        subscriptions += view.editionScopeClicks().subscribe {
+            onScopeSelected(RatingScope.EDITION)
+        }
+        subscriptions += view.buildScopeClicks().subscribe {
+            onScopeSelected(RatingScope.BUILD)
         }
 
         if (isError) {
@@ -120,10 +118,26 @@ class RatingsPresenterImpl(
     }
 
     override fun saveState() = Bundle().apply {
-        putString(KEY_SCOPE, scope)
+        putString(KEY_SCOPE, scope.name)
         putParcelableArrayList(KEY_APPS, items?.let { ArrayList(items.orEmpty()) })
         putBoolean(KEY_ERROR, isError)
         putParcelable(KEY_BRIEF, brief)
+    }
+
+    private fun bindScopeToggle() {
+        when (scope) {
+            RatingScope.BUILD -> view?.showScopeBuild()
+            RatingScope.EDITION -> view?.showScopeEdition()
+        }
+    }
+
+    private fun onScopeSelected(selected: RatingScope) {
+        if (selected == scope) return
+        scope = selected
+        bindScopeToggle()
+        items = null
+        isError = false
+        loadRatings()
     }
 
     override fun invalidateApps() {

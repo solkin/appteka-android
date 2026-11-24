@@ -1,11 +1,10 @@
 package com.tomclaw.appsend.screen.details
 
+import com.tomclaw.appsend.core.RatingScope
 import com.tomclaw.appsend.screen.details.adapter.ItemListener
 import com.tomclaw.appsend.screen.details.adapter.scores.ScoresItem
 import com.tomclaw.appsend.screen.details.adapter.scores.ScoresItemPresenter
 import com.tomclaw.appsend.screen.details.adapter.scores.ScoresItemView
-import com.tomclaw.appsend.screen.details.api.RATING_SCOPE_BUILD
-import com.tomclaw.appsend.screen.details.api.RATING_SCOPE_EDITION
 import com.tomclaw.appsend.screen.details.api.Scores
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -30,12 +29,14 @@ class ScoresItemPresenterTest {
                 rating = 4.0f,
                 scores = Scores(five = 1, four = 1, three = 1, two = 0, one = 0),
                 showScopeToggle = false,
-                selectedScope = RATING_SCOPE_EDITION,
+                selectedScope = RatingScope.EDITION,
             ),
             position = 0,
         )
 
         assertFalse(view.scopeToggleVisible)
+        assertNull(view.editionScopeClickListener)
+        assertNull(view.buildScopeClickListener)
         assertTrue(view.summaryVisible)
         assertFalse(view.emptyVisible)
         assertEquals(3, view.totalCount)
@@ -45,7 +46,8 @@ class ScoresItemPresenterTest {
     @Test
     fun `build with zero reviews keeps toggle visible and shows empty state without dividing by zero`() {
         val view = FakeScoresView()
-        val presenter = ScoresItemPresenter(noopListener())
+        val selectedScopes = mutableListOf<RatingScope>()
+        val presenter = ScoresItemPresenter(recordingListener(selectedScopes))
 
         presenter.bindView(
             view = view,
@@ -55,38 +57,60 @@ class ScoresItemPresenterTest {
                 rating = 0f,
                 scores = Scores(five = 0, four = 0, three = 0, two = 0, one = 0),
                 showScopeToggle = true,
-                selectedScope = RATING_SCOPE_BUILD,
+                selectedScope = RatingScope.BUILD,
             ),
             position = 0,
         )
 
         assertTrue(view.scopeToggleVisible)
-        assertEquals(RATING_SCOPE_BUILD, view.selectedScope)
+        assertEquals(RatingScope.BUILD, view.selectedScope)
         assertFalse(view.summaryVisible)
         assertTrue(view.emptyVisible)
         assertNull(view.clickListener)
+
+        view.editionScopeClickListener?.invoke()
+        view.buildScopeClickListener?.invoke()
+        assertEquals(listOf(RatingScope.EDITION, RatingScope.BUILD), selectedScopes)
+    }
+
+    @Test
+    fun `rating scope parse falls back to edition for unknown or null values`() {
+        assertEquals(RatingScope.BUILD, RatingScope.parse("BUILD"))
+        assertEquals(RatingScope.EDITION, RatingScope.parse("EDITION"))
+        assertEquals(RatingScope.EDITION, RatingScope.parse(null))
+        assertEquals(RatingScope.EDITION, RatingScope.parse("unknown"))
     }
 
     private class FakeScoresView : ScoresItemView {
         var scopeToggleVisible = false
-        var selectedScope: String? = null
+        var selectedScope: RatingScope? = null
         var summaryVisible = false
         var emptyVisible = false
         var totalCount: Int = -1
         var clickListener: (() -> Unit)? = null
-        var scopeListener: ((String) -> Unit)? = null
+        var editionScopeClickListener: (() -> Unit)? = null
+        var buildScopeClickListener: (() -> Unit)? = null
 
-        override fun showScopeToggle(selectedScope: String) {
+        override fun showScopeEdition() {
             scopeToggleVisible = true
-            this.selectedScope = selectedScope
+            selectedScope = RatingScope.EDITION
+        }
+
+        override fun showScopeBuild() {
+            scopeToggleVisible = true
+            selectedScope = RatingScope.BUILD
         }
 
         override fun hideScopeToggle() {
             scopeToggleVisible = false
         }
 
-        override fun setOnScopeSelectedListener(listener: ((String) -> Unit)?) {
-            scopeListener = listener
+        override fun setOnEditionScopeClickListener(listener: (() -> Unit)?) {
+            editionScopeClickListener = listener
+        }
+
+        override fun setOnBuildScopeClickListener(listener: (() -> Unit)?) {
+            buildScopeClickListener = listener
         }
 
         override fun showScoresSummary() {
@@ -110,13 +134,21 @@ class ScoresItemPresenterTest {
         }
     }
 
-    private fun noopListener(): ItemListener = requireNotNull(
-        ItemListener::class.java.cast(
-            Proxy.newProxyInstance(
-                ItemListener::class.java.classLoader,
-                arrayOf(ItemListener::class.java),
-            ) { _, _, _ -> null }
+    private fun noopListener(): ItemListener = recordingListener(mutableListOf())
+
+    private fun recordingListener(selectedScopes: MutableList<RatingScope>): ItemListener =
+        requireNotNull(
+            ItemListener::class.java.cast(
+                Proxy.newProxyInstance(
+                    ItemListener::class.java.classLoader,
+                    arrayOf(ItemListener::class.java),
+                ) { _, method, args ->
+                    if (method.name == "onReviewScopeSelected" && args != null) {
+                        selectedScopes += args[0] as RatingScope
+                    }
+                    null
+                }
+            )
         )
-    )
 
 }

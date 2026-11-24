@@ -1,5 +1,6 @@
 package com.tomclaw.appsend.screen.details.adapter
 
+import com.tomclaw.appsend.core.RatingScope
 import com.tomclaw.appsend.screen.details.adapter.play.PlaySecurityStatus
 import com.tomclaw.appsend.screen.details.adapter.screenshot.ScreenshotItem
 import com.tomclaw.appsend.screen.details.adapter.status.StatusAction
@@ -12,7 +13,7 @@ interface ItemListener {
 
     fun onScoresClick()
 
-    fun onReviewScopeSelected(scope: String)
+    fun onReviewScopeSelected(scope: RatingScope)
 
     fun onPlayRatingClick()
 

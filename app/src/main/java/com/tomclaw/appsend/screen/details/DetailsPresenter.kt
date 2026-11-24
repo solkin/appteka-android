@@ -12,12 +12,11 @@ import com.tomclaw.appsend.screen.details.adapter.play.PlaySecurityStatus
 import com.tomclaw.appsend.screen.details.adapter.scores.ScoresItem
 import com.tomclaw.appsend.screen.details.adapter.screenshot.ScreenshotItem
 import com.tomclaw.appsend.screen.details.adapter.status.StatusAction
+import com.tomclaw.appsend.core.RatingScope
 import com.tomclaw.appsend.core.permissions.CapabilityAction
 import com.tomclaw.appsend.core.permissions.CapabilityPolicy
 import com.tomclaw.appsend.screen.details.api.AIReview
 import com.tomclaw.appsend.screen.details.api.Details
-import com.tomclaw.appsend.screen.details.api.RATING_SCOPE_BUILD
-import com.tomclaw.appsend.screen.details.api.RATING_SCOPE_EDITION
 import com.tomclaw.appsend.screen.details.api.RatingEntity
 import com.tomclaw.appsend.screen.details.api.SECURITY_STATUS_COMPLETED
 import com.tomclaw.appsend.screen.details.api.SECURITY_VERDICT_MALWARE
@@ -74,7 +73,7 @@ interface DetailsPresenter : ItemListener {
         fun openRatingsScreen(
             appId: String,
             hasBuildScope: Boolean = false,
-            initialScope: String = RATING_SCOPE_EDITION,
+            initialScope: RatingScope = RatingScope.EDITION,
         )
 
         fun openProfile(userId: Int)
@@ -176,8 +175,8 @@ class DetailsPresenterImpl(
     private var translationData: TranslationResponse? =
         state?.getParcelableCompat(KEY_TRANSLATION_DATA, TranslationResponse::class.java)
     private var translationState: Int = state?.getInt(KEY_TRANSLATION_STATE) ?: TRANSLATION_ORIGINAL
-    private var reviewScope: String =
-        state?.getString(KEY_REVIEW_SCOPE) ?: RATING_SCOPE_EDITION
+    private var reviewScope: RatingScope =
+        RatingScope.parse(state?.getString(KEY_REVIEW_SCOPE))
     private var buildRatings: ArrayList<RatingEntity>? =
         state?.getParcelableArrayListCompat(KEY_BUILD_RATINGS, RatingEntity::class.java)
 
@@ -312,7 +311,9 @@ class DetailsPresenterImpl(
             loadAIReviewForModerator()
         }
 
-        if (details != null) {
+        val restoredDetails = details
+        if (restoredDetails != null) {
+            ensureBuildRatingsLoaded(restoredDetails)
             dispatchPackageStatus()
         } else {
             loadDetails()
@@ -343,7 +344,7 @@ class DetailsPresenterImpl(
         putBoolean(KEY_IS_FAVORITE, isFavorite)
         putParcelable(KEY_TRANSLATION_DATA, translationData)
         putInt(KEY_TRANSLATION_STATE, translationState)
-        putString(KEY_REVIEW_SCOPE, reviewScope)
+        putString(KEY_REVIEW_SCOPE, reviewScope.name)
         putParcelableArrayList(KEY_BUILD_RATINGS, buildRatings)
     }
 
@@ -374,9 +375,9 @@ class DetailsPresenterImpl(
         this.buildRatings = null
         this.buildRatingsDisposable.set(null)
         if (details.buildStats == null) {
-            this.reviewScope = RATING_SCOPE_EDITION
-        } else if (this.reviewScope == RATING_SCOPE_BUILD && details.buildStats.rateCount > 0) {
-            loadBuildRatings(details.info.appId)
+            this.reviewScope = RatingScope.EDITION
+        } else {
+            ensureBuildRatingsLoaded(details)
         }
         details.translation?.let { translation ->
             val hasContent = !translation.description.isNullOrBlank() ||
@@ -703,14 +704,19 @@ class DetailsPresenterImpl(
         )
     }
 
-    override fun onReviewScopeSelected(scope: String) {
+    override fun onReviewScopeSelected(scope: RatingScope) {
         val details = details ?: return
         if (details.buildStats == null || scope == reviewScope) return
         reviewScope = scope
-        if (scope == RATING_SCOPE_BUILD && details.buildStats.rateCount > 0 && buildRatings == null) {
+        ensureBuildRatingsLoaded(details)
+        bindDetails()
+    }
+
+    private fun ensureBuildRatingsLoaded(details: Details) {
+        val buildStats = details.buildStats ?: return
+        if (reviewScope == RatingScope.BUILD && buildStats.rateCount > 0 && buildRatings == null) {
             loadBuildRatings(details.info.appId)
         }
-        bindDetails()
     }
 
     private fun loadBuildRatings(appId: String) {
@@ -720,7 +726,7 @@ class DetailsPresenterImpl(
                 .subscribe(
                     { ratings ->
                         buildRatings = ArrayList(ratings)
-                        if (reviewScope == RATING_SCOPE_BUILD) {
+                        if (reviewScope == RatingScope.BUILD) {
                             bindDetails()
                         }
                     },
@@ -744,9 +750,9 @@ class DetailsPresenterImpl(
         val details = details ?: return
         val buildStats = details.buildStats ?: return
         view?.showDownloadsInfoDialog(
-            editionDownloads = details.info.downloads ?: 0,
-            buildDownloads = buildStats.downloads,
-            versionName = details.info.version,
+            editionDownloads = resourceProvider.formatDownloadsCount(details.info.downloads ?: 0),
+            buildLabel = resourceProvider.downloadsThisBuildLabel(details.info.version),
+            buildDownloads = resourceProvider.formatDownloadsCount(buildStats.downloads),
         )
     }
 

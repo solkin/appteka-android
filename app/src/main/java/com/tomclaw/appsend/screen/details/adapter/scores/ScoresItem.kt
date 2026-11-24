@@ -1,7 +1,7 @@
 package com.tomclaw.appsend.screen.details.adapter.scores
 
 import android.os.Parcelable
-import com.tomclaw.appsend.screen.details.api.RATING_SCOPE_EDITION
+import com.tomclaw.appsend.core.RatingScope
 import com.tomclaw.appsend.screen.details.api.Scores
 import com.tomclaw.appsend.util.adapter.Item
 import kotlinx.parcelize.Parcelize
@@ -13,5 +13,5 @@ data class ScoresItem(
     val rating: Float,
     val scores: Scores,
     val showScopeToggle: Boolean = false,
-    val selectedScope: String = RATING_SCOPE_EDITION,
+    val selectedScope: RatingScope = RatingScope.EDITION,
 ) : Item, Parcelable
