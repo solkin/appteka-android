@@ -638,4 +638,9 @@
     <string name="install_failed_android_too_old">Esta aplicación necesita una versión más reciente de Android.</string>
     <string name="install_failed_app_too_old">Esta aplicación es demasiado antigua para tu versión de Android.</string>
     <string name="install_action_free_space">Liberar espacio</string>
+    <string name="reviews_scope_all">Todas las versiones</string>
+    <string name="reviews_scope_build">Esta compilación</string>
+    <string name="no_reviews_for_build">Aún no hay reseñas para esta compilación</string>
+    <string name="downloads_all_versions">Todas las versiones de esta edición</string>
+    <string name="downloads_this_build">Esta compilación (v%1$s)</string>
 </resources>

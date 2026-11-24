@@ -7,6 +7,8 @@ import com.tomclaw.appsend.screen.details.api.Details
 import com.tomclaw.appsend.screen.details.api.MarkFavoriteResponse
 import com.tomclaw.appsend.screen.details.api.AIReview
 import com.tomclaw.appsend.screen.details.api.ModerationDecisionResponse
+import com.tomclaw.appsend.screen.details.api.RATING_SCOPE_BUILD
+import com.tomclaw.appsend.screen.details.api.RatingEntity
 import com.tomclaw.appsend.dto.RejectionReason
 import com.tomclaw.appsend.dto.SCOPE_MODERATION
 import com.tomclaw.appsend.screen.details.api.RequestAIReviewResponse
@@ -54,6 +56,8 @@ interface DetailsInteractor {
     fun requestSecurityScan(appId: String): Single<RequestScanResponse>
 
     fun requestAIReview(appId: String): Single<RequestAIReviewResponse>
+
+    fun loadBuildRatings(appId: String): Single<List<RatingEntity>>
 
 }
 
@@ -188,7 +192,21 @@ class DetailsInteractorImpl(
             .subscribeOn(schedulers.io())
     }
 
+    override fun loadBuildRatings(appId: String): Single<List<RatingEntity>> {
+        return api
+            .getRatings(
+                appId = appId,
+                rateId = null,
+                count = BUILD_REVIEWS_PREVIEW_COUNT,
+                scope = RATING_SCOPE_BUILD,
+            )
+            .map { it.result.entries }
+            .subscribeOn(schedulers.io())
+    }
+
 }
+
+private const val BUILD_REVIEWS_PREVIEW_COUNT = 3
 
 const val MODERATION_APPROVE = 1
 const val MODERATION_DENY = -1

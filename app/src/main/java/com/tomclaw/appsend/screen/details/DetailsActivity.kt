@@ -280,8 +280,13 @@ class DetailsActivity : AppCompatActivity(), DetailsPresenter.DetailsRouter {
         startActivity(intent)
     }
 
-    override fun openRatingsScreen(appId: String) {
-        val intent = createRatingsActivityIntent(context = this, appId)
+    override fun openRatingsScreen(appId: String, hasBuildScope: Boolean, initialScope: String) {
+        val intent = createRatingsActivityIntent(
+            context = this,
+            appId = appId,
+            hasBuildScope = hasBuildScope,
+            initialScope = initialScope,
+        )
         startActivity(intent)
     }
 

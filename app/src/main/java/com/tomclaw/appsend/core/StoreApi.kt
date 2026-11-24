@@ -345,7 +345,8 @@ interface StoreApi {
     fun getRatings(
         @Query("app_id") appId: String,
         @Query("rate_id") rateId: Int?,
-        @Query("count") count: Int?
+        @Query("count") count: Int?,
+        @Query("scope") scope: String? = null,
     ): Single<StoreResponse<RatingsResponse>>
 
     @DELETE("1/app/rate/delete")

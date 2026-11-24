@@ -1,6 +1,7 @@
 package com.tomclaw.appsend.screen.ratings
 
 import com.tomclaw.appsend.core.StoreApi
+import com.tomclaw.appsend.screen.details.api.RATING_SCOPE_BUILD
 import com.tomclaw.appsend.screen.details.api.RatingEntity
 import com.tomclaw.appsend.screen.ratings.api.DeleteRatingResponse
 import com.tomclaw.appsend.user.api.UserBrief
@@ -13,7 +14,7 @@ data class UserBriefWrapper(
 
 interface RatingsInteractor {
 
-    fun listRatings(offsetRateId: Int?): Observable<List<RatingEntity>>
+    fun listRatings(offsetRateId: Int?, scope: String? = null): Observable<List<RatingEntity>>
 
     fun deleteRating(rateId: Int): Observable<DeleteRatingResponse>
 
@@ -27,12 +28,13 @@ class RatingsInteractorImpl(
     private val schedulers: SchedulersFactory
 ) : RatingsInteractor {
 
-    override fun listRatings(offsetRateId: Int?): Observable<List<RatingEntity>> {
+    override fun listRatings(offsetRateId: Int?, scope: String?): Observable<List<RatingEntity>> {
         return api
             .getRatings(
                 appId = appId,
                 rateId = offsetRateId,
                 count = null,
+                scope = scope?.takeIf { it == RATING_SCOPE_BUILD },
             )
             .map { list ->
                 list.result.entries

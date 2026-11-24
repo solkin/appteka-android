@@ -682,4 +682,9 @@
     <string name="install_failed_android_too_old">يحتاج هذا التطبيق إلى إصدار أحدث من Android.</string>
     <string name="install_failed_app_too_old">هذا التطبيق قديم جدًا بالنسبة إلى إصدار Android لديك.</string>
     <string name="install_action_free_space">تحرير مساحة</string>
+    <string name="reviews_scope_all">جميع الإصدارات</string>
+    <string name="reviews_scope_build">هذا البناء</string>
+    <string name="no_reviews_for_build">لا توجد مراجعات لهذا البناء بعد</string>
+    <string name="downloads_all_versions">جميع إصدارات هذه النسخة</string>
+    <string name="downloads_this_build">هذا البناء (v%1$s)</string>
 </resources>

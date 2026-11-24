@@ -639,4 +639,9 @@
     <string name="install_failed_android_too_old">ئەم بەرنامەیە پێویستی بە وەشانێکی نوێتری Android هەیە.</string>
     <string name="install_failed_app_too_old">ئەم بەرنامەیە بۆ وەشانی Androidەکەت زۆر کۆنە.</string>
     <string name="install_action_free_space">بۆشایی بەتاڵ بکە</string>
+    <string name="reviews_scope_all">Hemû guherto</string>
+    <string name="reviews_scope_build">Ev avakirin</string>
+    <string name="no_reviews_for_build">Hêj nirxandin ji bo vê avakirinê tune</string>
+    <string name="downloads_all_versions">Hemû guhertoyên vê weşanê</string>
+    <string name="downloads_this_build">Ev avakirin (v%1$s)</string>
 </resources>

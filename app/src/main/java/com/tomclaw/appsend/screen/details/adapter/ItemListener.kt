@@ -12,7 +12,11 @@ interface ItemListener {
 
     fun onScoresClick()
 
+    fun onReviewScopeSelected(scope: String)
+
     fun onPlayRatingClick()
+
+    fun onPlayDownloadsClick()
 
     fun onInstallClick()
 

@@ -10,6 +10,7 @@ import com.tomclaw.appsend.categories.CategoryConverter
 import com.tomclaw.appsend.categories.CategoryConverterImpl
 import com.tomclaw.appsend.core.StoreApi
 import com.tomclaw.appsend.di.DATE_FORMATTER
+import com.tomclaw.appsend.screen.details.api.RATING_SCOPE_EDITION
 import com.tomclaw.appsend.screen.ratings.RatingConverter
 import com.tomclaw.appsend.screen.ratings.RatingConverterImpl
 import com.tomclaw.appsend.screen.ratings.RatingsInteractor
@@ -34,6 +35,8 @@ import javax.inject.Named
 class RatingsModule(
     private val context: Context,
     private val appId: String,
+    private val hasBuildScope: Boolean = false,
+    private val initialScope: String = RATING_SCOPE_EDITION,
     private val state: Bundle?
 ) {
 
@@ -45,11 +48,13 @@ class RatingsModule(
         converter: RatingConverter,
         schedulers: SchedulersFactory
     ): RatingsPresenter = RatingsPresenterImpl(
-        interactor,
-        adapterPresenter,
-        converter,
-        schedulers,
-        state
+        interactor = interactor,
+        adapterPresenter = adapterPresenter,
+        converter = converter,
+        schedulers = schedulers,
+        hasBuildScope = hasBuildScope,
+        initialScope = initialScope,
+        state = state,
     )
 
     @Provides

@@ -73,6 +73,8 @@ interface PlayItemView : ItemView {
 
     fun setOnRatingClickListener(listener: (() -> Unit)?)
 
+    fun setOnDownloadsClickListener(listener: (() -> Unit)?)
+
 }
 
 class PlayItemViewHolder(view: View) : BaseItemViewHolder(view), PlayItemView {
@@ -81,6 +83,8 @@ class PlayItemViewHolder(view: View) : BaseItemViewHolder(view), PlayItemView {
     private val ratingContainer: View = view.findViewById(R.id.rating_container)
     private val ratingClickable: View = view.findViewById(R.id.rating_clickable)
     private val ratingView: TextView = view.findViewById(R.id.rating_view)
+    private val downloadsClickable: View = view.findViewById(R.id.downloads_clickable)
+    private val downloadsBackground = downloadsClickable.background
     private val downloadsView: TextView = view.findViewById(R.id.downloads_view)
     private val favoritesContainer: View = view.findViewById(R.id.favorites_container)
     private val favoritesView: TextView = view.findViewById(R.id.favorites_view)
@@ -251,6 +255,22 @@ class PlayItemViewHolder(view: View) : BaseItemViewHolder(view), PlayItemView {
         } else {
             ratingClickable.isClickable = false
             ratingClickable.setOnClickListener(null)
+        }
+    }
+
+    override fun setOnDownloadsClickListener(listener: (() -> Unit)?) {
+        if (listener != null) {
+            downloadsClickable.background = downloadsBackground
+            downloadsClickable.setOnClickListener { listener.invoke() }
+            downloadsClickable.isClickable = true
+            downloadsClickable.isFocusable = true
+        } else {
+            // setOnClickListener(null) re-enables isClickable in View.java, so
+            // clear it first and strip the ripple background afterwards.
+            downloadsClickable.setOnClickListener(null)
+            downloadsClickable.isClickable = false
+            downloadsClickable.isFocusable = false
+            downloadsClickable.background = null
         }
     }
 

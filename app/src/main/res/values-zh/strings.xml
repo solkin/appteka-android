@@ -611,4 +611,9 @@
     <string name="install_failed_android_too_old">此应用需要更新版本的 Android。</string>
     <string name="install_failed_app_too_old">此应用对于您的 Android 版本来说太旧了。</string>
     <string name="install_action_free_space">释放空间</string>
+    <string name="reviews_scope_all">所有版本</string>
+    <string name="reviews_scope_build">当前构建</string>
+    <string name="no_reviews_for_build">当前构建暂无评价</string>
+    <string name="downloads_all_versions">此发行版的所有版本</string>
+    <string name="downloads_this_build">当前构建 (v%1$s)</string>
 </resources>

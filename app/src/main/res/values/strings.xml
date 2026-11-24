@@ -661,4 +661,9 @@
     <string name="install_failed_android_too_old">This app needs a newer version of Android.</string>
     <string name="install_failed_app_too_old">This app is too old for your version of Android.</string>
     <string name="install_action_free_space">Free up space</string>
+    <string name="reviews_scope_all">All versions</string>
+    <string name="reviews_scope_build">This build</string>
+    <string name="no_reviews_for_build">No reviews for this build yet</string>
+    <string name="downloads_all_versions">All versions of this edition</string>
+    <string name="downloads_this_build">This build (v%1$s)</string>
 </resources>

@@ -10,6 +10,7 @@ data class PlayItem(
     override val id: Long,
     val rating: Float?,
     val downloads: Int,
+    val buildDownloads: Int? = null,
     val favorites: Int,
     val size: Long,
     val exclusive: Boolean,

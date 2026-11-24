@@ -1,7 +1,7 @@
 package com.tomclaw.appsend.screen.details.adapter.scores
 
-import com.tomclaw.appsend.util.adapter.ItemPresenter
 import com.tomclaw.appsend.screen.details.adapter.ItemListener
+import com.tomclaw.appsend.util.adapter.ItemPresenter
 import kotlin.math.max
 
 class ScoresItemPresenter(
@@ -9,19 +9,33 @@ class ScoresItemPresenter(
 ) : ItemPresenter<ScoresItemView, ScoresItem> {
 
     override fun bindView(view: ScoresItemView, item: ScoresItem, position: Int) {
-        view.setRating(item.rating)
-        with(item.scores) {
-            val maxValue = getMaxValue(five, four, three, two, one)
-            view.setScores(
-                totalCount = item.rateCount,
-                five = 1 + 100 * five / maxValue,
-                four = 1 + 100 * four / maxValue,
-                three = 1 + 100 * three / maxValue,
-                two = 1 + 100 * two / maxValue,
-                one = 1 + 100 * one / maxValue
-            )
+        if (item.showScopeToggle) {
+            view.showScopeToggle(item.selectedScope)
+            view.setOnScopeSelectedListener { scope -> listener.onReviewScopeSelected(scope) }
+        } else {
+            view.hideScopeToggle()
+            view.setOnScopeSelectedListener(null)
         }
-        view.setOnClickListener { listener.onScoresClick() }
+
+        if (item.rateCount > 0) {
+            view.showScoresSummary()
+            view.setRating(item.rating)
+            with(item.scores) {
+                val maxValue = max(1, getMaxValue(five, four, three, two, one))
+                view.setScores(
+                    totalCount = item.rateCount,
+                    five = 1 + 100 * five / maxValue,
+                    four = 1 + 100 * four / maxValue,
+                    three = 1 + 100 * three / maxValue,
+                    two = 1 + 100 * two / maxValue,
+                    one = 1 + 100 * one / maxValue
+                )
+            }
+            view.setOnClickListener { listener.onScoresClick() }
+        } else {
+            view.showEmptyState()
+            view.setOnClickListener(null)
+        }
     }
 
     private fun getMaxValue(vararg values: Int): Int {

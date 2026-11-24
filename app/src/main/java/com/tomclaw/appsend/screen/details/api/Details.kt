@@ -33,6 +33,8 @@ data class Details(
     val expiresIn: Long,
     @SerializedName("meta")
     val meta: Meta?,
+    @SerializedName("build_stats")
+    val buildStats: BuildStats? = null,
     @SerializedName("info")
     val info: AppInfo,
     @SerializedName("is_favorite")

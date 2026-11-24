@@ -9,6 +9,7 @@ import com.tomclaw.appsend.util.adapter.AdapterPresenter
 import com.tomclaw.appsend.util.adapter.SimpleRecyclerAdapter
 import com.tomclaw.appsend.appComponent
 import com.tomclaw.appsend.R
+import com.tomclaw.appsend.screen.details.api.RATING_SCOPE_EDITION
 import com.tomclaw.appsend.screen.profile.createProfileActivityIntent
 import com.tomclaw.appsend.screen.ratings.di.RatingsModule
 import com.tomclaw.appsend.util.Analytics
@@ -33,11 +34,21 @@ class RatingsActivity : AppCompatActivity(), RatingsPresenter.RatingsRouter {
     override fun onCreate(savedInstanceState: Bundle?) {
         val appId = intent.getStringExtra(EXTRA_APP_ID)
             ?: throw IllegalArgumentException("App ID must be provided")
+        val hasBuildScope = intent.getBooleanExtra(EXTRA_HAS_BUILD_SCOPE, false)
+        val initialScope = intent.getStringExtra(EXTRA_INITIAL_SCOPE) ?: RATING_SCOPE_EDITION
         val presenterState = savedInstanceState
             ?.getParcelableCompat(KEY_PRESENTER_STATE, ZipParcelable::class.java)
             ?.restore<Bundle>()
         appComponent
-            .ratingsComponent(RatingsModule(this, appId, presenterState))
+            .ratingsComponent(
+                RatingsModule(
+                    context = this,
+                    appId = appId,
+                    hasBuildScope = hasBuildScope,
+                    initialScope = initialScope,
+                    state = presenterState,
+                )
+            )
             .inject(activity = this)
 
         super.onCreate(savedInstanceState)
@@ -89,9 +100,15 @@ class RatingsActivity : AppCompatActivity(), RatingsPresenter.RatingsRouter {
 
 fun createRatingsActivityIntent(
     context: Context,
-    appId: String
+    appId: String,
+    hasBuildScope: Boolean = false,
+    initialScope: String = RATING_SCOPE_EDITION,
 ): Intent = Intent(context, RatingsActivity::class.java)
     .putExtra(EXTRA_APP_ID, appId)
+    .putExtra(EXTRA_HAS_BUILD_SCOPE, hasBuildScope)
+    .putExtra(EXTRA_INITIAL_SCOPE, initialScope)
 
 private const val EXTRA_APP_ID = "user_id"
+private const val EXTRA_HAS_BUILD_SCOPE = "has_build_scope"
+private const val EXTRA_INITIAL_SCOPE = "initial_scope"
 private const val KEY_PRESENTER_STATE = "presenter_state"

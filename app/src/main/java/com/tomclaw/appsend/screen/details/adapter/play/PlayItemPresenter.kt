@@ -22,6 +22,11 @@ class PlayItemPresenter(
         }
 
         view.setDownloads(item.downloads)
+        if (item.buildDownloads != null) {
+            view.setOnDownloadsClickListener { listener.onPlayDownloadsClick() }
+        } else {
+            view.setOnDownloadsClickListener(null)
+        }
 
         if (item.favorites > 0) {
             view.showFavorites(item.favorites)

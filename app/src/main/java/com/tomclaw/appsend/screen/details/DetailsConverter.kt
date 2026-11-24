@@ -53,6 +53,9 @@ import com.tomclaw.appsend.screen.details.api.STATUS_PRIVATE
 import com.tomclaw.appsend.screen.details.api.MODERATION_STATUS_BLOCKED
 import com.tomclaw.appsend.screen.details.api.STATUS_UNLINKED
 import com.tomclaw.appsend.screen.details.api.MODERATION_STATUS_REJECTED
+import com.tomclaw.appsend.screen.details.api.RATING_SCOPE_BUILD
+import com.tomclaw.appsend.screen.details.api.RATING_SCOPE_EDITION
+import com.tomclaw.appsend.screen.details.api.RatingEntity
 import com.tomclaw.appsend.screen.details.api.Security
 import com.tomclaw.appsend.screen.details.api.TranslationResponse
 import java.util.Locale
@@ -67,6 +70,8 @@ interface DetailsConverter {
         moderation: Boolean,
         translationData: TranslationResponse?,
         translationState: Int,
+        reviewScope: String = RATING_SCOPE_EDITION,
+        buildRatings: List<RatingEntity>? = null,
     ): List<Item>
 
 }
@@ -84,6 +89,8 @@ class DetailsConverterImpl(
         moderation: Boolean,
         translationData: TranslationResponse?,
         translationState: Int,
+        reviewScope: String,
+        buildRatings: List<RatingEntity>?,
     ): List<Item> {
         var id: Long = 1
         val items = ArrayList<Item>()
@@ -184,6 +191,7 @@ class DetailsConverterImpl(
             id = id++,
             rating = details.meta?.rating,
             downloads = details.info.downloads ?: 0,
+            buildDownloads = details.buildStats?.downloads,
             favorites = details.info.favorites ?: 0,
             size = details.info.size,
             exclusive = details.meta?.exclusive == true,
@@ -380,22 +388,49 @@ class DetailsConverterImpl(
                 permissions = details.info.permissions,
             )
         }
-        if (
-            details.meta?.scores != null &&
+        val buildStats = details.buildStats
+        val hasBuildScope = buildStats != null
+        val isBuildScope = hasBuildScope && reviewScope == RATING_SCOPE_BUILD
+        val hasEditionScores = details.meta?.scores != null &&
             details.meta.rating != null &&
             details.meta.rateCount != null &&
             details.meta.rateCount > 0
-        ) {
-            items += ScoresItem(
-                id = id++,
-                rateCount = details.meta.rateCount,
-                rating = details.meta.rating,
-                scores = details.meta.scores
-            )
+
+        if (hasEditionScores) {
+            if (isBuildScope) {
+                items += ScoresItem(
+                    id = id++,
+                    rateCount = buildStats.rateCount,
+                    rating = buildStats.rating,
+                    scores = buildStats.scores,
+                    showScopeToggle = true,
+                    selectedScope = RATING_SCOPE_BUILD,
+                )
+            } else {
+                items += ScoresItem(
+                    id = id++,
+                    rateCount = details.meta.rateCount,
+                    rating = details.meta.rating,
+                    scores = details.meta.scores,
+                    showScopeToggle = hasBuildScope,
+                    selectedScope = RATING_SCOPE_EDITION,
+                )
+            }
         }
 
-        if (!details.ratingsList.isNullOrEmpty()) {
-            items += details.ratingsList.map { rating ->
+        val shownRatings: List<RatingEntity> = if (isBuildScope) {
+            if (buildStats.rateCount > 0) buildRatings.orEmpty() else emptyList()
+        } else {
+            details.ratingsList.orEmpty()
+        }
+        val activeRateCount = if (isBuildScope) {
+            buildStats.rateCount
+        } else {
+            details.meta?.rateCount ?: shownRatings.size
+        }
+
+        if (shownRatings.isNotEmpty()) {
+            items += shownRatings.map { rating ->
                 RatingItem(
                     id = id++,
                     score = rating.score,
@@ -408,11 +443,10 @@ class DetailsConverterImpl(
             // Only the freshest reviews are on this screen and nothing hints
             // at the rest, so the shortcut to the full list is spelled out —
             // unless they all fit here already.
-            val rateCount = details.meta?.rateCount ?: details.ratingsList.size
-            if (rateCount > details.ratingsList.size) {
+            if (activeRateCount > shownRatings.size) {
                 items += AllRatingsItem(
                     id = id++,
-                    rateCount = rateCount,
+                    rateCount = activeRateCount,
                 )
             }
         }

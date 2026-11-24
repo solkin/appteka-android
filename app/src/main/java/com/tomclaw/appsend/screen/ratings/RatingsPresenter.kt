@@ -3,6 +3,7 @@ package com.tomclaw.appsend.screen.ratings
 import android.os.Bundle
 import com.tomclaw.appsend.util.adapter.AdapterPresenter
 import com.tomclaw.appsend.util.adapter.Item
+import com.tomclaw.appsend.screen.details.api.RATING_SCOPE_EDITION
 import com.tomclaw.appsend.screen.details.api.RatingEntity
 import com.tomclaw.appsend.screen.ratings.adapter.ItemListener
 import com.tomclaw.appsend.screen.ratings.adapter.rating.RatingItem
@@ -14,6 +15,7 @@ import com.tomclaw.appsend.util.getParcelableCompat
 import com.tomclaw.appsend.util.retryWhenNonAuthErrors
 import dagger.Lazy
 import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.rxjava3.disposables.SerialDisposable
 import io.reactivex.rxjava3.kotlin.Observables
 import io.reactivex.rxjava3.kotlin.plusAssign
 
@@ -50,6 +52,8 @@ class RatingsPresenterImpl(
     private val adapterPresenter: Lazy<AdapterPresenter>,
     private val converter: RatingConverter,
     private val schedulers: SchedulersFactory,
+    private val hasBuildScope: Boolean = false,
+    initialScope: String = RATING_SCOPE_EDITION,
     state: Bundle?
 ) : RatingsPresenter {
 
@@ -57,7 +61,10 @@ class RatingsPresenterImpl(
     private var router: RatingsPresenter.RatingsRouter? = null
 
     private val subscriptions = CompositeDisposable()
+    private val ratingsRequest = SerialDisposable()
 
+    private var scope: String =
+        state?.getString(KEY_SCOPE) ?: if (hasBuildScope) initialScope else RATING_SCOPE_EDITION
     private var items: List<RatingItem>? =
         state?.getParcelableArrayListCompat(KEY_APPS, RatingItem::class.java)
     private var isError: Boolean = state?.getBoolean(KEY_ERROR) == true
@@ -65,6 +72,12 @@ class RatingsPresenterImpl(
 
     override fun attachView(view: RatingsView) {
         this.view = view
+
+        if (hasBuildScope) {
+            view.showScopeToggle(scope)
+        } else {
+            view.hideScopeToggle()
+        }
 
         subscriptions += view.navigationClicks().subscribe {
             onBackPressed()
@@ -74,6 +87,14 @@ class RatingsPresenterImpl(
         }
         subscriptions += view.refreshClicks().subscribe {
             invalidateApps()
+        }
+        subscriptions += view.scopeClicks().subscribe { selected ->
+            if (selected != scope) {
+                scope = selected
+                items = null
+                isError = false
+                loadRatings()
+            }
         }
 
         if (isError) {
@@ -86,6 +107,7 @@ class RatingsPresenterImpl(
 
     override fun detachView() {
         subscriptions.clear()
+        ratingsRequest.set(null)
         this.view = null
     }
 
@@ -98,6 +120,7 @@ class RatingsPresenterImpl(
     }
 
     override fun saveState() = Bundle().apply {
+        putString(KEY_SCOPE, scope)
         putParcelableArrayList(KEY_APPS, items?.let { ArrayList(items.orEmpty()) })
         putBoolean(KEY_ERROR, isError)
         putParcelable(KEY_BRIEF, brief)
@@ -109,36 +132,40 @@ class RatingsPresenterImpl(
     }
 
     private fun loadRatings() {
-        subscriptions += Observables
-            .zip(
-                interactor.listRatings(offsetRateId = null),
-                interactor.getUserBrief()
-            )
-            .observeOn(schedulers.mainThread())
-            .doOnSubscribe { if (view?.isPullRefreshing() == false) view?.showProgress() }
-            .retryWhenNonAuthErrors()
-            .doAfterTerminate { onReady() }
-            .subscribe(
-                {
-                    onBriefLoaded(it.second.userBrief)
-                    onLoaded(it.first)
-                },
-                {
-                    it.printStackTrace()
-                    onError()
-                }
-            )
+        ratingsRequest.set(
+            Observables
+                .zip(
+                    interactor.listRatings(offsetRateId = null, scope = scope),
+                    interactor.getUserBrief()
+                )
+                .observeOn(schedulers.mainThread())
+                .doOnSubscribe { if (view?.isPullRefreshing() == false) view?.showProgress() }
+                .retryWhenNonAuthErrors()
+                .doAfterTerminate { onReady() }
+                .subscribe(
+                    {
+                        onBriefLoaded(it.second.userBrief)
+                        onLoaded(it.first)
+                    },
+                    {
+                        it.printStackTrace()
+                        onError()
+                    }
+                )
+        )
     }
 
     private fun loadRatings(offsetRateId: Int) {
-        subscriptions += interactor.listRatings(offsetRateId)
-            .observeOn(schedulers.mainThread())
-            .retryWhenNonAuthErrors()
-            .doAfterTerminate { onReady() }
-            .subscribe(
-                { onLoaded(it) },
-                { onLoadMoreError() }
-            )
+        ratingsRequest.set(
+            interactor.listRatings(offsetRateId, scope = scope)
+                .observeOn(schedulers.mainThread())
+                .retryWhenNonAuthErrors()
+                .doAfterTerminate { onReady() }
+                .subscribe(
+                    { onLoaded(it) },
+                    { onLoadMoreError() }
+                )
+        )
     }
 
     private fun onBriefLoaded(brief: UserBrief?) {
@@ -251,6 +278,7 @@ class RatingsPresenterImpl(
 
 }
 
+private const val KEY_SCOPE = "scope"
 private const val KEY_APPS = "apps"
 private const val KEY_ERROR = "error"
 private const val KEY_BRIEF = "brief"

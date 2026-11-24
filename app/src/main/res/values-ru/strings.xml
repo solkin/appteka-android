@@ -652,4 +652,9 @@
     <string name="install_failed_android_too_old">Этому приложению нужна более новая версия Android.</string>
     <string name="install_failed_app_too_old">Это приложение слишком старое для вашей версии Android.</string>
     <string name="install_action_free_space">Освободить место</string>
+    <string name="reviews_scope_all">Все версии</string>
+    <string name="reviews_scope_build">Эта сборка</string>
+    <string name="no_reviews_for_build">На эту сборку пока нет отзывов</string>
+    <string name="downloads_all_versions">Все версии издания</string>
+    <string name="downloads_this_build">Эта сборка (v%1$s)</string>
 </resources>

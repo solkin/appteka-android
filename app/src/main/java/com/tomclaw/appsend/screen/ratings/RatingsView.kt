@@ -10,13 +10,18 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.tomclaw.appsend.util.adapter.SimpleRecyclerAdapter
+import com.google.android.material.button.MaterialButtonToggleGroup
 import com.google.android.material.snackbar.Snackbar
 import com.jakewharton.rxrelay3.PublishRelay
 import com.tomclaw.appsend.R
 import com.tomclaw.appsend.core.permissions.Capability
 import com.tomclaw.appsend.core.permissions.CapabilityHintResolver
+import com.tomclaw.appsend.screen.details.api.RATING_SCOPE_BUILD
+import com.tomclaw.appsend.screen.details.api.RATING_SCOPE_EDITION
 import com.tomclaw.appsend.util.applyBottomInsets
 import com.tomclaw.appsend.util.clicks
+import com.tomclaw.appsend.util.hide
+import com.tomclaw.appsend.util.show
 import io.reactivex.rxjava3.core.Observable
 
 interface RatingsView {
@@ -48,11 +53,17 @@ interface RatingsView {
 
     fun isPullRefreshing(): Boolean
 
+    fun showScopeToggle(selectedScope: String)
+
+    fun hideScopeToggle()
+
     fun navigationClicks(): Observable<Unit>
 
     fun retryClicks(): Observable<Unit>
 
     fun refreshClicks(): Observable<Unit>
+
+    fun scopeClicks(): Observable<String>
 
 }
 
@@ -63,6 +74,7 @@ class RatingsViewImpl(
 
     private val context = view.context
     private val toolbar: Toolbar = view.findViewById(R.id.toolbar)
+    private val scopeGroup: MaterialButtonToggleGroup = view.findViewById(R.id.reviews_scope_group)
     private val refresher: SwipeRefreshLayout = view.findViewById(R.id.swipe_refresh)
     private val flipper: ViewFlipper = view.findViewById(R.id.view_flipper)
     private val recycler: RecyclerView = view.findViewById(R.id.recycler)
@@ -73,10 +85,21 @@ class RatingsViewImpl(
     private val navigationRelay = PublishRelay.create<Unit>()
     private val retryRelay = PublishRelay.create<Unit>()
     private val refreshRelay = PublishRelay.create<Unit>()
+    private val scopeRelay = PublishRelay.create<String>()
+    private var suppressScopeChange: Boolean = false
 
     init {
         toolbar.setTitle(R.string.ratings)
         toolbar.setNavigationOnClickListener { navigationRelay.accept(Unit) }
+
+        scopeGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->
+            if (suppressScopeChange || !isChecked) return@addOnButtonCheckedListener
+            val scope = when (checkedId) {
+                R.id.scope_build -> RATING_SCOPE_BUILD
+                else -> RATING_SCOPE_EDITION
+            }
+            scopeRelay.accept(scope)
+        }
 
         val orientation = RecyclerView.VERTICAL
         val layoutManager = LinearLayoutManager(view.context, orientation, false)
@@ -147,11 +170,31 @@ class RatingsViewImpl(
 
     override fun isPullRefreshing(): Boolean = refresher.isRefreshing
 
+    override fun showScopeToggle(selectedScope: String) {
+        scopeGroup.show()
+        suppressScopeChange = true
+        val targetId = if (selectedScope == RATING_SCOPE_BUILD) {
+            R.id.scope_build
+        } else {
+            R.id.scope_edition
+        }
+        if (scopeGroup.checkedButtonId != targetId) {
+            scopeGroup.check(targetId)
+        }
+        suppressScopeChange = false
+    }
+
+    override fun hideScopeToggle() {
+        scopeGroup.hide()
+    }
+
     override fun navigationClicks(): Observable<Unit> = navigationRelay
 
     override fun retryClicks(): Observable<Unit> = retryRelay
 
     override fun refreshClicks(): Observable<Unit> = refreshRelay
+
+    override fun scopeClicks(): Observable<String> = scopeRelay
 
 }
 

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:contentDescription="@string/downloads_all_versions"
+            android:src="@drawable/ic_apps"
+            app:tint="?text_primary_color" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="12dp"
+            android:layout_weight="1"
+            android:text="@string/downloads_all_versions"
+            android:textColor="?text_primary_color"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/edition_downloads_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="?text_primary_color"
+            android:textSize="16sp"
+            tools:text="1550" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:contentDescription="@string/reviews_scope_build"
+            android:src="@drawable/ic_download_box_outline"
+            app:tint="?text_primary_color" />
+
+        <TextView
+            android:id="@+id/build_downloads_label"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="12dp"
+            android:layout_weight="1"
+            android:textColor="?text_primary_color"
+            android:textSize="16sp"
+            tools:text="This build (v2.0)" />
+
+        <TextView
+            android:id="@+id/build_downloads_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="?text_primary_color"
+            android:textSize="16sp"
+            tools:text="350" />
+
+    </LinearLayout>
+
+</LinearLayout>

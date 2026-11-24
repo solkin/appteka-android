@@ -611,4 +611,9 @@
     <string name="install_failed_android_too_old">Ứng dụng này cần phiên bản Android mới hơn.</string>
     <string name="install_failed_app_too_old">Ứng dụng này quá cũ so với phiên bản Android của bạn.</string>
     <string name="install_action_free_space">Giải phóng dung lượng</string>
+    <string name="reviews_scope_all">Mọi phiên bản</string>
+    <string name="reviews_scope_build">Bản dựng này</string>
+    <string name="no_reviews_for_build">Chưa có đánh giá cho bản dựng này</string>
+    <string name="downloads_all_versions">Mọi phiên bản của ấn bản này</string>
+    <string name="downloads_this_build">Bản dựng này (v%1$s)</string>
 </resources>

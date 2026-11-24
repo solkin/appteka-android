@@ -52,6 +52,8 @@ interface DetailsView {
 
     fun showSecurityInfoDialog(status: PlaySecurityStatus, score: Int?)
 
+    fun showDownloadsInfoDialog(editionDownloads: Int, buildDownloads: Int, versionName: String)
+
     fun showDeclineReasonDialog(reasons: List<RejectionReason>)
 
     fun showDeclineCommentDialog(reason: RejectionReason)
@@ -375,6 +377,28 @@ class DetailsViewImpl(
             toolsRow.visibility = View.VISIBLE
             toolsTextView.text = context.getString(R.string.security_info_tools)
         }
+
+        bottomSheet.setContentView(sheetView)
+        bottomSheet.show()
+    }
+
+    override fun showDownloadsInfoDialog(
+        editionDownloads: Int,
+        buildDownloads: Int,
+        versionName: String,
+    ) {
+        val bottomSheet = BottomSheetDialog(context)
+        val sheetView = android.view.LayoutInflater.from(context)
+            .inflate(R.layout.bottom_sheet_downloads_info, null)
+
+        val formatter = java.text.NumberFormat.getIntegerInstance()
+        val editionCountView = sheetView.findViewById<TextView>(R.id.edition_downloads_count)
+        val buildLabelView = sheetView.findViewById<TextView>(R.id.build_downloads_label)
+        val buildCountView = sheetView.findViewById<TextView>(R.id.build_downloads_count)
+
+        editionCountView.text = formatter.format(editionDownloads)
+        buildLabelView.text = context.getString(R.string.downloads_this_build, versionName)
+        buildCountView.text = formatter.format(buildDownloads)
 
         bottomSheet.setContentView(sheetView)
         bottomSheet.show()

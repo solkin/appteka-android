@@ -634,4 +634,9 @@
     <string name="install_failed_android_too_old">این برنامه به نسخه جدیدتری از Android نیاز دارد.</string>
     <string name="install_failed_app_too_old">این برنامه برای نسخه Android شما خیلی قدیمی است.</string>
     <string name="install_action_free_space">آزاد کردن فضا</string>
+    <string name="reviews_scope_all">همه نسخه‌ها</string>
+    <string name="reviews_scope_build">این بیلد</string>
+    <string name="no_reviews_for_build">هنوز نظری برای این بیلد ثبت نشده است</string>
+    <string name="downloads_all_versions">همه نسخه‌های این ویرایش</string>
+    <string name="downloads_this_build">این بیلد (v%1$s)</string>
 </resources>

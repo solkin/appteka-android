@@ -16,6 +16,9 @@ import com.tomclaw.appsend.core.permissions.CapabilityAction
 import com.tomclaw.appsend.core.permissions.CapabilityPolicy
 import com.tomclaw.appsend.screen.details.api.AIReview
 import com.tomclaw.appsend.screen.details.api.Details
+import com.tomclaw.appsend.screen.details.api.RATING_SCOPE_BUILD
+import com.tomclaw.appsend.screen.details.api.RATING_SCOPE_EDITION
+import com.tomclaw.appsend.screen.details.api.RatingEntity
 import com.tomclaw.appsend.screen.details.api.SECURITY_STATUS_COMPLETED
 import com.tomclaw.appsend.screen.details.api.SECURITY_VERDICT_MALWARE
 import com.tomclaw.appsend.screen.details.api.SECURITY_VERDICT_SUSPICIOUS
@@ -26,6 +29,7 @@ import com.tomclaw.appsend.util.PackageObserver
 import com.tomclaw.appsend.util.SchedulersFactory
 import com.tomclaw.appsend.util.filterCapabilityErrors
 import com.tomclaw.appsend.util.filterUnauthorizedErrors
+import com.tomclaw.appsend.util.getParcelableArrayListCompat
 import com.tomclaw.appsend.util.getParcelableCompat
 import com.tomclaw.appsend.util.isHttpError
 import com.tomclaw.appsend.util.retryWhenNonAuthErrors
@@ -34,6 +38,7 @@ import com.tomclaw.bananalytics.api.BreadcrumbCategory
 import dagger.Lazy
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.disposables.Disposable
+import io.reactivex.rxjava3.disposables.SerialDisposable
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.kotlin.plusAssign
 import java.util.concurrent.TimeUnit
@@ -66,7 +71,11 @@ interface DetailsPresenter : ItemListener {
 
         fun openPermissionsScreen(permissions: List<String>)
 
-        fun openRatingsScreen(appId: String)
+        fun openRatingsScreen(
+            appId: String,
+            hasBuildScope: Boolean = false,
+            initialScope: String = RATING_SCOPE_EDITION,
+        )
 
         fun openProfile(userId: Int)
 
@@ -167,6 +176,10 @@ class DetailsPresenterImpl(
     private var translationData: TranslationResponse? =
         state?.getParcelableCompat(KEY_TRANSLATION_DATA, TranslationResponse::class.java)
     private var translationState: Int = state?.getInt(KEY_TRANSLATION_STATE) ?: TRANSLATION_ORIGINAL
+    private var reviewScope: String =
+        state?.getString(KEY_REVIEW_SCOPE) ?: RATING_SCOPE_EDITION
+    private var buildRatings: ArrayList<RatingEntity>? =
+        state?.getParcelableArrayListCompat(KEY_BUILD_RATINGS, RatingEntity::class.java)
 
     private var aiReview: AIReview? = null
 
@@ -174,6 +187,7 @@ class DetailsPresenterImpl(
 
     private val subscriptions = CompositeDisposable()
     private val observerSubscription = CompositeDisposable()
+    private val buildRatingsDisposable = SerialDisposable()
 
     override fun attachView(view: DetailsView) {
         this.view = view
@@ -308,6 +322,7 @@ class DetailsPresenterImpl(
     override fun detachView() {
         subscriptions.clear()
         observerSubscription.clear()
+        buildRatingsDisposable.set(null)
         view?.onDismiss()
         this.view = null
     }
@@ -328,6 +343,8 @@ class DetailsPresenterImpl(
         putBoolean(KEY_IS_FAVORITE, isFavorite)
         putParcelable(KEY_TRANSLATION_DATA, translationData)
         putInt(KEY_TRANSLATION_STATE, translationState)
+        putString(KEY_REVIEW_SCOPE, reviewScope)
+        putParcelableArrayList(KEY_BUILD_RATINGS, buildRatings)
     }
 
     private fun loadDetails(silent: Boolean = false) {
@@ -354,6 +371,13 @@ class DetailsPresenterImpl(
     private fun onDetailsLoaded(details: Details) {
         this.details = details
         this.isFavorite = details.isFavorite == true
+        this.buildRatings = null
+        this.buildRatingsDisposable.set(null)
+        if (details.buildStats == null) {
+            this.reviewScope = RATING_SCOPE_EDITION
+        } else if (this.reviewScope == RATING_SCOPE_BUILD && details.buildStats.rateCount > 0) {
+            loadBuildRatings(details.info.appId)
+        }
         details.translation?.let { translation ->
             val hasContent = !translation.description.isNullOrBlank() ||
                 !translation.whatsNew.isNullOrBlank() ||
@@ -404,12 +428,14 @@ class DetailsPresenterImpl(
 
         items.clear()
         items += detailsConverter.convert(
-            details,
-            delivery,
-            installed,
-            moderation,
-            translationData,
-            translationState,
+            details = details,
+            delivery = delivery,
+            installed = installed,
+            moderation = moderation,
+            translationData = translationData,
+            translationState = translationState,
+            reviewScope = reviewScope,
+            buildRatings = buildRatings,
         )
 
         bindItems()
@@ -669,9 +695,38 @@ class DetailsPresenterImpl(
     }
 
     override fun onScoresClick() {
-        details?.info?.appId?.let { appId ->
-            router?.openRatingsScreen(appId)
+        val details = details ?: return
+        router?.openRatingsScreen(
+            appId = details.info.appId,
+            hasBuildScope = details.buildStats != null,
+            initialScope = reviewScope,
+        )
+    }
+
+    override fun onReviewScopeSelected(scope: String) {
+        val details = details ?: return
+        if (details.buildStats == null || scope == reviewScope) return
+        reviewScope = scope
+        if (scope == RATING_SCOPE_BUILD && details.buildStats.rateCount > 0 && buildRatings == null) {
+            loadBuildRatings(details.info.appId)
         }
+        bindDetails()
+    }
+
+    private fun loadBuildRatings(appId: String) {
+        buildRatingsDisposable.set(
+            interactor.loadBuildRatings(appId)
+                .observeOn(schedulers.mainThread())
+                .subscribe(
+                    { ratings ->
+                        buildRatings = ArrayList(ratings)
+                        if (reviewScope == RATING_SCOPE_BUILD) {
+                            bindDetails()
+                        }
+                    },
+                    { /* keep summary visible on transient network error */ }
+                )
+        )
     }
 
     override fun onPlayRatingClick() {
@@ -683,6 +738,16 @@ class DetailsPresenterImpl(
             // next best answer to "where does this score come from".
             onScoresClick()
         }
+    }
+
+    override fun onPlayDownloadsClick() {
+        val details = details ?: return
+        val buildStats = details.buildStats ?: return
+        view?.showDownloadsInfoDialog(
+            editionDownloads = details.info.downloads ?: 0,
+            buildDownloads = buildStats.downloads,
+            versionName = details.info.version,
+        )
     }
 
     override fun onInstallClick() {
@@ -1038,3 +1103,5 @@ private const val KEY_REMOVE_BEFORE_INSTALL = "removeBeforeInstall"
 private const val KEY_IS_FAVORITE = "isFavorite"
 private const val KEY_TRANSLATION_DATA = "translation"
 private const val KEY_TRANSLATION_STATE = "translationState"
+private const val KEY_REVIEW_SCOPE = "reviewScope"
+private const val KEY_BUILD_RATINGS = "buildRatings"
